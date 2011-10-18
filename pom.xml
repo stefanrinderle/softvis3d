@@ -4,6 +4,7 @@
     <groupId>com.elbart</groupId>
     <artifactId>jersey</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <properties>
         <jersey.version>1.9.1</jersey.version>
@@ -66,6 +67,22 @@
                     </webApp>
                 </configuration>
             </plugin>
+
+            <!-- <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <useDefaultManifestFile>true</useDefaultManifestFile>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.elbart.jersey.Main</mainClass>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin> -->
         </plugins>
+
     </build>
 </project>

@@ -9,7 +9,7 @@
     </session-config>
 
     <listener>
-        <listener-class>com.elbart.GuiceServletConfig</listener-class>
+        <listener-class>com.elbart.jersey.GuiceServletConfig</listener-class>
     </listener>
     <filter>
         <filter-name>Guice Filter</filter-name>
