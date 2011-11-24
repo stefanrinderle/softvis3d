@@ -11,6 +11,7 @@
         <guice.version>3.0</guice.version>
         <jetty.plugin.version>8.0.3.v20111011</jetty.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdk.version>1.6</jdk.version>
     </properties>
 
     <dependencies>
@@ -67,6 +68,19 @@
                     </webApp>
                 </configuration>
             </plugin>
+            <plugin>
+                <!-- enforce java 1.6 compiler -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <!-- <verbose>true</verbose> -->
+                    <compilerVersion>${jdk.version}</compilerVersion>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <!-- <optimize>true</optimize> <debug>true</debug> -->
+                </configuration>
+            </plugin>
 
             <!-- <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -86,3 +100,4 @@
 
     </build>
 </project>
+
