@@ -1,0 +1,44 @@
+<% def printNode(snapshot) %>
+
+    <%
+       if snapshot.children.empty?
+    %>
+
+        <tr><td>
+             <%= snapshot.id.to_s %>
+             <%=  snapshot.path_name.to_s %>
+           </td>
+            <% snapshot.metrics.each do |metric| %>
+                  <td><%=  metric.name.to_s %></td>
+            <% end %>
+        </tr>
+
+    <% else  %>
+
+        <tr>
+          <th>subgraph <%= snapshot.id.to_s %> <%= snapshot.path_name.to_s %> {</th>
+          <% snapshot.metrics.each do |metric| %>
+              <th><%=  metric.name.to_s %></th>
+          <% end %>
+        </tr>
+
+        <% snapshot.children.each do |child| %>
+            <% printNode(child) %>
+        <% end %>
+
+        <tr><th>}</th></tr>
+
+    <% end %>
+
+<% end %>
+
+<div>
+
+   <%
+      softviz3d = Api::Utils.java_facade.
+      	getComponentByClassname('softviz3dplugin', 'de.rinderle.softviz3d.SoftViz3dExtension')
+   %>
+   
+   <%= softviz3d.createLayoutBySnapshotId(@snapshot.id, 1, 20) %>
+
+</div>
