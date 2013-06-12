@@ -68,6 +68,7 @@ public class SnapshotDao {
 		return snapshot;
 	}
 
+	@Deprecated
 	@SuppressWarnings("unchecked")
 	public List<Snapshot> getChildren(Integer id) {
 		List<Snapshot> snapshots;
@@ -86,6 +87,30 @@ public class SnapshotDao {
 		}
 
 		return snapshots;
+	}
+
+	/**
+	 * @deprecated Please rewrite this to get all children sorted by scope.
+	 */
+	@Deprecated
+	@SuppressWarnings("unchecked")
+	public List<Snapshot> getChildrenByScope(Integer id, String scope) {
+		List<Snapshot> snapshots;
 		
+		try {
+			session.start();
+			Query query = session.createQuery("select s from Snapshot s where s.parentId = ? and s.scope = ?");
+			query.setParameter(1, id);
+			query.setParameter(2, scope);
+			
+			snapshots = (List<Snapshot>) query.getResultList();
+		} catch (PersistenceException e) {
+			LOGGER.error(e.getMessage(), e);
+			snapshots = null;
+		} finally {
+			session.stop();
+		}
+
+		return snapshots;
 	}
 }
