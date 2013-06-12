@@ -8,9 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.database.model.Snapshot;
 import org.sonar.api.resources.Scopes;
 
+import att.grappa.Graph;
+
 import de.rinderle.softviz3d.dao.SnapshotDao;
 import de.rinderle.softviz3d.dot.DotExcecutorException;
-import de.rinderle.softviz3d.layout.model.Element;
+import de.rinderle.softviz3d.dot.StringOutputStream;
+import de.rinderle.softviz3d.layout.model.InputElement;
 
 public class Layout {
 
@@ -22,15 +25,31 @@ public class Layout {
 	
 	public Layout(SnapshotDao dao) {
 		this.dao = dao;
+	}
+	
+	public String startLayout(Integer snapshotId) throws DotExcecutorException {
 		this.visitor = new LayoutVisitor();
+		
+		InputElement root = this.accept(dao.getSnapshotById(snapshotId));
+		
+		LOGGER.info("root element is " + root.toString());
+		
+		List<Graph> resultGraphs = this.visitor.resultingGraphList();
+		
+		StringBuilder builder = new StringBuilder();
+		for (Graph graph : resultGraphs) {
+			StringOutputStream os = new StringOutputStream();
+			builder.append("-----------------------\n");
+			graph.printGraph(os);
+			builder.append(os.toString());
+			builder.append("-----------------------\n");
+		}
+		
+		return builder.toString();
 	}
 	
-	public Element startLayout(Integer snapshotId) throws DotExcecutorException {
-		return this.accept(dao.getSnapshotById(snapshotId));
-	}
-	
-	public Element accept(Snapshot snapshot) throws DotExcecutorException {
-		ArrayList<Element> layerElements = new ArrayList<Element>();
+	private InputElement accept(Snapshot snapshot) throws DotExcecutorException {
+		ArrayList<InputElement> layerElements = new ArrayList<InputElement>();
 		
 		List<Snapshot> childrenDirs = dao.getChildrenByScope(snapshot.getId(), Scopes.DIRECTORY);
 		for (Snapshot dir : childrenDirs) {
@@ -44,7 +63,7 @@ public class Layout {
 			layerElements.add(visitor.visitFile(file));
 		}
 		
-		Element layer = visitor.visitDir(snapshot, layerElements);
+		InputElement layer = visitor.visitDir(snapshot, layerElements);
 		return layer;
 	}
 }

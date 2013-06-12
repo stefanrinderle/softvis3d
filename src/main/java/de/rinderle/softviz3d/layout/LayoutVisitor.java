@@ -1,5 +1,6 @@
 package de.rinderle.softviz3d.layout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,10 +13,15 @@ import att.grappa.Node;
 
 import de.rinderle.softviz3d.dot.DotExcecutor;
 import de.rinderle.softviz3d.dot.DotExcecutorException;
-import de.rinderle.softviz3d.layout.model.Element;
+import de.rinderle.softviz3d.layout.model.InputElement;
+import de.rinderle.softviz3d.layout.model.InputElementType;
 
 public class LayoutVisitor {
 	private static final Logger LOGGER = LoggerFactory.getLogger(LayoutVisitor.class);
+	
+	private ViewLayerCalculator calculator = new ViewLayerCalculator();
+	
+	private List<Graph> resultingGraphList = new ArrayList<Graph>();
 	
 	private static final double SCALE = 72.0;
 	private static final double DEFAULT_SIDE_LENGTH = 0.1;
@@ -58,35 +64,47 @@ public class LayoutVisitor {
 //					$criteria->params = $params;
 //					$this->maxCounter = InputDependency::model()->find($criteria)->maxCounter;
 //				}
-				
-				public Element visitDir(Snapshot snapshot, List<Element> elements) throws DotExcecutorException {
-					LOGGER.info("visit dir with count elements: " + elements.size());
-					// create layout graph
-					Graph inputGraph = new Graph("layerLayout");
-					for (Element element : elements) {
-						Node elementNode = new Node(inputGraph, element.getIdentifier());
-						elementNode.setAttribute("width", element.getWidth());
-						elementNode.setAttribute("height", element.getHeight());
-						inputGraph.addNode(elementNode);
-					}
-					
-					// run dot layout for this layer
-					Graph outputGraph = DotExcecutor.run(inputGraph);
-					
-					GrappaBox bb = (GrappaBox) outputGraph.getAttributeValue("bb");
-					
-					// Scale
-					Double width = bb.width / SCALE;
-					Double height = bb.height / SCALE;
-					
-					return new Element("layer_" + snapshot.getId(), width, height);
-				}
 
-				public Element visitFile(Snapshot snapshot) {
-					/**
-					 * Leaf interface was only used in dependency view
-					 */
-					
+	public List<Graph> resultingGraphList() {
+		return this.resultingGraphList;
+	}
+	
+	public InputElement visitDir(Snapshot snapshot, List<InputElement> elements)
+			throws DotExcecutorException {
+		LOGGER.info("visit dir with count elements: " + elements.size());
+		// create layout graph
+		Graph inputGraph = new Graph("layerLayout");
+		for (InputElement element : elements) {
+			Node elementNode = new Node(inputGraph, element.getIdentifier());
+			elementNode.setAttribute("id", element.getIdentifier());
+			elementNode.setAttribute("snapshotId", element.getSnapshotId().toString());
+			elementNode.setAttribute("type", element.getElementType().name());
+			elementNode.setAttribute("width", element.getWidth());
+			elementNode.setAttribute("height", element.getHeight());
+			inputGraph.addNode(elementNode);
+		}
+
+		// run dot layout for this layer
+		Graph outputGraph = DotExcecutor.run(inputGraph);
+
+		// put viewlayercalculator here
+		Graph adjustedGraph = calculator.calculate(outputGraph, snapshot);
+		resultingGraphList.add(adjustedGraph);
+		
+		GrappaBox bb = (GrappaBox) adjustedGraph.getAttributeValue("bb");
+
+		// Scale
+		Double width = bb.getWidth() / SCALE;
+		Double height = bb.getHeight() / SCALE;
+
+		return new InputElement(InputElementType.NODE, "dir_" + snapshot.getId(), snapshot.getId(), width, height);
+	}
+
+	public InputElement visitFile(Snapshot snapshot) {
+		/**
+		 * Leaf interface was only used in dependency view
+		 */
+
 //			 		if ($comp->type == InputTreeElement::$TYPE_LEAF_INTERFACE) {
 //			 			// value between 0 and 1
 //			 			// this was to fat: $comp->counter / $this->maxCounter
@@ -135,6 +153,7 @@ public class LayoutVisitor {
 //			 		}
 //			 		
 //					$comp->proposedSize = array('width' => $side, 'height' => $side);
-					return new Element("file_" + snapshot.getId().toString(), DEFAULT_SIDE_LENGTH, DEFAULT_SIDE_LENGTH);
-				}
+		return new InputElement(InputElementType.LEAF, "file_" + snapshot.getId().toString(), snapshot.getId(),
+				DEFAULT_SIDE_LENGTH, DEFAULT_SIDE_LENGTH);
+	}
 }
