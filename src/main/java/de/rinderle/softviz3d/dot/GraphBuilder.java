@@ -2,8 +2,6 @@ package de.rinderle.softviz3d.dot;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.database.model.Snapshot;
 import org.sonar.api.resources.Scopes;
 

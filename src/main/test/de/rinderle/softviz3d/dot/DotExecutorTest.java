@@ -8,6 +8,8 @@ import att.grappa.Graph;
 import att.grappa.GrappaConstants;
 import att.grappa.Node;
 import att.grappa.Subgraph;
+import de.rinderle.softviz3d.dot.DotExcecutor;
+import de.rinderle.softviz3d.dot.StringOutputStream;
 
 public class DotExecutorTest extends TestCase {
 
@@ -91,7 +93,7 @@ public class DotExecutorTest extends TestCase {
 			
 //			System.out.println(builder.toString());
 			
-			Graph graph = DotExcecutor.run(builder.toString());
+//			Graph graph = DotExcecutor.run(builder.toString());
 			
 			StringOutputStream output = new StringOutputStream();
 			graph.printGraph(output);

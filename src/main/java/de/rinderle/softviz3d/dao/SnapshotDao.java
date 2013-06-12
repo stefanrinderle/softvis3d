@@ -68,6 +68,7 @@ public class SnapshotDao {
 		return snapshot;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Snapshot> getChildren(Integer id) {
 		List<Snapshot> snapshots;
 		

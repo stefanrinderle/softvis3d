@@ -27,12 +27,12 @@ public class SoftViz3dExtension implements ServerExtension {
 	private MeasureDao measureDao;
 
 	public SoftViz3dExtension(DatabaseSession session) {
-		 this.measureDao = new MeasureDao(session);
+		this.measureDao = new MeasureDao(session);
 		this.snapshotDao = new SnapshotDao(session);
 	}
 
-	public String createLayoutBySnapshotId(Integer snapshotId, Integer metricId1,
-			Integer metricId2) {
+	public String createLayoutBySnapshotId(Integer snapshotId,
+			Integer metricId1, Integer metricId2) {
 
 		GraphBuilder builder = new GraphBuilder(snapshotDao, measureDao);
 		Graph graph = builder.createGraphForSnapshot(snapshotId, metricId1, metricId1);
@@ -49,7 +49,7 @@ public class SoftViz3dExtension implements ServerExtension {
 		adotGraph.printGraph(output);
 
 		LOGGER.info("output.toString() send to template");
-		
+
 		return output.toString();
 	}
 
