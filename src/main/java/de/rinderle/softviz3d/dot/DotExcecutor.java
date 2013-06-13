@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
@@ -28,48 +29,29 @@ public class DotExcecutor {
 			.getLogger(DotExcecutor.class);
 
 	public static Graph run(Graph inputGraph) throws DotExcecutorException {
-		File dotFile = writeGraphToFile(inputGraph);
-
-		LOGGER.info(dotFile.getAbsolutePath());
-
-		String adot = executeDotCommand(dotFile);
+		String adot = executeDotCommand(inputGraph);
 
 		Graph outputGraph = parseDot(adot);
 
 		return outputGraph;
 	}
 
-	private static File writeGraphToFile(Graph inputGraph) throws DotExcecutorException {
-		// create a temp file
-		File temp = null;
-		BufferedWriter bw;
-
-		try {
-			temp = File.createTempFile("tempDotFile", ".tmp");
-			bw = new BufferedWriter(new FileWriter(temp));
-		} catch (IOException e) {
-			LOGGER.warn("error in writeGraphToFile " + e.getMessage());
-			throw new DotExcecutorException(e.getMessage(), e);
-		}
-
-		inputGraph.printGraph(bw);
-
-		LOGGER.info("wrote graph to file: " + temp.getAbsolutePath());
-		
-		return temp;
-	}
-
-	private static String executeDotCommand(File file) throws DotExcecutorException {
+	private static String executeDotCommand(Graph inputGraph) throws DotExcecutorException {
 		StringBuilder adot = new StringBuilder();
-		String command = "/usr/local/bin/dot -K neato "
-				+ file.getAbsolutePath();
-		LOGGER.info(command);
+		String command = "/usr/local/bin/dot -K neato ";
 
 		// TODO SRI dont forget the other layout
 		Process process;
 		try {
 			process = Runtime.getRuntime().exec(command);
 			
+			// write dot input (Output stream from java
+			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
+					process.getOutputStream()));
+			inputGraph.printGraph(out);
+			out.close();
+			
+			// read dot output ( Input stream to java)
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					process.getInputStream()));
 
