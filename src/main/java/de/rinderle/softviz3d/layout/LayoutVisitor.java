@@ -1,7 +1,8 @@
 package de.rinderle.softviz3d.layout;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,6 @@ import org.sonar.api.database.model.Snapshot;
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.Node;
-
 import de.rinderle.softviz3d.dot.DotExcecutor;
 import de.rinderle.softviz3d.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.model.InputElement;
@@ -21,51 +21,12 @@ public class LayoutVisitor {
 	
 	private ViewLayerCalculator calculator = new ViewLayerCalculator();
 	
-	private List<Graph> resultingGraphList = new ArrayList<Graph>();
+	private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
 	
 	private static final double SCALE = 72.0;
 	private static final double DEFAULT_SIDE_LENGTH = 0.1;
 	
-//				private $tempDotFile;
-//				private $maxMetric1;
-//				private $maxMetric2;
-//				private $maxCounter;
-//				private $maxDependencyCounter;
-//				
-//				public $layout;
-//				
-//				function __construct(AbstractView $layout, $projectId) {
-//					$this->layout = $layout;
-//					$this->tempDotFile = Yii::app()->basePath . Yii::app()->params['tempDotFile'];
-//					
-//					$params = array(':projectId' => $projectId);
-//					
-//					$criteria = new CDbCriteria;
-//					$criteria->select='MAX(metric1) as maxMetric1';
-//					$criteria->condition = 'projectId = :projectId';
-//					$criteria->params = $params;
-//					$this->maxMetric1 = InputLeaf::model()->find($criteria)->maxMetric1;
-//					
-//					$criteria = new CDbCriteria;
-//					$criteria->select='MAX(metric2) as maxMetric2';
-//					$criteria->condition = 'projectId = :projectId';
-//					$criteria->params = $params;
-//					$this->maxMetric2 = InputLeaf::model()->find($criteria)->maxMetric2;
-//					
-//					$criteria = new CDbCriteria;
-//					$criteria->select='MAX(counter) as maxCounter';
-//					$criteria->condition = 'projectId = :projectId';
-//					$criteria->params = $params;
-//					$this->maxCounter = InputLeaf::model()->find($criteria)->maxCounter;
-//					
-//					$criteria = new CDbCriteria;
-//					$criteria->select='MAX(counter) as maxCounter';
-//					$criteria->condition = 'projectId = :projectId';
-//					$criteria->params = $params;
-//					$this->maxCounter = InputDependency::model()->find($criteria)->maxCounter;
-//				}
-
-	public List<Graph> resultingGraphList() {
+	public Map<Integer, Graph> getResultingGraphList() {
 		return this.resultingGraphList;
 	}
 	
@@ -73,7 +34,8 @@ public class LayoutVisitor {
 			throws DotExcecutorException {
 		LOGGER.info("visit dir with count elements: " + elements.size());
 		// create layout graph
-		Graph inputGraph = new Graph("layerLayout");
+		Graph inputGraph = new Graph(snapshot.getId().toString());
+		
 		for (InputElement element : elements) {
 			Node elementNode = new Node(inputGraph, element.getIdentifier());
 			elementNode.setAttribute("id", element.getIdentifier());
@@ -89,7 +51,7 @@ public class LayoutVisitor {
 
 		// put viewlayercalculator here
 		Graph adjustedGraph = calculator.calculate(outputGraph, snapshot);
-		resultingGraphList.add(adjustedGraph);
+		resultingGraphList.put(snapshot.getId(), adjustedGraph);
 		
 		GrappaBox bb = (GrappaBox) adjustedGraph.getAttributeValue("bb");
 

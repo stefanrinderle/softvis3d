@@ -26,3 +26,4 @@ Thumbs.db
 *.jar
 *.war
 *.ear
+/temp.dot

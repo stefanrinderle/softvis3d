@@ -35,10 +35,8 @@ public class ViewLayerCalculator {
 		List<X3dBoxElement> resultElements = new ArrayList<X3dBoxElement>();
 		resultElements.add(this.adjustBb(graph, depth, snapshotId));
 
-		Iterator<Node> nodes = graph.nodeElements();
-		while (nodes.hasNext()) {
-		    Node node = nodes.next();
-		    if (node.getAttributeValue("type").toString().equals(InputElementType.NODE.name())) {
+		for (Node node : graph.nodeElementsAsArray()) {
+			if (node.getAttributeValue("type").toString().equals(InputElementType.NODE.name())) {
 		    	resultElements.add(this.adjustNode(node));
 		    } else if (node.getAttributeValue("type").toString().equals(InputElementType.LEAF.name())) {
 //		    	this.adjustLeaf(node);
@@ -46,6 +44,8 @@ public class ViewLayerCalculator {
 		    	LOGGER.warn("-----------------------node.getAttributeValue('type').equals(ElementType.NODE-------");
 		    }
 		}
+		
+		
 		// no dependencies now
 
 		// foreach ($layerLayout['edges'] as $key => $value) {

@@ -15,6 +15,7 @@ import de.rinderle.softviz3d.dot.DotExcecutorException;
 import de.rinderle.softviz3d.dot.GraphBuilder;
 import de.rinderle.softviz3d.dot.StringOutputStream;
 import de.rinderle.softviz3d.layout.Layout;
+import de.rinderle.softviz3d.layout.model.InputElement;
 
 public class SoftViz3dExtension implements ServerExtension {
 
@@ -32,6 +33,12 @@ public class SoftViz3dExtension implements ServerExtension {
 		this.snapshotDao = new SnapshotDao(session);
 	}
 
+	public InputElement testLayoutGetInputElement(Integer snapshotId) throws DotExcecutorException {
+		Layout layout = new Layout(snapshotDao);
+		
+		return layout.startLayoutGetInputElement(snapshotId);
+	}
+	
 	public String testLayout(Integer snapshotId) throws DotExcecutorException {
 		Layout layout = new Layout(snapshotDao);
 		

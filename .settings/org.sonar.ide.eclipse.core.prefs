@@ -1,6 +1,6 @@
 analyseLocally=false
 eclipse.preferences.version=1
-extraProperties=sonar.version\=3.0\r\nsonar.pluginClass\=org.sonar.plugins.toxicity.ToxicityChartPlugin\r\nsonar.pluginName\=Softviz3d\r\nsonar.buildVersion\=3.0
+extraProperties=sonar.pluginClass\=org.sonar.plugins.toxicity.ToxicityChartPlugin\r\nsonar.pluginName\=Softviz3d\r\nsonar.buildVersion\=3.0\r\nsonar.version\=3.0
 projectKey=de.rinderle.sonar.softviz3d\:softviz3d-plugin
 serverUrl=http\://localhost\:9000
 version=2

@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.database.model.Snapshot;
+import org.sonar.api.resources.Scopes;
 
 public class SnapshotDao {
 
@@ -50,7 +51,7 @@ public class SnapshotDao {
 	 */
 	public Snapshot getSnapshotById(Integer id) {
 		Snapshot snapshot;
-		
+
 		try {
 			session.start();
 			Query query = session
@@ -68,14 +69,35 @@ public class SnapshotDao {
 		return snapshot;
 	}
 
+	public List<Integer> getChildrenIds(Integer parentId) {
+		List<Integer> children;
+
+		try {
+			session.start();
+			Query query = session
+					.createQuery("select s.id from Snapshot s where s.parentId = ?");
+			query.setParameter(1, parentId);
+
+			children = (List<Integer>) query.getResultList();
+		} catch (PersistenceException e) {
+			LOGGER.error(e.getMessage(), e);
+			children = null;
+		} finally {
+			session.stop();
+		}
+
+		return children;
+	}
+
 	@Deprecated
 	@SuppressWarnings("unchecked")
 	public List<Snapshot> getChildren(Integer id) {
 		List<Snapshot> snapshots;
-		
+
 		try {
 			session.start();
-			Query query = session.createQuery("select s from Snapshot s where s.parentId = ?");
+			Query query = session
+					.createQuery("select s from Snapshot s where s.parentId = ?");
 			query.setParameter(1, id);
 
 			snapshots = (List<Snapshot>) query.getResultList();
@@ -96,13 +118,14 @@ public class SnapshotDao {
 	@SuppressWarnings("unchecked")
 	public List<Snapshot> getChildrenByScope(Integer id, String scope) {
 		List<Snapshot> snapshots;
-		
+
 		try {
 			session.start();
-			Query query = session.createQuery("select s from Snapshot s where s.parentId = ? and s.scope = ?");
+			Query query = session
+					.createQuery("select s from Snapshot s where s.parentId = ? and s.scope = ?");
 			query.setParameter(1, id);
 			query.setParameter(2, scope);
-			
+
 			snapshots = (List<Snapshot>) query.getResultList();
 		} catch (PersistenceException e) {
 			LOGGER.error(e.getMessage(), e);
@@ -112,5 +135,28 @@ public class SnapshotDao {
 		}
 
 		return snapshots;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Integer> getChildrenIdsByScope(Integer parentId,
+			String scope) {
+		List<Integer> children;
+		
+		try {
+			session.start();
+			Query query = session
+					.createQuery("select s.id from Snapshot s where s.parentId = ? and s.scope = ?");
+			query.setParameter(1, parentId);
+			query.setParameter(2, scope);
+
+			children = (List<Integer>) query.getResultList();
+		} catch (PersistenceException e) {
+			LOGGER.error(e.getMessage(), e);
+			children = null;
+		} finally {
+			session.stop();
+		}
+
+		return children;
 	}
 }
