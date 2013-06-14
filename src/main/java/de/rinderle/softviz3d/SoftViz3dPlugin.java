@@ -21,7 +21,6 @@ public final class SoftViz3dPlugin extends SonarPlugin {
 	  
 	public SoftViz3dPlugin() {
 		super();
-		LOGGER.info("SoftViz3d Plugin successfully created.");
 	}
 
 	public List<Class<? extends Extension>> getExtensions() {

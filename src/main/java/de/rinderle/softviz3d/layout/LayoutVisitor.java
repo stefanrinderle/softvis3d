@@ -32,7 +32,7 @@ public class LayoutVisitor {
 	
 	public InputElement visitDir(Snapshot snapshot, List<InputElement> elements)
 			throws DotExcecutorException {
-		LOGGER.info("visit dir with count elements: " + elements.size());
+		LOGGER.info("visit dir: " + snapshot.getId());
 		// create layout graph
 		Graph inputGraph = new Graph(snapshot.getId().toString());
 		
@@ -49,10 +49,11 @@ public class LayoutVisitor {
 		// run dot layout for this layer
 		Graph outputGraph = DotExcecutor.run(inputGraph);
 
-		// put viewlayercalculator here
+		// adjust graph
 		Graph adjustedGraph = calculator.calculate(outputGraph, snapshot);
 		resultingGraphList.put(snapshot.getId(), adjustedGraph);
 		
+		// adjusted graph has a bounding box !
 		GrappaBox bb = (GrappaBox) adjustedGraph.getAttributeValue("bb");
 
 		// Scale
@@ -63,6 +64,7 @@ public class LayoutVisitor {
 	}
 
 	public InputElement visitFile(Snapshot snapshot) {
+		LOGGER.info("visit file: " + snapshot.getId());
 		/**
 		 * Leaf interface was only used in dependency view
 		 */

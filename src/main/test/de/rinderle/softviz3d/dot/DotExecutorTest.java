@@ -21,21 +21,21 @@ public class DotExecutorTest extends TestCase {
 	String graphName = "testgraph";
 	String subgraphId = "testsubgraph";
 	
+	/** digraph testgraph {
+	  subgraph testsubgraph {
+	    testnode2 [
+	      metric2 = 30,
+	      metric1 = 15
+	    ];
+	  }
+	  testnode1 [
+	    metric2 = 30,
+	    metric1 = 15
+	  ];
+	}
+	*/
 	@Override
 	public void setUp() {
-		/** digraph testgraph {
-			  subgraph testsubgraph {
-			    testnode2 [
-			      metric2 = 30,
-			      metric1 = 15
-			    ];
-			  }
-			  testnode1 [
-			    metric2 = 30,
-			    metric1 = 15
-			  ];
-			}
-		*/
 		String graphName = "testgraph";
 		boolean directed = true;
 		boolean strict = false;
@@ -65,11 +65,14 @@ public class DotExecutorTest extends TestCase {
 			assertTrue(result.subgraphElementsAsArray()[0].nodeElementsAsArray().length == 1);
 			assertTrue(result.nodeElementsAsArray().length == 1);
 			
-			assertNotNull(result.getBoundingBox());
+			assertNotNull(result.getAttributeValue("bb"));
 			
 			StringOutputStream os = new StringOutputStream();
 			result.printGraph(os);
 			LOGGER.info(os.toString());
+			
+			LOGGER.info(result.getBoundingBox().toString());
+			LOGGER.info(result.getAttributeValue("bb").toString());
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}

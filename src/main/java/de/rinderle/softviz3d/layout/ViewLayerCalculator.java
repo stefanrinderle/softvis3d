@@ -1,7 +1,6 @@
 package de.rinderle.softviz3d.layout;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.database.model.Snapshot;
 
 import att.grappa.Graph;
+import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
 import de.rinderle.softviz3d.layout.model.InputElementType;
@@ -39,18 +39,13 @@ public class ViewLayerCalculator {
 			if (node.getAttributeValue("type").toString().equals(InputElementType.NODE.name())) {
 		    	resultElements.add(this.adjustNode(node));
 		    } else if (node.getAttributeValue("type").toString().equals(InputElementType.LEAF.name())) {
+		    	// TODO SRI sart work here
 //		    	this.adjustLeaf(node);
 		    } else {
-		    	LOGGER.warn("-----------------------node.getAttributeValue('type').equals(ElementType.NODE-------");
+		    	LOGGER.warn("Unsupported InputElementType");
 		    }
 		}
 		
-		
-		// no dependencies now
-
-		// foreach ($layerLayout['edges'] as $key => $value) {
-		// $this->adjustEdge($value);
-		// }
 		return resultElements;
 	}
 
@@ -78,12 +73,10 @@ public class ViewLayerCalculator {
 //		$width = round($bb[2] - $bb[0], 2);
 //		$length = round($bb[3] - $bb[1], 2);
 
-		Double width = graph.getBoundingBox().getWidth();
-		Double height = graph.getBoundingBox().getHeight();
-		
+		GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
 		
 		String id = "bb_" + snapshotId;
-		double[] size = new double[] {width, height};
+		double[] size = new double[] {bb.getWidth(), bb.getHeight()};
 		double[] translation = new double[] {0, 0, 0};
 		double transparency = 0.0;
 		

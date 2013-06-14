@@ -37,6 +37,7 @@ public class AbsolutePositionCalculator {
 	private void addTranslationToLayer(Integer snapshotId, double[] parentTranslation) {
 		Graph graph = inputGraphs.get(snapshotId);
 
+		// any graph in here has a valid bb attribute
 		GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
 		double[] newTranslation = { parentTranslation[0] + bb.getX(), 0,
 				parentTranslation[2] + bb.getY() };
