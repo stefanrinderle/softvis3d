@@ -6,15 +6,15 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.database.model.Snapshot;
 
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.Node;
 import de.rinderle.softviz3d.dot.DotExcecutor;
 import de.rinderle.softviz3d.dot.DotExcecutorException;
-import de.rinderle.softviz3d.layout.model.InputElement;
-import de.rinderle.softviz3d.layout.model.InputElementType;
+import de.rinderle.softviz3d.layout.interfaces.SourceObject;
+import de.rinderle.softviz3d.layout.model.LayeredLayoutElement;
+import de.rinderle.softviz3d.layout.model.LayeredLayoutElement.Type;
 
 public class LayoutVisitor {
 	private static final Logger LOGGER = LoggerFactory.getLogger(LayoutVisitor.class);
@@ -30,16 +30,16 @@ public class LayoutVisitor {
 		return this.resultingGraphList;
 	}
 	
-	public InputElement visitDir(Snapshot snapshot, List<InputElement> elements)
+	public LayeredLayoutElement visitDir(SourceObject source, List<LayeredLayoutElement> elements)
 			throws DotExcecutorException {
-		LOGGER.info("visit dir: " + snapshot.getId());
+		LOGGER.info("visit dir: " + source.getIdentifier());
 		// create layout graph
-		Graph inputGraph = new Graph(snapshot.getId().toString());
+		Graph inputGraph = new Graph(source.getIdentifier().toString());
 		
-		for (InputElement element : elements) {
-			Node elementNode = new Node(inputGraph, element.getIdentifier());
-			elementNode.setAttribute("id", element.getIdentifier());
-			elementNode.setAttribute("snapshotId", element.getSnapshotId().toString());
+		for (LayeredLayoutElement element : elements) {
+			Node elementNode = new Node(inputGraph, element.getName());
+			elementNode.setAttribute("id", element.getId().toString());
+//			elementNode.setAttribute("snapshotId", element.getSnapshotId().toString());
 			elementNode.setAttribute("type", element.getElementType().name());
 			elementNode.setAttribute("width", element.getWidth());
 			elementNode.setAttribute("height", element.getHeight());
@@ -50,8 +50,8 @@ public class LayoutVisitor {
 		Graph outputGraph = DotExcecutor.run(inputGraph);
 
 		// adjust graph
-		Graph adjustedGraph = calculator.calculate(outputGraph, snapshot);
-		resultingGraphList.put(snapshot.getId(), adjustedGraph);
+		Graph adjustedGraph = calculator.calculate(outputGraph, source);
+		resultingGraphList.put(source.getIdentifier(), adjustedGraph);
 		
 		// adjusted graph has a bounding box !
 		GrappaBox bb = (GrappaBox) adjustedGraph.getAttributeValue("bb");
@@ -60,11 +60,11 @@ public class LayoutVisitor {
 		Double width = bb.getWidth() / SCALE;
 		Double height = bb.getHeight() / SCALE;
 
-		return new InputElement(InputElementType.NODE, "dir_" + snapshot.getId(), snapshot.getId(), width, height);
+		return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getIdentifier(), "dir_" + source.getName(), width, height);
 	}
 
-	public InputElement visitFile(Snapshot snapshot) {
-		LOGGER.info("visit file: " + snapshot.getId());
+	public LayeredLayoutElement visitFile(SourceObject source) {
+		LOGGER.info("visit file: " + source.getIdentifier());
 		/**
 		 * Leaf interface was only used in dependency view
 		 */
@@ -117,7 +117,7 @@ public class LayoutVisitor {
 //			 		}
 //			 		
 //					$comp->proposedSize = array('width' => $side, 'height' => $side);
-		return new InputElement(InputElementType.LEAF, "file_" + snapshot.getId().toString(), snapshot.getId(),
+		return new LayeredLayoutElement(Type.LEAF, source.getIdentifier(), "file_" + source.getIdentifier().toString(),
 				DEFAULT_SIDE_LENGTH, DEFAULT_SIDE_LENGTH);
 	}
 }

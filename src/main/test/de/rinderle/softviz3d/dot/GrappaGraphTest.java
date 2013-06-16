@@ -1,5 +1,6 @@
 package de.rinderle.softviz3d.dot;
 
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import junit.framework.TestCase;
@@ -12,13 +13,14 @@ import att.grappa.Attribute;
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.GrappaConstants;
+import att.grappa.GrappaPoint;
 import att.grappa.Node;
 import att.grappa.Subgraph;
 
 public class GrappaGraphTest extends TestCase {
 
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(DotExecutorTest.class);
+			.getLogger(GrappaGraphTest.class);
 	
 	private Graph graph;
 	String graphName = "testgraph";
@@ -96,4 +98,19 @@ public class GrappaGraphTest extends TestCase {
 //		LOGGER.info(graph.getAttributeValue("bb").toString());
 	}
 
+	@Test
+	public void testAttributeTypes() {
+		Node node = graph.nodeElementsAsArray()[0];
+		
+		GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
+		
+		double[] translation = new double[] {pos.getX(), 0, pos.getY()};
+		double transparency = 0.0;
+		Color color = new Color(200, 200, 255);
+		
+		node.setAttribute("color", color);
+		node.setAttribute("translation", translation.toString());
+		node.setAttribute("transparency", transparency + "");
+		node.setAttribute("height", 20 + "");
+	}
 }

@@ -1,28 +1,26 @@
 package de.rinderle.softviz3d.layout;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.Color;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.database.model.Snapshot;
 
 import att.grappa.Graph;
-import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
-import de.rinderle.softviz3d.layout.model.InputElementType;
-import de.rinderle.softviz3d.layout.model.X3dBoxElement;
+import de.rinderle.softviz3d.layout.interfaces.SourceObject;
+import de.rinderle.softviz3d.layout.model.LayeredLayoutElement.Type;
+import de.rinderle.softviz3d.layout.model.Point3d;
 
 public class ViewLayerCalculator {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ViewLayerCalculator.class);
 	
 	private Graph graph;
 	
-	public Graph calculate(Graph graph, Snapshot snapshot) {
+	public Graph calculate(Graph graph, SourceObject source) {
 		this.graph = graph;
 		
-		this.adjustLayoutToX3d(snapshot.getDepth(), snapshot.getId());
+		this.adjustLayoutToX3d(source.getDepth(), source.getIdentifier());
 		
 		return this.graph;
 	}
@@ -31,65 +29,86 @@ public class ViewLayerCalculator {
 	// return $this->layerMargin;
 	// }
 	
-	private List<X3dBoxElement> adjustLayoutToX3d(Integer depth, Integer snapshotId) {
-		List<X3dBoxElement> resultElements = new ArrayList<X3dBoxElement>();
-		resultElements.add(this.adjustBb(graph, depth, snapshotId));
+	private void adjustLayoutToX3d(Integer depth, Integer snapshotId) {
+		this.adjustBb(graph, depth, snapshotId);
 
 		for (Node node : graph.nodeElementsAsArray()) {
-			if (node.getAttributeValue("type").toString().equals(InputElementType.NODE.name())) {
-		    	resultElements.add(this.adjustNode(node));
-		    } else if (node.getAttributeValue("type").toString().equals(InputElementType.LEAF.name())) {
-		    	// TODO SRI sart work here
-//		    	this.adjustLeaf(node);
+			if (node.getAttributeValue("type").toString().equals(Type.NODE.name())) {
+		    	this.adjustNode(node);
+		    } else if (node.getAttributeValue("type").toString().equals(Type.LEAF.name())) {
+		    	this.adjustLeaf(node);
 		    } else {
 		    	LOGGER.warn("Unsupported InputElementType");
 		    }
 		}
-		
-		return resultElements;
 	}
 
-	private X3dBoxElement adjustNode(Node node) {
-		String id = node.getAttributeValue("id").toString();
-		Integer snapshotId;
-		snapshotId = Integer.valueOf(node.getAttributeValue("snapshotId").toString());
+	private void adjustLeaf(Node node) {
+		//TODO SRI calc metric for height
 		
-		double[] size = new double[] {
-				(Double) node.getAttributeValue("width"),
-				(Double) node.getAttributeValue("height") };
+//		$width = $node['attributes']['width'] * LayoutVisitor::$SCALE;
+		// !!! METRIC CALCULATION FOR 3D LAYOUT
+		/**
+		 * If only one metric is given, it will be represented by the
+		 * building volume. Therefore the side length is set in 2D and the
+		 * same value will be set for the 3D height here. Given 2 Metrics, first is the side length
+		 * second is the 3D height. Given none, default values.
+		 */
+//		if (array_key_exists('metric1', $node['attributes']) &&
+//				array_key_exists('metric2', $node['attributes'])) {
+//			$height = round($node['attributes']['metric2'] * LayoutVisitor::$SCALE / 2);
+//		} else {
+//			$height = $width;
+//		}
+	
+//		$position = $node['attributes']['pos'];
+//		$translation = array($position[0], 0, $position[1]);
+//		$size = array('width'=>$width, 'height'=>$height, 'length'=>$width);
 		
 		GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
 		
-		double[] color = new double[] {0, 0, 0};
-		double[] translation = new double[] {pos.getX(), 0, pos.getY()};
+		Point3d translation = new Point3d(pos.getX(), 0.0, pos.getY());
+		double transparency = 0.0;
+		Color color = new Color(255, 140, 0);
+		
+		node.setAttribute("color", color);
+		node.setAttribute("translation", translation.toString());
+		node.setAttribute("transparency", transparency + "");
+		node.setAttribute("height", 20 + "");
+	}
+	
+	private void adjustNode(Node node) {
+		GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
+		
+		Color color = new Color(0, 0, 0);
+		Point3d translation = new Point3d(pos.getX(), 0.0, pos.getY());
 		double transparency = 0.0;
 		
-		X3dBoxElement x3dElement = new X3dBoxElement(id, snapshotId, translation, color, transparency, size);
-		return x3dElement;
+		node.setAttribute("color", color);
+		node.setAttribute("translation", translation.toString());
+		node.setAttribute("transparency", transparency + "");
 	}
 
-	private X3dBoxElement adjustBb(Graph graph, Integer depth, Integer snapshotId) {
+	private void adjustBb(Graph graph, Integer depth, Integer snapshotId) {
 //		$bb = $layerLayout['attributes']['bb'];
 //		$width = round($bb[2] - $bb[0], 2);
 //		$length = round($bb[3] - $bb[1], 2);
-
-		GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
 		
-		String id = "bb_" + snapshotId;
-		double[] size = new double[] {bb.getWidth(), bb.getHeight()};
-		double[] translation = new double[] {0, 0, 0};
+		Point3d translation = new Point3d(0.0, 0.0, 0.0);
 		double transparency = 0.0;
 		
+		//TODO SRI color calc on dpeth
 		// calc color
-		double colorCalc = (depth - 1) * 0.3;
-		if (colorCalc > 1.0) {
-			colorCalc = 1.0;
-		}
+//		int colorCalc = (depth - 1) * 76;
+//		if (colorCalc > 255) {
+//			colorCalc = 255;
+//		}
 		
-		double [] color = new double[] {0.87 - colorCalc, 1 - colorCalc, 1};
+		Color color = new Color(200, 200, 255);
 		
-		X3dBoxElement x3dElement = new X3dBoxElement(id, snapshotId, translation, color, transparency, size);
-		return x3dElement;
+		graph.setAttribute("color", color);
+		graph.setAttribute("translation", translation.toString());
+		graph.setAttribute("transparency", transparency + "");
 	}
 
 }
