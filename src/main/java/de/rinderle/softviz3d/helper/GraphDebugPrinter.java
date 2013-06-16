@@ -1,8 +1,7 @@
-package de.rinderle.softviz3d.layout;
+package de.rinderle.softviz3d.helper;
 
 import att.grappa.Graph;
 import att.grappa.Node;
-import de.rinderle.softviz3d.dot.StringOutputStream;
 
 public class GraphDebugPrinter {
 

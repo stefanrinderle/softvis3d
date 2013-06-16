@@ -1,4 +1,4 @@
-package de.rinderle.softviz3d.dot;
+package de.rinderle.softviz3d.helper;
 
 import java.io.IOException;
 import java.io.OutputStream;

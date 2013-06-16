@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import att.grappa.Graph;
 import att.grappa.Node;
 import de.rinderle.softviz3d.dot.DotExcecutorException;
+import de.rinderle.softviz3d.helper.GraphDebugPrinter;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 import de.rinderle.softviz3d.layout.model.LayeredLayoutElement;
 

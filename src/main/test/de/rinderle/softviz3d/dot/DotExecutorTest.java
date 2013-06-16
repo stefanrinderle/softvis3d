@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.rinderle.softviz3d.helper.StringOutputStream;
+
 import att.grappa.Attribute;
 import att.grappa.Graph;
 import att.grappa.GrappaConstants;
