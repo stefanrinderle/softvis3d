@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import att.grappa.Graph;
-import att.grappa.Node;
 import de.rinderle.softviz3d.dot.DotExcecutorException;
 import de.rinderle.softviz3d.helper.GraphDebugPrinter;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
@@ -28,7 +27,7 @@ public class Layout {
 		// STEP 1 ---
 
 		// last output element could be used to start absolutepositioncalc
-		LayeredLayoutElement root = this.accept(source);
+		this.accept(source);
 		Map<Integer, Graph> resultGraphs = this.visitor.getResultingGraphList();
 		// ----------
 
@@ -42,19 +41,17 @@ public class Layout {
 	}
 
 	
-	private List<Node> startAbsolutePositioning(SourceObject source,
+	private Map<Integer, Graph> startAbsolutePositioning(SourceObject source,
 			Map<Integer, Graph> resultGraphs, StringBuilder builder) {
 		// NEXT STEP HERE
 		AbsolutePositionCalculator calc = new AbsolutePositionCalculator(resultGraphs);
-		List<Node> nodes = calc.calculate(source);
+		calc.calculate(source);
 		// ---
 
 		// debug result graphs after positioning graphs
 		printGraphsWithAbsolutePosition(builder, resultGraphs);
 
-		createAndPrintTestGraphOfNodes(builder, nodes);
-		
-		return nodes;
+		return resultGraphs;
 	}
 
 	/**
@@ -80,19 +77,6 @@ public class Layout {
 		LayeredLayoutElement layer = visitor.visitDir(source, layerElements);
 
 		return layer;
-	}
-
-	private void createAndPrintTestGraphOfNodes(StringBuilder builder,
-			List<Node> nodes) {
-		Graph test = new Graph("bal");
-		for (Node node : nodes) {
-			test.addNode(node);
-		}
-
-		builder.append("-------Graph out of node list- FULL -------<br /><br />");
-		builder.append(GraphDebugPrinter.printFullGraph(test));
-		builder.append("-------Graph out of node list--------<br /><br />");
-		builder.append(GraphDebugPrinter.printSimpleGraphLayoutInfos(test));
 	}
 
 	private void printGraphsWithAbsolutePosition(StringBuilder builder,

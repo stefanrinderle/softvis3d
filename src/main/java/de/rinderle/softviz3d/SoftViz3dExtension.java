@@ -9,7 +9,6 @@ import org.sonar.api.ServerExtension;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.database.model.Snapshot;
 
-import de.rinderle.softviz3d.dao.MeasureDao;
 import de.rinderle.softviz3d.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.Layout;
 import de.rinderle.softviz3d.layout.LayoutVisitor;
@@ -23,11 +22,11 @@ public class SoftViz3dExtension implements ServerExtension {
 	public static final String SOFTVIZ3D_METRIC1_NAME = "metric1";
 	public static final String SOFTVIZ3D_METRIC2_NAME = "metric2";
 
-	private MeasureDao measureDao;
+//	private MeasureDao measureDao;
 	private DatabaseSession session;
 	
 	public SoftViz3dExtension(DatabaseSession session) {
-		this.measureDao = new MeasureDao(session);
+//		this.measureDao = new MeasureDao(session);
 		this.session = session;
 	}
 

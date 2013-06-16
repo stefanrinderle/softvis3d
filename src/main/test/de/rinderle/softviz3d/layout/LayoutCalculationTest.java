@@ -10,17 +10,11 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import att.grappa.Graph;
 import de.rinderle.softviz3d.dot.DotExcecutorException;
 import de.rinderle.softviz3d.helper.StringOutputStream;
-import de.rinderle.softviz3d.layout.Layout;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 import de.rinderle.softviz3d.layout.model.LayeredLayoutElement;
-
-import att.grappa.Attribute;
-import att.grappa.Graph;
-import att.grappa.GrappaConstants;
-import att.grappa.Node;
-import att.grappa.Subgraph;
 
 public class LayoutCalculationTest extends TestCase {
 
@@ -59,6 +53,9 @@ public class LayoutCalculationTest extends TestCase {
 		assertTrue(result.getId() == 1);
 		
 		Map<Integer, Graph> resultGraphList = visitor.getResultingGraphList();
+		
+		AbsolutePositionCalculator calc = new AbsolutePositionCalculator(resultGraphList);
+		calc.calculate(root);
 		
 		StringOutputStream os = new StringOutputStream();
 		resultGraphList.get(3).printGraph(os);

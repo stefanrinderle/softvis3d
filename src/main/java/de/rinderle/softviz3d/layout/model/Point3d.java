@@ -13,6 +13,14 @@ public class Point3d {
 		this.z = z;
 	}
 
+	// format "x, y, z"
+	public Point3d(String values) {
+		String [] spittedString = values.split(",");
+		this.x = Double.valueOf(spittedString[0]);
+		this.y = Double.valueOf(spittedString[1]);
+		this.z = Double.valueOf(spittedString[2]);
+	}
+	
 	public double getX() {
 		return x;
 	}

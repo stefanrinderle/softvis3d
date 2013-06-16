@@ -1,13 +1,10 @@
 package de.rinderle.softviz3d.dot;
 
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 
 import junit.framework.TestCase;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import att.grappa.Attribute;
 import att.grappa.Graph;
@@ -19,8 +16,8 @@ import att.grappa.Subgraph;
 
 public class GrappaGraphTest extends TestCase {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(GrappaGraphTest.class);
+//	private static final Logger LOGGER = LoggerFactory
+//			.getLogger(GrappaGraphTest.class);
 	
 	private Graph graph;
 	String graphName = "testgraph";

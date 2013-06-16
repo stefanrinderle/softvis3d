@@ -101,11 +101,8 @@ public class SimpleLayoutCalculationTest extends TestCase {
 		Map<Integer, Graph> inputGraphList = visitor.getResultingGraphList();
 		
 		AbsolutePositionCalculator calculator = new AbsolutePositionCalculator(inputGraphList);
-		List<Node> resultNodes = calculator.calculate(root);
+		calculator.calculate(root);
 		
-		for (Node node : resultNodes) {
-			LOGGER.info(node.getAttributeValue("pos").toString());
-		}
 	}
 	
 	private class TestSource implements SourceObject {
