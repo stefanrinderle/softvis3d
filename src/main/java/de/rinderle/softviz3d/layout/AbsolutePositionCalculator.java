@@ -32,36 +32,36 @@ public class AbsolutePositionCalculator {
 		return outputNodeList;
 	}
 
-	private void addTranslationToLayer(SourceObject source, Point3d parentTranslation) {
-		LOGGER.info("parentTranslation snapshotId " + source.getIdentifier() + " " + parentTranslation.toString());
+	private void addTranslationToLayer(SourceObject source, Point3d parentPos3d) {
+		LOGGER.info("parentPos3d snapshotId " + source.getIdentifier() + " " + parentPos3d.toString());
 		Graph graph = inputGraphs.get(source.getIdentifier());
 
 		// any graph in here has a valid bb attribute
 		GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
 		
 		//TODO SRI what is x y and z at this point??
-		Point3d newTranslation = new Point3d(parentTranslation.getX() + bb.getX(), 0,
-				parentTranslation.getY() + bb.getY());
-
-		for (Node node : graph.nodeElementsAsArray()) {
-			graph.removeNode(node.getName());
-			
-			GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
-			//TODO SRI what is x y and z at this point??
-			pos.setLocation(pos.getX() + newTranslation.getX(), pos.getY()
-					+ newTranslation.getY());
-			node.setAttribute("pos", pos);
-
-			graph.addNode(node);
-			outputNodeList.add(node);
-		}
-
-		inputGraphs.put(source.getIdentifier(), graph);
-		
-		List<? extends SourceObject> children = source.getChildrenNodes();
-
-		for (SourceObject key : children) {
-			addTranslationToLayer(key, newTranslation);
-		}
+//		Point3d newTranslation = new Point3d(parent3dPos.getX() + bb.getX(), 
+//				parent3dPos.getY() + bb.getY(), 0.0);
+//
+//		for (Node node : graph.nodeElementsAsArray()) {
+//			graph.removeNode(node.getName());
+//			
+//			GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
+//			//TODO SRI what is x y and z at this point??
+//			pos.setLocation(pos.getX() + newTranslation.getX(), pos.getY()
+//					+ newTranslation.getY());
+//			node.setAttribute("pos", pos);
+//
+//			graph.addNode(node);
+//			outputNodeList.add(node);
+//		}
+//
+//		inputGraphs.put(source.getIdentifier(), graph);
+//		
+//		List<? extends SourceObject> children = source.getChildrenNodes();
+//
+//		for (SourceObject key : children) {
+//			addTranslationToLayer(key, newTranslation);
+//		}
 	}
 }

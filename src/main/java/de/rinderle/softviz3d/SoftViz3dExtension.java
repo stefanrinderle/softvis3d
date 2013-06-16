@@ -12,6 +12,7 @@ import org.sonar.api.database.model.Snapshot;
 import de.rinderle.softviz3d.dao.MeasureDao;
 import de.rinderle.softviz3d.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.Layout;
+import de.rinderle.softviz3d.layout.LayoutVisitor;
 import de.rinderle.softviz3d.layout.interfaces.SnapshotWrapper;
 
 public class SoftViz3dExtension implements ServerExtension {
@@ -33,7 +34,7 @@ public class SoftViz3dExtension implements ServerExtension {
 	public String createLayoutBySnapshotId(Integer snapshotId,
 			Integer metricId1, Integer metricId2) throws DotExcecutorException {
 
-		Layout layout = new Layout();
+		Layout layout = new Layout(new LayoutVisitor());
 		
 		Snapshot snapshot = getSnapshotById(snapshotId);
 		

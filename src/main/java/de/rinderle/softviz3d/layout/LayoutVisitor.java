@@ -24,7 +24,7 @@ public class LayoutVisitor {
 	private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
 	
 	private static final double SCALE = 72.0;
-	private static final double DEFAULT_SIDE_LENGTH = 0.1;
+	private static final double DEFAULT_SIDE_LENGTH = 1;
 	
 	public Map<Integer, Graph> getResultingGraphList() {
 		return this.resultingGraphList;

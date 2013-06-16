@@ -31,6 +31,8 @@ public class DotExcecutor {
 	public static Graph run(Graph inputGraph) throws DotExcecutorException {
 		String adot = executeDotCommand(inputGraph);
 
+		LOGGER.info("called dot");
+		
 		Graph outputGraph = parseDot(adot);
 
 		return outputGraph;

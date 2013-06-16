@@ -67,25 +67,25 @@ public class ViewLayerCalculator {
 		
 		GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
 		
-		Point3d translation = new Point3d(pos.getX(), 0.0, pos.getY());
+		Point3d pos3d = new Point3d(pos.getX(), pos.getY(), 0.0);
 		double transparency = 0.0;
 		Color color = new Color(255, 140, 0);
 		
 		node.setAttribute("color", color);
-		node.setAttribute("translation", translation.toString());
+		node.setAttribute("pos3d", pos3d.toString());
 		node.setAttribute("transparency", transparency + "");
-		node.setAttribute("height", 20 + "");
+		//node.setAttribute("height", 20 + "");
 	}
 	
 	private void adjustNode(Node node) {
 		GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
 		
 		Color color = new Color(0, 0, 0);
-		Point3d translation = new Point3d(pos.getX(), 0.0, pos.getY());
+		Point3d pos3d = new Point3d(pos.getX(), pos.getY(), 0.0);
 		double transparency = 0.0;
 		
 		node.setAttribute("color", color);
-		node.setAttribute("translation", translation.toString());
+		node.setAttribute("pos3d", pos3d.toString());
 		node.setAttribute("transparency", transparency + "");
 	}
 
@@ -94,7 +94,7 @@ public class ViewLayerCalculator {
 //		$width = round($bb[2] - $bb[0], 2);
 //		$length = round($bb[3] - $bb[1], 2);
 		
-		Point3d translation = new Point3d(0.0, 0.0, 0.0);
+		Point3d pos3d = new Point3d(0.0, 0.0, 0.0);
 		double transparency = 0.0;
 		
 		//TODO SRI color calc on dpeth
@@ -107,7 +107,7 @@ public class ViewLayerCalculator {
 		Color color = new Color(200, 200, 255);
 		
 		graph.setAttribute("color", color);
-		graph.setAttribute("translation", translation.toString());
+		graph.setAttribute("pos3d", pos3d.toString());
 		graph.setAttribute("transparency", transparency + "");
 	}
 
