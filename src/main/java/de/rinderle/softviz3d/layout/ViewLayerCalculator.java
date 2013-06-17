@@ -67,7 +67,7 @@ public class ViewLayerCalculator {
 		
 		GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
 		
-		Point3d pos3d = new Point3d(pos.getX(), pos.getY(), 0.0);
+		Point3d pos3d = new Point3d(pos.getX(), 0.0, pos.getY());
 		double transparency = 0.0;
 		Color color = new Color(255, 140, 0);
 		
@@ -81,7 +81,7 @@ public class ViewLayerCalculator {
 		GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
 		
 		Color color = new Color(0, 0, 0);
-		Point3d pos3d = new Point3d(pos.getX(), pos.getY(), 0.0);
+		Point3d pos3d = new Point3d(pos.getX(), 0.0, pos.getY());
 		double transparency = 0.0;
 		
 		node.setAttribute("color", color);

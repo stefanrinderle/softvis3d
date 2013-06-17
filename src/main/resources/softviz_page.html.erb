@@ -1,7 +1,5 @@
-<!-- 
 <div id="renderContainer" style="border: 1px solid red;"></div>
 
-<script src="./three.min.js"></script>
 <script src="http://threejs.org/build/three.min.js"></script>
 
 <script src="http://threejs.org/examples/js/controls/OrbitControls.js"></script>
@@ -32,7 +30,7 @@
 		controls.addEventListener('change', render);
 
 		scene = new THREE.Scene();
-		scene.fog = new THREE.FogExp2(0xcccccc, 0.002);
+		scene.fog = new THREE.FogExp2(0xffffff, 0.00000000002);
 
 		// world
 
@@ -44,14 +42,7 @@
 			shading : THREE.FlatShading
 		});
 
-		for ( var i = 0; i < 1000; i++) {
-			var position = new Array();
-			position.x = (Math.random() - 0.5) * 1000;
-			position.y = (Math.random() - 0.5) * 1000;
-			position.z = (Math.random() - 0.5) * 1000;
-
-			createBox(geometry, material, position);
-		}
+		
 
 		var greenMaterial = new THREE.MeshBasicMaterial({
 			color : 0x00ff00
@@ -129,12 +120,61 @@
 
 	}
 </script>
- -->
+<script>
 
- 	<%
-      softviz3d = Api::Utils.java_facade.
-      	getComponentByClassname('softviz3dplugin', 'de.rinderle.softviz3d.SoftViz3dExtension')
-      	
-   %>
-   		
-   <%= softviz3d.createLayoutBySnapshotId(@snapshot.id, 1, 1) %>
+    var geometry = new THREE.CubeGeometry(10, 10, 10);
+
+    var redMaterial = new THREE.MeshBasicMaterial({
+        color : 0xff0000
+    });
+</script>
+<%
+   softviz3d = Api::Utils.java_facade.
+           getComponentByClassname('softviz3dplugin', 'de.rinderle.softviz3d.SoftViz3dExtension')
+
+   resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, 1, 1)
+   resultMap.each do |key, value|
+        layerPoint = value.getAttributeValue('pos3d')
+        layerPointArray = layerPoint.to_s.split(',')
+        layerBB = value.getAttributeValue('bb')
+%>
+<script>
+
+        position = new Array();
+        position.x = <%= layerPointArray[0] %>;
+        position.y = <%= layerPointArray[1] %>;
+        position.z = <%= layerPointArray[2] %>;
+
+        geometryLayer = new THREE.CubeGeometry(<%= layerBB.getWidth() %>, 5, <%= layerBB.getHeight() %>);
+
+        createBox(geometryLayer, material, position);
+
+</script>
+    <%
+       puts key.to_s
+       puts value.to_s
+       value.nodeElementsAsArray.each { |val|
+         if val.getAttributeValue('type').to_s == 'LEAF'
+
+             point = val.getAttributeValue('pos3d')
+             pointArray = point.to_s.split(',')
+            %>
+             <script>
+
+                position = new Array();
+                position.x = <%= pointArray[0] %>;
+                position.y = <%= pointArray[1] %>;
+                position.z = <%= pointArray[2] %>;
+
+                 createBox(geometry, redMaterial, position);
+
+             </script>
+            <%
+          end
+             puts val.to_s
+             puts val.getAttributeValue('id').to_s
+             puts val.getAttributeValue('pos').to_s
+             puts val.getAttributeValue('pos3d').to_s
+       }
+   end
+%>

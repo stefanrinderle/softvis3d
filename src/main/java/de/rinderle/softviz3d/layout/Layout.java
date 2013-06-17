@@ -6,16 +6,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import att.grappa.Graph;
 import de.rinderle.softviz3d.dot.DotExcecutorException;
 import de.rinderle.softviz3d.helper.GraphDebugPrinter;
+import de.rinderle.softviz3d.helper.StringOutputStream;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 import de.rinderle.softviz3d.layout.model.LayeredLayoutElement;
 
 public class Layout {
 
-	// private static final Logger LOGGER = LoggerFactory
-	// .getLogger(Layout.class);
+	 private static final Logger LOGGER = LoggerFactory
+	 .getLogger(Layout.class);
 
 	private LayoutVisitor visitor;
 
@@ -23,7 +27,7 @@ public class Layout {
 		this.visitor = visitor;
 	}
 
-	public String startLayout(SourceObject source) throws DotExcecutorException {
+	public Map<Integer, Graph> startLayout(SourceObject source) throws DotExcecutorException {
 		// STEP 1 ---
 
 		// last output element could be used to start absolutepositioncalc
@@ -37,9 +41,12 @@ public class Layout {
 
 		startAbsolutePositioning(source, resultGraphs, builder);
 		
-		return builder.toString();
+		printGraphsWithAbsolutePosition(builder, resultGraphs);
+		
+		LOGGER.info(builder.toString());
+		
+		return resultGraphs;
 	}
-
 	
 	private Map<Integer, Graph> startAbsolutePositioning(SourceObject source,
 			Map<Integer, Graph> resultGraphs, StringBuilder builder) {
@@ -88,10 +95,10 @@ public class Layout {
 		Entry<Integer, Graph> graph;
 		while (iterator.hasNext()) {
 			graph = iterator.next();
-			builder.append(GraphDebugPrinter.printSimpleGraphLayoutInfos(graph
-					.getValue()));
+			StringOutputStream os = new StringOutputStream();
+			builder.append(os.toString());
 		}
-
+		
 		builder.append("-----------------------<br /><br />");
 		builder.append("-----------------------<br /><br />");
 	}

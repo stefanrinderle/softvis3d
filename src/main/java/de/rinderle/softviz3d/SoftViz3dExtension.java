@@ -1,5 +1,7 @@
 package de.rinderle.softviz3d;
 
+import java.util.Map;
+
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
@@ -8,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.database.model.Snapshot;
+
+import att.grappa.Graph;
 
 import de.rinderle.softviz3d.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.Layout;
@@ -30,7 +34,7 @@ public class SoftViz3dExtension implements ServerExtension {
 		this.session = session;
 	}
 
-	public String createLayoutBySnapshotId(Integer snapshotId,
+	public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
 			Integer metricId1, Integer metricId2) throws DotExcecutorException {
 
 		Layout layout = new Layout(new LayoutVisitor());
@@ -39,7 +43,9 @@ public class SoftViz3dExtension implements ServerExtension {
 		
 		SnapshotWrapper wrapper = new SnapshotWrapper(snapshot, session);
 		
-		return layout.startLayout(wrapper);
+		Map<Integer, Graph> result = layout.startLayout(wrapper);
+		
+		return result;
 	}
 
 	private Snapshot getSnapshotById(Integer id) {

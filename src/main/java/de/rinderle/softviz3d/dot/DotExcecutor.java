@@ -39,10 +39,11 @@ public class DotExcecutor {
 	}
 
 	private static String executeDotCommand(Graph inputGraph) throws DotExcecutorException {
+		// TODO SRI dont forget the other layout
+		
 		StringBuilder adot = new StringBuilder();
 		String command = "/usr/local/bin/dot -K neato ";
-
-		// TODO SRI dont forget the other layout
+		
 		Process process;
 		try {
 			process = Runtime.getRuntime().exec(command);

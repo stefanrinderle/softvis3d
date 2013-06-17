@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import att.grappa.Graph;
+import att.grappa.GrappaBox;
 import att.grappa.Node;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 import de.rinderle.softviz3d.layout.model.Point3d;
@@ -23,6 +24,10 @@ public class AbsolutePositionCalculator {
 	}
 	
 	public void calculate(SourceObject source) {
+		// put it in the middle
+//		Graph graph = inputGraphs.get(source.getIdentifier());
+//		GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
+		
 		this.addTranslationToLayer(source, new Point3d(0, 0, 0));
 	}
 
