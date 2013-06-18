@@ -61,12 +61,12 @@ public class AbsolutePositionCalculator {
 			
 			pos3d.setX(pos3d.getX());
 			pos3d.setY(point3dTranslation.getY());
-			pos3d.setZ(pos3d.getZ() * - 1);
+			pos3d.setZ(pos3d.getZ());
 			
 			innerGraphTranslation.put(Integer.valueOf(leaf.getAttributeValue("id").toString()), pos3d);
 			
-			pos3d.setX(point3dTranslation.getX() + pos3d.getX());
-			pos3d.setZ(point3dTranslation.getZ() + pos3d.getZ());
+			pos3d.setX(point3dTranslation.getX() + pos3d.getX() - bb.getWidth() / 2);
+			pos3d.setZ(point3dTranslation.getZ() + pos3d.getZ() + bb.getHeight() / 2);
 			LOGGER.warn("---- LEAF ----" + leaf.getAttributeValue("id") + " " + pos3d.toString());
 			
 			leaf.setAttribute("pos3d", pos3d.toString());

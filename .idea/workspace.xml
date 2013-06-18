@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c1823b1a-026f-4bc5-808f-e98883b9e475" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/softviz3d-plugin-0.1-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/target/softviz3d-plugin-0.1-SNAPSHOT.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/AbsolutePositionCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/AbsolutePositionCalculator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/softviz_page.html.erb" afterPath="$PROJECT_DIR$/src/main/resources/softviz_page.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/softviz_page.html.erb" afterPath="$PROJECT_DIR$/target/classes/softviz_page.html.erb" />
@@ -35,7 +34,7 @@
       <file leaf-file-name="softviz_page.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/softviz_page.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="152" column="76" selection-start="3891" selection-end="3891" vertical-scroll-proportion="0.42105263">
+            <state line="63" column="23" selection-start="1610" selection-end="1610" vertical-scroll-proportion="0.81578946">
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -276,7 +275,7 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/resources/softviz_page.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="152" column="76" selection-start="3891" selection-end="3891" vertical-scroll-proportion="0.42105263">
+        <state line="63" column="23" selection-start="1610" selection-end="1610" vertical-scroll-proportion="0.81578946">
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
           </folding>
