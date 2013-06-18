@@ -30,48 +30,47 @@
 		controls.addEventListener('change', render);
 
 		scene = new THREE.Scene();
-		scene.fog = new THREE.FogExp2(0xffffff, 0.00000000002);
+		//scene.fog = new THREE.FogExp2(0xffffff, 0.00000000002);
 
 		// world
 
 		//var geometry = new THREE.CylinderGeometry( 0, 10, 30, 4, 1 );
 		var geometry = new THREE.CubeGeometry(10, 10, 10);
 
-		material = new THREE.MeshLambertMaterial({
-			color : 0xffffff,
-			shading : THREE.FlatShading
-		});
-
-		
-
 		var greenMaterial = new THREE.MeshBasicMaterial({
 			color : 0x00ff00
 		});
 		position = new Array();
 		position.x = 0;
-		position.y = 0;
+		position.y = 50;
 		position.z = 0;
 		createBox(geometry, greenMaterial, position);
 
+        position = new Array();
+        position.x = 0;
+        position.y = -50;
+        position.z = 0;
+        createBox(geometry, greenMaterial, position);
+
 		// lights
 
-		//light = new THREE.DirectionalLight( 0xffffff );
-		//light.position.set( 1, 1, 1 );
-		//scene.add( light );
+		light = new THREE.DirectionalLight( 0xffffff );
+		light.position.set( 1, 1, 1 );
+		scene.add( light );
 
-		//light = new THREE.DirectionalLight( 0x002288 );
-		//light.position.set( -1, -1, -1 );
-		//scene.add( light );
+		light = new THREE.DirectionalLight( 0x002288 );
+		light.position.set( -1, -1, -1 );
+		scene.add( light );
 
-		//light = new THREE.AmbientLight( 0x222222 );
-		//scene.add( light );
+		light = new THREE.AmbientLight( 0x222222 );
+		scene.add( light );
 
 		// renderer
 
 		renderer = new THREE.WebGLRenderer({
 			antialias : false
 		});
-		renderer.setClearColor(scene.fog.color, 1);
+		renderer.setClearColor(0xffffff, 1);
 
 		container = document.getElementById('renderContainer');
 		container.appendChild(renderer.domElement);
@@ -119,16 +118,18 @@
 		stats.update();
 
 	}
-</script>
-<script>
 
     var geometry = new THREE.CubeGeometry(10, 10, 10);
 
     var redMaterial = new THREE.MeshBasicMaterial({
         color : 0xff0000
     });
-</script>
-<%
+
+    var material = new THREE.MeshBasicMaterial({
+        color : 0x0000ff
+    });
+
+    <%
    softviz3d = Api::Utils.java_facade.
            getComponentByClassname('softviz3dplugin', 'de.rinderle.softviz3d.SoftViz3dExtension')
 
@@ -137,44 +138,40 @@
         layerPoint = value.getAttributeValue('pos3d')
         layerPointArray = layerPoint.to_s.split(',')
         layerBB = value.getAttributeValue('bb')
+
 %>
-<script>
 
         position = new Array();
         position.x = <%= layerPointArray[0] %>;
         position.y = <%= layerPointArray[1] %>;
         position.z = <%= layerPointArray[2] %>;
 
-        geometryLayer = new THREE.CubeGeometry(<%= layerBB.getWidth() %>, 5, <%= layerBB.getHeight() %>);
+        geometryLayer = new THREE.CubeGeometry(<%= layerBB.getWidth() %>, 1, <%= layerBB.getHeight() %>);
 
+        // <%= value.to_s %>
         createBox(geometryLayer, material, position);
 
-</script>
     <%
-       puts key.to_s
-       puts value.to_s
+
        value.nodeElementsAsArray.each { |val|
-         if val.getAttributeValue('type').to_s == 'LEAF'
 
              point = val.getAttributeValue('pos3d')
              pointArray = point.to_s.split(',')
             %>
-             <script>
 
                 position = new Array();
                 position.x = <%= pointArray[0] %>;
                 position.y = <%= pointArray[1] %>;
                 position.z = <%= pointArray[2] %>;
 
+                // <%= val.to_s %>
                  createBox(geometry, redMaterial, position);
 
-             </script>
             <%
-          end
-             puts val.to_s
-             puts val.getAttributeValue('id').to_s
-             puts val.getAttributeValue('pos').to_s
-             puts val.getAttributeValue('pos3d').to_s
+
+             puts val.getName().to_s
        }
    end
 %>
+
+</script>

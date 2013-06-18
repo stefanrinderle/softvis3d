@@ -60,7 +60,7 @@ public class LayoutVisitor {
 		Double width = bb.getWidth() / SCALE;
 		Double height = bb.getHeight() / SCALE;
 
-		return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getIdentifier(), "dir_" + source.getName(), width, height);
+		return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getIdentifier(), "dir_" + source.getIdentifier(), width, height);
 	}
 
 	public LayeredLayoutElement visitFile(SourceObject source) {

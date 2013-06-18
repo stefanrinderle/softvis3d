@@ -2,28 +2,71 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c1823b1a-026f-4bc5-808f-e98883b9e475" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/dao/SnapshotDao.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/dot/GraphBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/dot/StringOutputStream.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/Attribute.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/Attribute.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/AttributeHandler.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/AttributeHandler.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/CUP$Parser$actions.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/CUP$Parser$actions.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/CustomRenderer.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/CustomRenderer.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/dot/DotExcecutor.class" afterPath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/dot/DotExcecutor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/dot/DotExcecutorException.class" afterPath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/dot/DotExcecutorException.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/Edge$Iterator.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/Edge$Iterator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/Edge.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/Edge.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/Element.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/Element.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/ExceptionDisplay$Display$WindowObserver.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/ExceptionDisplay$Display$WindowObserver.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/ExceptionDisplay$Display.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/ExceptionDisplay$Display.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/ExceptionDisplay.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/ExceptionDisplay.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/Graph.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/Graph.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GraphIterator.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GraphIterator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GraphParserException.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GraphParserException.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/Grappa.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/Grappa.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaAdapter.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaAdapter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaBacker.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaBacker.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaBox.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaBox.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaColor.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaColor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaConstants.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaConstants.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaLine.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaLine.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaListener.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaNexus.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaNexus.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaPanel.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaPanel.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaPathIterator.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaPathIterator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaPoint.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaPoint.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaShape.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaShape.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaSize.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaSize.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaStyle.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaStyle.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaSupport.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaSupport.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaSupportPrintf.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaSupportPrintf.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/GrappaSupportRects.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/GrappaSupportRects.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/IGrappaObjectListener.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/IGrappaObjectListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/Lexer.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/Lexer.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/dao/MeasureDao.class" afterPath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/dao/MeasureDao.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/Node$Iterator.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/Node$Iterator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/Node.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/Node.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/Parser.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/Parser.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/PrintfParser.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/PrintfParser.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/runtime/Scanner.class" afterPath="$PROJECT_DIR$/target/classes/att/runtime/Scanner.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/SimplePolygon.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/SimplePolygon.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/SoftViz3dExtension.class" afterPath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/SoftViz3dExtension.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/SoftViz3dPage.class" afterPath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/SoftViz3dPage.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/SoftViz3dPlugin.class" afterPath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/SoftViz3dPlugin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/Subgraph$Iterator.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/Subgraph$Iterator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/Subgraph.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/Subgraph.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/runtime/Symbol.class" afterPath="$PROJECT_DIR$/target/classes/att/runtime/Symbol.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/Symbols.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/Symbols.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/grappa/TableField.class" afterPath="$PROJECT_DIR$/target/classes/att/grappa/TableField.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/runtime/lr_parser.class" afterPath="$PROJECT_DIR$/target/classes/att/runtime/lr_parser.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/softviz3d-plugin-0.1-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/target/softviz3d-plugin-0.1-SNAPSHOT.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/att/runtime/virtual_parse_stack.class" afterPath="$PROJECT_DIR$/target/classes/att/runtime/virtual_parse_stack.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/AbsolutePositionCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/AbsolutePositionCalculator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/dot/DotExcecutor.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/dot/DotExcecutor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/helper/GraphDebugPrinter.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/helper/GraphDebugPrinter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/Layout.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/Layout.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/SoftViz3dExtension.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/SoftViz3dExtension.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/ViewLayerCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/ViewLayerCalculator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build_and_deploy" afterPath="$PROJECT_DIR$/build_and_deploy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/LayoutVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/LayoutVisitor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/softviz_page.html.erb" afterPath="$PROJECT_DIR$/src/main/resources/softviz_page.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/softviz_page.html.erb" afterPath="$PROJECT_DIR$/target/classes/softviz_page.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="softvizSonarPlugin.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="c1823b1a-026f-4bc5-808f-e98883b9e475" time="1371415185091" ignored="false" />
-    <file path="/softviz_page.html.erb" changelist="c1823b1a-026f-4bc5-808f-e98883b9e475" time="1371491783699" ignored="false" />
+    <file path="/softviz_page.html.erb" changelist="c1823b1a-026f-4bc5-808f-e98883b9e475" time="1371576770184" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,9 +89,9 @@
       <file leaf-file-name="softviz_page.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/softviz_page.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="46" selection-start="824" selection-end="824" vertical-scroll-proportion="0.47368422">
+            <state line="149" column="34" selection-start="3779" selection-end="3779" vertical-scroll-proportion="0.47368422">
               <folding>
-                <element signature="e#26#56#0" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -287,9 +330,9 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/resources/softviz_page.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="46" selection-start="824" selection-end="824" vertical-scroll-proportion="0.47368422">
+        <state line="149" column="34" selection-start="3779" selection-end="3779" vertical-scroll-proportion="0.47368422">
           <folding>
-            <element signature="e#26#56#0" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -43,7 +43,7 @@ public class Layout {
 		
 		printGraphsWithAbsolutePosition(builder, resultGraphs);
 		
-		LOGGER.info(builder.toString());
+//		LOGGER.info(builder.toString());
 		
 		return resultGraphs;
 	}
