@@ -52,6 +52,12 @@
         position.z = 0;
         createBox(geometry, greenMaterial, position);
 
+        position = new Array();
+        position.x = 200;
+        position.y = 0;
+        position.z = 0;
+        createBox(geometry, greenMaterial, position);
+
 		// lights
 
 		light = new THREE.DirectionalLight( 0xffffff );
@@ -142,9 +148,9 @@
 %>
 
         position = new Array();
-        position.x = <%= layerPointArray[0] %>;
+        position.x = <%= layerPointArray[0].to_f + layerBB.getWidth() / 2 %>;
         position.y = <%= layerPointArray[1] %>;
-        position.z = <%= layerPointArray[2] %>;
+        position.z = <%= layerPointArray[2].to_f +  layerBB.getHeight() / 2 %>;
 
         geometryLayer = new THREE.CubeGeometry(<%= layerBB.getWidth() %>, 1, <%= layerBB.getHeight() %>);
 

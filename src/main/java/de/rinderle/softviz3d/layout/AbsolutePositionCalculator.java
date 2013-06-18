@@ -30,8 +30,8 @@ public class AbsolutePositionCalculator {
 	
 	public void calculate(SourceObject source) {
 		// put it in the middle
-//		Graph graph = inputGraphs.get(source.getIdentifier());
-//		GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
+		Graph graph = inputGraphs.get(source.getIdentifier());
+		GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
 		
 		this.addTranslationToLayer(source, new Point3d(0,0,0));//bb.getWidth() / 2, 0, bb.getHeight() / 2));
 	}
@@ -43,16 +43,17 @@ public class AbsolutePositionCalculator {
 		// Step 1 - search the graph for the source given
 		Graph graph = inputGraphs.get(source.getIdentifier());
 
-//		GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
-		
-//		Point3d test = point3dTranslation;
-//		test.setX(point3dTranslation.getX());
-//		test.setY(point3dTranslation.getY());
+		GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
+
 		LOGGER.warn("---- GRAPH ----" + graph.getName() + " " + point3dTranslation.toString());
-//		test.setZ(point3dTranslation.getZ());
+		Point3d test = point3dTranslation;
+		test.setX(point3dTranslation.getX());
+		test.setY(point3dTranslation.getY());
+		test.setZ(point3dTranslation.getZ());
+//		LOGGER.warn("---- GRAPH ----" + graph.getName() + " " + test.toString());
 		
 		// Step 2 - set translation for the graph itself (will be a layer later)
-		graph.setAttribute("pos3d", point3dTranslation.toString());
+		graph.setAttribute("pos3d", test.toString());
 		
 		// Step 3 - for all leaves, just add the parent point3d changes
 		for (Node leaf : graph.nodeElementsAsArray()) {
@@ -81,7 +82,7 @@ public class AbsolutePositionCalculator {
 			LOGGER.warn("---- childrenSource ----" + childrenSource.getIdentifier());
 			addTranslationToLayer(childrenSource, translation);
 			
-			Node node = graph.removeNode("dir_" + childrenSource.getIdentifier().toString());
+			graph.removeNode("dir_" + childrenSource.getIdentifier().toString());
 		}
 		
 		LOGGER.warn("---- END GRAPH ----" + graph.getName());

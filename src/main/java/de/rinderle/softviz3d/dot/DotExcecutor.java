@@ -65,6 +65,7 @@ public class DotExcecutor {
 				line = checkForAdotBug(line);
 				adot.append(line);
 				adot.append("\n");
+				LOGGER.info(line);
 			}
 
 			process.waitFor();
