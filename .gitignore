@@ -27,3 +27,4 @@ Thumbs.db
 *.war
 *.ear
 /temp.dot
+/eclipse
