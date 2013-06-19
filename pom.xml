@@ -52,7 +52,29 @@
 		<sonar.pluginName>Softviz3d</sonar.pluginName>
 	</properties>
 
+ <repositories>
+    <repository>
+      <id>central</id>
+      <name>Maven Repository Switchboard</name>
+      <layout>default</layout>
+      <url>http://repo1.maven.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+        <id>lib</id>
+        <name>In Project Repo</name>
+        <url>file://${project.basedir}/libs</url>
+    </repository>
+  </repositories>
+	
 	<dependencies>
+		<dependency>
+	        <groupId>att</groupId>
+	        <artifactId>grappa</artifactId>
+	        <version>2</version>
+	    </dependency>
 		<dependency>
 			<groupId>org.codehaus.sonar</groupId>
 			<artifactId>sonar-plugin-api</artifactId>
