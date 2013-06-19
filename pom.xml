@@ -21,6 +21,12 @@
 		<name>Rinderle</name>
 		<url>http://rinderle.info</url>
 	</organization>
+	<developers>
+    <developer>
+      <id>srinderle</id>
+      <name>Stefan Rinderle</name>
+    </developer>
+  </developers>
 	<licenses>
 		<license>
 			<name>GNU LGPL v3</name>

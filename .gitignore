@@ -28,3 +28,4 @@ Thumbs.db
 *.ear
 /temp.dot
 /eclipse
+/target
