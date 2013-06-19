@@ -29,6 +29,8 @@ import de.rinderle.softviz3d.layout.model.SourceObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static att.grappa.GrappaConstants.POS_ATTR;
+
 public class ViewLayerCalculator {
   private static final Logger LOGGER = LoggerFactory.getLogger(ViewLayerCalculator.class);
 
@@ -78,7 +80,7 @@ public class ViewLayerCalculator {
     // $translation = array($position[0], 0, $position[1]);
     // $size = array('width'=>$width, 'height'=>$height, 'length'=>$width);
 
-    GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
+    GrappaPoint pos = (GrappaPoint) node.getAttributeValue(POS_ATTR);
 
     Point3d pos3d = new Point3d(pos.getX(), 0.0, pos.getY());
     double transparency = 0.0;
@@ -91,7 +93,7 @@ public class ViewLayerCalculator {
   }
 
   private void adjustNode(Node node) {
-    GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
+    GrappaPoint pos = (GrappaPoint) node.getAttributeValue(POS_ATTR);
 
     HexaColor color = new HexaColor(0, 0, 0);
     Point3d pos3d = new Point3d(pos.getX(), 0.0, pos.getY());

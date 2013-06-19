@@ -31,6 +31,8 @@ import de.rinderle.softviz3d.layout.model.SourceObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import static att.grappa.GrappaConstants.HEIGHT_ATTR;
+import static att.grappa.GrappaConstants.WIDTH_ATTR;
 
 public class LayoutVisitor {
   // private static final Logger LOGGER = LoggerFactory.getLogger(LayoutVisitor.class);
@@ -55,8 +57,8 @@ public class LayoutVisitor {
       Node elementNode = new Node(inputGraph, element.getName());
       elementNode.setAttribute("id", element.getId().toString());
       elementNode.setAttribute("type", element.getElementType().name());
-      elementNode.setAttribute("width", element.getWidth());
-      elementNode.setAttribute("height", element.getHeight());
+      elementNode.setAttribute(WIDTH_ATTR, element.getWidth());
+      elementNode.setAttribute(HEIGHT_ATTR, element.getHeight());
       inputGraph.addNode(elementNode);
     }
 

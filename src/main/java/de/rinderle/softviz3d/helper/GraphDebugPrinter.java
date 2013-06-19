@@ -22,6 +22,10 @@ package de.rinderle.softviz3d.helper;
 import att.grappa.Graph;
 import att.grappa.Node;
 
+import static att.grappa.GrappaConstants.HEIGHT_ATTR;
+import static att.grappa.GrappaConstants.WIDTH_ATTR;
+import static att.grappa.GrappaConstants.POS_ATTR;
+
 public class GraphDebugPrinter {
 
   public static String printSimpleGraphLayoutInfos(Graph graph) {
@@ -33,8 +37,8 @@ public class GraphDebugPrinter {
 
     for (Node node : graph.nodeElementsAsArray()) {
       builder.append("--" + node.getId() + " " + node.getName());
-      builder.append(" " + node.getAttribute("pos").toString());
-      builder.append(" " + node.getAttribute("height") + " " + node.getAttribute("width") + "\n");
+      builder.append(" " + node.getAttribute(POS_ATTR).toString());
+      builder.append(" " + node.getAttribute(HEIGHT_ATTR) + " " + node.getAttribute(WIDTH_ATTR) + "\n");
     }
 
     return builder.toString();
