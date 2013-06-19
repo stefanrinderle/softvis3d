@@ -17,36 +17,56 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d;
+package de.rinderle.softviz3d.helper;
 
-import org.sonar.api.web.AbstractRubyTemplate;
-import org.sonar.api.web.NavigationSection;
-import org.sonar.api.web.RubyRailsPage;
+public class Point3d {
 
-@NavigationSection({NavigationSection.RESOURCE})
-public class SoftViz3dPage extends AbstractRubyTemplate implements
-    RubyRailsPage {
+  private double x;
+  private double y;
+  private double z;
 
-  /**
-   * @return the page id
-   */
-  public String getId() {
-    return SoftViz3dPlugin.PLUGIN_KEY;
+  public Point3d(double x, double y, double z) {
+    super();
+    this.x = x;
+    this.y = y;
+    this.z = z;
   }
 
-  /**
-   * @return the page title
-   */
-  public String getTitle() {
-    return SoftViz3dPlugin.PLUGIN_NAME;
+  // format "x, y, z"
+  public Point3d(String values) {
+    String[] spittedString = values.split(",");
+    this.x = Double.valueOf(spittedString[0]);
+    this.y = Double.valueOf(spittedString[1]);
+    this.z = Double.valueOf(spittedString[2]);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  public double getX() {
+    return x;
+  }
+
+  public void setX(double x) {
+    this.x = x;
+  }
+
+  public double getY() {
+    return y;
+  }
+
+  public void setY(double y) {
+    this.y = y;
+  }
+
+  public double getZ() {
+    return z;
+  }
+
+  public void setZ(double z) {
+    this.z = z;
+  }
+
   @Override
-  protected String getTemplatePath() {
-    return "/softviz_page.html.erb";
+  public String toString() {
+    return x + "," + y + "," + z;
   }
 
 }

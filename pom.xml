@@ -1,131 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<!-- parent>
+		<groupId>org.codehaus.sonar-plugins</groupId>
+		<artifactId>parent</artifactId>
+		<version>14</version>
+		<relativePath>../parent</relativePath>
+	</parent> -->
+	
+	<groupId>org.codehaus.sonar-plugins</groupId>
+	<artifactId>sonar-softviz3d-plugin</artifactId>
+	<version>0.1-SNAPSHOT</version>
+	<packaging>sonar-plugin</packaging>
+	<name>SoftViz3d Sonar plugin</name>
+	<description>Creates a 3d view of the project structure</description>
+	<url>http://docs.codehaus.org/display/SONAR/softviz3d</url>
+	<inceptionYear>2013</inceptionYear>
+	<organization>
+		<name>Rinderle</name>
+		<url>http://rinderle.info</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>GNU LGPL v3</name>
+			<url>http://www.gnu.org/licenses/lgpl.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<issueManagement>
+		<system>JIRA</system>
+		<url>http://jira.codehaus.org/browse/SONARPLUGINS/component/softviz3d</url>
+	</issueManagement>
+	<scm>
+		<connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/softviz3d</connection>
+		<developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/softviz3d</developerConnection>
+		<url>http://svn.sonar-plugins.codehaus.org</url>
+	</scm>
 
-  <!-- parent>
-    <groupId>org.codehaus.sonar-plugins</groupId>
-    <artifactId>parent</artifactId>
-    <version>12</version>
-    <relativePath>../parent</relativePath>
-  </parent> -->
-  
-  <groupId>de.rinderle.sonar.softviz3d</groupId>
-  <artifactId>softviz3d-plugin</artifactId>
-  <packaging>sonar-plugin</packaging>
-  <version>0.1-SNAPSHOT</version>
+	<properties>
+		<jdk.min.version>1.6</jdk.min.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<sonar.version>3.0</sonar.version>
+		<sonar.buildVersion>3.0</sonar.buildVersion>
+		<sonar.pluginName>Softviz3d</sonar.pluginName>
+	</properties>
 
-  <name>SoftViz3D Plugin</name>
-  <!-- description>Create a Toxicity Chart based on metrics provided by checkstyle rules.</description>
-  <url>http://docs.codehaus.org/display/SONAR/Toxicity+Chart+Plugin</url>
-  <inceptionYear>2012</inceptionYear>
-  <organization>
-    <name>Cezar Coca</name>
-  </organization>
-  <licenses>
-    <license>
-      <name>GNU LGPL 3</name>
-      <url>http://www.gnu.org/licenses/lgpl.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+	<dependencies>
+		<dependency>
+			<groupId>org.codehaus.sonar</groupId>
+			<artifactId>sonar-plugin-api</artifactId>
+			<version>${sonar.buildVersion}</version>
+			<scope>provided</scope>
+		</dependency>
 
-  <developers>
-    <developer>
-      <id>cezar.coca</id>
-      <name>Cezar Coca</name>
-    </developer>
-  </developers> -->
-  
-   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/toxicity-chart</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/toxicity-chart</developerConnection>
-    <url>http://svn.sonar-plugins.codehaus.org</url>
-  </scm>
-  <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/MY-COMPONENT-ID</url>
-  </issueManagement>
+		<!-- unit tests -->
+		<dependency>
+			<groupId>org.codehaus.sonar</groupId>
+			<artifactId>sonar-testing-harness</artifactId>
+			<version>${sonar.buildVersion}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert</artifactId>
+			<version>1.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-project</artifactId>
+			<version>2.2.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
-  <properties>
-  <jdk.min.version>1.5</jdk.min.version>
-  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <sonar.version>3.0</sonar.version>
-    <sonar.buildVersion>3.0</sonar.buildVersion>
-    <sonar.pluginName>Softviz3d</sonar.pluginName>
-    <sonar.pluginClass>org.sonar.plugins.toxicity.ToxicityChartPlugin</sonar.pluginClass>
-  </properties>
-  
-  <dependencies>
-    <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-plugin-api</artifactId>
-      <version>${sonar.buildVersion}</version>
-      <scope>provided</scope>
-    </dependency>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.sonar</groupId>
+				<artifactId>sonar-packaging-maven-plugin</artifactId>
+				<version>1.3</version>
+				<extensions>true</extensions>
+				<configuration>
+					<pluginClass>de.rinderle.softviz3d.SoftViz3dPlugin</pluginClass>
+				</configuration>
+			</plugin>
 
-    <!-- unit tests -->
-    <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-testing-harness</artifactId>
-      <version>${sonar.buildVersion}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.easytesting</groupId>
-      <artifactId>fest-assert</artifactId>
-      <version>1.4</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-project</artifactId>
-      <version>2.2.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>${jdk.min.version}</source>
+					<target>${jdk.min.version}</target>
+				</configuration>
+			</plugin>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.sonar</groupId>
-        <artifactId>sonar-packaging-maven-plugin</artifactId>
-        <version>1.3</version>
-        <extensions>true</extensions>
-        <configuration>
-          <pluginClass>de.rinderle.softviz3d.SoftViz3dPlugin</pluginClass>
-        </configuration>
-      </plugin>
-      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.5.1</version>
-        <configuration>
-          <source>${jdk.min.version}</source>
-          <target>${jdk.min.version}</target>
-        </configuration>
-      </plugin>
-      
-      <plugin>
-        <!-- UTF-8 bundles are not supported by Java, so they must be converted during build -->
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>native2ascii-maven-plugin</artifactId>
-        <version>1.0-beta-1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>native2ascii</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+			<plugin>
+				<!-- UTF-8 bundles are not supported by Java, so they must be converted 
+					during build -->
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>native2ascii-maven-plugin</artifactId>
+				<version>1.0-beta-1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>native2ascii</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

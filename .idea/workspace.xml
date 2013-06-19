@@ -2,7 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c1823b1a-026f-4bc5-808f-e98883b9e475" name="Default" comment="">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/interfaces/SourceObject.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/model/SourceObject.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/model/Point3d.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/helper/Point3d.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/dot/DotExcecutor.class" afterPath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/dot/DotExcecutor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/SoftViz3dExtension.class" afterPath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/SoftViz3dExtension.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/softviz3d-plugin-0.1-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/target/softviz3d-plugin-0.1-SNAPSHOT.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/AbsolutePositionCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/AbsolutePositionCalculator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/dot/DotExcecutor.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/dot/DotExcecutor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/Layout.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/Layout.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/test/de/rinderle/softviz3d/layout/LayoutCalculationTest.java" afterPath="$PROJECT_DIR$/src/main/test/de/rinderle/softviz3d/layout/LayoutCalculationTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/LayoutVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/LayoutVisitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/test/de/rinderle/softviz3d/layout/SimpleLayoutCalculationTest.java" afterPath="$PROJECT_DIR$/src/main/test/de/rinderle/softviz3d/layout/SimpleLayoutCalculationTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/interfaces/SnapshotWrapper.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/interfaces/SnapshotWrapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/ViewLayerCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/ViewLayerCalculator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/softviz_page.html.erb" afterPath="$PROJECT_DIR$/src/main/resources/softviz_page.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/softviz_page.html.erb" afterPath="$PROJECT_DIR$/target/classes/softviz_page.html.erb" />
@@ -11,7 +23,7 @@
     <ignored path="softvizSonarPlugin.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="c1823b1a-026f-4bc5-808f-e98883b9e475" time="1371415185091" ignored="false" />
-    <file path="/softviz_page.html.erb" changelist="c1823b1a-026f-4bc5-808f-e98883b9e475" time="1371583928707" ignored="false" />
+    <file path="/softviz_page.html.erb" changelist="c1823b1a-026f-4bc5-808f-e98883b9e475" time="1371589811113" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +46,7 @@
       <file leaf-file-name="softviz_page.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/softviz_page.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="23" selection-start="1610" selection-end="1610" vertical-scroll-proportion="0.81578946">
+            <state line="162" column="57" selection-start="4192" selection-end="4192" vertical-scroll-proportion="0.5691203">
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -176,6 +188,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="FullScreen" value="false" />
   </component>
   <component name="RunManager">
     <list size="0" />
@@ -275,7 +288,7 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/resources/softviz_page.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="23" selection-start="1610" selection-end="1610" vertical-scroll-proportion="0.81578946">
+        <state line="162" column="57" selection-start="4192" selection-end="4192" vertical-scroll-proportion="0.5691203">
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
           </folding>

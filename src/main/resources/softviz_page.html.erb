@@ -23,7 +23,7 @@
 	function init() {
 
 		camera = new THREE.PerspectiveCamera(60, window.innerWidth
-				/ window.innerHeight, 1, 1000);
+				/ window.innerHeight, 1, 10000);
 		camera.position.z = 500;
 
 		controls = new THREE.OrbitControls(camera);
@@ -34,35 +34,18 @@
 
 		// world
 
-		//var geometry = new THREE.CylinderGeometry( 0, 10, 30, 4, 1 );
-		var geometry = new THREE.CubeGeometry(10, 10, 10);
+		var baseGeometry = new THREE.CubeGeometry(10, 10, 10);
 
 		var greenMaterial = new THREE.MeshBasicMaterial({
 			color : 0x00ff00
 		});
+
+
 		position = new Array();
 		position.x = 0;
 		position.y = 50;
 		position.z = 0;
-		createBox(geometry, greenMaterial, position);
-
-        position = new Array();
-        position.x = 0;
-        position.y = -50;
-        position.z = 0;
-        createBox(geometry, greenMaterial, position);
-
-        position = new Array();
-        position.x = 200;
-        position.y = 0;
-        position.z = 0;
-        createBox(geometry, greenMaterial, position);
-
-        position = new Array();
-        position.x = 0;
-        position.y = 0;
-        position.z = 200;
-        createBox(geometry, greenMaterial, position);
+		createBox(baseGeometry, greenMaterial, position);
 
 		// lights
 
@@ -131,8 +114,6 @@
 
 	}
 
-    var geometry = new THREE.CubeGeometry(10, 10, 10);
-
     var redMaterial = new THREE.MeshBasicMaterial({
         color : 0xff0000
     });
@@ -160,6 +141,10 @@
 
         geometryLayer = new THREE.CubeGeometry(<%= layerBB.getWidth() %>, 1, <%= layerBB.getHeight() %>);
 
+        material = new THREE.MeshBasicMaterial({
+            color : <%= value.getAttributeValue('color').getHex %>
+        });
+
         // <%= value.to_s %>
         createBox(geometryLayer, material, position);
 
@@ -170,18 +155,21 @@
              point = val.getAttributeValue('pos3d')
              pointArray = point.to_s.split(',')
             %>
+                nodeGeometry = new THREE.CubeGeometry(
+                        <%= val.getAttributeValue('width').to_s %>,
+                        <%= val.getAttributeValue('height').to_s %>,
+                        <%= val.getAttributeValue('width').to_s %>);
 
                 position = new Array();
                 position.x = <%= pointArray[0] %>;
                 position.y = <%= pointArray[1] %>;
                 position.z = <%= pointArray[2] %>;
 
-                // <%= val.to_s %>
-                 createBox(geometry, redMaterial, position);
+                // <%= val.to_s %> - <%= val.getAttributeValue('width').to_s %> - <%= val.getAttributeValue('height').to_s %>
+                 createBox(nodeGeometry, redMaterial, position);
 
             <%
 
-             puts val.getName().to_s
        }
    end
 %>

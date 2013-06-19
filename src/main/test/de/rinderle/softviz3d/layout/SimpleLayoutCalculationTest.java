@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import att.grappa.Graph;
 import att.grappa.Node;
 import de.rinderle.softviz3d.dot.DotExcecutorException;
-import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 import de.rinderle.softviz3d.layout.model.LayeredLayoutElement;
+import de.rinderle.softviz3d.layout.model.SourceObject;
 
 public class SimpleLayoutCalculationTest extends TestCase {
 
