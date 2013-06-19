@@ -21,12 +21,15 @@ package de.rinderle.softviz3d.layout;
 
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
+import att.grappa.GrappaPoint;
 import att.grappa.Node;
-import de.rinderle.softviz3d.helper.Point3d;
 import de.rinderle.softviz3d.layout.model.SourceObject;
 
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
+
+import static att.grappa.GrappaConstants.POS_ATTR;
 
 public class AbsolutePositionCalculator {
 
@@ -35,49 +38,54 @@ public class AbsolutePositionCalculator {
 
   private Map<Integer, Graph> inputGraphs;
 
-  private Map<Integer, Point3d> innerGraphTranslation;
+  private Map<Integer, GrappaPoint> innerGraphTranslation;
 
   public AbsolutePositionCalculator(Map<Integer, Graph> inputGraphList) {
     this.inputGraphs = inputGraphList;
 
-    this.innerGraphTranslation = new HashMap<Integer, Point3d>();
+    this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
   }
 
   public void calculate(SourceObject source) {
-    this.addTranslationToLayer(source, new Point3d(0, 0, 0));
+    this.addTranslationToLayer(source, new GrappaPoint(0, 0), 0);
   }
 
-  private void addTranslationToLayer(SourceObject source, Point3d point3dTranslation) {
+  private void addTranslationToLayer(SourceObject source, GrappaPoint posTranslation, Integer height3d) {
     // inputGraphs --> Map<Integer, Graph>
     // Step 1 - search the graph for the source given
     Graph graph = inputGraphs.get(source.getIdentifier());
     GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
 
     // Step 2 - set translation for the graph itself (will be a layer later)
-    graph.setAttribute("pos3d", point3dTranslation.toString());
-
+    GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY() * -1, bb.getWidth(), bb.getHeight());
+    graph.setAttribute("bb", translatedBb);
+    
+    graph.setAttribute("height3d", height3d.toString());
+    
+    GrappaPoint pos;
+    double nodeLocationX;
+    double nodeLocationY;
+    
     // Step 3 - for all leaves, just add the parent point3d changes
     for (Node leaf : graph.nodeElementsAsArray()) {
-      Point3d pos3d = new Point3d(leaf.getAttributeValue("pos3d").toString());
+      pos = (GrappaPoint) leaf.getAttributeValue(POS_ATTR);
+      
+      innerGraphTranslation.put(Integer.valueOf(leaf.getAttributeValue("id").toString()), pos);
 
-      pos3d.setX(pos3d.getX());
-      pos3d.setY(point3dTranslation.getY());
-      pos3d.setZ(pos3d.getZ());
-
-      innerGraphTranslation.put(Integer.valueOf(leaf.getAttributeValue("id").toString()), pos3d);
-
-      pos3d.setX(point3dTranslation.getX() + pos3d.getX() - bb.getWidth() / 2);
-      pos3d.setZ(point3dTranslation.getZ() + pos3d.getZ() + bb.getHeight() / 2);
-
-      leaf.setAttribute("pos3d", pos3d.toString());
+      leaf.setAttribute("height3d", height3d.toString());
+      
+      nodeLocationX = posTranslation.getX() + pos.getX() - translatedBb.getWidth() / 2;
+      nodeLocationY = posTranslation.getY() + pos.getY() + translatedBb.getHeight() / 2;
+      pos.setLocation(nodeLocationX, nodeLocationY);
+      
+//      leaf.setAttribute("bb", new GrappaBox(pos.getX(), pos.getY(), 20, 20));
     }
 
     // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes
     for (SourceObject childrenSource : source.getChildrenNodes()) {
-      Point3d translation = innerGraphTranslation.get(childrenSource.getIdentifier());
-      translation.setY(translation.getY() + 30);
-
-      addTranslationToLayer(childrenSource, translation);
+      pos = innerGraphTranslation.get(childrenSource.getIdentifier());
+      
+      addTranslationToLayer(childrenSource, pos, height3d + 30);
 
       graph.removeNode("dir_" + childrenSource.getIdentifier().toString());
     }

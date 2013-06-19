@@ -20,16 +20,12 @@
 package de.rinderle.softviz3d.layout;
 
 import att.grappa.Graph;
-import att.grappa.GrappaPoint;
 import att.grappa.Node;
 import de.rinderle.softviz3d.helper.HexaColor;
-import de.rinderle.softviz3d.helper.Point3d;
 import de.rinderle.softviz3d.layout.model.LayeredLayoutElement.Type;
 import de.rinderle.softviz3d.layout.model.SourceObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static att.grappa.GrappaConstants.POS_ATTR;
 
 public class ViewLayerCalculator {
   private static final Logger LOGGER = LoggerFactory.getLogger(ViewLayerCalculator.class);
@@ -80,32 +76,23 @@ public class ViewLayerCalculator {
     // $translation = array($position[0], 0, $position[1]);
     // $size = array('width'=>$width, 'height'=>$height, 'length'=>$width);
 
-    GrappaPoint pos = (GrappaPoint) node.getAttributeValue(POS_ATTR);
-
-    Point3d pos3d = new Point3d(pos.getX(), 0.0, pos.getY());
     double transparency = 0.0;
     HexaColor color = new HexaColor(255, 140, 0);
 
     node.setAttribute("color", color);
-    node.setAttribute("pos3d", pos3d.toString());
     node.setAttribute("transparency", transparency + "");
     // node.setAttribute("height", 20 + "");
   }
 
   private void adjustNode(Node node) {
-    GrappaPoint pos = (GrappaPoint) node.getAttributeValue(POS_ATTR);
-
     HexaColor color = new HexaColor(0, 0, 0);
-    Point3d pos3d = new Point3d(pos.getX(), 0.0, pos.getY());
     double transparency = 0.0;
 
     node.setAttribute("color", color);
-    node.setAttribute("pos3d", pos3d.toString());
     node.setAttribute("transparency", transparency + "");
   }
 
   private void adjustBb(Graph graph, Integer depth, Integer snapshotId) {
-    Point3d pos3d = new Point3d(0.0, 0.0, 0.0);
     double transparency = 0.0;
 
     // calc color
@@ -117,7 +104,6 @@ public class ViewLayerCalculator {
     HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
 
     graph.setAttribute("color", color);
-    graph.setAttribute("pos3d", pos3d.toString());
     graph.setAttribute("transparency", transparency + "");
   }
 

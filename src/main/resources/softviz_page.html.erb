@@ -124,20 +124,17 @@
 
     <%
    softviz3d = Api::Utils.java_facade.
-           getComponentByClassname('softviz3dplugin', 'de.rinderle.softviz3d.SoftViz3dExtension')
+           getComponentByClassname('softviz3d', 'de.rinderle.softviz3d.SoftViz3dExtension')
 
    resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, 1, 1)
    resultMap.each do |key, value|
-        layerPoint = value.getAttributeValue('pos3d')
-        layerPointArray = layerPoint.to_s.split(',')
         layerBB = value.getAttributeValue('bb')
-
 %>
-
+   
         position = new Array();
-        position.x = <%= layerPointArray[0] %>;
-        position.y = <%= layerPointArray[1] %>;
-        position.z = <%= layerPointArray[2] %>;
+        position.x = <%= layerBB.getX() %>;
+        position.y = <%= value.getAttributeValue('height3d') %>;
+        position.z = <%= layerBB.getY() %>;
 
         geometryLayer = new THREE.CubeGeometry(<%= layerBB.getWidth() %>, 1, <%= layerBB.getHeight() %>);
 
@@ -152,7 +149,7 @@
 
        value.nodeElementsAsArray.each { |val|
 
-             point = val.getAttributeValue('pos3d')
+             point = val.getAttributeValue('pos')
              pointArray = point.to_s.split(',')
             %>
                 nodeGeometry = new THREE.CubeGeometry(
@@ -162,14 +159,12 @@
 
                 position = new Array();
                 position.x = <%= pointArray[0] %>;
-                position.y = <%= pointArray[1] %>;
-                position.z = <%= pointArray[2] %>;
+                position.y = <%= val.getAttributeValue('height3d') %>;
+                position.z = <%= pointArray[1] %>;
 
                 // <%= val.to_s %> - <%= val.getAttributeValue('width').to_s %> - <%= val.getAttributeValue('height').to_s %>
                  createBox(nodeGeometry, redMaterial, position);
-
             <%
-
        }
    end
 %>
