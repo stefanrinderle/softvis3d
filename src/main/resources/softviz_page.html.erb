@@ -152,10 +152,10 @@
              point = val.getAttributeValue('pos')
              pointArray = point.to_s.split(',')
             %>
-                nodeGeometry = new THREE.CubeGeometry(
-                        <%= val.getAttributeValue('width').to_s %>,
-                        <%= val.getAttributeValue('height').to_s %>,
-                        <%= val.getAttributeValue('width').to_s %>);
+                nodeGeometry = new THREE.CubeGeometry(20, 20, 20);
+                        //<%= val.getAttributeValue('width').to_s %>,
+                        //<%= val.getAttributeValue('height').to_s %>,
+                        //<%= val.getAttributeValue('width').to_s %>);
 
                 position = new Array();
                 position.x = <%= pointArray[0] %>;

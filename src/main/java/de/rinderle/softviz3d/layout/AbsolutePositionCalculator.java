@@ -57,7 +57,7 @@ public class AbsolutePositionCalculator {
     GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
 
     // Step 2 - set translation for the graph itself (will be a layer later)
-    GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY() * -1, bb.getWidth(), bb.getHeight());
+    GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY(), bb.getWidth(), bb.getHeight());
     graph.setAttribute("bb", translatedBb);
     
     graph.setAttribute("height3d", height3d.toString());
