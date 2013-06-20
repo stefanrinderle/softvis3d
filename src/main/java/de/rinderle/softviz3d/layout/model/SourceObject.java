@@ -23,8 +23,14 @@ import java.util.List;
 
 public interface SourceObject {
 
+  /**
+   * Unique identifier.
+   */
 	Integer getIdentifier();
 	
+	/**
+	 * Display name.
+	 */
 	String getName();
 	
 	List<? extends SourceObject> getChildrenNodes();
@@ -35,8 +41,16 @@ public interface SourceObject {
 
 	Integer getDepth();
 	
+	/**
+	 * Delivers the building footprint metric.
+	 * @return null if no metric is available.
+	 */
 	Double getMetricFootprint();
 
+	/**
+   * Delivers the building height metric.
+   * @return null if no metric is available.
+   */
 	Double getMetricHeight();
 	
 }

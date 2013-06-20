@@ -19,17 +19,20 @@
  */
 package de.rinderle.softviz3d;
 
+import de.rinderle.softviz3d.layout.sonar.MetricWrapper;
+
 import att.grappa.Graph;
 import de.rinderle.softviz3d.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.Layout;
 import de.rinderle.softviz3d.layout.LayoutVisitor;
-import de.rinderle.softviz3d.layout.interfaces.SnapshotWrapper;
 import de.rinderle.softviz3d.layout.model.SourceMetric;
+import de.rinderle.softviz3d.layout.sonar.SnapshotWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.database.model.Snapshot;
+import org.sonar.api.measures.Metric;
 
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -55,32 +58,17 @@ public class SoftViz3dExtension implements ServerExtension {
   public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
       Integer metricId1, Integer metricId2) throws DotExcecutorException {
 
-    Layout layout = new Layout(new LayoutVisitor(new SourceMetric() {
-      
-      @Override
-      public Double getWorstValue() {
-        // TODO Auto-generated method stub
-        return null;
-      }
-      
-      @Override
-      public Integer getIdentifier() {
-        // TODO Auto-generated method stub
-        return null;
-      }
-      
-      @Override
-      public Double getBestValue() {
-        // TODO Auto-generated method stub
-        return null;
-      }
-    }));
+    Metric footprintMetric = getMetricById(metricId1);
+    MetricWrapper footprintMetricWrapper  = new MetricWrapper(footprintMetric, snapshotId, session);
 
+    Metric heightMetric = getMetricById(metricId2);
+    MetricWrapper heightMetricWrapper= new MetricWrapper(footprintMetric, snapshotId, session);
+    
     Snapshot snapshot = getSnapshotById(snapshotId);
+    SnapshotWrapper snapshotWrapper = new SnapshotWrapper(snapshot, footprintMetric, heightMetric, session);
 
-    SnapshotWrapper wrapper = new SnapshotWrapper(snapshot, session);
-
-    Map<Integer, Graph> result = layout.startLayout(wrapper);
+    Layout layout = new Layout(new LayoutVisitor(footprintMetricWrapper));
+    Map<Integer, Graph> result = layout.startLayout(snapshotWrapper);
 
     return result;
   }
@@ -105,4 +93,24 @@ public class SoftViz3dExtension implements ServerExtension {
     return snapshot;
   }
 
+  private Metric getMetricById(Integer id) {
+    Metric metric;
+
+    try {
+      session.start();
+      Query query = session
+          .createQuery("select m from Metric m where m.id = ?");
+      query.setParameter(1, id);
+
+      metric = (Metric) query.getSingleResult();
+    } catch (PersistenceException e) {
+      LOGGER.error(e.getMessage(), e);
+      metric = null;
+    } finally {
+      session.stop();
+    }
+
+    return metric;
+  }
+  
 }

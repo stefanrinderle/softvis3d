@@ -126,7 +126,7 @@
    softviz3d = Api::Utils.java_facade.
            getComponentByClassname('softviz3d', 'de.rinderle.softviz3d.SoftViz3dExtension')
 
-   resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, 1, 1)
+   resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, 20, 1)
    resultMap.each do |key, value|
         layerBB = value.getAttributeValue('bb')
         

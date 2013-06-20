@@ -86,16 +86,20 @@ public class LayoutVisitor {
     return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getIdentifier(), "dir_" + source.getIdentifier(), width, height);
   }
 
-  
   public LayeredLayoutElement visitFile(SourceObject source) {
     double sideLength = BASE_SIDE_LENGTH;
-    if (metricFootprint.getWorstValue() != null) {
-      // if there is a worst value, there is also a best value available
-    } else if (metricFootprint.getBestValue() != null) {
-      //
-    } else {
-      sideLength = source.getMetricFootprint();
-    }
+    
+    Double value = source.getMetricFootprint();
+    
+    if (value != null) {
+      if (metricFootprint.getWorstValue() != null) {
+        // if there is a worst value, there is also a best value available
+      } else if (metricFootprint.getBestValue() != null) {
+        //
+      } else {
+        sideLength = source.getMetricFootprint();
+      }
+    }  
     
     return new LayeredLayoutElement(Type.LEAF, source.getIdentifier(), 
             "file_" + source.getIdentifier().toString(),
