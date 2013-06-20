@@ -24,6 +24,7 @@ import de.rinderle.softviz3d.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.Layout;
 import de.rinderle.softviz3d.layout.LayoutVisitor;
 import de.rinderle.softviz3d.layout.interfaces.SnapshotWrapper;
+import de.rinderle.softviz3d.layout.model.SourceMetric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
@@ -54,7 +55,26 @@ public class SoftViz3dExtension implements ServerExtension {
   public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
       Integer metricId1, Integer metricId2) throws DotExcecutorException {
 
-    Layout layout = new Layout(new LayoutVisitor());
+    Layout layout = new Layout(new LayoutVisitor(new SourceMetric() {
+      
+      @Override
+      public Double getWorstValue() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+      
+      @Override
+      public Integer getIdentifier() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+      
+      @Override
+      public Double getBestValue() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+    }));
 
     Snapshot snapshot = getSnapshotById(snapshotId);
 

@@ -1,5 +1,9 @@
 package de.rinderle.softviz3d.layout;
 
+import de.rinderle.softviz3d.layout.model.SourceMetric;
+
+import de.rinderle.softviz3d.layout.model.SourceMetric;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +32,26 @@ public class SimpleLayoutCalculationTest extends TestCase {
 	 */
 	@Test
 	public void testSimpleStructure() throws DotExcecutorException {
-		Layout layout = new Layout(new LayoutVisitor());
+		Layout layout = new Layout(new LayoutVisitor(new SourceMetric() {
+      
+      @Override
+      public Double getWorstValue() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+      
+      @Override
+      public Integer getIdentifier() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+      
+      @Override
+      public Double getBestValue() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+    }));
 		
 		TestSource leaf2 = new TestSource(2, 1, false, null);
 		TestSource leaf3 = new TestSource(3, 1, false, null);
@@ -47,7 +70,26 @@ public class SimpleLayoutCalculationTest extends TestCase {
 	@Test 
 	public void testVisitorSimpleStructure() throws DotExcecutorException {
 		LOGGER.info("START testVisitorSimpleStructure");
-		LayoutVisitor visitor = new LayoutVisitor();
+		LayoutVisitor visitor = new LayoutVisitor(new SourceMetric() {
+      
+      @Override
+      public Double getWorstValue() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+      
+      @Override
+      public Integer getIdentifier() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+      
+      @Override
+      public Double getBestValue() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+    });
 		
 		Integer resourceId = 1;
 		
@@ -57,7 +99,7 @@ public class SimpleLayoutCalculationTest extends TestCase {
 		elements.add(new LayeredLayoutElement(LayeredLayoutElement.Type.LEAF, 2, "zwei", 1.0, 1.0));
 		elements.add(new LayeredLayoutElement(LayeredLayoutElement.Type.LEAF, 3, "drei", 1.0, 1.0));
 		
-		visitor.visitDir(source, elements);
+		visitor.visitNode(source, elements);
 		
 		Map<Integer, Graph> result = visitor.getResultingGraphList();
 		
@@ -79,7 +121,26 @@ public class SimpleLayoutCalculationTest extends TestCase {
 	@Test 
 	public void testPositioningSimpleStructure() throws DotExcecutorException {
 		LOGGER.info("START testVisitorSimpleStructure");
-		LayoutVisitor visitor = new LayoutVisitor();
+		LayoutVisitor visitor = new LayoutVisitor(new SourceMetric() {
+      
+      @Override
+      public Double getWorstValue() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+      
+      @Override
+      public Integer getIdentifier() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+      
+      @Override
+      public Double getBestValue() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+    });
 		
 		Integer resourceId = 1;
 		
@@ -96,7 +157,7 @@ public class SimpleLayoutCalculationTest extends TestCase {
 		elements.add(new LayeredLayoutElement(LayeredLayoutElement.Type.LEAF, 2, "zwei", 1.0, 1.0));
 		elements.add(new LayeredLayoutElement(LayeredLayoutElement.Type.LEAF, 3, "drei", 1.0, 1.0));
 		
-		visitor.visitDir(root, elements);
+		visitor.visitNode(root, elements);
 		
 		Map<Integer, Graph> inputGraphList = visitor.getResultingGraphList();
 		
@@ -168,6 +229,16 @@ public class SimpleLayoutCalculationTest extends TestCase {
 		public Integer getDepth() {
 			return depth;
 		}
+
+		@Override
+	  public Double getMetricFootprint() {
+	    return Math.random() * 10;
+	  }
+
+	  @Override
+	  public Double getMetricHeight() {
+	    return Math.random() * 10;
+	  }
 		
 	}
 }

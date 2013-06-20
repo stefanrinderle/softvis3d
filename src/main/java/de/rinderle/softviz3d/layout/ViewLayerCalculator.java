@@ -24,11 +24,9 @@ import att.grappa.Node;
 import de.rinderle.softviz3d.helper.HexaColor;
 import de.rinderle.softviz3d.layout.model.LayeredLayoutElement.Type;
 import de.rinderle.softviz3d.layout.model.SourceObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ViewLayerCalculator {
-  private static final Logger LOGGER = LoggerFactory.getLogger(ViewLayerCalculator.class);
+//  private static final Logger LOGGER = LoggerFactory.getLogger(ViewLayerCalculator.class);
 
   private Graph graph;
 
@@ -41,58 +39,28 @@ public class ViewLayerCalculator {
   }
 
   private void adjustLayoutToX3d(Integer depth, Integer snapshotId) {
-    this.adjustBb(graph, depth, snapshotId);
+    this.adjustGraph(graph, depth, snapshotId);
 
     for (Node node : graph.nodeElementsAsArray()) {
-      if (node.getAttributeValue("type").toString().equals(Type.NODE.name())) {
-        this.adjustNode(node);
-      } else if (node.getAttributeValue("type").toString().equals(Type.LEAF.name())) {
+      /**
+       * The nodes are not visualized. The will be represented with
+       * the informations of the graph. 
+       */
+      if (node.getAttributeValue("type").toString().equals(Type.LEAF.name())) {
         this.adjustLeaf(node);
-      } else {
-        LOGGER.warn("Unsupported InputElementType");
       }
     }
   }
 
   private void adjustLeaf(Node node) {
-    // TODO SRI calc metric for height
-
-    // $width = $node['attributes']['width'] * LayoutVisitor::$SCALE;
-    // !!! METRIC CALCULATION FOR 3D LAYOUT
-    /**
-     * If only one metric is given, it will be represented by the
-     * building volume. Therefore the side length is set in 2D and the
-     * same value will be set for the 3D height here. Given 2 Metrics, first is the side length
-     * second is the 3D height. Given none, default values.
-     */
-    // if (array_key_exists('metric1', $node['attributes']) &&
-    // array_key_exists('metric2', $node['attributes'])) {
-    // $height = round($node['attributes']['metric2'] * LayoutVisitor::$SCALE / 2);
-    // } else {
-    // $height = $width;
-    // }
-
-    // $position = $node['attributes']['pos'];
-    // $translation = array($position[0], 0, $position[1]);
-    // $size = array('width'=>$width, 'height'=>$height, 'length'=>$width);
-
     double transparency = 0.0;
     HexaColor color = new HexaColor(255, 140, 0);
 
     node.setAttribute("color", color);
     node.setAttribute("transparency", transparency + "");
-    // node.setAttribute("height", 20 + "");
   }
 
-  private void adjustNode(Node node) {
-    HexaColor color = new HexaColor(0, 0, 0);
-    double transparency = 0.0;
-
-    node.setAttribute("color", color);
-    node.setAttribute("transparency", transparency + "");
-  }
-
-  private void adjustBb(Graph graph, Integer depth, Integer snapshotId) {
+  private void adjustGraph(Graph graph, Integer depth, Integer snapshotId) {
     double transparency = 0.0;
 
     // calc color

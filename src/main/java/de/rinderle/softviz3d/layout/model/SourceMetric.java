@@ -19,24 +19,13 @@
  */
 package de.rinderle.softviz3d.layout.model;
 
-import java.util.List;
 
-public interface SourceObject {
+public interface SourceMetric {
 
 	Integer getIdentifier();
 	
-	String getName();
+	Double getBestValue();
 	
-	List<? extends SourceObject> getChildrenNodes();
-	
-	List<? extends SourceObject> getChildrenLeaves();
-	
-	List<Integer> getChildrenIds();
-
-	Integer getDepth();
-	
-	Double getMetricFootprint();
-
-	Double getMetricHeight();
+	Double getWorstValue();
 	
 }

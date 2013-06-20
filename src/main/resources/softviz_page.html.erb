@@ -129,11 +129,12 @@
    resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, 1, 1)
    resultMap.each do |key, value|
         layerBB = value.getAttributeValue('bb')
+        
 %>
    
         position = new Array();
         position.x = <%= layerBB.getX() %>;
-        position.y = <%= value.getAttributeValue('height3d') %>;
+        position.y = <%= value.getAttributeValue('layerHeight3d') %>;
         position.z = <%= layerBB.getY() %>;
 
         geometryLayer = new THREE.CubeGeometry(<%= layerBB.getWidth() %>, 1, <%= layerBB.getHeight() %>);
@@ -152,14 +153,15 @@
              point = val.getAttributeValue('pos')
              pointArray = point.to_s.split(',')
             %>
-                nodeGeometry = new THREE.CubeGeometry(20, 20, 20);
-                        //<%= val.getAttributeValue('width').to_s %>,
-                        //<%= val.getAttributeValue('height').to_s %>,
-                        //<%= val.getAttributeValue('width').to_s %>);
+       
+                nodeGeometry = new THREE.CubeGeometry(
+                        <%= val.getAttributeValue('width').to_s %>,
+                        48, //<%= val.getAttributeValue('height').to_s %>,
+                        <%= val.getAttributeValue('width').to_s %>);
 
                 position = new Array();
                 position.x = <%= pointArray[0] %>;
-                position.y = <%= val.getAttributeValue('height3d') %>;
+                position.y = <%= val.getAttributeValue('layerHeight3d') %>;
                 position.z = <%= pointArray[1] %>;
 
                 // <%= val.to_s %> - <%= val.getAttributeValue('width').to_s %> - <%= val.getAttributeValue('height').to_s %>

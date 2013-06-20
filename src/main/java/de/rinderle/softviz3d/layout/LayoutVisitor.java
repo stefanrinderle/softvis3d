@@ -19,6 +19,8 @@
  */
 package de.rinderle.softviz3d.layout;
 
+import de.rinderle.softviz3d.layout.model.SourceMetric;
+
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.Node;
@@ -37,18 +39,23 @@ import static att.grappa.GrappaConstants.WIDTH_ATTR;
 public class LayoutVisitor {
   // private static final Logger LOGGER = LoggerFactory.getLogger(LayoutVisitor.class);
 
+  private SourceMetric metricFootprint;
+
+  public LayoutVisitor(SourceMetric metricFootprint) {
+    this.metricFootprint = metricFootprint;
+  }
+  
   private ViewLayerCalculator calculator = new ViewLayerCalculator();
 
   private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
 
-  private static final double SCALE = 72.0;
-  private static final double DEFAULT_SIDE_LENGTH = 1;
+  private static final double BASE_SIDE_LENGTH = 1;
 
   public Map<Integer, Graph> getResultingGraphList() {
     return this.resultingGraphList;
   }
 
-  public LayeredLayoutElement visitDir(SourceObject source, List<LayeredLayoutElement> elements)
+  public LayeredLayoutElement visitNode(SourceObject source, List<LayeredLayoutElement> elements)
       throws DotExcecutorException {
     // create layout graph
     Graph inputGraph = new Graph(source.getIdentifier().toString());
@@ -73,66 +80,25 @@ public class LayoutVisitor {
     GrappaBox bb = (GrappaBox) adjustedGraph.getAttributeValue("bb");
 
     // Scale
-    Double width = bb.getWidth() / SCALE;
-    Double height = bb.getHeight() / SCALE;
+    Double width = bb.getWidth() / LayoutConstants.DPI_DOT_SCALE;
+    Double height = bb.getHeight() / LayoutConstants.DPI_DOT_SCALE;
 
     return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getIdentifier(), "dir_" + source.getIdentifier(), width, height);
   }
 
+  
   public LayeredLayoutElement visitFile(SourceObject source) {
-    /**
-     * Leaf interface was only used in dependency view
-     */
-
-    // if ($comp->type == InputTreeElement::$TYPE_LEAF_INTERFACE) {
-    // // value between 0 and 1
-    // // this was to fat: $comp->counter / $this->maxCounter
-    // //TODO: this should not be possible
-    // if ($this->maxCounter != 0) {
-    // $value = ($comp->counter / $this->maxCounter / 2) + 0.1;
-    // $side = round($value, 2);
-    // } else {
-    // $side = 1;
-    // }
-    // } else {
-    // // refactor -> info should be in layout classes
-    // if ($this->layout instanceof DependencyView) {
-    // if ($this->maxCounter != 0) {
-    // $value = ($comp->counter / $this->maxCounter) + 0.1;
-    // $side = round($value, 2);
-    // } else {
-    // $side = self::$DEFAULT_SIDE_LENGTH;
-    // }
-    // } else {
-    // // !!! METRIC CALCULATION FOR 2D LAYOUT
-    // $metric1 = $comp->metric1;
-    // $metric2 = $comp->metric2;
-    //
-    // /**
-    // * If only one metric is given, it will be represented by the
-    // * building volume. Therefore the side length is set here and the
-    // * same value will be set for the 3D heigth later in the
-    // * X3dCalculators. Given 2 Metrics, first is the side length
-    // * second is the 3D height. Given none, default values.
-    // */
-    // if ($metric1 && $metric2) {
-    // $side = round($metric1 / $this->maxMetric1, 2);
-    // } else if ($metric1) {
-    // $side = round($metric1 / $this->maxMetric1, 2);
-    // } else if ($metric2) {
-    // $side = round($metric2 / $this->maxMetric2, 2);
-    // } else {
-    // $side = self::$DEFAULT_SIDE_LENGTH;
-    // }
-    //
-    // if($side < 0.05) {
-    // $side = 0.05;
-    // }
-    // }
-    // }
-    //
-    // $comp->proposedSize = array('width' => $side, 'height' => $side);
-    return new LayeredLayoutElement(Type.LEAF, source.getIdentifier(), "file_" + source.getIdentifier().toString(),
-        DEFAULT_SIDE_LENGTH, DEFAULT_SIDE_LENGTH);
+    double sideLength = BASE_SIDE_LENGTH;
+    if (metricFootprint.getWorstValue() != null) {
+      // if there is a worst value, there is also a best value available
+    } else if (metricFootprint.getBestValue() != null) {
+      //
+    } else {
+      sideLength = source.getMetricFootprint();
+    }
+    
+    return new LayeredLayoutElement(Type.LEAF, source.getIdentifier(), 
+            "file_" + source.getIdentifier().toString(),
+            sideLength, sideLength);
   }
 }

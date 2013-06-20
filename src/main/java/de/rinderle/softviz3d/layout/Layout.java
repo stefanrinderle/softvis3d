@@ -97,7 +97,7 @@ public class Layout {
       layerElements.add(visitor.visitFile(leaf));
     }
 
-    LayeredLayoutElement layer = visitor.visitDir(source, layerElements);
+    LayeredLayoutElement layer = visitor.visitNode(source, layerElements);
 
     return layer;
   }

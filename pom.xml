@@ -24,7 +24,7 @@
       <name>Stefan Rinderle</name>
     </developer>
   </developers>
-  
+
   <licenses>
     <license>
       <name>GNU LGPL v3</name>
@@ -32,7 +32,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <properties>
     <jdk.min.version>1.6</jdk.min.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

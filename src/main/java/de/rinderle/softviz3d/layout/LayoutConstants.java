@@ -11,5 +11,7 @@ public interface LayoutConstants {
    *  /
    * / (z)
    */
-  public final static String HEIGHT_3D = "height3d";
+  public final static String LAYER_HEIGHT_3D = "layerHeight3d";
+  
+  public final static double DPI_DOT_SCALE = 72.0;
 }

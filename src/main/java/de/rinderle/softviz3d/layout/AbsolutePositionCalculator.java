@@ -19,13 +19,14 @@
  */
 package de.rinderle.softviz3d.layout;
 
+import att.grappa.Attribute;
+
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
 import de.rinderle.softviz3d.layout.model.SourceObject;
 
-import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,7 +61,7 @@ public class AbsolutePositionCalculator {
     GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY(), bb.getWidth(), bb.getHeight());
     graph.setAttribute("bb", translatedBb);
     
-    graph.setAttribute("height3d", height3d.toString());
+    graph.setAttribute(LayoutConstants.LAYER_HEIGHT_3D, height3d.toString());
     
     GrappaPoint pos;
     double nodeLocationX;
@@ -72,13 +73,18 @@ public class AbsolutePositionCalculator {
       
       innerGraphTranslation.put(Integer.valueOf(leaf.getAttributeValue("id").toString()), pos);
 
-      leaf.setAttribute("height3d", height3d.toString());
+      leaf.setAttribute(LayoutConstants.LAYER_HEIGHT_3D, height3d.toString());
       
       nodeLocationX = posTranslation.getX() + pos.getX() - translatedBb.getWidth() / 2;
       nodeLocationY = posTranslation.getY() + pos.getY() + translatedBb.getHeight() / 2;
       pos.setLocation(nodeLocationX, nodeLocationY);
       
-//      leaf.setAttribute("bb", new GrappaBox(pos.getX(), pos.getY(), 20, 20));
+      Double width = (Double) leaf.getAttributeValue("width");
+      // keep some distance to each other
+      width = width * 32;
+      leaf.setAttribute("width", width);
+      
+      //leaf.setAttribute("height", 72);
     }
 
     // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes

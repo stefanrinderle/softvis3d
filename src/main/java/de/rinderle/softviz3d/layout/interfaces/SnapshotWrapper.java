@@ -116,5 +116,15 @@ public class SnapshotWrapper implements SourceObject {
 		}
 		return result;
 	}
+
+  @Override
+  public Double getMetricFootprint() {
+    return Math.random() * 10;
+  }
+
+  @Override
+  public Double getMetricHeight() {
+    return Math.random() * 10;
+  }
 	
 }

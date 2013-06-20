@@ -1,5 +1,9 @@
 package de.rinderle.softviz3d.layout;
 
+import de.rinderle.softviz3d.layout.model.SourceMetric;
+
+import de.rinderle.softviz3d.layout.model.SourceMetric;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +34,26 @@ public class LayoutCalculationTest extends TestCase {
 	 */
 	@Test
 	public void testSimpleStructure() throws DotExcecutorException {
-		LayoutVisitor visitor = new LayoutVisitor();
+		LayoutVisitor visitor = new LayoutVisitor(new SourceMetric() {
+      
+      @Override
+      public Double getWorstValue() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+      
+      @Override
+      public Integer getIdentifier() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+      
+      @Override
+      public Double getBestValue() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+    });
 		Layout layout = new Layout(visitor);
 		
 		TestSource leaf4 = new TestSource(4, 2, false, null);
@@ -190,6 +213,16 @@ public class LayoutCalculationTest extends TestCase {
 		public Integer getDepth() {
 			return depth;
 		}
+
+		@Override
+	  public Double getMetricFootprint() {
+	    return Math.random();
+	  }
+
+	  @Override
+	  public Double getMetricHeight() {
+	    return Math.random();
+	  }
 		
 	}
 }
