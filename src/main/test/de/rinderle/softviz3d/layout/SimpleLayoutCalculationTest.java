@@ -1,8 +1,15 @@
 package de.rinderle.softviz3d.layout;
 
-import de.rinderle.softviz3d.layout.model.SourceMetric;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 
-import de.rinderle.softviz3d.layout.model.SourceMetric;
+import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
+
+import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
+import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
+
+import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
+import de.rinderle.softviz3d.layout.interfaces.SourceObject;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +23,6 @@ import org.slf4j.LoggerFactory;
 
 import att.grappa.Graph;
 import att.grappa.Node;
-import de.rinderle.softviz3d.dot.DotExcecutorException;
-import de.rinderle.softviz3d.layout.model.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.model.SourceObject;
 
 public class SimpleLayoutCalculationTest extends TestCase {
 

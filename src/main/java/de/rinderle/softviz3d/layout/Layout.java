@@ -19,12 +19,19 @@
  */
 package de.rinderle.softviz3d.layout;
 
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+
+import de.rinderle.softviz3d.layout.helper.GraphDebugPrinter;
+import de.rinderle.softviz3d.layout.helper.StringOutputStream;
+
+import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
+
+import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
+import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
+
+import de.rinderle.softviz3d.layout.interfaces.SourceObject;
+
 import att.grappa.Graph;
-import de.rinderle.softviz3d.dot.DotExcecutorException;
-import de.rinderle.softviz3d.helper.GraphDebugPrinter;
-import de.rinderle.softviz3d.helper.StringOutputStream;
-import de.rinderle.softviz3d.layout.model.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.model.SourceObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;

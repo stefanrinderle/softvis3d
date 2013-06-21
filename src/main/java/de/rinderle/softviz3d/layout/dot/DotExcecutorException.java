@@ -17,15 +17,13 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.model;
+package de.rinderle.softviz3d.layout.dot;
 
+public class DotExcecutorException extends Exception {
 
-public interface SourceMetric {
+  private static final long serialVersionUID = -1130080106752515879L;
 
-	Integer getIdentifier();
-	
-	Double getBestValue();
-	
-	Double getWorstValue();
-	
+  public DotExcecutorException(String message, Exception e) {
+    super(message, e);
+  }
 }

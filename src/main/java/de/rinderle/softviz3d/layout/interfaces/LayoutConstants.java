@@ -1,4 +1,4 @@
-package de.rinderle.softviz3d.layout;
+package de.rinderle.softviz3d.layout.interfaces;
 
 public interface LayoutConstants {
   /**

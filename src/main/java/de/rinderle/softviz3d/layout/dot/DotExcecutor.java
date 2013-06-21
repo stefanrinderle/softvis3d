@@ -17,11 +17,12 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.dot;
+package de.rinderle.softviz3d.layout.dot;
+
+import de.rinderle.softviz3d.layout.helper.StringOutputStream;
 
 import att.grappa.Graph;
 import att.grappa.Parser;
-import de.rinderle.softviz3d.helper.StringOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package de.rinderle.softviz3d.layout.sonar;
+package de.rinderle.softviz3d.sonar;
 
 import org.sonar.api.measures.Metric;
 

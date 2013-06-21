@@ -17,13 +17,16 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout;
+package de.rinderle.softviz3d.layout.calc;
+
+import de.rinderle.softviz3d.layout.helper.HexaColor;
+
+import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement.Type;
+
+import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 import att.grappa.Graph;
 import att.grappa.Node;
-import de.rinderle.softviz3d.helper.HexaColor;
-import de.rinderle.softviz3d.layout.model.LayeredLayoutElement.Type;
-import de.rinderle.softviz3d.layout.model.SourceObject;
 
 public class ViewLayerCalculator {
 //  private static final Logger LOGGER = LoggerFactory.getLogger(ViewLayerCalculator.class);

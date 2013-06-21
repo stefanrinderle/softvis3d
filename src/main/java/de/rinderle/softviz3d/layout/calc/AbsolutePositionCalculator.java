@@ -17,7 +17,11 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout;
+package de.rinderle.softviz3d.layout.calc;
+
+import de.rinderle.softviz3d.layout.interfaces.LayoutConstants;
+
+import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 import att.grappa.Attribute;
 
@@ -25,7 +29,6 @@ import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
-import de.rinderle.softviz3d.layout.model.SourceObject;
 
 import java.util.HashMap;
 import java.util.Map;

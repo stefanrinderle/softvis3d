@@ -17,9 +17,10 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.sonar;
+package de.rinderle.softviz3d.sonar;
 
-import de.rinderle.softviz3d.layout.model.SourceObject;
+import de.rinderle.softviz3d.layout.interfaces.SourceObject;
+
 import org.sonar.api.database.model.Snapshot;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Scopes;
@@ -27,7 +28,7 @@ import org.sonar.api.resources.Scopes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SnapshotWrapper implements SourceObject {
+public class SonarSnapshot implements SourceObject {
 
 //  private static final Logger LOGGER = LoggerFactory
 //      .getLogger(Layout.class);
@@ -39,7 +40,7 @@ public class SnapshotWrapper implements SourceObject {
 
   private SonarDao sonarDao;
 
-  public SnapshotWrapper(Snapshot snapshot, Metric footprintMetric, Metric heightMetric, SonarDao sonarDao) {
+  public SonarSnapshot(Snapshot snapshot, Metric footprintMetric, Metric heightMetric, SonarDao sonarDao) {
     this.snapshot = snapshot;
 
     this.heightMetric = heightMetric;
@@ -64,14 +65,14 @@ public class SnapshotWrapper implements SourceObject {
   }
 
   @Override
-  public List<SnapshotWrapper> getChildrenNodes() {
+  public List<SonarSnapshot> getChildrenNodes() {
     List<Snapshot> result = sonarDao.getChildrenByScope(this.getId(), Scopes.DIRECTORY);
     
     return wrapSnapshotList(result);
   }
 
   @Override
-  public List<SnapshotWrapper> getChildrenLeaves() {
+  public List<SonarSnapshot> getChildrenLeaves() {
     List<Snapshot> result = sonarDao.getChildrenByScope(this.getId(), Scopes.FILE);
     
     return wrapSnapshotList(result);
@@ -87,11 +88,11 @@ public class SnapshotWrapper implements SourceObject {
     return sonarDao.getMetricValue(this.getId(), this.heightMetric.getId());
   }
   
-  private List<SnapshotWrapper> wrapSnapshotList(List<Snapshot> snapshots) {
-    List<SnapshotWrapper> result = new ArrayList<SnapshotWrapper>();
+  private List<SonarSnapshot> wrapSnapshotList(List<Snapshot> snapshots) {
+    List<SonarSnapshot> result = new ArrayList<SonarSnapshot>();
 
     for (Snapshot snapshot : snapshots) {
-      result.add(new SnapshotWrapper(snapshot, footprintMetric, heightMetric, sonarDao));
+      result.add(new SonarSnapshot(snapshot, footprintMetric, heightMetric, sonarDao));
     }
     return result;
   }

@@ -17,15 +17,16 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.sonar;
+package de.rinderle.softviz3d.sonar;
+
+import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
 
 import de.rinderle.softviz3d.layout.Layout;
-import de.rinderle.softviz3d.layout.model.SourceMetric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.measures.Metric;
 
-public class MetricWrapper implements SourceMetric {
+public class SonarMetric implements SourceMetric {
 
   private static final Logger LOGGER = LoggerFactory
       .getLogger(Layout.class);
@@ -34,7 +35,7 @@ public class MetricWrapper implements SourceMetric {
   private SonarDao sonarDao;
   private Integer rootSnapshotId;
   
-  public MetricWrapper(Metric metric, Integer rootSnapshotId, SonarDao sonarDao) {
+  public SonarMetric(Metric metric, Integer rootSnapshotId, SonarDao sonarDao) {
     this.metric = metric;
     this.sonarDao = sonarDao;
     this.rootSnapshotId = rootSnapshotId;

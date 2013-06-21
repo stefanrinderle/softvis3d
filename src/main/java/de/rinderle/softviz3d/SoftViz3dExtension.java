@@ -19,13 +19,16 @@
  */
 package de.rinderle.softviz3d;
 
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+
+import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
+
+import de.rinderle.softviz3d.sonar.SonarMetric;
+import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import de.rinderle.softviz3d.sonar.SonarDao;
+
 import att.grappa.Graph;
-import de.rinderle.softviz3d.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.Layout;
-import de.rinderle.softviz3d.layout.LayoutVisitor;
-import de.rinderle.softviz3d.layout.sonar.MetricWrapper;
-import de.rinderle.softviz3d.layout.sonar.SnapshotWrapper;
-import de.rinderle.softviz3d.layout.sonar.SonarDao;
 import org.sonar.api.ServerExtension;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.database.model.Snapshot;
@@ -51,13 +54,13 @@ public class SoftViz3dExtension implements ServerExtension {
       Integer metricId1, Integer metricId2) throws DotExcecutorException {
 
     Metric footprintMetric = sonarDao.getMetricById(metricId1);
-    MetricWrapper footprintMetricWrapper  = new MetricWrapper(footprintMetric, snapshotId, sonarDao);
+    SonarMetric footprintMetricWrapper  = new SonarMetric(footprintMetric, snapshotId, sonarDao);
 
     Metric heightMetric = sonarDao.getMetricById(metricId2);
-    MetricWrapper heightMetricWrapper= new MetricWrapper(footprintMetric, snapshotId, sonarDao);
+    SonarMetric heightMetricWrapper= new SonarMetric(footprintMetric, snapshotId, sonarDao);
     
     Snapshot snapshot = sonarDao.getSnapshotById(snapshotId);
-    SnapshotWrapper snapshotWrapper = new SnapshotWrapper(snapshot, footprintMetric, heightMetric, sonarDao);
+    SonarSnapshot snapshotWrapper = new SonarSnapshot(snapshot, footprintMetric, heightMetric, sonarDao);
 
     Layout layout = new Layout(new LayoutVisitor(footprintMetricWrapper));
     Map<Integer, Graph> result = layout.startLayout(snapshotWrapper);
