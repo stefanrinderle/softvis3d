@@ -39,21 +39,13 @@ public class SimpleLayoutCalculationTest extends TestCase {
 		Layout layout = new Layout(new LayoutVisitor(new SourceMetric() {
       
       @Override
-      public Double getWorstValue() {
-        // TODO Auto-generated method stub
-        return null;
+      public Double getMinValue() {
+        return 0.0;
       }
       
       @Override
-      public Integer getIdentifier() {
-        // TODO Auto-generated method stub
-        return null;
-      }
-      
-      @Override
-      public Double getBestValue() {
-        // TODO Auto-generated method stub
-        return null;
+      public Double getMaxValue() {
+        return 100.0;
       }
     }));
 		
@@ -77,21 +69,13 @@ public class SimpleLayoutCalculationTest extends TestCase {
 		LayoutVisitor visitor = new LayoutVisitor(new SourceMetric() {
       
       @Override
-      public Double getWorstValue() {
-        // TODO Auto-generated method stub
-        return null;
+      public Double getMinValue() {
+        return 0.0;
       }
       
       @Override
-      public Integer getIdentifier() {
-        // TODO Auto-generated method stub
-        return null;
-      }
-      
-      @Override
-      public Double getBestValue() {
-        // TODO Auto-generated method stub
-        return null;
+      public Double getMaxValue() {
+        return 100.0;
       }
     });
 		
@@ -128,21 +112,13 @@ public class SimpleLayoutCalculationTest extends TestCase {
 		LayoutVisitor visitor = new LayoutVisitor(new SourceMetric() {
       
       @Override
-      public Double getWorstValue() {
-        // TODO Auto-generated method stub
-        return null;
+      public Double getMinValue() {
+        return 0.0;
       }
       
       @Override
-      public Integer getIdentifier() {
-        // TODO Auto-generated method stub
-        return null;
-      }
-      
-      @Override
-      public Double getBestValue() {
-        // TODO Auto-generated method stub
-        return null;
+      public Double getMaxValue() {
+        return 100.0;
       }
     });
 		

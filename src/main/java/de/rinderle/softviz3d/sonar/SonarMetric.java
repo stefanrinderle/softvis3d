@@ -21,60 +21,26 @@ package de.rinderle.softviz3d.sonar;
 
 import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
 
-import de.rinderle.softviz3d.layout.Layout;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.measures.Metric;
-
 public class SonarMetric implements SourceMetric {
 
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(Layout.class);
-
-  private Metric metric;
-  private SonarDao sonarDao;
-  private Integer rootSnapshotId;
+  private Double minValue;
+  private Double maxValue;
   
-  public SonarMetric(Metric metric, Integer rootSnapshotId, SonarDao sonarDao) {
-    this.metric = metric;
-    this.sonarDao = sonarDao;
-    this.rootSnapshotId = rootSnapshotId;
+  public SonarMetric(Double minValue, Double maxValue) {
+    super();
+    this.minValue = minValue;
+    this.maxValue = maxValue;
   }
-
+  
   @Override
-  public Integer getIdentifier() {
-    return metric.getId();
+  public Double getMinValue() {
+    return minValue;
   }
-
+  
   @Override
-  public Double getBestValue() {
-    return metric.getBestValue();
+  public Double getMaxValue() {
+    return maxValue;
   }
-
-  @Override
-  public Double getWorstValue() {
-    return metric.getWorstValue();
-  }
-
-//  private void getMaxMinValues() {
-//    BigDecimal value;
-//
-//    try {
-//      session.start();
-//      Query query = session
-//          .createNativeQuery("SELECT m.value FROM snapshots s " +
-//            "INNER JOIN project_measures m ON s.id = m.snapshot_id " +
-//            "WHERE m.metric_id = 20 AND s.id = ?");
-//      query.setParameter(1, this.metric.getId());
-//
-//      value = (BigDecimal) query.getSingleResult();
-//    } catch (PersistenceException e) {
-//      LOGGER.error(e.getMessage(), e);
-//      value = null;
-//    } finally {
-//      session.stop();
-//    }
-//
-//  }
+  
 
 }

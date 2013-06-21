@@ -22,10 +22,8 @@ package de.rinderle.softviz3d.layout.interfaces;
 
 public interface SourceMetric {
 
-	Integer getIdentifier();
+	Double getMinValue();
 	
-	Double getBestValue();
-	
-	Double getWorstValue();
+	Double getMaxValue();
 	
 }

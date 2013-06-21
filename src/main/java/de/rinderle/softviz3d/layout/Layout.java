@@ -19,25 +19,17 @@
  */
 package de.rinderle.softviz3d.layout;
 
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-
-import de.rinderle.softviz3d.layout.helper.GraphDebugPrinter;
-import de.rinderle.softviz3d.layout.helper.StringOutputStream;
-
-import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
-
+import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
-
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.helper.GraphDebugPrinter;
+import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
-import att.grappa.Graph;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class Layout {
 
@@ -60,11 +52,11 @@ public class Layout {
 
     // debug output
     StringBuilder builder = new StringBuilder();
-    printGraphsWithoutAbsolutePosition(builder, resultGraphs);
+    GraphDebugPrinter.printGraphsWithoutAbsolutePosition(builder, resultGraphs);
 
     startAbsolutePositioning(source, resultGraphs, builder);
 
-    printGraphsWithAbsolutePosition(builder, resultGraphs);
+    GraphDebugPrinter.printGraphsWithAbsolutePosition(builder, resultGraphs);
 
     // LOGGER.info(builder.toString());
 
@@ -79,7 +71,7 @@ public class Layout {
     // ---
 
     // debug result graphs after positioning graphs
-    printGraphsWithAbsolutePosition(builder, resultGraphs);
+    GraphDebugPrinter.printGraphsWithAbsolutePosition(builder, resultGraphs);
 
     return resultGraphs;
   }
@@ -107,38 +99,6 @@ public class Layout {
     LayeredLayoutElement layer = visitor.visitNode(source, layerElements);
 
     return layer;
-  }
-
-  private void printGraphsWithAbsolutePosition(StringBuilder builder,
-      Map<Integer, Graph> resultGraphs) {
-    Iterator<Entry<Integer, Graph>> iterator = resultGraphs.entrySet()
-        .iterator();
-    builder.append("-------Result graphs with absolute position--------<br /><br />");
-    iterator = resultGraphs.entrySet().iterator();
-    Entry<Integer, Graph> graph;
-    while (iterator.hasNext()) {
-      graph = iterator.next();
-      StringOutputStream os = new StringOutputStream();
-      builder.append(os.toString());
-    }
-
-    builder.append("-----------------------<br /><br />");
-    builder.append("-----------------------<br /><br />");
-  }
-
-  private void printGraphsWithoutAbsolutePosition(StringBuilder builder,
-      Map<Integer, Graph> resultGraphs) {
-    builder.append("-------Result graphs without absolute position--------<br /><br />");
-    Iterator<Entry<Integer, Graph>> iterator = resultGraphs.entrySet()
-        .iterator();
-    Entry<Integer, Graph> graph;
-    while (iterator.hasNext()) {
-      graph = iterator.next();
-      builder.append(GraphDebugPrinter.printSimpleGraphLayoutInfos(graph
-          .getValue()));
-    }
-    builder.append("-----------------------<br /><br />");
-    builder.append("-----------------------<br /><br />");
   }
 
 }

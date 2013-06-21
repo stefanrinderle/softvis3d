@@ -4,7 +4,6 @@ import de.rinderle.softviz3d.SoftViz3dExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.database.DatabaseSession;
-import org.sonar.api.measures.Metric;
 
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -57,6 +56,7 @@ public class SonarDao {
     return snapshot;
   }
 
+  @SuppressWarnings("unchecked")
   public List<Integer> getSnapshotChildrenIdsById(Integer id) {
     List<Integer> childrenIds;
 
@@ -104,8 +104,6 @@ public class SonarDao {
         
         snapshots.add(new SonarSnapshotJpa(id, name, depth, metric1Value.doubleValue(), metric2Value.doubleValue()));
       }
-
-      return snapshots;
     } catch (PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
       snapshots = null;
@@ -116,23 +114,33 @@ public class SonarDao {
     return snapshots;
   }
 
-  public Metric getMetricById(Integer id) {
-    Metric metric;
+  public List<Double> getMinMaxMetricValuesByRootSnapshotId(Integer snapshotId, Integer metric1, Integer metric2) {
+    List<Double> values = new ArrayList<Double>();
 
     try {
       session.start();
       Query query = session
-          .createQuery("select m from Metric m where m.id = :id");
-      query.setParameter("id", id);
+          .createNativeQuery(" select MAX(m1.value), MIN(m1.value), MAX(m2.value), MIN(m2.value) from snapshots s " +
+            "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id " +
+            "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id " +
+            "WHERE s.path LIKE :rootSnapshotId AND m1.metric_id = :metricId1 AND m2.metric_id = :metricId2");
+      query.setParameter("rootSnapshotId", snapshotId);
+      query.setParameter("metricId1", metric1);
+      query.setParameter("metricId2", metric2);
 
-      metric = (Metric) query.getSingleResult();
+      Object[] result = (Object[]) query.getSingleResult();
+      values.add((Double) result[0]);
+      values.add((Double) result[1]);
+      values.add((Double) result[2]);
+      values.add((Double) result[3]);
+      
     } catch (PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
-      metric = null;
+      values = null;
     } finally {
       session.stop();
     }
 
-    return metric;
+    return values;
   }
 }

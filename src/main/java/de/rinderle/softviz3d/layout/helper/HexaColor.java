@@ -23,6 +23,8 @@ import java.awt.Color;
 
 public class HexaColor extends Color {
 
+  private static final long serialVersionUID = 6814600514228717253L;
+
   public HexaColor(int r, int g, int b) {
     super(r, g, b);
   }

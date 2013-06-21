@@ -29,8 +29,8 @@ import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import de.rinderle.softviz3d.sonar.SonarSnapshotJpa;
 import org.sonar.api.ServerExtension;
 import org.sonar.api.database.DatabaseSession;
-import org.sonar.api.measures.Metric;
 
+import java.util.List;
 import java.util.Map;
 
 public class SoftViz3dExtension implements ServerExtension {
@@ -53,11 +53,11 @@ public class SoftViz3dExtension implements ServerExtension {
 
     SonarDao sonarDao = new SonarDao(session);
     
-    Metric footprintMetric = sonarDao.getMetricById(metricId1);
-    SonarMetric footprintMetricWrapper  = new SonarMetric(footprintMetric, snapshotId, sonarDao);
+    List<Double> minMaxValues = sonarDao.getMinMaxMetricValuesByRootSnapshotId(snapshotId, metricId1, metricId2);
+    
+    SonarMetric footprintMetricWrapper  = new SonarMetric(minMaxValues.get(0), minMaxValues.get(1));
 
-//    Metric heightMetric = sonarDao.getMetricById(metricId2);
-//    SonarMetric heightMetricWrapper= new SonarMetric(heightMetric, snapshotId, sonarDao);
+//    SonarMetric heightMetricWrapper= new SonarMetric(minMaxValues.get(2), minMaxValues.get(3));
     
     SonarSnapshotJpa snapshot = sonarDao.getSnapshotById(snapshotId, metricId1, metricId2);
     SonarSnapshot snapshotWrapper = new SonarSnapshot(snapshot, metricId1, metricId2, sonarDao);

@@ -19,16 +19,12 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import de.rinderle.softviz3d.layout.interfaces.LayoutConstants;
-
-import de.rinderle.softviz3d.layout.interfaces.SourceObject;
-
-import att.grappa.Attribute;
-
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
+import de.rinderle.softviz3d.layout.interfaces.LayoutConstants;
+import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 import java.util.HashMap;
 import java.util.Map;

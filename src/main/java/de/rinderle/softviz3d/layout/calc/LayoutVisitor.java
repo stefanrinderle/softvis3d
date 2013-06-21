@@ -96,9 +96,9 @@ public class LayoutVisitor {
     Double value = source.getMetricFootprint();
     
     if (value != null) {
-      if (metricFootprint.getWorstValue() != null) {
+      if (metricFootprint.getMinValue() != null) {
         // if there is a worst value, there is also a best value available
-      } else if (metricFootprint.getBestValue() != null) {
+      } else if (metricFootprint.getMaxValue() != null) {
         //
       } else {
         sideLength = source.getMetricFootprint();

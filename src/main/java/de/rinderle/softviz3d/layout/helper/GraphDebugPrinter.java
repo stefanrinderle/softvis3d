@@ -19,6 +19,10 @@
  */
 package de.rinderle.softviz3d.layout.helper;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import att.grappa.Graph;
 import att.grappa.Node;
 
@@ -54,4 +58,36 @@ public class GraphDebugPrinter {
     return builder.toString();
   }
 
+  public static void printGraphsWithAbsolutePosition(StringBuilder builder,
+      Map<Integer, Graph> resultGraphs) {
+    Iterator<Entry<Integer, Graph>> iterator = resultGraphs.entrySet()
+        .iterator();
+    builder.append("-------Result graphs with absolute position--------<br /><br />");
+    iterator = resultGraphs.entrySet().iterator();
+    Entry<Integer, Graph> graph;
+    while (iterator.hasNext()) {
+      graph = iterator.next();
+      StringOutputStream os = new StringOutputStream();
+      graph.getValue().printGraph(os);
+      builder.append(os.toString());
+    }
+
+    builder.append("-----------------------<br /><br />");
+    builder.append("-----------------------<br /><br />");
+  }
+
+  public static void printGraphsWithoutAbsolutePosition(StringBuilder builder,
+      Map<Integer, Graph> resultGraphs) {
+    builder.append("-------Result graphs without absolute position--------<br /><br />");
+    Iterator<Entry<Integer, Graph>> iterator = resultGraphs.entrySet()
+        .iterator();
+    Entry<Integer, Graph> graph;
+    while (iterator.hasNext()) {
+      graph = iterator.next();
+      builder.append(GraphDebugPrinter.printSimpleGraphLayoutInfos(graph
+          .getValue()));
+    }
+    builder.append("-----------------------<br /><br />");
+    builder.append("-----------------------<br /><br />");
+  }
 }
