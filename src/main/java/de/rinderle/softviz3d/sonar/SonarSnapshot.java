@@ -28,20 +28,20 @@ import java.util.List;
 public class SonarSnapshot implements SourceObject {
 
 //  private static final Logger LOGGER = LoggerFactory
-//      .getLogger(Layout.class);
+//      .getLogger(SonarSnapshot.class);
 
   private SonarSnapshotJpa snapshot;
   
-  private Integer metric1;
-  private Integer metric2;
+  private Integer footprintMetricId;
+  private Integer heightMetricId;
   
   private SonarDao sonarDao;
 
-  public SonarSnapshot(SonarSnapshotJpa snapshot, Integer metric1, Integer metric2, SonarDao sonarDao) {
+  public SonarSnapshot(SonarSnapshotJpa snapshot, Integer footprintMetricId, Integer heightMetricId, SonarDao sonarDao) {
     this.snapshot = snapshot;
 
-    this.metric1 = metric1;
-    this.metric2 = metric2;
+    this.footprintMetricId = footprintMetricId;
+    this.heightMetricId = heightMetricId;
     
     this.sonarDao = sonarDao;
   }
@@ -63,33 +63,33 @@ public class SonarSnapshot implements SourceObject {
 
   @Override
   public List<SonarSnapshot> getChildrenNodes() {
-    List<SonarSnapshotJpa> result = sonarDao.getChildrenByScope(this.getId(), metric1, metric2, Scopes.DIRECTORY);
+    List<SonarSnapshotJpa> result = sonarDao.getChildrenByScope(this.getId(), footprintMetricId, heightMetricId, Scopes.DIRECTORY);
     
     return wrapSnapshotList(result);
   }
 
   @Override
   public List<SonarSnapshot> getChildrenLeaves() {
-    List<SonarSnapshotJpa> result = sonarDao.getChildrenByScope(this.getId(), metric1, metric2, Scopes.FILE);
+    List<SonarSnapshotJpa> result = sonarDao.getChildrenByScope(this.getId(), footprintMetricId, heightMetricId, Scopes.FILE);
     
     return wrapSnapshotList(result);
   }
 
   @Override
   public Double getMetricFootprint() {
-    return snapshot.getMetric1();
+    return snapshot.getFootprintMetricValue();
   }
 
   @Override
   public Double getMetricHeight() {
-    return snapshot.getMetric2();
+    return snapshot.getHeightMetricValue();
   }
   
   private List<SonarSnapshot> wrapSnapshotList(List<SonarSnapshotJpa> snapshots) {
     List<SonarSnapshot> result = new ArrayList<SonarSnapshot>();
 
-    for (SonarSnapshotJpa snapshot : snapshots) {
-      result.add(new SonarSnapshot(snapshot, metric1, metric2, sonarDao));
+    for (SonarSnapshotJpa snapshotElement : snapshots) {
+      result.add(new SonarSnapshot(snapshotElement, footprintMetricId, heightMetricId, sonarDao));
     }
     return result;
   }

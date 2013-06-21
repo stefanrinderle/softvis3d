@@ -27,6 +27,8 @@ import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarMetric;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import de.rinderle.softviz3d.sonar.SonarSnapshotJpa;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
 import org.sonar.api.database.DatabaseSession;
 
@@ -35,11 +37,8 @@ import java.util.Map;
 
 public class SoftViz3dExtension implements ServerExtension {
 
-//  private static final Logger LOGGER = LoggerFactory
-//      .getLogger(SoftViz3dExtension.class);
-
-  public static final String SOFTVIZ3D_METRIC1_NAME = "metric1";
-  public static final String SOFTVIZ3D_METRIC2_NAME = "metric2";
+  private static final Logger LOGGER = LoggerFactory
+      .getLogger(SoftViz3dExtension.class);
 
   private DatabaseSession session;
 
@@ -54,6 +53,10 @@ public class SoftViz3dExtension implements ServerExtension {
     SonarDao sonarDao = new SonarDao(session);
     
     List<Double> minMaxValues = sonarDao.getMinMaxMetricValuesByRootSnapshotId(snapshotId, metricId1, metricId2);
+    
+    for (Double double1 : minMaxValues) {
+      LOGGER.info("MinMax: " + double1);
+    }
     
     SonarMetric footprintMetricWrapper  = new SonarMetric(minMaxValues.get(0), minMaxValues.get(1));
 

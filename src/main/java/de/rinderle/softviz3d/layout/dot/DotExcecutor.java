@@ -41,8 +41,6 @@ import static att.grappa.GrappaConstants.WIDTH_ATTR;
 
 public class DotExcecutor {
 
-  private static final String ATTR_NAME_METRIC2 = "metric2";
-  private static final String ATTR_NAME_METRIC1 = "metric1";
   private static final Logger LOGGER = LoggerFactory
       .getLogger(DotExcecutor.class);
 
@@ -126,22 +124,18 @@ public class DotExcecutor {
       line = addQuotationMarks(line, HEIGHT_ATTR);
     } else if (line.indexOf(WIDTH_ATTR) >= 0) {
       line = line.replace(WIDTH_ATTR + "=", WIDTH_ATTR + "=\"");
-      if (line.indexOf("]") >= 0) {
+      if (line.indexOf(']') >= 0) {
         line = line.replace("]", "\"]");
       } else {
         line = line + "\"";
       }
-    } else if (line.indexOf(ATTR_NAME_METRIC1) >= 0) {
-      line = addQuotationMarks(line, ATTR_NAME_METRIC1);
-    } else if (line.indexOf(ATTR_NAME_METRIC2) >= 0) {
-      line = addQuotationMarks(line, ATTR_NAME_METRIC2);
     }
 
     return line;
   }
 
-  private static String addQuotationMarks(String line, String attr_name) {
-    line = line.replace(attr_name + "=", attr_name + "=\"");
+  private static String addQuotationMarks(String line, String attrName) {
+    line = line.replace(attrName + "=", attrName + "=\"");
     line = line.replace(",", "\",");
     return line;
   }

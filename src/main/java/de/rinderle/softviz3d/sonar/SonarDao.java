@@ -1,6 +1,5 @@
 package de.rinderle.softviz3d.sonar;
 
-import de.rinderle.softviz3d.SoftViz3dExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.database.DatabaseSession;
@@ -15,7 +14,7 @@ import java.util.List;
 public class SonarDao {
 
   private static final Logger LOGGER = LoggerFactory
-      .getLogger(SoftViz3dExtension.class);
+      .getLogger(SonarDao.class);
 
   private DatabaseSession session;
 
@@ -23,7 +22,7 @@ public class SonarDao {
     this.session = session;
   }
 
-  public SonarSnapshotJpa getSnapshotById(Integer snapshotId, Integer metric1, Integer metric2) {
+  public SonarSnapshotJpa getSnapshotById(Integer snapshotId, Integer footprintMetricId, Integer heightMetricId) {
     SonarSnapshotJpa snapshot;
 
     try {
@@ -33,19 +32,14 @@ public class SonarDao {
             "INNER JOIN projects p ON s.project_id = p.id " +
             "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id " +
             "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id " +
-            "WHERE s.id = :snapshotId AND m1.metric_id = :metricId1 AND m2.metric_id = :metricId2");
+            "WHERE s.id = :snapshotId AND m1.metric_id = :footprintMetricId AND m2.metric_id = :heightMetricId");
       query.setParameter("snapshotId", snapshotId);
-      query.setParameter("metricId1", metric1);
-      query.setParameter("metricId2", metric2);
+      query.setParameter("footprintMetricId", footprintMetricId);
+      query.setParameter("heightMetricId", heightMetricId);
 
       Object[] result = (Object[]) query.getSingleResult();
-      Integer id = (Integer) result[0];
-      String name = (String) result[1];
-      Integer depth = (Integer) result[2];
-      BigDecimal metric1Value = (BigDecimal) result[3];
-      BigDecimal metric2Value = (BigDecimal) result[4];
 
-      snapshot = new SonarSnapshotJpa(id, name, depth, metric1Value.doubleValue(), metric2Value.doubleValue());
+      snapshot = castToJpaSnapshot(result);
     } catch (PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
       snapshot = null;
@@ -54,6 +48,16 @@ public class SonarDao {
     }
 
     return snapshot;
+  }
+
+  private SonarSnapshotJpa castToJpaSnapshot(Object[] result) {
+    Integer id = (Integer) result[0];
+    String name = (String) result[1];
+    Integer depth = (Integer) result[2];
+    BigDecimal footprintMetricValue = (BigDecimal) result[3];
+    BigDecimal heightMetric2Value = (BigDecimal) result[4];
+
+    return new SonarSnapshotJpa(id, name, depth, footprintMetricValue.doubleValue(), heightMetric2Value.doubleValue());
   }
 
   @SuppressWarnings("unchecked")
@@ -78,7 +82,7 @@ public class SonarDao {
   }
 
   @SuppressWarnings("unchecked")
-  public List<SonarSnapshotJpa> getChildrenByScope(Integer snapshotId, Integer metric1, Integer metric2, String scope) {
+  public List<SonarSnapshotJpa> getChildrenByScope(Integer snapshotId, Integer footprintMetricId, Integer heightMetricId, String scope) {
     List<SonarSnapshotJpa> snapshots = new ArrayList<SonarSnapshotJpa>();
 
     try {
@@ -88,21 +92,15 @@ public class SonarDao {
             "INNER JOIN projects p ON s.project_id = p.id " +
             "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id " +
             "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id " +
-            "WHERE s.parent_snapshot_id = :snapshotId AND s.scope = :scope AND m1.metric_id = :metricId1 AND m2.metric_id = :metricId2");
+            "WHERE s.parent_snapshot_id = :snapshotId AND s.scope = :scope AND m1.metric_id = :footprintMetricId AND m2.metric_id = :heightMetricId");
       query.setParameter("snapshotId", snapshotId);
       query.setParameter("scope", scope);
-      query.setParameter("metricId1", metric1);
-      query.setParameter("metricId2", metric2);
+      query.setParameter("footprintMetricId", footprintMetricId);
+      query.setParameter("heightMetricId", heightMetricId);
 
       List<Object[]> result = query.getResultList();
       for (Object[] resultElement : result) {
-        Integer id = (Integer) resultElement[0];
-        String name = (String) resultElement[1];
-        Integer depth = (Integer) resultElement[2];
-        BigDecimal metric1Value = (BigDecimal) resultElement[3];
-        BigDecimal metric2Value = (BigDecimal) resultElement[4];
-        
-        snapshots.add(new SonarSnapshotJpa(id, name, depth, metric1Value.doubleValue(), metric2Value.doubleValue()));
+        snapshots.add(castToJpaSnapshot(resultElement));
       }
     } catch (PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
@@ -114,7 +112,7 @@ public class SonarDao {
     return snapshots;
   }
 
-  public List<Double> getMinMaxMetricValuesByRootSnapshotId(Integer snapshotId, Integer metric1, Integer metric2) {
+  public List<Double> getMinMaxMetricValuesByRootSnapshotId(Integer rootSnapshotId, Integer footprintMetricId, Integer heightMetricId) {
     List<Double> values = new ArrayList<Double>();
 
     try {
@@ -123,17 +121,17 @@ public class SonarDao {
           .createNativeQuery(" select MAX(m1.value), MIN(m1.value), MAX(m2.value), MIN(m2.value) from snapshots s " +
             "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id " +
             "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id " +
-            "WHERE s.path LIKE :rootSnapshotId AND m1.metric_id = :metricId1 AND m2.metric_id = :metricId2");
-      query.setParameter("rootSnapshotId", snapshotId);
-      query.setParameter("metricId1", metric1);
-      query.setParameter("metricId2", metric2);
+            "WHERE s.path LIKE ':rootSnapshotId.%' AND m1.metric_id = :footprintMetricId AND m2.metric_id = :heightMetricId");
+      query.setParameter("rootSnapshotId", rootSnapshotId);
+      query.setParameter("footprintMetricId", footprintMetricId);
+      query.setParameter("heightMetricId", heightMetricId);
 
       Object[] result = (Object[]) query.getSingleResult();
       values.add((Double) result[0]);
       values.add((Double) result[1]);
       values.add((Double) result[2]);
       values.add((Double) result[3]);
-      
+
     } catch (PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
       values = null;

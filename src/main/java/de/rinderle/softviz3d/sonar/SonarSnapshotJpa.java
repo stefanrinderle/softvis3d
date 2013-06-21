@@ -21,19 +21,19 @@ package de.rinderle.softviz3d.sonar;
 
 public class SonarSnapshotJpa {
 
-  Integer id;
-  String name;
-  Integer depth;
-  Double metric1;
-  Double metric2;
+  private Integer id;
+  private String name;
+  private Integer depth;
+  private Double footprintMetricValue;
+  private Double heightMetricValue;
   
-  public SonarSnapshotJpa(Integer id, String name, Integer depth, Double metric1, Double metric2) {
+  public SonarSnapshotJpa(Integer id, String name, Integer depth, Double footprintMetricValue, Double heightMetricValue) {
     super();
     this.id = id;
     this.name = name;
     this.depth = depth;
-    this.metric1 = metric1;
-    this.metric2 = metric2;
+    this.footprintMetricValue = footprintMetricValue;
+    this.heightMetricValue = heightMetricValue;
   }
 
   public Integer getId() {
@@ -48,12 +48,12 @@ public class SonarSnapshotJpa {
     return depth;
   }
 
-  public Double getMetric1() {
-    return metric1;
+  public Double getFootprintMetricValue() {
+    return footprintMetricValue;
   }
 
-  public Double getMetric2() {
-    return metric2;
+  public Double getHeightMetricValue() {
+    return heightMetricValue;
   }
 
 }

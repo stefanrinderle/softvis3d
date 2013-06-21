@@ -36,13 +36,13 @@ public class ViewLayerCalculator {
   public Graph calculate(Graph graph, SourceObject source) {
     this.graph = graph;
 
-    this.adjustLayoutToX3d(source.getDepth(), source.getId());
+    this.adjustLayoutToX3d(source.getDepth());
 
     return this.graph;
   }
 
-  private void adjustLayoutToX3d(Integer depth, Integer snapshotId) {
-    this.adjustGraph(graph, depth, snapshotId);
+  private void adjustLayoutToX3d(Integer depth) {
+    this.adjustGraph(graph, depth);
 
     for (Node node : graph.nodeElementsAsArray()) {
       /**
@@ -63,7 +63,7 @@ public class ViewLayerCalculator {
     node.setAttribute("transparency", transparency + "");
   }
 
-  private void adjustGraph(Graph graph, Integer depth, Integer snapshotId) {
+  private void adjustGraph(Graph graph, Integer depth) {
     double transparency = 0.0;
 
     // calc color

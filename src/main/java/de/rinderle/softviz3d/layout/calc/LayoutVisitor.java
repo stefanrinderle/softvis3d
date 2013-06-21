@@ -19,29 +19,28 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import de.rinderle.softviz3d.layout.dot.DotExcecutor;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-
-import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement.Type;
-
-import de.rinderle.softviz3d.layout.interfaces.LayoutConstants;
-
-import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
-import de.rinderle.softviz3d.layout.interfaces.SourceObject;
-
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.Node;
+import de.rinderle.softviz3d.layout.dot.DotExcecutor;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
+import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement.Type;
+import de.rinderle.softviz3d.layout.interfaces.LayoutConstants;
+import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
+import de.rinderle.softviz3d.layout.interfaces.SourceObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import static att.grappa.GrappaConstants.HEIGHT_ATTR;
 import static att.grappa.GrappaConstants.WIDTH_ATTR;
 
 public class LayoutVisitor {
-  // private static final Logger LOGGER = LoggerFactory.getLogger(LayoutVisitor.class);
+   private static final Logger LOGGER = LoggerFactory.getLogger(LayoutVisitor.class);
 
   private SourceMetric metricFootprint;
 
@@ -91,6 +90,9 @@ public class LayoutVisitor {
   }
 
   public LayeredLayoutElement visitFile(SourceObject source) {
+    LOGGER.info("Filename " + source.getName());
+    
+    
     double sideLength = BASE_SIDE_LENGTH;
     
     Double value = source.getMetricFootprint();
