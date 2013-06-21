@@ -54,7 +54,7 @@ public class AbsolutePositionCalculator {
   private void addTranslationToLayer(SourceObject source, GrappaPoint posTranslation, Integer height3d) {
     // inputGraphs --> Map<Integer, Graph>
     // Step 1 - search the graph for the source given
-    Graph graph = inputGraphs.get(source.getIdentifier());
+    Graph graph = inputGraphs.get(source.getId());
     GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
 
     // Step 2 - set translation for the graph itself (will be a layer later)
@@ -89,11 +89,11 @@ public class AbsolutePositionCalculator {
 
     // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes
     for (SourceObject childrenSource : source.getChildrenNodes()) {
-      pos = innerGraphTranslation.get(childrenSource.getIdentifier());
+      pos = innerGraphTranslation.get(childrenSource.getId());
       
       addTranslationToLayer(childrenSource, pos, height3d + 30);
 
-      graph.removeNode("dir_" + childrenSource.getIdentifier().toString());
+      graph.removeNode("dir_" + childrenSource.getId().toString());
     }
 
   }

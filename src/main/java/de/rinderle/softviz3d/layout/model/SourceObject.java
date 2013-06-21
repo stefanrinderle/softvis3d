@@ -26,7 +26,7 @@ public interface SourceObject {
   /**
    * Unique identifier.
    */
-	Integer getIdentifier();
+	Integer getId();
 	
 	/**
 	 * Display name.

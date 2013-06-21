@@ -58,7 +58,7 @@ public class LayoutVisitor {
   public LayeredLayoutElement visitNode(SourceObject source, List<LayeredLayoutElement> elements)
       throws DotExcecutorException {
     // create layout graph
-    Graph inputGraph = new Graph(source.getIdentifier().toString());
+    Graph inputGraph = new Graph(source.getId().toString());
 
     for (LayeredLayoutElement element : elements) {
       Node elementNode = new Node(inputGraph, element.getName());
@@ -74,7 +74,7 @@ public class LayoutVisitor {
 
     // adjust graph
     Graph adjustedGraph = calculator.calculate(outputGraph, source);
-    resultingGraphList.put(source.getIdentifier(), adjustedGraph);
+    resultingGraphList.put(source.getId(), adjustedGraph);
 
     // adjusted graph has a bounding box !
     GrappaBox bb = (GrappaBox) adjustedGraph.getAttributeValue("bb");
@@ -83,7 +83,7 @@ public class LayoutVisitor {
     Double width = bb.getWidth() / LayoutConstants.DPI_DOT_SCALE;
     Double height = bb.getHeight() / LayoutConstants.DPI_DOT_SCALE;
 
-    return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getIdentifier(), "dir_" + source.getIdentifier(), width, height);
+    return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getId(), "dir_" + source.getId(), width, height);
   }
 
   public LayeredLayoutElement visitFile(SourceObject source) {
@@ -101,8 +101,8 @@ public class LayoutVisitor {
       }
     }  
     
-    return new LayeredLayoutElement(Type.LEAF, source.getIdentifier(), 
-            "file_" + source.getIdentifier().toString(),
+    return new LayeredLayoutElement(Type.LEAF, source.getId(), 
+            "file_" + source.getId().toString(),
             sideLength, sideLength);
   }
 }

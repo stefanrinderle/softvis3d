@@ -19,53 +19,45 @@
  */
 package de.rinderle.softviz3d;
 
-import de.rinderle.softviz3d.layout.sonar.MetricWrapper;
-
 import att.grappa.Graph;
 import de.rinderle.softviz3d.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.Layout;
 import de.rinderle.softviz3d.layout.LayoutVisitor;
-import de.rinderle.softviz3d.layout.model.SourceMetric;
+import de.rinderle.softviz3d.layout.sonar.MetricWrapper;
 import de.rinderle.softviz3d.layout.sonar.SnapshotWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import de.rinderle.softviz3d.layout.sonar.SonarDao;
 import org.sonar.api.ServerExtension;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.database.model.Snapshot;
 import org.sonar.api.measures.Metric;
 
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-
 import java.util.Map;
 
 public class SoftViz3dExtension implements ServerExtension {
 
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(SoftViz3dExtension.class);
+//  private static final Logger LOGGER = LoggerFactory
+//      .getLogger(SoftViz3dExtension.class);
 
   public static final String SOFTVIZ3D_METRIC1_NAME = "metric1";
   public static final String SOFTVIZ3D_METRIC2_NAME = "metric2";
 
-  // private MeasureDao measureDao;
-  private DatabaseSession session;
+  private SonarDao sonarDao;
 
   public SoftViz3dExtension(DatabaseSession session) {
-    // this.measureDao = new MeasureDao(session);
-    this.session = session;
+    this.sonarDao = new SonarDao(session);
   }
 
   public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
       Integer metricId1, Integer metricId2) throws DotExcecutorException {
 
-    Metric footprintMetric = getMetricById(metricId1);
-    MetricWrapper footprintMetricWrapper  = new MetricWrapper(footprintMetric, snapshotId, session);
+    Metric footprintMetric = sonarDao.getMetricById(metricId1);
+    MetricWrapper footprintMetricWrapper  = new MetricWrapper(footprintMetric, snapshotId, sonarDao);
 
-    Metric heightMetric = getMetricById(metricId2);
-    MetricWrapper heightMetricWrapper= new MetricWrapper(footprintMetric, snapshotId, session);
+    Metric heightMetric = sonarDao.getMetricById(metricId2);
+    MetricWrapper heightMetricWrapper= new MetricWrapper(footprintMetric, snapshotId, sonarDao);
     
-    Snapshot snapshot = getSnapshotById(snapshotId);
-    SnapshotWrapper snapshotWrapper = new SnapshotWrapper(snapshot, footprintMetric, heightMetric, session);
+    Snapshot snapshot = sonarDao.getSnapshotById(snapshotId);
+    SnapshotWrapper snapshotWrapper = new SnapshotWrapper(snapshot, footprintMetric, heightMetric, sonarDao);
 
     Layout layout = new Layout(new LayoutVisitor(footprintMetricWrapper));
     Map<Integer, Graph> result = layout.startLayout(snapshotWrapper);
@@ -73,44 +65,4 @@ public class SoftViz3dExtension implements ServerExtension {
     return result;
   }
 
-  private Snapshot getSnapshotById(Integer id) {
-    Snapshot snapshot;
-
-    try {
-      session.start();
-      Query query = session
-          .createQuery("select s from Snapshot s where s.id = ?");
-      query.setParameter(1, id);
-
-      snapshot = (Snapshot) query.getSingleResult();
-    } catch (PersistenceException e) {
-      LOGGER.error(e.getMessage(), e);
-      snapshot = null;
-    } finally {
-      session.stop();
-    }
-
-    return snapshot;
-  }
-
-  private Metric getMetricById(Integer id) {
-    Metric metric;
-
-    try {
-      session.start();
-      Query query = session
-          .createQuery("select m from Metric m where m.id = ?");
-      query.setParameter(1, id);
-
-      metric = (Metric) query.getSingleResult();
-    } catch (PersistenceException e) {
-      LOGGER.error(e.getMessage(), e);
-      metric = null;
-    } finally {
-      session.stop();
-    }
-
-    return metric;
-  }
-  
 }

@@ -33,7 +33,7 @@ public class ViewLayerCalculator {
   public Graph calculate(Graph graph, SourceObject source) {
     this.graph = graph;
 
-    this.adjustLayoutToX3d(source.getDepth(), source.getIdentifier());
+    this.adjustLayoutToX3d(source.getDepth(), source.getId());
 
     return this.graph;
   }

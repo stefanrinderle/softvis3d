@@ -23,14 +23,7 @@ import de.rinderle.softviz3d.layout.Layout;
 import de.rinderle.softviz3d.layout.model.SourceMetric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.database.DatabaseSession;
-import org.sonar.api.database.model.MeasureModel;
 import org.sonar.api.measures.Metric;
-
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-
-import java.math.BigDecimal;
 
 public class MetricWrapper implements SourceMetric {
 
@@ -38,12 +31,12 @@ public class MetricWrapper implements SourceMetric {
       .getLogger(Layout.class);
 
   private Metric metric;
-  private DatabaseSession session;
+  private SonarDao sonarDao;
   private Integer rootSnapshotId;
   
-  public MetricWrapper(Metric metric, Integer rootSnapshotId, DatabaseSession session) {
+  public MetricWrapper(Metric metric, Integer rootSnapshotId, SonarDao sonarDao) {
     this.metric = metric;
-    this.session = session;
+    this.sonarDao = sonarDao;
     this.rootSnapshotId = rootSnapshotId;
   }
 

@@ -19,144 +19,86 @@
  */
 package de.rinderle.softviz3d.layout.sonar;
 
-import de.rinderle.softviz3d.layout.Layout;
 import de.rinderle.softviz3d.layout.model.SourceObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.database.model.Snapshot;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Scopes;
 
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SnapshotWrapper implements SourceObject {
 
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(Layout.class);
+//  private static final Logger LOGGER = LoggerFactory
+//      .getLogger(Layout.class);
 
   private Snapshot snapshot;
 
   private Metric footprintMetric;
   private Metric heightMetric;
 
-  private DatabaseSession session;
+  private SonarDao sonarDao;
 
-  public SnapshotWrapper(Snapshot snapshot, Metric footprintMetric, Metric heightMetric, DatabaseSession session) {
+  public SnapshotWrapper(Snapshot snapshot, Metric footprintMetric, Metric heightMetric, SonarDao sonarDao) {
     this.snapshot = snapshot;
 
     this.heightMetric = heightMetric;
     this.footprintMetric = footprintMetric;
 
-    this.session = session;
+    this.sonarDao = sonarDao;
   }
 
-  public Integer getIdentifier() {
+  @Override
+  public Integer getId() {
     return snapshot.getId();
   }
 
+  @Override
   public String getName() {
     return snapshot.getResourceId() + "_name";
   }
 
+  @Override
   public Integer getDepth() {
     return snapshot.getDepth();
   }
 
+  @Override
   public List<SnapshotWrapper> getChildrenNodes() {
-    return this.getChildrenByScope(Scopes.DIRECTORY);
+    List<Snapshot> result = sonarDao.getChildrenByScope(this.getId(), Scopes.DIRECTORY);
+    
+    return wrapSnapshotList(result);
   }
 
+  @Override
   public List<SnapshotWrapper> getChildrenLeaves() {
-    return this.getChildrenByScope(Scopes.FILE);
-  }
-
-  public List<Integer> getChildrenIds() {
-    List<Integer> childrenIds;
-
-    try {
-      session.start();
-      Query query = session
-          .createQuery("select s.id from Snapshot s where s.parentId = ?");
-      query.setParameter(1, this.snapshot.getId());
-
-      childrenIds = (List<Integer>) query.getResultList();
-    } catch (PersistenceException e) {
-      LOGGER.error(e.getMessage(), e);
-      childrenIds = null;
-    } finally {
-      session.stop();
-    }
-
-    return childrenIds;
+    List<Snapshot> result = sonarDao.getChildrenByScope(this.getId(), Scopes.FILE);
+    
+    return wrapSnapshotList(result);
   }
 
   @Override
   public Double getMetricFootprint() {
-    return getMetric(this.footprintMetric.getId());
+    return sonarDao.getMetricValue(this.getId(), this.footprintMetric.getId());
   }
 
   @Override
   public Double getMetricHeight() {
-    return getMetric(this.heightMetric.getId());
+    return sonarDao.getMetricValue(this.getId(), this.heightMetric.getId());
   }
   
-  private List<SnapshotWrapper> getChildrenByScope(String scope) {
-    List<Snapshot> snapshots;
-
-    try {
-      session.start();
-      Query query = session
-          .createQuery("select s from Snapshot s where s.parentId = ? and s.scope = ?");
-      query.setParameter(1, this.snapshot.getId());
-      query.setParameter(2, scope);
-
-      snapshots = (List<Snapshot>) query.getResultList();
-    } catch (PersistenceException e) {
-      LOGGER.error(e.getMessage(), e);
-      snapshots = null;
-    } finally {
-      session.stop();
-    }
-
-    return wrapSnapshotList(snapshots);
-  }
-
   private List<SnapshotWrapper> wrapSnapshotList(List<Snapshot> snapshots) {
     List<SnapshotWrapper> result = new ArrayList<SnapshotWrapper>();
 
     for (Snapshot snapshot : snapshots) {
-      result.add(new SnapshotWrapper(snapshot, footprintMetric, heightMetric, session));
+      result.add(new SnapshotWrapper(snapshot, footprintMetric, heightMetric, sonarDao));
     }
     return result;
   }
 
-  private Double getMetric(Integer metricId) {
-    BigDecimal value;
-
-    try {
-      session.start();
-      Query query = session
-          .createNativeQuery("SELECT m.value FROM snapshots s " +
-            "INNER JOIN project_measures m ON s.id = m.snapshot_id " +
-            "WHERE m.metric_id = ? AND s.id = ?");
-      query.setParameter(1, metricId);
-      query.setParameter(2, this.snapshot.getId());
-
-      value = (BigDecimal) query.getSingleResult();
-    } catch (PersistenceException e) {
-      LOGGER.error(e.getMessage(), e);
-      value = null;
-    } finally {
-      session.stop();
-    }
-
-    return value.doubleValue();
+  @Override
+  public List<Integer> getChildrenIds() {
+    return sonarDao.getSnapshotChildrenIdsById(this.getId());
   }
   
 }

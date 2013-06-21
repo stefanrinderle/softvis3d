@@ -182,7 +182,7 @@ public class SimpleLayoutCalculationTest extends TestCase {
 			this.children = children;
 		}
 
-		public Integer getIdentifier() {
+		public Integer getId() {
 			return this.id;
 		}
 
@@ -219,7 +219,7 @@ public class SimpleLayoutCalculationTest extends TestCase {
 			
 			for (TestSource testSource : children) {
 				if (testSource.isDir) {
-					result.add(testSource.getIdentifier());
+					result.add(testSource.getId());
 				}
 			}
 			
