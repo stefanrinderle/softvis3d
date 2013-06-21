@@ -19,19 +19,16 @@
  */
 package de.rinderle.softviz3d;
 
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-
-import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
-
-import de.rinderle.softviz3d.sonar.SonarMetric;
-import de.rinderle.softviz3d.sonar.SonarSnapshot;
-import de.rinderle.softviz3d.sonar.SonarDao;
-
 import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.Layout;
+import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.sonar.SonarDao;
+import de.rinderle.softviz3d.sonar.SonarMetric;
+import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import de.rinderle.softviz3d.sonar.SonarSnapshotJpa;
 import org.sonar.api.ServerExtension;
 import org.sonar.api.database.DatabaseSession;
-import org.sonar.api.database.model.Snapshot;
 import org.sonar.api.measures.Metric;
 
 import java.util.Map;
@@ -44,23 +41,26 @@ public class SoftViz3dExtension implements ServerExtension {
   public static final String SOFTVIZ3D_METRIC1_NAME = "metric1";
   public static final String SOFTVIZ3D_METRIC2_NAME = "metric2";
 
-  private SonarDao sonarDao;
+  private DatabaseSession session;
 
   public SoftViz3dExtension(DatabaseSession session) {
-    this.sonarDao = new SonarDao(session);
+    this.session = session;
+    
   }
 
   public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
       Integer metricId1, Integer metricId2) throws DotExcecutorException {
 
+    SonarDao sonarDao = new SonarDao(session);
+    
     Metric footprintMetric = sonarDao.getMetricById(metricId1);
     SonarMetric footprintMetricWrapper  = new SonarMetric(footprintMetric, snapshotId, sonarDao);
 
-    Metric heightMetric = sonarDao.getMetricById(metricId2);
-    SonarMetric heightMetricWrapper= new SonarMetric(footprintMetric, snapshotId, sonarDao);
+//    Metric heightMetric = sonarDao.getMetricById(metricId2);
+//    SonarMetric heightMetricWrapper= new SonarMetric(heightMetric, snapshotId, sonarDao);
     
-    Snapshot snapshot = sonarDao.getSnapshotById(snapshotId);
-    SonarSnapshot snapshotWrapper = new SonarSnapshot(snapshot, footprintMetric, heightMetric, sonarDao);
+    SonarSnapshotJpa snapshot = sonarDao.getSnapshotById(snapshotId, metricId1, metricId2);
+    SonarSnapshot snapshotWrapper = new SonarSnapshot(snapshot, metricId1, metricId2, sonarDao);
 
     Layout layout = new Layout(new LayoutVisitor(footprintMetricWrapper));
     Map<Integer, Graph> result = layout.startLayout(snapshotWrapper);
