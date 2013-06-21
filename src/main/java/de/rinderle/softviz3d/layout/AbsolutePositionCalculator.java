@@ -81,7 +81,7 @@ public class AbsolutePositionCalculator {
       
       Double width = (Double) leaf.getAttributeValue("width");
       // keep some distance to each other
-      width = width * 32;
+      width = width * LayoutConstants.DPI_DOT_SCALE;
       leaf.setAttribute("width", width);
       
       //leaf.setAttribute("height", 72);
