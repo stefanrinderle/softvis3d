@@ -1,13 +1,16 @@
 <div id="renderContainer" style="border: 1px solid red;"></div>
 
-<script src="/static/softviz3d/js/three.min.js"></script>
+<script src="/static/softviz3d/threeJS/three.min.js"></script>
 
-<script src="/static/softviz3d/js/OrbitControls.js"></script>
+<script src="/static/softviz3d/threeJS/OrbitControls.js"></script>
 
-<script src="/static/softviz3d/js/Detector.js"></script>
-<script src="/static/softviz3d/js/stats.min.js"></script>
+<script src="/static/softviz3d/threeJS/Detector.js"></script>
+<script src="/static/softviz3d/threeJS/stats.min.js"></script>
+
+<script src="/static/softviz3d/js/softviz3d_scene.js"></script>
 
 <script>
+
 	if (!Detector.webgl)
 		Detector.addGetWebGLMessage();
 
@@ -17,79 +20,70 @@
 
 	var cross;
 
-	init();
+	camera = new THREE.PerspectiveCamera(60, window.innerWidth
+			/ window.innerHeight, 1, 10000);
+	camera.position.z = 500;
+
+	controls = new THREE.OrbitControls(camera);
+	controls.addEventListener('change', render);
+
+	scene = new THREE.Scene();
+
+	// lights
+
+	light = new THREE.DirectionalLight(0xffffff);
+	light.position.set(1, 1, 1);
+	scene.add(light);
+
+	light = new THREE.DirectionalLight(0x002288);
+	light.position.set(-1, -1, -1);
+	scene.add(light);
+
+	light = new THREE.AmbientLight(0x222222);
+	scene.add(light);
+
+	// renderer
+
+	renderer = new THREE.WebGLRenderer({
+		antialias : false
+	});
+	renderer.setClearColor(0xffffff, 1);
+
+	// create center cube for better navigation
+
+	var centerCube = new THREE.CubeGeometry(10, 10, 10);
+	var greenMaterial = new THREE.MeshBasicMaterial({
+		color : 0x00ff00
+	});
+	position = new Array();
+	position.x = 0;
+	position.y = 0;
+	position.z = 0;
+
+	var mesh = new THREE.Mesh(centerCube, greenMaterial);
+	mesh.position.x = position.x;
+	mesh.position.y = position.y;
+	mesh.position.z = position.z;
+	mesh.updateMatrix();
+	mesh.matrixAutoUpdate = false;
+
+	scene.add(mesh);
+
+	// append scene to html container
+
+	container = document.getElementById('renderContainer');
+	container.appendChild(renderer.domElement);
+
+	// show stats
+	stats = new Stats();
+	stats.domElement.style.zIndex = 100;
+	container.appendChild(stats.domElement);
+
+	window.addEventListener('resize', onWindowResize, false);
+	onWindowResize()
+
 	animate();
-
-	function init() {
-
-		camera = new THREE.PerspectiveCamera(60, window.innerWidth
-				/ window.innerHeight, 1, 10000);
-		camera.position.z = 500;
-
-		controls = new THREE.OrbitControls(camera);
-		controls.addEventListener('change', render);
-
-		scene = new THREE.Scene();
-		//scene.fog = new THREE.FogExp2(0xffffff, 0.00000000002);
-
-		// world
-
-		var baseGeometry = new THREE.CubeGeometry(10, 10, 10);
-
-		var greenMaterial = new THREE.MeshBasicMaterial({
-			color : 0x00ff00
-		});
-
-
-		position = new Array();
-		position.x = 0;
-		position.y = 50;
-		position.z = 0;
-		createBox(baseGeometry, greenMaterial, position);
-
-		// lights
-
-		light = new THREE.DirectionalLight( 0xffffff );
-		light.position.set( 1, 1, 1 );
-		scene.add( light );
-
-		light = new THREE.DirectionalLight( 0x002288 );
-		light.position.set( -1, -1, -1 );
-		scene.add( light );
-
-		light = new THREE.AmbientLight( 0x222222 );
-		scene.add( light );
-
-		// renderer
-
-		renderer = new THREE.WebGLRenderer({
-			antialias : false
-		});
-		renderer.setClearColor(0xffffff, 1);
-
-		container = document.getElementById('renderContainer');
-		container.appendChild(renderer.domElement);
-
-		stats = new Stats();
-		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.top = '0px';
-		stats.domElement.style.zIndex = 100;
-		container.appendChild(stats.domElement);
-
-		window.addEventListener('resize', onWindowResize, false);
-		onWindowResize()
-	}
-
-	function createBox(geometry1, material1, position1) {
-		var mesh = new THREE.Mesh(geometry1, material1);
-		mesh.position.x = position1.x;
-		mesh.position.y = position1.y;
-		mesh.position.z = position1.z;
-		mesh.updateMatrix();
-		mesh.matrixAutoUpdate = false;
-		scene.add(mesh);
-	}
-
+	
 	function onWindowResize() {
 		camera.aspect = window.innerWidth / window.innerHeight;
 		camera.updateProjectionMatrix();
@@ -106,69 +100,75 @@
 		controls.update();
 
 	}
-
+	
 	function render() {
-
 		renderer.render(scene, camera);
 		stats.update();
-
 	}
 
-    var redMaterial = new THREE.MeshBasicMaterial({
-        color : 0xff0000
-    });
+	function createBox(geometry1, material1, position1) {
+		var mesh1 = new THREE.Mesh(geometry1, material1);
+		mesh1.position.x = position1.x;
+		mesh1.position.y = position1.y;
+		mesh1.position.z = position1.z;
+		mesh1.updateMatrix();
+		mesh1.matrixAutoUpdate = false;
 
-    var material = new THREE.MeshBasicMaterial({
-        color : 0x0000ff
-    });
+		scene.add(mesh1);
+	}
 
-    <%
+	<%
+   # get extension class and start layout
    softviz3d = Api::Utils.java_facade.
            getComponentByClassname('softviz3d', 'de.rinderle.softviz3d.SoftViz3dExtension')
 
    resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, 20, 1)
-   resultMap.each do |key, value|
-        layerBB = value.getAttributeValue('bb')
-        
-%>
    
-        position = new Array();
-        position.x = <%= layerBB.getX() %>;
-        position.y = <%= value.getAttributeValue('layerHeight3d') %>;
-        position.z = <%= layerBB.getY() %>;
+   # show all graph (as layers)
+   resultMap.each do |key, value|
+        # set bb (position and size)
+        layerBB = value.getAttributeValue('bb')
+   %>
+	position = new Array();
+	position.x = <%= layerBB.getX() %>;
+	position.y = <%= value.getAttributeValue('layerHeight3d') %>;
+	position.z = <%= layerBB.getY() %>;
 
-        geometryLayer = new THREE.CubeGeometry(<%= layerBB.getWidth() %>, 1, <%= layerBB.getHeight() %>);
+	geometryLayer = new THREE.CubeGeometry(<%= layerBB.getWidth() %>, 1,
+			<%= layerBB.getHeight() %>);
 
-        material = new THREE.MeshBasicMaterial({
-            color : <%= value.getAttributeValue('color').getHex %>
-        });
+	// set material (color)
+	layerMaterial = new THREE.MeshBasicMaterial({
+		color : <%= value.getAttributeValue('color').getHex %>
+	});
 
-        // <%= value.to_s %>
-        createBox(geometryLayer, material, position);
+	// <%= value.to_s %>
+	createBox(geometryLayer, layerMaterial, position);
 
-    <%
+	// set node material for all containing nodes
+	nodeMaterial = new THREE.MeshBasicMaterial({
+		color : <%= value.getAttributeValue('nodesColor') %>
+	});
+	<%
+        # show all nodes
+        value.nodeElementsAsArray.each { |val|
 
-       value.nodeElementsAsArray.each { |val|
+            point = val.getAttributeValue('pos')
+            pointArray = point.to_s.split(',')
+   %>
+	nodeGeometry = new THREE.CubeGeometry(
+			<%= val.getAttributeValue('width').to_s %>, 48, //<%= val.getAttributeValue('height').to_s %>,
+			<%= val.getAttributeValue('width').to_s %>);
 
-             point = val.getAttributeValue('pos')
-             pointArray = point.to_s.split(',')
-            %>
-       
-                nodeGeometry = new THREE.CubeGeometry(
-                        <%= val.getAttributeValue('width').to_s %>,
-                        48, //<%= val.getAttributeValue('height').to_s %>,
-                        <%= val.getAttributeValue('width').to_s %>);
+	position = new Array();
+	position.x = <%= pointArray[0] %>;
+	position.y = <%= val.getAttributeValue('layerHeight3d') %>;
+	position.z = <%= pointArray[1] %>;
 
-                position = new Array();
-                position.x = <%= pointArray[0] %>;
-                position.y = <%= val.getAttributeValue('layerHeight3d') %>;
-                position.z = <%= pointArray[1] %>;
-
-                // <%= val.to_s %> - <%= val.getAttributeValue('width').to_s %> - <%= val.getAttributeValue('height').to_s %>
-                 createBox(nodeGeometry, redMaterial, position);
-            <%
-       }
-   end
+	// <%= val.to_s %>
+	createBox(nodeGeometry, nodeMaterial, position);
+	<%
+    }
+end
 %>
-
 </script>

@@ -97,4 +97,23 @@ public class AbsolutePositionCalculator {
 
   }
 
+//  private GrappaPoint scale(GrappaPoint pos) {
+//    pos.setLocation(
+//        pos.getX() / LayoutConstants.DPI_DOT_SCALE, 
+//        pos.getY() / LayoutConstants.DPI_DOT_SCALE);
+//    return  pos;
+//  }
+//
+//  private Double scale(Double width) {
+//    return width / LayoutConstants.DPI_DOT_SCALE;
+//  }
+//
+//  private GrappaBox scale(GrappaBox translatedBb) {
+//    translatedBb.setRect(translatedBb.getX() / LayoutConstants.DPI_DOT_SCALE, 
+//        translatedBb.getY() / LayoutConstants.DPI_DOT_SCALE, 
+//        translatedBb.getWidth() / LayoutConstants.DPI_DOT_SCALE, 
+//        translatedBb.getHeight() / LayoutConstants.DPI_DOT_SCALE);
+//    return translatedBb;
+//  }
+  
 }

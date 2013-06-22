@@ -41,7 +41,7 @@ public class ViewLayerFormatter {
     }
 
     HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
-    HexaColor nodesColor = new HexaColor(225, 228, 196);
+    HexaColor nodesColor = new HexaColor(255, 140, 0);
     
     graph.setAttribute("color", color);
     graph.setAttribute("nodesColor", nodesColor.getHex());
