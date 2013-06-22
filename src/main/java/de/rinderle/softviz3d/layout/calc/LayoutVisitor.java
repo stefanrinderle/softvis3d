@@ -37,23 +37,28 @@ import java.util.List;
 import java.util.Map;
 
 import static att.grappa.GrappaConstants.HEIGHT_ATTR;
+import static att.grappa.GrappaConstants.LABEL_ATTR;
+import static att.grappa.GrappaConstants.SHAPE_ATTR;
 import static att.grappa.GrappaConstants.WIDTH_ATTR;
 
 public class LayoutVisitor {
-   private static final Logger LOGGER = LoggerFactory.getLogger(LayoutVisitor.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(LayoutVisitor.class);
+
+  private static final double MIN_SIDE_LENGTH = 0.5;
+  private static final double MAX_SIDE_LENGTH = 10;
+
+  private static final double PERCENT_DIVISOR = 100;
 
   private SourceMetric metricFootprint;
+
+  private ViewLayerFormatter formatter = new ViewLayerFormatter();
+
+  private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
 
   public LayoutVisitor(SourceMetric metricFootprint) {
     this.metricFootprint = metricFootprint;
   }
   
-  private ViewLayerCalculator calculator = new ViewLayerCalculator();
-
-  private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
-
-  private static final double BASE_SIDE_LENGTH = 1;
-
   public Map<Integer, Graph> getResultingGraphList() {
     return this.resultingGraphList;
   }
@@ -69,6 +74,12 @@ public class LayoutVisitor {
       elementNode.setAttribute("type", element.getElementType().name());
       elementNode.setAttribute(WIDTH_ATTR, element.getWidth());
       elementNode.setAttribute(HEIGHT_ATTR, element.getHeight());
+
+      // keep the size of the node only dependend on the width and height attribute
+      // and not from the node name
+      elementNode.setAttribute(LABEL_ATTR, ".");
+
+      elementNode.setAttribute(SHAPE_ATTR, "box");
       inputGraph.addNode(elementNode);
     }
 
@@ -76,13 +87,15 @@ public class LayoutVisitor {
     Graph outputGraph = DotExcecutor.run(inputGraph);
 
     // adjust graph
-    Graph adjustedGraph = calculator.calculate(outputGraph, source);
+    Graph adjustedGraph = formatter.format(outputGraph, source.getDepth());
     resultingGraphList.put(source.getId(), adjustedGraph);
 
     // adjusted graph has a bounding box !
     GrappaBox bb = (GrappaBox) adjustedGraph.getAttributeValue("bb");
 
-    // Scale
+    // The dot output of the bb is given in DPI. The actual width
+    // and height of the representing element has to be scaled
+    // back to normal
     Double width = bb.getWidth() / LayoutConstants.DPI_DOT_SCALE;
     Double height = bb.getHeight() / LayoutConstants.DPI_DOT_SCALE;
 
@@ -90,25 +103,29 @@ public class LayoutVisitor {
   }
 
   public LayeredLayoutElement visitFile(SourceObject source) {
-    LOGGER.info("Filename " + source.getName());
-    
-    
-    double sideLength = BASE_SIDE_LENGTH;
-    
+    double sideLength = MIN_SIDE_LENGTH;
+
     Double value = source.getMetricFootprint();
-    
+
     if (value != null) {
-      if (metricFootprint.getMinValue() != null) {
-        // if there is a worst value, there is also a best value available
-      } else if (metricFootprint.getMaxValue() != null) {
-        //
-      } else {
-        sideLength = source.getMetricFootprint();
+      // TODO start with 0 percent also in case of starting higher
+      // Double minValue = metricFootprint.getMinValue();
+      Double maxValue = metricFootprint.getMaxValue();
+
+      // create a linear distribution
+      Double onePercent = (MAX_SIDE_LENGTH - MIN_SIDE_LENGTH) / PERCENT_DIVISOR;
+      Double valuePercent = 0.0;
+      if (maxValue > 0 && value > 0) {
+        valuePercent = PERCENT_DIVISOR / maxValue * value;
       }
-    }  
-    
-    return new LayeredLayoutElement(Type.LEAF, source.getId(), 
-            "file_" + source.getId().toString(),
-            sideLength, sideLength);
+
+      sideLength = MIN_SIDE_LENGTH + valuePercent * onePercent;
+    } else {
+      LOGGER.warn("no metric defined for " + source.getId() + " and metricfootprint");
+    }
+
+    return new LayeredLayoutElement(Type.LEAF, source.getId(),
+        "file_" + source.getId().toString(),
+        sideLength, sideLength);
   }
 }

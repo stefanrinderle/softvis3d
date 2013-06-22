@@ -90,7 +90,7 @@ public class AbsolutePositionCalculator {
     for (SourceObject childrenSource : source.getChildrenNodes()) {
       pos = innerGraphTranslation.get(childrenSource.getId());
       
-      addTranslationToLayer(childrenSource, pos, height3d + 30);
+      addTranslationToLayer(childrenSource, pos, height3d + 100);
 
       graph.removeNode("dir_" + childrenSource.getId().toString());
     }

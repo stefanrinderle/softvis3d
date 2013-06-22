@@ -118,19 +118,19 @@ public class SonarDao {
     try {
       session.start();
       Query query = session
-          .createNativeQuery(" select MAX(m1.value), MIN(m1.value), MAX(m2.value), MIN(m2.value) from snapshots s " +
+          .createNativeQuery("select MIN(m1.value), MAX(m1.value), MIN(m2.value), MAX(m2.value) from snapshots s " +
             "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id " +
             "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id " +
-            "WHERE s.path LIKE ':rootSnapshotId.%' AND m1.metric_id = :footprintMetricId AND m2.metric_id = :heightMetricId");
-      query.setParameter("rootSnapshotId", rootSnapshotId);
+            "WHERE s.path LIKE :rootSnapshotId AND m1.metric_id = :footprintMetricId AND m2.metric_id = :heightMetricId");
+      query.setParameter("rootSnapshotId", rootSnapshotId + ".%");
       query.setParameter("footprintMetricId", footprintMetricId);
       query.setParameter("heightMetricId", heightMetricId);
 
       Object[] result = (Object[]) query.getSingleResult();
-      values.add((Double) result[0]);
-      values.add((Double) result[1]);
-      values.add((Double) result[2]);
-      values.add((Double) result[3]);
+      values.add(((BigDecimal) result[0]).doubleValue());
+      values.add(((BigDecimal) result[1]).doubleValue());
+      values.add(((BigDecimal) result[2]).doubleValue());
+      values.add(((BigDecimal) result[3]).doubleValue());
 
     } catch (PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
