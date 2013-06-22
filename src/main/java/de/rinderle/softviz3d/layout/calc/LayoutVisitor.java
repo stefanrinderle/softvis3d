@@ -80,6 +80,8 @@ public class LayoutVisitor {
 
       elementNode.setAttribute("buildingHeight", element.getBuildingHeight().toString());
 
+      elementNode.setAttribute("displayName", element.getDisplayName());
+      
       inputGraph.addNode(elementNode);
     }
 
@@ -101,7 +103,7 @@ public class LayoutVisitor {
 
     double buildingHeight = 2;
 
-    return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getId(), "dir_" + source.getId(), width, height, buildingHeight);
+    return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getId(), "dir_" + source.getId(), width, height, buildingHeight, source.getName());
   }
 
   public LayeredLayoutElement visitFile(SourceObject source) {
@@ -110,7 +112,8 @@ public class LayoutVisitor {
     double buildingHeight = calcBuildingHeight(source.getMetricHeight());
 
     return new LayeredLayoutElement(Type.LEAF, source.getId(),
-        source.getName(), sideLength, sideLength, buildingHeight);
+        "file_" + source.getId().toString(), 
+        sideLength, sideLength, buildingHeight, source.getName());
   }
 
   /**

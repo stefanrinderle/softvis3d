@@ -35,7 +35,9 @@ public class LayeredLayoutElement {
   private Double height;
   private Double buildingHeight;
 
-  public LayeredLayoutElement(Type type, Integer id, String name, Double width, Double height, Double buildingHeight) {
+  private String displayName;
+
+  public LayeredLayoutElement(Type type, Integer id, String name, Double width, Double height, Double buildingHeight, String displayName) {
     super();
     this.type = type;
     this.id = id;
@@ -43,6 +45,7 @@ public class LayeredLayoutElement {
     this.width = width;
     this.height = height;
     this.buildingHeight = buildingHeight;
+    this.displayName = displayName;
   }
 
   public Type getElementType() {
@@ -74,6 +77,10 @@ public class LayeredLayoutElement {
     return "InputElement [type=" + type + ", identifier=" + name
       + ", id=" + id + ", width=" + width
       + ", height=" + height + "]";
+  }
+
+  public String getDisplayName() {
+    return displayName;
   }
 
 }

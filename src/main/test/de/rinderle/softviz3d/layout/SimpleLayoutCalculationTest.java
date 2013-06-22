@@ -36,18 +36,7 @@ public class SimpleLayoutCalculationTest extends TestCase {
 	 */
 	@Test
 	public void testSimpleStructure() throws DotExcecutorException {
-		Layout layout = new Layout(new LayoutVisitor(new SourceMetric() {
-      
-      @Override
-      public Double getMinValue() {
-        return 0.0;
-      }
-      
-      @Override
-      public Double getMaxValue() {
-        return 100.0;
-      }
-    }));
+		Layout layout = new Layout(new LayoutVisitor());
 		
 		TestSource leaf2 = new TestSource(2, 1, false, null);
 		TestSource leaf3 = new TestSource(3, 1, false, null);
