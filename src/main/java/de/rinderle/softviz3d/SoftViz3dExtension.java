@@ -58,7 +58,7 @@ public class SoftViz3dExtension implements ServerExtension {
     
     SonarMetric footprintMetricWrapper  = new SonarMetric(minMaxValues.get(0), minMaxValues.get(1));
 
-//    SonarMetric heightMetricWrapper= new SonarMetric(minMaxValues.get(2), minMaxValues.get(3));
+    SonarMetric heightMetricWrapper= new SonarMetric(minMaxValues.get(2), minMaxValues.get(3));
     
     SonarSnapshotJpa snapshot = sonarDao.getSnapshotById(snapshotId, metricId1, metricId2);
     SonarSnapshot snapshotWrapper = new SonarSnapshot(snapshot, metricId1, metricId2, sonarDao);
@@ -69,7 +69,7 @@ public class SoftViz3dExtension implements ServerExtension {
     LOGGER.info("Metric " + metricId1 + " - min : " + minMaxValues.get(0) + " max: " + minMaxValues.get(1));
     LOGGER.info("Metric " + metricId2 + " - min : " + minMaxValues.get(2) + " max: " + minMaxValues.get(3));
     
-    Layout layout = new Layout(new LayoutVisitor(footprintMetricWrapper));
+    Layout layout = new Layout(new LayoutVisitor(footprintMetricWrapper, heightMetricWrapper));
     Map<Integer, Graph> result = layout.startLayout(snapshotWrapper);
 
     return result;

@@ -109,6 +109,8 @@ public class DotExcecutor {
 
     Parser parser = new Parser(reader, errorStream, newGraph);
 
+//    LOGGER.info(adot);
+    
     try {
       parser.parse();
     } catch (Exception e) {

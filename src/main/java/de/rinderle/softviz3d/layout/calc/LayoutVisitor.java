@@ -47,16 +47,21 @@ public class LayoutVisitor {
   private static final double MIN_SIDE_LENGTH = 0.5;
   private static final double MAX_SIDE_LENGTH = 10;
 
+//  private static final double MIN_BUILDING_HEIGHT = 10;
+//  private static final double MAX_BUILDING_HEIGHT = 1000;
+  
   private static final double PERCENT_DIVISOR = 100;
 
   private SourceMetric metricFootprint;
-
+  private SourceMetric metricHeight;
+  
   private ViewLayerFormatter formatter = new ViewLayerFormatter();
 
   private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
 
-  public LayoutVisitor(SourceMetric metricFootprint) {
+  public LayoutVisitor(SourceMetric metricFootprint, SourceMetric metricHeight) {
     this.metricFootprint = metricFootprint;
+    this.metricHeight = metricHeight;
   }
   
   public Map<Integer, Graph> getResultingGraphList() {
@@ -80,6 +85,9 @@ public class LayoutVisitor {
       elementNode.setAttribute(LABEL_ATTR, ".");
 
       elementNode.setAttribute(SHAPE_ATTR, "box");
+      
+      elementNode.setAttribute("buildingHeight", element.getBuildingHeight().toString());
+      
       inputGraph.addNode(elementNode);
     }
 
@@ -99,13 +107,51 @@ public class LayoutVisitor {
     Double width = bb.getWidth() / LayoutConstants.DPI_DOT_SCALE;
     Double height = bb.getHeight() / LayoutConstants.DPI_DOT_SCALE;
 
-    return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getId(), "dir_" + source.getId(), width, height);
+    double buildingHeight = 2;
+    
+    return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getId(), "dir_" + source.getId(), width, height, buildingHeight);
   }
 
   public LayeredLayoutElement visitFile(SourceObject source) {
-    double sideLength = MIN_SIDE_LENGTH;
+    double sideLength = calcSideLength(source.getMetricFootprint());
 
-    Double value = source.getMetricFootprint();
+    double buildingHeight = calcBuildingHeight(source.getMetricHeight());
+    
+    return new LayeredLayoutElement(Type.LEAF, source.getId(),
+        "file_" + source.getId().toString(),
+        sideLength, sideLength, buildingHeight);
+  }
+
+  /**
+   * Building height is calculated in percent.
+   * 
+   * The actual building size is dependent on the size 
+   * of the biggest layer. This value is not available
+   * at this point of the calculation.
+   * 
+   * @param value Metric value for the building size
+   * @return percent 0-100%
+   */
+  private double calcBuildingHeight(Double value) {
+    double buildingHeight = 0.0;
+
+    if (value != null) {
+      // TODO start with 0 percent also in case of starting higher
+      Double maxValue = metricHeight.getMaxValue();
+
+      Double valuePercent = 0.0;
+      if (maxValue > 0 && value > 0) {
+        valuePercent = PERCENT_DIVISOR / maxValue * value;
+      }
+
+      buildingHeight = valuePercent;
+    } 
+    
+    return buildingHeight;
+  }
+  
+  private double calcSideLength(Double value) {
+    double sideLength = MIN_SIDE_LENGTH;
 
     if (value != null) {
       // TODO start with 0 percent also in case of starting higher
@@ -120,12 +166,10 @@ public class LayoutVisitor {
       }
 
       sideLength = MIN_SIDE_LENGTH + valuePercent * onePercent;
-    } else {
-      LOGGER.warn("no metric defined for " + source.getId() + " and metricfootprint");
-    }
-
-    return new LayeredLayoutElement(Type.LEAF, source.getId(),
-        "file_" + source.getId().toString(),
-        sideLength, sideLength);
+    } 
+    
+    return sideLength;
   }
+  
+  
 }

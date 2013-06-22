@@ -134,7 +134,9 @@
 	position.y = <%= value.getAttributeValue('layerHeight3d') %>;
 	position.z = <%= layerBB.getY() %>;
 
-	geometryLayer = new THREE.CubeGeometry(<%= layerBB.getWidth() %>, 1,
+	//<% heightString = value.getAttributeValue('buildingHeight').to_s %>
+	
+	geometryLayer = new THREE.CubeGeometry(<%= layerBB.getWidth() %>, 5,
 			<%= layerBB.getHeight() %>);
 
 	// set material (color)
@@ -155,14 +157,16 @@
 
             point = val.getAttributeValue('pos')
             pointArray = point.to_s.split(',')
+            heightString = val.getAttributeValue('buildingHeight')
    %>
 	nodeGeometry = new THREE.CubeGeometry(
-			<%= val.getAttributeValue('width').to_s %>, 48, //<%= val.getAttributeValue('height').to_s %>,
+			<%= val.getAttributeValue('width').to_s %>, <%= heightString %>,
 			<%= val.getAttributeValue('width').to_s %>);
 
 	position = new Array();
 	position.x = <%= pointArray[0] %>;
-	position.y = <%= val.getAttributeValue('layerHeight3d') %>;
+	<% zPos = val.getAttributeValue('layerHeight3d').to_f + heightString.to_f / 2 %>
+	position.y = <%= zPos.to_s %>;
 	position.z = <%= pointArray[1] %>;
 
 	// <%= val.to_s %>

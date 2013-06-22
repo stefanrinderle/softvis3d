@@ -56,4 +56,10 @@ public class SonarSnapshotJpa {
     return heightMetricValue;
   }
 
+  @Override
+  public String toString() {
+    return "SonarSnapshotJpa [footprintMetricValue=" + footprintMetricValue + ", heightMetricValue=" + heightMetricValue
+      + "]";
+  }
+
 }

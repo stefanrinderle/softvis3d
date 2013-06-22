@@ -50,6 +50,17 @@ public class LayoutCalculationTest extends TestCase {
       public Double getMaxValue() {
         return 100.0;
       }
+    }, new SourceMetric() {
+      
+      @Override
+      public Double getMinValue() {
+        return 5.0;
+      }
+      
+      @Override
+      public Double getMaxValue() {
+        return 100.0;
+      }
     });
 		Layout layout = new Layout(visitor);
 		
@@ -213,12 +224,12 @@ public class LayoutCalculationTest extends TestCase {
 
 		@Override
 	  public Double getMetricFootprint() {
-	    return Math.random();
+	    return Math.random() * 100;
 	  }
 
 	  @Override
 	  public Double getMetricHeight() {
-	    return Math.random();
+	    return Math.random() * 100;
 	  }
 		
 	}
