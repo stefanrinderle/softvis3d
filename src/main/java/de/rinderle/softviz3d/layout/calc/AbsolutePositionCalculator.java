@@ -33,18 +33,19 @@ import static att.grappa.GrappaConstants.HEIGHT_ATTR;
 import static att.grappa.GrappaConstants.POS_ATTR;
 import static att.grappa.GrappaConstants.WIDTH_ATTR;
 
-
 public class AbsolutePositionCalculator {
 
   // private static final Logger LOGGER = LoggerFactory
   // .getLogger(AbsolutePositionCalculator.class);
+
+  private static final int MIN_BUILDING_HEIGHT = 10;
 
   private Map<Integer, Graph> inputGraphs;
 
   private Map<Integer, GrappaPoint> innerGraphTranslation;
 
   private double rootBbMax;
-  
+
   public AbsolutePositionCalculator(Map<Integer, Graph> inputGraphList) {
     this.inputGraphs = inputGraphList;
 
@@ -54,10 +55,10 @@ public class AbsolutePositionCalculator {
   public void calculate(SourceObject source) {
     Graph graph = inputGraphs.get(source.getId());
     GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
-    
+
     // this will be used as max building height
-    this.rootBbMax = Math.max(bb.getWidth() , bb.getHeight());
-    
+    this.rootBbMax = Math.max(bb.getWidth(), bb.getHeight());
+
     this.addTranslationToLayer(source, new GrappaPoint(0, 0), 0);
   }
 
@@ -70,46 +71,40 @@ public class AbsolutePositionCalculator {
     // Step 2 - set translation for the graph itself (will be a layer later)
     GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY(), bb.getWidth(), bb.getHeight());
     graph.setAttribute("bb", translatedBb);
-    
+
     graph.setAttribute(LayoutConstants.LAYER_HEIGHT_3D, height3d.toString());
-    
+
     GrappaPoint pos;
     double nodeLocationX;
     double nodeLocationY;
-    
+
     // Step 3 - for all leaves, just add the parent point3d changes
     for (Node leaf : graph.nodeElementsAsArray()) {
       pos = (GrappaPoint) leaf.getAttributeValue(POS_ATTR);
-      
+
       innerGraphTranslation.put(Integer.valueOf(leaf.getAttributeValue("id").toString()), pos);
 
       leaf.setAttribute(LayoutConstants.LAYER_HEIGHT_3D, height3d.toString());
-      
+
+      // set the position of the node
       nodeLocationX = posTranslation.getX() + pos.getX() - translatedBb.getWidth() / 2;
       nodeLocationY = posTranslation.getY() + pos.getY() + translatedBb.getHeight() / 2;
       pos.setLocation(nodeLocationX, nodeLocationY);
-      
+
       Double width = (Double) leaf.getAttributeValue(WIDTH_ATTR);
       // keep some distance to each other
       width = width * LayoutConstants.DPI_DOT_SCALE;
       leaf.setAttribute(WIDTH_ATTR, width);
-      
+
       leaf.setAttribute(HEIGHT_ATTR, "not used");
-      
-      // set actual building height (buildingHeight is given in percent)
-      
-      // there is an x at the beginning of the buildingHeight percent value
-      String heightString = leaf.getAttributeValue("buildingHeight").toString();
-      
-      final int MIN_HEIGHT = 10;
-      Double height = this.rootBbMax / 2 / 100 * Double.valueOf(heightString.substring(1)) + MIN_HEIGHT;
-      leaf.setAttribute("buildingHeight", height.toString());
+
+      setBuildingHeight(leaf);
     }
 
     // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes
     for (SourceObject childrenSource : source.getChildrenNodes()) {
       pos = innerGraphTranslation.get(childrenSource.getId());
-      
+
       addTranslationToLayer(childrenSource, pos, height3d + 100);
 
       graph.removeNode("dir_" + childrenSource.getId().toString());
@@ -117,23 +112,34 @@ public class AbsolutePositionCalculator {
 
   }
 
-//  private GrappaPoint scale(GrappaPoint pos) {
-//    pos.setLocation(
-//        pos.getX() / LayoutConstants.DPI_DOT_SCALE, 
-//        pos.getY() / LayoutConstants.DPI_DOT_SCALE);
-//    return  pos;
-//  }
-//
-//  private Double scale(Double width) {
-//    return width / LayoutConstants.DPI_DOT_SCALE;
-//  }
-//
-//  private GrappaBox scale(GrappaBox translatedBb) {
-//    translatedBb.setRect(translatedBb.getX() / LayoutConstants.DPI_DOT_SCALE, 
-//        translatedBb.getY() / LayoutConstants.DPI_DOT_SCALE, 
-//        translatedBb.getWidth() / LayoutConstants.DPI_DOT_SCALE, 
-//        translatedBb.getHeight() / LayoutConstants.DPI_DOT_SCALE);
-//    return translatedBb;
-//  }
-  
+  /**
+   * sets actual building height (buildingHeight is given in percent)
+   */
+  private void setBuildingHeight(Node leaf) {
+    // there is an x at the beginning of the buildingHeight percent value
+    String heightString = leaf.getAttributeValue("buildingHeight").toString();
+
+    Double height = this.rootBbMax / 2 / 100 * Double.valueOf(heightString.substring(1)) + MIN_BUILDING_HEIGHT;
+    leaf.setAttribute("buildingHeight", height.toString());
+  }
+
+  // private GrappaPoint scale(GrappaPoint pos) {
+  // pos.setLocation(
+  // pos.getX() / LayoutConstants.DPI_DOT_SCALE,
+  // pos.getY() / LayoutConstants.DPI_DOT_SCALE);
+  // return pos;
+  // }
+  //
+  // private Double scale(Double width) {
+  // return width / LayoutConstants.DPI_DOT_SCALE;
+  // }
+  //
+  // private GrappaBox scale(GrappaBox translatedBb) {
+  // translatedBb.setRect(translatedBb.getX() / LayoutConstants.DPI_DOT_SCALE,
+  // translatedBb.getY() / LayoutConstants.DPI_DOT_SCALE,
+  // translatedBb.getWidth() / LayoutConstants.DPI_DOT_SCALE,
+  // translatedBb.getHeight() / LayoutConstants.DPI_DOT_SCALE);
+  // return translatedBb;
+  // }
+
 }

@@ -21,60 +21,59 @@ package de.rinderle.softviz3d.layout.helper;
 
 public class LayeredLayoutElement {
 
-	public enum Type {
-		NODE, LEAF 
-	}
-	
-	private Type type;
-	
-	private Integer id;
-	
-	private String name;
-	
-	private Double width;
-	private Double height;
-	private Double buildingHeight;
-	
-	public LayeredLayoutElement(Type type, Integer id, String name, Double width, Double height, Double buildingHeight) {
-		super();
-		this.type = type;
-		this.id = id;
-		this.name = name;
-		this.width = width;
-		this.height = height;
-		this.buildingHeight = buildingHeight;
-	}
-	
-	public Type getElementType() {
-		return this.type;
-	}
-	
-	public Integer getId() {
-		return id;
-	}
-	
-	public String getName() {
-		return this.name;
-	}
-	
-	public Double getWidth() {
-		return width;
-	}
+  public enum Type {
+    NODE, LEAF
+  }
 
-	public Double getHeight() {
-		return height;
-	}
+  private Type type;
 
-	public String getBuildingHeight() {
-	  return "x" + buildingHeight.toString();
-	}
-	
-	@Override
-	public String toString() {
-		return "InputElement [type=" + type + ", identifier=" + name
-				+ ", id=" + id + ", width=" + width
-				+ ", height=" + height + "]";
-	}
+  private Integer id;
 
-	
+  private String name;
+
+  private Double width;
+  private Double height;
+  private Double buildingHeight;
+
+  public LayeredLayoutElement(Type type, Integer id, String name, Double width, Double height, Double buildingHeight) {
+    super();
+    this.type = type;
+    this.id = id;
+    this.name = name;
+    this.width = width;
+    this.height = height;
+    this.buildingHeight = buildingHeight;
+  }
+
+  public Type getElementType() {
+    return this.type;
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public Double getWidth() {
+    return width;
+  }
+
+  public Double getHeight() {
+    return height;
+  }
+
+  public String getBuildingHeight() {
+    return "x" + buildingHeight.toString();
+  }
+
+  @Override
+  public String toString() {
+    return "InputElement [type=" + type + ", identifier=" + name
+      + ", id=" + id + ", width=" + width
+      + ", height=" + height + "]";
+  }
+
 }

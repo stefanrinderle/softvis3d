@@ -25,22 +25,21 @@ public class SonarMetric implements SourceMetric {
 
   private Double minValue;
   private Double maxValue;
-  
+
   public SonarMetric(Double minValue, Double maxValue) {
     super();
     this.minValue = minValue;
     this.maxValue = maxValue;
   }
-  
+
   @Override
   public Double getMinValue() {
     return minValue;
   }
-  
+
   @Override
   public Double getMaxValue() {
     return maxValue;
   }
-  
 
 }

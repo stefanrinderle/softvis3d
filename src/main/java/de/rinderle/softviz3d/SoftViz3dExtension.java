@@ -44,31 +44,31 @@ public class SoftViz3dExtension implements ServerExtension {
 
   public SoftViz3dExtension(DatabaseSession session) {
     this.session = session;
-    
+
   }
 
   public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
       Integer metricId1, Integer metricId2) throws DotExcecutorException {
 
     LOGGER.info("Startup SoftViz3d plugin");
-    
-    SonarDao sonarDao = new SonarDao(session);
-    
-    List<Double> minMaxValues = sonarDao.getMinMaxMetricValuesByRootSnapshotId(snapshotId, metricId1, metricId2);
-    
-    SonarMetric footprintMetricWrapper  = new SonarMetric(minMaxValues.get(0), minMaxValues.get(1));
 
-    SonarMetric heightMetricWrapper= new SonarMetric(minMaxValues.get(2), minMaxValues.get(3));
-    
+    SonarDao sonarDao = new SonarDao(session);
+
+    List<Double> minMaxValues = sonarDao.getMinMaxMetricValuesByRootSnapshotId(snapshotId, metricId1, metricId2);
+
+    SonarMetric footprintMetricWrapper = new SonarMetric(minMaxValues.get(0), minMaxValues.get(1));
+
+    SonarMetric heightMetricWrapper = new SonarMetric(minMaxValues.get(2), minMaxValues.get(3));
+
     SonarSnapshotJpa snapshot = sonarDao.getSnapshotById(snapshotId, metricId1, metricId2);
     SonarSnapshot snapshotWrapper = new SonarSnapshot(snapshot, metricId1, metricId2, sonarDao);
 
     LOGGER.info("Start layout calculation for snapshot " + snapshotWrapper.getName() + ", " +
-        "metrics " + metricId1 + " and " + metricId2);
-    
+      "metrics " + metricId1 + " and " + metricId2);
+
     LOGGER.info("Metric " + metricId1 + " - min : " + minMaxValues.get(0) + " max: " + minMaxValues.get(1));
     LOGGER.info("Metric " + metricId2 + " - min : " + minMaxValues.get(2) + " max: " + minMaxValues.get(3));
-    
+
     Layout layout = new Layout(new LayoutVisitor(footprintMetricWrapper, heightMetricWrapper));
     Map<Integer, Graph> result = layout.startLayout(snapshotWrapper);
 

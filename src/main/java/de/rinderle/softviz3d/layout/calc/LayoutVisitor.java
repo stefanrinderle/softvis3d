@@ -44,17 +44,9 @@ import static att.grappa.GrappaConstants.WIDTH_ATTR;
 public class LayoutVisitor {
   private static final Logger LOGGER = LoggerFactory.getLogger(LayoutVisitor.class);
 
-  private static final double MIN_SIDE_LENGTH = 0.5;
-  private static final double MAX_SIDE_LENGTH = 10;
-
-//  private static final double MIN_BUILDING_HEIGHT = 10;
-//  private static final double MAX_BUILDING_HEIGHT = 1000;
-  
-  private static final double PERCENT_DIVISOR = 100;
-
   private SourceMetric metricFootprint;
   private SourceMetric metricHeight;
-  
+
   private ViewLayerFormatter formatter = new ViewLayerFormatter();
 
   private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
@@ -63,7 +55,7 @@ public class LayoutVisitor {
     this.metricFootprint = metricFootprint;
     this.metricHeight = metricHeight;
   }
-  
+
   public Map<Integer, Graph> getResultingGraphList() {
     return this.resultingGraphList;
   }
@@ -85,9 +77,9 @@ public class LayoutVisitor {
       elementNode.setAttribute(LABEL_ATTR, ".");
 
       elementNode.setAttribute(SHAPE_ATTR, "box");
-      
+
       elementNode.setAttribute("buildingHeight", element.getBuildingHeight().toString());
-      
+
       inputGraph.addNode(elementNode);
     }
 
@@ -108,7 +100,7 @@ public class LayoutVisitor {
     Double height = bb.getHeight() / LayoutConstants.DPI_DOT_SCALE;
 
     double buildingHeight = 2;
-    
+
     return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getId(), "dir_" + source.getId(), width, height, buildingHeight);
   }
 
@@ -116,10 +108,9 @@ public class LayoutVisitor {
     double sideLength = calcSideLength(source.getMetricFootprint());
 
     double buildingHeight = calcBuildingHeight(source.getMetricHeight());
-    
+
     return new LayeredLayoutElement(Type.LEAF, source.getId(),
-        "file_" + source.getId().toString(),
-        sideLength, sideLength, buildingHeight);
+        source.getName(), sideLength, sideLength, buildingHeight);
   }
 
   /**
@@ -141,17 +132,17 @@ public class LayoutVisitor {
 
       Double valuePercent = 0.0;
       if (maxValue > 0 && value > 0) {
-        valuePercent = PERCENT_DIVISOR / maxValue * value;
+        valuePercent = LayoutConstants.PERCENT_DIVISOR / maxValue * value;
       }
 
       buildingHeight = valuePercent;
-    } 
-    
+    }
+
     return buildingHeight;
   }
-  
+
   private double calcSideLength(Double value) {
-    double sideLength = MIN_SIDE_LENGTH;
+    double sideLength = LayoutConstants.MIN_SIDE_LENGTH;
 
     if (value != null) {
       // TODO start with 0 percent also in case of starting higher
@@ -159,17 +150,16 @@ public class LayoutVisitor {
       Double maxValue = metricFootprint.getMaxValue();
 
       // create a linear distribution
-      Double onePercent = (MAX_SIDE_LENGTH - MIN_SIDE_LENGTH) / PERCENT_DIVISOR;
+      Double onePercent = (LayoutConstants.MAX_SIDE_LENGTH - LayoutConstants.MIN_SIDE_LENGTH) / LayoutConstants.PERCENT_DIVISOR;
       Double valuePercent = 0.0;
       if (maxValue > 0 && value > 0) {
-        valuePercent = PERCENT_DIVISOR / maxValue * value;
+        valuePercent = LayoutConstants.PERCENT_DIVISOR / maxValue * value;
       }
 
-      sideLength = MIN_SIDE_LENGTH + valuePercent * onePercent;
-    } 
-    
+      sideLength = LayoutConstants.MIN_SIDE_LENGTH + valuePercent * onePercent;
+    }
+
     return sideLength;
   }
-  
-  
+
 }

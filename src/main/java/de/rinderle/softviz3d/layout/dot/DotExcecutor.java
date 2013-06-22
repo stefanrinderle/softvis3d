@@ -19,10 +19,9 @@
  */
 package de.rinderle.softviz3d.layout.dot;
 
-import de.rinderle.softviz3d.layout.helper.StringOutputStream;
-
 import att.grappa.Graph;
 import att.grappa.Parser;
+import de.rinderle.softviz3d.layout.helper.StringOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,8 +108,8 @@ public class DotExcecutor {
 
     Parser parser = new Parser(reader, errorStream, newGraph);
 
-//    LOGGER.info(adot);
-    
+    // LOGGER.info(adot);
+
     try {
       parser.parse();
     } catch (Exception e) {

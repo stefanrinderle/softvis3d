@@ -26,31 +26,31 @@ public interface SourceObject {
   /**
    * Unique identifier.
    */
-	Integer getId();
-	
-	/**
-	 * Display name.
-	 */
-	String getName();
-	
-	List<? extends SourceObject> getChildrenNodes();
-	
-	List<? extends SourceObject> getChildrenLeaves();
-	
-	List<Integer> getChildrenIds();
+  Integer getId();
 
-	Integer getDepth();
-	
-	/**
-	 * Delivers the building footprint metric.
-	 * @return null if no metric is available.
-	 */
-	Double getMetricFootprint();
+  /**
+   * Display name.
+   */
+  String getName();
 
-	/**
+  List<? extends SourceObject> getChildrenNodes();
+
+  List<? extends SourceObject> getChildrenLeaves();
+
+  List<Integer> getChildrenIds();
+
+  Integer getDepth();
+
+  /**
+   * Delivers the building footprint metric.
+   * @return null if no metric is available.
+   */
+  Double getMetricFootprint();
+
+  /**
    * Delivers the building height metric.
    * @return null if no metric is available.
    */
-	Double getMetricHeight();
-	
+  Double getMetricHeight();
+
 }

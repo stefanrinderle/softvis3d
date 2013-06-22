@@ -19,11 +19,10 @@
  */
 package de.rinderle.softviz3d.layout.interfaces;
 
-
 public interface SourceMetric {
 
-	Double getMinValue();
-	
-	Double getMaxValue();
-	
+  Double getMinValue();
+
+  Double getMaxValue();
+
 }

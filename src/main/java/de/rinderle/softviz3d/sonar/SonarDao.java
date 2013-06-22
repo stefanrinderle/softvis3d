@@ -8,7 +8,6 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +45,7 @@ public class SonarDao {
       query.setParameter("heightMetricId", heightMetricId);
 
       BigDecimal metric2Value = (BigDecimal) query.getSingleResult();
-      
+
       snapshot = castToJpaSnapshot(result, metric2Value);
     } catch (PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
@@ -65,9 +64,9 @@ public class SonarDao {
     BigDecimal footprintMetricValue = (BigDecimal) result[3];
     BigDecimal heightMetricValue = metric2Value;
     SonarSnapshotJpa snapshot = new SonarSnapshotJpa(id, name, depth, footprintMetricValue.doubleValue(), heightMetricValue.doubleValue());
-    
-//    LOGGER.info(snapshot.toString());
-    
+
+    // LOGGER.info(snapshot.toString());
+
     return snapshot;
   }
 
@@ -81,7 +80,7 @@ public class SonarDao {
           .createQuery("select s.id from Snapshot s where s.parentId = :id");
       query.setParameter("id", id);
 
-      childrenIds = (List<Integer>) query.getResultList();
+      childrenIds = query.getResultList();
     } catch (PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
       childrenIds = null;
@@ -114,11 +113,11 @@ public class SonarDao {
             .createNativeQuery("select m.value from snapshots s " +
               "INNER JOIN project_measures m ON s.id = m.snapshot_id " +
               "WHERE s.id = :snapshotId AND m.metric_id = :heightMetricId");
-        query.setParameter("snapshotId", (Integer) resultElement[0]);
+        query.setParameter("snapshotId", resultElement[0]);
         query.setParameter("heightMetricId", heightMetricId);
 
         BigDecimal metric2Value = (BigDecimal) query.getSingleResult();
-        
+
         snapshots.add(castToJpaSnapshot(resultElement, metric2Value));
       }
     } catch (PersistenceException e) {

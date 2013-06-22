@@ -42,11 +42,11 @@ public class ViewLayerFormatter {
 
     HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
     HexaColor nodesColor = new HexaColor(255, 140, 0);
-    
+
     graph.setAttribute("color", color);
     graph.setAttribute("nodesColor", nodesColor.getHex());
     graph.setAttribute("transparency", transparency + "");
-    
+
     return graph;
   }
 

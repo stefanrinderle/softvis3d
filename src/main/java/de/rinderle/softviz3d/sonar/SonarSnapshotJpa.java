@@ -26,7 +26,7 @@ public class SonarSnapshotJpa {
   private Integer depth;
   private Double footprintMetricValue;
   private Double heightMetricValue;
-  
+
   public SonarSnapshotJpa(Integer id, String name, Integer depth, Double footprintMetricValue, Double heightMetricValue) {
     super();
     this.id = id;
@@ -54,12 +54,6 @@ public class SonarSnapshotJpa {
 
   public Double getHeightMetricValue() {
     return heightMetricValue;
-  }
-
-  @Override
-  public String toString() {
-    return "SonarSnapshotJpa [footprintMetricValue=" + footprintMetricValue + ", heightMetricValue=" + heightMetricValue
-      + "]";
   }
 
 }

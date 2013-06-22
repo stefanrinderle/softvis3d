@@ -27,14 +27,14 @@ import java.util.List;
 
 public class SonarSnapshot implements SourceObject {
 
-//  private static final Logger LOGGER = LoggerFactory
-//      .getLogger(SonarSnapshot.class);
+  // private static final Logger LOGGER = LoggerFactory
+  // .getLogger(SonarSnapshot.class);
 
   private SonarSnapshotJpa snapshot;
-  
+
   private Integer footprintMetricId;
   private Integer heightMetricId;
-  
+
   private SonarDao sonarDao;
 
   public SonarSnapshot(SonarSnapshotJpa snapshot, Integer footprintMetricId, Integer heightMetricId, SonarDao sonarDao) {
@@ -42,7 +42,7 @@ public class SonarSnapshot implements SourceObject {
 
     this.footprintMetricId = footprintMetricId;
     this.heightMetricId = heightMetricId;
-    
+
     this.sonarDao = sonarDao;
   }
 
@@ -64,14 +64,14 @@ public class SonarSnapshot implements SourceObject {
   @Override
   public List<SonarSnapshot> getChildrenNodes() {
     List<SonarSnapshotJpa> result = sonarDao.getChildrenByScope(this.getId(), footprintMetricId, heightMetricId, Scopes.DIRECTORY);
-    
+
     return wrapSnapshotList(result);
   }
 
   @Override
   public List<SonarSnapshot> getChildrenLeaves() {
     List<SonarSnapshotJpa> result = sonarDao.getChildrenByScope(this.getId(), footprintMetricId, heightMetricId, Scopes.FILE);
-    
+
     return wrapSnapshotList(result);
   }
 
@@ -84,7 +84,7 @@ public class SonarSnapshot implements SourceObject {
   public Double getMetricHeight() {
     return snapshot.getHeightMetricValue();
   }
-  
+
   private List<SonarSnapshot> wrapSnapshotList(List<SonarSnapshotJpa> snapshots) {
     List<SonarSnapshot> result = new ArrayList<SonarSnapshot>();
 
@@ -98,5 +98,5 @@ public class SonarSnapshot implements SourceObject {
   public List<Integer> getChildrenIds() {
     return sonarDao.getSnapshotChildrenIdsById(this.getId());
   }
-  
+
 }

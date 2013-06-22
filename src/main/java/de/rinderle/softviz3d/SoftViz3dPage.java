@@ -30,6 +30,7 @@ public class SoftViz3dPage extends AbstractRubyTemplate implements
   /**
    * @return the page id
    */
+  @Override
   public String getId() {
     return SoftViz3dPlugin.PLUGIN_KEY;
   }
@@ -37,6 +38,7 @@ public class SoftViz3dPage extends AbstractRubyTemplate implements
   /**
    * @return the page title
    */
+  @Override
   public String getTitle() {
     return SoftViz3dPlugin.PLUGIN_NAME;
   }
