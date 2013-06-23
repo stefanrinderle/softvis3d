@@ -19,6 +19,8 @@
  */
 package de.rinderle.softviz3d;
 
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
+
 import org.sonar.api.web.AbstractRubyTemplate;
 import org.sonar.api.web.NavigationSection;
 import org.sonar.api.web.RubyRailsPage;
@@ -32,7 +34,7 @@ public class SoftViz3dPage extends AbstractRubyTemplate implements
    */
   @Override
   public String getId() {
-    return SoftViz3dPlugin.PLUGIN_KEY;
+    return SoftViz3dConstants.PLUGIN_KEY;
   }
 
   /**
@@ -40,7 +42,7 @@ public class SoftViz3dPage extends AbstractRubyTemplate implements
    */
   @Override
   public String getTitle() {
-    return SoftViz3dPlugin.PLUGIN_NAME;
+    return SoftViz3dConstants.PLUGIN_NAME;
   }
 
   /**
@@ -48,7 +50,8 @@ public class SoftViz3dPage extends AbstractRubyTemplate implements
    */
   @Override
   protected String getTemplatePath() {
-    return "/softviz_page.html.erb";
+    //return "/softviz_page.html.erb";
+    return "/test.html.erb";
   }
 
 }

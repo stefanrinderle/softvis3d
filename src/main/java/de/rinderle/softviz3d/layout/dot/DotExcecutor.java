@@ -22,8 +22,10 @@ package de.rinderle.softviz3d.layout.dot;
 import att.grappa.Graph;
 import att.grappa.Parser;
 import de.rinderle.softviz3d.layout.helper.StringOutputStream;
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -43,19 +45,21 @@ public class DotExcecutor {
   private static final Logger LOGGER = LoggerFactory
       .getLogger(DotExcecutor.class);
 
-  public static Graph run(Graph inputGraph) throws DotExcecutorException {
-    String adot = executeDotCommand(inputGraph);
+  public static Graph run(Graph inputGraph, Settings settings) throws DotExcecutorException {
+    String adot = executeDotCommand(inputGraph, settings);
 
     Graph outputGraph = parseDot(adot);
 
     return outputGraph;
   }
 
-  private static String executeDotCommand(Graph inputGraph) throws DotExcecutorException {
+  private static String executeDotCommand(Graph inputGraph, Settings settings) throws DotExcecutorException {
     // TODO SRI dont forget the other layout
 
+    String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
+    
     StringBuilder adot = new StringBuilder();
-    String command = "/usr/local/bin/dot -K neato ";
+    String command = dotBin + " -K neato ";
 
     Process process;
     try {

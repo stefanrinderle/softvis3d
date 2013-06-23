@@ -19,7 +19,11 @@
  */
 package de.rinderle.softviz3d;
 
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
+
 import org.sonar.api.Extension;
+import org.sonar.api.Properties;
+import org.sonar.api.Property;
 import org.sonar.api.SonarPlugin;
 
 import java.util.ArrayList;
@@ -28,12 +32,11 @@ import java.util.List;
 /**
  * This class is the entry point for all extensions
  */
+@Properties({ 
+  @Property(key = SoftViz3dConstants.DOT_BIN_KEY, defaultValue = SoftViz3dConstants.DOT_BIN_DEFAULT,
+            name = SoftViz3dConstants.DOT_BIN_NAME, description = SoftViz3dConstants.DOT_BIN_DESCRIPTION)
+})
 public final class SoftViz3dPlugin extends SonarPlugin {
-
-  // private static final Logger LOGGER = LoggerFactory.getLogger(SoftViz3dPlugin.class);
-
-  public static final String PLUGIN_NAME = "Softviz3d Viewer";
-  public static final String PLUGIN_KEY = "Softviz3d";
 
   public SoftViz3dPlugin() {
     super();

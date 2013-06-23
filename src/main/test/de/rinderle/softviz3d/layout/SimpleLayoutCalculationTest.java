@@ -36,7 +36,29 @@ public class SimpleLayoutCalculationTest extends TestCase {
 	 */
 	@Test
 	public void testSimpleStructure() throws DotExcecutorException {
-		Layout layout = new Layout(new LayoutVisitor());
+		Layout layout = new Layout(new LayoutVisitor(new SourceMetric() {
+      
+      @Override
+      public Double getMinValue() {
+        return 0.0;
+      }
+      
+      @Override
+      public Double getMaxValue() {
+        return 100.0;
+      }
+    }, new SourceMetric() {
+      
+      @Override
+      public Double getMinValue() {
+        return 5.0;
+      }
+      
+      @Override
+      public Double getMaxValue() {
+        return 100.0;
+      }
+    }));
 		
 		TestSource leaf2 = new TestSource(2, 1, false, null);
 		TestSource leaf3 = new TestSource(3, 1, false, null);
@@ -66,6 +88,17 @@ public class SimpleLayoutCalculationTest extends TestCase {
       public Double getMaxValue() {
         return 100.0;
       }
+    }, new SourceMetric() {
+      
+      @Override
+      public Double getMinValue() {
+        return 5.0;
+      }
+      
+      @Override
+      public Double getMaxValue() {
+        return 100.0;
+      }
     });
 		
 		Integer resourceId = 1;
@@ -73,8 +106,8 @@ public class SimpleLayoutCalculationTest extends TestCase {
 		TestSource source = new TestSource(resourceId, 0, true, null);
 		
 		List<LayeredLayoutElement> elements = new ArrayList<LayeredLayoutElement>();
-		elements.add(new LayeredLayoutElement(LayeredLayoutElement.Type.LEAF, 2, "zwei", 1.0, 1.0));
-		elements.add(new LayeredLayoutElement(LayeredLayoutElement.Type.LEAF, 3, "drei", 1.0, 1.0));
+		elements.add(new LayeredLayoutElement(LayeredLayoutElement.Type.LEAF, 2, "zwei", 1.0, 1.0, null, "fName"));
+		elements.add(new LayeredLayoutElement(LayeredLayoutElement.Type.LEAF, 3, "drei", 1.0, 1.0, null, "fName"));
 		
 		visitor.visitNode(source, elements);
 		
@@ -109,6 +142,17 @@ public class SimpleLayoutCalculationTest extends TestCase {
       public Double getMaxValue() {
         return 100.0;
       }
+    }, new SourceMetric() {
+      
+      @Override
+      public Double getMinValue() {
+        return 5.0;
+      }
+      
+      @Override
+      public Double getMaxValue() {
+        return 100.0;
+      }
     });
 		
 		Integer resourceId = 1;
@@ -123,8 +167,8 @@ public class SimpleLayoutCalculationTest extends TestCase {
 		TestSource root = new TestSource(resourceId, 0, true, children);
 		
 		List<LayeredLayoutElement> elements = new ArrayList<LayeredLayoutElement>();
-		elements.add(new LayeredLayoutElement(LayeredLayoutElement.Type.LEAF, 2, "zwei", 1.0, 1.0));
-		elements.add(new LayeredLayoutElement(LayeredLayoutElement.Type.LEAF, 3, "drei", 1.0, 1.0));
+		elements.add(new LayeredLayoutElement(LayeredLayoutElement.Type.LEAF, 2, "zwei", 1.0, 1.0, null, "fName"));
+		elements.add(new LayeredLayoutElement(LayeredLayoutElement.Type.LEAF, 3, "drei", 1.0, 1.0, null, "fName"));
 		
 		visitor.visitNode(root, elements);
 		

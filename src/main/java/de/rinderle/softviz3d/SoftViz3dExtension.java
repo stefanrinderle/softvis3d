@@ -19,6 +19,8 @@
  */
 package de.rinderle.softviz3d;
 
+import org.sonar.api.config.Settings;
+
 import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
@@ -41,15 +43,17 @@ public class SoftViz3dExtension implements ServerExtension {
       .getLogger(SoftViz3dExtension.class);
 
   private DatabaseSession session;
-
-  public SoftViz3dExtension(DatabaseSession session) {
+  private Settings settings;
+  
+  public SoftViz3dExtension(DatabaseSession session, Settings settings) {
     this.session = session;
-
+    this.settings = settings;
   }
 
   public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
       Integer metricId1, Integer metricId2) throws DotExcecutorException {
 
+    
     LOGGER.info("Startup SoftViz3d plugin");
 
     SonarDao sonarDao = new SonarDao(session);
@@ -69,7 +73,7 @@ public class SoftViz3dExtension implements ServerExtension {
     LOGGER.info("Metric " + metricId1 + " - min : " + minMaxValues.get(0) + " max: " + minMaxValues.get(1));
     LOGGER.info("Metric " + metricId2 + " - min : " + minMaxValues.get(2) + " max: " + minMaxValues.get(3));
 
-    Layout layout = new Layout(new LayoutVisitor(footprintMetricWrapper, heightMetricWrapper));
+    Layout layout = new Layout(new LayoutVisitor(settings, footprintMetricWrapper, heightMetricWrapper));
     Map<Integer, Graph> result = layout.startLayout(snapshotWrapper);
 
     return result;

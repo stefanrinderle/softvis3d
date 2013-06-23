@@ -26,11 +26,12 @@ import de.rinderle.softviz3d.layout.dot.DotExcecutor;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement.Type;
-import de.rinderle.softviz3d.layout.interfaces.LayoutConstants;
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +45,8 @@ import static att.grappa.GrappaConstants.WIDTH_ATTR;
 public class LayoutVisitor {
   private static final Logger LOGGER = LoggerFactory.getLogger(LayoutVisitor.class);
 
+  private Settings settings;
+  
   private SourceMetric metricFootprint;
   private SourceMetric metricHeight;
 
@@ -51,7 +54,9 @@ public class LayoutVisitor {
 
   private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
 
-  public LayoutVisitor(SourceMetric metricFootprint, SourceMetric metricHeight) {
+  public LayoutVisitor(Settings settings, SourceMetric metricFootprint, SourceMetric metricHeight) {
+    this.settings = settings;
+    
     this.metricFootprint = metricFootprint;
     this.metricHeight = metricHeight;
   }
@@ -86,7 +91,7 @@ public class LayoutVisitor {
     }
 
     // run dot layout for this layer
-    Graph outputGraph = DotExcecutor.run(inputGraph);
+    Graph outputGraph = DotExcecutor.run(inputGraph, settings);
 
     // adjust graph
     Graph adjustedGraph = formatter.format(outputGraph, source.getDepth());
@@ -98,8 +103,8 @@ public class LayoutVisitor {
     // The dot output of the bb is given in DPI. The actual width
     // and height of the representing element has to be scaled
     // back to normal
-    Double width = bb.getWidth() / LayoutConstants.DPI_DOT_SCALE;
-    Double height = bb.getHeight() / LayoutConstants.DPI_DOT_SCALE;
+    Double width = bb.getWidth() / SoftViz3dConstants.DPI_DOT_SCALE;
+    Double height = bb.getHeight() / SoftViz3dConstants.DPI_DOT_SCALE;
 
     double buildingHeight = 2;
 
@@ -135,7 +140,7 @@ public class LayoutVisitor {
 
       Double valuePercent = 0.0;
       if (maxValue > 0 && value > 0) {
-        valuePercent = LayoutConstants.PERCENT_DIVISOR / maxValue * value;
+        valuePercent = SoftViz3dConstants.PERCENT_DIVISOR / maxValue * value;
       }
 
       buildingHeight = valuePercent;
@@ -145,7 +150,7 @@ public class LayoutVisitor {
   }
 
   private double calcSideLength(Double value) {
-    double sideLength = LayoutConstants.MIN_SIDE_LENGTH;
+    double sideLength = SoftViz3dConstants.MIN_SIDE_LENGTH;
 
     if (value != null) {
       // TODO start with 0 percent also in case of starting higher
@@ -153,13 +158,13 @@ public class LayoutVisitor {
       Double maxValue = metricFootprint.getMaxValue();
 
       // create a linear distribution
-      Double onePercent = (LayoutConstants.MAX_SIDE_LENGTH - LayoutConstants.MIN_SIDE_LENGTH) / LayoutConstants.PERCENT_DIVISOR;
+      Double onePercent = (SoftViz3dConstants.MAX_SIDE_LENGTH - SoftViz3dConstants.MIN_SIDE_LENGTH) / SoftViz3dConstants.PERCENT_DIVISOR;
       Double valuePercent = 0.0;
       if (maxValue > 0 && value > 0) {
-        valuePercent = LayoutConstants.PERCENT_DIVISOR / maxValue * value;
+        valuePercent = SoftViz3dConstants.PERCENT_DIVISOR / maxValue * value;
       }
 
-      sideLength = LayoutConstants.MIN_SIDE_LENGTH + valuePercent * onePercent;
+      sideLength = SoftViz3dConstants.MIN_SIDE_LENGTH + valuePercent * onePercent;
     }
 
     return sideLength;

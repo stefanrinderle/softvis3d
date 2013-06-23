@@ -23,7 +23,7 @@ import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
-import de.rinderle.softviz3d.layout.interfaces.LayoutConstants;
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 import java.util.HashMap;
@@ -72,7 +72,7 @@ public class AbsolutePositionCalculator {
     GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY(), bb.getWidth(), bb.getHeight());
     graph.setAttribute("bb", translatedBb);
 
-    graph.setAttribute(LayoutConstants.LAYER_HEIGHT_3D, height3d.toString());
+    graph.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
 
     GrappaPoint pos;
     double nodeLocationX;
@@ -84,7 +84,7 @@ public class AbsolutePositionCalculator {
 
       innerGraphTranslation.put(Integer.valueOf(leaf.getAttributeValue("id").toString()), pos);
 
-      leaf.setAttribute(LayoutConstants.LAYER_HEIGHT_3D, height3d.toString());
+      leaf.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
 
       // set the position of the node
       nodeLocationX = posTranslation.getX() + pos.getX() - translatedBb.getWidth() / 2;
@@ -93,7 +93,7 @@ public class AbsolutePositionCalculator {
 
       Double width = (Double) leaf.getAttributeValue(WIDTH_ATTR);
       // keep some distance to each other
-      width = width * LayoutConstants.DPI_DOT_SCALE;
+      width = width * SoftViz3dConstants.DPI_DOT_SCALE;
       leaf.setAttribute(WIDTH_ATTR, width);
 
       leaf.setAttribute(HEIGHT_ATTR, "not used");
