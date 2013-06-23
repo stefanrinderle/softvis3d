@@ -92,6 +92,27 @@ public class SonarDao {
   }
 
   @SuppressWarnings("unchecked")
+  public List<Integer> getDefinedMetricsForSnapshot(Integer snapshotId) {
+    List<Integer> metricIds;
+
+    try {
+      session.start();
+      Query query = session
+          .createQuery("SELECT distinct metricId FROM MeasureModel m WHERE m.snapshotId = :snapshotId AND m.value is not null");
+      query.setParameter("snapshotId", snapshotId);
+
+      metricIds = query.getResultList();
+    } catch (PersistenceException e) {
+      LOGGER.error(e.getMessage(), e);
+      metricIds = null;
+    } finally {
+      session.stop();
+    }
+
+    return metricIds;
+  }
+  
+  @SuppressWarnings("unchecked")
   public List<SonarSnapshotJpa> getChildrenByScope(Integer snapshotId, Integer footprintMetricId, Integer heightMetricId, String scope) {
     List<SonarSnapshotJpa> snapshots = new ArrayList<SonarSnapshotJpa>();
 

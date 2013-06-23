@@ -2,28 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c1823b1a-026f-4bc5-808f-e98883b9e475" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/interfaces/SourceObject.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/model/SourceObject.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/model/Point3d.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/helper/Point3d.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/dot/DotExcecutor.class" afterPath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/dot/DotExcecutor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/SoftViz3dExtension.class" afterPath="$PROJECT_DIR$/target/classes/de/rinderle/softviz3d/SoftViz3dExtension.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/softviz3d-plugin-0.1-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/target/softviz3d-plugin-0.1-SNAPSHOT.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/AbsolutePositionCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/AbsolutePositionCalculator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/dot/DotExcecutor.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/dot/DotExcecutor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/Layout.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/Layout.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/test/de/rinderle/softviz3d/layout/LayoutCalculationTest.java" afterPath="$PROJECT_DIR$/src/main/test/de/rinderle/softviz3d/layout/LayoutCalculationTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/LayoutVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/LayoutVisitor.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/softviz_page.html.erb" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/interfaces/LayoutConstants.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/interfaces/SoftViz3dConstants.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/calc/AbsolutePositionCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/calc/AbsolutePositionCalculator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/dot/DotExcecutor.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/dot/DotExcecutor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/calc/LayoutVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/calc/LayoutVisitor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/test/de/rinderle/softviz3d/layout/SimpleLayoutCalculationTest.java" afterPath="$PROJECT_DIR$/src/main/test/de/rinderle/softviz3d/layout/SimpleLayoutCalculationTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/interfaces/SnapshotWrapper.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/interfaces/SnapshotWrapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/ViewLayerCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/layout/ViewLayerCalculator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/softviz_page.html.erb" afterPath="$PROJECT_DIR$/src/main/resources/softviz_page.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/softviz_page.html.erb" afterPath="$PROJECT_DIR$/target/classes/softviz_page.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/SoftViz3dExtension.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/SoftViz3dExtension.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/SoftViz3dPage.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/SoftViz3dPage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/SoftViz3dPlugin.java" afterPath="$PROJECT_DIR$/src/main/java/de/rinderle/softviz3d/SoftViz3dPlugin.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="softvizSonarPlugin.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="c1823b1a-026f-4bc5-808f-e98883b9e475" time="1371415185091" ignored="false" />
-    <file path="/softviz_page.html.erb" changelist="c1823b1a-026f-4bc5-808f-e98883b9e475" time="1371589811113" ignored="false" />
+    <file path="/Dummy.txt" changelist="c1823b1a-026f-4bc5-808f-e98883b9e475" time="1371933666638" ignored="false" />
+    <file path="/softviz_page.html.erb" changelist="c1823b1a-026f-4bc5-808f-e98883b9e475" time="1371903419452" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,13 +36,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="softviz_page.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="softviz_page.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/softviz_page.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="162" column="57" selection-start="4192" selection-end="4192" vertical-scroll-proportion="0.5691203">
-              <folding>
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
+            <state line="0" column="0" selection-start="0" selection-end="1" vertical-scroll-proportion="-0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.html.erb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/test.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="29" selection-start="278" selection-end="278" vertical-scroll-proportion="0.36842105">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -73,6 +73,7 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/src/main/resources/softviz_page.html.erb" />
+        <option value="$PROJECT_DIR$/src/main/resources/test.html.erb" />
       </list>
     </option>
   </component>
@@ -108,6 +109,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -123,6 +125,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="softvizSonarPlugin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="softvizSonarPlugin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="softvizSonarPlugin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -166,23 +182,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="softvizSonarPlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="softvizSonarPlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -206,23 +207,23 @@
     <frame x="20" y="22" width="1260" height="717" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24958813" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25782537" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -288,10 +289,22 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/resources/softviz_page.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="162" column="57" selection-start="4192" selection-end="4192" vertical-scroll-proportion="0.5691203">
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/softviz_page.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="1" vertical-scroll-proportion="-0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/test.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="29" selection-start="278" selection-end="278" vertical-scroll-proportion="0.36842105">
+          <folding />
         </state>
       </provider>
     </entry>

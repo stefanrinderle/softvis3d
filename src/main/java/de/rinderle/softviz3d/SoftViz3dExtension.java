@@ -50,9 +50,16 @@ public class SoftViz3dExtension implements ServerExtension {
     this.settings = settings;
   }
 
+  public List<Integer> getMetricsForSnapshot(Integer snapshotId) {
+    SonarDao sonarDao = new SonarDao(session);
+    
+    LOGGER.info("getMetricsForSnapshot " + snapshotId);
+    
+    return sonarDao.getDefinedMetricsForSnapshot(snapshotId);
+  }
+  
   public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
       Integer metricId1, Integer metricId2) throws DotExcecutorException {
-
     
     LOGGER.info("Startup SoftViz3d plugin");
 

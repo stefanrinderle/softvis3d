@@ -1,0 +1,72 @@
+<script>
+function handleClick() {
+  metric1 = this.metric1.options[this.metric1.selectedIndex].value;
+  metric2 = this.metric2.options[this.metric2.selectedIndex].value;
+  
+  alert(metric1);
+  alert(metric2);
+  
+  $("#metric1").val(metric1);
+  $("#metric2").val(metric2);
+  
+  <%
+  
+  # get extension class and start layout
+  #softviz3d = Api::Utils.java_facade.
+  #        getComponentByClassname('softviz3d', 'de.rinderle.softviz3d.SoftViz3dExtension')
+
+  #resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, 20, 1)
+  
+  # show all graph (as layers)
+  #resultMap.each do |key, value|
+  %>
+  
+  <%   
+  #end
+  %>
+  
+  return false; // prevent further bubbling of event
+}
+
+</script>
+
+<%
+   # get extension class and start layout
+   softviz3d = Api::Utils.java_facade.
+           getComponentByClassname('softviz3d', 'de.rinderle.softviz3d.SoftViz3dExtension')
+ 
+   metricIds = softviz3d.getMetricsForSnapshot(@snapshot.id)
+   
+   metrics=[]
+   metricIds.each do |index|
+     m = metric(index)
+     puts index
+     metrics << m if m
+   end
+   
+%>
+<select name="metric1">
+<%  
+   # show all graph (as layers)
+   metrics.each do |metric|
+%>
+       <option><%= metric.short_name %></option>
+<%
+   end
+%>
+</select>
+
+Select metric2:
+
+<select name="metric2">
+<%  
+   # show all graph (as layers)
+   metrics.each do |metric|
+%>
+       <option><%= metric.short_name %></option>
+<%
+   end
+%>
+</select>
+
+<button type="button" onclick="handleClick()">Create 3d Visualization</button>
