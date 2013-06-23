@@ -19,8 +19,6 @@
  */
 package de.rinderle.softviz3d;
 
-import org.sonar.api.config.Settings;
-
 import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
@@ -32,6 +30,7 @@ import de.rinderle.softviz3d.sonar.SonarSnapshotJpa;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
+import org.sonar.api.config.Settings;
 import org.sonar.api.database.DatabaseSession;
 
 import java.util.List;
@@ -55,12 +54,28 @@ public class SoftViz3dExtension implements ServerExtension {
     
     LOGGER.info("getMetricsForSnapshot " + snapshotId);
     
+    LOGGER.info(settings.getString("metric1"));
+
     return sonarDao.getDefinedMetricsForSnapshot(snapshotId);
   }
   
-  public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
-      Integer metricId1, Integer metricId2) throws DotExcecutorException {
+  public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId) throws DotExcecutorException {
+    SonarDao sonarDao = new SonarDao(session);
     
+    Integer metricId1 = sonarDao.getMetricIdByName(settings.getString("metric1"));
+    if (metricId1 == null) {
+      metricId1 = 1;
+    }
+     
+    Integer metricId2 = sonarDao.getMetricIdByName(settings.getString("metric2"));
+    if (metricId2 == null) {
+      metricId2 = 20;
+    }
+     
+    return createLayoutBySnapshotId(snapshotId, metricId1, metricId2);
+  }
+  
+  private Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId, Integer metricId1, Integer metricId2) throws DotExcecutorException {
     LOGGER.info("Startup SoftViz3d plugin");
 
     SonarDao sonarDao = new SonarDao(session);

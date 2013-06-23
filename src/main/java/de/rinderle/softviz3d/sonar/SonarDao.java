@@ -112,6 +112,26 @@ public class SonarDao {
     return metricIds;
   }
   
+  public Integer getMetricIdByName(String name) {
+    Integer metricId;
+
+    try {
+      session.start();
+      Query query = session
+          .createNativeQuery("SELECT id FROM Metrics m WHERE m.name = :name");
+      query.setParameter("name", name);
+
+      metricId = (Integer) query.getSingleResult();
+    } catch (PersistenceException e) {
+      LOGGER.error(e.getMessage(), e);
+      metricId = null;
+    } finally {
+      session.stop();
+    }
+
+    return metricId;
+  }
+  
   @SuppressWarnings("unchecked")
   public List<SonarSnapshotJpa> getChildrenByScope(Integer snapshotId, Integer footprintMetricId, Integer heightMetricId, String scope) {
     List<SonarSnapshotJpa> snapshots = new ArrayList<SonarSnapshotJpa>();

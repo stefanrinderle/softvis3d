@@ -1,4 +1,4 @@
-<div id="renderContainer" style="border: 1px solid red;"></div>
+<div id="renderContainer" style="border: 1px solid black;"></div>
 
 <script src="/static/softviz3d/threeJS/three.min.js"></script>
 
@@ -6,8 +6,6 @@
 
 <script src="/static/softviz3d/threeJS/Detector.js"></script>
 <script src="/static/softviz3d/threeJS/stats.min.js"></script>
-
-<script src="/static/softviz3d/js/softviz3d_scene.js"></script>
 
 <script>
 
@@ -22,7 +20,7 @@
 
 	camera = new THREE.PerspectiveCamera(60, window.innerWidth
 			/ window.innerHeight, 1, 10000);
-	camera.position.set(0, 500, 500)
+	camera.position.set(0, 3000, 3000)
 
 	controls = new THREE.OrbitControls(camera);
 	controls.addEventListener('change', render);
@@ -167,7 +165,7 @@
    softviz3d = Api::Utils.java_facade.
            getComponentByClassname('softviz3d', 'de.rinderle.softviz3d.SoftViz3dExtension')
 
-   resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, 20, 1)
+   resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id)
    
    # show all graph (as layers)
    resultMap.each do |key, value|
