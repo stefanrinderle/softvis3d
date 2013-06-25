@@ -1,7 +1,7 @@
 /*
  * SoftViz3d Sonar plugin
  * Copyright (C) 2013 Stefan Rinderle
- * dev@sonar.codehaus.org
+ * stefan@rinderle.info
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

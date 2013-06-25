@@ -1,0 +1,13 @@
+digraph 3 {
+	graph [bb="0,0,134,86"];
+	node [label="\N"];
+	i1	 [height=0.5,
+		label=".",
+		pos="116,18",
+		shape=box,
+		width=0.5];
+	i2hhjhjhjhjhj	 [height=1,
+		label=".",
+		pos="36,50",
+		width=1];
+}
