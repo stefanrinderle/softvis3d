@@ -1,6 +1,6 @@
 analyseLocally=false
 eclipse.preferences.version=1
-extraProperties=sonar.snapshotRepository.id\=codehaus.org\r\nsonar.snapshotRepository.url\=dav\:https\://dav.codehaus.org/snapshots.repository/sonar-plugins\r\nsonar.version\=3.0\r\nsonar.buildVersion\=3.0\r\nsonar.pluginName\=Softviz3d
+extraProperties=sonar.version\=3.0\r\nsonar.snapshotRepository.url\=dav\:https\://dav.codehaus.org/snapshots.repository/sonar-plugins\r\nsonar.pluginClass\=de.rinderle.softviz3d.SoftViz3dPlugin\r\nsonar.pluginName\=Softviz3d\r\nsonar.snapshotRepository.id\=codehaus.org
 projectKey=org.codehaus.sonar-plugins\:sonar-softviz3d-plugin
 serverUrl=http\://localhost\:9000
 version=2

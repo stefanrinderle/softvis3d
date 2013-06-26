@@ -1,4 +1,20 @@
+/build_and_deploy
+/sonar-project.properties
+/temp.dot
+/tempAdot.dot
+
+# Build files #
+###############
 *.class
+/target
+
+# IDE files #
+#############
+/eclipse
+/.project
+/.idea
+/.settings
+/.sonar
 
 # OS generated files #
 ######################
@@ -26,6 +42,3 @@ Thumbs.db
 *.jar
 *.war
 *.ear
-/temp.dot
-/eclipse
-/target
