@@ -75,7 +75,6 @@ public class DotExcecutor {
       BufferedReader in = new BufferedReader(new InputStreamReader(
           process.getInputStream()));
 
-      adot = new StringBuilder();
       String line;
       while ((line = in.readLine()) != null) {
         // TODO SRI !!! dirty hack !!!

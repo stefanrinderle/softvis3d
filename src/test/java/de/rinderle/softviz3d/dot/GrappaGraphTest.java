@@ -1,4 +1,25 @@
+/*
+ * SoftViz3d Sonar plugin
+ * Copyright (C) 2013 Stefan Rinderle
+ * stefan@rinderle.info
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ */
 package de.rinderle.softviz3d.dot;
+
+import org.junit.Ignore;
 
 import java.awt.Color;
 
@@ -57,6 +78,7 @@ public class GrappaGraphTest extends TestCase {
 		graph.addSubgraph(subgraph);
 	}
 
+	@Ignore
 	@Test
 	public void testNodeUpdate() {
 		//subgraphElementsAsArray()[0]
@@ -78,6 +100,7 @@ public class GrappaGraphTest extends TestCase {
 		assertTrue(graph.nodeElementsAsArray().length == 1);
 	}
 	
+	@Ignore
 	@Test
 	public void testBoundingBoxUpdate() {
 		// first create a bounding box - assure that one exists !
@@ -95,6 +118,7 @@ public class GrappaGraphTest extends TestCase {
 //		LOGGER.info(graph.getAttributeValue("bb").toString());
 	}
 
+	@Ignore
 	@Test
 	public void testAttributeTypes() {
 		Node node = graph.nodeElementsAsArray()[0];

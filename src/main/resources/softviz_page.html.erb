@@ -1,5 +1,11 @@
+<script type="text/javascript" src="/static/softviz3d/threeJS/three.min.js"></script>
 
+<script type="text/javascript" src="/static/softviz3d/threeJS/OrbitControls.js"></script>
 
+<script type="text/javascript" src="/static/softviz3d/threeJS/Detector.js"></script>
+<script type="text/javascript" src="/static/softviz3d/threeJS/stats.min.js"></script>
+
+<div id="metricForm">
 <%
    # get extension class and start layout
    softviz3d = Api::Utils.java_facade.
@@ -10,26 +16,25 @@
    metrics=[]
    metricIds.each do |index|
      m = metric(index)
-     puts index
      metrics << m if m
    end
    
 %>
-
-Select metric1:
-
+<% form_tag({:action => @resource.id.to_s}, {:id => 'softviz3dForm', :method => 'get'}) do %>
+<input type="hidden" name="page" value="Softviz3d">
+Building footprint metric:
 <select name="metric1">
 <%  
    # show all graph (as layers)
    metrics.each do |metric|
 %>
-       <option value="<%= metric.id %>"><%= metric.short_name %></option>
+    <option value="<%= metric.id %>"><%= metric.short_name %></option>
 <%
    end
 %>
 </select>
 
-Select metric2:
+Building height metric:
 
 <select name="metric2">
 <%  
@@ -42,4 +47,88 @@ Select metric2:
 %>
 </select>
 
-<button type="button" onclick="handleClick()">Create 3d Visualization</button>
+<input type="submit" value="Submit">
+<% end %>
+</div>
+
+<div id="renderContainer" style="border: 1px solid black;"></div>
+
+<script type="text/javascript" src="/static/softviz3d/js/softviz3dScene.js"></script>
+
+<script type="text/javascript">
+    <%
+   # get extension class and start layout
+   softviz3d = Api::Utils.java_facade.
+           getComponentByClassname('softviz3d', 'de.rinderle.softviz3d.SoftViz3dExtension')
+
+   if (!(params[:metric1] && params[:metric2])) 
+       puts("no params - default params")
+       resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id)
+   else
+       puts("params here - go ahead") 
+       params[:metric1] 
+       params[:metric2] 
+       resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, params[:metric1], params[:metric2])
+   end
+           
+   # show all graph (as layers)
+   resultMap.each do |key, value|
+        # set bb (position and size)
+        layerBB = value.getAttributeValue('bb')
+   %>
+    position = new Array();
+    position.x = <%= layerBB.getX() %>;
+    position.y = <%= value.getAttributeValue('layerHeight3d') %>;
+    position.z = <%= layerBB.getY() %>;
+
+    //<% heightString = value.getAttributeValue('buildingHeight').to_s %>
+    
+    geometryLayer = new THREE.CubeGeometry(<%= layerBB.getWidth() %>, 5,
+            <%= layerBB.getHeight() %>);
+
+    // set material (color)
+    layerMaterial = new THREE.MeshBasicMaterial({
+        color : <%= value.getAttributeValue('color').getHex %>
+    });
+
+    // <%= value.to_s %>
+    createBox(geometryLayer, layerMaterial, position);
+
+    // set node material for all containing nodes
+    nodeMaterial = new THREE.MeshLambertMaterial({
+        color : <%= value.getAttributeValue('nodesColor') %>
+    });
+    <%
+        # show all nodes
+        value.nodeElementsAsArray.each { |val|
+
+            point = val.getAttributeValue('pos')
+            pointArray = point.to_s.split(',')
+            heightString = val.getAttributeValue('buildingHeight')
+   %>
+    nodeGeometry = new THREE.CubeGeometry(
+            <%= val.getAttributeValue('width').to_s %>, <%= heightString %>,
+            <%= val.getAttributeValue('width').to_s %>);
+
+    position = new Array();
+    position.x = <%= pointArray[0] %>;
+    <% zPos = val.getAttributeValue('layerHeight3d').to_f + heightString.to_f / 2 %>
+    position.y = <%= zPos.to_s %>;
+    position.z = <%= pointArray[1] %>;
+
+    var textsize = <%= val.getAttributeValue('width').to_f / 8 %>
+    
+    textposition = new Array();
+    textposition.x = position.x;
+    textposition.y = <%= val.getAttributeValue('layerHeight3d').to_f + heightString.to_f + 10 %> + textsize / 2;
+    textposition.z = position.z;
+    
+    drawText("<%= val.getAttributeValue('displayName').to_s %>", textposition, textsize)
+    
+    // <%= val.to_s %>
+    createBox(nodeGeometry, nodeMaterial, position);
+    <%
+    }
+end
+%>
+</script>

@@ -75,6 +75,10 @@ public class SoftViz3dExtension implements ServerExtension {
     return createLayoutBySnapshotId(snapshotId, metricId1, metricId2);
   }
   
+  public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId, String metricId1, String metricId2) throws DotExcecutorException {
+    return createLayoutBySnapshotId(snapshotId, Integer.valueOf(metricId1), Integer.valueOf(metricId2));
+  }
+  
   private Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId, Integer metricId1, Integer metricId2) throws DotExcecutorException {
     LOGGER.info("Startup SoftViz3d plugin");
 

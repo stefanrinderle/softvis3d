@@ -87,4 +87,20 @@
     </dependency>
   </dependencies>
 
+    <build>
+    <pluginManagement>
+      <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.5.1</version>
+        <configuration>
+          <source>${jdk.min.version}</source>
+          <target>${jdk.min.version}</target>
+        </configuration>
+      </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+  
 </project>

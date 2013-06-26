@@ -11,7 +11,9 @@ if (!Detector.webgl)
 			/ window.innerHeight, 1, 10000);
 	camera.position.set(0, 3000, 3000)
 
-	controls = new THREE.OrbitControls(camera);
+	container = document.getElementById('renderContainer');
+	
+	controls = new THREE.OrbitControls(camera, container);
 	controls.addEventListener('change', render);
 
 	scene = new THREE.Scene();
@@ -67,7 +69,6 @@ if (!Detector.webgl)
 
 	// append scene to html container
 
-	container = document.getElementById('renderContainer');
 	container.appendChild(renderer.domElement);
 
 	// show stats
