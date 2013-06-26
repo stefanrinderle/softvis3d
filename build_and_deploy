@@ -1,3 +1,0 @@
-mvn install
-cp target/sonar-softviz3d-plugin-0.1-SNAPSHOT.jar /opt/sonar-3.5.1/extensions/plugins/
-/opt/sonar-3.5.1/bin/macosx-universal-64/sonar.sh restart
