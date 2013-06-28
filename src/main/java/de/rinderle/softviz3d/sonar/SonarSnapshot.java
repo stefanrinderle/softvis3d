@@ -19,84 +19,41 @@
  */
 package de.rinderle.softviz3d.sonar;
 
-import de.rinderle.softviz3d.layout.interfaces.SourceObject;
-import org.sonar.api.resources.Scopes;
+public class SonarSnapshot {
 
-import java.util.ArrayList;
-import java.util.List;
+  private Integer id;
+  private String name;
+  private Integer depth;
+  private Double footprintMetricValue;
+  private Double heightMetricValue;
 
-public class SonarSnapshot implements SourceObject {
-
-  // private static final Logger LOGGER = LoggerFactory
-  // .getLogger(SonarSnapshot.class);
-
-  private SonarSnapshotJpa snapshot;
-
-  private Integer footprintMetricId;
-  private Integer heightMetricId;
-
-  private SonarDao sonarDao;
-
-  public SonarSnapshot(SonarSnapshotJpa snapshot, Integer footprintMetricId, Integer heightMetricId, SonarDao sonarDao) {
-    this.snapshot = snapshot;
-
-    this.footprintMetricId = footprintMetricId;
-    this.heightMetricId = heightMetricId;
-
-    this.sonarDao = sonarDao;
+  public SonarSnapshot(Integer id, String name, Integer depth, Double footprintMetricValue, Double heightMetricValue) {
+    super();
+    this.id = id;
+    this.name = name;
+    this.depth = depth;
+    this.footprintMetricValue = footprintMetricValue;
+    this.heightMetricValue = heightMetricValue;
   }
 
-  @Override
   public Integer getId() {
-    return snapshot.getId();
+    return id;
   }
 
-  @Override
   public String getName() {
-    return snapshot.getName();
+    return name;
   }
 
-  @Override
   public Integer getDepth() {
-    return snapshot.getDepth();
+    return depth;
   }
 
-  @Override
-  public List<SonarSnapshot> getChildrenNodes() {
-    List<SonarSnapshotJpa> result = sonarDao.getChildrenByScope(this.getId(), footprintMetricId, heightMetricId, Scopes.DIRECTORY);
-
-    return wrapSnapshotList(result);
+  public Double getFootprintMetricValue() {
+    return footprintMetricValue;
   }
 
-  @Override
-  public List<SonarSnapshot> getChildrenLeaves() {
-    List<SonarSnapshotJpa> result = sonarDao.getChildrenByScope(this.getId(), footprintMetricId, heightMetricId, Scopes.FILE);
-
-    return wrapSnapshotList(result);
-  }
-
-  @Override
-  public Double getMetricFootprint() {
-    return snapshot.getFootprintMetricValue();
-  }
-
-  @Override
-  public Double getMetricHeight() {
-    return snapshot.getHeightMetricValue();
-  }
-
-  private List<SonarSnapshot> wrapSnapshotList(List<SonarSnapshotJpa> snapshots) {
-    List<SonarSnapshot> result = new ArrayList<SonarSnapshot>();
-
-    for (SonarSnapshotJpa snapshotElement : snapshots) {
-      result.add(new SonarSnapshot(snapshotElement, footprintMetricId, heightMetricId, sonarDao));
-    }
-    return result;
-  }
-
-  @Override
-  public List<Integer> getChildrenIds() {
-    return sonarDao.getSnapshotChildrenIdsById(this.getId());
+  public Double getHeightMetricValue() {
+    return heightMetricValue;
   }
 
 }

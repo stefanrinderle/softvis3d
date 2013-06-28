@@ -244,12 +244,12 @@ public class LayoutCalculationTest extends TestCase {
 		}
 
 		@Override
-	  public Double getMetricFootprint() {
+	  public Double getMetricFootprintValue() {
 	    return Math.random() * 100;
 	  }
 
 	  @Override
-	  public Double getMetricHeight() {
+	  public Double getMetricHeightValue() {
 	    return Math.random() * 100;
 	  }
 		

@@ -112,9 +112,9 @@ public class LayoutVisitor {
   }
 
   public LayeredLayoutElement visitFile(SourceObject source) {
-    double sideLength = calcSideLength(source.getMetricFootprint());
+    double sideLength = calcSideLength(source.getMetricFootprintValue());
 
-    double buildingHeight = calcBuildingHeight(source.getMetricHeight());
+    double buildingHeight = calcBuildingHeight(source.getMetricHeightValue());
 
     return new LayeredLayoutElement(Type.LEAF, source.getId(),
         "file_" + source.getId().toString(), 

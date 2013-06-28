@@ -25,8 +25,8 @@ import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarMetric;
+import de.rinderle.softviz3d.sonar.SonarSnapshotWrapper;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
-import de.rinderle.softviz3d.sonar.SonarSnapshotJpa;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
@@ -90,8 +90,8 @@ public class SoftViz3dExtension implements ServerExtension {
 
     SonarMetric heightMetricWrapper = new SonarMetric(minMaxValues.get(2), minMaxValues.get(3));
 
-    SonarSnapshotJpa snapshot = sonarDao.getSnapshotById(snapshotId, metricId1, metricId2);
-    SonarSnapshot snapshotWrapper = new SonarSnapshot(snapshot, metricId1, metricId2, sonarDao);
+    SonarSnapshot snapshot = sonarDao.getSnapshotById(snapshotId, metricId1, metricId2);
+    SonarSnapshotWrapper snapshotWrapper = new SonarSnapshotWrapper(snapshot, metricId1, metricId2, sonarDao);
 
     LOGGER.info("Start layout calculation for snapshot " + snapshotWrapper.getName() + ", " +
       "metrics " + metricId1 + " and " + metricId2);

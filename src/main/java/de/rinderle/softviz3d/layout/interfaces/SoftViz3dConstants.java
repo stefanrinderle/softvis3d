@@ -74,6 +74,4 @@ public interface SoftViz3dConstants {
 
   public static final double PERCENT_DIVISOR = 100;
 
-  
-
 }

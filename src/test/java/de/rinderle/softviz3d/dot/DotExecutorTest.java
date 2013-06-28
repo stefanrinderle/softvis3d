@@ -40,6 +40,12 @@ import att.grappa.GrappaConstants;
 import att.grappa.Node;
 import att.grappa.Subgraph;
 
+
+// reminder
+//@com.google.common.annotations.VisibleForTesting
+
+
+
 public class DotExecutorTest extends TestCase {
 
 	private static final Logger LOGGER = LoggerFactory

@@ -45,12 +45,12 @@ public interface SourceObject {
    * Delivers the building footprint metric.
    * @return null if no metric is available.
    */
-  Double getMetricFootprint();
+  Double getMetricFootprintValue();
 
   /**
    * Delivers the building height metric.
    * @return null if no metric is available.
    */
-  Double getMetricHeight();
+  Double getMetricHeightValue();
 
 }

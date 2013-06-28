@@ -22,6 +22,7 @@ package de.rinderle.softviz3d.sonar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.database.DatabaseSession;
+import org.sonar.api.resources.Scopes;
 
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -41,8 +42,8 @@ public class SonarDao {
     this.session = session;
   }
 
-  public SonarSnapshotJpa getSnapshotById(Integer snapshotId, Integer footprintMetricId, Integer heightMetricId) {
-    SonarSnapshotJpa snapshot;
+  public SonarSnapshot getSnapshotById(Integer snapshotId, Integer footprintMetricId, Integer heightMetricId) {
+    SonarSnapshot snapshot;
 
     try {
       session.start();
@@ -76,13 +77,13 @@ public class SonarDao {
     return snapshot;
   }
 
-  private SonarSnapshotJpa castToJpaSnapshot(Object[] result, BigDecimal metric2Value) {
+  private SonarSnapshot castToJpaSnapshot(Object[] result, BigDecimal metric2Value) {
     Integer id = (Integer) result[0];
     String name = (String) result[1];
     Integer depth = (Integer) result[2];
     BigDecimal footprintMetricValue = (BigDecimal) result[3];
     BigDecimal heightMetricValue = metric2Value;
-    SonarSnapshotJpa snapshot = new SonarSnapshotJpa(id, name, depth, footprintMetricValue.doubleValue(), heightMetricValue.doubleValue());
+    SonarSnapshot snapshot = new SonarSnapshot(id, name, depth, footprintMetricValue.doubleValue(), heightMetricValue.doubleValue());
 
     // LOGGER.info(snapshot.toString());
 
@@ -110,17 +111,33 @@ public class SonarDao {
     return childrenIds;
   }
 
+  /**
+   * Request all metrics which are set on the file level (Scope) for
+   * the requested root snapshot.
+   * 
+   * @param snapshotId Root snapshot ID
+   * @return defined metrics on the file level scope
+   */
   @SuppressWarnings("unchecked")
   public List<Integer> getDefinedMetricsForSnapshot(Integer snapshotId) {
     List<Integer> metricIds;
 
     try {
       session.start();
+      
+      // search the first child
+      // TODO SRI LIMIT 1
       Query query = session
+          .createQuery("SELECT id FROM Snapshot s WHERE s.path LIKE :snapshotId AND s.scope = :scope");
+      query.setParameter("snapshotId", snapshotId + ".%");
+      query.setParameter("scope", Scopes.FILE);
+      List<Integer> childIds = query.getResultList();
+      
+      Query query2 = session
           .createQuery("SELECT distinct metricId FROM MeasureModel m WHERE m.snapshotId = :snapshotId AND m.value is not null");
-      query.setParameter("snapshotId", snapshotId);
+      query2.setParameter("snapshotId", childIds.get(0));
 
-      metricIds = query.getResultList();
+      metricIds = query2.getResultList();
     } catch (PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
       metricIds = null;
@@ -152,8 +169,8 @@ public class SonarDao {
   }
   
   @SuppressWarnings("unchecked")
-  public List<SonarSnapshotJpa> getChildrenByScope(Integer snapshotId, Integer footprintMetricId, Integer heightMetricId, String scope) {
-    List<SonarSnapshotJpa> snapshots = new ArrayList<SonarSnapshotJpa>();
+  public List<SonarSnapshot> getChildrenByScope(Integer snapshotId, Integer footprintMetricId, Integer heightMetricId, String scope) {
+    List<SonarSnapshot> snapshots = new ArrayList<SonarSnapshot>();
 
     try {
       session.start();
