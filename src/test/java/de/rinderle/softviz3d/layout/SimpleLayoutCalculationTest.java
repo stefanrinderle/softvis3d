@@ -19,31 +19,24 @@
  */
 package de.rinderle.softviz3d.layout;
 
-import org.sonar.api.config.Settings;
-
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-
-import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
-
+import att.grappa.Graph;
+import att.grappa.Node;
+import de.rinderle.softviz3d.layout.Layout;
 import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
-
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
-
+import junit.framework.TestCase;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.TestCase;
-
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import att.grappa.Graph;
-import att.grappa.Node;
 
 public class SimpleLayoutCalculationTest extends TestCase {
 

@@ -53,7 +53,16 @@ Building height metric:
 
 <div id="renderContainer" style="border: 1px solid black;"></div>
 
-<script type="text/javascript" src="/static/softviz3d/js/softviz3dScene.js"></script>
+<script type="text/javascript" src="/static/softviz3d/js/ThreeScene.js"></script>
+
+<script type="text/javascript">
+if (!Detector.webgl) {
+    Detector.addGetWebGLMessage();
+}
+
+var threeScene = new ThreeScene(document.getElementById('renderContainer'));
+threeScene.init();
+</script>
 
 <script type="text/javascript">
     <%
@@ -92,7 +101,7 @@ Building height metric:
     });
 
     // <%= value.to_s %>
-    createBox(geometryLayer, layerMaterial, position);
+    threeScene.createBox(geometryLayer, layerMaterial, position);
 
     // set node material for all containing nodes
     nodeMaterial = new THREE.MeshLambertMaterial({
@@ -123,10 +132,10 @@ Building height metric:
     textposition.y = <%= val.getAttributeValue('layerHeight3d').to_f + heightString.to_f + 10 %> + textsize / 2;
     textposition.z = position.z;
     
-    drawText("<%= val.getAttributeValue('displayName').to_s %>", textposition, textsize)
+    threeScene.drawText("<%= val.getAttributeValue('displayName').to_s %>", textposition, textsize)
     
     // <%= val.to_s %>
-    createBox(nodeGeometry, nodeMaterial, position);
+    threeScene.createBox(nodeGeometry, nodeMaterial, position);
     <%
     }
 end
