@@ -41,38 +41,34 @@ public class SoftViz3dExtension implements ServerExtension {
   private static final Logger LOGGER = LoggerFactory
       .getLogger(SoftViz3dExtension.class);
 
-  private DatabaseSession session;
   private Settings settings;
+  private SonarDao dao;
   
   public SoftViz3dExtension(DatabaseSession session, Settings settings) {
-    this.session = session;
+    this.dao = new SonarDao(session);
+    
     this.settings = settings;
   }
 
   public List<Integer> getMetricsForSnapshot(Integer snapshotId) {
-    SonarDao sonarDao = new SonarDao(session);
-    
     LOGGER.info("getMetricsForSnapshot " + snapshotId);
     
-    LOGGER.info(settings.getString("metric1"));
-
-    return sonarDao.getDefinedMetricsForSnapshot(snapshotId);
+    return dao.getDefinedMetricsForSnapshot(snapshotId);
   }
   
   public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId) throws DotExcecutorException {
-    SonarDao sonarDao = new SonarDao(session);
-    
-    Integer metricId1 = sonarDao.getMetricIdByName(settings.getString("metric1"));
-    if (metricId1 == null) {
-      metricId1 = 1;
-    }
-     
-    Integer metricId2 = sonarDao.getMetricIdByName(settings.getString("metric2"));
-    if (metricId2 == null) {
-      metricId2 = 20;
-    }
+    Integer metricId1 = this.getMetric1FromSettings();
+    Integer metricId2 = this.getMetric2FromSettings();
      
     return createLayoutBySnapshotId(snapshotId, metricId1, metricId2);
+  }
+  
+  public Integer getMetric1FromSettings() {
+    return dao.getMetricIdByName(settings.getString("metric1"));
+  }
+  
+  public Integer getMetric2FromSettings() {
+    return dao.getMetricIdByName(settings.getString("metric2"));
   }
   
   public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId, String metricId1, String metricId2) throws DotExcecutorException {
@@ -82,16 +78,14 @@ public class SoftViz3dExtension implements ServerExtension {
   private Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId, Integer metricId1, Integer metricId2) throws DotExcecutorException {
     LOGGER.info("Startup SoftViz3d plugin");
 
-    SonarDao sonarDao = new SonarDao(session);
-
-    List<Double> minMaxValues = sonarDao.getMinMaxMetricValuesByRootSnapshotId(snapshotId, metricId1, metricId2);
+    List<Double> minMaxValues = dao.getMinMaxMetricValuesByRootSnapshotId(snapshotId, metricId1, metricId2);
 
     SonarMetric footprintMetricWrapper = new SonarMetric(minMaxValues.get(0), minMaxValues.get(1));
 
     SonarMetric heightMetricWrapper = new SonarMetric(minMaxValues.get(2), minMaxValues.get(3));
 
-    SonarSnapshot snapshot = sonarDao.getSnapshotById(snapshotId, metricId1, metricId2);
-    SonarSnapshotWrapper snapshotWrapper = new SonarSnapshotWrapper(snapshot, metricId1, metricId2, sonarDao);
+    SonarSnapshot snapshot = dao.getSnapshotById(snapshotId, metricId1, metricId2);
+    SonarSnapshotWrapper snapshotWrapper = new SonarSnapshotWrapper(snapshot, metricId1, metricId2, dao);
 
     LOGGER.info("Start layout calculation for snapshot " + snapshotWrapper.getName() + ", " +
       "metrics " + metricId1 + " and " + metricId2);

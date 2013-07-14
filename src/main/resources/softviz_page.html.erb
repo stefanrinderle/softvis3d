@@ -12,13 +12,20 @@
              getComponentByClassname('softviz3d', 'de.rinderle.softviz3d.SoftViz3dExtension')
 
      metricIds = softviz3d.getMetricsForSnapshot(@snapshot.id)
-
+    
+    # get all defined metric for project files
      metrics=[]
      metricIds.each do |index|
        m = metric(index)
        metrics << m if m
      end
 
+    # set default metric ids if no metrics selected
+    if (!(params[:metric1] && !params[:metric2])) 
+       puts("no params - default params")
+       params[:metric1] = softviz3d.getMetric1FromSettings()
+       params[:metric2] = softviz3d.getMetric2FromSettings()
+    end
   %>
   <% form_tag({:action => @resource.id.to_s}, {:id => 'softviz3dForm', :method => 'get'}) do %>
       <input type="hidden" name="page" value="Softviz3d">
@@ -73,12 +80,13 @@
 </script>
 
 <script type="text/javascript">
+
     <%
    # get extension class and start layout
    softviz3d = Api::Utils.java_facade.
            getComponentByClassname('softviz3d', 'de.rinderle.softviz3d.SoftViz3dExtension')
 
-   if (!(params[:metric1] && params[:metric2])) 
+   if (!(params[:metric1] && !params[:metric2])) 
        puts("no params - default params")
        resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id)
    else
