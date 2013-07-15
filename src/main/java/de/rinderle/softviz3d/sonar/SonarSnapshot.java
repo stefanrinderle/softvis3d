@@ -56,4 +56,9 @@ public class SonarSnapshot {
     return heightMetricValue;
   }
 
+  @Override
+  public String toString() {
+    return "SonarSnapshot [id=" + id + ", name=" + name + ", depth=" + depth + ", footprintMetricValue=" + footprintMetricValue + ", heightMetricValue=" + heightMetricValue + "]";
+  }
+
 }

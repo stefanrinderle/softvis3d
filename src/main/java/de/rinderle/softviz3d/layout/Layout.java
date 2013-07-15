@@ -33,8 +33,8 @@ import java.util.Map;
 
 public class Layout {
 
-  // private static final Logger LOGGER = LoggerFactory
-  // .getLogger(Layout.class);
+//   private static final Logger LOGGER = LoggerFactory
+//   .getLogger(Layout.class);
 
   private LayoutVisitor visitor;
 

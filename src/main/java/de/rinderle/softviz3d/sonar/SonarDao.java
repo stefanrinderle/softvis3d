@@ -80,12 +80,13 @@ public class SonarDao {
   private SonarSnapshot castToJpaSnapshot(Object[] result, BigDecimal metric2Value) {
     Integer id = (Integer) result[0];
     String name = (String) result[1];
+    // TODO SRI depth stimmt nicht
     Integer depth = (Integer) result[2];
     BigDecimal footprintMetricValue = (BigDecimal) result[3];
     BigDecimal heightMetricValue = metric2Value;
     SonarSnapshot snapshot = new SonarSnapshot(id, name, depth, footprintMetricValue.doubleValue(), heightMetricValue.doubleValue());
 
-    // LOGGER.info(snapshot.toString());
+//    LOGGER.info(snapshot.toString());
 
     return snapshot;
   }
@@ -154,7 +155,7 @@ public class SonarDao {
     try {
       session.start();
       Query query = session
-          .createNativeQuery("SELECT id FROM Metrics m WHERE m.name = :name");
+          .createNativeQuery("SELECT id FROM metrics m WHERE m.name = :name");
       query.setParameter("name", name);
 
       metricId = (Integer) query.getSingleResult();

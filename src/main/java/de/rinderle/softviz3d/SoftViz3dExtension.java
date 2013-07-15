@@ -76,7 +76,7 @@ public class SoftViz3dExtension implements ServerExtension {
   }
   
   private Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId, Integer metricId1, Integer metricId2) throws DotExcecutorException {
-    LOGGER.info("Startup SoftViz3d plugin");
+    LOGGER.info("Startup SoftViz3d plugin with snapshot " + snapshotId);
 
     List<Double> minMaxValues = dao.getMinMaxMetricValuesByRootSnapshotId(snapshotId, metricId1, metricId2);
 

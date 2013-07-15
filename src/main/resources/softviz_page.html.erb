@@ -5,7 +5,7 @@
 <script type="text/javascript" src="/static/softviz3d/threeJS/Detector.js"></script>
 <script type="text/javascript" src="/static/softviz3d/threeJS/stats.min.js"></script>
 
-<div id="metricForm">
+<div id="metricForm" style="height: 30px;">
   <%
      # get extension class and start layout
      softviz3d = Api::Utils.java_facade.
@@ -77,6 +77,8 @@
 
     var threeScene = new ThreeScene(document.getElementById('renderContainer'));
     threeScene.init();
+    
+    
 </script>
 
 <script type="text/javascript">

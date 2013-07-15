@@ -27,10 +27,12 @@ var ThreeScene = function(container) {
 		animate();
 		
 		this.render();
+		
+		this.camera.position.set(0, 4000, 4000);
 	},
 	
 	this.startRenderer = function () {
-		this.camera.position.set(0, 3000, 3000);
+		this.camera.position.set(0, 0, 0);
 
 		this.renderer.setClearColor(0xffffff, 1);
 		
@@ -46,7 +48,8 @@ var ThreeScene = function(container) {
 		
 		this.container.appendChild(this.renderer.domElement);
 		
-		this.showStats(this.container);
+		// TODO SRI: stats should be its own container, not blocking the rest of the rendering view
+		/**this.showStats(this.container);**/
 	},
 	
 	this.setLight = function () {
@@ -102,8 +105,9 @@ var ThreeScene = function(container) {
 		this.camera.aspect = window.innerWidth / window.innerHeight;
 		this.camera.updateProjectionMatrix();
 
-		// header of sonar is 70 px - footer 50 px - sidebar 200px
-		this.renderer.setSize(window.innerWidth - 200, window.innerHeight - 120);
+		// header of sonar is 70 px + footer 50 px + metric select form 30 px 
+		// sidebar 200px
+		this.renderer.setSize(window.innerWidth - 200, window.innerHeight - 150);
 
 		this.render();
 	},
