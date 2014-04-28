@@ -86,91 +86,21 @@ public class SonarDao {
     BigDecimal heightMetricValue = metric2Value;
     SonarSnapshot snapshot = new SonarSnapshot(id, name, depth, footprintMetricValue.doubleValue(), heightMetricValue.doubleValue());
 
-//    LOGGER.info(snapshot.toString());
-
     return snapshot;
   }
-
-  @SuppressWarnings("unchecked")
-  public List<Integer> getSnapshotChildrenIdsById(Integer id) {
-    List<Integer> childrenIds;
-
-    try {
-      session.start();
-      Query query = session
-          .createQuery("select s.id from Snapshot s where s.parentId = :id");
-      query.setParameter("id", id);
-
-      childrenIds = query.getResultList();
-    } catch (PersistenceException e) {
-      LOGGER.error(e.getMessage(), e);
-      childrenIds = null;
-    } finally {
-      session.stop();
-    }
-
-    return childrenIds;
-  }
-
+  
   /**
-   * Request all metrics which are set on the file level (Scope) for
-   * the requested root snapshot.
    * 
-   * @param snapshotId Root snapshot ID
-   * @return defined metrics on the file level scope
+   * @param snapshotId parent snapshot id
+   * @param footprintMetricId used for getting the metric value-
+   * @param heightMetricId used for getting the metric value.
+   * @param scope see <code>Scopes.class</code> class.
+   * @param parentDepth is used to overcome the "depth problem" within the sonar database.
+   * @return
    */
   @SuppressWarnings("unchecked")
-  public List<Integer> getDefinedMetricsForSnapshot(Integer snapshotId) {
-    List<Integer> metricIds;
-
-    try {
-      session.start();
-      
-      // search the first child
-      // TODO SRI LIMIT 1
-      Query query = session
-          .createQuery("SELECT id FROM Snapshot s WHERE s.path LIKE :snapshotId AND s.scope = :scope");
-      query.setParameter("snapshotId", snapshotId + ".%");
-      query.setParameter("scope", Scopes.FILE);
-      List<Integer> childIds = query.getResultList();
-      
-      Query query2 = session
-          .createQuery("SELECT distinct metricId FROM MeasureModel m WHERE m.snapshotId = :snapshotId AND m.value is not null");
-      query2.setParameter("snapshotId", childIds.get(0));
-
-      metricIds = query2.getResultList();
-    } catch (PersistenceException e) {
-      LOGGER.error(e.getMessage(), e);
-      metricIds = null;
-    } finally {
-      session.stop();
-    }
-
-    return metricIds;
-  }
-  
-  public Integer getMetricIdByName(String name) {
-    Integer metricId;
-
-    try {
-      session.start();
-      Query query = session
-          .createNativeQuery("SELECT id FROM metrics m WHERE m.name = :name");
-      query.setParameter("name", name);
-
-      metricId = (Integer) query.getSingleResult();
-    } catch (PersistenceException e) {
-      LOGGER.error(e.getMessage(), e);
-      metricId = null;
-    } finally {
-      session.stop();
-    }
-
-    return metricId;
-  }
-  
-  @SuppressWarnings("unchecked")
-  public List<SonarSnapshot> getChildrenByScope(Integer snapshotId, Integer footprintMetricId, Integer heightMetricId, String scope) {
+  public List<SonarSnapshot> getChildrenByScope(Integer snapshotId, 
+      Integer footprintMetricId, Integer heightMetricId, String scope) {
     List<SonarSnapshot> snapshots = new ArrayList<SonarSnapshot>();
 
     try {
@@ -207,7 +137,65 @@ public class SonarDao {
 
     return snapshots;
   }
+  
+  /**
+   * Request all metrics which are set on the file level (Scope) for
+   * the requested root snapshot.
+   * 
+   * @param snapshotId Root snapshot ID
+   * @return defined metrics on the file level scope
+   */
+  @SuppressWarnings("unchecked")
+  public List<Integer> getDefinedMetricsForSnapshot(Integer snapshotId) {
+    List<Integer> metricIds;
 
+    try {
+      session.start();
+      
+      // search the first child
+      Query query = session
+          .createQuery("SELECT id FROM Snapshot s WHERE s.path LIKE :snapshotId AND s.scope = :scope");
+      query.setMaxResults(1);
+      
+      query.setParameter("snapshotId", snapshotId + ".%");
+      query.setParameter("scope", Scopes.FILE);
+      Integer childId = (Integer) query.getSingleResult();
+      
+      Query metricsQuery = session
+          .createQuery("SELECT distinct metricId FROM MeasureModel m WHERE m.snapshotId = :snapshotId AND m.value is not null");
+      metricsQuery.setParameter("snapshotId", childId);
+
+      metricIds = metricsQuery.getResultList();
+    } catch (PersistenceException e) {
+      LOGGER.error(e.getMessage(), e);
+      metricIds = null;
+    } finally {
+      session.stop();
+    }
+
+    return metricIds;
+  }
+  
+  public Integer getMetricIdByName(String name) {
+    Integer metricId;
+
+    try {
+      session.start();
+      Query query = session
+          .createNativeQuery("SELECT id FROM metrics m WHERE m.name = :name");
+      query.setParameter("name", name);
+
+      metricId = (Integer) query.getSingleResult();
+    } catch (PersistenceException e) {
+      LOGGER.error(e.getMessage(), e);
+      metricId = null;
+    } finally {
+      session.stop();
+    }
+
+    return metricId;
+  }
+  
   public List<Double> getMinMaxMetricValuesByRootSnapshotId(Integer rootSnapshotId, Integer footprintMetricId, Integer heightMetricId) {
     List<Double> values = new ArrayList<Double>();
 
@@ -238,5 +226,27 @@ public class SonarDao {
     }
 
     return values;
+  }
+  
+  @Deprecated
+  @SuppressWarnings("unchecked")
+  public List<Integer> getSnapshotChildrenIdsById(Integer id) {
+    List<Integer> childrenIds;
+
+    try {
+      session.start();
+      Query query = session
+          .createQuery("select s.id from Snapshot s where s.parentId = :id");
+      query.setParameter("id", id);
+
+      childrenIds = query.getResultList();
+    } catch (PersistenceException e) {
+      LOGGER.error(e.getMessage(), e);
+      childrenIds = null;
+    } finally {
+      session.stop();
+    }
+
+    return childrenIds;
   }
 }

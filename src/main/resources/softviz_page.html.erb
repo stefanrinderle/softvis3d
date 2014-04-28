@@ -20,6 +20,8 @@
        metrics << m if m
      end
 
+    # BUG params are not selected
+
     # set default metric ids if no metrics selected
     if (!(params[:metric1] && !params[:metric2])) 
        puts("no params - default params")
