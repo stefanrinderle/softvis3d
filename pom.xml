@@ -8,7 +8,7 @@
     <artifactId>parent</artifactId>
     <version>17</version>
   </parent>
-  
+
   <artifactId>sonar-softviz3d-plugin</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>sonar-plugin</packaging>
@@ -18,7 +18,7 @@
   <organization>
     <name>Stefan Rinderle</name>
   </organization>
-  
+
   <url>http://docs.codehaus.org/display/SONAR/softviz3d</url>
   <inceptionYear>2013</inceptionYear>
   <developers>
@@ -31,9 +31,9 @@
 
   <properties>
     <sonar.version>3.0</sonar.version>
-    
+
     <license.mailto>stefan@rinderle.info</license.mailto>
-    
+
     <!-- Configuration for sonar-packaging-maven-plugin -->
     <sonar.pluginClass>de.rinderle.softviz3d.SoftViz3dPlugin</sonar.pluginClass>
     <sonar.pluginName>Softviz3d</sonar.pluginName>
@@ -60,6 +60,11 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
     <!-- unit tests -->
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
@@ -87,20 +92,20 @@
     </dependency>
   </dependencies>
 
-    <build>
+  <build>
     <pluginManagement>
       <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.5.1</version>
-        <configuration>
-          <source>${jdk.min.version}</source>
-          <target>${jdk.min.version}</target>
-        </configuration>
-      </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.5.1</version>
+          <configuration>
+            <source>${jdk.min.version}</source>
+            <target>${jdk.min.version}</target>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
-  
+
 </project>
