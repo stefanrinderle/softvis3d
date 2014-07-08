@@ -1,112 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.codehaus.sonar-plugins</groupId>
-    <artifactId>parent</artifactId>
-    <version>17</version>
-  </parent>
+	<parent>
+		<groupId>org.codehaus.sonar-plugins</groupId>
+		<artifactId>parent</artifactId>
+		<version>17</version>
+	</parent>
 
-  <artifactId>sonar-softviz3d-plugin</artifactId>
-  <version>0.1-SNAPSHOT</version>
-  <packaging>sonar-plugin</packaging>
-  <name>SoftViz3d Sonar plugin</name>
-  <description>Creates a 3d view of the project structure</description>
+	<artifactId>sonar-softviz3d-plugin</artifactId>
+	<version>0.1-SNAPSHOT</version>
+	<packaging>sonar-plugin</packaging>
+	<name>SoftViz3d Sonar plugin</name>
+	<description>Creates a 3d view of the project structure</description>
 
-  <organization>
-    <name>Stefan Rinderle</name>
-  </organization>
+	<organization>
+		<name>Stefan Rinderle</name>
+	</organization>
 
-  <url>http://docs.codehaus.org/display/SONAR/softviz3d</url>
-  <inceptionYear>2013</inceptionYear>
-  <developers>
-    <developer>
-      <id>srinderle</id>
-      <name>Stefan Rinderle</name>
-      <email>stefan@rinderle.info</email>
-    </developer>
-  </developers>
+	<url>http://docs.codehaus.org/display/SONAR/softviz3d</url>
+	<inceptionYear>2013</inceptionYear>
+	<developers>
+		<developer>
+			<id>srinderle</id>
+			<name>Stefan Rinderle</name>
+			<email>stefan@rinderle.info</email>
+		</developer>
+	</developers>
 
-  <properties>
-    <sonar.version>3.0</sonar.version>
+	<properties>
+		<sonar.version>4.2</sonar.version>
 
-    <license.mailto>stefan@rinderle.info</license.mailto>
+		<license.mailto>stefan@rinderle.info</license.mailto>
 
-    <!-- Configuration for sonar-packaging-maven-plugin -->
-    <sonar.pluginClass>de.rinderle.softviz3d.SoftViz3dPlugin</sonar.pluginClass>
-    <sonar.pluginName>Softviz3d</sonar.pluginName>
-  </properties>
+		<!-- Configuration for sonar-packaging-maven-plugin -->
+		<sonar.pluginClass>de.rinderle.softviz3d.SoftViz3dPlugin</sonar.pluginClass>
+		<sonar.pluginName>Softviz3d</sonar.pluginName>
+	</properties>
 
-  <repositories>
-    <repository>
-      <id>lib</id>
-      <name>In Project Repo</name>
-      <url>file://${project.basedir}/libs</url>
-    </repository>
-  </repositories>
+	<repositories>
+		<repository>
+			<id>lib</id>
+			<name>In Project Repo</name>
+			<url>file://${project.basedir}/libs</url>
+		</repository>
+	</repositories>
 
-  <dependencies>
-    <dependency>
-      <groupId>att</groupId>
-      <artifactId>grappa</artifactId>
-      <version>2</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-plugin-api</artifactId>
-      <version>${sonar.version}</version>
-      <!-- scope>provided</scope -->
-    </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>att</groupId>
+			<artifactId>grappa</artifactId>
+			<version>2</version>
+		</dependency>
 
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.6</version>
-    </dependency>
-    <!-- unit tests -->
-    <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-testing-harness</artifactId>
-      <version>${sonar.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.easytesting</groupId>
-      <artifactId>fest-assert</artifactId>
-      <version>1.4</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-project</artifactId>
-      <version>2.2.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+		<dependency>
+			<groupId>org.codehaus.sonar</groupId>
+			<artifactId>sonar-plugin-api</artifactId>
+			<version>${sonar.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>2.5.1</version>
-          <configuration>
-            <source>${jdk.min.version}</source>
-            <target>${jdk.min.version}</target>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
+		<!-- unit tests -->
+		<dependency>
+			<groupId>org.codehaus.sonar</groupId>
+			<artifactId>sonar-testing-harness</artifactId>
+			<version>${sonar.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert</artifactId>
+			<version>1.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-project</artifactId>
+			<version>2.2.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.5.1</version>
+					<configuration>
+						<source>${jdk.min.version}</source>
+						<target>${jdk.min.version}</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>

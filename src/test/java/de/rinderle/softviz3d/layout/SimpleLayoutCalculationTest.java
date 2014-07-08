@@ -17,29 +17,30 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-//package de.rinderle.softviz3d.layout;
-//
-//import org.junit.Ignore;
-//
-//import att.grappa.Graph;
-//import att.grappa.Node;
-//import de.rinderle.softviz3d.layout.Layout;
-//import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
-//import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
-//import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-//import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
-//import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
-//import de.rinderle.softviz3d.layout.interfaces.SourceObject;
-//import junit.framework.TestCase;
-//import org.junit.Test;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.sonar.api.config.Settings;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Map;
-//
+package de.rinderle.softviz3d.layout;
+
+import org.junit.Ignore;
+
+import att.grappa.Graph;
+import att.grappa.Node;
+import de.rinderle.softviz3d.layout.Layout;
+import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
+import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
+import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
+import de.rinderle.softviz3d.layout.interfaces.SourceObject;
+import junit.framework.TestCase;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+//@Ignore
 //public class SimpleLayoutCalculationTest extends TestCase {
 //
 //	private static final Logger LOGGER = LoggerFactory
@@ -274,4 +275,4 @@
 //		
 //	}
 //}
-//
+
