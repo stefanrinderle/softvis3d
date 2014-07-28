@@ -59,7 +59,7 @@ public class DotExcecutor {
     String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
     
     StringBuilder adot = new StringBuilder();
-    String command = dotBin + " -K neato ";
+    String command = dotBin + " -K fdp ";
 
     Process process;
     try {
