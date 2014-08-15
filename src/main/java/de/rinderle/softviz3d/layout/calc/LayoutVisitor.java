@@ -91,7 +91,7 @@ public class LayoutVisitor {
     }
 
     // run dot layout for this layer
-    Graph outputGraph = DotExcecutor.run(inputGraph, settings);
+    Graph outputGraph = DotExcecutor.getInstance().run(inputGraph, settings);
 
     // adjust graph
     Graph adjustedGraph = formatter.format(outputGraph, source.getDepth());

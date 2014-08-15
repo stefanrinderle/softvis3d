@@ -19,129 +19,112 @@
  */
 package de.rinderle.softviz3d.layout.dot;
 
-import att.grappa.Graph;
-import att.grappa.Parser;
-import de.rinderle.softviz3d.layout.helper.StringOutputStream;
-import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringReader;
-
-import static att.grappa.GrappaConstants.HEIGHT_ATTR;
-import static att.grappa.GrappaConstants.WIDTH_ATTR;
+import att.grappa.Graph;
+import att.grappa.Parser;
+import de.rinderle.softviz3d.layout.helper.StringOutputStream;
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 
 public class DotExcecutor {
 
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(DotExcecutor.class);
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(DotExcecutor.class);
 
-  public static Graph run(Graph inputGraph, Settings settings) throws DotExcecutorException {
-    String adot = executeDotCommand(inputGraph, settings);
+    private static DotExcecutor instance;
 
-    Graph outputGraph = parseDot(adot);
+    private File translationFile = null;
 
-    return outputGraph;
-  }
+    private DotExcecutor() {
+    }
 
-  private static String executeDotCommand(Graph inputGraph, Settings settings) throws DotExcecutorException {
-    // TODO SRI dont forget the other layout
-
-    String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
+    public static DotExcecutor getInstance() {
+        if (DotExcecutor.instance == null) {
+            DotExcecutor.instance = new DotExcecutor();
+        }
+        return DotExcecutor.instance;
+    }
     
-    StringBuilder adot = new StringBuilder();
-    String command = dotBin + " -K fdp ";
+    public Graph run(Graph inputGraph, Settings settings)
+            throws DotExcecutorException {
+        StringWriter writer = new StringWriter();
+        inputGraph.printGraph(writer);
 
-    Process process;
-    try {
-      process = Runtime.getRuntime().exec(command);
+        String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
+        String command = dotBin + " -K neato ";
+        
+        String adot = ExecuteCommand.executeCommand(command, writer.toString());
 
-      // write dot input (Output stream from java
-      BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
-          process.getOutputStream()));
-      inputGraph.printGraph(out);
-      out.close();
+        if (DotVersion.getInstance().getVersion(settings).equals("2.38.0")) {
+            try {
+                
+            if (translationFile == null) {
+                InputStream file = DotExcecutor.class.getResourceAsStream("/translate.g");
+                translationFile = File.createTempFile("transate", ".g");
+                FileOutputStream out = new FileOutputStream(translationFile);
+                IOUtils.copy(file, out);
+            } 
+                
+              String translationCommand = "/usr/local/bin/gvpr -c -f " + translationFile.getAbsolutePath();
+              
+              System.out.println("-1----------------------------------------");
+              System.out.println(translationCommand);
+              
+              adot = ExecuteCommand.executeCommand(translationCommand, adot);
+              System.out.println("------------------------------------------");
+              System.out.println(adot);
+              System.out.println("-1----------------------------------------");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            
+        }
+        
+        Graph outputGraph = parseDot(adot);
 
-      // read dot output ( Input stream to java)
-      BufferedReader in = new BufferedReader(new InputStreamReader(
-          process.getInputStream()));
-
-      String line;
-      while ((line = in.readLine()) != null) {
-        // TODO SRI !!! dirty hack !!!
-        line = checkForAdotBug(line);
-        adot.append(line);
-        adot.append("\n");
-      }
-
-      process.waitFor();
-      in.close();
-
-    } catch (IOException e) {
-      LOGGER.warn("Error on running dot command - executeDotCommand: " + e.getMessage());
-      throw new DotExcecutorException(e.getMessage(), e);
-    } catch (InterruptedException e) {
-      LOGGER.warn("Error on reading dot command output - executeDotCommand: " + e.getMessage());
-      throw new DotExcecutorException(e.getMessage(), e);
+        return outputGraph;
     }
 
-    return adot.toString();
-  }
+    private Graph parseDot(String adot) throws DotExcecutorException {
+        String graphName = "LayoutLayer";
+        boolean directed = true;
+        boolean strict = false;
 
-  private static Graph parseDot(String adot) throws DotExcecutorException {
-    String graphName = "LayoutLayer";
-    boolean directed = true;
-    boolean strict = false;
+        Graph newGraph = new Graph("new" + graphName, directed, strict);
 
-    Graph newGraph = new Graph("new" + graphName, directed, strict);
+        OutputStream output = new StringOutputStream();
+        PrintWriter errorStream = new PrintWriter(output);
 
-    OutputStream output = new StringOutputStream();
-    PrintWriter errorStream = new PrintWriter(output);
+        Reader reader = new StringReader(adot);
 
-    Reader reader = new StringReader(adot);
+        Parser parser = new Parser(reader, errorStream, newGraph);
 
-    Parser parser = new Parser(reader, errorStream, newGraph);
+         LOGGER.info(adot);
 
-    // LOGGER.info(adot);
+        try {
+            parser.parse();
+        } catch (Exception e) {
+            LOGGER.warn("Error on parsing graph string - parseDot: "
+                    + e.getMessage());
+            throw new DotExcecutorException(e.getMessage(), e);
+        }
 
-    try {
-      parser.parse();
-    } catch (Exception e) {
-      LOGGER.warn("Error on parsing graph string - parseDot: " + e.getMessage());
-      throw new DotExcecutorException(e.getMessage(), e);
+        return newGraph;
     }
-
-    return newGraph;
-  }
-
-  private static String checkForAdotBug(String line) {
-    if (line.indexOf(HEIGHT_ATTR) >= 0) {
-      line = addQuotationMarks(line, HEIGHT_ATTR);
-    } else if (line.indexOf(WIDTH_ATTR) >= 0) {
-      line = line.replace(WIDTH_ATTR + "=", WIDTH_ATTR + "=\"");
-      if (line.indexOf(']') >= 0) {
-        line = line.replace("]", "\"]");
-      } else {
-        line = line + "\"";
-      }
-    }
-
-    return line;
-  }
-
-  private static String addQuotationMarks(String line, String attrName) {
-    line = line.replace(attrName + "=", attrName + "=\"");
-    line = line.replace(",", "\",");
-    return line;
-  }
 
 }
