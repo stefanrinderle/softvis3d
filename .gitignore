@@ -33,11 +33,9 @@ Thumbs.db
 *.dmg
 *.gz
 *.iso
-*.jar
 *.rar
 *.tar
 *.zip
-*.jar
 *.war
 *.ear
 /bin
