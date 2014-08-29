@@ -20,7 +20,6 @@
 package de.rinderle.softviz3d.layout.dot;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +36,9 @@ import org.sonar.api.config.Settings;
 
 import att.grappa.Graph;
 import att.grappa.Parser;
+
+import com.google.inject.Inject;
+
 import de.rinderle.softviz3d.layout.helper.StringOutputStream;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 
@@ -45,19 +47,10 @@ public class DotExcecutor {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(DotExcecutor.class);
 
-    private static DotExcecutor instance;
-
     private File translationFile = null;
 
-    private DotExcecutor() {
-    }
-
-    public static DotExcecutor getInstance() {
-        if (DotExcecutor.instance == null) {
-            DotExcecutor.instance = new DotExcecutor();
-        }
-        return DotExcecutor.instance;
-    }
+    @Inject
+    private DotVersion dotVersion;
     
     public Graph run(Graph inputGraph, Settings settings)
             throws DotExcecutorException {
@@ -69,7 +62,7 @@ public class DotExcecutor {
         
         String adot = ExecuteCommand.executeCommand(command, writer.toString());
 
-        if (DotVersion.getInstance().getVersion(settings).equals("2.38.0")) {
+        if (dotVersion.getVersion(settings).equals("2.38.0")) {
             try {
                 
             if (translationFile == null) {
@@ -81,18 +74,11 @@ public class DotExcecutor {
                 
               String translationCommand = "/usr/local/bin/gvpr -c -f " + translationFile.getAbsolutePath();
               
-              System.out.println("-1----------------------------------------");
-              System.out.println(translationCommand);
-              
               adot = ExecuteCommand.executeCommand(translationCommand, adot);
-              System.out.println("------------------------------------------");
-              System.out.println(adot);
-              System.out.println("-1----------------------------------------");
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            
         }
         
         Graph outputGraph = parseDot(adot);

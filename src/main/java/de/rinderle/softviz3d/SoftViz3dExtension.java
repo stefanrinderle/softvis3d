@@ -19,84 +19,118 @@
  */
 package de.rinderle.softviz3d;
 
-import att.grappa.Graph;
-import de.rinderle.softviz3d.layout.Layout;
-import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.sonar.SonarDao;
-import de.rinderle.softviz3d.sonar.SonarMetric;
-import de.rinderle.softviz3d.sonar.SonarSnapshotWrapper;
-import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
 import org.sonar.api.config.Settings;
 import org.sonar.api.database.DatabaseSession;
 
-import java.util.List;
-import java.util.Map;
+import att.grappa.Graph;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import de.rinderle.softviz3d.guice.SoftViz3dModule;
+import de.rinderle.softviz3d.layout.Layout;
+import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
+import de.rinderle.softviz3d.layout.dot.DotExcecutor;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.sonar.SonarDao;
+import de.rinderle.softviz3d.sonar.SonarMetric;
+import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import de.rinderle.softviz3d.sonar.SonarSnapshotWrapper;
 
 public class SoftViz3dExtension implements ServerExtension {
 
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(SoftViz3dExtension.class);
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(SoftViz3dExtension.class);
 
-  private Settings settings;
-  private SonarDao dao;
-  
-  public SoftViz3dExtension(DatabaseSession session, Settings settings) {
-    this.dao = new SonarDao(session);
-    
-    this.settings = settings;
-  }
+    private Settings settings;
+    private SonarDao dao;
 
-  public List<Integer> getMetricsForSnapshot(Integer snapshotId) {
-    LOGGER.info("getMetricsForSnapshot " + snapshotId);
-    
-    return dao.getDefinedMetricsForSnapshot(snapshotId);
-  }
-  
-  public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId) throws DotExcecutorException {
-    Integer metricId1 = this.getMetric1FromSettings();
-    Integer metricId2 = this.getMetric2FromSettings();
-     
-    return createLayoutBySnapshotId(snapshotId, metricId1, metricId2);
-  }
-  
-  public Integer getMetric1FromSettings() {
-    return dao.getMetricIdByName(settings.getString("metric1"));
-  }
-  
-  public Integer getMetric2FromSettings() {
-    return dao.getMetricIdByName(settings.getString("metric2"));
-  }
-  
-  public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId, String metricId1, String metricId2) throws DotExcecutorException {
-    return createLayoutBySnapshotId(snapshotId, Integer.valueOf(metricId1), Integer.valueOf(metricId2));
-  }
-  
-  private Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId, Integer metricId1, Integer metricId2) throws DotExcecutorException {
-    LOGGER.info("Startup SoftViz3d plugin with snapshot " + snapshotId);
+    private Injector softVizInjector;
 
-    List<Double> minMaxValues = dao.getMinMaxMetricValuesByRootSnapshotId(snapshotId, metricId1, metricId2);
+    public SoftViz3dExtension(DatabaseSession session, Settings settings) {
+        this.dao = new SonarDao(session);
 
-    SonarMetric footprintMetricWrapper = new SonarMetric(minMaxValues.get(0), minMaxValues.get(1));
+        this.settings = settings;
 
-    SonarMetric heightMetricWrapper = new SonarMetric(minMaxValues.get(2), minMaxValues.get(3));
+        /*
+         * Guice.createInjector() takes your Modules, and returns a new Injector
+         * instance. Most applications will call this method exactly once, in
+         * their main() method.
+         */
+        softVizInjector = Guice.createInjector(new SoftViz3dModule());
+    }
 
-    SonarSnapshot snapshot = dao.getSnapshotById(snapshotId, metricId1, metricId2);
-    SonarSnapshotWrapper snapshotWrapper = new SonarSnapshotWrapper(snapshot, metricId1, metricId2, dao);
+    public List<Integer> getMetricsForSnapshot(Integer snapshotId) {
+        LOGGER.info("getMetricsForSnapshot " + snapshotId);
 
-    LOGGER.info("Start layout calculation for snapshot " + snapshotWrapper.getName() + ", " +
-      "metrics " + metricId1 + " and " + metricId2);
+        return dao.getDefinedMetricsForSnapshot(snapshotId);
+    }
 
-    LOGGER.info("Metric " + metricId1 + " - min : " + minMaxValues.get(0) + " max: " + minMaxValues.get(1));
-    LOGGER.info("Metric " + metricId2 + " - min : " + minMaxValues.get(2) + " max: " + minMaxValues.get(3));
+    public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId)
+            throws DotExcecutorException {
+        Integer metricId1 = this.getMetric1FromSettings();
+        Integer metricId2 = this.getMetric2FromSettings();
 
-    Layout layout = new Layout(new LayoutVisitor(settings, footprintMetricWrapper, heightMetricWrapper));
-    Map<Integer, Graph> result = layout.startLayout(snapshotWrapper);
+        return createLayoutBySnapshotId(snapshotId, metricId1, metricId2);
+    }
 
-    return result;
-  }
+    public Integer getMetric1FromSettings() {
+        return dao.getMetricIdByName(settings.getString("metric1"));
+    }
+
+    public Integer getMetric2FromSettings() {
+        return dao.getMetricIdByName(settings.getString("metric2"));
+    }
+
+    public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
+            String metricId1, String metricId2) throws DotExcecutorException {
+        return createLayoutBySnapshotId(snapshotId, Integer.valueOf(metricId1),
+                Integer.valueOf(metricId2));
+    }
+
+    private Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
+            Integer metricId1, Integer metricId2) throws DotExcecutorException {
+        LOGGER.info("Startup SoftViz3d plugin with snapshot " + snapshotId);
+
+        List<Double> minMaxValues = dao.getMinMaxMetricValuesByRootSnapshotId(
+                snapshotId, metricId1, metricId2);
+
+        SonarMetric footprintMetricWrapper = new SonarMetric(
+                minMaxValues.get(0), minMaxValues.get(1));
+
+        SonarMetric heightMetricWrapper = new SonarMetric(minMaxValues.get(2),
+                minMaxValues.get(3));
+
+        SonarSnapshot snapshot = dao.getSnapshotById(snapshotId, metricId1,
+                metricId2);
+        SonarSnapshotWrapper snapshotWrapper = new SonarSnapshotWrapper(
+                snapshot, metricId1, metricId2, dao);
+
+        LOGGER.info("Start layout calculation for snapshot "
+                + snapshotWrapper.getName() + ", " + "metrics " + metricId1
+                + " and " + metricId2);
+
+        LOGGER.info("Metric " + metricId1 + " - min : " + minMaxValues.get(0)
+                + " max: " + minMaxValues.get(1));
+        LOGGER.info("Metric " + metricId2 + " - min : " + minMaxValues.get(2)
+                + " max: " + minMaxValues.get(3));
+
+        LOGGER.info("------blabla------XX");
+
+        DotExcecutor dotExcecutor = softVizInjector.getInstance(DotExcecutor.class);
+
+        LayoutVisitor visitor = new LayoutVisitor(settings,
+                footprintMetricWrapper, heightMetricWrapper, dotExcecutor);
+        Layout layout = new Layout(visitor);
+        Map<Integer, Graph> result = layout.startLayout(snapshotWrapper);
+
+        return result;
+    }
 
 }

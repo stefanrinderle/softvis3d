@@ -19,28 +19,29 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import att.grappa.Graph;
-import att.grappa.GrappaBox;
-import att.grappa.Node;
-import de.rinderle.softviz3d.layout.dot.DotExcecutor;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement.Type;
-import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
-import de.rinderle.softviz3d.layout.interfaces.SourceObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
+import static att.grappa.GrappaConstants.HEIGHT_ATTR;
+import static att.grappa.GrappaConstants.LABEL_ATTR;
+import static att.grappa.GrappaConstants.SHAPE_ATTR;
+import static att.grappa.GrappaConstants.WIDTH_ATTR;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static att.grappa.GrappaConstants.HEIGHT_ATTR;
-import static att.grappa.GrappaConstants.LABEL_ATTR;
-import static att.grappa.GrappaConstants.SHAPE_ATTR;
-import static att.grappa.GrappaConstants.WIDTH_ATTR;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
+
+import att.grappa.Graph;
+import att.grappa.GrappaBox;
+import att.grappa.Node;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.dot.DotExcecutor;
+import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
+import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement.Type;
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
+import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
+import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 public class LayoutVisitor {
   private static final Logger LOGGER = LoggerFactory.getLogger(LayoutVisitor.class);
@@ -54,11 +55,20 @@ public class LayoutVisitor {
 
   private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
 
-  public LayoutVisitor(Settings settings, SourceMetric metricFootprint, SourceMetric metricHeight) {
+  private DotExcecutor dotExcecutor;
+  
+  public LayoutVisitor(Settings settings, SourceMetric metricFootprint, SourceMetric metricHeight, DotExcecutor dotExcecutor) {
     this.settings = settings;
     
     this.metricFootprint = metricFootprint;
     this.metricHeight = metricHeight;
+    
+    this.dotExcecutor = dotExcecutor;
+    
+    LOGGER.info(settings.toString());
+    LOGGER.info(metricFootprint.toString());
+    LOGGER.info(metricHeight.toString());
+    LOGGER.info(dotExcecutor.toString());
   }
 
   public Map<Integer, Graph> getResultingGraphList() {
@@ -91,7 +101,7 @@ public class LayoutVisitor {
     }
 
     // run dot layout for this layer
-    Graph outputGraph = DotExcecutor.getInstance().run(inputGraph, settings);
+    Graph outputGraph = dotExcecutor.run(inputGraph, settings);
 
     // adjust graph
     Graph adjustedGraph = formatter.format(outputGraph, source.getDepth());

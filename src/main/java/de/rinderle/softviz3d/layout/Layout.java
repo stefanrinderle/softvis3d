@@ -19,17 +19,20 @@
  */
 package de.rinderle.softviz3d.layout;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import att.grappa.Graph;
+
+import com.google.inject.Inject;
+
 import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.helper.GraphDebugPrinter;
 import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class Layout {
 

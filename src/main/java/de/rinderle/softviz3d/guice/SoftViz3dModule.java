@@ -17,12 +17,20 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.dot;
+package de.rinderle.softviz3d.guice;
 
-import org.sonar.api.config.Settings;
+import com.google.inject.AbstractModule;
 
-public interface DotVersion {
+import de.rinderle.softviz3d.layout.dot.DotVersion;
+import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
 
-    public abstract String getVersion(Settings settings);
-
+public class SoftViz3dModule extends AbstractModule {
+  @Override 
+  protected void configure() {
+    bind(DotVersion.class).to(DotVersionImpl.class);
+    
+//    install(new FactoryModuleBuilder()
+//    .implement(DotExcecutor.class, DotExcecutorImpl.class)
+//    .build(LayoutVisitorFactory.class));
+  }
 }

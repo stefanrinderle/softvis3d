@@ -19,11 +19,11 @@
  */
 package de.rinderle.softviz3d;
 
-import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-
 import org.sonar.api.web.AbstractRubyTemplate;
 import org.sonar.api.web.NavigationSection;
 import org.sonar.api.web.RubyRailsPage;
+
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 
 @NavigationSection({NavigationSection.RESOURCE})
 public class SoftViz3dPage extends AbstractRubyTemplate implements
@@ -50,6 +50,7 @@ public class SoftViz3dPage extends AbstractRubyTemplate implements
    */
   @Override
   protected String getTemplatePath() {
+
      return "/softviz_page.html.erb";
     
     // development mode
