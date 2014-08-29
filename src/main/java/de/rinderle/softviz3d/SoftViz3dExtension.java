@@ -33,10 +33,10 @@ import att.grappa.Graph;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import de.rinderle.softviz3d.guice.LayoutVisitorInterfaceFactory;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
 import de.rinderle.softviz3d.layout.Layout;
-import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
-import de.rinderle.softviz3d.layout.dot.DotExcecutor;
+import de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarMetric;
@@ -52,6 +52,9 @@ public class SoftViz3dExtension implements ServerExtension {
     private SonarDao dao;
 
     private Injector softVizInjector;
+
+    // @Inject
+    // private LayoutVisitorFactory visitorFactory;
 
     public SoftViz3dExtension(DatabaseSession session, Settings settings) {
         this.dao = new SonarDao(session);
@@ -121,12 +124,12 @@ public class SoftViz3dExtension implements ServerExtension {
         LOGGER.info("Metric " + metricId2 + " - min : " + minMaxValues.get(2)
                 + " max: " + minMaxValues.get(3));
 
-        LOGGER.info("------blabla------XX");
+        LayoutVisitorInterfaceFactory factory = softVizInjector
+                .getInstance(LayoutVisitorInterfaceFactory.class);
 
-        DotExcecutor dotExcecutor = softVizInjector.getInstance(DotExcecutor.class);
+        LayoutVisitorInterface visitor = factory.create(settings,
+                footprintMetricWrapper, heightMetricWrapper);
 
-        LayoutVisitor visitor = new LayoutVisitor(settings,
-                footprintMetricWrapper, heightMetricWrapper, dotExcecutor);
         Layout layout = new Layout(visitor);
         Map<Integer, Graph> result = layout.startLayout(snapshotWrapper);
 

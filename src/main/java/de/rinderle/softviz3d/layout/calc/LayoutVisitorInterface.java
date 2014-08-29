@@ -17,25 +17,23 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.guice;
+package de.rinderle.softviz3d.layout.calc;
 
-import com.google.inject.AbstractModule;
+import java.util.List;
+import java.util.Map;
 
-import de.rinderle.softviz3d.layout.dot.DotExcecutor;
-import de.rinderle.softviz3d.layout.dot.DotExecutorInterface;
-import de.rinderle.softviz3d.layout.dot.DotVersion;
-import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
+import att.grappa.Graph;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
+import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
-public class SoftViz3dModule extends AbstractModule {
-  @Override 
-  protected void configure() {
-    bind(DotVersion.class).to(DotVersionImpl.class);
-    bind(DotExecutorInterface.class).to(DotExcecutor.class);
-    
-    bind(LayoutVisitorInterfaceFactory.class).to(LayoutVisitorFactory.class);
-    
-//    install(new FactoryModuleBuilder()
-//    .implement(LayoutVisitorInterface.class, LayoutVisitor.class)
-//    .build(LayoutVisitorFactory.class));
-  }
+public interface LayoutVisitorInterface {
+
+    public abstract Map<Integer, Graph> getResultingGraphList();
+
+    public abstract LayeredLayoutElement visitNode(SourceObject source,
+            List<LayeredLayoutElement> elements) throws DotExcecutorException;
+
+    public abstract LayeredLayoutElement visitFile(SourceObject source);
+
 }

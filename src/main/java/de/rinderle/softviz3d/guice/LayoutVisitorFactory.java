@@ -19,23 +19,25 @@
  */
 package de.rinderle.softviz3d.guice;
 
-import com.google.inject.AbstractModule;
+import org.sonar.api.config.Settings;
 
-import de.rinderle.softviz3d.layout.dot.DotExcecutor;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
+import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
+import de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface;
 import de.rinderle.softviz3d.layout.dot.DotExecutorInterface;
-import de.rinderle.softviz3d.layout.dot.DotVersion;
-import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
+import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
 
-public class SoftViz3dModule extends AbstractModule {
-  @Override 
-  protected void configure() {
-    bind(DotVersion.class).to(DotVersionImpl.class);
-    bind(DotExecutorInterface.class).to(DotExcecutor.class);
-    
-    bind(LayoutVisitorInterfaceFactory.class).to(LayoutVisitorFactory.class);
-    
-//    install(new FactoryModuleBuilder()
-//    .implement(LayoutVisitorInterface.class, LayoutVisitor.class)
-//    .build(LayoutVisitorFactory.class));
+public class LayoutVisitorFactory implements LayoutVisitorInterfaceFactory {
+private Provider<DotExecutorInterface> dotExcecutor;
+
+  @Inject
+  public LayoutVisitorFactory(Provider<DotExecutorInterface> dotExcecutor) {
+    this.dotExcecutor = dotExcecutor;
+  }
+
+  public LayoutVisitorInterface create(Settings settings, SourceMetric metricFootprint, SourceMetric metricHeight) {
+    return new LayoutVisitor(settings, metricFootprint, metricHeight, dotExcecutor.get());
   }
 }

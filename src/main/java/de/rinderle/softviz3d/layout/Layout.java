@@ -28,7 +28,7 @@ import att.grappa.Graph;
 import com.google.inject.Inject;
 
 import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
-import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
+import de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.helper.GraphDebugPrinter;
 import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
@@ -39,9 +39,9 @@ public class Layout {
 //   private static final Logger LOGGER = LoggerFactory
 //   .getLogger(Layout.class);
 
-  private LayoutVisitor visitor;
+  private LayoutVisitorInterface visitor;
 
-  public Layout(LayoutVisitor visitor) {
+  public Layout(LayoutVisitorInterface visitor) {
     this.visitor = visitor;
   }
 

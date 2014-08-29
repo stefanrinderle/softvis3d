@@ -19,23 +19,11 @@
  */
 package de.rinderle.softviz3d.guice;
 
-import com.google.inject.AbstractModule;
+import org.sonar.api.config.Settings;
 
-import de.rinderle.softviz3d.layout.dot.DotExcecutor;
-import de.rinderle.softviz3d.layout.dot.DotExecutorInterface;
-import de.rinderle.softviz3d.layout.dot.DotVersion;
-import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
+import de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface;
+import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
 
-public class SoftViz3dModule extends AbstractModule {
-  @Override 
-  protected void configure() {
-    bind(DotVersion.class).to(DotVersionImpl.class);
-    bind(DotExecutorInterface.class).to(DotExcecutor.class);
-    
-    bind(LayoutVisitorInterfaceFactory.class).to(LayoutVisitorFactory.class);
-    
-//    install(new FactoryModuleBuilder()
-//    .implement(LayoutVisitorInterface.class, LayoutVisitor.class)
-//    .build(LayoutVisitorFactory.class));
-  }
+public interface LayoutVisitorInterfaceFactory {
+  public LayoutVisitorInterface create(Settings settings, SourceMetric metricFootprint, SourceMetric metricHeight);
 }

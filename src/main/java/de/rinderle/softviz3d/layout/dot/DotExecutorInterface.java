@@ -17,25 +17,15 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.guice;
+package de.rinderle.softviz3d.layout.dot;
 
-import com.google.inject.AbstractModule;
+import org.sonar.api.config.Settings;
 
-import de.rinderle.softviz3d.layout.dot.DotExcecutor;
-import de.rinderle.softviz3d.layout.dot.DotExecutorInterface;
-import de.rinderle.softviz3d.layout.dot.DotVersion;
-import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
+import att.grappa.Graph;
 
-public class SoftViz3dModule extends AbstractModule {
-  @Override 
-  protected void configure() {
-    bind(DotVersion.class).to(DotVersionImpl.class);
-    bind(DotExecutorInterface.class).to(DotExcecutor.class);
-    
-    bind(LayoutVisitorInterfaceFactory.class).to(LayoutVisitorFactory.class);
-    
-//    install(new FactoryModuleBuilder()
-//    .implement(LayoutVisitorInterface.class, LayoutVisitor.class)
-//    .build(LayoutVisitorFactory.class));
-  }
+public interface DotExecutorInterface {
+
+    public abstract Graph run(Graph inputGraph, Settings settings)
+            throws DotExcecutorException;
+
 }

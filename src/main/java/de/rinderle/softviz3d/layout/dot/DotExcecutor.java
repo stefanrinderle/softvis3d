@@ -42,7 +42,7 @@ import com.google.inject.Inject;
 import de.rinderle.softviz3d.layout.helper.StringOutputStream;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 
-public class DotExcecutor {
+public class DotExcecutor implements DotExecutorInterface {
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(DotExcecutor.class);
@@ -52,6 +52,7 @@ public class DotExcecutor {
     @Inject
     private DotVersion dotVersion;
     
+    @Override
     public Graph run(Graph inputGraph, Settings settings)
             throws DotExcecutorException {
         StringWriter writer = new StringWriter();

@@ -35,15 +35,19 @@ import org.sonar.api.config.Settings;
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.Node;
+
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.layout.dot.DotExcecutor;
+import de.rinderle.softviz3d.layout.dot.DotExecutorInterface;
 import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement.Type;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
-public class LayoutVisitor {
+public class LayoutVisitor implements LayoutVisitorInterface {
   private static final Logger LOGGER = LoggerFactory.getLogger(LayoutVisitor.class);
 
   private Settings settings;
@@ -55,9 +59,10 @@ public class LayoutVisitor {
 
   private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
 
-  private DotExcecutor dotExcecutor;
+  private DotExecutorInterface dotExcecutor;
   
-  public LayoutVisitor(Settings settings, SourceMetric metricFootprint, SourceMetric metricHeight, DotExcecutor dotExcecutor) {
+  @Inject
+  public LayoutVisitor(@Assisted Settings settings, @Assisted SourceMetric metricFootprint, @Assisted SourceMetric metricHeight, DotExecutorInterface dotExcecutor) {
     this.settings = settings;
     
     this.metricFootprint = metricFootprint;
@@ -71,11 +76,19 @@ public class LayoutVisitor {
     LOGGER.info(dotExcecutor.toString());
   }
 
-  public Map<Integer, Graph> getResultingGraphList() {
+  /* (non-Javadoc)
+ * @see de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface#getResultingGraphList()
+ */
+@Override
+public Map<Integer, Graph> getResultingGraphList() {
     return this.resultingGraphList;
   }
 
-  public LayeredLayoutElement visitNode(SourceObject source, List<LayeredLayoutElement> elements)
+  /* (non-Javadoc)
+ * @see de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface#visitNode(de.rinderle.softviz3d.layout.interfaces.SourceObject, java.util.List)
+ */
+@Override
+public LayeredLayoutElement visitNode(SourceObject source, List<LayeredLayoutElement> elements)
       throws DotExcecutorException {
     // create layout graph
     Graph inputGraph = new Graph(source.getId().toString());
@@ -121,7 +134,11 @@ public class LayoutVisitor {
     return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getId(), "dir_" + source.getId(), width, height, buildingHeight, source.getName());
   }
 
-  public LayeredLayoutElement visitFile(SourceObject source) {
+  /* (non-Javadoc)
+ * @see de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface#visitFile(de.rinderle.softviz3d.layout.interfaces.SourceObject)
+ */
+@Override
+public LayeredLayoutElement visitFile(SourceObject source) {
     double sideLength = calcSideLength(source.getMetricFootprintValue());
 
     double buildingHeight = calcBuildingHeight(source.getMetricHeightValue());
