@@ -22,10 +22,10 @@ package de.rinderle.softviz3d.guice;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
+import de.rinderle.softviz3d.layout.calc.LayoutVisitorImpl;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
-import de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface;
-import de.rinderle.softviz3d.layout.dot.DotExcecutor;
-import de.rinderle.softviz3d.layout.dot.DotExecutorInterface;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorImpl;
+import de.rinderle.softviz3d.layout.dot.DotExecutor;
 import de.rinderle.softviz3d.layout.dot.DotVersion;
 import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
 import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
@@ -35,13 +35,13 @@ public class SoftViz3dModule extends AbstractModule {
   @Override 
   protected void configure() {
     bind(DotVersion.class).to(DotVersionImpl.class);
-    bind(DotExecutorInterface.class).to(DotExcecutor.class);
+    bind(DotExecutor.class).to(DotExcecutorImpl.class);
     bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
     
 //    bind(LayoutVisitorInterfaceFactory.class).to(LayoutVisitorFactory.class);
     
     install(new FactoryModuleBuilder()
-    .implement(LayoutVisitorInterface.class, LayoutVisitor.class)
+    .implement(LayoutVisitor.class, LayoutVisitorImpl.class)
     .build(LayoutVisitorInterfaceFactory.class));
   }
 }

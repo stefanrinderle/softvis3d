@@ -23,7 +23,7 @@ import org.sonar.api.config.Settings;
 
 import att.grappa.Graph;
 
-public interface DotExecutorInterface {
+public interface DotExecutor {
 
     public abstract Graph run(Graph inputGraph, Settings settings)
             throws DotExcecutorException;

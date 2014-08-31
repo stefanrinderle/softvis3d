@@ -26,28 +26,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
 
-import att.grappa.Attribute;
 import att.grappa.Graph;
-import att.grappa.GrappaConstants;
-import att.grappa.Node;
-import att.grappa.Subgraph;
-import de.rinderle.softviz3d.layout.dot.DotExcecutor;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorImpl;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotVersion;
 import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
 
 public class DotExecutorTest extends TestCase {
-
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(DotExecutorTest.class);
-
-    private Graph graph;
-    String graphName = "testgraph";
-    String subgraphId = "testsubgraph";
 
     @Mock
     private DotVersion dotVersion;
@@ -56,33 +43,11 @@ public class DotExecutorTest extends TestCase {
     private ExecuteCommand executeCommand;
 
     @InjectMocks
-    private DotExcecutor underTest = new DotExcecutor();
+    private DotExcecutorImpl underTest = new DotExcecutorImpl();
 
-    /**
-     * digraph testgraph { subgraph testsubgraph { testnode2 [ metric2 = 30,
-     * metric1 = 15 ]; } testnode1 [ metric2 = 30, metric1 = 15 ]; }
-     */
     @Override
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-
-        String graphName = "testgraph";
-        boolean directed = true;
-        boolean strict = false;
-
-        graph = new Graph(graphName, directed, strict);
-
-        Node node1 = new Node(graph, "testnode1");
-        node1.setAttribute(new Attribute(GrappaConstants.NODE, "metric1", "15"));
-        node1.setAttribute(new Attribute(GrappaConstants.NODE, "metric2", "30"));
-
-        Subgraph subgraph = new Subgraph(graph, subgraphId);
-
-        Node node2 = new Node(subgraph, "testnode2");
-        node2.setAttribute(new Attribute(GrappaConstants.NODE, "metric1", "15"));
-        node2.setAttribute(new Attribute(GrappaConstants.NODE, "metric2", "30"));
-
-        graph.addSubgraph(subgraph);
     }
 
     @Test
@@ -91,63 +56,71 @@ public class DotExecutorTest extends TestCase {
                 .thenReturn("2.36.0");
 
         Mockito.when(
-                executeCommand.executeCommand(Mockito.any(String.class),
+                executeCommand.executeDotCommand(Mockito.any(String.class),
                         Mockito.any(String.class))).thenReturn(getADot());
 
-        underTest.run(graph, new Settings());
+        Graph inputGraph = new Graph("not used in test");
+        Graph result = underTest.run(inputGraph, new Settings());
+
+        assertNotNull(result);
+        assertTrue("777".equals(result.getName()));
     }
 
-    // @Ignore
-    // @Test
-    // public void testWholeProcess() {
-    // try {
-    // Graph result = DotExcecutor.run(graph, new Settings());
-    //
-    // assertTrue(result.getName().equals(graphName));
-    // assertTrue(result.subgraphElementsAsArray()[0].getName().equals(
-    // subgraphId));
-    // assertTrue(result.subgraphElementsAsArray()[0]
-    // .nodeElementsAsArray().length == 1);
-    // assertTrue(result.nodeElementsAsArray().length == 1);
-    //
-    // assertNotNull(result.getAttributeValue("bb"));
-    //
-    // StringOutputStream os = new StringOutputStream();
-    // result.printGraph(os);
-    // LOGGER.info(os.toString());
-    //
-    // LOGGER.info(result.getBoundingBox().toString());
-    // LOGGER.info(result.getAttributeValue("bb").toString());
-    // } catch (Exception e) {
-    // fail(e.getMessage());
-    // }
-    //
-    // assertTrue(true);
-    // }
+    @Test
+    public void testVersionFalse() throws DotExcecutorException {
+        Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
+                .thenReturn("2.36.0");
 
-     public String getADot() {
-     StringBuilder builder = new StringBuilder();
-     builder.append("digraph 777 {");
-     builder.append("\n");
-     builder.append("graph [bb=\"0,0,612,600\"];");
-     builder.append("\n");
-     builder.append("subgraph 786 {");
-     builder.append("\n");
-     builder.append("843 [height=\"0.75\",");
-     builder.append("\n");
-     builder.append("metric1=\"29.0\",");
-     builder.append("\n");
-     builder.append("metric2=\"4.0\",");
-     builder.append("\n");
-     builder.append("pos=\"33,378\",");
-     builder.append("\n");
-     builder.append("width=\"0.75\"");
-     builder.append("];");
-     builder.append("\n");
-     builder.append("}");
-     builder.append("\n");
-     builder.append("}");
-     
-     return builder.toString();
-     }
+        Mockito.when(
+                executeCommand.executeDotCommand(Mockito.any(String.class),
+                        Mockito.any(String.class))).thenReturn(getADot());
+
+        Graph inputGraph = new Graph("not used in test");
+        underTest.run(inputGraph, new Settings());
+
+        Mockito.verify(executeCommand, Mockito.times(1)).executeDotCommand(
+                Mockito.any(String.class), Mockito.any(String.class));
+    }
+
+    @Test
+    public void testVersionTrue() throws DotExcecutorException {
+        Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
+                .thenReturn(DotExcecutorImpl.DOT_BUG_VERSION);
+
+        Mockito.when(
+                executeCommand.executeDotCommand(Mockito.any(String.class),
+                        Mockito.any(String.class))).thenReturn(getADot());
+
+        Graph inputGraph = new Graph("not used in test");
+        underTest.run(inputGraph, new Settings());
+
+        Mockito.verify(executeCommand, Mockito.times(2)).executeDotCommand(
+                Mockito.any(String.class), Mockito.any(String.class));
+    }
+
+    public String getADot() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("digraph 777 {");
+        builder.append("\n");
+        builder.append("graph [bb=\"0,0,612,600\"];");
+        builder.append("\n");
+        builder.append("subgraph 786 {");
+        builder.append("\n");
+        builder.append("843 [height=\"0.75\",");
+        builder.append("\n");
+        builder.append("metric1=\"29.0\",");
+        builder.append("\n");
+        builder.append("metric2=\"4.0\",");
+        builder.append("\n");
+        builder.append("pos=\"33,378\",");
+        builder.append("\n");
+        builder.append("width=\"0.75\"");
+        builder.append("];");
+        builder.append("\n");
+        builder.append("}");
+        builder.append("\n");
+        builder.append("}");
+
+        return builder.toString();
+    }
 }

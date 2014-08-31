@@ -29,9 +29,32 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 public class ExecuteCommandImpl implements ExecuteCommand {
-
+    
     @Override
-    public String executeCommand(String command, String inputGraph)
+    public String executeCommand(String command) {
+        StringBuffer output = new StringBuffer();
+
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec(command);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    p.getErrorStream()));
+
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                output.append(line + "\n");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return output.toString();
+
+    }
+    
+    @Override
+    public String executeDotCommand(String command, String inputGraph)
             throws DotExcecutorException {
         StringBuilder adot = new StringBuilder();
 

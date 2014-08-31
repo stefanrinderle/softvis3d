@@ -38,14 +38,18 @@ import att.grappa.Graph;
 import att.grappa.Parser;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import de.rinderle.softviz3d.layout.helper.StringOutputStream;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 
-public class DotExcecutor implements DotExecutorInterface {
+@Singleton
+public class DotExcecutorImpl implements DotExecutor {
+
+    public static final String DOT_BUG_VERSION = "2.38.0";
 
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(DotExcecutor.class);
+            .getLogger(DotExcecutorImpl.class);
 
     private File translationFile = null;
 
@@ -64,13 +68,13 @@ public class DotExcecutor implements DotExecutorInterface {
         String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
         String command = dotBin + " -K neato ";
         
-        String adot = executeCommand.executeCommand(command, writer.toString());
+        String adot = executeCommand.executeDotCommand(command, writer.toString());
 
-        if (dotVersion.getVersion(settings).equals("2.38.0")) {
+        if (dotVersion.getVersion(settings).equals(DOT_BUG_VERSION)) {
             try {
                 
             if (translationFile == null) {
-                InputStream file = DotExcecutor.class.getResourceAsStream("/translate.g");
+                InputStream file = DotExcecutorImpl.class.getResourceAsStream("/translate.g");
                 translationFile = File.createTempFile("transate", ".g");
                 FileOutputStream out = new FileOutputStream(translationFile);
                 IOUtils.copy(file, out);
@@ -78,7 +82,7 @@ public class DotExcecutor implements DotExecutorInterface {
                 
               String translationCommand = "/usr/local/bin/gvpr -c -f " + translationFile.getAbsolutePath();
               
-              adot = executeCommand.executeCommand(translationCommand, adot);
+              adot = executeCommand.executeDotCommand(translationCommand, adot);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

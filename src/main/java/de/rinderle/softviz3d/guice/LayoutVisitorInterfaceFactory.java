@@ -21,9 +21,9 @@ package de.rinderle.softviz3d.guice;
 
 import org.sonar.api.config.Settings;
 
-import de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface;
+import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
 import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
 
 public interface LayoutVisitorInterfaceFactory {
-  public LayoutVisitorInterface create(Settings settings, SourceMetric metricFootprint, SourceMetric metricHeight);
+  public LayoutVisitor create(Settings settings, SourceMetric metricFootprint, SourceMetric metricHeight);
 }

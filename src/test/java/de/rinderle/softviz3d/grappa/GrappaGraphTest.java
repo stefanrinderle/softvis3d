@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.dot;
+package de.rinderle.softviz3d.grappa;
 
 import org.junit.Ignore;
 
@@ -37,9 +37,6 @@ import att.grappa.Subgraph;
 
 public class GrappaGraphTest extends TestCase {
 
-//	private static final Logger LOGGER = LoggerFactory
-//			.getLogger(GrappaGraphTest.class);
-	
 	private Graph graph;
 	String graphName = "testgraph";
 	String subgraphId = "testsubgraph";
@@ -78,7 +75,6 @@ public class GrappaGraphTest extends TestCase {
 		graph.addSubgraph(subgraph);
 	}
 
-	@Ignore
 	@Test
 	public void testNodeUpdate() {
 		//subgraphElementsAsArray()[0]
@@ -100,7 +96,6 @@ public class GrappaGraphTest extends TestCase {
 		assertTrue(graph.nodeElementsAsArray().length == 1);
 	}
 	
-	@Ignore
 	@Test
 	public void testBoundingBoxUpdate() {
 		// first create a bounding box - assure that one exists !
@@ -114,11 +109,8 @@ public class GrappaGraphTest extends TestCase {
 		assertTrue(bb.getX() == 2.0);
 		assertTrue(bb.getWidth() == 184.09);
 		
-//		LOGGER.info(graph.getBoundingBox().toString());
-//		LOGGER.info(graph.getAttributeValue("bb").toString());
 	}
 
-	@Ignore
 	@Test
 	public void testAttributeTypes() {
 		Node node = graph.nodeElementsAsArray()[0];

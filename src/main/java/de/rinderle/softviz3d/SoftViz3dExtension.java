@@ -37,7 +37,7 @@ import com.google.inject.Injector;
 import de.rinderle.softviz3d.guice.LayoutVisitorInterfaceFactory;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
 import de.rinderle.softviz3d.layout.Layout;
-import de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface;
+import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarMetric;
@@ -130,7 +130,7 @@ public class SoftViz3dExtension implements ServerExtension {
         LayoutVisitorInterfaceFactory factory = softVizInjector
                 .getInstance(LayoutVisitorInterfaceFactory.class);
         
-        LayoutVisitorInterface visitor = factory.create(settings,
+        LayoutVisitor visitor = factory.create(settings,
                 footprintMetricWrapper, heightMetricWrapper);
 
         Layout layout = new Layout(visitor);

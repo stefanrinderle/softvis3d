@@ -19,10 +19,9 @@
  */
 package de.rinderle.softviz3d.layout.dot;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 import org.sonar.api.config.Settings;
+
+import com.google.inject.Inject;
 
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 
@@ -30,6 +29,9 @@ public class DotVersionImpl implements DotVersion {
 
     private String version = null;
 
+    @Inject
+    private ExecuteCommand executeCommand;
+    
     /* (non-Javadoc)
      * @see de.rinderle.softviz3d.layout.dot.DotVersion#getVersion(org.sonar.api.config.Settings)
      */
@@ -37,7 +39,7 @@ public class DotVersionImpl implements DotVersion {
     public String getVersion(Settings settings) {
         if (version == null) {
             String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
-            String commandResult = executeCommand(dotBin + " -V");
+            String commandResult = executeCommand.executeCommand(dotBin + " -V");
 
             // dot - Graphviz version 2.20.2 (Tue Jan 14 19:38:44 UTC 2014)
             
@@ -52,25 +54,4 @@ public class DotVersionImpl implements DotVersion {
         return version;
     }
 
-    private String executeCommand(String command) {
-        StringBuffer output = new StringBuffer();
-
-        Process p;
-        try {
-            p = Runtime.getRuntime().exec(command);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    p.getErrorStream()));
-
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                output.append(line + "\n");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return output.toString();
-
-    }
 }
