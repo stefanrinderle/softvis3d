@@ -34,6 +34,20 @@
 
 		<license.mailto>stefan@rinderle.info</license.mailto>
 
+		<coverage.reports.dir>
+			${basedir}/target/coverage-reports
+		</coverage.reports.dir>
+		<sonar.jacoco.reportPath>
+			${coverage.reports.dir}/jacoco-unit.exec
+		</sonar.jacoco.reportPath>
+		<sonar.jacoco.itReportPath>
+			${coverage.reports.dir}/jacoco-it.exec
+		</sonar.jacoco.itReportPath>
+		<sonar.jacoco.jar>
+			${basedir}/lib/jacocoagent.jar
+		</sonar.jacoco.jar>
+
+
 		<!-- Configuration for sonar-packaging-maven-plugin <sonar.pluginClass>de.rinderle.softviz3d.SoftViz3dPlugin</sonar.pluginClass> 
 			<sonar.pluginName>Softviz3d</sonar.pluginName> -->
 	</properties>
@@ -159,7 +173,32 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.1.201405082137</version>
+				<configuration>
+					<destfile>${basedir}/target/coverage-reports/jacoco-unit.exec</destfile>
+					<datafile>${basedir}/target/coverage-reports/jacoco-unit.exec</datafile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>jacoco-initialize</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>

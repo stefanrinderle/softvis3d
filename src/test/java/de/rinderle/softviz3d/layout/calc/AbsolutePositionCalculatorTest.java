@@ -28,8 +28,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import att.grappa.Graph;
-import att.grappa.GrappaBox;
-import att.grappa.Node;
 import de.rinderle.softviz3d.TestSource;
 import de.rinderle.softviz3d.grappa.TestGraphHelper;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
