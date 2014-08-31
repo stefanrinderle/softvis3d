@@ -24,7 +24,6 @@ import java.util.Map;
 
 import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 public interface LayoutVisitor {

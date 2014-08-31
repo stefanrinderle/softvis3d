@@ -39,10 +39,9 @@ import att.grappa.Node;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement.Type;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExecutor;
-import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement.Type;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;

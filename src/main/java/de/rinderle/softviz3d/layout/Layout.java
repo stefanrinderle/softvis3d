@@ -25,10 +25,10 @@ import java.util.Map;
 
 import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
+import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.helper.GraphDebugPrinter;
-import de.rinderle.softviz3d.layout.helper.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 public class Layout {

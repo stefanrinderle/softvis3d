@@ -38,9 +38,6 @@ public class SoftViz3dModule extends AbstractModule {
         bind(DotExecutor.class).to(DotExcecutorImpl.class);
         bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
 
-//        bind(LayoutVisitorFactory.class)
-//                .to(LayoutVisitorFactoryImpl.class);
-
         install(new FactoryModuleBuilder().implement(LayoutVisitor.class,
                 LayoutVisitorImpl.class).build(LayoutVisitorFactory.class));
     }
