@@ -24,9 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import att.grappa.Graph;
-
-import com.google.inject.Inject;
-
 import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
@@ -36,72 +33,62 @@ import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 public class Layout {
 
-//   private static final Logger LOGGER = LoggerFactory
-//   .getLogger(Layout.class);
+    private LayoutVisitor visitor;
 
-  private LayoutVisitor visitor;
-
-  public Layout(LayoutVisitor visitor) {
-    this.visitor = visitor;
-  }
-
-  public Map<Integer, Graph> startLayout(SourceObject source) throws DotExcecutorException {
-    // STEP 1 ---
-
-    // last output element could be used to start absolutepositioncalc
-    this.accept(source);
-    Map<Integer, Graph> resultGraphs = this.visitor.getResultingGraphList();
-    // ----------
-
-    // debug output
-    StringBuilder builder = new StringBuilder();
-    GraphDebugPrinter.printGraphsWithoutAbsolutePosition(builder, resultGraphs);
-
-    startAbsolutePositioning(source, resultGraphs, builder);
-
-    GraphDebugPrinter.printGraphsWithAbsolutePosition(builder, resultGraphs);
-
-    // LOGGER.info(builder.toString());
-
-    return resultGraphs;
-  }
-
-  private Map<Integer, Graph> startAbsolutePositioning(SourceObject source,
-      Map<Integer, Graph> resultGraphs, StringBuilder builder) {
-    // NEXT STEP HERE
-    AbsolutePositionCalculator calc = new AbsolutePositionCalculator(resultGraphs);
-    calc.calculate(source);
-    // ---
-
-    // debug result graphs after positioning graphs
-    GraphDebugPrinter.printGraphsWithAbsolutePosition(builder, resultGraphs);
-
-    return resultGraphs;
-  }
-
-  /**
-   * Bottom up calculation of layout layers.
-   * 
-   * Public because of unit testing access.
-   */
-  public LayeredLayoutElement accept(SourceObject source)
-      throws DotExcecutorException {
-    ArrayList<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
-
-    List<? extends SourceObject> childrenNodes = source.getChildrenNodes();
-    for (SourceObject node : childrenNodes) {
-      layerElements.add(this.accept(node));
+    public Layout(LayoutVisitor visitor) {
+        this.visitor = visitor;
     }
 
-    List<? extends SourceObject> childrenLeaves = source
-        .getChildrenLeaves();
-    for (SourceObject leaf : childrenLeaves) {
-      layerElements.add(visitor.visitFile(leaf));
+    public Map<Integer, Graph> startLayout(SourceObject source)
+            throws DotExcecutorException {
+        // STEP 1 ---
+
+        // last output element could be used to start absolutepositioncalc
+        this.accept(source);
+        Map<Integer, Graph> resultGraphs = this.visitor.getResultingGraphList();
+        // ----------
+
+        StringBuilder builder = new StringBuilder();
+
+        startAbsolutePositioning(source, resultGraphs, builder);
+
+        return resultGraphs;
     }
 
-    LayeredLayoutElement layer = visitor.visitNode(source, layerElements);
+    private Map<Integer, Graph> startAbsolutePositioning(SourceObject source,
+            Map<Integer, Graph> resultGraphs, StringBuilder builder) {
+        // NEXT STEP HERE
+        AbsolutePositionCalculator calc = new AbsolutePositionCalculator(
+                resultGraphs);
+        calc.calculate(source);
+        // ---
 
-    return layer;
-  }
+        return resultGraphs;
+    }
+
+    /**
+     * Bottom up calculation of layout layers.
+     * 
+     * Public because of unit testing access.
+     */
+    public LayeredLayoutElement accept(SourceObject source)
+            throws DotExcecutorException {
+        ArrayList<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
+
+        List<? extends SourceObject> childrenNodes = source.getChildrenNodes();
+        for (SourceObject node : childrenNodes) {
+            layerElements.add(this.accept(node));
+        }
+
+        List<? extends SourceObject> childrenLeaves = source
+                .getChildrenLeaves();
+        for (SourceObject leaf : childrenLeaves) {
+            layerElements.add(visitor.visitFile(leaf));
+        }
+
+        LayeredLayoutElement layer = visitor.visitNode(source, layerElements);
+
+        return layer;
+    }
 
 }

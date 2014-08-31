@@ -32,16 +32,16 @@ import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
 import de.rinderle.softviz3d.layout.dot.ExecuteCommandImpl;
 
 public class SoftViz3dModule extends AbstractModule {
-  @Override 
-  protected void configure() {
-    bind(DotVersion.class).to(DotVersionImpl.class);
-    bind(DotExecutor.class).to(DotExcecutorImpl.class);
-    bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
-    
-//    bind(LayoutVisitorInterfaceFactory.class).to(LayoutVisitorFactory.class);
-    
-    install(new FactoryModuleBuilder()
-    .implement(LayoutVisitor.class, LayoutVisitorImpl.class)
-    .build(LayoutVisitorInterfaceFactory.class));
-  }
+    @Override
+    protected void configure() {
+        bind(DotVersion.class).to(DotVersionImpl.class);
+        bind(DotExecutor.class).to(DotExcecutorImpl.class);
+        bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
+
+//        bind(LayoutVisitorFactory.class)
+//                .to(LayoutVisitorFactoryImpl.class);
+
+        install(new FactoryModuleBuilder().implement(LayoutVisitor.class,
+                LayoutVisitorImpl.class).build(LayoutVisitorFactory.class));
+    }
 }

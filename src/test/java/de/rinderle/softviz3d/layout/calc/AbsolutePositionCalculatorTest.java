@@ -19,22 +19,20 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import att.grappa.Node;
-
-import att.grappa.GrappaBox;
-import de.rinderle.softviz3d.TestSource;
-import de.rinderle.softviz3d.layout.interfaces.SourceObject;
-import att.grappa.Graph;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import att.grappa.Graph;
+import att.grappa.GrappaBox;
+import att.grappa.Node;
+import de.rinderle.softviz3d.TestSource;
+import de.rinderle.softviz3d.grappa.TestGraphHelper;
+import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 public class AbsolutePositionCalculatorTest {
 
@@ -46,9 +44,9 @@ public class AbsolutePositionCalculatorTest {
   public void testAbsolutePositionCalculator() {
     Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
     
-    inputGraphList.put(1, graphRoot());
-    inputGraphList.put(2, graphLeaf1());
-    inputGraphList.put(3, graphLeaf2());
+    inputGraphList.put(1, TestGraphHelper.graphRoot());
+    inputGraphList.put(2, TestGraphHelper.graphLeaf1());
+    inputGraphList.put(3, TestGraphHelper.graphLeaf2());
     
     AbsolutePositionCalculator calculator = new AbsolutePositionCalculator(inputGraphList);
     
@@ -69,46 +67,6 @@ public class AbsolutePositionCalculatorTest {
     
   }
 
-  private Graph graphRoot() {
-    Graph graph = new Graph("root");
-    double x = 0;
-    double y = 0;
-    double width = 50;
-    double height = 50;
-    graph.setAttribute("bb", new GrappaBox(x, y, width, height));
-    
-    Node leaf1 = new Node(graphLeaf1());
-    leaf1.setAttribute("id", "2");
-    leaf1.setAttribute("buildingHeight", "10");
-    graph.addNode(leaf1);
-    Node leaf2 = new Node(graphLeaf2());
-    leaf2.setAttribute("id", "3");
-    leaf2.setAttribute("buildingHeight", "10");
-    graph.addNode(leaf2);
-    
-    return graph;
-  }
-
-  private Graph graphLeaf1() {
-    Graph graph = new Graph("leaf1");
-    double x = 0;
-    double y = 0;
-    double width = 50;
-    double height = 50;
-    graph.setAttribute("bb", new GrappaBox(x, y, width, height));
-    return graph;
-  }
-  
-  private Graph graphLeaf2() {
-    Graph graph = new Graph("leaf2");
-    double x = 0;
-    double y = 0;
-    double width = 50;
-    double height = 50;
-    graph.setAttribute("bb", new GrappaBox(x, y, width, height));
-    return graph;
-  }
-  
   private SourceObject testSource() {
 //    TestSource leaf4 = new TestSource(4, 2, false, null);
 //    TestSource leaf5 = new TestSource(5, 2, false, null);

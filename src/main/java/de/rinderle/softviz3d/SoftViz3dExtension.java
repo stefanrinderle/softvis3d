@@ -34,7 +34,7 @@ import com.google.inject.Binding;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import de.rinderle.softviz3d.guice.LayoutVisitorInterfaceFactory;
+import de.rinderle.softviz3d.guice.LayoutVisitorFactory;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
 import de.rinderle.softviz3d.layout.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
@@ -125,11 +125,9 @@ public class SoftViz3dExtension implements ServerExtension {
         LOGGER.info("Metric " + metricId2 + " - min : " + minMaxValues.get(2)
                 + " max: " + minMaxValues.get(3));
 
-        Binding<LayoutVisitorInterfaceFactory> binding = softVizInjector.getBinding(LayoutVisitorInterfaceFactory.class);
-        
-        LayoutVisitorInterfaceFactory factory = softVizInjector
-                .getInstance(LayoutVisitorInterfaceFactory.class);
-        
+        LayoutVisitorFactory factory = softVizInjector
+                .getInstance(LayoutVisitorFactory.class);
+
         LayoutVisitor visitor = factory.create(settings,
                 footprintMetricWrapper, heightMetricWrapper);
 

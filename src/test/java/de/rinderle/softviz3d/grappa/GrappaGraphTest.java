@@ -19,8 +19,6 @@
  */
 package de.rinderle.softviz3d.grappa;
 
-import org.junit.Ignore;
-
 import java.awt.Color;
 
 import junit.framework.TestCase;

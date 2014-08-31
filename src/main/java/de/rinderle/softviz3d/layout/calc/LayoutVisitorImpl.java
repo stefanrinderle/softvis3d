@@ -48,153 +48,176 @@ import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 public class LayoutVisitorImpl implements LayoutVisitor {
-  private static final Logger LOGGER = LoggerFactory.getLogger(LayoutVisitorImpl.class);
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(LayoutVisitorImpl.class);
 
-  private Settings settings;
-  
-  private SourceMetric metricFootprint;
-  private SourceMetric metricHeight;
+    private Settings settings;
 
-  private ViewLayerFormatter formatter = new ViewLayerFormatter();
+    private SourceMetric metricFootprint;
+    private SourceMetric metricHeight;
 
-  private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
+    private ViewLayerFormatter formatter = new ViewLayerFormatter();
 
-  private DotExecutor dotExcecutor;
-  
-  @Inject
-  public LayoutVisitorImpl(@Assisted Settings settings, @Assisted SourceMetric metricFootprint, @Assisted SourceMetric metricHeight, DotExecutor dotExcecutor) {
-    this.settings = settings;
-    
-    this.metricFootprint = metricFootprint;
-    this.metricHeight = metricHeight;
-    
-    this.dotExcecutor = dotExcecutor;
-    
-    LOGGER.info(settings.toString());
-    LOGGER.info(metricFootprint.toString());
-    LOGGER.info(metricHeight.toString());
-    LOGGER.info(dotExcecutor.toString());
-  }
+    private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
 
-  /* (non-Javadoc)
- * @see de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface#getResultingGraphList()
- */
-@Override
-public Map<Integer, Graph> getResultingGraphList() {
-    return this.resultingGraphList;
-  }
+    private DotExecutor dotExcecutor;
 
-  /* (non-Javadoc)
- * @see de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface#visitNode(de.rinderle.softviz3d.layout.interfaces.SourceObject, java.util.List)
- */
-@Override
-public LayeredLayoutElement visitNode(SourceObject source, List<LayeredLayoutElement> elements)
-      throws DotExcecutorException {
-    // create layout graph
-    Graph inputGraph = new Graph(source.getId().toString());
+    @Inject
+    public LayoutVisitorImpl(@Assisted Settings settings,
+            @Assisted("metricFootprint")  SourceMetric metricFootprint,
+            @Assisted("metricHeight")  SourceMetric metricHeight, DotExecutor dotExcecutor) {
+        this.settings = settings;
 
-    for (LayeredLayoutElement element : elements) {
-      Node elementNode = new Node(inputGraph, element.getName());
-      elementNode.setAttribute("id", element.getId().toString());
-      elementNode.setAttribute("type", element.getElementType().name());
-      elementNode.setAttribute(WIDTH_ATTR, element.getWidth());
-      elementNode.setAttribute(HEIGHT_ATTR, element.getHeight());
+        this.metricFootprint = metricFootprint;
+        this.metricHeight = metricHeight;
 
-      // keep the size of the node only dependend on the width and height attribute
-      // and not from the node name
-      elementNode.setAttribute(LABEL_ATTR, ".");
+        this.dotExcecutor = dotExcecutor;
 
-      elementNode.setAttribute(SHAPE_ATTR, "box");
-
-      elementNode.setAttribute("buildingHeight", element.getBuildingHeight().toString());
-
-      elementNode.setAttribute("displayName", element.getDisplayName());
-      
-      inputGraph.addNode(elementNode);
+        LOGGER.info(settings.toString());
+        LOGGER.info(metricFootprint.toString());
+        LOGGER.info(metricHeight.toString());
+        LOGGER.info(dotExcecutor.toString());
     }
 
-    // run dot layout for this layer
-    Graph outputGraph = dotExcecutor.run(inputGraph, settings);
-
-    // adjust graph
-    Graph adjustedGraph = formatter.format(outputGraph, source.getDepth());
-    resultingGraphList.put(source.getId(), adjustedGraph);
-
-    // adjusted graph has a bounding box !
-    GrappaBox bb = (GrappaBox) adjustedGraph.getAttributeValue("bb");
-
-    // The dot output of the bb is given in DPI. The actual width
-    // and height of the representing element has to be scaled
-    // back to normal
-    Double width = bb.getWidth() / SoftViz3dConstants.DPI_DOT_SCALE;
-    Double height = bb.getHeight() / SoftViz3dConstants.DPI_DOT_SCALE;
-
-    double buildingHeight = 2;
-
-    return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE, source.getId(), "dir_" + source.getId(), width, height, buildingHeight, source.getName());
-  }
-
-  /* (non-Javadoc)
- * @see de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface#visitFile(de.rinderle.softviz3d.layout.interfaces.SourceObject)
- */
-@Override
-public LayeredLayoutElement visitFile(SourceObject source) {
-    double sideLength = calcSideLength(source.getMetricFootprintValue());
-
-    double buildingHeight = calcBuildingHeight(source.getMetricHeightValue());
-
-    return new LayeredLayoutElement(Type.LEAF, source.getId(),
-        "file_" + source.getId().toString(), 
-        sideLength, sideLength, buildingHeight, source.getName());
-  }
-
-  /**
-   * Building height is calculated in percent.
-   * 
-   * The actual building size is dependent on the size 
-   * of the biggest layer. This value is not available
-   * at this point of the calculation.
-   * 
-   * @param value Metric value for the building size
-   * @return percent 0-100%
-   */
-  private double calcBuildingHeight(Double value) {
-    double buildingHeight = 0.0;
-
-    if (value != null) {
-      // TODO start with 0 percent also in case of starting higher
-      Double maxValue = metricHeight.getMaxValue();
-
-      Double valuePercent = 0.0;
-      if (maxValue > 0 && value > 0) {
-        valuePercent = SoftViz3dConstants.PERCENT_DIVISOR / maxValue * value;
-      }
-
-      buildingHeight = valuePercent;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface#
+     * getResultingGraphList()
+     */
+    @Override
+    public Map<Integer, Graph> getResultingGraphList() {
+        return this.resultingGraphList;
     }
 
-    return buildingHeight;
-  }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface#visitNode(de
+     * .rinderle.softviz3d.layout.interfaces.SourceObject, java.util.List)
+     */
+    @Override
+    public LayeredLayoutElement visitNode(SourceObject source,
+            List<LayeredLayoutElement> elements) throws DotExcecutorException {
+        // create layout graph
+        Graph inputGraph = new Graph(source.getId().toString());
 
-  private double calcSideLength(Double value) {
-    double sideLength = SoftViz3dConstants.MIN_SIDE_LENGTH;
+        for (LayeredLayoutElement element : elements) {
+            Node elementNode = new Node(inputGraph, element.getName());
+            elementNode.setAttribute("id", element.getId().toString());
+            elementNode.setAttribute("type", element.getElementType().name());
+            elementNode.setAttribute(WIDTH_ATTR, element.getWidth());
+            elementNode.setAttribute(HEIGHT_ATTR, element.getHeight());
 
-    if (value != null) {
-      // TODO start with 0 percent also in case of starting higher
-      // Double minValue = metricFootprint.getMinValue();
-      Double maxValue = metricFootprint.getMaxValue();
+            // keep the size of the node only dependend on the width and height
+            // attribute
+            // and not from the node name
+            elementNode.setAttribute(LABEL_ATTR, ".");
 
-      // create a linear distribution
-      Double onePercent = (SoftViz3dConstants.MAX_SIDE_LENGTH - SoftViz3dConstants.MIN_SIDE_LENGTH) / SoftViz3dConstants.PERCENT_DIVISOR;
-      Double valuePercent = 0.0;
-      if (maxValue > 0 && value > 0) {
-        valuePercent = SoftViz3dConstants.PERCENT_DIVISOR / maxValue * value;
-      }
+            elementNode.setAttribute(SHAPE_ATTR, "box");
 
-      sideLength = SoftViz3dConstants.MIN_SIDE_LENGTH + valuePercent * onePercent;
+            elementNode.setAttribute("buildingHeight", element
+                    .getBuildingHeight().toString());
+
+            elementNode.setAttribute("displayName", element.getDisplayName());
+
+            inputGraph.addNode(elementNode);
+        }
+
+        // run dot layout for this layer
+        Graph outputGraph = dotExcecutor.run(inputGraph, settings);
+
+        // adjust graph
+        Graph adjustedGraph = formatter.format(outputGraph, source.getDepth());
+        resultingGraphList.put(source.getId(), adjustedGraph);
+
+        // adjusted graph has a bounding box !
+        GrappaBox bb = (GrappaBox) adjustedGraph.getAttributeValue("bb");
+
+        // The dot output of the bb is given in DPI. The actual width
+        // and height of the representing element has to be scaled
+        // back to normal
+        Double width = bb.getWidth() / SoftViz3dConstants.DPI_DOT_SCALE;
+        Double height = bb.getHeight() / SoftViz3dConstants.DPI_DOT_SCALE;
+
+        double buildingHeight = 2;
+
+        return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE,
+                source.getId(), "dir_" + source.getId(), width, height,
+                buildingHeight, source.getName());
     }
 
-    return sideLength;
-  }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface#visitFile(de
+     * .rinderle.softviz3d.layout.interfaces.SourceObject)
+     */
+    @Override
+    public LayeredLayoutElement visitFile(SourceObject source) {
+        double sideLength = calcSideLength(source.getMetricFootprintValue());
+
+        double buildingHeight = calcBuildingHeight(source
+                .getMetricHeightValue());
+
+        return new LayeredLayoutElement(Type.LEAF, source.getId(), "file_"
+                + source.getId().toString(), sideLength, sideLength,
+                buildingHeight, source.getName());
+    }
+
+    /**
+     * Building height is calculated in percent.
+     * 
+     * The actual building size is dependent on the size of the biggest layer.
+     * This value is not available at this point of the calculation.
+     * 
+     * @param value
+     *            Metric value for the building size
+     * @return percent 0-100%
+     */
+    private double calcBuildingHeight(Double value) {
+        double buildingHeight = 0.0;
+
+        if (value != null) {
+            // TODO start with 0 percent also in case of starting higher
+            Double maxValue = metricHeight.getMaxValue();
+
+            Double valuePercent = 0.0;
+            if (maxValue > 0 && value > 0) {
+                valuePercent = SoftViz3dConstants.PERCENT_DIVISOR / maxValue
+                        * value;
+            }
+
+            buildingHeight = valuePercent;
+        }
+
+        return buildingHeight;
+    }
+
+    private double calcSideLength(Double value) {
+        double sideLength = SoftViz3dConstants.MIN_SIDE_LENGTH;
+
+        if (value != null) {
+            // TODO start with 0 percent also in case of starting higher
+            // Double minValue = metricFootprint.getMinValue();
+            Double maxValue = metricFootprint.getMaxValue();
+
+            // create a linear distribution
+            Double onePercent = (SoftViz3dConstants.MAX_SIDE_LENGTH - SoftViz3dConstants.MIN_SIDE_LENGTH)
+                    / SoftViz3dConstants.PERCENT_DIVISOR;
+            Double valuePercent = 0.0;
+            if (maxValue > 0 && value > 0) {
+                valuePercent = SoftViz3dConstants.PERCENT_DIVISOR / maxValue
+                        * value;
+            }
+
+            sideLength = SoftViz3dConstants.MIN_SIDE_LENGTH + valuePercent
+                    * onePercent;
+        }
+
+        return sideLength;
+    }
 
 }

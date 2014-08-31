@@ -21,33 +21,31 @@ package de.rinderle.softviz3d.layout.calc;
 
 import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.helper.HexaColor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ViewLayerFormatter {
-//  private static final Logger LOGGER = LoggerFactory.getLogger(ViewLayerFormatter.class);
 
-  public Graph format(Graph graph, Integer depth) {
-    return this.adjustGraph(graph, depth);
-  }
-
-  private Graph adjustGraph(Graph graph, Integer depth) {
-    double transparency = 0.0;
-
-    // calc color
-    int colorCalc = depth * 32;
-    if (colorCalc > 155) {
-      colorCalc = 155;
+    public Graph format(Graph graph, Integer depth) {
+        return this.adjustGraph(graph, depth);
     }
 
-    HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
-    HexaColor nodesColor = new HexaColor(255, 140, 0);
+    private Graph adjustGraph(Graph graph, Integer depth) {
+        double transparency = 0.0;
 
-    graph.setAttribute("color", color);
-    graph.setAttribute("nodesColor", nodesColor.getHex());
-    graph.setAttribute("transparency", transparency + "");
+        // calc color
+        int colorCalc = depth * 32;
+        if (colorCalc > 155 || colorCalc < 0) {
+            colorCalc = 155;
+        }
 
-    return graph;
-  }
+        HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc,
+                100 + colorCalc);
+        HexaColor nodesColor = new HexaColor(255, 140, 0);
+
+        graph.setAttribute("color", color);
+        graph.setAttribute("nodesColor", nodesColor.getHex());
+        graph.setAttribute("transparency", transparency + "");
+
+        return graph;
+    }
 
 }

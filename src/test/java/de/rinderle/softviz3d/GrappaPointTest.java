@@ -22,12 +22,10 @@ package de.rinderle.softviz3d;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import att.grappa.GrappaPoint;
 
-@Ignore
 public class GrappaPointTest {
 
     @Test
@@ -42,7 +40,6 @@ public class GrappaPointTest {
     }
 
     @Test
-    @Ignore
     public void testSplit() {
         GrappaPoint pos = new GrappaPoint(-7, -9);
         
@@ -51,7 +48,7 @@ public class GrappaPointTest {
         String[] attributePos = attributeString.split(",");
         
         assertEquals("-7", attributePos[0]);
-        assertEquals("-9", attributePos[1]);
+        assertEquals("9", attributePos[1]);
         
         assertTrue(-7 == pos.x);
         assertTrue(-9 == pos.y);
@@ -62,7 +59,7 @@ public class GrappaPointTest {
         GrappaPoint pos = new GrappaPoint("48,-12");
         
         assertTrue(48 == pos.x);
-        assertTrue(-12 == pos.y);
+        assertTrue(12 == pos.y);
     }
     
 }
