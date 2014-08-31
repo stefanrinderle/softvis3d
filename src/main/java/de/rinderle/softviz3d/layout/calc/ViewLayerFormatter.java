@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ViewLayerFormatter {
-  private static final Logger LOGGER = LoggerFactory.getLogger(ViewLayerFormatter.class);
+//  private static final Logger LOGGER = LoggerFactory.getLogger(ViewLayerFormatter.class);
 
   public Graph format(Graph graph, Integer depth) {
     return this.adjustGraph(graph, depth);

@@ -52,6 +52,9 @@ public class DotExcecutor implements DotExecutorInterface {
     @Inject
     private DotVersion dotVersion;
     
+    @Inject 
+    private ExecuteCommand executeCommand;
+    
     @Override
     public Graph run(Graph inputGraph, Settings settings)
             throws DotExcecutorException {
@@ -61,7 +64,7 @@ public class DotExcecutor implements DotExecutorInterface {
         String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
         String command = dotBin + " -K neato ";
         
-        String adot = ExecuteCommand.executeCommand(command, writer.toString());
+        String adot = executeCommand.executeCommand(command, writer.toString());
 
         if (dotVersion.getVersion(settings).equals("2.38.0")) {
             try {
@@ -75,7 +78,7 @@ public class DotExcecutor implements DotExecutorInterface {
                 
               String translationCommand = "/usr/local/bin/gvpr -c -f " + translationFile.getAbsolutePath();
               
-              adot = ExecuteCommand.executeCommand(translationCommand, adot);
+              adot = executeCommand.executeCommand(translationCommand, adot);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

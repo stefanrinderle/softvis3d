@@ -30,6 +30,7 @@ import org.sonar.api.database.DatabaseSession;
 
 import att.grappa.Graph;
 
+import com.google.inject.Binding;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -124,9 +125,11 @@ public class SoftViz3dExtension implements ServerExtension {
         LOGGER.info("Metric " + metricId2 + " - min : " + minMaxValues.get(2)
                 + " max: " + minMaxValues.get(3));
 
+        Binding<LayoutVisitorInterfaceFactory> binding = softVizInjector.getBinding(LayoutVisitorInterfaceFactory.class);
+        
         LayoutVisitorInterfaceFactory factory = softVizInjector
                 .getInstance(LayoutVisitorInterfaceFactory.class);
-
+        
         LayoutVisitorInterface visitor = factory.create(settings,
                 footprintMetricWrapper, heightMetricWrapper);
 
