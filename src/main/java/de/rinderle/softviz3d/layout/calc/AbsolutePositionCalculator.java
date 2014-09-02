@@ -35,9 +35,6 @@ import static att.grappa.GrappaConstants.WIDTH_ATTR;
 
 public class AbsolutePositionCalculator {
 
-  // private static final Logger LOGGER = LoggerFactory
-  // .getLogger(AbsolutePositionCalculator.class);
-
   private static final int MIN_BUILDING_HEIGHT = 10;
 
   private Map<Integer, Graph> inputGraphs;

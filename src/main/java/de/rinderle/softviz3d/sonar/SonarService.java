@@ -21,37 +21,28 @@ package de.rinderle.softviz3d.sonar;
 
 import java.util.List;
 
-import org.sonar.api.database.DatabaseSession;
+import org.sonar.api.config.Settings;
 
-public interface SonarDao {
+public interface SonarService {
 
-    public abstract void setDatabaseSession(DatabaseSession session);
+    public abstract Integer getMetric1FromSettings(Settings settings);
 
-    public abstract SonarSnapshot getSnapshotById(Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId);
+    public abstract Integer getMetric2FromSettings(Settings settings);
 
     /**
+     * Request all metrics which are set on the file level (Scope) for
+     * the requested root snapshot.
      * 
-     * @param snapshotId parent snapshot id
-     * @param footprintMetricId used for getting the metric value-
-     * @param heightMetricId used for getting the metric value.
-     * @param scope see <code>Scopes.class</code> class.
-     * @param parentDepth is used to overcome the "depth problem" within the sonar database.
-     * @return
+     * @param snapshotId Root snapshot ID
+     * @return defined metrics on the file level scope
      */
-    public abstract List<SonarSnapshot> getChildrenByScope(Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId, String scope);
-
-    public abstract Integer getMetricIdByName(String name);
-
+    public abstract List<Integer> getDefinedMetricsForSnapshot(
+            Integer snapshotId);
+    
     public abstract List<Double> getMinMaxMetricValuesByRootSnapshotId(
             Integer rootSnapshotId, Integer footprintMetricId,
             Integer heightMetricId);
-
-    public abstract List<Integer> getSnapshotChildrenIdsById(Integer id);
-
-    List<Integer> getDistinctMetricsBySnapshotId(Integer snapshotId);
-
-    Integer getSnapshotIdById(Integer snapshotId);
-
+    
+    public abstract SonarSnapshot getSnapshotById(Integer snapshotId,
+            Integer footprintMetricId, Integer heightMetricId);
 }

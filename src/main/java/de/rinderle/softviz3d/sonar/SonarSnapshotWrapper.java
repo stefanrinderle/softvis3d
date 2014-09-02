@@ -27,9 +27,6 @@ import java.util.List;
 
 public class SonarSnapshotWrapper implements SourceObject {
 
-  // private static final Logger LOGGER = LoggerFactory
-  // .getLogger(SonarSnapshot.class);
-
   private SonarSnapshot snapshot;
 
   private Integer footprintMetricId;

@@ -28,7 +28,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ExecuteCommandImpl implements ExecuteCommand {
+    
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(ExecuteCommandImpl.class);
     
     @Override
     public String executeCommand(String command) {
@@ -46,11 +52,10 @@ public class ExecuteCommandImpl implements ExecuteCommand {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error on command " + command, e);
         }
 
         return output.toString();
-
     }
     
     @Override

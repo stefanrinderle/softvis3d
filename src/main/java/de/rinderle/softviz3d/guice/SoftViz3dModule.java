@@ -22,14 +22,18 @@ package de.rinderle.softviz3d.guice;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
-import de.rinderle.softviz3d.layout.calc.LayoutVisitorImpl;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
+import de.rinderle.softviz3d.layout.calc.LayoutVisitorImpl;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorImpl;
 import de.rinderle.softviz3d.layout.dot.DotExecutor;
 import de.rinderle.softviz3d.layout.dot.DotVersion;
 import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
 import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
 import de.rinderle.softviz3d.layout.dot.ExecuteCommandImpl;
+import de.rinderle.softviz3d.sonar.SonarService;
+import de.rinderle.softviz3d.sonar.SonarServiceImpl;
+import de.rinderle.softviz3d.sonar.SonarDao;
+import de.rinderle.softviz3d.sonar.SonarDaoImpl;
 
 public class SoftViz3dModule extends AbstractModule {
     @Override
@@ -37,6 +41,8 @@ public class SoftViz3dModule extends AbstractModule {
         bind(DotVersion.class).to(DotVersionImpl.class);
         bind(DotExecutor.class).to(DotExcecutorImpl.class);
         bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
+        bind(SonarDao.class).to(SonarDaoImpl.class);
+        bind(SonarService.class).to(SonarServiceImpl.class);
 
         install(new FactoryModuleBuilder().implement(LayoutVisitor.class,
                 LayoutVisitorImpl.class).build(LayoutVisitorFactory.class));

@@ -32,7 +32,9 @@ import att.grappa.Node;
 
 public class GraphDebugPrinter {
 
-  private static String printSimpleGraphLayoutInfos(Graph graph) {
+  private static final String BREAK_STRING = "-----------------------<br /><br />";
+
+private String printSimpleGraphLayoutInfos(Graph graph) {
     StringBuilder builder = new StringBuilder();
     builder.append(graph.getId() + " " + graph.getName() + "\n");
     if (graph.getAttribute("bb") != null) {
@@ -48,7 +50,7 @@ public class GraphDebugPrinter {
     return builder.toString();
   }
 
-  public static String printFullGraph(Graph graph) {
+  public String printFullGraph(Graph graph) {
     StringBuilder builder = new StringBuilder();
     StringOutputStream os = new StringOutputStream();
     builder.append("-----------------------\n\n");
@@ -58,7 +60,7 @@ public class GraphDebugPrinter {
     return builder.toString();
   }
 
-  public static void printGraphsWithAbsolutePosition(StringBuilder builder,
+  public void printGraphsWithAbsolutePosition(StringBuilder builder,
       Map<Integer, Graph> resultGraphs) {
     Iterator<Entry<Integer, Graph>> iterator = resultGraphs.entrySet()
         .iterator();
@@ -72,11 +74,11 @@ public class GraphDebugPrinter {
       builder.append(os.toString());
     }
 
-    builder.append("-----------------------<br /><br />");
-    builder.append("-----------------------<br /><br />");
+    builder.append(BREAK_STRING);
+    builder.append(BREAK_STRING);
   }
 
-  public static void printGraphsWithoutAbsolutePosition(StringBuilder builder,
+  public void printGraphsWithoutAbsolutePosition(StringBuilder builder,
       Map<Integer, Graph> resultGraphs) {
     builder.append("-------Result graphs without absolute position--------<br /><br />");
     Iterator<Entry<Integer, Graph>> iterator = resultGraphs.entrySet()
@@ -84,10 +86,9 @@ public class GraphDebugPrinter {
     Entry<Integer, Graph> graph;
     while (iterator.hasNext()) {
       graph = iterator.next();
-      builder.append(GraphDebugPrinter.printSimpleGraphLayoutInfos(graph
-          .getValue()));
+      builder.append(this.printSimpleGraphLayoutInfos(graph.getValue()));
     }
-    builder.append("-----------------------<br /><br />");
-    builder.append("-----------------------<br /><br />");
+    builder.append(BREAK_STRING);
+    builder.append(BREAK_STRING);
   }
 }

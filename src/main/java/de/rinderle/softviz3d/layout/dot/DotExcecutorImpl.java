@@ -46,10 +46,10 @@ import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 @Singleton
 public class DotExcecutorImpl implements DotExecutor {
 
-    public static final String DOT_BUG_VERSION = "2.38.0";
-
     private static final Logger LOGGER = LoggerFactory
             .getLogger(DotExcecutorImpl.class);
+    
+    public static final String DOT_BUG_VERSION = "2.38.0";
 
     private File translationFile = null;
 
@@ -84,8 +84,7 @@ public class DotExcecutorImpl implements DotExecutor {
               
               adot = executeCommand.executeDotCommand(translationCommand, adot);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOGGER.error("Error on create temp file", e);
             }
         }
         
