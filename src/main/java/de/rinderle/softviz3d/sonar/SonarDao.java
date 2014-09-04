@@ -25,9 +25,9 @@ import org.sonar.api.database.DatabaseSession;
 
 public interface SonarDao {
 
-    public abstract void setDatabaseSession(DatabaseSession session);
+    void setDatabaseSession(DatabaseSession session);
 
-    public abstract SonarSnapshot getSnapshotById(Integer snapshotId,
+    SonarSnapshot getSnapshotById(Integer snapshotId,
             Integer footprintMetricId, Integer heightMetricId);
 
     /**
@@ -36,22 +36,23 @@ public interface SonarDao {
      * @param footprintMetricId used for getting the metric value-
      * @param heightMetricId used for getting the metric value.
      * @param scope see <code>Scopes.class</code> class.
-     * @param parentDepth is used to overcome the "depth problem" within the sonar database.
      * @return
      */
-    public abstract List<SonarSnapshot> getChildrenByScope(Integer snapshotId,
+    List<SonarSnapshot> getChildrenByScope(Integer snapshotId,
             Integer footprintMetricId, Integer heightMetricId, String scope);
 
-    public abstract Integer getMetricIdByName(String name);
+    Integer getMetricIdByName(String name);
 
-    public abstract List<Double> getMinMaxMetricValuesByRootSnapshotId(
+    List<Double> getMinMaxMetricValuesByRootSnapshotId(
             Integer rootSnapshotId, Integer footprintMetricId,
             Integer heightMetricId);
 
-    public abstract List<Integer> getSnapshotChildrenIdsById(Integer id);
+    List<Integer> getSnapshotChildrenIdsById(Integer id);
 
     List<Integer> getDistinctMetricsBySnapshotId(Integer snapshotId);
 
     Integer getSnapshotIdById(Integer snapshotId);
+
+    List<Object[]> getAllChildrenFlat(int rootSnapshotId);
 
 }

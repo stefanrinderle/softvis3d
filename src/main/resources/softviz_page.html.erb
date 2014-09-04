@@ -21,13 +21,12 @@
      end
 
     # set default metric ids if no metrics selected
-    puts("here")
     if (params[:metric1].blank?) 
-       puts("no params - default params")
+       puts("no param 1 - default params")
        params[:metric1] = softviz3d.getMetric1FromSettings().to_s
     end
     if (params[:metric2].blank?) 
-       puts("no params - default params")
+       puts("no param 2 - default params")
        params[:metric2] = softviz3d.getMetric2FromSettings().to_s
     end
   %>

@@ -32,7 +32,7 @@ public class TreePathTest {
 
     @Test
     public void test() {
-        PathWalker walker = new PathWalker("/", 999999999);
+        PathWalker walker = new PathWalker(999999999, "/");
 
         int id = 0;
         

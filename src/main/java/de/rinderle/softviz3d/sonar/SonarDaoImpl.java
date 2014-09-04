@@ -63,7 +63,7 @@ public class SonarDaoImpl implements SonarDao {
             query.setParameter("snapshotId", snapshotId);
             query.setParameter("footprintMetricId", footprintMetricId);
             query.setParameter("heightMetricId", heightMetricId);
-            
+
             Object[] result = (Object[]) query.getSingleResult();
 
             snapshot = castToJpaSnapshot(result);
@@ -99,14 +99,14 @@ public class SonarDaoImpl implements SonarDao {
         Integer depth = (Integer) result[2];
         BigDecimal footprintMetricValue = (BigDecimal) result[3];
         BigDecimal heightMetricValue = (BigDecimal) result[3];
-        
+
         SonarSnapshot snapshot = new SonarSnapshot(id, name, depth,
                 footprintMetricValue.doubleValue(),
                 heightMetricValue.doubleValue());
 
         return snapshot;
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -272,13 +272,6 @@ public class SonarDaoImpl implements SonarDao {
         return values;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.rinderle.softviz3d.sonar.SonarDaoInterface#getSnapshotChildrenIdsById
-     * (java.lang.Integer)
-     */
     @Override
     @Deprecated
     @SuppressWarnings("unchecked")
@@ -290,6 +283,33 @@ public class SonarDaoImpl implements SonarDao {
             Query query = session
                     .createQuery("select s.id from Snapshot s where s.parentId = :id");
             query.setParameter("id", id);
+
+            childrenIds = query.getResultList();
+        } catch (PersistenceException e) {
+            LOGGER.error(e.getMessage(), e);
+            childrenIds = null;
+        } finally {
+            session.stop();
+        }
+
+        return childrenIds;
+    }
+
+    @Override
+    public List<Object[]> getAllChildrenFlat(int rootSnapshotId) {
+        /**
+         * SELECT s.id, p.path FROM snapshots s INNER JOIN projects p ON
+         * s.project_id = p.id WHERE s.root_snapshot_id =340
+         */
+        List<Object[]> childrenIds;
+
+        try {
+            session.start();
+            Query query = session
+                    .createNativeQuery("SELECT s.id, p.path FROM snapshots s "
+                            + "INNER JOIN projects p ON s.project_id = p.id "
+                            + "WHERE s.root_snapshot_id = :id");
+            query.setParameter("id", rootSnapshotId);
 
             childrenIds = query.getResultList();
         } catch (PersistenceException e) {

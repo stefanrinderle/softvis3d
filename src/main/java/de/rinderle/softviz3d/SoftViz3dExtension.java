@@ -33,14 +33,16 @@ import att.grappa.Graph;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import de.rinderle.softviz3d.depth.ResourceTreeService;
+import de.rinderle.softviz3d.depth.ResourceTreeServiceImpl;
 import de.rinderle.softviz3d.guice.LayoutVisitorFactory;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
 import de.rinderle.softviz3d.layout.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarMetric;
+import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import de.rinderle.softviz3d.sonar.SonarSnapshotWrapper;
 
@@ -56,6 +58,8 @@ public class SoftViz3dExtension implements ServerExtension {
     private SonarService sonarService;
 
     private Injector softVizInjector;
+    
+    private ResourceTreeService resourceTreeService;
 
     public SoftViz3dExtension(DatabaseSession session, Settings settings) {
         this.settings = settings;
@@ -70,6 +74,8 @@ public class SoftViz3dExtension implements ServerExtension {
         this.sonarDao = softVizInjector.getInstance(SonarDao.class);
         this.sonarService = softVizInjector.getInstance(SonarService.class);
         this.sonarDao.setDatabaseSession(session);
+        
+        this.resourceTreeService = softVizInjector.getInstance(ResourceTreeServiceImpl.class);
     }
 
     public List<Integer> getMetricsForSnapshot(Integer snapshotId) {
@@ -93,6 +99,8 @@ public class SoftViz3dExtension implements ServerExtension {
             String metricString1, String metricString2) throws DotExcecutorException {
         LOGGER.info("Startup SoftViz3d plugin with snapshot " + snapshotId);
 
+        resourceTreeService.createTreeStructrue(snapshotId);
+        
         Integer metricId1 = Integer.valueOf(metricString1);
         Integer metricId2 = Integer.valueOf(metricString2);
         

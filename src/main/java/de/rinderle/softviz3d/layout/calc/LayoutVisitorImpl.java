@@ -47,8 +47,6 @@ import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 public class LayoutVisitorImpl implements LayoutVisitor {
-//    private static final Logger LOGGER = LoggerFactory
-//            .getLogger(LayoutVisitorImpl.class);
 
     private Settings settings;
 

@@ -31,7 +31,7 @@ public class PathWalker {
         root = new Node(id, 0);
     }
     
-    public PathWalker(String pathSeperator, int id) {
+    public PathWalker(int id, String pathSeperator) {
         if (pathSeperator != null) {
             this.pathSeperator = Pattern.compile(pathSeperator);
         }
@@ -62,12 +62,15 @@ public class PathWalker {
     }
     
     private static void print(Node node, PrintStream out, int depht) {
-        out.println(" - " + depht);
         Map<String, Node> children = node.getChildren();
         if (children.isEmpty())
             return;
         for (Map.Entry<String, Node> child : children.entrySet()) {
-            out.print(child.getKey());
+            
+            out.println(child.getValue().getId() + " "
+                    + child.getValue().getDepth() + " "
+                    + child.getKey());
+                    
             print(child.getValue(), out, depht + 1);
         }
     }
