@@ -47,8 +47,8 @@ import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 public class LayoutVisitorImpl implements LayoutVisitor {
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(LayoutVisitorImpl.class);
+//    private static final Logger LOGGER = LoggerFactory
+//            .getLogger(LayoutVisitorImpl.class);
 
     private Settings settings;
 
@@ -71,31 +71,13 @@ public class LayoutVisitorImpl implements LayoutVisitor {
         this.metricHeight = metricHeight;
 
         this.dotExcecutor = dotExcecutor;
-
-        LOGGER.info(settings.toString());
-        LOGGER.info(metricFootprint.toString());
-        LOGGER.info(metricHeight.toString());
-        LOGGER.info(dotExcecutor.toString());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface#
-     * getResultingGraphList()
-     */
     @Override
     public Map<Integer, Graph> getResultingGraphList() {
         return this.resultingGraphList;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface#visitNode(de
-     * .rinderle.softviz3d.layout.interfaces.SourceObject, java.util.List)
-     */
     @Override
     public LayeredLayoutElement visitNode(SourceObject source,
             List<LayeredLayoutElement> elements) throws DotExcecutorException {
@@ -147,13 +129,6 @@ public class LayoutVisitorImpl implements LayoutVisitor {
                 buildingHeight, source.getName());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.rinderle.softviz3d.layout.calc.LayoutVisitorInterface#visitFile(de
-     * .rinderle.softviz3d.layout.interfaces.SourceObject)
-     */
     @Override
     public LayeredLayoutElement visitFile(SourceObject source) {
         double sideLength = calcSideLength(source.getMetricFootprintValue());

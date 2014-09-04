@@ -20,17 +20,20 @@
        metrics << m if m
      end
 
-    # BUG params are not selected
-
     # set default metric ids if no metrics selected
-    if (!(params[:metric1] && !params[:metric2])) 
+    puts("here")
+    if (params[:metric1].blank?) 
        puts("no params - default params")
-       params[:metric1] = softviz3d.getMetric1FromSettings()
-       params[:metric2] = softviz3d.getMetric2FromSettings()
+       params[:metric1] = softviz3d.getMetric1FromSettings().to_s
+    end
+    if (params[:metric2].blank?) 
+       puts("no params - default params")
+       params[:metric2] = softviz3d.getMetric2FromSettings().to_s
     end
   %>
   <% form_tag({:action => @resource.id.to_s}, {:id => 'softviz3dForm', :method => 'get'}) do %>
       <input type="hidden" name="page" value="Softviz3d">
+      
       Building footprint metric:
       <select name="metric1">
         <%
@@ -85,18 +88,12 @@
 
 <script type="text/javascript">
 
-    <%
+   <%
    # get extension class and start layout
    softviz3d = Api::Utils.java_facade.
            getComponentByClassname('softviz3d', 'de.rinderle.softviz3d.SoftViz3dExtension')
 
-   if (!(params[:metric1] && !params[:metric2])) 
-       puts("no params - default params")
-       resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id)
-   else
-       puts("params here - go ahead") 
-       resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, params[:metric1], params[:metric2])
-   end
+   resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, params[:metric1], params[:metric2])
            
    # show all graph (as layers)
    resultMap.each do |key, value|

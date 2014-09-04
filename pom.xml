@@ -30,7 +30,7 @@
 	</developers>
 
 	<properties>
-		<sonar.version>3.0</sonar.version>
+		<sonar.version>4.2</sonar.version>
 
 		<license.mailto>stefan@rinderle.info</license.mailto>
 

@@ -38,7 +38,7 @@ public class ExecuteCommandImpl implements ExecuteCommand {
     
     @Override
     public String executeCommand(String command) {
-        StringBuffer output = new StringBuffer();
+        StringBuilder output = new StringBuilder();
 
         Process p;
         try {

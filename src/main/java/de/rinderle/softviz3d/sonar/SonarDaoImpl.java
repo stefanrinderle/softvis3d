@@ -41,13 +41,6 @@ public class SonarDaoImpl implements SonarDao {
 
     private DatabaseSession session;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.rinderle.softviz3d.sonar.SonarDaoInterface#setDatabaseSession(org.
-     * sonar.api.database.DatabaseSession)
-     */
     @Override
     public void setDatabaseSession(DatabaseSession session) {
         this.session = session;

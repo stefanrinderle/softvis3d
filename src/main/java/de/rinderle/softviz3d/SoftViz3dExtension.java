@@ -78,37 +78,30 @@ public class SoftViz3dExtension implements ServerExtension {
         return sonarService.getDefinedMetricsForSnapshot(snapshotId);
     }
 
-    public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId)
-            throws DotExcecutorException {
-        Integer metricId1 = this.getMetric1FromSettings();
-        Integer metricId2 = this.getMetric2FromSettings();
-
-        return createLayoutBySnapshotId(snapshotId, metricId1, metricId2);
-    }
-
     public Integer getMetric1FromSettings() {
         return sonarService.getMetric1FromSettings(settings);
     }
 
+    /**
+     * used direkt hintereinander.
+     */
     public Integer getMetric2FromSettings() {
         return sonarService.getMetric2FromSettings(settings);
     }
 
     public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
-            String metricId1, String metricId2) throws DotExcecutorException {
-        return createLayoutBySnapshotId(snapshotId, Integer.valueOf(metricId1),
-                Integer.valueOf(metricId2));
-    }
-
-    private Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
-            Integer metricId1, Integer metricId2) throws DotExcecutorException {
+            String metricString1, String metricString2) throws DotExcecutorException {
         LOGGER.info("Startup SoftViz3d plugin with snapshot " + snapshotId);
 
+        Integer metricId1 = Integer.valueOf(metricString1);
+        Integer metricId2 = Integer.valueOf(metricString2);
+        
         List<Double> minMaxValues = sonarService.getMinMaxMetricValuesByRootSnapshotId(
                 snapshotId, metricId1, metricId2);
 
         SonarSnapshot snapshot = sonarService.getSnapshotById(snapshotId, metricId1,
                 metricId2);
+        
         SonarSnapshotWrapper snapshotWrapper = new SonarSnapshotWrapper(
                 snapshot, metricId1, metricId2, sonarDao);
 
@@ -117,9 +110,8 @@ public class SoftViz3dExtension implements ServerExtension {
         LayoutVisitor visitor = buildLayoutVisitor(minMaxValues);
 
         Layout layout = new Layout(visitor);
-        Map<Integer, Graph> result = layout.startLayout(snapshotWrapper);
-
-        return result;
+        
+        return layout.startLayout(snapshotWrapper);
     }
 
     private void logStartOfCalc(Integer metricId1, Integer metricId2,

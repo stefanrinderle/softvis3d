@@ -88,9 +88,7 @@ public class DotExcecutorImpl implements DotExecutor {
             }
         }
         
-        Graph outputGraph = parseDot(adot);
-
-        return outputGraph;
+        return parseDot(adot);
     }
 
     private Graph parseDot(String adot) throws DotExcecutorException {
@@ -107,12 +105,10 @@ public class DotExcecutorImpl implements DotExecutor {
 
         Parser parser = new Parser(reader, errorStream, newGraph);
 
-         LOGGER.info(adot);
-
         try {
             parser.parse();
         } catch (Exception e) {
-            LOGGER.warn("Error on parsing graph string - parseDot: "
+            LOGGER.error("Error on parsing graph string - parseDot: "
                     + e.getMessage());
             throw new DotExcecutorException(e.getMessage(), e);
         }

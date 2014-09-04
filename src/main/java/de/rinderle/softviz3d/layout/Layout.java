@@ -47,15 +47,13 @@ public class Layout {
         Map<Integer, Graph> resultGraphs = this.visitor.getResultingGraphList();
         // ----------
 
-        StringBuilder builder = new StringBuilder();
-
-        startAbsolutePositioning(source, resultGraphs, builder);
+        startAbsolutePositioning(source, resultGraphs);
 
         return resultGraphs;
     }
 
     private Map<Integer, Graph> startAbsolutePositioning(SourceObject source,
-            Map<Integer, Graph> resultGraphs, StringBuilder builder) {
+            Map<Integer, Graph> resultGraphs) {
         // NEXT STEP HERE
         AbsolutePositionCalculator calc = new AbsolutePositionCalculator(
                 resultGraphs);
