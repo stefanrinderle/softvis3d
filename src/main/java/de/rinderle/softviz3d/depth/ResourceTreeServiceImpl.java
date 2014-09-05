@@ -44,7 +44,7 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
     @Override
     public void createTreeStructrue(int rootSnapshotId) {
-        pathWalker = new PathWalker(rootSnapshotId, "/");
+        pathWalker = new PathWalker(rootSnapshotId);
 
         List<Object[]> flatChildren = sonarDao
                 .getAllChildrenFlat(rootSnapshotId);

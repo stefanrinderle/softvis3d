@@ -30,17 +30,9 @@ public class PathWalker {
     
     private final Node root;
 
-    private Pattern pathSeperator = Pattern.compile("\\\\");
+    private Pattern pathSeperator = Pattern.compile("/");
     
     public PathWalker(int id) {
-        root = new Node(id);
-    }
-    
-    public PathWalker(int id, String pathSeperator) {
-        if (pathSeperator != null) {
-            this.pathSeperator = Pattern.compile(pathSeperator);
-        }
-        
         root = new Node(id);
     }
     
