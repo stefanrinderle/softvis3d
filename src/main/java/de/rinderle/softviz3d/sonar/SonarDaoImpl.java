@@ -77,6 +77,55 @@ public class SonarDaoImpl implements SonarDao {
         return snapshot;
     }
 
+    @Override
+    public List<SonarSnapshot> getSnapshotsById(List<Integer> childrenNodeIds,
+            Integer footprintMetricId, Integer heightMetricId) {
+        List<SonarSnapshot> snapshots = new ArrayList<SonarSnapshot>();
+
+        try {
+            session.start();
+            Query query = session
+                    .createNativeQuery("select s.id, p.name, s.depth, m1.value, m2.value from snapshots s "
+                            + "INNER JOIN projects p ON s.project_id = p.id "
+                            + "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id "
+                            + "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id "
+                            + "WHERE s.id IN (:snapshotIds) "
+                            + "AND m1.metric_id = :footprintMetricId "
+                            + "AND m2.metric_id = :heightMetricId");
+            
+            query.setParameter("snapshotIds", childrenNodeIds);
+            query.setParameter("footprintMetricId", footprintMetricId);
+            query.setParameter("heightMetricId", heightMetricId);
+
+            List<Object[]> queryResult = (List<Object[]>) query.getResultList();
+
+            
+            for (Object[] object : queryResult) {
+                snapshots.add(castToJpaSnapshot(object));
+            }
+//            snapshot = castToJpaSnapshot(result);
+        } catch (PersistenceException e) {
+            LOGGER.error("snapshotIds", childrenNodeIds.size());
+            LOGGER.error(e.getMessage(), e);
+        } finally {
+            session.stop();
+        }
+
+        return snapshots;
+    }
+    
+    private String createIdString(List<Integer> childrenNodeIds) {
+        StringBuilder result = new StringBuilder();
+        
+        for (Integer childId : childrenNodeIds) {
+            result.append(childId);
+            result.append(",");
+        }
+        
+        result.deleteCharAt(result.length() - 1);
+        return result.toString();
+    }
+
     private SonarSnapshot castToJpaSnapshot(Object[] result,
             BigDecimal metric2Value) {
         Integer id = (Integer) result[0];
@@ -273,29 +322,6 @@ public class SonarDaoImpl implements SonarDao {
     }
 
     @Override
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public List<Integer> getSnapshotChildrenIdsById(Integer id) {
-        List<Integer> childrenIds;
-
-        try {
-            session.start();
-            Query query = session
-                    .createQuery("select s.id from Snapshot s where s.parentId = :id");
-            query.setParameter("id", id);
-
-            childrenIds = query.getResultList();
-        } catch (PersistenceException e) {
-            LOGGER.error(e.getMessage(), e);
-            childrenIds = null;
-        } finally {
-            session.stop();
-        }
-
-        return childrenIds;
-    }
-
-    @Override
     public List<Object[]> getAllChildrenFlat(int rootSnapshotId) {
         /**
          * SELECT s.id, p.path FROM snapshots s INNER JOIN projects p ON
@@ -308,7 +334,8 @@ public class SonarDaoImpl implements SonarDao {
             Query query = session
                     .createNativeQuery("SELECT s.id, p.path FROM snapshots s "
                             + "INNER JOIN projects p ON s.project_id = p.id "
-                            + "WHERE s.root_snapshot_id = :id");
+                            + "WHERE s.root_snapshot_id = :id "
+                            + "ORDER BY path");
             query.setParameter("id", rootSnapshotId);
 
             childrenIds = query.getResultList();

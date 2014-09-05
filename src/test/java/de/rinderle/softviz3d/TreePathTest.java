@@ -19,9 +19,7 @@
  */
 package de.rinderle.softviz3d;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -30,89 +28,129 @@ import de.rinderle.softviz3d.depth.PathWalker;
 
 public class TreePathTest {
 
-    @Test
-    public void test() {
-        PathWalker walker = new PathWalker(999999999, "/");
+    // @Test
+    // public void test() {
+    // PathWalker walker = new PathWalker(999999999, "/");
+    //
+    // int id = 0;
+    //
+    // walker.addPath(id++, "src/testForSoftViz");
+    // walker.addPath(id++, "src/testForSoftViz/FirstClass.java");
+    // walker.addPath(id++, "src/testForSoftViz/SecondClass.java");
+    // walker.addPath(id++, "src/testForSoftViz/second");
+    // walker.addPath(id++, "src/testForSoftViz/second/FourthClass.java");
+    // walker.addPath(id++, "src/testForSoftViz/second/ThirdClass.java");
+    // walker.addPath(id++, "src/testForSoftViz/second/third");
+    // walker.addPath(id++, "src/testForSoftViz/second/third/FithsClass.java");
+    // walker.addPath(id++, "src/testForSoftViz/second/third/SixthClass.java");
+    // walker.addPath(id++, "src/out");
+    // walker.addPath(id++, "src/out/A1Class.java");
+    // walker.addPath(id++, "src/out/A2Class.java");
+    // walker.addPath(id++, "src/testForSoftViz/forth");
+    // walker.addPath(id++, "src/testForSoftViz/forth/FithsClass.java");
+    // walker.addPath(id++, "src/testForSoftViz/forth/SixthClass.java");
+    // walker.addPath(id++, "src/testForSoftViz/xx");
+    // walker.addPath(id++, "src/testForSoftViz/xx/FithsClass.java");
+    // walker.addPath(id++, "src/testForSoftViz/xx/SixthClass.java");
+    // walker.addPath(id++, "src/testForSoftViz/xx/yy");
+    // walker.addPath(id++, "src/testForSoftViz/xx/yy/FithsClass.java");
+    // walker.addPath(id, "src/testForSoftViz/xx/yy/SixthClass.java");
+    //
+    // walker.print(System.out);
+    //
+    // Node tree = walker.getTree();
+    //
+    // assertTrue(tree.getChildren().size() == 1);
+    //
+    // // walker.addPath(id++, "src\\testForSoftViz\\xx\\yy\\SixthClass.java");
+    // Node sixth =
+    // tree.getChild("src").getChild("testForSoftViz").getChild("xx")
+    // .getChild("yy").getChild("SixthClass.java");
+    // assertNotNull(sixth);
+    //
+    // assertEquals(5, sixth.getDepth());
+    // assertEquals(id, sixth.getId());
+    // }
+    //
+    // @Test
+    // public void test2() {
+    // PathWalker walker = new PathWalker(99999999);
+    //
+    // int id = 0;
+    //
+    // walker.addPath(id++, "src\\testForSoftViz");
+    // walker.addPath(id++, "src\\testForSoftViz\\FirstClass.java");
+    // walker.addPath(id++, "src\\testForSoftViz\\SecondClass.java");
+    // walker.addPath(id++, "src\\testForSoftViz\\second");
+    // walker.addPath(id++, "src\\testForSoftViz\\second\\FourthClass.java");
+    // walker.addPath(id++, "src\\testForSoftViz\\second\\ThirdClass.java");
+    // walker.addPath(id++, "src\\testForSoftViz\\second\\third");
+    // walker.addPath(id++,
+    // "src\\testForSoftViz\\second\\third\\FithsClass.java");
+    // walker.addPath(id++,
+    // "src\\testForSoftViz\\second\\third\\SixthClass.java");
+    // walker.addPath(id++, "src\\out");
+    // walker.addPath(id++, "src\\out\\A1Class.java");
+    // walker.addPath(id++, "src\\out\\A2Class.java");
+    // walker.addPath(id++, "src\\testForSoftViz\\forth");
+    // walker.addPath(id++, "src\\testForSoftViz\\forth\\FithsClass.java");
+    // walker.addPath(id++, "src\\testForSoftViz\\forth\\SixthClass.java");
+    // walker.addPath(id++, "src\\testForSoftViz\\xx");
+    // walker.addPath(id++, "src\\testForSoftViz\\xx\\FithsClass.java");
+    // walker.addPath(id++, "src\\testForSoftViz\\xx\\SixthClass.java");
+    // walker.addPath(id++, "src\\testForSoftViz\\xx\\yy");
+    // walker.addPath(id++, "src\\testForSoftViz\\xx\\yy\\FithsClass.java");
+    // walker.addPath(id++, "src\\testForSoftViz\\xx\\yy\\SixthClass.java");
+    //
+    // walker.print(System.out);
+    //
+    // Node tree = walker.getTree();
+    //
+    // assertTrue(tree.getChildren().size() == 1);
+    //
+    // // walker.addPath(id++, "src\\testForSoftViz\\xx\\yy\\SixthClass.java");
+    // Node sixth =
+    // tree.getChild("src").getChild("testForSoftViz").getChild("xx")
+    // .getChild("yy").getChild("SixthClass.java");
+    // assertNotNull(sixth);
+    //
+    // assertEquals(sixth.getDepth(), 5);
+    // }
 
-        int id = 0;
-        
-        walker.addPath(id++, "src/testForSoftViz");
-        walker.addPath(id++, "src/testForSoftViz/FirstClass.java");
-        walker.addPath(id++, "src/testForSoftViz/SecondClass.java");
-        walker.addPath(id++, "src/testForSoftViz/second");
-        walker.addPath(id++, "src/testForSoftViz/second/FourthClass.java");
-        walker.addPath(id++, "src/testForSoftViz/second/ThirdClass.java");
-        walker.addPath(id++, "src/testForSoftViz/second/third");
-        walker.addPath(id++, "src/testForSoftViz/second/third/FithsClass.java");
-        walker.addPath(id++, "src/testForSoftViz/second/third/SixthClass.java");
-        walker.addPath(id++, "src/out");
-        walker.addPath(id++, "src/out/A1Class.java");
-        walker.addPath(id++, "src/out/A2Class.java");
-        walker.addPath(id++, "src/testForSoftViz/forth");
-        walker.addPath(id++, "src/testForSoftViz/forth/FithsClass.java");
-        walker.addPath(id++, "src/testForSoftViz/forth/SixthClass.java");
-        walker.addPath(id++, "src/testForSoftViz/xx");
-        walker.addPath(id++, "src/testForSoftViz/xx/FithsClass.java");
-        walker.addPath(id++, "src/testForSoftViz/xx/SixthClass.java");
-        walker.addPath(id++, "src/testForSoftViz/xx/yy");
-        walker.addPath(id++, "src/testForSoftViz/xx/yy/FithsClass.java");
-        walker.addPath(id, "src/testForSoftViz/xx/yy/SixthClass.java");
+    @Test
+    public void test3() {
+        PathWalker walker = new PathWalker(294, "/");
+
+        walker.addPath(401, "src");
+        walker.addPath(395, "src/in");
+        walker.addPath(396, "src/in/FirstClass.java");
+        walker.addPath(397, "src/in/SecondClass.java");
+        walker.addPath(398, "src/in/ksjbdf");
+        walker.addPath(399, "src/in/ksjbdf/FithsClass.java");
+        walker.addPath(400, "src/in/ksjbdf/SixthClass.java");
+        walker.addPath(402, "src/kjsdfksjdbf.java");
+        walker.addPath(403, "src/out");
+        walker.addPath(404, "src/out/A1Class.java");
+        walker.addPath(405, "src/out/A2Class.java");
+        walker.addPath(406, "src/out/sdbfsidnf");
+        walker.addPath(407, "src/out/sdbfsidnf/A4Class.java");
+        walker.addPath(408, "src/out/sdbfsidnf/A5Class.java");
+        walker.addPath(409, "src/out/sdbfsidnf/siufb");
+        walker.addPath(410, "src/out/sdbfsidnf/siufb/A3Class.java");
+        walker.addPath(411, "src/out/sdbfsidnf/siufb/Asd1Class.java");
 
         walker.print(System.out);
 
         Node tree = walker.getTree();
 
-        assertTrue(tree.getChildren().size() == 1);
-
-        // walker.addPath(id++, "src\\testForSoftViz\\xx\\yy\\SixthClass.java");
-        Node sixth = tree.getChild("src").getChild("testForSoftViz").getChild("xx")
-                .getChild("yy").getChild("SixthClass.java");
-        assertNotNull(sixth);
+        assertEquals("src has 3 children", tree.getChild("src").getChildren()
+                .size(), 3);
+        assertEquals("kjsdfksjdbf.java has no children", tree.getChild("src")
+                .getChild("kjsdfksjdbf.java").getChildren().size(), 0);
         
-        assertEquals(5, sixth.getDepth());
-        assertEquals(id, sixth.getId());
-    }
-
-    @Test
-    public void test2() {
-        PathWalker walker = new PathWalker(99999999);
-
-        int id = 0;
-        
-        walker.addPath(id++, "src\\testForSoftViz");
-        walker.addPath(id++, "src\\testForSoftViz\\FirstClass.java");
-        walker.addPath(id++, "src\\testForSoftViz\\SecondClass.java");
-        walker.addPath(id++, "src\\testForSoftViz\\second");
-        walker.addPath(id++, "src\\testForSoftViz\\second\\FourthClass.java");
-        walker.addPath(id++, "src\\testForSoftViz\\second\\ThirdClass.java");
-        walker.addPath(id++, "src\\testForSoftViz\\second\\third");
-        walker.addPath(id++, "src\\testForSoftViz\\second\\third\\FithsClass.java");
-        walker.addPath(id++, "src\\testForSoftViz\\second\\third\\SixthClass.java");
-        walker.addPath(id++, "src\\out");
-        walker.addPath(id++, "src\\out\\A1Class.java");
-        walker.addPath(id++, "src\\out\\A2Class.java");
-        walker.addPath(id++, "src\\testForSoftViz\\forth");
-        walker.addPath(id++, "src\\testForSoftViz\\forth\\FithsClass.java");
-        walker.addPath(id++, "src\\testForSoftViz\\forth\\SixthClass.java");
-        walker.addPath(id++, "src\\testForSoftViz\\xx");
-        walker.addPath(id++, "src\\testForSoftViz\\xx\\FithsClass.java");
-        walker.addPath(id++, "src\\testForSoftViz\\xx\\SixthClass.java");
-        walker.addPath(id++, "src\\testForSoftViz\\xx\\yy");
-        walker.addPath(id++, "src\\testForSoftViz\\xx\\yy\\FithsClass.java");
-        walker.addPath(id++, "src\\testForSoftViz\\xx\\yy\\SixthClass.java");
-
-        walker.print(System.out);
-
-        Node tree = walker.getTree();
-
-        assertTrue(tree.getChildren().size() == 1);
-
-        // walker.addPath(id++, "src\\testForSoftViz\\xx\\yy\\SixthClass.java");
-        Node sixth = tree.getChild("src").getChild("testForSoftViz").getChild("xx")
-                .getChild("yy").getChild("SixthClass.java");
-        assertNotNull(sixth);
-        
-        assertEquals(sixth.getDepth(), 5);
+        assertEquals("src has depth 1", tree.getChild("src").getDepth(), 1);
+        assertEquals("kjsdfksjdbf.java has depth 2", tree.getChild("src")
+                .getChild("kjsdfksjdbf.java").getDepth(), 2);
     }
 
 }

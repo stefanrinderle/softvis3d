@@ -37,7 +37,7 @@ public interface SourceObject {
 
   List<? extends SourceObject> getChildrenLeaves();
 
-  List<Integer> getChildrenIds();
+//  List<Integer> getChildrenIds();
 
   Integer getDepth();
 
@@ -52,5 +52,7 @@ public interface SourceObject {
    * @return null if no metric is available.
    */
   Double getMetricHeightValue();
+
+List<? extends SourceObject> getSnapshotsByIds(List<Integer> childrenNodeIds);
 
 }

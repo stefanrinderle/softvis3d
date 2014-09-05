@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import att.grappa.Graph;
+import de.rinderle.softviz3d.depth.ResourceTreeService;
 import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
@@ -34,8 +35,11 @@ public class Layout {
 
     private LayoutVisitor visitor;
 
-    public Layout(LayoutVisitor visitor) {
+    private ResourceTreeService resourceTreeService;
+    
+    public Layout(LayoutVisitor visitor, ResourceTreeService resourceTreeService) {
         this.visitor = visitor;
+        this.resourceTreeService = resourceTreeService;
     }
 
     public Map<Integer, Graph> startLayout(SourceObject source)
@@ -56,7 +60,7 @@ public class Layout {
             Map<Integer, Graph> resultGraphs) {
         // NEXT STEP HERE
         AbsolutePositionCalculator calc = new AbsolutePositionCalculator(
-                resultGraphs);
+                resultGraphs, resourceTreeService);
         calc.calculate(source);
         // ---
 
@@ -70,15 +74,48 @@ public class Layout {
      */
     public LayeredLayoutElement accept(SourceObject source)
             throws DotExcecutorException {
-        ArrayList<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
+        List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
 
-        List<? extends SourceObject> childrenNodes = source.getChildrenNodes();
+        List<Integer> childrenNodeIds = resourceTreeService.getChildrenNodeIds(source.getId());
+
+//        System.out.println("-------------------------------------");
+//        System.out.println(source.getId() + " " + source.getName());
+//        System.out.println("------------------------------------childs-");
+        
+//        for (Integer integer : childrenNodeIds) {
+//            System.out.println(integer);
+//        }
+//        System.out.println("------------------------------------childs-");
+//        System.out.println("-------------------------------------");
+        
+        List<? extends SourceObject> childrenNodesTest;
+        if (childrenNodeIds.isEmpty()) {
+            childrenNodesTest = new ArrayList<SourceObject>();
+        } else {
+            childrenNodesTest = source.getSnapshotsByIds(childrenNodeIds);
+        }
+        
+//        List<? extends SourceObject> childrenNodes = source.getChildrenNodes();
+        List<? extends SourceObject> childrenNodes = childrenNodesTest;
+        
         for (SourceObject node : childrenNodes) {
             layerElements.add(this.accept(node));
         }
 
-        List<? extends SourceObject> childrenLeaves = source
-                .getChildrenLeaves();
+        List<Integer> childrenLeafIds = resourceTreeService.getChildrenLeafIds(source.getId());
+
+        List<? extends SourceObject> childrenLeafTest;
+        if (childrenLeafIds.isEmpty()) {
+            childrenLeafTest = new ArrayList<SourceObject>();
+        } else {
+            childrenLeafTest = source.getSnapshotsByIds(childrenLeafIds);
+        }
+
+        List<? extends SourceObject> childrenLeaves = childrenLeafTest;
+                
+//        List<? extends SourceObject> childrenLeaves = source
+//                .getChildrenLeaves();
+        
         for (SourceObject leaf : childrenLeaves) {
             layerElements.add(visitor.visitFile(leaf));
         }

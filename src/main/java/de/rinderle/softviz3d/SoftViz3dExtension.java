@@ -117,7 +117,7 @@ public class SoftViz3dExtension implements ServerExtension {
 
         LayoutVisitor visitor = buildLayoutVisitor(minMaxValues);
 
-        Layout layout = new Layout(visitor);
+        Layout layout = new Layout(visitor, resourceTreeService);
         
         return layout.startLayout(snapshotWrapper);
     }

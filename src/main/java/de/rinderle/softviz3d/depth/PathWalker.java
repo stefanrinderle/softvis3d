@@ -18,17 +18,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 package de.rinderle.softviz3d.depth;
-import java.io.PrintStream;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PathWalker {
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(PathWalker.class);
+    
     private final Node root;
 
     private Pattern pathSeperator = Pattern.compile("\\\\");
     
     public PathWalker(int id) {
-        root = new Node(id, 0);
+        int depth = 0;
+        root = new Node(id, depth);
     }
     
     public PathWalker(int id, String pathSeperator) {
@@ -36,7 +42,8 @@ public class PathWalker {
             this.pathSeperator = Pattern.compile(pathSeperator);
         }
         
-        root = new Node(id, 0);
+        int depth = 0;
+        root = new Node(id, depth);
     }
     
     public void addPath(int id, String path) {
@@ -47,40 +54,22 @@ public class PathWalker {
         }
     }
 
-    private static void printHtml(Node node, PrintStream out) {
-        Map<String, Node> children = node.getChildren();
-        if (children.isEmpty())
-            return;
-        out.println("<ul>");
-        for (Map.Entry<String, Node> child : children.entrySet()) {
-            out.print("<li>");
-            out.print(child.getKey());
-            printHtml(child.getValue(), out);
-            out.println("</li>");
-        }
-        out.println("</ul>");
-    }
-    
-    private static void print(Node node, PrintStream out, int depht) {
+    private static void print(Node node, int depht) {
         Map<String, Node> children = node.getChildren();
         if (children.isEmpty())
             return;
         for (Map.Entry<String, Node> child : children.entrySet()) {
             
-            out.println(child.getValue().getId() + " "
+            LOGGER.debug(child.getValue().getId() + " "
                     + child.getValue().getDepth() + " "
                     + child.getKey());
                     
-            print(child.getValue(), out, depht + 1);
+            print(child.getValue(), depht + 1);
         }
     }
 
-    public void print(PrintStream out) {
-        print(root, out, 0);
-    }
-    
-    public void printHtml(PrintStream out) {
-        printHtml(root, out);
+    public void print() {
+        print(root, 0);
     }
     
     public Node getTree() {

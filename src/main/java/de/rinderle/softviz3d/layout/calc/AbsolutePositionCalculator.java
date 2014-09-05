@@ -23,10 +23,12 @@ import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
+import de.rinderle.softviz3d.depth.ResourceTreeService;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static att.grappa.GrappaConstants.HEIGHT_ATTR;
@@ -43,8 +45,11 @@ public class AbsolutePositionCalculator {
 
   private double rootBbMax;
 
-  public AbsolutePositionCalculator(Map<Integer, Graph> inputGraphList) {
+private ResourceTreeService resourceTreeService;
+
+  public AbsolutePositionCalculator(Map<Integer, Graph> inputGraphList, ResourceTreeService resourceTreeService) {
     this.inputGraphs = inputGraphList;
+    this.resourceTreeService = resourceTreeService;
 
     this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
   }
@@ -56,13 +61,13 @@ public class AbsolutePositionCalculator {
     // this will be used as max building height
     this.rootBbMax = Math.max(bb.getWidth(), bb.getHeight());
 
-    this.addTranslationToLayer(source, new GrappaPoint(0, 0), 0);
+    this.addTranslationToLayer(source.getId(), new GrappaPoint(0, 0), 0);
   }
 
-  private void addTranslationToLayer(SourceObject source, GrappaPoint posTranslation, Integer height3d) {
+  private void addTranslationToLayer(Integer sourceId, GrappaPoint posTranslation, Integer height3d) {
     // inputGraphs --> Map<Integer, Graph>
     // Step 1 - search the graph for the source given
-    Graph graph = inputGraphs.get(source.getId());
+    Graph graph = inputGraphs.get(sourceId);
     GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
 
     // Step 2 - set translation for the graph itself (will be a layer later)
@@ -99,12 +104,14 @@ public class AbsolutePositionCalculator {
     }
 
     // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes
-    for (SourceObject childrenSource : source.getChildrenNodes()) {
-      pos = innerGraphTranslation.get(childrenSource.getId());
+    List<Integer> children = resourceTreeService.getChildrenNodeIds(sourceId);
+//    for (SourceObject childrenSource : source.getChildrenNodes()) {
+    for (Integer childId : children) {
+      pos = innerGraphTranslation.get(childId);
 
-      addTranslationToLayer(childrenSource, pos, height3d + 100);
+      addTranslationToLayer(childId, pos, height3d + 20);
 
-      graph.removeNode("dir_" + childrenSource.getId().toString());
+      graph.removeNode("dir_" + childId.toString());
     }
 
   }

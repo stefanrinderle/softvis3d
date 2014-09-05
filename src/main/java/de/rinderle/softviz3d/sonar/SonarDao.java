@@ -47,12 +47,13 @@ public interface SonarDao {
             Integer rootSnapshotId, Integer footprintMetricId,
             Integer heightMetricId);
 
-    List<Integer> getSnapshotChildrenIdsById(Integer id);
-
     List<Integer> getDistinctMetricsBySnapshotId(Integer snapshotId);
 
     Integer getSnapshotIdById(Integer snapshotId);
 
     List<Object[]> getAllChildrenFlat(int rootSnapshotId);
+
+    List<SonarSnapshot> getSnapshotsById(List<Integer> childrenNodeIds,
+            Integer footprintMetricId, Integer heightMetricId);
 
 }

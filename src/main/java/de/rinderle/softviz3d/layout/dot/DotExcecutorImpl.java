@@ -48,17 +48,17 @@ public class DotExcecutorImpl implements DotExecutor {
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(DotExcecutorImpl.class);
-    
+
     public static final String DOT_BUG_VERSION = "2.38.0";
 
     private File translationFile = null;
 
     @Inject
     private DotVersion dotVersion;
-    
-    @Inject 
+
+    @Inject
     private ExecuteCommand executeCommand;
-    
+
     @Override
     public Graph run(Graph inputGraph, Settings settings)
             throws DotExcecutorException {
@@ -67,27 +67,33 @@ public class DotExcecutorImpl implements DotExecutor {
 
         String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
         String command = dotBin + " -K neato ";
-        
-        String adot = executeCommand.executeDotCommand(command, writer.toString());
+
+        String adot = executeCommand.executeDotCommand(command,
+                writer.toString());
 
         if (dotVersion.getVersion(settings).equals(DOT_BUG_VERSION)) {
             try {
-                
-            if (translationFile == null) {
-                InputStream file = DotExcecutorImpl.class.getResourceAsStream("/translate.g");
-                translationFile = File.createTempFile("transate", ".g");
-                FileOutputStream out = new FileOutputStream(translationFile);
-                IOUtils.copy(file, out);
-            } 
-                
-              String translationCommand = "/usr/local/bin/gvpr -c -f " + translationFile.getAbsolutePath();
-              
-              adot = executeCommand.executeDotCommand(translationCommand, adot);
+
+                if (translationFile == null) {
+                    InputStream file = DotExcecutorImpl.class
+                            .getResourceAsStream("/translate.g");
+                    translationFile = File.createTempFile("transate", ".g");
+                    FileOutputStream out = new FileOutputStream(translationFile);
+                    IOUtils.copy(file, out);
+                }
+
+                int lastIndex = dotBin.lastIndexOf("/");
+                String translationBin = dotBin.substring(0, lastIndex + 1);
+                String translationCommand = translationBin + "gvpr -c -f "
+                        + translationFile.getAbsolutePath();
+
+                adot = executeCommand.executeDotCommand(translationCommand,
+                        adot);
             } catch (IOException e) {
                 LOGGER.error("Error on create temp file", e);
             }
         }
-        
+
         return parseDot(adot);
     }
 

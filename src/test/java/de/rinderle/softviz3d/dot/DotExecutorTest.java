@@ -51,6 +51,16 @@ public class DotExecutorTest extends TestCase {
     }
 
     @Test
+    public void testString() {
+        String dotBin = "/usr/local/bin/dot";
+        
+        int lastIndex = dotBin.lastIndexOf("/");
+        String result = dotBin.substring(0, lastIndex + 1);
+        
+        assertEquals("/usr/local/bin/", result);
+    }
+    
+    @Test
     public void testHappy() throws DotExcecutorException {
         Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
                 .thenReturn("2.36.0");

@@ -19,8 +19,14 @@
  */
 package de.rinderle.softviz3d.depth;
 
+import java.util.List;
+
 public interface ResourceTreeService {
 
-    public abstract void createTreeStructrue(int id);
+    public abstract void createTreeStructrue(int rootSnapshotId);
+
+    public abstract List<Integer> getChildrenNodeIds(Integer id);
+
+    public abstract List<Integer> getChildrenLeafIds(Integer id);
 
 }

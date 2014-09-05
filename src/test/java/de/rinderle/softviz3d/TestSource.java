@@ -26,76 +26,84 @@ import java.util.List;
 
 public class TestSource implements SourceObject {
 
-  private Integer id;
-  private Integer depth;
-  private List<TestSource> children;
-  
-  private boolean isDir;
-  
-  public TestSource(Integer id, Integer depth, boolean isDir, List<TestSource> children) {
-    super();
-    this.id = id;
-    this.depth = depth;
-    this.isDir = isDir;
-    this.children = children;
-  }
+    private Integer id;
+    private Integer depth;
+    private List<TestSource> children;
 
-  public Integer getId() {
-    return this.id;
-  }
+    private boolean isDir;
 
-  public String getName() {
-    return this.id + "_name";
-  }
-
-  public List<TestSource> getChildrenNodes() {
-    List<TestSource> result = new ArrayList<TestSource>();
-    
-    for (TestSource testSource : children) {
-      if (testSource.isDir) {
-        result.add(testSource);
-      }
+    public TestSource(Integer id, Integer depth, boolean isDir,
+            List<TestSource> children) {
+        super();
+        this.id = id;
+        this.depth = depth;
+        this.isDir = isDir;
+        this.children = children;
     }
-    
-    return result;
-  }
 
-  public List<TestSource> getChildrenLeaves() {
-    List<TestSource> result = new ArrayList<TestSource>();
-    
-    for (TestSource testSource : children) {
-      if (!testSource.isDir) {
-        result.add(testSource);
-      }
+    public Integer getId() {
+        return this.id;
     }
-    
-    return result;
-  }
 
-  public List<Integer> getChildrenIds() {
-    List<Integer> result = new ArrayList<Integer>();
-    
-    for (TestSource testSource : children) {
-      if (testSource.isDir) {
-        result.add(testSource.getId());
-      }
+    public String getName() {
+        return this.id + "_name";
     }
-    
-    return result;
-  }
 
-  public Integer getDepth() {
-    return depth;
-  }
+    public List<TestSource> getChildrenNodes() {
+        List<TestSource> result = new ArrayList<TestSource>();
 
-  @Override
-  public Double getMetricFootprintValue() {
-    return Math.random() * 100;
-  }
+        for (TestSource testSource : children) {
+            if (testSource.isDir) {
+                result.add(testSource);
+            }
+        }
 
-  @Override
-  public Double getMetricHeightValue() {
-    return Math.random() * 100;
-  }
-  
+        return result;
+    }
+
+    public List<TestSource> getChildrenLeaves() {
+        List<TestSource> result = new ArrayList<TestSource>();
+
+        for (TestSource testSource : children) {
+            if (!testSource.isDir) {
+                result.add(testSource);
+            }
+        }
+
+        return result;
+    }
+
+    public List<Integer> getChildrenIds() {
+        List<Integer> result = new ArrayList<Integer>();
+
+        for (TestSource testSource : children) {
+            if (testSource.isDir) {
+                result.add(testSource.getId());
+            }
+        }
+
+        return result;
+    }
+
+    public Integer getDepth() {
+        return depth;
+    }
+
+    @Override
+    public Double getMetricFootprintValue() {
+        return Math.random() * 100;
+    }
+
+    @Override
+    public Double getMetricHeightValue() {
+        return Math.random() * 100;
+    }
+
+    @Override
+    public List<? extends SourceObject> getSnapshotsByIds(
+            List<Integer> childrenNodeIds) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
