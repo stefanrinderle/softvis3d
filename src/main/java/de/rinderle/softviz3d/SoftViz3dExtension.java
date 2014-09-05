@@ -108,7 +108,7 @@ public class SoftViz3dExtension implements ServerExtension {
                 snapshotId, metricId1, metricId2);
 
         SonarSnapshot snapshot = sonarService.getSnapshotById(snapshotId, metricId1,
-                metricId2);
+                metricId2, 0);
         
         SonarSnapshotWrapper snapshotWrapper = new SonarSnapshotWrapper(
                 snapshot, metricId1, metricId2, sonarDao);

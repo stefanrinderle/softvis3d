@@ -71,25 +71,9 @@ public class SonarSnapshotWrapper implements SourceObject {
     }
 
     @Override
-    public List<SonarSnapshotWrapper> getChildrenNodes() {
-        List<SonarSnapshot> result = sonarDao.getChildrenByScope(this.getId(),
-                footprintMetricId, heightMetricId, Scopes.DIRECTORY);
-
-        return wrapSnapshotList(result);
-    }
-
-    @Override
-    public List<? extends SourceObject> getSnapshotsByIds(List<Integer> childrenNodeIds) {
+    public List<? extends SourceObject> getSnapshotsByIds(List<Integer> childrenNodeIds, Integer depth) {
         List<SonarSnapshot> result = sonarDao.getSnapshotsById(childrenNodeIds,
-                footprintMetricId, heightMetricId);
-
-        return wrapSnapshotList(result);
-    }
-
-    @Override
-    public List<SonarSnapshotWrapper> getChildrenLeaves() {
-        List<SonarSnapshot> result = sonarDao.getChildrenByScope(this.getId(),
-                footprintMetricId, heightMetricId, Scopes.FILE);
+                footprintMetricId, heightMetricId, depth);
 
         return wrapSnapshotList(result);
     }

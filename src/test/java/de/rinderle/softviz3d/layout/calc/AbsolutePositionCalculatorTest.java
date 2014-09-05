@@ -20,17 +20,13 @@
 package de.rinderle.softviz3d.layout.calc;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import att.grappa.Graph;
 import de.rinderle.softviz3d.TestSource;
-import de.rinderle.softviz3d.grappa.TestGraphHelper;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 public class AbsolutePositionCalculatorTest {
@@ -42,30 +38,30 @@ public class AbsolutePositionCalculatorTest {
   @Test
   @Ignore
   public void testAbsolutePositionCalculator() {
-    Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
-    
-    inputGraphList.put(1, TestGraphHelper.graphRoot());
-    inputGraphList.put(2, TestGraphHelper.graphLeaf1());
-    inputGraphList.put(3, TestGraphHelper.graphLeaf2());
-    
-//    AbsolutePositionCalculator calculator = new AbsolutePositionCalculator(inputGraphList);
-    AbsolutePositionCalculator calculator = null;
-    
-    SourceObject source = testSource();
-    calculator.calculate(source);
-    
-    Graph test1 = inputGraphList.get(1);
-    Graph test2 = inputGraphList.get(2);
-    Graph test3 = inputGraphList.get(3);
-    
-    System.out.println(test1.getAttributeValue("bb"));
-    System.out.println(test2.getAttributeValue("bb"));
-    System.out.println(test3.getAttributeValue("bb"));
-    
-    System.out.println(test1.getAttributeValue("pos"));
-    System.out.println(test2.getAttributeValue("pos"));
-    System.out.println(test3.getAttributeValue("pos"));
-    
+//    Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
+//    
+//    inputGraphList.put(1, TestGraphHelper.graphRoot());
+//    inputGraphList.put(2, TestGraphHelper.graphLeaf1());
+//    inputGraphList.put(3, TestGraphHelper.graphLeaf2());
+//    
+////    AbsolutePositionCalculator calculator = new AbsolutePositionCalculator(inputGraphList);
+//    AbsolutePositionCalculator calculator = null;
+//    
+//    SourceObject source = testSource();
+//    calculator.calculate(source);
+//    
+//    Graph test1 = inputGraphList.get(1);
+//    Graph test2 = inputGraphList.get(2);
+//    Graph test3 = inputGraphList.get(3);
+//    
+//    System.out.println(test1.getAttributeValue("bb"));
+//    System.out.println(test2.getAttributeValue("bb"));
+//    System.out.println(test3.getAttributeValue("bb"));
+//    
+//    System.out.println(test1.getAttributeValue("pos"));
+//    System.out.println(test2.getAttributeValue("pos"));
+//    System.out.println(test3.getAttributeValue("pos"));
+//    
   }
 
   private SourceObject testSource() {

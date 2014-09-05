@@ -33,12 +33,6 @@ public interface SourceObject {
    */
   String getName();
 
-  List<? extends SourceObject> getChildrenNodes();
-
-  List<? extends SourceObject> getChildrenLeaves();
-
-//  List<Integer> getChildrenIds();
-
   Integer getDepth();
 
   /**
@@ -53,6 +47,8 @@ public interface SourceObject {
    */
   Double getMetricHeightValue();
 
-List<? extends SourceObject> getSnapshotsByIds(List<Integer> childrenNodeIds);
+
+  List<? extends SourceObject> getSnapshotsByIds(List<Integer> childrenNodeIds,
+        Integer depth);
 
 }

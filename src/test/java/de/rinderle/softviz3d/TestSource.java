@@ -101,7 +101,7 @@ public class TestSource implements SourceObject {
 
     @Override
     public List<? extends SourceObject> getSnapshotsByIds(
-            List<Integer> childrenNodeIds) {
+            List<Integer> childrenNodeIds, Integer depth) {
         // TODO Auto-generated method stub
         return null;
     }

@@ -43,6 +43,6 @@ public interface SonarService {
             Integer rootSnapshotId, Integer footprintMetricId,
             Integer heightMetricId);
     
-    public abstract SonarSnapshot getSnapshotById(Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId);
+    SonarSnapshot getSnapshotById(Integer snapshotId,
+            Integer footprintMetricId, Integer heightMetricId, Integer depth);
 }

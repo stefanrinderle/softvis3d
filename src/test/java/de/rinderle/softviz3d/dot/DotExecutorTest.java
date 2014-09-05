@@ -29,8 +29,8 @@ import org.mockito.MockitoAnnotations;
 import org.sonar.api.config.Settings;
 
 import att.grappa.Graph;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorImpl;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorImpl;
 import de.rinderle.softviz3d.layout.dot.DotVersion;
 import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
 
@@ -94,6 +94,9 @@ public class DotExecutorTest extends TestCase {
 
     @Test
     public void testVersionTrue() throws DotExcecutorException {
+        Settings settings = new Settings();
+        settings.setProperty("dotBinDirectory", "/usr/local/bin/dot");
+        
         Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
                 .thenReturn(DotExcecutorImpl.DOT_BUG_VERSION);
 
@@ -102,7 +105,7 @@ public class DotExecutorTest extends TestCase {
                         Mockito.any(String.class))).thenReturn(getADot());
 
         Graph inputGraph = new Graph("not used in test");
-        underTest.run(inputGraph, new Settings());
+        underTest.run(inputGraph, settings);
 
         Mockito.verify(executeCommand, Mockito.times(2)).executeDotCommand(
                 Mockito.any(String.class), Mockito.any(String.class));

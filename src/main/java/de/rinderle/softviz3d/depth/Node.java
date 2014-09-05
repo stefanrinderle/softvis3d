@@ -25,11 +25,9 @@ import java.util.TreeMap;
 
 public class Node {
         private final Map<String, Node> children = new TreeMap<String, Node>();
-        private int depth;
         private int id;
 
-        public Node(int id, int depth) {
-            this.depth = depth;
+        public Node(int id) {
             this.id = id;
         }
         
@@ -46,7 +44,7 @@ public class Node {
                 return children.get(name);
             }
                 
-            Node result = new Node(id, depth + 1);
+            Node result = new Node(id);
             children.put(name, result);
             return result;
         }
@@ -55,10 +53,6 @@ public class Node {
             return Collections.unmodifiableMap(children);
         }
 
-        public int getDepth() {
-            return depth;
-        }
-        
         public int getId() {
             return id;
         }

@@ -47,7 +47,7 @@ public class Layout {
         // STEP 1 ---
 
         // last output element could be used to start absolutepositioncalc
-        this.accept(source);
+        this.accept(source, 0);
         Map<Integer, Graph> resultGraphs = this.visitor.getResultingGraphList();
         // ----------
 
@@ -72,34 +72,24 @@ public class Layout {
      * 
      * Public because of unit testing access.
      */
-    public LayeredLayoutElement accept(SourceObject source)
+    public LayeredLayoutElement accept(SourceObject source, int depth)
             throws DotExcecutorException {
+        
         List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
 
         List<Integer> childrenNodeIds = resourceTreeService.getChildrenNodeIds(source.getId());
 
-//        System.out.println("-------------------------------------");
-//        System.out.println(source.getId() + " " + source.getName());
-//        System.out.println("------------------------------------childs-");
-        
-//        for (Integer integer : childrenNodeIds) {
-//            System.out.println(integer);
-//        }
-//        System.out.println("------------------------------------childs-");
-//        System.out.println("-------------------------------------");
-        
         List<? extends SourceObject> childrenNodesTest;
         if (childrenNodeIds.isEmpty()) {
             childrenNodesTest = new ArrayList<SourceObject>();
         } else {
-            childrenNodesTest = source.getSnapshotsByIds(childrenNodeIds);
+            childrenNodesTest = source.getSnapshotsByIds(childrenNodeIds, depth);
         }
         
-//        List<? extends SourceObject> childrenNodes = source.getChildrenNodes();
         List<? extends SourceObject> childrenNodes = childrenNodesTest;
         
         for (SourceObject node : childrenNodes) {
-            layerElements.add(this.accept(node));
+            layerElements.add(this.accept(node, depth + 1));
         }
 
         List<Integer> childrenLeafIds = resourceTreeService.getChildrenLeafIds(source.getId());
@@ -108,14 +98,11 @@ public class Layout {
         if (childrenLeafIds.isEmpty()) {
             childrenLeafTest = new ArrayList<SourceObject>();
         } else {
-            childrenLeafTest = source.getSnapshotsByIds(childrenLeafIds);
+            childrenLeafTest = source.getSnapshotsByIds(childrenLeafIds, depth + 1);
         }
 
         List<? extends SourceObject> childrenLeaves = childrenLeafTest;
                 
-//        List<? extends SourceObject> childrenLeaves = source
-//                .getChildrenLeaves();
-        
         for (SourceObject leaf : childrenLeaves) {
             layerElements.add(visitor.visitFile(leaf));
         }

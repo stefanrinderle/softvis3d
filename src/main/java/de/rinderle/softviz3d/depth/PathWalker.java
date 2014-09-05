@@ -33,8 +33,7 @@ public class PathWalker {
     private Pattern pathSeperator = Pattern.compile("\\\\");
     
     public PathWalker(int id) {
-        int depth = 0;
-        root = new Node(id, depth);
+        root = new Node(id);
     }
     
     public PathWalker(int id, String pathSeperator) {
@@ -42,8 +41,7 @@ public class PathWalker {
             this.pathSeperator = Pattern.compile(pathSeperator);
         }
         
-        int depth = 0;
-        root = new Node(id, depth);
+        root = new Node(id);
     }
     
     public void addPath(int id, String path) {
@@ -61,7 +59,6 @@ public class PathWalker {
         for (Map.Entry<String, Node> child : children.entrySet()) {
             
             LOGGER.debug(child.getValue().getId() + " "
-                    + child.getValue().getDepth() + " "
                     + child.getKey());
                     
             print(child.getValue(), depht + 1);

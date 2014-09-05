@@ -48,13 +48,13 @@ public class SonarDaoImpl implements SonarDao {
 
     @Override
     public SonarSnapshot getSnapshotById(Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId) {
+            Integer footprintMetricId, Integer heightMetricId, Integer depth) {
         SonarSnapshot snapshot;
 
         try {
             session.start();
             Query query = session
-                    .createNativeQuery("select s.id, p.name, s.depth, m1.value, m2.value from snapshots s "
+                    .createNativeQuery("select s.id, p.name, m1.value, m2.value from snapshots s "
                             + "INNER JOIN projects p ON s.project_id = p.id "
                             + "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id "
                             + "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id "
@@ -66,7 +66,7 @@ public class SonarDaoImpl implements SonarDao {
 
             Object[] result = (Object[]) query.getSingleResult();
 
-            snapshot = castToJpaSnapshot(result);
+            snapshot = castToJpaSnapshot(result, depth);
         } catch (PersistenceException e) {
             LOGGER.error(e.getMessage(), e);
             snapshot = null;
@@ -79,13 +79,13 @@ public class SonarDaoImpl implements SonarDao {
 
     @Override
     public List<SonarSnapshot> getSnapshotsById(List<Integer> childrenNodeIds,
-            Integer footprintMetricId, Integer heightMetricId) {
+            Integer footprintMetricId, Integer heightMetricId, Integer depth) {
         List<SonarSnapshot> snapshots = new ArrayList<SonarSnapshot>();
 
         try {
             session.start();
             Query query = session
-                    .createNativeQuery("select s.id, p.name, s.depth, m1.value, m2.value from snapshots s "
+                    .createNativeQuery("select s.id, p.name, m1.value, m2.value from snapshots s "
                             + "INNER JOIN projects p ON s.project_id = p.id "
                             + "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id "
                             + "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id "
@@ -101,11 +101,10 @@ public class SonarDaoImpl implements SonarDao {
 
             
             for (Object[] object : queryResult) {
-                snapshots.add(castToJpaSnapshot(object));
+                snapshots.add(castToJpaSnapshot(object, depth));
             }
-//            snapshot = castToJpaSnapshot(result);
+            
         } catch (PersistenceException e) {
-            LOGGER.error("snapshotIds", childrenNodeIds.size());
             LOGGER.error(e.getMessage(), e);
         } finally {
             session.stop();
@@ -114,39 +113,10 @@ public class SonarDaoImpl implements SonarDao {
         return snapshots;
     }
     
-    private String createIdString(List<Integer> childrenNodeIds) {
-        StringBuilder result = new StringBuilder();
-        
-        for (Integer childId : childrenNodeIds) {
-            result.append(childId);
-            result.append(",");
-        }
-        
-        result.deleteCharAt(result.length() - 1);
-        return result.toString();
-    }
-
-    private SonarSnapshot castToJpaSnapshot(Object[] result,
-            BigDecimal metric2Value) {
+    private SonarSnapshot castToJpaSnapshot(Object[] result, Integer depth) {
         Integer id = (Integer) result[0];
         String name = (String) result[1];
-        // TODO SRI depth stimmt nicht
-        Integer depth = (Integer) result[2];
-        BigDecimal footprintMetricValue = (BigDecimal) result[3];
-        BigDecimal heightMetricValue = metric2Value;
-        SonarSnapshot snapshot = new SonarSnapshot(id, name, depth,
-                footprintMetricValue.doubleValue(),
-                heightMetricValue.doubleValue());
-
-        return snapshot;
-    }
-
-    private SonarSnapshot castToJpaSnapshot(Object[] result) {
-        Integer id = (Integer) result[0];
-        String name = (String) result[1];
-        // TODO SRI depth stimmt nicht
-        Integer depth = (Integer) result[2];
-        BigDecimal footprintMetricValue = (BigDecimal) result[3];
+        BigDecimal footprintMetricValue = (BigDecimal) result[2];
         BigDecimal heightMetricValue = (BigDecimal) result[3];
 
         SonarSnapshot snapshot = new SonarSnapshot(id, name, depth,
@@ -154,54 +124,6 @@ public class SonarDaoImpl implements SonarDao {
                 heightMetricValue.doubleValue());
 
         return snapshot;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.rinderle.softviz3d.sonar.SonarDaoInterface#getChildrenByScope(java
-     * .lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.String)
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<SonarSnapshot> getChildrenByScope(Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId, String scope) {
-        List<SonarSnapshot> snapshots = new ArrayList<SonarSnapshot>();
-
-        try {
-            session.start();
-            Query query = session
-                    .createNativeQuery("select s.id, p.name, s.depth, m1.value from snapshots s "
-                            + "INNER JOIN projects p ON s.project_id = p.id "
-                            + "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id "
-                            + "WHERE s.parent_snapshot_id = :snapshotId AND s.scope = :scope AND "
-                            + "m1.metric_id = :footprintMetricId");
-            query.setParameter("snapshotId", snapshotId);
-            query.setParameter("scope", scope);
-            query.setParameter("footprintMetricId", footprintMetricId);
-
-            List<Object[]> result = query.getResultList();
-            for (Object[] resultElement : result) {
-                query = session
-                        .createNativeQuery("select m.value from snapshots s "
-                                + "INNER JOIN project_measures m ON s.id = m.snapshot_id "
-                                + "WHERE s.id = :snapshotId AND m.metric_id = :heightMetricId");
-                query.setParameter("snapshotId", resultElement[0]);
-                query.setParameter("heightMetricId", heightMetricId);
-
-                BigDecimal metric2Value = (BigDecimal) query.getSingleResult();
-
-                snapshots.add(castToJpaSnapshot(resultElement, metric2Value));
-            }
-        } catch (PersistenceException e) {
-            LOGGER.error(e.getMessage(), e);
-            snapshots = null;
-        } finally {
-            session.stop();
-        }
-
-        return snapshots;
     }
 
     @Override

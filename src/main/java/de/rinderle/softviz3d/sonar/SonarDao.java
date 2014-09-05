@@ -27,20 +27,6 @@ public interface SonarDao {
 
     void setDatabaseSession(DatabaseSession session);
 
-    SonarSnapshot getSnapshotById(Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId);
-
-    /**
-     * 
-     * @param snapshotId parent snapshot id
-     * @param footprintMetricId used for getting the metric value-
-     * @param heightMetricId used for getting the metric value.
-     * @param scope see <code>Scopes.class</code> class.
-     * @return
-     */
-    List<SonarSnapshot> getChildrenByScope(Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId, String scope);
-
     Integer getMetricIdByName(String name);
 
     List<Double> getMinMaxMetricValuesByRootSnapshotId(
@@ -53,7 +39,10 @@ public interface SonarDao {
 
     List<Object[]> getAllChildrenFlat(int rootSnapshotId);
 
+    SonarSnapshot getSnapshotById(Integer snapshotId,
+            Integer footprintMetricId, Integer heightMetricId, Integer depth);
+
     List<SonarSnapshot> getSnapshotsById(List<Integer> childrenNodeIds,
-            Integer footprintMetricId, Integer heightMetricId);
+            Integer footprintMetricId, Integer heightMetricId, Integer depth);
 
 }
