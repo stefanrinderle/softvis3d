@@ -19,15 +19,13 @@
  */
 package de.rinderle.softviz3d.guice;
 
-import org.sonar.api.config.Settings;
-
 import com.google.inject.assistedinject.Assisted;
-
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
-import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
+import de.rinderle.softviz3d.sonar.SonarMetric;
+import org.sonar.api.config.Settings;
 
 public interface LayoutVisitorFactory {
     public LayoutVisitor create(Settings settings,
-            @Assisted("metricFootprint") SourceMetric metricFootprint, 
-            @Assisted("metricHeight") SourceMetric metricHeight);
+            @Assisted("metricFootprint") SonarMetric metricFootprint,
+            @Assisted("metricHeight") SonarMetric metricHeight);
 }
