@@ -110,8 +110,7 @@ public class SoftViz3dExtension implements ServerExtension {
         SonarSnapshot snapshot = sonarService.getSnapshotById(snapshotId, metricId1,
                 metricId2, 0);
         
-        SonarSnapshotWrapper snapshotWrapper = new SonarSnapshotWrapper(
-                snapshot, metricId1, metricId2, sonarDao);
+        SonarSnapshotWrapper snapshotWrapper = new SonarSnapshotWrapper(snapshot);
 
         logStartOfCalc(metricId1, metricId2, minMaxValues, snapshotWrapper);
 
@@ -119,7 +118,7 @@ public class SoftViz3dExtension implements ServerExtension {
 
         Layout layout = new Layout(visitor, resourceTreeService);
         
-        return layout.startLayout(snapshotWrapper);
+        return layout.startLayout(snapshotWrapper, sonarService, metricId1, metricId2);
     }
 
     private void logStartOfCalc(Integer metricId1, Integer metricId2,

@@ -19,8 +19,6 @@
  */
 package de.rinderle.softviz3d.layout.interfaces;
 
-import java.util.List;
-
 public interface SourceObject {
 
   /**
@@ -46,9 +44,5 @@ public interface SourceObject {
    * @return null if no metric is available.
    */
   Double getMetricHeightValue();
-
-
-  List<? extends SourceObject> getSnapshotsByIds(List<Integer> childrenNodeIds,
-        Integer depth);
 
 }

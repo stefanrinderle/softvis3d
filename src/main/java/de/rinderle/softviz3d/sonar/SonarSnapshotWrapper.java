@@ -30,19 +30,8 @@ public class SonarSnapshotWrapper implements SourceObject {
 
     private SonarSnapshot snapshot;
 
-    private Integer footprintMetricId;
-    private Integer heightMetricId;
-
-    private SonarDao sonarDao;
-
-    public SonarSnapshotWrapper(SonarSnapshot snapshot,
-            Integer footprintMetricId, Integer heightMetricId, SonarDao sonarDao) {
+    public SonarSnapshotWrapper(SonarSnapshot snapshot) {
         this.snapshot = snapshot;
-
-        this.footprintMetricId = footprintMetricId;
-        this.heightMetricId = heightMetricId;
-
-        this.sonarDao = sonarDao;
     }
 
     @Override
@@ -68,25 +57,6 @@ public class SonarSnapshotWrapper implements SourceObject {
     @Override
     public Double getMetricHeightValue() {
         return snapshot.getHeightMetricValue();
-    }
-
-    @Override
-    public List<? extends SourceObject> getSnapshotsByIds(List<Integer> childrenNodeIds, Integer depth) {
-        List<SonarSnapshot> result = sonarDao.getSnapshotsById(childrenNodeIds,
-                footprintMetricId, heightMetricId, depth);
-
-        return wrapSnapshotList(result);
-    }
-
-    private List<SonarSnapshotWrapper> wrapSnapshotList(
-            List<SonarSnapshot> snapshots) {
-        List<SonarSnapshotWrapper> result = new ArrayList<SonarSnapshotWrapper>();
-
-        for (SonarSnapshot snapshotElement : snapshots) {
-            result.add(new SonarSnapshotWrapper(snapshotElement,
-                    footprintMetricId, heightMetricId, sonarDao));
-        }
-        return result;
     }
 
 }

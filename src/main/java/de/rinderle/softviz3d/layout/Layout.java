@@ -30,24 +30,27 @@ import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.interfaces.SourceObject;
+import de.rinderle.softviz3d.sonar.SonarService;
 
 public class Layout {
 
     private LayoutVisitor visitor;
 
     private ResourceTreeService resourceTreeService;
-    
+    private SonarService sonarService;
+
     public Layout(LayoutVisitor visitor, ResourceTreeService resourceTreeService) {
         this.visitor = visitor;
         this.resourceTreeService = resourceTreeService;
     }
 
-    public Map<Integer, Graph> startLayout(SourceObject source)
+    public Map<Integer, Graph> startLayout(SourceObject source, SonarService sonarService, Integer footprintMetricId, Integer heightMetricId)
             throws DotExcecutorException {
+        this.sonarService = sonarService;
         // STEP 1 ---
 
         // last output element could be used to start absolutepositioncalc
-        this.accept(source, 0);
+        this.accept(source, 0, footprintMetricId, heightMetricId);
         Map<Integer, Graph> resultGraphs = this.visitor.getResultingGraphList();
         // ----------
 
@@ -72,36 +75,34 @@ public class Layout {
      * 
      * Public because of unit testing access.
      */
-    public LayeredLayoutElement accept(SourceObject source, int depth)
+    public LayeredLayoutElement accept(SourceObject source, int depth, Integer footprintMetricId, Integer heightMetricId)
             throws DotExcecutorException {
         
         List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
 
         List<Integer> childrenNodeIds = resourceTreeService.getChildrenNodeIds(source.getId());
 
-        List<? extends SourceObject> childrenNodesTest;
+        List<? extends SourceObject> childrenNodes;
         if (childrenNodeIds.isEmpty()) {
-            childrenNodesTest = new ArrayList<SourceObject>();
+            childrenNodes = new ArrayList<SourceObject>();
         } else {
-            childrenNodesTest = source.getSnapshotsByIds(childrenNodeIds, depth);
+            childrenNodes = sonarService.getSnapshotsByIds(childrenNodeIds, depth, footprintMetricId, heightMetricId);
         }
         
-        List<? extends SourceObject> childrenNodes = childrenNodesTest;
-        
         for (SourceObject node : childrenNodes) {
-            layerElements.add(this.accept(node, depth + 1));
+            layerElements.add(this.accept(node, depth + 1, footprintMetricId, heightMetricId));
         }
 
         List<Integer> childrenLeafIds = resourceTreeService.getChildrenLeafIds(source.getId());
 
-        List<? extends SourceObject> childrenLeafTest;
+        List<? extends SourceObject> childrenLeaf;
         if (childrenLeafIds.isEmpty()) {
-            childrenLeafTest = new ArrayList<SourceObject>();
+            childrenLeaf = new ArrayList<SourceObject>();
         } else {
-            childrenLeafTest = source.getSnapshotsByIds(childrenLeafIds, depth + 1);
+            childrenLeaf = sonarService.getSnapshotsByIds(childrenLeafIds, depth + 1, footprintMetricId, heightMetricId);
         }
 
-        List<? extends SourceObject> childrenLeaves = childrenLeafTest;
+        List<? extends SourceObject> childrenLeaves = childrenLeaf;
                 
         for (SourceObject leaf : childrenLeaves) {
             layerElements.add(visitor.visitFile(leaf));
