@@ -19,15 +19,10 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import de.rinderle.softviz3d.TestSource;
-import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 
 public class AbsolutePositionCalculatorTest {
 
@@ -64,7 +59,7 @@ public class AbsolutePositionCalculatorTest {
 //    
   }
 
-  private SourceObject testSource() {
+  //private SonarSnapshot testSource() {
 //    TestSource leaf4 = new TestSource(4, 2, false, null);
 //    TestSource leaf5 = new TestSource(5, 2, false, null);
 //    List<TestSource> children3 = new ArrayList<TestSource>();
@@ -73,15 +68,15 @@ public class AbsolutePositionCalculatorTest {
 //    TestSource node3 = new TestSource(3, 1, true, children3);
     
     // das ist gedreht. Stimm das?
-    TestSource leaf1 = new TestSource(3, 1, true, new ArrayList<TestSource>());
-    TestSource leaf2 = new TestSource(2, 1, false, new ArrayList<TestSource>());
-
-    List<TestSource> children1 = new ArrayList<TestSource>(); 
-    children1.add(leaf1);
-    children1.add(leaf2);
-    
-    TestSource root = new TestSource(1, 0, true, children1);
-    return root;
-  }
+//    TestSource leaf1 = new TestSource(3, 1, true, new ArrayList<TestSource>());
+//    TestSource leaf2 = new TestSource(2, 1, false, new ArrayList<TestSource>());
+//
+//    List<TestSource> children1 = new ArrayList<TestSource>();
+//    children1.add(leaf1);
+//    children1.add(leaf2);
+//
+//    TestSource root = new TestSource(1, 0, true, children1);
+//    return root;
+//  }
 
 }

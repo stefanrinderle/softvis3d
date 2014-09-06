@@ -19,20 +19,9 @@
  */
 package de.rinderle.softviz3d;
 
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.ServerExtension;
-import org.sonar.api.config.Settings;
-import org.sonar.api.database.DatabaseSession;
-
 import att.grappa.Graph;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import de.rinderle.softviz3d.depth.ResourceTreeService;
 import de.rinderle.softviz3d.depth.ResourceTreeServiceImpl;
 import de.rinderle.softviz3d.guice.LayoutVisitorFactory;
@@ -44,7 +33,14 @@ import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarMetric;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
-import de.rinderle.softviz3d.sonar.SonarSnapshotWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.ServerExtension;
+import org.sonar.api.config.Settings;
+import org.sonar.api.database.DatabaseSession;
+
+import java.util.List;
+import java.util.Map;
 
 public class SoftViz3dExtension implements ServerExtension {
 
@@ -110,21 +106,19 @@ public class SoftViz3dExtension implements ServerExtension {
         SonarSnapshot snapshot = sonarService.getSnapshotById(snapshotId, metricId1,
                 metricId2, 0);
         
-        SonarSnapshotWrapper snapshotWrapper = new SonarSnapshotWrapper(snapshot);
-
-        logStartOfCalc(metricId1, metricId2, minMaxValues, snapshotWrapper);
+        logStartOfCalc(metricId1, metricId2, minMaxValues, snapshot);
 
         LayoutVisitor visitor = buildLayoutVisitor(minMaxValues);
 
         Layout layout = new Layout(visitor, resourceTreeService);
         
-        return layout.startLayout(snapshotWrapper, sonarService, metricId1, metricId2);
+        return layout.startLayout(snapshot, sonarService, metricId1, metricId2);
     }
 
     private void logStartOfCalc(Integer metricId1, Integer metricId2,
-            List<Double> minMaxValues, SonarSnapshotWrapper snapshotWrapper) {
+            List<Double> minMaxValues, SonarSnapshot snapshot) {
         LOGGER.info("Start layout calculation for snapshot "
-                + snapshotWrapper.getName() + ", " + "metrics " + metricId1
+                + snapshot.getName() + ", " + "metrics " + metricId1
                 + " and " + metricId2);
 
         LOGGER.info("Metric " + metricId1 + " - min : " + minMaxValues.get(0)

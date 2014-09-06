@@ -19,13 +19,10 @@
  */
 package de.rinderle.softviz3d.sonar;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import de.rinderle.softviz3d.layout.interfaces.SourceObject;
+import com.google.inject.Inject;
 import org.sonar.api.config.Settings;
 
-import com.google.inject.Inject;
+import java.util.List;
 
 public class SonarServiceImpl implements SonarService {
 
@@ -64,20 +61,10 @@ public class SonarServiceImpl implements SonarService {
     }
 
     @Override
-    public List<? extends SourceObject> getSnapshotsByIds(List<Integer> childrenNodeIds, int depth, Integer footprintMetricId, Integer heightMetricId) {
+    public List<SonarSnapshot> getSnapshotsByIds(List<Integer> childrenNodeIds, int depth, Integer footprintMetricId, Integer heightMetricId) {
         List<SonarSnapshot> result = sonarDao.getSnapshotsById(childrenNodeIds,
                 footprintMetricId, heightMetricId, depth);
 
-        return wrapSnapshotList(result);
-    }
-
-    private List<SonarSnapshotWrapper> wrapSnapshotList(
-            List<SonarSnapshot> snapshots) {
-        List<SonarSnapshotWrapper> result = new ArrayList<SonarSnapshotWrapper>();
-
-        for (SonarSnapshot snapshotElement : snapshots) {
-            result.add(new SonarSnapshotWrapper(snapshotElement));
-        }
         return result;
     }
 

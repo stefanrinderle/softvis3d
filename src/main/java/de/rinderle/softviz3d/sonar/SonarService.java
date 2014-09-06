@@ -19,10 +19,9 @@
  */
 package de.rinderle.softviz3d.sonar;
 
-import java.util.List;
-
-import de.rinderle.softviz3d.layout.interfaces.SourceObject;
 import org.sonar.api.config.Settings;
+
+import java.util.List;
 
 public interface SonarService {
 
@@ -47,5 +46,5 @@ public interface SonarService {
     SonarSnapshot getSnapshotById(Integer snapshotId,
             Integer footprintMetricId, Integer heightMetricId, Integer depth);
 
-    List<? extends SourceObject> getSnapshotsByIds(List<Integer> childrenNodeIds, int depth, Integer footprintMetricId, Integer heightMetricId);
+    List<SonarSnapshot> getSnapshotsByIds(List<Integer> childrenNodeIds, int depth, Integer footprintMetricId, Integer heightMetricId);
 }

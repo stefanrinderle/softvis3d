@@ -19,20 +19,20 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import java.util.List;
-import java.util.Map;
-
 import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.layout.interfaces.SourceObject;
+import de.rinderle.softviz3d.sonar.SonarSnapshot;
+
+import java.util.List;
+import java.util.Map;
 
 public interface LayoutVisitor {
 
     public abstract Map<Integer, Graph> getResultingGraphList();
 
-    public abstract LayeredLayoutElement visitNode(SourceObject source,
+    public abstract LayeredLayoutElement visitNode(SonarSnapshot snapshot,
             List<LayeredLayoutElement> elements) throws DotExcecutorException;
 
-    public abstract LayeredLayoutElement visitFile(SourceObject source);
+    public abstract LayeredLayoutElement visitFile(SonarSnapshot snapshot);
 
 }

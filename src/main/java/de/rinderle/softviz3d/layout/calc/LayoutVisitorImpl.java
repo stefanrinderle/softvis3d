@@ -19,56 +19,48 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import static att.grappa.GrappaConstants.HEIGHT_ATTR;
-import static att.grappa.GrappaConstants.LABEL_ATTR;
-import static att.grappa.GrappaConstants.SHAPE_ATTR;
-import static att.grappa.GrappaConstants.WIDTH_ATTR;
+import att.grappa.Graph;
+import att.grappa.GrappaBox;
+import att.grappa.Node;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement.Type;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.dot.DotExecutor;
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
+import de.rinderle.softviz3d.sonar.SonarMetric;
+import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import org.sonar.api.config.Settings;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
-
-import att.grappa.Graph;
-import att.grappa.GrappaBox;
-import att.grappa.Node;
-
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-
-import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement.Type;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.layout.dot.DotExecutor;
-import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
-import de.rinderle.softviz3d.layout.interfaces.SourceObject;
+import static att.grappa.GrappaConstants.*;
 
 public class LayoutVisitorImpl implements LayoutVisitor {
 
     private Settings settings;
 
-    private SourceMetric metricFootprint;
-    private SourceMetric metricHeight;
+    private SonarMetric metricFootprint;
+    private SonarMetric metricHeight;
 
     private ViewLayerFormatter formatter = new ViewLayerFormatter();
 
     private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
 
-    private DotExecutor dotExcecutor;
+    private DotExecutor dotExecutor;
 
     @Inject
     public LayoutVisitorImpl(@Assisted Settings settings,
-            @Assisted("metricFootprint")  SourceMetric metricFootprint,
-            @Assisted("metricHeight")  SourceMetric metricHeight, DotExecutor dotExcecutor) {
+            @Assisted("metricFootprint") SonarMetric metricFootprint,
+            @Assisted("metricHeight") SonarMetric metricHeight, DotExecutor dotExecutor) {
         this.settings = settings;
 
         this.metricFootprint = metricFootprint;
         this.metricHeight = metricHeight;
 
-        this.dotExcecutor = dotExcecutor;
+        this.dotExecutor = dotExecutor;
     }
 
     @Override
@@ -77,10 +69,10 @@ public class LayoutVisitorImpl implements LayoutVisitor {
     }
 
     @Override
-    public LayeredLayoutElement visitNode(SourceObject source,
+    public LayeredLayoutElement visitNode(SonarSnapshot snapshot,
             List<LayeredLayoutElement> elements) throws DotExcecutorException {
         // create layout graph
-        Graph inputGraph = new Graph(source.getId().toString());
+        Graph inputGraph = new Graph(snapshot.getId().toString());
 
         for (LayeredLayoutElement element : elements) {
             Node elementNode = new Node(inputGraph, element.getName());
@@ -105,11 +97,11 @@ public class LayoutVisitorImpl implements LayoutVisitor {
         }
 
         // run dot layout for this layer
-        Graph outputGraph = dotExcecutor.run(inputGraph, settings);
+        Graph outputGraph = dotExecutor.run(inputGraph, settings);
 
         // adjust graph
-        Graph adjustedGraph = formatter.format(outputGraph, source.getDepth());
-        resultingGraphList.put(source.getId(), adjustedGraph);
+        Graph adjustedGraph = formatter.format(outputGraph, snapshot.getDepth());
+        resultingGraphList.put(snapshot.getId(), adjustedGraph);
 
         // adjusted graph has a bounding box !
         GrappaBox bb = (GrappaBox) adjustedGraph.getAttributeValue("bb");
@@ -123,20 +115,20 @@ public class LayoutVisitorImpl implements LayoutVisitor {
         double buildingHeight = 2;
 
         return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE,
-                source.getId(), "dir_" + source.getId(), width, height,
-                buildingHeight, source.getName());
+                snapshot.getId(), "dir_" + snapshot.getId(), width, height,
+                buildingHeight, snapshot.getName());
     }
 
     @Override
-    public LayeredLayoutElement visitFile(SourceObject source) {
-        double sideLength = calcSideLength(source.getMetricFootprintValue());
+    public LayeredLayoutElement visitFile(SonarSnapshot snapshot) {
+        double sideLength = calcSideLength(snapshot.getFootprintMetricValue());
 
-        double buildingHeight = calcBuildingHeight(source
-                .getMetricHeightValue());
+        double buildingHeight = calcBuildingHeight(snapshot
+                .getHeightMetricValue());
 
-        return new LayeredLayoutElement(Type.LEAF, source.getId(), "file_"
-                + source.getId().toString(), sideLength, sideLength,
-                buildingHeight, source.getName());
+        return new LayeredLayoutElement(Type.LEAF, snapshot.getId(), "file_"
+                + snapshot.getId().toString(), sideLength, sideLength,
+                buildingHeight, snapshot.getName());
     }
 
     /**

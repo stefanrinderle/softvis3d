@@ -19,9 +19,7 @@
  */
 package de.rinderle.softviz3d.sonar;
 
-import de.rinderle.softviz3d.layout.interfaces.SourceMetric;
-
-public class SonarMetric implements SourceMetric {
+public class SonarMetric {
 
   private Double minValue;
   private Double maxValue;
@@ -32,12 +30,10 @@ public class SonarMetric implements SourceMetric {
     this.maxValue = maxValue;
   }
 
-  @Override
   public Double getMinValue() {
     return minValue;
   }
 
-  @Override
   public Double getMaxValue() {
     return maxValue;
   }

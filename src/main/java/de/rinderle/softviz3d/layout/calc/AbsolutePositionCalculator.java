@@ -19,21 +19,19 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import static att.grappa.GrappaConstants.HEIGHT_ATTR;
-import static att.grappa.GrappaConstants.POS_ATTR;
-import static att.grappa.GrappaConstants.WIDTH_ATTR;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
 import de.rinderle.softviz3d.depth.ResourceTreeService;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.layout.interfaces.SourceObject;
+import de.rinderle.softviz3d.sonar.SonarSnapshot;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static att.grappa.GrappaConstants.*;
 
 public class AbsolutePositionCalculator {
 
@@ -54,7 +52,7 @@ private ResourceTreeService resourceTreeService;
     this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
   }
 
-  public void calculate(SourceObject source) {
+  public void calculate(SonarSnapshot source) {
     Graph graph = inputGraphs.get(source.getId());
     GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
 
