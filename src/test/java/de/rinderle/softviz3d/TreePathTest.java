@@ -57,13 +57,51 @@ public class TreePathTest {
         assertEquals("kjsdfksjdbf.java has no children", tree.getChild("src")
                 .getChild("kjsdfksjdbf.java").getChildren().size(), 0);
     }
-    
+
+    @Test
+    public void testPrefix() {
+        String test = "src/main/java/de/rinderle/softviz3d";
+
+        int lastIndex = test.lastIndexOf("/");
+        String result = test.substring(0, lastIndex + 1);
+
+        assertEquals(result, "src/main/java/de/rinderle/");
+    }
+
+    @Test
+    public void testLongStartPath() {
+        PathWalker walker = new PathWalker(412);
+
+        walker.addPath(413, "src/main/java/de/rinderle/softviz3d");
+        walker.addPath(414, "src/main/java/de/rinderle/softviz3d/SoftViz3dExtension.java");
+        walker.addPath(415, "src/main/java/de/rinderle/softviz3d/SoftViz3dPage.java");
+        walker.addPath(416, "src/main/java/de/rinderle/softviz3d/SoftViz3dPlugin.java");
+        walker.addPath(417, "src/main/java/de/rinderle/softviz3d/depth");
+        walker.addPath(418, "src/main/java/de/rinderle/softviz3d/depth/Node.java");
+        walker.addPath(419, "src/main/java/de/rinderle/softviz3d/depth/PathWalker.java");
+        walker.addPath(420, "src/main/java/de/rinderle/softviz3d/depth/ResourceTreeService.java");
+        walker.addPath(421, "src/main/java/de/rinderle/softviz3d/depth/ResourceTreeServiceImpl.java");
+        walker.addPath(422, "src/main/java/de/rinderle/softviz3d/guice");
+        walker.addPath(423, "src/main/java/de/rinderle/softviz3d/guice/LayoutVisitorFactory.java");
+        walker.addPath(424, "src/main/java/de/rinderle/softviz3d/guice/SoftViz3dModule.java");
+        walker.addPath(457, "src/test/java/de/rinderle/softviz3d");
+        walker.addPath(458, "src/test/java/de/rinderle/softviz3d/GrappaPointTest.java");
+        walker.addPath(459, "src/test/java/de/rinderle/softviz3d/TestSource.java");
+        walker.addPath(460, "src/test/java/de/rinderle/softviz3d/Tree.java");
+        walker.addPath(461, "src/test/java/de/rinderle/softviz3d/TreePathTest.java");
+
+        Node tree = walker.getTree();
+
+        assertNotNull(tree.getChild("src"));
+        assertEquals(2, tree.getChild("src").getChildren().size());
+    }
+
      @Test
      public void test1() {
      PathWalker walker = new PathWalker(999999999);
-    
+
      int id = 0;
-    
+
      walker.addPath(id++, "src/testForSoftViz");
      walker.addPath(id++, "src/testForSoftViz/FirstClass.java");
      walker.addPath(id++, "src/testForSoftViz/SecondClass.java");
@@ -85,18 +123,17 @@ public class TreePathTest {
      walker.addPath(id++, "src/testForSoftViz/xx/yy");
      walker.addPath(id++, "src/testForSoftViz/xx/yy/FithsClass.java");
      walker.addPath(id, "src/testForSoftViz/xx/yy/SixthClass.java");
-    
+
      Node tree = walker.getTree();
-    
+
      assertTrue(tree.getChildren().size() == 1);
-    
+
      // walker.addPath(id++, "src\\testForSoftViz\\xx\\yy\\SixthClass.java");
      Node sixth =
-     tree.getChild("src").getChild("testForSoftViz").getChild("xx")
-     .getChild("yy").getChild("SixthClass.java");
+     tree.getChild("src").getChild("testForSoftViz").getChild("xx").getChild("yy").getChild("SixthClass.java");
      assertNotNull(sixth);
-    
+
      assertEquals(id, sixth.getId());
      }
-    
+
 }

@@ -49,8 +49,6 @@ public class SoftViz3dExtension implements ServerExtension {
 
     private Settings settings;
 
-    private SonarDao sonarDao;
-    
     private SonarService sonarService;
 
     private Injector softVizInjector;
@@ -60,17 +58,12 @@ public class SoftViz3dExtension implements ServerExtension {
     public SoftViz3dExtension(DatabaseSession session, Settings settings) {
         this.settings = settings;
 
-        /*
-         * Guice.createInjector() takes your Modules, and returns a new Injector
-         * instance. Most applications will call this method exactly once, in
-         * their main() method.
-         */
         softVizInjector = Guice.createInjector(new SoftViz3dModule());
 
-        this.sonarDao = softVizInjector.getInstance(SonarDao.class);
+        SonarDao sonarDao = softVizInjector.getInstance(SonarDao.class);
+        sonarDao.setDatabaseSession(session);
+
         this.sonarService = softVizInjector.getInstance(SonarService.class);
-        this.sonarDao.setDatabaseSession(session);
-        
         this.resourceTreeService = softVizInjector.getInstance(ResourceTreeServiceImpl.class);
     }
 
@@ -84,9 +77,6 @@ public class SoftViz3dExtension implements ServerExtension {
         return sonarService.getMetric1FromSettings(settings);
     }
 
-    /**
-     * used direkt hintereinander.
-     */
     public Integer getMetric2FromSettings() {
         return sonarService.getMetric2FromSettings(settings);
     }

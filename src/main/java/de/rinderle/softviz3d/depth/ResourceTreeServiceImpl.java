@@ -46,12 +46,11 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     public void createTreeStructrue(int rootSnapshotId) {
         pathWalker = new PathWalker(rootSnapshotId);
 
-        List<Object[]> flatChildren = sonarDao
-                .getAllChildrenFlat(rootSnapshotId);
+        List<Object[]> flatChildren = sonarDao.getAllChildrenFlat(rootSnapshotId);
+
         for (Object[] flatChild : flatChildren) {
             pathWalker.addPath((Integer) flatChild[0], (String) flatChild[1]);
-            LOGGER.info("addPath " + (Integer) flatChild[0] + " "
-                    + (String) flatChild[1]);
+            LOGGER.info("addPath " + flatChild[0] + " " + flatChild[1]);
         }
 
         LOGGER.debug("................");
@@ -79,6 +78,17 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
     private Node recursiveSearch(Integer id, Node node) {
         if (node.getId() == id) {
+            /**
+             * check if there is a child node with the same id.
+             * This is to parse long paths and get the last node
+             * of the chain with the same id.
+             */
+            for (Node child : node.getChildren().values()) {
+               if (child.getId() == id) {
+                   return recursiveSearch(id, child);
+               }
+            }
+
             return node;
         }
         
