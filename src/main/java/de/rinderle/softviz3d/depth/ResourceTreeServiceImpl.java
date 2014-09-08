@@ -76,22 +76,18 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
     private Node recursiveSearch(Integer id, Node node) {
         if (node.getId() == id) {
-            if (node.getChildren().size() > 1) {
-                return node;
-            } else {
-                /**
-                 * check if there is a child node with the same id.
-                 * This is to parse long paths and get the last node
-                 * of the chain with the same id.
-                 */
-                for (Node child : node.getChildren().values()) {
-                    if (child.getId() == id) {
-                        return recursiveSearch(id, child);
-                    }
+            /**
+             * check if there is a child node with the same id.
+             * This is to parse long paths and get the last node
+             * of the chain with the same id.
+             */
+            for (Node child : node.getChildren().values()) {
+                if (child.getId() == id) {
+                    return recursiveSearch(id, child);
                 }
-
-                return node;
             }
+
+            return node;
         }
         
         Map<String, Node> children = node.getChildren();

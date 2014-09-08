@@ -118,17 +118,17 @@ public class ResourceTreeServiceTest {
 
         // Check leaf
         List<Integer> leafs = underTest.getChildrenLeafIds(574);
-        assertTrue(leafs.contains(2));
         assertEquals(2, leafs.size());
+        assertTrue(leafs.contains(576));
 
         // Check node
         List<Integer> nodes = underTest.getChildrenNodeIds(573);
         assertFalse(nodes.contains(574));
 
         List<Integer> childsFromGenerated = underTest.getChildrenNodeIds(nodes.get(0));
-        assertFalse(childsFromGenerated.contains(574));
-        assertFalse(childsFromGenerated.contains(577));
-        assertFalse(childsFromGenerated.contains(585));
+        assertTrue(childsFromGenerated.contains(574));
+        assertTrue(childsFromGenerated.contains(577));
+        assertTrue(childsFromGenerated.contains(585));
 
     }
 }

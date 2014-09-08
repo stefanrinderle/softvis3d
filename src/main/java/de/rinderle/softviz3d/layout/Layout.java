@@ -94,6 +94,16 @@ public class Layout {
             childrenNodes = new ArrayList<SonarSnapshot>();
         } else {
             childrenNodes = sonarService.getSnapshotsByIds(childrenNodeIds, depth, footprintMetricId, heightMetricId);
+
+            if (childrenNodeIds.size() != childrenNodes.size()) {
+                for (Integer nodeId : childrenNodeIds) {
+                    if (!isIdInDatabaseResult(nodeId, childrenNodes)) {
+                        SonarSnapshot generatedSnapshot =
+                                new SonarSnapshot(nodeId, "generated" + nodeId, depth, 0.0, 0.0);
+                        childrenNodes.add(generatedSnapshot);
+                    }
+                }
+            }
         }
         
         for (SonarSnapshot node : childrenNodes) {
@@ -118,6 +128,16 @@ public class Layout {
         LayeredLayoutElement layer = visitor.visitNode(source, layerElements);
 
         return layer;
+    }
+
+    private boolean isIdInDatabaseResult(int id, List<SonarSnapshot> childrenNodes) {
+        for (SonarSnapshot snapshot : childrenNodes) {
+            if (id == snapshot.getId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

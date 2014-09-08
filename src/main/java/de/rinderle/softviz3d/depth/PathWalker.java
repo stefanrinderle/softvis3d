@@ -27,7 +27,8 @@ import org.slf4j.LoggerFactory;
 public class PathWalker {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(PathWalker.class);
-    
+
+    private int generatedIdSequence = Integer.MAX_VALUE - 100000;
     private final Node root;
 
     private Pattern pathSeperator = Pattern.compile("/");
@@ -39,12 +40,19 @@ public class PathWalker {
     public void addPath(int id, String path) {
         String[] names = pathSeperator.split(path);
         Node node = root;
-        for (String name : names) {
-            node = node.getOrCreateChild(id, name);
+
+        boolean isLastIndex;
+        for(int i = 0; i < names.length; i++) {
+            isLastIndex = (i == (names.length - 1));
+            if (isLastIndex) {
+                node = node.getOrCreateChild(id, names[i]);
+            } else {
+                node = node.getOrCreateChild(generatedIdSequence++, names[i]);
+            }
         }
     }
 
-    private static void print(Node node, int depht) {
+    private static void print(Node node, int depth) {
         Map<String, Node> children = node.getChildren();
         if (children.isEmpty())
             return;
@@ -53,7 +61,7 @@ public class PathWalker {
             LOGGER.debug(child.getValue().getId() + " "
                     + child.getKey());
                     
-            print(child.getValue(), depht + 1);
+            print(child.getValue(), depth + 1);
         }
     }
 
