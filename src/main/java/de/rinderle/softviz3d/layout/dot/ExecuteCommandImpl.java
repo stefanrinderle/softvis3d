@@ -19,23 +19,19 @@
  */
 package de.rinderle.softviz3d.layout.dot;
 
-import static att.grappa.GrappaConstants.HEIGHT_ATTR;
-import static att.grappa.GrappaConstants.WIDTH_ATTR;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.*;
+
+import static att.grappa.GrappaConstants.HEIGHT_ATTR;
+import static att.grappa.GrappaConstants.WIDTH_ATTR;
+
 public class ExecuteCommandImpl implements ExecuteCommand {
-    
+
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ExecuteCommandImpl.class);
-    
+
     @Override
     public String executeCommand(String command) {
         StringBuilder output = new StringBuilder();
@@ -46,7 +42,7 @@ public class ExecuteCommandImpl implements ExecuteCommand {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     p.getErrorStream()));
 
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
                 output.append(line + "\n");
             }
@@ -57,7 +53,7 @@ public class ExecuteCommandImpl implements ExecuteCommand {
 
         return output.toString();
     }
-    
+
     @Override
     public String executeDotCommand(String command, String inputGraph)
             throws DotExcecutorException {

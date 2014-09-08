@@ -26,6 +26,8 @@ import att.grappa.Node;
 import de.rinderle.softviz3d.depth.ResourceTreeService;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +36,9 @@ import java.util.Map;
 import static att.grappa.GrappaConstants.*;
 
 public class AbsolutePositionCalculator {
+
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(LayoutVisitorImpl.class);
 
   private static final int MIN_BUILDING_HEIGHT = 10;
 
@@ -63,6 +68,8 @@ private ResourceTreeService resourceTreeService;
   }
 
   private void addTranslationToLayer(Integer sourceId, GrappaPoint posTranslation, Integer height3d) {
+      LOGGER.info("AbsolutePositionCalculator addTranslationToLayer " + sourceId);
+
     // inputGraphs --> Map<Integer, Graph>
     // Step 1 - search the graph for the source given
     Graph graph = inputGraphs.get(sourceId);

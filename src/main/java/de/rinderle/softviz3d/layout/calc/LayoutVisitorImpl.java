@@ -30,6 +30,8 @@ import de.rinderle.softviz3d.layout.dot.DotExecutor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.sonar.SonarMetric;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
 
 import java.util.HashMap;
@@ -39,6 +41,9 @@ import java.util.Map;
 import static att.grappa.GrappaConstants.*;
 
 public class LayoutVisitorImpl implements LayoutVisitor {
+
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(LayoutVisitorImpl.class);
 
     private Settings settings;
 
@@ -71,6 +76,9 @@ public class LayoutVisitorImpl implements LayoutVisitor {
     @Override
     public LayeredLayoutElement visitNode(SonarSnapshot snapshot,
             List<LayeredLayoutElement> elements) throws DotExcecutorException {
+
+        LOGGER.info("LayoutVisitor.visitNode " + snapshot.getId() + " " + snapshot.getName());
+
         // create layout graph
         Graph inputGraph = new Graph(snapshot.getId().toString());
 
@@ -121,6 +129,8 @@ public class LayoutVisitorImpl implements LayoutVisitor {
 
     @Override
     public LayeredLayoutElement visitFile(SonarSnapshot snapshot) {
+        LOGGER.info("LayoutVisitor.visitNode " + snapshot.getId() + " " + snapshot.getName());
+
         double sideLength = calcSideLength(snapshot.getFootprintMetricValue());
 
         double buildingHeight = calcBuildingHeight(snapshot

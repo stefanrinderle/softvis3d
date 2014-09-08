@@ -19,12 +19,11 @@
  */
 package de.rinderle.softviz3d;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
 import de.rinderle.softviz3d.depth.Node;
 import de.rinderle.softviz3d.depth.PathWalker;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class TreePathTest {
 
@@ -56,16 +55,10 @@ public class TreePathTest {
                 .size(), 3);
         assertEquals("kjsdfksjdbf.java has no children", tree.getChild("src")
                 .getChild("kjsdfksjdbf.java").getChildren().size(), 0);
-    }
 
-    @Test
-    public void testPrefix() {
-        String test = "src/main/java/de/rinderle/softviz3d";
-
-        int lastIndex = test.lastIndexOf("/");
-        String result = test.substring(0, lastIndex + 1);
-
-        assertEquals(result, "src/main/java/de/rinderle/");
+        // check the ids
+        assertEquals(401, tree.getChild("src").getId());
+        assertEquals(403, tree.getChild("src").getChild("out").getId());
     }
 
     @Test
@@ -94,46 +87,58 @@ public class TreePathTest {
 
         assertNotNull(tree.getChild("src"));
         assertEquals(2, tree.getChild("src").getChildren().size());
+
+        // check ids
+        assertEquals(412, tree.getId());
+        // id for source is generated
+        assertNotEquals(413, tree.getChild("src").getId());
+        assertNotEquals(413, tree.getChild("src").getChild("main").getId());
+        assertNotEquals(413, tree.getChild("src").getChild("main").getChild("java").getId());
+        assertNotEquals(413, tree.getChild("src").getChild("main").getChild("java")
+                .getChild("de").getChild("rinderle").getId());
+        assertEquals(413, tree.getChild("src").getChild("main").getChild("java")
+                .getChild("de").getChild("rinderle").getChild("softviz3d").getId());
     }
 
-     @Test
-     public void test1() {
-     PathWalker walker = new PathWalker(999999999);
+    @Test
+    public void test1() {
+        PathWalker walker = new PathWalker(999999999);
 
-     int id = 0;
+        walker.addPath(1, "src/testForSoftViz");
+        walker.addPath(2, "src/testForSoftViz/FirstClass.java");
+        walker.addPath(3, "src/testForSoftViz/SecondClass.java");
+        walker.addPath(4, "src/testForSoftViz/second");
+        walker.addPath(5, "src/testForSoftViz/second/FourthClass.java");
+        walker.addPath(6, "src/testForSoftViz/second/ThirdClass.java");
+        walker.addPath(7, "src/testForSoftViz/second/third");
+        walker.addPath(8, "src/testForSoftViz/second/third/FithsClass.java");
+        walker.addPath(9, "src/testForSoftViz/second/third/SixthClass.java");
+        walker.addPath(10, "src/out");
+        walker.addPath(11, "src/out/A1Class.java");
+        walker.addPath(12, "src/out/A2Class.java");
+        walker.addPath(13, "src/testForSoftViz/forth");
+        walker.addPath(14, "src/testForSoftViz/forth/FithsClass.java");
+        walker.addPath(15, "src/testForSoftViz/forth/SixthClass.java");
+        walker.addPath(16, "src/testForSoftViz/xx");
+        walker.addPath(17, "src/testForSoftViz/xx/FithsClass.java");
+        walker.addPath(18, "src/testForSoftViz/xx/SixthClass.java");
+        walker.addPath(19, "src/testForSoftViz/xx/yy");
+        walker.addPath(20, "src/testForSoftViz/xx/yy/FithsClass.java");
+        walker.addPath(21, "src/testForSoftViz/xx/yy/SixthClass.java");
 
-     walker.addPath(id++, "src/testForSoftViz");
-     walker.addPath(id++, "src/testForSoftViz/FirstClass.java");
-     walker.addPath(id++, "src/testForSoftViz/SecondClass.java");
-     walker.addPath(id++, "src/testForSoftViz/second");
-     walker.addPath(id++, "src/testForSoftViz/second/FourthClass.java");
-     walker.addPath(id++, "src/testForSoftViz/second/ThirdClass.java");
-     walker.addPath(id++, "src/testForSoftViz/second/third");
-     walker.addPath(id++, "src/testForSoftViz/second/third/FithsClass.java");
-     walker.addPath(id++, "src/testForSoftViz/second/third/SixthClass.java");
-     walker.addPath(id++, "src/out");
-     walker.addPath(id++, "src/out/A1Class.java");
-     walker.addPath(id++, "src/out/A2Class.java");
-     walker.addPath(id++, "src/testForSoftViz/forth");
-     walker.addPath(id++, "src/testForSoftViz/forth/FithsClass.java");
-     walker.addPath(id++, "src/testForSoftViz/forth/SixthClass.java");
-     walker.addPath(id++, "src/testForSoftViz/xx");
-     walker.addPath(id++, "src/testForSoftViz/xx/FithsClass.java");
-     walker.addPath(id++, "src/testForSoftViz/xx/SixthClass.java");
-     walker.addPath(id++, "src/testForSoftViz/xx/yy");
-     walker.addPath(id++, "src/testForSoftViz/xx/yy/FithsClass.java");
-     walker.addPath(id, "src/testForSoftViz/xx/yy/SixthClass.java");
+        Node tree = walker.getTree();
 
-     Node tree = walker.getTree();
+        assertTrue(tree.getChildren().size() == 1);
 
-     assertTrue(tree.getChildren().size() == 1);
+        Node sixth =
+                tree.getChild("src").getChild("testForSoftViz").getChild("xx").getChild("yy").getChild("SixthClass.java");
+        assertNotNull(sixth);
 
-     // walker.addPath(id++, "src\\testForSoftViz\\xx\\yy\\SixthClass.java");
-     Node sixth =
-     tree.getChild("src").getChild("testForSoftViz").getChild("xx").getChild("yy").getChild("SixthClass.java");
-     assertNotNull(sixth);
+        assertEquals(21, sixth.getId());
 
-     assertEquals(id, sixth.getId());
-     }
+        // check the ids
+        assertNotEquals(1, tree.getChild("src").getId());
+        assertEquals(1, tree.getChild("src").getChild("testForSoftViz").getId());
+    }
 
 }

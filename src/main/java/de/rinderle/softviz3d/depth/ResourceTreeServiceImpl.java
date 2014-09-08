@@ -19,17 +19,15 @@
  */
 package de.rinderle.softviz3d.depth;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.rinderle.softviz3d.sonar.SonarDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.rinderle.softviz3d.sonar.SonarDao;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class ResourceTreeServiceImpl implements ResourceTreeService {
@@ -78,18 +76,22 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
     private Node recursiveSearch(Integer id, Node node) {
         if (node.getId() == id) {
-            /**
-             * check if there is a child node with the same id.
-             * This is to parse long paths and get the last node
-             * of the chain with the same id.
-             */
-            for (Node child : node.getChildren().values()) {
-               if (child.getId() == id) {
-                   return recursiveSearch(id, child);
-               }
-            }
+            if (node.getChildren().size() > 1) {
+                return node;
+            } else {
+                /**
+                 * check if there is a child node with the same id.
+                 * This is to parse long paths and get the last node
+                 * of the chain with the same id.
+                 */
+                for (Node child : node.getChildren().values()) {
+                    if (child.getId() == id) {
+                        return recursiveSearch(id, child);
+                    }
+                }
 
-            return node;
+                return node;
+            }
         }
         
         Map<String, Node> children = node.getChildren();

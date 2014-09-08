@@ -27,12 +27,17 @@ import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class Layout {
+
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(Layout.class);
 
     private LayoutVisitor visitor;
 
@@ -77,7 +82,9 @@ public class Layout {
      */
     public LayeredLayoutElement accept(SonarSnapshot source, int depth, Integer footprintMetricId, Integer heightMetricId)
             throws DotExcecutorException {
-        
+
+        LOGGER.info("Layout.accept " + source.getId() + " " + source.getName());
+
         List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
 
         List<Integer> childrenNodeIds = resourceTreeService.getChildrenNodeIds(source.getId());
