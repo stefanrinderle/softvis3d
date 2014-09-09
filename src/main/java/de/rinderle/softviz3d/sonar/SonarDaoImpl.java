@@ -201,13 +201,6 @@ public class SonarDaoImpl implements SonarDao {
         return metricId;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.rinderle.softviz3d.sonar.SonarDaoInterface#
-     * getMinMaxMetricValuesByRootSnapshotId(java.lang.Integer,
-     * java.lang.Integer, java.lang.Integer)
-     */
     @Override
     public List<Double> getMinMaxMetricValuesByRootSnapshotId(
             Integer rootSnapshotId, Integer footprintMetricId,

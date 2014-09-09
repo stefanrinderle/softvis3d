@@ -23,7 +23,7 @@ import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
-import de.rinderle.softviz3d.depth.ResourceTreeService;
+import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import org.slf4j.Logger;
@@ -68,7 +68,7 @@ private ResourceTreeService resourceTreeService;
   }
 
   private void addTranslationToLayer(Integer sourceId, GrappaPoint posTranslation, Integer height3d) {
-      LOGGER.info("AbsolutePositionCalculator addTranslationToLayer " + sourceId);
+      LOGGER.debug("AbsolutePositionCalculator addTranslationToLayer " + sourceId);
 
     // inputGraphs --> Map<Integer, Graph>
     // Step 1 - search the graph for the source given

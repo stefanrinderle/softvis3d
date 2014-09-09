@@ -20,7 +20,7 @@
 package de.rinderle.softviz3d.layout;
 
 import att.grappa.Graph;
-import de.rinderle.softviz3d.depth.ResourceTreeService;
+import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
@@ -83,7 +83,7 @@ public class Layout {
     public LayeredLayoutElement accept(SonarSnapshot source, int depth, Integer footprintMetricId, Integer heightMetricId)
             throws DotExcecutorException {
 
-        LOGGER.info("Layout.accept " + source.getId() + " " + source.getName());
+        LOGGER.debug("Layout.accept " + source.getId() + " " + source.getName());
 
         List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
 
@@ -105,7 +105,7 @@ public class Layout {
                 }
             }
         }
-        
+
         for (SonarSnapshot node : childrenNodes) {
             layerElements.add(this.accept(node, depth + 1, footprintMetricId, heightMetricId));
         }
@@ -120,7 +120,7 @@ public class Layout {
         }
 
         List<SonarSnapshot> childrenLeaves = childrenLeaf;
-                
+
         for (SonarSnapshot leaf : childrenLeaves) {
             layerElements.add(visitor.visitFile(leaf));
         }

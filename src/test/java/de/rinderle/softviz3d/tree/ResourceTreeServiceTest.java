@@ -19,7 +19,6 @@
  */
 package de.rinderle.softviz3d.tree;
 
-import de.rinderle.softviz3d.depth.ResourceTreeServiceImpl;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import org.junit.Before;
 import org.junit.Test;

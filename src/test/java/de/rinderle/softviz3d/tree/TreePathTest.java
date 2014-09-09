@@ -17,10 +17,8 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d;
+package de.rinderle.softviz3d.tree;
 
-import de.rinderle.softviz3d.depth.Node;
-import de.rinderle.softviz3d.depth.PathWalker;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

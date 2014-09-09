@@ -22,8 +22,8 @@ package de.rinderle.softviz3d.guice;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
-import de.rinderle.softviz3d.depth.ResourceTreeService;
-import de.rinderle.softviz3d.depth.ResourceTreeServiceImpl;
+import de.rinderle.softviz3d.tree.ResourceTreeService;
+import de.rinderle.softviz3d.tree.ResourceTreeServiceImpl;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitorImpl;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorImpl;

@@ -32,14 +32,13 @@ public class ViewLayerFormatter {
         double transparency = 0.0;
 
         // calc color
-        int colorCalc = depth * 32;
-        if (colorCalc > 155 || colorCalc < 0) {
-            colorCalc = 155;
+        int colorCalc = depth * 16;
+        if (colorCalc > 154 || colorCalc < 0) {
+            colorCalc = 154;
         }
 
-        HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc,
-                100 + colorCalc);
-        HexaColor nodesColor = new HexaColor(255, 140, 0);
+        HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
+        HexaColor nodesColor = new HexaColor(254, 140, 0);
 
         graph.setAttribute("color", color);
         graph.setAttribute("nodesColor", nodesColor.getHex());

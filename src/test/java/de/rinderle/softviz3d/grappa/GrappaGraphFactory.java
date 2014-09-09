@@ -23,9 +23,9 @@ import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.Node;
 
-public class TestGraphHelper {
+public class GrappaGraphFactory {
 
-    public static Graph graphRoot() {
+    public static Graph createGraph() {
         Graph graph = new Graph("root");
         double x = 0;
         double y = 0;

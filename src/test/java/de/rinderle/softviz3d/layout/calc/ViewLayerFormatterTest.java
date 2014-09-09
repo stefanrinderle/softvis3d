@@ -24,10 +24,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
 
+import de.rinderle.softviz3d.grappa.GrappaGraphFactory;
 import org.junit.Test;
 
 import att.grappa.Graph;
-import de.rinderle.softviz3d.grappa.TestGraphHelper;
 
 public class ViewLayerFormatterTest {
 
@@ -36,7 +36,7 @@ public class ViewLayerFormatterTest {
         ViewLayerFormatter formatter = new ViewLayerFormatter();
         
         Integer depth = 0;
-        Graph graph = TestGraphHelper.graphRoot();
+        Graph graph = GrappaGraphFactory.createGraph();
         formatter.format(graph, depth);
         
         assertNotNull(graph.getAttribute("color"));
@@ -49,7 +49,7 @@ public class ViewLayerFormatterTest {
         ViewLayerFormatter formatter = new ViewLayerFormatter();
         
         Integer depth = Integer.MAX_VALUE;
-        Graph graph = TestGraphHelper.graphRoot();
+        Graph graph = GrappaGraphFactory.createGraph();
         formatter.format(graph, depth);
         
         assertNotNull(graph.getAttribute("color"));
@@ -57,7 +57,7 @@ public class ViewLayerFormatterTest {
         assertNotNull(graph.getAttribute("transparency"));
         
         Color color = (Color) graph.getAttribute("color").getValue();
-        assertTrue(color.getRed() == 255);
+        assertTrue(color.getRed() == 254);
     }
 
 }

@@ -77,7 +77,7 @@ public class LayoutVisitorImpl implements LayoutVisitor {
     public LayeredLayoutElement visitNode(SonarSnapshot snapshot,
             List<LayeredLayoutElement> elements) throws DotExcecutorException {
 
-        LOGGER.info("LayoutVisitor.visitNode " + snapshot.getId() + " " + snapshot.getName());
+        LOGGER.debug("LayoutVisitor.visitNode " + snapshot.getId() + " " + snapshot.getName());
 
         // create layout graph
         Graph inputGraph = new Graph(snapshot.getId().toString());
@@ -129,7 +129,7 @@ public class LayoutVisitorImpl implements LayoutVisitor {
 
     @Override
     public LayeredLayoutElement visitFile(SonarSnapshot snapshot) {
-        LOGGER.info("LayoutVisitor.visitNode " + snapshot.getId() + " " + snapshot.getName());
+        LOGGER.debug("LayoutVisitor.visitNode " + snapshot.getId() + " " + snapshot.getName());
 
         double sideLength = calcSideLength(snapshot.getFootprintMetricValue());
 
