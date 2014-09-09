@@ -20,124 +20,21 @@
 package de.rinderle.softviz3d.layout;
 
 import att.grappa.Graph;
-import de.rinderle.softviz3d.tree.ResourceTreeService;
-import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
-import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
+import com.google.inject.Injector;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Layout {
-
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(Layout.class);
-
-    private LayoutVisitor visitor;
-
-    private ResourceTreeService resourceTreeService;
-    private SonarService sonarService;
-
-    public Layout(LayoutVisitor visitor, ResourceTreeService resourceTreeService) {
-        this.visitor = visitor;
-        this.resourceTreeService = resourceTreeService;
-    }
-
-    public Map<Integer, Graph> startLayout(SonarSnapshot source, SonarService sonarService, Integer footprintMetricId, Integer heightMetricId)
-            throws DotExcecutorException {
-        this.sonarService = sonarService;
-        // STEP 1 ---
-
-        // last output element could be used to start absolutepositioncalc
-        this.accept(source, 0, footprintMetricId, heightMetricId);
-        Map<Integer, Graph> resultGraphs = this.visitor.getResultingGraphList();
-        // ----------
-
-        startAbsolutePositioning(source, resultGraphs);
-
-        return resultGraphs;
-    }
-
-    private Map<Integer, Graph> startAbsolutePositioning(SonarSnapshot source,
-            Map<Integer, Graph> resultGraphs) {
-        // NEXT STEP HERE
-        AbsolutePositionCalculator calc = new AbsolutePositionCalculator(
-                resultGraphs, resourceTreeService);
-        calc.calculate(source);
-        // ---
-
-        return resultGraphs;
-    }
-
-    /**
-     * Bottom up calculation of layout layers.
-     * 
-     * Public because of unit testing access.
-     */
-    public LayeredLayoutElement accept(SonarSnapshot source, int depth, Integer footprintMetricId, Integer heightMetricId)
-            throws DotExcecutorException {
-
-        LOGGER.debug("Layout.accept " + source.getId() + " " + source.getName());
-
-        List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
-
-        List<Integer> childrenNodeIds = resourceTreeService.getChildrenNodeIds(source.getId());
-
-        List<SonarSnapshot> childrenNodes;
-        if (childrenNodeIds.isEmpty()) {
-            childrenNodes = new ArrayList<SonarSnapshot>();
-        } else {
-            childrenNodes = sonarService.getSnapshotsByIds(childrenNodeIds, depth, footprintMetricId, heightMetricId);
-
-            if (childrenNodeIds.size() != childrenNodes.size()) {
-                for (Integer nodeId : childrenNodeIds) {
-                    if (!isIdInDatabaseResult(nodeId, childrenNodes)) {
-                        SonarSnapshot generatedSnapshot =
-                                new SonarSnapshot(nodeId, "generated" + nodeId, depth, 0.0, 0.0);
-                        childrenNodes.add(generatedSnapshot);
-                    }
-                }
-            }
-        }
-
-        for (SonarSnapshot node : childrenNodes) {
-            layerElements.add(this.accept(node, depth + 1, footprintMetricId, heightMetricId));
-        }
-
-        List<Integer> childrenLeafIds = resourceTreeService.getChildrenLeafIds(source.getId());
-
-        List<SonarSnapshot> childrenLeaf;
-        if (childrenLeafIds.isEmpty()) {
-            childrenLeaf = new ArrayList<SonarSnapshot>();
-        } else {
-            childrenLeaf = sonarService.getSnapshotsByIds(childrenLeafIds, depth + 1, footprintMetricId, heightMetricId);
-        }
-
-        List<SonarSnapshot> childrenLeaves = childrenLeaf;
-
-        for (SonarSnapshot leaf : childrenLeaves) {
-            layerElements.add(visitor.visitFile(leaf));
-        }
-
-        LayeredLayoutElement layer = visitor.visitNode(source, layerElements);
-
-        return layer;
-    }
-
-    private boolean isIdInDatabaseResult(int id, List<SonarSnapshot> childrenNodes) {
-        for (SonarSnapshot snapshot : childrenNodes) {
-            if (id == snapshot.getId()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
+/**
+ * Created by stefan on 09.09.14.
+ */
+public interface Layout {
+    Map<Integer, Graph> startLayout(
+            Settings settings, Injector softVizInjector,
+            List<Double> minMaxValues, SonarSnapshot source,
+            Integer footprintMetricId, Integer heightMetricId)
+            throws DotExcecutorException;
 }

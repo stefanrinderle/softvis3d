@@ -57,9 +57,9 @@ public class LayoutVisitorImpl implements LayoutVisitor {
     private DotExecutor dotExecutor;
 
     @Inject
-    public LayoutVisitorImpl(@Assisted Settings settings,
+    public LayoutVisitorImpl(DotExecutor dotExecutor, @Assisted Settings settings,
             @Assisted("metricFootprint") SonarMetric metricFootprint,
-            @Assisted("metricHeight") SonarMetric metricHeight, DotExecutor dotExecutor) {
+            @Assisted("metricHeight") SonarMetric metricHeight) {
         this.settings = settings;
 
         this.metricFootprint = metricFootprint;

@@ -21,21 +21,17 @@ package de.rinderle.softviz3d.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-
-import de.rinderle.softviz3d.tree.ResourceTreeService;
-import de.rinderle.softviz3d.tree.ResourceTreeServiceImpl;
+import de.rinderle.softviz3d.layout.Layout;
+import de.rinderle.softviz3d.layout.SoftViz3dLayout;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
 import de.rinderle.softviz3d.layout.calc.LayoutVisitorImpl;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorImpl;
-import de.rinderle.softviz3d.layout.dot.DotExecutor;
-import de.rinderle.softviz3d.layout.dot.DotVersion;
-import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
-import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
-import de.rinderle.softviz3d.layout.dot.ExecuteCommandImpl;
+import de.rinderle.softviz3d.layout.dot.*;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarDaoImpl;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarServiceImpl;
+import de.rinderle.softviz3d.tree.ResourceTreeService;
+import de.rinderle.softviz3d.tree.ResourceTreeServiceImpl;
 
 public class SoftViz3dModule extends AbstractModule {
     @Override
@@ -48,6 +44,8 @@ public class SoftViz3dModule extends AbstractModule {
         bind(SonarService.class).to(SonarServiceImpl.class);
         
         bind(ResourceTreeService.class).to(ResourceTreeServiceImpl.class);
+
+        bind(Layout.class).to(SoftViz3dLayout.class);
         
         install(new FactoryModuleBuilder().implement(LayoutVisitor.class,
                 LayoutVisitorImpl.class).build(LayoutVisitorFactory.class));

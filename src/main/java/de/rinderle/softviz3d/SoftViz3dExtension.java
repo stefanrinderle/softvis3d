@@ -22,8 +22,6 @@ package de.rinderle.softviz3d;
 import att.grappa.Graph;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import de.rinderle.softviz3d.tree.ResourceTreeService;
-import de.rinderle.softviz3d.tree.ResourceTreeServiceImpl;
 import de.rinderle.softviz3d.guice.LayoutVisitorFactory;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
 import de.rinderle.softviz3d.layout.Layout;
@@ -33,6 +31,8 @@ import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarMetric;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import de.rinderle.softviz3d.tree.ResourceTreeService;
+import de.rinderle.softviz3d.tree.ResourceTreeServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
@@ -98,11 +98,9 @@ public class SoftViz3dExtension implements ServerExtension {
         
         logStartOfCalc(metricId1, metricId2, minMaxValues, snapshot);
 
-        LayoutVisitor visitor = buildLayoutVisitor(minMaxValues);
+        Layout layout = softVizInjector.getInstance(Layout.class);
 
-        Layout layout = new Layout(visitor, resourceTreeService);
-        
-        return layout.startLayout(snapshot, sonarService, metricId1, metricId2);
+        return layout.startLayout(settings, softVizInjector, minMaxValues, snapshot, metricId1, metricId2);
     }
 
     private void logStartOfCalc(Integer metricId1, Integer metricId2,
