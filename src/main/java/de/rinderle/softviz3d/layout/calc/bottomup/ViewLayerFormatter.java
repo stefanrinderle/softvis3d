@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc;
+package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.helper.HexaColor;

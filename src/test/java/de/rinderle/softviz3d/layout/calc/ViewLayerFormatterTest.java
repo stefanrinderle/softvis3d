@@ -19,15 +19,15 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.awt.Color;
-
+import att.grappa.Graph;
 import de.rinderle.softviz3d.grappa.GrappaGraphFactory;
+import de.rinderle.softviz3d.layout.calc.bottomup.ViewLayerFormatter;
 import org.junit.Test;
 
-import att.grappa.Graph;
+import java.awt.*;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class ViewLayerFormatterTest {
 

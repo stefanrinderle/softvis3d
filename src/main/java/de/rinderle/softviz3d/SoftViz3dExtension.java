@@ -22,17 +22,11 @@ package de.rinderle.softviz3d;
 import att.grappa.Graph;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import de.rinderle.softviz3d.guice.LayoutVisitorFactory;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
-import de.rinderle.softviz3d.layout.Layout;
-import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
+import de.rinderle.softviz3d.layout.calc.Layout;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.SonarDao;
-import de.rinderle.softviz3d.sonar.SonarMetric;
 import de.rinderle.softviz3d.sonar.SonarService;
-import de.rinderle.softviz3d.sonar.SonarSnapshot;
-import de.rinderle.softviz3d.tree.ResourceTreeService;
-import de.rinderle.softviz3d.tree.ResourceTreeServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
@@ -53,8 +47,6 @@ public class SoftViz3dExtension implements ServerExtension {
 
     private Injector softVizInjector;
     
-    private ResourceTreeService resourceTreeService;
-
     public SoftViz3dExtension(DatabaseSession session, Settings settings) {
         this.settings = settings;
 
@@ -64,7 +56,6 @@ public class SoftViz3dExtension implements ServerExtension {
         sonarDao.setDatabaseSession(session);
 
         this.sonarService = softVizInjector.getInstance(SonarService.class);
-        this.resourceTreeService = softVizInjector.getInstance(ResourceTreeServiceImpl.class);
     }
 
     public List<Integer> getMetricsForSnapshot(Integer snapshotId) {
@@ -85,48 +76,21 @@ public class SoftViz3dExtension implements ServerExtension {
             String metricString1, String metricString2) throws DotExcecutorException {
         LOGGER.info("Startup SoftViz3d plugin with snapshot " + snapshotId);
 
-        resourceTreeService.createTreeStructrue(snapshotId);
-        
+        logStartOfCalc(metricString1, metricString2, snapshotId);
+
         Integer metricId1 = Integer.valueOf(metricString1);
         Integer metricId2 = Integer.valueOf(metricString2);
         
-        List<Double> minMaxValues = sonarService.getMinMaxMetricValuesByRootSnapshotId(
-                snapshotId, metricId1, metricId2);
-
-        SonarSnapshot snapshot = sonarService.getSnapshotById(snapshotId, metricId1,
-                metricId2, 0);
-        
-        logStartOfCalc(metricId1, metricId2, minMaxValues, snapshot);
-
         Layout layout = softVizInjector.getInstance(Layout.class);
 
-        return layout.startLayout(settings, softVizInjector, minMaxValues, snapshot, metricId1, metricId2);
+        return layout.startLayout(settings, snapshotId, metricId1, metricId2);
     }
 
-    private void logStartOfCalc(Integer metricId1, Integer metricId2,
-            List<Double> minMaxValues, SonarSnapshot snapshot) {
+    private void logStartOfCalc(String metricId1, String metricId2,
+            Integer snapshotId) {
         LOGGER.info("Start layout calculation for snapshot "
-                + snapshot.getName() + ", " + "metrics " + metricId1
+                + snapshotId + ", " + "metrics " + metricId1
                 + " and " + metricId2);
-
-        LOGGER.info("Metric " + metricId1 + " - min : " + minMaxValues.get(0)
-                + " max: " + minMaxValues.get(1));
-        LOGGER.info("Metric " + metricId2 + " - min : " + minMaxValues.get(2)
-                + " max: " + minMaxValues.get(3));
-    }
-
-    private LayoutVisitor buildLayoutVisitor(List<Double> minMaxValues) {
-        LayoutVisitorFactory factory = softVizInjector
-                .getInstance(LayoutVisitorFactory.class);
-
-        SonarMetric footprintMetricWrapper = new SonarMetric(
-                minMaxValues.get(0), minMaxValues.get(1));
-
-        SonarMetric heightMetricWrapper = new SonarMetric(minMaxValues.get(2),
-                minMaxValues.get(3));
-
-        return factory.create(settings, footprintMetricWrapper,
-                heightMetricWrapper);
     }
 
 }

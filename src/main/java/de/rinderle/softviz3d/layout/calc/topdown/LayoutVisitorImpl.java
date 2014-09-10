@@ -17,14 +17,16 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc;
+package de.rinderle.softviz3d.layout.calc.topdown;
 
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.Node;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement.Type;
+import de.rinderle.softviz3d.layout.calc.bottomup.ViewLayerFormatter;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExecutor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
@@ -58,12 +60,14 @@ public class LayoutVisitorImpl implements LayoutVisitor {
 
     @Inject
     public LayoutVisitorImpl(DotExecutor dotExecutor, @Assisted Settings settings,
-            @Assisted("metricFootprint") SonarMetric metricFootprint,
-            @Assisted("metricHeight") SonarMetric metricHeight) {
+            @Assisted List<Double> minMaxValues) {
         this.settings = settings;
 
-        this.metricFootprint = metricFootprint;
-        this.metricHeight = metricHeight;
+        this.metricFootprint = new SonarMetric(
+                minMaxValues.get(0), minMaxValues.get(1));
+
+        this.metricHeight = new SonarMetric(minMaxValues.get(2),
+                minMaxValues.get(3));
 
         this.dotExecutor = dotExecutor;
     }

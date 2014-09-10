@@ -17,14 +17,16 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.guice;
+package de.rinderle.softviz3d.layout.calc.topdown;
 
-import de.rinderle.softviz3d.layout.calc.topdown.LayoutVisitor;
-import org.sonar.api.config.Settings;
+import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.sonar.SonarSnapshot;
 
-import java.util.List;
+/**
+ * Created by stefan on 10.09.14.
+ */
+public interface LayoutElement {
 
-public interface LayoutVisitorFactory {
-    public LayoutVisitor create(Settings settings,
-                                List<Double> minMaxValues);
+    public LayeredLayoutElement accept(LayoutVisitor visitor, SonarSnapshot source, int depth, Integer footprintMetricId, Integer heightMetricId) throws DotExcecutorException;
 }

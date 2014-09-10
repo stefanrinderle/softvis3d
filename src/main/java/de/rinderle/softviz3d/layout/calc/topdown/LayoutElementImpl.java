@@ -17,90 +17,34 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout;
+package de.rinderle.softviz3d.layout.calc.topdown;
 
-import att.grappa.Graph;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import de.rinderle.softviz3d.guice.LayoutVisitorFactory;
-import de.rinderle.softviz3d.layout.calc.AbsolutePositionCalculator;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.calc.LayoutVisitor;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.sonar.SonarMetric;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class SoftViz3dLayout implements Layout {
+public class LayoutElementImpl implements LayoutElement {
 
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(SoftViz3dLayout.class);
-
+            .getLogger(LayoutElementImpl.class);
 
     @Inject
     private ResourceTreeService resourceTreeService;
     @Inject
     private SonarService sonarService;
-    @Inject
-    private LayoutVisitorFactory visitorFactory;
-
-    @Override
-    public Map<Integer, Graph> startLayout(
-            Settings settings, Injector softVizInjector,
-            List<Double> minMaxValues, SonarSnapshot source,
-            Integer footprintMetricId, Integer heightMetricId)
-            throws DotExcecutorException {
-
-        LayoutVisitor visitor = buildLayoutVisitor(settings, softVizInjector, minMaxValues);
-        // STEP 1 ---
-
-        // last output element could be used to start absolutepositioncalc
-        this.accept(visitor, source, 0, footprintMetricId, heightMetricId);
-        Map<Integer, Graph> resultGraphs = visitor.getResultingGraphList();
-        // ----------
-
-        startAbsolutePositioning(source, resultGraphs);
-
-        return resultGraphs;
-    }
-
-    private LayoutVisitor buildLayoutVisitor(Settings settings, Injector softVizInjector, List<Double> minMaxValues) {
-        LayoutVisitorFactory factory = softVizInjector
-                .getInstance(LayoutVisitorFactory.class);
-
-        SonarMetric footprintMetricWrapper = new SonarMetric(
-                minMaxValues.get(0), minMaxValues.get(1));
-
-        SonarMetric heightMetricWrapper = new SonarMetric(minMaxValues.get(2),
-                minMaxValues.get(3));
-
-        return factory.create(settings, footprintMetricWrapper,
-                heightMetricWrapper);
-    }
-
-    private Map<Integer, Graph> startAbsolutePositioning(SonarSnapshot source,
-            Map<Integer, Graph> resultGraphs) {
-        // NEXT STEP HERE
-        AbsolutePositionCalculator calc = new AbsolutePositionCalculator(
-                resultGraphs, resourceTreeService);
-        calc.calculate(source);
-        // ---
-
-        return resultGraphs;
-    }
 
     /**
      * Bottom up calculation of layout layers.
      */
-    private LayeredLayoutElement accept(LayoutVisitor visitor, SonarSnapshot source, int depth, Integer footprintMetricId, Integer heightMetricId)
+    public LayeredLayoutElement accept(LayoutVisitor visitor, SonarSnapshot source, int depth, Integer footprintMetricId, Integer heightMetricId)
             throws DotExcecutorException {
 
         LOGGER.debug("Layout.accept " + source.getId() + " " + source.getName());

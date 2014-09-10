@@ -17,24 +17,23 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout;
+package de.rinderle.softviz3d.layout.calc.topdown;
 
 import att.grappa.Graph;
-import com.google.inject.Injector;
+import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
-import org.sonar.api.config.Settings;
 
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by stefan on 09.09.14.
- */
-public interface Layout {
-    Map<Integer, Graph> startLayout(
-            Settings settings, Injector softVizInjector,
-            List<Double> minMaxValues, SonarSnapshot source,
-            Integer footprintMetricId, Integer heightMetricId)
-            throws DotExcecutorException;
+public interface LayoutVisitor {
+
+    public abstract Map<Integer, Graph> getResultingGraphList();
+
+    public abstract LayeredLayoutElement visitNode(SonarSnapshot snapshot,
+            List<LayeredLayoutElement> elements) throws DotExcecutorException;
+
+    public abstract LayeredLayoutElement visitFile(SonarSnapshot snapshot);
+
 }

@@ -17,15 +17,16 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc;
+package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
-import de.rinderle.softviz3d.tree.ResourceTreeService;
+import de.rinderle.softviz3d.layout.calc.topdown.LayoutVisitorImpl;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import de.rinderle.softviz3d.tree.ResourceTreeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
