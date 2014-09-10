@@ -46,5 +46,5 @@ public interface SonarService {
     SonarSnapshot getSnapshotById(Integer snapshotId,
             Integer footprintMetricId, Integer heightMetricId, Integer depth);
 
-    List<SonarSnapshot> getSnapshotsByIds(List<Integer> childrenNodeIds, int depth, Integer footprintMetricId, Integer heightMetricId);
+    List<SonarSnapshot> getSnapshotsByIds(List<Integer> childrenNodeIds, Integer footprintMetricId, Integer heightMetricId, int depth);
 }

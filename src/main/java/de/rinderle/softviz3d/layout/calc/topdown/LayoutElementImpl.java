@@ -49,15 +49,13 @@ public class LayoutElementImpl implements LayoutElement {
 
         LOGGER.debug("Layout.accept " + source.getId() + " " + source.getName());
 
-        List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
-
         List<Integer> childrenNodeIds = resourceTreeService.getChildrenNodeIds(source.getId());
 
         List<SonarSnapshot> childrenNodes;
         if (childrenNodeIds.isEmpty()) {
             childrenNodes = new ArrayList<SonarSnapshot>();
         } else {
-            childrenNodes = sonarService.getSnapshotsByIds(childrenNodeIds, depth, footprintMetricId, heightMetricId);
+            childrenNodes = sonarService.getSnapshotsByIds(childrenNodeIds, footprintMetricId, heightMetricId, depth);
 
             if (childrenNodeIds.size() != childrenNodes.size()) {
                 for (Integer nodeId : childrenNodeIds) {
@@ -70,28 +68,26 @@ public class LayoutElementImpl implements LayoutElement {
             }
         }
 
+        List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
+
         for (SonarSnapshot node : childrenNodes) {
             layerElements.add(this.accept(visitor, node, depth + 1, footprintMetricId, heightMetricId));
         }
 
         List<Integer> childrenLeafIds = resourceTreeService.getChildrenLeafIds(source.getId());
 
-        List<SonarSnapshot> childrenLeaf;
+        List<SonarSnapshot> childrenLeaves;
         if (childrenLeafIds.isEmpty()) {
-            childrenLeaf = new ArrayList<SonarSnapshot>();
+            childrenLeaves = new ArrayList<SonarSnapshot>();
         } else {
-            childrenLeaf = sonarService.getSnapshotsByIds(childrenLeafIds, depth + 1, footprintMetricId, heightMetricId);
+            childrenLeaves = sonarService.getSnapshotsByIds(childrenLeafIds, footprintMetricId, heightMetricId, depth + 1);
         }
-
-        List<SonarSnapshot> childrenLeaves = childrenLeaf;
 
         for (SonarSnapshot leaf : childrenLeaves) {
             layerElements.add(visitor.visitFile(leaf));
         }
 
-        LayeredLayoutElement layer = visitor.visitNode(source, layerElements);
-
-        return layer;
+        return visitor.visitNode(source, layerElements);
     }
 
     private boolean isIdInDatabaseResult(int id, List<SonarSnapshot> childrenNodes) {
