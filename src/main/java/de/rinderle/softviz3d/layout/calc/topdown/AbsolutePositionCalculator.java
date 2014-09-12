@@ -17,13 +17,12 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc.bottomup;
+package de.rinderle.softviz3d.layout.calc.topdown;
 
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
-import de.rinderle.softviz3d.layout.calc.topdown.LayoutVisitorImpl;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
@@ -39,7 +38,7 @@ import static att.grappa.GrappaConstants.*;
 public class AbsolutePositionCalculator {
 
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(LayoutVisitorImpl.class);
+            .getLogger(AbsolutePositionCalculator.class);
 
   private static final int MIN_BUILDING_HEIGHT = 10;
 
@@ -49,7 +48,7 @@ public class AbsolutePositionCalculator {
 
   private double rootBbMax;
 
-private ResourceTreeService resourceTreeService;
+  private ResourceTreeService resourceTreeService;
 
   public AbsolutePositionCalculator(Map<Integer, Graph> inputGraphList, ResourceTreeService resourceTreeService) {
     this.inputGraphs = inputGraphList;

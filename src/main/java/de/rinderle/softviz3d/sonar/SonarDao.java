@@ -19,9 +19,9 @@
  */
 package de.rinderle.softviz3d.sonar;
 
-import java.util.List;
-
 import org.sonar.api.database.DatabaseSession;
+
+import java.util.List;
 
 public interface SonarDao {
 

@@ -19,32 +19,14 @@
  */
 package de.rinderle.softviz3d.layout.calc.bottomup;
 
-import att.grappa.Graph;
-import de.rinderle.softviz3d.layout.helper.HexaColor;
+import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.sonar.SonarSnapshot;
 
-public class ViewLayerFormatter {
+/**
+ * Created by stefan on 10.09.14.
+ */
+public interface Processor {
 
-    public Graph format(Graph graph, Integer depth) {
-        return this.adjustGraph(graph, depth);
-    }
-
-    private Graph adjustGraph(Graph graph, Integer depth) {
-        double transparency = 0.0;
-
-        // calc color
-        int colorCalc = depth * 16;
-        if (colorCalc > 154 || colorCalc < 0) {
-            colorCalc = 154;
-        }
-
-        HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
-        HexaColor nodesColor = new HexaColor(254, 140, 0);
-
-        graph.setAttribute("color", color);
-        graph.setAttribute("nodesColor", nodesColor.getHex());
-        graph.setAttribute("transparency", transparency + "");
-
-        return graph;
-    }
-
+    public LayeredLayoutElement accept(SnapshotVisitor visitor, SonarSnapshot source, int depth) throws DotExcecutorException;
 }

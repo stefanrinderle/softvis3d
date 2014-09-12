@@ -19,16 +19,11 @@
  */
 package de.rinderle.softviz3d;
 
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
+import org.sonar.api.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.sonar.api.Extension;
-import org.sonar.api.Properties;
-import org.sonar.api.Property;
-import org.sonar.api.PropertyType;
-import org.sonar.api.SonarPlugin;
-
-import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 
 /**
  * This class is the entry point for all extensions

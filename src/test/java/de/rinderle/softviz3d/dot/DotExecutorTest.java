@@ -19,20 +19,18 @@
  */
 package de.rinderle.softviz3d.dot;
 
+import att.grappa.Graph;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorImpl;
+import de.rinderle.softviz3d.layout.dot.DotVersion;
+import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
 import junit.framework.TestCase;
-
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.sonar.api.config.Settings;
-
-import att.grappa.Graph;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorImpl;
-import de.rinderle.softviz3d.layout.dot.DotVersion;
-import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
 
 public class DotExecutorTest extends TestCase {
 

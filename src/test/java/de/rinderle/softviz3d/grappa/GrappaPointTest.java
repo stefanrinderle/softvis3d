@@ -19,12 +19,11 @@
  */
 package de.rinderle.softviz3d.grappa;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
+import att.grappa.GrappaPoint;
 import org.junit.Test;
 
-import att.grappa.GrappaPoint;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GrappaPointTest {
 

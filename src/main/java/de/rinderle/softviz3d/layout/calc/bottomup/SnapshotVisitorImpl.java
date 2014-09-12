@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc.topdown;
+package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
@@ -26,7 +26,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement.Type;
-import de.rinderle.softviz3d.layout.calc.bottomup.ViewLayerFormatter;
+import de.rinderle.softviz3d.layout.calc.topdown.LayerFormatter;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExecutor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
@@ -42,25 +42,27 @@ import java.util.Map;
 
 import static att.grappa.GrappaConstants.*;
 
-public class LayoutVisitorImpl implements LayoutVisitor {
+public class SnapshotVisitorImpl implements SnapshotVisitor {
 
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(LayoutVisitorImpl.class);
+            .getLogger(SnapshotVisitorImpl.class);
 
     private Settings settings;
 
     private SonarMetric metricFootprint;
     private SonarMetric metricHeight;
 
-    private ViewLayerFormatter formatter = new ViewLayerFormatter();
+    private LayerFormatter formatter;
 
     private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
 
     private DotExecutor dotExecutor;
 
     @Inject
-    public LayoutVisitorImpl(DotExecutor dotExecutor, @Assisted Settings settings,
-            @Assisted List<Double> minMaxValues) {
+    public SnapshotVisitorImpl(LayerFormatter formatter,
+                               DotExecutor dotExecutor,
+                               @Assisted Settings settings,
+                               @Assisted List<Double> minMaxValues) {
         this.settings = settings;
 
         this.metricFootprint = new SonarMetric(
@@ -70,6 +72,7 @@ public class LayoutVisitorImpl implements LayoutVisitor {
                 minMaxValues.get(3));
 
         this.dotExecutor = dotExecutor;
+        this.formatter = formatter;
     }
 
     @Override
@@ -87,24 +90,7 @@ public class LayoutVisitorImpl implements LayoutVisitor {
         Graph inputGraph = new Graph(snapshot.getId().toString());
 
         for (LayeredLayoutElement element : elements) {
-            Node elementNode = new Node(inputGraph, element.getName());
-            elementNode.setAttribute("id", element.getId().toString());
-            elementNode.setAttribute("type", element.getElementType().name());
-            elementNode.setAttribute(WIDTH_ATTR, element.getWidth());
-            elementNode.setAttribute(HEIGHT_ATTR, element.getHeight());
-
-            // keep the size of the node only dependend on the width and height
-            // attribute
-            // and not from the node name
-            elementNode.setAttribute(LABEL_ATTR, ".");
-
-            elementNode.setAttribute(SHAPE_ATTR, "box");
-
-            elementNode.setAttribute("buildingHeight", element
-                    .getBuildingHeight().toString());
-
-            elementNode.setAttribute("displayName", element.getDisplayName());
-
+            Node elementNode = transformToGrappaNode(inputGraph, element);
             inputGraph.addNode(elementNode);
         }
 
@@ -129,6 +115,26 @@ public class LayoutVisitorImpl implements LayoutVisitor {
         return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE,
                 snapshot.getId(), "dir_" + snapshot.getId(), width, height,
                 buildingHeight, snapshot.getName());
+    }
+
+    private Node transformToGrappaNode(Graph inputGraph, LayeredLayoutElement element) {
+        Node elementNode = new Node(inputGraph, element.getName());
+        elementNode.setAttribute("id", element.getId().toString());
+        elementNode.setAttribute("type", element.getElementType().name());
+        elementNode.setAttribute(WIDTH_ATTR, element.getWidth());
+        elementNode.setAttribute(HEIGHT_ATTR, element.getHeight());
+
+        // keep the size of the node only dependend on the width and height
+        // attribute
+        // and not from the node name
+        elementNode.setAttribute(LABEL_ATTR, ".");
+
+        elementNode.setAttribute(SHAPE_ATTR, "box");
+
+        elementNode.setAttribute("buildingHeight", element.getBuildingHeight());
+
+        elementNode.setAttribute("displayName", element.getDisplayName());
+        return elementNode;
     }
 
     @Override

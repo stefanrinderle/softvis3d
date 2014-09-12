@@ -19,19 +19,17 @@
  */
 package de.rinderle.softviz3d.dot;
 
+import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.dot.DotVersion;
+import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
+import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
 import junit.framework.TestCase;
-
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.sonar.api.config.Settings;
-
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.layout.dot.DotVersion;
-import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
-import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
 
 public class DotVersionTest extends TestCase {
 

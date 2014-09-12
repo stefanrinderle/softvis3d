@@ -19,29 +19,18 @@
  */
 package de.rinderle.softviz3d.layout.dot;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-
+import att.grappa.Graph;
+import att.grappa.Parser;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.rinderle.softviz3d.layout.helper.StringOutputStream;
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
 
-import att.grappa.Graph;
-import att.grappa.Parser;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.rinderle.softviz3d.layout.helper.StringOutputStream;
-import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
+import java.io.*;
 
 @Singleton
 public class DotExcecutorImpl implements DotExecutor {

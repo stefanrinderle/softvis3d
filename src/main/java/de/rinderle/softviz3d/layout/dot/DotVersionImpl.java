@@ -19,11 +19,9 @@
  */
 package de.rinderle.softviz3d.layout.dot;
 
-import org.sonar.api.config.Settings;
-
 import com.google.inject.Inject;
-
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
+import org.sonar.api.config.Settings;
 
 public class DotVersionImpl implements DotVersion {
 

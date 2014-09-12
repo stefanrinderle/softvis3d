@@ -19,19 +19,17 @@
  */
 package de.rinderle.softviz3d.sonar;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-
+import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.resources.Scopes;
 
-import com.google.inject.Singleton;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class SonarDaoImpl implements SonarDao {

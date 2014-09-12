@@ -19,8 +19,10 @@
  */
 package de.rinderle.softviz3d.guice;
 
-import de.rinderle.softviz3d.layout.calc.topdown.LayoutElement;
+import com.google.inject.assistedinject.Assisted;
+import de.rinderle.softviz3d.layout.calc.bottomup.Processor;
 
-public interface LayoutElementFactory {
-    public LayoutElement create(Integer footprintMetricId, Integer heightMetricId);
+public interface BottomUpProcessorFactory {
+    public Processor create(@Assisted("footprintMetricId") Integer footprintMetricId,
+                            @Assisted("heightMetricId") Integer heightMetricId);
 }

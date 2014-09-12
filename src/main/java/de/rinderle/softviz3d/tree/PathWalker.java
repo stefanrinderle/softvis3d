@@ -18,11 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 package de.rinderle.softviz3d.tree;
-import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public class PathWalker {
     private static final Logger LOGGER = LoggerFactory

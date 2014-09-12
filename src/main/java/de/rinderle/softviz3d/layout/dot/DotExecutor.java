@@ -19,9 +19,8 @@
  */
 package de.rinderle.softviz3d.layout.dot;
 
-import org.sonar.api.config.Settings;
-
 import att.grappa.Graph;
+import org.sonar.api.config.Settings;
 
 public interface DotExecutor {
 

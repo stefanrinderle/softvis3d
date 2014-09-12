@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc.topdown;
+package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
@@ -27,7 +27,7 @@ import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import java.util.List;
 import java.util.Map;
 
-public interface LayoutVisitor {
+public interface SnapshotVisitor {
 
     public abstract Map<Integer, Graph> getResultingGraphList();
 

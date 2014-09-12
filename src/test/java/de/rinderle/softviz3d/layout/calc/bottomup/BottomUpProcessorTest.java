@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc.topdown;
+package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.SonarService;
@@ -36,7 +36,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-public class LayoutElementTest {
+public class BottomUpProcessorTest {
 
     private static final Integer METRIC_FOOTPRINT = 0;
     private static final Integer METRIC_HEIGHT = 0;
@@ -44,17 +44,17 @@ public class LayoutElementTest {
     @Mock
     private ResourceTreeService resourceTreeService;
     @Mock
-    private LayoutVisitor mockVisitor;
+    private SnapshotVisitor mockVisitor;
     @Mock
     private SonarService sonarService;
 
-    private LayoutElementImpl underTest;
+    private BottomUpProcessor underTest;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        underTest = new LayoutElementImpl(resourceTreeService, sonarService, METRIC_FOOTPRINT, METRIC_HEIGHT);
+        underTest = new BottomUpProcessor(resourceTreeService, sonarService, METRIC_FOOTPRINT, METRIC_HEIGHT);
     }
 
     @Test

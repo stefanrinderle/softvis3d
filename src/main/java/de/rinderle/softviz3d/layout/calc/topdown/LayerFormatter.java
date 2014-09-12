@@ -17,14 +17,10 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.guice;
+package de.rinderle.softviz3d.layout.calc.topdown;
 
-import de.rinderle.softviz3d.layout.calc.topdown.LayoutVisitor;
-import org.sonar.api.config.Settings;
+import att.grappa.Graph;
 
-import java.util.List;
-
-public interface LayoutVisitorFactory {
-    public LayoutVisitor create(Settings settings,
-                                List<Double> minMaxValues);
+public interface LayerFormatter {
+    Graph format(Graph graph, Integer depth);
 }

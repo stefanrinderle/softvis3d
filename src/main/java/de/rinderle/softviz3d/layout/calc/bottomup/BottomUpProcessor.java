@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc.topdown;
+package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -32,10 +32,10 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LayoutElementImpl implements LayoutElement {
+public class BottomUpProcessor implements Processor {
 
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(LayoutElementImpl.class);
+            .getLogger(BottomUpProcessor.class);
 
     private ResourceTreeService resourceTreeService;
     private SonarService sonarService;
@@ -43,9 +43,10 @@ public class LayoutElementImpl implements LayoutElement {
     private Integer heightMetricId;
 
     @Inject
-    public LayoutElementImpl(ResourceTreeService resourceTreeService, SonarService sonarService,
-                             @Assisted Integer footprintMetricId,
-                             @Assisted Integer heightMetricId) {
+    public BottomUpProcessor(ResourceTreeService resourceTreeService,
+                             SonarService sonarService,
+                             @Assisted("footprintMetricId") Integer footprintMetricId,
+                             @Assisted("heightMetricId") Integer heightMetricId) {
         this.resourceTreeService = resourceTreeService;
         this.sonarService = sonarService;
 
@@ -56,7 +57,7 @@ public class LayoutElementImpl implements LayoutElement {
     /**
      * Bottom up calculation of layout layers.
      */
-    public LayeredLayoutElement accept(LayoutVisitor visitor, SonarSnapshot source, int depth)
+    public LayeredLayoutElement accept(SnapshotVisitor visitor, SonarSnapshot source, int depth)
             throws DotExcecutorException {
 
         LOGGER.debug("Layout.accept " + source.getId() + " " + source.getName());
@@ -65,13 +66,13 @@ public class LayoutElementImpl implements LayoutElement {
         List<LayeredLayoutElement> leafElements = processChildrenLeaves(visitor, source, depth);
 
         List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
-        leafElements.addAll(nodeElements);
-        leafElements.addAll(leafElements);
+        layerElements.addAll(nodeElements);
+        layerElements.addAll(leafElements);
 
         return visitor.visitNode(source, layerElements);
     }
 
-    private List<LayeredLayoutElement> processChildrenNodes(LayoutVisitor visitor, SonarSnapshot source, int depth) throws DotExcecutorException {
+    private List<LayeredLayoutElement> processChildrenNodes(SnapshotVisitor visitor, SonarSnapshot source, int depth) throws DotExcecutorException {
         List<Integer> childrenNodeIds = resourceTreeService.getChildrenNodeIds(source.getId());
 
         List<SonarSnapshot> childrenNodes = getSonarSnapshots(childrenNodeIds, depth);
@@ -95,7 +96,7 @@ public class LayoutElementImpl implements LayoutElement {
         return layerElements;
     }
 
-    private List<LayeredLayoutElement> processChildrenLeaves(LayoutVisitor visitor, SonarSnapshot source, int depth) {
+    private List<LayeredLayoutElement> processChildrenLeaves(SnapshotVisitor visitor, SonarSnapshot source, int depth) {
         List<Integer> childrenLeafIds = resourceTreeService.getChildrenLeafIds(source.getId());
 
         List<SonarSnapshot> childrenLeaves = getSonarSnapshots(childrenLeafIds, depth + 1);

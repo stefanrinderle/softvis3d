@@ -19,19 +19,11 @@
  */
 package de.rinderle.softviz3d.grappa;
 
-import java.awt.Color;
-
+import att.grappa.*;
 import junit.framework.TestCase;
-
 import org.junit.Test;
 
-import att.grappa.Attribute;
-import att.grappa.Graph;
-import att.grappa.GrappaBox;
-import att.grappa.GrappaConstants;
-import att.grappa.GrappaPoint;
-import att.grappa.Node;
-import att.grappa.Subgraph;
+import java.awt.*;
 
 public class GrappaGraphTest extends TestCase {
 

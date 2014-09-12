@@ -19,16 +19,14 @@
  */
 package de.rinderle.softviz3d.layout.helper;
 
-import static att.grappa.GrappaConstants.HEIGHT_ATTR;
-import static att.grappa.GrappaConstants.POS_ATTR;
-import static att.grappa.GrappaConstants.WIDTH_ATTR;
+import att.grappa.Graph;
+import att.grappa.Node;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import att.grappa.Graph;
-import att.grappa.Node;
+import static att.grappa.GrappaConstants.*;
 
 public class GraphDebugPrinter {
 

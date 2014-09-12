@@ -23,10 +23,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import de.rinderle.softviz3d.layout.calc.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutSoftViz3d;
-import de.rinderle.softviz3d.layout.calc.topdown.LayoutElement;
-import de.rinderle.softviz3d.layout.calc.topdown.LayoutElementImpl;
-import de.rinderle.softviz3d.layout.calc.topdown.LayoutVisitor;
-import de.rinderle.softviz3d.layout.calc.topdown.LayoutVisitorImpl;
+import de.rinderle.softviz3d.layout.calc.bottomup.BottomUpProcessor;
+import de.rinderle.softviz3d.layout.calc.bottomup.Processor;
+import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitorImpl;
+import de.rinderle.softviz3d.layout.calc.topdown.LayerFormatter;
+import de.rinderle.softviz3d.layout.calc.topdown.ViewLayerFormatter;
 import de.rinderle.softviz3d.layout.dot.*;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarDaoImpl;
@@ -48,10 +49,11 @@ public class SoftViz3dModule extends AbstractModule {
         bind(ResourceTreeService.class).to(ResourceTreeServiceImpl.class);
 
         bind(Layout.class).to(LayoutSoftViz3d.class);
+        bind(LayerFormatter.class).to(ViewLayerFormatter.class);
 
-        install(new FactoryModuleBuilder().implement(LayoutVisitor.class,
-                LayoutVisitorImpl.class).build(LayoutVisitorFactory.class));
-        install(new FactoryModuleBuilder().implement(LayoutElement.class,
-                LayoutElementImpl.class).build(LayoutElementFactory.class));
+        install(new FactoryModuleBuilder().implement(de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor.class,
+                SnapshotVisitorImpl.class).build(SnapshotVisitorFactory.class));
+        install(new FactoryModuleBuilder().implement(Processor.class,
+                BottomUpProcessor.class).build(BottomUpProcessorFactory.class));
     }
 }

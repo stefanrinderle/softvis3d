@@ -19,7 +19,7 @@
  */
 package de.rinderle.softviz3d.layout.helper;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class HexaColor extends Color {
 

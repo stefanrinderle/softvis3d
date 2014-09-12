@@ -19,7 +19,6 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

@@ -21,11 +21,11 @@ package de.rinderle.softviz3d.layout.calc;
 
 import att.grappa.Graph;
 import com.google.inject.Inject;
-import de.rinderle.softviz3d.guice.LayoutElementFactory;
-import de.rinderle.softviz3d.guice.LayoutVisitorFactory;
-import de.rinderle.softviz3d.layout.calc.bottomup.AbsolutePositionCalculator;
-import de.rinderle.softviz3d.layout.calc.topdown.LayoutElement;
-import de.rinderle.softviz3d.layout.calc.topdown.LayoutVisitor;
+import de.rinderle.softviz3d.guice.BottomUpProcessorFactory;
+import de.rinderle.softviz3d.guice.SnapshotVisitorFactory;
+import de.rinderle.softviz3d.layout.calc.bottomup.Processor;
+import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
+import de.rinderle.softviz3d.layout.calc.topdown.AbsolutePositionCalculator;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
@@ -47,11 +47,9 @@ public class LayoutSoftViz3d implements Layout {
     @Inject
     private SonarService sonarService;
     @Inject
-    private LayoutVisitorFactory visitorFactory;
+    private SnapshotVisitorFactory visitorFactory;
     @Inject
-    private LayoutElementFactory elementFactory;
-    @Inject
-    private LayoutElement layoutElement;
+    private BottomUpProcessorFactory processorFactory;
 
     @Override
     public Map<Integer, Graph> startLayout(
@@ -67,11 +65,11 @@ public class LayoutSoftViz3d implements Layout {
 
         SonarSnapshot snapshot = sonarService.getSnapshotById(snapshotId, footprintMetricId, heightMetricId, 0);
 
-        LayoutVisitor visitor = visitorFactory.create(settings, minMaxValues);
+        SnapshotVisitor visitor = visitorFactory.create(settings, minMaxValues);
 
-        LayoutElement layoutElement = elementFactory.create(footprintMetricId, heightMetricId);
+        Processor processor = processorFactory.create(footprintMetricId, heightMetricId);
 
-        layoutElement.accept(visitor, snapshot, 0);
+        processor.accept(visitor, snapshot, 0);
         Map<Integer, Graph> resultGraphs = visitor.getResultingGraphList();
 
         startAbsolutePositioning(snapshot, resultGraphs);

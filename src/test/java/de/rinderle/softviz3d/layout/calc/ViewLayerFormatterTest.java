@@ -21,7 +21,7 @@ package de.rinderle.softviz3d.layout.calc;
 
 import att.grappa.Graph;
 import de.rinderle.softviz3d.grappa.GrappaGraphFactory;
-import de.rinderle.softviz3d.layout.calc.bottomup.ViewLayerFormatter;
+import de.rinderle.softviz3d.layout.calc.topdown.ViewLayerFormatter;
 import org.junit.Test;
 
 import java.awt.*;
