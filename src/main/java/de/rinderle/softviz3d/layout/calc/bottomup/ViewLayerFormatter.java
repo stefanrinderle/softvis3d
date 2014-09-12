@@ -20,6 +20,7 @@
 package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import att.grappa.Graph;
+import att.grappa.Node;
 import de.rinderle.softviz3d.layout.helper.HexaColor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.sonar.SonarMetric;
@@ -30,6 +31,8 @@ public class ViewLayerFormatter implements LayerFormatter {
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ViewLayerFormatter.class);
+
+    private static final int MIN_BUILDING_HEIGHT = 10;
 
     @Override
     public Graph format(Graph graph, Integer depth) {
@@ -46,9 +49,27 @@ public class ViewLayerFormatter implements LayerFormatter {
 
         graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR, color);
         graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, nodesColor.getHex());
-        graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSAPARENCY, transparency + "");
+        graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSPARENCY, transparency + "");
+
+        for (Node leaf : graph.nodeElementsAsArray()) {
+            fixBuildingHeight(leaf);
+        }
 
         return graph;
+    }
+
+    /**
+     * As dot gets an exception when the building height attribute is set as a number,
+     * we prefix the building height value with "x". This has to be removed in order to
+     * parse the value in the view later.
+     */
+    private void fixBuildingHeight(Node leaf) {
+        // there is an x at the beginning of the buildingHeight percent value
+        String heightString = leaf.getAttributeValue(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT).toString();
+
+        Double height = Double.valueOf(heightString.substring(1)) + MIN_BUILDING_HEIGHT;
+
+        leaf.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, height.toString());
     }
 
     /**

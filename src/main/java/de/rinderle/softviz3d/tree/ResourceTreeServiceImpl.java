@@ -48,7 +48,7 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
         for (Object[] flatChild : flatChildren) {
             pathWalker.addPath((Integer) flatChild[0], (String) flatChild[1]);
-            LOGGER.info("addPath " + flatChild[0] + " " + flatChild[1]);
+            LOGGER.debug("addPath " + flatChild[0] + " " + flatChild[1]);
         }
 
         LOGGER.debug("................");

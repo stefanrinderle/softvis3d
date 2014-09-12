@@ -51,19 +51,19 @@ public class LayeredLayoutElement {
     }
 
     public static LayeredLayoutElement createLayeredLayoutLeafElement(
-            SonarSnapshot snapshot, Double sideLength, Double buildingHeight) {
-        return createLayeredLayoutElement(Type.LEAF, "file_", snapshot, sideLength, buildingHeight);
+            SonarSnapshot snapshot, Double width, Double height, Double buildingHeight) {
+        return createLayeredLayoutElement(Type.LEAF, "file_", snapshot, width, height, buildingHeight);
     }
 
     public static LayeredLayoutElement createLayeredLayoutNodeElement(
-            SonarSnapshot snapshot, Double sideLength, Double buildingHeight) {
-        return createLayeredLayoutElement(Type.NODE, "dir_", snapshot, sideLength, buildingHeight);
+            SonarSnapshot snapshot, Double width, Double height, Double buildingHeight) {
+        return createLayeredLayoutElement(Type.NODE, "dir_", snapshot, width, height, buildingHeight);
     }
 
     private static LayeredLayoutElement createLayeredLayoutElement(
-            Type type, String namePrefix, SonarSnapshot snapshot, Double sideLength, Double buildingHeight) {
+            Type type, String namePrefix, SonarSnapshot snapshot, Double width, Double height, Double buildingHeight) {
         return new LayeredLayoutElement(type, snapshot.getId(), namePrefix
-                + snapshot.getId().toString(), sideLength, sideLength,
+                + snapshot.getId().toString(), width, height,
                 buildingHeight, snapshot.getName());
     }
 
@@ -88,7 +88,7 @@ public class LayeredLayoutElement {
     }
 
     public String getBuildingHeight() {
-        return "x" + buildingHeight.toString();
+        return "x" + buildingHeight;
     }
 
     @Override

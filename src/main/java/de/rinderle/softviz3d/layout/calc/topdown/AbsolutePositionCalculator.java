@@ -23,8 +23,8 @@ import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
+import com.google.inject.Inject;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,36 +35,25 @@ import java.util.Map;
 
 import static att.grappa.GrappaConstants.*;
 
-public class AbsolutePositionCalculator {
+public class AbsolutePositionCalculator implements PositionCalculator {
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(AbsolutePositionCalculator.class);
-
-  private static final int MIN_BUILDING_HEIGHT = 10;
 
   private Map<Integer, Graph> inputGraphs;
 
   private Map<Integer, GrappaPoint> innerGraphTranslation;
 
-  private double rootBbMax;
-
+  @Inject
   private ResourceTreeService resourceTreeService;
 
-  public AbsolutePositionCalculator(Map<Integer, Graph> inputGraphList, ResourceTreeService resourceTreeService) {
-    this.inputGraphs = inputGraphList;
-    this.resourceTreeService = resourceTreeService;
-
+  @Override
+  public void calculate(Integer snapshotId, Map<Integer, Graph> inputGraphList) {
     this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
-  }
 
-  public void calculate(SonarSnapshot source) {
-    Graph graph = inputGraphs.get(source.getId());
-    GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
+    this.inputGraphs = inputGraphList;
 
-    // this will be used as max building height
-    this.rootBbMax = Math.max(bb.getWidth(), bb.getHeight());
-
-    this.addTranslationToLayer(source.getId(), new GrappaPoint(0, 0), 0);
+    this.addTranslationToLayer(snapshotId, new GrappaPoint(0, 0), 0);
   }
 
   private void addTranslationToLayer(Integer sourceId, GrappaPoint posTranslation, Integer height3d) {
@@ -104,13 +93,11 @@ public class AbsolutePositionCalculator {
       leaf.setAttribute(WIDTH_ATTR, width);
 
       leaf.setAttribute(HEIGHT_ATTR, "not used");
-
-      setBuildingHeight(leaf);
     }
 
     // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes
     List<Integer> children = resourceTreeService.getChildrenNodeIds(sourceId);
-//    for (SourceObject childrenSource : source.getChildrenNodes()) {
+
     for (Integer childId : children) {
       pos = innerGraphTranslation.get(childId);
 
@@ -119,17 +106,6 @@ public class AbsolutePositionCalculator {
       graph.removeNode("dir_" + childId.toString());
     }
 
-  }
-
-  /**
-   * sets actual building height (buildingHeight is given in percent)
-   */
-  private void setBuildingHeight(Node leaf) {
-    // there is an x at the beginning of the buildingHeight percent value
-    String heightString = leaf.getAttributeValue("buildingHeight").toString();
-
-    Double height = this.rootBbMax / 2 / 100 * Double.valueOf(heightString.substring(1)) + MIN_BUILDING_HEIGHT;
-    leaf.setAttribute("buildingHeight", height.toString());
   }
 
 }

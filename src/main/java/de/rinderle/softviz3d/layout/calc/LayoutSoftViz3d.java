@@ -25,7 +25,7 @@ import de.rinderle.softviz3d.guice.BottomUpProcessorFactory;
 import de.rinderle.softviz3d.guice.SnapshotVisitorFactory;
 import de.rinderle.softviz3d.layout.calc.bottomup.Processor;
 import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
-import de.rinderle.softviz3d.layout.calc.topdown.AbsolutePositionCalculator;
+import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
@@ -50,6 +50,8 @@ public class LayoutSoftViz3d implements Layout {
     private SnapshotVisitorFactory visitorFactory;
     @Inject
     private BottomUpProcessorFactory processorFactory;
+    @Inject
+    private PositionCalculator calc;
 
     @Override
     public Map<Integer, Graph> startLayout(
@@ -72,17 +74,15 @@ public class LayoutSoftViz3d implements Layout {
         processor.accept(visitor, snapshot, 0);
         Map<Integer, Graph> resultGraphs = visitor.getResultingGraphList();
 
-        startAbsolutePositioning(snapshot, resultGraphs);
+        startAbsolutePositioning(snapshot.getId(), resultGraphs);
 
         return resultGraphs;
     }
 
-    private Map<Integer, Graph> startAbsolutePositioning(SonarSnapshot source,
+    private Map<Integer, Graph> startAbsolutePositioning(Integer snapshotId,
             Map<Integer, Graph> resultGraphs) {
         // NEXT STEP HERE
-        AbsolutePositionCalculator calc = new AbsolutePositionCalculator(
-                resultGraphs, resourceTreeService);
-        calc.calculate(source);
+        calc.calculate(snapshotId, resultGraphs);
         // ---
 
         return resultGraphs;

@@ -22,6 +22,7 @@ package de.rinderle.softviz3d.grappa;
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.Node;
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 
 public class GrappaGraphFactory {
 
@@ -35,11 +36,11 @@ public class GrappaGraphFactory {
 
         Node leaf1 = new Node(graphLeaf1());
         leaf1.setAttribute("id", "2");
-        leaf1.setAttribute("buildingHeight", "10");
+        leaf1.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
         graph.addNode(leaf1);
         Node leaf2 = new Node(graphLeaf2());
         leaf2.setAttribute("id", "3");
-        leaf2.setAttribute("buildingHeight", "10");
+        leaf2.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
         graph.addNode(leaf2);
 
         return graph;
@@ -59,6 +60,16 @@ public class GrappaGraphFactory {
         Graph graph = new Graph("leaf2");
         double x = 0;
         double y = 0;
+        double width = 50;
+        double height = 50;
+        graph.setAttribute("bb", new GrappaBox(x, y, width, height));
+        return graph;
+    }
+
+    public static Graph graphSubLeaf1() {
+        Graph graph = new Graph("leaf1");
+        double x = 100;
+        double y = 100;
         double width = 50;
         double height = 50;
         graph.setAttribute("bb", new GrappaBox(x, y, width, height));

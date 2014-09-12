@@ -114,7 +114,7 @@ public class GrappaGraphTest extends TestCase {
 		
 		node.setAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR, color);
 		node.setAttribute("translation", translation.toString());
-		node.setAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSAPARENCY, transparency + "");
+		node.setAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSPARENCY, transparency + "");
 		node.setAttribute("height", 20 + "");
 	}
 }

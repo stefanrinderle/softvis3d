@@ -43,7 +43,7 @@ public class ViewLayerFormatterTest {
         
         assertNotNull(graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR));
         assertNotNull(graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR));
-        assertNotNull(graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSAPARENCY));
+        assertNotNull(graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSPARENCY));
     }
     
     @Test
@@ -54,7 +54,7 @@ public class ViewLayerFormatterTest {
         
         assertNotNull(graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR));
         assertNotNull(graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR));
-        assertNotNull(graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSAPARENCY));
+        assertNotNull(graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSPARENCY));
         
         Color color = (Color) graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR).getValue();
         assertTrue(color.getRed() == 254);

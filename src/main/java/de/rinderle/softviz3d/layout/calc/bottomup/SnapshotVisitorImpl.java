@@ -42,8 +42,7 @@ import static att.grappa.GrappaConstants.*;
 
 public class SnapshotVisitorImpl implements SnapshotVisitor {
 
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(SnapshotVisitorImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SnapshotVisitorImpl.class);
 
     private Settings settings;
 
@@ -103,13 +102,11 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
         // and height of the representing element has to be scaled
         // back to normal
         Double width = bb.getWidth() / SoftViz3dConstants.DPI_DOT_SCALE;
-        // width and height are equals (square)
-        //Double height = bb.getHeight() / SoftViz3dConstants.DPI_DOT_SCALE;
+        Double height = bb.getHeight() / SoftViz3dConstants.DPI_DOT_SCALE;
 
+        double platformHeight = 2 * 15;
 
-        double buildingHeight = 2;
-
-        return LayeredLayoutElement.createLayeredLayoutNodeElement(snapshot, width, buildingHeight);
+        return LayeredLayoutElement.createLayeredLayoutNodeElement(snapshot, width, height, platformHeight);
     }
 
     private Node transformToGrappaNode(Graph inputGraph, LayeredLayoutElement element) {
@@ -119,12 +116,12 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
         elementNode.setAttribute(WIDTH_ATTR, element.getWidth());
         elementNode.setAttribute(HEIGHT_ATTR, element.getHeight());
 
-        // keep the size of the node only dependend on the width and height
+        // keep the size of the node only dependent on the width and height
         // attribute and not from the node name
         elementNode.setAttribute(LABEL_ATTR, ".");
         elementNode.setAttribute(SHAPE_ATTR, "box");
 
-        elementNode.setAttribute("buildingHeight", element.getBuildingHeight());
+        elementNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, element.getBuildingHeight());
 
         elementNode.setAttribute("displayName", element.getDisplayName());
         return elementNode;
@@ -136,15 +133,17 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
         double sideLength = formatter.calcSideLength(snapshot.getFootprintMetricValue(), metricFootprint);
         if (sideLength > 0) {
-            sideLength = sideLength / 10;
+            sideLength = sideLength / 72;
         }
 
         double buildingHeight = formatter.calcBuildingHeight(snapshot.getHeightMetricValue(), metricHeight);
         if (buildingHeight > 0) {
-            buildingHeight = buildingHeight / 10;
+            buildingHeight = buildingHeight / 72;
         }
 
-        return LayeredLayoutElement.createLayeredLayoutLeafElement(snapshot, sideLength, buildingHeight);
+        buildingHeight = buildingHeight  * 15;
+
+        return LayeredLayoutElement.createLayeredLayoutLeafElement(snapshot, sideLength, sideLength, buildingHeight);
     }
 
 }

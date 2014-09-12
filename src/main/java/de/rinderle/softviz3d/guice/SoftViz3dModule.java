@@ -24,6 +24,8 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import de.rinderle.softviz3d.layout.calc.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutSoftViz3d;
 import de.rinderle.softviz3d.layout.calc.bottomup.*;
+import de.rinderle.softviz3d.layout.calc.topdown.AbsolutePositionCalculator;
+import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
 import de.rinderle.softviz3d.layout.dot.*;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarDaoImpl;
@@ -46,6 +48,8 @@ public class SoftViz3dModule extends AbstractModule {
 
         bind(Layout.class).to(LayoutSoftViz3d.class);
         bind(LayerFormatter.class).to(ViewLayerFormatter.class);
+
+        bind(PositionCalculator.class).to(AbsolutePositionCalculator.class);
 
         install(new FactoryModuleBuilder().implement(de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor.class,
                 SnapshotVisitorImpl.class).build(SnapshotVisitorFactory.class));

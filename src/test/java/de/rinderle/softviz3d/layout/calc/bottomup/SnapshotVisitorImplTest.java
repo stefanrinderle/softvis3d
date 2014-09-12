@@ -159,7 +159,7 @@ public class SnapshotVisitorImplTest {
         Double buildingHeight = 20.0;
 
         return LayeredLayoutElement.
-                createLayeredLayoutLeafElement(snapshot, sideLength, buildingHeight);
+                createLayeredLayoutLeafElement(snapshot, sideLength, sideLength, buildingHeight);
     }
 
     private Graph createGraph() {
@@ -179,126 +179,5 @@ public class SnapshotVisitorImplTest {
 
         return result;
     }
-
-//    @Override
-//    public LayeredLayoutElement visitNode(SonarSnapshot snapshot,
-//            List<LayeredLayoutElement> elements) throws DotExcecutorException {
-//
-//        LOGGER.debug("LayoutVisitor.visitNode " + snapshot.getId() + " " + snapshot.getName());
-//
-//        // create layout graph
-//        Graph inputGraph = new Graph(snapshot.getId().toString());
-//
-//        for (LayeredLayoutElement element : elements) {
-//            Node elementNode = new Node(inputGraph, element.getName());
-//            elementNode.setAttribute("id", element.getId().toString());
-//            elementNode.setAttribute("type", element.getElementType().name());
-//            elementNode.setAttribute(WIDTH_ATTR, element.getWidth());
-//            elementNode.setAttribute(HEIGHT_ATTR, element.getHeight());
-//
-//            // keep the size of the node only dependend on the width and height
-//            // attribute
-//            // and not from the node name
-//            elementNode.setAttribute(LABEL_ATTR, ".");
-//
-//            elementNode.setAttribute(SHAPE_ATTR, "box");
-//
-//            elementNode.setAttribute("buildingHeight", element
-//                    .getBuildingHeight().toString());
-//
-//            elementNode.setAttribute("displayName", element.getDisplayName());
-//
-//            inputGraph.addNode(elementNode);
-//        }
-//
-//        // run dot layout for this layer
-//        Graph outputGraph = dotExecutor.run(inputGraph, settings);
-//
-//        // adjust graph
-//        Graph adjustedGraph = formatter.format(outputGraph, snapshot.getDepth());
-//        resultingGraphList.put(snapshot.getId(), adjustedGraph);
-//
-//        // adjusted graph has a bounding box !
-//        GrappaBox bb = (GrappaBox) adjustedGraph.getAttributeValue("bb");
-//
-//        // The dot output of the bb is given in DPI. The actual width
-//        // and height of the representing element has to be scaled
-//        // back to normal
-//        Double width = bb.getWidth() / SoftViz3dConstants.DPI_DOT_SCALE;
-//        Double height = bb.getHeight() / SoftViz3dConstants.DPI_DOT_SCALE;
-//
-//        double buildingHeight = 2;
-//
-//        return new LayeredLayoutElement(Type.NODE,
-//                snapshot.getId(), "dir_" + snapshot.getId(), width, height,
-//                buildingHeight, snapshot.getName());
-//    }
-//
-//    @Override
-//    public LayeredLayoutElement visitFile(SonarSnapshot snapshot) {
-//        LOGGER.debug("LayoutVisitor.visitNode " + snapshot.getId() + " " + snapshot.getName());
-//
-//        double sideLength = calcSideLength(snapshot.getFootprintMetricValue());
-//
-//        double buildingHeight = calcBuildingHeight(snapshot
-//                .getHeightMetricValue());
-//
-//        return new LayeredLayoutElement(Type.LEAF, snapshot.getId(), "file_"
-//                + snapshot.getId().toString(), sideLength, sideLength,
-//                buildingHeight, snapshot.getName());
-//    }
-//
-//    /**
-//     * Building height is calculated in percent.
-//     *
-//     * The actual building size is dependent on the size of the biggest layer.
-//     * This value is not available at this point of the calculation.
-//     *
-//     * @param value
-//     *            Metric value for the building size
-//     * @return percent 0-100%
-//     */
-//    private double calcBuildingHeight(Double value) {
-//        double buildingHeight = 0.0;
-//
-//        if (value != null) {
-//            // TODO start with 0 percent also in case of starting higher
-//            Double maxValue = metricHeight.getMaxValue();
-//
-//            Double valuePercent = 0.0;
-//            if (maxValue > 0 && value > 0) {
-//                valuePercent = SoftViz3dConstants.PERCENT_DIVISOR / maxValue
-//                        * value;
-//            }
-//
-//            buildingHeight = valuePercent;
-//        }
-//
-//        return buildingHeight;
-//    }
-//
-//    private double calcSideLength(Double value) {
-//        double sideLength = SoftViz3dConstants.MIN_SIDE_LENGTH;
-//
-//        if (value != null) {
-//            // TODO start with 0 percent also in case of starting higher
-//            // Double minValue = metricFootprint.getMinValue();
-//            Double maxValue = metricFootprint.getMaxValue();
-//
-//            // create a linear distribution
-//            Double onePercent = (SoftViz3dConstants.MAX_SIDE_LENGTH - SoftViz3dConstants.MIN_SIDE_LENGTH)
-//                    / SoftViz3dConstants.PERCENT_DIVISOR;
-//            Double valuePercent = 0.0;
-//            if (maxValue > 0 && value > 0) {
-//                valuePercent = SoftViz3dConstants.PERCENT_DIVISOR / maxValue
-//                        * value;
-//            }
-//
-//            sideLength = SoftViz3dConstants.MIN_SIDE_LENGTH + valuePercent
-//                    * onePercent;
-//        }
-//
-//        return sideLength;
-//    }
 
 }
