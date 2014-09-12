@@ -20,6 +20,7 @@
 package de.rinderle.softviz3d.layout.calc.topdown;
 
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.SonarService;
@@ -36,34 +37,52 @@ public class LayoutElementImpl implements LayoutElement {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(LayoutElementImpl.class);
 
-    @Inject
     private ResourceTreeService resourceTreeService;
-    @Inject
     private SonarService sonarService;
+    private Integer footprintMetricId;
+    private Integer heightMetricId;
+
+    @Inject
+    public LayoutElementImpl(ResourceTreeService resourceTreeService, SonarService sonarService,
+                             @Assisted Integer footprintMetricId,
+                             @Assisted Integer heightMetricId) {
+        this.resourceTreeService = resourceTreeService;
+        this.sonarService = sonarService;
+
+        this.footprintMetricId = footprintMetricId;
+        this.heightMetricId = heightMetricId;
+    }
 
     /**
      * Bottom up calculation of layout layers.
      */
-    public LayeredLayoutElement accept(LayoutVisitor visitor, SonarSnapshot source, int depth, Integer footprintMetricId, Integer heightMetricId)
+    public LayeredLayoutElement accept(LayoutVisitor visitor, SonarSnapshot source, int depth)
             throws DotExcecutorException {
 
         LOGGER.debug("Layout.accept " + source.getId() + " " + source.getName());
 
+        List<LayeredLayoutElement> nodeElements = processChildrenNodes(visitor, source, depth);
+        List<LayeredLayoutElement> leafElements = processChildrenLeaves(visitor, source, depth);
+
+        List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
+        leafElements.addAll(nodeElements);
+        leafElements.addAll(leafElements);
+
+        return visitor.visitNode(source, layerElements);
+    }
+
+    private List<LayeredLayoutElement> processChildrenNodes(LayoutVisitor visitor, SonarSnapshot source, int depth) throws DotExcecutorException {
         List<Integer> childrenNodeIds = resourceTreeService.getChildrenNodeIds(source.getId());
 
-        List<SonarSnapshot> childrenNodes;
-        if (childrenNodeIds.isEmpty()) {
-            childrenNodes = new ArrayList<SonarSnapshot>();
-        } else {
-            childrenNodes = sonarService.getSnapshotsByIds(childrenNodeIds, footprintMetricId, heightMetricId, depth);
+        List<SonarSnapshot> childrenNodes = getSonarSnapshots(childrenNodeIds, depth);
 
-            if (childrenNodeIds.size() != childrenNodes.size()) {
-                for (Integer nodeId : childrenNodeIds) {
-                    if (!isIdInDatabaseResult(nodeId, childrenNodes)) {
-                        SonarSnapshot generatedSnapshot =
-                                new SonarSnapshot(nodeId, "generated" + nodeId, depth, 0.0, 0.0);
-                        childrenNodes.add(generatedSnapshot);
-                    }
+        boolean hasSameSize = childrenNodeIds.size() == childrenNodes.size();
+        if (!hasSameSize) {
+            for (Integer nodeId : childrenNodeIds) {
+                if (!isIdInDatabaseResult(nodeId, childrenNodes)) {
+                    SonarSnapshot generatedSnapshot =
+                            new SonarSnapshot(nodeId, "generated" + nodeId, depth, 0.0, 0.0);
+                    childrenNodes.add(generatedSnapshot);
                 }
             }
         }
@@ -71,23 +90,32 @@ public class LayoutElementImpl implements LayoutElement {
         List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
 
         for (SonarSnapshot node : childrenNodes) {
-            layerElements.add(this.accept(visitor, node, depth + 1, footprintMetricId, heightMetricId));
+            layerElements.add(this.accept(visitor, node, depth + 1));
         }
+        return layerElements;
+    }
 
+    private List<LayeredLayoutElement> processChildrenLeaves(LayoutVisitor visitor, SonarSnapshot source, int depth) {
         List<Integer> childrenLeafIds = resourceTreeService.getChildrenLeafIds(source.getId());
 
-        List<SonarSnapshot> childrenLeaves;
-        if (childrenLeafIds.isEmpty()) {
-            childrenLeaves = new ArrayList<SonarSnapshot>();
-        } else {
-            childrenLeaves = sonarService.getSnapshotsByIds(childrenLeafIds, footprintMetricId, heightMetricId, depth + 1);
-        }
+        List<SonarSnapshot> childrenLeaves = getSonarSnapshots(childrenLeafIds, depth + 1);
 
+        List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
         for (SonarSnapshot leaf : childrenLeaves) {
             layerElements.add(visitor.visitFile(leaf));
         }
 
-        return visitor.visitNode(source, layerElements);
+        return layerElements;
+    }
+
+    private List<SonarSnapshot> getSonarSnapshots(List<Integer> snapshotIds, int depth) {
+        List<SonarSnapshot> snapshots;
+        if (snapshotIds.isEmpty()) {
+            snapshots = new ArrayList<SonarSnapshot>();
+        } else {
+            snapshots = sonarService.getSnapshotsByIds(snapshotIds, footprintMetricId, heightMetricId, depth);
+        }
+        return snapshots;
     }
 
     private boolean isIdInDatabaseResult(int id, List<SonarSnapshot> childrenNodes) {

@@ -25,7 +25,6 @@ import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -39,21 +38,23 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 public class LayoutElementTest {
 
+    private static final Integer METRIC_FOOTPRINT = 0;
+    private static final Integer METRIC_HEIGHT = 0;
+
     @Mock
     private ResourceTreeService resourceTreeService;
-
     @Mock
     private LayoutVisitor mockVisitor;
-
     @Mock
     private SonarService sonarService;
 
-    @InjectMocks
-    private LayoutElementImpl underTest = new LayoutElementImpl();
+    private LayoutElementImpl underTest;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+
+        underTest = new LayoutElementImpl(resourceTreeService, sonarService, METRIC_FOOTPRINT, METRIC_HEIGHT);
     }
 
     @Test
@@ -62,10 +63,8 @@ public class LayoutElementTest {
 
         SonarSnapshot sonarSnapshot = createSonarSnapshot(snapshotId);
         int depth = 0;
-        Integer footprintMetric = 0;
-        Integer heightMetric = 0;
 
-        underTest.accept(mockVisitor, sonarSnapshot, depth, footprintMetric, heightMetric);
+        underTest.accept(mockVisitor, sonarSnapshot, depth);
 
         verify(sonarService, times(0)).getSnapshotsByIds(anyListOf(Integer.class), anyInt(), anyInt(), anyInt());
         verify(resourceTreeService, times(1)).getChildrenLeafIds(anyInt());
@@ -75,8 +74,6 @@ public class LayoutElementTest {
     @Test
      public void testChildrenNodes() throws DotExcecutorException {
         Integer snapshotId = 1;
-        Integer footprintMetricId = 0;
-        Integer heightMetricId = 0;
         int depth = 0;
 
         List<Integer> childrenNodeIds = new ArrayList<Integer>();
@@ -87,13 +84,13 @@ public class LayoutElementTest {
         List<SonarSnapshot> snapshots = new ArrayList<SonarSnapshot>();
         snapshots.add(createSonarSnapshot(2));
         snapshots.add(createSonarSnapshot(3));
-        when(sonarService.getSnapshotsByIds(eq(childrenNodeIds), eq(footprintMetricId), eq(heightMetricId), eq(depth))).thenReturn(snapshots);
+        when(sonarService.getSnapshotsByIds(eq(childrenNodeIds), eq(METRIC_FOOTPRINT), eq(METRIC_HEIGHT), eq(depth))).thenReturn(snapshots);
 
         SonarSnapshot sonarSnapshot = createSonarSnapshot(snapshotId);
 
-        underTest.accept(mockVisitor, sonarSnapshot, depth, footprintMetricId, heightMetricId);
+        underTest.accept(mockVisitor, sonarSnapshot, depth);
 
-        verify(sonarService, times(1)).getSnapshotsByIds(eq(childrenNodeIds), eq(footprintMetricId), eq(heightMetricId), eq(depth));
+        verify(sonarService, times(1)).getSnapshotsByIds(eq(childrenNodeIds), eq(METRIC_FOOTPRINT), eq(METRIC_HEIGHT), eq(depth));
         verify(resourceTreeService, times(3)).getChildrenLeafIds(anyInt());
         verify(resourceTreeService, times(3)).getChildrenNodeIds(anyInt());
     }
@@ -107,8 +104,6 @@ public class LayoutElementTest {
     @Test
     public void testChildrenNodesNoDaoResult() throws DotExcecutorException {
         Integer snapshotId = 1;
-        Integer footprintMetricId = 0;
-        Integer heightMetricId = 0;
         int depth = 0;
 
         Integer missingId = 3;
@@ -121,13 +116,13 @@ public class LayoutElementTest {
         List<SonarSnapshot> snapshots = new ArrayList<SonarSnapshot>();
         snapshots.add(createSonarSnapshot(2));
         // leave id 3 out of dao result
-        when(sonarService.getSnapshotsByIds(eq(childrenNodeIds), eq(footprintMetricId), eq(heightMetricId), eq(depth))).thenReturn(snapshots);
+        when(sonarService.getSnapshotsByIds(eq(childrenNodeIds), eq(METRIC_FOOTPRINT), eq(METRIC_HEIGHT), eq(depth))).thenReturn(snapshots);
 
         SonarSnapshot sonarSnapshot = createSonarSnapshot(snapshotId);
 
-        underTest.accept(mockVisitor, sonarSnapshot, depth, footprintMetricId, heightMetricId);
+        underTest.accept(mockVisitor, sonarSnapshot, depth);
 
-        verify(sonarService, times(1)).getSnapshotsByIds(eq(childrenNodeIds), eq(footprintMetricId), eq(heightMetricId), eq(depth));
+        verify(sonarService, times(1)).getSnapshotsByIds(eq(childrenNodeIds), eq(METRIC_FOOTPRINT), eq(METRIC_HEIGHT), eq(depth));
         verify(resourceTreeService, times(3)).getChildrenLeafIds(anyInt());
         verify(resourceTreeService, times(3)).getChildrenNodeIds(anyInt());
 
@@ -137,8 +132,6 @@ public class LayoutElementTest {
     @Test
     public void testChildrenLeaves() throws DotExcecutorException {
         Integer snapshotId = 1;
-        Integer footprintMetricId = 0;
-        Integer heightMetricId = 0;
         int depth = 0;
 
         List<Integer> childrenLeafIds = new ArrayList<Integer>();
@@ -149,31 +142,16 @@ public class LayoutElementTest {
         List<SonarSnapshot> snapshots = new ArrayList<SonarSnapshot>();
         snapshots.add(createSonarSnapshot(2));
         snapshots.add(createSonarSnapshot(3));
-        when(sonarService.getSnapshotsByIds(eq(childrenLeafIds), eq(footprintMetricId), eq(heightMetricId), eq(depth + 1))).thenReturn(snapshots);
+        when(sonarService.getSnapshotsByIds(eq(childrenLeafIds), eq(METRIC_FOOTPRINT), eq(METRIC_HEIGHT), eq(depth + 1))).thenReturn(snapshots);
 
         SonarSnapshot sonarSnapshot = createSonarSnapshot(snapshotId);
 
-        underTest.accept(mockVisitor, sonarSnapshot, depth, footprintMetricId, heightMetricId);
+        underTest.accept(mockVisitor, sonarSnapshot, depth);
 
-        verify(sonarService, times(1)).getSnapshotsByIds(eq(childrenLeafIds), eq(footprintMetricId), eq(heightMetricId), eq(depth + 1));
+        verify(sonarService, times(1)).getSnapshotsByIds(eq(childrenLeafIds), eq(METRIC_FOOTPRINT), eq(METRIC_HEIGHT), eq(depth + 1));
         verify(resourceTreeService, times(1)).getChildrenNodeIds(anyInt());
         verify(resourceTreeService, times(1)).getChildrenLeafIds(anyInt());
     }
-
-    /**
-     * TODO Tests for
-     * List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
-
-     for (SonarSnapshot node : childrenNodes) {
-     layerElements.add(this.accept(visitor, node, depth + 1, footprintMetricId, heightMetricId));
-     }
-     and
-     for (SonarSnapshot leaf : childrenLeaves) {
-     layerElements.add(visitor.visitFile(leaf));
-     }
-
-     return visitor.visitNode(source, layerElements);
-     */
 
     private SonarSnapshot createSonarSnapshot(Integer snapshotId) {
         Integer id = snapshotId;

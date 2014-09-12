@@ -17,16 +17,10 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc.topdown;
+package de.rinderle.softviz3d.guice;
 
-import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import de.rinderle.softviz3d.layout.calc.topdown.LayoutElement;
 
-/**
- * Created by stefan on 10.09.14.
- */
-public interface LayoutElement {
-
-    public LayeredLayoutElement accept(LayoutVisitor visitor, SonarSnapshot source, int depth) throws DotExcecutorException;
+public interface LayoutElementFactory {
+    public LayoutElement create(Integer footprintMetricId, Integer heightMetricId);
 }

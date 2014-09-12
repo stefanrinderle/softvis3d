@@ -48,9 +48,10 @@ public class SoftViz3dModule extends AbstractModule {
         bind(ResourceTreeService.class).to(ResourceTreeServiceImpl.class);
 
         bind(Layout.class).to(LayoutSoftViz3d.class);
-        bind(LayoutElement.class).to(LayoutElementImpl.class);
-        
+
         install(new FactoryModuleBuilder().implement(LayoutVisitor.class,
                 LayoutVisitorImpl.class).build(LayoutVisitorFactory.class));
+        install(new FactoryModuleBuilder().implement(LayoutElement.class,
+                LayoutElementImpl.class).build(LayoutElementFactory.class));
     }
 }

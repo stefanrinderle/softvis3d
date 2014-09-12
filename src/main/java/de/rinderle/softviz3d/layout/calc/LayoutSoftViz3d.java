@@ -21,6 +21,7 @@ package de.rinderle.softviz3d.layout.calc;
 
 import att.grappa.Graph;
 import com.google.inject.Inject;
+import de.rinderle.softviz3d.guice.LayoutElementFactory;
 import de.rinderle.softviz3d.guice.LayoutVisitorFactory;
 import de.rinderle.softviz3d.layout.calc.bottomup.AbsolutePositionCalculator;
 import de.rinderle.softviz3d.layout.calc.topdown.LayoutElement;
@@ -48,6 +49,8 @@ public class LayoutSoftViz3d implements Layout {
     @Inject
     private LayoutVisitorFactory visitorFactory;
     @Inject
+    private LayoutElementFactory elementFactory;
+    @Inject
     private LayoutElement layoutElement;
 
     @Override
@@ -65,7 +68,10 @@ public class LayoutSoftViz3d implements Layout {
         SonarSnapshot snapshot = sonarService.getSnapshotById(snapshotId, footprintMetricId, heightMetricId, 0);
 
         LayoutVisitor visitor = visitorFactory.create(settings, minMaxValues);
-        layoutElement.accept(visitor, snapshot, 0, footprintMetricId, heightMetricId);
+
+        LayoutElement layoutElement = elementFactory.create(footprintMetricId, heightMetricId);
+
+        layoutElement.accept(visitor, snapshot, 0);
         Map<Integer, Graph> resultGraphs = visitor.getResultingGraphList();
 
         startAbsolutePositioning(snapshot, resultGraphs);
