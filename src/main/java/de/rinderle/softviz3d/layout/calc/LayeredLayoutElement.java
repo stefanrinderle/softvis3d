@@ -19,68 +19,87 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
+import de.rinderle.softviz3d.sonar.SonarSnapshot;
+
 public class LayeredLayoutElement {
 
-  public enum Type {
-    NODE, LEAF
-  }
+    public enum Type {
+        NODE, LEAF
+    }
 
-  private Type type;
+    private Type type;
 
-  private Integer id;
+    private Integer id;
 
-  private String name;
+    private String name;
 
-  private Double width;
-  private Double height;
-  private Double buildingHeight;
+    private Double width;
+    private Double height;
+    private Double buildingHeight;
 
-  private String displayName;
+    private String displayName;
 
-  public LayeredLayoutElement(Type type, Integer id, String name, Double width, Double height, Double buildingHeight, String displayName) {
-    super();
-    this.type = type;
-    this.id = id;
-    this.name = name;
-    this.width = width;
-    this.height = height;
-    this.buildingHeight = buildingHeight;
-    this.displayName = displayName;
-  }
+    private LayeredLayoutElement(Type type, Integer id, String name, Double width, Double height, Double buildingHeight, String displayName) {
+        super();
+        this.type = type;
+        this.id = id;
+        this.name = name;
+        this.width = width;
+        this.height = height;
+        this.buildingHeight = buildingHeight;
+        this.displayName = displayName;
+    }
 
-  public Type getElementType() {
-    return this.type;
-  }
+    public static LayeredLayoutElement createLayeredLayoutLeafElement(
+            SonarSnapshot snapshot, Double sideLength, Double buildingHeight) {
+        return createLayeredLayoutElement(Type.LEAF, "file_", snapshot, sideLength, buildingHeight);
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public static LayeredLayoutElement createLayeredLayoutNodeElement(
+            SonarSnapshot snapshot, Double sideLength, Double buildingHeight) {
+        return createLayeredLayoutElement(Type.NODE, "dir_", snapshot, sideLength, buildingHeight);
+    }
 
-  public String getName() {
-    return this.name;
-  }
+    private static LayeredLayoutElement createLayeredLayoutElement(
+            Type type, String namePrefix, SonarSnapshot snapshot, Double sideLength, Double buildingHeight) {
+        return new LayeredLayoutElement(type, snapshot.getId(), namePrefix
+                + snapshot.getId().toString(), sideLength, sideLength,
+                buildingHeight, snapshot.getName());
+    }
 
-  public Double getWidth() {
-    return width;
-  }
+    public Type getElementType() {
+        return this.type;
+    }
 
-  public Double getHeight() {
-    return height;
-  }
+    public Integer getId() {
+        return id;
+    }
 
-  public String getBuildingHeight() {
-    return "x" + buildingHeight.toString();
-  }
+    public String getName() {
+        return this.name;
+    }
 
-  @Override
-  public String toString() {
-    return "InputElement [type=" + type + ", identifier=" + name
-      + ", id=" + id + ", width=" + width
-      + ", height=" + height + "]";
-  }
+    public Double getWidth() {
+        return width;
+    }
 
-  public String getDisplayName() {
-    return displayName;
-  }
+    public Double getHeight() {
+        return height;
+    }
+
+    public String getBuildingHeight() {
+        return "x" + buildingHeight.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "InputElement [type=" + type + ", identifier=" + name
+                + ", id=" + id + ", width=" + width
+                + ", height=" + height + "]";
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 
 }

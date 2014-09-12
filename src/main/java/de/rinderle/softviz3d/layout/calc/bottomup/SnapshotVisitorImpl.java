@@ -25,8 +25,6 @@ import att.grappa.Node;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement.Type;
-import de.rinderle.softviz3d.layout.calc.topdown.LayerFormatter;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExecutor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
@@ -65,11 +63,8 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
                                @Assisted List<Double> minMaxValues) {
         this.settings = settings;
 
-        this.metricFootprint = new SonarMetric(
-                minMaxValues.get(0), minMaxValues.get(1));
-
-        this.metricHeight = new SonarMetric(minMaxValues.get(2),
-                minMaxValues.get(3));
+        this.metricFootprint = new SonarMetric(minMaxValues.get(0), minMaxValues.get(1));
+        this.metricHeight = new SonarMetric(minMaxValues.get(2), minMaxValues.get(3));
 
         this.dotExecutor = dotExecutor;
         this.formatter = formatter;
@@ -82,7 +77,7 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
     @Override
     public LayeredLayoutElement visitNode(SonarSnapshot snapshot,
-            List<LayeredLayoutElement> elements) throws DotExcecutorException {
+                                          List<LayeredLayoutElement> elements) throws DotExcecutorException {
 
         LOGGER.debug("LayoutVisitor.visitNode " + snapshot.getId() + " " + snapshot.getName());
 
@@ -108,13 +103,13 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
         // and height of the representing element has to be scaled
         // back to normal
         Double width = bb.getWidth() / SoftViz3dConstants.DPI_DOT_SCALE;
-        Double height = bb.getHeight() / SoftViz3dConstants.DPI_DOT_SCALE;
+        // width and height are equals (square)
+        //Double height = bb.getHeight() / SoftViz3dConstants.DPI_DOT_SCALE;
+
 
         double buildingHeight = 2;
 
-        return new LayeredLayoutElement(LayeredLayoutElement.Type.NODE,
-                snapshot.getId(), "dir_" + snapshot.getId(), width, height,
-                buildingHeight, snapshot.getName());
+        return LayeredLayoutElement.createLayeredLayoutNodeElement(snapshot, width, buildingHeight);
     }
 
     private Node transformToGrappaNode(Graph inputGraph, LayeredLayoutElement element) {
@@ -125,10 +120,8 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
         elementNode.setAttribute(HEIGHT_ATTR, element.getHeight());
 
         // keep the size of the node only dependend on the width and height
-        // attribute
-        // and not from the node name
+        // attribute and not from the node name
         elementNode.setAttribute(LABEL_ATTR, ".");
-
         elementNode.setAttribute(SHAPE_ATTR, "box");
 
         elementNode.setAttribute("buildingHeight", element.getBuildingHeight());
@@ -141,67 +134,17 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     public LayeredLayoutElement visitFile(SonarSnapshot snapshot) {
         LOGGER.debug("LayoutVisitor.visitNode " + snapshot.getId() + " " + snapshot.getName());
 
-        double sideLength = calcSideLength(snapshot.getFootprintMetricValue());
-
-        double buildingHeight = calcBuildingHeight(snapshot
-                .getHeightMetricValue());
-
-        return new LayeredLayoutElement(Type.LEAF, snapshot.getId(), "file_"
-                + snapshot.getId().toString(), sideLength, sideLength,
-                buildingHeight, snapshot.getName());
-    }
-
-    /**
-     * Building height is calculated in percent.
-     * 
-     * The actual building size is dependent on the size of the biggest layer.
-     * This value is not available at this point of the calculation.
-     * 
-     * @param value
-     *            Metric value for the building size
-     * @return percent 0-100%
-     */
-    private double calcBuildingHeight(Double value) {
-        double buildingHeight = 0.0;
-
-        if (value != null) {
-            // TODO start with 0 percent also in case of starting higher
-            Double maxValue = metricHeight.getMaxValue();
-
-            Double valuePercent = 0.0;
-            if (maxValue > 0 && value > 0) {
-                valuePercent = SoftViz3dConstants.PERCENT_DIVISOR / maxValue
-                        * value;
-            }
-
-            buildingHeight = valuePercent;
+        double sideLength = formatter.calcSideLength(snapshot.getFootprintMetricValue(), metricFootprint);
+        if (sideLength > 0) {
+            sideLength = sideLength / 10;
         }
 
-        return buildingHeight;
-    }
-
-    private double calcSideLength(Double value) {
-        double sideLength = SoftViz3dConstants.MIN_SIDE_LENGTH;
-
-        if (value != null) {
-            // TODO start with 0 percent also in case of starting higher
-            // Double minValue = metricFootprint.getMinValue();
-            Double maxValue = metricFootprint.getMaxValue();
-
-            // create a linear distribution
-            Double onePercent = (SoftViz3dConstants.MAX_SIDE_LENGTH - SoftViz3dConstants.MIN_SIDE_LENGTH)
-                    / SoftViz3dConstants.PERCENT_DIVISOR;
-            Double valuePercent = 0.0;
-            if (maxValue > 0 && value > 0) {
-                valuePercent = SoftViz3dConstants.PERCENT_DIVISOR / maxValue
-                        * value;
-            }
-
-            sideLength = SoftViz3dConstants.MIN_SIDE_LENGTH + valuePercent
-                    * onePercent;
+        double buildingHeight = formatter.calcBuildingHeight(snapshot.getHeightMetricValue(), metricHeight);
+        if (buildingHeight > 0) {
+            buildingHeight = buildingHeight / 10;
         }
 
-        return sideLength;
+        return LayeredLayoutElement.createLayeredLayoutLeafElement(snapshot, sideLength, buildingHeight);
     }
 
 }

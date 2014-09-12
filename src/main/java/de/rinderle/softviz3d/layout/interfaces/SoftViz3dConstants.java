@@ -46,14 +46,15 @@ public interface SoftViz3dConstants {
    * Visualization
    */
   
-  public static final double MIN_SIDE_LENGTH = 0.5;
-  
-  public static final double MAX_SIDE_LENGTH = 10;
-  
+  public static final double MIN_SIDE_LENGTH_PERCENT = 5;
+
   /**
    * Layout constants.
    */
-  
+
+  public static final String GRAPH_ATTR_COLOR = "color";
+  public static final String GRAPH_ATTR_NODES_COLOR = "nodesColor";
+  public static final String GRAPH_ATTR_TRANSAPARENCY = "transparency";
   /**
    * String name for y axis in 3d.
    * 
@@ -67,11 +68,5 @@ public interface SoftViz3dConstants {
   public final static String LAYER_HEIGHT_3D = "layerHeight3d";
 
   public final static double DPI_DOT_SCALE = 72.0;
-
-  /**
-   * Math
-   */
-
-  public static final double PERCENT_DIVISOR = 100;
 
 }

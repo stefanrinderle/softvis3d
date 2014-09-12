@@ -64,7 +64,8 @@ public class SonarDaoImpl implements SonarDao {
 
             Object[] result = (Object[]) query.getSingleResult();
 
-            snapshot = castToJpaSnapshot(result, depth);
+            Double heightMetric = getHeightMetricForSnapshot(snapshotId, heightMetricId);
+            snapshot = castToJpaSnapshot(result, depth, heightMetric);
         } catch (PersistenceException e) {
             LOGGER.error(e.getMessage(), e);
             snapshot = null;
@@ -97,9 +98,9 @@ public class SonarDaoImpl implements SonarDao {
 
             List<Object[]> queryResult = (List<Object[]>) query.getResultList();
 
-            
             for (Object[] object : queryResult) {
-                snapshots.add(castToJpaSnapshot(object, depth));
+                Double heightMetricValue = getHeightMetricForSnapshot((Integer) object[0], heightMetricId);
+                snapshots.add(castToJpaSnapshot(object, depth, heightMetricValue));
             }
             
         } catch (PersistenceException e) {
@@ -110,16 +111,30 @@ public class SonarDaoImpl implements SonarDao {
 
         return snapshots;
     }
-    
-    private SonarSnapshot castToJpaSnapshot(Object[] result, Integer depth) {
+
+    private Double getHeightMetricForSnapshot(Integer snapshotId, Integer heightMetricId) {
+            Query query = session
+                    .createNativeQuery("select m.value from snapshots s "
+                            + "INNER JOIN project_measures m ON s.id = m.snapshot_id "
+                            + "WHERE s.id = :snapshotId AND m.metric_id = :heightMetricId");
+            query.setParameter("snapshotId", snapshotId);
+            query.setParameter("heightMetricId", heightMetricId);
+
+            BigDecimal result = (BigDecimal) query.getSingleResult();
+
+            return result.doubleValue();
+    }
+
+    private SonarSnapshot castToJpaSnapshot(Object[] result, Integer depth, Double heightMetricValue) {
         Integer id = (Integer) result[0];
         String name = (String) result[1];
         BigDecimal footprintMetricValue = (BigDecimal) result[2];
-        BigDecimal heightMetricValue = (BigDecimal) result[3];
+//        BigDecimal heightMetricValue = (BigDecimal) result[3];
+//        Double heightMetricValue = heightMetricValue;
 
         SonarSnapshot snapshot = new SonarSnapshot(id, name, depth,
                 footprintMetricValue.doubleValue(),
-                heightMetricValue.doubleValue());
+                heightMetricValue);
 
         return snapshot;
     }

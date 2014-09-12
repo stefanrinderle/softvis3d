@@ -22,9 +22,9 @@ package de.rinderle.softviz3d.layout.calc.bottomup;
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.calc.topdown.LayerFormatter;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExecutor;
+import de.rinderle.softviz3d.sonar.SonarMetric;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import org.junit.Before;
 import org.junit.Test;
@@ -137,6 +137,9 @@ public class SnapshotVisitorImplTest {
         assertEquals(ID, result.getId());
         assertEquals(NAME, result.getDisplayName());
 
+        verify(formatter, times(1)).calcBuildingHeight(eq(METRIC_HEIGHT_VALUE), any(SonarMetric.class));
+        verify(formatter, times(1)).calcSideLength(eq(METRIC_FOOTPRINT_VALUE), any(SonarMetric.class));
+
         Map<Integer, Graph> graphResult = underTest.getResultingGraphList();
         assertTrue(graphResult.size() == 0);
     }
@@ -145,16 +148,22 @@ public class SnapshotVisitorImplTest {
         LayeredLayoutElement.Type type = LayeredLayoutElement.Type.LEAF;
         Integer id = ID + 1;
         String name = "childName";
-        Double width = 10.0;
-        Double height = 10.0;
-        Double buildingHeight = 20.0;
-        String displayName = "childName.java";
+        Integer depth = 4;
+        Double footprintMetricValue = 10.0;
+        Double heightMetricValue = 12.0;
 
-        return  new LayeredLayoutElement(type, id, name, width, height, buildingHeight, displayName);
+        SonarSnapshot snapshot = new SonarSnapshot(
+                id, name, depth, footprintMetricValue, heightMetricValue);
+
+        Double sideLength = 10.0;
+        Double buildingHeight = 20.0;
+
+        return LayeredLayoutElement.
+                createLayeredLayoutLeafElement(snapshot, sideLength, buildingHeight);
     }
 
     private Graph createGraph() {
-        Graph graph = new Graph("graph name", true, true);
+        Graph graph = new Graph("graph name");
         GrappaBox grappaBox = new GrappaBox(0,0,50,50);
         graph.setAttribute("bb", grappaBox);
         return graph;

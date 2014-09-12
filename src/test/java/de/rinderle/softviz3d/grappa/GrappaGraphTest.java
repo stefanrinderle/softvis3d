@@ -20,6 +20,7 @@
 package de.rinderle.softviz3d.grappa;
 
 import att.grappa.*;
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -111,9 +112,9 @@ public class GrappaGraphTest extends TestCase {
 		double transparency = 0.0;
 		Color color = new Color(200, 200, 255);
 		
-		node.setAttribute("color", color);
+		node.setAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR, color);
 		node.setAttribute("translation", translation.toString());
-		node.setAttribute("transparency", transparency + "");
+		node.setAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSAPARENCY, transparency + "");
 		node.setAttribute("height", 20 + "");
 	}
 }
