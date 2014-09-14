@@ -60,18 +60,14 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     public List<Integer> getChildrenNodeIds(Integer id) {
         Node node = recursiveSearch(id, pathWalker.getTree());
         
-        List<Integer> result = getChildrenNodes(node.getChildren());
-        
-        return result;
+        return getChildrenNodes(node.getChildren());
     }
     
     @Override
     public List<Integer> getChildrenLeafIds(Integer id) {
         Node node = recursiveSearch(id, pathWalker.getTree());
         
-        List<Integer> result = getChildrenLeaves(node.getChildren());
-        
-        return result;
+        return getChildrenLeaves(node.getChildren());
     }
 
     private Node recursiveSearch(Integer id, Node node) {
@@ -92,13 +88,15 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
         
         Map<String, Node> children = node.getChildren();
         Node temp;
-        if (children.size() > 0)
+        if (!children.isEmpty()) {
             for (Node child : children.values()) {
                 temp = recursiveSearch(id, child);
                 if (temp != null) {
                     return temp;
                 }
             }
+        }
+
         return null;
     }
 

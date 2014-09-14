@@ -55,8 +55,10 @@ public class PathWalker {
 
     private static void print(Node node, int depth) {
         Map<String, Node> children = node.getChildren();
-        if (children.isEmpty())
+        if (children.isEmpty()) {
             return;
+        }
+
         for (Map.Entry<String, Node> child : children.entrySet()) {
             
             LOGGER.debug(child.getValue().getId() + " "

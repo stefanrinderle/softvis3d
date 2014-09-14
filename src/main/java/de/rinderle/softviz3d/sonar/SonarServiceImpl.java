@@ -62,10 +62,8 @@ public class SonarServiceImpl implements SonarService {
 
     @Override
     public List<SonarSnapshot> getSnapshotsByIds(List<Integer> childrenNodeIds, Integer footprintMetricId, Integer heightMetricId, int depth) {
-        List<SonarSnapshot> result = sonarDao.getSnapshotsById(childrenNodeIds,
+        return sonarDao.getSnapshotsById(childrenNodeIds,
                 footprintMetricId, heightMetricId, depth);
-
-        return result;
     }
 
 }

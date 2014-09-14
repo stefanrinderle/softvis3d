@@ -132,11 +132,8 @@ public class SonarDaoImpl implements SonarDao {
 //        BigDecimal heightMetricValue = (BigDecimal) result[3];
 //        Double heightMetricValue = heightMetricValue;
 
-        SonarSnapshot snapshot = new SonarSnapshot(id, name, depth,
-                footprintMetricValue.doubleValue(),
+        return new SonarSnapshot(id, name, depth, footprintMetricValue.doubleValue(),
                 heightMetricValue);
-
-        return snapshot;
     }
 
     @Override
