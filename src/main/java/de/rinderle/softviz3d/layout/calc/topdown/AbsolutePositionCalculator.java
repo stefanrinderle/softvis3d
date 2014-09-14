@@ -24,7 +24,6 @@ import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
 import com.google.inject.Inject;
-import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,79 +32,82 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static att.grappa.GrappaConstants.*;
+import static att.grappa.GrappaConstants.HEIGHT_ATTR;
+import static att.grappa.GrappaConstants.POS_ATTR;
 
 public class AbsolutePositionCalculator implements PositionCalculator {
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(AbsolutePositionCalculator.class);
 
-  private Map<Integer, Graph> inputGraphs;
+    private Map<Integer, Graph> inputGraphs;
 
-  private Map<Integer, GrappaPoint> innerGraphTranslation;
+    private Map<Integer, GrappaPoint> innerGraphTranslation;
 
-  @Inject
-  private ResourceTreeService resourceTreeService;
+    @Inject
+    private ResourceTreeService resourceTreeService;
 
-  @Override
-  public void calculate(Integer snapshotId, Map<Integer, Graph> inputGraphList) {
-    this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
+    @Override
+    public void calculate(Integer snapshotId, Map<Integer, Graph> inputGraphList) {
+        this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
+        this.inputGraphs = inputGraphList;
 
-    this.inputGraphs = inputGraphList;
-
-    this.addTranslationToLayer(snapshotId, new GrappaPoint(0, 0), 0);
-  }
-
-  private void addTranslationToLayer(Integer sourceId, GrappaPoint posTranslation, Integer height3d) {
-      LOGGER.debug("AbsolutePositionCalculator addTranslationToLayer " + sourceId);
-
-    // inputGraphs --> Map<Integer, Graph>
-    // Step 1 - search the graph for the source given
-    Graph graph = inputGraphs.get(sourceId);
-    GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
-
-    // Step 2 - set translation for the graph itself (will be a layer later)
-    GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY(), bb.getWidth(), bb.getHeight());
-    graph.setAttribute("bb", translatedBb);
-
-    graph.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
-
-    GrappaPoint pos;
-    double nodeLocationX;
-    double nodeLocationY;
-
-    // Step 3 - for all leaves, just add the parent point3d changes
-    for (Node leaf : graph.nodeElementsAsArray()) {
-      pos = (GrappaPoint) leaf.getAttributeValue(POS_ATTR);
-
-      innerGraphTranslation.put(Integer.valueOf(leaf.getAttributeValue("id").toString()), pos);
-
-      leaf.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
-
-      // set the position of the node
-      nodeLocationX = posTranslation.getX() + pos.getX() - translatedBb.getWidth() / 2;
-      nodeLocationY = posTranslation.getY() + pos.getY() + translatedBb.getHeight() / 2;
-      pos.setLocation(nodeLocationX, nodeLocationY);
-
-      Double width = (Double) leaf.getAttributeValue(WIDTH_ATTR);
-      // keep some distance to each other
-      width = width * SoftViz3dConstants.DPI_DOT_SCALE;
-      leaf.setAttribute(WIDTH_ATTR, width);
-
-      leaf.setAttribute(HEIGHT_ATTR, "not used");
+        this.addTranslationToLayer(snapshotId, new GrappaPoint(0, 0));
     }
 
-    // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes
-    List<Integer> children = resourceTreeService.getChildrenNodeIds(sourceId);
+    private void addTranslationToLayer(Integer sourceId, GrappaPoint posTranslation) {
+        LOGGER.debug("AbsolutePositionCalculator addTranslationToLayer " + sourceId);
 
-    for (Integer childId : children) {
-      pos = innerGraphTranslation.get(childId);
+        // inputGraphs --> Map<Integer, Graph>
+        // Step 1 - search the graph for the source given
+        Graph graph = inputGraphs.get(sourceId);
 
-      addTranslationToLayer(childId, pos, height3d + 20);
+        // Step 2 - set translation for the graph itself (will be a layer later)
+        GrappaBox translatedBb = translateGraphBoundingBox(posTranslation, graph);
 
-      graph.removeNode("dir_" + childId.toString());
+        // Step 3 - for all leaves, just add the parent point3d changes
+        translateLeaves(posTranslation, graph, translatedBb);
+
+        // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes
+        translateNodes(sourceId, graph);
     }
 
-  }
+    private void translateNodes(Integer sourceId, Graph graph) {
+        List<Integer> children = resourceTreeService.getChildrenNodeIds(sourceId);
+
+        for (Integer childId : children) {
+            GrappaPoint pos = innerGraphTranslation.get(childId);
+
+            addTranslationToLayer(childId, pos);
+
+            graph.removeNode("dir_" + childId.toString());
+        }
+    }
+
+    private void translateLeaves(GrappaPoint posTranslation, Graph graph, GrappaBox translatedBb) {
+        GrappaPoint pos;
+        double nodeLocationX;
+        double nodeLocationY;
+        for (Node leaf : graph.nodeElementsAsArray()) {
+            pos = (GrappaPoint) leaf.getAttributeValue(POS_ATTR);
+
+            int id = Integer.valueOf(leaf.getAttributeValue("id").toString());
+            innerGraphTranslation.put(id, pos);
+
+            // set the position of the node
+            nodeLocationX = posTranslation.getX() + pos.getX() - translatedBb.getWidth() / 2;
+            nodeLocationY = posTranslation.getY() + pos.getY() + translatedBb.getHeight() / 2;
+            pos.setLocation(nodeLocationX, nodeLocationY);
+
+            leaf.setAttribute(HEIGHT_ATTR, "not used");
+        }
+    }
+
+    private GrappaBox translateGraphBoundingBox(GrappaPoint posTranslation, Graph graph) {
+        GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
+        GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY(), bb.getWidth(), bb.getHeight());
+        graph.setAttribute("bb", translatedBb);
+        return translatedBb;
+    }
 
 }

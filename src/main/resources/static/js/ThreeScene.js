@@ -128,7 +128,7 @@ var ThreeScene = function(container) {
 		this.scene.add(mesh1);
 	},
 
-	this.drawText = function(textbla, position2, size) {
+	this.drawText = function(text, position2, size) {
         // ///// draw text on canvas /////////
 
         // create a canvas element
@@ -137,17 +137,16 @@ var ThreeScene = function(container) {
         
         context1.font = "Bold " + size + "px Arial";
         // context1.fillStyle = "rgba(255,0,0,0.95)";
-        context1.fillText(textbla, 0, size);
+        context1.fillText(text, 0, size);
 
-        var value = context1.measureText(textbla).width;
+        var value = context1.measureText(text).width;
         canvas1.width = value;
         canvas1.height = size;
         
         context1.font = size + "px Arial";
         context1.textBaseline = "bottom";
         context1.fillStyle = "rgba(0,0,0,0.95)";
-        context1.fillText(textbla, 0, size);
-        
+        context1.fillText(text, 0, size);
         
         // canvas contents will be used for a texture
         var texture1 = new THREE.Texture(canvas1);

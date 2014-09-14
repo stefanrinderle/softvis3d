@@ -27,6 +27,8 @@ import de.rinderle.softviz3d.sonar.SonarMetric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static att.grappa.GrappaConstants.WIDTH_ATTR;
+
 public class ViewLayerFormatter implements LayerFormatter {
 
     private static final Logger LOGGER = LoggerFactory
@@ -35,7 +37,7 @@ public class ViewLayerFormatter implements LayerFormatter {
     private static final int MIN_BUILDING_HEIGHT = 10;
 
     @Override
-    public Graph format(Graph graph, Integer depth) {
+    public void format(Graph graph, Integer depth) {
         double transparency = 0.0;
 
         // calc color
@@ -51,11 +53,21 @@ public class ViewLayerFormatter implements LayerFormatter {
         graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, nodesColor.getHex());
         graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSPARENCY, transparency + "");
 
+        Integer height3d = depth * 20;
+        graph.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
+
         for (Node leaf : graph.nodeElementsAsArray()) {
             fixBuildingHeight(leaf);
+
+            Double width = (Double) leaf.getAttributeValue(WIDTH_ATTR);
+            // keep some distance to each other
+            width = width * SoftViz3dConstants.DPI_DOT_SCALE;
+            leaf.setAttribute(WIDTH_ATTR, width);
+
+            leaf.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
         }
 
-        return graph;
+//        return graph;
     }
 
     /**

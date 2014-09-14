@@ -23,7 +23,7 @@ import att.grappa.Graph;
 import de.rinderle.softviz3d.sonar.SonarMetric;
 
 public interface LayerFormatter {
-    Graph format(Graph graph, Integer depth);
+    void format(Graph graph, Integer depth);
 
     double calcBuildingHeight(Double value, SonarMetric metricHeight);
 

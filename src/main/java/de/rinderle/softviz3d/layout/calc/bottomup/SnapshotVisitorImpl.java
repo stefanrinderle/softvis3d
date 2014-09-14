@@ -92,11 +92,12 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
         Graph outputGraph = dotExecutor.run(inputGraph, settings);
 
         // adjust graph
-        Graph adjustedGraph = formatter.format(outputGraph, snapshot.getDepth());
-        resultingGraphList.put(snapshot.getId(), adjustedGraph);
+        //Graph adjustedGraph =
+                formatter.format(outputGraph, snapshot.getDepth());
+        resultingGraphList.put(snapshot.getId(), outputGraph);
 
         // adjusted graph has a bounding box !
-        GrappaBox bb = (GrappaBox) adjustedGraph.getAttributeValue("bb");
+        GrappaBox bb = (GrappaBox) outputGraph.getAttributeValue("bb");
 
         // The dot output of the bb is given in DPI. The actual width
         // and height of the representing element has to be scaled
@@ -132,14 +133,10 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
         LOGGER.debug("LayoutVisitor.visitNode " + snapshot.getId() + " " + snapshot.getName());
 
         double sideLength = formatter.calcSideLength(snapshot.getFootprintMetricValue(), metricFootprint);
-        if (sideLength > 0) {
-            sideLength = sideLength / 72;
-        }
+        sideLength = sideLength / SoftViz3dConstants.DPI_DOT_SCALE;
 
         double buildingHeight = formatter.calcBuildingHeight(snapshot.getHeightMetricValue(), metricHeight);
-        if (buildingHeight > 0) {
-            buildingHeight = buildingHeight / 72;
-        }
+        buildingHeight = buildingHeight / SoftViz3dConstants.DPI_DOT_SCALE;
 
         buildingHeight = buildingHeight  * 15;
 

@@ -64,7 +64,7 @@ public class SnapshotVisitorImplTest {
     @Test
     public void testVisitNodeMinimal() throws DotExcecutorException {
         Graph graph = createGraph();
-        when(formatter.format(any(Graph.class), eq(DEPTH))).thenReturn(graph);
+        when(dotExecutor.run(any(Graph.class), any(Settings.class))).thenReturn(graph);
 
         Settings settings = new Settings();
         List<Double> minMaxValues = createMinMaxValues();
@@ -90,7 +90,7 @@ public class SnapshotVisitorImplTest {
     @Test
     public void testVisitNodeElements() throws DotExcecutorException {
         Graph graph = createGraph();
-        when(formatter.format(any(Graph.class), eq(DEPTH))).thenReturn(graph);
+        when(dotExecutor.run(any(Graph.class), any(Settings.class))).thenReturn(graph);
 
         Settings settings = new Settings();
         List<Double> minMaxValues = createMinMaxValues();
