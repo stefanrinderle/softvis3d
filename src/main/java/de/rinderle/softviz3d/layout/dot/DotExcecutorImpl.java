@@ -57,7 +57,7 @@ public class DotExcecutorImpl implements DotExecutor {
         String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
         String command = dotBin + " -K neato ";
 
-        String adot = executeCommand.executeDotCommand(command,
+        String adot = executeCommand.executeCommandReadAdot(command,
                 writer.toString());
 
         if (dotVersion.getVersion(settings).equals(DOT_BUG_VERSION)) {
@@ -76,7 +76,7 @@ public class DotExcecutorImpl implements DotExecutor {
                 String translationCommand = translationBin + "gvpr -c -f "
                         + translationFile.getAbsolutePath();
 
-                adot = executeCommand.executeDotCommand(translationCommand,
+                adot = executeCommand.executeCommandReadAdot(translationCommand,
                         adot);
             } catch (IOException e) {
                 LOGGER.error("Error on create temp file", e);
@@ -88,10 +88,8 @@ public class DotExcecutorImpl implements DotExecutor {
 
     private Graph parseDot(String adot) throws DotExcecutorException {
         String graphName = "LayoutLayer";
-        boolean directed = true;
-        boolean strict = false;
 
-        Graph newGraph = new Graph("new" + graphName, directed, strict);
+        Graph newGraph = new Graph("new" + graphName, true, false);
 
         OutputStream output = new StringOutputStream();
         PrintWriter errorStream = new PrintWriter(output);

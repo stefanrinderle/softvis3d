@@ -23,9 +23,6 @@ import att.grappa.Graph;
 
 import java.util.Map;
 
-/**
- * Created by stefan on 12.09.14.
- */
 public interface PositionCalculator {
-    void calculate(Integer snapshotId, Map<Integer, Graph> inputGraphList);
+    int calculate(Integer snapshotId, Map<Integer, Graph> inputGraphList);
 }

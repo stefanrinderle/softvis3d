@@ -33,29 +33,31 @@ public class ExecuteCommandImpl implements ExecuteCommand {
             .getLogger(ExecuteCommandImpl.class);
 
     @Override
-    public String executeCommand(String command) {
+    public String executeCommandReadErrorStream(String command) {
         StringBuilder output = new StringBuilder();
 
         Process p;
         try {
             p = Runtime.getRuntime().exec(command);
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     p.getErrorStream()));
 
             String line;
             while ((line = reader.readLine()) != null) {
-                output.append(line + "\n");
+                output.append(line);
+                output.append("\n");
             }
 
-        } catch (Exception e) {
-            LOGGER.error("Error on command " + command, e);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
         }
 
         return output.toString();
     }
 
     @Override
-    public String executeDotCommand(String command, String inputGraph)
+    public String executeCommandReadAdot(String command, String inputGraph)
             throws DotExcecutorException {
         StringBuilder adot = new StringBuilder();
 
@@ -92,9 +94,9 @@ public class ExecuteCommandImpl implements ExecuteCommand {
     }
 
     private static String checkForAdotBug(String line) {
-        if (line.indexOf(HEIGHT_ATTR) >= 0) {
+        if (line.contains(HEIGHT_ATTR)) {
             line = addQuotationMarks(line, HEIGHT_ATTR);
-        } else if (line.indexOf(WIDTH_ATTR) >= 0) {
+        } else if (line.contains(WIDTH_ATTR)) {
             line = line.replace(WIDTH_ATTR + "=", WIDTH_ATTR + "=\"");
             if (line.indexOf(']') >= 0) {
                 line = line.replace("]", "\"]");

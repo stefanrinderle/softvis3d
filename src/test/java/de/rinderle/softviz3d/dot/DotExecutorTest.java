@@ -24,7 +24,7 @@ import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorImpl;
 import de.rinderle.softviz3d.layout.dot.DotVersion;
 import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
-import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -32,7 +32,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.sonar.api.config.Settings;
 
-public class DotExecutorTest extends TestCase {
+import static org.junit.Assert.*;
+
+public class DotExecutorTest {
 
     @Mock
     private DotVersion dotVersion;
@@ -43,7 +45,7 @@ public class DotExecutorTest extends TestCase {
     @InjectMocks
     private DotExcecutorImpl underTest = new DotExcecutorImpl();
 
-    @Override
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -64,8 +66,8 @@ public class DotExecutorTest extends TestCase {
                 .thenReturn("2.36.0");
 
         Mockito.when(
-                executeCommand.executeDotCommand(Mockito.any(String.class),
-                        Mockito.any(String.class))).thenReturn(getADot());
+                executeCommand.executeCommandReadAdot(Mockito.any(String.class),
+                        Mockito.any(String.class))).thenReturn(createADot());
 
         Graph inputGraph = new Graph("not used in test");
         Graph result = underTest.run(inputGraph, new Settings());
@@ -80,13 +82,13 @@ public class DotExecutorTest extends TestCase {
                 .thenReturn("2.36.0");
 
         Mockito.when(
-                executeCommand.executeDotCommand(Mockito.any(String.class),
-                        Mockito.any(String.class))).thenReturn(getADot());
+                executeCommand.executeCommandReadAdot(Mockito.any(String.class),
+                        Mockito.any(String.class))).thenReturn(createADot());
 
         Graph inputGraph = new Graph("not used in test");
         underTest.run(inputGraph, new Settings());
 
-        Mockito.verify(executeCommand, Mockito.times(1)).executeDotCommand(
+        Mockito.verify(executeCommand, Mockito.times(1)).executeCommandReadAdot(
                 Mockito.any(String.class), Mockito.any(String.class));
     }
 
@@ -99,17 +101,17 @@ public class DotExecutorTest extends TestCase {
                 .thenReturn(DotExcecutorImpl.DOT_BUG_VERSION);
 
         Mockito.when(
-                executeCommand.executeDotCommand(Mockito.any(String.class),
-                        Mockito.any(String.class))).thenReturn(getADot());
+                executeCommand.executeCommandReadAdot(Mockito.any(String.class),
+                        Mockito.any(String.class))).thenReturn(createADot());
 
         Graph inputGraph = new Graph("not used in test");
         underTest.run(inputGraph, settings);
 
-        Mockito.verify(executeCommand, Mockito.times(2)).executeDotCommand(
+        Mockito.verify(executeCommand, Mockito.times(2)).executeCommandReadAdot(
                 Mockito.any(String.class), Mockito.any(String.class));
     }
 
-    public String getADot() {
+    public String createADot() {
         StringBuilder builder = new StringBuilder();
         builder.append("digraph 777 {");
         builder.append("\n");

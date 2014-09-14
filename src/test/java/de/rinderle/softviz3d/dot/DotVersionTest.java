@@ -23,7 +23,7 @@ import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotVersion;
 import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
 import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
-import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -31,7 +31,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.sonar.api.config.Settings;
 
-public class DotVersionTest extends TestCase {
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertNotNull;
+
+public class DotVersionTest {
 
     @Mock
     private ExecuteCommand executeCommand;
@@ -39,7 +42,7 @@ public class DotVersionTest extends TestCase {
     @InjectMocks
     private DotVersion underTest = new DotVersionImpl();
 
-    @Override
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -49,7 +52,7 @@ public class DotVersionTest extends TestCase {
         String version = "2.20.2";
         String versionInfo = "dot - Graphviz version " + version + " (Tue Jan 14 19:38:44 UTC 2014)";
         Mockito.when(
-                executeCommand.executeCommand(Mockito.any(String.class))).thenReturn(versionInfo);
+                executeCommand.executeCommandReadErrorStream(Mockito.any(String.class))).thenReturn(versionInfo);
 
         String result = underTest.getVersion(new Settings());
 

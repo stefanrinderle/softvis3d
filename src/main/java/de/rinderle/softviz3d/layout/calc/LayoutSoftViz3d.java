@@ -30,6 +30,7 @@ import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
+import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
@@ -54,38 +55,42 @@ public class LayoutSoftViz3d implements Layout {
     private PositionCalculator calc;
 
     @Override
-    public Map<Integer, Graph> startLayout(
-            Settings settings,
-            Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId)
-            throws DotExcecutorException {
+    public Map<Integer, Graph> startLayout(Settings settings, Integer snapshotId,
+            Integer footprintMetricId, Integer heightMetricId) throws DotExcecutorException {
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
 
         resourceTreeService.createTreeStructrue(snapshotId);
 
-        List<Double> minMaxValues = sonarService.getMinMaxMetricValuesByRootSnapshotId(
-                snapshotId, footprintMetricId, heightMetricId);
+        LOGGER.info("Created tree structure after " + stopWatch.getTime());
 
         SonarSnapshot snapshot = sonarService.getSnapshotById(snapshotId, footprintMetricId, heightMetricId, 0);
 
-        SnapshotVisitor visitor = visitorFactory.create(settings, minMaxValues);
+        Map<Integer, Graph> resultGraphs = startBottomUpCalculation(snapshot, settings, footprintMetricId, heightMetricId);
 
-        Processor processor = processorFactory.create(footprintMetricId, heightMetricId);
+        int leavesCounter = calc.calculate(snapshot.getId(), resultGraphs);
 
-        processor.accept(visitor, snapshot, 0);
-        Map<Integer, Graph> resultGraphs = visitor.getResultingGraphList();
-
-        startAbsolutePositioning(snapshot.getId(), resultGraphs);
+        stopWatch.stop();
+        LOGGER.info("Calculation finished after " + stopWatch.getTime() + " with "
+                + leavesCounter + " leaves");
 
         return resultGraphs;
     }
 
-    private Map<Integer, Graph> startAbsolutePositioning(Integer snapshotId,
-            Map<Integer, Graph> resultGraphs) {
-        // NEXT STEP HERE
-        calc.calculate(snapshotId, resultGraphs);
-        // ---
+    private Map<Integer, Graph> startBottomUpCalculation(SonarSnapshot snapshot,
+            Settings settings, Integer footprintMetricId, Integer heightMetricId)
+            throws DotExcecutorException {
 
-        return resultGraphs;
+        List<Double> minMaxValues = sonarService.getMinMaxMetricValuesByRootSnapshotId(
+                snapshot.getId(), footprintMetricId, heightMetricId);
+
+        SnapshotVisitor visitor = visitorFactory.create(settings, minMaxValues);
+        Processor processor = processorFactory.create(footprintMetricId, heightMetricId);
+
+        processor.accept(visitor, snapshot, 0);
+
+        return visitor.getResultingGraphList();
     }
 
 }
