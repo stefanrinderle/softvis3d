@@ -1,9 +1,9 @@
-<script type="text/javascript" src="/static/softviz3d/threeJS/three.min.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softviz3d/threeJS/three.min.js"></script>
 
-<script type="text/javascript" src="/static/softviz3d/threeJS/OrbitControls.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softviz3d/threeJS/OrbitControls.js"></script>
 
-<script type="text/javascript" src="/static/softviz3d/threeJS/Detector.js"></script>
-<script type="text/javascript" src="/static/softviz3d/threeJS/stats.min.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softviz3d/threeJS/Detector.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softviz3d/threeJS/stats.min.js"></script>
 
 <div id="metricForm" style="height: 30px;">
   <%
@@ -72,7 +72,7 @@
 
 <div id="renderContainer" style="border: 1px solid black;"></div>
 
-<script type="text/javascript" src="/static/softviz3d/js/ThreeScene.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softviz3d/js/ThreeScene.js"></script>
 
 <script type="text/javascript">
     if (!Detector.webgl) {
