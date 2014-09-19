@@ -106,7 +106,7 @@
 
     <% heightString = value.getAttributeValue('buildingHeight').to_s %>
 
-    geometryLayer = new THREE.CubeGeometry(<%= layerBB.getWidth() %>, 5,
+    geometryLayer = new THREE.BoxGeometry(<%= layerBB.getWidth() %>, 5,
             <%= layerBB.getHeight() %>);
 
     // set material (color)
@@ -129,7 +129,7 @@
             pointArray = point.to_s.split(',')
             heightString = val.getAttributeValue('buildingHeight')
    %>
-    nodeGeometry = new THREE.CubeGeometry(
+    nodeGeometry = new THREE.BoxGeometry(
             <%= val.getAttributeValue('width').to_s %>, <%= heightString %>,
             <%= val.getAttributeValue('width').to_s %>);
 

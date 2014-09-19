@@ -43,13 +43,12 @@ var ThreeScene = function(container) {
 		var rendererRef = this.renderer;
 		controls.addEventListener('change', function render() {
 			rendererRef.render(sceneRef, cameraRef);
-			stats.update();
+			//stats.update();
 		});
 		
 		this.container.appendChild(this.renderer.domElement);
 		
-		// TODO SRI: stats should be its own container, not blocking the rest of the rendering view
-		/**this.showStats(this.container);**/
+		this.showStats();
 	},
 	
 	this.setLight = function () {
@@ -76,13 +75,32 @@ var ThreeScene = function(container) {
 	
 	this.showStats = function() {
 		// show stats
-		stats.domElement.style.zIndex = 100;
-		this.container.appendChild(stats.domElement);
+		//stats.domElement.style.zIndex = 100;
+		//this.container.appendChild(stats.domElement);
+
+		stats.setMode(0);
+
+        // Align top-left
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.bottom = '0px';
+        stats.domElement.style.top = '0px';
+
+        document.body.appendChild( stats.domElement );
+
+        setInterval( function () {
+
+            stats.begin();
+
+            // your code goes here
+
+            stats.end();
+
+        }, 1000 / 60 );
 	},
 	
 	this.createCenterCube = function() {
 		// create center cube for better navigation
-		var centerCube = new THREE.CubeGeometry(10, 10, 10);
+		var centerCube = new THREE.BoxGeometry(10, 10, 10);
 		var greenMaterial = new THREE.MeshBasicMaterial({
 			color : 0x00ff00
 		});
