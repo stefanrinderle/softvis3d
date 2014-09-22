@@ -113,7 +113,7 @@
         });
 
         // <%= value.to_s %>
-        createBox(geometryLayer, layerMaterial, position, "<%= value.to_s %>");
+        createBox(geometryLayer, layerMaterial, position, "<%= key %>");
 
         // set node material for all containing nodes
         <%
@@ -148,7 +148,7 @@
             //threeScene.drawText("<%= val.getAttributeValue('displayName').to_s %>", textposition, textsize)
 
             // <%= val.to_s %>
-            createBox(nodeGeometry, nodeMaterial, position, "<%= val.to_s %>");
+            createBox(nodeGeometry, nodeMaterial, position, "<%= val.getAttributeValue('id') %>");
             <%
         }
    end
@@ -157,3 +157,8 @@
    setLight();
 
 </script>
+
+<div id="detailsContainer"
+     style="border: 1px solid blue; position: absolute;
+             top: 40px; right: 10px; width: 200px; height: 200px;">
+</div>

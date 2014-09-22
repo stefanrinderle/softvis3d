@@ -66,4 +66,10 @@ public class SonarServiceImpl implements SonarService {
                 footprintMetricId, heightMetricId, depth);
     }
 
+    @Override
+    public String getSnapshotDetails(Integer id,
+           Integer footprintMetricId, Integer heightMetricId, Integer depth) {
+        return sonarDao.getSnapshotById(id, footprintMetricId, heightMetricId, depth).toString();
+    }
+
 }

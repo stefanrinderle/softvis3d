@@ -45,8 +45,11 @@ public final class SoftViz3dPlugin extends SonarPlugin {
   @Override
   public List<Class<? extends Extension>> getExtensions() {
     List<Class<? extends Extension>> extensions = new ArrayList<Class<? extends Extension>>();
+
     extensions.add(SoftViz3dPage.class);
     extensions.add(SoftViz3dExtension.class);
+    extensions.add(SoftViz3dWebservice.class);
+
     return extensions;
   }
 

@@ -6,6 +6,8 @@ var objects = [];
 
 var containerWidth, containerHeight;
 
+var selectedObject, selectedObjectColor;
+
 function init(container, showStats) {
     var info = document.createElement( 'div' );
     info.style.position = 'absolute';
@@ -78,15 +80,22 @@ function onDocumentMouseDown( event ) {
 
     if ( intersects.length > 0 ) {
 
-        intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+        // reset former selected object
+        if (!!selectedObject) {
+            selectedObject.material.color.setHex(selectedObjectColor);
+        }
 
+        selectedObject = intersects[ 0 ].object;
+        selectedObjectColor = selectedObject.material.color.getHex();
+        selectedObject.material.color.setHex(0xFFBF00);
+
+        showDetails(intersects[ 0 ].object.softviz3dId);
         console.log(intersects[ 0 ].object.softviz3dId);
-
-//        var particle = new THREE.Sprite( particleMaterial );
-//        particle.position.copy( intersects[ 0 ].point );
-//        particle.scale.x = particle.scale.y = 16;
-//        scene.add( particle );
     }
+}
+
+function getParameter() {
+    return selectedObject.softviz3dId;
 }
 
 function animate() {

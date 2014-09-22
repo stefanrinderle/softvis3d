@@ -86,6 +86,17 @@ public class SoftViz3dExtension implements ServerExtension {
         return layout.startLayout(settings, snapshotId, metricId1, metricId2);
     }
 
+    public String getSnapshotDetails(Integer id, String metricString1, String metricString2) {
+
+        LOGGER.info("getSnapshotDetails " + id);
+
+//        Integer id = Integer.valueOf(idString);
+        Integer metricId1 = Integer.valueOf(metricString1);
+        Integer metricId2 = Integer.valueOf(metricString2);
+
+        return sonarService.getSnapshotDetails(id, metricId1, metricId2, 0);
+    }
+
     private void logStartOfCalc(String metricId1, String metricId2,
             Integer snapshotId) {
         LOGGER.info("Start layout calculation for snapshot "

@@ -21,6 +21,8 @@ package de.rinderle.softviz3d.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import de.rinderle.softviz3d.handler.SoftViz3dWebserviceHandler;
+import de.rinderle.softviz3d.handler.SoftViz3dWebserviceHandlerImpl;
 import de.rinderle.softviz3d.layout.calc.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutSoftViz3d;
 import de.rinderle.softviz3d.layout.calc.bottomup.*;
@@ -50,6 +52,8 @@ public class SoftViz3dModule extends AbstractModule {
         bind(LayerFormatter.class).to(ViewLayerFormatter.class);
 
         bind(PositionCalculator.class).to(AbsolutePositionCalculator.class);
+
+        bind(SoftViz3dWebserviceHandler.class).to(SoftViz3dWebserviceHandlerImpl.class);
 
         install(new FactoryModuleBuilder().implement(de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor.class,
                 SnapshotVisitorImpl.class).build(SnapshotVisitorFactory.class));
