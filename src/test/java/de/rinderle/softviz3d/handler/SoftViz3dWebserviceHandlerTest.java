@@ -35,6 +35,7 @@ import java.io.StringWriter;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 /**
@@ -44,6 +45,8 @@ public class SoftViz3dWebserviceHandlerTest {
 
     private StringWriter stringWriter = new StringWriter();
     private JsonWriter jsonWriter = JsonWriter.of(stringWriter);
+
+    private Integer snapshotId = 123;
 
     @Mock
     private SonarService sonarService;
@@ -62,7 +65,7 @@ public class SoftViz3dWebserviceHandlerTest {
         Response response = createResponse();
 
         String serviceResult = "service result";
-        when(sonarService.getSnapshotDetails(anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(serviceResult);
+        when(sonarService.getSnapshotDetails(eq(snapshotId), anyInt(), anyInt(), anyInt())).thenReturn(serviceResult);
 
         handler.handle(request, response);
 
@@ -83,7 +86,11 @@ public class SoftViz3dWebserviceHandlerTest {
 
                 @Override
                 public String param(String key) {
-                    return "bla44";
+                    if ("snapshotId".equals(key)) {
+                        return snapshotId.toString();
+                    } else {
+                        return "";
+                    }
                 }
             };
     }

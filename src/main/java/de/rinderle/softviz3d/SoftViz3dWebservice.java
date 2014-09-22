@@ -50,7 +50,7 @@ public class SoftViz3dWebservice implements WebService {
      controller.createAction("getSnapshotDetails")
        .setDescription("Entry point")
        .setHandler(this.handler)
-      .createParam("snapshotId", "Snapshot id");
+       .createParam("snapshotId", "Snapshot id");
 
     // important to apply changes
     controller.done();

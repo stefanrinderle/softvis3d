@@ -94,8 +94,8 @@ function onDocumentMouseDown( event ) {
     }
 }
 
-function getParameter() {
-    return selectedObject.softviz3dId;
+function showDetails(snapshotId) {
+
 }
 
 function animate() {

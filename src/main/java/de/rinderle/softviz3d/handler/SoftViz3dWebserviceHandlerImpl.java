@@ -35,7 +35,8 @@ public class SoftViz3dWebserviceHandlerImpl implements SoftViz3dWebserviceHandle
 
   @Override
   public void handle(Request request, Response response) {
-      Integer id = 1350;
+      Integer id = Integer.valueOf(request.param("snapshotId"));
+
       Integer footprintMetricId = 20;
       Integer heightMetricId = 1;
       Integer depth = 0;
