@@ -5,6 +5,8 @@
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softviz3d/threeJS/Detector.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softviz3d/threeJS/stats.min.js"></script>
 
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softviz3d/js/ThreeScene.js"></script>
+
 <div id="metricForm" style="height: 30px;">
   <%
      # get extension class and start layout
@@ -72,21 +74,17 @@
 
 <div id="renderContainer" style="border: 1px solid black;"></div>
 
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softviz3d/js/ThreeScene.js"></script>
-
 <script type="text/javascript">
     if (!Detector.webgl) {
         Detector.addGetWebGLMessage();
     }
 
-    var threeScene = new ThreeScene(document.getElementById('renderContainer'));
-    threeScene.init();
-    
-    
+    init(document.getElementById('renderContainer'), true);
+    createCenterCube();
+    animate();
 </script>
 
 <script type="text/javascript">
-
    <%
    # get extension class and start layout
    softviz3d = Api::Utils.java_facade.
@@ -98,60 +96,64 @@
    resultMap.each do |key, value|
         # set bb (position and size)
         layerBB = value.getAttributeValue('bb')
-   %>
-    position = new Array();
-    position.x = <%= layerBB.getX() %>;
-    position.y = <%= value.getAttributeValue('layerHeight3d') %>;
-    position.z = <%= layerBB.getY() %>;
+       %>
+        position = new Array();
+        position.x = <%= layerBB.getX() %>;
+        position.y = <%= value.getAttributeValue('layerHeight3d') %>;
+        position.z = <%= layerBB.getY() %>;
 
-    <% heightString = value.getAttributeValue('buildingHeight').to_s %>
+        <% heightString = value.getAttributeValue('buildingHeight').to_s %>
 
-    geometryLayer = new THREE.BoxGeometry(<%= layerBB.getWidth() %>, 5,
-            <%= layerBB.getHeight() %>);
+        geometryLayer = new THREE.BoxGeometry(<%= layerBB.getWidth() %>, 5,
+                <%= layerBB.getHeight() %>);
 
-    // set material (color)
-    layerMaterial = new THREE.MeshBasicMaterial({
-        color: <%= value.getAttributeValue('color').getHex %>
-    });
+        // set material (color)
+        layerMaterial = new THREE.MeshBasicMaterial({
+            color: <%= value.getAttributeValue('color').getHex %>
+        });
 
-    // <%= value.to_s %>
-    threeScene.createBox(geometryLayer, layerMaterial, position);
+        // <%= value.to_s %>
+        createBox(geometryLayer, layerMaterial, position, "<%= value.to_s %>");
 
-    // set node material for all containing nodes
-    nodeMaterial = new THREE.MeshLambertMaterial({
-        color: <%= value.getAttributeValue('nodesColor') %>
-    });
-    <%
+        // set node material for all containing nodes
+        <%
         # show all nodes
         value.nodeElementsAsArray.each { |val|
-
+            %>
+            var nodeMaterial = new THREE.MeshLambertMaterial({
+                color: <%= value.getAttributeValue('nodesColor') %>
+            });
+            <%
             point = val.getAttributeValue('pos')
             pointArray = point.to_s.split(',')
             heightString = val.getAttributeValue('buildingHeight')
-   %>
-    nodeGeometry = new THREE.BoxGeometry(
-            <%= val.getAttributeValue('width').to_s %>, <%= heightString %>,
-            <%= val.getAttributeValue('width').to_s %>);
+           %>
+            var nodeGeometry = new THREE.BoxGeometry(
+                    <%= val.getAttributeValue('width').to_s %>, <%= heightString %>,
+                    <%= val.getAttributeValue('width').to_s %>);
 
-    position = new Array();
-    position.x = <%= pointArray[0] %>;
-    <% zPos = val.getAttributeValue('layerHeight3d').to_f + heightString.to_f / 2 %>
-    position.y = <%= zPos.to_s %>;
-    position.z = <%= pointArray[1] %>;
+            var position = new Array();
+            position.x = <%= pointArray[0] %>;
+            <% zPos = val.getAttributeValue('layerHeight3d').to_f + heightString.to_f / 2 %>
+            position.y = <%= zPos.to_s %>;
+            position.z = <%= pointArray[1] %>;
 
-    var textsize = <%= val.getAttributeValue('width').to_f / 8 %>
+            //var textsize = <%= val.getAttributeValue('width').to_f / 8 %>
 
-    textposition = new Array();
-    textposition.x = position.x;
-    textposition.y = <%= val.getAttributeValue('layerHeight3d').to_f + heightString.to_f + 10 %> +textsize / 2;
-    textposition.z = position.z;
+            //textposition = new Array();
+            //textposition.x = position.x;
+            //textposition.y = <%= val.getAttributeValue('layerHeight3d').to_f + heightString.to_f + 10 %> +textsize / 2;
+            //textposition.z = position.z;
 
-    threeScene.drawText("<%= val.getAttributeValue('displayName').to_s %>", textposition, textsize)
+            //threeScene.drawText("<%= val.getAttributeValue('displayName').to_s %>", textposition, textsize)
 
-    // <%= val.to_s %>
-    threeScene.createBox(nodeGeometry, nodeMaterial, position);
-    <%
-    }
-end
+            // <%= val.to_s %>
+            createBox(nodeGeometry, nodeMaterial, position, "<%= val.to_s %>");
+            <%
+        }
+   end
 %>
+
+   setLight();
+
 </script>
