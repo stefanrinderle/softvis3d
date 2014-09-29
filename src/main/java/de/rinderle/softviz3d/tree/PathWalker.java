@@ -35,9 +35,13 @@ public class PathWalker {
     private Pattern pathSeperator = Pattern.compile("/");
     
     public PathWalker(int id) {
-        root = new Node(id);
+        root = new Node(id, null, 0);
     }
-    
+
+    public int getNextSequence() {
+        return generatedIdSequence++;
+    }
+
     public void addPath(int id, String path) {
         String[] names = pathSeperator.split(path);
         Node node = root;

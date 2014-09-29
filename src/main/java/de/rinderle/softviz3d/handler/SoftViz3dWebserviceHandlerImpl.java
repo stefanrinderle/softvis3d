@@ -27,26 +27,24 @@ import org.sonar.api.utils.text.JsonWriter;
 
 public class SoftViz3dWebserviceHandlerImpl implements SoftViz3dWebserviceHandler {
 
-  public SoftViz3dWebserviceHandlerImpl() {
-  }
+    @Inject
+    private SonarService sonarService;
 
-  @Inject
-  private SonarService sonarService;
+    @Override
+    public void handle(Request request, Response response) {
+        Integer id = Integer.valueOf(request.param("snapshotId"));
 
-  @Override
-  public void handle(Request request, Response response) {
-      Integer id = Integer.valueOf(request.param("snapshotId"));
+        Integer footprintMetricId = 20;
+        Integer heightMetricId = 1;
+        Integer depth = 0;
 
-      Integer footprintMetricId = 20;
-      Integer heightMetricId = 1;
-      Integer depth = 0;
+        String result = sonarService.getSnapshotDetails(id, footprintMetricId, heightMetricId, depth);
 
-      String result = sonarService.getSnapshotDetails(id, footprintMetricId, heightMetricId, depth);
+        JsonWriter json = response.newJsonWriter();
+        json.beginObject();
+        json.prop("result", result);
+        json.endObject().close();
 
-      JsonWriter json = response.newJsonWriter();
-      json.beginObject();
-      json.prop("result", result);
-      json.endObject().close();
-  }
+    }
 
 }

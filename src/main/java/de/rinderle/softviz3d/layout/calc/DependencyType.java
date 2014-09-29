@@ -17,21 +17,11 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.tree;
+package de.rinderle.softviz3d.layout.calc;
 
-import java.util.List;
-
-public interface ResourceTreeService {
-
-    void createTreeStructrue(int rootSnapshotId);
-
-    List<Integer> getChildrenNodeIds(Integer id);
-
-    List<Integer> getChildrenLeafIds(Integer id);
-
-    Node findNode(Integer out);
-
-    Integer addInterfaceLeafNode(String intLeafLabel, Integer parentId);
-
-    Node findInterfaceLeafNode(String intLeafLabel);
+/**
+ * Created by srinderle on 26.09.14.
+ */
+public enum DependencyType {
+    INPUT_FLAT
 }

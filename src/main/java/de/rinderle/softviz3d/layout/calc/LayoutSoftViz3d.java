@@ -27,6 +27,8 @@ import de.rinderle.softviz3d.layout.calc.bottomup.Processor;
 import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
 import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.sonar.DependenyDao;
+import de.rinderle.softviz3d.sonar.SonarDependency;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
@@ -34,6 +36,7 @@ import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
+import org.sonar.api.design.DependencyDto;
 
 import java.util.List;
 import java.util.Map;
@@ -46,7 +49,11 @@ public class LayoutSoftViz3d implements Layout {
     @Inject
     private ResourceTreeService resourceTreeService;
     @Inject
+    private DependencyExpander dependencyExpander;
+    @Inject
     private SonarService sonarService;
+    @Inject
+    private DependenyDao dependenyDao;
     @Inject
     private SnapshotVisitorFactory visitorFactory;
     @Inject
@@ -62,6 +69,9 @@ public class LayoutSoftViz3d implements Layout {
         stopWatch.start();
 
         resourceTreeService.createTreeStructrue(snapshotId);
+
+        List<SonarDependency> dependencies = dependenyDao.getDependencies(1);
+        dependencyExpander.execute(snapshotId, dependencies);
 
         LOGGER.info("Created tree structure after " + stopWatch.getTime());
 

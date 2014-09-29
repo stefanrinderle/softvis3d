@@ -31,12 +31,8 @@ import java.util.Map;
 
 @Singleton
 public class ResourceTreeServiceImpl implements ResourceTreeService {
-
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(ResourceTreeServiceImpl.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResourceTreeServiceImpl.class);
     private PathWalker pathWalker;
-
     @Inject
     private SonarDao sonarDao;
 
@@ -59,15 +55,55 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     @Override
     public List<Integer> getChildrenNodeIds(Integer id) {
         Node node = recursiveSearch(id, pathWalker.getTree());
-        
+
         return getChildrenNodes(node.getChildren());
     }
-    
+
     @Override
     public List<Integer> getChildrenLeafIds(Integer id) {
         Node node = recursiveSearch(id, pathWalker.getTree());
-        
+
         return getChildrenLeaves(node.getChildren());
+    }
+
+    @Override
+    public Node findNode(final Integer id) {
+        return recursiveSearch(id, pathWalker.getTree());
+    }
+
+    @Override
+    public Integer addInterfaceLeafNode(final String intLeafLabel, final Integer parentId) {
+        // search for parent node
+        Node parent = recursiveSearch(parentId, pathWalker.getTree());
+
+        Integer id = pathWalker.getNextSequence();
+        final Node interfaceLeafNode = new Node(id, parent, parent.getDepth() + 1);
+        parent.getChildren().put(intLeafLabel, interfaceLeafNode);
+
+        return interfaceLeafNode.getId();
+    }
+
+    @Override
+    public Node findInterfaceLeafNode(final String intLeafLabel) {
+        return recursiveSearch(intLeafLabel, pathWalker.getTree());
+    }
+
+    private Node recursiveSearch(String name, Node node) {
+        Map<String, Node> children = node.getChildren();
+        Node temp;
+
+        if (children.containsKey(name)) {
+            return children.get(name);
+        } else if (!children.isEmpty()) {
+            for (Node child : children.values()) {
+                temp = recursiveSearch(name, child);
+                if (temp != null) {
+                    return temp;
+                }
+            }
+        }
+
+        return null;
     }
 
     private Node recursiveSearch(Integer id, Node node) {
@@ -85,7 +121,7 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
             return node;
         }
-        
+
         Map<String, Node> children = node.getChildren();
         Node temp;
         if (!children.isEmpty()) {
@@ -111,7 +147,7 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
         return result;
     }
-    
+
     private List<Integer> getChildrenLeaves(Map<String, Node> children) {
         List<Integer> result = new ArrayList<Integer>();
 
@@ -123,5 +159,5 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
         return result;
     }
-    
+
 }

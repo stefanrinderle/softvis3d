@@ -24,36 +24,49 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class Node {
-        private final Map<String, Node> children = new TreeMap<String, Node>();
-        private int id;
+    private final int depth;
+    private int id;
+    private Node parent;
 
-        public Node(int id) {
-            this.id = id;
-        }
-        
-        public Node getChild(String name) {
-            if (children.containsKey(name)) {
-                return children.get(name);
-            } else {
-                return null;
-            }
-        }
-        
-        public Node getOrCreateChild(int id, String name) {
-            if (children.containsKey(name)) {
-                return children.get(name);
-            }
-                
-            Node result = new Node(id);
-            children.put(name, result);
-            return result;
-        }
+    private final Map<String, Node> children = new TreeMap<String, Node>();
 
-        public Map<String, Node> getChildren() {
-            return Collections.unmodifiableMap(children);
-        }
+    public Node(int id, Node parent, int depth) {
+        this.id = id;
+        this.parent = parent;
+        this.depth = depth;
+    }
 
-        public int getId() {
-            return id;
+    public Node getChild(String name) {
+        if (children.containsKey(name)) {
+            return children.get(name);
+        } else {
+            return null;
         }
     }
+
+    public Node getOrCreateChild(int id, String name) {
+        if (children.containsKey(name)) {
+            return children.get(name);
+        }
+
+        Node result = new Node(id, this, this.depth + 1);
+        children.put(name, result);
+        return result;
+    }
+
+    public Map<String, Node> getChildren() {
+        return Collections.unmodifiableMap(children);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Node getParent() {
+        return parent;
+    }
+
+    public Integer getDepth() {
+        return depth;
+    }
+}

@@ -17,21 +17,17 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.tree;
+package de.rinderle.softviz3d.sonar;
 
 import java.util.List;
 
-public interface ResourceTreeService {
+import org.sonar.api.database.DatabaseSession;
 
-    void createTreeStructrue(int rootSnapshotId);
+/**
+ * Created by srinderle on 26.09.14.
+ */
+public interface DependenyDao {
+    void setDatabaseSession(DatabaseSession session);
 
-    List<Integer> getChildrenNodeIds(Integer id);
-
-    List<Integer> getChildrenLeafIds(Integer id);
-
-    Node findNode(Integer out);
-
-    Integer addInterfaceLeafNode(String intLeafLabel, Integer parentId);
-
-    Node findInterfaceLeafNode(String intLeafLabel);
+    List<SonarDependency> getDependencies(Integer projectSnapshotId);
 }

@@ -19,12 +19,17 @@
  */
 package de.rinderle.softviz3d.sonar;
 
-import com.google.inject.Inject;
-import org.sonar.api.config.Settings;
-
 import java.util.List;
 
+import com.google.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
+
 public class SonarServiceImpl implements SonarService {
+
+    private static final Logger LOGGER = LoggerFactory
+        .getLogger(SonarServiceImpl.class);
 
     @Inject
     private SonarDao sonarDao;
@@ -69,6 +74,7 @@ public class SonarServiceImpl implements SonarService {
     @Override
     public String getSnapshotDetails(Integer id,
            Integer footprintMetricId, Integer heightMetricId, Integer depth) {
+        LOGGER.info("getSnapshotDetails for id " + id);
         return sonarDao.getSnapshotById(id, footprintMetricId, heightMetricId, depth).toString();
     }
 

@@ -23,12 +23,25 @@ import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import de.rinderle.softviz3d.handler.SoftViz3dWebserviceHandler;
 import de.rinderle.softviz3d.handler.SoftViz3dWebserviceHandlerImpl;
+import de.rinderle.softviz3d.layout.calc.DependencyExpander;
+import de.rinderle.softviz3d.layout.calc.DependencyExpanderImpl;
 import de.rinderle.softviz3d.layout.calc.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutSoftViz3d;
-import de.rinderle.softviz3d.layout.calc.bottomup.*;
+import de.rinderle.softviz3d.layout.calc.bottomup.BottomUpProcessor;
+import de.rinderle.softviz3d.layout.calc.bottomup.LayerFormatter;
+import de.rinderle.softviz3d.layout.calc.bottomup.Processor;
+import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitorImpl;
+import de.rinderle.softviz3d.layout.calc.bottomup.ViewLayerFormatter;
 import de.rinderle.softviz3d.layout.calc.topdown.AbsolutePositionCalculator;
 import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
-import de.rinderle.softviz3d.layout.dot.*;
+import de.rinderle.softviz3d.layout.dot.DotExcecutorImpl;
+import de.rinderle.softviz3d.layout.dot.DotExecutor;
+import de.rinderle.softviz3d.layout.dot.DotVersion;
+import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
+import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
+import de.rinderle.softviz3d.layout.dot.ExecuteCommandImpl;
+import de.rinderle.softviz3d.sonar.DependenyDao;
+import de.rinderle.softviz3d.sonar.DependenyDaoImpl;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarDaoImpl;
 import de.rinderle.softviz3d.sonar.SonarService;
@@ -44,9 +57,11 @@ public class SoftViz3dModule extends AbstractModule {
         bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
         
         bind(SonarDao.class).to(SonarDaoImpl.class);
+        bind(DependenyDao.class).to(DependenyDaoImpl.class);
         bind(SonarService.class).to(SonarServiceImpl.class);
         
         bind(ResourceTreeService.class).to(ResourceTreeServiceImpl.class);
+        bind(DependencyExpander.class).to(DependencyExpanderImpl.class);
 
         bind(Layout.class).to(LayoutSoftViz3d.class);
         bind(LayerFormatter.class).to(ViewLayerFormatter.class);
