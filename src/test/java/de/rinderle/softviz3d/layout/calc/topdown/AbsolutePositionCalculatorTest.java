@@ -79,7 +79,7 @@ public class AbsolutePositionCalculatorTest extends TestCase {
 
         List<Integer> childrenNodes = new ArrayList<Integer>();
         childrenNodes.add(SUBGRAPH_ID);
-        when(resourceTreeService.getChildrenNodeIds(eq(ID))).thenReturn(childrenNodes);
+//        when(resourceTreeService.getChildrenNodeIds(eq(ID))).thenReturn(childrenNodes);
 
         underTest.calculate(ID, inputGraphList);
 

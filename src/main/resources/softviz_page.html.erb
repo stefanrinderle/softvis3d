@@ -115,9 +115,9 @@
         // <%= value.to_s %>
         createBox(geometryLayer, layerMaterial, position, "<%= key %>");
 
-        // set node material for all containing nodes
+        // set treeNode material for all containing treeNodes
         <%
-        # show all nodes
+        # show all treeNodes
         value.nodeElementsAsArray.each { |val|
             %>
             var nodeMaterial = new THREE.MeshLambertMaterial({

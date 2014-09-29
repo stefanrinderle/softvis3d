@@ -25,6 +25,7 @@ import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import de.rinderle.softviz3d.tree.TreeNode;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,16 +74,16 @@ public class BottomUpProcessor implements Processor {
     }
 
     private List<LayeredLayoutElement> processChildrenNodes(SnapshotVisitor visitor, SonarSnapshot source, int depth) throws DotExcecutorException {
-        List<Integer> childrenNodeIds = resourceTreeService.getChildrenNodeIds(source.getId());
+        List<TreeNode> childrenTreeNodeIds = resourceTreeService.getChildrenNodeIds(source.getId());
 
-        List<SonarSnapshot> childrenNodes = getSonarSnapshots(childrenNodeIds, depth);
+        List<SonarSnapshot> childrenNodes = getSonarSnapshots(childrenTreeNodeIds, depth);
 
-        boolean hasSameSize = childrenNodeIds.size() == childrenNodes.size();
+        boolean hasSameSize = childrenTreeNodeIds.size() == childrenNodes.size();
         if (!hasSameSize) {
-            for (Integer nodeId : childrenNodeIds) {
-                if (!isIdInDatabaseResult(nodeId, childrenNodes)) {
+            for (TreeNode treeNode : childrenTreeNodeIds) {
+                if (!isIdInDatabaseResult(treeNode.getId(), childrenNodes)) {
                     SonarSnapshot generatedSnapshot =
-                            new SonarSnapshot(nodeId, "generated" + nodeId, depth, 0.0, 0.0);
+                            new SonarSnapshot(treeNode.getId(), "generated" + treeNode.getId(), depth, 0.0, 0.0);
                     childrenNodes.add(generatedSnapshot);
                 }
             }
@@ -96,10 +97,22 @@ public class BottomUpProcessor implements Processor {
         return layerElements;
     }
 
-    private List<LayeredLayoutElement> processChildrenLeaves(SnapshotVisitor visitor, SonarSnapshot source, int depth) {
-        List<Integer> childrenLeafIds = resourceTreeService.getChildrenLeafIds(source.getId());
+    private List<LayeredLayoutElement> processChildrenLeaves(SnapshotVisitor visitor, SonarSnapshot source,
+        int depth) {
+        List<TreeNode> childrenLeafsIds = resourceTreeService.getChildrenLeafIds(source.getId());
 
-        List<SonarSnapshot> childrenLeaves = getSonarSnapshots(childrenLeafIds, depth + 1);
+        List<SonarSnapshot> childrenLeaves = getSonarSnapshots(childrenLeafsIds, depth + 1);
+
+        boolean hasSameSize = childrenLeafsIds.size() == childrenLeaves.size();
+        if (!hasSameSize) {
+            for (TreeNode treeNode : childrenLeafsIds) {
+                if (!isIdInDatabaseResult(treeNode.getId(), childrenLeaves)) {
+                    SonarSnapshot generatedSnapshot =
+                        new SonarSnapshot(treeNode.getId(), "generated" + treeNode.getId(), depth, 0.0, 0.0);
+                    childrenLeaves.add(generatedSnapshot);
+                }
+            }
+        }
 
         List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
         for (SonarSnapshot leaf : childrenLeaves) {
@@ -109,11 +122,17 @@ public class BottomUpProcessor implements Processor {
         return layerElements;
     }
 
-    private List<SonarSnapshot> getSonarSnapshots(List<Integer> snapshotIds, int depth) {
+    private List<SonarSnapshot> getSonarSnapshots(List<TreeNode> treeNodes, int depth) {
         List<SonarSnapshot> snapshots;
-        if (snapshotIds.isEmpty()) {
+        if (treeNodes.isEmpty()) {
             snapshots = new ArrayList<SonarSnapshot>();
         } else {
+
+            ArrayList<Integer> snapshotIds = new ArrayList<Integer>();
+            for(TreeNode treeNode : treeNodes) {
+                snapshotIds.add(treeNode.getId());
+            }
+
             snapshots = sonarService.getSnapshotsByIds(snapshotIds, footprintMetricId, heightMetricId, depth);
         }
         return snapshots;

@@ -77,6 +77,30 @@ public class SonarDaoImpl implements SonarDao {
     }
 
     @Override
+    public String getSnapshotDetails(Integer snapshotId) {
+        String resultString = "";
+
+        try {
+            session.start();
+            Query query = session
+                .createNativeQuery("select s.id, p.name from snapshots s "
+                    + "INNER JOIN projects p ON s.project_id = p.id "
+                    + "WHERE s.id = :snapshotId");
+            query.setParameter("snapshotId", snapshotId);
+
+            Object[] result = (Object[]) query.getSingleResult();
+
+            resultString = result[0] + " " + result[1];
+        } catch (PersistenceException e) {
+            LOGGER.error(e.getMessage(), e);
+        } finally {
+            session.stop();
+        }
+
+        return resultString;
+    }
+
+    @Override
     public List<SonarSnapshot> getSnapshotsById(List<Integer> childrenNodeIds,
             Integer footprintMetricId, Integer heightMetricId, Integer depth) {
         List<SonarSnapshot> snapshots = new ArrayList<SonarSnapshot>();

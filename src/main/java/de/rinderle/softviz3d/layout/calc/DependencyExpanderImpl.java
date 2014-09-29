@@ -25,13 +25,13 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import de.rinderle.softviz3d.sonar.SonarDependency;
-import de.rinderle.softviz3d.tree.Node;
+import de.rinderle.softviz3d.tree.TreeNode;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 
 public class DependencyExpanderImpl implements DependencyExpander {
 
-    private final static String INTERACE_PREFIX = "interface_";
-    private final static String DEP_PATH_EDGE_PREFIX = "depPath_";
+    private static final String INTERACE_PREFIX = "interface_";
+    private static final String DEP_PATH_EDGE_PREFIX = "depPath_";
 
     private Object[] flatEdges = new Object[10];
     private Object[] interfaceLeaves = new Object[10];
@@ -48,12 +48,15 @@ public class DependencyExpanderImpl implements DependencyExpander {
             this.projectId = projectId;
 
             for (SonarDependency dependency : dependencies) {
-                 if (dependency.getType().equals(DependencyType.INPUT_FLAT)) {
-                    incrementNodesCounter(dependency.getToResourceId());
-                    incrementNodesCounter(dependency.getFromResouorceId());
+
+                DependencyType dependencyType =
+                    resourceTreeService.getDependencyType(dependency.getFromSnapshotId(), dependency.getToSnapshotId());
+                 if (dependencyType.equals(DependencyType.INPUT_FLAT)) {
+                    incrementNodesCounter(dependency.getToSnapshotId());
+                    incrementNodesCounter(dependency.getFromSnapshotId());
                 } else {
-                     Integer out = dependency.getToResourceId();
-                     Integer in = dependency.getFromResouorceId();
+                     Integer out = dependency.getToSnapshotId();
+                     Integer in = dependency.getFromSnapshotId();
                     // search for the common ancestor
                     createDependencyPath(resourceTreeService.findNode(out), resourceTreeService.findNode(in));
                 }
@@ -83,7 +86,7 @@ public class DependencyExpanderImpl implements DependencyExpander {
             }
         }
 
-        private void createDependencyPath(Node source, Node dest) {
+        private void createDependencyPath(TreeNode source, TreeNode dest) {
             while (source.getParent().getId() != dest.getParent().getId()) {
                 if (source.getDepth() > dest.getDepth()) {
                     handleNewDepEdge(source, false);
@@ -108,7 +111,7 @@ public class DependencyExpanderImpl implements DependencyExpander {
             handleNewFlatDepEdge(source, dest);
         }
 
-        private void handleNewFlatDepEdge(Node source, Node dest) {
+        private void handleNewFlatDepEdge(TreeNode source, TreeNode dest) {
             String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + source.getId();
 
             if (dependencyEdges.containsKey(depEdgeLabel)) {
@@ -122,21 +125,21 @@ public class DependencyExpanderImpl implements DependencyExpander {
             }
         }
 
-        private void handleNewDepEdge(Node node, boolean isOut) {
-            String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + node.getId();
+        private void handleNewDepEdge(TreeNode treeNode, boolean isOut) {
+            String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + treeNode.getId();
 
             if (dependencyEdges.containsKey(depEdgeLabel)) {
                 Edge edge = dependencyEdges.get(depEdgeLabel);
                 edge.setCounter(edge.getCounter() + 1);
                 dependencyEdges.put(depEdgeLabel, edge);
             } else {
-                Integer depNodeId = getInterfaceNode(node.getParent().getId(), node.getDepth());
+                Integer depNodeId = getInterfaceNode(treeNode.getParent().getId(), treeNode.getDepth());
 
                 final Edge element;
                 if (isOut) {
-                    element = new Edge(projectId, depEdgeLabel, depNodeId, node.getId(), node.getParent().getId());
+                    element = new Edge(projectId, depEdgeLabel, depNodeId, treeNode.getId(), treeNode.getParent().getId());
                 } else {
-                    element = new Edge(projectId, depEdgeLabel, node.getId(), depNodeId, node.getParent().getId());
+                    element = new Edge(projectId, depEdgeLabel, treeNode.getId(), depNodeId, treeNode.getParent().getId());
                 }
 
                 dependencyEdges.put(depEdgeLabel, element);
@@ -147,10 +150,10 @@ public class DependencyExpanderImpl implements DependencyExpander {
             Integer result;
             String intLeafLabel = INTERACE_PREFIX + parentId;
 
-            Node node = resourceTreeService.findInterfaceLeafNode(intLeafLabel);
+            TreeNode treeNode = resourceTreeService.findInterfaceLeafNode(intLeafLabel);
 
-            if (node != null) {
-                result = node.getId();
+            if (treeNode != null) {
+                result = treeNode.getId();
             } else {
                 result = resourceTreeService.addInterfaceLeafNode(intLeafLabel, parentId);
             }

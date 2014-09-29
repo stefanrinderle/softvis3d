@@ -21,17 +21,21 @@ package de.rinderle.softviz3d.tree;
 
 import java.util.List;
 
+import de.rinderle.softviz3d.layout.calc.DependencyType;
+
 public interface ResourceTreeService {
 
     void createTreeStructrue(int rootSnapshotId);
 
-    List<Integer> getChildrenNodeIds(Integer id);
+    List<TreeNode> getChildrenNodeIds(Integer id);
 
-    List<Integer> getChildrenLeafIds(Integer id);
+    List<TreeNode> getChildrenLeafIds(Integer id);
 
-    Node findNode(Integer out);
+    TreeNode findNode(Integer out);
 
     Integer addInterfaceLeafNode(String intLeafLabel, Integer parentId);
 
-    Node findInterfaceLeafNode(String intLeafLabel);
+    TreeNode findInterfaceLeafNode(String intLeafLabel);
+
+    DependencyType getDependencyType(Integer fromSnapshotId, Integer toSnapshotId);
 }

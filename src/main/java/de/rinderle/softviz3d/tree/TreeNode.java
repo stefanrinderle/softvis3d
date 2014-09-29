@@ -19,24 +19,25 @@
  */
 package de.rinderle.softviz3d.tree;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Node {
+
+public class TreeNode {
     private final int depth;
     private int id;
-    private Node parent;
+    private TreeNodeType type;
+    private TreeNode parent;
 
-    private final Map<String, Node> children = new TreeMap<String, Node>();
+    private final Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
 
-    public Node(int id, Node parent, int depth) {
+    public TreeNode(int id, TreeNode parent, int depth, TreeNodeType type) {
         this.id = id;
         this.parent = parent;
         this.depth = depth;
     }
 
-    public Node getChild(String name) {
+    public TreeNode getChild(String name) {
         if (children.containsKey(name)) {
             return children.get(name);
         } else {
@@ -44,29 +45,33 @@ public class Node {
         }
     }
 
-    public Node getOrCreateChild(int id, String name) {
+    public TreeNode getOrCreateChild(int id, String name, TreeNodeType type) {
         if (children.containsKey(name)) {
             return children.get(name);
         }
 
-        Node result = new Node(id, this, this.depth + 1);
+        TreeNode result = new TreeNode(id, this, this.depth + 1, type);
         children.put(name, result);
         return result;
     }
 
-    public Map<String, Node> getChildren() {
-        return Collections.unmodifiableMap(children);
+    public Map<String, TreeNode> getChildren() {
+        return children;
     }
 
     public int getId() {
         return id;
     }
 
-    public Node getParent() {
+    public TreeNode getParent() {
         return parent;
     }
 
     public Integer getDepth() {
         return depth;
+    }
+
+    public TreeNodeType getType() {
+        return type;
     }
 }

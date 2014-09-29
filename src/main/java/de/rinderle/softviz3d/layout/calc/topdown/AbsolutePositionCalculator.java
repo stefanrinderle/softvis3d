@@ -25,6 +25,7 @@ import att.grappa.GrappaPoint;
 import att.grappa.Node;
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
+import de.rinderle.softviz3d.tree.TreeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,14 +80,14 @@ public class AbsolutePositionCalculator implements PositionCalculator {
     }
 
     private void translateNodes(Integer sourceId, Graph graph) {
-        List<Integer> children = resourceTreeService.getChildrenNodeIds(sourceId);
+        List<TreeNode> children = resourceTreeService.getChildrenNodeIds(sourceId);
 
-        for (Integer childId : children) {
-            GrappaPoint pos = innerGraphTranslation.get(childId);
+        for (TreeNode child : children) {
+            GrappaPoint pos = innerGraphTranslation.get(child.getId());
 
-            addTranslationToLayer(childId, pos);
+            addTranslationToLayer(child.getId(), pos);
 
-            graph.removeNode("dir_" + childId.toString());
+            graph.removeNode("dir_" + child.getId());
         }
     }
 

@@ -29,7 +29,7 @@ public class Edge {
     private Integer sourceId;
     private Integer destinationId;
     private Integer parentId;
-    private Integer counter;
+    private int counter;
 
     public Edge(final Integer projectId, final String depEdgeLabel, final Integer sourceId, final Integer destinationId,
         final Integer parentId) {

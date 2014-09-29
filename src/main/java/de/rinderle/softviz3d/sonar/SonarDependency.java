@@ -20,9 +20,6 @@
 package de.rinderle.softviz3d.sonar;
 
 import java.math.BigInteger;
-import java.text.AttributedCharacterIterator;
-
-import de.rinderle.softviz3d.layout.calc.DependencyType;
 
 /**
  * Created by srinderle on 26.09.14.
@@ -129,8 +126,4 @@ public class SonarDependency {
             '}';
     }
 
-    public DependencyType getType() {
-        // TODO: calculate which dependency type it is.
-        return DependencyType.INPUT_FLAT;
-    }
 }

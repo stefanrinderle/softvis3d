@@ -47,7 +47,7 @@ public class TreePathTest {
         walker.addPath(410, "src/out/sdbfsidnf/siufb/A3Class.java");
         walker.addPath(411, "src/out/sdbfsidnf/siufb/Asd1Class.java");
 
-        Node tree = walker.getTree();
+        TreeNode tree = walker.getTree();
 
         assertEquals("src has 3 children", tree.getChild("src").getChildren()
                 .size(), 3);
@@ -68,7 +68,7 @@ public class TreePathTest {
         walker.addPath(415, "src/main/java/de/rinderle/softviz3d/SoftViz3dPage.java");
         walker.addPath(416, "src/main/java/de/rinderle/softviz3d/SoftViz3dPlugin.java");
         walker.addPath(417, "src/main/java/de/rinderle/softviz3d/depth");
-        walker.addPath(418, "src/main/java/de/rinderle/softviz3d/depth/Node.java");
+        walker.addPath(418, "src/main/java/de/rinderle/softviz3d/depth/TreeNode.java");
         walker.addPath(419, "src/main/java/de/rinderle/softviz3d/depth/PathWalker.java");
         walker.addPath(420, "src/main/java/de/rinderle/softviz3d/depth/ResourceTreeService.java");
         walker.addPath(421, "src/main/java/de/rinderle/softviz3d/depth/ResourceTreeServiceImpl.java");
@@ -81,7 +81,7 @@ public class TreePathTest {
         walker.addPath(460, "src/test/java/de/rinderle/softviz3d/Tree.java");
         walker.addPath(461, "src/test/java/de/rinderle/softviz3d/TreePathTest.java");
 
-        Node tree = walker.getTree();
+        TreeNode tree = walker.getTree();
 
         assertNotNull(tree.getChild("src"));
         assertEquals(2, tree.getChild("src").getChildren().size());
@@ -124,11 +124,11 @@ public class TreePathTest {
         walker.addPath(20, "src/testForSoftViz/xx/yy/FithsClass.java");
         walker.addPath(21, "src/testForSoftViz/xx/yy/SixthClass.java");
 
-        Node tree = walker.getTree();
+        TreeNode tree = walker.getTree();
 
         assertTrue(tree.getChildren().size() == 1);
 
-        Node sixth =
+        TreeNode sixth =
                 tree.getChild("src").getChild("testForSoftViz").getChild("xx").getChild("yy").getChild("SixthClass.java");
         assertNotNull(sixth);
 

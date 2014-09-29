@@ -93,7 +93,7 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
         // adjust graph
         //Graph adjustedGraph =
-                formatter.format(outputGraph, snapshot.getDepth());
+        formatter.format(outputGraph, snapshot.getDepth());
         resultingGraphList.put(snapshot.getId(), outputGraph);
 
         // adjusted graph has a bounding box !

@@ -17,8 +17,8 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc;
+package de.rinderle.softviz3d.tree;
 
-public enum DependencyType {
-    INPUT_TREE, INPUT_FLAT
+public enum TreeNodeType {
+    TREE, PATH_GENERATED, DEPENDENCY_GENERATED
 }

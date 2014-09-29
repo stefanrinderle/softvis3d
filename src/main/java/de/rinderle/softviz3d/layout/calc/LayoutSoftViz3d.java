@@ -36,7 +36,6 @@ import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
-import org.sonar.api.design.DependencyDto;
 
 import java.util.List;
 import java.util.Map;
@@ -65,13 +64,17 @@ public class LayoutSoftViz3d implements Layout {
     public Map<Integer, Graph> startLayout(Settings settings, Integer snapshotId,
             Integer footprintMetricId, Integer heightMetricId) throws DotExcecutorException {
 
+        final LayoutViewType view = LayoutViewType.CITY;
+
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
         resourceTreeService.createTreeStructrue(snapshotId);
 
-        List<SonarDependency> dependencies = dependenyDao.getDependencies(1);
-        dependencyExpander.execute(snapshotId, dependencies);
+        if (view.equals(LayoutViewType.DEPENDENCY)) {
+            List<SonarDependency> dependencies = dependenyDao.getDependencies(snapshotId);
+            dependencyExpander.execute(snapshotId, dependencies);
+        }
 
         LOGGER.info("Created tree structure after " + stopWatch.getTime());
 

@@ -21,6 +21,7 @@ package de.rinderle.softviz3d.tree;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import de.rinderle.softviz3d.layout.calc.DependencyType;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,49 +54,63 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     }
 
     @Override
-    public List<Integer> getChildrenNodeIds(Integer id) {
-        Node node = recursiveSearch(id, pathWalker.getTree());
+    public List<TreeNode> getChildrenNodeIds(Integer id) {
+        TreeNode treeNode = recursiveSearch(id, pathWalker.getTree());
 
-        return getChildrenNodes(node.getChildren());
+        return getChildrenNodes(treeNode.getChildren());
     }
 
     @Override
-    public List<Integer> getChildrenLeafIds(Integer id) {
-        Node node = recursiveSearch(id, pathWalker.getTree());
+    public List<TreeNode> getChildrenLeafIds(Integer id) {
+        TreeNode treeNode = recursiveSearch(id, pathWalker.getTree());
 
-        return getChildrenLeaves(node.getChildren());
+        return getChildrenLeaves(treeNode.getChildren());
     }
 
     @Override
-    public Node findNode(final Integer id) {
+    public TreeNode findNode(final Integer id) {
         return recursiveSearch(id, pathWalker.getTree());
     }
 
     @Override
     public Integer addInterfaceLeafNode(final String intLeafLabel, final Integer parentId) {
         // search for parent node
-        Node parent = recursiveSearch(parentId, pathWalker.getTree());
+        TreeNode parent = recursiveSearch(parentId, pathWalker.getTree());
 
         Integer id = pathWalker.getNextSequence();
-        final Node interfaceLeafNode = new Node(id, parent, parent.getDepth() + 1);
-        parent.getChildren().put(intLeafLabel, interfaceLeafNode);
+        final TreeNode interfaceLeafTreeNode = new TreeNode(id, parent, parent.getDepth() + 1, TreeNodeType.DEPENDENCY_GENERATED);
+        parent.getChildren().put(intLeafLabel, interfaceLeafTreeNode);
 
-        return interfaceLeafNode.getId();
+        return interfaceLeafTreeNode.getId();
     }
 
     @Override
-    public Node findInterfaceLeafNode(final String intLeafLabel) {
+    public TreeNode findInterfaceLeafNode(final String intLeafLabel) {
         return recursiveSearch(intLeafLabel, pathWalker.getTree());
     }
 
-    private Node recursiveSearch(String name, Node node) {
-        Map<String, Node> children = node.getChildren();
-        Node temp;
+    @Override
+    public DependencyType getDependencyType(final Integer fromSnapshotId, final Integer toSnapshotId) {
+        TreeNode from = findNode(fromSnapshotId);
+        TreeNode to = findNode(toSnapshotId);
+
+        boolean hasSameParent = from.getParent().getId() == to.getParent().getId();
+
+        if (hasSameParent) {
+            return DependencyType.INPUT_FLAT;
+        } else {
+            return DependencyType.INPUT_TREE;
+        }
+    }
+
+    private TreeNode recursiveSearch(String name, TreeNode treeNode) {
+        Map<String, TreeNode> children = treeNode.getChildren();
+        TreeNode temp;
 
         if (children.containsKey(name)) {
             return children.get(name);
         } else if (!children.isEmpty()) {
-            for (Node child : children.values()) {
+            for (TreeNode child : children.values()) {
                 temp = recursiveSearch(name, child);
                 if (temp != null) {
                     return temp;
@@ -106,26 +121,26 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
         return null;
     }
 
-    private Node recursiveSearch(Integer id, Node node) {
-        if (node.getId() == id) {
+    private TreeNode recursiveSearch(Integer id, TreeNode treeNode) {
+        if (treeNode.getId() == id) {
             /**
-             * check if there is a child node with the same id.
-             * This is to parse long paths and get the last node
+             * check if there is a child treeNode with the same id.
+             * This is to parse long paths and get the last treeNode
              * of the chain with the same id.
              */
-            for (Node child : node.getChildren().values()) {
+            for (TreeNode child : treeNode.getChildren().values()) {
                 if (child.getId() == id) {
                     return recursiveSearch(id, child);
                 }
             }
 
-            return node;
+            return treeNode;
         }
 
-        Map<String, Node> children = node.getChildren();
-        Node temp;
+        Map<String, TreeNode> children = treeNode.getChildren();
+        TreeNode temp;
         if (!children.isEmpty()) {
-            for (Node child : children.values()) {
+            for (TreeNode child : children.values()) {
                 temp = recursiveSearch(id, child);
                 if (temp != null) {
                     return temp;
@@ -136,24 +151,24 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
         return null;
     }
 
-    private List<Integer> getChildrenNodes(Map<String, Node> children) {
-        List<Integer> result = new ArrayList<Integer>();
+    private List<TreeNode> getChildrenNodes(Map<String, TreeNode> children) {
+        List<TreeNode> result = new ArrayList<TreeNode>();
 
-        for (Node child : children.values()) {
+        for (TreeNode child : children.values()) {
             if (!child.getChildren().isEmpty()) {
-                result.add(child.getId());
+                result.add(child);
             }
         }
 
         return result;
     }
 
-    private List<Integer> getChildrenLeaves(Map<String, Node> children) {
-        List<Integer> result = new ArrayList<Integer>();
+    private List<TreeNode> getChildrenLeaves(Map<String, TreeNode> children) {
+        List<TreeNode> result = new ArrayList<TreeNode>();
 
-        for (Node child : children.values()) {
+        for (TreeNode child : children.values()) {
             if (child.getChildren().isEmpty()) {
-                result.add(child.getId());
+                result.add(child);
             }
         }
 

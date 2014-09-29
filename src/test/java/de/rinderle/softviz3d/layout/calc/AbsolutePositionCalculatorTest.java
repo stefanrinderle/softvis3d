@@ -19,19 +19,15 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-
 public class AbsolutePositionCalculatorTest {
 
-  @Before
-  public void setUp() throws Exception {
-  }
-
-  @Test
-  @Ignore
-  public void testAbsolutePositionCalculator() {
+//  @Before
+//  public void setUp() throws Exception {
+//  }
+//
+//  @Test
+//  @Ignore
+//  public void testAbsolutePositionCalculator() {
 //    Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
 //    
 //    inputGraphList.put(1, TestGraphHelper.graphRoot());
@@ -56,7 +52,7 @@ public class AbsolutePositionCalculatorTest {
 //    System.out.println(test2.getAttributeValue("pos"));
 //    System.out.println(test3.getAttributeValue("pos"));
 //    
-  }
+//  }
 
   //private SonarSnapshot testSource() {
 //    TestSource leaf4 = new TestSource(4, 2, false, null);

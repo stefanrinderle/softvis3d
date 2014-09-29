@@ -30,12 +30,12 @@ public class PathWalker {
             .getLogger(PathWalker.class);
 
     private int generatedIdSequence = Integer.MAX_VALUE - 100000;
-    private final Node root;
+    private final TreeNode root;
 
     private Pattern pathSeperator = Pattern.compile("/");
     
     public PathWalker(int id) {
-        root = new Node(id, null, 0);
+        root = new TreeNode(id, null, 0, TreeNodeType.TREE);
     }
 
     public int getNextSequence() {
@@ -44,26 +44,26 @@ public class PathWalker {
 
     public void addPath(int id, String path) {
         String[] names = pathSeperator.split(path);
-        Node node = root;
+        TreeNode treeNode = root;
 
         boolean isLastIndex;
         for(int i = 0; i < names.length; i++) {
             isLastIndex = (i == (names.length - 1));
             if (isLastIndex) {
-                node = node.getOrCreateChild(id, names[i]);
+                treeNode = treeNode.getOrCreateChild(id, names[i], TreeNodeType.TREE);
             } else {
-                node = node.getOrCreateChild(generatedIdSequence++, names[i]);
+                treeNode = treeNode.getOrCreateChild(generatedIdSequence++, names[i], TreeNodeType.PATH_GENERATED);
             }
         }
     }
 
-    private static void print(Node node, int depth) {
-        Map<String, Node> children = node.getChildren();
+    private static void print(TreeNode treeNode, int depth) {
+        Map<String, TreeNode> children = treeNode.getChildren();
         if (children.isEmpty()) {
             return;
         }
 
-        for (Map.Entry<String, Node> child : children.entrySet()) {
+        for (Map.Entry<String, TreeNode> child : children.entrySet()) {
             
             LOGGER.debug(child.getValue().getId() + " "
                     + child.getKey());
@@ -76,7 +76,7 @@ public class PathWalker {
         print(root, 0);
     }
     
-    public Node getTree() {
+    public TreeNode getTree() {
         return root;
     }
 }
