@@ -21,12 +21,8 @@ package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.sonar.SonarSnapshot;
 
-/**
- * Created by stefan on 10.09.14.
- */
 public interface Processor {
 
-    public LayeredLayoutElement accept(SnapshotVisitor visitor, SonarSnapshot source, int depth) throws DotExcecutorException;
+    public LayeredLayoutElement accept(SnapshotVisitor visitor, Integer snapshotId) throws DotExcecutorException;
 }

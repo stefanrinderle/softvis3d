@@ -19,12 +19,12 @@
  */
 package de.rinderle.softviz3d.sonar;
 
-import java.util.List;
-
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
+
+import java.util.List;
 
 public class SonarServiceImpl implements SonarService {
 
@@ -57,18 +57,6 @@ public class SonarServiceImpl implements SonarService {
             Integer heightMetricId) {
         return sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId,
                 footprintMetricId, heightMetricId);
-    }
-
-    @Override
-    public SonarSnapshot getSnapshotById(Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId, Integer depth) {
-        return sonarDao.getSnapshotById(snapshotId, footprintMetricId, heightMetricId, depth);
-    }
-
-    @Override
-    public List<SonarSnapshot> getSnapshotsByIds(List<Integer> childrenNodeIds, Integer footprintMetricId, Integer heightMetricId, int depth) {
-        return sonarDao.getSnapshotsById(childrenNodeIds,
-                footprintMetricId, heightMetricId, depth);
     }
 
     @Override

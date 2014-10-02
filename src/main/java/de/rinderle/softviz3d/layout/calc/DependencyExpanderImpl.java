@@ -19,14 +19,14 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
+import de.rinderle.softviz3d.sonar.SonarDependency;
+import de.rinderle.softviz3d.tree.ResourceTreeService;
+import de.rinderle.softviz3d.tree.TreeNode;
+
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.inject.Inject;
-
-import de.rinderle.softviz3d.sonar.SonarDependency;
-import de.rinderle.softviz3d.tree.TreeNode;
-import de.rinderle.softviz3d.tree.ResourceTreeService;
 
 public class DependencyExpanderImpl implements DependencyExpander {
 

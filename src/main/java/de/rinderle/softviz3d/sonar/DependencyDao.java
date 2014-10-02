@@ -19,14 +19,14 @@
  */
 package de.rinderle.softviz3d.sonar;
 
-import java.util.List;
-
 import org.sonar.api.database.DatabaseSession;
+
+import java.util.List;
 
 /**
  * Created by srinderle on 26.09.14.
  */
-public interface DependenyDao {
+public interface DependencyDao {
     void setDatabaseSession(DatabaseSession session);
 
     List<SonarDependency> getDependencies(Integer projectSnapshotId);

@@ -23,8 +23,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
 import de.rinderle.softviz3d.handler.SoftViz3dWebserviceHandler;
-import de.rinderle.softviz3d.sonar.DependenyDao;
-import de.rinderle.softviz3d.sonar.DependenyDaoImpl;
+import de.rinderle.softviz3d.sonar.DependencyDao;
+import de.rinderle.softviz3d.sonar.DependencyDaoImpl;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.WebService;
@@ -40,8 +40,8 @@ public class SoftViz3dWebservice implements WebService {
         SonarDao sonarDao = softVizInjector.getInstance(SonarDao.class);
         sonarDao.setDatabaseSession(session);
 
-        DependenyDao dependenyDao = softVizInjector.getInstance(DependenyDaoImpl.class);
-        dependenyDao.setDatabaseSession(session);
+        DependencyDao dependencyDao = softVizInjector.getInstance(DependencyDaoImpl.class);
+        dependencyDao.setDatabaseSession(session);
 
         this.handler = softVizInjector.getInstance(SoftViz3dWebserviceHandler.class);
     }

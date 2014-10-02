@@ -22,18 +22,18 @@ package de.rinderle.softviz3d.layout.calc.bottomup;
 import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import de.rinderle.softviz3d.tree.TreeNode;
 
 import java.util.List;
 import java.util.Map;
 
 public interface SnapshotVisitor {
 
-    public abstract Map<Integer, Graph> getResultingGraphList();
+    Map<Integer, Graph> getResultingGraphList();
 
-    public abstract LayeredLayoutElement visitNode(SonarSnapshot snapshot,
+    LayeredLayoutElement visitNode(TreeNode node,
             List<LayeredLayoutElement> elements) throws DotExcecutorException;
 
-    public abstract LayeredLayoutElement visitFile(SonarSnapshot snapshot);
+    LayeredLayoutElement visitFile(TreeNode leaf);
 
 }

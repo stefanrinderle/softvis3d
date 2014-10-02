@@ -29,7 +29,7 @@ import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExecutor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.sonar.SonarMetric;
-import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import de.rinderle.softviz3d.tree.TreeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
@@ -75,13 +75,13 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     }
 
     @Override
-    public LayeredLayoutElement visitNode(SonarSnapshot snapshot,
+    public LayeredLayoutElement visitNode(TreeNode node,
                                           List<LayeredLayoutElement> elements) throws DotExcecutorException {
 
-        LOGGER.debug("LayoutVisitor.visitNode " + snapshot.getId() + " " + snapshot.getName());
+        LOGGER.debug("LayoutVisitor.visitNode " + node.getId() + " " + node.getName());
 
         // create layout graph
-        Graph inputGraph = new Graph(snapshot.getId().toString());
+        Graph inputGraph = new Graph(node.getId().toString());
 
         for (LayeredLayoutElement element : elements) {
             Node elementNode = transformToGrappaNode(inputGraph, element);
@@ -93,8 +93,8 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
         // adjust graph
         //Graph adjustedGraph =
-        formatter.format(outputGraph, snapshot.getDepth());
-        resultingGraphList.put(snapshot.getId(), outputGraph);
+        formatter.format(outputGraph, node.getDepth());
+        resultingGraphList.put(node.getId(), outputGraph);
 
         // adjusted graph has a bounding box !
         GrappaBox bb = (GrappaBox) outputGraph.getAttributeValue("bb");
@@ -107,7 +107,7 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
         double platformHeight = 2 * 15;
 
-        return LayeredLayoutElement.createLayeredLayoutNodeElement(snapshot, width, height, platformHeight);
+        return LayeredLayoutElement.createLayeredLayoutNodeElement(node, width, height, platformHeight);
     }
 
     private Node transformToGrappaNode(Graph inputGraph, LayeredLayoutElement element) {
@@ -129,18 +129,18 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     }
 
     @Override
-    public LayeredLayoutElement visitFile(SonarSnapshot snapshot) {
-        LOGGER.debug("LayoutVisitor.visitNode " + snapshot.getId() + " " + snapshot.getName());
+    public LayeredLayoutElement visitFile(TreeNode leaf) {
+        LOGGER.debug("LayoutVisitor.visitNode " + leaf.getId() + " " + leaf.getName());
 
-        double sideLength = formatter.calcSideLength(snapshot.getFootprintMetricValue(), metricFootprint);
+        double sideLength = formatter.calcSideLength(leaf.getFootprintMetricValue(), metricFootprint);
         sideLength = sideLength / SoftViz3dConstants.DPI_DOT_SCALE;
 
-        double buildingHeight = formatter.calcBuildingHeight(snapshot.getHeightMetricValue(), metricHeight);
+        double buildingHeight = formatter.calcBuildingHeight(leaf.getHeightMetricValue(), metricHeight);
         buildingHeight = buildingHeight / SoftViz3dConstants.DPI_DOT_SCALE;
 
         buildingHeight = buildingHeight  * 15;
 
-        return LayeredLayoutElement.createLayeredLayoutLeafElement(snapshot, sideLength, sideLength, buildingHeight);
+        return LayeredLayoutElement.createLayeredLayoutLeafElement(leaf, sideLength, sideLength, buildingHeight);
     }
 
 }

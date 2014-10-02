@@ -27,25 +27,11 @@ import de.rinderle.softviz3d.layout.calc.DependencyExpander;
 import de.rinderle.softviz3d.layout.calc.DependencyExpanderImpl;
 import de.rinderle.softviz3d.layout.calc.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutSoftViz3d;
-import de.rinderle.softviz3d.layout.calc.bottomup.BottomUpProcessor;
-import de.rinderle.softviz3d.layout.calc.bottomup.LayerFormatter;
-import de.rinderle.softviz3d.layout.calc.bottomup.Processor;
-import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitorImpl;
-import de.rinderle.softviz3d.layout.calc.bottomup.ViewLayerFormatter;
+import de.rinderle.softviz3d.layout.calc.bottomup.*;
 import de.rinderle.softviz3d.layout.calc.topdown.AbsolutePositionCalculator;
 import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorImpl;
-import de.rinderle.softviz3d.layout.dot.DotExecutor;
-import de.rinderle.softviz3d.layout.dot.DotVersion;
-import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
-import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
-import de.rinderle.softviz3d.layout.dot.ExecuteCommandImpl;
-import de.rinderle.softviz3d.sonar.DependenyDao;
-import de.rinderle.softviz3d.sonar.DependenyDaoImpl;
-import de.rinderle.softviz3d.sonar.SonarDao;
-import de.rinderle.softviz3d.sonar.SonarDaoImpl;
-import de.rinderle.softviz3d.sonar.SonarService;
-import de.rinderle.softviz3d.sonar.SonarServiceImpl;
+import de.rinderle.softviz3d.layout.dot.*;
+import de.rinderle.softviz3d.sonar.*;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.ResourceTreeServiceImpl;
 
@@ -57,7 +43,7 @@ public class SoftViz3dModule extends AbstractModule {
         bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
         
         bind(SonarDao.class).to(SonarDaoImpl.class);
-        bind(DependenyDao.class).to(DependenyDaoImpl.class);
+        bind(DependencyDao.class).to(DependencyDaoImpl.class);
         bind(SonarService.class).to(SonarServiceImpl.class);
         
         bind(ResourceTreeService.class).to(ResourceTreeServiceImpl.class);
@@ -72,7 +58,7 @@ public class SoftViz3dModule extends AbstractModule {
 
         install(new FactoryModuleBuilder().implement(de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor.class,
                 SnapshotVisitorImpl.class).build(SnapshotVisitorFactory.class));
-        install(new FactoryModuleBuilder().implement(Processor.class,
-                BottomUpProcessor.class).build(BottomUpProcessorFactory.class));
+
+        bind(Processor.class).to(BottomUpProcessor.class);
     }
 }

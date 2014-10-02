@@ -26,6 +26,7 @@ import de.rinderle.softviz3d.sonar.SonarDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,14 +39,21 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     private SonarDao sonarDao;
 
     @Override
-    public void createTreeStructrue(int rootSnapshotId) {
+    public void createTreeStructrue(int rootSnapshotId, int heightMetric, int footprintMetric) {
         pathWalker = new PathWalker(rootSnapshotId);
 
-        List<Object[]> flatChildren = sonarDao.getAllChildrenFlat(rootSnapshotId);
+        List<Object[]> flatChildren = sonarDao.getAllProjectElements(rootSnapshotId, heightMetric, footprintMetric);
 
+        //s.id, p.name, m1.value, m2.value
         for (Object[] flatChild : flatChildren) {
-            pathWalker.addPath((Integer) flatChild[0], (String) flatChild[1]);
-            LOGGER.debug("addPath " + flatChild[0] + " " + flatChild[1]);
+            int snapshotId = (Integer) flatChild[0];
+            String name = (String) flatChild[1];
+            BigDecimal heightMetricValue = (BigDecimal) flatChild[2];
+            BigDecimal footprintMetricValue = (BigDecimal) flatChild[3];
+
+            pathWalker.addPath(snapshotId, name, heightMetricValue.doubleValue(), footprintMetricValue.doubleValue());
+
+
         }
 
         LOGGER.debug("................");
@@ -78,7 +86,7 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
         TreeNode parent = recursiveSearch(parentId, pathWalker.getTree());
 
         Integer id = pathWalker.getNextSequence();
-        final TreeNode interfaceLeafTreeNode = new TreeNode(id, parent, parent.getDepth() + 1, TreeNodeType.DEPENDENCY_GENERATED);
+        final TreeNode interfaceLeafTreeNode = new TreeNode(id, parent, parent.getDepth() + 1, TreeNodeType.DEPENDENCY_GENERATED, "elevatorNode_" + id, 0, 0);
         parent.getChildren().put(intLeafLabel, interfaceLeafTreeNode);
 
         return interfaceLeafTreeNode.getId();
@@ -94,7 +102,7 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
         TreeNode from = findNode(fromSnapshotId);
         TreeNode to = findNode(toSnapshotId);
 
-        boolean hasSameParent = from.getParent().getId() == to.getParent().getId();
+        boolean hasSameParent = from.getParent().getId().equals(to.getParent().getId());
 
         if (hasSameParent) {
             return DependencyType.INPUT_FLAT;
@@ -122,14 +130,14 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     }
 
     private TreeNode recursiveSearch(Integer id, TreeNode treeNode) {
-        if (treeNode.getId() == id) {
+        if (treeNode.getId().equals(id)) {
             /**
              * check if there is a child treeNode with the same id.
              * This is to parse long paths and get the last treeNode
              * of the chain with the same id.
              */
             for (TreeNode child : treeNode.getChildren().values()) {
-                if (child.getId() == id) {
+                if (child.getId().equals(id)) {
                     return recursiveSearch(id, child);
                 }
             }

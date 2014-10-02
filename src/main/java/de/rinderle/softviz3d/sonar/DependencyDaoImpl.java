@@ -19,24 +19,22 @@
  */
 package de.rinderle.softviz3d.sonar;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.database.DatabaseSession;
-import org.sonar.api.resources.Scopes;
+
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
-public class DependenyDaoImpl implements DependenyDao {
+public class DependencyDaoImpl implements DependencyDao {
 
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(DependenyDaoImpl.class);
+            .getLogger(DependencyDaoImpl.class);
 
     private DatabaseSession session;
 

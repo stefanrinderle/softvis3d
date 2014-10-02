@@ -25,16 +25,23 @@ import java.util.TreeMap;
 
 public class TreeNode {
     private final int depth;
-    private int id;
+    private Integer id;
     private TreeNodeType type;
     private TreeNode parent;
+    private double heightMetricValue;
+    private double footprintMetricValue;
+    private String name;
 
     private final Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
 
-    public TreeNode(int id, TreeNode parent, int depth, TreeNodeType type) {
+    public TreeNode(Integer id, TreeNode parent, int depth, TreeNodeType type, String name, double heightMetricValue, double footprintMetricValue) {
         this.id = id;
         this.parent = parent;
         this.depth = depth;
+        this.name = name;
+        this.type = type;
+        this.heightMetricValue = heightMetricValue;
+        this.footprintMetricValue = footprintMetricValue;
     }
 
     public TreeNode getChild(String name) {
@@ -45,12 +52,12 @@ public class TreeNode {
         }
     }
 
-    public TreeNode getOrCreateChild(int id, String name, TreeNodeType type) {
+    public TreeNode getOrCreateChild(int id, String name, TreeNodeType type, double heightMetricValue, double footprintMetricValue) {
         if (children.containsKey(name)) {
             return children.get(name);
         }
 
-        TreeNode result = new TreeNode(id, this, this.depth + 1, type);
+        TreeNode result = new TreeNode(id, this, this.depth + 1, type, name, heightMetricValue, footprintMetricValue);
         children.put(name, result);
         return result;
     }
@@ -59,7 +66,7 @@ public class TreeNode {
         return children;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -73,5 +80,17 @@ public class TreeNode {
 
     public TreeNodeType getType() {
         return type;
+    }
+
+    public double getHeightMetricValue() {
+        return heightMetricValue;
+    }
+
+    public double getFootprintMetricValue() {
+        return footprintMetricValue;
+    }
+
+    public String getName() {
+        return name;
     }
 }

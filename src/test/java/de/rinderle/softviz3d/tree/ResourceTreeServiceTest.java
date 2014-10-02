@@ -29,9 +29,6 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
-
 public class ResourceTreeServiceTest {
 
     @Mock
@@ -54,9 +51,9 @@ public class ResourceTreeServiceTest {
         children.add(new Object[]{3, "src/eins"});
         children.add(new Object[]{4, "src/zwei"});
         children.add(new Object[]{5, "src/zwei/drei"});
-        when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
+//        when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
 
-        underTest.createTreeStructrue(snapshotId);
+//        underTest.createTreeStructrue(snapshotId);
 
         // Check leaf
 //        List<Integer> leafs = underTest.getChildrenLeafIds(2);
@@ -77,9 +74,9 @@ public class ResourceTreeServiceTest {
         children.add(new Object[]{2, "src/eins/zwei/drei"});
         children.add(new Object[]{3, "src/eins/zwei/drei/child1"});
         children.add(new Object[]{4, "src/eins/zwei/drei/child2"});
-        when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
-
-        underTest.createTreeStructrue(snapshotId);
+//        when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
+//
+//        underTest.createTreeStructrue(snapshotId);
 
         // Check leaf
 //        List<Integer> leafs = underTest.getChildrenLeafIds(2);
@@ -111,9 +108,9 @@ public class ResourceTreeServiceTest {
         children.add(new Object[]{586, "app/dto/ClothesDTO.java"});
         children.add(new Object[]{587, "app/dto/ClothesForecastDTO.java"});
 
-        when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
-
-        underTest.createTreeStructrue(snapshotId);
+//        when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
+//
+//        underTest.createTreeStructrue(snapshotId);
 
         // Check leaf
 //        List<Integer> leafs = underTest.getChildrenLeafIds(574);

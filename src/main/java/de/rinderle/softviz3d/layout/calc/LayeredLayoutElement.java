@@ -19,7 +19,7 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import de.rinderle.softviz3d.sonar.SonarSnapshot;
+import de.rinderle.softviz3d.tree.TreeNode;
 
 public class LayeredLayoutElement {
 
@@ -51,20 +51,20 @@ public class LayeredLayoutElement {
     }
 
     public static LayeredLayoutElement createLayeredLayoutLeafElement(
-            SonarSnapshot snapshot, Double width, Double height, Double buildingHeight) {
-        return createLayeredLayoutElement(Type.LEAF, "file_", snapshot, width, height, buildingHeight);
+            TreeNode node, Double width, Double height, Double buildingHeight) {
+        return createLayeredLayoutElement(Type.LEAF, "file_", node, width, height, buildingHeight);
     }
 
     public static LayeredLayoutElement createLayeredLayoutNodeElement(
-            SonarSnapshot snapshot, Double width, Double height, Double buildingHeight) {
-        return createLayeredLayoutElement(Type.NODE, "dir_", snapshot, width, height, buildingHeight);
+            TreeNode node, Double width, Double height, Double buildingHeight) {
+        return createLayeredLayoutElement(Type.NODE, "dir_", node, width, height, buildingHeight);
     }
 
     private static LayeredLayoutElement createLayeredLayoutElement(
-            Type type, String namePrefix, SonarSnapshot snapshot, Double width, Double height, Double buildingHeight) {
-        return new LayeredLayoutElement(type, snapshot.getId(), namePrefix
-                + snapshot.getId().toString(), width, height,
-                buildingHeight, snapshot.getName());
+            Type type, String namePrefix, TreeNode node, Double width, Double height, Double buildingHeight) {
+        return new LayeredLayoutElement(type, node.getId(), namePrefix
+                + node.getId().toString(), width, height,
+                buildingHeight, node.getName());
     }
 
     public Type getElementType() {

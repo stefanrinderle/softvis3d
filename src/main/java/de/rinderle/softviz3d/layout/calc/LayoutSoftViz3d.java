@@ -21,16 +21,14 @@ package de.rinderle.softviz3d.layout.calc;
 
 import att.grappa.Graph;
 import com.google.inject.Inject;
-import de.rinderle.softviz3d.guice.BottomUpProcessorFactory;
 import de.rinderle.softviz3d.guice.SnapshotVisitorFactory;
-import de.rinderle.softviz3d.layout.calc.bottomup.Processor;
+import de.rinderle.softviz3d.layout.calc.bottomup.BottomUpProcessor;
 import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
 import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.sonar.DependenyDao;
+import de.rinderle.softviz3d.sonar.DependencyDao;
 import de.rinderle.softviz3d.sonar.SonarDependency;
 import de.rinderle.softviz3d.sonar.SonarService;
-import de.rinderle.softviz3d.sonar.SonarSnapshot;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
@@ -52,11 +50,11 @@ public class LayoutSoftViz3d implements Layout {
     @Inject
     private SonarService sonarService;
     @Inject
-    private DependenyDao dependenyDao;
+    private DependencyDao dependencyDao;
     @Inject
     private SnapshotVisitorFactory visitorFactory;
     @Inject
-    private BottomUpProcessorFactory processorFactory;
+    private BottomUpProcessor processor;
     @Inject
     private PositionCalculator calc;
 
@@ -69,20 +67,18 @@ public class LayoutSoftViz3d implements Layout {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        resourceTreeService.createTreeStructrue(snapshotId);
+        resourceTreeService.createTreeStructrue(snapshotId, footprintMetricId, heightMetricId);
 
         if (view.equals(LayoutViewType.DEPENDENCY)) {
-            List<SonarDependency> dependencies = dependenyDao.getDependencies(snapshotId);
+            List<SonarDependency> dependencies = dependencyDao.getDependencies(snapshotId);
             dependencyExpander.execute(snapshotId, dependencies);
         }
 
         LOGGER.info("Created tree structure after " + stopWatch.getTime());
 
-        SonarSnapshot snapshot = sonarService.getSnapshotById(snapshotId, footprintMetricId, heightMetricId, 0);
+        Map<Integer, Graph> resultGraphs = startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId);
 
-        Map<Integer, Graph> resultGraphs = startBottomUpCalculation(snapshot, settings, footprintMetricId, heightMetricId);
-
-        int leavesCounter = calc.calculate(snapshot.getId(), resultGraphs);
+        int leavesCounter = calc.calculate(snapshotId, resultGraphs);
 
         stopWatch.stop();
         LOGGER.info("Calculation finished after " + stopWatch.getTime() + " with "
@@ -91,17 +87,16 @@ public class LayoutSoftViz3d implements Layout {
         return resultGraphs;
     }
 
-    private Map<Integer, Graph> startBottomUpCalculation(SonarSnapshot snapshot,
+    private Map<Integer, Graph> startBottomUpCalculation(Integer snapshotId,
             Settings settings, Integer footprintMetricId, Integer heightMetricId)
             throws DotExcecutorException {
 
         List<Double> minMaxValues = sonarService.getMinMaxMetricValuesByRootSnapshotId(
-                snapshot.getId(), footprintMetricId, heightMetricId);
+                snapshotId, footprintMetricId, heightMetricId);
 
         SnapshotVisitor visitor = visitorFactory.create(settings, minMaxValues);
-        Processor processor = processorFactory.create(footprintMetricId, heightMetricId);
 
-        processor.accept(visitor, snapshot, 0);
+        processor.accept(visitor, snapshotId);
 
         return visitor.getResultingGraphList();
     }

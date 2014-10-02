@@ -44,37 +44,37 @@ public class SonarDaoImpl implements SonarDao {
         this.session = session;
     }
 
-    @Override
-    public SonarSnapshot getSnapshotById(Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId, Integer depth) {
-        SonarSnapshot snapshot;
-
-        try {
-            session.start();
-            Query query = session
-                    .createNativeQuery("select s.id, p.name, m1.value, m2.value from snapshots s "
-                            + "INNER JOIN projects p ON s.project_id = p.id "
-                            + "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id "
-                            + "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id "
-                            + "WHERE s.id = :snapshotId AND m1.metric_id = :footprintMetricId "
-                            + "AND m2.metric_id = :heightMetricId");
-            query.setParameter("snapshotId", snapshotId);
-            query.setParameter("footprintMetricId", footprintMetricId);
-            query.setParameter("heightMetricId", heightMetricId);
-
-            Object[] result = (Object[]) query.getSingleResult();
-
-            Double heightMetric = getHeightMetricForSnapshot(snapshotId, heightMetricId);
-            snapshot = castToJpaSnapshot(result, depth, heightMetric);
-        } catch (PersistenceException e) {
-            LOGGER.error(e.getMessage(), e);
-            snapshot = null;
-        } finally {
-            session.stop();
-        }
-
-        return snapshot;
-    }
+//    @Override
+//    public SonarSnapshot getSnapshotById(Integer snapshotId,
+//            Integer footprintMetricId, Integer heightMetricId, Integer depth) {
+//        SonarSnapshot snapshot;
+//
+//        try {
+//            session.start();
+//            Query query = session
+//                    .createNativeQuery("select s.id, p.name, m1.value, m2.value from snapshots s "
+//                            + "INNER JOIN projects p ON s.project_id = p.id "
+//                            + "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id "
+//                            + "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id "
+//                            + "WHERE s.id = :snapshotId AND m1.metric_id = :footprintMetricId "
+//                            + "AND m2.metric_id = :heightMetricId");
+//            query.setParameter("snapshotId", snapshotId);
+//            query.setParameter("footprintMetricId", footprintMetricId);
+//            query.setParameter("heightMetricId", heightMetricId);
+//
+//            Object[] result = (Object[]) query.getSingleResult();
+//
+//            Double heightMetric = getHeightMetricForSnapshot(snapshotId, heightMetricId);
+//            snapshot = castToJpaSnapshot(result, depth, heightMetric);
+//        } catch (PersistenceException e) {
+//            LOGGER.error(e.getMessage(), e);
+//            snapshot = null;
+//        } finally {
+//            session.stop();
+//        }
+//
+//        return snapshot;
+//    }
 
     @Override
     public String getSnapshotDetails(Integer snapshotId) {
@@ -84,8 +84,8 @@ public class SonarDaoImpl implements SonarDao {
             session.start();
             Query query = session
                 .createNativeQuery("select s.id, p.name from snapshots s "
-                    + "INNER JOIN projects p ON s.project_id = p.id "
-                    + "WHERE s.id = :snapshotId");
+                        + "INNER JOIN projects p ON s.project_id = p.id "
+                        + "WHERE s.id = :snapshotId");
             query.setParameter("snapshotId", snapshotId);
 
             Object[] result = (Object[]) query.getSingleResult();
@@ -100,41 +100,41 @@ public class SonarDaoImpl implements SonarDao {
         return resultString;
     }
 
-    @Override
-    public List<SonarSnapshot> getSnapshotsById(List<Integer> childrenNodeIds,
-            Integer footprintMetricId, Integer heightMetricId, Integer depth) {
-        List<SonarSnapshot> snapshots = new ArrayList<SonarSnapshot>();
-
-        try {
-            session.start();
-            Query query = session
-                    .createNativeQuery("select s.id, p.name, m1.value, m2.value from snapshots s "
-                            + "INNER JOIN projects p ON s.project_id = p.id "
-                            + "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id "
-                            + "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id "
-                            + "WHERE s.id IN (:snapshotIds) "
-                            + "AND m1.metric_id = :footprintMetricId "
-                            + "AND m2.metric_id = :heightMetricId");
-            
-            query.setParameter("snapshotIds", childrenNodeIds);
-            query.setParameter("footprintMetricId", footprintMetricId);
-            query.setParameter("heightMetricId", heightMetricId);
-
-            List<Object[]> queryResult = (List<Object[]>) query.getResultList();
-
-            for (Object[] object : queryResult) {
-                Double heightMetricValue = getHeightMetricForSnapshot((Integer) object[0], heightMetricId);
-                snapshots.add(castToJpaSnapshot(object, depth, heightMetricValue));
-            }
-            
-        } catch (PersistenceException e) {
-            LOGGER.error(e.getMessage(), e);
-        } finally {
-            session.stop();
-        }
-
-        return snapshots;
-    }
+//    @Override
+//    public List<SonarSnapshot> getSnapshotsById(List<Integer> childrenNodeIds,
+//            Integer footprintMetricId, Integer heightMetricId, Integer depth) {
+//        List<SonarSnapshot> snapshots = new ArrayList<SonarSnapshot>();
+//
+//        try {
+//            session.start();
+//            Query query = session
+//                    .createNativeQuery("select s.id, p.name, m1.value, m2.value from snapshots s "
+//                            + "INNER JOIN projects p ON s.project_id = p.id "
+//                            + "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id "
+//                            + "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id "
+//                            + "WHERE s.id IN (:snapshotIds) "
+//                            + "AND m1.metric_id = :footprintMetricId "
+//                            + "AND m2.metric_id = :heightMetricId");
+//
+//            query.setParameter("snapshotIds", childrenNodeIds);
+//            query.setParameter("footprintMetricId", footprintMetricId);
+//            query.setParameter("heightMetricId", heightMetricId);
+//
+//            List<Object[]> queryResult = (List<Object[]>) query.getResultList();
+//
+//            for (Object[] object : queryResult) {
+//                Double heightMetricValue = getHeightMetricForSnapshot((Integer) object[0], heightMetricId);
+//                snapshots.add(castToJpaSnapshot(object, depth, heightMetricValue));
+//            }
+//
+//        } catch (PersistenceException e) {
+//            LOGGER.error(e.getMessage(), e);
+//        } finally {
+//            session.stop();
+//        }
+//
+//        return snapshots;
+//    }
 
     private Double getHeightMetricForSnapshot(Integer snapshotId, Integer heightMetricId) {
             Query query = session
@@ -147,17 +147,6 @@ public class SonarDaoImpl implements SonarDao {
             BigDecimal result = (BigDecimal) query.getSingleResult();
 
             return result.doubleValue();
-    }
-
-    private SonarSnapshot castToJpaSnapshot(Object[] result, Integer depth, Double heightMetricValue) {
-        Integer id = (Integer) result[0];
-        String name = (String) result[1];
-        BigDecimal footprintMetricValue = (BigDecimal) result[2];
-//        BigDecimal heightMetricValue = (BigDecimal) result[3];
-//        Double heightMetricValue = heightMetricValue;
-
-        return new SonarSnapshot(id, name, depth, footprintMetricValue.doubleValue(),
-                heightMetricValue);
     }
 
     @Override
@@ -271,31 +260,40 @@ public class SonarDaoImpl implements SonarDao {
     }
 
     @Override
-    public List<Object[]> getAllChildrenFlat(int rootSnapshotId) {
+    public List<Object[]> getAllProjectElements(int rootSnapshotId,
+           int footprintMetricId, int heightMetricId) {
         /**
          * SELECT s.id, p.path FROM snapshots s INNER JOIN projects p ON
          * s.project_id = p.id WHERE s.root_snapshot_id =340
          */
-        List<Object[]> childrenIds;
+        List<Object[]> result;
 
         try {
             session.start();
             Query query = session
-                    .createNativeQuery("SELECT s.id, p.path FROM snapshots s "
-                            + "INNER JOIN projects p ON s.project_id = p.id "
-                            + "WHERE s.root_snapshot_id = :id "
-                            + "ORDER BY path");
+                    .createNativeQuery(
+            "SELECT s.id, p.path, m1.value, m2.value " +
+                    "FROM snapshots s " +
+                    "INNER JOIN projects p ON s.project_id = p.id " +
+                    "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id " +
+                    "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id " +
+                    "WHERE m1.metric_id = :footprintMetricId " +
+                    "AND m2.metric_id = :heightMetricId " +
+                    "AND s.root_snapshot_id = :id " +
+                    "ORDER BY path");
             query.setParameter("id", rootSnapshotId);
+            query.setParameter("footprintMetricId", footprintMetricId);
+            query.setParameter("heightMetricId", heightMetricId);
 
-            childrenIds = query.getResultList();
+            result = query.getResultList();
         } catch (PersistenceException e) {
             LOGGER.error(e.getMessage(), e);
-            childrenIds = null;
+            result = null;
         } finally {
             session.stop();
         }
 
-        return childrenIds;
+        return result;
     }
 
 }

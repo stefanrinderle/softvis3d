@@ -25,7 +25,7 @@ import com.google.inject.Injector;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
 import de.rinderle.softviz3d.layout.calc.Layout;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.sonar.DependenyDao;
+import de.rinderle.softviz3d.sonar.DependencyDao;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarService;
 import org.slf4j.Logger;
@@ -55,8 +55,8 @@ public class SoftViz3dExtension implements ServerExtension {
 
         SonarDao sonarDao = softVizInjector.getInstance(SonarDao.class);
         sonarDao.setDatabaseSession(session);
-        DependenyDao dependenyDao = softVizInjector.getInstance(DependenyDao.class);
-        dependenyDao.setDatabaseSession(session);
+        DependencyDao dependencyDao = softVizInjector.getInstance(DependencyDao.class);
+        dependencyDao.setDatabaseSession(session);
 
         this.sonarService = softVizInjector.getInstance(SonarService.class);
     }
