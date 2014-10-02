@@ -34,7 +34,9 @@ import java.util.Map;
 @Singleton
 public class ResourceTreeServiceImpl implements ResourceTreeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceTreeServiceImpl.class);
+
     private PathWalker pathWalker;
+
     @Inject
     private SonarDao sonarDao;
 
@@ -48,12 +50,10 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
         for (Object[] flatChild : flatChildren) {
             int snapshotId = (Integer) flatChild[0];
             String name = (String) flatChild[1];
-            BigDecimal heightMetricValue = (BigDecimal) flatChild[2];
-            BigDecimal footprintMetricValue = (BigDecimal) flatChild[3];
+            BigDecimal footprintMetricValue = (BigDecimal) flatChild[2];
+            BigDecimal heightMetricValue = (BigDecimal) flatChild[3];
 
-            pathWalker.addPath(snapshotId, name, heightMetricValue.doubleValue(), footprintMetricValue.doubleValue());
-
-
+            pathWalker.addPath(snapshotId, name, footprintMetricValue.doubleValue(), heightMetricValue.doubleValue());
         }
 
         LOGGER.debug("................");

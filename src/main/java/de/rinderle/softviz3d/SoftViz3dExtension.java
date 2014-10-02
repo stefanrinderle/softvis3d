@@ -28,6 +28,7 @@ import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.DependencyDao;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarService;
+import de.rinderle.softviz3d.tree.ResourceTreeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
@@ -46,6 +47,8 @@ public class SoftViz3dExtension implements ServerExtension {
 
     private SonarService sonarService;
 
+    private ResourceTreeService resourceTreeService;
+
     private Injector softVizInjector;
     
     public SoftViz3dExtension(DatabaseSession session, Settings settings) {
@@ -59,6 +62,7 @@ public class SoftViz3dExtension implements ServerExtension {
         dependencyDao.setDatabaseSession(session);
 
         this.sonarService = softVizInjector.getInstance(SonarService.class);
+        this.resourceTreeService = softVizInjector.getInstance(ResourceTreeService.class);
     }
 
     public List<Integer> getMetricsForSnapshot(Integer snapshotId) {
@@ -87,17 +91,6 @@ public class SoftViz3dExtension implements ServerExtension {
         Layout layout = softVizInjector.getInstance(Layout.class);
 
         return layout.startLayout(settings, snapshotId, metricId1, metricId2);
-    }
-
-    public String getSnapshotDetails(Integer id, String metricString1, String metricString2) {
-
-        LOGGER.info("getSnapshotDetails " + id);
-
-//        Integer id = Integer.valueOf(idString);
-        Integer metricId1 = Integer.valueOf(metricString1);
-        Integer metricId2 = Integer.valueOf(metricString2);
-
-        return sonarService.getSnapshotDetails(id, metricId1, metricId2, 0);
     }
 
     private void logStartOfCalc(String metricId1, String metricId2,

@@ -46,9 +46,7 @@ public class SonarServiceImpl implements SonarService {
 
     @Override
     public List<Integer> getDefinedMetricsForSnapshot(Integer snapshotId) {
-        Integer childId = sonarDao.getSnapshotIdById(snapshotId);
-
-        return sonarDao.getDistinctMetricsBySnapshotId(childId);
+        return sonarDao.getDistinctMetricsBySnapshotId(snapshotId);
     }
 
     @Override
@@ -57,15 +55,6 @@ public class SonarServiceImpl implements SonarService {
             Integer heightMetricId) {
         return sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId,
                 footprintMetricId, heightMetricId);
-    }
-
-    @Override
-    public String getSnapshotDetails(Integer id,
-           Integer footprintMetricId, Integer heightMetricId, Integer depth) {
-
-        LOGGER.info("getSnapshotDetails for id " + id);
-
-        return sonarDao.getSnapshotDetails(id);
     }
 
 }

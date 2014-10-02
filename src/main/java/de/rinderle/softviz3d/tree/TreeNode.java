@@ -34,14 +34,14 @@ public class TreeNode {
 
     private final Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
 
-    public TreeNode(Integer id, TreeNode parent, int depth, TreeNodeType type, String name, double heightMetricValue, double footprintMetricValue) {
+    public TreeNode(Integer id, TreeNode parent, int depth, TreeNodeType type, String name, double footprintMetricValue, double heightMetricValue) {
         this.id = id;
         this.parent = parent;
         this.depth = depth;
         this.name = name;
         this.type = type;
-        this.heightMetricValue = heightMetricValue;
         this.footprintMetricValue = footprintMetricValue;
+        this.heightMetricValue = heightMetricValue;
     }
 
     public TreeNode getChild(String name) {
@@ -52,12 +52,12 @@ public class TreeNode {
         }
     }
 
-    public TreeNode getOrCreateChild(int id, String name, TreeNodeType type, double heightMetricValue, double footprintMetricValue) {
+    public TreeNode getOrCreateChild(int id, String name, TreeNodeType type, double footprintMetricValue, double heightMetricValue) {
         if (children.containsKey(name)) {
             return children.get(name);
         }
 
-        TreeNode result = new TreeNode(id, this, this.depth + 1, type, name, heightMetricValue, footprintMetricValue);
+        TreeNode result = new TreeNode(id, this, this.depth + 1, type, name, footprintMetricValue, heightMetricValue);
         children.put(name, result);
         return result;
     }

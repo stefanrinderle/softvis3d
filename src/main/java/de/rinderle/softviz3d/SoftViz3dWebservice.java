@@ -23,6 +23,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
 import de.rinderle.softviz3d.handler.SoftViz3dWebserviceHandler;
+import de.rinderle.softviz3d.handler.SoftViz3dWebserviceInitializeHandler;
 import de.rinderle.softviz3d.sonar.DependencyDao;
 import de.rinderle.softviz3d.sonar.DependencyDaoImpl;
 import de.rinderle.softviz3d.sonar.SonarDao;
@@ -33,6 +34,7 @@ import org.sonar.api.server.ws.WebService;
 public class SoftViz3dWebservice implements WebService {
 
     private final SoftViz3dWebserviceHandler handler;
+    private final SoftViz3dWebserviceInitializeHandler initializeHandler;
 
     public SoftViz3dWebservice(DatabaseSession session) {
         Injector softVizInjector = Guice.createInjector(new SoftViz3dModule());
@@ -44,6 +46,7 @@ public class SoftViz3dWebservice implements WebService {
         dependencyDao.setDatabaseSession(session);
 
         this.handler = softVizInjector.getInstance(SoftViz3dWebserviceHandler.class);
+        this.initializeHandler = softVizInjector.getInstance(SoftViz3dWebserviceInitializeHandler.class);
     }
 
    @Override
@@ -53,10 +56,16 @@ public class SoftViz3dWebservice implements WebService {
 
      // create the URL /api/softViz3d/getSnapshotDetails
      controller.createAction("getSnapshotDetails")
-       .setDescription("Entry point")
+       .setDescription("Details point")
        .setHandler(this.handler)
        .createParam("snapshotId", "Snapshot id");
 
+       controller.createAction("initialize")
+               .setDescription("Initialize point")
+               .setHandler(this.initializeHandler)
+               .createParam("snapshotId", "Snapshot id")
+               .createParam("footprintMetricId", "Footprint metric id")
+               .createParam("heightMetricId", "Height metric id");
     // important to apply changes
     controller.done();
    }

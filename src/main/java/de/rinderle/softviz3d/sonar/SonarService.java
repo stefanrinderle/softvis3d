@@ -43,5 +43,4 @@ public interface SonarService {
             Integer rootSnapshotId, Integer footprintMetricId,
             Integer heightMetricId);
     
-    String getSnapshotDetails(Integer id, Integer footprintMetricId, Integer heightMetricId, Integer depth);
 }

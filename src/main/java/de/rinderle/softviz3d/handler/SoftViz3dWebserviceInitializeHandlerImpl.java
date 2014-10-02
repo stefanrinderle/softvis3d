@@ -21,12 +21,11 @@ package de.rinderle.softviz3d.handler;
 
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
-import de.rinderle.softviz3d.tree.TreeNode;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
 
-public class SoftViz3dWebserviceHandlerImpl implements SoftViz3dWebserviceHandler {
+public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebserviceInitializeHandler {
 
     @Inject
     private ResourceTreeService resourceTreeService;
@@ -34,16 +33,14 @@ public class SoftViz3dWebserviceHandlerImpl implements SoftViz3dWebserviceHandle
     @Override
     public void handle(Request request, Response response) {
         Integer id = Integer.valueOf(request.param("snapshotId"));
+        Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
+        Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
 
-        TreeNode node = resourceTreeService.findNode(Integer.valueOf(id));
+        resourceTreeService.createTreeStructrue(id, footprintMetricId, heightMetricId);
 
         JsonWriter json = response.newJsonWriter();
         json.beginObject();
-        json.prop("id", node.getId() );
-        json.prop("name", node.getName());
-        json.prop("depth", node.getDepth());
-        json.prop("footprintMetricValue", node.getFootprintMetricValue());
-        json.prop("heightMetricValue", node.getHeightMetricValue());
+        json.prop("result", "ready");
         json.endObject().close();
 
     }

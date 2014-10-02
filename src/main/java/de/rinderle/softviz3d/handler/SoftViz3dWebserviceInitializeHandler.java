@@ -17,21 +17,16 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc;
+package de.rinderle.softviz3d.handler;
 
-import att.grappa.Graph;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import org.sonar.api.config.Settings;
-
-import java.util.Map;
+import org.sonar.api.server.ws.Request;
+import org.sonar.api.server.ws.RequestHandler;
+import org.sonar.api.server.ws.Response;
 
 /**
- * Created by stefan on 09.09.14.
+ * Created by stefan on 22.09.14.
  */
-public interface Layout {
-    Map<Integer, Graph> startLayout(
-            Settings settings,
-            Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId)
-            throws DotExcecutorException;
+public interface SoftViz3dWebserviceInitializeHandler extends RequestHandler {
+    @Override
+    void handle(Request request, Response response);
 }

@@ -42,7 +42,7 @@ public class PathWalker {
         return generatedIdSequence++;
     }
 
-    public void addPath(int id, String path, double heightMetricValue, double footprintMetricValue) {
+    public void addPath(int id, String path, double footprintMetricValue, double heightMetricValue) {
         String[] names = pathSeparator.split(path);
         TreeNode treeNode = root;
 
@@ -50,10 +50,10 @@ public class PathWalker {
         for(int i = 0; i < names.length; i++) {
             isLastIndex = (i == (names.length - 1));
             if (isLastIndex) {
-                treeNode = treeNode.getOrCreateChild(id, names[i], TreeNodeType.TREE, heightMetricValue, footprintMetricValue);
+                treeNode = treeNode.getOrCreateChild(id, names[i], TreeNodeType.TREE, footprintMetricValue, heightMetricValue);
             } else {
                 treeNode = treeNode.getOrCreateChild(generatedIdSequence++, names[i], TreeNodeType.PATH_GENERATED,
-                        heightMetricValue, footprintMetricValue);
+                        footprintMetricValue, heightMetricValue);
             }
         }
     }

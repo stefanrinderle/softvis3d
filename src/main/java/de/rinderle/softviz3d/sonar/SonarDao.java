@@ -35,10 +35,6 @@ public interface SonarDao {
 
     List<Integer> getDistinctMetricsBySnapshotId(Integer snapshotId);
 
-    Integer getSnapshotIdById(Integer snapshotId);
-
-    String getSnapshotDetails(Integer snapshotId);
-
     List<Object[]> getAllProjectElements(int rootSnapshotId,
            int footprintMetricId, int heightMetricId);
 }

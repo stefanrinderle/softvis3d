@@ -85,6 +85,8 @@
 </script>
 
 <script type="text/javascript">
+    initializeWebservice(<%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>);
+
    <%
    # get extension class and start layout
    softviz3d = Api::Utils.java_facade.
