@@ -62,23 +62,23 @@ public class LayoutSoftViz3d implements Layout {
     public Map<Integer, Graph> startLayout(Settings settings, Integer snapshotId,
             Integer footprintMetricId, Integer heightMetricId) throws DotExcecutorException {
 
-        final LayoutViewType view = LayoutViewType.CITY;
+        final LayoutViewType viewType = LayoutViewType.DEPENDENCY;
 
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
         resourceTreeService.createTreeStructrue(snapshotId, footprintMetricId, heightMetricId);
 
-        if (view.equals(LayoutViewType.DEPENDENCY)) {
+        if (viewType.equals(LayoutViewType.DEPENDENCY)) {
             List<SonarDependency> dependencies = dependencyDao.getDependencies(snapshotId);
             dependencyExpander.execute(snapshotId, dependencies);
         }
 
         LOGGER.info("Created tree structure after " + stopWatch.getTime());
 
-        Map<Integer, Graph> resultGraphs = startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId);
+        Map<Integer, Graph> resultGraphs = startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId, viewType);
 
-        int leavesCounter = calc.calculate(snapshotId, resultGraphs);
+        int leavesCounter = calc.calculate(snapshotId, resultGraphs, viewType);
 
         stopWatch.stop();
         LOGGER.info("Calculation finished after " + stopWatch.getTime() + " with "
@@ -88,13 +88,14 @@ public class LayoutSoftViz3d implements Layout {
     }
 
     private Map<Integer, Graph> startBottomUpCalculation(Integer snapshotId,
-            Settings settings, Integer footprintMetricId, Integer heightMetricId)
+            Settings settings, Integer footprintMetricId, Integer heightMetricId,
+            LayoutViewType viewType)
             throws DotExcecutorException {
 
         List<Double> minMaxValues = sonarService.getMinMaxMetricValuesByRootSnapshotId(
                 snapshotId, footprintMetricId, heightMetricId);
 
-        SnapshotVisitor visitor = visitorFactory.create(settings, minMaxValues);
+        SnapshotVisitor visitor = visitorFactory.create(settings, minMaxValues, viewType);
 
         processor.accept(visitor, snapshotId);
 

@@ -24,6 +24,9 @@ import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
 import com.google.inject.Inject;
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
+import de.rinderle.softviz3d.layout.helper.HexaColor;
+import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.TreeNode;
 import org.slf4j.Logger;
@@ -51,18 +54,18 @@ public class AbsolutePositionCalculator implements PositionCalculator {
     private ResourceTreeService resourceTreeService;
 
     @Override
-    public int calculate(Integer snapshotId, Map<Integer, Graph> inputGraphList) {
+    public int calculate(Integer snapshotId, Map<Integer, Graph> inputGraphList, LayoutViewType layoutViewType) {
         leafElements = 0;
 
         this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
         this.inputGraphs = inputGraphList;
 
-        this.addTranslationToLayer(snapshotId, new GrappaPoint(0, 0));
+        this.addTranslationToLayer(snapshotId, new GrappaPoint(0, 0), layoutViewType);
 
         return leafElements;
     }
 
-    private void addTranslationToLayer(Integer sourceId, GrappaPoint posTranslation) {
+    private void addTranslationToLayer(Integer sourceId, GrappaPoint posTranslation, LayoutViewType layoutViewType) {
         LOGGER.debug("AbsolutePositionCalculator addTranslationToLayer " + sourceId);
 
         // inputGraphs --> Map<Integer, Graph>
@@ -76,18 +79,26 @@ public class AbsolutePositionCalculator implements PositionCalculator {
         translateLeaves(posTranslation, graph, translatedBb);
 
         // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes
-        translateNodes(sourceId, graph);
+        translateNodes(sourceId, graph, layoutViewType);
     }
 
-    private void translateNodes(Integer sourceId, Graph graph) {
+    private void translateNodes(Integer sourceId, Graph graph, LayoutViewType layoutViewType) {
         List<TreeNode> children = resourceTreeService.getChildrenNodeIds(sourceId);
 
         for (TreeNode child : children) {
             GrappaPoint pos = innerGraphTranslation.get(child.getId());
 
-            addTranslationToLayer(child.getId(), pos);
+            addTranslationToLayer(child.getId(), pos, layoutViewType);
 
-            graph.removeNode("dir_" + child.getId());
+            if (LayoutViewType.CITY.equals(layoutViewType)) {
+                graph.removeNode("dir_" + child.getId());
+            } else {
+                Node dirNode = graph.findNodeByName("dir_" + child.getId());
+                HexaColor color = new HexaColor(100, 100, 100);
+                dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, color.getHex());
+                dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSPARENCY, "0.7");
+                dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, "5");
+            }
         }
     }
 

@@ -20,10 +20,11 @@
 package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import att.grappa.Graph;
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.sonar.SonarMetric;
 
 public interface LayerFormatter {
-    void format(Graph graph, Integer depth);
+    void format(Graph graph, Integer depth, LayoutViewType viewType);
 
     double calcBuildingHeight(Double value, SonarMetric metricHeight);
 

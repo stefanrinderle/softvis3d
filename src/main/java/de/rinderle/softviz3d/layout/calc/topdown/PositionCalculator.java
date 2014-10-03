@@ -20,9 +20,10 @@
 package de.rinderle.softviz3d.layout.calc.topdown;
 
 import att.grappa.Graph;
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 
 import java.util.Map;
 
 public interface PositionCalculator {
-    int calculate(Integer snapshotId, Map<Integer, Graph> inputGraphList);
+    int calculate(Integer snapshotId, Map<Integer, Graph> inputGraphList, LayoutViewType layoutViewType);
 }

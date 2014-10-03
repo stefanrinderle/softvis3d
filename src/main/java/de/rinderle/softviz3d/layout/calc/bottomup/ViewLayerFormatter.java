@@ -21,9 +21,11 @@ package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import att.grappa.Graph;
 import att.grappa.Node;
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.helper.HexaColor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.sonar.SonarMetric;
+import de.rinderle.softviz3d.tree.TreeNodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,9 +39,7 @@ public class ViewLayerFormatter implements LayerFormatter {
     private static final int MIN_BUILDING_HEIGHT = 10;
 
     @Override
-    public void format(Graph graph, Integer depth) {
-        double transparency = 0.0;
-
+    public void format(Graph graph, Integer depth, LayoutViewType viewType) {
         // calc color
         int colorCalc = depth * 16;
         if (colorCalc > 154 || colorCalc < 0) {
@@ -50,10 +50,16 @@ public class ViewLayerFormatter implements LayerFormatter {
         HexaColor nodesColor = new HexaColor(254, 140, 0);
 
         graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR, color);
-        graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, nodesColor.getHex());
+
+        double transparency = 0.0;
+        Integer height3d =  depth * 20;;
+        if (LayoutViewType.DEPENDENCY.equals(viewType)) {
+            height3d = - (depth * 200);
+            transparency = 0.7;
+        }
+
         graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSPARENCY, transparency + "");
 
-        Integer height3d = depth * 20;
         graph.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
 
         for (Node leaf : graph.nodeElementsAsArray()) {
@@ -64,10 +70,14 @@ public class ViewLayerFormatter implements LayerFormatter {
             width = width * SoftViz3dConstants.DPI_DOT_SCALE;
             leaf.setAttribute(WIDTH_ATTR, width);
 
+            if (leaf.getAttribute("type").getValue().toString().equals(TreeNodeType.DEPENDENCY_GENERATED.name())) {
+                leaf.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, color.getHex());
+            } else {
+                leaf.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, nodesColor.getHex());
+            }
+
             leaf.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
         }
-
-//        return graph;
     }
 
     /**

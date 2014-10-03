@@ -20,14 +20,11 @@
 package de.rinderle.softviz3d.layout.calc;
 
 import de.rinderle.softviz3d.tree.TreeNode;
+import de.rinderle.softviz3d.tree.TreeNodeType;
 
 public class LayeredLayoutElement {
 
-    public enum Type {
-        NODE, LEAF
-    }
-
-    private Type type;
+    private TreeNodeType type;
 
     private Integer id;
 
@@ -39,7 +36,7 @@ public class LayeredLayoutElement {
 
     private String displayName;
 
-    private LayeredLayoutElement(Type type, Integer id, String name, Double width, Double height, Double buildingHeight, String displayName) {
+    private LayeredLayoutElement(TreeNodeType type, Integer id, String name, Double width, Double height, Double buildingHeight, String displayName) {
         super();
         this.type = type;
         this.id = id;
@@ -52,22 +49,22 @@ public class LayeredLayoutElement {
 
     public static LayeredLayoutElement createLayeredLayoutLeafElement(
             TreeNode node, Double width, Double height, Double buildingHeight) {
-        return createLayeredLayoutElement(Type.LEAF, "file_", node, width, height, buildingHeight);
+        return createLayeredLayoutElement("file_", node, width, height, buildingHeight);
     }
 
     public static LayeredLayoutElement createLayeredLayoutNodeElement(
             TreeNode node, Double width, Double height, Double buildingHeight) {
-        return createLayeredLayoutElement(Type.NODE, "dir_", node, width, height, buildingHeight);
+        return createLayeredLayoutElement("dir_", node, width, height, buildingHeight);
     }
 
     private static LayeredLayoutElement createLayeredLayoutElement(
-            Type type, String namePrefix, TreeNode node, Double width, Double height, Double buildingHeight) {
-        return new LayeredLayoutElement(type, node.getId(), namePrefix
+            String namePrefix, TreeNode node, Double width, Double height, Double buildingHeight) {
+        return new LayeredLayoutElement(node.getType(), node.getId(), namePrefix
                 + node.getId().toString(), width, height,
                 buildingHeight, node.getName());
     }
 
-    public Type getElementType() {
+    public TreeNodeType getElementType() {
         return this.type;
     }
 
@@ -89,13 +86,6 @@ public class LayeredLayoutElement {
 
     public String getBuildingHeight() {
         return "x" + buildingHeight;
-    }
-
-    @Override
-    public String toString() {
-        return "InputElement [type=" + type + ", identifier=" + name
-                + ", id=" + id + ", width=" + width
-                + ", height=" + height + "]";
     }
 
     public String getDisplayName() {

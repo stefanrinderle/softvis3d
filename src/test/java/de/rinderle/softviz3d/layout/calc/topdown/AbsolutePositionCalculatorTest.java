@@ -56,7 +56,7 @@ public class AbsolutePositionCalculatorTest extends TestCase {
         Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
         inputGraphList.put(ID, GrappaGraphFactory.createGraph());
 
-        underTest.calculate(ID, inputGraphList);
+//        underTest.calculate(ID, inputGraphList);
 
         Graph result = inputGraphList.get(ID);
 
@@ -78,7 +78,7 @@ public class AbsolutePositionCalculatorTest extends TestCase {
         childrenNodes.add(SUBGRAPH_ID);
 //        when(resourceTreeService.getChildrenNodeIds(eq(ID))).thenReturn(childrenNodes);
 
-        underTest.calculate(ID, inputGraphList);
+//        underTest.calculate(ID, inputGraphList);
 
         Graph result = inputGraphList.get(SUBGRAPH_ID);
 

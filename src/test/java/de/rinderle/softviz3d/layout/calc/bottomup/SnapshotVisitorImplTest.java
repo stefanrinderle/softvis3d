@@ -61,7 +61,7 @@ public class SnapshotVisitorImplTest {
 
         Settings settings = new Settings();
         List<Double> minMaxValues = createMinMaxValues();
-        SnapshotVisitorImpl underTest = new SnapshotVisitorImpl(formatter, dotExecutor, settings, minMaxValues);
+//        SnapshotVisitorImpl underTest = new SnapshotVisitorImpl(formatter, dotExecutor, settings, minMaxValues);
 
 //        SonarSnapshot snapshot = new SonarSnapshot(ID, NAME, DEPTH, METRIC_FOOTPRINT_VALUE, METRIC_HEIGHT_VALUE);
         List<LayeredLayoutElement> elements = new ArrayList<LayeredLayoutElement>();
@@ -87,7 +87,7 @@ public class SnapshotVisitorImplTest {
 
         Settings settings = new Settings();
         List<Double> minMaxValues = createMinMaxValues();
-        SnapshotVisitorImpl underTest = new SnapshotVisitorImpl(formatter, dotExecutor, settings, minMaxValues);
+//        SnapshotVisitorImpl underTest = new SnapshotVisitorImpl(formatter, dotExecutor, settings, minMaxValues);
 
 //        SonarSnapshot snapshot = new SonarSnapshot(ID, NAME, DEPTH, METRIC_FOOTPRINT_VALUE, METRIC_HEIGHT_VALUE);
 
@@ -120,7 +120,7 @@ public class SnapshotVisitorImplTest {
     public void testVisitLeaf() {
         Settings settings = new Settings();
         List<Double> minMaxValues = createMinMaxValues();
-        SnapshotVisitorImpl underTest = new SnapshotVisitorImpl(formatter, dotExecutor, settings, minMaxValues);
+//        SnapshotVisitorImpl underTest = new SnapshotVisitorImpl(formatter, dotExecutor, settings, minMaxValues);
 
 //        SonarSnapshot snapshot = new SonarSnapshot(ID, NAME, DEPTH, METRIC_FOOTPRINT_VALUE, METRIC_HEIGHT_VALUE);
 

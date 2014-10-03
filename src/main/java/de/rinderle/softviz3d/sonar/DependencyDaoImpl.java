@@ -56,8 +56,6 @@ public class DependencyDaoImpl implements DependencyDao {
 
             List<Object[]> queryResult = (List<Object[]>) query.getResultList();
 
-            LOGGER.info("DependencyDao result size = " + queryResult);
-
             result = castToSonarDependency(queryResult);
 
         } catch (PersistenceException e) {

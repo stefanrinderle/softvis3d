@@ -110,9 +110,11 @@
                 <%= layerBB.getHeight() %>);
 
         // set material (color)
-        layerMaterial = new THREE.MeshBasicMaterial({
-            color: <%= value.getAttributeValue('color').getHex %>
-        });
+        layerMaterial = new THREE.MeshLambertMaterial({
+            color: <%= value.getAttributeValue('color').getHex %>,
+            transparent: true,
+            opacity: <%= value.getAttributeValue('transparency') %>
+            });
 
         // <%= value.to_s %>
         createBox(geometryLayer, layerMaterial, position, "<%= key %>");
@@ -123,7 +125,9 @@
         value.nodeElementsAsArray.each { |val|
             %>
             var nodeMaterial = new THREE.MeshLambertMaterial({
-                color: <%= value.getAttributeValue('nodesColor') %>
+                color: <%= val.getAttributeValue('nodesColor') %>,
+                transparent: true,
+                opacity: <%= value.getAttributeValue('transparency') %>
             });
             <%
             point = val.getAttributeValue('pos')

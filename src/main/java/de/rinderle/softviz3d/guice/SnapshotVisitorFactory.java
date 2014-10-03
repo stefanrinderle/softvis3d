@@ -19,11 +19,12 @@
  */
 package de.rinderle.softviz3d.guice;
 
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
 import org.sonar.api.config.Settings;
 
 import java.util.List;
 
 public interface SnapshotVisitorFactory {
-    public SnapshotVisitor create(Settings settings, List<Double> minMaxValues);
+    public SnapshotVisitor create(Settings settings, List<Double> minMaxValues, LayoutViewType viewType);
 }

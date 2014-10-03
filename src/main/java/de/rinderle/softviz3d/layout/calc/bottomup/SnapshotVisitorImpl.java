@@ -25,11 +25,13 @@ import att.grappa.Node;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExecutor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.sonar.SonarMetric;
 import de.rinderle.softviz3d.tree.TreeNode;
+import de.rinderle.softviz3d.tree.TreeNodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
@@ -55,11 +57,14 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
     private DotExecutor dotExecutor;
 
+    private LayoutViewType viewType;
+
     @Inject
     public SnapshotVisitorImpl(LayerFormatter formatter,
                                DotExecutor dotExecutor,
                                @Assisted Settings settings,
-                               @Assisted List<Double> minMaxValues) {
+                               @Assisted List<Double> minMaxValues,
+                               @Assisted LayoutViewType viewType) {
         this.settings = settings;
 
         this.metricFootprint = new SonarMetric(minMaxValues.get(0), minMaxValues.get(1));
@@ -67,6 +72,8 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
         this.dotExecutor = dotExecutor;
         this.formatter = formatter;
+
+        this.viewType = viewType;
     }
 
     @Override
@@ -93,7 +100,7 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
         // adjust graph
         //Graph adjustedGraph =
-        formatter.format(outputGraph, node.getDepth());
+        formatter.format(outputGraph, node.getDepth(), viewType);
         resultingGraphList.put(node.getId(), outputGraph);
 
         // adjusted graph has a bounding box !
@@ -138,7 +145,12 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
         double buildingHeight = formatter.calcBuildingHeight(leaf.getHeightMetricValue(), metricHeight);
         buildingHeight = buildingHeight / SoftViz3dConstants.DPI_DOT_SCALE;
 
-        buildingHeight = buildingHeight  * 15;
+        buildingHeight = buildingHeight  * 100;
+
+        if (TreeNodeType.DEPENDENCY_GENERATED.equals(leaf.getType()) &&
+                LayoutViewType.DEPENDENCY.equals(viewType)) {
+            buildingHeight = 200;
+        }
 
         return LayeredLayoutElement.createLayeredLayoutLeafElement(leaf, sideLength, sideLength, buildingHeight);
     }
