@@ -24,6 +24,7 @@ import att.grappa.GrappaBox;
 import att.grappa.Node;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import de.rinderle.softviz3d.layout.calc.Edge;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
@@ -95,12 +96,28 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
             inputGraph.addNode(elementNode);
         }
 
+        for (LayeredLayoutElement element : elements) {
+            for(Edge edge : element.getEdges().values()) {
+                inputGraph.addEdge(transformToGrappaEdge(inputGraph, edge));
+            }
+        }
+
+        LOGGER.debug("--------------------------------------");
+
+//        inputGraph.printGraph(System.out);
+
         // run dot layout for this layer
-        Graph outputGraph = dotExecutor.run(inputGraph, settings);
+        Graph outputGraph = dotExecutor.run(inputGraph, settings, viewType);
 
         // adjust graph
-        //Graph adjustedGraph =
         formatter.format(outputGraph, node.getDepth(), viewType);
+
+        LOGGER.debug("--------------------------------------");
+
+//        outputGraph.printGraph(System.out);
+
+        LOGGER.debug("--------------------------------------");
+
         resultingGraphList.put(node.getId(), outputGraph);
 
         // adjusted graph has a bounding box !
@@ -117,12 +134,36 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
         return LayeredLayoutElement.createLayeredLayoutNodeElement(node, width, height, platformHeight);
     }
 
+    private att.grappa.Edge transformToGrappaEdge(Graph inputGraph, Edge edge) {
+        Node sourceNode = searchNodeById(inputGraph, edge.getSourceId());
+        Node destNode = searchNodeById(inputGraph, edge.getDestinationId());
+
+        if (sourceNode != null && destNode != null)  {
+            att.grappa.Edge result = new att.grappa.Edge(inputGraph, sourceNode, destNode);
+//        result.setAttribute("thickness", edge.getCounter());
+            return result;
+        }
+
+        return null;
+    }
+
+    private Node searchNodeById(Graph inputGraph, Integer sourceId) {
+        for(Node node : inputGraph.nodeElementsAsArray()) {
+            Integer nodeId = Integer.valueOf((String) node.getAttributeValue("id"));
+            if (nodeId.equals(sourceId)) {
+                return node;
+            }
+        }
+
+        return null;
+    }
+
     private Node transformToGrappaNode(Graph inputGraph, LayeredLayoutElement element) {
         Node elementNode = new Node(inputGraph, element.getName());
         elementNode.setAttribute("id", element.getId().toString());
         elementNode.setAttribute("type", element.getElementType().name());
-        elementNode.setAttribute(WIDTH_ATTR, element.getWidth());
-        elementNode.setAttribute(HEIGHT_ATTR, element.getHeight());
+        elementNode.setAttribute(WIDTH_ATTR, roundTo2Decimals(element.getWidth()));
+        elementNode.setAttribute(HEIGHT_ATTR, roundTo2Decimals(element.getHeight()));
 
         // keep the size of the node only dependent on the width and height
         // attribute and not from the node name
@@ -135,10 +176,13 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
         return elementNode;
     }
 
+    private double roundTo2Decimals(double value) {
+        return Math.round( value * 100.0 ) / 100.0;
+    }
+
+
     @Override
     public LayeredLayoutElement visitFile(TreeNode leaf) {
-        LOGGER.debug("LayoutVisitor.visitNode " + leaf.getId() + " " + leaf.getName());
-
         double sideLength = formatter.calcSideLength(leaf.getFootprintMetricValue(), metricFootprint);
         sideLength = sideLength / SoftViz3dConstants.DPI_DOT_SCALE;
 

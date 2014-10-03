@@ -102,7 +102,11 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
         TreeNode from = findNode(fromSnapshotId);
         TreeNode to = findNode(toSnapshotId);
 
-        boolean hasSameParent = from.getParent().getId().equals(to.getParent().getId());
+        // TODO check this - why is this needed.
+        boolean hasSameParent = true;
+        if (from != null && to != null) {
+            hasSameParent = from.getParent().getId().equals(to.getParent().getId());
+        }
 
         if (hasSameParent) {
             return DependencyType.INPUT_FLAT;

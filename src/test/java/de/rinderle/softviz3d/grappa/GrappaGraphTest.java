@@ -109,12 +109,12 @@ public class GrappaGraphTest extends TestCase {
 		GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
 		
 		double[] translation = new double[] {pos.getX(), 0, pos.getY()};
-		double transparency = 0.0;
+		double opacity = 1.0;
 		Color color = new Color(200, 200, 255);
 		
 		node.setAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR, color);
 		node.setAttribute("translation", translation.toString());
-		node.setAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSPARENCY, transparency + "");
+		node.setAttribute(SoftViz3dConstants.GRAPH_ATTR_OPACITY, opacity + "");
 		node.setAttribute("height", 20 + "");
 	}
 }

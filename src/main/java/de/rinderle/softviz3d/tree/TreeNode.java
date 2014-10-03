@@ -19,6 +19,9 @@
  */
 package de.rinderle.softviz3d.tree;
 
+import de.rinderle.softviz3d.layout.calc.Edge;
+
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -33,6 +36,7 @@ public class TreeNode {
     private String name;
 
     private final Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
+    private Map<String, Edge> edges = new HashMap<String, Edge>();
 
     public TreeNode(Integer id, TreeNode parent, int depth, TreeNodeType type, String name, double footprintMetricValue, double heightMetricValue) {
         this.id = id;
@@ -42,14 +46,6 @@ public class TreeNode {
         this.type = type;
         this.footprintMetricValue = footprintMetricValue;
         this.heightMetricValue = heightMetricValue;
-    }
-
-    public TreeNode getChild(String name) {
-        if (children.containsKey(name)) {
-            return children.get(name);
-        } else {
-            return null;
-        }
     }
 
     public TreeNode getOrCreateChild(int id, String name, TreeNodeType type, double footprintMetricValue, double heightMetricValue) {
@@ -92,5 +88,21 @@ public class TreeNode {
 
     public String getName() {
         return name;
+    }
+
+    public void setEdge(Edge outEdge) {
+        this.edges.put(outEdge.getDepEdgeLabel(), outEdge);
+    }
+
+    public boolean hasEdge(String edgeLabel)  {
+        return this.edges.containsKey(edgeLabel);
+    }
+
+    public Edge getEdge(String depEdgeLabel) {
+        return this.edges.get(depEdgeLabel);
+    }
+
+    public Map<String, Edge> getEdges() {
+        return edges;
     }
 }

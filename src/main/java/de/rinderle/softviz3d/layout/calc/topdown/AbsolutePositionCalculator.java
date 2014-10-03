@@ -36,7 +36,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static att.grappa.GrappaConstants.HEIGHT_ATTR;
 import static att.grappa.GrappaConstants.POS_ATTR;
 
 public class AbsolutePositionCalculator implements PositionCalculator {
@@ -68,6 +67,8 @@ public class AbsolutePositionCalculator implements PositionCalculator {
     private void addTranslationToLayer(Integer sourceId, GrappaPoint posTranslation, LayoutViewType layoutViewType) {
         LOGGER.debug("AbsolutePositionCalculator addTranslationToLayer " + sourceId);
 
+        LOGGER.info("addTranslationToLayer" + sourceId + " " + posTranslation.toString());
+
         // inputGraphs --> Map<Integer, Graph>
         // Step 1 - search the graph for the source given
         Graph graph = inputGraphs.get(sourceId);
@@ -90,13 +91,14 @@ public class AbsolutePositionCalculator implements PositionCalculator {
 
             addTranslationToLayer(child.getId(), pos, layoutViewType);
 
+            // TODO: add representation node on dep view
             if (LayoutViewType.CITY.equals(layoutViewType)) {
                 graph.removeNode("dir_" + child.getId());
             } else {
                 Node dirNode = graph.findNodeByName("dir_" + child.getId());
                 HexaColor color = new HexaColor(100, 100, 100);
                 dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, color.getHex());
-                dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSPARENCY, "0.7");
+                dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_OPACITY, "0.7");
                 dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, "5");
             }
         }
@@ -116,8 +118,6 @@ public class AbsolutePositionCalculator implements PositionCalculator {
             nodeLocationX = posTranslation.getX() + pos.getX() - translatedBb.getWidth() / 2;
             nodeLocationY = posTranslation.getY() + pos.getY() + translatedBb.getHeight() / 2;
             pos.setLocation(nodeLocationX, nodeLocationY);
-
-            leaf.setAttribute(HEIGHT_ATTR, "not used");
 
             leafElements++;
         }

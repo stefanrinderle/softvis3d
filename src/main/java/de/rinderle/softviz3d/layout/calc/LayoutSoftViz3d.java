@@ -60,9 +60,8 @@ public class LayoutSoftViz3d implements Layout {
 
     @Override
     public Map<Integer, Graph> startLayout(Settings settings, Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId) throws DotExcecutorException {
-
-        final LayoutViewType viewType = LayoutViewType.DEPENDENCY;
+            Integer footprintMetricId, Integer heightMetricId, LayoutViewType viewType)
+            throws DotExcecutorException {
 
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();

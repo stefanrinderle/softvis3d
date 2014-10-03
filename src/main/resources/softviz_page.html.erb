@@ -24,12 +24,16 @@
 
     # set default metric ids if no metrics selected
     if (params[:metric1].blank?) 
-       puts("no param 1 - default params")
+       puts("no param 1 - default param")
        params[:metric1] = softviz3d.getMetric1FromSettings().to_s
     end
     if (params[:metric2].blank?) 
-       puts("no param 2 - default params")
+       puts("no param 2 - default param")
        params[:metric2] = softviz3d.getMetric2FromSettings().to_s
+    end
+    if (params[:viewType].blank?)
+      puts("no viewType - default param")
+      params[:viewType] = "city";
     end
   %>
   <% form_tag({:action => @resource.id.to_s}, {:id => 'softviz3dForm', :method => 'get'}) do %>
@@ -68,6 +72,24 @@
         %>
       </select>
 
+        View type:
+        <select name="viewType">
+            <%
+            if ("city"==params[:viewType].to_s)
+            %>
+                <option value="city" selected>City</option>
+            <% else %>
+                <option value="city">City</option>
+            <% end %>
+            <%
+               if ("dependency"==params[:viewType].to_s)
+            %>
+                <option value="dependency" selected>Dependency</option>
+            <% else %>
+                <option value="dependency">Dependency</option>
+            <% end %>
+        </select>
+
       <input type="submit" value="Submit">
   <% end %>
 </div>
@@ -79,7 +101,7 @@
         Detector.addGetWebGLMessage();
     }
 
-    init(document.getElementById('renderContainer'), true);
+    init(document.getElementById('renderContainer'), false);
     createCenterCube();
     animate();
 </script>
@@ -92,8 +114,8 @@
    softviz3d = Api::Utils.java_facade.
            getComponentByClassname('softviz3d', 'de.rinderle.softviz3d.SoftViz3dExtension')
 
-   resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, params[:metric1], params[:metric2])
-           
+   resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, params[:metric1], params[:metric2], params[:viewType])
+
    # show all graph (as layers)
    resultMap.each do |key, value|
         # set bb (position and size)
@@ -113,7 +135,7 @@
         layerMaterial = new THREE.MeshLambertMaterial({
             color: <%= value.getAttributeValue('color').getHex %>,
             transparent: true,
-            opacity: <%= value.getAttributeValue('transparency') %>
+            opacity: <%= value.getAttributeValue('opacity') %>
             });
 
         // <%= value.to_s %>
@@ -127,7 +149,7 @@
             var nodeMaterial = new THREE.MeshLambertMaterial({
                 color: <%= val.getAttributeValue('nodesColor') %>,
                 transparent: true,
-                opacity: <%= value.getAttributeValue('transparency') %>
+                opacity: <%= value.getAttributeValue('opacity') %>
             });
             <%
             point = val.getAttributeValue('pos')
@@ -136,7 +158,7 @@
            %>
             var nodeGeometry = new THREE.BoxGeometry(
                     <%= val.getAttributeValue('width').to_s %>, <%= heightString %>,
-                    <%= val.getAttributeValue('width').to_s %>);
+                    <%= val.getAttributeValue('height').to_s %>);
 
             var position = new Array();
             position.x = <%= pointArray[0] %>;
@@ -157,7 +179,7 @@
             createBox(nodeGeometry, nodeMaterial, position, "<%= val.getAttributeValue('id') %>");
             <%
         }
-   end
+end
 %>
 
    setLight();

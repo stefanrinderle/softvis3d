@@ -35,7 +35,7 @@ public class DependencyExpanderImpl implements DependencyExpander {
 
     private Object[] flatEdges = new Object[10];
     private Object[] interfaceLeaves = new Object[10];
-    private Map<String, Edge> dependencyEdges = new HashMap<String, Edge>();
+//    private Map<String, Edge> dependencyEdges = new HashMap<String, Edge>();
 
     private Map<Integer, Integer> nodesCounter = new HashMap<Integer, Integer>();
 
@@ -68,10 +68,6 @@ public class DependencyExpanderImpl implements DependencyExpander {
 //                $leaf->save();
 //            }
 
-//            foreach ($this->interfaceLeaves as $node) {
-//                $node->save();
-//            }
-//
 //            foreach ($this->dependencyEdges as $edge) {
 //                $edge->save();
 //            }
@@ -114,35 +110,35 @@ public class DependencyExpanderImpl implements DependencyExpander {
         private void handleNewFlatDepEdge(TreeNode source, TreeNode dest) {
             String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + source.getId();
 
-            if (dependencyEdges.containsKey(depEdgeLabel)) {
-                Edge edge = dependencyEdges.get(depEdgeLabel);
+            if (source.hasEdge(depEdgeLabel)) {
+                Edge edge = source.getEdge(depEdgeLabel);
                 edge.setCounter(edge.getCounter() + 1);
-                dependencyEdges.put(depEdgeLabel, edge);
+                source.setEdge(edge);
             } else {
                 Edge edge = new Edge(projectId, depEdgeLabel,
                     source.getId(), dest.getId(), source.getParent().getId());
-                dependencyEdges.put(depEdgeLabel, edge);
+                source.setEdge(edge);
             }
         }
 
         private void handleNewDepEdge(TreeNode treeNode, boolean isOut) {
             String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + treeNode.getId();
 
-            if (dependencyEdges.containsKey(depEdgeLabel)) {
-                Edge edge = dependencyEdges.get(depEdgeLabel);
+            if (treeNode.hasEdge(depEdgeLabel)) {
+                Edge edge = treeNode.getEdge(depEdgeLabel);
                 edge.setCounter(edge.getCounter() + 1);
-                dependencyEdges.put(depEdgeLabel, edge);
+                treeNode.setEdge(edge);
             } else {
                 Integer depNodeId = getInterfaceNode(treeNode.getParent().getId(), treeNode.getDepth());
 
                 final Edge element;
                 if (isOut) {
-                    element = new Edge(projectId, depEdgeLabel, depNodeId, treeNode.getId(), treeNode.getParent().getId());
-                } else {
                     element = new Edge(projectId, depEdgeLabel, treeNode.getId(), depNodeId, treeNode.getParent().getId());
+                } else {
+                    element = new Edge(projectId, depEdgeLabel, depNodeId, treeNode.getId(), treeNode.getParent().getId());
                 }
 
-                dependencyEdges.put(depEdgeLabel, element);
+                treeNode.setEdge(element);
             }
         }
 

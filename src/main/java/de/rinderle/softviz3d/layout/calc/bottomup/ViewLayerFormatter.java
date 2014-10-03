@@ -29,6 +29,7 @@ import de.rinderle.softviz3d.tree.TreeNodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static att.grappa.GrappaConstants.HEIGHT_ATTR;
 import static att.grappa.GrappaConstants.WIDTH_ATTR;
 
 public class ViewLayerFormatter implements LayerFormatter {
@@ -51,14 +52,14 @@ public class ViewLayerFormatter implements LayerFormatter {
 
         graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR, color);
 
-        double transparency = 0.0;
+        double opacity = 1.0;
         Integer height3d =  depth * 20;;
         if (LayoutViewType.DEPENDENCY.equals(viewType)) {
             height3d = - (depth * 200);
-            transparency = 0.7;
+            opacity = 0.7;
         }
 
-        graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_TRANSPARENCY, transparency + "");
+        graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_OPACITY, opacity + "");
 
         graph.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
 
@@ -68,7 +69,12 @@ public class ViewLayerFormatter implements LayerFormatter {
             Double width = (Double) leaf.getAttributeValue(WIDTH_ATTR);
             // keep some distance to each other
             width = width * SoftViz3dConstants.DPI_DOT_SCALE;
-            leaf.setAttribute(WIDTH_ATTR, width);
+            leaf.setAttribute(WIDTH_ATTR, roundTo2Decimals(width));
+
+            Double height = (Double) leaf.getAttributeValue(HEIGHT_ATTR);
+            // keep some distance to each other
+            height = height * SoftViz3dConstants.DPI_DOT_SCALE;
+            leaf.setAttribute(HEIGHT_ATTR, roundTo2Decimals(height));
 
             if (leaf.getAttribute("type").getValue().toString().equals(TreeNodeType.DEPENDENCY_GENERATED.name())) {
                 leaf.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, color.getHex());
@@ -78,6 +84,10 @@ public class ViewLayerFormatter implements LayerFormatter {
 
             leaf.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
         }
+    }
+
+    private double roundTo2Decimals(double value) {
+        return Math.round( value * 100.0 ) / 100.0;
     }
 
     /**
@@ -135,7 +145,7 @@ public class ViewLayerFormatter implements LayerFormatter {
                 if (value >= minValue && value <= maxValue) {
                     sideLength = 100 / rangeSize * (value - minValue);
                 } else {
-                    LOGGER.error("Building calcPercentage value not between min and max"
+                    LOGGER.debug("Building calcPercentage value not between min and max"
                             + minValue + " " + maxValue + " " + value);
                 }
             }

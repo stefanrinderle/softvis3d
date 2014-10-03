@@ -23,6 +23,7 @@ import att.grappa.Graph;
 import att.grappa.Parser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.helper.StringOutputStream;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import org.apache.commons.io.IOUtils;
@@ -49,13 +50,16 @@ public class DotExcecutorImpl implements DotExecutor {
     private ExecuteCommand executeCommand;
 
     @Override
-    public Graph run(Graph inputGraph, Settings settings)
+    public Graph run(Graph inputGraph, Settings settings, LayoutViewType viewType)
             throws DotExcecutorException {
         StringWriter writer = new StringWriter();
         inputGraph.printGraph(writer);
 
         String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
-        String command = dotBin + " -K neato ";
+        String command = dotBin + " ";
+        if (LayoutViewType.CITY.equals(viewType) || inputGraph.edgeElementsAsArray().length == 0) {
+            command = dotBin + " -K neato ";
+        }
 
         String adot = executeCommand.executeCommandReadAdot(command,
                 writer.toString());

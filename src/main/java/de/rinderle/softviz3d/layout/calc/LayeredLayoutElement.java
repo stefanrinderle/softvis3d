@@ -22,6 +22,8 @@ package de.rinderle.softviz3d.layout.calc;
 import de.rinderle.softviz3d.tree.TreeNode;
 import de.rinderle.softviz3d.tree.TreeNodeType;
 
+import java.util.Map;
+
 public class LayeredLayoutElement {
 
     private TreeNodeType type;
@@ -36,7 +38,9 @@ public class LayeredLayoutElement {
 
     private String displayName;
 
-    private LayeredLayoutElement(TreeNodeType type, Integer id, String name, Double width, Double height, Double buildingHeight, String displayName) {
+    private Map<String, Edge> edges;
+
+    private LayeredLayoutElement(TreeNodeType type, Integer id, String name, Double width, Double height, Double buildingHeight, String displayName, Map<String, Edge> edges) {
         super();
         this.type = type;
         this.id = id;
@@ -45,23 +49,24 @@ public class LayeredLayoutElement {
         this.height = height;
         this.buildingHeight = buildingHeight;
         this.displayName = displayName;
+        this.edges = edges;
     }
 
     public static LayeredLayoutElement createLayeredLayoutLeafElement(
             TreeNode node, Double width, Double height, Double buildingHeight) {
-        return createLayeredLayoutElement("file_", node, width, height, buildingHeight);
+        return createLayeredLayoutElement("file_", node, width, height, buildingHeight, node.getEdges());
     }
 
     public static LayeredLayoutElement createLayeredLayoutNodeElement(
             TreeNode node, Double width, Double height, Double buildingHeight) {
-        return createLayeredLayoutElement("dir_", node, width, height, buildingHeight);
+        return createLayeredLayoutElement("dir_", node, width, height, buildingHeight, node.getEdges());
     }
 
     private static LayeredLayoutElement createLayeredLayoutElement(
-            String namePrefix, TreeNode node, Double width, Double height, Double buildingHeight) {
+            String namePrefix, TreeNode node, Double width, Double height, Double buildingHeight, Map<String, Edge> edges) {
         return new LayeredLayoutElement(node.getType(), node.getId(), namePrefix
                 + node.getId().toString(), width, height,
-                buildingHeight, node.getName());
+                buildingHeight, node.getName(), edges);
     }
 
     public TreeNodeType getElementType() {
@@ -92,4 +97,7 @@ public class LayeredLayoutElement {
         return displayName;
     }
 
+    public Map<String, Edge> getEdges() {
+        return edges;
+    }
 }

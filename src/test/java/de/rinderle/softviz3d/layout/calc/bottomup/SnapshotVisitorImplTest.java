@@ -33,9 +33,6 @@ import org.sonar.api.config.Settings;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
-
 public class SnapshotVisitorImplTest {
 
     private Integer ID = 1;
@@ -57,7 +54,7 @@ public class SnapshotVisitorImplTest {
     @Test
     public void testVisitNodeMinimal() throws DotExcecutorException {
         Graph graph = createGraph();
-        when(dotExecutor.run(any(Graph.class), any(Settings.class))).thenReturn(graph);
+//        when(dotExecutor.run(any(Graph.class), any(Settings.class))).thenReturn(graph);
 
         Settings settings = new Settings();
         List<Double> minMaxValues = createMinMaxValues();
@@ -83,7 +80,7 @@ public class SnapshotVisitorImplTest {
     @Test
     public void testVisitNodeElements() throws DotExcecutorException {
         Graph graph = createGraph();
-        when(dotExecutor.run(any(Graph.class), any(Settings.class))).thenReturn(graph);
+//        when(dotExecutor.run(any(Graph.class), any(Settings.class))).thenReturn(graph);
 
         Settings settings = new Settings();
         List<Double> minMaxValues = createMinMaxValues();

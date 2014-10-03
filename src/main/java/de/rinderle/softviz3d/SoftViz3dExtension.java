@@ -24,6 +24,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
 import de.rinderle.softviz3d.layout.calc.Layout;
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.DependencyDao;
 import de.rinderle.softviz3d.sonar.SonarDao;
@@ -80,7 +81,7 @@ public class SoftViz3dExtension implements ServerExtension {
     }
 
     public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
-            String metricString1, String metricString2) throws DotExcecutorException {
+            String metricString1, String metricString2, String viewType) throws DotExcecutorException {
         LOGGER.info("Startup SoftViz3d plugin with snapshot " + snapshotId);
 
         logStartOfCalc(metricString1, metricString2, snapshotId);
@@ -90,7 +91,14 @@ public class SoftViz3dExtension implements ServerExtension {
         
         Layout layout = softVizInjector.getInstance(Layout.class);
 
-        return layout.startLayout(settings, snapshotId, metricId1, metricId2);
+        LayoutViewType type;
+        if ("dependency".equals(viewType)) {
+            type = LayoutViewType.DEPENDENCY;
+        } else {
+            type = LayoutViewType.CITY;
+        }
+
+        return layout.startLayout(settings, snapshotId, metricId1, metricId2, type);
     }
 
     private void logStartOfCalc(String metricId1, String metricId2,

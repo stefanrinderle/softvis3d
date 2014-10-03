@@ -46,14 +46,14 @@ public class BottomUpProcessor implements Processor {
 
         LOGGER.debug("Layout.accept " + snapshotId);
 
+        TreeNode currentNode = resourceTreeService.findNode(snapshotId);
+
         List<LayeredLayoutElement> nodeElements = processChildrenNodes(visitor, snapshotId);
         List<LayeredLayoutElement> leafElements = processChildrenLeaves(visitor, snapshotId);
 
         List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
         layerElements.addAll(nodeElements);
         layerElements.addAll(leafElements);
-
-        TreeNode currentNode = resourceTreeService.findNode(snapshotId);
 
         return visitor.visitNode(currentNode, layerElements);
     }

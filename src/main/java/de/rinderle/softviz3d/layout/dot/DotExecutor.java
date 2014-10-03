@@ -20,11 +20,12 @@
 package de.rinderle.softviz3d.layout.dot;
 
 import att.grappa.Graph;
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import org.sonar.api.config.Settings;
 
 public interface DotExecutor {
 
-    public abstract Graph run(Graph inputGraph, Settings settings)
+    public abstract Graph run(Graph inputGraph, Settings settings, LayoutViewType viewType)
             throws DotExcecutorException;
 
 }

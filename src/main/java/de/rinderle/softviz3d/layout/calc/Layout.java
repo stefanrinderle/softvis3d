@@ -32,6 +32,7 @@ public interface Layout {
     Map<Integer, Graph> startLayout(
             Settings settings,
             Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId)
+            Integer footprintMetricId, Integer heightMetricId,
+            LayoutViewType type)
             throws DotExcecutorException;
 }

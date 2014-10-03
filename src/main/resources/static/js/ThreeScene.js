@@ -1,4 +1,4 @@
-var container, stats;
+var stats;
 var camera, scene, projector, renderer;
 
 var controls;
@@ -9,13 +9,6 @@ var containerWidth, containerHeight;
 var selectedObject, selectedObjectColor;
 
 function init(container, showStats) {
-    var info = document.createElement( 'div' );
-    info.style.position = 'absolute';
-    info.style.bottom = '10px';
-    info.style.width = '100%';
-    info.style.textAlign = 'center';
-    container.appendChild( info );
-
     // header of sonar is 70 px + metric select form 30 px + footer 50 px
     // sidebar 200px
     containerHeight = window.innerHeight - 150;
@@ -35,7 +28,7 @@ function init(container, showStats) {
 
     container.appendChild( renderer.domElement );
 
-    controls = new THREE.OrbitControls(camera, this.container);
+    controls = new THREE.OrbitControls(camera, container);
 
     if (showStats) {
         stats = new Stats();
@@ -66,7 +59,7 @@ function onWindowResize() {
 
 function onDocumentMouseDown( event ) {
 
-    event.preventDefault();
+    //event.preventDefault();
 
     // header of sonar is 70 px + metric select form 30 px
     var mouseVector = new THREE.Vector3(
@@ -107,10 +100,10 @@ function showDetails(snapshotId) {
 
 function initializeWebservice(snapshotId, footprintMetricId, heightMetricId) {
     callAjax("../../api/softViz3d/initialize?snapshotId=" + snapshotId
-        + "&footprintMetricId=" + footprintMetricId + "&heightMetricId=" + heightMetricId,
+            + "&footprintMetricId=" + footprintMetricId + "&heightMetricId=" + heightMetricId,
         function(response) {
             console.log(response)
-    });
+        });
 }
 
 function callAjax(url, callback){
@@ -138,7 +131,7 @@ function render() {
 
 function createCenterCube() {
     var cubeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00, opacity: 0.5 } );
-    var geometry = new THREE.BoxGeometry( 100, 100, 100 );
+    var geometry = new THREE.BoxGeometry( 10, 10, 10 );
 
     var position = new Array();
     position.x = 0;
@@ -146,6 +139,14 @@ function createCenterCube() {
     position.z = 0;
 
     createBox(geometry, cubeMaterial, position, 0);
+
+    var dir = new THREE.Vector3( 100, 0, 0 );
+    var origin = new THREE.Vector3( 0, 0, 0 );
+    var length = 10;
+    var hex = 0xff0000;
+
+    var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
+    scene.add( arrowHelper );
 };
 
 function createBox(geometry, material, position, id) {

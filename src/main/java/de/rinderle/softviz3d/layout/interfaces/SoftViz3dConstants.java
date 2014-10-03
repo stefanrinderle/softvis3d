@@ -54,7 +54,7 @@ public interface SoftViz3dConstants {
 
     public static final String GRAPH_ATTR_COLOR = "color";
     public static final String GRAPH_ATTR_NODES_COLOR = "nodesColor";
-    public static final String GRAPH_ATTR_TRANSPARENCY = "transparency";
+    public static final String GRAPH_ATTR_OPACITY = "opacity";
     public static final String GRAPH_ATTR_BUILDING_HEIGHT = "buildingHeight";
 
     /**
