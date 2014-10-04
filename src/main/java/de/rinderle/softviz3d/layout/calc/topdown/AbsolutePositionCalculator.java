@@ -19,10 +19,7 @@
  */
 package de.rinderle.softviz3d.layout.calc.topdown;
 
-import att.grappa.Graph;
-import att.grappa.GrappaBox;
-import att.grappa.GrappaPoint;
-import att.grappa.Node;
+import att.grappa.*;
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.helper.HexaColor;
@@ -108,6 +105,9 @@ public class AbsolutePositionCalculator implements PositionCalculator {
         GrappaPoint pos;
         double nodeLocationX;
         double nodeLocationY;
+
+        String height3d = "0";
+
         for (Node leaf : graph.nodeElementsAsArray()) {
             pos = (GrappaPoint) leaf.getAttributeValue(POS_ATTR);
 
@@ -120,6 +120,24 @@ public class AbsolutePositionCalculator implements PositionCalculator {
             pos.setLocation(nodeLocationX, nodeLocationY);
 
             leafElements++;
+
+            height3d = (String) leaf.getAttributeValue("layerHeight3d");
+        }
+
+        for (att.grappa.Edge edge : graph.edgeElementsAsArray()) {
+            GrappaLine line = (GrappaLine) edge.getAttributeValue(POS_ATTR);
+
+            GrappaPoint points[] = line.getGrappaPoints();
+            GrappaPoint start = points[0];
+            GrappaPoint end = points[points.length - 2];
+
+            edge.setAttribute("origin", (posTranslation.getX() + start.getX() - translatedBb.getWidth() / 2) +
+                    "," + height3d
+                    + "," + (posTranslation.getY() + start.getY() + translatedBb.getHeight() / 2));
+
+            edge.setAttribute("destination", (posTranslation.getX() + end.getX() - translatedBb.getWidth() / 2) +
+                    "," + height3d
+                    + "," + (posTranslation.getY() + end.getY() + translatedBb.getHeight() / 2));
         }
     }
 

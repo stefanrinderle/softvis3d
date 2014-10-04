@@ -109,6 +109,8 @@
 <script type="text/javascript">
     initializeWebservice(<%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>);
 
+    function v( x, y, z ){ return new THREE.Vector3( x, y, z ); }
+
    <%
    # get extension class and start layout
    softviz3d = Api::Utils.java_facade.
@@ -141,7 +143,6 @@
         // <%= value.to_s %>
         createBox(geometryLayer, layerMaterial, position, "<%= key %>");
 
-        // set treeNode material for all containing treeNodes
         <%
         # show all treeNodes
         value.nodeElementsAsArray.each { |val|
@@ -179,8 +180,19 @@
             createBox(nodeGeometry, nodeMaterial, position, "<%= val.getAttributeValue('id') %>");
             <%
         }
-end
-%>
+        %>
+        <%
+        # show all treeNodes
+        value.edgeElementsAsArray.each { |val|
+        %>
+
+            // <%= val.to_s %>
+              drawCylinder(v(<%= val.getAttributeValue("origin").to_s %>),
+                      v(<%= val.getAttributeValue("destination").to_s %>));
+        <%
+    }
+    end
+    %>
 
    setLight();
 
