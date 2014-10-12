@@ -61,20 +61,9 @@ public class DependencyExpanderImpl implements DependencyExpander {
                     createDependencyPath(resourceTreeService.findNode(out), resourceTreeService.findNode(in));
                 }
             }
-
-//            foreach($this->nodesCounter as $key => $value) {
-//                $leaf = InputTreeElement::model()->findByPk($key);
-//                $leaf->counter = $value;
-//                $leaf->save();
-//            }
-
-//            foreach ($this->dependencyEdges as $edge) {
-//                $edge->save();
-//            }
         }
 
         private void incrementNodesCounter(final Integer nodeId) {
-//            if (array_key_exists($nodeId, $this->nodesCounter)) {
             if (nodesCounter.containsKey(nodeId)) {
                 nodesCounter.put(nodeId, nodesCounter.get(nodeId) + 1);
             } else {
@@ -104,7 +93,7 @@ public class DependencyExpanderImpl implements DependencyExpander {
                 }
             }
 
-            handleNewFlatDepEdge(source, dest);
+            handleNewFlatDepEdge(dest, source);
         }
 
         private void handleNewFlatDepEdge(TreeNode source, TreeNode dest) {

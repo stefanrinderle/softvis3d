@@ -184,33 +184,3 @@ function setLight() {
     directionalLight.position.set(0, 1, 0);
     scene.add(directionalLight);
 };
-
-function drawCylinder( pointX, pointY) {
-    /* edge from X to Y */
-    var direction = new THREE.Vector3().subVectors( pointY, pointX );
-    var orientation = new THREE.Matrix4();
-    /* THREE.Object3D().up (=Y) default orientation for all objects */
-    orientation.lookAt(pointX, pointY, new THREE.Object3D().up);
-    /* rotation around axis X by -90 degrees
-     * matches the default orientation Y
-     * with the orientation of looking Z */
-    orientation.multiply(new THREE.Matrix4(1,0,0,0,
-        0,0,1,0,
-        0,-1,0,0,
-        0,0,0,1));
-
-    /* cylinder: radiusAtTop, radiusAtBottom,
-     height, radiusSegments, heightSegments */
-    var radius = 4;
-    var edgeGeometry = new THREE.CylinderGeometry( radius, radius, direction.length(), 8, 1);
-    var edge = new THREE.Mesh( edgeGeometry,
-        new THREE.MeshBasicMaterial( { color: 0x0000ff } ) );
-
-    edge.applyMatrix(orientation);
-    direction = direction.multiplyScalar(0.5);
-
-    edge.applyMatrix( new THREE.Matrix4().makeTranslation(
-            pointX.x + direction.x, pointX.y + direction.y, pointX.z + direction.z));
-
-    scene.add(edge);
-}

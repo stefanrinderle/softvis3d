@@ -64,7 +64,7 @@ public class AbsolutePositionCalculator implements PositionCalculator {
     private void addTranslationToLayer(Integer sourceId, GrappaPoint posTranslation, LayoutViewType layoutViewType) {
         LOGGER.debug("AbsolutePositionCalculator addTranslationToLayer " + sourceId);
 
-        LOGGER.info("addTranslationToLayer" + sourceId + " " + posTranslation.toString());
+        LOGGER.debug("addTranslationToLayer" + sourceId + " " + posTranslation.toString());
 
         // inputGraphs --> Map<Integer, Graph>
         // Step 1 - search the graph for the source given
