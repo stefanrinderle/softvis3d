@@ -56,9 +56,9 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
             pathWalker.addPath(snapshotId, name, footprintMetricValue.doubleValue(), heightMetricValue.doubleValue());
         }
 
-        LOGGER.debug("................");
-        pathWalker.print();
-        LOGGER.debug("................");
+        TreeNormalizer normalizer = new TreeNormalizer();
+        normalizer.normalizeTree(pathWalker.getTree());
+        normalizer.recalculateDepth(pathWalker.getTree());
     }
 
     @Override

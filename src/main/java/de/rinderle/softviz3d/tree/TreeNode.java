@@ -27,7 +27,7 @@ import java.util.TreeMap;
 
 
 public class TreeNode {
-    private final int depth;
+    private int depth;
     private Integer id;
     private TreeNodeType type;
     private TreeNode parent;
@@ -35,7 +35,7 @@ public class TreeNode {
     private double footprintMetricValue;
     private String name;
 
-    private final Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
+    private Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
     private Map<String, Edge> edges = new HashMap<String, Edge>();
 
     public TreeNode(Integer id, TreeNode parent, int depth, TreeNodeType type, String name, double footprintMetricValue, double heightMetricValue) {
@@ -46,16 +46,6 @@ public class TreeNode {
         this.type = type;
         this.footprintMetricValue = footprintMetricValue;
         this.heightMetricValue = heightMetricValue;
-    }
-
-    public TreeNode getOrCreateChild(int id, String name, TreeNodeType type, double footprintMetricValue, double heightMetricValue) {
-        if (children.containsKey(name)) {
-            return children.get(name);
-        }
-
-        TreeNode result = new TreeNode(id, this, this.depth + 1, type, name, footprintMetricValue, heightMetricValue);
-        children.put(name, result);
-        return result;
     }
 
     public Map<String, TreeNode> getChildren() {
@@ -104,5 +94,21 @@ public class TreeNode {
 
     public Map<String, Edge> getEdges() {
         return edges;
+    }
+
+    public void setParent(TreeNode parent) {
+        this.parent = parent;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setChildren(Map<String, TreeNode> children) {
+        this.children = children;
+    }
+
+    public void setDepth(Integer depth) {
+        this.depth = depth;
     }
 }

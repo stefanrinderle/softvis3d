@@ -33,51 +33,44 @@ public class PathWalker {
     private final TreeNode root;
 
     private Pattern pathSeparator = Pattern.compile("/");
-    
+
     public PathWalker(int id) {
         root = new TreeNode(id, null, 0, TreeNodeType.TREE, "root", 0, 0);
+    }
+
+    public TreeNode getTree() {
+        return root;
+    }
+
+    public void addPath(int id, String path, double footprintMetricValue, double heightMetricValue) {
+        String[] names = pathSeparator.split(path);
+        TreeNode currentNode = root;
+
+        boolean isLastIndex;
+        for(int i = 0; i < names.length; i++) {
+            isLastIndex = (i == (names.length - 1));
+            if (isLastIndex) {
+                currentNode = getOrCreateChild(currentNode, id, names[i], TreeNodeType.TREE, footprintMetricValue, heightMetricValue);
+            } else {
+                currentNode = getOrCreateChild(currentNode, generatedIdSequence++, names[i], TreeNodeType.PATH_GENERATED,
+                        footprintMetricValue, heightMetricValue);
+            }
+        }
     }
 
     public int getNextSequence() {
         return generatedIdSequence++;
     }
 
-    public void addPath(int id, String path, double footprintMetricValue, double heightMetricValue) {
-        String[] names = pathSeparator.split(path);
-        TreeNode treeNode = root;
-
-        boolean isLastIndex;
-        for(int i = 0; i < names.length; i++) {
-            isLastIndex = (i == (names.length - 1));
-            if (isLastIndex) {
-                treeNode = treeNode.getOrCreateChild(id, names[i], TreeNodeType.TREE, footprintMetricValue, heightMetricValue);
-            } else {
-                treeNode = treeNode.getOrCreateChild(generatedIdSequence++, names[i], TreeNodeType.PATH_GENERATED,
-                        footprintMetricValue, heightMetricValue);
-            }
-        }
-    }
-
-    private static void print(TreeNode treeNode, int depth) {
-        Map<String, TreeNode> children = treeNode.getChildren();
-        if (children.isEmpty()) {
-            return;
+    private TreeNode getOrCreateChild(TreeNode node, int id, String name, TreeNodeType type, double footprintMetricValue, double heightMetricValue) {
+        Map<String, TreeNode> children = node.getChildren();
+        if (children.containsKey(name)) {
+            return children.get(name);
         }
 
-        for (Map.Entry<String, TreeNode> child : children.entrySet()) {
-            
-            LOGGER.debug(child.getValue().getId() + " "
-                    + child.getKey());
-                    
-            print(child.getValue(), depth + 1);
-        }
+        TreeNode result = new TreeNode(id, node, node.getDepth() + 1, type, name, footprintMetricValue, heightMetricValue);
+        children.put(name, result);
+        return result;
     }
 
-    public void print() {
-        print(root, 0);
-    }
-    
-    public TreeNode getTree() {
-        return root;
-    }
 }
