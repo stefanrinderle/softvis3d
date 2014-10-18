@@ -21,9 +21,12 @@ package de.rinderle.softviz3d.handler;
 
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
+import de.rinderle.softviz3d.tree.TreeNode;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
+
+import java.util.Map;
 
 public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebserviceInitializeHandler {
 
@@ -36,13 +39,47 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
         Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
         Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
 
-        resourceTreeService.createTreeStructrue(id, footprintMetricId, heightMetricId);
+        TreeNode tree = resourceTreeService.createTreeStructrue(id, footprintMetricId, heightMetricId);
 
-        JsonWriter json = response.newJsonWriter();
-        json.beginObject();
-        json.prop("result", "ready");
-        json.endObject().close();
+        JsonWriter jsonWriter = response.newJsonWriter();
 
+        transformTreeToJson(jsonWriter, tree);
+
+        jsonWriter.close();
     }
 
+    private void transformTreeToJson(JsonWriter jsonWriter, TreeNode tree) {
+        jsonWriter.beginObject();
+
+        jsonWriter.prop("id", tree.getId());
+        jsonWriter.prop("name", tree.getName());
+        jsonWriter.prop("heightMetricValue", tree.getHeightMetricValue());
+        jsonWriter.prop("footprintMetricValue", tree.getFootprintMetricValue());
+
+        transformChildren(jsonWriter, tree.getChildren());
+
+        TreeNode parent = tree.getParent();
+        if (parent != null) {
+            jsonWriter.name("parentInfo");
+            jsonWriter.beginObject();
+            jsonWriter.prop("id", parent.getId());
+            jsonWriter.prop("name", parent.getName());
+            jsonWriter.prop("heightMetricValue", parent.getHeightMetricValue());
+            jsonWriter.prop("footprintMetricValue", parent.getFootprintMetricValue());
+            jsonWriter.endObject();
+        }
+
+        jsonWriter.endObject();
+    }
+
+    private void transformChildren(JsonWriter jsonWriter, Map<String, TreeNode> children) {
+        jsonWriter.name("children");
+        jsonWriter.beginArray();
+
+        for (TreeNode child : children.values()) {
+            transformTreeToJson(jsonWriter, child);
+        }
+
+        jsonWriter.endArray();
+    }
 }

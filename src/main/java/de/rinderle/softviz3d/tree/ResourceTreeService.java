@@ -25,7 +25,7 @@ import java.util.List;
 
 public interface ResourceTreeService {
 
-    void createTreeStructrue(int rootSnapshotId, int heightMetric, int footprintMetric);
+    TreeNode createTreeStructrue(int rootSnapshotId, int heightMetric, int footprintMetric);
 
     List<TreeNode> getChildrenNodeIds(Integer id);
 

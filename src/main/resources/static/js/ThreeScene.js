@@ -67,6 +67,11 @@ function onDocumentMouseDown( event ) {
             1 - 2 * ((event.clientY - 100) / containerHeight),
         0.5 );
 
+//    var mouseVector = new THREE.Vector3(
+//            2 * ((event.clientX) / containerWidth) - 1,
+//            1 - 2 * ((event.clientY) / containerHeight),
+//        0.5 );
+
     var raycaster = projector.pickingRay( mouseVector.clone(), camera );
 
     var intersects = raycaster.intersectObjects( objects );
@@ -86,25 +91,7 @@ function onDocumentMouseDown( event ) {
     }
 }
 
-function showDetails(snapshotId) {
-    callAjax("../../api/softViz3d/getSnapshotDetails?snapshotId=" + snapshotId, function(response) {
-        var node = JSON.parse(response);
-        var result = "Id: " + node.id + "<br />";
-        result += "Name: " + node.name + "<br />";
-        result += "Depth: " + node.depth + "<br />";
-        result += "FootprintMetric: " + node.footprintMetricValue + "<br />";
-        result += "HeightMetric: " + node.heightMetricValue;
-        document.getElementById('detailsContainer').innerHTML = result;
-    });
-}
 
-function initializeWebservice(snapshotId, footprintMetricId, heightMetricId) {
-    callAjax("../../api/softViz3d/initialize?snapshotId=" + snapshotId
-            + "&footprintMetricId=" + footprintMetricId + "&heightMetricId=" + heightMetricId,
-        function(response) {
-            console.log(response)
-        });
-}
 
 function callAjax(url, callback){
     var xmlhttp;
@@ -160,7 +147,7 @@ function createBox(geometry, material, position, id) {
 
     objects.push( object );
 
-    scene.add(object)
+    scene.add(object);
 };
 
 function setLight() {

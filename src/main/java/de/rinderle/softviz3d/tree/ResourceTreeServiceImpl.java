@@ -41,7 +41,7 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     private SonarDao sonarDao;
 
     @Override
-    public void createTreeStructrue(int rootSnapshotId, int heightMetric, int footprintMetric) {
+    public TreeNode createTreeStructrue(int rootSnapshotId, int heightMetric, int footprintMetric) {
         pathWalker = new PathWalker(rootSnapshotId);
 
         List<Object[]> flatChildren = sonarDao.getAllProjectElements(rootSnapshotId, heightMetric, footprintMetric);
@@ -59,6 +59,8 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
         TreeNormalizer normalizer = new TreeNormalizer();
         normalizer.normalizeTree(pathWalker.getTree());
         normalizer.recalculateDepth(pathWalker.getTree());
+
+        return pathWalker.getTree();
     }
 
     @Override

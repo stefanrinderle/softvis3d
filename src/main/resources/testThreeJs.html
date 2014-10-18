@@ -26,6 +26,205 @@ init(document.getElementById('renderContainer'));
 createCenterCube();
 animate();
 
+function v( x, y, z ){ return new THREE.Vector3( x, y, z ); }
+
+
+position = new Array();
+position.x = -21.0;
+position.y = 40;
+position.z = 0.0;
+
+
+
+geometryLayer = new THREE.BoxGeometry(56.0, 5,
+        63.0);
+
+// set material (color)
+layerMaterial = new THREE.MeshLambertMaterial({
+    color: 0x848484,
+    transparent: true,
+    opacity: 1.0
+});
+
+// 2992
+createBox(geometryLayer, layerMaterial, position, "2992");
+
+
+var nodeMaterial = new THREE.MeshLambertMaterial({
+    color: 0xFE8C00,
+    transparent: true,
+    opacity: 1.0
+});
+
+var nodeGeometry = new THREE.BoxGeometry(
+        20.0, 10.0,
+        23.0);
+
+var position = new Array();
+position.x = -39.0;
+
+position.y = 45.0;
+position.z = 20.0;
+
+//var textsize = 2.5
+
+//textposition = new Array();
+//textposition.x = position.x;
+//textposition.y = 60.0 +textsize / 2;
+//textposition.z = position.z;
+
+//threeScene.drawText("SecondClass.java", textposition, textsize)
+
+// file_2993
+createBox(nodeGeometry, nodeMaterial, position, "2993");
+
+var nodeMaterial = new THREE.MeshLambertMaterial({
+    color: 0xFE8C00,
+    transparent: true,
+    opacity: 1.0
+});
+
+var nodeGeometry = new THREE.BoxGeometry(
+        20.0, 10.0,
+        23.0);
+
+var position = new Array();
+position.x = -3.0;
+
+position.y = 45.0;
+position.z = -20.0;
+
+//var textsize = 2.5
+
+//textposition = new Array();
+//textposition.x = position.x;
+//textposition.y = 60.0 +textsize / 2;
+//textposition.z = position.z;
+
+//threeScene.drawText("ThirdClass.java", textposition, textsize)
+
+// file_2994
+createBox(nodeGeometry, nodeMaterial, position, "2994");
+
+
+position = new Array();
+position.x = 0.0;
+position.y = 20;
+position.z = 0.0;
+
+geometryLayer = new THREE.BoxGeometry(98.0, 5,
+        63.0);
+
+// set material (color)
+layerMaterial = new THREE.MeshLambertMaterial({
+    color: 0x747474,
+    transparent: true,
+    opacity: 1.0
+});
+
+// 2147383647
+createBox(geometryLayer, layerMaterial, position, "2147383647");
+
+
+var nodeMaterial = new THREE.MeshLambertMaterial({
+    color: 0xFE8C00,
+    transparent: true,
+    opacity: 1.0
+});
+
+var nodeGeometry = new THREE.BoxGeometry(
+        20.0, 148.88888888888889,
+        23.0);
+
+var position = new Array();
+position.x = 39.0;
+
+position.y = 94.4444444444444;
+position.z = 20.0;
+
+//var textsize = 2.5
+
+//textposition = new Array();
+//textposition.x = position.x;
+//textposition.y = 178.888888888889 +textsize / 2;
+//textposition.z = position.z;
+
+//threeScene.drawText("out/FirstClass.java", textposition, textsize)
+
+// file_2996
+createBox(nodeGeometry, nodeMaterial, position, "2996");
+
+
+position = new Array();
+position.x = 0.0;
+position.y = 0;
+position.z = 0.0;
+
+
+
+geometryLayer = new THREE.BoxGeometry(98.0, 5,
+        63.0);
+
+// set material (color)
+layerMaterial = new THREE.MeshLambertMaterial({
+    color: 0x646464,
+    transparent: true,
+    opacity: 1.0
+});
+
+// 2991
+createBox(geometryLayer, layerMaterial, position, "2991");
+
+
+
+
+function drawCylinder( pointX, pointY) {
+    /* edge from X to Y */
+    var direction = new THREE.Vector3().subVectors( pointY, pointX );
+    var orientation = new THREE.Matrix4();
+    /* THREE.Object3D().up (=Y) default orientation for all objects */
+    orientation.lookAt(pointX, pointY, new THREE.Object3D().up);
+    /* rotation around axis X by -90 degrees
+     * matches the default orientation Y
+     * with the orientation of looking Z */
+    orientation.multiply(new THREE.Matrix4(1,0,0,0,
+            0,0,1,0,
+            0,-1,0,0,
+            0,0,0,1));
+
+    /* cylinder: radiusAtTop, radiusAtBottom,
+     height, radiusSegments, heightSegments */
+    var radius = 4;
+    var edgeGeometry = new THREE.CylinderGeometry( radius, radius, direction.length(), 8, 1);
+    var edge = new THREE.Mesh( edgeGeometry,
+            new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
+
+    edge.applyMatrix(orientation);
+    direction = direction.multiplyScalar(0.5);
+
+    edge.applyMatrix( new THREE.Matrix4().makeTranslation(
+                    pointX.x + direction.x, pointX.y + direction.y, pointX.z + direction.z));
+
+    scene.add(edge);
+
+    // add head
+    /* cylinder: radiusAtTop, radiusAtBottom,
+     height, radiusSegments, heightSegments */
+    var edgeHeadGeometry = new THREE.CylinderGeometry( 1, 10, 10, 8, 1);
+    var edgeHead = new THREE.Mesh( edgeHeadGeometry,
+            new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
+
+    edgeHead.applyMatrix(orientation);
+    direction = direction.multiplyScalar(0.5);
+
+    edgeHead.applyMatrix( new THREE.Matrix4().makeTranslation(
+            pointY.x, pointY.y, pointY.z));
+    scene.add(edgeHead);
+}
+
+setLight();
+
+
 
 
 
