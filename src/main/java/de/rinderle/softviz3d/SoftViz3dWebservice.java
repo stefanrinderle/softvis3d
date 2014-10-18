@@ -65,7 +65,8 @@ public class SoftViz3dWebservice implements WebService {
                .setHandler(this.initializeHandler)
                .createParam("snapshotId", "Snapshot id")
                .createParam("footprintMetricId", "Footprint metric id")
-               .createParam("heightMetricId", "Height metric id");
+               .createParam("heightMetricId", "Height metric id")
+               .createParam("viewType", "Current view type");
     // important to apply changes
     controller.done();
    }

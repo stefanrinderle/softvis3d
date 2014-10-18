@@ -100,9 +100,9 @@
 
     var tree;
 
-    function initializeWebservice(snapshotId, footprintMetricId, heightMetricId) {
+    function initializeWebservice(snapshotId, footprintMetricId, heightMetricId, viewType) {
         callAjax("../../api/softViz3d/initialize?snapshotId=" + snapshotId
-                        + "&footprintMetricId=" + footprintMetricId + "&heightMetricId=" + heightMetricId,
+                        + "&footprintMetricId=" + footprintMetricId + "&heightMetricId=" + heightMetricId + "&viewType=" + viewType,
                 function(response) {
                     var myArray = JSON.parse(response);
                     console.log(myArray);
@@ -131,15 +131,14 @@
     }
 
     init(document.getElementById('renderContainer'), true);
-    createCenterCube();
     animate();
 </script>
 
 <script type="text/javascript">
-    initializeWebservice(<%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>);
+    initializeWebservice(<%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>");
 
     // city or dependency
-    var viewType = "<%= params[:viewType]; %>";
+    var viewType = "<%= params[:viewType] %>";
 
     function v( x, y, z ){ return new THREE.Vector3( x, y, z ); }
 
@@ -209,14 +208,16 @@
         value.edgeElementsAsArray.each { |val|
         %>
             // <%= val.to_s %>
+            // <%= val.getTail().getAttributeValue('id').to_s %> -> <%= val.getHead().getAttributeValue('id').to_s %>
             drawCylinder(v(<%= val.getAttributeValue("origin").to_s %>),
-                v(<%= val.getAttributeValue("destination").to_s %>));
+                v(<%= val.getAttributeValue("destination").to_s %>),
+                "<%= val.getTail().getAttributeValue('id').to_s %> -> <%= val.getHead().getAttributeValue('id').to_s %>");
         <%
     }
     end
     %>
 
-    function drawCylinder( pointX, pointY) {
+    function drawCylinder( pointX, pointY, id) {
         /* edge from X to Y */
         var direction = new THREE.Vector3().subVectors( pointY, pointX );
         var orientation = new THREE.Matrix4();
@@ -243,7 +244,10 @@
         edge.applyMatrix( new THREE.Matrix4().makeTranslation(
                         pointX.x + direction.x, pointX.y + direction.y, pointX.z + direction.z));
 
+        edge.softviz3dId = id;
         scene.add(edge);
+        objects.push( edge );
+        objectsInView.push( edge );
 
         // add head
         /* cylinder: radiusAtTop, radiusAtBottom,
@@ -256,7 +260,10 @@
         edgeHead.applyMatrix( new THREE.Matrix4().makeTranslation(
                         pointY.x, pointY.y, pointY.z));
 
+        edgeHead.softviz3dId = id;
         scene.add(edgeHead);
+        objects.push(edgeHead);
+        objectsInView.push(edgeHead);
     }
 
    setLight();
@@ -275,7 +282,7 @@
 
          var result = "<h3>Selected</h3>";
 
-         result +=  node.name + " " + node.id + " " + type + " ";
+         result +=  node.name + " ";
          result += "(" + node.footprintMetricValue;
          result += "/" + node.heightMetricValue + ")";
 
@@ -315,9 +322,9 @@
         result += "<br /><br />";
 
         if (node.parentInfo != null) {
-            result += "<h3>Parent (" + node.parentInfo.id + ")</h3>";
+            result += "<h3>Parent</h3>";
 
-            result += "<a href='#' onClick='selectSceneObject(" + node.parentInfo.id + ");return false'>";
+            result += "<a href='#' onClick='selectSceneObjectByType(" + node.parentInfo.id + ", \"node\");return false'>";
 
             result +=  node.parentInfo.name + " ";
             result += "(" + node.parentInfo.footprintMetricValue;
@@ -347,13 +354,13 @@
         for (var index = 0; index < children.length; ++index) {
             var child = children[index];
 
-            if (viewType == "dependency" && child.isNode) {
+            if (child.isNode) {
                 result += "<a href='#' onClick='selectSceneObjectByType(" + child.id + ", \"node\");return false'>";
             } else {
                 result += "<a href='#' onClick='selectSceneObject(" + child.id + ");return false'>";
             }
 
-            result += child.name + " " + node.id + " ";
+            result += child.name + " ";
             result += "(" + child.footprintMetricValue;
             result += "/" + child.heightMetricValue + ")";
 
@@ -450,6 +457,15 @@
         }
     }
 
+    function showEdge(id) {
+        for (var index = 0; index < objects.length; index++) {
+            if (id == objects[index].softviz3dId) {
+                scene.add(objects[index]);
+                objectsInView[index] = objects[index];
+            }
+        }
+    }
+
     function showSingleNodeByType(id, type) {
         for (var index = 0; index < objects.length; index++) {
             if (id == objects[index].softviz3dId && type == objects[index].type) {
@@ -476,7 +492,7 @@
         }
     }
 
-    var emptyObjectMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00, opacity: 0.5 } );
+    var emptyObjectMaterial = new THREE.MeshBasicMaterial( { color: 0xFFBF00, opacity: 0.5 } );
     var emptyObjectGeometry = new THREE.BoxGeometry( 0, 0, 0 );
     var emptyObject = new THREE.Mesh( emptyObjectGeometry,  emptyObjectMaterial);
     emptyObject.position.x = 0;
@@ -493,7 +509,6 @@
     }
 
     function hideNode(id, selectId) {
-        console.log("hideNode " + id + " " + selectId);
         removeNodeAndChildren(id);
         selectSceneObjectByType(selectId, "node");
     }
@@ -507,6 +522,19 @@
             for (var index = 0; index < node.children.length; index++) {
                 removeNodeByType(node.children[index].id, "leaf");
                 node.children[index].parentInfo.isHidden = true;
+
+                for (var k = 0; k < node.children[index].edges.length; k++) {
+                    removeEdge(node.children[index].edges[k].id);
+                }
+            }
+        }
+    }
+
+    function removeEdge(id) {
+        for (var index = 0; index < objects.length; index++) {
+            if (id == objects[index].softviz3dId) {
+                objectsInView[index] = emptyObject;
+                scene.remove(objects[index]);
             }
         }
     }
@@ -521,19 +549,19 @@
     }
 
     function showNodeAndChildren(id) {
-        console.log("showNodeAndChildren " + id);
-
         showSingleNodeByType(id, "node");
 
         var node = searchTree(tree, id);
         if (node != null) {
             node.isHidden = false;
             for (var index = 0; index < node.children.length; index++) {
-                console.log("child " + node.children[index].id);
-
                 showSingleNode(node.children[index].id);
                 node.children[index].isHidden = false;
                 node.children[index].parentInfo.isHidden = false;
+
+                for (var k = 0; k < node.children[index].edges.length; k++) {
+                    showEdge(node.children[index].edges[k].id);
+                }
             }
         }
     }

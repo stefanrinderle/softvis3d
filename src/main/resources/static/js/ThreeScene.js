@@ -92,8 +92,6 @@ function onDocumentMouseDown( event ) {
     }
 }
 
-
-
 function callAjax(url, callback){
     var xmlhttp;
     // compatible with IE7+, Firefox, Chrome, Opera, Safari
@@ -116,26 +114,6 @@ function animate() {
 function render() {
     renderer.render( scene, camera );
 }
-
-function createCenterCube() {
-    var cubeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00, opacity: 0.5 } );
-    var geometry = new THREE.BoxGeometry( 10, 10, 10 );
-
-    var position = new Array();
-    position.x = 0;
-    position.y = 0;
-    position.z = 0;
-
-    createBox(geometry, cubeMaterial, position, 0, "leaf");
-
-    var dir = new THREE.Vector3( 100, 0, 0 );
-    var origin = new THREE.Vector3( 0, 0, 0 );
-    var length = 10;
-    var hex = 0xff0000;
-
-    var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
-    scene.add( arrowHelper );
-};
 
 function createBox(geometry, material, position, id, type) {
     var object = new THREE.Mesh( geometry,  material);

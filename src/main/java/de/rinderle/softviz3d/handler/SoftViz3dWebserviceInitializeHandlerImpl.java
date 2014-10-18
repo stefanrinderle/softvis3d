@@ -20,18 +20,27 @@
 package de.rinderle.softviz3d.handler;
 
 import com.google.inject.Inject;
+import de.rinderle.softviz3d.layout.calc.DependencyExpander;
+import de.rinderle.softviz3d.layout.calc.Edge;
+import de.rinderle.softviz3d.sonar.DependencyDao;
+import de.rinderle.softviz3d.sonar.SonarDependency;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.TreeNode;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
 
+import java.util.List;
 import java.util.Map;
 
 public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebserviceInitializeHandler {
 
     @Inject
     private ResourceTreeService resourceTreeService;
+    @Inject
+    private DependencyExpander dependencyExpander;
+    @Inject
+    private DependencyDao dependencyDao;
 
     @Override
     public void handle(Request request, Response response) {
@@ -40,6 +49,12 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
         Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
 
         TreeNode tree = resourceTreeService.createTreeStructrue(id, footprintMetricId, heightMetricId);
+
+        String viewType = request.param("viewType");
+        if (viewType.equals("dependency")) {
+            List<SonarDependency> dependencies = dependencyDao.getDependencies(id);
+            dependencyExpander.execute(id, dependencies);
+        }
 
         JsonWriter jsonWriter = response.newJsonWriter();
 
@@ -57,8 +72,6 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
         jsonWriter.prop("footprintMetricValue", tree.getFootprintMetricValue());
         jsonWriter.prop("isNode", tree.isNode());
 
-        transformChildren(jsonWriter, tree.getChildren());
-
         TreeNode parent = tree.getParent();
         if (parent != null) {
             jsonWriter.name("parentInfo");
@@ -71,6 +84,27 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
             jsonWriter.endObject();
         }
 
+        transformChildren(jsonWriter, tree.getChildren());
+
+        transformEdges(jsonWriter, tree.getEdges());
+
+        jsonWriter.endObject();
+    }
+
+    private void transformEdges(JsonWriter jsonWriter, Map<String, Edge> edges) {
+        jsonWriter.name("edges");
+        jsonWriter.beginArray();
+
+        for (Edge child : edges.values()) {
+            transformEdge(jsonWriter, child);
+        }
+
+        jsonWriter.endArray();
+    }
+
+    private void transformEdge(JsonWriter jsonWriter, Edge edge) {
+        jsonWriter.beginObject();
+        jsonWriter.prop("id", edge.getSourceId() + " -> " + edge.getDestinationId());
         jsonWriter.endObject();
     }
 
