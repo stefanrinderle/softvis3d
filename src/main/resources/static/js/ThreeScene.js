@@ -88,7 +88,7 @@ function onDocumentMouseDown( event ) {
         selectedObjectColor = selectedObject.material.color.getHex();
         selectedObject.material.color.setHex(0xFFBF00);
 
-        showDetails(intersects[ 0 ].object.softviz3dId);
+        showDetails(intersects[ 0 ].object.softviz3dId, intersects[ 0 ].object.type);
     }
 }
 
@@ -126,7 +126,7 @@ function createCenterCube() {
     position.y = 0;
     position.z = 0;
 
-    createBox(geometry, cubeMaterial, position, 0);
+    createBox(geometry, cubeMaterial, position, 0, "leaf");
 
     var dir = new THREE.Vector3( 100, 0, 0 );
     var origin = new THREE.Vector3( 0, 0, 0 );
@@ -137,7 +137,7 @@ function createCenterCube() {
     scene.add( arrowHelper );
 };
 
-function createBox(geometry, material, position, id) {
+function createBox(geometry, material, position, id, type) {
     var object = new THREE.Mesh( geometry,  material);
 
     object.position.x = position.x;
@@ -145,6 +145,7 @@ function createBox(geometry, material, position, id) {
     object.position.z = position.z;
 
     object.softviz3dId = id;
+    object.type = type;
 
     objects.push( object );
     objectsInView.push( object );

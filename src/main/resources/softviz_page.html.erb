@@ -138,6 +138,9 @@
 <script type="text/javascript">
     initializeWebservice(<%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>);
 
+    // city or dependency
+    var viewType = "<%= params[:viewType]; %>";
+
     function v( x, y, z ){ return new THREE.Vector3( x, y, z ); }
 
    <%
@@ -170,7 +173,7 @@
             });
 
         // <%= value.to_s %>
-        createBox(geometryLayer, layerMaterial, position, "<%= key %>");
+        createBox(geometryLayer, layerMaterial, position, "<%= key %>", "node");
 
         <%
         # show all treeNodes
@@ -196,17 +199,8 @@
             position.y = <%= zPos.to_s %>;
             position.z = <%= pointArray[1] %>;
 
-            //var textsize = <%= val.getAttributeValue('width').to_f / 8 %>
-
-            //textposition = new Array();
-            //textposition.x = position.x;
-            //textposition.y = <%= val.getAttributeValue('layerHeight3d').to_f + heightString.to_f + 10 %> +textsize / 2;
-            //textposition.z = position.z;
-
-            //threeScene.drawText("<%= val.getAttributeValue('displayName').to_s %>", textposition, textsize)
-
             // <%= val.to_s %>
-            createBox(nodeGeometry, nodeMaterial, position, "<%= val.getAttributeValue('id') %>");
+            createBox(nodeGeometry, nodeMaterial, position, "<%= val.getAttributeValue('id') %>", "leaf");
             <%
         }
         %>
@@ -214,10 +208,9 @@
         # show all treeEdges
         value.edgeElementsAsArray.each { |val|
         %>
-
             // <%= val.to_s %>
-              drawCylinder(v(<%= val.getAttributeValue("origin").to_s %>),
-                      v(<%= val.getAttributeValue("destination").to_s %>));
+            drawCylinder(v(<%= val.getAttributeValue("origin").to_s %>),
+                v(<%= val.getAttributeValue("destination").to_s %>));
         <%
     }
     end
@@ -277,31 +270,45 @@
 
 <script type="text/javascript">
 
-    function showDetails(snapshotId) {
+    function showDetails(snapshotId, type) {
         var node = searchTree(tree, snapshotId);
 
          var result = "<h3>Selected</h3>";
 
-         result +=  node.name + " ";
+         result +=  node.name + " " + node.id + " " + type + " ";
          result += "(" + node.footprintMetricValue;
          result += "/" + node.heightMetricValue + ")";
 
-        if (node.isNode) {
-            var selectId;
-            if (node.parentInfo == null) {
-                selectId = node.id;
-            } else {
-                selectId = node.parentInfo.id;
-            }
+        if (viewType == "city") {
+            if (node.isNode) {
+                var selectId;
+                if (node.parentInfo == null) {
+                    selectId = node.id;
+                } else {
+                    selectId = node.parentInfo.id;
+                }
 
-            if (node.isHidden != null && node.isHidden) {
-                result += "&nbsp;<button type='button' " +
-                        "onclick=\"showAll('" + node.id + "', '" + selectId + "');\">" +
-                        "Show all</button>";
-            } else {
-                result += "&nbsp;<button type='button' " +
-                        "onclick=\"hideAll('" + node.id + "', '" + selectId + "');\">" +
-                        "Hide all</button>";
+                if (node.isHidden != null && node.isHidden) {
+                    result += "&nbsp;<button type='button' " +
+                            "onclick=\"showAll('" + node.id + "', '" + selectId + "');\">" +
+                            "Show all</button>";
+                } else {
+                    result += "&nbsp;<button type='button' " +
+                            "onclick=\"hideAll('" + node.id + "', '" + selectId + "');\">" +
+                            "Hide all</button>";
+                }
+            }
+        } else if (viewType == "dependency") {
+            if (node.isNode && type == "node") {
+                if (node.isHidden != null && node.isHidden) {
+                    result += "&nbsp;<button type='button' " +
+                            "onclick=\"showNode('" + node.id + "', '" + node.id + "');\">" +
+                            "Show node</button>";
+                } else {
+                    result += "&nbsp;<button type='button' " +
+                            "onclick=\"hideNode('" + node.id + "', '" + node.children[0].id + "');\">" +
+                            "Hide node</button>";
+                }
             }
         }
 
@@ -326,31 +333,32 @@
 
             result += "<a href='#' onClick='selectSceneObject(" + child.id + ");return false'>";
 
-            result += "   " + child.name + " ";
+            result += child.name + " " + node.id + " ";
             result += "(" + child.footprintMetricValue;
             result += "/" + child.heightMetricValue + ")";
 
             result += "</a>";
 
-            if (child.isNode) {
-                var selectId;
-                if (node.parentInfo == null) {
-                    selectId = node.id;
-                } else {
-                    selectId = node.parentInfo.id;
-                }
+            if (viewType == "city") {
+                if (child.isNode) {
+                    var selectId;
+                    if (child.parentInfo == null) {
+                        selectId = child.id;
+                    } else {
+                        selectId = child.parentInfo.id;
+                    }
 
-                if (child.isHidden != null && child.isHidden) {
-                    result += "&nbsp;<button type='button' " +
-                            "onclick=\"showAll('" + child.id + "', '" + selectId + "');\">" +
-                            "Show all</button>";
-                } else {
-                    result += "&nbsp;<button type='button' " +
-                            "onclick=\"hideAll('" + child.id + "', '" + selectId + "');\">" +
-                            "Hide all</button>";
+                    if (child.isHidden != null && child.isHidden) {
+                        result += "&nbsp;<button type='button' " +
+                                "onclick=\"showAll('" + child.id + "', '" + selectId + "');\">" +
+                                "Show all</button>";
+                    } else {
+                        result += "&nbsp;<button type='button' " +
+                                "onclick=\"hideAll('" + child.id + "', '" + selectId + "');\">" +
+                                "Hide all</button>";
+                    }
                 }
             }
-
             result += "<br />";
         }
 
@@ -369,7 +377,24 @@
                 selectedObjectColor = selectedObject.material.color.getHex();
                 selectedObject.material.color.setHex(0xFFBF00);
 
-                showDetails(objects[index].softviz3dId);
+                showDetails(objects[index].softviz3dId, objects[index].type);
+            }
+        }
+    }
+
+    function selectSceneObjectByType(id, type) {
+        for (var index = 0; index < objects.length; index++) {
+            if (id == objects[index].softviz3dId && type == objects[index].type) {
+                // reset former selected object
+                if (!!selectedObject) {
+                    selectedObject.material.color.setHex(selectedObjectColor);
+                }
+
+                selectedObject = objects[index];
+                selectedObjectColor = selectedObject.material.color.getHex();
+                selectedObject.material.color.setHex(0xFFBF00);
+
+                showDetails(objects[index].softviz3dId, objects[index].type);
             }
         }
     }
@@ -379,8 +404,13 @@
         selectSceneObject(selectId);
     }
 
+    function showNode(id, selectId) {
+        showNodeAndChildren(id);
+        selectSceneObjectByType(selectId, "node");
+    }
+
     function showNodeAndAllParents(id) {
-        showNode(id);
+        showSingleNode(id);
 
         var node = searchTree(tree, id);
         if (node != null) {
@@ -391,7 +421,7 @@
         }
     }
 
-    function showNode(id) {
+    function showSingleNode(id) {
         for (var index = 0; index < objects.length; index++) {
             if (id == objects[index].softviz3dId) {
                 scene.add(objects[index]);
@@ -429,6 +459,45 @@
             if (id == objects[index].softviz3dId) {
                 objectsInView[index] = emptyObject;
                 scene.remove(objects[index]);
+            }
+        }
+    }
+
+    function hideNode(id, selectId) {
+        removeNodeAndChildren(id);
+        selectSceneObjectByType(selectId, "node");
+    }
+
+    function removeNodeAndChildren(id) {
+        removeNodeByType(id, "node");
+
+        var node = searchTree(tree, id);
+        if (node != null) {
+            node.isHidden = true;
+            for (var index = 0; index < node.children.length; index++) {
+                removeNodeByType(node.children[index].id, "leaf");
+            }
+        }
+    }
+
+    function removeNodeByType(id, type) {
+        for (var index = 0; index < objects.length; index++) {
+            if (id == objects[index].softviz3dId && type == objects[index].type) {
+                objectsInView[index] = emptyObject;
+                scene.remove(objects[index]);
+            }
+        }
+    }
+
+    function showNodeAndChildren(id) {
+        showSingleNode(id);
+
+        var node = searchTree(tree, id);
+        if (node != null) {
+            node.isHidden = false;
+            for (var index = 0; index < node.children.length; index++) {
+                showSingleNode(node.children[index].id);
+                node.children[index].isHidden = false;
             }
         }
     }
