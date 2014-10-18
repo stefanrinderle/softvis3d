@@ -303,11 +303,11 @@
                 if (node.isHidden != null && node.isHidden) {
                     result += "&nbsp;<button type='button' " +
                             "onclick=\"showNode('" + node.id + "', '" + node.id + "');\">" +
-                            "Show node</button>";
+                            "Show layer</button>";
                 } else {
                     result += "&nbsp;<button type='button' " +
                             "onclick=\"hideNode('" + node.id + "', '" + node.children[0].id + "');\">" +
-                            "Hide node</button>";
+                            "Hide layer</button>";
                 }
             }
         }
@@ -321,9 +321,25 @@
 
             result +=  node.parentInfo.name + " ";
             result += "(" + node.parentInfo.footprintMetricValue;
-            result += "/" + node.parentInfo.heightMetricValue + ")<br /><br />";
+            result += "/" + node.parentInfo.heightMetricValue + ")";
 
             result += "</a>";
+
+            if (viewType == "dependency") {
+                if (node.parentInfo != null) {
+                    if (node.parentInfo.isHidden != null && node.parentInfo.isHidden) {
+                        result += "&nbsp;<button type='button' " +
+                                "onclick=\"showNode('" + node.parentInfo.id + "', '" + node.parentInfo.id + "');\">" +
+                                "Show layer</button>";
+                    } else {
+                        result += "&nbsp;<button type='button' " +
+                                "onclick=\"hideNode('" + node.parentInfo.id + "', '" + node.id + "');\">" +
+                                "Hide layer</button>";
+                    }
+                }
+            }
+
+            result += "<br /><br />";
         }
 
         result += "<h3>Children</h3>";
@@ -331,7 +347,11 @@
         for (var index = 0; index < children.length; ++index) {
             var child = children[index];
 
-            result += "<a href='#' onClick='selectSceneObject(" + child.id + ");return false'>";
+            if (viewType == "dependency" && child.isNode) {
+                result += "<a href='#' onClick='selectSceneObjectByType(" + child.id + ", \"node\");return false'>";
+            } else {
+                result += "<a href='#' onClick='selectSceneObject(" + child.id + ");return false'>";
+            }
 
             result += child.name + " " + node.id + " ";
             result += "(" + child.footprintMetricValue;
@@ -430,6 +450,15 @@
         }
     }
 
+    function showSingleNodeByType(id, type) {
+        for (var index = 0; index < objects.length; index++) {
+            if (id == objects[index].softviz3dId && type == objects[index].type) {
+                scene.add(objects[index]);
+                objectsInView[index] = objects[index];
+            }
+        }
+    }
+
     function hideAll(id, selectId) {
         removeNodeAndAllChildren(id);
         selectSceneObject(selectId);
@@ -464,6 +493,7 @@
     }
 
     function hideNode(id, selectId) {
+        console.log("hideNode " + id + " " + selectId);
         removeNodeAndChildren(id);
         selectSceneObjectByType(selectId, "node");
     }
@@ -476,6 +506,7 @@
             node.isHidden = true;
             for (var index = 0; index < node.children.length; index++) {
                 removeNodeByType(node.children[index].id, "leaf");
+                node.children[index].parentInfo.isHidden = true;
             }
         }
     }
@@ -490,14 +521,19 @@
     }
 
     function showNodeAndChildren(id) {
-        showSingleNode(id);
+        console.log("showNodeAndChildren " + id);
+
+        showSingleNodeByType(id, "node");
 
         var node = searchTree(tree, id);
         if (node != null) {
             node.isHidden = false;
             for (var index = 0; index < node.children.length; index++) {
+                console.log("child " + node.children[index].id);
+
                 showSingleNode(node.children[index].id);
                 node.children[index].isHidden = false;
+                node.children[index].parentInfo.isHidden = false;
             }
         }
     }
