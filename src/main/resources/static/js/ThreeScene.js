@@ -3,6 +3,7 @@ var camera, scene, projector, renderer;
 
 var controls;
 var objects = [];
+var objectsInView = [];
 
 var containerWidth, containerHeight;
 
@@ -74,7 +75,7 @@ function onDocumentMouseDown( event ) {
 
     var raycaster = projector.pickingRay( mouseVector.clone(), camera );
 
-    var intersects = raycaster.intersectObjects( objects );
+    var intersects = raycaster.intersectObjects( objectsInView );
 
     if ( intersects.length > 0 ) {
 
@@ -146,6 +147,7 @@ function createBox(geometry, material, position, id) {
     object.softviz3dId = id;
 
     objects.push( object );
+    objectsInView.push( object );
 
     scene.add(object);
 };

@@ -52,6 +52,10 @@ public class TreeNode {
         return children;
     }
 
+    public boolean isNode() {
+        return !this.children.isEmpty();
+    }
+
     public Integer getId() {
         return id;
     }

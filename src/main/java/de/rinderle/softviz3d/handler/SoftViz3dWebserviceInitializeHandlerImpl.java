@@ -55,6 +55,7 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
         jsonWriter.prop("name", tree.getName());
         jsonWriter.prop("heightMetricValue", tree.getHeightMetricValue());
         jsonWriter.prop("footprintMetricValue", tree.getFootprintMetricValue());
+        jsonWriter.prop("isNode", tree.isNode());
 
         transformChildren(jsonWriter, tree.getChildren());
 
@@ -66,6 +67,7 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
             jsonWriter.prop("name", parent.getName());
             jsonWriter.prop("heightMetricValue", parent.getHeightMetricValue());
             jsonWriter.prop("footprintMetricValue", parent.getFootprintMetricValue());
+            jsonWriter.prop("isNode", parent.isNode());
             jsonWriter.endObject();
         }
 
