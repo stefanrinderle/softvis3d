@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>sonar-softviz3d-plugin</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<packaging>sonar-plugin</packaging>
 	<name>SoftViz3d Sonar plugin</name>
 	<description>Creates a 3d view of the project structure</description>
@@ -48,7 +48,7 @@
 		</sonar.jacoco.jar>
 
 
-		<!-- Configuration for sonar-packaging-maven-plugin <sonar.pluginClass>de.rinderle.softviz3d.SoftViz3dPlugin</sonar.pluginClass> 
+		<!-- Configuration for sonar-packaging-maven-plugin <sonar.pluginClass>de.rinderle.softviz3d.SoftViz3dPlugin</sonar.pluginClass>
 			<sonar.pluginName>Softviz3d</sonar.pluginName> -->
 	</properties>
 
@@ -164,7 +164,7 @@
 					</configuration>
 				</plugin>
 				<plugin>
-					<!-- UTF-8 bundles are not supported by Java, so they must be converted 
+					<!-- UTF-8 bundles are not supported by Java, so they must be converted
 						during build -->
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>native2ascii-maven-plugin</artifactId>
