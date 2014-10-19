@@ -22,6 +22,7 @@ package de.rinderle.softviz3d.handler;
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.layout.calc.DependencyExpander;
 import de.rinderle.softviz3d.layout.calc.Edge;
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.sonar.DependencyDao;
 import de.rinderle.softviz3d.sonar.SonarDependency;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
@@ -48,10 +49,17 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
         Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
         Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
 
-        TreeNode tree = resourceTreeService.createTreeStructrue(id, footprintMetricId, heightMetricId);
-
         String viewType = request.param("viewType");
-        if (viewType.equals("dependency")) {
+        LayoutViewType type;
+        if ("city".equals(viewType)) {
+            type = LayoutViewType.CITY;
+        } else {
+            type = LayoutViewType.DEPENDENCY;
+        }
+
+        // TODO: do in one step
+        TreeNode tree = resourceTreeService.createTreeStructure(type, id, footprintMetricId, heightMetricId);
+        if (LayoutViewType.DEPENDENCY.equals(type)) {
             List<SonarDependency> dependencies = dependencyDao.getDependencies(id);
             dependencyExpander.execute(id, dependencies);
         }

@@ -22,6 +22,7 @@ package de.rinderle.softviz3d.tree;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import de.rinderle.softviz3d.layout.calc.DependencyType;
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,60 +31,80 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
 public class ResourceTreeServiceImpl implements ResourceTreeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceTreeServiceImpl.class);
 
-    private PathWalker pathWalker;
+    private Map<String, PathWalker> loadedPathWalkers = new ConcurrentHashMap<String, PathWalker>();
 
     @Inject
     private SonarDao sonarDao;
 
     @Override
-    public TreeNode createTreeStructrue(int rootSnapshotId, int heightMetric, int footprintMetric) {
-        pathWalker = new PathWalker(rootSnapshotId);
+    public TreeNode createTreeStructure(final LayoutViewType type, int rootSnapshotId, int heightMetric, int footprintMetric) {
+        LOGGER.info("loadedPathWalkers size " + loadedPathWalkers.size());
 
-        List<Object[]> flatChildren = sonarDao.getAllProjectElements(rootSnapshotId, heightMetric, footprintMetric);
+        if (!loadedPathWalkers.containsKey(getId(type, rootSnapshotId))) {
+            LOGGER.info("Created tree structure for id " + rootSnapshotId);
+            PathWalker pathWalker = new PathWalker(rootSnapshotId);
 
-        //s.id, p.name, m1.value, m2.value
-        for (Object[] flatChild : flatChildren) {
-            int snapshotId = (Integer) flatChild[0];
-            String name = (String) flatChild[1];
-            BigDecimal footprintMetricValue = (BigDecimal) flatChild[2];
-            BigDecimal heightMetricValue = (BigDecimal) flatChild[3];
+            List<Object[]> flatChildren = sonarDao.getAllProjectElements(rootSnapshotId, heightMetric, footprintMetric);
 
-            pathWalker.addPath(snapshotId, name, footprintMetricValue.doubleValue(), heightMetricValue.doubleValue());
+            //s.id, p.name, m1.value, m2.value
+            for (Object[] flatChild : flatChildren) {
+                int snapshotId = (Integer) flatChild[0];
+                String name = (String) flatChild[1];
+                BigDecimal footprintMetricValue = (BigDecimal) flatChild[2];
+                BigDecimal heightMetricValue = (BigDecimal) flatChild[3];
+
+                pathWalker.addPath(snapshotId, name, footprintMetricValue.doubleValue(), heightMetricValue.doubleValue());
+            }
+
+            TreeNormalizer normalizer = new TreeNormalizer();
+            normalizer.normalizeTree(pathWalker.getTree());
+            normalizer.recalculateDepth(pathWalker.getTree());
+
+            loadedPathWalkers.put(getId(type, rootSnapshotId), pathWalker);
         }
 
-        TreeNormalizer normalizer = new TreeNormalizer();
-        normalizer.normalizeTree(pathWalker.getTree());
-        normalizer.recalculateDepth(pathWalker.getTree());
+        return loadedPathWalkers.get(getId(type, rootSnapshotId)).getTree();
+    }
 
-        return pathWalker.getTree();
+    private String getId(LayoutViewType type, int rootSnapshotId) {
+        return rootSnapshotId + "_" + type.name();
     }
 
     @Override
-    public List<TreeNode> getChildrenNodeIds(Integer id) {
+    public List<TreeNode> getChildrenNodeIds(final LayoutViewType type, Integer rootSnapshotId, Integer id) {
+        PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
+
         TreeNode treeNode = recursiveSearch(id, pathWalker.getTree());
 
         return getChildrenNodes(treeNode.getChildren());
     }
 
     @Override
-    public List<TreeNode> getChildrenLeafIds(Integer id) {
+    public List<TreeNode> getChildrenLeafIds(final LayoutViewType type, Integer rootSnapshotId, Integer id) {
+        PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
+
         TreeNode treeNode = recursiveSearch(id, pathWalker.getTree());
 
         return getChildrenLeaves(treeNode.getChildren());
     }
 
     @Override
-    public TreeNode findNode(final Integer id) {
+    public TreeNode findNode(final LayoutViewType type, final Integer rootSnapshotId, final Integer id) {
+        PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
+
         return recursiveSearch(id, pathWalker.getTree());
     }
 
     @Override
-    public Integer addInterfaceLeafNode(final String intLeafLabel, final Integer parentId) {
+    public Integer addInterfaceLeafNode(final LayoutViewType type, final Integer rootSnapshotId, final String intLeafLabel, final Integer parentId) {
+        PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
+
         // search for parent node
         TreeNode parent = recursiveSearch(parentId, pathWalker.getTree());
 
@@ -95,14 +116,15 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     }
 
     @Override
-    public TreeNode findInterfaceLeafNode(final String intLeafLabel) {
+    public TreeNode findInterfaceLeafNode(final LayoutViewType type, final Integer rootSnapshotId, final String intLeafLabel) {
+        PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
         return recursiveSearch(intLeafLabel, pathWalker.getTree());
     }
 
     @Override
-    public DependencyType getDependencyType(final Integer fromSnapshotId, final Integer toSnapshotId) {
-        TreeNode from = findNode(fromSnapshotId);
-        TreeNode to = findNode(toSnapshotId);
+    public DependencyType getDependencyType(final LayoutViewType type, final Integer rootSnapshotId, final Integer fromSnapshotId, final Integer toSnapshotId) {
+        TreeNode from = findNode(type, rootSnapshotId, fromSnapshotId);
+        TreeNode to = findNode(type, rootSnapshotId, toSnapshotId);
 
         // TODO check this - why is this needed.
         boolean hasSameParent = true;

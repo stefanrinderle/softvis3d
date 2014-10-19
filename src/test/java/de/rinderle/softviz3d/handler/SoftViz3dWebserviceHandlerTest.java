@@ -22,7 +22,6 @@ package de.rinderle.softviz3d.handler;
 import de.rinderle.softviz3d.sonar.SonarService;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.sonar.api.server.ws.Request;
@@ -46,8 +45,8 @@ public class SoftViz3dWebserviceHandlerTest {
     @Mock
     private SonarService sonarService;
 
-    @InjectMocks
-    private SoftViz3dWebserviceHandler handler = new SoftViz3dWebserviceHandlerImpl();
+//    @InjectMocks
+//    private SoftViz3dWebserviceHandler handler = new SoftViz3dWebserviceHandlerImpl();
 
     @Before
     public void setUp() {

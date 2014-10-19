@@ -20,9 +20,10 @@
 package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 
 public interface Processor {
 
-    public LayeredLayoutElement accept(SnapshotVisitor visitor, Integer snapshotId) throws DotExcecutorException;
+    public LayeredLayoutElement accept(LayoutViewType viewType, SnapshotVisitor visitor, Integer snapshotId, Integer rootSnapshotId) throws DotExcecutorException;
 }

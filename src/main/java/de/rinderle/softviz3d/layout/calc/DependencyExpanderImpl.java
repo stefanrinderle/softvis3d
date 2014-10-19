@@ -30,12 +30,8 @@ import java.util.Map;
 
 public class DependencyExpanderImpl implements DependencyExpander {
 
-    private static final String INTERACE_PREFIX = "interface_";
+    private static final String INTERFACE_PREFIX = "interface_";
     private static final String DEP_PATH_EDGE_PREFIX = "depPath_";
-
-    private Object[] flatEdges = new Object[10];
-    private Object[] interfaceLeaves = new Object[10];
-//    private Map<String, Edge> dependencyEdges = new HashMap<String, Edge>();
 
     private Map<Integer, Integer> nodesCounter = new HashMap<Integer, Integer>();
 
@@ -50,7 +46,7 @@ public class DependencyExpanderImpl implements DependencyExpander {
             for (SonarDependency dependency : dependencies) {
 
                 DependencyType dependencyType =
-                    resourceTreeService.getDependencyType(dependency.getFromSnapshotId(), dependency.getToSnapshotId());
+                    resourceTreeService.getDependencyType(LayoutViewType.DEPENDENCY, projectId, dependency.getFromSnapshotId(), dependency.getToSnapshotId());
                  if (dependencyType.equals(DependencyType.INPUT_FLAT)) {
                     incrementNodesCounter(dependency.getToSnapshotId());
                     incrementNodesCounter(dependency.getFromSnapshotId());
@@ -58,7 +54,7 @@ public class DependencyExpanderImpl implements DependencyExpander {
                      Integer out = dependency.getToSnapshotId();
                      Integer in = dependency.getFromSnapshotId();
                     // search for the common ancestor
-                    createDependencyPath(resourceTreeService.findNode(out), resourceTreeService.findNode(in));
+                    createDependencyPath(resourceTreeService.findNode(LayoutViewType.DEPENDENCY, projectId, out), resourceTreeService.findNode(LayoutViewType.DEPENDENCY, projectId, in));
                 }
             }
         }
@@ -133,14 +129,14 @@ public class DependencyExpanderImpl implements DependencyExpander {
 
         private Integer getInterfaceNode(Integer parentId, Integer depth) {
             Integer result;
-            String intLeafLabel = INTERACE_PREFIX + parentId;
+            String intLeafLabel = INTERFACE_PREFIX + parentId;
 
-            TreeNode treeNode = resourceTreeService.findInterfaceLeafNode(intLeafLabel);
+            TreeNode treeNode = resourceTreeService.findInterfaceLeafNode(LayoutViewType.DEPENDENCY, projectId, intLeafLabel);
 
             if (treeNode != null) {
                 result = treeNode.getId();
             } else {
-                result = resourceTreeService.addInterfaceLeafNode(intLeafLabel, parentId);
+                result = resourceTreeService.addInterfaceLeafNode(LayoutViewType.DEPENDENCY, projectId, intLeafLabel, parentId);
             }
 
             return result;

@@ -53,7 +53,7 @@ public class ResourceTreeServiceTest {
         children.add(new Object[]{5, "src/zwei/drei"});
 //        when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
 
-//        underTest.createTreeStructrue(snapshotId);
+//        underTest.createTreeStructure(snapshotId);
 
         // Check leaf
 //        List<Integer> leafs = underTest.getChildrenLeafIds(2);
@@ -76,7 +76,7 @@ public class ResourceTreeServiceTest {
         children.add(new Object[]{4, "src/eins/zwei/drei/child2"});
 //        when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
 //
-//        underTest.createTreeStructrue(snapshotId);
+//        underTest.createTreeStructure(snapshotId);
 
         // Check leaf
 //        List<Integer> leafs = underTest.getChildrenLeafIds(2);
@@ -110,7 +110,7 @@ public class ResourceTreeServiceTest {
 
 //        when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
 //
-//        underTest.createTreeStructrue(snapshotId);
+//        underTest.createTreeStructure(snapshotId);
 
         // Check leaf
 //        List<Integer> leafs = underTest.getChildrenLeafIds(574);

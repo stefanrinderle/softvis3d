@@ -66,9 +66,9 @@ public class LayoutSoftViz3d implements Layout {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        resourceTreeService.createTreeStructrue(snapshotId, footprintMetricId, heightMetricId);
-
-        if (viewType.equals(LayoutViewType.DEPENDENCY)) {
+        // TODO: do in one step
+        resourceTreeService.createTreeStructure(viewType, snapshotId, footprintMetricId, heightMetricId);
+        if (LayoutViewType.DEPENDENCY.equals(viewType)) {
             List<SonarDependency> dependencies = dependencyDao.getDependencies(snapshotId);
             dependencyExpander.execute(snapshotId, dependencies);
         }
@@ -77,7 +77,7 @@ public class LayoutSoftViz3d implements Layout {
 
         Map<Integer, Graph> resultGraphs = startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId, viewType);
 
-        int leavesCounter = calc.calculate(snapshotId, resultGraphs, viewType);
+        int leavesCounter = calc.calculate(viewType, snapshotId, resultGraphs, viewType);
 
         stopWatch.stop();
         LOGGER.info("Calculation finished after " + stopWatch.getTime() + " with "
@@ -96,7 +96,7 @@ public class LayoutSoftViz3d implements Layout {
 
         SnapshotVisitor visitor = visitorFactory.create(settings, minMaxValues, viewType);
 
-        processor.accept(visitor, snapshotId);
+        processor.accept(viewType, visitor, snapshotId, snapshotId);
 
         return visitor.getResultingGraphList();
     }

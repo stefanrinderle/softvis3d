@@ -48,9 +48,14 @@ public class AbsolutePositionCalculator implements PositionCalculator {
 
     @Inject
     private ResourceTreeService resourceTreeService;
+    private LayoutViewType viewType;
+    private Integer rootSnapshotId;
 
     @Override
-    public int calculate(Integer snapshotId, Map<Integer, Graph> inputGraphList, LayoutViewType layoutViewType) {
+    public int calculate(LayoutViewType viewType, Integer snapshotId, Map<Integer, Graph> inputGraphList, LayoutViewType layoutViewType) {
+        this.viewType = viewType;
+        rootSnapshotId = snapshotId;
+
         leafElements = 0;
 
         this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
@@ -81,7 +86,7 @@ public class AbsolutePositionCalculator implements PositionCalculator {
     }
 
     private void translateNodes(Integer sourceId, Graph graph, LayoutViewType layoutViewType) {
-        List<TreeNode> children = resourceTreeService.getChildrenNodeIds(sourceId);
+        List<TreeNode> children = resourceTreeService.getChildrenNodeIds(viewType, rootSnapshotId, sourceId);
 
         for (TreeNode child : children) {
             GrappaPoint pos = innerGraphTranslation.get(child.getId());
