@@ -20,8 +20,9 @@
 package de.rinderle.softviz3d.dot;
 
 import att.grappa.Graph;
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorImpl;
+import de.rinderle.softviz3d.layout.dot.DotExecutorImpl;
 import de.rinderle.softviz3d.layout.dot.DotVersion;
 import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
 import org.junit.Before;
@@ -32,9 +33,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.sonar.api.config.Settings;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class DotExecutorTest {
+
+  private final static Settings SETTINGS = new Settings();
 
   @Mock
   private DotVersion dotVersion;
@@ -43,7 +46,7 @@ public class DotExecutorTest {
   private ExecuteCommand executeCommand;
 
   @InjectMocks
-  private DotExcecutorImpl underTest = new DotExcecutorImpl();
+  private DotExecutorImpl underTest = new DotExecutorImpl();
 
   @Before
   public void setUp() {
@@ -70,10 +73,26 @@ public class DotExecutorTest {
         Mockito.any(String.class))).thenReturn(createADot());
 
     Graph inputGraph = new Graph("not used in test");
-    // Graph result = underTest.run(inputGraph, new Settings());
-    //
-    // assertNotNull(result);
-    // assertTrue("777".equals(result.getName()));
+    Graph result = underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+
+    assertNotNull(result);
+    assertTrue("777".equals(result.getName()));
+  }
+
+  @Test
+  public void testHappyDependency() throws DotExcecutorException {
+    Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
+      .thenReturn("2.36.0");
+
+    Mockito.when(
+      executeCommand.executeCommandReadAdot(Mockito.any(String.class),
+        Mockito.any(String.class))).thenReturn(createADot());
+
+    Graph inputGraph = new Graph("not used in test");
+    Graph result = underTest.run(inputGraph, SETTINGS, LayoutViewType.DEPENDENCY);
+
+    assertNotNull(result);
+    assertTrue("777".equals(result.getName()));
   }
 
   @Test
@@ -86,29 +105,28 @@ public class DotExecutorTest {
         Mockito.any(String.class))).thenReturn(createADot());
 
     Graph inputGraph = new Graph("not used in test");
-    // underTest.run(inputGraph, new Settings());
-    //
-    // Mockito.verify(executeCommand, Mockito.times(1)).executeCommandReadAdot(
-    // Mockito.any(String.class), Mockito.any(String.class));
+    underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+
+    Mockito.verify(executeCommand, Mockito.times(1)).executeCommandReadAdot(
+      Mockito.any(String.class), Mockito.any(String.class));
   }
 
   @Test
   public void testVersionTrue() throws DotExcecutorException {
-    Settings settings = new Settings();
-    settings.setProperty("dotBinDirectory", "/usr/local/bin/dot");
+    SETTINGS.setProperty("dotBinDirectory", "/usr/local/bin/dot");
 
     Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
-      .thenReturn(DotExcecutorImpl.DOT_BUG_VERSION);
+      .thenReturn(DotExecutorImpl.DOT_BUG_VERSION);
 
     Mockito.when(
       executeCommand.executeCommandReadAdot(Mockito.any(String.class),
         Mockito.any(String.class))).thenReturn(createADot());
 
     Graph inputGraph = new Graph("not used in test");
-    // underTest.run(inputGraph, settings);
-    //
-    // Mockito.verify(executeCommand, Mockito.times(2)).executeCommandReadAdot(
-    // Mockito.any(String.class), Mockito.any(String.class));
+    underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+
+    Mockito.verify(executeCommand, Mockito.times(2)).executeCommandReadAdot(
+      Mockito.any(String.class), Mockito.any(String.class));
   }
 
   public String createADot() {

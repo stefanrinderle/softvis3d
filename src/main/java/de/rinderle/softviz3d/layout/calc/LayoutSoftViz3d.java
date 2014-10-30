@@ -77,7 +77,7 @@ public class LayoutSoftViz3d implements Layout {
 
     Map<Integer, Graph> resultGraphs = startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId, viewType);
 
-    int leavesCounter = calc.calculate(viewType, snapshotId, resultGraphs, viewType);
+    int leavesCounter = calc.calculate(viewType, snapshotId, resultGraphs);
 
     stopWatch.stop();
     LOGGER.info("Calculation finished after " + stopWatch.getTime() + " with "

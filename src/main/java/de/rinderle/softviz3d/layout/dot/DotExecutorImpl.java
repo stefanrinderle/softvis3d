@@ -34,11 +34,11 @@ import org.sonar.api.config.Settings;
 import java.io.*;
 
 @Singleton
-public class DotExcecutorImpl implements DotExecutor {
+public class DotExecutorImpl implements DotExecutor {
 
   public static final String DOT_BUG_VERSION = "2.38.0";
   private static final Logger LOGGER = LoggerFactory
-    .getLogger(DotExcecutorImpl.class);
+    .getLogger(DotExecutorImpl.class);
   private File translationFile = null;
 
   @Inject
@@ -66,9 +66,9 @@ public class DotExcecutorImpl implements DotExecutor {
       try {
 
         if (translationFile == null) {
-          InputStream file = DotExcecutorImpl.class
+          InputStream file = DotExecutorImpl.class
             .getResourceAsStream("/translate.g");
-          translationFile = File.createTempFile("transate", ".g");
+          translationFile = File.createTempFile("translate", ".g");
           FileOutputStream out = new FileOutputStream(translationFile);
           IOUtils.copy(file, out);
         }

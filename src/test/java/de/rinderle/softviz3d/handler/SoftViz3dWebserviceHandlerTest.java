@@ -19,9 +19,14 @@
  */
 package de.rinderle.softviz3d.handler;
 
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.sonar.SonarService;
+import de.rinderle.softviz3d.tree.ResourceTreeService;
+import de.rinderle.softviz3d.tree.TreeNode;
+import de.rinderle.softviz3d.tree.TreeNodeType;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.sonar.api.server.ws.Request;
@@ -32,6 +37,8 @@ import org.sonar.api.utils.text.XmlWriter;
 
 import java.io.StringWriter;
 
+import static org.mockito.Mockito.when;
+
 /**
  * Created by stefan on 22.09.14.
  */
@@ -41,12 +48,17 @@ public class SoftViz3dWebserviceHandlerTest {
   private JsonWriter jsonWriter = JsonWriter.of(stringWriter);
 
   private Integer snapshotId = 123;
+  private Integer footprintMetricId = 1;
+  private Integer heightMetricId = 21;
+  private String viewType = "city";
 
   @Mock
   private SonarService sonarService;
+  @Mock
+  private ResourceTreeService resourceTreeService;
 
-  // @InjectMocks
-  // private SoftViz3dWebserviceHandler handler = new SoftViz3dWebserviceHandlerImpl();
+  @InjectMocks
+  private SoftViz3dWebserviceInitializeHandler handler = new SoftViz3dWebserviceInitializeHandlerImpl();
 
   @Before
   public void setUp() {
@@ -58,12 +70,12 @@ public class SoftViz3dWebserviceHandlerTest {
     Request request = createRequest();
     Response response = createResponse();
 
-    String serviceResult = "service result";
-    // when(sonarService.getSnapshotDetails(eq(snapshotId), anyInt(), anyInt(), anyInt())).thenReturn(serviceResult);
-    //
-    // handler.handle(request, response);
-    //
-    // assertTrue(stringWriter.toString().contains(serviceResult));
+    TreeNode tree = new TreeNode(snapshotId, null, 0, TreeNodeType.TREE, snapshotId + "", 0, 0);
+    when(resourceTreeService.createTreeStructure(LayoutViewType.CITY, snapshotId, footprintMetricId, heightMetricId)).thenReturn(tree);
+
+    handler.handle(request, response);
+
+    // TODO: assert response stream
   }
 
   private Request createRequest() {
@@ -75,13 +87,19 @@ public class SoftViz3dWebserviceHandlerTest {
 
       @Override
       public String method() {
-        return "getSnapshotDetails";
+        return "initialize";
       }
 
       @Override
       public String param(String key) {
         if ("snapshotId".equals(key)) {
           return snapshotId.toString();
+        } else if ("footprintMetricId".equals(key)) {
+          return footprintMetricId.toString();
+        } else if ("heightMetricId".equals(key)) {
+          return heightMetricId.toString();
+        } else if ("viewType".equals(key)) {
+          return viewType;
         } else {
           return "";
         }

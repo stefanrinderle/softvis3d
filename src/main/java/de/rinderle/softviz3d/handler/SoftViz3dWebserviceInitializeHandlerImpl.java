@@ -71,6 +71,7 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
     jsonWriter.close();
   }
 
+  // TODO: refactor json transformation to a new class.
   private void transformTreeToJson(JsonWriter jsonWriter, TreeNode tree) {
     jsonWriter.beginObject();
 

@@ -38,6 +38,7 @@ public class BottomUpProcessor implements Processor {
 
   @Inject
   private ResourceTreeService resourceTreeService;
+
   private LayoutViewType viewType;
   private Integer rootSnapshotId;
 

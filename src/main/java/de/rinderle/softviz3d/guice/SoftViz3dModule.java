@@ -39,7 +39,7 @@ public class SoftViz3dModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(DotVersion.class).to(DotVersionImpl.class);
-    bind(DotExecutor.class).to(DotExcecutorImpl.class);
+    bind(DotExecutor.class).to(DotExecutorImpl.class);
     bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
 
     bind(SonarDao.class).to(SonarDaoImpl.class);

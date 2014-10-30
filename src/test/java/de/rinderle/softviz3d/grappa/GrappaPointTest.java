@@ -25,6 +25,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Checks the strange behaviour of grappa on points.
+ * Just to be sure nothing changes here.
+ */
 public class GrappaPointTest {
 
   @Test

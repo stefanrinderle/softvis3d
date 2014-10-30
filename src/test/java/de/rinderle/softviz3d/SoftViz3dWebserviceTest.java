@@ -19,31 +19,31 @@
  */
 package de.rinderle.softviz3d;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.WebService;
 import org.sonar.api.server.ws.WsTester;
+
+import static org.fest.assertions.Assertions.assertThat;
 
 public class SoftViz3dWebserviceTest {
   private DatabaseSession session;
   private WebService ws = new SoftViz3dWebservice(session);
 
   @Test
-  @Ignore
   public void shouldDefineSoftviz3Webservice() throws Exception {
     // WsTester is available in the Maven artifact org.codehaus.sonar:sonar-plugin-api
     // with type "test-jar"
     WsTester tester = new WsTester(ws);
     WebService.Controller controller = tester.controller("api/softViz3d");
 
-    // assertThat(controller).isNotNull();
-    // assertThat(controller.path()).isEqualTo("api/softViz3d");
-    // assertThat(controller.description()).isNotEmpty();
-    // assertThat(controller.actions()).hasSize(1);
-    //
-    // WebService.Action getSnapshotDetails = controller.action("getSnapshotDetails");
-    // assertThat(getSnapshotDetails).isNotNull();
-    // assertThat(getSnapshotDetails.key()).isEqualTo("getSnapshotDetails");
+    assertThat(controller).isNotNull();
+    assertThat(controller.path()).isEqualTo("api/softViz3d");
+    assertThat(controller.description()).isNotEmpty();
+    assertThat(controller.actions()).hasSize(1);
+
+    WebService.Action initialize = controller.action("initialize");
+    assertThat(initialize).isNotNull();
+    assertThat(initialize.key()).isEqualTo("initialize");
   }
 }

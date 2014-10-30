@@ -22,7 +22,10 @@ package de.rinderle.softviz3d.layout.calc.topdown;
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import de.rinderle.softviz3d.grappa.GrappaGraphFactory;
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
+import de.rinderle.softviz3d.tree.TreeNode;
+import de.rinderle.softviz3d.tree.TreeNodeType;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,10 +38,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
+
 public class AbsolutePositionCalculatorTest extends TestCase {
 
   private static final Integer ID = 1;
   private static final Integer SUBGRAPH_ID = 3;
+
+  private static final LayoutViewType VIEW_TYPE = LayoutViewType.CITY;
 
   @Mock
   private ResourceTreeService resourceTreeService;
@@ -56,16 +64,16 @@ public class AbsolutePositionCalculatorTest extends TestCase {
     Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
     inputGraphList.put(ID, GrappaGraphFactory.createGraph());
 
-    // underTest.calculate(ID, inputGraphList);
+    underTest.calculate(VIEW_TYPE, ID, inputGraphList);
 
     Graph result = inputGraphList.get(ID);
 
     GrappaBox boundingBox = (GrappaBox) result.getAttribute("bb").getValue();
 
-    // assertEquals(0.0, boundingBox.getX());
-    // assertEquals(0.0, boundingBox.getY());
-    // assertEquals(50.0, boundingBox.getWidth());
-    // assertEquals(50.0, boundingBox.getHeight());
+    assertEquals(0.0, boundingBox.getX());
+    assertEquals(0.0, boundingBox.getY());
+    assertEquals(50.0, boundingBox.getWidth());
+    assertEquals(50.0, boundingBox.getHeight());
   }
 
   @Test
@@ -74,19 +82,19 @@ public class AbsolutePositionCalculatorTest extends TestCase {
     inputGraphList.put(ID, GrappaGraphFactory.createGraph());
     inputGraphList.put(SUBGRAPH_ID, GrappaGraphFactory.createGraph());
 
-    List<Integer> childrenNodes = new ArrayList<Integer>();
-    childrenNodes.add(SUBGRAPH_ID);
-    // when(resourceTreeService.getChildrenNodeIds(eq(ID))).thenReturn(childrenNodes);
+    List<TreeNode> childrenNodes = new ArrayList<TreeNode>();
+    childrenNodes.add(new TreeNode(SUBGRAPH_ID, null, 0, TreeNodeType.TREE, "" + SUBGRAPH_ID, 0, 0));
+    when(resourceTreeService.getChildrenNodeIds(eq(VIEW_TYPE), eq(ID), eq(ID))).thenReturn(childrenNodes);
 
-    // underTest.calculate(ID, inputGraphList);
+    underTest.calculate(VIEW_TYPE, ID, inputGraphList);
 
     Graph result = inputGraphList.get(SUBGRAPH_ID);
 
     GrappaBox boundingBox = (GrappaBox) result.getAttribute("bb").getValue();
 
-    // assertEquals(-25.0, boundingBox.getX());
-    // assertEquals(25.0, boundingBox.getY());
-    // assertEquals(50.0, boundingBox.getWidth());
-    // assertEquals(50.0, boundingBox.getHeight());
+    assertEquals(-25.0, boundingBox.getX());
+    assertEquals(25.0, boundingBox.getY());
+    assertEquals(50.0, boundingBox.getWidth());
+    assertEquals(50.0, boundingBox.getHeight());
   }
 }

@@ -52,7 +52,7 @@ public class AbsolutePositionCalculator implements PositionCalculator {
   private Integer rootSnapshotId;
 
   @Override
-  public int calculate(LayoutViewType viewType, Integer snapshotId, Map<Integer, Graph> inputGraphList, LayoutViewType layoutViewType) {
+  public int calculate(LayoutViewType viewType, Integer snapshotId, Map<Integer, Graph> inputGraphList) {
     this.viewType = viewType;
     rootSnapshotId = snapshotId;
 
@@ -61,7 +61,7 @@ public class AbsolutePositionCalculator implements PositionCalculator {
     this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
     this.inputGraphs = inputGraphList;
 
-    this.addTranslationToLayer(snapshotId, new GrappaPoint(0, 0), layoutViewType);
+    this.addTranslationToLayer(snapshotId, new GrappaPoint(0, 0), viewType);
 
     return leafElements;
   }

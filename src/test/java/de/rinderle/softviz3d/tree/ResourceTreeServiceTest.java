@@ -19,6 +19,7 @@
  */
 package de.rinderle.softviz3d.tree;
 
+import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,10 +27,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Mockito.when;
+
 public class ResourceTreeServiceTest {
+
+  private static final LayoutViewType VIEW_TYPE = LayoutViewType.CITY;
 
   @Mock
   private SonarDao sonarDao;
@@ -44,26 +50,26 @@ public class ResourceTreeServiceTest {
 
   @Test
   public void test() {
-    int snapshotId = 1;
+    int rootSnapshotId = 1;
 
     List<Object[]> children = new ArrayList<Object[]>();
-    children.add(new Object[] {2, "src"});
-    children.add(new Object[] {3, "src/eins"});
-    children.add(new Object[] {4, "src/zwei"});
-    children.add(new Object[] {5, "src/zwei/drei"});
-    // when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
+    children.add(new Object[] {2, "src", BigDecimal.ZERO, BigDecimal.ZERO});
+    children.add(new Object[] {3, "src/eins", BigDecimal.ZERO, BigDecimal.ZERO});
+    children.add(new Object[] {4, "src/zwei", BigDecimal.ZERO, BigDecimal.ZERO});
+    children.add(new Object[] {5, "src/zwei/drei", BigDecimal.ZERO, BigDecimal.ZERO});
+    when(sonarDao.getAllProjectElements(rootSnapshotId, 0, 0)).thenReturn(children);
 
-    // underTest.createTreeStructure(snapshotId);
+    underTest.createTreeStructure(VIEW_TYPE, rootSnapshotId, 0, 0);
 
-    // Check leaf
-    // List<Integer> leafs = underTest.getChildrenLeafIds(2);
-    // assertTrue(leafs.contains(3));
-    // assertEquals(1, leafs.size());
+    //Check leaf
+//    List<TreeNode> leafs = underTest.getChildrenLeafIds(VIEW_TYPE, rootSnapshotId, rootSnapshotId);
+//    assertTrue(leafs.contains(3));
+//    assertEquals(1, leafs.size());
 
-    // Check node
-    // List<Integer> nodes = underTest.getChildrenNodeIds(2);
-    // assertTrue(nodes.contains(4));
-    // assertEquals(1, nodes.size());
+    //Check node
+//    List<TreeNode> nodes = underTest.getChildrenNodeIds(VIEW_TYPE, rootSnapshotId, 4);
+//    assertTrue(nodes.contains(4));
+//    assertEquals(1, nodes.size());
   }
 
   @Test
