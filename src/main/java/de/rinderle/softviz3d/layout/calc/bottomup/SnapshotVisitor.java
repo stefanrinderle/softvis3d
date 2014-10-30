@@ -29,11 +29,11 @@ import java.util.Map;
 
 public interface SnapshotVisitor {
 
-    Map<Integer, Graph> getResultingGraphList();
+  Map<Integer, Graph> getResultingGraphList();
 
-    LayeredLayoutElement visitNode(TreeNode node,
-            List<LayeredLayoutElement> elements) throws DotExcecutorException;
+  LayeredLayoutElement visitNode(TreeNode node,
+    List<LayeredLayoutElement> elements) throws DotExcecutorException;
 
-    LayeredLayoutElement visitFile(TreeNode leaf);
+  LayeredLayoutElement visitFile(TreeNode leaf);
 
 }

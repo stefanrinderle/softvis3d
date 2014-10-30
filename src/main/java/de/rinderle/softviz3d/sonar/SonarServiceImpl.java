@@ -28,33 +28,33 @@ import java.util.List;
 
 public class SonarServiceImpl implements SonarService {
 
-    private static final Logger LOGGER = LoggerFactory
-        .getLogger(SonarServiceImpl.class);
+  private static final Logger LOGGER = LoggerFactory
+    .getLogger(SonarServiceImpl.class);
 
-    @Inject
-    private SonarDao sonarDao;
+  @Inject
+  private SonarDao sonarDao;
 
-    @Override
-    public Integer getMetric1FromSettings(Settings settings) {
-        return sonarDao.getMetricIdByName(settings.getString("metric1"));
-    }
+  @Override
+  public Integer getMetric1FromSettings(Settings settings) {
+    return sonarDao.getMetricIdByName(settings.getString("metric1"));
+  }
 
-    @Override
-    public Integer getMetric2FromSettings(Settings settings) {
-        return sonarDao.getMetricIdByName(settings.getString("metric2"));
-    }
+  @Override
+  public Integer getMetric2FromSettings(Settings settings) {
+    return sonarDao.getMetricIdByName(settings.getString("metric2"));
+  }
 
-    @Override
-    public List<Integer> getDefinedMetricsForSnapshot(Integer snapshotId) {
-        return sonarDao.getDistinctMetricsBySnapshotId(snapshotId);
-    }
+  @Override
+  public List<Integer> getDefinedMetricsForSnapshot(Integer snapshotId) {
+    return sonarDao.getDistinctMetricsBySnapshotId(snapshotId);
+  }
 
-    @Override
-    public List<Double> getMinMaxMetricValuesByRootSnapshotId(
-            Integer rootSnapshotId, Integer footprintMetricId,
-            Integer heightMetricId) {
-        return sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId,
-                footprintMetricId, heightMetricId);
-    }
+  @Override
+  public List<Double> getMinMaxMetricValuesByRootSnapshotId(
+    Integer rootSnapshotId, Integer footprintMetricId,
+    Integer heightMetricId) {
+    return sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId,
+      footprintMetricId, heightMetricId);
+  }
 
 }

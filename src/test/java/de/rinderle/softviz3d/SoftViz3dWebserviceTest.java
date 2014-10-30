@@ -26,24 +26,24 @@ import org.sonar.api.server.ws.WebService;
 import org.sonar.api.server.ws.WsTester;
 
 public class SoftViz3dWebserviceTest {
-   private DatabaseSession session;
-   private WebService ws = new SoftViz3dWebservice(session);
+  private DatabaseSession session;
+  private WebService ws = new SoftViz3dWebservice(session);
 
-   @Test
-   @Ignore
-   public void shouldDefineSoftviz3Webservice() throws Exception {
-     // WsTester is available in the Maven artifact org.codehaus.sonar:sonar-plugin-api
-     // with type "test-jar"
-     WsTester tester = new WsTester(ws);
-     WebService.Controller controller = tester.controller("api/softViz3d");
+  @Test
+  @Ignore
+  public void shouldDefineSoftviz3Webservice() throws Exception {
+    // WsTester is available in the Maven artifact org.codehaus.sonar:sonar-plugin-api
+    // with type "test-jar"
+    WsTester tester = new WsTester(ws);
+    WebService.Controller controller = tester.controller("api/softViz3d");
 
-//     assertThat(controller).isNotNull();
-//     assertThat(controller.path()).isEqualTo("api/softViz3d");
-//     assertThat(controller.description()).isNotEmpty();
-//     assertThat(controller.actions()).hasSize(1);
-//
-//     WebService.Action getSnapshotDetails = controller.action("getSnapshotDetails");
-//     assertThat(getSnapshotDetails).isNotNull();
-//     assertThat(getSnapshotDetails.key()).isEqualTo("getSnapshotDetails");
-   }
- }
+    // assertThat(controller).isNotNull();
+    // assertThat(controller.path()).isEqualTo("api/softViz3d");
+    // assertThat(controller.description()).isNotEmpty();
+    // assertThat(controller.actions()).hasSize(1);
+    //
+    // WebService.Action getSnapshotDetails = controller.action("getSnapshotDetails");
+    // assertThat(getSnapshotDetails).isNotNull();
+    // assertThat(getSnapshotDetails.key()).isEqualTo("getSnapshotDetails");
+  }
+}

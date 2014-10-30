@@ -36,104 +36,104 @@ import static org.junit.Assert.assertEquals;
 
 public class DotExecutorTest {
 
-    @Mock
-    private DotVersion dotVersion;
+  @Mock
+  private DotVersion dotVersion;
 
-    @Mock
-    private ExecuteCommand executeCommand;
+  @Mock
+  private ExecuteCommand executeCommand;
 
-    @InjectMocks
-    private DotExcecutorImpl underTest = new DotExcecutorImpl();
+  @InjectMocks
+  private DotExcecutorImpl underTest = new DotExcecutorImpl();
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
+  @Before
+  public void setUp() {
+    MockitoAnnotations.initMocks(this);
+  }
 
-    @Test
-    public void testString() {
-        String dotBin = "/usr/local/bin/dot";
-        
-        int lastIndex = dotBin.lastIndexOf("/");
-        String result = dotBin.substring(0, lastIndex + 1);
-        
-        assertEquals("/usr/local/bin/", result);
-    }
-    
-    @Test
-    public void testHappy() throws DotExcecutorException {
-        Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
-                .thenReturn("2.36.0");
+  @Test
+  public void testString() {
+    String dotBin = "/usr/local/bin/dot";
 
-        Mockito.when(
-                executeCommand.executeCommandReadAdot(Mockito.any(String.class),
-                        Mockito.any(String.class))).thenReturn(createADot());
+    int lastIndex = dotBin.lastIndexOf("/");
+    String result = dotBin.substring(0, lastIndex + 1);
 
-        Graph inputGraph = new Graph("not used in test");
-//        Graph result = underTest.run(inputGraph, new Settings());
-//
-//        assertNotNull(result);
-//        assertTrue("777".equals(result.getName()));
-    }
+    assertEquals("/usr/local/bin/", result);
+  }
 
-    @Test
-    public void testVersionFalse() throws DotExcecutorException {
-        Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
-                .thenReturn("2.36.0");
+  @Test
+  public void testHappy() throws DotExcecutorException {
+    Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
+      .thenReturn("2.36.0");
 
-        Mockito.when(
-                executeCommand.executeCommandReadAdot(Mockito.any(String.class),
-                        Mockito.any(String.class))).thenReturn(createADot());
+    Mockito.when(
+      executeCommand.executeCommandReadAdot(Mockito.any(String.class),
+        Mockito.any(String.class))).thenReturn(createADot());
 
-        Graph inputGraph = new Graph("not used in test");
-//        underTest.run(inputGraph, new Settings());
-//
-//        Mockito.verify(executeCommand, Mockito.times(1)).executeCommandReadAdot(
-//                Mockito.any(String.class), Mockito.any(String.class));
-    }
+    Graph inputGraph = new Graph("not used in test");
+    // Graph result = underTest.run(inputGraph, new Settings());
+    //
+    // assertNotNull(result);
+    // assertTrue("777".equals(result.getName()));
+  }
 
-    @Test
-    public void testVersionTrue() throws DotExcecutorException {
-        Settings settings = new Settings();
-        settings.setProperty("dotBinDirectory", "/usr/local/bin/dot");
-        
-        Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
-                .thenReturn(DotExcecutorImpl.DOT_BUG_VERSION);
+  @Test
+  public void testVersionFalse() throws DotExcecutorException {
+    Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
+      .thenReturn("2.36.0");
 
-        Mockito.when(
-                executeCommand.executeCommandReadAdot(Mockito.any(String.class),
-                        Mockito.any(String.class))).thenReturn(createADot());
+    Mockito.when(
+      executeCommand.executeCommandReadAdot(Mockito.any(String.class),
+        Mockito.any(String.class))).thenReturn(createADot());
 
-        Graph inputGraph = new Graph("not used in test");
-//        underTest.run(inputGraph, settings);
-//
-//        Mockito.verify(executeCommand, Mockito.times(2)).executeCommandReadAdot(
-//                Mockito.any(String.class), Mockito.any(String.class));
-    }
+    Graph inputGraph = new Graph("not used in test");
+    // underTest.run(inputGraph, new Settings());
+    //
+    // Mockito.verify(executeCommand, Mockito.times(1)).executeCommandReadAdot(
+    // Mockito.any(String.class), Mockito.any(String.class));
+  }
 
-    public String createADot() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("digraph 777 {");
-        builder.append("\n");
-        builder.append("graph [bb=\"0,0,612,600\"];");
-        builder.append("\n");
-        builder.append("subgraph 786 {");
-        builder.append("\n");
-        builder.append("843 [height=\"0.75\",");
-        builder.append("\n");
-        builder.append("metric1=\"29.0\",");
-        builder.append("\n");
-        builder.append("metric2=\"4.0\",");
-        builder.append("\n");
-        builder.append("pos=\"33,378\",");
-        builder.append("\n");
-        builder.append("width=\"0.75\"");
-        builder.append("];");
-        builder.append("\n");
-        builder.append("}");
-        builder.append("\n");
-        builder.append("}");
+  @Test
+  public void testVersionTrue() throws DotExcecutorException {
+    Settings settings = new Settings();
+    settings.setProperty("dotBinDirectory", "/usr/local/bin/dot");
 
-        return builder.toString();
-    }
+    Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
+      .thenReturn(DotExcecutorImpl.DOT_BUG_VERSION);
+
+    Mockito.when(
+      executeCommand.executeCommandReadAdot(Mockito.any(String.class),
+        Mockito.any(String.class))).thenReturn(createADot());
+
+    Graph inputGraph = new Graph("not used in test");
+    // underTest.run(inputGraph, settings);
+    //
+    // Mockito.verify(executeCommand, Mockito.times(2)).executeCommandReadAdot(
+    // Mockito.any(String.class), Mockito.any(String.class));
+  }
+
+  public String createADot() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("digraph 777 {");
+    builder.append("\n");
+    builder.append("graph [bb=\"0,0,612,600\"];");
+    builder.append("\n");
+    builder.append("subgraph 786 {");
+    builder.append("\n");
+    builder.append("843 [height=\"0.75\",");
+    builder.append("\n");
+    builder.append("metric1=\"29.0\",");
+    builder.append("\n");
+    builder.append("metric2=\"4.0\",");
+    builder.append("\n");
+    builder.append("pos=\"33,378\",");
+    builder.append("\n");
+    builder.append("width=\"0.75\"");
+    builder.append("];");
+    builder.append("\n");
+    builder.append("}");
+    builder.append("\n");
+    builder.append("}");
+
+    return builder.toString();
+  }
 }

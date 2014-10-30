@@ -21,54 +21,54 @@ package de.rinderle.softviz3d.layout.interfaces;
 
 public interface SoftViz3dConstants {
 
-    /**
-     * Plugin key and name.
-     */
+  /**
+   * Plugin key and name.
+   */
 
-    public static final String PLUGIN_KEY = "Softviz3d";
+  public static final String PLUGIN_KEY = "Softviz3d";
 
-    public static final String PLUGIN_NAME = "Softviz3d Viewer";
+  public static final String PLUGIN_NAME = "Softviz3d Viewer";
 
-    /**
-     * Sonar properties.
-     */
+  /**
+   * Sonar properties.
+   */
 
-    public static final String DOT_BIN_KEY = "dotBinDirectory";
+  public static final String DOT_BIN_KEY = "dotBinDirectory";
 
-    public static final String DOT_BIN_NAME = "Dot executable file path";
+  public static final String DOT_BIN_NAME = "Dot executable file path";
 
-    public static final String DOT_BIN_DESCRIPTION = "This plugin requires Graphviz in order to create the layout. " +
-            "See http://www.graphviz.org/ for installation instructions.";
+  public static final String DOT_BIN_DESCRIPTION = "This plugin requires Graphviz in order to create the layout. " +
+    "See http://www.graphviz.org/ for installation instructions.";
 
-    public static final String DOT_BIN_DEFAULT = "/usr/local/bin/dot";
+  public static final String DOT_BIN_DEFAULT = "/usr/local/bin/dot";
 
-    /**
-     * Visualization
-     */
+  /**
+   * Visualization
+   */
 
-    public static final double MIN_SIDE_LENGTH_PERCENT = 5;
+  public static final double MIN_SIDE_LENGTH_PERCENT = 5;
 
-    /**
-     * Layout constants.
-     */
+  /**
+   * Layout constants.
+   */
 
-    public static final String GRAPH_ATTR_COLOR = "color";
-    public static final String GRAPH_ATTR_NODES_COLOR = "nodesColor";
-    public static final String GRAPH_ATTR_OPACITY = "opacity";
-    public static final String GRAPH_ATTR_BUILDING_HEIGHT = "buildingHeight";
+  public static final String GRAPH_ATTR_COLOR = "color";
+  public static final String GRAPH_ATTR_NODES_COLOR = "nodesColor";
+  public static final String GRAPH_ATTR_OPACITY = "opacity";
+  public static final String GRAPH_ATTR_BUILDING_HEIGHT = "buildingHeight";
 
-    /**
-     * String name for y axis in 3d.
-     *
-     *   I(y)
-     *   I
-     *   I
-     *   ---------- (x)
-     *  /
-     * / (z)
-     */
-    public static final String LAYER_HEIGHT_3D = "layerHeight3d";
+  /**
+   * String name for y axis in 3d.
+   *
+   *   I(y)
+   *   I
+   *   I
+   *   ---------- (x)
+   *  /
+   * / (z)
+   */
+  public static final String LAYER_HEIGHT_3D = "layerHeight3d";
 
-    public static final double DPI_DOT_SCALE = 72.0;
+  public static final double DPI_DOT_SCALE = 72.0;
 
 }

@@ -37,80 +37,80 @@ import java.io.StringWriter;
  */
 public class SoftViz3dWebserviceHandlerTest {
 
-    private StringWriter stringWriter = new StringWriter();
-    private JsonWriter jsonWriter = JsonWriter.of(stringWriter);
+  private StringWriter stringWriter = new StringWriter();
+  private JsonWriter jsonWriter = JsonWriter.of(stringWriter);
 
-    private Integer snapshotId = 123;
+  private Integer snapshotId = 123;
 
-    @Mock
-    private SonarService sonarService;
+  @Mock
+  private SonarService sonarService;
 
-//    @InjectMocks
-//    private SoftViz3dWebserviceHandler handler = new SoftViz3dWebserviceHandlerImpl();
+  // @InjectMocks
+  // private SoftViz3dWebserviceHandler handler = new SoftViz3dWebserviceHandlerImpl();
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
+  @Before
+  public void setUp() {
+    MockitoAnnotations.initMocks(this);
+  }
 
-    @Test
-    public void testHandler() throws Exception {
-        Request request = createRequest();
-        Response response = createResponse();
+  @Test
+  public void testHandler() throws Exception {
+    Request request = createRequest();
+    Response response = createResponse();
 
-        String serviceResult = "service result";
-//        when(sonarService.getSnapshotDetails(eq(snapshotId), anyInt(), anyInt(), anyInt())).thenReturn(serviceResult);
-//
-//        handler.handle(request, response);
-//
-//        assertTrue(stringWriter.toString().contains(serviceResult));
-    }
+    String serviceResult = "service result";
+    // when(sonarService.getSnapshotDetails(eq(snapshotId), anyInt(), anyInt(), anyInt())).thenReturn(serviceResult);
+    //
+    // handler.handle(request, response);
+    //
+    // assertTrue(stringWriter.toString().contains(serviceResult));
+  }
 
-    private Request createRequest() {
-        return new Request() {
-                @Override
-                public WebService.Action action() {
-                    return null;
-                }
+  private Request createRequest() {
+    return new Request() {
+      @Override
+      public WebService.Action action() {
+        return null;
+      }
 
-                @Override
-                public String method() {
-                    return "getSnapshotDetails";
-                }
+      @Override
+      public String method() {
+        return "getSnapshotDetails";
+      }
 
-                @Override
-                public String param(String key) {
-                    if ("snapshotId".equals(key)) {
-                        return snapshotId.toString();
-                    } else {
-                        return "";
-                    }
-                }
-            };
-    }
+      @Override
+      public String param(String key) {
+        if ("snapshotId".equals(key)) {
+          return snapshotId.toString();
+        } else {
+          return "";
+        }
+      }
+    };
+  }
 
-    private Response createResponse() {
-        return new Response() {
-                @Override
-                public JsonWriter newJsonWriter() {
-                    return jsonWriter;
-                }
+  private Response createResponse() {
+    return new Response() {
+      @Override
+      public JsonWriter newJsonWriter() {
+        return jsonWriter;
+      }
 
-                @Override
-                public XmlWriter newXmlWriter() {
-                    return null;
-                }
+      @Override
+      public XmlWriter newXmlWriter() {
+        return null;
+      }
 
-                @Override
-                public Response noContent() {
-                    return null;
-                }
+      @Override
+      public Response noContent() {
+        return null;
+      }
 
-                @Override
-                public Stream stream() {
-                    return null;
-                }
-            };
-    }
+      @Override
+      public Stream stream() {
+        return null;
+      }
+    };
+  }
 
 }

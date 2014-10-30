@@ -8,11 +8,13 @@
 
 # IDE files #
 #############
-/eclipse
 /.project
 /.idea
 /.settings
 /.sonar
+.iml
+.pmd
+.classpath
 
 # OS generated files #
 ######################

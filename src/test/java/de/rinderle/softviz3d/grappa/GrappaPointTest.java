@@ -27,38 +27,38 @@ import static org.junit.Assert.assertTrue;
 
 public class GrappaPointTest {
 
-    @Test
-    public void test() {
-        GrappaPoint pos = new GrappaPoint(-7, -9);
-        
-        assertTrue(-7 == pos.getX());
-        assertTrue(-9 == pos.getY());
-        
-        assertTrue(-7 == pos.x);
-        assertTrue(-9 == pos.y);
-    }
+  @Test
+  public void test() {
+    GrappaPoint pos = new GrappaPoint(-7, -9);
 
-    @Test
-    public void testSplit() {
-        GrappaPoint pos = new GrappaPoint(-7, -9);
-        
-        String attributeString = pos.toAttributeString();
-        
-        String[] attributePos = attributeString.split(",");
-        
-        assertEquals("-7", attributePos[0]);
-        assertEquals("9", attributePos[1]);
-        
-        assertTrue(-7 == pos.x);
-        assertTrue(-9 == pos.y);
-    }
-    
-    @Test
-    public void testStringConversion() {
-        GrappaPoint pos = new GrappaPoint("48,-12");
-        
-        assertTrue(48 == pos.x);
-        assertTrue(12 == pos.y);
-    }
-    
+    assertTrue(-7 == pos.getX());
+    assertTrue(-9 == pos.getY());
+
+    assertTrue(-7 == pos.x);
+    assertTrue(-9 == pos.y);
+  }
+
+  @Test
+  public void testSplit() {
+    GrappaPoint pos = new GrappaPoint(-7, -9);
+
+    String attributeString = pos.toAttributeString();
+
+    String[] attributePos = attributeString.split(",");
+
+    assertEquals("-7", attributePos[0]);
+    assertEquals("9", attributePos[1]);
+
+    assertTrue(-7 == pos.x);
+    assertTrue(-9 == pos.y);
+  }
+
+  @Test
+  public void testStringConversion() {
+    GrappaPoint pos = new GrappaPoint("48,-12");
+
+    assertTrue(48 == pos.x);
+    assertTrue(12 == pos.y);
+  }
+
 }

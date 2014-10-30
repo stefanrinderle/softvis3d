@@ -26,5 +26,5 @@ import org.sonar.api.config.Settings;
 import java.util.List;
 
 public interface SnapshotVisitorFactory {
-    public SnapshotVisitor create(Settings settings, List<Double> minMaxValues, LayoutViewType viewType);
+  public SnapshotVisitor create(Settings settings, List<Double> minMaxValues, LayoutViewType viewType);
 }

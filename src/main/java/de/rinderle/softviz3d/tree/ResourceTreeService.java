@@ -26,18 +26,18 @@ import java.util.List;
 
 public interface ResourceTreeService {
 
-    TreeNode createTreeStructure(LayoutViewType type, int rootSnapshotId, int heightMetric, int footprintMetric);
+  TreeNode createTreeStructure(LayoutViewType type, int rootSnapshotId, int heightMetric, int footprintMetric);
 
-    List<TreeNode> getChildrenNodeIds(LayoutViewType type, Integer rootSnapshotId, Integer id);
+  List<TreeNode> getChildrenNodeIds(LayoutViewType type, Integer rootSnapshotId, Integer id);
 
-    List<TreeNode> getChildrenLeafIds(LayoutViewType type, Integer rootSnapshotId, Integer id);
+  List<TreeNode> getChildrenLeafIds(LayoutViewType type, Integer rootSnapshotId, Integer id);
 
-    TreeNode findNode(LayoutViewType type, Integer rootSnapshotId, Integer id);
+  TreeNode findNode(LayoutViewType type, Integer rootSnapshotId, Integer id);
 
-    Integer addInterfaceLeafNode(LayoutViewType type, Integer snapshotId, String intLeafLabel, Integer parentId);
+  Integer addInterfaceLeafNode(LayoutViewType type, Integer snapshotId, String intLeafLabel, Integer parentId);
 
-    TreeNode findInterfaceLeafNode(LayoutViewType type, Integer snapshotId, String intLeafLabel);
+  TreeNode findInterfaceLeafNode(LayoutViewType type, Integer snapshotId, String intLeafLabel);
 
-    DependencyType getDependencyType(LayoutViewType type, Integer rootSnapshotId, Integer fromSnapshotId, Integer toSnapshotId);
+  DependencyType getDependencyType(LayoutViewType type, Integer rootSnapshotId, Integer fromSnapshotId, Integer toSnapshotId);
 
 }

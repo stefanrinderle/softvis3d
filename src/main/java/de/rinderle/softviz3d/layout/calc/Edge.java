@@ -24,47 +24,47 @@ package de.rinderle.softviz3d.layout.calc;
  */
 public class Edge {
 
-    private Integer projectId;
-    private String depEdgeLabel;
-    private Integer sourceId;
-    private Integer destinationId;
-    private Integer parentId;
-    private int counter;
+  private Integer projectId;
+  private String depEdgeLabel;
+  private Integer sourceId;
+  private Integer destinationId;
+  private Integer parentId;
+  private int counter;
 
-    public Edge(final Integer projectId, final String depEdgeLabel, final Integer sourceId, final Integer destinationId,
-        final Integer parentId) {
-        this.projectId = projectId;
-        this.depEdgeLabel = depEdgeLabel;
-        this.sourceId = sourceId;
-        this.destinationId = destinationId;
-        this.parentId = parentId;
-    }
+  public Edge(final Integer projectId, final String depEdgeLabel, final Integer sourceId, final Integer destinationId,
+    final Integer parentId) {
+    this.projectId = projectId;
+    this.depEdgeLabel = depEdgeLabel;
+    this.sourceId = sourceId;
+    this.destinationId = destinationId;
+    this.parentId = parentId;
+  }
 
-    public void setCounter(final Integer counter) {
-        this.counter = counter;
-    }
+  public Integer getProjectId() {
+    return projectId;
+  }
 
-    public Integer getProjectId() {
-        return projectId;
-    }
+  public String getDepEdgeLabel() {
+    return depEdgeLabel;
+  }
 
-    public String getDepEdgeLabel() {
-        return depEdgeLabel;
-    }
+  public Integer getSourceId() {
+    return sourceId;
+  }
 
-    public Integer getSourceId() {
-        return sourceId;
-    }
+  public Integer getDestinationId() {
+    return destinationId;
+  }
 
-    public Integer getDestinationId() {
-        return destinationId;
-    }
+  public Integer getParentId() {
+    return parentId;
+  }
 
-    public Integer getParentId() {
-        return parentId;
-    }
+  public Integer getCounter() {
+    return counter;
+  }
 
-    public Integer getCounter() {
-        return counter;
-    }
+  public void setCounter(final Integer counter) {
+    this.counter = counter;
+  }
 }

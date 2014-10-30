@@ -41,71 +41,71 @@ import java.util.Map;
 
 public class SoftViz3dExtension implements ServerExtension {
 
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(SoftViz3dExtension.class);
+  private static final Logger LOGGER = LoggerFactory
+    .getLogger(SoftViz3dExtension.class);
 
-    private Settings settings;
+  private Settings settings;
 
-    private SonarService sonarService;
+  private SonarService sonarService;
 
-    private ResourceTreeService resourceTreeService;
+  private ResourceTreeService resourceTreeService;
 
-    private Injector softVizInjector;
-    
-    public SoftViz3dExtension(DatabaseSession session, Settings settings) {
-        this.settings = settings;
+  private Injector softVizInjector;
 
-        softVizInjector = Guice.createInjector(new SoftViz3dModule());
+  public SoftViz3dExtension(DatabaseSession session, Settings settings) {
+    this.settings = settings;
 
-        SonarDao sonarDao = softVizInjector.getInstance(SonarDao.class);
-        sonarDao.setDatabaseSession(session);
-        DependencyDao dependencyDao = softVizInjector.getInstance(DependencyDao.class);
-        dependencyDao.setDatabaseSession(session);
+    softVizInjector = Guice.createInjector(new SoftViz3dModule());
 
-        this.sonarService = softVizInjector.getInstance(SonarService.class);
-        this.resourceTreeService = softVizInjector.getInstance(ResourceTreeService.class);
+    SonarDao sonarDao = softVizInjector.getInstance(SonarDao.class);
+    sonarDao.setDatabaseSession(session);
+    DependencyDao dependencyDao = softVizInjector.getInstance(DependencyDao.class);
+    dependencyDao.setDatabaseSession(session);
+
+    this.sonarService = softVizInjector.getInstance(SonarService.class);
+    this.resourceTreeService = softVizInjector.getInstance(ResourceTreeService.class);
+  }
+
+  public List<Integer> getMetricsForSnapshot(Integer snapshotId) {
+    LOGGER.info("getMetricsForSnapshot " + snapshotId);
+
+    return sonarService.getDefinedMetricsForSnapshot(snapshotId);
+  }
+
+  public Integer getMetric1FromSettings() {
+    return sonarService.getMetric1FromSettings(settings);
+  }
+
+  public Integer getMetric2FromSettings() {
+    return sonarService.getMetric2FromSettings(settings);
+  }
+
+  public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
+    String metricString1, String metricString2, String viewType) throws DotExcecutorException {
+    LOGGER.info("Startup SoftViz3d plugin with snapshot " + snapshotId);
+
+    logStartOfCalc(metricString1, metricString2, snapshotId);
+
+    Integer metricId1 = Integer.valueOf(metricString1);
+    Integer metricId2 = Integer.valueOf(metricString2);
+
+    Layout layout = softVizInjector.getInstance(Layout.class);
+
+    LayoutViewType type;
+    if ("dependency".equals(viewType)) {
+      type = LayoutViewType.DEPENDENCY;
+    } else {
+      type = LayoutViewType.CITY;
     }
 
-    public List<Integer> getMetricsForSnapshot(Integer snapshotId) {
-        LOGGER.info("getMetricsForSnapshot " + snapshotId);
+    return layout.startLayout(settings, snapshotId, metricId1, metricId2, type);
+  }
 
-        return sonarService.getDefinedMetricsForSnapshot(snapshotId);
-    }
-
-    public Integer getMetric1FromSettings() {
-        return sonarService.getMetric1FromSettings(settings);
-    }
-
-    public Integer getMetric2FromSettings() {
-        return sonarService.getMetric2FromSettings(settings);
-    }
-
-    public Map<Integer, Graph> createLayoutBySnapshotId(Integer snapshotId,
-            String metricString1, String metricString2, String viewType) throws DotExcecutorException {
-        LOGGER.info("Startup SoftViz3d plugin with snapshot " + snapshotId);
-
-        logStartOfCalc(metricString1, metricString2, snapshotId);
-
-        Integer metricId1 = Integer.valueOf(metricString1);
-        Integer metricId2 = Integer.valueOf(metricString2);
-        
-        Layout layout = softVizInjector.getInstance(Layout.class);
-
-        LayoutViewType type;
-        if ("dependency".equals(viewType)) {
-            type = LayoutViewType.DEPENDENCY;
-        } else {
-            type = LayoutViewType.CITY;
-        }
-
-        return layout.startLayout(settings, snapshotId, metricId1, metricId2, type);
-    }
-
-    private void logStartOfCalc(String metricId1, String metricId2,
-            Integer snapshotId) {
-        LOGGER.info("Start layout calculation for snapshot "
-                + snapshotId + ", " + "metrics " + metricId1
-                + " and " + metricId2);
-    }
+  private void logStartOfCalc(String metricId1, String metricId2,
+    Integer snapshotId) {
+    LOGGER.info("Start layout calculation for snapshot "
+      + snapshotId + ", " + "metrics " + metricId1
+      + " and " + metricId2);
+  }
 
 }

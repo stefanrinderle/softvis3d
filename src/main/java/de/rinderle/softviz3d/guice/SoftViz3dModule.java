@@ -36,29 +36,29 @@ import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.ResourceTreeServiceImpl;
 
 public class SoftViz3dModule extends AbstractModule {
-    @Override
-    protected void configure() {
-        bind(DotVersion.class).to(DotVersionImpl.class);
-        bind(DotExecutor.class).to(DotExcecutorImpl.class);
-        bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
-        
-        bind(SonarDao.class).to(SonarDaoImpl.class);
-        bind(DependencyDao.class).to(DependencyDaoImpl.class);
-        bind(SonarService.class).to(SonarServiceImpl.class);
-        
-        bind(ResourceTreeService.class).to(ResourceTreeServiceImpl.class);
-        bind(DependencyExpander.class).to(DependencyExpanderImpl.class);
+  @Override
+  protected void configure() {
+    bind(DotVersion.class).to(DotVersionImpl.class);
+    bind(DotExecutor.class).to(DotExcecutorImpl.class);
+    bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
 
-        bind(Layout.class).to(LayoutSoftViz3d.class);
-        bind(LayerFormatter.class).to(ViewLayerFormatter.class);
+    bind(SonarDao.class).to(SonarDaoImpl.class);
+    bind(DependencyDao.class).to(DependencyDaoImpl.class);
+    bind(SonarService.class).to(SonarServiceImpl.class);
 
-        bind(PositionCalculator.class).to(AbsolutePositionCalculator.class);
+    bind(ResourceTreeService.class).to(ResourceTreeServiceImpl.class);
+    bind(DependencyExpander.class).to(DependencyExpanderImpl.class);
 
-        bind(SoftViz3dWebserviceInitializeHandler.class).to(SoftViz3dWebserviceInitializeHandlerImpl.class);
+    bind(Layout.class).to(LayoutSoftViz3d.class);
+    bind(LayerFormatter.class).to(ViewLayerFormatter.class);
 
-        install(new FactoryModuleBuilder().implement(de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor.class,
-                SnapshotVisitorImpl.class).build(SnapshotVisitorFactory.class));
+    bind(PositionCalculator.class).to(AbsolutePositionCalculator.class);
 
-        bind(Processor.class).to(BottomUpProcessor.class);
-    }
+    bind(SoftViz3dWebserviceInitializeHandler.class).to(SoftViz3dWebserviceInitializeHandlerImpl.class);
+
+    install(new FactoryModuleBuilder().implement(de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor.class,
+      SnapshotVisitorImpl.class).build(SnapshotVisitorFactory.class));
+
+    bind(Processor.class).to(BottomUpProcessor.class);
+  }
 }

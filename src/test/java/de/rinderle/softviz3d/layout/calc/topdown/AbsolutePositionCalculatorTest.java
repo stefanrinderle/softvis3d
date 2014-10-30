@@ -37,56 +37,56 @@ import java.util.Map;
 
 public class AbsolutePositionCalculatorTest extends TestCase {
 
-    private static final Integer ID = 1;
-    private static final Integer SUBGRAPH_ID = 3;
+  private static final Integer ID = 1;
+  private static final Integer SUBGRAPH_ID = 3;
 
-    @Mock
-    private ResourceTreeService resourceTreeService;
+  @Mock
+  private ResourceTreeService resourceTreeService;
 
-    @InjectMocks
-    private PositionCalculator underTest = new AbsolutePositionCalculator();
+  @InjectMocks
+  private PositionCalculator underTest = new AbsolutePositionCalculator();
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
+  @Before
+  public void setUp() {
+    MockitoAnnotations.initMocks(this);
+  }
 
-    @Test
-    public void testCalculate() throws Exception {
-        Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
-        inputGraphList.put(ID, GrappaGraphFactory.createGraph());
+  @Test
+  public void testCalculate() throws Exception {
+    Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
+    inputGraphList.put(ID, GrappaGraphFactory.createGraph());
 
-//        underTest.calculate(ID, inputGraphList);
+    // underTest.calculate(ID, inputGraphList);
 
-        Graph result = inputGraphList.get(ID);
+    Graph result = inputGraphList.get(ID);
 
-        GrappaBox boundingBox = (GrappaBox) result.getAttribute("bb").getValue();
+    GrappaBox boundingBox = (GrappaBox) result.getAttribute("bb").getValue();
 
-//        assertEquals(0.0, boundingBox.getX());
-//        assertEquals(0.0, boundingBox.getY());
-//        assertEquals(50.0, boundingBox.getWidth());
-//        assertEquals(50.0, boundingBox.getHeight());
-    }
+    // assertEquals(0.0, boundingBox.getX());
+    // assertEquals(0.0, boundingBox.getY());
+    // assertEquals(50.0, boundingBox.getWidth());
+    // assertEquals(50.0, boundingBox.getHeight());
+  }
 
-    @Test
-    public void testCalculateRecursive() throws Exception {
-        Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
-        inputGraphList.put(ID, GrappaGraphFactory.createGraph());
-        inputGraphList.put(SUBGRAPH_ID, GrappaGraphFactory.createGraph());
+  @Test
+  public void testCalculateRecursive() throws Exception {
+    Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
+    inputGraphList.put(ID, GrappaGraphFactory.createGraph());
+    inputGraphList.put(SUBGRAPH_ID, GrappaGraphFactory.createGraph());
 
-        List<Integer> childrenNodes = new ArrayList<Integer>();
-        childrenNodes.add(SUBGRAPH_ID);
-//        when(resourceTreeService.getChildrenNodeIds(eq(ID))).thenReturn(childrenNodes);
+    List<Integer> childrenNodes = new ArrayList<Integer>();
+    childrenNodes.add(SUBGRAPH_ID);
+    // when(resourceTreeService.getChildrenNodeIds(eq(ID))).thenReturn(childrenNodes);
 
-//        underTest.calculate(ID, inputGraphList);
+    // underTest.calculate(ID, inputGraphList);
 
-        Graph result = inputGraphList.get(SUBGRAPH_ID);
+    Graph result = inputGraphList.get(SUBGRAPH_ID);
 
-        GrappaBox boundingBox = (GrappaBox) result.getAttribute("bb").getValue();
+    GrappaBox boundingBox = (GrappaBox) result.getAttribute("bb").getValue();
 
-//        assertEquals(-25.0, boundingBox.getX());
-//        assertEquals(25.0, boundingBox.getY());
-//        assertEquals(50.0, boundingBox.getWidth());
-//        assertEquals(50.0, boundingBox.getHeight());
-    }
+    // assertEquals(-25.0, boundingBox.getX());
+    // assertEquals(25.0, boundingBox.getY());
+    // assertEquals(50.0, boundingBox.getWidth());
+    // assertEquals(50.0, boundingBox.getHeight());
+  }
 }

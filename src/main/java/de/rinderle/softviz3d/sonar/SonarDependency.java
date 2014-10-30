@@ -26,104 +26,104 @@ import java.math.BigInteger;
  */
 public class SonarDependency {
 
-    private BigInteger id;
-    private Integer fromSnapshotId;
-    private Integer fromResouorceId;
-    private Integer toSnapshotId;
-    private Integer toResourceId;
-    private String usage;
-    private Integer weight;
-    private String fromScope;
-    private String toScope;
+  private BigInteger id;
+  private Integer fromSnapshotId;
+  private Integer fromResouorceId;
+  private Integer toSnapshotId;
+  private Integer toResourceId;
+  private String usage;
+  private Integer weight;
+  private String fromScope;
+  private String toScope;
 
-    public SonarDependency() {
-    }
+  public SonarDependency() {
+  }
 
-    public void setId(final BigInteger id) {
-        this.id = id;
-    }
+  public BigInteger getId() {
+    return id;
+  }
 
-    public void setFromSnapshotId(final Integer fromSnapshotId) {
-        this.fromSnapshotId = fromSnapshotId;
-    }
+  public void setId(final BigInteger id) {
+    this.id = id;
+  }
 
-    public void setFromResouorceId(final Integer fromResouorceId) {
-        this.fromResouorceId = fromResouorceId;
-    }
+  public Integer getFromSnapshotId() {
+    return fromSnapshotId;
+  }
 
-    public void setToSnapshotId(final Integer toSnapshotId) {
-        this.toSnapshotId = toSnapshotId;
-    }
+  public void setFromSnapshotId(final Integer fromSnapshotId) {
+    this.fromSnapshotId = fromSnapshotId;
+  }
 
-    public void setToResourceId(final Integer toResourceId) {
-        this.toResourceId = toResourceId;
-    }
+  public Integer getFromResouorceId() {
+    return fromResouorceId;
+  }
 
-    public void setUsage(final String usage) {
-        this.usage = usage;
-    }
+  public void setFromResouorceId(final Integer fromResouorceId) {
+    this.fromResouorceId = fromResouorceId;
+  }
 
-    public void setWeight(final Integer weight) {
-        this.weight = weight;
-    }
+  public Integer getToSnapshotId() {
+    return toSnapshotId;
+  }
 
-    public void setFromScope(final String fromScope) {
-        this.fromScope = fromScope;
-    }
+  public void setToSnapshotId(final Integer toSnapshotId) {
+    this.toSnapshotId = toSnapshotId;
+  }
 
-    public void setToScope(final String toScope) {
-        this.toScope = toScope;
-    }
+  public Integer getToResourceId() {
+    return toResourceId;
+  }
 
-    public BigInteger getId() {
-        return id;
-    }
+  public void setToResourceId(final Integer toResourceId) {
+    this.toResourceId = toResourceId;
+  }
 
-    public Integer getFromSnapshotId() {
-        return fromSnapshotId;
-    }
+  public String getUsage() {
+    return usage;
+  }
 
-    public Integer getFromResouorceId() {
-        return fromResouorceId;
-    }
+  public void setUsage(final String usage) {
+    this.usage = usage;
+  }
 
-    public Integer getToSnapshotId() {
-        return toSnapshotId;
-    }
+  public Integer getWeight() {
+    return weight;
+  }
 
-    public Integer getToResourceId() {
-        return toResourceId;
-    }
+  public void setWeight(final Integer weight) {
+    this.weight = weight;
+  }
 
-    public String getUsage() {
-        return usage;
-    }
+  public String getFromScope() {
+    return fromScope;
+  }
 
-    public Integer getWeight() {
-        return weight;
-    }
+  public void setFromScope(final String fromScope) {
+    this.fromScope = fromScope;
+  }
 
-    public String getFromScope() {
-        return fromScope;
-    }
+  public String getToScope() {
+    return toScope;
+  }
 
-    public String getToScope() {
-        return toScope;
-    }
+  public void setToScope(final String toScope) {
+    this.toScope = toScope;
+  }
 
-    @Override
-    public String toString() {
-        return "SonarDependency{" +
-            "id=" + id +
-            ", fromSnapshotId=" + fromSnapshotId +
-            ", fromResouorceId=" + fromResouorceId +
-            ", toSnapshotId=" + toSnapshotId +
-            ", toResourceId=" + toResourceId +
-            ", usage='" + usage + '\'' +
-            ", weight=" + weight +
-            ", fromScope='" + fromScope + '\'' +
-            ", toScope='" + toScope + '\'' +
-            '}';
-    }
+  @Override
+  public String toString() {
+    return "SonarDependency{" +
+      "id=" + id +
+      ", fromSnapshotId=" + fromSnapshotId +
+      ", fromResouorceId=" + fromResouorceId +
+      ", toSnapshotId=" + toSnapshotId +
+      ", toResourceId=" + toResourceId +
+      ", usage='" + usage + '\'' +
+      ", weight=" + weight +
+      ", fromScope='" + fromScope + '\'' +
+      ", toScope='" + toScope + '\'' +
+      '}';
+  }
 
 }

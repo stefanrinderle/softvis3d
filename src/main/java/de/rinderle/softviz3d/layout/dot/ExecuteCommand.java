@@ -21,8 +21,8 @@ package de.rinderle.softviz3d.layout.dot;
 
 public interface ExecuteCommand {
 
-    String executeCommandReadAdot(String command, String inputGraph) throws DotExcecutorException;
+  String executeCommandReadAdot(String command, String inputGraph) throws DotExcecutorException;
 
-    String executeCommandReadErrorStream(String command);
-    
+  String executeCommandReadErrorStream(String command);
+
 }

@@ -27,6 +27,6 @@ import org.sonar.api.server.ws.Response;
  * Created by stefan on 22.09.14.
  */
 public interface SoftViz3dWebserviceInitializeHandler extends RequestHandler {
-    @Override
-    void handle(Request request, Response response);
+  @Override
+  void handle(Request request, Response response);
 }

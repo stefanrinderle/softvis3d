@@ -25,22 +25,22 @@ import java.util.List;
 
 public interface SonarService {
 
-    public abstract Integer getMetric1FromSettings(Settings settings);
+  public abstract Integer getMetric1FromSettings(Settings settings);
 
-    public abstract Integer getMetric2FromSettings(Settings settings);
+  public abstract Integer getMetric2FromSettings(Settings settings);
 
-    /**
-     * Request all metrics which are set on the file level (Scope) for
-     * the requested root snapshot.
-     * 
-     * @param snapshotId Root snapshot ID
-     * @return defined metrics on the file level scope
-     */
-    public abstract List<Integer> getDefinedMetricsForSnapshot(
-            Integer snapshotId);
-    
-    public abstract List<Double> getMinMaxMetricValuesByRootSnapshotId(
-            Integer rootSnapshotId, Integer footprintMetricId,
-            Integer heightMetricId);
-    
+  /**
+   * Request all metrics which are set on the file level (Scope) for
+   * the requested root snapshot.
+   * 
+   * @param snapshotId Root snapshot ID
+   * @return defined metrics on the file level scope
+   */
+  public abstract List<Integer> getDefinedMetricsForSnapshot(
+    Integer snapshotId);
+
+  public abstract List<Double> getMinMaxMetricValuesByRootSnapshotId(
+    Integer rootSnapshotId, Integer footprintMetricId,
+    Integer heightMetricId);
+
 }

@@ -23,5 +23,5 @@ package de.rinderle.softviz3d.layout.calc;
  * Created by srinderle on 29.09.14.
  */
 public enum LayoutViewType {
-    CITY, DEPENDENCY
+  CITY, DEPENDENCY
 }

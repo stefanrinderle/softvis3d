@@ -23,6 +23,6 @@ import org.sonar.api.config.Settings;
 
 public interface DotVersion {
 
-    public abstract String getVersion(Settings settings);
+  public abstract String getVersion(Settings settings);
 
 }

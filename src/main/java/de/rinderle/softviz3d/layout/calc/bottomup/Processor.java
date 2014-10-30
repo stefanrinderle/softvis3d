@@ -25,5 +25,5 @@ import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 
 public interface Processor {
 
-    public LayeredLayoutElement accept(LayoutViewType viewType, SnapshotVisitor visitor, Integer snapshotId, Integer rootSnapshotId) throws DotExcecutorException;
+  public LayeredLayoutElement accept(LayoutViewType viewType, SnapshotVisitor visitor, Integer snapshotId, Integer rootSnapshotId) throws DotExcecutorException;
 }

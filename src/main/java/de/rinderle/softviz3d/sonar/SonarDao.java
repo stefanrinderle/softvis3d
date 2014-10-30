@@ -25,16 +25,16 @@ import java.util.List;
 
 public interface SonarDao {
 
-    void setDatabaseSession(DatabaseSession session);
+  void setDatabaseSession(DatabaseSession session);
 
-    Integer getMetricIdByName(String name);
+  Integer getMetricIdByName(String name);
 
-    List<Double> getMinMaxMetricValuesByRootSnapshotId(
-            Integer rootSnapshotId, Integer footprintMetricId,
-            Integer heightMetricId);
+  List<Double> getMinMaxMetricValuesByRootSnapshotId(
+    Integer rootSnapshotId, Integer footprintMetricId,
+    Integer heightMetricId);
 
-    List<Integer> getDistinctMetricsBySnapshotId(Integer snapshotId);
+  List<Integer> getDistinctMetricsBySnapshotId(Integer snapshotId);
 
-    List<Object[]> getAllProjectElements(int rootSnapshotId,
-           int footprintMetricId, int heightMetricId);
+  List<Object[]> getAllProjectElements(int rootSnapshotId,
+    int footprintMetricId, int heightMetricId);
 }

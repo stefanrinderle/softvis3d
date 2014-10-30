@@ -27,7 +27,7 @@ import java.util.List;
  * Created by srinderle on 26.09.14.
  */
 public interface DependencyDao {
-    void setDatabaseSession(DatabaseSession session);
+  void setDatabaseSession(DatabaseSession session);
 
-    List<SonarDependency> getDependencies(Integer projectSnapshotId);
+  List<SonarDependency> getDependencies(Integer projectSnapshotId);
 }

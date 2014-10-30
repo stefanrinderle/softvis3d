@@ -26,6 +26,7 @@ import org.sonar.api.database.DatabaseSession;
 
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,55 +34,55 @@ import java.util.List;
 @Singleton
 public class DependencyDaoImpl implements DependencyDao {
 
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(DependencyDaoImpl.class);
+  private static final Logger LOGGER = LoggerFactory
+    .getLogger(DependencyDaoImpl.class);
 
-    private DatabaseSession session;
+  private DatabaseSession session;
 
-    @Override
-    public void setDatabaseSession(DatabaseSession session) {
-        this.session = session;
+  @Override
+  public void setDatabaseSession(DatabaseSession session) {
+    this.session = session;
+  }
+
+  @Override
+  public List<SonarDependency> getDependencies(Integer projectSnapshotId) {
+    List<SonarDependency> result = null;
+
+    try {
+      session.start();
+      Query query = session
+        .createNativeQuery("SELECT * FROM dependencies d WHERE project_snapshot_id = :projectSnapshotId");
+
+      query.setParameter("projectSnapshotId", projectSnapshotId);
+
+      List<Object[]> queryResult = (List<Object[]>) query.getResultList();
+
+      result = castToSonarDependency(queryResult);
+
+    } catch (PersistenceException e) {
+      LOGGER.error(e.getMessage(), e);
+    } finally {
+      session.stop();
     }
 
-    @Override
-    public List<SonarDependency> getDependencies(Integer projectSnapshotId) {
-        List<SonarDependency> result = null;
+    return result;
+  }
 
-        try {
-            session.start();
-            Query query = session
-                .createNativeQuery("SELECT * FROM dependencies d WHERE project_snapshot_id = :projectSnapshotId");
-            
-            query.setParameter("projectSnapshotId", projectSnapshotId);
+  private List<SonarDependency> castToSonarDependency(final List<Object[]> queryResult) {
+    List<SonarDependency> result = new ArrayList<SonarDependency>(queryResult.size());
 
-            List<Object[]> queryResult = (List<Object[]>) query.getResultList();
+    for (Object[] object : queryResult) {
+      SonarDependency dependency = new SonarDependency();
+      dependency.setId((BigInteger) object[0]);
+      dependency.setFromSnapshotId((Integer) object[1]);
+      dependency.setFromResouorceId((Integer) object[2]);
+      dependency.setToSnapshotId((Integer) object[3]);
+      dependency.setToResourceId((Integer) object[4]);
 
-            result = castToSonarDependency(queryResult);
-
-        } catch (PersistenceException e) {
-            LOGGER.error(e.getMessage(), e);
-        } finally {
-            session.stop();
-        }
-
-        return result;
+      result.add(dependency);
     }
 
-    private List<SonarDependency> castToSonarDependency(final List<Object[]> queryResult) {
-        List<SonarDependency> result = new ArrayList<SonarDependency>(queryResult.size());
-
-        for(Object[] object : queryResult) {
-            SonarDependency dependency = new SonarDependency();
-            dependency.setId((BigInteger) object[0]);
-            dependency.setFromSnapshotId((Integer) object[1]);
-            dependency.setFromResouorceId((Integer) object[2]);
-            dependency.setToSnapshotId((Integer) object[3]);
-            dependency.setToResourceId((Integer) object[4]);
-
-            result.add(dependency);
-        }
-
-        return result;
-    }
+    return result;
+  }
 
 }

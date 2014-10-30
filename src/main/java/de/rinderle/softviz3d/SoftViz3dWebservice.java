@@ -29,37 +29,36 @@ import de.rinderle.softviz3d.sonar.SonarDao;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.WebService;
 
-
 public class SoftViz3dWebservice implements WebService {
 
-    private final SoftViz3dWebserviceInitializeHandler initializeHandler;
+  private final SoftViz3dWebserviceInitializeHandler initializeHandler;
 
-    public SoftViz3dWebservice(DatabaseSession session) {
-        Injector softVizInjector = Guice.createInjector(new SoftViz3dModule());
+  public SoftViz3dWebservice(DatabaseSession session) {
+    Injector softVizInjector = Guice.createInjector(new SoftViz3dModule());
 
-        SonarDao sonarDao = softVizInjector.getInstance(SonarDao.class);
-        sonarDao.setDatabaseSession(session);
+    SonarDao sonarDao = softVizInjector.getInstance(SonarDao.class);
+    sonarDao.setDatabaseSession(session);
 
-        DependencyDao dependencyDao = softVizInjector.getInstance(DependencyDaoImpl.class);
-        dependencyDao.setDatabaseSession(session);
+    DependencyDao dependencyDao = softVizInjector.getInstance(DependencyDaoImpl.class);
+    dependencyDao.setDatabaseSession(session);
 
-        this.initializeHandler = softVizInjector.getInstance(SoftViz3dWebserviceInitializeHandler.class);
-    }
+    this.initializeHandler = softVizInjector.getInstance(SoftViz3dWebserviceInitializeHandler.class);
+  }
 
-   @Override
-   public void define(Context context) {
-     WebService.NewController controller = context.createController("api/softViz3d");
-     controller.setDescription("SoftViz3d webservice");
+  @Override
+  public void define(Context context) {
+    WebService.NewController controller = context.createController("api/softViz3d");
+    controller.setDescription("SoftViz3d webservice");
 
-     // create the URL /api/softViz3d/initialize
-       controller.createAction("initialize")
-               .setDescription("Initialize point")
-               .setHandler(this.initializeHandler)
-               .createParam("snapshotId", "Snapshot id")
-               .createParam("footprintMetricId", "Footprint metric id")
-               .createParam("heightMetricId", "Height metric id")
-               .createParam("viewType", "Current view type");
+    // create the URL /api/softViz3d/initialize
+    controller.createAction("initialize")
+      .setDescription("Initialize point")
+      .setHandler(this.initializeHandler)
+      .createParam("snapshotId", "Snapshot id")
+      .createParam("footprintMetricId", "Footprint metric id")
+      .createParam("heightMetricId", "Height metric id")
+      .createParam("viewType", "Current view type");
     // important to apply changes
     controller.done();
-   }
- }
+  }
+}

@@ -24,52 +24,52 @@ import java.util.TreeMap;
 
 public class TreeNormalizer {
 
-    public void normalizeTree(final TreeNode root) {
-        normalizeNode(root);
+  public void normalizeTree(final TreeNode root) {
+    normalizeNode(root);
+  }
+
+  private void normalizeNode(final TreeNode node) {
+    TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node.getChildren();
+    TreeMap<String, TreeNode> copyOfChildren = (TreeMap<String, TreeNode>) children.clone();
+
+    if (children.size() == 1) {
+      removeNodeFromStructure(node);
     }
 
-    private void normalizeNode(final TreeNode node) {
-        TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node.getChildren();
-        TreeMap<String, TreeNode> copyOfChildren = (TreeMap<String, TreeNode>) children.clone();
-
-        if (children.size() == 1) {
-            removeNodeFromStructure(node);
-        }
-
-        for(TreeNode child : copyOfChildren.values()) {
-            normalizeNode(child);
-        }
+    for (TreeNode child : copyOfChildren.values()) {
+      normalizeNode(child);
     }
+  }
 
-    private void removeNodeFromStructure(TreeNode node) {
-        if (node.getParent() != null) {
-            // set new parent for child
-            TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node.getChildren();
-            TreeNode child = (TreeNode) children.values().toArray()[0];
+  private void removeNodeFromStructure(TreeNode node) {
+    if (node.getParent() != null) {
+      // set new parent for child
+      TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node.getChildren();
+      TreeNode child = (TreeNode) children.values().toArray()[0];
 
-            child.setParent(node.getParent());
+      child.setParent(node.getParent());
 
-            // update name
-            child.setName(node.getName() + "/" + child.getName());
+      // update name
+      child.setName(node.getName() + "/" + child.getName());
 
-            // update children of parent
-            // check for root node
-            Map<String, TreeNode> parentChildren = node.getParent().getChildren();
-            parentChildren.remove(node.getName());
-            parentChildren.put(child.getName(), child);
-        }
+      // update children of parent
+      // check for root node
+      Map<String, TreeNode> parentChildren = node.getParent().getChildren();
+      parentChildren.remove(node.getName());
+      parentChildren.put(child.getName(), child);
     }
+  }
 
-    public void recalculateDepth(final TreeNode root) {
-        recalculateDepth(0, root);
+  public void recalculateDepth(final TreeNode root) {
+    recalculateDepth(0, root);
+  }
+
+  private void recalculateDepth(int depth, TreeNode node) {
+    node.setDepth(depth);
+
+    for (TreeNode child : node.getChildren().values()) {
+      recalculateDepth(depth + 1, child);
     }
-
-    private void recalculateDepth(int depth, TreeNode node) {
-        node.setDepth(depth);
-
-        for(TreeNode child : node.getChildren().values()) {
-            recalculateDepth(depth + 1, child);
-        }
-    }
+  }
 
 }

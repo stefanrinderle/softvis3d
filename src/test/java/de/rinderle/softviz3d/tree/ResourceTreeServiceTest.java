@@ -31,100 +31,100 @@ import java.util.List;
 
 public class ResourceTreeServiceTest {
 
-    @Mock
-    private SonarDao sonarDao;
+  @Mock
+  private SonarDao sonarDao;
 
-    @InjectMocks
-    private ResourceTreeServiceImpl underTest;
+  @InjectMocks
+  private ResourceTreeServiceImpl underTest;
 
-    @Before
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-    }
+  @Before
+  public void setup() {
+    MockitoAnnotations.initMocks(this);
+  }
 
-    @Test
-    public void test() {
-        int snapshotId = 1;
+  @Test
+  public void test() {
+    int snapshotId = 1;
 
-        List<Object[]> children = new ArrayList<Object[]>();
-        children.add(new Object[]{2, "src"});
-        children.add(new Object[]{3, "src/eins"});
-        children.add(new Object[]{4, "src/zwei"});
-        children.add(new Object[]{5, "src/zwei/drei"});
-//        when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
+    List<Object[]> children = new ArrayList<Object[]>();
+    children.add(new Object[] {2, "src"});
+    children.add(new Object[] {3, "src/eins"});
+    children.add(new Object[] {4, "src/zwei"});
+    children.add(new Object[] {5, "src/zwei/drei"});
+    // when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
 
-//        underTest.createTreeStructure(snapshotId);
+    // underTest.createTreeStructure(snapshotId);
 
-        // Check leaf
-//        List<Integer> leafs = underTest.getChildrenLeafIds(2);
-//        assertTrue(leafs.contains(3));
-//        assertEquals(1, leafs.size());
+    // Check leaf
+    // List<Integer> leafs = underTest.getChildrenLeafIds(2);
+    // assertTrue(leafs.contains(3));
+    // assertEquals(1, leafs.size());
 
-        // Check node
-//        List<Integer> nodes = underTest.getChildrenNodeIds(2);
-//        assertTrue(nodes.contains(4));
-//        assertEquals(1, nodes.size());
-    }
+    // Check node
+    // List<Integer> nodes = underTest.getChildrenNodeIds(2);
+    // assertTrue(nodes.contains(4));
+    // assertEquals(1, nodes.size());
+  }
 
-    @Test
-    public void testLongSameIdInTree() {
-        int snapshotId = 1;
+  @Test
+  public void testLongSameIdInTree() {
+    int snapshotId = 1;
 
-        List<Object[]> children = new ArrayList<Object[]>();
-        children.add(new Object[]{2, "src/eins/zwei/drei"});
-        children.add(new Object[]{3, "src/eins/zwei/drei/child1"});
-        children.add(new Object[]{4, "src/eins/zwei/drei/child2"});
-//        when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
-//
-//        underTest.createTreeStructure(snapshotId);
+    List<Object[]> children = new ArrayList<Object[]>();
+    children.add(new Object[] {2, "src/eins/zwei/drei"});
+    children.add(new Object[] {3, "src/eins/zwei/drei/child1"});
+    children.add(new Object[] {4, "src/eins/zwei/drei/child2"});
+    // when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
+    //
+    // underTest.createTreeStructure(snapshotId);
 
-        // Check leaf
-//        List<Integer> leafs = underTest.getChildrenLeafIds(2);
-//        assertTrue(leafs.contains(3));
-//        assertEquals(2, leafs.size());
+    // Check leaf
+    // List<Integer> leafs = underTest.getChildrenLeafIds(2);
+    // assertTrue(leafs.contains(3));
+    // assertEquals(2, leafs.size());
 
-        // Check node
-//        List<Integer> nodes = underTest.getChildrenNodeIds(1);
-//        assertEquals(1, nodes.size());
-    }
+    // Check node
+    // List<Integer> nodes = underTest.getChildrenNodeIds(1);
+    // assertEquals(1, nodes.size());
+  }
 
-    @Test
-    public void test2() {
-        int snapshotId = 573;
+  @Test
+  public void test2() {
+    int snapshotId = 573;
 
-        List<Object[]> children = new ArrayList<Object[]>();
-        children.add(new Object[]{574, "app/base"});
-        children.add(new Object[]{575, "app/base/Global.java"});
-        children.add(new Object[]{576, "app/base/Global_deplete_do_not_commit.java"});
-        children.add(new Object[]{577, "app/controllers"});
-        children.add(new Object[]{578, "app/controllers/ApplicationController.java"});
-        children.add(new Object[]{579, "app/controllers/ChartsController.java"});
-        children.add(new Object[]{580, "app/controllers/CityController.java"});
-        children.add(new Object[]{581, "app/controllers/ForecastController.java"});
-        children.add(new Object[]{582, "app/controllers/MobileController.java"});
-        children.add(new Object[]{583, "app/controllers/StaticPageController.java"});
-        children.add(new Object[]{584, "app/controllers/WebserviceTestController.java"});
-        children.add(new Object[]{585, "app/dto"});
-        children.add(new Object[]{586, "app/dto/ClothesDTO.java"});
-        children.add(new Object[]{587, "app/dto/ClothesForecastDTO.java"});
+    List<Object[]> children = new ArrayList<Object[]>();
+    children.add(new Object[] {574, "app/base"});
+    children.add(new Object[] {575, "app/base/Global.java"});
+    children.add(new Object[] {576, "app/base/Global_deplete_do_not_commit.java"});
+    children.add(new Object[] {577, "app/controllers"});
+    children.add(new Object[] {578, "app/controllers/ApplicationController.java"});
+    children.add(new Object[] {579, "app/controllers/ChartsController.java"});
+    children.add(new Object[] {580, "app/controllers/CityController.java"});
+    children.add(new Object[] {581, "app/controllers/ForecastController.java"});
+    children.add(new Object[] {582, "app/controllers/MobileController.java"});
+    children.add(new Object[] {583, "app/controllers/StaticPageController.java"});
+    children.add(new Object[] {584, "app/controllers/WebserviceTestController.java"});
+    children.add(new Object[] {585, "app/dto"});
+    children.add(new Object[] {586, "app/dto/ClothesDTO.java"});
+    children.add(new Object[] {587, "app/dto/ClothesForecastDTO.java"});
 
-//        when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
-//
-//        underTest.createTreeStructure(snapshotId);
+    // when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
+    //
+    // underTest.createTreeStructure(snapshotId);
 
-        // Check leaf
-//        List<Integer> leafs = underTest.getChildrenLeafIds(574);
-//        assertEquals(2, leafs.size());
-//        assertTrue(leafs.contains(576));
-//
-//        // Check node
-//        List<Integer> nodes = underTest.getChildrenNodeIds(573);
-//        assertFalse(nodes.contains(574));
-//
-//        List<Integer> childsFromGenerated = underTest.getChildrenNodeIds(nodes.get(0));
-//        assertTrue(childsFromGenerated.contains(574));
-//        assertTrue(childsFromGenerated.contains(577));
-//        assertTrue(childsFromGenerated.contains(585));
+    // Check leaf
+    // List<Integer> leafs = underTest.getChildrenLeafIds(574);
+    // assertEquals(2, leafs.size());
+    // assertTrue(leafs.contains(576));
+    //
+    // // Check node
+    // List<Integer> nodes = underTest.getChildrenNodeIds(573);
+    // assertFalse(nodes.contains(574));
+    //
+    // List<Integer> childsFromGenerated = underTest.getChildrenNodeIds(nodes.get(0));
+    // assertTrue(childsFromGenerated.contains(574));
+    // assertTrue(childsFromGenerated.contains(577));
+    // assertTrue(childsFromGenerated.contains(585));
 
-    }
+  }
 }

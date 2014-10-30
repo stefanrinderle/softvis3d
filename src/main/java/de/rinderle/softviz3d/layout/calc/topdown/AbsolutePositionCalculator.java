@@ -37,120 +37,120 @@ import static att.grappa.GrappaConstants.POS_ATTR;
 
 public class AbsolutePositionCalculator implements PositionCalculator {
 
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(AbsolutePositionCalculator.class);
+  private static final Logger LOGGER = LoggerFactory
+    .getLogger(AbsolutePositionCalculator.class);
 
-    private Map<Integer, Graph> inputGraphs;
+  private Map<Integer, Graph> inputGraphs;
 
-    private Map<Integer, GrappaPoint> innerGraphTranslation;
+  private Map<Integer, GrappaPoint> innerGraphTranslation;
 
-    private int leafElements;
+  private int leafElements;
 
-    @Inject
-    private ResourceTreeService resourceTreeService;
-    private LayoutViewType viewType;
-    private Integer rootSnapshotId;
+  @Inject
+  private ResourceTreeService resourceTreeService;
+  private LayoutViewType viewType;
+  private Integer rootSnapshotId;
 
-    @Override
-    public int calculate(LayoutViewType viewType, Integer snapshotId, Map<Integer, Graph> inputGraphList, LayoutViewType layoutViewType) {
-        this.viewType = viewType;
-        rootSnapshotId = snapshotId;
+  @Override
+  public int calculate(LayoutViewType viewType, Integer snapshotId, Map<Integer, Graph> inputGraphList, LayoutViewType layoutViewType) {
+    this.viewType = viewType;
+    rootSnapshotId = snapshotId;
 
-        leafElements = 0;
+    leafElements = 0;
 
-        this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
-        this.inputGraphs = inputGraphList;
+    this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
+    this.inputGraphs = inputGraphList;
 
-        this.addTranslationToLayer(snapshotId, new GrappaPoint(0, 0), layoutViewType);
+    this.addTranslationToLayer(snapshotId, new GrappaPoint(0, 0), layoutViewType);
 
-        return leafElements;
+    return leafElements;
+  }
+
+  private void addTranslationToLayer(Integer sourceId, GrappaPoint posTranslation, LayoutViewType layoutViewType) {
+    LOGGER.debug("AbsolutePositionCalculator addTranslationToLayer " + sourceId);
+
+    LOGGER.debug("addTranslationToLayer" + sourceId + " " + posTranslation.toString());
+
+    // inputGraphs --> Map<Integer, Graph>
+    // Step 1 - search the graph for the source given
+    Graph graph = inputGraphs.get(sourceId);
+
+    // Step 2 - set translation for the graph itself (will be a layer later)
+    GrappaBox translatedBb = translateGraphBoundingBox(posTranslation, graph);
+
+    // Step 3 - for all leaves, just add the parent point3d changes
+    translateLeaves(posTranslation, graph, translatedBb);
+
+    // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes
+    translateNodes(sourceId, graph, layoutViewType);
+  }
+
+  private void translateNodes(Integer sourceId, Graph graph, LayoutViewType layoutViewType) {
+    List<TreeNode> children = resourceTreeService.getChildrenNodeIds(viewType, rootSnapshotId, sourceId);
+
+    for (TreeNode child : children) {
+      GrappaPoint pos = innerGraphTranslation.get(child.getId());
+
+      addTranslationToLayer(child.getId(), pos, layoutViewType);
+
+      // TODO: add representation node on dep view
+      if (LayoutViewType.CITY.equals(layoutViewType)) {
+        graph.removeNode("dir_" + child.getId());
+      } else {
+        Node dirNode = graph.findNodeByName("dir_" + child.getId());
+        HexaColor color = new HexaColor(100, 100, 100);
+        dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, color.getHex());
+        dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_OPACITY, "0.7");
+        dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, "5");
+      }
+    }
+  }
+
+  private void translateLeaves(GrappaPoint posTranslation, Graph graph, GrappaBox translatedBb) {
+    GrappaPoint pos;
+    double nodeLocationX;
+    double nodeLocationY;
+
+    String height3d = "0";
+
+    for (Node leaf : graph.nodeElementsAsArray()) {
+      pos = (GrappaPoint) leaf.getAttributeValue(POS_ATTR);
+
+      int id = Integer.valueOf(leaf.getAttributeValue("id").toString());
+      innerGraphTranslation.put(id, pos);
+
+      // set the position of the node
+      nodeLocationX = posTranslation.getX() + pos.getX() - translatedBb.getWidth() / 2;
+      nodeLocationY = posTranslation.getY() + pos.getY() + translatedBb.getHeight() / 2;
+      pos.setLocation(nodeLocationX, nodeLocationY);
+
+      leafElements++;
+
+      height3d = (String) leaf.getAttributeValue("layerHeight3d");
     }
 
-    private void addTranslationToLayer(Integer sourceId, GrappaPoint posTranslation, LayoutViewType layoutViewType) {
-        LOGGER.debug("AbsolutePositionCalculator addTranslationToLayer " + sourceId);
+    for (att.grappa.Edge edge : graph.edgeElementsAsArray()) {
+      GrappaLine line = (GrappaLine) edge.getAttributeValue(POS_ATTR);
 
-        LOGGER.debug("addTranslationToLayer" + sourceId + " " + posTranslation.toString());
+      GrappaPoint points[] = line.getGrappaPoints();
+      GrappaPoint start = points[0];
+      GrappaPoint end = points[points.length - 2];
 
-        // inputGraphs --> Map<Integer, Graph>
-        // Step 1 - search the graph for the source given
-        Graph graph = inputGraphs.get(sourceId);
+      edge.setAttribute("origin", (posTranslation.getX() + start.getX() - translatedBb.getWidth() / 2) +
+        "," + height3d
+        + "," + (posTranslation.getY() + start.getY() + translatedBb.getHeight() / 2));
 
-        // Step 2 - set translation for the graph itself (will be a layer later)
-        GrappaBox translatedBb = translateGraphBoundingBox(posTranslation, graph);
-
-        // Step 3 - for all leaves, just add the parent point3d changes
-        translateLeaves(posTranslation, graph, translatedBb);
-
-        // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes
-        translateNodes(sourceId, graph, layoutViewType);
+      edge.setAttribute("destination", (posTranslation.getX() + end.getX() - translatedBb.getWidth() / 2) +
+        "," + height3d
+        + "," + (posTranslation.getY() + end.getY() + translatedBb.getHeight() / 2));
     }
+  }
 
-    private void translateNodes(Integer sourceId, Graph graph, LayoutViewType layoutViewType) {
-        List<TreeNode> children = resourceTreeService.getChildrenNodeIds(viewType, rootSnapshotId, sourceId);
-
-        for (TreeNode child : children) {
-            GrappaPoint pos = innerGraphTranslation.get(child.getId());
-
-            addTranslationToLayer(child.getId(), pos, layoutViewType);
-
-            // TODO: add representation node on dep view
-            if (LayoutViewType.CITY.equals(layoutViewType)) {
-                graph.removeNode("dir_" + child.getId());
-            } else {
-                Node dirNode = graph.findNodeByName("dir_" + child.getId());
-                HexaColor color = new HexaColor(100, 100, 100);
-                dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, color.getHex());
-                dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_OPACITY, "0.7");
-                dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, "5");
-            }
-        }
-    }
-
-    private void translateLeaves(GrappaPoint posTranslation, Graph graph, GrappaBox translatedBb) {
-        GrappaPoint pos;
-        double nodeLocationX;
-        double nodeLocationY;
-
-        String height3d = "0";
-
-        for (Node leaf : graph.nodeElementsAsArray()) {
-            pos = (GrappaPoint) leaf.getAttributeValue(POS_ATTR);
-
-            int id = Integer.valueOf(leaf.getAttributeValue("id").toString());
-            innerGraphTranslation.put(id, pos);
-
-            // set the position of the node
-            nodeLocationX = posTranslation.getX() + pos.getX() - translatedBb.getWidth() / 2;
-            nodeLocationY = posTranslation.getY() + pos.getY() + translatedBb.getHeight() / 2;
-            pos.setLocation(nodeLocationX, nodeLocationY);
-
-            leafElements++;
-
-            height3d = (String) leaf.getAttributeValue("layerHeight3d");
-        }
-
-        for (att.grappa.Edge edge : graph.edgeElementsAsArray()) {
-            GrappaLine line = (GrappaLine) edge.getAttributeValue(POS_ATTR);
-
-            GrappaPoint points[] = line.getGrappaPoints();
-            GrappaPoint start = points[0];
-            GrappaPoint end = points[points.length - 2];
-
-            edge.setAttribute("origin", (posTranslation.getX() + start.getX() - translatedBb.getWidth() / 2) +
-                    "," + height3d
-                    + "," + (posTranslation.getY() + start.getY() + translatedBb.getHeight() / 2));
-
-            edge.setAttribute("destination", (posTranslation.getX() + end.getX() - translatedBb.getWidth() / 2) +
-                    "," + height3d
-                    + "," + (posTranslation.getY() + end.getY() + translatedBb.getHeight() / 2));
-        }
-    }
-
-    private GrappaBox translateGraphBoundingBox(GrappaPoint posTranslation, Graph graph) {
-        GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
-        GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY(), bb.getWidth(), bb.getHeight());
-        graph.setAttribute("bb", translatedBb);
-        return translatedBb;
-    }
+  private GrappaBox translateGraphBoundingBox(GrappaPoint posTranslation, Graph graph) {
+    GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
+    GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY(), bb.getWidth(), bb.getHeight());
+    graph.setAttribute("bb", translatedBb);
+    return translatedBb;
+  }
 
 }

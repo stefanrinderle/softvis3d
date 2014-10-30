@@ -28,13 +28,13 @@ import java.util.List;
 /**
  * This class is the entry point for all extensions
  */
-@Properties({ 
+@Properties({
   @Property(key = SoftViz3dConstants.DOT_BIN_KEY, defaultValue = SoftViz3dConstants.DOT_BIN_DEFAULT,
-            name = SoftViz3dConstants.DOT_BIN_NAME, description = SoftViz3dConstants.DOT_BIN_DESCRIPTION),
+    name = SoftViz3dConstants.DOT_BIN_NAME, description = SoftViz3dConstants.DOT_BIN_DESCRIPTION),
   @Property(key = "metric1", defaultValue = "complexity", type = PropertyType.METRIC,
-            name = "Metric type 1", description = "This metric will be used for the building footprint"),
+    name = "Metric type 1", description = "This metric will be used for the building footprint"),
   @Property(key = "metric2", defaultValue = "lines", type = PropertyType.METRIC,
-            name = "Metric type 2", description = "This metric will be used for the building height")
+    name = "Metric type 2", description = "This metric will be used for the building height")
 })
 public final class SoftViz3dPlugin extends SonarPlugin {
 

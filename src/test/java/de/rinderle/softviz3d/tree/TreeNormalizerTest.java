@@ -26,51 +26,51 @@ import static org.junit.Assert.assertNotNull;
 
 public class TreeNormalizerTest {
 
-    @Test
-    public void testNormalizeWithLongPath() {
-        PathWalker walker = new PathWalker(412);
+  @Test
+  public void testNormalizeWithLongPath() {
+    PathWalker walker = new PathWalker(412);
 
-        callWalkerWithMetrics(walker, 413, "src/main/java/de/rinderle/softviz3d");
-        callWalkerWithMetrics(walker, 414, "src/main/java/de/rinderle/softviz3d/SoftViz3dExtension.java");
-        callWalkerWithMetrics(walker, 415, "src/main/java/de/rinderle/softviz3d/SoftViz3dPage.java");
-        callWalkerWithMetrics(walker, 416, "src/main/java/de/rinderle/softviz3d/SoftViz3dPlugin.java");
-        callWalkerWithMetrics(walker, 417, "src/main/java/de/rinderle/softviz3d/depth");
-        callWalkerWithMetrics(walker, 418, "src/main/java/de/rinderle/softviz3d/depth/TreeNode.java");
-        callWalkerWithMetrics(walker, 419, "src/main/java/de/rinderle/softviz3d/depth/PathWalker.java");
-        callWalkerWithMetrics(walker, 420, "src/main/java/de/rinderle/softviz3d/depth/ResourceTreeService.java");
-        callWalkerWithMetrics(walker, 421, "src/main/java/de/rinderle/softviz3d/depth/ResourceTreeServiceImpl.java");
-        callWalkerWithMetrics(walker, 422, "src/main/java/de/rinderle/softviz3d/guice");
-        callWalkerWithMetrics(walker, 423, "src/main/java/de/rinderle/softviz3d/guice/LayoutVisitorFactory.java");
-        callWalkerWithMetrics(walker, 424, "src/main/java/de/rinderle/softviz3d/guice/SoftViz3dModule.java");
-        callWalkerWithMetrics(walker, 457, "src/test");
-        callWalkerWithMetrics(walker, 457, "src/test/java/de/rinderle/softviz3d");
-        callWalkerWithMetrics(walker, 458, "src/test/java/de/rinderle/softviz3d/GrappaPointTest.java");
-        callWalkerWithMetrics(walker, 459, "src/test/java/de/rinderle/softviz3d/TestSource.java");
-        callWalkerWithMetrics(walker, 460, "src/test/java/de/rinderle/softviz3d/Tree.java");
-        callWalkerWithMetrics(walker, 461, "src/test/java/de/rinderle/softviz3d/TreePathTest.java");
+    callWalkerWithMetrics(walker, 413, "src/main/java/de/rinderle/softviz3d");
+    callWalkerWithMetrics(walker, 414, "src/main/java/de/rinderle/softviz3d/SoftViz3dExtension.java");
+    callWalkerWithMetrics(walker, 415, "src/main/java/de/rinderle/softviz3d/SoftViz3dPage.java");
+    callWalkerWithMetrics(walker, 416, "src/main/java/de/rinderle/softviz3d/SoftViz3dPlugin.java");
+    callWalkerWithMetrics(walker, 417, "src/main/java/de/rinderle/softviz3d/depth");
+    callWalkerWithMetrics(walker, 418, "src/main/java/de/rinderle/softviz3d/depth/TreeNode.java");
+    callWalkerWithMetrics(walker, 419, "src/main/java/de/rinderle/softviz3d/depth/PathWalker.java");
+    callWalkerWithMetrics(walker, 420, "src/main/java/de/rinderle/softviz3d/depth/ResourceTreeService.java");
+    callWalkerWithMetrics(walker, 421, "src/main/java/de/rinderle/softviz3d/depth/ResourceTreeServiceImpl.java");
+    callWalkerWithMetrics(walker, 422, "src/main/java/de/rinderle/softviz3d/guice");
+    callWalkerWithMetrics(walker, 423, "src/main/java/de/rinderle/softviz3d/guice/LayoutVisitorFactory.java");
+    callWalkerWithMetrics(walker, 424, "src/main/java/de/rinderle/softviz3d/guice/SoftViz3dModule.java");
+    callWalkerWithMetrics(walker, 457, "src/test");
+    callWalkerWithMetrics(walker, 457, "src/test/java/de/rinderle/softviz3d");
+    callWalkerWithMetrics(walker, 458, "src/test/java/de/rinderle/softviz3d/GrappaPointTest.java");
+    callWalkerWithMetrics(walker, 459, "src/test/java/de/rinderle/softviz3d/TestSource.java");
+    callWalkerWithMetrics(walker, 460, "src/test/java/de/rinderle/softviz3d/Tree.java");
+    callWalkerWithMetrics(walker, 461, "src/test/java/de/rinderle/softviz3d/TreePathTest.java");
 
-        TreeNode tree = walker.getTree();
-        assertEquals("children are not main and test", 2, tree.getChildren().get("src").getChildren().size());
+    TreeNode tree = walker.getTree();
+    assertEquals("children are not main and test", 2, tree.getChildren().get("src").getChildren().size());
 
-        TreeNormalizer normalizer = new TreeNormalizer();
-        normalizer.normalizeTree(tree);
-        normalizer.recalculateDepth(tree);
+    TreeNormalizer normalizer = new TreeNormalizer();
+    normalizer.normalizeTree(tree);
+    normalizer.recalculateDepth(tree);
 
-        assertEquals("children of src are not main and test", 2, tree.getChildren().get("src").getChildren().size());
-        assertNotNull("next child after main is not softviz3d", tree.getChildren().get("src").getChildren()
-                .get("main/java/de/rinderle/softviz3d"));
-        assertEquals("depth is not right", Integer.valueOf(2), tree.getChildren().get("src").getChildren()
-                .get("main/java/de/rinderle/softviz3d").getDepth());
-        assertNotNull("next child after main is not softviz3d", tree.getChildren().get("src").getChildren()
-                .get("test/java/de/rinderle/softviz3d"));
-        assertEquals("depth is not right", Integer.valueOf(2), tree.getChildren().get("src").getChildren()
-                .get("test/java/de/rinderle/softviz3d").getDepth());
+    assertEquals("children of src are not main and test", 2, tree.getChildren().get("src").getChildren().size());
+    assertNotNull("next child after main is not softviz3d", tree.getChildren().get("src").getChildren()
+      .get("main/java/de/rinderle/softviz3d"));
+    assertEquals("depth is not right", Integer.valueOf(2), tree.getChildren().get("src").getChildren()
+      .get("main/java/de/rinderle/softviz3d").getDepth());
+    assertNotNull("next child after main is not softviz3d", tree.getChildren().get("src").getChildren()
+      .get("test/java/de/rinderle/softviz3d"));
+    assertEquals("depth is not right", Integer.valueOf(2), tree.getChildren().get("src").getChildren()
+      .get("test/java/de/rinderle/softviz3d").getDepth());
 
-        assertEquals("depth is not right", Integer.valueOf(3), tree.getChildren().get("src").getChildren()
-                .get("main/java/de/rinderle/softviz3d").getChildren().get("guice").getDepth());
-    }
+    assertEquals("depth is not right", Integer.valueOf(3), tree.getChildren().get("src").getChildren()
+      .get("main/java/de/rinderle/softviz3d").getChildren().get("guice").getDepth());
+  }
 
-    private void callWalkerWithMetrics(PathWalker walker, int id, String path) {
-        walker.addPath(id, path, 1, 1);
-    }
+  private void callWalkerWithMetrics(PathWalker walker, int id, String path) {
+    walker.addPath(id, path, 1, 1);
+  }
 }

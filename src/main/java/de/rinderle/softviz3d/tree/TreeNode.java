@@ -25,94 +25,93 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-
 public class TreeNode {
-    private int depth;
-    private Integer id;
-    private TreeNodeType type;
-    private TreeNode parent;
-    private double heightMetricValue;
-    private double footprintMetricValue;
-    private String name;
+  private int depth;
+  private Integer id;
+  private TreeNodeType type;
+  private TreeNode parent;
+  private double heightMetricValue;
+  private double footprintMetricValue;
+  private String name;
 
-    private Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
-    private Map<String, Edge> edges = new HashMap<String, Edge>();
+  private Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
+  private Map<String, Edge> edges = new HashMap<String, Edge>();
 
-    public TreeNode(Integer id, TreeNode parent, int depth, TreeNodeType type, String name, double footprintMetricValue, double heightMetricValue) {
-        this.id = id;
-        this.parent = parent;
-        this.depth = depth;
-        this.name = name;
-        this.type = type;
-        this.footprintMetricValue = footprintMetricValue;
-        this.heightMetricValue = heightMetricValue;
-    }
+  public TreeNode(Integer id, TreeNode parent, int depth, TreeNodeType type, String name, double footprintMetricValue, double heightMetricValue) {
+    this.id = id;
+    this.parent = parent;
+    this.depth = depth;
+    this.name = name;
+    this.type = type;
+    this.footprintMetricValue = footprintMetricValue;
+    this.heightMetricValue = heightMetricValue;
+  }
 
-    public Map<String, TreeNode> getChildren() {
-        return children;
-    }
+  public Map<String, TreeNode> getChildren() {
+    return children;
+  }
 
-    public boolean isNode() {
-        return !this.children.isEmpty();
-    }
+  public void setChildren(Map<String, TreeNode> children) {
+    this.children = children;
+  }
 
-    public Integer getId() {
-        return id;
-    }
+  public boolean isNode() {
+    return !this.children.isEmpty();
+  }
 
-    public TreeNode getParent() {
-        return parent;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public Integer getDepth() {
-        return depth;
-    }
+  public TreeNode getParent() {
+    return parent;
+  }
 
-    public TreeNodeType getType() {
-        return type;
-    }
+  public void setParent(TreeNode parent) {
+    this.parent = parent;
+  }
 
-    public double getHeightMetricValue() {
-        return heightMetricValue;
-    }
+  public Integer getDepth() {
+    return depth;
+  }
 
-    public double getFootprintMetricValue() {
-        return footprintMetricValue;
-    }
+  public void setDepth(Integer depth) {
+    this.depth = depth;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public TreeNodeType getType() {
+    return type;
+  }
 
-    public void setEdge(Edge outEdge) {
-        this.edges.put(outEdge.getDepEdgeLabel(), outEdge);
-    }
+  public double getHeightMetricValue() {
+    return heightMetricValue;
+  }
 
-    public boolean hasEdge(String edgeLabel)  {
-        return this.edges.containsKey(edgeLabel);
-    }
+  public double getFootprintMetricValue() {
+    return footprintMetricValue;
+  }
 
-    public Edge getEdge(String depEdgeLabel) {
-        return this.edges.get(depEdgeLabel);
-    }
+  public String getName() {
+    return name;
+  }
 
-    public Map<String, Edge> getEdges() {
-        return edges;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setParent(TreeNode parent) {
-        this.parent = parent;
-    }
+  public void setEdge(Edge outEdge) {
+    this.edges.put(outEdge.getDepEdgeLabel(), outEdge);
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public boolean hasEdge(String edgeLabel) {
+    return this.edges.containsKey(edgeLabel);
+  }
 
-    public void setChildren(Map<String, TreeNode> children) {
-        this.children = children;
-    }
+  public Edge getEdge(String depEdgeLabel) {
+    return this.edges.get(depEdgeLabel);
+  }
 
-    public void setDepth(Integer depth) {
-        this.depth = depth;
-    }
+  public Map<String, Edge> getEdges() {
+    return edges;
+  }
 }

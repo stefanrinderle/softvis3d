@@ -24,9 +24,9 @@ import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.sonar.SonarMetric;
 
 public interface LayerFormatter {
-    void format(Graph graph, Integer depth, LayoutViewType viewType);
+  void format(Graph graph, Integer depth, LayoutViewType viewType);
 
-    double calcBuildingHeight(Double value, SonarMetric metricHeight);
+  double calcBuildingHeight(Double value, SonarMetric metricHeight);
 
-    double calcSideLength(Double value, SonarMetric metricFootprint);
+  double calcSideLength(Double value, SonarMetric metricFootprint);
 }

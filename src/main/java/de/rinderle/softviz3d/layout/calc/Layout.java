@@ -29,10 +29,10 @@ import java.util.Map;
  * Created by stefan on 09.09.14.
  */
 public interface Layout {
-    Map<Integer, Graph> startLayout(
-            Settings settings,
-            Integer snapshotId,
-            Integer footprintMetricId, Integer heightMetricId,
-            LayoutViewType type)
-            throws DotExcecutorException;
+  Map<Integer, Graph> startLayout(
+    Settings settings,
+    Integer snapshotId,
+    Integer footprintMetricId, Integer heightMetricId,
+    LayoutViewType type)
+    throws DotExcecutorException;
 }

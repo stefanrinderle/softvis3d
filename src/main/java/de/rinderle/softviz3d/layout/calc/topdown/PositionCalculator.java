@@ -25,5 +25,5 @@ import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import java.util.Map;
 
 public interface PositionCalculator {
-    int calculate(LayoutViewType viewType, Integer snapshotId, Map<Integer, Graph> inputGraphList, LayoutViewType layoutViewType);
+  int calculate(LayoutViewType viewType, Integer snapshotId, Map<Integer, Graph> inputGraphList, LayoutViewType layoutViewType);
 }

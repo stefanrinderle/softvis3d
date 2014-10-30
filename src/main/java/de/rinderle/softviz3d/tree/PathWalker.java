@@ -26,51 +26,49 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class PathWalker {
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(PathWalker.class);
+  private static final Logger LOGGER = LoggerFactory
+    .getLogger(PathWalker.class);
+  private final TreeNode root;
+  private int generatedIdSequence = Integer.MAX_VALUE - 100000;
+  private Pattern pathSeparator = Pattern.compile("/");
 
-    private int generatedIdSequence = Integer.MAX_VALUE - 100000;
-    private final TreeNode root;
+  public PathWalker(int id) {
+    root = new TreeNode(id, null, 0, TreeNodeType.TREE, "root", 0, 0);
+  }
 
-    private Pattern pathSeparator = Pattern.compile("/");
+  public TreeNode getTree() {
+    return root;
+  }
 
-    public PathWalker(int id) {
-        root = new TreeNode(id, null, 0, TreeNodeType.TREE, "root", 0, 0);
+  public void addPath(int id, String path, double footprintMetricValue, double heightMetricValue) {
+    String[] names = pathSeparator.split(path);
+    TreeNode currentNode = root;
+
+    boolean isLastIndex;
+    for (int i = 0; i < names.length; i++) {
+      isLastIndex = (i == (names.length - 1));
+      if (isLastIndex) {
+        currentNode = getOrCreateChild(currentNode, id, names[i], TreeNodeType.TREE, footprintMetricValue, heightMetricValue);
+      } else {
+        currentNode = getOrCreateChild(currentNode, generatedIdSequence++, names[i], TreeNodeType.PATH_GENERATED,
+          footprintMetricValue, heightMetricValue);
+      }
+    }
+  }
+
+  public int getNextSequence() {
+    return generatedIdSequence++;
+  }
+
+  private TreeNode getOrCreateChild(TreeNode node, int id, String name, TreeNodeType type, double footprintMetricValue, double heightMetricValue) {
+    Map<String, TreeNode> children = node.getChildren();
+    if (children.containsKey(name)) {
+      return children.get(name);
     }
 
-    public TreeNode getTree() {
-        return root;
-    }
-
-    public void addPath(int id, String path, double footprintMetricValue, double heightMetricValue) {
-        String[] names = pathSeparator.split(path);
-        TreeNode currentNode = root;
-
-        boolean isLastIndex;
-        for(int i = 0; i < names.length; i++) {
-            isLastIndex = (i == (names.length - 1));
-            if (isLastIndex) {
-                currentNode = getOrCreateChild(currentNode, id, names[i], TreeNodeType.TREE, footprintMetricValue, heightMetricValue);
-            } else {
-                currentNode = getOrCreateChild(currentNode, generatedIdSequence++, names[i], TreeNodeType.PATH_GENERATED,
-                        footprintMetricValue, heightMetricValue);
-            }
-        }
-    }
-
-    public int getNextSequence() {
-        return generatedIdSequence++;
-    }
-
-    private TreeNode getOrCreateChild(TreeNode node, int id, String name, TreeNodeType type, double footprintMetricValue, double heightMetricValue) {
-        Map<String, TreeNode> children = node.getChildren();
-        if (children.containsKey(name)) {
-            return children.get(name);
-        }
-
-        TreeNode result = new TreeNode(id, node, node.getDepth() + 1, type, name, footprintMetricValue, heightMetricValue);
-        children.put(name, result);
-        return result;
-    }
+    TreeNode result = new TreeNode(id, node, node.getDepth() + 1, type, name, footprintMetricValue, heightMetricValue);
+    children.put(name, result);
+    return result;
+  }
 
 }

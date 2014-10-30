@@ -36,94 +36,94 @@ import java.util.Map;
 
 public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebserviceInitializeHandler {
 
-    @Inject
-    private ResourceTreeService resourceTreeService;
-    @Inject
-    private DependencyExpander dependencyExpander;
-    @Inject
-    private DependencyDao dependencyDao;
+  @Inject
+  private ResourceTreeService resourceTreeService;
+  @Inject
+  private DependencyExpander dependencyExpander;
+  @Inject
+  private DependencyDao dependencyDao;
 
-    @Override
-    public void handle(Request request, Response response) {
-        Integer id = Integer.valueOf(request.param("snapshotId"));
-        Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
-        Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
+  @Override
+  public void handle(Request request, Response response) {
+    Integer id = Integer.valueOf(request.param("snapshotId"));
+    Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
+    Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
 
-        String viewType = request.param("viewType");
-        LayoutViewType type;
-        if ("city".equals(viewType)) {
-            type = LayoutViewType.CITY;
-        } else {
-            type = LayoutViewType.DEPENDENCY;
-        }
-
-        // TODO: do in one step
-        TreeNode tree = resourceTreeService.createTreeStructure(type, id, footprintMetricId, heightMetricId);
-        if (LayoutViewType.DEPENDENCY.equals(type)) {
-            List<SonarDependency> dependencies = dependencyDao.getDependencies(id);
-            dependencyExpander.execute(id, dependencies);
-        }
-
-        JsonWriter jsonWriter = response.newJsonWriter();
-
-        transformTreeToJson(jsonWriter, tree);
-
-        jsonWriter.close();
+    String viewType = request.param("viewType");
+    LayoutViewType type;
+    if ("city".equals(viewType)) {
+      type = LayoutViewType.CITY;
+    } else {
+      type = LayoutViewType.DEPENDENCY;
     }
 
-    private void transformTreeToJson(JsonWriter jsonWriter, TreeNode tree) {
-        jsonWriter.beginObject();
-
-        jsonWriter.prop("id", tree.getId());
-        jsonWriter.prop("name", tree.getName());
-        jsonWriter.prop("heightMetricValue", tree.getHeightMetricValue());
-        jsonWriter.prop("footprintMetricValue", tree.getFootprintMetricValue());
-        jsonWriter.prop("isNode", tree.isNode());
-
-        TreeNode parent = tree.getParent();
-        if (parent != null) {
-            jsonWriter.name("parentInfo");
-            jsonWriter.beginObject();
-            jsonWriter.prop("id", parent.getId());
-            jsonWriter.prop("name", parent.getName());
-            jsonWriter.prop("heightMetricValue", parent.getHeightMetricValue());
-            jsonWriter.prop("footprintMetricValue", parent.getFootprintMetricValue());
-            jsonWriter.prop("isNode", parent.isNode());
-            jsonWriter.endObject();
-        }
-
-        transformChildren(jsonWriter, tree.getChildren());
-
-        transformEdges(jsonWriter, tree.getEdges());
-
-        jsonWriter.endObject();
+    // TODO: do in one step
+    TreeNode tree = resourceTreeService.createTreeStructure(type, id, footprintMetricId, heightMetricId);
+    if (LayoutViewType.DEPENDENCY.equals(type)) {
+      List<SonarDependency> dependencies = dependencyDao.getDependencies(id);
+      dependencyExpander.execute(id, dependencies);
     }
 
-    private void transformEdges(JsonWriter jsonWriter, Map<String, Edge> edges) {
-        jsonWriter.name("edges");
-        jsonWriter.beginArray();
+    JsonWriter jsonWriter = response.newJsonWriter();
 
-        for (Edge child : edges.values()) {
-            transformEdge(jsonWriter, child);
-        }
+    transformTreeToJson(jsonWriter, tree);
 
-        jsonWriter.endArray();
+    jsonWriter.close();
+  }
+
+  private void transformTreeToJson(JsonWriter jsonWriter, TreeNode tree) {
+    jsonWriter.beginObject();
+
+    jsonWriter.prop("id", tree.getId());
+    jsonWriter.prop("name", tree.getName());
+    jsonWriter.prop("heightMetricValue", tree.getHeightMetricValue());
+    jsonWriter.prop("footprintMetricValue", tree.getFootprintMetricValue());
+    jsonWriter.prop("isNode", tree.isNode());
+
+    TreeNode parent = tree.getParent();
+    if (parent != null) {
+      jsonWriter.name("parentInfo");
+      jsonWriter.beginObject();
+      jsonWriter.prop("id", parent.getId());
+      jsonWriter.prop("name", parent.getName());
+      jsonWriter.prop("heightMetricValue", parent.getHeightMetricValue());
+      jsonWriter.prop("footprintMetricValue", parent.getFootprintMetricValue());
+      jsonWriter.prop("isNode", parent.isNode());
+      jsonWriter.endObject();
     }
 
-    private void transformEdge(JsonWriter jsonWriter, Edge edge) {
-        jsonWriter.beginObject();
-        jsonWriter.prop("id", edge.getSourceId() + " -> " + edge.getDestinationId());
-        jsonWriter.endObject();
+    transformChildren(jsonWriter, tree.getChildren());
+
+    transformEdges(jsonWriter, tree.getEdges());
+
+    jsonWriter.endObject();
+  }
+
+  private void transformEdges(JsonWriter jsonWriter, Map<String, Edge> edges) {
+    jsonWriter.name("edges");
+    jsonWriter.beginArray();
+
+    for (Edge child : edges.values()) {
+      transformEdge(jsonWriter, child);
     }
 
-    private void transformChildren(JsonWriter jsonWriter, Map<String, TreeNode> children) {
-        jsonWriter.name("children");
-        jsonWriter.beginArray();
+    jsonWriter.endArray();
+  }
 
-        for (TreeNode child : children.values()) {
-            transformTreeToJson(jsonWriter, child);
-        }
+  private void transformEdge(JsonWriter jsonWriter, Edge edge) {
+    jsonWriter.beginObject();
+    jsonWriter.prop("id", edge.getSourceId() + " -> " + edge.getDestinationId());
+    jsonWriter.endObject();
+  }
 
-        jsonWriter.endArray();
+  private void transformChildren(JsonWriter jsonWriter, Map<String, TreeNode> children) {
+    jsonWriter.name("children");
+    jsonWriter.beginArray();
+
+    for (TreeNode child : children.values()) {
+      transformTreeToJson(jsonWriter, child);
     }
+
+    jsonWriter.endArray();
+  }
 }

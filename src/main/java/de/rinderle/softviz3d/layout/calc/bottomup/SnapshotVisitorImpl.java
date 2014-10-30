@@ -45,158 +45,157 @@ import static att.grappa.GrappaConstants.*;
 
 public class SnapshotVisitorImpl implements SnapshotVisitor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SnapshotVisitorImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SnapshotVisitorImpl.class);
 
-    private Settings settings;
+  private Settings settings;
 
-    private SonarMetric metricFootprint;
-    private SonarMetric metricHeight;
+  private SonarMetric metricFootprint;
+  private SonarMetric metricHeight;
 
-    private LayerFormatter formatter;
+  private LayerFormatter formatter;
 
-    private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
+  private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
 
-    private DotExecutor dotExecutor;
+  private DotExecutor dotExecutor;
 
-    private LayoutViewType viewType;
+  private LayoutViewType viewType;
 
-    @Inject
-    public SnapshotVisitorImpl(LayerFormatter formatter,
-                               DotExecutor dotExecutor,
-                               @Assisted Settings settings,
-                               @Assisted List<Double> minMaxValues,
-                               @Assisted LayoutViewType viewType) {
-        this.settings = settings;
+  @Inject
+  public SnapshotVisitorImpl(LayerFormatter formatter,
+    DotExecutor dotExecutor,
+    @Assisted Settings settings,
+    @Assisted List<Double> minMaxValues,
+    @Assisted LayoutViewType viewType) {
+    this.settings = settings;
 
-        this.metricFootprint = new SonarMetric(minMaxValues.get(0), minMaxValues.get(1));
-        this.metricHeight = new SonarMetric(minMaxValues.get(2), minMaxValues.get(3));
+    this.metricFootprint = new SonarMetric(minMaxValues.get(0), minMaxValues.get(1));
+    this.metricHeight = new SonarMetric(minMaxValues.get(2), minMaxValues.get(3));
 
-        this.dotExecutor = dotExecutor;
-        this.formatter = formatter;
+    this.dotExecutor = dotExecutor;
+    this.formatter = formatter;
 
-        this.viewType = viewType;
+    this.viewType = viewType;
+  }
+
+  @Override
+  public Map<Integer, Graph> getResultingGraphList() {
+    return this.resultingGraphList;
+  }
+
+  @Override
+  public LayeredLayoutElement visitNode(TreeNode node,
+    List<LayeredLayoutElement> elements) throws DotExcecutorException {
+
+    LOGGER.debug("LayoutVisitor.visitNode " + node.getId() + " " + node.getName());
+
+    // create layout graph
+    Graph inputGraph = new Graph(node.getId().toString());
+
+    for (LayeredLayoutElement element : elements) {
+      Node elementNode = transformToGrappaNode(inputGraph, element);
+      inputGraph.addNode(elementNode);
     }
 
-    @Override
-    public Map<Integer, Graph> getResultingGraphList() {
-        return this.resultingGraphList;
+    for (LayeredLayoutElement element : elements) {
+      for (Edge edge : element.getEdges().values()) {
+        inputGraph.addEdge(transformToGrappaEdge(inputGraph, edge));
+      }
     }
 
-    @Override
-    public LayeredLayoutElement visitNode(TreeNode node,
-                                          List<LayeredLayoutElement> elements) throws DotExcecutorException {
+    LOGGER.debug("--------------------------------------");
 
-        LOGGER.debug("LayoutVisitor.visitNode " + node.getId() + " " + node.getName());
+    // inputGraph.printGraph(System.out);
 
-        // create layout graph
-        Graph inputGraph = new Graph(node.getId().toString());
+    // run dot layout for this layer
+    Graph outputGraph = dotExecutor.run(inputGraph, settings, viewType);
 
-        for (LayeredLayoutElement element : elements) {
-            Node elementNode = transformToGrappaNode(inputGraph, element);
-            inputGraph.addNode(elementNode);
-        }
+    // adjust graph
+    formatter.format(outputGraph, node.getDepth(), viewType);
 
-        for (LayeredLayoutElement element : elements) {
-            for(Edge edge : element.getEdges().values()) {
-                inputGraph.addEdge(transformToGrappaEdge(inputGraph, edge));
-            }
-        }
+    LOGGER.debug("--------------------------------------");
 
-        LOGGER.debug("--------------------------------------");
+    // outputGraph.printGraph(System.out);
 
-//        inputGraph.printGraph(System.out);
+    LOGGER.debug("--------------------------------------");
 
-        // run dot layout for this layer
-        Graph outputGraph = dotExecutor.run(inputGraph, settings, viewType);
+    resultingGraphList.put(node.getId(), outputGraph);
 
-        // adjust graph
-        formatter.format(outputGraph, node.getDepth(), viewType);
+    // adjusted graph has a bounding box !
+    GrappaBox bb = (GrappaBox) outputGraph.getAttributeValue("bb");
 
-        LOGGER.debug("--------------------------------------");
+    // The dot output of the bb is given in DPI. The actual width
+    // and height of the representing element has to be scaled
+    // back to normal
+    Double width = bb.getWidth() / SoftViz3dConstants.DPI_DOT_SCALE;
+    Double height = bb.getHeight() / SoftViz3dConstants.DPI_DOT_SCALE;
 
-//        outputGraph.printGraph(System.out);
+    double platformHeight = 2 * 15;
 
-        LOGGER.debug("--------------------------------------");
+    return LayeredLayoutElement.createLayeredLayoutNodeElement(node, width, height, platformHeight);
+  }
 
-        resultingGraphList.put(node.getId(), outputGraph);
+  private att.grappa.Edge transformToGrappaEdge(Graph inputGraph, Edge edge) {
+    Node sourceNode = searchNodeById(inputGraph, edge.getSourceId());
+    Node destNode = searchNodeById(inputGraph, edge.getDestinationId());
 
-        // adjusted graph has a bounding box !
-        GrappaBox bb = (GrappaBox) outputGraph.getAttributeValue("bb");
-
-        // The dot output of the bb is given in DPI. The actual width
-        // and height of the representing element has to be scaled
-        // back to normal
-        Double width = bb.getWidth() / SoftViz3dConstants.DPI_DOT_SCALE;
-        Double height = bb.getHeight() / SoftViz3dConstants.DPI_DOT_SCALE;
-
-        double platformHeight = 2 * 15;
-
-        return LayeredLayoutElement.createLayeredLayoutNodeElement(node, width, height, platformHeight);
+    if (sourceNode != null && destNode != null) {
+      att.grappa.Edge result = new att.grappa.Edge(inputGraph, sourceNode, destNode);
+      // result.setAttribute("thickness", edge.getCounter());
+      return result;
     }
 
-    private att.grappa.Edge transformToGrappaEdge(Graph inputGraph, Edge edge) {
-        Node sourceNode = searchNodeById(inputGraph, edge.getSourceId());
-        Node destNode = searchNodeById(inputGraph, edge.getDestinationId());
+    return null;
+  }
 
-        if (sourceNode != null && destNode != null)  {
-            att.grappa.Edge result = new att.grappa.Edge(inputGraph, sourceNode, destNode);
-//        result.setAttribute("thickness", edge.getCounter());
-            return result;
-        }
-
-        return null;
+  private Node searchNodeById(Graph inputGraph, Integer sourceId) {
+    for (Node node : inputGraph.nodeElementsAsArray()) {
+      Integer nodeId = Integer.valueOf((String) node.getAttributeValue("id"));
+      if (nodeId.equals(sourceId)) {
+        return node;
+      }
     }
 
-    private Node searchNodeById(Graph inputGraph, Integer sourceId) {
-        for(Node node : inputGraph.nodeElementsAsArray()) {
-            Integer nodeId = Integer.valueOf((String) node.getAttributeValue("id"));
-            if (nodeId.equals(sourceId)) {
-                return node;
-            }
-        }
+    return null;
+  }
 
-        return null;
+  private Node transformToGrappaNode(Graph inputGraph, LayeredLayoutElement element) {
+    Node elementNode = new Node(inputGraph, element.getName());
+    elementNode.setAttribute("id", element.getId().toString());
+    elementNode.setAttribute("type", element.getElementType().name());
+    elementNode.setAttribute(WIDTH_ATTR, roundTo2Decimals(element.getWidth()));
+    elementNode.setAttribute(HEIGHT_ATTR, roundTo2Decimals(element.getHeight()));
+
+    // keep the size of the node only dependent on the width and height
+    // attribute and not from the node name
+    elementNode.setAttribute(LABEL_ATTR, ".");
+    elementNode.setAttribute(SHAPE_ATTR, "box");
+
+    elementNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, element.getBuildingHeight());
+
+    elementNode.setAttribute("displayName", element.getDisplayName());
+    return elementNode;
+  }
+
+  private double roundTo2Decimals(double value) {
+    return Math.round(value * 100.0) / 100.0;
+  }
+
+  @Override
+  public LayeredLayoutElement visitFile(TreeNode leaf) {
+    double sideLength = formatter.calcSideLength(leaf.getFootprintMetricValue(), metricFootprint);
+    sideLength = sideLength / SoftViz3dConstants.DPI_DOT_SCALE;
+
+    double buildingHeight = formatter.calcBuildingHeight(leaf.getHeightMetricValue(), metricHeight);
+    buildingHeight = buildingHeight / SoftViz3dConstants.DPI_DOT_SCALE;
+
+    buildingHeight = buildingHeight * 100;
+
+    if (TreeNodeType.DEPENDENCY_GENERATED.equals(leaf.getType()) &&
+      LayoutViewType.DEPENDENCY.equals(viewType)) {
+      buildingHeight = 200;
     }
 
-    private Node transformToGrappaNode(Graph inputGraph, LayeredLayoutElement element) {
-        Node elementNode = new Node(inputGraph, element.getName());
-        elementNode.setAttribute("id", element.getId().toString());
-        elementNode.setAttribute("type", element.getElementType().name());
-        elementNode.setAttribute(WIDTH_ATTR, roundTo2Decimals(element.getWidth()));
-        elementNode.setAttribute(HEIGHT_ATTR, roundTo2Decimals(element.getHeight()));
-
-        // keep the size of the node only dependent on the width and height
-        // attribute and not from the node name
-        elementNode.setAttribute(LABEL_ATTR, ".");
-        elementNode.setAttribute(SHAPE_ATTR, "box");
-
-        elementNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, element.getBuildingHeight());
-
-        elementNode.setAttribute("displayName", element.getDisplayName());
-        return elementNode;
-    }
-
-    private double roundTo2Decimals(double value) {
-        return Math.round( value * 100.0 ) / 100.0;
-    }
-
-
-    @Override
-    public LayeredLayoutElement visitFile(TreeNode leaf) {
-        double sideLength = formatter.calcSideLength(leaf.getFootprintMetricValue(), metricFootprint);
-        sideLength = sideLength / SoftViz3dConstants.DPI_DOT_SCALE;
-
-        double buildingHeight = formatter.calcBuildingHeight(leaf.getHeightMetricValue(), metricHeight);
-        buildingHeight = buildingHeight / SoftViz3dConstants.DPI_DOT_SCALE;
-
-        buildingHeight = buildingHeight  * 100;
-
-        if (TreeNodeType.DEPENDENCY_GENERATED.equals(leaf.getType()) &&
-                LayoutViewType.DEPENDENCY.equals(viewType)) {
-            buildingHeight = 200;
-        }
-
-        return LayeredLayoutElement.createLayeredLayoutLeafElement(leaf, sideLength, sideLength, buildingHeight);
-    }
+    return LayeredLayoutElement.createLayeredLayoutLeafElement(leaf, sideLength, sideLength, buildingHeight);
+  }
 
 }

@@ -30,15 +30,6 @@ public class HexaColor extends Color {
   }
 
   /**
-   * Returns the HEX value representing the colour in the default sRGB ColorModel.
-   *
-   * @return the HEX value of the colour in the default sRGB ColorModel
-   */
-  public String getHex() {
-    return toHex(getRed(), getGreen(), getBlue());
-  }
-
-  /**
    * Returns a web browser-friendly HEX value representing the colour in the default sRGB
    * ColorModel.
    *
@@ -57,6 +48,15 @@ public class HexaColor extends Color {
       builder.append("0");
     }
     return builder.toString().toUpperCase();
+  }
+
+  /**
+   * Returns the HEX value representing the colour in the default sRGB ColorModel.
+   *
+   * @return the HEX value of the colour in the default sRGB ColorModel
+   */
+  public String getHex() {
+    return toHex(getRed(), getGreen(), getBlue());
   }
 
 }

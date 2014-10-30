@@ -36,81 +36,79 @@ import java.io.*;
 @Singleton
 public class DotExcecutorImpl implements DotExecutor {
 
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(DotExcecutorImpl.class);
+  public static final String DOT_BUG_VERSION = "2.38.0";
+  private static final Logger LOGGER = LoggerFactory
+    .getLogger(DotExcecutorImpl.class);
+  private File translationFile = null;
 
-    public static final String DOT_BUG_VERSION = "2.38.0";
+  @Inject
+  private DotVersion dotVersion;
 
-    private File translationFile = null;
+  @Inject
+  private ExecuteCommand executeCommand;
 
-    @Inject
-    private DotVersion dotVersion;
+  @Override
+  public Graph run(Graph inputGraph, Settings settings, LayoutViewType viewType)
+    throws DotExcecutorException {
+    StringWriter writer = new StringWriter();
+    inputGraph.printGraph(writer);
 
-    @Inject
-    private ExecuteCommand executeCommand;
-
-    @Override
-    public Graph run(Graph inputGraph, Settings settings, LayoutViewType viewType)
-            throws DotExcecutorException {
-        StringWriter writer = new StringWriter();
-        inputGraph.printGraph(writer);
-
-        String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
-        String command = dotBin + " ";
-        if (LayoutViewType.CITY.equals(viewType) || inputGraph.edgeElementsAsArray().length == 0) {
-            command = dotBin + " -K neato ";
-        }
-
-        String adot = executeCommand.executeCommandReadAdot(command,
-                writer.toString());
-
-        if (dotVersion.getVersion(settings).equals(DOT_BUG_VERSION)) {
-            try {
-
-                if (translationFile == null) {
-                    InputStream file = DotExcecutorImpl.class
-                            .getResourceAsStream("/translate.g");
-                    translationFile = File.createTempFile("transate", ".g");
-                    FileOutputStream out = new FileOutputStream(translationFile);
-                    IOUtils.copy(file, out);
-                }
-
-                int lastIndex = dotBin.lastIndexOf("/");
-                String translationBin = dotBin.substring(0, lastIndex + 1);
-                String translationCommand = translationBin + "gvpr -c -f "
-                        + translationFile.getAbsolutePath();
-
-                adot = executeCommand.executeCommandReadAdot(translationCommand,
-                        adot);
-            } catch (IOException e) {
-                LOGGER.error("Error on create temp file", e);
-            }
-        }
-
-        return parseDot(adot);
+    String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
+    String command = dotBin + " ";
+    if (LayoutViewType.CITY.equals(viewType) || inputGraph.edgeElementsAsArray().length == 0) {
+      command = dotBin + " -K neato ";
     }
 
-    private Graph parseDot(String adot) throws DotExcecutorException {
-        String graphName = "LayoutLayer";
+    String adot = executeCommand.executeCommandReadAdot(command,
+      writer.toString());
 
-        Graph newGraph = new Graph("new" + graphName, true, false);
+    if (dotVersion.getVersion(settings).equals(DOT_BUG_VERSION)) {
+      try {
 
-        OutputStream output = new StringOutputStream();
-        PrintWriter errorStream = new PrintWriter(output);
-
-        Reader reader = new StringReader(adot);
-
-        Parser parser = new Parser(reader, errorStream, newGraph);
-
-        try {
-            parser.parse();
-        } catch (Exception e) {
-            LOGGER.error("Error on parsing graph string - parseDot: "
-                    + e.getMessage());
-            throw new DotExcecutorException(e.getMessage(), e);
+        if (translationFile == null) {
+          InputStream file = DotExcecutorImpl.class
+            .getResourceAsStream("/translate.g");
+          translationFile = File.createTempFile("transate", ".g");
+          FileOutputStream out = new FileOutputStream(translationFile);
+          IOUtils.copy(file, out);
         }
 
-        return newGraph;
+        int lastIndex = dotBin.lastIndexOf("/");
+        String translationBin = dotBin.substring(0, lastIndex + 1);
+        String translationCommand = translationBin + "gvpr -c -f "
+          + translationFile.getAbsolutePath();
+
+        adot = executeCommand.executeCommandReadAdot(translationCommand,
+          adot);
+      } catch (IOException e) {
+        LOGGER.error("Error on create temp file", e);
+      }
     }
+
+    return parseDot(adot);
+  }
+
+  private Graph parseDot(String adot) throws DotExcecutorException {
+    String graphName = "LayoutLayer";
+
+    Graph newGraph = new Graph("new" + graphName, true, false);
+
+    OutputStream output = new StringOutputStream();
+    PrintWriter errorStream = new PrintWriter(output);
+
+    Reader reader = new StringReader(adot);
+
+    Parser parser = new Parser(reader, errorStream, newGraph);
+
+    try {
+      parser.parse();
+    } catch (Exception e) {
+      LOGGER.error("Error on parsing graph string - parseDot: "
+        + e.getMessage());
+      throw new DotExcecutorException(e.getMessage(), e);
+    }
+
+    return newGraph;
+  }
 
 }
