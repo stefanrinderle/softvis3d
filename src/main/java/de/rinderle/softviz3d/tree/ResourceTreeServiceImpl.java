@@ -21,7 +21,6 @@ package de.rinderle.softviz3d.tree;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import de.rinderle.softviz3d.layout.calc.DependencyType;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import org.slf4j.Logger;
@@ -119,24 +118,6 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
   public TreeNode findInterfaceLeafNode(final LayoutViewType type, final Integer rootSnapshotId, final String intLeafLabel) {
     PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
     return recursiveSearch(intLeafLabel, pathWalker.getTree());
-  }
-
-  @Override
-  public DependencyType getDependencyType(final LayoutViewType type, final Integer rootSnapshotId, final Integer fromSnapshotId, final Integer toSnapshotId) {
-    TreeNode from = findNode(type, rootSnapshotId, fromSnapshotId);
-    TreeNode to = findNode(type, rootSnapshotId, toSnapshotId);
-
-    // TODO check this - why is this needed.
-    boolean hasSameParent = true;
-    if (from != null && to != null) {
-      hasSameParent = from.getParent().getId().equals(to.getParent().getId());
-    }
-
-    if (hasSameParent) {
-      return DependencyType.INPUT_FLAT;
-    } else {
-      return DependencyType.INPUT_TREE;
-    }
   }
 
   private TreeNode recursiveSearch(String name, TreeNode treeNode) {

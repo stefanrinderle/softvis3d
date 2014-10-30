@@ -73,13 +73,53 @@ public class DependencyExpanderCheckExpandTest {
   public void testDependenciesFlatEdge() {
     List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-    SonarDependency fromAtoB = createDependency(2, 3, DependencyType.INPUT_FLAT);
+    SonarDependency fromAtoB = createDependency(2, 3);
     dependencies.add(fromAtoB);
+
+    TreeNode treeNode1 = createTreeNode(1, null, 0);
+    TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
+    TreeNode treeNode3 = createTreeNode(3, treeNode1, 2);
 
     underTest.execute(PROJECT_ID, dependencies);
 
     assertTrue(dependencies.contains(fromAtoB));
+
+    assertTrue(treeNode2.getEdges().containsKey("depPath_2"));
+    assertTrue(treeNode2.getEdges().get("depPath_2").getSourceId().equals(2));
+    assertTrue(treeNode2.getEdges().get("depPath_2").getDestinationId().equals(3));
+
+    assertTrue(treeNode1.getEdges().isEmpty());
+    assertTrue(treeNode3.getEdges().isEmpty());
   }
+
+    /**
+     *      A(1)
+     *     /   \
+     *   B(2)<--C(3)
+     *
+     **/
+    @Test
+    public void testDependenciesFlatEdgeOtherWayAround() {
+        List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+
+        SonarDependency fromAtoB = createDependency(3, 2);
+        dependencies.add(fromAtoB);
+
+        TreeNode treeNode1 = createTreeNode(1, null, 0);
+        TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
+        TreeNode treeNode3 = createTreeNode(3, treeNode1, 2);
+
+        underTest.execute(PROJECT_ID, dependencies);
+
+        assertTrue(dependencies.contains(fromAtoB));
+
+        assertTrue(treeNode3.getEdges().containsKey("depPath_3"));
+        assertTrue(treeNode3.getEdges().get("depPath_3").getSourceId().equals(3));
+        assertTrue(treeNode3.getEdges().get("depPath_3").getDestinationId().equals(2));
+
+        assertTrue(treeNode1.getEdges().isEmpty());
+        assertTrue(treeNode2.getEdges().isEmpty());
+    }
 
   /**
    *      A(1)
@@ -93,7 +133,7 @@ public class DependencyExpanderCheckExpandTest {
   public void testDependenciesHierarchicalEdge() {
     List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-    SonarDependency fromCtoE = createDependency(3, 5, DependencyType.INPUT_TREE);
+    SonarDependency fromCtoE = createDependency(3, 5);
     dependencies.add(fromCtoE);
 
     TreeNode treeNode1 = createTreeNode(1, null, 0);
@@ -138,7 +178,7 @@ public class DependencyExpanderCheckExpandTest {
   public void testDependenciesHierarchicalEdgeOtherWayAround() {
     List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-    SonarDependency fromEtoC = createDependency(5, 3, DependencyType.INPUT_TREE);
+    SonarDependency fromEtoC = createDependency(5, 3);
     dependencies.add(fromEtoC);
 
     TreeNode treeNode1 = createTreeNode(1, null, 0);
@@ -184,9 +224,9 @@ public class DependencyExpanderCheckExpandTest {
   public void testDependenciesHierarchicalEdgesBoth() {
     List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-    SonarDependency fromCtoE = createDependency(3, 5, DependencyType.INPUT_TREE);
+    SonarDependency fromCtoE = createDependency(3, 5);
     dependencies.add(fromCtoE);
-    SonarDependency fromEtoC = createDependency(5, 3, DependencyType.INPUT_TREE);
+    SonarDependency fromEtoC = createDependency(5, 3);
     dependencies.add(fromEtoC);
 
     TreeNode treeNode1 = createTreeNode(1, null, 0);
@@ -236,45 +276,45 @@ public class DependencyExpanderCheckExpandTest {
     assertTrue(treeNode1.getEdges().isEmpty());
   }
 
-    /**
-     *      A(1)
-     *     /   \
-     *    B(2) D(4)
-     *   /     >
-     *  /     /
-     * C(3)--/
-     *
-     **/
-    @Test
-    public void testUnevenDependencyEdge() {
-        List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+  /**
+   *      A(1)
+   *     /   \
+   *    B(2) D(4)
+   *   /     >
+   *  /     /
+   * C(3)--/
+   *
+   **/
+  @Test
+  public void testUnevenDependencyEdge() {
+    List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-        SonarDependency fromCtoE = createDependency(3, 4, DependencyType.INPUT_TREE);
-        dependencies.add(fromCtoE);
+    SonarDependency fromCtoE = createDependency(3, 4);
+    dependencies.add(fromCtoE);
 
-        TreeNode treeNode1 = createTreeNode(1, null, 0);
-        TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
-        TreeNode treeNode3 = createTreeNode(3, treeNode2, 2);
-        TreeNode treeNode4 = createTreeNode(4, treeNode1, 1);
+    TreeNode treeNode1 = createTreeNode(1, null, 0);
+    TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
+    TreeNode treeNode3 = createTreeNode(3, treeNode2, 2);
+    TreeNode treeNode4 = createTreeNode(4, treeNode1, 1);
 
-        TreeNode interfaceLeafNode2 = createInterfaceLeafNode(90, treeNode2);
+    TreeNode interfaceLeafNode2 = createInterfaceLeafNode(90, treeNode2);
 
-        underTest.execute(PROJECT_ID, dependencies);
+    underTest.execute(PROJECT_ID, dependencies);
 
-        // dependency elevator edge
-        assertTrue(treeNode3.getEdges().containsKey("depPath_3"));
-        assertTrue(treeNode3.getEdges().get("depPath_3").getSourceId().equals(3));
-        assertTrue(treeNode3.getEdges().get("depPath_3").getDestinationId().equals(90));
-        // flat parent connecting edge
-        assertTrue(treeNode2.getEdges().containsKey("depPath_2"));
-        assertTrue(treeNode2.getEdges().get("depPath_2").getSourceId().equals(2));
-        assertTrue(treeNode2.getEdges().get("depPath_2").getDestinationId().equals(4));
+    // dependency elevator edge
+    assertTrue(treeNode3.getEdges().containsKey("depPath_3"));
+    assertTrue(treeNode3.getEdges().get("depPath_3").getSourceId().equals(3));
+    assertTrue(treeNode3.getEdges().get("depPath_3").getDestinationId().equals(90));
+    // flat parent connecting edge
+    assertTrue(treeNode2.getEdges().containsKey("depPath_2"));
+    assertTrue(treeNode2.getEdges().get("depPath_2").getSourceId().equals(2));
+    assertTrue(treeNode2.getEdges().get("depPath_2").getDestinationId().equals(4));
 
-        // no edges at all other nodes
-        assertTrue(treeNode1.getEdges().isEmpty());
-        assertTrue(treeNode4.getEdges().isEmpty());
-        assertTrue(interfaceLeafNode2.getEdges().isEmpty());
-    }
+    // no edges at all other nodes
+    assertTrue(treeNode1.getEdges().isEmpty());
+    assertTrue(treeNode4.getEdges().isEmpty());
+    assertTrue(interfaceLeafNode2.getEdges().isEmpty());
+  }
 
   private TreeNode createTreeNode(int id, TreeNode parent, int depth) {
     TreeNode result = new TreeNode(id, parent, depth, TreeNodeType.TREE, id + "", 0, 0);
@@ -284,7 +324,6 @@ public class DependencyExpanderCheckExpandTest {
     return result;
   }
 
-  // resourceTreeService.findInterfaceLeafNode(LayoutViewType.DEPENDENCY, projectId, intLeafLabel);
   private TreeNode createInterfaceLeafNode(int id, TreeNode parent) {
     TreeNode result = new TreeNode(id, parent, 0, TreeNodeType.DEPENDENCY_GENERATED, id + "", 0, 0);
 
@@ -295,14 +334,11 @@ public class DependencyExpanderCheckExpandTest {
     return result;
   }
 
-  private SonarDependency createDependency(int from, int to, DependencyType type) {
+  private SonarDependency createDependency(int from, int to) {
     SonarDependency result = new SonarDependency();
 
     result.setFromSnapshotId(from);
     result.setToSnapshotId(to);
-
-    when(treeService.getDependencyType(LayoutViewType.DEPENDENCY, PROJECT_ID, from, to))
-      .thenReturn(type);
 
     return result;
   }

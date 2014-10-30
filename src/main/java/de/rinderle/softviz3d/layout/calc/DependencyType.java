@@ -20,5 +20,5 @@
 package de.rinderle.softviz3d.layout.calc;
 
 public enum DependencyType {
-  INPUT_TREE, INPUT_FLAT
+  INPUT_TREE, INPUT_FLAT, DIR
 }

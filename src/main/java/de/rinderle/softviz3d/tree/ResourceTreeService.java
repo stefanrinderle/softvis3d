@@ -19,7 +19,6 @@
  */
 package de.rinderle.softviz3d.tree;
 
-import de.rinderle.softviz3d.layout.calc.DependencyType;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 
 import java.util.List;
@@ -37,7 +36,5 @@ public interface ResourceTreeService {
   TreeNode addInterfaceLeafNode(LayoutViewType type, Integer snapshotId, String intLeafLabel, Integer parentId);
 
   TreeNode findInterfaceLeafNode(LayoutViewType type, Integer snapshotId, String intLeafLabel);
-
-  DependencyType getDependencyType(LayoutViewType type, Integer rootSnapshotId, Integer fromSnapshotId, Integer toSnapshotId);
 
 }

@@ -29,7 +29,7 @@ public class Edge {
   private Integer sourceId;
   private Integer destinationId;
   private Integer parentId;
-  private int counter;
+  private int counter = 1;
 
   public Edge(final Integer projectId, final String depEdgeLabel, final Integer sourceId, final Integer destinationId,
     final Integer parentId) {
@@ -60,11 +60,11 @@ public class Edge {
     return parentId;
   }
 
-  public Integer getCounter() {
+  public int getCounter() {
     return counter;
   }
 
-  public void setCounter(final Integer counter) {
+  public void setCounter(final int counter) {
     this.counter = counter;
   }
 }

@@ -32,8 +32,6 @@ public class DependencyExpanderImpl implements DependencyExpander {
   public static final String INTERFACE_PREFIX = "interface";
   private static final String DEP_PATH_EDGE_PREFIX = "depPath";
 
-//  private Map<Integer, Integer> nodesCounter = new HashMap<Integer, Integer>();
-
   private Integer projectId;
 
   @Inject
@@ -44,35 +42,46 @@ public class DependencyExpanderImpl implements DependencyExpander {
 
     for (SonarDependency dependency : dependencies) {
 
-      DependencyType dependencyType =
-        resourceTreeService.getDependencyType(LayoutViewType.DEPENDENCY, projectId, dependency.getFromSnapshotId(), dependency.getToSnapshotId());
+      Integer sourceId = dependency.getFromSnapshotId();
+      Integer destinationId = dependency.getToSnapshotId();
+      // search for the common ancestor
+      TreeNode source = resourceTreeService.findNode(LayoutViewType.DEPENDENCY, projectId, sourceId);
+      TreeNode destination = resourceTreeService.findNode(LayoutViewType.DEPENDENCY, projectId, destinationId);
+
+      DependencyType dependencyType = getDependencyType(source, destination);
+
       if (dependencyType.equals(DependencyType.INPUT_FLAT)) {
-//        incrementNodesCounter(dependency.getToSnapshotId());
-//        incrementNodesCounter(dependency.getFromSnapshotId());
+        handleNewFlatDepEdge(source, destination);
+      } else if (dependencyType.equals(DependencyType.INPUT_TREE)) {
+        createDependencyPath(source, destination);
       } else {
-        Integer out = dependency.getToSnapshotId();
-        Integer in = dependency.getFromSnapshotId();
-        // search for the common ancestor
-        createDependencyPath(resourceTreeService.findNode(LayoutViewType.DEPENDENCY, projectId, out), resourceTreeService.findNode(LayoutViewType.DEPENDENCY, projectId, in));
+        // do nothing. That's on dependency type dir. Analyse and fix.
       }
     }
   }
 
-//  private void incrementNodesCounter(final Integer nodeId) {
-//    if (nodesCounter.containsKey(nodeId)) {
-//      nodesCounter.put(nodeId, nodesCounter.get(nodeId) + 1);
-//    } else {
-//      nodesCounter.put(nodeId, 1);
-//    }
-//  }
+  private DependencyType getDependencyType(final TreeNode from, final TreeNode to) {
+    // TODO check this - should be if a dependency to a dir was given.
+    if (from != null && to != null) {
+      boolean hasSameParent = from.getParent().getId().equals(to.getParent().getId());
+
+      if (hasSameParent) {
+        return DependencyType.INPUT_FLAT;
+      } else {
+        return DependencyType.INPUT_TREE;
+      }
+    } else {
+      return DependencyType.DIR;
+    }
+  }
 
   private void createDependencyPath(TreeNode source, TreeNode dest) {
     while (!source.getParent().getId().equals(dest.getParent().getId())) {
       if (source.getDepth() > dest.getDepth()) {
-        handleNewDepEdge(source, false);
+        handleNewDepEdge(source, true);
         source = source.getParent();
       } else {
-        handleNewDepEdge(dest, true);
+        handleNewDepEdge(dest, false);
         dest = dest.getParent();
       }
     }
@@ -80,15 +89,15 @@ public class DependencyExpanderImpl implements DependencyExpander {
     // compute till both have the same parent
     while (!source.getParent().getId().equals(dest.getParent().getId())) {
       if (source.getDepth() > dest.getDepth()) {
-        handleNewDepEdge(source, false);
+        handleNewDepEdge(source, true);
         source = source.getParent();
       } else {
-        handleNewDepEdge(dest, true);
+        handleNewDepEdge(dest, false);
         dest = dest.getParent();
       }
     }
 
-    handleNewFlatDepEdge(dest, source);
+    handleNewFlatDepEdge(source, dest);
   }
 
   private void handleNewFlatDepEdge(TreeNode source, TreeNode dest) {
@@ -109,35 +118,35 @@ public class DependencyExpanderImpl implements DependencyExpander {
     String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + treeNode.getId();
     // always attach edge to source node
     if (isOut) {
-        // treeNode is source
-        if (treeNode.hasEdge(depEdgeLabel)) {
-            Edge edge = treeNode.getEdge(depEdgeLabel);
-            edge.setCounter(edge.getCounter() + 1);
-            treeNode.setEdge(edge);
-        } else {
-            TreeNode depNode = getInterfaceNode(treeNode.getParent().getId());
-
-            final Edge element = new Edge(projectId, depEdgeLabel, treeNode.getId(), depNode.getId(), treeNode.getParent().getId());
-
-            treeNode.setEdge(element);
-        }
-    } else {
-        // interface node is source
+      // treeNode is source
+      if (treeNode.hasEdge(depEdgeLabel)) {
+        Edge edge = treeNode.getEdge(depEdgeLabel);
+        edge.setCounter(edge.getCounter() + 1);
+        treeNode.setEdge(edge);
+      } else {
         TreeNode depNode = getInterfaceNode(treeNode.getParent().getId());
-        if (depNode.hasEdge(depEdgeLabel)) {
-            Edge edge = depNode.getEdge(depEdgeLabel);
-            edge.setCounter(edge.getCounter() + 1);
-            depNode.setEdge(edge);
-        } else {
-            final Edge element = new Edge(projectId, depEdgeLabel, depNode.getId(), treeNode.getId(), treeNode.getParent().getId());
-            depNode.setEdge(element);
-        }
+
+        final Edge element = new Edge(projectId, depEdgeLabel, treeNode.getId(), depNode.getId(), treeNode.getParent().getId());
+
+        treeNode.setEdge(element);
+      }
+    } else {
+      // interface node is source
+      TreeNode depNode = getInterfaceNode(treeNode.getParent().getId());
+      if (depNode.hasEdge(depEdgeLabel)) {
+        Edge edge = depNode.getEdge(depEdgeLabel);
+        edge.setCounter(edge.getCounter() + 1);
+        depNode.setEdge(edge);
+      } else {
+        final Edge element = new Edge(projectId, depEdgeLabel, depNode.getId(), treeNode.getId(), treeNode.getParent().getId());
+        depNode.setEdge(element);
+      }
     }
 
   }
 
   private TreeNode getInterfaceNode(Integer parentId) {
-      TreeNode result;
+    TreeNode result;
     String intLeafLabel = INTERFACE_PREFIX + "_" + parentId;
 
     TreeNode treeNode = resourceTreeService.findInterfaceLeafNode(LayoutViewType.DEPENDENCY, projectId, intLeafLabel);
