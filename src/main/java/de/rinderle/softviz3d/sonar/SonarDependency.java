@@ -28,7 +28,7 @@ public class SonarDependency {
 
   private BigInteger id;
   private Integer fromSnapshotId;
-  private Integer fromResouorceId;
+  private Integer fromResourceId;
   private Integer toSnapshotId;
   private Integer toResourceId;
   private String usage;
@@ -55,12 +55,12 @@ public class SonarDependency {
     this.fromSnapshotId = fromSnapshotId;
   }
 
-  public Integer getFromResouorceId() {
-    return fromResouorceId;
+  public Integer getFromResourceId() {
+    return fromResourceId;
   }
 
-  public void setFromResouorceId(final Integer fromResouorceId) {
-    this.fromResouorceId = fromResouorceId;
+  public void setFromResourceId(final Integer fromResourceId) {
+    this.fromResourceId = fromResourceId;
   }
 
   public Integer getToSnapshotId() {
@@ -116,7 +116,7 @@ public class SonarDependency {
     return "SonarDependency{" +
       "id=" + id +
       ", fromSnapshotId=" + fromSnapshotId +
-      ", fromResouorceId=" + fromResouorceId +
+      ", fromResourceId=" + fromResourceId +
       ", toSnapshotId=" + toSnapshotId +
       ", toResourceId=" + toResourceId +
       ", usage='" + usage + '\'' +

@@ -34,7 +34,7 @@ public interface ResourceTreeService {
 
   TreeNode findNode(LayoutViewType type, Integer rootSnapshotId, Integer id);
 
-  Integer addInterfaceLeafNode(LayoutViewType type, Integer snapshotId, String intLeafLabel, Integer parentId);
+  TreeNode addInterfaceLeafNode(LayoutViewType type, Integer snapshotId, String intLeafLabel, Integer parentId);
 
   TreeNode findInterfaceLeafNode(LayoutViewType type, Integer snapshotId, String intLeafLabel);
 

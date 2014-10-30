@@ -102,7 +102,7 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
   }
 
   @Override
-  public Integer addInterfaceLeafNode(final LayoutViewType type, final Integer rootSnapshotId, final String intLeafLabel, final Integer parentId) {
+  public TreeNode addInterfaceLeafNode(final LayoutViewType type, final Integer rootSnapshotId, final String intLeafLabel, final Integer parentId) {
     PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
 
     // search for parent node
@@ -112,7 +112,7 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     final TreeNode interfaceLeafTreeNode = new TreeNode(id, parent, parent.getDepth() + 1, TreeNodeType.DEPENDENCY_GENERATED, "elevatorNode_" + id, 0, 0);
     parent.getChildren().put(intLeafLabel, interfaceLeafTreeNode);
 
-    return interfaceLeafTreeNode.getId();
+    return interfaceLeafTreeNode;
   }
 
   @Override

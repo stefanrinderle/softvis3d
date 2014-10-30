@@ -75,7 +75,7 @@ public class DependencyDaoImpl implements DependencyDao {
       SonarDependency dependency = new SonarDependency();
       dependency.setId((BigInteger) object[0]);
       dependency.setFromSnapshotId((Integer) object[1]);
-      dependency.setFromResouorceId((Integer) object[2]);
+      dependency.setFromResourceId((Integer) object[2]);
       dependency.setToSnapshotId((Integer) object[3]);
       dependency.setToResourceId((Integer) object[4]);
 

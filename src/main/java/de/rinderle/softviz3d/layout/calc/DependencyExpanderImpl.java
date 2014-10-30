@@ -25,16 +25,14 @@ import de.rinderle.softviz3d.tree.TreeNode;
 
 import javax.inject.Inject;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DependencyExpanderImpl implements DependencyExpander {
 
-  private static final String INTERFACE_PREFIX = "interface_";
-  private static final String DEP_PATH_EDGE_PREFIX = "depPath_";
+  public static final String INTERFACE_PREFIX = "interface";
+  private static final String DEP_PATH_EDGE_PREFIX = "depPath";
 
-  private Map<Integer, Integer> nodesCounter = new HashMap<Integer, Integer>();
+//  private Map<Integer, Integer> nodesCounter = new HashMap<Integer, Integer>();
 
   private Integer projectId;
 
@@ -49,8 +47,8 @@ public class DependencyExpanderImpl implements DependencyExpander {
       DependencyType dependencyType =
         resourceTreeService.getDependencyType(LayoutViewType.DEPENDENCY, projectId, dependency.getFromSnapshotId(), dependency.getToSnapshotId());
       if (dependencyType.equals(DependencyType.INPUT_FLAT)) {
-        incrementNodesCounter(dependency.getToSnapshotId());
-        incrementNodesCounter(dependency.getFromSnapshotId());
+//        incrementNodesCounter(dependency.getToSnapshotId());
+//        incrementNodesCounter(dependency.getFromSnapshotId());
       } else {
         Integer out = dependency.getToSnapshotId();
         Integer in = dependency.getFromSnapshotId();
@@ -60,13 +58,13 @@ public class DependencyExpanderImpl implements DependencyExpander {
     }
   }
 
-  private void incrementNodesCounter(final Integer nodeId) {
-    if (nodesCounter.containsKey(nodeId)) {
-      nodesCounter.put(nodeId, nodesCounter.get(nodeId) + 1);
-    } else {
-      nodesCounter.put(nodeId, 1);
-    }
-  }
+//  private void incrementNodesCounter(final Integer nodeId) {
+//    if (nodesCounter.containsKey(nodeId)) {
+//      nodesCounter.put(nodeId, nodesCounter.get(nodeId) + 1);
+//    } else {
+//      nodesCounter.put(nodeId, 1);
+//    }
+//  }
 
   private void createDependencyPath(TreeNode source, TreeNode dest) {
     while (!source.getParent().getId().equals(dest.getParent().getId())) {
@@ -90,7 +88,7 @@ public class DependencyExpanderImpl implements DependencyExpander {
       }
     }
 
-    handleNewFlatDepEdge(source, dest);
+    handleNewFlatDepEdge(dest, source);
   }
 
   private void handleNewFlatDepEdge(TreeNode source, TreeNode dest) {
@@ -109,33 +107,43 @@ public class DependencyExpanderImpl implements DependencyExpander {
 
   private void handleNewDepEdge(TreeNode treeNode, boolean isOut) {
     String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + treeNode.getId();
+    // always attach edge to source node
+    if (isOut) {
+        // treeNode is source
+        if (treeNode.hasEdge(depEdgeLabel)) {
+            Edge edge = treeNode.getEdge(depEdgeLabel);
+            edge.setCounter(edge.getCounter() + 1);
+            treeNode.setEdge(edge);
+        } else {
+            TreeNode depNode = getInterfaceNode(treeNode.getParent().getId());
 
-    if (treeNode.hasEdge(depEdgeLabel)) {
-      Edge edge = treeNode.getEdge(depEdgeLabel);
-      edge.setCounter(edge.getCounter() + 1);
-      treeNode.setEdge(edge);
+            final Edge element = new Edge(projectId, depEdgeLabel, treeNode.getId(), depNode.getId(), treeNode.getParent().getId());
+
+            treeNode.setEdge(element);
+        }
     } else {
-      Integer depNodeId = getInterfaceNode(treeNode.getParent().getId());
-
-      final Edge element;
-      if (isOut) {
-        element = new Edge(projectId, depEdgeLabel, treeNode.getId(), depNodeId, treeNode.getParent().getId());
-      } else {
-        element = new Edge(projectId, depEdgeLabel, depNodeId, treeNode.getId(), treeNode.getParent().getId());
-      }
-
-      treeNode.setEdge(element);
+        // interface node is source
+        TreeNode depNode = getInterfaceNode(treeNode.getParent().getId());
+        if (depNode.hasEdge(depEdgeLabel)) {
+            Edge edge = depNode.getEdge(depEdgeLabel);
+            edge.setCounter(edge.getCounter() + 1);
+            depNode.setEdge(edge);
+        } else {
+            final Edge element = new Edge(projectId, depEdgeLabel, depNode.getId(), treeNode.getId(), treeNode.getParent().getId());
+            depNode.setEdge(element);
+        }
     }
+
   }
 
-  private Integer getInterfaceNode(Integer parentId) {
-    Integer result;
-    String intLeafLabel = INTERFACE_PREFIX + parentId;
+  private TreeNode getInterfaceNode(Integer parentId) {
+      TreeNode result;
+    String intLeafLabel = INTERFACE_PREFIX + "_" + parentId;
 
     TreeNode treeNode = resourceTreeService.findInterfaceLeafNode(LayoutViewType.DEPENDENCY, projectId, intLeafLabel);
 
     if (treeNode != null) {
-      result = treeNode.getId();
+      result = treeNode;
     } else {
       result = resourceTreeService.addInterfaceLeafNode(LayoutViewType.DEPENDENCY, projectId, intLeafLabel, parentId);
     }
