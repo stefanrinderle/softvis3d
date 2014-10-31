@@ -34,15 +34,15 @@ public class SoftViz3dWebserviceTest {
   public void shouldDefineSoftviz3Webservice() throws Exception {
     // WsTester is available in the Maven artifact org.codehaus.sonar:sonar-plugin-api
     // with type "test-jar"
-    WsTester tester = new WsTester(ws);
-    WebService.Controller controller = tester.controller("api/softViz3d");
+    final WsTester tester = new WsTester(ws);
+    final WebService.Controller controller = tester.controller("api/softViz3d");
 
     assertThat(controller).isNotNull();
     assertThat(controller.path()).isEqualTo("api/softViz3d");
     assertThat(controller.description()).isNotEmpty();
     assertThat(controller.actions()).hasSize(1);
 
-    WebService.Action initialize = controller.action("initialize");
+    final WebService.Action initialize = controller.action("initialize");
     assertThat(initialize).isNotNull();
     assertThat(initialize.key()).isEqualTo("initialize");
   }

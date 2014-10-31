@@ -40,7 +40,7 @@ public class LayeredLayoutElement {
 
   private Map<String, Edge> edges;
 
-  private LayeredLayoutElement(TreeNodeType type, Integer id, String name, Double width, Double height, Double buildingHeight, String displayName, Map<String, Edge> edges) {
+  private LayeredLayoutElement(final TreeNodeType type, final Integer id, final String name, final Double width, final Double height, final Double buildingHeight, final String displayName, final Map<String, Edge> edges) {
     super();
     this.type = type;
     this.id = id;
@@ -53,17 +53,17 @@ public class LayeredLayoutElement {
   }
 
   public static LayeredLayoutElement createLayeredLayoutLeafElement(
-    TreeNode node, Double width, Double height, Double buildingHeight) {
+    final TreeNode node, final Double width, final Double height, final Double buildingHeight) {
     return createLayeredLayoutElement("file_", node, width, height, buildingHeight, node.getEdges());
   }
 
   public static LayeredLayoutElement createLayeredLayoutNodeElement(
-    TreeNode node, Double width, Double height, Double buildingHeight) {
+    final TreeNode node, final Double width, final Double height, final Double buildingHeight) {
     return createLayeredLayoutElement("dir_", node, width, height, buildingHeight, node.getEdges());
   }
 
   private static LayeredLayoutElement createLayeredLayoutElement(
-    String namePrefix, TreeNode node, Double width, Double height, Double buildingHeight, Map<String, Edge> edges) {
+    final String namePrefix, final TreeNode node, final Double width, final Double height, final Double buildingHeight, final Map<String, Edge> edges) {
     return new LayeredLayoutElement(node.getType(), node.getId(), namePrefix
       + node.getId().toString(), width, height,
       buildingHeight, node.getName(), edges);

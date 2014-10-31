@@ -40,15 +40,15 @@ public class ViewLayerFormatter implements LayerFormatter {
   private static final int MIN_BUILDING_HEIGHT = 10;
 
   @Override
-  public void format(Graph graph, Integer depth, LayoutViewType viewType) {
+  public void format(final Graph graph, final Integer depth, final LayoutViewType viewType) {
     // calc color
     int colorCalc = depth * 16;
     if (colorCalc > 154 || colorCalc < 0) {
       colorCalc = 154;
     }
 
-    HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
-    HexaColor nodesColor = new HexaColor(254, 140, 0);
+    final HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
+    final HexaColor nodesColor = new HexaColor(254, 140, 0);
 
     graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR, color);
 
@@ -64,7 +64,7 @@ public class ViewLayerFormatter implements LayerFormatter {
 
     graph.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
 
-    for (Node leaf : graph.nodeElementsAsArray()) {
+    for (final Node leaf : graph.nodeElementsAsArray()) {
       fixBuildingHeight(leaf);
 
       Double width = (Double) leaf.getAttributeValue(WIDTH_ATTR);
@@ -87,7 +87,7 @@ public class ViewLayerFormatter implements LayerFormatter {
     }
   }
 
-  private double roundTo2Decimals(double value) {
+  private double roundTo2Decimals(final double value) {
     return Math.round(value * 100.0) / 100.0;
   }
 
@@ -96,11 +96,11 @@ public class ViewLayerFormatter implements LayerFormatter {
    * we prefix the building height value with "x". This has to be removed in order to
    * parse the value in the view later.
    */
-  private void fixBuildingHeight(Node leaf) {
+  private void fixBuildingHeight(final Node leaf) {
     // there is an x at the beginning of the buildingHeight percent value
-    String heightString = leaf.getAttributeValue(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT).toString();
+    final String heightString = leaf.getAttributeValue(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT).toString();
 
-    Double height = Double.valueOf(heightString.substring(1)) + MIN_BUILDING_HEIGHT;
+    final Double height = Double.valueOf(heightString.substring(1)) + MIN_BUILDING_HEIGHT;
 
     leaf.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, height.toString());
   }
@@ -113,7 +113,7 @@ public class ViewLayerFormatter implements LayerFormatter {
    * @return percent 0-100%
    */
   @Override
-  public double calcBuildingHeight(Double value, SonarMetric metricHeight) {
+  public double calcBuildingHeight(final Double value, final SonarMetric metricHeight) {
     double buildingHeight = 0.0;
 
     buildingHeight = calcPercentage(value, metricHeight, buildingHeight);
@@ -122,7 +122,7 @@ public class ViewLayerFormatter implements LayerFormatter {
   }
 
   @Override
-  public double calcSideLength(Double value, SonarMetric metricFootprint) {
+  public double calcSideLength(final Double value, final SonarMetric metricFootprint) {
     double sideLength = 0.0;
 
     sideLength = calcPercentage(value, metricFootprint, sideLength);
@@ -134,12 +134,12 @@ public class ViewLayerFormatter implements LayerFormatter {
     return sideLength;
   }
 
-  private double calcPercentage(Double value, SonarMetric metric, double sideLength) {
+  private double calcPercentage(final Double value, final SonarMetric metric, double sideLength) {
     if (value != null) {
-      Double minValue = metric.getMinValue();
-      Double maxValue = metric.getMaxValue();
+      final Double minValue = metric.getMinValue();
+      final Double maxValue = metric.getMaxValue();
 
-      Double rangeSize = maxValue - minValue;
+      final Double rangeSize = maxValue - minValue;
       if (rangeSize < 0) {
         LOGGER.error("Building calcPercentage range size below zero" + rangeSize);
       } else {

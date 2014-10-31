@@ -28,7 +28,7 @@ public class TreeNormalizerTest {
 
   @Test
   public void testNormalizeWithLongPath() {
-    PathWalker walker = new PathWalker(412);
+    final PathWalker walker = new PathWalker(412);
 
     callWalkerWithMetrics(walker, 413, "src/main/java/de/rinderle/softviz3d");
     callWalkerWithMetrics(walker, 414, "src/main/java/de/rinderle/softviz3d/SoftViz3dExtension.java");
@@ -49,10 +49,10 @@ public class TreeNormalizerTest {
     callWalkerWithMetrics(walker, 460, "src/test/java/de/rinderle/softviz3d/Tree.java");
     callWalkerWithMetrics(walker, 461, "src/test/java/de/rinderle/softviz3d/TreePathTest.java");
 
-    TreeNode tree = walker.getTree();
+    final TreeNode tree = walker.getTree();
     assertEquals("children are not main and test", 2, tree.getChildren().get("src").getChildren().size());
 
-    TreeNormalizer normalizer = new TreeNormalizer();
+    final TreeNormalizer normalizer = new TreeNormalizer();
     normalizer.normalizeTree(tree);
     normalizer.recalculateDepth(tree);
 
@@ -70,7 +70,7 @@ public class TreeNormalizerTest {
       .get("main/java/de/rinderle/softviz3d").getChildren().get("guice").getDepth());
   }
 
-  private void callWalkerWithMetrics(PathWalker walker, int id, String path) {
+  private void callWalkerWithMetrics(final PathWalker walker, final int id, final String path) {
     walker.addPath(id, path, 1, 1);
   }
 }

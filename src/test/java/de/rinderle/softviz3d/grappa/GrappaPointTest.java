@@ -33,7 +33,7 @@ public class GrappaPointTest {
 
   @Test
   public void test() {
-    GrappaPoint pos = new GrappaPoint(-7, -9);
+    final GrappaPoint pos = new GrappaPoint(-7, -9);
 
     assertTrue(-7 == pos.getX());
     assertTrue(-9 == pos.getY());
@@ -44,11 +44,11 @@ public class GrappaPointTest {
 
   @Test
   public void testSplit() {
-    GrappaPoint pos = new GrappaPoint(-7, -9);
+    final GrappaPoint pos = new GrappaPoint(-7, -9);
 
-    String attributeString = pos.toAttributeString();
+    final String attributeString = pos.toAttributeString();
 
-    String[] attributePos = attributeString.split(",");
+    final String[] attributePos = attributeString.split(",");
 
     assertEquals("-7", attributePos[0]);
     assertEquals("9", attributePos[1]);
@@ -59,7 +59,7 @@ public class GrappaPointTest {
 
   @Test
   public void testStringConversion() {
-    GrappaPoint pos = new GrappaPoint("48,-12");
+    final GrappaPoint pos = new GrappaPoint("48,-12");
 
     assertTrue(48 == pos.x);
     assertTrue(12 == pos.y);

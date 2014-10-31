@@ -49,12 +49,12 @@ public class DotVersionTest {
 
   @Test
   public void testHappy() throws DotExcecutorException {
-    String version = "2.20.2";
-    String versionInfo = "dot - Graphviz version " + version + " (Tue Jan 14 19:38:44 UTC 2014)";
+    final String version = "2.20.2";
+    final String versionInfo = "dot - Graphviz version " + version + " (Tue Jan 14 19:38:44 UTC 2014)";
     Mockito.when(
       executeCommand.executeCommandReadErrorStream(Mockito.any(String.class))).thenReturn(versionInfo);
 
-    String result = underTest.getVersion(new Settings());
+    final String result = underTest.getVersion(new Settings());
 
     assertNotNull(result);
     assertTrue(version.equals(result));

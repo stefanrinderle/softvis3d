@@ -37,7 +37,7 @@ public class TreeNode {
   private Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
   private Map<String, Edge> edges = new HashMap<String, Edge>();
 
-  public TreeNode(Integer id, TreeNode parent, int depth, TreeNodeType type, String name, double footprintMetricValue, double heightMetricValue) {
+  public TreeNode(final Integer id, final TreeNode parent, final int depth, final TreeNodeType type, final String name, final double footprintMetricValue, final double heightMetricValue) {
     this.id = id;
     this.parent = parent;
     this.depth = depth;
@@ -51,7 +51,7 @@ public class TreeNode {
     return children;
   }
 
-  public void setChildren(Map<String, TreeNode> children) {
+  public void setChildren(final Map<String, TreeNode> children) {
     this.children = children;
   }
 
@@ -67,7 +67,7 @@ public class TreeNode {
     return parent;
   }
 
-  public void setParent(TreeNode parent) {
+  public void setParent(final TreeNode parent) {
     this.parent = parent;
   }
 
@@ -75,7 +75,7 @@ public class TreeNode {
     return depth;
   }
 
-  public void setDepth(Integer depth) {
+  public void setDepth(final Integer depth) {
     this.depth = depth;
   }
 
@@ -95,19 +95,19 @@ public class TreeNode {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
-  public void setEdge(Edge outEdge) {
+  public void setEdge(final Edge outEdge) {
     this.edges.put(outEdge.getDepEdgeLabel(), outEdge);
   }
 
-  public boolean hasEdge(String edgeLabel) {
+  public boolean hasEdge(final String edgeLabel) {
     return this.edges.containsKey(edgeLabel);
   }
 
-  public Edge getEdge(String depEdgeLabel) {
+  public Edge getEdge(final String depEdgeLabel) {
     return this.edges.get(depEdgeLabel);
   }
 

@@ -56,7 +56,7 @@ public class DependencyExpanderCheckExpandTest {
 
   @Test
   public void testDependenciesEmpty() {
-    List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
     underTest.execute(PROJECT_ID, dependencies);
 
@@ -71,14 +71,14 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesFlatEdge() {
-    List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-    SonarDependency fromAtoB = createDependency(2, 3);
+    final SonarDependency fromAtoB = createDependency(2, 3);
     dependencies.add(fromAtoB);
 
-    TreeNode treeNode1 = createTreeNode(1, null, 0);
-    TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
-    TreeNode treeNode3 = createTreeNode(3, treeNode1, 2);
+    final TreeNode treeNode1 = createTreeNode(1, null, 0);
+    final TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
+    final TreeNode treeNode3 = createTreeNode(3, treeNode1, 2);
 
     underTest.execute(PROJECT_ID, dependencies);
 
@@ -100,14 +100,14 @@ public class DependencyExpanderCheckExpandTest {
      **/
     @Test
     public void testDependenciesFlatEdgeOtherWayAround() {
-        List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+        final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-        SonarDependency fromAtoB = createDependency(3, 2);
+        final SonarDependency fromAtoB = createDependency(3, 2);
         dependencies.add(fromAtoB);
 
-        TreeNode treeNode1 = createTreeNode(1, null, 0);
-        TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
-        TreeNode treeNode3 = createTreeNode(3, treeNode1, 2);
+        final TreeNode treeNode1 = createTreeNode(1, null, 0);
+        final TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
+        final TreeNode treeNode3 = createTreeNode(3, treeNode1, 2);
 
         underTest.execute(PROJECT_ID, dependencies);
 
@@ -131,19 +131,19 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesHierarchicalEdge() {
-    List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-    SonarDependency fromCtoE = createDependency(3, 5);
+    final SonarDependency fromCtoE = createDependency(3, 5);
     dependencies.add(fromCtoE);
 
-    TreeNode treeNode1 = createTreeNode(1, null, 0);
-    TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
-    TreeNode treeNode3 = createTreeNode(3, treeNode2, 2);
-    TreeNode treeNode4 = createTreeNode(4, treeNode1, 1);
-    TreeNode treeNode5 = createTreeNode(5, treeNode4, 2);
+    final TreeNode treeNode1 = createTreeNode(1, null, 0);
+    final TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
+    final TreeNode treeNode3 = createTreeNode(3, treeNode2, 2);
+    final TreeNode treeNode4 = createTreeNode(4, treeNode1, 1);
+    final TreeNode treeNode5 = createTreeNode(5, treeNode4, 2);
 
-    TreeNode interfaceLeafNode2 = createInterfaceLeafNode(90, treeNode2);
-    TreeNode interfaceLeafNode4 = createInterfaceLeafNode(91, treeNode4);
+    final TreeNode interfaceLeafNode2 = createInterfaceLeafNode(90, treeNode2);
+    final TreeNode interfaceLeafNode4 = createInterfaceLeafNode(91, treeNode4);
 
     underTest.execute(PROJECT_ID, dependencies);
 
@@ -176,19 +176,19 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesHierarchicalEdgeOtherWayAround() {
-    List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-    SonarDependency fromEtoC = createDependency(5, 3);
+    final SonarDependency fromEtoC = createDependency(5, 3);
     dependencies.add(fromEtoC);
 
-    TreeNode treeNode1 = createTreeNode(1, null, 0);
-    TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
-    TreeNode treeNode3 = createTreeNode(3, treeNode2, 2);
-    TreeNode treeNode4 = createTreeNode(4, treeNode1, 1);
-    TreeNode treeNode5 = createTreeNode(5, treeNode4, 2);
+    final TreeNode treeNode1 = createTreeNode(1, null, 0);
+    final TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
+    final TreeNode treeNode3 = createTreeNode(3, treeNode2, 2);
+    final TreeNode treeNode4 = createTreeNode(4, treeNode1, 1);
+    final TreeNode treeNode5 = createTreeNode(5, treeNode4, 2);
 
-    TreeNode interfaceLeafNode2 = createInterfaceLeafNode(90, treeNode2);
-    TreeNode interfaceLeafNode4 = createInterfaceLeafNode(91, treeNode4);
+    final TreeNode interfaceLeafNode2 = createInterfaceLeafNode(90, treeNode2);
+    final TreeNode interfaceLeafNode4 = createInterfaceLeafNode(91, treeNode4);
 
     underTest.execute(PROJECT_ID, dependencies);
 
@@ -222,21 +222,21 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesHierarchicalEdgesBoth() {
-    List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-    SonarDependency fromCtoE = createDependency(3, 5);
+    final SonarDependency fromCtoE = createDependency(3, 5);
     dependencies.add(fromCtoE);
-    SonarDependency fromEtoC = createDependency(5, 3);
+    final SonarDependency fromEtoC = createDependency(5, 3);
     dependencies.add(fromEtoC);
 
-    TreeNode treeNode1 = createTreeNode(1, null, 0);
-    TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
-    TreeNode treeNode3 = createTreeNode(3, treeNode2, 2);
-    TreeNode treeNode4 = createTreeNode(4, treeNode1, 1);
-    TreeNode treeNode5 = createTreeNode(5, treeNode4, 2);
+    final TreeNode treeNode1 = createTreeNode(1, null, 0);
+    final TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
+    final TreeNode treeNode3 = createTreeNode(3, treeNode2, 2);
+    final TreeNode treeNode4 = createTreeNode(4, treeNode1, 1);
+    final TreeNode treeNode5 = createTreeNode(5, treeNode4, 2);
 
-    TreeNode interfaceLeafNode2 = createInterfaceLeafNode(90, treeNode2);
-    TreeNode interfaceLeafNode4 = createInterfaceLeafNode(91, treeNode4);
+    final TreeNode interfaceLeafNode2 = createInterfaceLeafNode(90, treeNode2);
+    final TreeNode interfaceLeafNode4 = createInterfaceLeafNode(91, treeNode4);
 
     underTest.execute(PROJECT_ID, dependencies);
 
@@ -287,17 +287,17 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testUnevenDependencyEdge() {
-    List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-    SonarDependency fromCtoE = createDependency(3, 4);
+    final SonarDependency fromCtoE = createDependency(3, 4);
     dependencies.add(fromCtoE);
 
-    TreeNode treeNode1 = createTreeNode(1, null, 0);
-    TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
-    TreeNode treeNode3 = createTreeNode(3, treeNode2, 2);
-    TreeNode treeNode4 = createTreeNode(4, treeNode1, 1);
+    final TreeNode treeNode1 = createTreeNode(1, null, 0);
+    final TreeNode treeNode2 = createTreeNode(2, treeNode1, 1);
+    final TreeNode treeNode3 = createTreeNode(3, treeNode2, 2);
+    final TreeNode treeNode4 = createTreeNode(4, treeNode1, 1);
 
-    TreeNode interfaceLeafNode2 = createInterfaceLeafNode(90, treeNode2);
+    final TreeNode interfaceLeafNode2 = createInterfaceLeafNode(90, treeNode2);
 
     underTest.execute(PROJECT_ID, dependencies);
 
@@ -316,26 +316,26 @@ public class DependencyExpanderCheckExpandTest {
     assertTrue(interfaceLeafNode2.getEdges().isEmpty());
   }
 
-  private TreeNode createTreeNode(int id, TreeNode parent, int depth) {
-    TreeNode result = new TreeNode(id, parent, depth, TreeNodeType.TREE, id + "", 0, 0);
+  private TreeNode createTreeNode(final int id, final TreeNode parent, final int depth) {
+    final TreeNode result = new TreeNode(id, parent, depth, TreeNodeType.TREE, id + "", 0, 0);
 
     when(treeService.findNode(LayoutViewType.DEPENDENCY, PROJECT_ID, id)).thenReturn(result);
 
     return result;
   }
 
-  private TreeNode createInterfaceLeafNode(int id, TreeNode parent) {
-    TreeNode result = new TreeNode(id, parent, 0, TreeNodeType.DEPENDENCY_GENERATED, id + "", 0, 0);
+  private TreeNode createInterfaceLeafNode(final int id, final TreeNode parent) {
+    final TreeNode result = new TreeNode(id, parent, 0, TreeNodeType.DEPENDENCY_GENERATED, id + "", 0, 0);
 
-    String intLeafLabel = DependencyExpanderImpl.INTERFACE_PREFIX + "_" + parent.getId();
+    final String intLeafLabel = DependencyExpanderImpl.INTERFACE_PREFIX + "_" + parent.getId();
     when(treeService.findInterfaceLeafNode(LayoutViewType.DEPENDENCY, PROJECT_ID, intLeafLabel))
       .thenReturn(result);
 
     return result;
   }
 
-  private SonarDependency createDependency(int from, int to) {
-    SonarDependency result = new SonarDependency();
+  private SonarDependency createDependency(final int from, final int to) {
+    final SonarDependency result = new SonarDependency();
 
     result.setFromSnapshotId(from);
     result.setToSnapshotId(to);

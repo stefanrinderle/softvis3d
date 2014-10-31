@@ -47,21 +47,21 @@ public class ExecuteCommandImpl implements ExecuteCommand {
     return line;
   }
 
-  private static String addQuotationMarks(String line, String attrName) {
+  private static String addQuotationMarks(String line, final String attrName) {
     line = line.replace(attrName + "=", attrName + "=\"");
     line = line.replace(",", "\",");
     return line;
   }
 
   @Override
-  public String executeCommandReadErrorStream(String command) {
-    StringBuilder output = new StringBuilder();
+  public String executeCommandReadErrorStream(final String command) {
+    final StringBuilder output = new StringBuilder();
 
-    Process p;
+    final Process p;
     try {
       p = Runtime.getRuntime().exec(command);
 
-      BufferedReader reader = new BufferedReader(new InputStreamReader(
+      final BufferedReader reader = new BufferedReader(new InputStreamReader(
         p.getErrorStream()));
 
       String line;
@@ -70,7 +70,7 @@ public class ExecuteCommandImpl implements ExecuteCommand {
         output.append("\n");
       }
 
-    } catch (IOException e) {
+    } catch (final IOException e) {
       LOGGER.error(e.getMessage(), e);
     }
 
@@ -78,20 +78,20 @@ public class ExecuteCommandImpl implements ExecuteCommand {
   }
 
   @Override
-  public String executeCommandReadAdot(String command, String inputGraph)
+  public String executeCommandReadAdot(final String command, final String inputGraph)
     throws DotExcecutorException {
-    StringBuilder adot = new StringBuilder();
+    final StringBuilder adot = new StringBuilder();
 
-    Process process;
+    final Process process;
     try {
       process = Runtime.getRuntime().exec(command);
 
-      BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
+      final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
         process.getOutputStream()));
       out.write(inputGraph);
       out.close();
 
-      BufferedReader in = new BufferedReader(new InputStreamReader(
+      final BufferedReader in = new BufferedReader(new InputStreamReader(
         process.getInputStream()));
 
       String line;
@@ -105,9 +105,9 @@ public class ExecuteCommandImpl implements ExecuteCommand {
       process.waitFor();
       in.close();
 
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new DotExcecutorException(e.getMessage(), e);
-    } catch (InterruptedException e) {
+    } catch (final InterruptedException e) {
       throw new DotExcecutorException(e.getMessage(), e);
     }
 

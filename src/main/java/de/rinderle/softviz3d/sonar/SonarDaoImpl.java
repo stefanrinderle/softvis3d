@@ -40,26 +40,26 @@ public class SonarDaoImpl implements SonarDao {
   private DatabaseSession session;
 
   @Override
-  public void setDatabaseSession(DatabaseSession session) {
+  public void setDatabaseSession(final DatabaseSession session) {
     this.session = session;
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public List<Integer> getDistinctMetricsBySnapshotId(Integer snapshotId) {
+  public List<Integer> getDistinctMetricsBySnapshotId(final Integer snapshotId) {
     List<Integer> metricIds;
 
     try {
       session.start();
 
-      Query metricsQuery = session
+      final Query metricsQuery = session
         .createQuery("SELECT distinct metricId "
                 + "FROM MeasureModel m WHERE m.snapshotId = :snapshotId "
                 + "AND m.value is not null");
       metricsQuery.setParameter("snapshotId", snapshotId);
 
       metricIds = metricsQuery.getResultList();
-    } catch (PersistenceException e) {
+    } catch (final PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
       metricIds = null;
     } finally {
@@ -77,17 +77,17 @@ public class SonarDaoImpl implements SonarDao {
    * lang.String)
    */
   @Override
-  public Integer getMetricIdByName(String name) {
+  public Integer getMetricIdByName(final String name) {
     Integer metricId;
 
     try {
       session.start();
-      Query query = session
+      final Query query = session
         .createNativeQuery("SELECT id FROM metrics m WHERE m.name = :name");
       query.setParameter("name", name);
 
       metricId = (Integer) query.getSingleResult();
-    } catch (PersistenceException e) {
+    } catch (final PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
       metricId = null;
     } finally {
@@ -99,13 +99,13 @@ public class SonarDaoImpl implements SonarDao {
 
   @Override
   public List<Double> getMinMaxMetricValuesByRootSnapshotId(
-    Integer rootSnapshotId, Integer footprintMetricId,
-    Integer heightMetricId) {
+    final Integer rootSnapshotId, final Integer footprintMetricId,
+    final Integer heightMetricId) {
     List<Double> values = new ArrayList<Double>();
 
     try {
       session.start();
-      Query query = session
+      final Query query = session
         .createNativeQuery("select MIN(m1.value) as min1, MAX(m1.value) as max1, "
                 + "MIN(m2.value) as min2, MAX(m2.value) as max2 from snapshots s "
                 + "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id "
@@ -117,13 +117,13 @@ public class SonarDaoImpl implements SonarDao {
       query.setParameter("footprintMetricId", footprintMetricId);
       query.setParameter("heightMetricId", heightMetricId);
 
-      Object[] result = (Object[]) query.getSingleResult();
+      final Object[] result = (Object[]) query.getSingleResult();
       values.add(((BigDecimal) result[0]).doubleValue());
       values.add(((BigDecimal) result[1]).doubleValue());
       values.add(((BigDecimal) result[2]).doubleValue());
       values.add(((BigDecimal) result[3]).doubleValue());
 
-    } catch (PersistenceException e) {
+    } catch (final PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
       values = null;
     } finally {
@@ -134,13 +134,13 @@ public class SonarDaoImpl implements SonarDao {
   }
 
   @Override
-  public List<Object[]> getAllProjectElements(int rootSnapshotId,
-    int footprintMetricId, int heightMetricId) {
+  public List<Object[]> getAllProjectElements(final int rootSnapshotId,
+    final int footprintMetricId, final int heightMetricId) {
     List<Object[]> result;
 
     try {
       session.start();
-      Query query = session
+      final Query query = session
         .createNativeQuery(
                 "SELECT s.id, p.path, m1.value, m2.value " +
                         "FROM snapshots s " +
@@ -156,7 +156,7 @@ public class SonarDaoImpl implements SonarDao {
       query.setParameter("heightMetricId", heightMetricId);
 
       result = query.getResultList();
-    } catch (PersistenceException e) {
+    } catch (final PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
       result = null;
     } finally {
@@ -166,21 +166,21 @@ public class SonarDaoImpl implements SonarDao {
     // The sql obove does not work as expected. object[2] == object[3] which means
     // that java is not able to differentiate m1.value from m2.value.
     // Therfore the heightMetricValues has to selected separately and override the result.
-    List<Object[]> heightResults = getHeightMetrics(rootSnapshotId, heightMetricId);
-    for (Object[] heightResult : heightResults) {
-      int index = heightResults.indexOf(heightResult);
+    final List<Object[]> heightResults = getHeightMetrics(rootSnapshotId, heightMetricId);
+    for (final Object[] heightResult : heightResults) {
+      final int index = heightResults.indexOf(heightResult);
       result.get(index)[3] = heightResults.get(index)[1];
     }
 
     return result;
   }
 
-  private List<Object[]> getHeightMetrics(Integer rootSnapshotId, Integer heightMetricId) {
+  private List<Object[]> getHeightMetrics(final Integer rootSnapshotId, final Integer heightMetricId) {
     List<Object[]> result;
 
     try {
       session.start();
-      Query query = session
+      final Query query = session
         .createNativeQuery(
                 "SELECT s.id, m1.value, p.path " +
                         "FROM snapshots s " +
@@ -193,7 +193,7 @@ public class SonarDaoImpl implements SonarDao {
       query.setParameter("heightMetricId", heightMetricId);
 
       result = query.getResultList();
-    } catch (PersistenceException e) {
+    } catch (final PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
       result = null;
     } finally {

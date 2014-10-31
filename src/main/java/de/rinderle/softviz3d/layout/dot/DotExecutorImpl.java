@@ -48,12 +48,12 @@ public class DotExecutorImpl implements DotExecutor {
   private ExecuteCommand executeCommand;
 
   @Override
-  public Graph run(Graph inputGraph, Settings settings, LayoutViewType viewType)
+  public Graph run(final Graph inputGraph, final Settings settings, final LayoutViewType viewType)
     throws DotExcecutorException {
-    StringWriter writer = new StringWriter();
+    final StringWriter writer = new StringWriter();
     inputGraph.printGraph(writer);
 
-    String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
+    final String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
     String command = dotBin + " ";
     if (LayoutViewType.CITY.equals(viewType) || inputGraph.edgeElementsAsArray().length == 0) {
       command = dotBin + " -K neato ";
@@ -66,21 +66,21 @@ public class DotExecutorImpl implements DotExecutor {
       try {
 
         if (translationFile == null) {
-          InputStream file = DotExecutorImpl.class
+          final InputStream file = DotExecutorImpl.class
             .getResourceAsStream("/translate.g");
           translationFile = File.createTempFile("translate", ".g");
-          FileOutputStream out = new FileOutputStream(translationFile);
+          final FileOutputStream out = new FileOutputStream(translationFile);
           IOUtils.copy(file, out);
         }
 
-        int lastIndex = dotBin.lastIndexOf("/");
-        String translationBin = dotBin.substring(0, lastIndex + 1);
-        String translationCommand = translationBin + "gvpr -c -f "
+        final int lastIndex = dotBin.lastIndexOf("/");
+        final String translationBin = dotBin.substring(0, lastIndex + 1);
+        final String translationCommand = translationBin + "gvpr -c -f "
           + translationFile.getAbsolutePath();
 
         adot = executeCommand.executeCommandReadAdot(translationCommand,
           adot);
-      } catch (IOException e) {
+      } catch (final IOException e) {
         LOGGER.error("Error on create temp file", e);
       }
     }
@@ -88,21 +88,21 @@ public class DotExecutorImpl implements DotExecutor {
     return parseDot(adot);
   }
 
-  private Graph parseDot(String adot) throws DotExcecutorException {
-    String graphName = "LayoutLayer";
+  private Graph parseDot(final String adot) throws DotExcecutorException {
+    final String graphName = "LayoutLayer";
 
-    Graph newGraph = new Graph("new" + graphName, true, false);
+    final Graph newGraph = new Graph("new" + graphName, true, false);
 
-    OutputStream output = new StringOutputStream();
-    PrintWriter errorStream = new PrintWriter(output);
+    final OutputStream output = new StringOutputStream();
+    final PrintWriter errorStream = new PrintWriter(output);
 
-    Reader reader = new StringReader(adot);
+    final Reader reader = new StringReader(adot);
 
-    Parser parser = new Parser(reader, errorStream, newGraph);
+    final Parser parser = new Parser(reader, errorStream, newGraph);
 
     try {
       parser.parse();
-    } catch (Exception e) {
+    } catch (final Exception e) {
       LOGGER.error("Error on parsing graph string - parseDot: "
         + e.getMessage());
       throw new DotExcecutorException(e.getMessage(), e);

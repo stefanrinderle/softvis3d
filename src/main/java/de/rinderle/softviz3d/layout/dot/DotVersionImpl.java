@@ -36,15 +36,15 @@ public class DotVersionImpl implements DotVersion {
    * @see de.rinderle.softviz3d.layout.dot.DotVersion#getVersion(org.sonar.api.config.Settings)
    */
   @Override
-  public String getVersion(Settings settings) {
+  public String getVersion(final Settings settings) {
     if (version == null) {
-      String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
+      final String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
       String commandResult = executeCommand.executeCommandReadErrorStream(dotBin + " -V");
 
       // dot - Graphviz version 2.20.2 (Tue Jan 14 19:38:44 UTC 2014)
 
       // remove first part
-      String prefix = "dot - Graphviz version ";
+      final String prefix = "dot - Graphviz version ";
       commandResult = commandResult.substring(prefix.length(), commandResult.length());
 
       // remove everything after the first space left

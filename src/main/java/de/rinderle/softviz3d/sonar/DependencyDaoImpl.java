@@ -40,26 +40,26 @@ public class DependencyDaoImpl implements DependencyDao {
   private DatabaseSession session;
 
   @Override
-  public void setDatabaseSession(DatabaseSession session) {
+  public void setDatabaseSession(final DatabaseSession session) {
     this.session = session;
   }
 
   @Override
-  public List<SonarDependency> getDependencies(Integer projectSnapshotId) {
+  public List<SonarDependency> getDependencies(final Integer projectSnapshotId) {
     List<SonarDependency> result = null;
 
     try {
       session.start();
-      Query query = session
+      final Query query = session
         .createNativeQuery("SELECT * FROM dependencies d WHERE project_snapshot_id = :projectSnapshotId");
 
       query.setParameter("projectSnapshotId", projectSnapshotId);
 
-      List<Object[]> queryResult = (List<Object[]>) query.getResultList();
+      final List<Object[]> queryResult = (List<Object[]>) query.getResultList();
 
       result = castToSonarDependency(queryResult);
 
-    } catch (PersistenceException e) {
+    } catch (final PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
     } finally {
       session.stop();
@@ -69,10 +69,10 @@ public class DependencyDaoImpl implements DependencyDao {
   }
 
   private List<SonarDependency> castToSonarDependency(final List<Object[]> queryResult) {
-    List<SonarDependency> result = new ArrayList<SonarDependency>(queryResult.size());
+    final List<SonarDependency> result = new ArrayList<SonarDependency>(queryResult.size());
 
-    for (Object[] object : queryResult) {
-      SonarDependency dependency = new SonarDependency();
+    for (final Object[] object : queryResult) {
+      final SonarDependency dependency = new SonarDependency();
       dependency.setId((BigInteger) object[0]);
       dependency.setFromSnapshotId((Integer) object[1]);
       dependency.setFromResourceId((Integer) object[2]);

@@ -61,14 +61,14 @@ public class AbsolutePositionCalculatorTest extends TestCase {
 
   @Test
   public void testCalculate() throws Exception {
-    Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
+    final Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
     inputGraphList.put(ID, GrappaGraphFactory.createGraph());
 
     underTest.calculate(VIEW_TYPE, ID, inputGraphList);
 
-    Graph result = inputGraphList.get(ID);
+    final Graph result = inputGraphList.get(ID);
 
-    GrappaBox boundingBox = (GrappaBox) result.getAttribute("bb").getValue();
+    final GrappaBox boundingBox = (GrappaBox) result.getAttribute("bb").getValue();
 
     assertEquals(0.0, boundingBox.getX());
     assertEquals(0.0, boundingBox.getY());
@@ -78,19 +78,19 @@ public class AbsolutePositionCalculatorTest extends TestCase {
 
   @Test
   public void testCalculateRecursive() throws Exception {
-    Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
+    final Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
     inputGraphList.put(ID, GrappaGraphFactory.createGraph());
     inputGraphList.put(SUBGRAPH_ID, GrappaGraphFactory.createGraph());
 
-    List<TreeNode> childrenNodes = new ArrayList<TreeNode>();
+    final List<TreeNode> childrenNodes = new ArrayList<TreeNode>();
     childrenNodes.add(new TreeNode(SUBGRAPH_ID, null, 0, TreeNodeType.TREE, "" + SUBGRAPH_ID, 0, 0));
     when(resourceTreeService.getChildrenNodeIds(eq(VIEW_TYPE), eq(ID), eq(ID))).thenReturn(childrenNodes);
 
     underTest.calculate(VIEW_TYPE, ID, inputGraphList);
 
-    Graph result = inputGraphList.get(SUBGRAPH_ID);
+    final Graph result = inputGraphList.get(SUBGRAPH_ID);
 
-    GrappaBox boundingBox = (GrappaBox) result.getAttribute("bb").getValue();
+    final GrappaBox boundingBox = (GrappaBox) result.getAttribute("bb").getValue();
 
     assertEquals(-25.0, boundingBox.getX());
     assertEquals(25.0, boundingBox.getY());

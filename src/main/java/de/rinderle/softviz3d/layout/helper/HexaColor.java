@@ -25,7 +25,7 @@ public class HexaColor extends Color {
 
   private static final long serialVersionUID = 6814600514228717253L;
 
-  public HexaColor(int r, int g, int b) {
+  public HexaColor(final int r, final int g, final int b) {
     super(r, g, b);
   }
 
@@ -38,12 +38,12 @@ public class HexaColor extends Color {
    * @param b blue
    * @return a browser-friendly HEX value
    */
-  public static String toHex(int r, int g, int b) {
+  public static String toHex(final int r, final int g, final int b) {
     return "0x" + toBrowserHexValue(r) + toBrowserHexValue(g) + toBrowserHexValue(b);
   }
 
-  private static String toBrowserHexValue(int number) {
-    StringBuilder builder = new StringBuilder(Integer.toHexString(number & 0xff));
+  private static String toBrowserHexValue(final int number) {
+    final StringBuilder builder = new StringBuilder(Integer.toHexString(number & 0xff));
     while (builder.length() < 2) {
       builder.append("0");
     }

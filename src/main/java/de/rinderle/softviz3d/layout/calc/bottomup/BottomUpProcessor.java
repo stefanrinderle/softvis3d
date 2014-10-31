@@ -45,7 +45,7 @@ public class BottomUpProcessor implements Processor {
   /**
    * Bottom up calculation of layout layers.
    */
-  public LayeredLayoutElement accept(LayoutViewType viewType, SnapshotVisitor visitor, Integer snapshotId, Integer rootSnapshotId)
+  public LayeredLayoutElement accept(final LayoutViewType viewType, final SnapshotVisitor visitor, final Integer snapshotId, final Integer rootSnapshotId)
     throws DotExcecutorException {
     this.viewType = viewType;
     this.rootSnapshotId = rootSnapshotId;
@@ -56,39 +56,39 @@ public class BottomUpProcessor implements Processor {
   /**
    * Bottom up calculation of layout layers.
    */
-  private LayeredLayoutElement accept(SnapshotVisitor visitor, Integer snapshotId)
+  private LayeredLayoutElement accept(final SnapshotVisitor visitor, final Integer snapshotId)
     throws DotExcecutorException {
 
     LOGGER.debug("Layout.accept " + snapshotId);
 
-    TreeNode currentNode = resourceTreeService.findNode(viewType, rootSnapshotId, snapshotId);
+    final TreeNode currentNode = resourceTreeService.findNode(viewType, rootSnapshotId, snapshotId);
 
-    List<LayeredLayoutElement> nodeElements = processChildrenNodes(visitor, snapshotId);
-    List<LayeredLayoutElement> leafElements = processChildrenLeaves(visitor, snapshotId);
+    final List<LayeredLayoutElement> nodeElements = processChildrenNodes(visitor, snapshotId);
+    final List<LayeredLayoutElement> leafElements = processChildrenLeaves(visitor, snapshotId);
 
-    List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
+    final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
     layerElements.addAll(nodeElements);
     layerElements.addAll(leafElements);
 
     return visitor.visitNode(currentNode, layerElements);
   }
 
-  private List<LayeredLayoutElement> processChildrenNodes(SnapshotVisitor visitor, Integer snapshotId) throws DotExcecutorException {
-    List<TreeNode> childrenTreeNodes = resourceTreeService.getChildrenNodeIds(viewType, rootSnapshotId, snapshotId);
+  private List<LayeredLayoutElement> processChildrenNodes(final SnapshotVisitor visitor, final Integer snapshotId) throws DotExcecutorException {
+    final List<TreeNode> childrenTreeNodes = resourceTreeService.getChildrenNodeIds(viewType, rootSnapshotId, snapshotId);
 
-    List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
+    final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
 
-    for (TreeNode node : childrenTreeNodes) {
+    for (final TreeNode node : childrenTreeNodes) {
       layerElements.add(this.accept(visitor, node.getId()));
     }
     return layerElements;
   }
 
-  private List<LayeredLayoutElement> processChildrenLeaves(SnapshotVisitor visitor, Integer snapshotId) {
-    List<TreeNode> childrenLeaves = resourceTreeService.getChildrenLeafIds(viewType, rootSnapshotId, snapshotId);
+  private List<LayeredLayoutElement> processChildrenLeaves(final SnapshotVisitor visitor, final Integer snapshotId) {
+    final List<TreeNode> childrenLeaves = resourceTreeService.getChildrenLeafIds(viewType, rootSnapshotId, snapshotId);
 
-    List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
-    for (TreeNode leaf : childrenLeaves) {
+    final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
+    for (final TreeNode leaf : childrenLeaves) {
       layerElements.add(visitor.visitFile(leaf));
     }
 

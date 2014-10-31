@@ -32,7 +32,7 @@ public class PathWalker {
   private int generatedIdSequence = Integer.MAX_VALUE - 100000;
   private Pattern pathSeparator = Pattern.compile("/");
 
-  public PathWalker(int id) {
+  public PathWalker(final int id) {
     root = new TreeNode(id, null, 0, TreeNodeType.TREE, "root", 0, 0);
   }
 
@@ -40,8 +40,8 @@ public class PathWalker {
     return root;
   }
 
-  public void addPath(int id, String path, double footprintMetricValue, double heightMetricValue) {
-    String[] names = pathSeparator.split(path);
+  public void addPath(final int id, final String path, final double footprintMetricValue, final double heightMetricValue) {
+    final String[] names = pathSeparator.split(path);
     TreeNode currentNode = root;
 
     boolean isLastIndex;
@@ -60,13 +60,13 @@ public class PathWalker {
     return generatedIdSequence++;
   }
 
-  private TreeNode getOrCreateChild(TreeNode node, int id, String name, TreeNodeType type, double footprintMetricValue, double heightMetricValue) {
-    Map<String, TreeNode> children = node.getChildren();
+  private TreeNode getOrCreateChild(final TreeNode node, final int id, final String name, final TreeNodeType type, final double footprintMetricValue, final double heightMetricValue) {
+    final Map<String, TreeNode> children = node.getChildren();
     if (children.containsKey(name)) {
       return children.get(name);
     }
 
-    TreeNode result = new TreeNode(id, node, node.getDepth() + 1, type, name, footprintMetricValue, heightMetricValue);
+    final TreeNode result = new TreeNode(id, node, node.getDepth() + 1, type, name, footprintMetricValue, heightMetricValue);
     children.put(name, result);
     return result;
   }

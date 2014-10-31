@@ -59,7 +59,7 @@ public class BottomUpProcessorTest {
 
   @Test
   public void testEmpty() throws DotExcecutorException {
-    Integer snapshotId = 1;
+    final Integer snapshotId = 1;
 
     underTest.accept(VIEW_TYPE, mockVisitor, snapshotId, snapshotId);
 
@@ -69,10 +69,10 @@ public class BottomUpProcessorTest {
 
   @Test
   public void testChildrenNodes() throws DotExcecutorException {
-    Integer snapshotId = 1;
-    int depth = 0;
+    final Integer snapshotId = 1;
+    final int depth = 0;
 
-    List<TreeNode> childrenTreeNodes = new ArrayList<TreeNode>();
+    final List<TreeNode> childrenTreeNodes = new ArrayList<TreeNode>();
     childrenTreeNodes.add(new TreeNode(2, null, depth, TreeNodeType.TREE, "2", METRIC_FOOTPRINT, METRIC_HEIGHT));
     childrenTreeNodes.add(new TreeNode(2, null, depth, TreeNodeType.TREE, "3", METRIC_FOOTPRINT, METRIC_HEIGHT));
     when(resourceTreeService.getChildrenNodeIds(VIEW_TYPE, snapshotId, snapshotId)).thenReturn(childrenTreeNodes);
@@ -85,10 +85,10 @@ public class BottomUpProcessorTest {
 
   @Test
   public void testChildrenLeaves() throws DotExcecutorException {
-    Integer snapshotId = 1;
-    int depth = 0;
+    final Integer snapshotId = 1;
+    final int depth = 0;
 
-    List<TreeNode> childrenTreeLeaves = new ArrayList<TreeNode>();
+    final List<TreeNode> childrenTreeLeaves = new ArrayList<TreeNode>();
     childrenTreeLeaves.add(new TreeNode(2, null, depth, TreeNodeType.TREE, "2", METRIC_FOOTPRINT, METRIC_HEIGHT));
     childrenTreeLeaves.add(new TreeNode(2, null, depth, TreeNodeType.TREE, "3", METRIC_FOOTPRINT, METRIC_HEIGHT));
     when(resourceTreeService.getChildrenLeafIds(VIEW_TYPE, snapshotId, snapshotId)).thenReturn(childrenTreeLeaves);

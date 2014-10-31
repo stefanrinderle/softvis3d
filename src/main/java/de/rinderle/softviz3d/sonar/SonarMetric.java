@@ -24,7 +24,7 @@ public class SonarMetric {
   private Double minValue;
   private Double maxValue;
 
-  public SonarMetric(Double minValue, Double maxValue) {
+  public SonarMetric(final Double minValue, final Double maxValue) {
     super();
     this.minValue = minValue;
     this.maxValue = maxValue;

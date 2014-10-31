@@ -61,11 +61,11 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
   private LayoutViewType viewType;
 
   @Inject
-  public SnapshotVisitorImpl(LayerFormatter formatter,
-    DotExecutor dotExecutor,
-    @Assisted Settings settings,
-    @Assisted List<Double> minMaxValues,
-    @Assisted LayoutViewType viewType) {
+  public SnapshotVisitorImpl(final LayerFormatter formatter,
+    final DotExecutor dotExecutor,
+    @Assisted final Settings settings,
+    @Assisted final List<Double> minMaxValues,
+    @Assisted final LayoutViewType viewType) {
     this.settings = settings;
 
     this.metricFootprint = new SonarMetric(minMaxValues.get(0), minMaxValues.get(1));
@@ -83,21 +83,21 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
   }
 
   @Override
-  public LayeredLayoutElement visitNode(TreeNode node,
-    List<LayeredLayoutElement> elements) throws DotExcecutorException {
+  public LayeredLayoutElement visitNode(final TreeNode node,
+    final List<LayeredLayoutElement> elements) throws DotExcecutorException {
 
     LOGGER.debug("LayoutVisitor.visitNode " + node.getId() + " " + node.getName());
 
     // create layout graph
-    Graph inputGraph = new Graph(node.getId().toString());
+    final Graph inputGraph = new Graph(node.getId().toString());
 
-    for (LayeredLayoutElement element : elements) {
-      Node elementNode = transformToGrappaNode(inputGraph, element);
+    for (final LayeredLayoutElement element : elements) {
+      final Node elementNode = transformToGrappaNode(inputGraph, element);
       inputGraph.addNode(elementNode);
     }
 
-    for (LayeredLayoutElement element : elements) {
-      for (Edge edge : element.getEdges().values()) {
+    for (final LayeredLayoutElement element : elements) {
+      for (final Edge edge : element.getEdges().values()) {
         inputGraph.addEdge(transformToGrappaEdge(inputGraph, edge));
       }
     }
@@ -107,7 +107,7 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     // inputGraph.printGraph(System.out);
 
     // run dot layout for this layer
-    Graph outputGraph = dotExecutor.run(inputGraph, settings, viewType);
+    final Graph outputGraph = dotExecutor.run(inputGraph, settings, viewType);
 
     // adjust graph
     formatter.format(outputGraph, node.getDepth(), viewType);
@@ -121,25 +121,25 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     resultingGraphList.put(node.getId(), outputGraph);
 
     // adjusted graph has a bounding box !
-    GrappaBox bb = (GrappaBox) outputGraph.getAttributeValue("bb");
+    final GrappaBox bb = (GrappaBox) outputGraph.getAttributeValue("bb");
 
     // The dot output of the bb is given in DPI. The actual width
     // and height of the representing element has to be scaled
     // back to normal
-    Double width = bb.getWidth() / SoftViz3dConstants.DPI_DOT_SCALE;
-    Double height = bb.getHeight() / SoftViz3dConstants.DPI_DOT_SCALE;
+    final Double width = bb.getWidth() / SoftViz3dConstants.DPI_DOT_SCALE;
+    final Double height = bb.getHeight() / SoftViz3dConstants.DPI_DOT_SCALE;
 
-    double platformHeight = 2 * 15;
+    final double platformHeight = 2 * 15;
 
     return LayeredLayoutElement.createLayeredLayoutNodeElement(node, width, height, platformHeight);
   }
 
-  private att.grappa.Edge transformToGrappaEdge(Graph inputGraph, Edge edge) {
-    Node sourceNode = searchNodeById(inputGraph, edge.getSourceId());
-    Node destNode = searchNodeById(inputGraph, edge.getDestinationId());
+  private att.grappa.Edge transformToGrappaEdge(final Graph inputGraph, final Edge edge) {
+    final Node sourceNode = searchNodeById(inputGraph, edge.getSourceId());
+    final Node destNode = searchNodeById(inputGraph, edge.getDestinationId());
 
     if (sourceNode != null && destNode != null) {
-      att.grappa.Edge result = new att.grappa.Edge(inputGraph, sourceNode, destNode);
+      final att.grappa.Edge result = new att.grappa.Edge(inputGraph, sourceNode, destNode);
       // result.setAttribute("thickness", edge.getCounter());
       return result;
     }
@@ -147,9 +147,9 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     return null;
   }
 
-  private Node searchNodeById(Graph inputGraph, Integer sourceId) {
-    for (Node node : inputGraph.nodeElementsAsArray()) {
-      Integer nodeId = Integer.valueOf((String) node.getAttributeValue("id"));
+  private Node searchNodeById(final Graph inputGraph, final Integer sourceId) {
+    for (final Node node : inputGraph.nodeElementsAsArray()) {
+      final Integer nodeId = Integer.valueOf((String) node.getAttributeValue("id"));
       if (nodeId.equals(sourceId)) {
         return node;
       }
@@ -158,8 +158,8 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     return null;
   }
 
-  private Node transformToGrappaNode(Graph inputGraph, LayeredLayoutElement element) {
-    Node elementNode = new Node(inputGraph, element.getName());
+  private Node transformToGrappaNode(final Graph inputGraph, final LayeredLayoutElement element) {
+    final Node elementNode = new Node(inputGraph, element.getName());
     elementNode.setAttribute("id", element.getId().toString());
     elementNode.setAttribute("type", element.getElementType().name());
     elementNode.setAttribute(WIDTH_ATTR, roundTo2Decimals(element.getWidth()));
@@ -176,12 +176,12 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     return elementNode;
   }
 
-  private double roundTo2Decimals(double value) {
+  private double roundTo2Decimals(final double value) {
     return Math.round(value * 100.0) / 100.0;
   }
 
   @Override
-  public LayeredLayoutElement visitFile(TreeNode leaf) {
+  public LayeredLayoutElement visitFile(final TreeNode leaf) {
     double sideLength = formatter.calcSideLength(leaf.getFootprintMetricValue(), metricFootprint);
     sideLength = sideLength / SoftViz3dConstants.DPI_DOT_SCALE;
 

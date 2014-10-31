@@ -55,10 +55,10 @@ public class DotExecutorTest {
 
   @Test
   public void testString() {
-    String dotBin = "/usr/local/bin/dot";
+    final String dotBin = "/usr/local/bin/dot";
 
-    int lastIndex = dotBin.lastIndexOf("/");
-    String result = dotBin.substring(0, lastIndex + 1);
+    final int lastIndex = dotBin.lastIndexOf("/");
+    final String result = dotBin.substring(0, lastIndex + 1);
 
     assertEquals("/usr/local/bin/", result);
   }
@@ -72,8 +72,8 @@ public class DotExecutorTest {
       executeCommand.executeCommandReadAdot(Mockito.any(String.class),
         Mockito.any(String.class))).thenReturn(createADot());
 
-    Graph inputGraph = new Graph("not used in test");
-    Graph result = underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+    final Graph inputGraph = new Graph("not used in test");
+    final Graph result = underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
 
     assertNotNull(result);
     assertTrue("777".equals(result.getName()));
@@ -88,8 +88,8 @@ public class DotExecutorTest {
       executeCommand.executeCommandReadAdot(Mockito.any(String.class),
         Mockito.any(String.class))).thenReturn(createADot());
 
-    Graph inputGraph = new Graph("not used in test");
-    Graph result = underTest.run(inputGraph, SETTINGS, LayoutViewType.DEPENDENCY);
+    final Graph inputGraph = new Graph("not used in test");
+    final Graph result = underTest.run(inputGraph, SETTINGS, LayoutViewType.DEPENDENCY);
 
     assertNotNull(result);
     assertTrue("777".equals(result.getName()));
@@ -104,7 +104,7 @@ public class DotExecutorTest {
       executeCommand.executeCommandReadAdot(Mockito.any(String.class),
         Mockito.any(String.class))).thenReturn(createADot());
 
-    Graph inputGraph = new Graph("not used in test");
+    final Graph inputGraph = new Graph("not used in test");
     underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
 
     Mockito.verify(executeCommand, Mockito.times(1)).executeCommandReadAdot(
@@ -122,7 +122,7 @@ public class DotExecutorTest {
       executeCommand.executeCommandReadAdot(Mockito.any(String.class),
         Mockito.any(String.class))).thenReturn(createADot());
 
-    Graph inputGraph = new Graph("not used in test");
+    final Graph inputGraph = new Graph("not used in test");
     underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
 
     Mockito.verify(executeCommand, Mockito.times(2)).executeCommandReadAdot(
@@ -130,7 +130,7 @@ public class DotExecutorTest {
   }
 
   public String createADot() {
-    StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder();
     builder.append("digraph 777 {");
     builder.append("\n");
     builder.append("graph [bb=\"0,0,612,600\"];");

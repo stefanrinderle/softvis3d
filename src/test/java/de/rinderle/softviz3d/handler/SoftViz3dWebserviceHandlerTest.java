@@ -67,10 +67,10 @@ public class SoftViz3dWebserviceHandlerTest {
 
   @Test
   public void testHandler() throws Exception {
-    Request request = createRequest();
-    Response response = createResponse();
+    final Request request = createRequest();
+    final Response response = createResponse();
 
-    TreeNode tree = new TreeNode(snapshotId, null, 0, TreeNodeType.TREE, snapshotId + "", 0, 0);
+    final TreeNode tree = new TreeNode(snapshotId, null, 0, TreeNodeType.TREE, snapshotId + "", 0, 0);
     when(resourceTreeService.createTreeStructure(LayoutViewType.CITY, snapshotId, footprintMetricId, heightMetricId)).thenReturn(tree);
 
     handler.handle(request, response);
@@ -91,7 +91,7 @@ public class SoftViz3dWebserviceHandlerTest {
       }
 
       @Override
-      public String param(String key) {
+      public String param(final String key) {
         if ("snapshotId".equals(key)) {
           return snapshotId.toString();
         } else if ("footprintMetricId".equals(key)) {

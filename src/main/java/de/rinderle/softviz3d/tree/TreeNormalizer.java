@@ -29,23 +29,23 @@ public class TreeNormalizer {
   }
 
   private void normalizeNode(final TreeNode node) {
-    TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node.getChildren();
-    TreeMap<String, TreeNode> copyOfChildren = (TreeMap<String, TreeNode>) children.clone();
+    final TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node.getChildren();
+    final TreeMap<String, TreeNode> copyOfChildren = (TreeMap<String, TreeNode>) children.clone();
 
     if (children.size() == 1) {
       removeNodeFromStructure(node);
     }
 
-    for (TreeNode child : copyOfChildren.values()) {
+    for (final TreeNode child : copyOfChildren.values()) {
       normalizeNode(child);
     }
   }
 
-  private void removeNodeFromStructure(TreeNode node) {
+  private void removeNodeFromStructure(final TreeNode node) {
     if (node.getParent() != null) {
       // set new parent for child
-      TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node.getChildren();
-      TreeNode child = (TreeNode) children.values().toArray()[0];
+      final TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node.getChildren();
+      final TreeNode child = (TreeNode) children.values().toArray()[0];
 
       child.setParent(node.getParent());
 
@@ -54,7 +54,7 @@ public class TreeNormalizer {
 
       // update children of parent
       // check for root node
-      Map<String, TreeNode> parentChildren = node.getParent().getChildren();
+      final Map<String, TreeNode> parentChildren = node.getParent().getChildren();
       parentChildren.remove(node.getName());
       parentChildren.put(child.getName(), child);
     }
@@ -64,10 +64,10 @@ public class TreeNormalizer {
     recalculateDepth(0, root);
   }
 
-  private void recalculateDepth(int depth, TreeNode node) {
+  private void recalculateDepth(final int depth, final TreeNode node) {
     node.setDepth(depth);
 
-    for (TreeNode child : node.getChildren().values()) {
+    for (final TreeNode child : node.getChildren().values()) {
       recalculateDepth(depth + 1, child);
     }
   }

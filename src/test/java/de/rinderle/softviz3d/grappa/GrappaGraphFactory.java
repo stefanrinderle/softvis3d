@@ -28,19 +28,19 @@ import de.rinderle.softviz3d.tree.TreeNodeType;
 public class GrappaGraphFactory {
 
   public static Graph createGraph() {
-    Graph graph = new Graph("root");
-    double x = 0;
-    double y = 0;
-    double width = 50;
-    double height = 50;
+    final Graph graph = new Graph("root");
+    final double x = 0;
+    final double y = 0;
+    final double width = 50;
+    final double height = 50;
     graph.setAttribute("bb", new GrappaBox(x, y, width, height));
 
-    Node leaf1 = new Node(graphLeaf1());
+    final Node leaf1 = new Node(graphLeaf1());
     leaf1.setAttribute("id", "2");
     leaf1.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
     leaf1.setAttribute("type", TreeNodeType.TREE.name());
     graph.addNode(leaf1);
-    Node leaf2 = new Node(graphLeaf2());
+    final Node leaf2 = new Node(graphLeaf2());
     leaf2.setAttribute("id", "3");
     leaf2.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
       leaf2.setAttribute("type", TreeNodeType.TREE.name());
@@ -50,21 +50,21 @@ public class GrappaGraphFactory {
   }
 
   private static Graph graphLeaf1() {
-    Graph graph = new Graph("leaf1");
-    double x = 0;
-    double y = 0;
-    double width = 50;
-    double height = 50;
+    final Graph graph = new Graph("leaf1");
+    final double x = 0;
+    final double y = 0;
+    final double width = 50;
+    final double height = 50;
     graph.setAttribute("bb", new GrappaBox(x, y, width, height));
     return graph;
   }
 
   private static Graph graphLeaf2() {
-    Graph graph = new Graph("leaf2");
-    double x = 0;
-    double y = 0;
-    double width = 50;
-    double height = 50;
+    final Graph graph = new Graph("leaf2");
+    final double x = 0;
+    final double y = 0;
+    final double width = 50;
+    final double height = 50;
     graph.setAttribute("bb", new GrappaBox(x, y, width, height));
     return graph;
   }

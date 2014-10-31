@@ -59,25 +59,25 @@ public class LayoutSoftViz3d implements Layout {
   private PositionCalculator calc;
 
   @Override
-  public Map<Integer, Graph> startLayout(Settings settings, Integer snapshotId,
-    Integer footprintMetricId, Integer heightMetricId, LayoutViewType viewType)
+  public Map<Integer, Graph> startLayout(final Settings settings, final Integer snapshotId,
+    final Integer footprintMetricId, final Integer heightMetricId, final LayoutViewType viewType)
     throws DotExcecutorException {
 
-    StopWatch stopWatch = new StopWatch();
+    final StopWatch stopWatch = new StopWatch();
     stopWatch.start();
 
     // TODO: do in one step
     resourceTreeService.createTreeStructure(viewType, snapshotId, footprintMetricId, heightMetricId);
     if (LayoutViewType.DEPENDENCY.equals(viewType)) {
-      List<SonarDependency> dependencies = dependencyDao.getDependencies(snapshotId);
+      final List<SonarDependency> dependencies = dependencyDao.getDependencies(snapshotId);
       dependencyExpander.execute(snapshotId, dependencies);
     }
 
     LOGGER.info("Created tree structure after " + stopWatch.getTime());
 
-    Map<Integer, Graph> resultGraphs = startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId, viewType);
+    final Map<Integer, Graph> resultGraphs = startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId, viewType);
 
-    int leavesCounter = calc.calculate(viewType, snapshotId, resultGraphs);
+    final int leavesCounter = calc.calculate(viewType, snapshotId, resultGraphs);
 
     stopWatch.stop();
     LOGGER.info("Calculation finished after " + stopWatch.getTime() + " with "
@@ -86,15 +86,15 @@ public class LayoutSoftViz3d implements Layout {
     return resultGraphs;
   }
 
-  private Map<Integer, Graph> startBottomUpCalculation(Integer snapshotId,
-    Settings settings, Integer footprintMetricId, Integer heightMetricId,
-    LayoutViewType viewType)
+  private Map<Integer, Graph> startBottomUpCalculation(final Integer snapshotId,
+    final Settings settings, final Integer footprintMetricId, final Integer heightMetricId,
+    final LayoutViewType viewType)
     throws DotExcecutorException {
 
-    List<Double> minMaxValues = sonarService.getMinMaxMetricValuesByRootSnapshotId(
+    final List<Double> minMaxValues = sonarService.getMinMaxMetricValuesByRootSnapshotId(
       snapshotId, footprintMetricId, heightMetricId);
 
-    SnapshotVisitor visitor = visitorFactory.create(settings, minMaxValues, viewType);
+    final SnapshotVisitor visitor = visitorFactory.create(settings, minMaxValues, viewType);
 
     processor.accept(viewType, visitor, snapshotId, snapshotId);
 

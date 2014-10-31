@@ -42,26 +42,26 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
   private SonarDao sonarDao;
 
   @Override
-  public TreeNode createTreeStructure(final LayoutViewType type, int rootSnapshotId, int heightMetric, int footprintMetric) {
+  public TreeNode createTreeStructure(final LayoutViewType type, final int rootSnapshotId, final int heightMetric, final int footprintMetric) {
     LOGGER.info("loadedPathWalkers size " + loadedPathWalkers.size());
 
     if (!loadedPathWalkers.containsKey(getId(type, rootSnapshotId))) {
       LOGGER.info("Created tree structure for id " + rootSnapshotId);
-      PathWalker pathWalker = new PathWalker(rootSnapshotId);
+      final PathWalker pathWalker = new PathWalker(rootSnapshotId);
 
-      List<Object[]> flatChildren = sonarDao.getAllProjectElements(rootSnapshotId, heightMetric, footprintMetric);
+      final List<Object[]> flatChildren = sonarDao.getAllProjectElements(rootSnapshotId, heightMetric, footprintMetric);
 
       // s.id, p.name, m1.value, m2.value
-      for (Object[] flatChild : flatChildren) {
-        int snapshotId = (Integer) flatChild[0];
-        String name = (String) flatChild[1];
-        BigDecimal footprintMetricValue = (BigDecimal) flatChild[2];
-        BigDecimal heightMetricValue = (BigDecimal) flatChild[3];
+      for (final Object[] flatChild : flatChildren) {
+        final int snapshotId = (Integer) flatChild[0];
+        final String name = (String) flatChild[1];
+        final BigDecimal footprintMetricValue = (BigDecimal) flatChild[2];
+        final BigDecimal heightMetricValue = (BigDecimal) flatChild[3];
 
         pathWalker.addPath(snapshotId, name, footprintMetricValue.doubleValue(), heightMetricValue.doubleValue());
       }
 
-      TreeNormalizer normalizer = new TreeNormalizer();
+      final TreeNormalizer normalizer = new TreeNormalizer();
       normalizer.normalizeTree(pathWalker.getTree());
       normalizer.recalculateDepth(pathWalker.getTree());
 
@@ -71,43 +71,43 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     return loadedPathWalkers.get(getId(type, rootSnapshotId)).getTree();
   }
 
-  private String getId(LayoutViewType type, int rootSnapshotId) {
+  private String getId(final LayoutViewType type, final int rootSnapshotId) {
     return rootSnapshotId + "_" + type.name();
   }
 
   @Override
-  public List<TreeNode> getChildrenNodeIds(final LayoutViewType type, Integer rootSnapshotId, Integer id) {
-    PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
+  public List<TreeNode> getChildrenNodeIds(final LayoutViewType type, final Integer rootSnapshotId, final Integer id) {
+    final PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
 
-    TreeNode treeNode = recursiveSearch(id, pathWalker.getTree());
+    final TreeNode treeNode = recursiveSearch(id, pathWalker.getTree());
 
     return getChildrenNodes(treeNode.getChildren());
   }
 
   @Override
-  public List<TreeNode> getChildrenLeafIds(final LayoutViewType type, Integer rootSnapshotId, Integer id) {
-    PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
+  public List<TreeNode> getChildrenLeafIds(final LayoutViewType type, final Integer rootSnapshotId, final Integer id) {
+    final PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
 
-    TreeNode treeNode = recursiveSearch(id, pathWalker.getTree());
+    final TreeNode treeNode = recursiveSearch(id, pathWalker.getTree());
 
     return getChildrenLeaves(treeNode.getChildren());
   }
 
   @Override
   public TreeNode findNode(final LayoutViewType type, final Integer rootSnapshotId, final Integer id) {
-    PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
+    final PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
 
     return recursiveSearch(id, pathWalker.getTree());
   }
 
   @Override
   public TreeNode addInterfaceLeafNode(final LayoutViewType type, final Integer rootSnapshotId, final String intLeafLabel, final Integer parentId) {
-    PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
+    final PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
 
     // search for parent node
-    TreeNode parent = recursiveSearch(parentId, pathWalker.getTree());
+    final TreeNode parent = recursiveSearch(parentId, pathWalker.getTree());
 
-    Integer id = pathWalker.getNextSequence();
+    final Integer id = pathWalker.getNextSequence();
     final TreeNode interfaceLeafTreeNode = new TreeNode(id, parent, parent.getDepth() + 1, TreeNodeType.DEPENDENCY_GENERATED, "elevatorNode_" + id, 0, 0);
     parent.getChildren().put(intLeafLabel, interfaceLeafTreeNode);
 
@@ -116,18 +116,18 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
   @Override
   public TreeNode findInterfaceLeafNode(final LayoutViewType type, final Integer rootSnapshotId, final String intLeafLabel) {
-    PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
+    final PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
     return recursiveSearch(intLeafLabel, pathWalker.getTree());
   }
 
-  private TreeNode recursiveSearch(String name, TreeNode treeNode) {
-    Map<String, TreeNode> children = treeNode.getChildren();
+  private TreeNode recursiveSearch(final String name, final TreeNode treeNode) {
+    final Map<String, TreeNode> children = treeNode.getChildren();
     TreeNode temp;
 
     if (children.containsKey(name)) {
       return children.get(name);
     } else if (!children.isEmpty()) {
-      for (TreeNode child : children.values()) {
+      for (final TreeNode child : children.values()) {
         temp = recursiveSearch(name, child);
         if (temp != null) {
           return temp;
@@ -138,14 +138,14 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     return null;
   }
 
-  private TreeNode recursiveSearch(Integer id, TreeNode treeNode) {
+  private TreeNode recursiveSearch(final Integer id, final TreeNode treeNode) {
     if (treeNode.getId().equals(id)) {
       /**
        * check if there is a child treeNode with the same id.
        * This is to parse long paths and get the last treeNode
        * of the chain with the same id.
        */
-      for (TreeNode child : treeNode.getChildren().values()) {
+      for (final TreeNode child : treeNode.getChildren().values()) {
         if (child.getId().equals(id)) {
           return recursiveSearch(id, child);
         }
@@ -154,10 +154,10 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
       return treeNode;
     }
 
-    Map<String, TreeNode> children = treeNode.getChildren();
+    final Map<String, TreeNode> children = treeNode.getChildren();
     TreeNode temp;
     if (!children.isEmpty()) {
-      for (TreeNode child : children.values()) {
+      for (final TreeNode child : children.values()) {
         temp = recursiveSearch(id, child);
         if (temp != null) {
           return temp;
@@ -168,10 +168,10 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     return null;
   }
 
-  private List<TreeNode> getChildrenNodes(Map<String, TreeNode> children) {
-    List<TreeNode> result = new ArrayList<TreeNode>();
+  private List<TreeNode> getChildrenNodes(final Map<String, TreeNode> children) {
+    final List<TreeNode> result = new ArrayList<TreeNode>();
 
-    for (TreeNode child : children.values()) {
+    for (final TreeNode child : children.values()) {
       if (!child.getChildren().isEmpty()) {
         result.add(child);
       }
@@ -180,10 +180,10 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     return result;
   }
 
-  private List<TreeNode> getChildrenLeaves(Map<String, TreeNode> children) {
-    List<TreeNode> result = new ArrayList<TreeNode>();
+  private List<TreeNode> getChildrenLeaves(final Map<String, TreeNode> children) {
+    final List<TreeNode> result = new ArrayList<TreeNode>();
 
-    for (TreeNode child : children.values()) {
+    for (final TreeNode child : children.values()) {
       if (child.getChildren().isEmpty()) {
         result.add(child);
       }

@@ -29,7 +29,7 @@ public class PathWalkerTest {
 
   @Test
   public void testAddPathSimple() {
-    PathWalker walker = new PathWalker(294);
+    final PathWalker walker = new PathWalker(294);
 
     callWalkerWithMetrics(walker, 401, "src");
     callWalkerWithMetrics(walker, 395, "src/in");
@@ -49,9 +49,9 @@ public class PathWalkerTest {
     callWalkerWithMetrics(walker, 410, "src/out/sdbfsidnf/siufb/A3Class.java");
     callWalkerWithMetrics(walker, 411, "src/out/sdbfsidnf/siufb/Asd1Class.java");
 
-    TreeNode tree = walker.getTree();
+    final TreeNode tree = walker.getTree();
 
-    Map<String, TreeNode> test = tree.getChildren().get("src").getChildren();
+    final Map<String, TreeNode> test = tree.getChildren().get("src").getChildren();
 
     assertEquals("src has 3 children", 3, tree.getChildren().get("src").getChildren().size());
     assertEquals("kjsdfksjdbf.java has no children", 0, tree.getChildren().get("src").getChildren()
@@ -64,7 +64,7 @@ public class PathWalkerTest {
 
   @Test
   public void testAddPathLongStartPath() {
-    PathWalker walker = new PathWalker(412);
+    final PathWalker walker = new PathWalker(412);
 
     callWalkerWithMetrics(walker, 413, "src/main/java/de/rinderle/softviz3d");
     callWalkerWithMetrics(walker, 414, "src/main/java/de/rinderle/softviz3d/SoftViz3dExtension.java");
@@ -84,7 +84,7 @@ public class PathWalkerTest {
     callWalkerWithMetrics(walker, 460, "src/test/java/de/rinderle/softviz3d/Tree.java");
     callWalkerWithMetrics(walker, 461, "src/test/java/de/rinderle/softviz3d/TreePathTest.java");
 
-    TreeNode tree = walker.getTree();
+    final TreeNode tree = walker.getTree();
 
     assertNotNull(tree.getChildren().get("src"));
     assertEquals(2, tree.getChildren().get("src").getChildren().size());
@@ -103,7 +103,7 @@ public class PathWalkerTest {
 
   @Test
   public void testAddPathShortStartPath() {
-    PathWalker walker = new PathWalker(999999999);
+    final PathWalker walker = new PathWalker(999999999);
 
     callWalkerWithMetrics(walker, 1, "src/testForSoftViz");
     callWalkerWithMetrics(walker, 2, "src/testForSoftViz/FirstClass.java");
@@ -127,11 +127,11 @@ public class PathWalkerTest {
     callWalkerWithMetrics(walker, 20, "src/testForSoftViz/xx/yy/FithsClass.java");
     callWalkerWithMetrics(walker, 21, "src/testForSoftViz/xx/yy/SixthClass.java");
 
-    TreeNode tree = walker.getTree();
+    final TreeNode tree = walker.getTree();
 
     assertTrue(tree.getChildren().size() == 1);
 
-    TreeNode sixth =
+    final TreeNode sixth =
       tree.getChildren().get("src").getChildren().get("testForSoftViz").getChildren().get("xx").getChildren().get("yy").getChildren().get("SixthClass.java");
     assertNotNull(sixth);
 
@@ -142,7 +142,7 @@ public class PathWalkerTest {
     assertEquals(Integer.valueOf(1), tree.getChildren().get("src").getChildren().get("testForSoftViz").getId());
   }
 
-  private void callWalkerWithMetrics(PathWalker walker, int id, String path) {
+  private void callWalkerWithMetrics(final PathWalker walker, final int id, final String path) {
     walker.addPath(id, path, 1, 1);
   }
 

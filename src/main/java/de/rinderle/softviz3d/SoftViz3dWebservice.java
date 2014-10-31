@@ -33,21 +33,21 @@ public class SoftViz3dWebservice implements WebService {
 
   private final SoftViz3dWebserviceInitializeHandler initializeHandler;
 
-  public SoftViz3dWebservice(DatabaseSession session) {
-    Injector softVizInjector = Guice.createInjector(new SoftViz3dModule());
+  public SoftViz3dWebservice(final DatabaseSession session) {
+    final Injector softVizInjector = Guice.createInjector(new SoftViz3dModule());
 
-    SonarDao sonarDao = softVizInjector.getInstance(SonarDao.class);
+    final SonarDao sonarDao = softVizInjector.getInstance(SonarDao.class);
     sonarDao.setDatabaseSession(session);
 
-    DependencyDao dependencyDao = softVizInjector.getInstance(DependencyDaoImpl.class);
+    final DependencyDao dependencyDao = softVizInjector.getInstance(DependencyDaoImpl.class);
     dependencyDao.setDatabaseSession(session);
 
     this.initializeHandler = softVizInjector.getInstance(SoftViz3dWebserviceInitializeHandler.class);
   }
 
   @Override
-  public void define(Context context) {
-    WebService.NewController controller = context.createController("api/softViz3d");
+  public void define(final Context context) {
+    final WebService.NewController controller = context.createController("api/softViz3d");
     controller.setDescription("SoftViz3d webservice");
 
     // create the URL /api/softViz3d/initialize

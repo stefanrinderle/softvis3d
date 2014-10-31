@@ -32,14 +32,14 @@ public class GraphDebugPrinter {
 
   private static final String BREAK_STRING = "-----------------------<br /><br />";
 
-  private String printSimpleGraphLayoutInfos(Graph graph) {
-    StringBuilder builder = new StringBuilder();
+  private String printSimpleGraphLayoutInfos(final Graph graph) {
+    final StringBuilder builder = new StringBuilder();
     builder.append(graph.getId() + " " + graph.getName() + "\n");
     if (graph.getAttribute("bb") != null) {
       builder.append("bb: " + graph.getAttribute("bb").toString() + "\n");
     }
 
-    for (Node node : graph.nodeElementsAsArray()) {
+    for (final Node node : graph.nodeElementsAsArray()) {
       builder.append("--" + node.getId() + " " + node.getName());
       builder.append(" " + node.getAttribute(POS_ATTR).toString());
       builder.append(" " + node.getAttribute(HEIGHT_ATTR) + " " + node.getAttribute(WIDTH_ATTR) + "\n");
@@ -48,9 +48,9 @@ public class GraphDebugPrinter {
     return builder.toString();
   }
 
-  public String printFullGraph(Graph graph) {
-    StringBuilder builder = new StringBuilder();
-    StringOutputStream os = new StringOutputStream();
+  public String printFullGraph(final Graph graph) {
+    final StringBuilder builder = new StringBuilder();
+    final StringOutputStream os = new StringOutputStream();
     builder.append("-----------------------\n\n");
     graph.printGraph(os);
     builder.append(os.toString());
@@ -58,8 +58,8 @@ public class GraphDebugPrinter {
     return builder.toString();
   }
 
-  public void printGraphsWithAbsolutePosition(StringBuilder builder,
-    Map<Integer, Graph> resultGraphs) {
+  public void printGraphsWithAbsolutePosition(final StringBuilder builder,
+    final Map<Integer, Graph> resultGraphs) {
     Iterator<Entry<Integer, Graph>> iterator = resultGraphs.entrySet()
       .iterator();
     builder.append("-------Result graphs with absolute position--------<br /><br />");
@@ -67,7 +67,7 @@ public class GraphDebugPrinter {
     Entry<Integer, Graph> graph;
     while (iterator.hasNext()) {
       graph = iterator.next();
-      StringOutputStream os = new StringOutputStream();
+      final StringOutputStream os = new StringOutputStream();
       graph.getValue().printGraph(os);
       builder.append(os.toString());
     }
@@ -76,10 +76,10 @@ public class GraphDebugPrinter {
     builder.append(BREAK_STRING);
   }
 
-  public void printGraphsWithoutAbsolutePosition(StringBuilder builder,
-    Map<Integer, Graph> resultGraphs) {
+  public void printGraphsWithoutAbsolutePosition(final StringBuilder builder,
+    final Map<Integer, Graph> resultGraphs) {
     builder.append("-------Result graphs without absolute position--------<br /><br />");
-    Iterator<Entry<Integer, Graph>> iterator = resultGraphs.entrySet()
+    final Iterator<Entry<Integer, Graph>> iterator = resultGraphs.entrySet()
       .iterator();
     Entry<Integer, Graph> graph;
     while (iterator.hasNext()) {

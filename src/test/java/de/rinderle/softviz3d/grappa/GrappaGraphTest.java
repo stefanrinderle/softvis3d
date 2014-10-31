@@ -47,19 +47,19 @@ public class GrappaGraphTest extends TestCase {
   */
   @Override
   public void setUp() {
-    String graphName = "testgraph";
-    boolean directed = true;
-    boolean strict = false;
+    final String graphName = "testgraph";
+    final boolean directed = true;
+    final boolean strict = false;
 
     graph = new Graph(graphName, directed, strict);
 
-    Node node1 = new Node(graph, "testnode1");
+    final Node node1 = new Node(graph, "testnode1");
     node1.setAttribute(new Attribute(GrappaConstants.NODE, "metric1", "15"));
     node1.setAttribute(new Attribute(GrappaConstants.NODE, "metric2", "30"));
 
-    Subgraph subgraph = new Subgraph(graph, subgraphId);
+    final Subgraph subgraph = new Subgraph(graph, subgraphId);
 
-    Node node2 = new Node(subgraph, "testnode2");
+    final Node node2 = new Node(subgraph, "testnode2");
     node2.setAttribute(new Attribute(GrappaConstants.NODE, "metric1", "15"));
     node2.setAttribute(new Attribute(GrappaConstants.NODE, "metric2", "30"));
 
@@ -72,13 +72,13 @@ public class GrappaGraphTest extends TestCase {
 
     Subgraph test = graph.subgraphElementsAsArray()[0];
 
-    for (Node node : test.nodeElementsAsArray()) {
+    for (final Node node : test.nodeElementsAsArray()) {
       node.setAttribute("test", "testValue");
     }
 
     test = graph.subgraphElementsAsArray()[0];
 
-    for (Node node : test.nodeElementsAsArray()) {
+    for (final Node node : test.nodeElementsAsArray()) {
       assertTrue(node.getAttributeValue("test").equals("testValue"));
       ;
     }
@@ -105,13 +105,13 @@ public class GrappaGraphTest extends TestCase {
 
   @Test
   public void testAttributeTypes() {
-    Node node = graph.nodeElementsAsArray()[0];
+    final Node node = graph.nodeElementsAsArray()[0];
 
-    GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
+    final GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
 
-    double[] translation = new double[] {pos.getX(), 0, pos.getY()};
-    double opacity = 1.0;
-    Color color = new Color(200, 200, 255);
+    final double[] translation = new double[] {pos.getX(), 0, pos.getY()};
+    final double opacity = 1.0;
+    final Color color = new Color(200, 200, 255);
 
     node.setAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR, color);
     node.setAttribute("translation", translation.toString());

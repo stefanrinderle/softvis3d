@@ -50,9 +50,9 @@ public class ResourceTreeServiceTest {
 
   @Test
   public void test() {
-    int rootSnapshotId = 1;
+    final int rootSnapshotId = 1;
 
-    List<Object[]> children = new ArrayList<Object[]>();
+    final List<Object[]> children = new ArrayList<Object[]>();
     children.add(new Object[] {2, "src", BigDecimal.ZERO, BigDecimal.ZERO});
     children.add(new Object[] {3, "src/eins", BigDecimal.ZERO, BigDecimal.ZERO});
     children.add(new Object[] {4, "src/zwei", BigDecimal.ZERO, BigDecimal.ZERO});
@@ -74,9 +74,9 @@ public class ResourceTreeServiceTest {
 
   @Test
   public void testLongSameIdInTree() {
-    int snapshotId = 1;
+    final int snapshotId = 1;
 
-    List<Object[]> children = new ArrayList<Object[]>();
+    final List<Object[]> children = new ArrayList<Object[]>();
     children.add(new Object[] {2, "src/eins/zwei/drei"});
     children.add(new Object[] {3, "src/eins/zwei/drei/child1"});
     children.add(new Object[] {4, "src/eins/zwei/drei/child2"});
@@ -96,9 +96,9 @@ public class ResourceTreeServiceTest {
 
   @Test
   public void test2() {
-    int snapshotId = 573;
+    final int snapshotId = 573;
 
-    List<Object[]> children = new ArrayList<Object[]>();
+    final List<Object[]> children = new ArrayList<Object[]>();
     children.add(new Object[] {574, "app/base"});
     children.add(new Object[] {575, "app/base/Global.java"});
     children.add(new Object[] {576, "app/base/Global_deplete_do_not_commit.java"});
