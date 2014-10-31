@@ -52,9 +52,9 @@ public class DotVersionTest {
     final String version = "2.20.2";
     final String versionInfo = "dot - Graphviz version " + version + " (Tue Jan 14 19:38:44 UTC 2014)";
     Mockito.when(
-      executeCommand.executeCommandReadErrorStream(Mockito.any(String.class))).thenReturn(versionInfo);
+      this.executeCommand.executeCommandReadErrorStream(Mockito.any(String.class))).thenReturn(versionInfo);
 
-    final String result = underTest.getVersion(new Settings());
+    final String result = this.underTest.getVersion(new Settings());
 
     assertNotNull(result);
     assertTrue(version.equals(result));

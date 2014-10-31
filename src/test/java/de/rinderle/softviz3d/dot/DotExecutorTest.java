@@ -65,15 +65,15 @@ public class DotExecutorTest {
 
   @Test
   public void testHappy() throws DotExcecutorException {
-    Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
+    Mockito.when(this.dotVersion.getVersion(Mockito.any(Settings.class)))
       .thenReturn("2.36.0");
 
     Mockito.when(
-      executeCommand.executeCommandReadAdot(Mockito.any(String.class),
-        Mockito.any(String.class))).thenReturn(createADot());
+      this.executeCommand.executeCommandReadAdot(Mockito.any(String.class),
+        Mockito.any(String.class))).thenReturn(this.createADot());
 
     final Graph inputGraph = new Graph("not used in test");
-    final Graph result = underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+    final Graph result = this.underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
 
     assertNotNull(result);
     assertTrue("777".equals(result.getName()));
@@ -81,15 +81,15 @@ public class DotExecutorTest {
 
   @Test
   public void testHappyDependency() throws DotExcecutorException {
-    Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
+    Mockito.when(this.dotVersion.getVersion(Mockito.any(Settings.class)))
       .thenReturn("2.36.0");
 
     Mockito.when(
-      executeCommand.executeCommandReadAdot(Mockito.any(String.class),
-        Mockito.any(String.class))).thenReturn(createADot());
+      this.executeCommand.executeCommandReadAdot(Mockito.any(String.class),
+        Mockito.any(String.class))).thenReturn(this.createADot());
 
     final Graph inputGraph = new Graph("not used in test");
-    final Graph result = underTest.run(inputGraph, SETTINGS, LayoutViewType.DEPENDENCY);
+    final Graph result = this.underTest.run(inputGraph, SETTINGS, LayoutViewType.DEPENDENCY);
 
     assertNotNull(result);
     assertTrue("777".equals(result.getName()));
@@ -97,17 +97,17 @@ public class DotExecutorTest {
 
   @Test
   public void testVersionFalse() throws DotExcecutorException {
-    Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
+    Mockito.when(this.dotVersion.getVersion(Mockito.any(Settings.class)))
       .thenReturn("2.36.0");
 
     Mockito.when(
-      executeCommand.executeCommandReadAdot(Mockito.any(String.class),
-        Mockito.any(String.class))).thenReturn(createADot());
+      this.executeCommand.executeCommandReadAdot(Mockito.any(String.class),
+        Mockito.any(String.class))).thenReturn(this.createADot());
 
     final Graph inputGraph = new Graph("not used in test");
-    underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+    this.underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
 
-    Mockito.verify(executeCommand, Mockito.times(1)).executeCommandReadAdot(
+    Mockito.verify(this.executeCommand, Mockito.times(1)).executeCommandReadAdot(
       Mockito.any(String.class), Mockito.any(String.class));
   }
 
@@ -115,17 +115,17 @@ public class DotExecutorTest {
   public void testVersionTrue() throws DotExcecutorException {
     SETTINGS.setProperty("dotBinDirectory", "/usr/local/bin/dot");
 
-    Mockito.when(dotVersion.getVersion(Mockito.any(Settings.class)))
+    Mockito.when(this.dotVersion.getVersion(Mockito.any(Settings.class)))
       .thenReturn(DotExecutorImpl.DOT_BUG_VERSION);
 
     Mockito.when(
-      executeCommand.executeCommandReadAdot(Mockito.any(String.class),
-        Mockito.any(String.class))).thenReturn(createADot());
+      this.executeCommand.executeCommandReadAdot(Mockito.any(String.class),
+        Mockito.any(String.class))).thenReturn(this.createADot());
 
     final Graph inputGraph = new Graph("not used in test");
-    underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+    this.underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
 
-    Mockito.verify(executeCommand, Mockito.times(2)).executeCommandReadAdot(
+    Mockito.verify(this.executeCommand, Mockito.times(2)).executeCommandReadAdot(
       Mockito.any(String.class), Mockito.any(String.class));
   }
 

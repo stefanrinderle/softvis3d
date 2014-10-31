@@ -54,16 +54,16 @@ public class AbsolutePositionCalculator implements PositionCalculator {
   @Override
   public int calculate(final LayoutViewType viewType, final Integer snapshotId, final Map<Integer, Graph> inputGraphList) {
     this.viewType = viewType;
-    rootSnapshotId = snapshotId;
+    this.rootSnapshotId = snapshotId;
 
-    leafElements = 0;
+    this.leafElements = 0;
 
     this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
     this.inputGraphs = inputGraphList;
 
     this.addTranslationToLayer(snapshotId, new GrappaPoint(0, 0), viewType);
 
-    return leafElements;
+    return this.leafElements;
   }
 
   private void addTranslationToLayer(final Integer sourceId, final GrappaPoint posTranslation, final LayoutViewType layoutViewType) {
@@ -73,25 +73,25 @@ public class AbsolutePositionCalculator implements PositionCalculator {
 
     // inputGraphs --> Map<Integer, Graph>
     // Step 1 - search the graph for the source given
-    final Graph graph = inputGraphs.get(sourceId);
+    final Graph graph = this.inputGraphs.get(sourceId);
 
     // Step 2 - set translation for the graph itself (will be a layer later)
-    final GrappaBox translatedBb = translateGraphBoundingBox(posTranslation, graph);
+    final GrappaBox translatedBb = this.translateGraphBoundingBox(posTranslation, graph);
 
     // Step 3 - for all leaves, just add the parent point3d changes
-    translateLeaves(posTranslation, graph, translatedBb);
+    this.translateLeaves(posTranslation, graph, translatedBb);
 
     // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes
-    translateNodes(sourceId, graph, layoutViewType);
+    this.translateNodes(sourceId, graph, layoutViewType);
   }
 
   private void translateNodes(final Integer sourceId, final Graph graph, final LayoutViewType layoutViewType) {
-    final List<TreeNode> children = resourceTreeService.getChildrenNodeIds(viewType, rootSnapshotId, sourceId);
+    final List<TreeNode> children = this.resourceTreeService.getChildrenNodeIds(this.viewType, this.rootSnapshotId, sourceId);
 
     for (final TreeNode child : children) {
-      final GrappaPoint pos = innerGraphTranslation.get(child.getId());
+      final GrappaPoint pos = this.innerGraphTranslation.get(child.getId());
 
-      addTranslationToLayer(child.getId(), pos, layoutViewType);
+      this.addTranslationToLayer(child.getId(), pos, layoutViewType);
 
       // TODO: add representation node on dep view
       if (LayoutViewType.CITY.equals(layoutViewType)) {
@@ -117,14 +117,14 @@ public class AbsolutePositionCalculator implements PositionCalculator {
       pos = (GrappaPoint) leaf.getAttributeValue(POS_ATTR);
 
       final int id = Integer.valueOf(leaf.getAttributeValue("id").toString());
-      innerGraphTranslation.put(id, pos);
+      this.innerGraphTranslation.put(id, pos);
 
       // set the position of the node
       nodeLocationX = posTranslation.getX() + pos.getX() - translatedBb.getWidth() / 2;
       nodeLocationY = posTranslation.getY() + pos.getY() + translatedBb.getHeight() / 2;
       pos.setLocation(nodeLocationX, nodeLocationY);
 
-      leafElements++;
+      this.leafElements++;
 
       height3d = (String) leaf.getAttributeValue("layerHeight3d");
     }

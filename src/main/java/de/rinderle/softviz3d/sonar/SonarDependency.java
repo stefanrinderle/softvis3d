@@ -40,7 +40,7 @@ public class SonarDependency {
   }
 
   public BigInteger getId() {
-    return id;
+    return this.id;
   }
 
   public void setId(final BigInteger id) {
@@ -48,7 +48,7 @@ public class SonarDependency {
   }
 
   public Integer getFromSnapshotId() {
-    return fromSnapshotId;
+    return this.fromSnapshotId;
   }
 
   public void setFromSnapshotId(final Integer fromSnapshotId) {
@@ -56,7 +56,7 @@ public class SonarDependency {
   }
 
   public Integer getFromResourceId() {
-    return fromResourceId;
+    return this.fromResourceId;
   }
 
   public void setFromResourceId(final Integer fromResourceId) {
@@ -64,7 +64,7 @@ public class SonarDependency {
   }
 
   public Integer getToSnapshotId() {
-    return toSnapshotId;
+    return this.toSnapshotId;
   }
 
   public void setToSnapshotId(final Integer toSnapshotId) {
@@ -72,7 +72,7 @@ public class SonarDependency {
   }
 
   public Integer getToResourceId() {
-    return toResourceId;
+    return this.toResourceId;
   }
 
   public void setToResourceId(final Integer toResourceId) {
@@ -80,7 +80,7 @@ public class SonarDependency {
   }
 
   public String getUsage() {
-    return usage;
+    return this.usage;
   }
 
   public void setUsage(final String usage) {
@@ -88,7 +88,7 @@ public class SonarDependency {
   }
 
   public Integer getWeight() {
-    return weight;
+    return this.weight;
   }
 
   public void setWeight(final Integer weight) {
@@ -96,7 +96,7 @@ public class SonarDependency {
   }
 
   public String getFromScope() {
-    return fromScope;
+    return this.fromScope;
   }
 
   public void setFromScope(final String fromScope) {
@@ -104,7 +104,7 @@ public class SonarDependency {
   }
 
   public String getToScope() {
-    return toScope;
+    return this.toScope;
   }
 
   public void setToScope(final String toScope) {
@@ -114,15 +114,15 @@ public class SonarDependency {
   @Override
   public String toString() {
     return "SonarDependency{" +
-      "id=" + id +
-      ", fromSnapshotId=" + fromSnapshotId +
-      ", fromResourceId=" + fromResourceId +
-      ", toSnapshotId=" + toSnapshotId +
-      ", toResourceId=" + toResourceId +
-      ", usage='" + usage + '\'' +
-      ", weight=" + weight +
-      ", fromScope='" + fromScope + '\'' +
-      ", toScope='" + toScope + '\'' +
+      "id=" + this.id +
+      ", fromSnapshotId=" + this.fromSnapshotId +
+      ", fromResourceId=" + this.fromResourceId +
+      ", toSnapshotId=" + this.toSnapshotId +
+      ", toResourceId=" + this.toResourceId +
+      ", usage='" + this.usage + '\'' +
+      ", weight=" + this.weight +
+      ", fromScope='" + this.fromScope + '\'' +
+      ", toScope='" + this.toScope + '\'' +
       '}';
   }
 

@@ -55,41 +55,41 @@ public class SoftViz3dExtension implements ServerExtension {
   public SoftViz3dExtension(final DatabaseSession session, final Settings settings) {
     this.settings = settings;
 
-    softVizInjector = Guice.createInjector(new SoftViz3dModule());
+    this.softVizInjector = Guice.createInjector(new SoftViz3dModule());
 
-    final SonarDao sonarDao = softVizInjector.getInstance(SonarDao.class);
+    final SonarDao sonarDao = this.softVizInjector.getInstance(SonarDao.class);
     sonarDao.setDatabaseSession(session);
-    final DependencyDao dependencyDao = softVizInjector.getInstance(DependencyDao.class);
+    final DependencyDao dependencyDao = this.softVizInjector.getInstance(DependencyDao.class);
     dependencyDao.setDatabaseSession(session);
 
-    this.sonarService = softVizInjector.getInstance(SonarService.class);
-    this.resourceTreeService = softVizInjector.getInstance(ResourceTreeService.class);
+    this.sonarService = this.softVizInjector.getInstance(SonarService.class);
+    this.resourceTreeService = this.softVizInjector.getInstance(ResourceTreeService.class);
   }
 
   public List<Integer> getMetricsForSnapshot(final Integer snapshotId) {
     LOGGER.info("getMetricsForSnapshot " + snapshotId);
 
-    return sonarService.getDefinedMetricsForSnapshot(snapshotId);
+    return this.sonarService.getDefinedMetricsForSnapshot(snapshotId);
   }
 
   public Integer getMetric1FromSettings() {
-    return sonarService.getMetric1FromSettings(settings);
+    return this.sonarService.getMetric1FromSettings(this.settings);
   }
 
   public Integer getMetric2FromSettings() {
-    return sonarService.getMetric2FromSettings(settings);
+    return this.sonarService.getMetric2FromSettings(this.settings);
   }
 
   public Map<Integer, Graph> createLayoutBySnapshotId(final Integer snapshotId,
     final String metricString1, final String metricString2, final String viewType) throws DotExcecutorException {
     LOGGER.info("Startup SoftViz3d plugin with snapshot " + snapshotId);
 
-    logStartOfCalc(metricString1, metricString2, snapshotId);
+    this.logStartOfCalc(metricString1, metricString2, snapshotId);
 
     final Integer metricId1 = Integer.valueOf(metricString1);
     final Integer metricId2 = Integer.valueOf(metricString2);
 
-    final Layout layout = softVizInjector.getInstance(Layout.class);
+    final Layout layout = this.softVizInjector.getInstance(Layout.class);
 
     final LayoutViewType type;
     if ("dependency".equals(viewType)) {
@@ -98,7 +98,7 @@ public class SoftViz3dExtension implements ServerExtension {
       type = LayoutViewType.CITY;
     }
 
-    return layout.startLayout(settings, snapshotId, metricId1, metricId2, type);
+    return layout.startLayout(this.settings, snapshotId, metricId1, metricId2, type);
   }
 
   private void logStartOfCalc(final String metricId1, final String metricId2,

@@ -36,24 +36,24 @@ public class SonarServiceImpl implements SonarService {
 
   @Override
   public Integer getMetric1FromSettings(final Settings settings) {
-    return sonarDao.getMetricIdByName(settings.getString("metric1"));
+    return this.sonarDao.getMetricIdByName(settings.getString("metric1"));
   }
 
   @Override
   public Integer getMetric2FromSettings(final Settings settings) {
-    return sonarDao.getMetricIdByName(settings.getString("metric2"));
+    return this.sonarDao.getMetricIdByName(settings.getString("metric2"));
   }
 
   @Override
   public List<Integer> getDefinedMetricsForSnapshot(final Integer snapshotId) {
-    return sonarDao.getDistinctMetricsBySnapshotId(snapshotId);
+    return this.sonarDao.getDistinctMetricsBySnapshotId(snapshotId);
   }
 
   @Override
   public List<Double> getMinMaxMetricValuesByRootSnapshotId(
     final Integer rootSnapshotId, final Integer footprintMetricId,
     final Integer heightMetricId) {
-    return sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId,
+    return this.sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId,
       footprintMetricId, heightMetricId);
   }
 

@@ -64,7 +64,7 @@ public class AbsolutePositionCalculatorTest extends TestCase {
     final Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
     inputGraphList.put(ID, GrappaGraphFactory.createGraph());
 
-    underTest.calculate(VIEW_TYPE, ID, inputGraphList);
+    this.underTest.calculate(VIEW_TYPE, ID, inputGraphList);
 
     final Graph result = inputGraphList.get(ID);
 
@@ -84,9 +84,9 @@ public class AbsolutePositionCalculatorTest extends TestCase {
 
     final List<TreeNode> childrenNodes = new ArrayList<TreeNode>();
     childrenNodes.add(new TreeNode(SUBGRAPH_ID, null, 0, TreeNodeType.TREE, "" + SUBGRAPH_ID, 0, 0));
-    when(resourceTreeService.getChildrenNodeIds(eq(VIEW_TYPE), eq(ID), eq(ID))).thenReturn(childrenNodes);
+    when(this.resourceTreeService.getChildrenNodeIds(eq(VIEW_TYPE), eq(ID), eq(ID))).thenReturn(childrenNodes);
 
-    underTest.calculate(VIEW_TYPE, ID, inputGraphList);
+    this.underTest.calculate(VIEW_TYPE, ID, inputGraphList);
 
     final Graph result = inputGraphList.get(SUBGRAPH_ID);
 

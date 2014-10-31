@@ -58,15 +58,15 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
     }
 
     // TODO: do in one step
-    final TreeNode tree = resourceTreeService.createTreeStructure(type, id, footprintMetricId, heightMetricId);
+    final TreeNode tree = this.resourceTreeService.createTreeStructure(type, id, footprintMetricId, heightMetricId);
     if (LayoutViewType.DEPENDENCY.equals(type)) {
-      final List<SonarDependency> dependencies = dependencyDao.getDependencies(id);
-      dependencyExpander.execute(id, dependencies);
+      final List<SonarDependency> dependencies = this.dependencyDao.getDependencies(id);
+      this.dependencyExpander.execute(id, dependencies);
     }
 
     final JsonWriter jsonWriter = response.newJsonWriter();
 
-    transformTreeToJson(jsonWriter, tree);
+    this.transformTreeToJson(jsonWriter, tree);
 
     jsonWriter.close();
   }
@@ -93,9 +93,9 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
       jsonWriter.endObject();
     }
 
-    transformChildren(jsonWriter, tree.getChildren());
+    this.transformChildren(jsonWriter, tree.getChildren());
 
-    transformEdges(jsonWriter, tree.getEdges());
+    this.transformEdges(jsonWriter, tree.getEdges());
 
     jsonWriter.endObject();
   }
@@ -105,7 +105,7 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
     jsonWriter.beginArray();
 
     for (final Edge child : edges.values()) {
-      transformEdge(jsonWriter, child);
+      this.transformEdge(jsonWriter, child);
     }
 
     jsonWriter.endArray();
@@ -122,7 +122,7 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
     jsonWriter.beginArray();
 
     for (final TreeNode child : children.values()) {
-      transformTreeToJson(jsonWriter, child);
+      this.transformTreeToJson(jsonWriter, child);
     }
 
     jsonWriter.endArray();

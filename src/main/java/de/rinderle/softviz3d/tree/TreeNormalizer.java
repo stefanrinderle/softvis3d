@@ -25,7 +25,7 @@ import java.util.TreeMap;
 public class TreeNormalizer {
 
   public void normalizeTree(final TreeNode root) {
-    normalizeNode(root);
+    this.normalizeNode(root);
   }
 
   private void normalizeNode(final TreeNode node) {
@@ -33,11 +33,11 @@ public class TreeNormalizer {
     final TreeMap<String, TreeNode> copyOfChildren = (TreeMap<String, TreeNode>) children.clone();
 
     if (children.size() == 1) {
-      removeNodeFromStructure(node);
+      this.removeNodeFromStructure(node);
     }
 
     for (final TreeNode child : copyOfChildren.values()) {
-      normalizeNode(child);
+      this.normalizeNode(child);
     }
   }
 
@@ -61,14 +61,14 @@ public class TreeNormalizer {
   }
 
   public void recalculateDepth(final TreeNode root) {
-    recalculateDepth(0, root);
+    this.recalculateDepth(0, root);
   }
 
   private void recalculateDepth(final int depth, final TreeNode node) {
     node.setDepth(depth);
 
     for (final TreeNode child : node.getChildren().values()) {
-      recalculateDepth(depth + 1, child);
+      this.recalculateDepth(depth + 1, child);
     }
   }
 

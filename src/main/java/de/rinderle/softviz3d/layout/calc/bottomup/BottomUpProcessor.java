@@ -50,7 +50,7 @@ public class BottomUpProcessor implements Processor {
     this.viewType = viewType;
     this.rootSnapshotId = rootSnapshotId;
 
-    return accept(visitor, snapshotId);
+    return this.accept(visitor, snapshotId);
   }
 
   /**
@@ -61,10 +61,10 @@ public class BottomUpProcessor implements Processor {
 
     LOGGER.debug("Layout.accept " + snapshotId);
 
-    final TreeNode currentNode = resourceTreeService.findNode(viewType, rootSnapshotId, snapshotId);
+    final TreeNode currentNode = this.resourceTreeService.findNode(this.viewType, this.rootSnapshotId, snapshotId);
 
-    final List<LayeredLayoutElement> nodeElements = processChildrenNodes(visitor, snapshotId);
-    final List<LayeredLayoutElement> leafElements = processChildrenLeaves(visitor, snapshotId);
+    final List<LayeredLayoutElement> nodeElements = this.processChildrenNodes(visitor, snapshotId);
+    final List<LayeredLayoutElement> leafElements = this.processChildrenLeaves(visitor, snapshotId);
 
     final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
     layerElements.addAll(nodeElements);
@@ -74,7 +74,7 @@ public class BottomUpProcessor implements Processor {
   }
 
   private List<LayeredLayoutElement> processChildrenNodes(final SnapshotVisitor visitor, final Integer snapshotId) throws DotExcecutorException {
-    final List<TreeNode> childrenTreeNodes = resourceTreeService.getChildrenNodeIds(viewType, rootSnapshotId, snapshotId);
+    final List<TreeNode> childrenTreeNodes = this.resourceTreeService.getChildrenNodeIds(this.viewType, this.rootSnapshotId, snapshotId);
 
     final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
 
@@ -85,7 +85,7 @@ public class BottomUpProcessor implements Processor {
   }
 
   private List<LayeredLayoutElement> processChildrenLeaves(final SnapshotVisitor visitor, final Integer snapshotId) {
-    final List<TreeNode> childrenLeaves = resourceTreeService.getChildrenLeafIds(viewType, rootSnapshotId, snapshotId);
+    final List<TreeNode> childrenLeaves = this.resourceTreeService.getChildrenLeafIds(this.viewType, this.rootSnapshotId, snapshotId);
 
     final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
     for (final TreeNode leaf : childrenLeaves) {

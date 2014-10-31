@@ -28,13 +28,13 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class SoftViz3dWebserviceTest {
   private DatabaseSession session;
-  private WebService ws = new SoftViz3dWebservice(session);
+  private WebService ws = new SoftViz3dWebservice(this.session);
 
   @Test
   public void shouldDefineSoftviz3Webservice() throws Exception {
     // WsTester is available in the Maven artifact org.codehaus.sonar:sonar-plugin-api
     // with type "test-jar"
-    final WsTester tester = new WsTester(ws);
+    final WsTester tester = new WsTester(this.ws);
     final WebService.Controller controller = tester.controller("api/softViz3d");
 
     assertThat(controller).isNotNull();

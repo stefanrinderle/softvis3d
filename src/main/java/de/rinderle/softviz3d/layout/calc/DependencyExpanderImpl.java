@@ -45,15 +45,15 @@ public class DependencyExpanderImpl implements DependencyExpander {
       final Integer sourceId = dependency.getFromSnapshotId();
       final Integer destinationId = dependency.getToSnapshotId();
       // search for the common ancestor
-      final TreeNode source = resourceTreeService.findNode(LayoutViewType.DEPENDENCY, projectId, sourceId);
-      final TreeNode destination = resourceTreeService.findNode(LayoutViewType.DEPENDENCY, projectId, destinationId);
+      final TreeNode source = this.resourceTreeService.findNode(LayoutViewType.DEPENDENCY, projectId, sourceId);
+      final TreeNode destination = this.resourceTreeService.findNode(LayoutViewType.DEPENDENCY, projectId, destinationId);
 
-      final DependencyType dependencyType = getDependencyType(source, destination);
+      final DependencyType dependencyType = this.getDependencyType(source, destination);
 
       if (dependencyType.equals(DependencyType.INPUT_FLAT)) {
-        handleNewFlatDepEdge(source, destination);
+        this.handleNewFlatDepEdge(source, destination);
       } else if (dependencyType.equals(DependencyType.INPUT_TREE)) {
-        createDependencyPath(source, destination);
+        this.createDependencyPath(source, destination);
       } else {
         // do nothing. That's on dependency type dir. Analyse and fix.
       }
@@ -78,10 +78,10 @@ public class DependencyExpanderImpl implements DependencyExpander {
   private void createDependencyPath(TreeNode source, TreeNode dest) {
     while (!source.getParent().getId().equals(dest.getParent().getId())) {
       if (source.getDepth() > dest.getDepth()) {
-        handleNewDepEdge(source, true);
+        this.handleNewDepEdge(source, true);
         source = source.getParent();
       } else {
-        handleNewDepEdge(dest, false);
+        this.handleNewDepEdge(dest, false);
         dest = dest.getParent();
       }
     }
@@ -89,15 +89,15 @@ public class DependencyExpanderImpl implements DependencyExpander {
     // compute till both have the same parent
     while (!source.getParent().getId().equals(dest.getParent().getId())) {
       if (source.getDepth() > dest.getDepth()) {
-        handleNewDepEdge(source, true);
+        this.handleNewDepEdge(source, true);
         source = source.getParent();
       } else {
-        handleNewDepEdge(dest, false);
+        this.handleNewDepEdge(dest, false);
         dest = dest.getParent();
       }
     }
 
-    handleNewFlatDepEdge(source, dest);
+    this.handleNewFlatDepEdge(source, dest);
   }
 
   private void handleNewFlatDepEdge(final TreeNode source, final TreeNode dest) {
@@ -108,7 +108,7 @@ public class DependencyExpanderImpl implements DependencyExpander {
       edge.setCounter(edge.getCounter() + 1);
       source.setEdge(edge);
     } else {
-      final Edge edge = new Edge(projectId, depEdgeLabel,
+      final Edge edge = new Edge(this.projectId, depEdgeLabel,
         source.getId(), dest.getId(), source.getParent().getId());
       source.setEdge(edge);
     }
@@ -124,21 +124,21 @@ public class DependencyExpanderImpl implements DependencyExpander {
         edge.setCounter(edge.getCounter() + 1);
         treeNode.setEdge(edge);
       } else {
-        final TreeNode depNode = getInterfaceNode(treeNode.getParent().getId());
+        final TreeNode depNode = this.getInterfaceNode(treeNode.getParent().getId());
 
-        final Edge element = new Edge(projectId, depEdgeLabel, treeNode.getId(), depNode.getId(), treeNode.getParent().getId());
+        final Edge element = new Edge(this.projectId, depEdgeLabel, treeNode.getId(), depNode.getId(), treeNode.getParent().getId());
 
         treeNode.setEdge(element);
       }
     } else {
       // interface node is source
-      final TreeNode depNode = getInterfaceNode(treeNode.getParent().getId());
+      final TreeNode depNode = this.getInterfaceNode(treeNode.getParent().getId());
       if (depNode.hasEdge(depEdgeLabel)) {
         final Edge edge = depNode.getEdge(depEdgeLabel);
         edge.setCounter(edge.getCounter() + 1);
         depNode.setEdge(edge);
       } else {
-        final Edge element = new Edge(projectId, depEdgeLabel, depNode.getId(), treeNode.getId(), treeNode.getParent().getId());
+        final Edge element = new Edge(this.projectId, depEdgeLabel, depNode.getId(), treeNode.getId(), treeNode.getParent().getId());
         depNode.setEdge(element);
       }
     }
@@ -149,12 +149,12 @@ public class DependencyExpanderImpl implements DependencyExpander {
     final TreeNode result;
     final String intLeafLabel = INTERFACE_PREFIX + "_" + parentId;
 
-    final TreeNode treeNode = resourceTreeService.findInterfaceLeafNode(LayoutViewType.DEPENDENCY, projectId, intLeafLabel);
+    final TreeNode treeNode = this.resourceTreeService.findInterfaceLeafNode(LayoutViewType.DEPENDENCY, this.projectId, intLeafLabel);
 
     if (treeNode != null) {
       result = treeNode;
     } else {
-      result = resourceTreeService.addInterfaceLeafNode(LayoutViewType.DEPENDENCY, projectId, intLeafLabel, parentId);
+      result = this.resourceTreeService.addInterfaceLeafNode(LayoutViewType.DEPENDENCY, this.projectId, intLeafLabel, parentId);
     }
 
     return result;

@@ -37,7 +37,8 @@ public class TreeNode {
   private Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
   private Map<String, Edge> edges = new HashMap<String, Edge>();
 
-  public TreeNode(final Integer id, final TreeNode parent, final int depth, final TreeNodeType type, final String name, final double footprintMetricValue, final double heightMetricValue) {
+  public TreeNode(final Integer id, final TreeNode parent, final int depth, final TreeNodeType type, final String name, final double footprintMetricValue,
+    final double heightMetricValue) {
     this.id = id;
     this.parent = parent;
     this.depth = depth;
@@ -48,7 +49,7 @@ public class TreeNode {
   }
 
   public Map<String, TreeNode> getChildren() {
-    return children;
+    return this.children;
   }
 
   public void setChildren(final Map<String, TreeNode> children) {
@@ -60,11 +61,11 @@ public class TreeNode {
   }
 
   public Integer getId() {
-    return id;
+    return this.id;
   }
 
   public TreeNode getParent() {
-    return parent;
+    return this.parent;
   }
 
   public void setParent(final TreeNode parent) {
@@ -72,7 +73,7 @@ public class TreeNode {
   }
 
   public Integer getDepth() {
-    return depth;
+    return this.depth;
   }
 
   public void setDepth(final Integer depth) {
@@ -80,19 +81,19 @@ public class TreeNode {
   }
 
   public TreeNodeType getType() {
-    return type;
+    return this.type;
   }
 
   public double getHeightMetricValue() {
-    return heightMetricValue;
+    return this.heightMetricValue;
   }
 
   public double getFootprintMetricValue() {
-    return footprintMetricValue;
+    return this.footprintMetricValue;
   }
 
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public void setName(final String name) {
@@ -112,6 +113,6 @@ public class TreeNode {
   }
 
   public Map<String, Edge> getEdges() {
-    return edges;
+    return this.edges;
   }
 }

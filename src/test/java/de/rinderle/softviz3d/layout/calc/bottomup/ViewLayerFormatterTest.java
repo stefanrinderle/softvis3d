@@ -42,7 +42,7 @@ public class ViewLayerFormatterTest {
   public void testFormat() {
     final Integer depth = 0;
     final Graph graph = GrappaGraphFactory.createGraph();
-    underTest.format(graph, depth, LayoutViewType.CITY);
+    this.underTest.format(graph, depth, LayoutViewType.CITY);
 
     assertNotNull(graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR));
   }
@@ -51,7 +51,7 @@ public class ViewLayerFormatterTest {
   public void testMaxDepth() {
     final Integer depth = Integer.MAX_VALUE;
     final Graph graph = GrappaGraphFactory.createGraph();
-    underTest.format(graph, depth, LayoutViewType.CITY);
+    this.underTest.format(graph, depth, LayoutViewType.CITY);
 
     assertNotNull(graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR));
 
@@ -68,7 +68,7 @@ public class ViewLayerFormatterTest {
     final Double value = 1.1;
     final SonarMetric metricHeight = new SonarMetric(0.0, 10.0);
 
-    final double result = underTest.calcBuildingHeight(value, metricHeight);
+    final double result = this.underTest.calcBuildingHeight(value, metricHeight);
 
     // 1.1 is 11 percent of 10
     assertEquals(Double.valueOf(11), Double.valueOf(result));
@@ -79,7 +79,7 @@ public class ViewLayerFormatterTest {
     final Double value = 2.0;
     final SonarMetric metricHeight = new SonarMetric(0.0, 200.0);
 
-    final double result = underTest.calcBuildingHeight(value, metricHeight);
+    final double result = this.underTest.calcBuildingHeight(value, metricHeight);
 
     // 2 is 1 percent of 200.
     assertEquals(Double.valueOf(1), Double.valueOf(result));
@@ -90,7 +90,7 @@ public class ViewLayerFormatterTest {
     final Double value = 11.1;
     final SonarMetric metricHeight = new SonarMetric(10.0, 20.0);
 
-    final double result = underTest.calcBuildingHeight(value, metricHeight);
+    final double result = this.underTest.calcBuildingHeight(value, metricHeight);
 
     // 1.1 (11.1 - 10) is 11 percent of 10 (20 - 10)
     assertTrue(result > 10.9999999);
@@ -102,7 +102,7 @@ public class ViewLayerFormatterTest {
     final Double value = 11.1;
     final SonarMetric metricHeight = new SonarMetric(20.0, 10.0);
 
-    final double result = underTest.calcBuildingHeight(value, metricHeight);
+    final double result = this.underTest.calcBuildingHeight(value, metricHeight);
 
     assertEquals(Double.valueOf(0), Double.valueOf(result));
   }
@@ -112,7 +112,7 @@ public class ViewLayerFormatterTest {
     final Double value = 1.1;
     final SonarMetric metricHeight = new SonarMetric(10.0, 20.0);
 
-    final double result = underTest.calcBuildingHeight(value, metricHeight);
+    final double result = this.underTest.calcBuildingHeight(value, metricHeight);
 
     assertEquals(Double.valueOf(0), Double.valueOf(result));
   }
@@ -122,7 +122,7 @@ public class ViewLayerFormatterTest {
     final Double value = null;
     final SonarMetric metricHeight = new SonarMetric(0.0, 10.0);
 
-    final double result = underTest.calcBuildingHeight(value, metricHeight);
+    final double result = this.underTest.calcBuildingHeight(value, metricHeight);
 
     assertEquals(Double.valueOf(0), Double.valueOf(result));
   }
@@ -136,7 +136,7 @@ public class ViewLayerFormatterTest {
     final Double value = 1.1;
     final SonarMetric metricHeight = new SonarMetric(0.0, 10.0);
 
-    final double result = underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, metricHeight);
 
     // 1.1 is 11 percent of 10
     assertEquals(Double.valueOf(11), Double.valueOf(result));
@@ -147,7 +147,7 @@ public class ViewLayerFormatterTest {
     final Double value = 20.0;
     final SonarMetric metricHeight = new SonarMetric(0.0, 200.0);
 
-    final double result = underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, metricHeight);
 
     // 20 is 10 percent of 200.
     assertEquals(Double.valueOf(10), Double.valueOf(result));
@@ -158,7 +158,7 @@ public class ViewLayerFormatterTest {
     final Double value = 0.5;
     final SonarMetric metricHeight = new SonarMetric(0.0, 200.0);
 
-    final double result = underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, metricHeight);
 
     // 0.5 is 0.25 percent of 200 which is below 0.5
     assertEquals(Double.valueOf(SoftViz3dConstants.MIN_SIDE_LENGTH_PERCENT), Double.valueOf(result));
@@ -169,7 +169,7 @@ public class ViewLayerFormatterTest {
     final Double value = 11.1;
     final SonarMetric metricHeight = new SonarMetric(10.0, 20.0);
 
-    final double result = underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, metricHeight);
 
     // 1.1 (11.1 - 10) is 11 percent of 10 (20 - 10)
     assertTrue(result > 10.9999999);
@@ -181,7 +181,7 @@ public class ViewLayerFormatterTest {
     final Double value = 11.1;
     final SonarMetric metricHeight = new SonarMetric(20.0, 10.0);
 
-    final double result = underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, metricHeight);
 
     assertEquals(Double.valueOf(SoftViz3dConstants.MIN_SIDE_LENGTH_PERCENT), Double.valueOf(result));
   }
@@ -191,7 +191,7 @@ public class ViewLayerFormatterTest {
     final Double value = 1.1;
     final SonarMetric metricHeight = new SonarMetric(10.0, 20.0);
 
-    final double result = underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, metricHeight);
 
     assertEquals(Double.valueOf(SoftViz3dConstants.MIN_SIDE_LENGTH_PERCENT), Double.valueOf(result));
   }
@@ -201,7 +201,7 @@ public class ViewLayerFormatterTest {
     final Double value = null;
     final SonarMetric metricHeight = new SonarMetric(0.0, 10.0);
 
-    final double result = underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, metricHeight);
 
     assertEquals(Double.valueOf(SoftViz3dConstants.MIN_SIDE_LENGTH_PERCENT), Double.valueOf(result));
   }

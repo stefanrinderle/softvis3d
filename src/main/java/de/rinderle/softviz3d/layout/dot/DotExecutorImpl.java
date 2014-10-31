@@ -59,33 +59,33 @@ public class DotExecutorImpl implements DotExecutor {
       command = dotBin + " -K neato ";
     }
 
-    String adot = executeCommand.executeCommandReadAdot(command,
+    String adot = this.executeCommand.executeCommandReadAdot(command,
       writer.toString());
 
-    if (dotVersion.getVersion(settings).equals(DOT_BUG_VERSION)) {
+    if (this.dotVersion.getVersion(settings).equals(DOT_BUG_VERSION)) {
       try {
 
-        if (translationFile == null) {
+        if (this.translationFile == null) {
           final InputStream file = DotExecutorImpl.class
             .getResourceAsStream("/translate.g");
-          translationFile = File.createTempFile("translate", ".g");
-          final FileOutputStream out = new FileOutputStream(translationFile);
+          this.translationFile = File.createTempFile("translate", ".g");
+          final FileOutputStream out = new FileOutputStream(this.translationFile);
           IOUtils.copy(file, out);
         }
 
         final int lastIndex = dotBin.lastIndexOf("/");
         final String translationBin = dotBin.substring(0, lastIndex + 1);
         final String translationCommand = translationBin + "gvpr -c -f "
-          + translationFile.getAbsolutePath();
+          + this.translationFile.getAbsolutePath();
 
-        adot = executeCommand.executeCommandReadAdot(translationCommand,
+        adot = this.executeCommand.executeCommandReadAdot(translationCommand,
           adot);
       } catch (final IOException e) {
         LOGGER.error("Error on create temp file", e);
       }
     }
 
-    return parseDot(adot);
+    return this.parseDot(adot);
   }
 
   private Graph parseDot(final String adot) throws DotExcecutorException {

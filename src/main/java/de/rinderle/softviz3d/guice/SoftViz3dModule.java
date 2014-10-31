@@ -38,27 +38,27 @@ import de.rinderle.softviz3d.tree.ResourceTreeServiceImpl;
 public class SoftViz3dModule extends AbstractModule {
   @Override
   protected void configure() {
-    bind(DotVersion.class).to(DotVersionImpl.class);
-    bind(DotExecutor.class).to(DotExecutorImpl.class);
-    bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
+    this.bind(DotVersion.class).to(DotVersionImpl.class);
+    this.bind(DotExecutor.class).to(DotExecutorImpl.class);
+    this.bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
 
-    bind(SonarDao.class).to(SonarDaoImpl.class);
-    bind(DependencyDao.class).to(DependencyDaoImpl.class);
-    bind(SonarService.class).to(SonarServiceImpl.class);
+    this.bind(SonarDao.class).to(SonarDaoImpl.class);
+    this.bind(DependencyDao.class).to(DependencyDaoImpl.class);
+    this.bind(SonarService.class).to(SonarServiceImpl.class);
 
-    bind(ResourceTreeService.class).to(ResourceTreeServiceImpl.class);
-    bind(DependencyExpander.class).to(DependencyExpanderImpl.class);
+    this.bind(ResourceTreeService.class).to(ResourceTreeServiceImpl.class);
+    this.bind(DependencyExpander.class).to(DependencyExpanderImpl.class);
 
-    bind(Layout.class).to(LayoutSoftViz3d.class);
-    bind(LayerFormatter.class).to(ViewLayerFormatter.class);
+    this.bind(Layout.class).to(LayoutSoftViz3d.class);
+    this.bind(LayerFormatter.class).to(ViewLayerFormatter.class);
 
-    bind(PositionCalculator.class).to(AbsolutePositionCalculator.class);
+    this.bind(PositionCalculator.class).to(AbsolutePositionCalculator.class);
 
-    bind(SoftViz3dWebserviceInitializeHandler.class).to(SoftViz3dWebserviceInitializeHandlerImpl.class);
+    this.bind(SoftViz3dWebserviceInitializeHandler.class).to(SoftViz3dWebserviceInitializeHandlerImpl.class);
 
-    install(new FactoryModuleBuilder().implement(de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor.class,
+    this.install(new FactoryModuleBuilder().implement(de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor.class,
       SnapshotVisitorImpl.class).build(SnapshotVisitorFactory.class));
 
-    bind(Processor.class).to(BottomUpProcessor.class);
+    this.bind(Processor.class).to(BottomUpProcessor.class);
   }
 }

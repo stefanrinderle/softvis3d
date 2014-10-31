@@ -40,7 +40,8 @@ public class LayeredLayoutElement {
 
   private Map<String, Edge> edges;
 
-  private LayeredLayoutElement(final TreeNodeType type, final Integer id, final String name, final Double width, final Double height, final Double buildingHeight, final String displayName, final Map<String, Edge> edges) {
+  private LayeredLayoutElement(final TreeNodeType type, final Integer id, final String name, final Double width, final Double height, final Double buildingHeight,
+    final String displayName, final Map<String, Edge> edges) {
     super();
     this.type = type;
     this.id = id;
@@ -74,7 +75,7 @@ public class LayeredLayoutElement {
   }
 
   public Integer getId() {
-    return id;
+    return this.id;
   }
 
   public String getName() {
@@ -82,22 +83,22 @@ public class LayeredLayoutElement {
   }
 
   public Double getWidth() {
-    return width;
+    return this.width;
   }
 
   public Double getHeight() {
-    return height;
+    return this.height;
   }
 
   public String getBuildingHeight() {
-    return "x" + buildingHeight;
+    return "x" + this.buildingHeight;
   }
 
   public String getDisplayName() {
-    return displayName;
+    return this.displayName;
   }
 
   public Map<String, Edge> getEdges() {
-    return edges;
+    return this.edges;
   }
 }

@@ -67,17 +67,17 @@ public class LayoutSoftViz3d implements Layout {
     stopWatch.start();
 
     // TODO: do in one step
-    resourceTreeService.createTreeStructure(viewType, snapshotId, footprintMetricId, heightMetricId);
+    this.resourceTreeService.createTreeStructure(viewType, snapshotId, footprintMetricId, heightMetricId);
     if (LayoutViewType.DEPENDENCY.equals(viewType)) {
-      final List<SonarDependency> dependencies = dependencyDao.getDependencies(snapshotId);
-      dependencyExpander.execute(snapshotId, dependencies);
+      final List<SonarDependency> dependencies = this.dependencyDao.getDependencies(snapshotId);
+      this.dependencyExpander.execute(snapshotId, dependencies);
     }
 
     LOGGER.info("Created tree structure after " + stopWatch.getTime());
 
-    final Map<Integer, Graph> resultGraphs = startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId, viewType);
+    final Map<Integer, Graph> resultGraphs = this.startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId, viewType);
 
-    final int leavesCounter = calc.calculate(viewType, snapshotId, resultGraphs);
+    final int leavesCounter = this.calc.calculate(viewType, snapshotId, resultGraphs);
 
     stopWatch.stop();
     LOGGER.info("Calculation finished after " + stopWatch.getTime() + " with "
@@ -91,12 +91,12 @@ public class LayoutSoftViz3d implements Layout {
     final LayoutViewType viewType)
     throws DotExcecutorException {
 
-    final List<Double> minMaxValues = sonarService.getMinMaxMetricValuesByRootSnapshotId(
+    final List<Double> minMaxValues = this.sonarService.getMinMaxMetricValuesByRootSnapshotId(
       snapshotId, footprintMetricId, heightMetricId);
 
-    final SnapshotVisitor visitor = visitorFactory.create(settings, minMaxValues, viewType);
+    final SnapshotVisitor visitor = this.visitorFactory.create(settings, minMaxValues, viewType);
 
-    processor.accept(viewType, visitor, snapshotId, snapshotId);
+    this.processor.accept(viewType, visitor, snapshotId, snapshotId);
 
     return visitor.getResultingGraphList();
   }

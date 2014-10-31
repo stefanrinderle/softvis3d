@@ -31,23 +31,23 @@ public class PathWalkerTest {
   public void testAddPathSimple() {
     final PathWalker walker = new PathWalker(294);
 
-    callWalkerWithMetrics(walker, 401, "src");
-    callWalkerWithMetrics(walker, 395, "src/in");
-    callWalkerWithMetrics(walker, 396, "src/in/FirstClass.java");
-    callWalkerWithMetrics(walker, 397, "src/in/SecondClass.java");
-    callWalkerWithMetrics(walker, 398, "src/in/ksjbdf");
-    callWalkerWithMetrics(walker, 399, "src/in/ksjbdf/FithsClass.java");
-    callWalkerWithMetrics(walker, 400, "src/in/ksjbdf/SixthClass.java");
-    callWalkerWithMetrics(walker, 402, "src/kjsdfksjdbf.java");
-    callWalkerWithMetrics(walker, 403, "src/out");
-    callWalkerWithMetrics(walker, 404, "src/out/A1Class.java");
-    callWalkerWithMetrics(walker, 405, "src/out/A2Class.java");
-    callWalkerWithMetrics(walker, 406, "src/out/sdbfsidnf");
-    callWalkerWithMetrics(walker, 407, "src/out/sdbfsidnf/A4Class.java");
-    callWalkerWithMetrics(walker, 408, "src/out/sdbfsidnf/A5Class.java");
-    callWalkerWithMetrics(walker, 409, "src/out/sdbfsidnf/siufb");
-    callWalkerWithMetrics(walker, 410, "src/out/sdbfsidnf/siufb/A3Class.java");
-    callWalkerWithMetrics(walker, 411, "src/out/sdbfsidnf/siufb/Asd1Class.java");
+    this.callWalkerWithMetrics(walker, 401, "src");
+    this.callWalkerWithMetrics(walker, 395, "src/in");
+    this.callWalkerWithMetrics(walker, 396, "src/in/FirstClass.java");
+    this.callWalkerWithMetrics(walker, 397, "src/in/SecondClass.java");
+    this.callWalkerWithMetrics(walker, 398, "src/in/ksjbdf");
+    this.callWalkerWithMetrics(walker, 399, "src/in/ksjbdf/FithsClass.java");
+    this.callWalkerWithMetrics(walker, 400, "src/in/ksjbdf/SixthClass.java");
+    this.callWalkerWithMetrics(walker, 402, "src/kjsdfksjdbf.java");
+    this.callWalkerWithMetrics(walker, 403, "src/out");
+    this.callWalkerWithMetrics(walker, 404, "src/out/A1Class.java");
+    this.callWalkerWithMetrics(walker, 405, "src/out/A2Class.java");
+    this.callWalkerWithMetrics(walker, 406, "src/out/sdbfsidnf");
+    this.callWalkerWithMetrics(walker, 407, "src/out/sdbfsidnf/A4Class.java");
+    this.callWalkerWithMetrics(walker, 408, "src/out/sdbfsidnf/A5Class.java");
+    this.callWalkerWithMetrics(walker, 409, "src/out/sdbfsidnf/siufb");
+    this.callWalkerWithMetrics(walker, 410, "src/out/sdbfsidnf/siufb/A3Class.java");
+    this.callWalkerWithMetrics(walker, 411, "src/out/sdbfsidnf/siufb/Asd1Class.java");
 
     final TreeNode tree = walker.getTree();
 
@@ -66,23 +66,23 @@ public class PathWalkerTest {
   public void testAddPathLongStartPath() {
     final PathWalker walker = new PathWalker(412);
 
-    callWalkerWithMetrics(walker, 413, "src/main/java/de/rinderle/softviz3d");
-    callWalkerWithMetrics(walker, 414, "src/main/java/de/rinderle/softviz3d/SoftViz3dExtension.java");
-    callWalkerWithMetrics(walker, 415, "src/main/java/de/rinderle/softviz3d/SoftViz3dPage.java");
-    callWalkerWithMetrics(walker, 416, "src/main/java/de/rinderle/softviz3d/SoftViz3dPlugin.java");
-    callWalkerWithMetrics(walker, 417, "src/main/java/de/rinderle/softviz3d/depth");
-    callWalkerWithMetrics(walker, 418, "src/main/java/de/rinderle/softviz3d/depth/TreeNode.java");
-    callWalkerWithMetrics(walker, 419, "src/main/java/de/rinderle/softviz3d/depth/PathWalker.java");
-    callWalkerWithMetrics(walker, 420, "src/main/java/de/rinderle/softviz3d/depth/ResourceTreeService.java");
-    callWalkerWithMetrics(walker, 421, "src/main/java/de/rinderle/softviz3d/depth/ResourceTreeServiceImpl.java");
-    callWalkerWithMetrics(walker, 422, "src/main/java/de/rinderle/softviz3d/guice");
-    callWalkerWithMetrics(walker, 423, "src/main/java/de/rinderle/softviz3d/guice/LayoutVisitorFactory.java");
-    callWalkerWithMetrics(walker, 424, "src/main/java/de/rinderle/softviz3d/guice/SoftViz3dModule.java");
-    callWalkerWithMetrics(walker, 457, "src/test/java/de/rinderle/softviz3d");
-    callWalkerWithMetrics(walker, 458, "src/test/java/de/rinderle/softviz3d/GrappaPointTest.java");
-    callWalkerWithMetrics(walker, 459, "src/test/java/de/rinderle/softviz3d/TestSource.java");
-    callWalkerWithMetrics(walker, 460, "src/test/java/de/rinderle/softviz3d/Tree.java");
-    callWalkerWithMetrics(walker, 461, "src/test/java/de/rinderle/softviz3d/TreePathTest.java");
+    this.callWalkerWithMetrics(walker, 413, "src/main/java/de/rinderle/softviz3d");
+    this.callWalkerWithMetrics(walker, 414, "src/main/java/de/rinderle/softviz3d/SoftViz3dExtension.java");
+    this.callWalkerWithMetrics(walker, 415, "src/main/java/de/rinderle/softviz3d/SoftViz3dPage.java");
+    this.callWalkerWithMetrics(walker, 416, "src/main/java/de/rinderle/softviz3d/SoftViz3dPlugin.java");
+    this.callWalkerWithMetrics(walker, 417, "src/main/java/de/rinderle/softviz3d/depth");
+    this.callWalkerWithMetrics(walker, 418, "src/main/java/de/rinderle/softviz3d/depth/TreeNode.java");
+    this.callWalkerWithMetrics(walker, 419, "src/main/java/de/rinderle/softviz3d/depth/PathWalker.java");
+    this.callWalkerWithMetrics(walker, 420, "src/main/java/de/rinderle/softviz3d/depth/ResourceTreeService.java");
+    this.callWalkerWithMetrics(walker, 421, "src/main/java/de/rinderle/softviz3d/depth/ResourceTreeServiceImpl.java");
+    this.callWalkerWithMetrics(walker, 422, "src/main/java/de/rinderle/softviz3d/guice");
+    this.callWalkerWithMetrics(walker, 423, "src/main/java/de/rinderle/softviz3d/guice/LayoutVisitorFactory.java");
+    this.callWalkerWithMetrics(walker, 424, "src/main/java/de/rinderle/softviz3d/guice/SoftViz3dModule.java");
+    this.callWalkerWithMetrics(walker, 457, "src/test/java/de/rinderle/softviz3d");
+    this.callWalkerWithMetrics(walker, 458, "src/test/java/de/rinderle/softviz3d/GrappaPointTest.java");
+    this.callWalkerWithMetrics(walker, 459, "src/test/java/de/rinderle/softviz3d/TestSource.java");
+    this.callWalkerWithMetrics(walker, 460, "src/test/java/de/rinderle/softviz3d/Tree.java");
+    this.callWalkerWithMetrics(walker, 461, "src/test/java/de/rinderle/softviz3d/TreePathTest.java");
 
     final TreeNode tree = walker.getTree();
 
@@ -105,27 +105,27 @@ public class PathWalkerTest {
   public void testAddPathShortStartPath() {
     final PathWalker walker = new PathWalker(999999999);
 
-    callWalkerWithMetrics(walker, 1, "src/testForSoftViz");
-    callWalkerWithMetrics(walker, 2, "src/testForSoftViz/FirstClass.java");
-    callWalkerWithMetrics(walker, 3, "src/testForSoftViz/SecondClass.java");
-    callWalkerWithMetrics(walker, 4, "src/testForSoftViz/second");
-    callWalkerWithMetrics(walker, 5, "src/testForSoftViz/second/FourthClass.java");
-    callWalkerWithMetrics(walker, 6, "src/testForSoftViz/second/ThirdClass.java");
-    callWalkerWithMetrics(walker, 7, "src/testForSoftViz/second/third");
-    callWalkerWithMetrics(walker, 8, "src/testForSoftViz/second/third/FithsClass.java");
-    callWalkerWithMetrics(walker, 9, "src/testForSoftViz/second/third/SixthClass.java");
-    callWalkerWithMetrics(walker, 10, "src/out");
-    callWalkerWithMetrics(walker, 11, "src/out/A1Class.java");
-    callWalkerWithMetrics(walker, 12, "src/out/A2Class.java");
-    callWalkerWithMetrics(walker, 13, "src/testForSoftViz/forth");
-    callWalkerWithMetrics(walker, 14, "src/testForSoftViz/forth/FithsClass.java");
-    callWalkerWithMetrics(walker, 15, "src/testForSoftViz/forth/SixthClass.java");
-    callWalkerWithMetrics(walker, 16, "src/testForSoftViz/xx");
-    callWalkerWithMetrics(walker, 17, "src/testForSoftViz/xx/FithsClass.java");
-    callWalkerWithMetrics(walker, 18, "src/testForSoftViz/xx/SixthClass.java");
-    callWalkerWithMetrics(walker, 19, "src/testForSoftViz/xx/yy");
-    callWalkerWithMetrics(walker, 20, "src/testForSoftViz/xx/yy/FithsClass.java");
-    callWalkerWithMetrics(walker, 21, "src/testForSoftViz/xx/yy/SixthClass.java");
+    this.callWalkerWithMetrics(walker, 1, "src/testForSoftViz");
+    this.callWalkerWithMetrics(walker, 2, "src/testForSoftViz/FirstClass.java");
+    this.callWalkerWithMetrics(walker, 3, "src/testForSoftViz/SecondClass.java");
+    this.callWalkerWithMetrics(walker, 4, "src/testForSoftViz/second");
+    this.callWalkerWithMetrics(walker, 5, "src/testForSoftViz/second/FourthClass.java");
+    this.callWalkerWithMetrics(walker, 6, "src/testForSoftViz/second/ThirdClass.java");
+    this.callWalkerWithMetrics(walker, 7, "src/testForSoftViz/second/third");
+    this.callWalkerWithMetrics(walker, 8, "src/testForSoftViz/second/third/FithsClass.java");
+    this.callWalkerWithMetrics(walker, 9, "src/testForSoftViz/second/third/SixthClass.java");
+    this.callWalkerWithMetrics(walker, 10, "src/out");
+    this.callWalkerWithMetrics(walker, 11, "src/out/A1Class.java");
+    this.callWalkerWithMetrics(walker, 12, "src/out/A2Class.java");
+    this.callWalkerWithMetrics(walker, 13, "src/testForSoftViz/forth");
+    this.callWalkerWithMetrics(walker, 14, "src/testForSoftViz/forth/FithsClass.java");
+    this.callWalkerWithMetrics(walker, 15, "src/testForSoftViz/forth/SixthClass.java");
+    this.callWalkerWithMetrics(walker, 16, "src/testForSoftViz/xx");
+    this.callWalkerWithMetrics(walker, 17, "src/testForSoftViz/xx/FithsClass.java");
+    this.callWalkerWithMetrics(walker, 18, "src/testForSoftViz/xx/SixthClass.java");
+    this.callWalkerWithMetrics(walker, 19, "src/testForSoftViz/xx/yy");
+    this.callWalkerWithMetrics(walker, 20, "src/testForSoftViz/xx/yy/FithsClass.java");
+    this.callWalkerWithMetrics(walker, 21, "src/testForSoftViz/xx/yy/SixthClass.java");
 
     final TreeNode tree = walker.getTree();
 

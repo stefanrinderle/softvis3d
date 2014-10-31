@@ -45,7 +45,7 @@ import static org.mockito.Mockito.when;
 public class SoftViz3dWebserviceHandlerTest {
 
   private StringWriter stringWriter = new StringWriter();
-  private JsonWriter jsonWriter = JsonWriter.of(stringWriter);
+  private JsonWriter jsonWriter = JsonWriter.of(this.stringWriter);
 
   private Integer snapshotId = 123;
   private Integer footprintMetricId = 1;
@@ -67,13 +67,13 @@ public class SoftViz3dWebserviceHandlerTest {
 
   @Test
   public void testHandler() throws Exception {
-    final Request request = createRequest();
-    final Response response = createResponse();
+    final Request request = this.createRequest();
+    final Response response = this.createResponse();
 
-    final TreeNode tree = new TreeNode(snapshotId, null, 0, TreeNodeType.TREE, snapshotId + "", 0, 0);
-    when(resourceTreeService.createTreeStructure(LayoutViewType.CITY, snapshotId, footprintMetricId, heightMetricId)).thenReturn(tree);
+    final TreeNode tree = new TreeNode(this.snapshotId, null, 0, TreeNodeType.TREE, this.snapshotId + "", 0, 0);
+    when(this.resourceTreeService.createTreeStructure(LayoutViewType.CITY, this.snapshotId, this.footprintMetricId, this.heightMetricId)).thenReturn(tree);
 
-    handler.handle(request, response);
+    this.handler.handle(request, response);
 
     // TODO: assert response stream
   }
@@ -93,13 +93,13 @@ public class SoftViz3dWebserviceHandlerTest {
       @Override
       public String param(final String key) {
         if ("snapshotId".equals(key)) {
-          return snapshotId.toString();
+          return SoftViz3dWebserviceHandlerTest.this.snapshotId.toString();
         } else if ("footprintMetricId".equals(key)) {
-          return footprintMetricId.toString();
+          return SoftViz3dWebserviceHandlerTest.this.footprintMetricId.toString();
         } else if ("heightMetricId".equals(key)) {
-          return heightMetricId.toString();
+          return SoftViz3dWebserviceHandlerTest.this.heightMetricId.toString();
         } else if ("viewType".equals(key)) {
-          return viewType;
+          return SoftViz3dWebserviceHandlerTest.this.viewType;
         } else {
           return "";
         }
@@ -111,7 +111,7 @@ public class SoftViz3dWebserviceHandlerTest {
     return new Response() {
       @Override
       public JsonWriter newJsonWriter() {
-        return jsonWriter;
+        return SoftViz3dWebserviceHandlerTest.this.jsonWriter;
       }
 
       @Override

@@ -49,20 +49,20 @@ public class DependencyDaoImpl implements DependencyDao {
     List<SonarDependency> result = null;
 
     try {
-      session.start();
-      final Query query = session
+      this.session.start();
+      final Query query = this.session
         .createNativeQuery("SELECT * FROM dependencies d WHERE project_snapshot_id = :projectSnapshotId");
 
       query.setParameter("projectSnapshotId", projectSnapshotId);
 
       final List<Object[]> queryResult = (List<Object[]>) query.getResultList();
 
-      result = castToSonarDependency(queryResult);
+      result = this.castToSonarDependency(queryResult);
 
     } catch (final PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
     } finally {
-      session.stop();
+      this.session.stop();
     }
 
     return result;

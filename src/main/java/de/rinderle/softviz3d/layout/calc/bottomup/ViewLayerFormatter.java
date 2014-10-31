@@ -65,17 +65,17 @@ public class ViewLayerFormatter implements LayerFormatter {
     graph.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
 
     for (final Node leaf : graph.nodeElementsAsArray()) {
-      fixBuildingHeight(leaf);
+      this.fixBuildingHeight(leaf);
 
       Double width = (Double) leaf.getAttributeValue(WIDTH_ATTR);
       // keep some distance to each other
       width = width * SoftViz3dConstants.DPI_DOT_SCALE;
-      leaf.setAttribute(WIDTH_ATTR, roundTo2Decimals(width));
+      leaf.setAttribute(WIDTH_ATTR, this.roundTo2Decimals(width));
 
       Double height = (Double) leaf.getAttributeValue(HEIGHT_ATTR);
       // keep some distance to each other
       height = height * SoftViz3dConstants.DPI_DOT_SCALE;
-      leaf.setAttribute(HEIGHT_ATTR, roundTo2Decimals(height));
+      leaf.setAttribute(HEIGHT_ATTR, this.roundTo2Decimals(height));
 
       if (leaf.getAttribute("type").getValue().toString().equals(TreeNodeType.DEPENDENCY_GENERATED.name())) {
         leaf.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, color.getHex());
@@ -116,7 +116,7 @@ public class ViewLayerFormatter implements LayerFormatter {
   public double calcBuildingHeight(final Double value, final SonarMetric metricHeight) {
     double buildingHeight = 0.0;
 
-    buildingHeight = calcPercentage(value, metricHeight, buildingHeight);
+    buildingHeight = this.calcPercentage(value, metricHeight, buildingHeight);
 
     return buildingHeight;
   }
@@ -125,7 +125,7 @@ public class ViewLayerFormatter implements LayerFormatter {
   public double calcSideLength(final Double value, final SonarMetric metricFootprint) {
     double sideLength = 0.0;
 
-    sideLength = calcPercentage(value, metricFootprint, sideLength);
+    sideLength = this.calcPercentage(value, metricFootprint, sideLength);
 
     if (sideLength < SoftViz3dConstants.MIN_SIDE_LENGTH_PERCENT) {
       sideLength = SoftViz3dConstants.MIN_SIDE_LENGTH_PERCENT;

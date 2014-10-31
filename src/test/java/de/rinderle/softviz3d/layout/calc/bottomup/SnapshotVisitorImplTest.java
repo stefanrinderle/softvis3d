@@ -52,11 +52,11 @@ public class SnapshotVisitorImplTest {
 
   @Test
   public void testVisitNodeMinimal() throws DotExcecutorException {
-    final Graph graph = createGraph();
+    final Graph graph = this.createGraph();
     // when(dotExecutor.run(any(Graph.class), any(Settings.class))).thenReturn(graph);
 
     final Settings settings = new Settings();
-    final List<Double> minMaxValues = createMinMaxValues();
+    final List<Double> minMaxValues = this.createMinMaxValues();
     // SnapshotVisitorImpl underTest = new SnapshotVisitorImpl(formatter, dotExecutor, settings, minMaxValues);
 
     // SonarSnapshot snapshot = new SonarSnapshot(ID, NAME, DEPTH, METRIC_FOOTPRINT_VALUE, METRIC_HEIGHT_VALUE);
@@ -78,11 +78,11 @@ public class SnapshotVisitorImplTest {
 
   @Test
   public void testVisitNodeElements() throws DotExcecutorException {
-    final Graph graph = createGraph();
+    final Graph graph = this.createGraph();
     // when(dotExecutor.run(any(Graph.class), any(Settings.class))).thenReturn(graph);
 
     final Settings settings = new Settings();
-    final List<Double> minMaxValues = createMinMaxValues();
+    final List<Double> minMaxValues = this.createMinMaxValues();
     // SnapshotVisitorImpl underTest = new SnapshotVisitorImpl(formatter, dotExecutor, settings, minMaxValues);
 
     // SonarSnapshot snapshot = new SonarSnapshot(ID, NAME, DEPTH, METRIC_FOOTPRINT_VALUE, METRIC_HEIGHT_VALUE);
@@ -115,7 +115,7 @@ public class SnapshotVisitorImplTest {
   @Test
   public void testVisitLeaf() {
     final Settings settings = new Settings();
-    final List<Double> minMaxValues = createMinMaxValues();
+    final List<Double> minMaxValues = this.createMinMaxValues();
     // SnapshotVisitorImpl underTest = new SnapshotVisitorImpl(formatter, dotExecutor, settings, minMaxValues);
 
     // SonarSnapshot snapshot = new SonarSnapshot(ID, NAME, DEPTH, METRIC_FOOTPRINT_VALUE, METRIC_HEIGHT_VALUE);

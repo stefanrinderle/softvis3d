@@ -51,53 +51,53 @@ public class GrappaGraphTest extends TestCase {
     final boolean directed = true;
     final boolean strict = false;
 
-    graph = new Graph(graphName, directed, strict);
+    this.graph = new Graph(graphName, directed, strict);
 
-    final Node node1 = new Node(graph, "testnode1");
+    final Node node1 = new Node(this.graph, "testnode1");
     node1.setAttribute(new Attribute(GrappaConstants.NODE, "metric1", "15"));
     node1.setAttribute(new Attribute(GrappaConstants.NODE, "metric2", "30"));
 
-    final Subgraph subgraph = new Subgraph(graph, subgraphId);
+    final Subgraph subgraph = new Subgraph(this.graph, this.subgraphId);
 
     final Node node2 = new Node(subgraph, "testnode2");
     node2.setAttribute(new Attribute(GrappaConstants.NODE, "metric1", "15"));
     node2.setAttribute(new Attribute(GrappaConstants.NODE, "metric2", "30"));
 
-    graph.addSubgraph(subgraph);
+    this.graph.addSubgraph(subgraph);
   }
 
   @Test
   public void testNodeUpdate() {
     // subgraphElementsAsArray()[0]
 
-    Subgraph test = graph.subgraphElementsAsArray()[0];
+    Subgraph test = this.graph.subgraphElementsAsArray()[0];
 
     for (final Node node : test.nodeElementsAsArray()) {
       node.setAttribute("test", "testValue");
     }
 
-    test = graph.subgraphElementsAsArray()[0];
+    test = this.graph.subgraphElementsAsArray()[0];
 
     for (final Node node : test.nodeElementsAsArray()) {
       assertTrue(node.getAttributeValue("test").equals("testValue"));
       ;
     }
 
-    assertTrue(graph.subgraphElementsAsArray()[0].getName().equals(subgraphId));
-    assertTrue(graph.subgraphElementsAsArray()[0].nodeElementsAsArray().length == 1);
-    assertTrue(graph.nodeElementsAsArray().length == 1);
+    assertTrue(this.graph.subgraphElementsAsArray()[0].getName().equals(this.subgraphId));
+    assertTrue(this.graph.subgraphElementsAsArray()[0].nodeElementsAsArray().length == 1);
+    assertTrue(this.graph.nodeElementsAsArray().length == 1);
   }
 
   @Test
   public void testBoundingBoxUpdate() {
     // first create a bounding box - assure that one exists !
-    graph.setAttribute("bb", new GrappaBox(0, 0, 0, 0));
+    this.graph.setAttribute("bb", new GrappaBox(0, 0, 0, 0));
 
     // getAttributeValue("bb")
-    GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
+    GrappaBox bb = (GrappaBox) this.graph.getAttributeValue("bb");
     bb.setRect(2.0, -92.0, 184.09, 92.0);
 
-    bb = (GrappaBox) graph.getAttributeValue("bb");
+    bb = (GrappaBox) this.graph.getAttributeValue("bb");
     assertTrue(bb.getX() == 2.0);
     assertTrue(bb.getWidth() == 184.09);
 
@@ -105,7 +105,7 @@ public class GrappaGraphTest extends TestCase {
 
   @Test
   public void testAttributeTypes() {
-    final Node node = graph.nodeElementsAsArray()[0];
+    final Node node = this.graph.nodeElementsAsArray()[0];
 
     final GrappaPoint pos = (GrappaPoint) node.getAttributeValue("pos");
 

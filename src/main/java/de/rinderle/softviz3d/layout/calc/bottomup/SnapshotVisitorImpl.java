@@ -92,13 +92,13 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     final Graph inputGraph = new Graph(node.getId().toString());
 
     for (final LayeredLayoutElement element : elements) {
-      final Node elementNode = transformToGrappaNode(inputGraph, element);
+      final Node elementNode = this.transformToGrappaNode(inputGraph, element);
       inputGraph.addNode(elementNode);
     }
 
     for (final LayeredLayoutElement element : elements) {
       for (final Edge edge : element.getEdges().values()) {
-        inputGraph.addEdge(transformToGrappaEdge(inputGraph, edge));
+        inputGraph.addEdge(this.transformToGrappaEdge(inputGraph, edge));
       }
     }
 
@@ -107,10 +107,10 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     // inputGraph.printGraph(System.out);
 
     // run dot layout for this layer
-    final Graph outputGraph = dotExecutor.run(inputGraph, settings, viewType);
+    final Graph outputGraph = this.dotExecutor.run(inputGraph, this.settings, this.viewType);
 
     // adjust graph
-    formatter.format(outputGraph, node.getDepth(), viewType);
+    this.formatter.format(outputGraph, node.getDepth(), this.viewType);
 
     LOGGER.debug("--------------------------------------");
 
@@ -118,7 +118,7 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
     LOGGER.debug("--------------------------------------");
 
-    resultingGraphList.put(node.getId(), outputGraph);
+    this.resultingGraphList.put(node.getId(), outputGraph);
 
     // adjusted graph has a bounding box !
     final GrappaBox bb = (GrappaBox) outputGraph.getAttributeValue("bb");
@@ -135,8 +135,8 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
   }
 
   private att.grappa.Edge transformToGrappaEdge(final Graph inputGraph, final Edge edge) {
-    final Node sourceNode = searchNodeById(inputGraph, edge.getSourceId());
-    final Node destNode = searchNodeById(inputGraph, edge.getDestinationId());
+    final Node sourceNode = this.searchNodeById(inputGraph, edge.getSourceId());
+    final Node destNode = this.searchNodeById(inputGraph, edge.getDestinationId());
 
     if (sourceNode != null && destNode != null) {
       final att.grappa.Edge result = new att.grappa.Edge(inputGraph, sourceNode, destNode);
@@ -162,8 +162,8 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     final Node elementNode = new Node(inputGraph, element.getName());
     elementNode.setAttribute("id", element.getId().toString());
     elementNode.setAttribute("type", element.getElementType().name());
-    elementNode.setAttribute(WIDTH_ATTR, roundTo2Decimals(element.getWidth()));
-    elementNode.setAttribute(HEIGHT_ATTR, roundTo2Decimals(element.getHeight()));
+    elementNode.setAttribute(WIDTH_ATTR, this.roundTo2Decimals(element.getWidth()));
+    elementNode.setAttribute(HEIGHT_ATTR, this.roundTo2Decimals(element.getHeight()));
 
     // keep the size of the node only dependent on the width and height
     // attribute and not from the node name
@@ -182,16 +182,16 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
   @Override
   public LayeredLayoutElement visitFile(final TreeNode leaf) {
-    double sideLength = formatter.calcSideLength(leaf.getFootprintMetricValue(), metricFootprint);
+    double sideLength = this.formatter.calcSideLength(leaf.getFootprintMetricValue(), this.metricFootprint);
     sideLength = sideLength / SoftViz3dConstants.DPI_DOT_SCALE;
 
-    double buildingHeight = formatter.calcBuildingHeight(leaf.getHeightMetricValue(), metricHeight);
+    double buildingHeight = this.formatter.calcBuildingHeight(leaf.getHeightMetricValue(), this.metricHeight);
     buildingHeight = buildingHeight / SoftViz3dConstants.DPI_DOT_SCALE;
 
     buildingHeight = buildingHeight * 100;
 
     if (TreeNodeType.DEPENDENCY_GENERATED.equals(leaf.getType()) &&
-      LayoutViewType.DEPENDENCY.equals(viewType)) {
+      LayoutViewType.DEPENDENCY.equals(this.viewType)) {
       buildingHeight = 200;
     }
 

@@ -43,13 +43,13 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
   @Override
   public TreeNode createTreeStructure(final LayoutViewType type, final int rootSnapshotId, final int heightMetric, final int footprintMetric) {
-    LOGGER.info("loadedPathWalkers size " + loadedPathWalkers.size());
+    LOGGER.info("loadedPathWalkers size " + this.loadedPathWalkers.size());
 
-    if (!loadedPathWalkers.containsKey(getId(type, rootSnapshotId))) {
+    if (!this.loadedPathWalkers.containsKey(this.getId(type, rootSnapshotId))) {
       LOGGER.info("Created tree structure for id " + rootSnapshotId);
       final PathWalker pathWalker = new PathWalker(rootSnapshotId);
 
-      final List<Object[]> flatChildren = sonarDao.getAllProjectElements(rootSnapshotId, heightMetric, footprintMetric);
+      final List<Object[]> flatChildren = this.sonarDao.getAllProjectElements(rootSnapshotId, heightMetric, footprintMetric);
 
       // s.id, p.name, m1.value, m2.value
       for (final Object[] flatChild : flatChildren) {
@@ -65,10 +65,10 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
       normalizer.normalizeTree(pathWalker.getTree());
       normalizer.recalculateDepth(pathWalker.getTree());
 
-      loadedPathWalkers.put(getId(type, rootSnapshotId), pathWalker);
+      this.loadedPathWalkers.put(this.getId(type, rootSnapshotId), pathWalker);
     }
 
-    return loadedPathWalkers.get(getId(type, rootSnapshotId)).getTree();
+    return this.loadedPathWalkers.get(this.getId(type, rootSnapshotId)).getTree();
   }
 
   private String getId(final LayoutViewType type, final int rootSnapshotId) {
@@ -77,35 +77,35 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
   @Override
   public List<TreeNode> getChildrenNodeIds(final LayoutViewType type, final Integer rootSnapshotId, final Integer id) {
-    final PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
+    final PathWalker pathWalker = this.loadedPathWalkers.get(this.getId(type, rootSnapshotId));
 
-    final TreeNode treeNode = recursiveSearch(id, pathWalker.getTree());
+    final TreeNode treeNode = this.recursiveSearch(id, pathWalker.getTree());
 
-    return getChildrenNodes(treeNode.getChildren());
+    return this.getChildrenNodes(treeNode.getChildren());
   }
 
   @Override
   public List<TreeNode> getChildrenLeafIds(final LayoutViewType type, final Integer rootSnapshotId, final Integer id) {
-    final PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
+    final PathWalker pathWalker = this.loadedPathWalkers.get(this.getId(type, rootSnapshotId));
 
-    final TreeNode treeNode = recursiveSearch(id, pathWalker.getTree());
+    final TreeNode treeNode = this.recursiveSearch(id, pathWalker.getTree());
 
-    return getChildrenLeaves(treeNode.getChildren());
+    return this.getChildrenLeaves(treeNode.getChildren());
   }
 
   @Override
   public TreeNode findNode(final LayoutViewType type, final Integer rootSnapshotId, final Integer id) {
-    final PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
+    final PathWalker pathWalker = this.loadedPathWalkers.get(this.getId(type, rootSnapshotId));
 
-    return recursiveSearch(id, pathWalker.getTree());
+    return this.recursiveSearch(id, pathWalker.getTree());
   }
 
   @Override
   public TreeNode addInterfaceLeafNode(final LayoutViewType type, final Integer rootSnapshotId, final String intLeafLabel, final Integer parentId) {
-    final PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
+    final PathWalker pathWalker = this.loadedPathWalkers.get(this.getId(type, rootSnapshotId));
 
     // search for parent node
-    final TreeNode parent = recursiveSearch(parentId, pathWalker.getTree());
+    final TreeNode parent = this.recursiveSearch(parentId, pathWalker.getTree());
 
     final Integer id = pathWalker.getNextSequence();
     final TreeNode interfaceLeafTreeNode = new TreeNode(id, parent, parent.getDepth() + 1, TreeNodeType.DEPENDENCY_GENERATED, "elevatorNode_" + id, 0, 0);
@@ -116,8 +116,8 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
   @Override
   public TreeNode findInterfaceLeafNode(final LayoutViewType type, final Integer rootSnapshotId, final String intLeafLabel) {
-    final PathWalker pathWalker = loadedPathWalkers.get(getId(type, rootSnapshotId));
-    return recursiveSearch(intLeafLabel, pathWalker.getTree());
+    final PathWalker pathWalker = this.loadedPathWalkers.get(this.getId(type, rootSnapshotId));
+    return this.recursiveSearch(intLeafLabel, pathWalker.getTree());
   }
 
   private TreeNode recursiveSearch(final String name, final TreeNode treeNode) {
@@ -128,7 +128,7 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
       return children.get(name);
     } else if (!children.isEmpty()) {
       for (final TreeNode child : children.values()) {
-        temp = recursiveSearch(name, child);
+        temp = this.recursiveSearch(name, child);
         if (temp != null) {
           return temp;
         }
@@ -147,7 +147,7 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
        */
       for (final TreeNode child : treeNode.getChildren().values()) {
         if (child.getId().equals(id)) {
-          return recursiveSearch(id, child);
+          return this.recursiveSearch(id, child);
         }
       }
 
@@ -158,7 +158,7 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     TreeNode temp;
     if (!children.isEmpty()) {
       for (final TreeNode child : children.values()) {
-        temp = recursiveSearch(id, child);
+        temp = this.recursiveSearch(id, child);
         if (temp != null) {
           return temp;
         }

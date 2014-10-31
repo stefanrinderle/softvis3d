@@ -37,9 +37,9 @@ public class DotVersionImpl implements DotVersion {
    */
   @Override
   public String getVersion(final Settings settings) {
-    if (version == null) {
+    if (this.version == null) {
       final String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
-      String commandResult = executeCommand.executeCommandReadErrorStream(dotBin + " -V");
+      String commandResult = this.executeCommand.executeCommandReadErrorStream(dotBin + " -V");
 
       // dot - Graphviz version 2.20.2 (Tue Jan 14 19:38:44 UTC 2014)
 
@@ -48,10 +48,10 @@ public class DotVersionImpl implements DotVersion {
       commandResult = commandResult.substring(prefix.length(), commandResult.length());
 
       // remove everything after the first space left
-      version = commandResult.substring(0, commandResult.indexOf(" "));
+      this.version = commandResult.substring(0, commandResult.indexOf(" "));
     }
 
-    return version;
+    return this.version;
   }
 
 }

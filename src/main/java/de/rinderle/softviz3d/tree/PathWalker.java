@@ -33,31 +33,31 @@ public class PathWalker {
   private Pattern pathSeparator = Pattern.compile("/");
 
   public PathWalker(final int id) {
-    root = new TreeNode(id, null, 0, TreeNodeType.TREE, "root", 0, 0);
+    this.root = new TreeNode(id, null, 0, TreeNodeType.TREE, "root", 0, 0);
   }
 
   public TreeNode getTree() {
-    return root;
+    return this.root;
   }
 
   public void addPath(final int id, final String path, final double footprintMetricValue, final double heightMetricValue) {
-    final String[] names = pathSeparator.split(path);
-    TreeNode currentNode = root;
+    final String[] names = this.pathSeparator.split(path);
+    TreeNode currentNode = this.root;
 
     boolean isLastIndex;
     for (int i = 0; i < names.length; i++) {
       isLastIndex = (i == (names.length - 1));
       if (isLastIndex) {
-        currentNode = getOrCreateChild(currentNode, id, names[i], TreeNodeType.TREE, footprintMetricValue, heightMetricValue);
+        currentNode = this.getOrCreateChild(currentNode, id, names[i], TreeNodeType.TREE, footprintMetricValue, heightMetricValue);
       } else {
-        currentNode = getOrCreateChild(currentNode, generatedIdSequence++, names[i], TreeNodeType.PATH_GENERATED,
+        currentNode = this.getOrCreateChild(currentNode, this.generatedIdSequence++, names[i], TreeNodeType.PATH_GENERATED,
           footprintMetricValue, heightMetricValue);
       }
     }
   }
 
   public int getNextSequence() {
-    return generatedIdSequence++;
+    return this.generatedIdSequence++;
   }
 
   private TreeNode getOrCreateChild(final TreeNode node, final int id, final String name, final TreeNodeType type, final double footprintMetricValue, final double heightMetricValue) {

@@ -61,10 +61,10 @@ public class BottomUpProcessorTest {
   public void testEmpty() throws DotExcecutorException {
     final Integer snapshotId = 1;
 
-    underTest.accept(VIEW_TYPE, mockVisitor, snapshotId, snapshotId);
+    this.underTest.accept(VIEW_TYPE, this.mockVisitor, snapshotId, snapshotId);
 
-    verify(resourceTreeService, times(1)).getChildrenLeafIds(VIEW_TYPE, snapshotId, snapshotId);
-    verify(resourceTreeService, times(1)).getChildrenNodeIds(VIEW_TYPE, snapshotId, snapshotId);
+    verify(this.resourceTreeService, times(1)).getChildrenLeafIds(VIEW_TYPE, snapshotId, snapshotId);
+    verify(this.resourceTreeService, times(1)).getChildrenNodeIds(VIEW_TYPE, snapshotId, snapshotId);
   }
 
   @Test
@@ -75,12 +75,12 @@ public class BottomUpProcessorTest {
     final List<TreeNode> childrenTreeNodes = new ArrayList<TreeNode>();
     childrenTreeNodes.add(new TreeNode(2, null, depth, TreeNodeType.TREE, "2", METRIC_FOOTPRINT, METRIC_HEIGHT));
     childrenTreeNodes.add(new TreeNode(2, null, depth, TreeNodeType.TREE, "3", METRIC_FOOTPRINT, METRIC_HEIGHT));
-    when(resourceTreeService.getChildrenNodeIds(VIEW_TYPE, snapshotId, snapshotId)).thenReturn(childrenTreeNodes);
+    when(this.resourceTreeService.getChildrenNodeIds(VIEW_TYPE, snapshotId, snapshotId)).thenReturn(childrenTreeNodes);
 
-    underTest.accept(VIEW_TYPE, mockVisitor, snapshotId, snapshotId);
+    this.underTest.accept(VIEW_TYPE, this.mockVisitor, snapshotId, snapshotId);
 
-    verify(resourceTreeService, times(3)).getChildrenLeafIds(eq(VIEW_TYPE), eq(snapshotId), anyInt());
-    verify(resourceTreeService, times(3)).getChildrenNodeIds(eq(VIEW_TYPE), eq(snapshotId), anyInt());
+    verify(this.resourceTreeService, times(3)).getChildrenLeafIds(eq(VIEW_TYPE), eq(snapshotId), anyInt());
+    verify(this.resourceTreeService, times(3)).getChildrenNodeIds(eq(VIEW_TYPE), eq(snapshotId), anyInt());
   }
 
   @Test
@@ -91,12 +91,12 @@ public class BottomUpProcessorTest {
     final List<TreeNode> childrenTreeLeaves = new ArrayList<TreeNode>();
     childrenTreeLeaves.add(new TreeNode(2, null, depth, TreeNodeType.TREE, "2", METRIC_FOOTPRINT, METRIC_HEIGHT));
     childrenTreeLeaves.add(new TreeNode(2, null, depth, TreeNodeType.TREE, "3", METRIC_FOOTPRINT, METRIC_HEIGHT));
-    when(resourceTreeService.getChildrenLeafIds(VIEW_TYPE, snapshotId, snapshotId)).thenReturn(childrenTreeLeaves);
+    when(this.resourceTreeService.getChildrenLeafIds(VIEW_TYPE, snapshotId, snapshotId)).thenReturn(childrenTreeLeaves);
 
-    underTest.accept(VIEW_TYPE, mockVisitor, snapshotId, snapshotId);
+    this.underTest.accept(VIEW_TYPE, this.mockVisitor, snapshotId, snapshotId);
 
-    verify(resourceTreeService, times(1)).getChildrenNodeIds(eq(VIEW_TYPE), eq(snapshotId), anyInt());
-    verify(resourceTreeService, times(1)).getChildrenLeafIds(eq(VIEW_TYPE), eq(snapshotId), anyInt());
+    verify(this.resourceTreeService, times(1)).getChildrenNodeIds(eq(VIEW_TYPE), eq(snapshotId), anyInt());
+    verify(this.resourceTreeService, times(1)).getChildrenLeafIds(eq(VIEW_TYPE), eq(snapshotId), anyInt());
   }
 
 }

@@ -41,27 +41,27 @@ public class Edge {
   }
 
   public Integer getProjectId() {
-    return projectId;
+    return this.projectId;
   }
 
   public String getDepEdgeLabel() {
-    return depEdgeLabel;
+    return this.depEdgeLabel;
   }
 
   public Integer getSourceId() {
-    return sourceId;
+    return this.sourceId;
   }
 
   public Integer getDestinationId() {
-    return destinationId;
+    return this.destinationId;
   }
 
   public Integer getParentId() {
-    return parentId;
+    return this.parentId;
   }
 
   public int getCounter() {
-    return counter;
+    return this.counter;
   }
 
   public void setCounter(final int counter) {

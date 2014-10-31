@@ -43,7 +43,7 @@ public class GrappaGraphFactory {
     final Node leaf2 = new Node(graphLeaf2());
     leaf2.setAttribute("id", "3");
     leaf2.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
-      leaf2.setAttribute("type", TreeNodeType.TREE.name());
+    leaf2.setAttribute("type", TreeNodeType.TREE.name());
     graph.addNode(leaf2);
 
     return graph;

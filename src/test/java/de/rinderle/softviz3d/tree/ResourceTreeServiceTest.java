@@ -57,19 +57,19 @@ public class ResourceTreeServiceTest {
     children.add(new Object[] {3, "src/eins", BigDecimal.ZERO, BigDecimal.ZERO});
     children.add(new Object[] {4, "src/zwei", BigDecimal.ZERO, BigDecimal.ZERO});
     children.add(new Object[] {5, "src/zwei/drei", BigDecimal.ZERO, BigDecimal.ZERO});
-    when(sonarDao.getAllProjectElements(rootSnapshotId, 0, 0)).thenReturn(children);
+    when(this.sonarDao.getAllProjectElements(rootSnapshotId, 0, 0)).thenReturn(children);
 
-    underTest.createTreeStructure(VIEW_TYPE, rootSnapshotId, 0, 0);
+    this.underTest.createTreeStructure(VIEW_TYPE, rootSnapshotId, 0, 0);
 
-    //Check leaf
-//    List<TreeNode> leafs = underTest.getChildrenLeafIds(VIEW_TYPE, rootSnapshotId, rootSnapshotId);
-//    assertTrue(leafs.contains(3));
-//    assertEquals(1, leafs.size());
+    // Check leaf
+    // List<TreeNode> leafs = underTest.getChildrenLeafIds(VIEW_TYPE, rootSnapshotId, rootSnapshotId);
+    // assertTrue(leafs.contains(3));
+    // assertEquals(1, leafs.size());
 
-    //Check node
-//    List<TreeNode> nodes = underTest.getChildrenNodeIds(VIEW_TYPE, rootSnapshotId, 4);
-//    assertTrue(nodes.contains(4));
-//    assertEquals(1, nodes.size());
+    // Check node
+    // List<TreeNode> nodes = underTest.getChildrenNodeIds(VIEW_TYPE, rootSnapshotId, 4);
+    // assertTrue(nodes.contains(4));
+    // assertEquals(1, nodes.size());
   }
 
   @Test

@@ -50,12 +50,12 @@ public class SonarDaoImpl implements SonarDao {
     List<Integer> metricIds;
 
     try {
-      session.start();
+      this.session.start();
 
-      final Query metricsQuery = session
+      final Query metricsQuery = this.session
         .createQuery("SELECT distinct metricId "
-                + "FROM MeasureModel m WHERE m.snapshotId = :snapshotId "
-                + "AND m.value is not null");
+          + "FROM MeasureModel m WHERE m.snapshotId = :snapshotId "
+          + "AND m.value is not null");
       metricsQuery.setParameter("snapshotId", snapshotId);
 
       metricIds = metricsQuery.getResultList();
@@ -63,7 +63,7 @@ public class SonarDaoImpl implements SonarDao {
       LOGGER.error(e.getMessage(), e);
       metricIds = null;
     } finally {
-      session.stop();
+      this.session.stop();
     }
 
     return metricIds;
@@ -81,8 +81,8 @@ public class SonarDaoImpl implements SonarDao {
     Integer metricId;
 
     try {
-      session.start();
-      final Query query = session
+      this.session.start();
+      final Query query = this.session
         .createNativeQuery("SELECT id FROM metrics m WHERE m.name = :name");
       query.setParameter("name", name);
 
@@ -91,7 +91,7 @@ public class SonarDaoImpl implements SonarDao {
       LOGGER.error(e.getMessage(), e);
       metricId = null;
     } finally {
-      session.stop();
+      this.session.stop();
     }
 
     return metricId;
@@ -104,15 +104,15 @@ public class SonarDaoImpl implements SonarDao {
     List<Double> values = new ArrayList<Double>();
 
     try {
-      session.start();
-      final Query query = session
+      this.session.start();
+      final Query query = this.session
         .createNativeQuery("select MIN(m1.value) as min1, MAX(m1.value) as max1, "
-                + "MIN(m2.value) as min2, MAX(m2.value) as max2 from snapshots s "
-                + "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id "
-                + "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id "
-                + "WHERE s.path LIKE :rootSnapshotId AND m1.metric_id = :footprintMetricId AND "
-                + "m2.metric_id = :heightMetricId AND "
-                + "s.scope != 'PRJ' AND s.scope != 'DIR'");
+          + "MIN(m2.value) as min2, MAX(m2.value) as max2 from snapshots s "
+          + "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id "
+          + "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id "
+          + "WHERE s.path LIKE :rootSnapshotId AND m1.metric_id = :footprintMetricId AND "
+          + "m2.metric_id = :heightMetricId AND "
+          + "s.scope != 'PRJ' AND s.scope != 'DIR'");
       query.setParameter("rootSnapshotId", rootSnapshotId + ".%");
       query.setParameter("footprintMetricId", footprintMetricId);
       query.setParameter("heightMetricId", heightMetricId);
@@ -127,7 +127,7 @@ public class SonarDaoImpl implements SonarDao {
       LOGGER.error(e.getMessage(), e);
       values = null;
     } finally {
-      session.stop();
+      this.session.stop();
     }
 
     return values;
@@ -139,18 +139,18 @@ public class SonarDaoImpl implements SonarDao {
     List<Object[]> result;
 
     try {
-      session.start();
-      final Query query = session
+      this.session.start();
+      final Query query = this.session
         .createNativeQuery(
-                "SELECT s.id, p.path, m1.value, m2.value " +
-                        "FROM snapshots s " +
-                        "INNER JOIN projects p ON s.project_id = p.id " +
-                        "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id " +
-                        "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id " +
-                        "WHERE m1.metric_id = :footprintMetricId " +
-                        "AND m2.metric_id = :heightMetricId " +
-                        "AND s.root_snapshot_id = :id " +
-                        "ORDER BY p.path");
+        "SELECT s.id, p.path, m1.value, m2.value " +
+          "FROM snapshots s " +
+          "INNER JOIN projects p ON s.project_id = p.id " +
+          "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id " +
+          "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id " +
+          "WHERE m1.metric_id = :footprintMetricId " +
+          "AND m2.metric_id = :heightMetricId " +
+          "AND s.root_snapshot_id = :id " +
+          "ORDER BY p.path");
       query.setParameter("id", rootSnapshotId);
       query.setParameter("footprintMetricId", footprintMetricId);
       query.setParameter("heightMetricId", heightMetricId);
@@ -160,13 +160,13 @@ public class SonarDaoImpl implements SonarDao {
       LOGGER.error(e.getMessage(), e);
       result = null;
     } finally {
-      session.stop();
+      this.session.stop();
     }
 
     // The sql obove does not work as expected. object[2] == object[3] which means
     // that java is not able to differentiate m1.value from m2.value.
     // Therfore the heightMetricValues has to selected separately and override the result.
-    final List<Object[]> heightResults = getHeightMetrics(rootSnapshotId, heightMetricId);
+    final List<Object[]> heightResults = this.getHeightMetrics(rootSnapshotId, heightMetricId);
     for (final Object[] heightResult : heightResults) {
       final int index = heightResults.indexOf(heightResult);
       result.get(index)[3] = heightResults.get(index)[1];
@@ -179,16 +179,16 @@ public class SonarDaoImpl implements SonarDao {
     List<Object[]> result;
 
     try {
-      session.start();
-      final Query query = session
+      this.session.start();
+      final Query query = this.session
         .createNativeQuery(
-                "SELECT s.id, m1.value, p.path " +
-                        "FROM snapshots s " +
-                        "INNER JOIN projects p ON s.project_id = p.id " +
-                        "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id " +
-                        "WHERE m1.metric_id = :heightMetricId " +
-                        "AND s.root_snapshot_id = :id " +
-                        "ORDER BY p.path");
+        "SELECT s.id, m1.value, p.path " +
+          "FROM snapshots s " +
+          "INNER JOIN projects p ON s.project_id = p.id " +
+          "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id " +
+          "WHERE m1.metric_id = :heightMetricId " +
+          "AND s.root_snapshot_id = :id " +
+          "ORDER BY p.path");
       query.setParameter("id", rootSnapshotId);
       query.setParameter("heightMetricId", heightMetricId);
 
@@ -197,7 +197,7 @@ public class SonarDaoImpl implements SonarDao {
       LOGGER.error(e.getMessage(), e);
       result = null;
     } finally {
-      session.stop();
+      this.session.stop();
     }
 
     return result;

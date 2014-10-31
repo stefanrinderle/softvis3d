@@ -56,7 +56,7 @@ public class HexaColor extends Color {
    * @return the HEX value of the colour in the default sRGB ColorModel
    */
   public String getHex() {
-    return toHex(getRed(), getGreen(), getBlue());
+    return toHex(this.getRed(), this.getGreen(), this.getBlue());
   }
 
 }

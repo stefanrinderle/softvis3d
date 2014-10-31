@@ -31,11 +31,11 @@ public class SonarMetric {
   }
 
   public Double getMinValue() {
-    return minValue;
+    return this.minValue;
   }
 
   public Double getMaxValue() {
-    return maxValue;
+    return this.maxValue;
   }
 
 }
