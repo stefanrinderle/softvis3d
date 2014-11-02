@@ -163,7 +163,7 @@ public class SonarDaoImpl implements SonarDao {
       this.session.stop();
     }
 
-    // The sql obove does not work as expected. object[2] == object[3] which means
+    // The sql above does not work as expected. object[2] == object[3] which means
     // that java is not able to differentiate m1.value from m2.value.
     // Therfore the heightMetricValues has to selected separately and override the result.
     final List<Object[]> heightResults = this.getHeightMetrics(rootSnapshotId, heightMetricId);

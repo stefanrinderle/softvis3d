@@ -31,10 +31,6 @@
        puts("no param 2 - default param")
        params[:metric2] = softviz3d.getMetric2FromSettings().to_s
     end
-    if (params[:viewType].blank?)
-      puts("no viewType - default param")
-      params[:viewType] = "city";
-    end
   %>
   <% form_tag({:action => @resource.id.to_s}, {:id => 'softviz3dForm', :method => 'get'}) do %>
       <input type="hidden" name="page" value="Softviz3d">
@@ -94,102 +90,115 @@
   <% end %>
 </div>
 
-<div id="renderContainer" style="border: 1px solid black;"></div>
+<div id="renderContainer" style="border: 1px solid black;">
+    <% if (params[:viewType].blank?) %>
+        <div style="padding: 30px; height: 300px;">
+            <h3>Please select the metrics and a view type and submit the form above.</h3>
+        </div>
+    <% end %>
+</div>
 <div id="detailsContainer"
      style="border: 1px solid black; position: absolute;
              top: 40px; right: 10px; width: 200px; height: 300px;
              overflow: auto;">
 </div>
-<script type="text/javascript">
-    if (!Detector.webgl) {
-        Detector.addGetWebGLMessage();
-    }
-
-    init(document.getElementById('renderContainer'), false);
-    animate();
-</script>
 
 <script type="text/javascript">
-    initializeWebservice(<%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>");
+    <%
 
-    // city or dependency
-    var viewType = "<%= params[:viewType] %>";
+    if (params[:viewType].blank?)
 
-    function v( x, y, z ){ return new THREE.Vector3( x, y, z ); }
+    else
+    %>
 
-   <%
-   # get extension class and start layout
-   softviz3d = Api::Utils.java_facade.
-           getComponentByClassname('softviz3d', 'de.rinderle.softviz3d.SoftViz3dExtension')
+        if (!Detector.webgl) {
+            Detector.addGetWebGLMessage();
+        }
 
-   resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, params[:metric1], params[:metric2], params[:viewType])
+        init(document.getElementById('renderContainer'), false);
+        animate();
 
-   # show all graph (as layers)
-   resultMap.each do |key, value|
-        # set bb (position and size)
-        layerBB = value.getAttributeValue('bb')
-       %>
-        position = new Array();
-        position.x = <%= layerBB.getX() %>;
-        position.y = <%= value.getAttributeValue('layerHeight3d') %>;
-        position.z = <%= layerBB.getY() %>;
+        initializeWebservice(<%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>");
 
-        <% heightString = value.getAttributeValue('buildingHeight').to_s %>
+        // city or dependency
+        var viewType = "<%= params[:viewType] %>";
 
-        geometryLayer = new THREE.BoxGeometry(<%= layerBB.getWidth() %>, 5,
-                <%= layerBB.getHeight() %>);
+        function v( x, y, z ){ return new THREE.Vector3( x, y, z ); }
 
-        // set material (color)
-        layerMaterial = new THREE.MeshLambertMaterial({
-            color: <%= value.getAttributeValue('color').getHex %>,
-            transparent: true,
-            opacity: <%= value.getAttributeValue('opacity') %>
-            });
+       <%
+       # get extension class and start layout
+       softviz3d = Api::Utils.java_facade.
+               getComponentByClassname('softviz3d', 'de.rinderle.softviz3d.SoftViz3dExtension')
 
-        // <%= value.to_s %>
-        createBox(geometryLayer, layerMaterial, position, "<%= key %>", "node");
+       resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, params[:metric1], params[:metric2], params[:viewType])
 
-        <%
-        # show all treeNodes
-        value.nodeElementsAsArray.each { |val|
-            %>
-            var nodeMaterial = new THREE.MeshLambertMaterial({
-                color: <%= val.getAttributeValue('nodesColor') %>,
+       # show all graph (as layers)
+       resultMap.each do |key, value|
+            # set bb (position and size)
+            layerBB = value.getAttributeValue('bb')
+           %>
+            position = new Array();
+            position.x = <%= layerBB.getX() %>;
+            position.y = <%= value.getAttributeValue('layerHeight3d') %>;
+            position.z = <%= layerBB.getY() %>;
+
+            <% heightString = value.getAttributeValue('buildingHeight').to_s %>
+
+            geometryLayer = new THREE.BoxGeometry(<%= layerBB.getWidth() %>, 5,
+                    <%= layerBB.getHeight() %>);
+
+            // set material (color)
+            layerMaterial = new THREE.MeshLambertMaterial({
+                color: <%= value.getAttributeValue('color').getHex %>,
                 transparent: true,
                 opacity: <%= value.getAttributeValue('opacity') %>
-            });
+                });
+
+            // <%= value.to_s %>
+            createBox(geometryLayer, layerMaterial, position, "<%= key %>", "node");
+
             <%
-            point = val.getAttributeValue('pos')
-            pointArray = point.to_s.split(',')
-            heightString = val.getAttributeValue('buildingHeight')
-           %>
-            var nodeGeometry = new THREE.BoxGeometry(
-                    <%= val.getAttributeValue('width').to_s %>, <%= heightString %>,
-                    <%= val.getAttributeValue('height').to_s %>);
+            # show all treeNodes
+            value.nodeElementsAsArray.each { |val|
+                %>
+                var nodeMaterial = new THREE.MeshLambertMaterial({
+                    color: <%= val.getAttributeValue('nodesColor') %>,
+                    transparent: true,
+                    opacity: <%= value.getAttributeValue('opacity') %>
+                });
+                <%
+                point = val.getAttributeValue('pos')
+                pointArray = point.to_s.split(',')
+                heightString = val.getAttributeValue('buildingHeight')
+               %>
+                var nodeGeometry = new THREE.BoxGeometry(
+                        <%= val.getAttributeValue('width').to_s %>, <%= heightString %>,
+                        <%= val.getAttributeValue('height').to_s %>);
 
-            var position = new Array();
-            position.x = <%= pointArray[0] %>;
-            <% zPos = val.getAttributeValue('layerHeight3d').to_f + heightString.to_f / 2 %>
-            position.y = <%= zPos.to_s %>;
-            position.z = <%= pointArray[1] %>;
+                var position = new Array();
+                position.x = <%= pointArray[0] %>;
+                <% zPos = val.getAttributeValue('layerHeight3d').to_f + heightString.to_f / 2 %>
+                position.y = <%= zPos.to_s %>;
+                position.z = <%= pointArray[1] %>;
 
-            // <%= val.to_s %>
-            createBox(nodeGeometry, nodeMaterial, position, "<%= val.getAttributeValue('id') %>", "leaf");
+                // <%= val.to_s %>
+                createBox(nodeGeometry, nodeMaterial, position, "<%= val.getAttributeValue('id') %>", "leaf");
+                <%
+            }
+            %>
+            <%
+            # show all treeEdges
+            value.edgeElementsAsArray.each { |val|
+            %>
+                    // <%= val.to_s %>
+                    // edgeRadius: <%= val.getAttributeValue('edgeRadius').to_s %>
+                    drawCylinder(v(<%= val.getAttributeValue("origin").to_s %>),
+                        v(<%= val.getAttributeValue("destination").to_s %>),
+                        "<%= val.getTail().getAttributeValue('id').to_s %> -> <%= val.getHead().getAttributeValue('id').to_s %>",
+                            <%= val.getAttributeValue('edgeRadius').to_s %>);
             <%
         }
-        %>
-        <%
-        # show all treeEdges
-        value.edgeElementsAsArray.each { |val|
-        %>
-                // <%= val.to_s %>
-                // edgeRadius: <%= val.getAttributeValue('edgeRadius').to_s %>
-                drawCylinder(v(<%= val.getAttributeValue("origin").to_s %>),
-                    v(<%= val.getAttributeValue("destination").to_s %>),
-                    "<%= val.getTail().getAttributeValue('id').to_s %> -> <%= val.getHead().getAttributeValue('id').to_s %>",
-                        <%= val.getAttributeValue('edgeRadius').to_s %>);
-        <%
-    }
+        end
     end
     %>
 
