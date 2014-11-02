@@ -19,12 +19,12 @@
  */
 package de.rinderle.softviz3d.sonar;
 
-public class SonarMetric {
+public class MinMaxValueDao {
 
   private Double minValue;
   private Double maxValue;
 
-  public SonarMetric(final Double minValue, final Double maxValue) {
+  public MinMaxValueDao(final Double minValue, final Double maxValue) {
     super();
     this.minValue = minValue;
     this.maxValue = maxValue;

@@ -25,5 +25,5 @@ import java.util.List;
 
 public interface DependencyExpander {
 
-  public void execute(final Integer projectId, final List<SonarDependency> dependencies);
+  public int execute(final Integer projectId, final List<SonarDependency> dependencies);
 }

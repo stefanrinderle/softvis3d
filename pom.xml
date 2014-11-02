@@ -46,10 +46,6 @@
 		<sonar.jacoco.jar>
 			${basedir}/lib/jacocoagent.jar
 		</sonar.jacoco.jar>
-
-
-		<!-- Configuration for sonar-packaging-maven-plugin <sonar.pluginClass>de.rinderle.softviz3d.SoftViz3dPlugin</sonar.pluginClass>
-			<sonar.pluginName>Softviz3d</sonar.pluginName> -->
 	</properties>
 
 	<repositories>
@@ -73,6 +69,12 @@
 			<version>${sonar.version}</version>
 			<!-- scope>provided</scope -->
 		</dependency>
+
+        <dependency>
+            <groupId>org.codehaus.sonar</groupId>
+            <artifactId>sonar-dev-maven-plugin</artifactId>
+            <version>1.7</version>
+        </dependency>
 
 		<dependency>
 			<groupId>commons-lang</groupId>

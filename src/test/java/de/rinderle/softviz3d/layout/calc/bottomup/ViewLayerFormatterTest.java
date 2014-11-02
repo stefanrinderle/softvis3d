@@ -23,7 +23,7 @@ import att.grappa.Graph;
 import de.rinderle.softviz3d.grappa.GrappaGraphFactory;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.sonar.SonarMetric;
+import de.rinderle.softviz3d.sonar.MinMaxValueDao;
 import org.junit.Test;
 
 import java.awt.*;
@@ -66,9 +66,9 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcBuildingHeightTest() {
     final Double value = 1.1;
-    final SonarMetric metricHeight = new SonarMetric(0.0, 10.0);
+    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 10.0);
 
-    final double result = this.underTest.calcBuildingHeight(value, metricHeight);
+    final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
     // 1.1 is 11 percent of 10
     assertEquals(Double.valueOf(11), Double.valueOf(result));
@@ -77,9 +77,9 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcBuildingHeightTest2() {
     final Double value = 2.0;
-    final SonarMetric metricHeight = new SonarMetric(0.0, 200.0);
+    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 200.0);
 
-    final double result = this.underTest.calcBuildingHeight(value, metricHeight);
+    final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
     // 2 is 1 percent of 200.
     assertEquals(Double.valueOf(1), Double.valueOf(result));
@@ -88,9 +88,9 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcBuildingHeightMinUpperTest() {
     final Double value = 11.1;
-    final SonarMetric metricHeight = new SonarMetric(10.0, 20.0);
+    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(10.0, 20.0);
 
-    final double result = this.underTest.calcBuildingHeight(value, metricHeight);
+    final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
     // 1.1 (11.1 - 10) is 11 percent of 10 (20 - 10)
     assertTrue(result > 10.9999999);
@@ -100,9 +100,9 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcBuildingHeightRangeLessThanZero() {
     final Double value = 11.1;
-    final SonarMetric metricHeight = new SonarMetric(20.0, 10.0);
+    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(20.0, 10.0);
 
-    final double result = this.underTest.calcBuildingHeight(value, metricHeight);
+    final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
     assertEquals(Double.valueOf(0), Double.valueOf(result));
   }
@@ -110,9 +110,9 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcBuildingHeightValueBelowRangeTest() {
     final Double value = 1.1;
-    final SonarMetric metricHeight = new SonarMetric(10.0, 20.0);
+    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(10.0, 20.0);
 
-    final double result = this.underTest.calcBuildingHeight(value, metricHeight);
+    final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
     assertEquals(Double.valueOf(0), Double.valueOf(result));
   }
@@ -120,9 +120,9 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcBuildingHeightNullTest() {
     final Double value = null;
-    final SonarMetric metricHeight = new SonarMetric(0.0, 10.0);
+    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 10.0);
 
-    final double result = this.underTest.calcBuildingHeight(value, metricHeight);
+    final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
     assertEquals(Double.valueOf(0), Double.valueOf(result));
   }
@@ -134,9 +134,9 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthTest() {
     final Double value = 1.1;
-    final SonarMetric metricHeight = new SonarMetric(0.0, 10.0);
+    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 10.0);
 
-    final double result = this.underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
     // 1.1 is 11 percent of 10
     assertEquals(Double.valueOf(11), Double.valueOf(result));
@@ -145,9 +145,9 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthTest2() {
     final Double value = 20.0;
-    final SonarMetric metricHeight = new SonarMetric(0.0, 200.0);
+    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 200.0);
 
-    final double result = this.underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
     // 20 is 10 percent of 200.
     assertEquals(Double.valueOf(10), Double.valueOf(result));
@@ -156,9 +156,9 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthMinLengthTest() {
     final Double value = 0.5;
-    final SonarMetric metricHeight = new SonarMetric(0.0, 200.0);
+    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 200.0);
 
-    final double result = this.underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
     // 0.5 is 0.25 percent of 200 which is below 0.5
     assertEquals(Double.valueOf(SoftViz3dConstants.MIN_SIDE_LENGTH_PERCENT), Double.valueOf(result));
@@ -167,9 +167,9 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthMinUpperTest() {
     final Double value = 11.1;
-    final SonarMetric metricHeight = new SonarMetric(10.0, 20.0);
+    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(10.0, 20.0);
 
-    final double result = this.underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
     // 1.1 (11.1 - 10) is 11 percent of 10 (20 - 10)
     assertTrue(result > 10.9999999);
@@ -179,9 +179,9 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthRangeLessThanZero() {
     final Double value = 11.1;
-    final SonarMetric metricHeight = new SonarMetric(20.0, 10.0);
+    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(20.0, 10.0);
 
-    final double result = this.underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
     assertEquals(Double.valueOf(SoftViz3dConstants.MIN_SIDE_LENGTH_PERCENT), Double.valueOf(result));
   }
@@ -189,9 +189,9 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthValueBelowRangeTest() {
     final Double value = 1.1;
-    final SonarMetric metricHeight = new SonarMetric(10.0, 20.0);
+    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(10.0, 20.0);
 
-    final double result = this.underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
     assertEquals(Double.valueOf(SoftViz3dConstants.MIN_SIDE_LENGTH_PERCENT), Double.valueOf(result));
   }
@@ -199,10 +199,11 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthNullTest() {
     final Double value = null;
-    final SonarMetric metricHeight = new SonarMetric(0.0, 10.0);
+    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 10.0);
 
-    final double result = this.underTest.calcSideLength(value, metricHeight);
+    final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
     assertEquals(Double.valueOf(SoftViz3dConstants.MIN_SIDE_LENGTH_PERCENT), Double.valueOf(result));
   }
+
 }

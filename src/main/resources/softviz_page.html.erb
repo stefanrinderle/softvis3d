@@ -182,11 +182,12 @@
         # show all treeEdges
         value.edgeElementsAsArray.each { |val|
         %>
-            // <%= val.to_s %>
-            // <%= val.getTail().getAttributeValue('id').to_s %> -> <%= val.getHead().getAttributeValue('id').to_s %>
-            drawCylinder(v(<%= val.getAttributeValue("origin").to_s %>),
-                v(<%= val.getAttributeValue("destination").to_s %>),
-                "<%= val.getTail().getAttributeValue('id').to_s %> -> <%= val.getHead().getAttributeValue('id').to_s %>");
+                // <%= val.to_s %>
+                // edgeRadius: <%= val.getAttributeValue('edgeRadius').to_s %>
+                drawCylinder(v(<%= val.getAttributeValue("origin").to_s %>),
+                    v(<%= val.getAttributeValue("destination").to_s %>),
+                    "<%= val.getTail().getAttributeValue('id').to_s %> -> <%= val.getHead().getAttributeValue('id').to_s %>",
+                        <%= val.getAttributeValue('edgeRadius').to_s %>);
         <%
     }
     end

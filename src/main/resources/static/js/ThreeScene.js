@@ -33,6 +33,7 @@ function init(container, showStats) {
     container.appendChild( renderer.domElement );
 
     controls = new THREE.OrbitControls(camera, container);
+    controls.keyPanSpeed = 30.0;
 
     if (showStats) {
         stats = new Stats();
@@ -152,7 +153,7 @@ function createBox(geometry, material, position, id, type) {
     scene.add(object);
 };
 
-function drawCylinder( pointX, pointY, id) {
+function drawCylinder( pointX, pointY, id, thickness) {
     /* edge from X to Y */
     var direction = new THREE.Vector3().subVectors( pointY, pointX );
     var orientation = new THREE.Matrix4();
@@ -168,8 +169,10 @@ function drawCylinder( pointX, pointY, id) {
 
     /* cylinder: radiusAtTop, radiusAtBottom,
      height, radiusSegments, heightSegments */
-    var radius = 4;
-    var edgeGeometry = new THREE.CylinderGeometry( radius, radius, direction.length(), 8, 1);
+
+    /* thickness is in percent at the moment */
+    var radius = 10 * (thickness / 100);
+    var edgeGeometry = new THREE.CylinderGeometry(radius, radius, direction.length(), 8, 1);
     var edge = new THREE.Mesh( edgeGeometry,
         new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
 
@@ -187,7 +190,7 @@ function drawCylinder( pointX, pointY, id) {
     // add head
     /* cylinder: radiusAtTop, radiusAtBottom,
      height, radiusSegments, heightSegments */
-    var edgeHeadGeometry = new THREE.CylinderGeometry( 1, 10, 10, 8, 1);
+    var edgeHeadGeometry = new THREE.CylinderGeometry(1, radius + 3, 10, 8, 1);
     var edgeHead = new THREE.Mesh( edgeHeadGeometry,
         new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
 

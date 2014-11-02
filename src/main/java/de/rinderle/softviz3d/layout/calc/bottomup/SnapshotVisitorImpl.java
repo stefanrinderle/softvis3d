@@ -30,7 +30,7 @@ import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExecutor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.sonar.SonarMetric;
+import de.rinderle.softviz3d.sonar.MinMaxValueDao;
 import de.rinderle.softviz3d.tree.TreeNode;
 import de.rinderle.softviz3d.tree.TreeNodeType;
 import org.slf4j.Logger;
@@ -49,8 +49,10 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
   private Settings settings;
 
-  private SonarMetric metricFootprint;
-  private SonarMetric metricHeight;
+  private MinMaxValueDao minMaxMetricFootprint;
+  private MinMaxValueDao minMaxMetricHeight;
+
+  private MinMaxValueDao minMaxEdgeCounter;
 
   private LayerFormatter formatter;
 
@@ -65,11 +67,13 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     final DotExecutor dotExecutor,
     @Assisted final Settings settings,
     @Assisted final List<Double> minMaxValues,
-    @Assisted final LayoutViewType viewType) {
+    @Assisted final LayoutViewType viewType,
+    @Assisted final MinMaxValueDao minMaxEdgeCounter) {
     this.settings = settings;
 
-    this.metricFootprint = new SonarMetric(minMaxValues.get(0), minMaxValues.get(1));
-    this.metricHeight = new SonarMetric(minMaxValues.get(2), minMaxValues.get(3));
+    this.minMaxMetricFootprint = new MinMaxValueDao(minMaxValues.get(0), minMaxValues.get(1));
+    this.minMaxMetricHeight = new MinMaxValueDao(minMaxValues.get(2), minMaxValues.get(3));
+    this.minMaxEdgeCounter = minMaxEdgeCounter;
 
     this.dotExecutor = dotExecutor;
     this.formatter = formatter;
@@ -140,7 +144,9 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
     if (sourceNode != null && destNode != null) {
       final att.grappa.Edge result = new att.grappa.Edge(inputGraph, sourceNode, destNode);
-      // result.setAttribute("thickness", edge.getCounter());
+      double edgeRadius = this.formatter.calcEdgeRadius(edge.getCounter(), this.minMaxEdgeCounter);
+      result.setAttribute("edgeRadius", "x" + edgeRadius);
+
       return result;
     }
 
@@ -182,10 +188,10 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
   @Override
   public LayeredLayoutElement visitFile(final TreeNode leaf) {
-    double sideLength = this.formatter.calcSideLength(leaf.getFootprintMetricValue(), this.metricFootprint);
+    double sideLength = this.formatter.calcSideLength(leaf.getFootprintMetricValue(), this.minMaxMetricFootprint);
     sideLength = sideLength / SoftViz3dConstants.DPI_DOT_SCALE;
 
-    double buildingHeight = this.formatter.calcBuildingHeight(leaf.getHeightMetricValue(), this.metricHeight);
+    double buildingHeight = this.formatter.calcBuildingHeight(leaf.getHeightMetricValue(), this.minMaxMetricHeight);
     buildingHeight = buildingHeight / SoftViz3dConstants.DPI_DOT_SCALE;
 
     buildingHeight = buildingHeight * 100;

@@ -33,11 +33,14 @@ public class DependencyExpanderImpl implements DependencyExpander {
   private static final String DEP_PATH_EDGE_PREFIX = "depPath";
 
   private Integer projectId;
+  private int maxEdgeCounter;
 
   @Inject
   private ResourceTreeService resourceTreeService;
 
-  public void execute(final Integer projectId, final List<SonarDependency> dependencies) {
+  public int execute(final Integer projectId, final List<SonarDependency> dependencies) {
+    maxEdgeCounter = 1;
+
     this.projectId = projectId;
 
     for (final SonarDependency dependency : dependencies) {
@@ -58,6 +61,8 @@ public class DependencyExpanderImpl implements DependencyExpander {
         // do nothing. That's on dependency type dir. Analyse and fix.
       }
     }
+
+    return maxEdgeCounter;
   }
 
   private DependencyType getDependencyType(final TreeNode from, final TreeNode to) {
@@ -105,7 +110,13 @@ public class DependencyExpanderImpl implements DependencyExpander {
 
     if (source.hasEdge(depEdgeLabel)) {
       final Edge edge = source.getEdge(depEdgeLabel);
-      edge.setCounter(edge.getCounter() + 1);
+      final int edgeCount = edge.getCounter() + 1;
+      edge.setCounter(edgeCount);
+
+      if (edgeCount > maxEdgeCounter) {
+        maxEdgeCounter = edgeCount;
+      }
+
       source.setEdge(edge);
     } else {
       final Edge edge = new Edge(this.projectId, depEdgeLabel,
@@ -121,7 +132,13 @@ public class DependencyExpanderImpl implements DependencyExpander {
       // treeNode is source
       if (treeNode.hasEdge(depEdgeLabel)) {
         final Edge edge = treeNode.getEdge(depEdgeLabel);
-        edge.setCounter(edge.getCounter() + 1);
+        final int edgeCount = edge.getCounter() + 1;
+        edge.setCounter(edgeCount);
+
+        if (edgeCount > maxEdgeCounter) {
+          maxEdgeCounter = edgeCount;
+        }
+
         treeNode.setEdge(edge);
       } else {
         final TreeNode depNode = this.getInterfaceNode(treeNode.getParent().getId());

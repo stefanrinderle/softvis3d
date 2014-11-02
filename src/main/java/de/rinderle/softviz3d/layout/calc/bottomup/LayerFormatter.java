@@ -21,12 +21,14 @@ package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
-import de.rinderle.softviz3d.sonar.SonarMetric;
+import de.rinderle.softviz3d.sonar.MinMaxValueDao;
 
 public interface LayerFormatter {
   void format(Graph graph, Integer depth, LayoutViewType viewType);
 
-  double calcBuildingHeight(Double value, SonarMetric metricHeight);
+  double calcBuildingHeight(Double value, MinMaxValueDao minMaxMetricHeight);
 
-  double calcSideLength(Double value, SonarMetric metricFootprint);
+  double calcSideLength(Double value, MinMaxValueDao minMaxMetricFootprint);
+
+  double calcEdgeRadius(int counter, MinMaxValueDao minMaxEdgeCounter);
 }

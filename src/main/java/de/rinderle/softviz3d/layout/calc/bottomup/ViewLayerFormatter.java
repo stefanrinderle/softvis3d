@@ -19,12 +19,13 @@
  */
 package de.rinderle.softviz3d.layout.calc.bottomup;
 
+import att.grappa.Edge;
 import att.grappa.Graph;
 import att.grappa.Node;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.helper.HexaColor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.sonar.SonarMetric;
+import de.rinderle.softviz3d.sonar.MinMaxValueDao;
 import de.rinderle.softviz3d.tree.TreeNodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +55,7 @@ public class ViewLayerFormatter implements LayerFormatter {
 
     double opacity = 1.0;
     Integer height3d = depth * 20;
-    ;
+
     if (LayoutViewType.DEPENDENCY.equals(viewType)) {
       height3d = -(depth * 200);
       opacity = 0.7;
@@ -84,11 +85,35 @@ public class ViewLayerFormatter implements LayerFormatter {
       }
 
       leaf.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
+
+      for (Edge edge : leaf.edgeElementsAsArray()) {
+        if (edge.getTail().getId() == leaf.getId()) {
+          // only process the edges which are on the start of the node,
+          // otherwise each edge will be process multiple times.
+          fixEdgeRadius(edge);
+        }
+      }
     }
   }
 
   private double roundTo2Decimals(final double value) {
     return Math.round(value * 100.0) / 100.0;
+  }
+
+  /**
+   * As dot gets an exception when the edge radius attribute is set as a number,
+   * we prefix the edge radius value with "x". This has to be removed in order to
+   * parse the value in the view later.
+   */
+  private void fixEdgeRadius(final Edge edge) {
+    // there is an x at the beginning of the buildingHeight percent value
+    final String radiusString = edge.getAttributeValue("edgeRadius").toString();
+
+    final Double radius;
+    if ("x".equals(radiusString.substring(0, 1))) {
+      radius = Double.valueOf(radiusString.substring(1));
+      edge.setAttribute("edgeRadius", radius.toString());
+    }
   }
 
   /**
@@ -113,19 +138,15 @@ public class ViewLayerFormatter implements LayerFormatter {
    * @return percent 0-100%
    */
   @Override
-  public double calcBuildingHeight(final Double value, final SonarMetric metricHeight) {
-    double buildingHeight = 0.0;
-
-    buildingHeight = this.calcPercentage(value, metricHeight, buildingHeight);
+  public double calcBuildingHeight(final Double value, final MinMaxValueDao minMaxMetricHeight) {
+    double buildingHeight = this.calcPercentage(value, minMaxMetricHeight);
 
     return buildingHeight;
   }
 
   @Override
-  public double calcSideLength(final Double value, final SonarMetric metricFootprint) {
-    double sideLength = 0.0;
-
-    sideLength = this.calcPercentage(value, metricFootprint, sideLength);
+  public double calcSideLength(final Double value, final MinMaxValueDao minMaxMetricFootprint) {
+    double sideLength = this.calcPercentage(value, minMaxMetricFootprint);
 
     if (sideLength < SoftViz3dConstants.MIN_SIDE_LENGTH_PERCENT) {
       sideLength = SoftViz3dConstants.MIN_SIDE_LENGTH_PERCENT;
@@ -134,24 +155,32 @@ public class ViewLayerFormatter implements LayerFormatter {
     return sideLength;
   }
 
-  private double calcPercentage(final Double value, final SonarMetric metric, double sideLength) {
+  @Override
+  public double calcEdgeRadius(int counter, MinMaxValueDao minMaxEdgeCounter) {
+    double percentage = this.calcPercentage(Double.valueOf(counter), minMaxEdgeCounter);
+
+    return percentage;
+  }
+
+  private double calcPercentage(final Double value, final MinMaxValueDao minMaxDao) {
+    double result = 0.0;
     if (value != null) {
-      final Double minValue = metric.getMinValue();
-      final Double maxValue = metric.getMaxValue();
+      final Double minValue = minMaxDao.getMinValue();
+      final Double maxValue = minMaxDao.getMaxValue();
 
       final Double rangeSize = maxValue - minValue;
       if (rangeSize < 0) {
         LOGGER.error("Building calcPercentage range size below zero" + rangeSize);
       } else {
         if (value >= minValue && value <= maxValue) {
-          sideLength = 100 / rangeSize * (value - minValue);
+          result = 100 / rangeSize * (value - minValue);
         } else {
           LOGGER.debug("Building calcPercentage value not between min and max"
             + minValue + " " + maxValue + " " + value);
         }
       }
     }
-    return sideLength;
+    return result;
   }
 
 }

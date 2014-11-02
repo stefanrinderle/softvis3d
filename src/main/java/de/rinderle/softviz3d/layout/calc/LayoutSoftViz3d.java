@@ -27,6 +27,7 @@ import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
 import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.DependencyDao;
+import de.rinderle.softviz3d.sonar.MinMaxValueDao;
 import de.rinderle.softviz3d.sonar.SonarDependency;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
@@ -67,15 +68,16 @@ public class LayoutSoftViz3d implements Layout {
     stopWatch.start();
 
     // TODO: do in one step
+    int maxEdgeCounter = 0;
     this.resourceTreeService.createTreeStructure(viewType, snapshotId, footprintMetricId, heightMetricId);
     if (LayoutViewType.DEPENDENCY.equals(viewType)) {
       final List<SonarDependency> dependencies = this.dependencyDao.getDependencies(snapshotId);
-      this.dependencyExpander.execute(snapshotId, dependencies);
+      maxEdgeCounter = this.dependencyExpander.execute(snapshotId, dependencies);
     }
 
     LOGGER.info("Created tree structure after " + stopWatch.getTime());
 
-    final Map<Integer, Graph> resultGraphs = this.startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId, viewType);
+    final Map<Integer, Graph> resultGraphs = this.startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId, viewType, maxEdgeCounter);
 
     final int leavesCounter = this.calc.calculate(viewType, snapshotId, resultGraphs);
 
@@ -88,13 +90,14 @@ public class LayoutSoftViz3d implements Layout {
 
   private Map<Integer, Graph> startBottomUpCalculation(final Integer snapshotId,
     final Settings settings, final Integer footprintMetricId, final Integer heightMetricId,
-    final LayoutViewType viewType)
+    final LayoutViewType viewType, final int maxEdgeCounter)
     throws DotExcecutorException {
 
     final List<Double> minMaxValues = this.sonarService.getMinMaxMetricValuesByRootSnapshotId(
       snapshotId, footprintMetricId, heightMetricId);
 
-    final SnapshotVisitor visitor = this.visitorFactory.create(settings, minMaxValues, viewType);
+    final MinMaxValueDao minMaxEdgeCounter = new MinMaxValueDao(1.0, Double.valueOf(maxEdgeCounter));
+    final SnapshotVisitor visitor = this.visitorFactory.create(settings, minMaxValues, viewType, minMaxEdgeCounter);
 
     this.processor.accept(viewType, visitor, snapshotId, snapshotId);
 

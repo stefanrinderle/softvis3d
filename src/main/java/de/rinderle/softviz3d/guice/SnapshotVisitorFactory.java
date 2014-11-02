@@ -21,10 +21,11 @@ package de.rinderle.softviz3d.guice;
 
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
+import de.rinderle.softviz3d.sonar.MinMaxValueDao;
 import org.sonar.api.config.Settings;
 
 import java.util.List;
 
 public interface SnapshotVisitorFactory {
-  public SnapshotVisitor create(Settings settings, List<Double> minMaxValues, LayoutViewType viewType);
+  public SnapshotVisitor create(Settings settings, List<Double> minMaxValues, LayoutViewType viewType, MinMaxValueDao minMaxEdgeCounter);
 }
