@@ -133,64 +133,32 @@ public class SonarDaoImpl implements SonarDao {
     return values;
   }
 
+  /**
+   * TODO: Should be done within one method for both metrics
+   * using @SqlResultSetMapping. Gave it a try but didn't work as
+   * expected.
+   *
+   */
   @Override
-  public List<Object[]> getAllProjectElements(final int rootSnapshotId,
-    final int footprintMetricId, final int heightMetricId) {
+  public List<Object[]> getAllProjectElementsWithMetric(final Integer rootSnapshotId, final Integer metricId) {
     List<Object[]> result;
 
     try {
       this.session.start();
+
+      final String sqlQuery = "SELECT s.id, p.path, metric.value " +
+        "FROM snapshots s " +
+        "INNER JOIN projects p ON s.project_id = p.id " +
+        "LEFT JOIN project_measures metric ON s.id = metric.snapshot_id " +
+        "AND metric.metric_id = :metricId " +
+        "WHERE s.root_snapshot_id = :id " +
+        "ORDER BY p.path";
+
       final Query query = this.session
-        .createNativeQuery(
-        "SELECT s.id, p.path, m1.value, m2.value " +
-          "FROM snapshots s " +
-          "INNER JOIN projects p ON s.project_id = p.id " +
-          "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id " +
-          "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id " +
-          "WHERE m1.metric_id = :footprintMetricId " +
-          "AND m2.metric_id = :heightMetricId " +
-          "AND s.root_snapshot_id = :id " +
-          "ORDER BY p.path");
+        .createNativeQuery(sqlQuery);
+
       query.setParameter("id", rootSnapshotId);
-      query.setParameter("footprintMetricId", footprintMetricId);
-      query.setParameter("heightMetricId", heightMetricId);
-
-      result = query.getResultList();
-    } catch (final PersistenceException e) {
-      LOGGER.error(e.getMessage(), e);
-      result = null;
-    } finally {
-      this.session.stop();
-    }
-
-    // The sql above does not work as expected. object[2] == object[3] which means
-    // that java is not able to differentiate m1.value from m2.value.
-    // Therfore the heightMetricValues has to selected separately and override the result.
-    final List<Object[]> heightResults = this.getHeightMetrics(rootSnapshotId, heightMetricId);
-    for (final Object[] heightResult : heightResults) {
-      final int index = heightResults.indexOf(heightResult);
-      result.get(index)[3] = heightResults.get(index)[1];
-    }
-
-    return result;
-  }
-
-  private List<Object[]> getHeightMetrics(final Integer rootSnapshotId, final Integer heightMetricId) {
-    List<Object[]> result;
-
-    try {
-      this.session.start();
-      final Query query = this.session
-        .createNativeQuery(
-        "SELECT s.id, m1.value, p.path " +
-          "FROM snapshots s " +
-          "INNER JOIN projects p ON s.project_id = p.id " +
-          "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id " +
-          "WHERE m1.metric_id = :heightMetricId " +
-          "AND s.root_snapshot_id = :id " +
-          "ORDER BY p.path");
-      query.setParameter("id", rootSnapshotId);
-      query.setParameter("heightMetricId", heightMetricId);
+      query.setParameter("metricId", metricId);
 
       result = query.getResultList();
     } catch (final PersistenceException e) {
@@ -202,4 +170,5 @@ public class SonarDaoImpl implements SonarDao {
 
     return result;
   }
+
 }

@@ -21,7 +21,6 @@ package de.rinderle.softviz3d.handler;
 
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.layout.calc.DependencyExpander;
-import de.rinderle.softviz3d.layout.calc.Edge;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.sonar.DependencyDao;
 import de.rinderle.softviz3d.sonar.SonarDependency;
@@ -32,7 +31,6 @@ import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
 
 import java.util.List;
-import java.util.Map;
 
 public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebserviceInitializeHandler {
 
@@ -42,6 +40,8 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
   private DependencyExpander dependencyExpander;
   @Inject
   private DependencyDao dependencyDao;
+  @Inject
+  private TreeNodeJsonWriter treeNodeJsonWriter;
 
   @Override
   public void handle(final Request request, final Response response) {
@@ -66,65 +66,9 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
 
     final JsonWriter jsonWriter = response.newJsonWriter();
 
-    this.transformTreeToJson(jsonWriter, tree);
+    treeNodeJsonWriter.transformTreeToJson(jsonWriter, tree);
 
     jsonWriter.close();
   }
 
-  // TODO: refactor json transformation to a new class.
-  private void transformTreeToJson(final JsonWriter jsonWriter, final TreeNode tree) {
-    jsonWriter.beginObject();
-
-    jsonWriter.prop("id", tree.getId());
-    jsonWriter.prop("name", tree.getName());
-    jsonWriter.prop("heightMetricValue", tree.getHeightMetricValue());
-    jsonWriter.prop("footprintMetricValue", tree.getFootprintMetricValue());
-    jsonWriter.prop("isNode", tree.isNode());
-
-    final TreeNode parent = tree.getParent();
-    if (parent != null) {
-      jsonWriter.name("parentInfo");
-      jsonWriter.beginObject();
-      jsonWriter.prop("id", parent.getId());
-      jsonWriter.prop("name", parent.getName());
-      jsonWriter.prop("heightMetricValue", parent.getHeightMetricValue());
-      jsonWriter.prop("footprintMetricValue", parent.getFootprintMetricValue());
-      jsonWriter.prop("isNode", parent.isNode());
-      jsonWriter.endObject();
-    }
-
-    this.transformChildren(jsonWriter, tree.getChildren());
-
-    this.transformEdges(jsonWriter, tree.getEdges());
-
-    jsonWriter.endObject();
-  }
-
-  private void transformEdges(final JsonWriter jsonWriter, final Map<String, Edge> edges) {
-    jsonWriter.name("edges");
-    jsonWriter.beginArray();
-
-    for (final Edge child : edges.values()) {
-      this.transformEdge(jsonWriter, child);
-    }
-
-    jsonWriter.endArray();
-  }
-
-  private void transformEdge(final JsonWriter jsonWriter, final Edge edge) {
-    jsonWriter.beginObject();
-    jsonWriter.prop("id", edge.getSourceId() + " -> " + edge.getDestinationId());
-    jsonWriter.endObject();
-  }
-
-  private void transformChildren(final JsonWriter jsonWriter, final Map<String, TreeNode> children) {
-    jsonWriter.name("children");
-    jsonWriter.beginArray();
-
-    for (final TreeNode child : children.values()) {
-      this.transformTreeToJson(jsonWriter, child);
-    }
-
-    jsonWriter.endArray();
-  }
 }

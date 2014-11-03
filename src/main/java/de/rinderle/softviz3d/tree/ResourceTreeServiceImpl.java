@@ -22,6 +22,7 @@ package de.rinderle.softviz3d.tree;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
+import de.rinderle.softviz3d.sonar.ProjectElement;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,16 +50,11 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
       LOGGER.info("Created tree structure for id " + rootSnapshotId);
       final PathWalker pathWalker = new PathWalker(rootSnapshotId);
 
-      final List<Object[]> flatChildren = this.sonarDao.getAllProjectElements(rootSnapshotId, heightMetric, footprintMetric);
+      final List<ProjectElement> flatChildren = getFlatChildrenWithMetricsFromDatabase(rootSnapshotId, heightMetric, footprintMetric);
 
       // s.id, p.name, m1.value, m2.value
-      for (final Object[] flatChild : flatChildren) {
-        final int snapshotId = (Integer) flatChild[0];
-        final String name = (String) flatChild[1];
-        final BigDecimal footprintMetricValue = (BigDecimal) flatChild[2];
-        final BigDecimal heightMetricValue = (BigDecimal) flatChild[3];
-
-        pathWalker.addPath(snapshotId, name, footprintMetricValue.doubleValue(), heightMetricValue.doubleValue());
+      for (final ProjectElement flatChild : flatChildren) {
+        pathWalker.addPath(flatChild);
       }
 
       final TreeNormalizer normalizer = new TreeNormalizer();
@@ -69,6 +65,37 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     }
 
     return this.loadedPathWalkers.get(this.getId(type, rootSnapshotId)).getTree();
+  }
+
+  private List<ProjectElement> getFlatChildrenWithMetricsFromDatabase(int rootSnapshotId, int heightMetric, int footprintMetric) {
+    final List<ProjectElement> result = new ArrayList<ProjectElement>();
+
+    final List<Object[]> resultHeightMetric = this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, heightMetric);
+    final List<Object[]> resultFootprintMetric = this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, footprintMetric);
+
+    // join result lists
+    for (int i = 0; i < resultHeightMetric.size(); i++) {
+      final int id = (Integer) resultHeightMetric.get(i)[0];
+      final String path  = (String) resultHeightMetric.get(i)[1];
+      BigDecimal heightMetricValue = (BigDecimal) resultHeightMetric.get(i)[2];
+      BigDecimal footprintMetricValue = (BigDecimal) resultFootprintMetric.get(i)[2];
+
+      // check for null values
+      if (heightMetricValue == null) {
+        heightMetricValue = BigDecimal.ZERO;
+      }
+
+      if (footprintMetricValue == null) {
+        footprintMetricValue = BigDecimal.ZERO;
+      }
+
+      final ProjectElement element = new ProjectElement(id, path, heightMetricValue.doubleValue(), footprintMetricValue.doubleValue());
+
+      result.add(element);
+    }
+
+    return result;
+
   }
 
   private String getId(final LayoutViewType type, final int rootSnapshotId) {

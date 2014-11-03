@@ -17,18 +17,38 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.handler;
-
-import org.sonar.api.server.ws.Request;
-import org.sonar.api.server.ws.RequestHandler;
-import org.sonar.api.server.ws.Response;
+package de.rinderle.softviz3d.sonar;
 
 /**
- * Created by stefan on 22.09.14.
+ * Created by stefan on 03.11.14.
  */
-public interface SoftViz3dWebserviceInitializeHandler extends RequestHandler {
+public class ProjectElement {
 
-  @Override
-  void handle(Request request, Response response);
+  private int id;
+  private String path;
+  private double heightMetricValue;
+  private double footprintMetricValue;
 
+  public ProjectElement(int id, String path, double heightMetricValue, double footprintMetricValue) {
+    this.id = id;
+    this.path = path;
+    this.heightMetricValue = heightMetricValue;
+    this.footprintMetricValue = footprintMetricValue;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public String getPath() {
+    return path;
+  }
+
+  public double getHeightMetricValue() {
+    return heightMetricValue;
+  }
+
+  public double getFootprintMetricValue() {
+    return footprintMetricValue;
+  }
 }

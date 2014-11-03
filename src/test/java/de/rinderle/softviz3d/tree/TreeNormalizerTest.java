@@ -19,6 +19,7 @@
  */
 package de.rinderle.softviz3d.tree;
 
+import de.rinderle.softviz3d.sonar.ProjectElement;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -71,6 +72,6 @@ public class TreeNormalizerTest {
   }
 
   private void callWalkerWithMetrics(final PathWalker walker, final int id, final String path) {
-    walker.addPath(id, path, 1, 1);
+    walker.addPath(new ProjectElement(id, path, 1, 1));
   }
 }

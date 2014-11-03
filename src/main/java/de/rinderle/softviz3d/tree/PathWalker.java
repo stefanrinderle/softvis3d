@@ -19,6 +19,7 @@
  */
 package de.rinderle.softviz3d.tree;
 
+import de.rinderle.softviz3d.sonar.ProjectElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,7 @@ import java.util.regex.Pattern;
 public class PathWalker {
   private static final Logger LOGGER = LoggerFactory
     .getLogger(PathWalker.class);
+
   private final TreeNode root;
   private int generatedIdSequence = Integer.MAX_VALUE - 100000;
   private Pattern pathSeparator = Pattern.compile("/");
@@ -40,18 +42,18 @@ public class PathWalker {
     return this.root;
   }
 
-  public void addPath(final int id, final String path, final double footprintMetricValue, final double heightMetricValue) {
-    final String[] names = this.pathSeparator.split(path);
+  public void addPath(final ProjectElement element) {
+    final String[] names = this.pathSeparator.split(element.getPath());
     TreeNode currentNode = this.root;
 
     boolean isLastIndex;
     for (int i = 0; i < names.length; i++) {
       isLastIndex = (i == (names.length - 1));
       if (isLastIndex) {
-        currentNode = this.getOrCreateChild(currentNode, id, names[i], TreeNodeType.TREE, footprintMetricValue, heightMetricValue);
+        currentNode = this.getOrCreateChild(currentNode, element.getId(), names[i], TreeNodeType.TREE, element.getFootprintMetricValue(), element.getHeightMetricValue());
       } else {
         currentNode = this.getOrCreateChild(currentNode, this.generatedIdSequence++, names[i], TreeNodeType.PATH_GENERATED,
-          footprintMetricValue, heightMetricValue);
+                element.getFootprintMetricValue(), element.getHeightMetricValue());
       }
     }
   }

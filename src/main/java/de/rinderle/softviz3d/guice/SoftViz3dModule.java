@@ -23,6 +23,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import de.rinderle.softviz3d.handler.SoftViz3dWebserviceInitializeHandler;
 import de.rinderle.softviz3d.handler.SoftViz3dWebserviceInitializeHandlerImpl;
+import de.rinderle.softviz3d.handler.TreeNodeJsonWriter;
+import de.rinderle.softviz3d.handler.TreeNodeJsonWriterImpl;
 import de.rinderle.softviz3d.layout.calc.DependencyExpander;
 import de.rinderle.softviz3d.layout.calc.DependencyExpanderImpl;
 import de.rinderle.softviz3d.layout.calc.Layout;
@@ -54,6 +56,7 @@ public class SoftViz3dModule extends AbstractModule {
 
     this.bind(PositionCalculator.class).to(AbsolutePositionCalculator.class);
 
+    this.bind(TreeNodeJsonWriter.class).to(TreeNodeJsonWriterImpl.class);
     this.bind(SoftViz3dWebserviceInitializeHandler.class).to(SoftViz3dWebserviceInitializeHandlerImpl.class);
 
     this.install(new FactoryModuleBuilder().implement(de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor.class,

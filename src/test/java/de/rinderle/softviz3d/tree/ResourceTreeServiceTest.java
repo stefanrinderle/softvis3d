@@ -57,7 +57,7 @@ public class ResourceTreeServiceTest {
     children.add(new Object[] {3, "src/eins", BigDecimal.ZERO, BigDecimal.ZERO});
     children.add(new Object[] {4, "src/zwei", BigDecimal.ZERO, BigDecimal.ZERO});
     children.add(new Object[] {5, "src/zwei/drei", BigDecimal.ZERO, BigDecimal.ZERO});
-    when(this.sonarDao.getAllProjectElements(rootSnapshotId, 0, 0)).thenReturn(children);
+    when(this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, 0)).thenReturn(children);
 
     this.underTest.createTreeStructure(VIEW_TYPE, rootSnapshotId, 0, 0);
 
