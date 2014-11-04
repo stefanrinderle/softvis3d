@@ -33,6 +33,8 @@ public class SonarServiceImpl implements SonarService {
 
   @Inject
   private SonarDao sonarDao;
+  @Inject
+  private DependencyDao dependencyDao;
 
   @Override
   public Integer getMetric1FromSettings(final Settings settings) {
@@ -55,6 +57,11 @@ public class SonarServiceImpl implements SonarService {
     final Integer heightMetricId) {
     return this.sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId,
       footprintMetricId, heightMetricId);
+  }
+
+  @Override
+  public List<SonarDependencyDTO> getDependencies(Integer snapshotId) {
+    return this.dependencyDao.getDependencies(snapshotId);
   }
 
 }

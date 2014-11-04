@@ -19,7 +19,7 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import de.rinderle.softviz3d.sonar.SonarDependency;
+import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.TreeNode;
 import de.rinderle.softviz3d.tree.TreeNodeType;
@@ -56,7 +56,7 @@ public class DependencyExpanderCheckExpandTest {
 
   @Test
   public void testDependenciesEmpty() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependencyDTO> dependencies = new ArrayList<SonarDependencyDTO>();
 
     this.underTest.execute(PROJECT_ID, dependencies);
 
@@ -71,9 +71,9 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesFlatEdge() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependencyDTO> dependencies = new ArrayList<SonarDependencyDTO>();
 
-    final SonarDependency fromAtoB = this.createDependency(2, 3);
+    final SonarDependencyDTO fromAtoB = this.createDependency(2, 3);
     dependencies.add(fromAtoB);
 
     final TreeNode treeNode1 = this.createTreeNode(1, null, 0);
@@ -100,9 +100,9 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesFlatEdgeOtherWayAround() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependencyDTO> dependencies = new ArrayList<SonarDependencyDTO>();
 
-    final SonarDependency fromAtoB = this.createDependency(3, 2);
+    final SonarDependencyDTO fromAtoB = this.createDependency(3, 2);
     dependencies.add(fromAtoB);
 
     final TreeNode treeNode1 = this.createTreeNode(1, null, 0);
@@ -131,9 +131,9 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesHierarchicalEdge() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependencyDTO> dependencies = new ArrayList<SonarDependencyDTO>();
 
-    final SonarDependency fromCtoE = this.createDependency(3, 5);
+    final SonarDependencyDTO fromCtoE = this.createDependency(3, 5);
     dependencies.add(fromCtoE);
 
     final TreeNode treeNode1 = this.createTreeNode(1, null, 0);
@@ -176,9 +176,9 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesHierarchicalEdgeOtherWayAround() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependencyDTO> dependencies = new ArrayList<SonarDependencyDTO>();
 
-    final SonarDependency fromEtoC = this.createDependency(5, 3);
+    final SonarDependencyDTO fromEtoC = this.createDependency(5, 3);
     dependencies.add(fromEtoC);
 
     final TreeNode treeNode1 = this.createTreeNode(1, null, 0);
@@ -222,11 +222,11 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesHierarchicalEdgesBoth() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependencyDTO> dependencies = new ArrayList<SonarDependencyDTO>();
 
-    final SonarDependency fromCtoE = this.createDependency(3, 5);
+    final SonarDependencyDTO fromCtoE = this.createDependency(3, 5);
     dependencies.add(fromCtoE);
-    final SonarDependency fromEtoC = this.createDependency(5, 3);
+    final SonarDependencyDTO fromEtoC = this.createDependency(5, 3);
     dependencies.add(fromEtoC);
 
     final TreeNode treeNode1 = this.createTreeNode(1, null, 0);
@@ -287,9 +287,9 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testUnevenDependencyEdge() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependencyDTO> dependencies = new ArrayList<SonarDependencyDTO>();
 
-    final SonarDependency fromCtoE = this.createDependency(3, 4);
+    final SonarDependencyDTO fromCtoE = this.createDependency(3, 4);
     dependencies.add(fromCtoE);
 
     final TreeNode treeNode1 = this.createTreeNode(1, null, 0);
@@ -334,8 +334,8 @@ public class DependencyExpanderCheckExpandTest {
     return result;
   }
 
-  private SonarDependency createDependency(final int from, final int to) {
-    final SonarDependency result = new SonarDependency();
+  private SonarDependencyDTO createDependency(final int from, final int to) {
+    final SonarDependencyDTO result = new SonarDependencyDTO();
 
     result.setFromSnapshotId(from);
     result.setToSnapshotId(to);

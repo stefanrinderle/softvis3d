@@ -205,6 +205,8 @@ function drawCylinder( pointX, pointY, id, thickness) {
 }
 
 function showDetails(snapshotId, type) {
+    console.log("showDetails" + snapshotId + " type " + type)
+
     var node = searchTree(tree, snapshotId);
 
     var result = "<h3>Selected</h3>";

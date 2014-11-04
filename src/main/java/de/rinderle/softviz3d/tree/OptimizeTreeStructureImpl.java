@@ -19,16 +19,39 @@
  */
 package de.rinderle.softviz3d.tree;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map;
 import java.util.TreeMap;
 
-public class TreeNormalizer {
+/**
+ * Helps to optimize the created tree structure to have an visualization
+ * optimized tree structure as a result.
+ */
+public class OptimizeTreeStructureImpl implements OptimizeTreeStructure {
 
-  public void normalizeTree(final TreeNode root) {
-    this.normalizeNode(root);
+  private static final Logger LOGGER = LoggerFactory.getLogger(OptimizeTreeStructureImpl.class);
+
+  /**
+   * An unecessary node would be "B" in this example:
+   *       A
+   *      / \
+   *     B   D
+   *    /
+   *   C
+   *
+   * This node would be just visualized as a platform with only one content
+   * node. This reduces the "readibility" of the visualisation. Therefore,
+   * these nodes are removed.
+   */
+  @Override
+  public void removeUnecessaryNodes(final TreeNode root) {
+    this.removeUnecessaryNode(root);
+    recalculateDepth(root, 0);
   }
 
-  private void normalizeNode(final TreeNode node) {
+  private void removeUnecessaryNode(final TreeNode node) {
     final TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node.getChildren();
     final TreeMap<String, TreeNode> copyOfChildren = (TreeMap<String, TreeNode>) children.clone();
 
@@ -37,11 +60,13 @@ public class TreeNormalizer {
     }
 
     for (final TreeNode child : copyOfChildren.values()) {
-      this.normalizeNode(child);
+      this.removeUnecessaryNode(child);
     }
   }
 
   private void removeNodeFromStructure(final TreeNode node) {
+    LOGGER.info("Remove node with id " + node.getId() + " " + node.getName());
+
     if (node.getParent() != null) {
       // set new parent for child
       final TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node.getChildren();
@@ -60,15 +85,11 @@ public class TreeNormalizer {
     }
   }
 
-  public void recalculateDepth(final TreeNode root) {
-    this.recalculateDepth(0, root);
-  }
-
-  private void recalculateDepth(final int depth, final TreeNode node) {
+  private void recalculateDepth(final TreeNode node, final int depth) {
     node.setDepth(depth);
 
     for (final TreeNode child : node.getChildren().values()) {
-      this.recalculateDepth(depth + 1, child);
+      this.recalculateDepth(child, depth + 1);
     }
   }
 

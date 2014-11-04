@@ -31,6 +31,10 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Use singleton to set the database session once on startup
+ * and to be sure that it is set on any other injection.
+ */
 @Singleton
 public class DependencyDaoImpl implements DependencyDao {
 
@@ -45,8 +49,8 @@ public class DependencyDaoImpl implements DependencyDao {
   }
 
   @Override
-  public List<SonarDependency> getDependencies(final Integer projectSnapshotId) {
-    List<SonarDependency> result = null;
+  public List<SonarDependencyDTO> getDependencies(final Integer projectSnapshotId) {
+    List<SonarDependencyDTO> result = null;
 
     try {
       this.session.start();
@@ -68,11 +72,11 @@ public class DependencyDaoImpl implements DependencyDao {
     return result;
   }
 
-  private List<SonarDependency> castToSonarDependency(final List<Object[]> queryResult) {
-    final List<SonarDependency> result = new ArrayList<SonarDependency>(queryResult.size());
+  private List<SonarDependencyDTO> castToSonarDependency(final List<Object[]> queryResult) {
+    final List<SonarDependencyDTO> result = new ArrayList<SonarDependencyDTO>(queryResult.size());
 
     for (final Object[] object : queryResult) {
-      final SonarDependency dependency = new SonarDependency();
+      final SonarDependencyDTO dependency = new SonarDependencyDTO();
       dependency.setId((BigInteger) object[0]);
       dependency.setFromSnapshotId((Integer) object[1]);
       dependency.setFromResourceId((Integer) object[2]);

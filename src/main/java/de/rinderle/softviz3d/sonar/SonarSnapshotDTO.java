@@ -17,16 +17,38 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.handler;
-
-import de.rinderle.softviz3d.tree.TreeNode;
-import org.sonar.api.server.ws.Response;
-import org.sonar.api.utils.text.JsonWriter;
+package de.rinderle.softviz3d.sonar;
 
 /**
  * Created by stefan on 03.11.14.
  */
-public interface TreeNodeJsonWriter {
+public class SonarSnapshotDTO {
 
-  void transformTreeToJson(Response response, TreeNode tree);
+  private int id;
+  private String path;
+  private double heightMetricValue;
+  private double footprintMetricValue;
+
+  public SonarSnapshotDTO(int id, String path, double heightMetricValue, double footprintMetricValue) {
+    this.id = id;
+    this.path = path;
+    this.heightMetricValue = heightMetricValue;
+    this.footprintMetricValue = footprintMetricValue;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public String getPath() {
+    return path;
+  }
+
+  public double getHeightMetricValue() {
+    return heightMetricValue;
+  }
+
+  public double getFootprintMetricValue() {
+    return footprintMetricValue;
+  }
 }

@@ -39,6 +39,8 @@ public class ResourceTreeServiceTest {
 
   @Mock
   private SonarDao sonarDao;
+  @Mock
+  private OptimizeTreeStructure optimizeTreeStructure;
 
   @InjectMocks
   private ResourceTreeServiceImpl underTest;
@@ -59,7 +61,7 @@ public class ResourceTreeServiceTest {
     children.add(new Object[] {5, "src/zwei/drei", BigDecimal.ZERO, BigDecimal.ZERO});
     when(this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, 0)).thenReturn(children);
 
-    this.underTest.createTreeStructure(VIEW_TYPE, rootSnapshotId, 0, 0);
+    this.underTest.getOrCreateTreeStructure(VIEW_TYPE, rootSnapshotId, 0, 0);
 
     // Check leaf
     // List<TreeNode> leafs = underTest.getChildrenLeafIds(VIEW_TYPE, rootSnapshotId, rootSnapshotId);
@@ -82,7 +84,7 @@ public class ResourceTreeServiceTest {
     children.add(new Object[] {4, "src/eins/zwei/drei/child2"});
     // when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
     //
-    // underTest.createTreeStructure(snapshotId);
+    // underTest.getOrCreateTreeStructure(snapshotId);
 
     // Check leaf
     // List<Integer> leafs = underTest.getChildrenLeafIds(2);
@@ -116,7 +118,7 @@ public class ResourceTreeServiceTest {
 
     // when(sonarDao.getAllChildrenFlat(snapshotId)).thenReturn(children);
     //
-    // underTest.createTreeStructure(snapshotId);
+    // underTest.getOrCreateTreeStructure(snapshotId);
 
     // Check leaf
     // List<Integer> leafs = underTest.getChildrenLeafIds(574);

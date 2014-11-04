@@ -56,6 +56,8 @@ public class SoftViz3dWebserviceHandlerTest {
   private SonarService sonarService;
   @Mock
   private ResourceTreeService resourceTreeService;
+  @Mock
+  private TreeNodeJsonWriter treeNodeJsonWriter;
 
   @InjectMocks
   private SoftViz3dWebserviceInitializeHandler handler = new SoftViz3dWebserviceInitializeHandlerImpl();
@@ -71,7 +73,7 @@ public class SoftViz3dWebserviceHandlerTest {
     final Response response = this.createResponse();
 
     final TreeNode tree = new TreeNode(this.snapshotId, null, 0, TreeNodeType.TREE, this.snapshotId + "", 0, 0);
-    when(this.resourceTreeService.createTreeStructure(LayoutViewType.CITY, this.snapshotId, this.footprintMetricId, this.heightMetricId)).thenReturn(tree);
+    when(this.resourceTreeService.getOrCreateTreeStructure(LayoutViewType.CITY, this.snapshotId, this.footprintMetricId, this.heightMetricId)).thenReturn(tree);
 
     this.handler.handle(request, response);
 

@@ -19,36 +19,23 @@
  */
 package de.rinderle.softviz3d.sonar;
 
-/**
- * Created by stefan on 03.11.14.
- */
-public class ProjectElement {
+public class MinMaxValueDTO {
 
-  private int id;
-  private String path;
-  private double heightMetricValue;
-  private double footprintMetricValue;
+  private Double minValue;
+  private Double maxValue;
 
-  public ProjectElement(int id, String path, double heightMetricValue, double footprintMetricValue) {
-    this.id = id;
-    this.path = path;
-    this.heightMetricValue = heightMetricValue;
-    this.footprintMetricValue = footprintMetricValue;
+  public MinMaxValueDTO(final Double minValue, final Double maxValue) {
+    super();
+    this.minValue = minValue;
+    this.maxValue = maxValue;
   }
 
-  public int getId() {
-    return id;
+  public Double getMinValue() {
+    return this.minValue;
   }
 
-  public String getPath() {
-    return path;
+  public Double getMaxValue() {
+    return this.maxValue;
   }
 
-  public double getHeightMetricValue() {
-    return heightMetricValue;
-  }
-
-  public double getFootprintMetricValue() {
-    return footprintMetricValue;
-  }
 }

@@ -23,7 +23,7 @@ import att.grappa.Graph;
 import de.rinderle.softviz3d.grappa.GrappaGraphFactory;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.sonar.MinMaxValueDao;
+import de.rinderle.softviz3d.sonar.MinMaxValueDTO;
 import org.junit.Test;
 
 import java.awt.*;
@@ -66,7 +66,7 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcBuildingHeightTest() {
     final Double value = 1.1;
-    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 10.0);
+    final MinMaxValueDTO minMaxMetricHeight = new MinMaxValueDTO(0.0, 10.0);
 
     final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
@@ -77,7 +77,7 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcBuildingHeightTest2() {
     final Double value = 2.0;
-    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 200.0);
+    final MinMaxValueDTO minMaxMetricHeight = new MinMaxValueDTO(0.0, 200.0);
 
     final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
@@ -88,7 +88,7 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcBuildingHeightMinUpperTest() {
     final Double value = 11.1;
-    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(10.0, 20.0);
+    final MinMaxValueDTO minMaxMetricHeight = new MinMaxValueDTO(10.0, 20.0);
 
     final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
@@ -100,7 +100,7 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcBuildingHeightRangeLessThanZero() {
     final Double value = 11.1;
-    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(20.0, 10.0);
+    final MinMaxValueDTO minMaxMetricHeight = new MinMaxValueDTO(20.0, 10.0);
 
     final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
@@ -110,7 +110,7 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcBuildingHeightValueBelowRangeTest() {
     final Double value = 1.1;
-    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(10.0, 20.0);
+    final MinMaxValueDTO minMaxMetricHeight = new MinMaxValueDTO(10.0, 20.0);
 
     final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
@@ -120,7 +120,7 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcBuildingHeightNullTest() {
     final Double value = null;
-    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 10.0);
+    final MinMaxValueDTO minMaxMetricHeight = new MinMaxValueDTO(0.0, 10.0);
 
     final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
@@ -134,7 +134,7 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthTest() {
     final Double value = 1.1;
-    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 10.0);
+    final MinMaxValueDTO minMaxMetricHeight = new MinMaxValueDTO(0.0, 10.0);
 
     final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
@@ -145,7 +145,7 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthTest2() {
     final Double value = 20.0;
-    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 200.0);
+    final MinMaxValueDTO minMaxMetricHeight = new MinMaxValueDTO(0.0, 200.0);
 
     final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
@@ -156,7 +156,7 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthMinLengthTest() {
     final Double value = 0.5;
-    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 200.0);
+    final MinMaxValueDTO minMaxMetricHeight = new MinMaxValueDTO(0.0, 200.0);
 
     final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
@@ -167,7 +167,7 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthMinUpperTest() {
     final Double value = 11.1;
-    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(10.0, 20.0);
+    final MinMaxValueDTO minMaxMetricHeight = new MinMaxValueDTO(10.0, 20.0);
 
     final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
@@ -179,7 +179,7 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthRangeLessThanZero() {
     final Double value = 11.1;
-    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(20.0, 10.0);
+    final MinMaxValueDTO minMaxMetricHeight = new MinMaxValueDTO(20.0, 10.0);
 
     final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
@@ -189,7 +189,7 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthValueBelowRangeTest() {
     final Double value = 1.1;
-    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(10.0, 20.0);
+    final MinMaxValueDTO minMaxMetricHeight = new MinMaxValueDTO(10.0, 20.0);
 
     final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
@@ -199,7 +199,7 @@ public class ViewLayerFormatterTest {
   @Test
   public void calcSideLengthNullTest() {
     final Double value = null;
-    final MinMaxValueDao minMaxMetricHeight = new MinMaxValueDao(0.0, 10.0);
+    final MinMaxValueDTO minMaxMetricHeight = new MinMaxValueDTO(0.0, 10.0);
 
     final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 

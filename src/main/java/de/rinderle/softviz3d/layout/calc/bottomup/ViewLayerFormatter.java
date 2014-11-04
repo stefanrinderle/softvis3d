@@ -25,7 +25,7 @@ import att.grappa.Node;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.helper.HexaColor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.sonar.MinMaxValueDao;
+import de.rinderle.softviz3d.sonar.MinMaxValueDTO;
 import de.rinderle.softviz3d.tree.TreeNodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -138,14 +138,14 @@ public class ViewLayerFormatter implements LayerFormatter {
    * @return percent 0-100%
    */
   @Override
-  public double calcBuildingHeight(final Double value, final MinMaxValueDao minMaxMetricHeight) {
+  public double calcBuildingHeight(final Double value, final MinMaxValueDTO minMaxMetricHeight) {
     double buildingHeight = this.calcPercentage(value, minMaxMetricHeight);
 
     return buildingHeight;
   }
 
   @Override
-  public double calcSideLength(final Double value, final MinMaxValueDao minMaxMetricFootprint) {
+  public double calcSideLength(final Double value, final MinMaxValueDTO minMaxMetricFootprint) {
     double sideLength = this.calcPercentage(value, minMaxMetricFootprint);
 
     if (sideLength < SoftViz3dConstants.MIN_SIDE_LENGTH_PERCENT) {
@@ -156,13 +156,13 @@ public class ViewLayerFormatter implements LayerFormatter {
   }
 
   @Override
-  public double calcEdgeRadius(int counter, MinMaxValueDao minMaxEdgeCounter) {
+  public double calcEdgeRadius(int counter, MinMaxValueDTO minMaxEdgeCounter) {
     double percentage = this.calcPercentage(Double.valueOf(counter), minMaxEdgeCounter);
 
     return percentage;
   }
 
-  private double calcPercentage(final Double value, final MinMaxValueDao minMaxDao) {
+  private double calcPercentage(final Double value, final MinMaxValueDTO minMaxDao) {
     double result = 0.0;
     if (value != null) {
       final Double minValue = minMaxDao.getMinValue();

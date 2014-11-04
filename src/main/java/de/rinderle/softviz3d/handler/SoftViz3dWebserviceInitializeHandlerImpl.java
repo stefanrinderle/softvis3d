@@ -23,12 +23,12 @@ import com.google.inject.Inject;
 import de.rinderle.softviz3d.layout.calc.DependencyExpander;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.sonar.DependencyDao;
-import de.rinderle.softviz3d.sonar.SonarDependency;
+import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
+import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.TreeNode;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
-import org.sonar.api.utils.text.JsonWriter;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
   @Inject
   private DependencyExpander dependencyExpander;
   @Inject
-  private DependencyDao dependencyDao;
+  private SonarService sonarService;
   @Inject
   private TreeNodeJsonWriter treeNodeJsonWriter;
 
@@ -58,17 +58,13 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
     }
 
     // TODO: do in one step
-    final TreeNode tree = this.resourceTreeService.createTreeStructure(type, id, footprintMetricId, heightMetricId);
+    final TreeNode tree = this.resourceTreeService.getOrCreateTreeStructure(type, id, footprintMetricId, heightMetricId);
     if (LayoutViewType.DEPENDENCY.equals(type)) {
-      final List<SonarDependency> dependencies = this.dependencyDao.getDependencies(id);
+      final List<SonarDependencyDTO> dependencies = this.sonarService.getDependencies(id);
       this.dependencyExpander.execute(id, dependencies);
     }
 
-    final JsonWriter jsonWriter = response.newJsonWriter();
-
-    treeNodeJsonWriter.transformTreeToJson(jsonWriter, tree);
-
-    jsonWriter.close();
+    treeNodeJsonWriter.transformTreeToJson(response, tree);
   }
 
 }

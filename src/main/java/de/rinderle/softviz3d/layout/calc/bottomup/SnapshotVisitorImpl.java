@@ -30,7 +30,7 @@ import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExecutor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.sonar.MinMaxValueDao;
+import de.rinderle.softviz3d.sonar.MinMaxValueDTO;
 import de.rinderle.softviz3d.tree.TreeNode;
 import de.rinderle.softviz3d.tree.TreeNodeType;
 import org.slf4j.Logger;
@@ -47,18 +47,17 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SnapshotVisitorImpl.class);
 
-  private Settings settings;
-
-  private MinMaxValueDao minMaxMetricFootprint;
-  private MinMaxValueDao minMaxMetricHeight;
-
-  private MinMaxValueDao minMaxEdgeCounter;
-
+  // getting injected - see constructor
+  private DotExecutor dotExecutor;
   private LayerFormatter formatter;
 
-  private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
+  private Settings settings;
 
-  private DotExecutor dotExecutor;
+  private MinMaxValueDTO minMaxMetricFootprint;
+  private MinMaxValueDTO minMaxMetricHeight;
+  private MinMaxValueDTO minMaxEdgeCounter;
+
+  private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
 
   private LayoutViewType viewType;
 
@@ -68,11 +67,11 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     @Assisted final Settings settings,
     @Assisted final List<Double> minMaxValues,
     @Assisted final LayoutViewType viewType,
-    @Assisted final MinMaxValueDao minMaxEdgeCounter) {
+    @Assisted final MinMaxValueDTO minMaxEdgeCounter) {
     this.settings = settings;
 
-    this.minMaxMetricFootprint = new MinMaxValueDao(minMaxValues.get(0), minMaxValues.get(1));
-    this.minMaxMetricHeight = new MinMaxValueDao(minMaxValues.get(2), minMaxValues.get(3));
+    this.minMaxMetricFootprint = new MinMaxValueDTO(minMaxValues.get(0), minMaxValues.get(1));
+    this.minMaxMetricHeight = new MinMaxValueDTO(minMaxValues.get(2), minMaxValues.get(3));
     this.minMaxEdgeCounter = minMaxEdgeCounter;
 
     this.dotExecutor = dotExecutor;

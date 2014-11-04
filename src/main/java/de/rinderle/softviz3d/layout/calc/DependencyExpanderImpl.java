@@ -19,7 +19,7 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import de.rinderle.softviz3d.sonar.SonarDependency;
+import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.TreeNode;
 
@@ -38,12 +38,12 @@ public class DependencyExpanderImpl implements DependencyExpander {
   @Inject
   private ResourceTreeService resourceTreeService;
 
-  public int execute(final Integer projectId, final List<SonarDependency> dependencies) {
+  public int execute(final Integer projectId, final List<SonarDependencyDTO> dependencies) {
     maxEdgeCounter = 1;
 
     this.projectId = projectId;
 
-    for (final SonarDependency dependency : dependencies) {
+    for (final SonarDependencyDTO dependency : dependencies) {
 
       final Integer sourceId = dependency.getFromSnapshotId();
       final Integer destinationId = dependency.getToSnapshotId();

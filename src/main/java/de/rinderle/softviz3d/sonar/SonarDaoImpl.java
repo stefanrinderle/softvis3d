@@ -31,6 +31,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Use singleton to set the database session once on startup
+ * and to be sure that it is set on any other injection.
+ */
 @Singleton
 public class SonarDaoImpl implements SonarDao {
 

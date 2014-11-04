@@ -19,19 +19,26 @@
  */
 package de.rinderle.softviz3d.tree;
 
-import de.rinderle.softviz3d.sonar.ProjectElement;
+import com.google.inject.Inject;
+import de.rinderle.softviz3d.sonar.SonarSnapshotDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * This class is used to create a tree out of path
+ * informations.
+ */
 public class PathWalker {
-  private static final Logger LOGGER = LoggerFactory
-    .getLogger(PathWalker.class);
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(PathWalker.class);
+
+  // TODO: different generated id sequence in ResourceTreeServiceImpl and PathWalker.
+  private int generatedIdSequence = Integer.MAX_VALUE - 100000;
 
   private final TreeNode root;
-  private int generatedIdSequence = Integer.MAX_VALUE - 100000;
   private Pattern pathSeparator = Pattern.compile("/");
 
   public PathWalker(final int id) {
@@ -42,7 +49,7 @@ public class PathWalker {
     return this.root;
   }
 
-  public void addPath(final ProjectElement element) {
+  public void addPath(final SonarSnapshotDTO element) {
     final String[] names = this.pathSeparator.split(element.getPath());
     TreeNode currentNode = this.root;
 
@@ -52,14 +59,14 @@ public class PathWalker {
       if (isLastIndex) {
         currentNode = this.getOrCreateChild(currentNode, element.getId(), names[i], TreeNodeType.TREE, element.getFootprintMetricValue(), element.getHeightMetricValue());
       } else {
-        currentNode = this.getOrCreateChild(currentNode, this.generatedIdSequence++, names[i], TreeNodeType.PATH_GENERATED,
-                element.getFootprintMetricValue(), element.getHeightMetricValue());
+        currentNode = this.getOrCreateChild(currentNode, this.getNextSequence(), names[i], TreeNodeType.PATH_GENERATED,
+          element.getFootprintMetricValue(), element.getHeightMetricValue());
       }
     }
   }
 
-  public int getNextSequence() {
-    return this.generatedIdSequence++;
+  private int getNextSequence() {
+    return generatedIdSequence++;
   }
 
   private TreeNode getOrCreateChild(final TreeNode node, final int id, final String name, final TreeNodeType type, final double footprintMetricValue, final double heightMetricValue) {

@@ -17,25 +17,11 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.sonar;
+package de.rinderle.softviz3d.tree;
 
-public class MinMaxValueDao {
-
-  private Double minValue;
-  private Double maxValue;
-
-  public MinMaxValueDao(final Double minValue, final Double maxValue) {
-    super();
-    this.minValue = minValue;
-    this.maxValue = maxValue;
-  }
-
-  public Double getMinValue() {
-    return this.minValue;
-  }
-
-  public Double getMaxValue() {
-    return this.maxValue;
-  }
-
+/**
+ * Created by stefan on 03.11.14.
+ */
+public interface OptimizeTreeStructure {
+  void removeUnecessaryNodes(TreeNode root);
 }

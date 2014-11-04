@@ -33,12 +33,19 @@ import org.sonar.api.config.Settings;
 
 import java.io.*;
 
+/**
+ * Use singleton because of the buggy dot version 2.38.0.
+ * The bug workaround (see http://www.graphviz.org/content/set-bounding-box-position-neato)
+ * has to translate the outcome based on a translation file. This should created
+ * only once.
+ */
 @Singleton
 public class DotExecutorImpl implements DotExecutor {
 
   public static final String DOT_BUG_VERSION = "2.38.0";
   private static final Logger LOGGER = LoggerFactory
     .getLogger(DotExecutorImpl.class);
+
   private File translationFile = null;
 
   @Inject

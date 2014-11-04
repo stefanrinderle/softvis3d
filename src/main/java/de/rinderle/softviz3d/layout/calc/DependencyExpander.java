@@ -19,11 +19,11 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import de.rinderle.softviz3d.sonar.SonarDependency;
+import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
 
 import java.util.List;
 
 public interface DependencyExpander {
 
-  public int execute(final Integer projectId, final List<SonarDependency> dependencies);
+  public int execute(final Integer projectId, final List<SonarDependencyDTO> dependencies);
 }

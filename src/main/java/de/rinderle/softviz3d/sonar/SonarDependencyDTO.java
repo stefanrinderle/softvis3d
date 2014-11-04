@@ -24,7 +24,7 @@ import java.math.BigInteger;
 /**
  * Created by srinderle on 26.09.14.
  */
-public class SonarDependency {
+public class SonarDependencyDTO {
 
   private BigInteger id;
   private Integer fromSnapshotId;
@@ -36,7 +36,7 @@ public class SonarDependency {
   private String fromScope;
   private String toScope;
 
-  public SonarDependency() {
+  public SonarDependencyDTO() {
   }
 
   public BigInteger getId() {

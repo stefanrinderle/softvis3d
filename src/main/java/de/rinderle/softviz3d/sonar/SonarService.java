@@ -43,4 +43,5 @@ public interface SonarService {
     Integer rootSnapshotId, Integer footprintMetricId,
     Integer heightMetricId);
 
+  List<SonarDependencyDTO> getDependencies(Integer snapshotId);
 }

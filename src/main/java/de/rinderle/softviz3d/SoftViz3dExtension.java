@@ -48,8 +48,6 @@ public class SoftViz3dExtension implements ServerExtension {
 
   private SonarService sonarService;
 
-  private ResourceTreeService resourceTreeService;
-
   private Injector softVizInjector;
 
   public SoftViz3dExtension(final DatabaseSession session, final Settings settings) {
@@ -63,7 +61,6 @@ public class SoftViz3dExtension implements ServerExtension {
     dependencyDao.setDatabaseSession(session);
 
     this.sonarService = this.softVizInjector.getInstance(SonarService.class);
-    this.resourceTreeService = this.softVizInjector.getInstance(ResourceTreeService.class);
   }
 
   public List<Integer> getMetricsForSnapshot(final Integer snapshotId) {

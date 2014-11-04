@@ -27,8 +27,8 @@ import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
 import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.DependencyDao;
-import de.rinderle.softviz3d.sonar.MinMaxValueDao;
-import de.rinderle.softviz3d.sonar.SonarDependency;
+import de.rinderle.softviz3d.sonar.MinMaxValueDTO;
+import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import org.apache.commons.lang.time.StopWatch;
@@ -51,8 +51,6 @@ public class LayoutSoftViz3d implements Layout {
   @Inject
   private SonarService sonarService;
   @Inject
-  private DependencyDao dependencyDao;
-  @Inject
   private SnapshotVisitorFactory visitorFactory;
   @Inject
   private BottomUpProcessor processor;
@@ -69,9 +67,9 @@ public class LayoutSoftViz3d implements Layout {
 
     // TODO: do in one step
     int maxEdgeCounter = 0;
-    this.resourceTreeService.createTreeStructure(viewType, snapshotId, footprintMetricId, heightMetricId);
+    this.resourceTreeService.getOrCreateTreeStructure(viewType, snapshotId, footprintMetricId, heightMetricId);
     if (LayoutViewType.DEPENDENCY.equals(viewType)) {
-      final List<SonarDependency> dependencies = this.dependencyDao.getDependencies(snapshotId);
+      final List<SonarDependencyDTO> dependencies = this.sonarService.getDependencies(snapshotId);
       maxEdgeCounter = this.dependencyExpander.execute(snapshotId, dependencies);
     }
 
@@ -96,7 +94,7 @@ public class LayoutSoftViz3d implements Layout {
     final List<Double> minMaxValues = this.sonarService.getMinMaxMetricValuesByRootSnapshotId(
       snapshotId, footprintMetricId, heightMetricId);
 
-    final MinMaxValueDao minMaxEdgeCounter = new MinMaxValueDao(1.0, Double.valueOf(maxEdgeCounter));
+    final MinMaxValueDTO minMaxEdgeCounter = new MinMaxValueDTO(1.0, Double.valueOf(maxEdgeCounter));
     final SnapshotVisitor visitor = this.visitorFactory.create(settings, minMaxValues, viewType, minMaxEdgeCounter);
 
     this.processor.accept(viewType, visitor, snapshotId, snapshotId);

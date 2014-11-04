@@ -19,7 +19,7 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import de.rinderle.softviz3d.sonar.SonarDependency;
+import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.TreeNode;
 import de.rinderle.softviz3d.tree.TreeNodeType;
@@ -63,11 +63,11 @@ public class DependencyExpanderCheckCounterTest {
    **/
   @Test
   public void testDependenciesFlatEdges() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependencyDTO> dependencies = new ArrayList<SonarDependencyDTO>();
 
-    final SonarDependency fromBtoC = this.createDependency(2, 3);
+    final SonarDependencyDTO fromBtoC = this.createDependency(2, 3);
     dependencies.add(fromBtoC);
-    final SonarDependency fromCtoB = this.createDependency(3, 2);
+    final SonarDependencyDTO fromCtoB = this.createDependency(3, 2);
     dependencies.add(fromCtoB);
 
     final TreeNode treeNode1 = this.createTreeNode(1, null, 0);
@@ -93,9 +93,9 @@ public class DependencyExpanderCheckCounterTest {
    **/
   @Test
   public void testDependenciesSameFlatEdge() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependencyDTO> dependencies = new ArrayList<SonarDependencyDTO>();
 
-    final SonarDependency fromBtoC = this.createDependency(2, 3);
+    final SonarDependencyDTO fromBtoC = this.createDependency(2, 3);
     dependencies.add(fromBtoC);
     dependencies.add(fromBtoC);
 
@@ -124,11 +124,11 @@ public class DependencyExpanderCheckCounterTest {
    **/
   @Test
   public void testMultipleDependencyEdges() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependencyDTO> dependencies = new ArrayList<SonarDependencyDTO>();
 
-    final SonarDependency fromCtoD = this.createDependency(3, 4);
+    final SonarDependencyDTO fromCtoD = this.createDependency(3, 4);
     dependencies.add(fromCtoD);
-    final SonarDependency fromCtoE = this.createDependency(3, 5);
+    final SonarDependencyDTO fromCtoE = this.createDependency(3, 5);
     dependencies.add(fromCtoE);
 
     final TreeNode treeNode1 = this.createTreeNode(1, null, 0);
@@ -175,8 +175,8 @@ public class DependencyExpanderCheckCounterTest {
     return result;
   }
 
-  private SonarDependency createDependency(final int from, final int to) {
-    final SonarDependency result = new SonarDependency();
+  private SonarDependencyDTO createDependency(final int from, final int to) {
+    final SonarDependencyDTO result = new SonarDependencyDTO();
 
     result.setFromSnapshotId(from);
     result.setToSnapshotId(to);

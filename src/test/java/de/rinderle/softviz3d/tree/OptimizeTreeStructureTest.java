@@ -19,13 +19,13 @@
  */
 package de.rinderle.softviz3d.tree;
 
-import de.rinderle.softviz3d.sonar.ProjectElement;
+import de.rinderle.softviz3d.sonar.SonarSnapshotDTO;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class TreeNormalizerTest {
+public class OptimizeTreeStructureTest {
 
   @Test
   public void testNormalizeWithLongPath() {
@@ -53,9 +53,8 @@ public class TreeNormalizerTest {
     final TreeNode tree = walker.getTree();
     assertEquals("children are not main and test", 2, tree.getChildren().get("src").getChildren().size());
 
-    final TreeNormalizer normalizer = new TreeNormalizer();
-    normalizer.normalizeTree(tree);
-    normalizer.recalculateDepth(tree);
+    final OptimizeTreeStructureImpl normalizer = new OptimizeTreeStructureImpl();
+    normalizer.removeUnecessaryNodes(tree);
 
     assertEquals("children of src are not main and test", 2, tree.getChildren().get("src").getChildren().size());
     assertNotNull("next child after main is not softviz3d", tree.getChildren().get("src").getChildren()
@@ -72,6 +71,6 @@ public class TreeNormalizerTest {
   }
 
   private void callWalkerWithMetrics(final PathWalker walker, final int id, final String path) {
-    walker.addPath(new ProjectElement(id, path, 1, 1));
+    walker.addPath(new SonarSnapshotDTO(id, path, 1, 1));
   }
 }

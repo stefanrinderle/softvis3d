@@ -34,6 +34,8 @@ import de.rinderle.softviz3d.layout.calc.topdown.AbsolutePositionCalculator;
 import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
 import de.rinderle.softviz3d.layout.dot.*;
 import de.rinderle.softviz3d.sonar.*;
+import de.rinderle.softviz3d.tree.OptimizeTreeStructure;
+import de.rinderle.softviz3d.tree.OptimizeTreeStructureImpl;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.ResourceTreeServiceImpl;
 
@@ -48,6 +50,7 @@ public class SoftViz3dModule extends AbstractModule {
     this.bind(DependencyDao.class).to(DependencyDaoImpl.class);
     this.bind(SonarService.class).to(SonarServiceImpl.class);
 
+    this.bind(OptimizeTreeStructure.class).to(OptimizeTreeStructureImpl.class);
     this.bind(ResourceTreeService.class).to(ResourceTreeServiceImpl.class);
     this.bind(DependencyExpander.class).to(DependencyExpanderImpl.class);
 
