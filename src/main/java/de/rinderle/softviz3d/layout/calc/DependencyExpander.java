@@ -25,5 +25,5 @@ import java.util.List;
 
 public interface DependencyExpander {
 
-  public int execute(final Integer projectId, final List<SonarDependencyDTO> dependencies);
+  public int execute(final String mapKey, final List<SonarDependencyDTO> dependencies);
 }

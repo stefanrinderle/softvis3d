@@ -43,6 +43,8 @@ import static org.mockito.Mockito.when;
 
 public class AbsolutePositionCalculatorTest extends TestCase {
 
+  private static final String MAP_KEY = "1";
+
   private static final Integer ID = 1;
   private static final Integer SUBGRAPH_ID = 3;
 
@@ -64,7 +66,7 @@ public class AbsolutePositionCalculatorTest extends TestCase {
     final Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
     inputGraphList.put(ID, GrappaGraphFactory.createGraph());
 
-    this.underTest.calculate(VIEW_TYPE, ID, inputGraphList);
+    this.underTest.calculate(VIEW_TYPE, ID, inputGraphList, MAP_KEY);
 
     final Graph result = inputGraphList.get(ID);
 
@@ -84,9 +86,9 @@ public class AbsolutePositionCalculatorTest extends TestCase {
 
     final List<TreeNode> childrenNodes = new ArrayList<TreeNode>();
     childrenNodes.add(new TreeNode(SUBGRAPH_ID, null, 0, TreeNodeType.TREE, "" + SUBGRAPH_ID, 0, 0));
-    when(this.resourceTreeService.getChildrenNodeIds(eq(VIEW_TYPE), eq(ID), eq(ID))).thenReturn(childrenNodes);
+    when(this.resourceTreeService.getChildrenNodeIds(eq(MAP_KEY), eq(ID))).thenReturn(childrenNodes);
 
-    this.underTest.calculate(VIEW_TYPE, ID, inputGraphList);
+    this.underTest.calculate(VIEW_TYPE, ID, inputGraphList, MAP_KEY);
 
     final Graph result = inputGraphList.get(SUBGRAPH_ID);
 

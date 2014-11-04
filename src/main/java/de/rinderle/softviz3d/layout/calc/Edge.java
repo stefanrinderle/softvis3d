@@ -24,24 +24,18 @@ package de.rinderle.softviz3d.layout.calc;
  */
 public class Edge {
 
-  private Integer projectId;
   private String depEdgeLabel;
   private Integer sourceId;
   private Integer destinationId;
   private Integer parentId;
   private int counter = 1;
 
-  public Edge(final Integer projectId, final String depEdgeLabel, final Integer sourceId, final Integer destinationId,
+  public Edge(final String depEdgeLabel, final Integer sourceId, final Integer destinationId,
     final Integer parentId) {
-    this.projectId = projectId;
     this.depEdgeLabel = depEdgeLabel;
     this.sourceId = sourceId;
     this.destinationId = destinationId;
     this.parentId = parentId;
-  }
-
-  public Integer getProjectId() {
-    return this.projectId;
   }
 
   public String getDepEdgeLabel() {

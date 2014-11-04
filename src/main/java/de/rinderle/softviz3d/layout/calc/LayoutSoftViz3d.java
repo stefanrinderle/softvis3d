@@ -26,7 +26,6 @@ import de.rinderle.softviz3d.layout.calc.bottomup.BottomUpProcessor;
 import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
 import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
-import de.rinderle.softviz3d.sonar.DependencyDao;
 import de.rinderle.softviz3d.sonar.MinMaxValueDTO;
 import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
 import de.rinderle.softviz3d.sonar.SonarService;
@@ -67,17 +66,17 @@ public class LayoutSoftViz3d implements Layout {
 
     // TODO: do in one step
     int maxEdgeCounter = 0;
-    this.resourceTreeService.getOrCreateTreeStructure(viewType, snapshotId, footprintMetricId, heightMetricId);
+    final String mapKey = this.resourceTreeService.getOrCreateTreeStructure(viewType, snapshotId, footprintMetricId, heightMetricId);
     if (LayoutViewType.DEPENDENCY.equals(viewType)) {
       final List<SonarDependencyDTO> dependencies = this.sonarService.getDependencies(snapshotId);
-      maxEdgeCounter = this.dependencyExpander.execute(snapshotId, dependencies);
+      maxEdgeCounter = this.dependencyExpander.execute(mapKey, dependencies);
     }
 
     LOGGER.info("Created tree structure after " + stopWatch.getTime());
 
-    final Map<Integer, Graph> resultGraphs = this.startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId, viewType, maxEdgeCounter);
+    final Map<Integer, Graph> resultGraphs = this.startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId, viewType, maxEdgeCounter, mapKey);
 
-    final int leavesCounter = this.calc.calculate(viewType, snapshotId, resultGraphs);
+    final int leavesCounter = this.calc.calculate(viewType, snapshotId, resultGraphs, mapKey);
 
     stopWatch.stop();
     LOGGER.info("Calculation finished after " + stopWatch.getTime() + " with "
@@ -88,7 +87,7 @@ public class LayoutSoftViz3d implements Layout {
 
   private Map<Integer, Graph> startBottomUpCalculation(final Integer snapshotId,
     final Settings settings, final Integer footprintMetricId, final Integer heightMetricId,
-    final LayoutViewType viewType, final int maxEdgeCounter)
+    final LayoutViewType viewType, final int maxEdgeCounter, final String mapKey)
     throws DotExcecutorException {
 
     final List<Double> minMaxValues = this.sonarService.getMinMaxMetricValuesByRootSnapshotId(
@@ -97,7 +96,7 @@ public class LayoutSoftViz3d implements Layout {
     final MinMaxValueDTO minMaxEdgeCounter = new MinMaxValueDTO(1.0, Double.valueOf(maxEdgeCounter));
     final SnapshotVisitor visitor = this.visitorFactory.create(settings, minMaxValues, viewType, minMaxEdgeCounter);
 
-    this.processor.accept(viewType, visitor, snapshotId, snapshotId);
+    this.processor.accept(visitor, snapshotId, mapKey);
 
     return visitor.getResultingGraphList();
   }

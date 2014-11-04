@@ -20,14 +20,14 @@
 package de.rinderle.softviz3d.tree;
 
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
-import de.rinderle.softviz3d.sonar.SonarDao;
+import de.rinderle.softviz3d.sonar.SonarService;
+import de.rinderle.softviz3d.sonar.SonarSnapshotDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class ResourceTreeServiceTest {
   private static final LayoutViewType VIEW_TYPE = LayoutViewType.CITY;
 
   @Mock
-  private SonarDao sonarDao;
+  private SonarService sonarService;
   @Mock
   private OptimizeTreeStructure optimizeTreeStructure;
 
@@ -54,12 +54,13 @@ public class ResourceTreeServiceTest {
   public void test() {
     final int rootSnapshotId = 1;
 
-    final List<Object[]> children = new ArrayList<Object[]>();
-    children.add(new Object[] {2, "src", BigDecimal.ZERO, BigDecimal.ZERO});
-    children.add(new Object[] {3, "src/eins", BigDecimal.ZERO, BigDecimal.ZERO});
-    children.add(new Object[] {4, "src/zwei", BigDecimal.ZERO, BigDecimal.ZERO});
-    children.add(new Object[] {5, "src/zwei/drei", BigDecimal.ZERO, BigDecimal.ZERO});
-    when(this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, 0)).thenReturn(children);
+    List<SonarSnapshotDTO> children = new ArrayList<SonarSnapshotDTO>();
+    children.add(new SonarSnapshotDTO(2, "src", 0.0, 0.0));
+    children.add(new SonarSnapshotDTO(3, "src/eins", 0.0, 0.0));
+    children.add(new SonarSnapshotDTO(4, "src/zwei", 0.0, 0.0));
+    children.add(new SonarSnapshotDTO(5, "src/zwei/drei", 0.0, 0.0));
+
+    when(this.sonarService.getFlatChildrenWithMetrics(rootSnapshotId, 0, 0)).thenReturn(children);
 
     this.underTest.getOrCreateTreeStructure(VIEW_TYPE, rootSnapshotId, 0, 0);
 

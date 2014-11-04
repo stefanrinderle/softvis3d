@@ -21,12 +21,11 @@ package de.rinderle.softviz3d.tree;
 
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
-import de.rinderle.softviz3d.sonar.SonarDao;
+import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshotDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,32 +48,37 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
   private int generatedIdSequence = Integer.MAX_VALUE - 1000000;
 
   @Inject
-  private SonarDao sonarDao;
+  private SonarService sonarService;
   @Inject
   private OptimizeTreeStructure optimizeTreeStructure;
 
+  /**
+   *
+   * @return created tree identifier.
+   */
   @Override
-  public TreeNode getOrCreateTreeStructure(final LayoutViewType type, final int rootSnapshotId, final int heightMetric, final int footprintMetric) {
+  public String getOrCreateTreeStructure(final LayoutViewType type, final int rootSnapshotId, final int heightMetric, final int footprintMetric) {
     LOGGER.info("loadedPathWalkers size " + this.alreadyLoadedTrees.size());
     for (Map.Entry<String, TreeNode> entry : this.alreadyLoadedTrees.entrySet()) {
-      LOGGER.info(entry.getKey() + entry.getValue().getName());
+      LOGGER.info(entry.getKey());
     }
     LOGGER.info("---");
 
-    if (!this.alreadyLoadedTrees.containsKey(this.getAlreadyLoadedMapKey(type, rootSnapshotId))) {
-      final TreeNode tree = createTreeStructure(rootSnapshotId, heightMetric, footprintMetric);
+    String mapKey = this.getAlreadyLoadedMapKey(type, rootSnapshotId, heightMetric, footprintMetric);
 
-      this.alreadyLoadedTrees.put(this.getAlreadyLoadedMapKey(type, rootSnapshotId), tree);
+    if (!this.alreadyLoadedTrees.containsKey(mapKey)) {
+      final TreeNode tree = createTreeStructure(rootSnapshotId, heightMetric, footprintMetric);
+      this.alreadyLoadedTrees.put(mapKey, tree);
     }
 
-    return this.alreadyLoadedTrees.get(this.getAlreadyLoadedMapKey(type, rootSnapshotId));
+    return mapKey;
   }
 
   private TreeNode createTreeStructure(int rootSnapshotId, int heightMetric, int footprintMetric) {
     LOGGER.info("Created tree structure for id " + rootSnapshotId);
     final PathWalker pathWalker = new PathWalker(rootSnapshotId);
 
-    final List<SonarSnapshotDTO> flatChildren = getFlatChildrenWithMetricsFromDatabase(rootSnapshotId, heightMetric, footprintMetric);
+    final List<SonarSnapshotDTO> flatChildren = sonarService.getFlatChildrenWithMetrics(rootSnapshotId, heightMetric, footprintMetric);
 
     for (final SonarSnapshotDTO flatChild : flatChildren) {
       pathWalker.addPath(flatChild);
@@ -87,39 +91,8 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     return resultTree;
   }
 
-  private List<SonarSnapshotDTO> getFlatChildrenWithMetricsFromDatabase(int rootSnapshotId, int heightMetric, int footprintMetric) {
-    final List<SonarSnapshotDTO> result = new ArrayList<SonarSnapshotDTO>();
-
-    final List<Object[]> resultHeightMetric = this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, heightMetric);
-    final List<Object[]> resultFootprintMetric = this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, footprintMetric);
-
-    // join result lists
-    for (int i = 0; i < resultHeightMetric.size(); i++) {
-      final int id = (Integer) resultHeightMetric.get(i)[0];
-      final String path = (String) resultHeightMetric.get(i)[1];
-      BigDecimal heightMetricValue = (BigDecimal) resultHeightMetric.get(i)[2];
-      BigDecimal footprintMetricValue = (BigDecimal) resultFootprintMetric.get(i)[2];
-
-      // check for null values
-      if (heightMetricValue == null) {
-        heightMetricValue = BigDecimal.ZERO;
-      }
-
-      if (footprintMetricValue == null) {
-        footprintMetricValue = BigDecimal.ZERO;
-      }
-
-      final SonarSnapshotDTO element = new SonarSnapshotDTO(id, path, heightMetricValue.doubleValue(), footprintMetricValue.doubleValue());
-
-      result.add(element);
-    }
-
-    return result;
-
-  }
-
-  private String getAlreadyLoadedMapKey(final LayoutViewType type, final int rootSnapshotId) {
-    return rootSnapshotId + "_" + type.name();
+  private String getAlreadyLoadedMapKey(final LayoutViewType type, final int rootSnapshotId, final int heightMetric, final int footprintMetric) {
+    return rootSnapshotId + "_" + type.name() + "_" + heightMetric + "_" + footprintMetric;
   }
 
   private int getNextSequence() {
@@ -127,29 +100,29 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
   }
 
   @Override
-  public List<TreeNode> getChildrenNodeIds(final LayoutViewType type, final Integer rootSnapshotId, final Integer id) {
-    final TreeNode treeNode = this.findNode(type, rootSnapshotId, id);
+  public List<TreeNode> getChildrenNodeIds(final String mapKey, final Integer id) {
+    final TreeNode treeNode = this.findNode(mapKey, id);
 
     return this.getChildrenNodes(treeNode.getChildren());
   }
 
   @Override
-  public List<TreeNode> getChildrenLeafIds(final LayoutViewType type, final Integer rootSnapshotId, final Integer id) {
-    final TreeNode treeNode = this.findNode(type, rootSnapshotId, id);
+  public List<TreeNode> getChildrenLeafIds(String mapKey, final Integer id) {
+    final TreeNode treeNode = this.findNode(mapKey, id);
 
     return this.getChildrenLeaves(treeNode.getChildren());
   }
 
   @Override
-  public TreeNode findNode(final LayoutViewType type, final Integer rootSnapshotId, final Integer id) {
-    final TreeNode rootNode = this.alreadyLoadedTrees.get(this.getAlreadyLoadedMapKey(type, rootSnapshotId));
+  public TreeNode findNode(final String mapKey, final Integer id) {
+    final TreeNode rootNode = this.alreadyLoadedTrees.get(mapKey);
 
     return this.recursiveSearch(id, rootNode);
   }
 
   @Override
-  public TreeNode addInterfaceLeafNode(final LayoutViewType type, final Integer rootSnapshotId, final String intLeafLabel, final Integer parentId) {
-    final TreeNode rootNode = this.alreadyLoadedTrees.get(this.getAlreadyLoadedMapKey(type, rootSnapshotId));
+  public TreeNode addInterfaceLeafNode(final String mapKey, final String intLeafLabel, final Integer parentId) {
+    final TreeNode rootNode = this.alreadyLoadedTrees.get(mapKey);
 
     // search for parent node
     final TreeNode parent = this.recursiveSearch(parentId, rootNode);
@@ -162,9 +135,14 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
   }
 
   @Override
-  public TreeNode findInterfaceLeafNode(final LayoutViewType type, final Integer rootSnapshotId, final String intLeafLabel) {
-    final TreeNode rootNode = this.alreadyLoadedTrees.get(this.getAlreadyLoadedMapKey(type, rootSnapshotId));
+  public TreeNode findInterfaceLeafNode(final String mapKey, final String intLeafLabel) {
+    final TreeNode rootNode = this.alreadyLoadedTrees.get(mapKey);
     return this.recursiveSearch(intLeafLabel, rootNode);
+  }
+
+  @Override
+  public TreeNode getTreeStructure(String mapKey) {
+    return this.alreadyLoadedTrees.get(mapKey);
   }
 
   private TreeNode recursiveSearch(final String name, final TreeNode treeNode) {

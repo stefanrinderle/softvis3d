@@ -24,6 +24,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SonarServiceImpl implements SonarService {
@@ -38,16 +40,19 @@ public class SonarServiceImpl implements SonarService {
 
   @Override
   public Integer getMetric1FromSettings(final Settings settings) {
+    LOGGER.info("getMetric1FromSettings");
     return this.sonarDao.getMetricIdByName(settings.getString("metric1"));
   }
 
   @Override
   public Integer getMetric2FromSettings(final Settings settings) {
+    LOGGER.info("getMetric2FromSettings");
     return this.sonarDao.getMetricIdByName(settings.getString("metric2"));
   }
 
   @Override
   public List<Integer> getDefinedMetricsForSnapshot(final Integer snapshotId) {
+    LOGGER.info("getDefinedMetricsForSnapshot " + snapshotId);
     return this.sonarDao.getDistinctMetricsBySnapshotId(snapshotId);
   }
 
@@ -55,13 +60,47 @@ public class SonarServiceImpl implements SonarService {
   public List<Double> getMinMaxMetricValuesByRootSnapshotId(
     final Integer rootSnapshotId, final Integer footprintMetricId,
     final Integer heightMetricId) {
+    LOGGER.info("getMinMaxMetricValuesByRootSnapshotId " + rootSnapshotId);
     return this.sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId,
       footprintMetricId, heightMetricId);
   }
 
   @Override
   public List<SonarDependencyDTO> getDependencies(Integer snapshotId) {
+    LOGGER.info("getDependencies " + snapshotId);
     return this.dependencyDao.getDependencies(snapshotId);
+  }
+
+  @Override
+  public List<SonarSnapshotDTO> getFlatChildrenWithMetrics(int rootSnapshotId, int heightMetric, int footprintMetric) {
+    final List<SonarSnapshotDTO> result = new ArrayList<SonarSnapshotDTO>();
+
+    final List<Object[]> resultHeightMetric = this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, heightMetric);
+    final List<Object[]> resultFootprintMetric = this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, footprintMetric);
+
+    // join result lists
+    for (int i = 0; i < resultHeightMetric.size(); i++) {
+      final int id = (Integer) resultHeightMetric.get(i)[0];
+      final String path = (String) resultHeightMetric.get(i)[1];
+      BigDecimal heightMetricValue = (BigDecimal) resultHeightMetric.get(i)[2];
+      BigDecimal footprintMetricValue = (BigDecimal) resultFootprintMetric.get(i)[2];
+
+      // check for null values
+      if (heightMetricValue == null) {
+        heightMetricValue = BigDecimal.ZERO;
+      }
+
+      if (footprintMetricValue == null) {
+        footprintMetricValue = BigDecimal.ZERO;
+      }
+
+      final SonarSnapshotDTO element = new SonarSnapshotDTO(id, path, heightMetricValue.doubleValue(), footprintMetricValue.doubleValue());
+
+      result.add(element);
+    }
+
+    return result;
+
   }
 
 }

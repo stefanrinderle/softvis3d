@@ -21,7 +21,6 @@ package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.TreeNode;
@@ -39,16 +38,14 @@ public class BottomUpProcessor implements Processor {
   @Inject
   private ResourceTreeService resourceTreeService;
 
-  private LayoutViewType viewType;
-  private Integer rootSnapshotId;
+  private String mapKey;
 
   /**
    * Bottom up calculation of layout layers.
    */
-  public LayeredLayoutElement accept(final LayoutViewType viewType, final SnapshotVisitor visitor, final Integer snapshotId, final Integer rootSnapshotId)
+  public LayeredLayoutElement accept(final SnapshotVisitor visitor, final Integer snapshotId, final String mapKey)
     throws DotExcecutorException {
-    this.viewType = viewType;
-    this.rootSnapshotId = rootSnapshotId;
+    this.mapKey = mapKey;
 
     return this.accept(visitor, snapshotId);
   }
@@ -61,7 +58,7 @@ public class BottomUpProcessor implements Processor {
 
     LOGGER.debug("Layout.accept " + snapshotId);
 
-    final TreeNode currentNode = this.resourceTreeService.findNode(this.viewType, this.rootSnapshotId, snapshotId);
+    final TreeNode currentNode = this.resourceTreeService.findNode(this.mapKey, snapshotId);
 
     final List<LayeredLayoutElement> nodeElements = this.processChildrenNodes(visitor, snapshotId);
     final List<LayeredLayoutElement> leafElements = this.processChildrenLeaves(visitor, snapshotId);
@@ -74,18 +71,19 @@ public class BottomUpProcessor implements Processor {
   }
 
   private List<LayeredLayoutElement> processChildrenNodes(final SnapshotVisitor visitor, final Integer snapshotId) throws DotExcecutorException {
-    final List<TreeNode> childrenTreeNodes = this.resourceTreeService.getChildrenNodeIds(this.viewType, this.rootSnapshotId, snapshotId);
+    final List<TreeNode> childrenTreeNodes = this.resourceTreeService.getChildrenNodeIds(this.mapKey, snapshotId);
 
     final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
 
     for (final TreeNode node : childrenTreeNodes) {
       layerElements.add(this.accept(visitor, node.getId()));
     }
+
     return layerElements;
   }
 
   private List<LayeredLayoutElement> processChildrenLeaves(final SnapshotVisitor visitor, final Integer snapshotId) {
-    final List<TreeNode> childrenLeaves = this.resourceTreeService.getChildrenLeafIds(this.viewType, this.rootSnapshotId, snapshotId);
+    final List<TreeNode> childrenLeaves = this.resourceTreeService.getChildrenLeafIds(this.mapKey, snapshotId);
 
     final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
     for (final TreeNode leaf : childrenLeaves) {

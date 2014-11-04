@@ -41,7 +41,7 @@ import static org.mockito.Mockito.when;
  */
 public class DependencyExpanderCheckCounterTest {
 
-  private static final Integer PROJECT_ID = 1;
+  private static final String MAP_KEY = "1";
 
   @Mock
   private ResourceTreeService treeService;
@@ -74,7 +74,7 @@ public class DependencyExpanderCheckCounterTest {
     final TreeNode treeNode2 = this.createTreeNode(2, treeNode1, 1);
     final TreeNode treeNode3 = this.createTreeNode(3, treeNode1, 2);
 
-    this.underTest.execute(PROJECT_ID, dependencies);
+    this.underTest.execute(MAP_KEY, dependencies);
 
     assertTrue(treeNode2.getEdges().containsKey("depPath_2"));
     assertTrue(treeNode2.getEdges().get("depPath_2").getCounter() == 1);
@@ -103,7 +103,7 @@ public class DependencyExpanderCheckCounterTest {
     final TreeNode treeNode2 = this.createTreeNode(2, treeNode1, 1);
     final TreeNode treeNode3 = this.createTreeNode(3, treeNode1, 2);
 
-    this.underTest.execute(PROJECT_ID, dependencies);
+    this.underTest.execute(MAP_KEY, dependencies);
 
     assertTrue(treeNode2.getEdges().containsKey("depPath_2"));
     assertTrue(treeNode2.getEdges().get("depPath_2").getCounter() == 2);
@@ -140,7 +140,7 @@ public class DependencyExpanderCheckCounterTest {
     final TreeNode interfaceLeafNode2 = this.createInterfaceLeafNode(90, treeNode2);
     final TreeNode interfaceLeafNode4 = this.createInterfaceLeafNode(91, treeNode4);
 
-    this.underTest.execute(PROJECT_ID, dependencies);
+    this.underTest.execute(MAP_KEY, dependencies);
 
     // dependency elevator edge start
     assertTrue(treeNode3.getEdges().containsKey("depPath_3"));
@@ -159,7 +159,7 @@ public class DependencyExpanderCheckCounterTest {
   private TreeNode createTreeNode(final int id, final TreeNode parent, final int depth) {
     final TreeNode result = new TreeNode(id, parent, depth, TreeNodeType.TREE, id + "", 0, 0);
 
-    when(this.treeService.findNode(LayoutViewType.DEPENDENCY, PROJECT_ID, id)).thenReturn(result);
+    when(this.treeService.findNode(MAP_KEY, id)).thenReturn(result);
 
     return result;
   }
@@ -169,7 +169,7 @@ public class DependencyExpanderCheckCounterTest {
     final TreeNode result = new TreeNode(id, parent, 0, TreeNodeType.DEPENDENCY_GENERATED, id + "", 0, 0);
 
     final String intLeafLabel = DependencyExpanderImpl.INTERFACE_PREFIX + "_" + parent.getId();
-    when(this.treeService.findInterfaceLeafNode(LayoutViewType.DEPENDENCY, PROJECT_ID, intLeafLabel))
+    when(this.treeService.findInterfaceLeafNode(MAP_KEY, intLeafLabel))
       .thenReturn(result);
 
     return result;

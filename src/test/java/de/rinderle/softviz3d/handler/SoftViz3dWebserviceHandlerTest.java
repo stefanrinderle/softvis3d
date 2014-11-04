@@ -52,6 +52,8 @@ public class SoftViz3dWebserviceHandlerTest {
   private Integer heightMetricId = 21;
   private String viewType = "city";
 
+  private final static String MAP_KEY = "1";
+
   @Mock
   private SonarService sonarService;
   @Mock
@@ -73,7 +75,7 @@ public class SoftViz3dWebserviceHandlerTest {
     final Response response = this.createResponse();
 
     final TreeNode tree = new TreeNode(this.snapshotId, null, 0, TreeNodeType.TREE, this.snapshotId + "", 0, 0);
-    when(this.resourceTreeService.getOrCreateTreeStructure(LayoutViewType.CITY, this.snapshotId, this.footprintMetricId, this.heightMetricId)).thenReturn(tree);
+    when(this.resourceTreeService.getOrCreateTreeStructure(LayoutViewType.CITY, this.snapshotId, this.footprintMetricId, this.heightMetricId)).thenReturn(MAP_KEY);
 
     this.handler.handle(request, response);
 

@@ -32,24 +32,24 @@ public class DependencyExpanderImpl implements DependencyExpander {
   public static final String INTERFACE_PREFIX = "interface";
   private static final String DEP_PATH_EDGE_PREFIX = "depPath";
 
-  private Integer projectId;
+  private String mapKey;
   private int maxEdgeCounter;
 
   @Inject
   private ResourceTreeService resourceTreeService;
 
-  public int execute(final Integer projectId, final List<SonarDependencyDTO> dependencies) {
+  public int execute(final String mapKey, final List<SonarDependencyDTO> dependencies) {
     maxEdgeCounter = 1;
 
-    this.projectId = projectId;
+    this.mapKey = mapKey;
 
     for (final SonarDependencyDTO dependency : dependencies) {
 
       final Integer sourceId = dependency.getFromSnapshotId();
       final Integer destinationId = dependency.getToSnapshotId();
       // search for the common ancestor
-      final TreeNode source = this.resourceTreeService.findNode(LayoutViewType.DEPENDENCY, projectId, sourceId);
-      final TreeNode destination = this.resourceTreeService.findNode(LayoutViewType.DEPENDENCY, projectId, destinationId);
+      final TreeNode source = this.resourceTreeService.findNode(this.mapKey, sourceId);
+      final TreeNode destination = this.resourceTreeService.findNode(this.mapKey, destinationId);
 
       final DependencyType dependencyType = this.getDependencyType(source, destination);
 
@@ -119,7 +119,7 @@ public class DependencyExpanderImpl implements DependencyExpander {
 
       source.setEdge(edge);
     } else {
-      final Edge edge = new Edge(this.projectId, depEdgeLabel,
+      final Edge edge = new Edge(depEdgeLabel,
         source.getId(), dest.getId(), source.getParent().getId());
       source.setEdge(edge);
     }
@@ -143,7 +143,7 @@ public class DependencyExpanderImpl implements DependencyExpander {
       } else {
         final TreeNode depNode = this.getInterfaceNode(treeNode.getParent().getId());
 
-        final Edge element = new Edge(this.projectId, depEdgeLabel, treeNode.getId(), depNode.getId(), treeNode.getParent().getId());
+        final Edge element = new Edge(depEdgeLabel, treeNode.getId(), depNode.getId(), treeNode.getParent().getId());
 
         treeNode.setEdge(element);
       }
@@ -155,7 +155,7 @@ public class DependencyExpanderImpl implements DependencyExpander {
         edge.setCounter(edge.getCounter() + 1);
         depNode.setEdge(edge);
       } else {
-        final Edge element = new Edge(this.projectId, depEdgeLabel, depNode.getId(), treeNode.getId(), treeNode.getParent().getId());
+        final Edge element = new Edge(depEdgeLabel, depNode.getId(), treeNode.getId(), treeNode.getParent().getId());
         depNode.setEdge(element);
       }
     }
@@ -166,12 +166,12 @@ public class DependencyExpanderImpl implements DependencyExpander {
     final TreeNode result;
     final String intLeafLabel = INTERFACE_PREFIX + "_" + parentId;
 
-    final TreeNode treeNode = this.resourceTreeService.findInterfaceLeafNode(LayoutViewType.DEPENDENCY, this.projectId, intLeafLabel);
+    final TreeNode treeNode = this.resourceTreeService.findInterfaceLeafNode(this.mapKey, intLeafLabel);
 
     if (treeNode != null) {
       result = treeNode;
     } else {
-      result = this.resourceTreeService.addInterfaceLeafNode(LayoutViewType.DEPENDENCY, this.projectId, intLeafLabel, parentId);
+      result = this.resourceTreeService.addInterfaceLeafNode(this.mapKey, intLeafLabel, parentId);
     }
 
     return result;

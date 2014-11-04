@@ -25,16 +25,17 @@ import java.util.List;
 
 public interface ResourceTreeService {
 
-  TreeNode getOrCreateTreeStructure(LayoutViewType type, int rootSnapshotId, int heightMetric, int footprintMetric);
+  String getOrCreateTreeStructure(LayoutViewType type, int rootSnapshotId, int heightMetric, int footprintMetric);
 
-  List<TreeNode> getChildrenNodeIds(LayoutViewType type, Integer rootSnapshotId, Integer id);
+  List<TreeNode> getChildrenNodeIds(String mapKey, Integer id);
 
-  List<TreeNode> getChildrenLeafIds(LayoutViewType type, Integer rootSnapshotId, Integer id);
+  List<TreeNode> getChildrenLeafIds(String mapKey, Integer id);
 
-  TreeNode findNode(LayoutViewType type, Integer rootSnapshotId, Integer id);
+  TreeNode findNode(String mapKey, Integer id);
 
-  TreeNode addInterfaceLeafNode(LayoutViewType type, Integer snapshotId, String intLeafLabel, Integer parentId);
+  TreeNode addInterfaceLeafNode(String mapKey, String intLeafLabel, Integer parentId);
 
-  TreeNode findInterfaceLeafNode(LayoutViewType type, Integer snapshotId, String intLeafLabel);
+  TreeNode findInterfaceLeafNode(String mapKey, String intLeafLabel);
 
+  TreeNode getTreeStructure(String mapKey);
 }

@@ -22,7 +22,6 @@ package de.rinderle.softviz3d.handler;
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.layout.calc.DependencyExpander;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
-import de.rinderle.softviz3d.sonar.DependencyDao;
 import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
@@ -58,11 +57,13 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
     }
 
     // TODO: do in one step
-    final TreeNode tree = this.resourceTreeService.getOrCreateTreeStructure(type, id, footprintMetricId, heightMetricId);
+    final String mapKey = this.resourceTreeService.getOrCreateTreeStructure(type, id, footprintMetricId, heightMetricId);
     if (LayoutViewType.DEPENDENCY.equals(type)) {
       final List<SonarDependencyDTO> dependencies = this.sonarService.getDependencies(id);
-      this.dependencyExpander.execute(id, dependencies);
+      this.dependencyExpander.execute(mapKey, dependencies);
     }
+
+    TreeNode tree = this.resourceTreeService.getTreeStructure(mapKey);
 
     treeNodeJsonWriter.transformTreeToJson(response, tree);
   }
