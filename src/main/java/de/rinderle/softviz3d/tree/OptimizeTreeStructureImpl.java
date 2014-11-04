@@ -65,8 +65,6 @@ public class OptimizeTreeStructureImpl implements OptimizeTreeStructure {
   }
 
   private void removeNodeFromStructure(final TreeNode node) {
-    LOGGER.info("Remove node with id " + node.getId() + " " + node.getName());
-
     if (node.getParent() != null) {
       // set new parent for child
       final TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node.getChildren();

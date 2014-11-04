@@ -40,19 +40,19 @@ public class SonarServiceImpl implements SonarService {
 
   @Override
   public Integer getMetric1FromSettings(final Settings settings) {
-    LOGGER.info("getMetric1FromSettings");
+    LOGGER.debug("getMetric1FromSettings");
     return this.sonarDao.getMetricIdByName(settings.getString("metric1"));
   }
 
   @Override
   public Integer getMetric2FromSettings(final Settings settings) {
-    LOGGER.info("getMetric2FromSettings");
+    LOGGER.debug("getMetric2FromSettings");
     return this.sonarDao.getMetricIdByName(settings.getString("metric2"));
   }
 
   @Override
   public List<Integer> getDefinedMetricsForSnapshot(final Integer snapshotId) {
-    LOGGER.info("getDefinedMetricsForSnapshot " + snapshotId);
+    LOGGER.debug("getDefinedMetricsForSnapshot " + snapshotId);
     return this.sonarDao.getDistinctMetricsBySnapshotId(snapshotId);
   }
 
@@ -60,14 +60,14 @@ public class SonarServiceImpl implements SonarService {
   public List<Double> getMinMaxMetricValuesByRootSnapshotId(
     final Integer rootSnapshotId, final Integer footprintMetricId,
     final Integer heightMetricId) {
-    LOGGER.info("getMinMaxMetricValuesByRootSnapshotId " + rootSnapshotId);
+    LOGGER.debug("getMinMaxMetricValuesByRootSnapshotId " + rootSnapshotId);
     return this.sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId,
       footprintMetricId, heightMetricId);
   }
 
   @Override
   public List<SonarDependencyDTO> getDependencies(Integer snapshotId) {
-    LOGGER.info("getDependencies " + snapshotId);
+    LOGGER.debug("getDependencies " + snapshotId);
     return this.dependencyDao.getDependencies(snapshotId);
   }
 

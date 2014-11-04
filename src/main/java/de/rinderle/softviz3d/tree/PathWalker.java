@@ -19,7 +19,6 @@
  */
 package de.rinderle.softviz3d.tree;
 
-import com.google.inject.Inject;
 import de.rinderle.softviz3d.sonar.SonarSnapshotDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,8 +58,7 @@ public class PathWalker {
       if (isLastIndex) {
         currentNode = this.getOrCreateChild(currentNode, element.getId(), names[i], TreeNodeType.TREE, element.getFootprintMetricValue(), element.getHeightMetricValue());
       } else {
-        currentNode = this.getOrCreateChild(currentNode, this.getNextSequence(), names[i], TreeNodeType.PATH_GENERATED,
-          element.getFootprintMetricValue(), element.getHeightMetricValue());
+        currentNode = this.getOrCreateGeneratedChild(currentNode, names[i]);
       }
     }
   }
@@ -69,7 +67,7 @@ public class PathWalker {
     return generatedIdSequence++;
   }
 
-  private TreeNode getOrCreateChild(final TreeNode node, final int id, final String name, final TreeNodeType type, final double footprintMetricValue, final double heightMetricValue) {
+  private TreeNode getOrCreateChild(final TreeNode node, Integer id, final String name, final TreeNodeType type, final double footprintMetricValue, final double heightMetricValue) {
     final Map<String, TreeNode> children = node.getChildren();
     if (children.containsKey(name)) {
       return children.get(name);
@@ -78,6 +76,11 @@ public class PathWalker {
     final TreeNode result = new TreeNode(id, node, node.getDepth() + 1, type, name, footprintMetricValue, heightMetricValue);
     children.put(name, result);
     return result;
+  }
+
+  private TreeNode getOrCreateGeneratedChild(final TreeNode node, final String name) {
+    // generated child nodes do not have any metric values.
+    return getOrCreateChild(node, getNextSequence(), name, TreeNodeType.PATH_GENERATED, 0.0, 0.0);
   }
 
 }
