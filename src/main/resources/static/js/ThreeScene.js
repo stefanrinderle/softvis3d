@@ -9,9 +9,6 @@ var containerWidth, containerHeight;
 
 var selectedObject, selectedObjectColor;
 
-var tree;
-
-
 function init(container, showStats) {
     // header of sonar is 70 px + metric select form 30 px + footer 50 px
     // sidebar 200px
@@ -89,42 +86,6 @@ function onDocumentMouseDown( event ) {
 
         showDetails(intersects[ 0 ].object.softviz3dId, intersects[ 0 ].object.type);
     }
-}
-
-function callAjax(url, callback){
-    var xmlhttp;
-    // compatible with IE7+, Firefox, Chrome, Opera, Safari
-    xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function(){
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-            callback(xmlhttp.responseText);
-        }
-    }
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
-}
-
-function initializeWebservice(snapshotId, footprintMetricId, heightMetricId, viewType) {
-    callAjax("../../api/softViz3d/initialize?snapshotId=" + snapshotId
-            + "&footprintMetricId=" + footprintMetricId + "&heightMetricId=" + heightMetricId + "&viewType=" + viewType,
-        function(response) {
-            var myArray = JSON.parse(response);
-            console.log(myArray);
-            tree = myArray;
-        });
-}
-
-function searchTree(element, id){
-    if(element.id == id){
-        return element;
-    } else if (element.children != null){
-        var result = null;
-        for(var i=0; result == null && i < element.children.length; i++){
-            result = searchTree(element.children[i], id);
-        }
-        return result;
-    }
-    return null;
 }
 
 function animate() {
@@ -207,7 +168,7 @@ function drawCylinder( pointX, pointY, id, thickness) {
 function showDetails(snapshotId, type) {
     console.log("showDetails" + snapshotId + " type " + type)
 
-    var node = searchTree(tree, snapshotId);
+    var node = searchTree(snapshotId);
 
     var result = "<h3>Selected</h3>";
 
@@ -368,7 +329,7 @@ function showNode(id, selectId) {
 function showNodeAndAllParents(id) {
     showSingleNode(id);
 
-    var node = searchTree(tree, id);
+    var node = searchTree(id);
     if (node != null) {
         node.isHidden = false;
         for (var index = 0; index < node.children.length; index++) {
@@ -412,7 +373,7 @@ function hideAll(id, selectId) {
 function removeNodeAndAllChildren(id) {
     removeNode(id);
 
-    var node = searchTree(tree, id);
+    var node = searchTree(id);
     if (node != null) {
         node.isHidden = true;
         for (var index = 0; index < node.children.length; index++) {
@@ -445,7 +406,7 @@ function hideNode(id, selectId) {
 function removeNodeAndChildren(id) {
     removeNodeByType(id, "node");
 
-    var node = searchTree(tree, id);
+    var node = searchTree(id);
     if (node != null) {
         node.isHidden = true;
         for (var index = 0; index < node.children.length; index++) {
@@ -480,7 +441,7 @@ function removeNodeByType(id, type) {
 function showNodeAndChildren(id) {
     showSingleNodeByType(id, "node");
 
-    var node = searchTree(tree, id);
+    var node = searchTree(id);
     if (node != null) {
         node.isHidden = false;
         for (var index = 0; index < node.children.length; index++) {

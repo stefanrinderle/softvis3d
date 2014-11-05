@@ -41,8 +41,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static att.grappa.GrappaConstants.*;
-
 public class SnapshotVisitorImpl implements SnapshotVisitor {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SnapshotVisitorImpl.class);
@@ -50,6 +48,7 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
   // getting injected - see constructor
   private DotExecutor dotExecutor;
   private LayerFormatter formatter;
+  private GrappaTransformer tranformer;
 
   private Settings settings;
 
@@ -63,7 +62,7 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
   @Inject
   public SnapshotVisitorImpl(final LayerFormatter formatter,
-    final DotExecutor dotExecutor,
+    final DotExecutor dotExecutor, final GrappaTransformer tranformer,
     @Assisted final Settings settings,
     @Assisted final LayoutViewType viewType,
     @Assisted(value = "minMaxFootprintMetricValues") final MinMaxValueDTO minMaxFootprintMetricValues,
@@ -77,6 +76,7 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
     this.dotExecutor = dotExecutor;
     this.formatter = formatter;
+    this.tranformer = tranformer;
 
     this.viewType = viewType;
   }
@@ -96,31 +96,21 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     final Graph inputGraph = new Graph(node.getId().toString());
 
     for (final LayeredLayoutElement element : elements) {
-      final Node elementNode = this.transformToGrappaNode(inputGraph, element);
+      final Node elementNode = tranformer.transformToGrappaNode(inputGraph, element);
       inputGraph.addNode(elementNode);
     }
 
     for (final LayeredLayoutElement element : elements) {
       for (final Edge edge : element.getEdges().values()) {
-        inputGraph.addEdge(this.transformToGrappaEdge(inputGraph, edge));
+        inputGraph.addEdge(tranformer.transformToGrappaEdge(inputGraph, edge, this.minMaxEdgeCounter));
       }
     }
-
-    LOGGER.debug("--------------------------------------");
-
-    // inputGraph.printGraph(System.out);
 
     // run dot layout for this layer
     final Graph outputGraph = this.dotExecutor.run(inputGraph, this.settings, this.viewType);
 
     // adjust graph
     this.formatter.format(outputGraph, node.getDepth(), this.viewType);
-
-    LOGGER.debug("--------------------------------------");
-
-    // outputGraph.printGraph(System.out);
-
-    LOGGER.debug("--------------------------------------");
 
     this.resultingGraphList.put(node.getId(), outputGraph);
 
@@ -138,54 +128,6 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     final double platformHeight = 5;
 
     return LayeredLayoutElement.createLayeredLayoutNodeElement(node, width, height, platformHeight);
-  }
-
-  private att.grappa.Edge transformToGrappaEdge(final Graph inputGraph, final Edge edge) {
-    final Node sourceNode = this.searchNodeById(inputGraph, edge.getSourceId());
-    final Node destNode = this.searchNodeById(inputGraph, edge.getDestinationId());
-
-    if (sourceNode != null && destNode != null) {
-      final att.grappa.Edge result = new att.grappa.Edge(inputGraph, sourceNode, destNode);
-      double edgeRadius = this.formatter.calcEdgeRadius(edge.getCounter(), this.minMaxEdgeCounter);
-      result.setAttribute("edgeRadius", "x" + edgeRadius);
-
-      return result;
-    }
-
-    return null;
-  }
-
-  private Node searchNodeById(final Graph inputGraph, final Integer sourceId) {
-    for (final Node node : inputGraph.nodeElementsAsArray()) {
-      final Integer nodeId = Integer.valueOf((String) node.getAttributeValue("id"));
-      if (nodeId.equals(sourceId)) {
-        return node;
-      }
-    }
-
-    return null;
-  }
-
-  private Node transformToGrappaNode(final Graph inputGraph, final LayeredLayoutElement element) {
-    final Node elementNode = new Node(inputGraph, element.getName());
-    elementNode.setAttribute("id", element.getId().toString());
-    elementNode.setAttribute("type", element.getElementType().name());
-    elementNode.setAttribute(WIDTH_ATTR, this.roundTo2Decimals(element.getWidth()));
-    elementNode.setAttribute(HEIGHT_ATTR, this.roundTo2Decimals(element.getHeight()));
-
-    // keep the size of the node only dependent on the width and height
-    // attribute and not from the node name
-    elementNode.setAttribute(LABEL_ATTR, ".");
-    elementNode.setAttribute(SHAPE_ATTR, "box");
-
-    elementNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, element.getBuildingHeight());
-
-    elementNode.setAttribute("displayName", element.getDisplayName());
-    return elementNode;
-  }
-
-  private double roundTo2Decimals(final double value) {
-    return Math.round(value * 100.0) / 100.0;
   }
 
   @Override
