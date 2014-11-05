@@ -126,13 +126,15 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     // adjusted graph has a bounding box !
     final GrappaBox bb = (GrappaBox) outputGraph.getAttributeValue("bb");
 
-    // The dot output of the bb is given in DPI. The actual width
-    // and height of the representing element has to be scaled
-    // back to normal
+    /**
+     * The dot output of the bb is given in DPI. The actual width
+     * and height of the representing element has to be scaled
+     * back to normal
+     */
     final Double width = bb.getWidth() / SoftViz3dConstants.DPI_DOT_SCALE;
     final Double height = bb.getHeight() / SoftViz3dConstants.DPI_DOT_SCALE;
 
-    final double platformHeight = 2 * 15;
+    final double platformHeight = 5;
 
     return LayeredLayoutElement.createLayeredLayoutNodeElement(node, width, height, platformHeight);
   }
@@ -187,6 +189,7 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
   @Override
   public LayeredLayoutElement visitFile(final TreeNode leaf) {
+    LOGGER.debug("Leaf : " + leaf.getId() + " " + leaf.getName());
     double sideLength = this.formatter.calcSideLength(leaf.getFootprintMetricValue(), this.minMaxMetricFootprint);
     sideLength = sideLength / SoftViz3dConstants.DPI_DOT_SCALE;
 

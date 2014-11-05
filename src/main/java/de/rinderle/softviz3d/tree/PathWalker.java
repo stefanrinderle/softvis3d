@@ -74,6 +74,7 @@ public class PathWalker {
     }
 
     final TreeNode result = new TreeNode(id, node, node.getDepth() + 1, type, name, footprintMetricValue, heightMetricValue);
+
     children.put(name, result);
     return result;
   }

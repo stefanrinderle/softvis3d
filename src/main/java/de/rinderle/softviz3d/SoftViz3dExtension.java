@@ -82,8 +82,8 @@ public class SoftViz3dExtension implements ServerExtension {
 
     this.logStartOfCalc(metricString1, metricString2, snapshotId);
 
-    final Integer metricId1 = Integer.valueOf(metricString1);
-    final Integer metricId2 = Integer.valueOf(metricString2);
+    final Integer footprintMetricId = Integer.valueOf(metricString1);
+    final Integer heightMetricId = Integer.valueOf(metricString2);
 
     final Layout layout = this.softVizInjector.getInstance(Layout.class);
 
@@ -94,7 +94,7 @@ public class SoftViz3dExtension implements ServerExtension {
       type = LayoutViewType.CITY;
     }
 
-    return layout.startLayout(this.settings, snapshotId, metricId1, metricId2, type);
+    return layout.startLayout(this.settings, snapshotId, footprintMetricId, heightMetricId, type);
   }
 
   private void logStartOfCalc(final String metricId1, final String metricId2,

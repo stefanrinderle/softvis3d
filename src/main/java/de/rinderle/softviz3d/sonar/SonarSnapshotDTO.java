@@ -24,16 +24,16 @@ package de.rinderle.softviz3d.sonar;
  */
 public class SonarSnapshotDTO {
 
-  private int id;
-  private String path;
-  private double heightMetricValue;
-  private double footprintMetricValue;
+  private final int id;
+  private final String path;
+  private final double footprintMetricValue;
+  private final double heightMetricValue;
 
-  public SonarSnapshotDTO(int id, String path, double heightMetricValue, double footprintMetricValue) {
+  public SonarSnapshotDTO(int id, String path, double footprintMetricValue, double heightMetricValue) {
     this.id = id;
     this.path = path;
-    this.heightMetricValue = heightMetricValue;
     this.footprintMetricValue = footprintMetricValue;
+    this.heightMetricValue = heightMetricValue;
   }
 
   public int getId() {
@@ -44,11 +44,12 @@ public class SonarSnapshotDTO {
     return path;
   }
 
+  public double getFootprintMetricValue() {
+    return footprintMetricValue;
+  }
+
   public double getHeightMetricValue() {
     return heightMetricValue;
   }
 
-  public double getFootprintMetricValue() {
-    return footprintMetricValue;
-  }
 }

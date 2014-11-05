@@ -72,29 +72,29 @@ public class SonarServiceImpl implements SonarService {
   }
 
   @Override
-  public List<SonarSnapshotDTO> getFlatChildrenWithMetrics(int rootSnapshotId, int heightMetric, int footprintMetric) {
+  public List<SonarSnapshotDTO> getFlatChildrenWithMetrics(int rootSnapshotId, int footprintMetricId, int heightMetricId) {
     final List<SonarSnapshotDTO> result = new ArrayList<SonarSnapshotDTO>();
 
-    final List<Object[]> resultHeightMetric = this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, heightMetric);
-    final List<Object[]> resultFootprintMetric = this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, footprintMetric);
+    final List<Object[]> resultFootprintMetric = this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, footprintMetricId);
+    final List<Object[]> resultHeightMetric = this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, heightMetricId);
 
     // join result lists
-    for (int i = 0; i < resultHeightMetric.size(); i++) {
-      final int id = (Integer) resultHeightMetric.get(i)[0];
-      final String path = (String) resultHeightMetric.get(i)[1];
-      BigDecimal heightMetricValue = (BigDecimal) resultHeightMetric.get(i)[2];
+    for (int i = 0; i < resultFootprintMetric.size(); i++) {
+      final int id = (Integer) resultFootprintMetric.get(i)[0];
+      final String path = (String) resultFootprintMetric.get(i)[1];
       BigDecimal footprintMetricValue = (BigDecimal) resultFootprintMetric.get(i)[2];
+      BigDecimal heightMetricValue = (BigDecimal) resultHeightMetric.get(i)[2];
+
+      if (footprintMetricValue == null) {
+        footprintMetricValue = BigDecimal.ZERO;
+      }
 
       // check for null values
       if (heightMetricValue == null) {
         heightMetricValue = BigDecimal.ZERO;
       }
 
-      if (footprintMetricValue == null) {
-        footprintMetricValue = BigDecimal.ZERO;
-      }
-
-      final SonarSnapshotDTO element = new SonarSnapshotDTO(id, path, heightMetricValue.doubleValue(), footprintMetricValue.doubleValue());
+      final SonarSnapshotDTO element = new SonarSnapshotDTO(id, path, footprintMetricValue.doubleValue(), heightMetricValue.doubleValue());
 
       result.add(element);
     }

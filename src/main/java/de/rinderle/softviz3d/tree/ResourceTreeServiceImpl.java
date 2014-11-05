@@ -57,28 +57,28 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
    * @return created tree identifier.
    */
   @Override
-  public String getOrCreateTreeStructure(final LayoutViewType type, final int rootSnapshotId, final int heightMetric, final int footprintMetric) {
+  public String getOrCreateTreeStructure(final LayoutViewType type, final int rootSnapshotId, final int footprintMetricId, final int heightMetricId) {
     LOGGER.info("loadedPathWalkers size " + this.alreadyLoadedTrees.size());
     for (Map.Entry<String, TreeNode> entry : this.alreadyLoadedTrees.entrySet()) {
       LOGGER.info(entry.getKey());
     }
     LOGGER.info("---");
 
-    String mapKey = this.getAlreadyLoadedMapKey(type, rootSnapshotId, heightMetric, footprintMetric);
+    String mapKey = this.getAlreadyLoadedMapKey(type, rootSnapshotId, footprintMetricId, heightMetricId);
 
     if (!this.alreadyLoadedTrees.containsKey(mapKey)) {
-      final TreeNode tree = createTreeStructure(rootSnapshotId, heightMetric, footprintMetric);
+      final TreeNode tree = createTreeStructure(rootSnapshotId, footprintMetricId, heightMetricId);
       this.alreadyLoadedTrees.put(mapKey, tree);
     }
 
     return mapKey;
   }
 
-  private TreeNode createTreeStructure(int rootSnapshotId, int heightMetric, int footprintMetric) {
+  private TreeNode createTreeStructure(int rootSnapshotId, int footprintMetricId, int heightMetricId) {
     LOGGER.info("Created tree structure for id " + rootSnapshotId);
     final PathWalker pathWalker = new PathWalker(rootSnapshotId);
 
-    final List<SonarSnapshotDTO> flatChildren = sonarService.getFlatChildrenWithMetrics(rootSnapshotId, heightMetric, footprintMetric);
+    final List<SonarSnapshotDTO> flatChildren = sonarService.getFlatChildrenWithMetrics(rootSnapshotId, footprintMetricId, heightMetricId);
 
     for (final SonarSnapshotDTO flatChild : flatChildren) {
       pathWalker.addPath(flatChild);
@@ -91,8 +91,8 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     return resultTree;
   }
 
-  private String getAlreadyLoadedMapKey(final LayoutViewType type, final int rootSnapshotId, final int heightMetric, final int footprintMetric) {
-    return rootSnapshotId + "_" + type.name() + "_" + heightMetric + "_" + footprintMetric;
+  private String getAlreadyLoadedMapKey(final LayoutViewType type, final int rootSnapshotId, final int footprintMetricId, final int heightMetricId) {
+    return rootSnapshotId + "_" + type.name() + "_" + footprintMetricId + "_" + heightMetricId;
   }
 
   private int getNextSequence() {

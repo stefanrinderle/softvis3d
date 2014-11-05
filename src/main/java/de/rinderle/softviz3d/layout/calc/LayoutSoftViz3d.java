@@ -93,7 +93,10 @@ public class LayoutSoftViz3d implements Layout {
     final List<Double> minMaxValues = this.sonarService.getMinMaxMetricValuesByRootSnapshotId(
       snapshotId, footprintMetricId, heightMetricId);
 
+    LOGGER.info("minMaxValues for " + snapshotId + " : " + minMaxValues.toString());
+
     final MinMaxValueDTO minMaxEdgeCounter = new MinMaxValueDTO(1.0, Double.valueOf(maxEdgeCounter));
+
     final SnapshotVisitor visitor = this.visitorFactory.create(settings, minMaxValues, viewType, minMaxEdgeCounter);
 
     this.processor.accept(visitor, snapshotId, mapKey);
