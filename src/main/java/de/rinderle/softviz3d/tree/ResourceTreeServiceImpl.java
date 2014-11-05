@@ -20,7 +20,7 @@
 package de.rinderle.softviz3d.tree;
 
 import com.google.inject.Inject;
-import de.rinderle.softviz3d.layout.calc.LayoutViewType;
+import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshotDTO;
 import org.slf4j.Logger;
@@ -57,28 +57,29 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
    * @return created tree identifier.
    */
   @Override
-  public String getOrCreateTreeStructure(final LayoutViewType type, final int rootSnapshotId, final int footprintMetricId, final int heightMetricId) {
+  public String getOrCreateTreeStructure(final VisualizationRequestDTO requestDTO) {
     LOGGER.info("loadedPathWalkers size " + this.alreadyLoadedTrees.size());
     for (Map.Entry<String, TreeNode> entry : this.alreadyLoadedTrees.entrySet()) {
       LOGGER.info(entry.getKey());
     }
     LOGGER.info("---");
 
-    String mapKey = this.getAlreadyLoadedMapKey(type, rootSnapshotId, footprintMetricId, heightMetricId);
+    String mapKey = this.getAlreadyLoadedMapKey(requestDTO);
 
     if (!this.alreadyLoadedTrees.containsKey(mapKey)) {
-      final TreeNode tree = createTreeStructure(rootSnapshotId, footprintMetricId, heightMetricId);
+      final TreeNode tree = createTreeStructure(requestDTO);
       this.alreadyLoadedTrees.put(mapKey, tree);
     }
 
     return mapKey;
   }
 
-  private TreeNode createTreeStructure(int rootSnapshotId, int footprintMetricId, int heightMetricId) {
-    LOGGER.info("Created tree structure for id " + rootSnapshotId);
-    final PathWalker pathWalker = new PathWalker(rootSnapshotId);
+  private TreeNode createTreeStructure(final VisualizationRequestDTO requestDTO) {
+    LOGGER.info("Created tree structure for id " + requestDTO.getRootSnapshotId());
+    final PathWalker pathWalker = new PathWalker(requestDTO.getRootSnapshotId());
 
-    final List<SonarSnapshotDTO> flatChildren = sonarService.getFlatChildrenWithMetrics(rootSnapshotId, footprintMetricId, heightMetricId);
+    final List<SonarSnapshotDTO> flatChildren =
+      sonarService.getFlatChildrenWithMetrics(requestDTO);
 
     for (final SonarSnapshotDTO flatChild : flatChildren) {
       pathWalker.addPath(flatChild);
@@ -91,8 +92,9 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     return resultTree;
   }
 
-  private String getAlreadyLoadedMapKey(final LayoutViewType type, final int rootSnapshotId, final int footprintMetricId, final int heightMetricId) {
-    return rootSnapshotId + "_" + type.name() + "_" + footprintMetricId + "_" + heightMetricId;
+  private String getAlreadyLoadedMapKey(final VisualizationRequestDTO requestDTO) {
+    return requestDTO.getRootSnapshotId() + "_" + requestDTO.getViewType().name() + "_"
+      + requestDTO.getFootprintMetricId() + "_" + requestDTO.getHeightMetricId();
   }
 
   private int getNextSequence() {

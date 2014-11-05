@@ -57,8 +57,7 @@ public class LayoutSoftViz3d implements Layout {
   private PositionCalculator calc;
 
   @Override
-  public Map<Integer, Graph> startLayout(final Settings settings, final Integer snapshotId,
-    final Integer footprintMetricId, final Integer heightMetricId, final LayoutViewType viewType)
+  public Map<Integer, Graph> startLayout(final Settings settings, final VisualizationRequestDTO requestDTO)
     throws DotExcecutorException {
 
     final StopWatch stopWatch = new StopWatch();
@@ -66,17 +65,17 @@ public class LayoutSoftViz3d implements Layout {
 
     // TODO: do in one step
     int maxEdgeCounter = 0;
-    final String mapKey = this.resourceTreeService.getOrCreateTreeStructure(viewType, snapshotId, footprintMetricId, heightMetricId);
-    if (LayoutViewType.DEPENDENCY.equals(viewType)) {
-      final List<SonarDependencyDTO> dependencies = this.sonarService.getDependencies(snapshotId);
+    final String mapKey = this.resourceTreeService.getOrCreateTreeStructure(requestDTO);
+    if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
+      final List<SonarDependencyDTO> dependencies = this.sonarService.getDependencies(requestDTO.getRootSnapshotId());
       maxEdgeCounter = this.dependencyExpander.execute(mapKey, dependencies);
     }
 
     LOGGER.info("Created tree structure after " + stopWatch.getTime());
 
-    final Map<Integer, Graph> resultGraphs = this.startBottomUpCalculation(snapshotId, settings, footprintMetricId, heightMetricId, viewType, maxEdgeCounter, mapKey);
+    final Map<Integer, Graph> resultGraphs = this.startBottomUpCalculation(settings, requestDTO, maxEdgeCounter, mapKey);
 
-    final int leavesCounter = this.calc.calculate(viewType, snapshotId, resultGraphs, mapKey);
+    final int leavesCounter = this.calc.calculate(requestDTO.getViewType(), requestDTO.getRootSnapshotId(), resultGraphs, mapKey);
 
     stopWatch.stop();
     LOGGER.info("Calculation finished after " + stopWatch.getTime() + " with "
@@ -85,21 +84,20 @@ public class LayoutSoftViz3d implements Layout {
     return resultGraphs;
   }
 
-  private Map<Integer, Graph> startBottomUpCalculation(final Integer snapshotId,
-    final Settings settings, final Integer footprintMetricId, final Integer heightMetricId,
-    final LayoutViewType viewType, final int maxEdgeCounter, final String mapKey)
+  private Map<Integer, Graph> startBottomUpCalculation(final Settings settings,
+    final VisualizationRequestDTO requestDTO, final int maxEdgeCounter, final String mapKey)
     throws DotExcecutorException {
 
     final List<Double> minMaxValues = this.sonarService.getMinMaxMetricValuesByRootSnapshotId(
-      snapshotId, footprintMetricId, heightMetricId);
+      requestDTO);
 
-    LOGGER.info("minMaxValues for " + snapshotId + " : " + minMaxValues.toString());
+    LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxValues.toString());
 
     final MinMaxValueDTO minMaxEdgeCounter = new MinMaxValueDTO(1.0, Double.valueOf(maxEdgeCounter));
 
-    final SnapshotVisitor visitor = this.visitorFactory.create(settings, minMaxValues, viewType, minMaxEdgeCounter);
+    final SnapshotVisitor visitor = this.visitorFactory.create(settings, minMaxValues, requestDTO.getViewType(), minMaxEdgeCounter);
 
-    this.processor.accept(visitor, snapshotId, mapKey);
+    this.processor.accept(visitor, requestDTO.getRootSnapshotId(), mapKey);
 
     return visitor.getResultingGraphList();
   }

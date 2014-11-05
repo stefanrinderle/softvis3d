@@ -22,6 +22,7 @@ package de.rinderle.softviz3d.handler;
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.layout.calc.DependencyExpander;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
+import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
@@ -48,16 +49,11 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
     final Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
     final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
 
-    final String viewType = request.param("viewType");
-    final LayoutViewType type;
-    if ("city".equals(viewType)) {
-      type = LayoutViewType.CITY;
-    } else {
-      type = LayoutViewType.DEPENDENCY;
-    }
+    final LayoutViewType type = LayoutViewType.valueOfRequest(request.param("viewType"));
+    final VisualizationRequestDTO requestDTO = new VisualizationRequestDTO(id, type, footprintMetricId, heightMetricId);
 
     // TODO: do in one step
-    final String mapKey = this.resourceTreeService.getOrCreateTreeStructure(type, id, footprintMetricId, heightMetricId);
+    final String mapKey = this.resourceTreeService.getOrCreateTreeStructure(requestDTO);
     if (LayoutViewType.DEPENDENCY.equals(type)) {
       final List<SonarDependencyDTO> dependencies = this.sonarService.getDependencies(id);
       this.dependencyExpander.execute(mapKey, dependencies);

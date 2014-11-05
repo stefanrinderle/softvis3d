@@ -20,6 +20,7 @@
 package de.rinderle.softviz3d.sonar;
 
 import com.google.inject.Inject;
+import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
@@ -58,11 +59,10 @@ public class SonarServiceImpl implements SonarService {
 
   @Override
   public List<Double> getMinMaxMetricValuesByRootSnapshotId(
-    final Integer rootSnapshotId, final Integer footprintMetricId,
-    final Integer heightMetricId) {
-    LOGGER.debug("getMinMaxMetricValuesByRootSnapshotId " + rootSnapshotId);
-    return this.sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId,
-      footprintMetricId, heightMetricId);
+    final VisualizationRequestDTO requestDTO) {
+    LOGGER.debug("getMinMaxMetricValuesByRootSnapshotId " + requestDTO.getRootSnapshotId());
+    return this.sonarDao.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
+      requestDTO.getFootprintMetricId(), requestDTO.getHeightMetricId());
   }
 
   @Override
@@ -72,11 +72,15 @@ public class SonarServiceImpl implements SonarService {
   }
 
   @Override
-  public List<SonarSnapshotDTO> getFlatChildrenWithMetrics(int rootSnapshotId, int footprintMetricId, int heightMetricId) {
+  public List<SonarSnapshotDTO> getFlatChildrenWithMetrics(final VisualizationRequestDTO requestDTO) {
     final List<SonarSnapshotDTO> result = new ArrayList<SonarSnapshotDTO>();
 
-    final List<Object[]> resultFootprintMetric = this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, footprintMetricId);
-    final List<Object[]> resultHeightMetric = this.sonarDao.getAllProjectElementsWithMetric(rootSnapshotId, heightMetricId);
+    final List<Object[]> resultFootprintMetric =
+      this.sonarDao.getAllProjectElementsWithMetric(
+        requestDTO.getRootSnapshotId(), requestDTO.getFootprintMetricId());
+    final List<Object[]> resultHeightMetric =
+      this.sonarDao.getAllProjectElementsWithMetric(
+        requestDTO.getRootSnapshotId(), requestDTO.getHeightMetricId());
 
     // join result lists
     for (int i = 0; i < resultFootprintMetric.size(); i++) {

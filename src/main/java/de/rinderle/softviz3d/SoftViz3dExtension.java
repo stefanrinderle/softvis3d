@@ -25,6 +25,7 @@ import com.google.inject.Injector;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
 import de.rinderle.softviz3d.layout.calc.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
+import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.sonar.DependencyDao;
 import de.rinderle.softviz3d.sonar.SonarDao;
@@ -82,19 +83,15 @@ public class SoftViz3dExtension implements ServerExtension {
 
     this.logStartOfCalc(metricString1, metricString2, snapshotId);
 
+    final LayoutViewType type = LayoutViewType.valueOfRequest(viewType);
+
     final Integer footprintMetricId = Integer.valueOf(metricString1);
     final Integer heightMetricId = Integer.valueOf(metricString2);
 
+    final VisualizationRequestDTO requestDTO = new VisualizationRequestDTO(snapshotId, type, footprintMetricId, heightMetricId);
+
     final Layout layout = this.softVizInjector.getInstance(Layout.class);
-
-    final LayoutViewType type;
-    if ("dependency".equals(viewType)) {
-      type = LayoutViewType.DEPENDENCY;
-    } else {
-      type = LayoutViewType.CITY;
-    }
-
-    return layout.startLayout(this.settings, snapshotId, footprintMetricId, heightMetricId, type);
+    return layout.startLayout(this.settings, requestDTO);
   }
 
   private void logStartOfCalc(final String metricId1, final String metricId2,

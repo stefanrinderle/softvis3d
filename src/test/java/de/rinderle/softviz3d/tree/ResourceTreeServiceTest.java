@@ -20,6 +20,7 @@
 package de.rinderle.softviz3d.tree;
 
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
+import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.sonar.SonarSnapshotDTO;
 import org.junit.Before;
@@ -60,9 +61,11 @@ public class ResourceTreeServiceTest {
     children.add(new SonarSnapshotDTO(4, "src/zwei", 0.0, 0.0));
     children.add(new SonarSnapshotDTO(5, "src/zwei/drei", 0.0, 0.0));
 
-    when(this.sonarService.getFlatChildrenWithMetrics(rootSnapshotId, 0, 0)).thenReturn(children);
+    final VisualizationRequestDTO requestDTO = new VisualizationRequestDTO(rootSnapshotId, VIEW_TYPE, 0, 0);
 
-    this.underTest.getOrCreateTreeStructure(VIEW_TYPE, rootSnapshotId, 0, 0);
+    when(this.sonarService.getFlatChildrenWithMetrics(requestDTO)).thenReturn(children);
+
+    this.underTest.getOrCreateTreeStructure(requestDTO);
 
     // Check leaf
     // List<TreeNode> leafs = underTest.getChildrenLeafIds(VIEW_TYPE, rootSnapshotId, rootSnapshotId);

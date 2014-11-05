@@ -20,8 +20,6 @@
 package de.rinderle.softviz3d.layout.dot;
 
 import com.google.inject.Inject;
-import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import org.sonar.api.config.Settings;
 
 public class DotVersionImpl implements DotVersion {
 
@@ -36,9 +34,8 @@ public class DotVersionImpl implements DotVersion {
    * @see de.rinderle.softviz3d.layout.dot.DotVersion#getVersion(org.sonar.api.config.Settings)
    */
   @Override
-  public String getVersion(final Settings settings) {
+  public String getVersion(final String dotBin) {
     if (this.version == null) {
-      final String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
       String commandResult = this.executeCommand.executeCommandReadErrorStream(dotBin + " -V");
 
       // dot - Graphviz version 2.20.2 (Tue Jan 14 19:38:44 UTC 2014)

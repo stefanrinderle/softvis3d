@@ -19,13 +19,13 @@
  */
 package de.rinderle.softviz3d.tree;
 
-import de.rinderle.softviz3d.layout.calc.LayoutViewType;
+import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 
 import java.util.List;
 
 public interface ResourceTreeService {
 
-  String getOrCreateTreeStructure(LayoutViewType type, int rootSnapshotId, int footprintMetricId, int heightMetricId);
+  String getOrCreateTreeStructure(VisualizationRequestDTO requestDTO);
 
   List<TreeNode> getChildrenNodeIds(String mapKey, Integer id);
 
@@ -38,4 +38,5 @@ public interface ResourceTreeService {
   TreeNode findInterfaceLeafNode(String mapKey, String intLeafLabel);
 
   TreeNode getTreeStructure(String mapKey);
+
 }

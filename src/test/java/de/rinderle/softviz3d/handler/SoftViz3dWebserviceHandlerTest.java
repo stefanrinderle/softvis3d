@@ -20,6 +20,7 @@
 package de.rinderle.softviz3d.handler;
 
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
+import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.TreeNode;
@@ -75,7 +76,10 @@ public class SoftViz3dWebserviceHandlerTest {
     final Response response = this.createResponse();
 
     final TreeNode tree = new TreeNode(this.snapshotId, null, 0, TreeNodeType.TREE, this.snapshotId + "", 0, 0);
-    when(this.resourceTreeService.getOrCreateTreeStructure(LayoutViewType.CITY, this.snapshotId, this.footprintMetricId, this.heightMetricId)).thenReturn(MAP_KEY);
+
+    final VisualizationRequestDTO requestDTO = new VisualizationRequestDTO(this.snapshotId, LayoutViewType.CITY, this.footprintMetricId, this.heightMetricId);
+
+    when(this.resourceTreeService.getOrCreateTreeStructure(requestDTO)).thenReturn(MAP_KEY);
 
     this.handler.handle(request, response);
 

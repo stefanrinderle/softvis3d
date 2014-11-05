@@ -19,15 +19,16 @@
  */
 package de.rinderle.softviz3d.sonar;
 
+import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 import org.sonar.api.config.Settings;
 
 import java.util.List;
 
 public interface SonarService {
 
-  public abstract Integer getMetric1FromSettings(Settings settings);
+  Integer getMetric1FromSettings(Settings settings);
 
-  public abstract Integer getMetric2FromSettings(Settings settings);
+  Integer getMetric2FromSettings(Settings settings);
 
   /**
    * Request all metrics which are set on the file level (Scope) for
@@ -36,14 +37,13 @@ public interface SonarService {
    * @param snapshotId Root snapshot ID
    * @return defined metrics on the file level scope
    */
-  public abstract List<Integer> getDefinedMetricsForSnapshot(
+  List<Integer> getDefinedMetricsForSnapshot(
     Integer snapshotId);
 
-  public abstract List<Double> getMinMaxMetricValuesByRootSnapshotId(
-    Integer rootSnapshotId, Integer footprintMetricId,
-    Integer heightMetricId);
+  List<Double> getMinMaxMetricValuesByRootSnapshotId(VisualizationRequestDTO requestDTO);
 
   List<SonarDependencyDTO> getDependencies(Integer snapshotId);
 
-  List<SonarSnapshotDTO> getFlatChildrenWithMetrics(int rootSnapshotId, int footprintMetricId, int heightMetricId);
+  List<SonarSnapshotDTO> getFlatChildrenWithMetrics(VisualizationRequestDTO requestDTO);
+
 }

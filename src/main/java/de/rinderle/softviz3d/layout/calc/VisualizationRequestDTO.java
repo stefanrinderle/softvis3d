@@ -20,20 +20,39 @@
 package de.rinderle.softviz3d.layout.calc;
 
 /**
- * Created by srinderle on 29.09.14.
+ * Created by stefan on 05.11.14.
  */
-public enum LayoutViewType {
-  CITY, DEPENDENCY;
+public class VisualizationRequestDTO {
 
-  // TODO: make this nicer
-  public static LayoutViewType valueOfRequest(String requestValue) {
-    final LayoutViewType result;
-    if ("city".equals(requestValue)) {
-      result = LayoutViewType.CITY;
-    } else {
-      result = LayoutViewType.DEPENDENCY;
-    }
+  private final int rootSnapshotId;
 
-    return result;
+  private final LayoutViewType viewType;
+
+  private final int footprintMetricId;
+  private final int heightMetricId;
+
+  public VisualizationRequestDTO(int rootSnapshotId, LayoutViewType viewType, int footprintMetricId, int heightMetricId) {
+    this.rootSnapshotId = rootSnapshotId;
+
+    this.viewType = viewType;
+
+    this.footprintMetricId = footprintMetricId;
+    this.heightMetricId = heightMetricId;
+  }
+
+  public int getRootSnapshotId() {
+    return rootSnapshotId;
+  }
+
+  public LayoutViewType getViewType() {
+    return viewType;
+  }
+
+  public int getFootprintMetricId() {
+    return footprintMetricId;
+  }
+
+  public int getHeightMetricId() {
+    return heightMetricId;
   }
 }

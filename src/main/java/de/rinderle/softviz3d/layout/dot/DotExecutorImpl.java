@@ -66,10 +66,9 @@ public class DotExecutorImpl implements DotExecutor {
       command = dotBin + " -K neato ";
     }
 
-    String adot = this.executeCommand.executeCommandReadAdot(command,
-      writer.toString());
+    String adot = this.executeCommand.executeCommandReadAdot(command, writer.toString());
 
-    if (this.dotVersion.getVersion(settings).equals(DOT_BUG_VERSION)) {
+    if (this.dotVersion.getVersion(dotBin).equals(DOT_BUG_VERSION)) {
       try {
 
         if (this.translationFile == null) {
