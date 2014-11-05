@@ -205,4 +205,19 @@
 		</plugins>
 	</build>
 
+    <scm>
+        <connection>scm:git:ssh://github.com/stefanrinderle/sonar-softviz3d.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/stefanrinderle/sonar-softviz3d.git</developerConnection>
+        <url>https://github.com/stefanrinderle/sonar-softviz3d</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>Temporary Staging Repository</name>
+            <url>file://${project.build.directory}/mvn-repo</url>
+        </repository>
+    </distributionManagement>
+
 </project>
