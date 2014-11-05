@@ -29,12 +29,9 @@ public interface SonarDao {
 
   Integer getMetricIdByName(String name);
 
-  List<Double> getMinMaxMetricValuesByRootSnapshotId(
-    Integer rootSnapshotId, Integer footprintMetricId,
-    Integer heightMetricId);
-
   List<Integer> getDistinctMetricsBySnapshotId(Integer snapshotId);
 
   List<Object[]> getAllProjectElementsWithMetric(Integer rootSnapshotId, Integer metricId);
 
+  MinMaxValueDTO getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId);
 }

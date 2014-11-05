@@ -40,7 +40,7 @@ public interface SonarService {
   List<Integer> getDefinedMetricsForSnapshot(
     Integer snapshotId);
 
-  List<Double> getMinMaxMetricValuesByRootSnapshotId(VisualizationRequestDTO requestDTO);
+  MinMaxValueDTO getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId);
 
   List<SonarDependencyDTO> getDependencies(Integer snapshotId);
 

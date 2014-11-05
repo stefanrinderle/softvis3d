@@ -88,14 +88,16 @@ public class LayoutSoftViz3d implements Layout {
     final VisualizationRequestDTO requestDTO, final int maxEdgeCounter, final String mapKey)
     throws DotExcecutorException {
 
-    final List<Double> minMaxValues = this.sonarService.getMinMaxMetricValuesByRootSnapshotId(
-      requestDTO);
+    MinMaxValueDTO minMaxFootprintValues = this.sonarService.getMinMaxMetricValuesByRootSnapshotId(
+      requestDTO.getRootSnapshotId(), requestDTO.getFootprintMetricId());
+    MinMaxValueDTO minMaxHeightValues = this.sonarService.getMinMaxMetricValuesByRootSnapshotId(
+      requestDTO.getRootSnapshotId(), requestDTO.getHeightMetricId());
 
-    LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxValues.toString());
+    LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxFootprintValues.toString() + " " + minMaxHeightValues.toString());
 
     final MinMaxValueDTO minMaxEdgeCounter = new MinMaxValueDTO(1.0, Double.valueOf(maxEdgeCounter));
 
-    final SnapshotVisitor visitor = this.visitorFactory.create(settings, minMaxValues, requestDTO.getViewType(), minMaxEdgeCounter);
+    final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO.getViewType(), minMaxFootprintValues, minMaxHeightValues, minMaxEdgeCounter);
 
     this.processor.accept(visitor, requestDTO.getRootSnapshotId(), mapKey);
 

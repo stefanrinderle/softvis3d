@@ -29,7 +29,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.sonar.api.config.Settings;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertNotNull;
@@ -54,7 +53,7 @@ public class DotVersionTest {
     Mockito.when(
       this.executeCommand.executeCommandReadErrorStream(Mockito.any(String.class))).thenReturn(versionInfo);
 
-    final String result = this.underTest.getVersion(new Settings());
+    final String result = this.underTest.getVersion("dotBin");
 
     assertNotNull(result);
     assertTrue(version.equals(result));

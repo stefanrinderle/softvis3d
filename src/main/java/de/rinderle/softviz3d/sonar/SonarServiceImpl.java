@@ -58,11 +58,10 @@ public class SonarServiceImpl implements SonarService {
   }
 
   @Override
-  public List<Double> getMinMaxMetricValuesByRootSnapshotId(
-    final VisualizationRequestDTO requestDTO) {
-    LOGGER.debug("getMinMaxMetricValuesByRootSnapshotId " + requestDTO.getRootSnapshotId());
-    return this.sonarDao.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
-      requestDTO.getFootprintMetricId(), requestDTO.getHeightMetricId());
+  public MinMaxValueDTO getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId) {
+    LOGGER.debug("getMinMaxMetricValuesByRootSnapshotId " + rootSnapshotId);
+    return this.sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId, metricId);
+
   }
 
   @Override

@@ -65,7 +65,7 @@ public class DotExecutorTest {
 
   @Test
   public void testHappy() throws DotExcecutorException {
-    Mockito.when(this.dotVersion.getVersion(Mockito.any(Settings.class)))
+    Mockito.when(this.dotVersion.getVersion(Mockito.anyString()))
       .thenReturn("2.36.0");
 
     Mockito.when(
@@ -81,7 +81,7 @@ public class DotExecutorTest {
 
   @Test
   public void testHappyDependency() throws DotExcecutorException {
-    Mockito.when(this.dotVersion.getVersion(Mockito.any(Settings.class)))
+    Mockito.when(this.dotVersion.getVersion(Mockito.anyString()))
       .thenReturn("2.36.0");
 
     Mockito.when(
@@ -97,7 +97,7 @@ public class DotExecutorTest {
 
   @Test
   public void testVersionFalse() throws DotExcecutorException {
-    Mockito.when(this.dotVersion.getVersion(Mockito.any(Settings.class)))
+    Mockito.when(this.dotVersion.getVersion(Mockito.anyString()))
       .thenReturn("2.36.0");
 
     Mockito.when(
@@ -115,7 +115,7 @@ public class DotExecutorTest {
   public void testVersionTrue() throws DotExcecutorException {
     SETTINGS.setProperty("dotBinDirectory", "/usr/local/bin/dot");
 
-    Mockito.when(this.dotVersion.getVersion(Mockito.any(Settings.class)))
+    Mockito.when(this.dotVersion.getVersion(Mockito.anyString()))
       .thenReturn(DotExecutorImpl.DOT_BUG_VERSION);
 
     Mockito.when(

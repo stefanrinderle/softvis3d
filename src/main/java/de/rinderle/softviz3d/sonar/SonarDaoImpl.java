@@ -27,8 +27,6 @@ import org.sonar.api.database.DatabaseSession;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -102,39 +100,29 @@ public class SonarDaoImpl implements SonarDao {
   }
 
   @Override
-  public List<Double> getMinMaxMetricValuesByRootSnapshotId(
-    final Integer rootSnapshotId, final Integer footprintMetricId,
-    final Integer heightMetricId) {
-    List<Double> values = new ArrayList<Double>();
-
+  public MinMaxValueDTO getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId) {
+    MinMaxValueDTO result;
     try {
       this.session.start();
       final Query query = this.session
-        .createNativeQuery("select MIN(m1.value) as min1, MAX(m1.value) as max1, "
-          + "MIN(m2.value) as min2, MAX(m2.value) as max2 from snapshots s "
-          + "INNER JOIN project_measures m1 ON s.id = m1.snapshot_id "
-          + "INNER JOIN project_measures m2 ON s.id = m2.snapshot_id "
-          + "WHERE s.path LIKE :rootSnapshotId AND m1.metric_id = :footprintMetricId AND "
-          + "m2.metric_id = :heightMetricId AND "
-          + "s.scope != 'PRJ' AND s.scope != 'DIR'");
+        .createNativeQuery("select MIN(m.value) as min, MAX(m.value) as max "
+                + "from snapshots s "
+                + "INNER JOIN project_measures m ON s.id = m.snapshot_id "
+                + "WHERE s.path LIKE :rootSnapshotId AND m.metric_id = :metric_id "
+                + "AND s.scope != 'PRJ' AND s.scope != 'DIR'");
       query.setParameter("rootSnapshotId", rootSnapshotId + ".%");
-      query.setParameter("footprintMetricId", footprintMetricId);
-      query.setParameter("heightMetricId", heightMetricId);
+      query.setParameter("metric_id", metricId);
 
-      final Object[] result = (Object[]) query.getSingleResult();
-      values.add(((BigDecimal) result[0]).doubleValue());
-      values.add(((BigDecimal) result[1]).doubleValue());
-      values.add(((BigDecimal) result[2]).doubleValue());
-      values.add(((BigDecimal) result[3]).doubleValue());
+      result = (MinMaxValueDTO) query.getSingleResult();
 
     } catch (final PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
-      values = null;
+      result = null;
     } finally {
       this.session.stop();
     }
 
-    return values;
+    return result;
   }
 
   /**

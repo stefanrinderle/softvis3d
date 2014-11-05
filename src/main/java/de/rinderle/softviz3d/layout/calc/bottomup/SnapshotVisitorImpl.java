@@ -65,13 +65,14 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
   public SnapshotVisitorImpl(final LayerFormatter formatter,
     final DotExecutor dotExecutor,
     @Assisted final Settings settings,
-    @Assisted final List<Double> minMaxValues,
     @Assisted final LayoutViewType viewType,
+    @Assisted final MinMaxValueDTO minMaxFootprintMetricValues,
+    @Assisted final MinMaxValueDTO minMaxHeightMetricValues,
     @Assisted final MinMaxValueDTO minMaxEdgeCounter) {
     this.settings = settings;
 
-    this.minMaxMetricFootprint = new MinMaxValueDTO(minMaxValues.get(0), minMaxValues.get(1));
-    this.minMaxMetricHeight = new MinMaxValueDTO(minMaxValues.get(2), minMaxValues.get(3));
+    this.minMaxMetricFootprint = minMaxFootprintMetricValues;
+    this.minMaxMetricHeight = minMaxHeightMetricValues;
     this.minMaxEdgeCounter = minMaxEdgeCounter;
 
     this.dotExecutor = dotExecutor;

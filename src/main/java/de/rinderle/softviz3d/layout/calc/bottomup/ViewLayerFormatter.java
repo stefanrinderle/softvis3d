@@ -175,7 +175,7 @@ public class ViewLayerFormatter implements LayerFormatter {
         if (value >= minValue && value <= maxValue) {
           result = 100 / rangeSize * (value - minValue);
         } else {
-          LOGGER.error("Building calcPercentage value not between min and max " +
+          LOGGER.warn("Building calcPercentage value not between min and max " +
             value + " " + minValue + " " + maxValue);
         }
       }
