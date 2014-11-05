@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -10,7 +9,7 @@
 	</parent>
 
 	<artifactId>sonar-softviz3d-plugin</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.2.0</version>
 	<packaging>sonar-plugin</packaging>
 	<name>SoftViz3d Sonar plugin</name>
 	<description>Creates a 3d view of the project structure</description>
@@ -209,7 +208,7 @@
         <connection>scm:git:ssh://github.com/stefanrinderle/sonar-softviz3d.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/stefanrinderle/sonar-softviz3d.git</developerConnection>
         <url>https://github.com/stefanrinderle/sonar-softviz3d</url>
-        <tag>HEAD</tag>
+        <tag>'v0.2.0'</tag>
     </scm>
 
     <distributionManagement>
