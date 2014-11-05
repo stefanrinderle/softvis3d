@@ -66,9 +66,9 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     final DotExecutor dotExecutor,
     @Assisted final Settings settings,
     @Assisted final LayoutViewType viewType,
-    @Assisted final MinMaxValueDTO minMaxFootprintMetricValues,
-    @Assisted final MinMaxValueDTO minMaxHeightMetricValues,
-    @Assisted final MinMaxValueDTO minMaxEdgeCounter) {
+    @Assisted(value = "minMaxFootprintMetricValues") final MinMaxValueDTO minMaxFootprintMetricValues,
+    @Assisted(value = "minMaxHeightMetricValues") final MinMaxValueDTO minMaxHeightMetricValues,
+    @Assisted(value = "minMaxEdgeCounter") final MinMaxValueDTO minMaxEdgeCounter) {
     this.settings = settings;
 
     this.minMaxMetricFootprint = minMaxFootprintMetricValues;

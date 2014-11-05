@@ -27,6 +27,7 @@ import org.sonar.api.database.DatabaseSession;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -101,7 +102,7 @@ public class SonarDaoImpl implements SonarDao {
 
   @Override
   public MinMaxValueDTO getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId) {
-    MinMaxValueDTO result;
+    MinMaxValueDTO result = null;
     try {
       this.session.start();
       final Query query = this.session
@@ -110,14 +111,17 @@ public class SonarDaoImpl implements SonarDao {
                 + "INNER JOIN project_measures m ON s.id = m.snapshot_id "
                 + "WHERE s.path LIKE :rootSnapshotId AND m.metric_id = :metric_id "
                 + "AND s.scope != 'PRJ' AND s.scope != 'DIR'");
+
       query.setParameter("rootSnapshotId", rootSnapshotId + ".%");
       query.setParameter("metric_id", metricId);
 
-      result = (MinMaxValueDTO) query.getSingleResult();
+      final Object[] sqlResult = (Object[]) query.getSingleResult();
+      double min = ((BigDecimal) sqlResult[0]).doubleValue();
+      double max = ((BigDecimal) sqlResult[1]).doubleValue();
 
+      result = new MinMaxValueDTO(min, max);
     } catch (final PersistenceException e) {
       LOGGER.error(e.getMessage(), e);
-      result = null;
     } finally {
       this.session.stop();
     }
