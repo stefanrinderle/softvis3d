@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>sonar-softviz3d-plugin</artifactId>
-	<version>0.2.0</version>
+	<version>0.2.1-SNAPSHOT</version>
 	<packaging>sonar-plugin</packaging>
 	<name>SoftViz3d Sonar plugin</name>
 	<description>Creates a 3d view of the project structure</description>
@@ -208,7 +208,7 @@
         <connection>scm:git:ssh://github.com/stefanrinderle/sonar-softviz3d.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/stefanrinderle/sonar-softviz3d.git</developerConnection>
         <url>https://github.com/stefanrinderle/sonar-softviz3d</url>
-        <tag>'v0.2.0'</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
