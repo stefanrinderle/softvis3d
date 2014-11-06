@@ -27,8 +27,8 @@ import com.google.inject.assistedinject.Assisted;
 import de.rinderle.softviz3d.layout.calc.Edge;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExecutor;
+import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 import de.rinderle.softviz3d.sonar.MinMaxValueDTO;
 import de.rinderle.softviz3d.tree.TreeNode;
@@ -37,32 +37,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SnapshotVisitorImpl implements SnapshotVisitor {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SnapshotVisitorImpl.class);
 
   // getting injected - see constructor
-  private DotExecutor dotExecutor;
-  private LayerFormatter formatter;
-  private GrappaTransformer tranformer;
+  private final DotExecutor dotExecutor;
+  private final LayerFormatter formatter;
+  private final GrappaTransformer transformer;
 
-  private Settings settings;
+  private final Settings settings;
 
-  private MinMaxValueDTO minMaxMetricFootprint;
-  private MinMaxValueDTO minMaxMetricHeight;
-  private MinMaxValueDTO minMaxEdgeCounter;
+  private final MinMaxValueDTO minMaxMetricFootprint;
+  private final MinMaxValueDTO minMaxMetricHeight;
+  private final MinMaxValueDTO minMaxEdgeCounter;
 
-  private Map<Integer, Graph> resultingGraphList = new HashMap<Integer, Graph>();
+  private final Map<Integer, Graph> resultingGraphList = new ConcurrentHashMap<Integer, Graph>();
 
-  private LayoutViewType viewType;
+  private final LayoutViewType viewType;
 
   @Inject
   public SnapshotVisitorImpl(final LayerFormatter formatter,
-    final DotExecutor dotExecutor, final GrappaTransformer tranformer,
+    final DotExecutor dotExecutor, final GrappaTransformer transformer,
     @Assisted final Settings settings,
     @Assisted final LayoutViewType viewType,
     @Assisted(value = "minMaxFootprintMetricValues") final MinMaxValueDTO minMaxFootprintMetricValues,
@@ -76,7 +76,7 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
     this.dotExecutor = dotExecutor;
     this.formatter = formatter;
-    this.tranformer = tranformer;
+    this.transformer = transformer;
 
     this.viewType = viewType;
   }
@@ -88,7 +88,7 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
   @Override
   public LayeredLayoutElement visitNode(final TreeNode node,
-    final List<LayeredLayoutElement> elements) throws DotExcecutorException {
+    final List<LayeredLayoutElement> elements) throws DotExecutorException {
 
     LOGGER.debug("LayoutVisitor.visitNode " + node.getId() + " " + node.getName());
 
@@ -96,13 +96,13 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
     final Graph inputGraph = new Graph(node.getId().toString());
 
     for (final LayeredLayoutElement element : elements) {
-      final Node elementNode = tranformer.transformToGrappaNode(inputGraph, element);
+      final Node elementNode = this.transformer.transformToGrappaNode(inputGraph, element);
       inputGraph.addNode(elementNode);
     }
 
     for (final LayeredLayoutElement element : elements) {
       for (final Edge edge : element.getEdges().values()) {
-        inputGraph.addEdge(tranformer.transformToGrappaEdge(inputGraph, edge, this.minMaxEdgeCounter));
+        inputGraph.addEdge(this.transformer.transformToGrappaEdge(inputGraph, edge, this.minMaxEdgeCounter));
       }
     }
 
@@ -141,8 +141,8 @@ public class SnapshotVisitorImpl implements SnapshotVisitor {
 
     buildingHeight = buildingHeight * 100;
 
-    if (TreeNodeType.DEPENDENCY_GENERATED.equals(leaf.getType()) &&
-      LayoutViewType.DEPENDENCY.equals(this.viewType)) {
+    if (TreeNodeType.DEPENDENCY_GENERATED.equals(leaf.getType())
+      && LayoutViewType.DEPENDENCY.equals(this.viewType)) {
       buildingHeight = 200;
     }
 

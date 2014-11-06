@@ -24,23 +24,24 @@ import de.rinderle.softviz3d.tree.TreeNodeType;
 
 import java.util.Map;
 
-public class LayeredLayoutElement {
+public final class LayeredLayoutElement {
 
-  private TreeNodeType type;
+  private final TreeNodeType type;
 
-  private Integer id;
+  private final Integer id;
 
-  private String name;
+  private final String name;
 
-  private Double width;
-  private Double height;
-  private Double buildingHeight;
+  private final Double width;
+  private final Double height;
+  private final Double buildingHeight;
 
-  private String displayName;
+  private final String displayName;
 
-  private Map<String, Edge> edges;
+  private final Map<String, Edge> edges;
 
-  private LayeredLayoutElement(final TreeNodeType type, final Integer id, final String name, final Double width, final Double height, final Double buildingHeight,
+  private LayeredLayoutElement(final TreeNodeType type, final Integer id, final String name, final Double width,
+    final Double height, final Double buildingHeight,
     final String displayName, final Map<String, Edge> edges) {
     super();
     this.type = type;
@@ -64,7 +65,8 @@ public class LayeredLayoutElement {
   }
 
   private static LayeredLayoutElement createLayeredLayoutElement(
-    final String namePrefix, final TreeNode node, final Double width, final Double height, final Double buildingHeight, final Map<String, Edge> edges) {
+    final String namePrefix, final TreeNode node, final Double width, final Double height, final Double buildingHeight,
+    final Map<String, Edge> edges) {
     return new LayeredLayoutElement(node.getType(), node.getId(), namePrefix
       + node.getId().toString(), width, height,
       buildingHeight, node.getName(), edges);

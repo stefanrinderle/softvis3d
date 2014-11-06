@@ -23,8 +23,6 @@ import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
-import de.rinderle.softviz3d.tree.TreeNode;
-import de.rinderle.softviz3d.tree.TreeNodeType;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -40,18 +38,15 @@ import java.io.StringWriter;
 
 import static org.mockito.Mockito.when;
 
-/**
- * Created by stefan on 22.09.14.
- */
 public class SoftViz3dWebserviceHandlerTest {
 
-  private StringWriter stringWriter = new StringWriter();
-  private JsonWriter jsonWriter = JsonWriter.of(this.stringWriter);
+  private final StringWriter stringWriter = new StringWriter();
+  private final JsonWriter jsonWriter = JsonWriter.of(this.stringWriter);
 
-  private Integer snapshotId = 123;
-  private Integer footprintMetricId = 1;
-  private Integer heightMetricId = 21;
-  private String viewType = "city";
+  private final Integer snapshotId = 123;
+  private final Integer footprintMetricId = 1;
+  private final Integer heightMetricId = 21;
+  private final String viewType = "city";
 
   private final static String MAP_KEY = "1";
 
@@ -63,7 +58,7 @@ public class SoftViz3dWebserviceHandlerTest {
   private TreeNodeJsonWriter treeNodeJsonWriter;
 
   @InjectMocks
-  private SoftViz3dWebserviceInitializeHandler handler = new SoftViz3dWebserviceInitializeHandlerImpl();
+  private final SoftViz3dWebserviceInitializeHandler handler = new SoftViz3dWebserviceInitializeHandlerImpl();
 
   @Before
   public void setUp() {
@@ -75,9 +70,8 @@ public class SoftViz3dWebserviceHandlerTest {
     final Request request = this.createRequest();
     final Response response = this.createResponse();
 
-    final TreeNode tree = new TreeNode(this.snapshotId, null, 0, TreeNodeType.TREE, this.snapshotId + "", 0, 0);
-
-    final VisualizationRequestDTO requestDTO = new VisualizationRequestDTO(this.snapshotId, LayoutViewType.CITY, this.footprintMetricId, this.heightMetricId);
+    final VisualizationRequestDTO requestDTO = new VisualizationRequestDTO(this.snapshotId, LayoutViewType.CITY,
+      this.footprintMetricId, this.heightMetricId);
 
     when(this.resourceTreeService.getOrCreateTreeStructure(requestDTO)).thenReturn(MAP_KEY);
 

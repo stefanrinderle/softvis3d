@@ -39,7 +39,7 @@ public class DependencyExpanderImpl implements DependencyExpander {
   private ResourceTreeService resourceTreeService;
 
   public int execute(final String mapKey, final List<SonarDependencyDTO> dependencies) {
-    maxEdgeCounter = 1;
+    this.maxEdgeCounter = 1;
 
     this.mapKey = mapKey;
 
@@ -62,7 +62,7 @@ public class DependencyExpanderImpl implements DependencyExpander {
       }
     }
 
-    return maxEdgeCounter;
+    return this.maxEdgeCounter;
   }
 
   private DependencyType getDependencyType(final TreeNode from, final TreeNode to) {
@@ -113,8 +113,8 @@ public class DependencyExpanderImpl implements DependencyExpander {
       final int edgeCount = edge.getCounter() + 1;
       edge.setCounter(edgeCount);
 
-      if (edgeCount > maxEdgeCounter) {
-        maxEdgeCounter = edgeCount;
+      if (edgeCount > this.maxEdgeCounter) {
+        this.maxEdgeCounter = edgeCount;
       }
 
       source.setEdge(edge);
@@ -135,8 +135,8 @@ public class DependencyExpanderImpl implements DependencyExpander {
         final int edgeCount = edge.getCounter() + 1;
         edge.setCounter(edgeCount);
 
-        if (edgeCount > maxEdgeCounter) {
-          maxEdgeCounter = edgeCount;
+        if (edgeCount > this.maxEdgeCounter) {
+          this.maxEdgeCounter = edgeCount;
         }
 
         treeNode.setEdge(edge);
@@ -168,10 +168,10 @@ public class DependencyExpanderImpl implements DependencyExpander {
 
     final TreeNode treeNode = this.resourceTreeService.findInterfaceLeafNode(this.mapKey, intLeafLabel);
 
-    if (treeNode != null) {
-      result = treeNode;
-    } else {
+    if (treeNode == null) {
       result = this.resourceTreeService.addInterfaceLeafNode(this.mapKey, intLeafLabel, parentId);
+    } else {
+      result = treeNode;
     }
 
     return result;

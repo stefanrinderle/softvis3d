@@ -19,9 +19,6 @@
  */
 package de.rinderle.softviz3d.sonar;
 
-/**
- * Created by stefan on 03.11.14.
- */
 public class SonarSnapshotDTO {
 
   private final int id;

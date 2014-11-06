@@ -61,8 +61,7 @@ public class ExecuteCommandImpl implements ExecuteCommand {
     try {
       p = Runtime.getRuntime().exec(command);
 
-      final BufferedReader reader = new BufferedReader(new InputStreamReader(
-        p.getErrorStream()));
+      final BufferedReader reader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 
       String line;
       while ((line = reader.readLine()) != null) {
@@ -70,6 +69,7 @@ public class ExecuteCommandImpl implements ExecuteCommand {
         output.append("\n");
       }
 
+      reader.close();
     } catch (final IOException e) {
       LOGGER.error(e.getMessage(), e);
     }
@@ -79,7 +79,7 @@ public class ExecuteCommandImpl implements ExecuteCommand {
 
   @Override
   public String executeCommandReadAdot(final String command, final String inputGraph)
-    throws DotExcecutorException {
+    throws DotExecutorException {
     final StringBuilder adot = new StringBuilder();
 
     final Process process;
@@ -106,9 +106,9 @@ public class ExecuteCommandImpl implements ExecuteCommand {
       in.close();
 
     } catch (final IOException e) {
-      throw new DotExcecutorException(e.getMessage(), e);
+      throw new DotExecutorException(e.getMessage(), e);
     } catch (final InterruptedException e) {
-      throw new DotExcecutorException(e.getMessage(), e);
+      throw new DotExecutorException(e.getMessage(), e);
     }
 
     return adot.toString();

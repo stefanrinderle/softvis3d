@@ -59,9 +59,9 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
       this.dependencyExpander.execute(mapKey, dependencies);
     }
 
-    TreeNode tree = this.resourceTreeService.getTreeStructure(mapKey);
+    final TreeNode tree = this.resourceTreeService.getTreeStructure(mapKey);
 
-    treeNodeJsonWriter.transformTreeToJson(response, tree);
+    this.treeNodeJsonWriter.transformTreeToJson(response, tree);
   }
 
 }

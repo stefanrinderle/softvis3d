@@ -22,8 +22,8 @@ package de.rinderle.softviz3d.layout.calc.bottomup;
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExecutor;
+import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -51,7 +51,7 @@ public class SnapshotVisitorImplTest {
   }
 
   @Test
-  public void testVisitNodeMinimal() throws DotExcecutorException {
+  public void testVisitNodeMinimal() throws DotExecutorException {
     final Graph graph = this.createGraph();
     // when(dotExecutor.run(any(Graph.class), any(Settings.class))).thenReturn(graph);
 
@@ -77,7 +77,7 @@ public class SnapshotVisitorImplTest {
   }
 
   @Test
-  public void testVisitNodeElements() throws DotExcecutorException {
+  public void testVisitNodeElements() throws DotExecutorException {
     final Graph graph = this.createGraph();
     // when(dotExecutor.run(any(Graph.class), any(Settings.class))).thenReturn(graph);
 

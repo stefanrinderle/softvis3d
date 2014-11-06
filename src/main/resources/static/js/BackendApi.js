@@ -6,7 +6,7 @@ function callAjax(url, callback) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             callback(xmlhttp.responseText);
         }
-    }
+    };
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }

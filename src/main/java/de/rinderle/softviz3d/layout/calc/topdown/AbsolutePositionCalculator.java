@@ -48,16 +48,12 @@ public class AbsolutePositionCalculator implements PositionCalculator {
 
   @Inject
   private ResourceTreeService resourceTreeService;
-  private LayoutViewType viewType;
-  private Integer rootSnapshotId;
   private String mapKey;
 
   @Override
-  public int calculate(final LayoutViewType viewType, final Integer snapshotId, final Map<Integer, Graph> inputGraphList, final String mapKey) {
+  public int calculate(final LayoutViewType viewType, final Integer snapshotId,
+    final Map<Integer, Graph> inputGraphList, final String mapKey) {
     this.mapKey = mapKey;
-
-    this.viewType = viewType;
-    this.rootSnapshotId = snapshotId;
 
     this.leafElements = 0;
 
@@ -69,7 +65,8 @@ public class AbsolutePositionCalculator implements PositionCalculator {
     return this.leafElements;
   }
 
-  private void addTranslationToLayer(final Integer sourceId, final GrappaPoint posTranslation, final LayoutViewType layoutViewType) {
+  private void addTranslationToLayer(final Integer sourceId, final GrappaPoint posTranslation,
+    final LayoutViewType layoutViewType) {
     LOGGER.debug("AbsolutePositionCalculator addTranslationToLayer " + sourceId);
 
     LOGGER.debug("addTranslationToLayer" + sourceId + " " + posTranslation.toString());
@@ -130,7 +127,7 @@ public class AbsolutePositionCalculator implements PositionCalculator {
       nodeLocationY = getXTranslation(posTranslation, translatedBb, pos.getY());
       pos.setLocation(nodeLocationX, nodeLocationY);
 
-      this.leafElements++;
+      this.leafElements = this.leafElements + 1;
 
       height3d = (String) leaf.getAttributeValue("layerHeight3d");
     }
@@ -167,7 +164,8 @@ public class AbsolutePositionCalculator implements PositionCalculator {
 
   private GrappaBox translateGraphBoundingBox(final GrappaPoint posTranslation, final Graph graph) {
     final GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
-    final GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY(), bb.getWidth(), bb.getHeight());
+    final GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY(), bb.getWidth(),
+      bb.getHeight());
     graph.setAttribute("bb", translatedBb);
     return translatedBb;
   }

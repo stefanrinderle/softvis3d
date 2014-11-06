@@ -82,7 +82,7 @@ public class SonarServiceImpl implements SonarService {
         requestDTO.getRootSnapshotId(), requestDTO.getHeightMetricId());
 
     // join result lists
-    for (int i = 0; i < resultFootprintMetric.size(); i++) {
+    for (int i = 0; i < resultFootprintMetric.size(); i = i + 1) {
       final int id = (Integer) resultFootprintMetric.get(i)[0];
       final String path = (String) resultFootprintMetric.get(i)[1];
       BigDecimal footprintMetricValue = (BigDecimal) resultFootprintMetric.get(i)[2];
@@ -97,7 +97,8 @@ public class SonarServiceImpl implements SonarService {
         heightMetricValue = BigDecimal.ZERO;
       }
 
-      final SonarSnapshotDTO element = new SonarSnapshotDTO(id, path, footprintMetricValue.doubleValue(), heightMetricValue.doubleValue());
+      final SonarSnapshotDTO element = new SonarSnapshotDTO(id, path, footprintMetricValue.doubleValue(),
+        heightMetricValue.doubleValue());
 
       result.add(element);
     }

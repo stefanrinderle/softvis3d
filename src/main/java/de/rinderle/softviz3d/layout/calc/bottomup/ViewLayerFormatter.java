@@ -86,7 +86,7 @@ public class ViewLayerFormatter implements LayerFormatter {
 
       leaf.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
 
-      for (Edge edge : leaf.edgeElementsAsArray()) {
+      for (final Edge edge : leaf.edgeElementsAsArray()) {
         if (edge.getTail().getId() == leaf.getId()) {
           // only process the edges which are on the start of the node,
           // otherwise each edge will be process multiple times.
@@ -139,9 +139,7 @@ public class ViewLayerFormatter implements LayerFormatter {
    */
   @Override
   public double calcBuildingHeight(final Double value, final MinMaxValueDTO minMaxMetricHeight) {
-    double buildingHeight = this.calcPercentage(value, minMaxMetricHeight);
-
-    return buildingHeight;
+    return this.calcPercentage(value, minMaxMetricHeight);
   }
 
   @Override
@@ -157,9 +155,7 @@ public class ViewLayerFormatter implements LayerFormatter {
 
   @Override
   public double calcEdgeRadius(int counter, MinMaxValueDTO minMaxEdgeCounter) {
-    double percentage = this.calcPercentage(Double.valueOf(counter), minMaxEdgeCounter);
-
-    return percentage;
+    return this.calcPercentage((double) counter, minMaxEdgeCounter);
   }
 
   private double calcPercentage(final Double value, final MinMaxValueDTO minMaxDao) {

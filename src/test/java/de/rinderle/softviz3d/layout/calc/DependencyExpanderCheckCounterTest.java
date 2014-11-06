@@ -47,7 +47,7 @@ public class DependencyExpanderCheckCounterTest {
   private ResourceTreeService treeService;
 
   @InjectMocks
-  private DependencyExpanderImpl underTest = new DependencyExpanderImpl();
+  private final DependencyExpanderImpl underTest = new DependencyExpanderImpl();
 
   @Before
   public void setUp() {

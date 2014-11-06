@@ -19,15 +19,12 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-/**
- * Created by srinderle on 26.09.14.
- */
 public class Edge {
 
-  private String depEdgeLabel;
-  private Integer sourceId;
-  private Integer destinationId;
-  private Integer parentId;
+  private final String depEdgeLabel;
+  private final Integer sourceId;
+  private final Integer destinationId;
+  private final Integer parentId;
   private int counter = 1;
 
   public Edge(final String depEdgeLabel, final Integer sourceId, final Integer destinationId,

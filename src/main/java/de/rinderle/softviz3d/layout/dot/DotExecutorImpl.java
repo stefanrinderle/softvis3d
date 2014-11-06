@@ -56,7 +56,7 @@ public class DotExecutorImpl implements DotExecutor {
 
   @Override
   public Graph run(final Graph inputGraph, final Settings settings, final LayoutViewType viewType)
-    throws DotExcecutorException {
+    throws DotExecutorException {
     final StringWriter writer = new StringWriter();
     inputGraph.printGraph(writer);
 
@@ -94,7 +94,7 @@ public class DotExecutorImpl implements DotExecutor {
     return this.parseDot(adot);
   }
 
-  private Graph parseDot(final String adot) throws DotExcecutorException {
+  private Graph parseDot(final String adot) throws DotExecutorException {
     final String graphName = "LayoutLayer";
 
     final Graph newGraph = new Graph("new" + graphName, true, false);
@@ -111,7 +111,7 @@ public class DotExecutorImpl implements DotExecutor {
     } catch (final Exception e) {
       LOGGER.error("Error on parsing graph string - parseDot: "
         + e.getMessage());
-      throw new DotExcecutorException(e.getMessage(), e);
+      throw new DotExecutorException(e.getMessage(), e);
     }
 
     return newGraph;

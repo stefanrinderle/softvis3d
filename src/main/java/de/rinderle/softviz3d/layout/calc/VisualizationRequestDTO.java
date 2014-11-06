@@ -19,9 +19,6 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-/**
- * Created by stefan on 05.11.14.
- */
 public class VisualizationRequestDTO {
 
   private final int rootSnapshotId;
@@ -41,18 +38,18 @@ public class VisualizationRequestDTO {
   }
 
   public int getRootSnapshotId() {
-    return rootSnapshotId;
+    return this.rootSnapshotId;
   }
 
   public LayoutViewType getViewType() {
-    return viewType;
+    return this.viewType;
   }
 
   public int getFootprintMetricId() {
-    return footprintMetricId;
+    return this.footprintMetricId;
   }
 
   public int getHeightMetricId() {
-    return heightMetricId;
+    return this.heightMetricId;
   }
 }

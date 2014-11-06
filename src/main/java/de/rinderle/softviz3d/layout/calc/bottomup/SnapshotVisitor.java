@@ -21,7 +21,7 @@ package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import de.rinderle.softviz3d.tree.TreeNode;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public interface SnapshotVisitor {
   Map<Integer, Graph> getResultingGraphList();
 
   LayeredLayoutElement visitNode(TreeNode node,
-    List<LayeredLayoutElement> elements) throws DotExcecutorException;
+    List<LayeredLayoutElement> elements) throws DotExecutorException;
 
   LayeredLayoutElement visitFile(TreeNode leaf);
 

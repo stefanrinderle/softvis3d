@@ -60,10 +60,8 @@ public class GraphDebugPrinter {
 
   public void printGraphsWithAbsolutePosition(final StringBuilder builder,
     final Map<Integer, Graph> resultGraphs) {
-    Iterator<Entry<Integer, Graph>> iterator = resultGraphs.entrySet()
-      .iterator();
+    Iterator<Entry<Integer, Graph>> iterator = resultGraphs.entrySet().iterator();
     builder.append("-------Result graphs with absolute position--------<br /><br />");
-    iterator = resultGraphs.entrySet().iterator();
     Entry<Integer, Graph> graph;
     while (iterator.hasNext()) {
       graph = iterator.next();

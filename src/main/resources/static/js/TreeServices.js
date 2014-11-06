@@ -11,16 +11,16 @@ function initializeWebservice(snapshotId, footprintMetricId, heightMetricId, vie
 }
 
 function searchTree(id) {
-    return searchIdInElememt(tree, id);
+    return searchIdInElement(tree, id);
 }
 
-function searchIdInElememt(element, id) {
+function searchIdInElement(element, id) {
     if (element.id == id) {
         return element;
     } else if (element.children != null) {
         var result = null;
         for (var i = 0; result == null && i < element.children.length; i++) {
-            result = searchIdInElememt(element.children[i], id);
+            result = searchIdInElement(element.children[i], id);
         }
         return result;
     }

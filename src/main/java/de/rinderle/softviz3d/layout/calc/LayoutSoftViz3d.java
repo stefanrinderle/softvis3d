@@ -25,7 +25,7 @@ import de.rinderle.softviz3d.guice.SnapshotVisitorFactory;
 import de.rinderle.softviz3d.layout.calc.bottomup.BottomUpProcessor;
 import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
 import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import de.rinderle.softviz3d.sonar.MinMaxValueDTO;
 import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
 import de.rinderle.softviz3d.sonar.SonarService;
@@ -58,7 +58,7 @@ public class LayoutSoftViz3d implements Layout {
 
   @Override
   public Map<Integer, Graph> startLayout(final Settings settings, final VisualizationRequestDTO requestDTO)
-    throws DotExcecutorException {
+    throws DotExecutorException {
 
     final StopWatch stopWatch = new StopWatch();
     stopWatch.start();
@@ -73,9 +73,11 @@ public class LayoutSoftViz3d implements Layout {
 
     LOGGER.info("Created tree structure after " + stopWatch.getTime());
 
-    final Map<Integer, Graph> resultGraphs = this.startBottomUpCalculation(settings, requestDTO, maxEdgeCounter, mapKey);
+    final Map<Integer, Graph> resultGraphs = this
+      .startBottomUpCalculation(settings, requestDTO, maxEdgeCounter, mapKey);
 
-    final int leavesCounter = this.calc.calculate(requestDTO.getViewType(), requestDTO.getRootSnapshotId(), resultGraphs, mapKey);
+    final int leavesCounter = this.calc.calculate(requestDTO.getViewType(), requestDTO.getRootSnapshotId(),
+      resultGraphs, mapKey);
 
     stopWatch.stop();
     LOGGER.info("Calculation finished after " + stopWatch.getTime() + " with "
@@ -86,18 +88,20 @@ public class LayoutSoftViz3d implements Layout {
 
   private Map<Integer, Graph> startBottomUpCalculation(final Settings settings,
     final VisualizationRequestDTO requestDTO, final int maxEdgeCounter, final String mapKey)
-    throws DotExcecutorException {
+    throws DotExecutorException {
 
-    MinMaxValueDTO minMaxFootprintValues = this.sonarService.getMinMaxMetricValuesByRootSnapshotId(
+    final MinMaxValueDTO minMaxFootprintValues = this.sonarService.getMinMaxMetricValuesByRootSnapshotId(
       requestDTO.getRootSnapshotId(), requestDTO.getFootprintMetricId());
-    MinMaxValueDTO minMaxHeightValues = this.sonarService.getMinMaxMetricValuesByRootSnapshotId(
+    final MinMaxValueDTO minMaxHeightValues = this.sonarService.getMinMaxMetricValuesByRootSnapshotId(
       requestDTO.getRootSnapshotId(), requestDTO.getHeightMetricId());
 
-    LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxFootprintValues.toString() + " " + minMaxHeightValues.toString());
+    LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxFootprintValues.toString() + " "
+      + minMaxHeightValues.toString());
 
-    final MinMaxValueDTO minMaxEdgeCounter = new MinMaxValueDTO(1.0, Double.valueOf(maxEdgeCounter));
+    final MinMaxValueDTO minMaxEdgeCounter = new MinMaxValueDTO(1.0, (double) maxEdgeCounter);
 
-    final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO.getViewType(), minMaxFootprintValues, minMaxHeightValues, minMaxEdgeCounter);
+    final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO.getViewType(),
+      minMaxFootprintValues, minMaxHeightValues, minMaxEdgeCounter);
 
     this.processor.accept(visitor, requestDTO.getRootSnapshotId(), mapKey);
 

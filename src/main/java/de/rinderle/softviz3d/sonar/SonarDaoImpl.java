@@ -107,17 +107,17 @@ public class SonarDaoImpl implements SonarDao {
       this.session.start();
       final Query query = this.session
         .createNativeQuery("select MIN(m.value) as min, MAX(m.value) as max "
-                + "from snapshots s "
-                + "INNER JOIN project_measures m ON s.id = m.snapshot_id "
-                + "WHERE s.path LIKE :rootSnapshotId AND m.metric_id = :metric_id "
-                + "AND s.scope != 'PRJ' AND s.scope != 'DIR'");
+          + "from snapshots s "
+          + "INNER JOIN project_measures m ON s.id = m.snapshot_id "
+          + "WHERE s.path LIKE :rootSnapshotId AND m.metric_id = :metric_id "
+          + "AND s.scope != 'PRJ' AND s.scope != 'DIR'");
 
       query.setParameter("rootSnapshotId", rootSnapshotId + ".%");
       query.setParameter("metric_id", metricId);
 
       final Object[] sqlResult = (Object[]) query.getSingleResult();
-      double min = ((BigDecimal) sqlResult[0]).doubleValue();
-      double max = ((BigDecimal) sqlResult[1]).doubleValue();
+      final double min = ((BigDecimal) sqlResult[0]).doubleValue();
+      final double max = ((BigDecimal) sqlResult[1]).doubleValue();
 
       result = new MinMaxValueDTO(min, max);
     } catch (final PersistenceException e) {

@@ -21,7 +21,7 @@ package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.TreeNode;
 import org.slf4j.Logger;
@@ -44,7 +44,7 @@ public class BottomUpProcessor implements Processor {
    * Bottom up calculation of layout layers.
    */
   public LayeredLayoutElement accept(final SnapshotVisitor visitor, final Integer snapshotId, final String mapKey)
-    throws DotExcecutorException {
+    throws DotExecutorException {
     this.mapKey = mapKey;
 
     return this.accept(visitor, snapshotId);
@@ -54,7 +54,7 @@ public class BottomUpProcessor implements Processor {
    * Bottom up calculation of layout layers.
    */
   private LayeredLayoutElement accept(final SnapshotVisitor visitor, final Integer snapshotId)
-    throws DotExcecutorException {
+    throws DotExecutorException {
 
     LOGGER.debug("Layout.accept " + snapshotId);
 
@@ -70,7 +70,8 @@ public class BottomUpProcessor implements Processor {
     return visitor.visitNode(currentNode, layerElements);
   }
 
-  private List<LayeredLayoutElement> processChildrenNodes(final SnapshotVisitor visitor, final Integer snapshotId) throws DotExcecutorException {
+  private List<LayeredLayoutElement> processChildrenNodes(final SnapshotVisitor visitor, final Integer snapshotId)
+    throws DotExecutorException {
     final List<TreeNode> childrenTreeNodes = this.resourceTreeService.getChildrenNodeIds(this.mapKey, snapshotId);
 
     final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();

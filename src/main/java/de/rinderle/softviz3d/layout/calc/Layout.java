@@ -20,14 +20,11 @@
 package de.rinderle.softviz3d.layout.calc;
 
 import att.grappa.Graph;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import org.sonar.api.config.Settings;
 
 import java.util.Map;
 
-/**
- * Created by stefan on 09.09.14.
- */
 public interface Layout {
-  Map<Integer, Graph> startLayout(Settings settings, VisualizationRequestDTO requestDTO) throws DotExcecutorException;
+  Map<Integer, Graph> startLayout(Settings settings, VisualizationRequestDTO requestDTO) throws DotExecutorException;
 }

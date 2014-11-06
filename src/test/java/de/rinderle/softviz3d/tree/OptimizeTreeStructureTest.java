@@ -54,7 +54,7 @@ public class OptimizeTreeStructureTest {
     assertEquals("children are not main and test", 2, tree.getChildren().get("src").getChildren().size());
 
     final OptimizeTreeStructureImpl normalizer = new OptimizeTreeStructureImpl();
-    normalizer.removeUnecessaryNodes(tree);
+    normalizer.removeUnnecessaryNodes(tree);
 
     assertEquals("children of src are not main and test", 2, tree.getChildren().get("src").getChildren().size());
     assertNotNull("next child after main is not softviz3d", tree.getChildren().get("src").getChildren()

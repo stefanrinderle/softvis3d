@@ -23,9 +23,6 @@ import org.sonar.api.database.DatabaseSession;
 
 import java.util.List;
 
-/**
- * Created by srinderle on 26.09.14.
- */
 public interface DependencyDao {
   void setDatabaseSession(DatabaseSession session);
 

@@ -34,7 +34,7 @@ public class OptimizeTreeStructureImpl implements OptimizeTreeStructure {
   private static final Logger LOGGER = LoggerFactory.getLogger(OptimizeTreeStructureImpl.class);
 
   /**
-   * An unecessary node would be "B" in this example:
+   * An unnecessary node would be "B" in this example:
    *       A
    *      / \
    *     B   D
@@ -42,16 +42,16 @@ public class OptimizeTreeStructureImpl implements OptimizeTreeStructure {
    *   C
    *
    * This node would be just visualized as a platform with only one content
-   * node. This reduces the "readibility" of the visualisation. Therefore,
+   * node. This reduces the "readability" of the visualisation. Therefore,
    * these nodes are removed.
    */
   @Override
-  public void removeUnecessaryNodes(final TreeNode root) {
-    this.removeUnecessaryNode(root);
+  public void removeUnnecessaryNodes(final TreeNode root) {
+    this.removeUnnecessaryNode(root);
     recalculateDepth(root, 0);
   }
 
-  private void removeUnecessaryNode(final TreeNode node) {
+  private void removeUnnecessaryNode(final TreeNode node) {
     final TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node.getChildren();
     final TreeMap<String, TreeNode> copyOfChildren = (TreeMap<String, TreeNode>) children.clone();
 
@@ -60,7 +60,7 @@ public class OptimizeTreeStructureImpl implements OptimizeTreeStructure {
     }
 
     for (final TreeNode child : copyOfChildren.values()) {
-      this.removeUnecessaryNode(child);
+      this.removeUnnecessaryNode(child);
     }
   }
 

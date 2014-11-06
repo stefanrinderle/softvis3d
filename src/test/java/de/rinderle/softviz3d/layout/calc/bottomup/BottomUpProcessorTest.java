@@ -19,8 +19,7 @@
  */
 package de.rinderle.softviz3d.layout.calc.bottomup;
 
-import de.rinderle.softviz3d.layout.calc.LayoutViewType;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.TreeNode;
 import de.rinderle.softviz3d.tree.TreeNodeType;
@@ -41,7 +40,6 @@ public class BottomUpProcessorTest {
   private static final Integer METRIC_FOOTPRINT = 0;
   private static final Integer METRIC_HEIGHT = 0;
 
-  private static final LayoutViewType VIEW_TYPE = LayoutViewType.CITY;
   private static final String MAP_KEY = "1";
 
   @Mock
@@ -58,7 +56,7 @@ public class BottomUpProcessorTest {
   }
 
   @Test
-  public void testEmpty() throws DotExcecutorException {
+  public void testEmpty() throws DotExecutorException {
     final Integer snapshotId = 1;
 
     this.underTest.accept(this.mockVisitor, snapshotId, MAP_KEY);
@@ -68,7 +66,7 @@ public class BottomUpProcessorTest {
   }
 
   @Test
-  public void testChildrenNodes() throws DotExcecutorException {
+  public void testChildrenNodes() throws DotExecutorException {
     final Integer snapshotId = 1;
     final int depth = 0;
 
@@ -84,7 +82,7 @@ public class BottomUpProcessorTest {
   }
 
   @Test
-  public void testChildrenLeaves() throws DotExcecutorException {
+  public void testChildrenLeaves() throws DotExecutorException {
     final Integer snapshotId = 1;
     final int depth = 0;
 

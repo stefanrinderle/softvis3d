@@ -26,16 +26,13 @@ import org.sonar.api.utils.text.JsonWriter;
 
 import java.util.Map;
 
-/**
- * Created by stefan on 03.11.14.
- */
 public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
 
   @Override
   public void transformTreeToJson(final Response response, final TreeNode tree) {
     final JsonWriter jsonWriter = response.newJsonWriter();
 
-    transformTreeToJson(jsonWriter, tree);
+    this.transformTreeToJson(jsonWriter, tree);
 
     jsonWriter.close();
   }

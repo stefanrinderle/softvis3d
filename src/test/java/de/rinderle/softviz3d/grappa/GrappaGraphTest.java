@@ -21,14 +21,15 @@ package de.rinderle.softviz3d.grappa;
 
 import att.grappa.*;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
 
-public class GrappaGraphTest extends TestCase {
+import static org.junit.Assert.assertTrue;
 
-  String graphName = "testgraph";
+public class GrappaGraphTest {
+
   String subgraphId = "testsubgraph";
   private Graph graph;
 
@@ -45,7 +46,7 @@ public class GrappaGraphTest extends TestCase {
     ];
   }
   */
-  @Override
+  @Before
   public void setUp() {
     final String graphName = "testgraph";
     final boolean directed = true;

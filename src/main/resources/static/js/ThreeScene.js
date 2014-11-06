@@ -15,8 +15,8 @@ function init(container, showStats) {
     containerWidth = window.innerWidth - 380;
     containerHeight = window.innerHeight - 170;
 
-    camera = new THREE.PerspectiveCamera( 45, containerWidth / containerHeight, 1, 10000 );
-    camera.position.set( 0, 300, 500 );
+    camera = new THREE.PerspectiveCamera(45, containerWidth / containerHeight, 1, 10000);
+    camera.position.set(0, 300, 500);
 
     scene = new THREE.Scene();
 
@@ -27,7 +27,7 @@ function init(container, showStats) {
         alpha: true
     });
 
-    container.appendChild( renderer.domElement );
+    container.appendChild(renderer.domElement);
 
     controls = new THREE.OrbitControls(camera, container);
     controls.keyPanSpeed = 30.0;
@@ -36,17 +36,19 @@ function init(container, showStats) {
         stats = new Stats();
         stats.domElement.style.position = 'absolute';
         stats.domElement.style.bottom = '0px';
-        container.appendChild( stats.domElement );
+        container.appendChild(stats.domElement);
 
         controls.addEventListener('change', function render() {
             stats.update();
         });
     }
 
-    document.getElementById("detailsContainer").addEventListener( 'mousedown', function(e){e.stopPropagation();}, false );
-    document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+    document.getElementById("detailsContainer").addEventListener('mousedown', function (e) {
+        e.stopPropagation();
+    }, false);
+    document.addEventListener('mousedown', onDocumentMouseDown, false);
 
-    window.addEventListener( 'resize', onWindowResize, false );
+    window.addEventListener('resize', onWindowResize, false);
 
     onWindowResize();
 }
@@ -55,25 +57,25 @@ function onWindowResize() {
     containerWidth = window.innerWidth - 380;
     containerHeight = window.innerHeight - 170;
 
-    renderer.setSize( containerWidth, containerHeight );
+    renderer.setSize(containerWidth, containerHeight);
     camera.aspect = containerWidth / containerHeight;
     camera.updateProjectionMatrix();
 
-    document.getElementById("detailsContainer").style.height  = containerHeight + "px";
+    document.getElementById("detailsContainer").style.height = containerHeight + "px";
 }
 
-function onDocumentMouseDown( event ) {
+function onDocumentMouseDown(event) {
     // header of sonar is 70 px + metric select form 30 px
     var mouseVector = new THREE.Vector3(
             2 * ((event.clientX - 170) / containerWidth) - 1,
             1 - 2 * ((event.clientY - 100) / containerHeight),
-        0.5 );
+        0.5);
 
-    var raycaster = projector.pickingRay( mouseVector.clone(), camera );
+    var raycaster = projector.pickingRay(mouseVector.clone(), camera);
 
-    var intersects = raycaster.intersectObjects( objectsInView );
+    var intersects = raycaster.intersectObjects(objectsInView);
 
-    if ( intersects.length > 0 ) {
+    if (intersects.length > 0) {
 
         // reset former selected object
         if (!!selectedObject) {
@@ -95,11 +97,11 @@ function animate() {
 }
 
 function render() {
-    renderer.render( scene, camera );
+    renderer.render(scene, camera);
 }
 
 function createBox(geometry, material, position, id, type) {
-    var object = new THREE.Mesh( geometry,  material);
+    var object = new THREE.Mesh(geometry, material);
 
     object.position.x = position.x;
     object.position.y = position.y;
@@ -108,25 +110,25 @@ function createBox(geometry, material, position, id, type) {
     object.softviz3dId = id;
     object.type = type;
 
-    objects.push( object );
-    objectsInView.push( object );
+    objects.push(object);
+    objectsInView.push(object);
 
     scene.add(object);
 };
 
-function drawCylinder( pointX, pointY, id, thickness) {
+function drawCylinder(pointX, pointY, id, thickness) {
     /* edge from X to Y */
-    var direction = new THREE.Vector3().subVectors( pointY, pointX );
+    var direction = new THREE.Vector3().subVectors(pointY, pointX);
     var orientation = new THREE.Matrix4();
     /* THREE.Object3D().up (=Y) default orientation for all objects */
     orientation.lookAt(pointX, pointY, new THREE.Object3D().up);
     /* rotation around axis X by -90 degrees
      * matches the default orientation Y
      * with the orientation of looking Z */
-    orientation.multiply(new THREE.Matrix4(1,0,0,0,
-        0,0,1,0,
-        0,-1,0,0,
-        0,0,0,1));
+    orientation.multiply(new THREE.Matrix4(1, 0, 0, 0,
+        0, 0, 1, 0,
+        0, -1, 0, 0,
+        0, 0, 0, 1));
 
     /* cylinder: radiusAtTop, radiusAtBottom,
      height, radiusSegments, heightSegments */
@@ -134,29 +136,29 @@ function drawCylinder( pointX, pointY, id, thickness) {
     /* thickness is in percent at the moment */
     var radius = 10 * (thickness / 100);
     var edgeGeometry = new THREE.CylinderGeometry(radius, radius, direction.length(), 8, 1);
-    var edge = new THREE.Mesh( edgeGeometry,
-        new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
+    var edge = new THREE.Mesh(edgeGeometry,
+        new THREE.MeshBasicMaterial({ color: 0xff0000 }));
 
     edge.applyMatrix(orientation);
     direction = direction.multiplyScalar(0.5);
 
-    edge.applyMatrix( new THREE.Matrix4().makeTranslation(
+    edge.applyMatrix(new THREE.Matrix4().makeTranslation(
             pointX.x + direction.x, pointX.y + direction.y, pointX.z + direction.z));
 
     edge.softviz3dId = id;
     scene.add(edge);
-    objects.push( edge );
-    objectsInView.push( edge );
+    objects.push(edge);
+    objectsInView.push(edge);
 
     // add head
     /* cylinder: radiusAtTop, radiusAtBottom,
      height, radiusSegments, heightSegments */
     var edgeHeadGeometry = new THREE.CylinderGeometry(1, radius + 3, 10, 8, 1);
-    var edgeHead = new THREE.Mesh( edgeHeadGeometry,
-        new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
+    var edgeHead = new THREE.Mesh(edgeHeadGeometry,
+        new THREE.MeshBasicMaterial({ color: 0xff0000 }));
 
     edgeHead.applyMatrix(orientation);
-    edgeHead.applyMatrix( new THREE.Matrix4().makeTranslation(
+    edgeHead.applyMatrix(new THREE.Matrix4().makeTranslation(
         pointY.x, pointY.y, pointY.z));
 
     edgeHead.softviz3dId = id;
@@ -172,10 +174,11 @@ function showDetails(snapshotId, type) {
 
     var result = "<h3>Selected</h3>";
 
-    result +=  node.name + " ";
+    result += node.name + " ";
     result += "(" + node.footprintMetricValue;
     result += "/" + node.heightMetricValue + ")";
 
+    // TODO this is a bug - viewType is not set.
     if (viewType == "city") {
         if (node.isNode) {
             var selectId;
@@ -216,7 +219,7 @@ function showDetails(snapshotId, type) {
 
         result += "<a href='#' onClick='selectSceneObjectByType(" + node.parentInfo.id + ", \"node\");return false'>";
 
-        result +=  node.parentInfo.name + " ";
+        result += node.parentInfo.name + " ";
         result += "(" + node.parentInfo.footprintMetricValue;
         result += "/" + node.parentInfo.heightMetricValue + ")";
 
@@ -382,9 +385,9 @@ function removeNodeAndAllChildren(id) {
     }
 }
 
-var emptyObjectMaterial = new THREE.MeshBasicMaterial( { color: 0xFFBF00, opacity: 0.5 } );
-var emptyObjectGeometry = new THREE.BoxGeometry( 0, 0, 0 );
-var emptyObject = new THREE.Mesh( emptyObjectGeometry,  emptyObjectMaterial);
+var emptyObjectMaterial = new THREE.MeshBasicMaterial({ color: 0xFFBF00, opacity: 0.5 });
+var emptyObjectGeometry = new THREE.BoxGeometry(0, 0, 0);
+var emptyObject = new THREE.Mesh(emptyObjectGeometry, emptyObjectMaterial);
 emptyObject.position.x = 0;
 emptyObject.position.y = 0;
 emptyObject.position.z = 0;

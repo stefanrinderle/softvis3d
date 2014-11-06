@@ -21,7 +21,7 @@ package de.rinderle.softviz3d.dot;
 
 import att.grappa.Graph;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExecutorImpl;
 import de.rinderle.softviz3d.layout.dot.DotVersion;
 import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
@@ -46,7 +46,7 @@ public class DotExecutorTest {
   private ExecuteCommand executeCommand;
 
   @InjectMocks
-  private DotExecutorImpl underTest = new DotExecutorImpl();
+  private final DotExecutorImpl underTest = new DotExecutorImpl();
 
   @Before
   public void setUp() {
@@ -57,14 +57,14 @@ public class DotExecutorTest {
   public void testString() {
     final String dotBin = "/usr/local/bin/dot";
 
-    final int lastIndex = dotBin.lastIndexOf("/");
+    final int lastIndex = dotBin.lastIndexOf('/');
     final String result = dotBin.substring(0, lastIndex + 1);
 
     assertEquals("/usr/local/bin/", result);
   }
 
   @Test
-  public void testHappy() throws DotExcecutorException {
+  public void testHappy() throws DotExecutorException {
     Mockito.when(this.dotVersion.getVersion(Mockito.anyString()))
       .thenReturn("2.36.0");
 
@@ -80,7 +80,7 @@ public class DotExecutorTest {
   }
 
   @Test
-  public void testHappyDependency() throws DotExcecutorException {
+  public void testHappyDependency() throws DotExecutorException {
     Mockito.when(this.dotVersion.getVersion(Mockito.anyString()))
       .thenReturn("2.36.0");
 
@@ -96,7 +96,7 @@ public class DotExecutorTest {
   }
 
   @Test
-  public void testVersionFalse() throws DotExcecutorException {
+  public void testVersionFalse() throws DotExecutorException {
     Mockito.when(this.dotVersion.getVersion(Mockito.anyString()))
       .thenReturn("2.36.0");
 
@@ -112,7 +112,7 @@ public class DotExecutorTest {
   }
 
   @Test
-  public void testVersionTrue() throws DotExcecutorException {
+  public void testVersionTrue() throws DotExecutorException {
     SETTINGS.setProperty("dotBinDirectory", "/usr/local/bin/dot");
 
     Mockito.when(this.dotVersion.getVersion(Mockito.anyString()))

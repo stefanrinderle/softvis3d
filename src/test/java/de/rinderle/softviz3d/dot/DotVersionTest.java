@@ -19,7 +19,7 @@
  */
 package de.rinderle.softviz3d.dot;
 
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import de.rinderle.softviz3d.layout.dot.DotVersion;
 import de.rinderle.softviz3d.layout.dot.DotVersionImpl;
 import de.rinderle.softviz3d.layout.dot.ExecuteCommand;
@@ -39,7 +39,7 @@ public class DotVersionTest {
   private ExecuteCommand executeCommand;
 
   @InjectMocks
-  private DotVersion underTest = new DotVersionImpl();
+  private final DotVersion underTest = new DotVersionImpl();
 
   @Before
   public void setUp() {
@@ -47,7 +47,7 @@ public class DotVersionTest {
   }
 
   @Test
-  public void testHappy() throws DotExcecutorException {
+  public void testHappy() throws DotExecutorException {
     final String version = "2.20.2";
     final String versionInfo = "dot - Graphviz version " + version + " (Tue Jan 14 19:38:44 UTC 2014)";
     Mockito.when(

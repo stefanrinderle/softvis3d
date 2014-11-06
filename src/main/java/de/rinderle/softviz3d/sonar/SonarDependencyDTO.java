@@ -21,9 +21,6 @@ package de.rinderle.softviz3d.sonar;
 
 import java.math.BigInteger;
 
-/**
- * Created by srinderle on 26.09.14.
- */
 public class SonarDependencyDTO {
 
   private BigInteger id;
@@ -35,9 +32,6 @@ public class SonarDependencyDTO {
   private Integer weight;
   private String fromScope;
   private String toScope;
-
-  public SonarDependencyDTO() {
-  }
 
   public BigInteger getId() {
     return this.id;

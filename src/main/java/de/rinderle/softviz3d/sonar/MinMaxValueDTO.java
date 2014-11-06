@@ -21,8 +21,8 @@ package de.rinderle.softviz3d.sonar;
 
 public class MinMaxValueDTO {
 
-  private Double minValue;
-  private Double maxValue;
+  private final Double minValue;
+  private final Double maxValue;
 
   public MinMaxValueDTO(final Double minValue, final Double maxValue) {
     super();

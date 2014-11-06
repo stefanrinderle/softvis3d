@@ -19,11 +19,11 @@
  */
 package de.rinderle.softviz3d.layout.dot;
 
-public class DotExcecutorException extends Exception {
+public class DotExecutorException extends Exception {
 
   private static final long serialVersionUID = -1130080106752515879L;
 
-  public DotExcecutorException(final String message, final Exception e) {
+  public DotExecutorException(final String message, final Exception e) {
     super(message, e);
   }
 }

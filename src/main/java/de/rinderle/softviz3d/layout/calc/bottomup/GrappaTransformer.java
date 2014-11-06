@@ -29,9 +29,6 @@ import de.rinderle.softviz3d.sonar.MinMaxValueDTO;
 
 import static att.grappa.GrappaConstants.*;
 
-/**
- * Created by stefan on 05.11.14.
- */
 public class GrappaTransformer {
 
   @Inject
@@ -55,13 +52,14 @@ public class GrappaTransformer {
     return elementNode;
   }
 
-  public att.grappa.Edge transformToGrappaEdge(final Graph inputGraph, final Edge edge, final MinMaxValueDTO minMaxEdgeCounter) {
+  public att.grappa.Edge transformToGrappaEdge(final Graph inputGraph, final Edge edge,
+    final MinMaxValueDTO minMaxEdgeCounter) {
     final Node sourceNode = this.searchNodeById(inputGraph, edge.getSourceId());
     final Node destNode = this.searchNodeById(inputGraph, edge.getDestinationId());
 
     if (sourceNode != null && destNode != null) {
       final att.grappa.Edge result = new att.grappa.Edge(inputGraph, sourceNode, destNode);
-      double edgeRadius = this.formatter.calcEdgeRadius(edge.getCounter(), minMaxEdgeCounter);
+      final double edgeRadius = this.formatter.calcEdgeRadius(edge.getCounter(), minMaxEdgeCounter);
       result.setAttribute("edgeRadius", "x" + edgeRadius);
 
       return result;

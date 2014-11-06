@@ -58,17 +58,17 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
    */
   @Override
   public String getOrCreateTreeStructure(final VisualizationRequestDTO requestDTO) {
-    LOGGER.info("loadedPathWalkers size " + this.alreadyLoadedTrees.size());
-    for (Map.Entry<String, TreeNode> entry : this.alreadyLoadedTrees.entrySet()) {
+    LOGGER.info("loadedPathWalkers size " + alreadyLoadedTrees.size());
+    for (Map.Entry<String, TreeNode> entry : alreadyLoadedTrees.entrySet()) {
       LOGGER.info(entry.getKey());
     }
     LOGGER.info("---");
 
-    String mapKey = this.getAlreadyLoadedMapKey(requestDTO);
+    final String mapKey = this.getAlreadyLoadedMapKey(requestDTO);
 
-    if (!this.alreadyLoadedTrees.containsKey(mapKey)) {
+    if (!alreadyLoadedTrees.containsKey(mapKey)) {
       final TreeNode tree = createTreeStructure(requestDTO);
-      this.alreadyLoadedTrees.put(mapKey, tree);
+      alreadyLoadedTrees.put(mapKey, tree);
     }
 
     return mapKey;
@@ -79,15 +79,15 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
     final PathWalker pathWalker = new PathWalker(requestDTO.getRootSnapshotId());
 
     final List<SonarSnapshotDTO> flatChildren =
-      sonarService.getFlatChildrenWithMetrics(requestDTO);
+      this.sonarService.getFlatChildrenWithMetrics(requestDTO);
 
     for (final SonarSnapshotDTO flatChild : flatChildren) {
       pathWalker.addPath(flatChild);
     }
 
-    TreeNode resultTree = pathWalker.getTree();
+    final TreeNode resultTree = pathWalker.getTree();
 
-    optimizeTreeStructure.removeUnecessaryNodes(resultTree);
+    this.optimizeTreeStructure.removeUnnecessaryNodes(resultTree);
 
     return resultTree;
   }
@@ -98,7 +98,8 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
   }
 
   private int getNextSequence() {
-    return generatedIdSequence++;
+    this.generatedIdSequence = this.generatedIdSequence + 1;
+    return this.generatedIdSequence;
   }
 
   @Override
@@ -117,20 +118,21 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
   @Override
   public TreeNode findNode(final String mapKey, final Integer id) {
-    final TreeNode rootNode = this.alreadyLoadedTrees.get(mapKey);
+    final TreeNode rootNode = alreadyLoadedTrees.get(mapKey);
 
     return this.recursiveSearch(id, rootNode);
   }
 
   @Override
   public TreeNode addInterfaceLeafNode(final String mapKey, final String intLeafLabel, final Integer parentId) {
-    final TreeNode rootNode = this.alreadyLoadedTrees.get(mapKey);
+    final TreeNode rootNode = alreadyLoadedTrees.get(mapKey);
 
     // search for parent node
     final TreeNode parent = this.recursiveSearch(parentId, rootNode);
 
-    final Integer id = getNextSequence();
-    final TreeNode interfaceLeafTreeNode = new TreeNode(id, parent, parent.getDepth() + 1, TreeNodeType.DEPENDENCY_GENERATED, "elevatorNode_" + id, 0, 0);
+    final Integer id = this.getNextSequence();
+    final TreeNode interfaceLeafTreeNode = new TreeNode(id, parent, parent.getDepth() + 1,
+      TreeNodeType.DEPENDENCY_GENERATED, "elevatorNode_" + id, 0, 0);
     parent.getChildren().put(intLeafLabel, interfaceLeafTreeNode);
 
     return interfaceLeafTreeNode;
@@ -138,13 +140,13 @@ public class ResourceTreeServiceImpl implements ResourceTreeService {
 
   @Override
   public TreeNode findInterfaceLeafNode(final String mapKey, final String intLeafLabel) {
-    final TreeNode rootNode = this.alreadyLoadedTrees.get(mapKey);
+    final TreeNode rootNode = alreadyLoadedTrees.get(mapKey);
     return this.recursiveSearch(intLeafLabel, rootNode);
   }
 
   @Override
   public TreeNode getTreeStructure(String mapKey) {
-    return this.alreadyLoadedTrees.get(mapKey);
+    return alreadyLoadedTrees.get(mapKey);
   }
 
   private TreeNode recursiveSearch(final String name, final TreeNode treeNode) {

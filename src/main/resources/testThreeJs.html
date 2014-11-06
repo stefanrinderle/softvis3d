@@ -26,14 +26,15 @@ init(document.getElementById('renderContainer'));
 createCenterCube();
 animate();
 
-function v( x, y, z ){ return new THREE.Vector3( x, y, z ); }
+function v(x, y, z) {
+    return new THREE.Vector3(x, y, z);
+}
 
 
 position = new Array();
 position.x = -21.0;
 position.y = 40;
 position.z = 0.0;
-
 
 
 geometryLayer = new THREE.BoxGeometry(56.0, 5,
@@ -161,7 +162,6 @@ position.y = 0;
 position.z = 0.0;
 
 
-
 geometryLayer = new THREE.BoxGeometry(98.0, 5,
         63.0);
 
@@ -176,33 +176,31 @@ layerMaterial = new THREE.MeshLambertMaterial({
 createBox(geometryLayer, layerMaterial, position, "2991");
 
 
-
-
-function drawCylinder( pointX, pointY) {
+function drawCylinder(pointX, pointY) {
     /* edge from X to Y */
-    var direction = new THREE.Vector3().subVectors( pointY, pointX );
+    var direction = new THREE.Vector3().subVectors(pointY, pointX);
     var orientation = new THREE.Matrix4();
     /* THREE.Object3D().up (=Y) default orientation for all objects */
     orientation.lookAt(pointX, pointY, new THREE.Object3D().up);
     /* rotation around axis X by -90 degrees
      * matches the default orientation Y
      * with the orientation of looking Z */
-    orientation.multiply(new THREE.Matrix4(1,0,0,0,
-            0,0,1,0,
-            0,-1,0,0,
-            0,0,0,1));
+    orientation.multiply(new THREE.Matrix4(1, 0, 0, 0,
+            0, 0, 1, 0,
+            0, -1, 0, 0,
+            0, 0, 0, 1));
 
     /* cylinder: radiusAtTop, radiusAtBottom,
      height, radiusSegments, heightSegments */
     var radius = 4;
-    var edgeGeometry = new THREE.CylinderGeometry( radius, radius, direction.length(), 8, 1);
-    var edge = new THREE.Mesh( edgeGeometry,
-            new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
+    var edgeGeometry = new THREE.CylinderGeometry(radius, radius, direction.length(), 8, 1);
+    var edge = new THREE.Mesh(edgeGeometry,
+            new THREE.MeshBasicMaterial({ color: 0xff0000 }));
 
     edge.applyMatrix(orientation);
     direction = direction.multiplyScalar(0.5);
 
-    edge.applyMatrix( new THREE.Matrix4().makeTranslation(
+    edge.applyMatrix(new THREE.Matrix4().makeTranslation(
                     pointX.x + direction.x, pointX.y + direction.y, pointX.z + direction.z));
 
     scene.add(edge);
@@ -210,22 +208,19 @@ function drawCylinder( pointX, pointY) {
     // add head
     /* cylinder: radiusAtTop, radiusAtBottom,
      height, radiusSegments, heightSegments */
-    var edgeHeadGeometry = new THREE.CylinderGeometry( 1, 10, 10, 8, 1);
-    var edgeHead = new THREE.Mesh( edgeHeadGeometry,
-            new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
+    var edgeHeadGeometry = new THREE.CylinderGeometry(1, 10, 10, 8, 1);
+    var edgeHead = new THREE.Mesh(edgeHeadGeometry,
+            new THREE.MeshBasicMaterial({ color: 0xff0000 }));
 
     edgeHead.applyMatrix(orientation);
     direction = direction.multiplyScalar(0.5);
 
-    edgeHead.applyMatrix( new THREE.Matrix4().makeTranslation(
+    edgeHead.applyMatrix(new THREE.Matrix4().makeTranslation(
             pointY.x, pointY.y, pointY.z));
     scene.add(edgeHead);
 }
 
 setLight();
-
-
-
 
 
 //var threeScene = new ThreeScene(document.getElementById('renderContainer'));

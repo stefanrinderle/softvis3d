@@ -27,17 +27,18 @@ import java.util.TreeMap;
 
 public class TreeNode {
   private int depth;
-  private Integer id;
+  private final Integer id;
   private TreeNodeType type;
   private TreeNode parent;
-  private double heightMetricValue;
-  private double footprintMetricValue;
+  private final double heightMetricValue;
+  private final double footprintMetricValue;
   private String name;
 
   private Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
   private Map<String, Edge> edges = new HashMap<String, Edge>();
 
-  public TreeNode(final Integer id, final TreeNode parent, final int depth, final TreeNodeType type, final String name, final double footprintMetricValue,
+  public TreeNode(final Integer id, final TreeNode parent, final int depth, final TreeNodeType type, final String name,
+    final double footprintMetricValue,
     final double heightMetricValue) {
     this.id = id;
     this.parent = parent;

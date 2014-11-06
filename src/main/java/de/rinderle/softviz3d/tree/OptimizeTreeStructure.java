@@ -19,9 +19,6 @@
  */
 package de.rinderle.softviz3d.tree;
 
-/**
- * Created by stefan on 03.11.14.
- */
 public interface OptimizeTreeStructure {
-  void removeUnecessaryNodes(TreeNode root);
+  void removeUnnecessaryNodes(TreeNode root);
 }

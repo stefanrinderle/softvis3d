@@ -26,7 +26,7 @@ import de.rinderle.softviz3d.guice.SoftViz3dModule;
 import de.rinderle.softviz3d.layout.calc.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
-import de.rinderle.softviz3d.layout.dot.DotExcecutorException;
+import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import de.rinderle.softviz3d.sonar.DependencyDao;
 import de.rinderle.softviz3d.sonar.SonarDao;
 import de.rinderle.softviz3d.sonar.SonarService;
@@ -44,11 +44,9 @@ public class SoftViz3dExtension implements ServerExtension {
   private static final Logger LOGGER = LoggerFactory
     .getLogger(SoftViz3dExtension.class);
 
-  private Settings settings;
-
-  private SonarService sonarService;
-
-  private Injector softVizInjector;
+  private final Settings settings;
+  private final SonarService sonarService;
+  private final Injector softVizInjector;
 
   public SoftViz3dExtension(final DatabaseSession session, final Settings settings) {
     this.settings = settings;
@@ -78,7 +76,7 @@ public class SoftViz3dExtension implements ServerExtension {
   }
 
   public Map<Integer, Graph> createLayoutBySnapshotId(final Integer snapshotId,
-    final String metricString1, final String metricString2, final String viewType) throws DotExcecutorException {
+    final String metricString1, final String metricString2, final String viewType) throws DotExecutorException {
     LOGGER.info("Startup SoftViz3d plugin with snapshot " + snapshotId);
 
     this.logStartOfCalc(metricString1, metricString2, snapshotId);
@@ -88,7 +86,8 @@ public class SoftViz3dExtension implements ServerExtension {
     final Integer footprintMetricId = Integer.valueOf(metricString1);
     final Integer heightMetricId = Integer.valueOf(metricString2);
 
-    final VisualizationRequestDTO requestDTO = new VisualizationRequestDTO(snapshotId, type, footprintMetricId, heightMetricId);
+    final VisualizationRequestDTO requestDTO = new VisualizationRequestDTO(snapshotId, type, footprintMetricId,
+      heightMetricId);
 
     final Layout layout = this.softVizInjector.getInstance(Layout.class);
     return layout.startLayout(this.settings, requestDTO);

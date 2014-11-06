@@ -34,9 +34,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
@@ -54,7 +54,7 @@ public class AbsolutePositionCalculatorTest extends TestCase {
   private ResourceTreeService resourceTreeService;
 
   @InjectMocks
-  private PositionCalculator underTest = new AbsolutePositionCalculator();
+  private final PositionCalculator underTest = new AbsolutePositionCalculator();
 
   @Before
   public void setUp() {
@@ -63,7 +63,7 @@ public class AbsolutePositionCalculatorTest extends TestCase {
 
   @Test
   public void testCalculate() throws Exception {
-    final Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
+    final Map<Integer, Graph> inputGraphList = new ConcurrentHashMap<Integer, Graph>();
     inputGraphList.put(ID, GrappaGraphFactory.createGraph());
 
     this.underTest.calculate(VIEW_TYPE, ID, inputGraphList, MAP_KEY);
@@ -80,7 +80,7 @@ public class AbsolutePositionCalculatorTest extends TestCase {
 
   @Test
   public void testCalculateRecursive() throws Exception {
-    final Map<Integer, Graph> inputGraphList = new HashMap<Integer, Graph>();
+    final Map<Integer, Graph> inputGraphList = new ConcurrentHashMap<Integer, Graph>();
     inputGraphList.put(ID, GrappaGraphFactory.createGraph());
     inputGraphList.put(SUBGRAPH_ID, GrappaGraphFactory.createGraph());
 
