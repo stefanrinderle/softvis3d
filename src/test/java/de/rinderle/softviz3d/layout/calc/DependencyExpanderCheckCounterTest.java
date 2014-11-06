@@ -19,7 +19,7 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
+import de.rinderle.softviz3d.dto.SonarDependencyDTO;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.TreeNode;
 import de.rinderle.softviz3d.tree.TreeNodeType;

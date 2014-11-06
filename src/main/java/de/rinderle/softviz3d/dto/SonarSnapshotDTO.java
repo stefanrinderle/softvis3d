@@ -17,25 +17,36 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.sonar;
+package de.rinderle.softviz3d.dto;
 
-public class MinMaxValueDTO {
+public class SonarSnapshotDTO {
 
-  private final Double minValue;
-  private final Double maxValue;
+  private final int id;
+  private final String path;
+  private final double footprintMetricValue;
+  private final double heightMetricValue;
 
-  public MinMaxValueDTO(final Double minValue, final Double maxValue) {
-    super();
-    this.minValue = minValue;
-    this.maxValue = maxValue;
+  public SonarSnapshotDTO(int id, String path, double footprintMetricValue, double heightMetricValue) {
+    this.id = id;
+    this.path = path;
+    this.footprintMetricValue = footprintMetricValue;
+    this.heightMetricValue = heightMetricValue;
   }
 
-  public Double getMinValue() {
-    return this.minValue;
+  public int getId() {
+    return id;
   }
 
-  public Double getMaxValue() {
-    return this.maxValue;
+  public String getPath() {
+    return path;
+  }
+
+  public double getFootprintMetricValue() {
+    return footprintMetricValue;
+  }
+
+  public double getHeightMetricValue() {
+    return heightMetricValue;
   }
 
 }

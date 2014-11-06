@@ -20,10 +20,10 @@
 package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import att.grappa.Graph;
+import de.rinderle.softviz3d.dto.MinMaxValueDTO;
 import de.rinderle.softviz3d.grappa.GrappaGraphFactory;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.sonar.MinMaxValueDTO;
 import org.junit.Test;
 
 import java.awt.*;

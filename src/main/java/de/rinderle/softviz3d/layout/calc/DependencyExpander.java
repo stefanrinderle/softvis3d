@@ -19,7 +19,7 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
+import de.rinderle.softviz3d.dto.SonarDependencyDTO;
 
 import java.util.List;
 

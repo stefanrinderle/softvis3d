@@ -20,9 +20,9 @@
 package de.rinderle.softviz3d.guice;
 
 import com.google.inject.assistedinject.Assisted;
+import de.rinderle.softviz3d.dto.MinMaxValueDTO;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
-import de.rinderle.softviz3d.sonar.MinMaxValueDTO;
 import org.sonar.api.config.Settings;
 
 public interface SnapshotVisitorFactory {

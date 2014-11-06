@@ -20,9 +20,9 @@
 package de.rinderle.softviz3d.tree;
 
 import com.google.inject.Inject;
+import de.rinderle.softviz3d.dto.SonarSnapshotDTO;
 import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 import de.rinderle.softviz3d.sonar.SonarService;
-import de.rinderle.softviz3d.sonar.SonarSnapshotDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

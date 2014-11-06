@@ -19,7 +19,7 @@
  */
 package de.rinderle.softviz3d.tree;
 
-import de.rinderle.softviz3d.sonar.SonarSnapshotDTO;
+import de.rinderle.softviz3d.dto.SonarSnapshotDTO;
 import org.junit.Test;
 
 import java.util.Map;
@@ -95,10 +95,13 @@ public class PathWalkerTest {
     // id for source is generated
     assertNotEquals(Integer.valueOf(413), tree.getChildren().get("src").getId());
     assertNotEquals(Integer.valueOf(413), tree.getChildren().get("src").getChildren().get("main").getId());
-    assertNotEquals(Integer.valueOf(413), tree.getChildren().get("src").getChildren().get("main").getChildren().get("java").getId());
-    assertNotEquals(Integer.valueOf(413), tree.getChildren().get("src").getChildren().get("main").getChildren().get("java")
-      .getChildren().get("de").getChildren().get("rinderle").getId());
-    assertEquals(Integer.valueOf(413), tree.getChildren().get("src").getChildren().get("main").getChildren().get("java")
+    assertNotEquals(Integer.valueOf(413),
+      tree.getChildren().get("src").getChildren().get("main").getChildren().get("java").getId());
+    assertNotEquals(Integer.valueOf(413),
+      tree.getChildren().get("src").getChildren().get("main").getChildren().get("java")
+        .getChildren().get("de").getChildren().get("rinderle").getId());
+    assertEquals(Integer.valueOf(413), tree.getChildren().get("src").getChildren().get("main").getChildren()
+      .get("java")
       .getChildren().get("de").getChildren().get("rinderle").getChildren().get("softviz3d").getId());
   }
 
@@ -133,7 +136,8 @@ public class PathWalkerTest {
     assertTrue(tree.getChildren().size() == 1);
 
     final TreeNode sixth =
-      tree.getChildren().get("src").getChildren().get("testForSoftViz").getChildren().get("xx").getChildren().get("yy").getChildren().get("SixthClass.java");
+      tree.getChildren().get("src").getChildren().get("testForSoftViz").getChildren().get("xx").getChildren().get("yy")
+        .getChildren().get("SixthClass.java");
     assertNotNull(sixth);
 
     assertEquals(Integer.valueOf(21), sixth.getId());

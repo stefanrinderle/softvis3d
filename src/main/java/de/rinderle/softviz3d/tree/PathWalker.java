@@ -19,7 +19,7 @@
  */
 package de.rinderle.softviz3d.tree;
 
-import de.rinderle.softviz3d.sonar.SonarSnapshotDTO;
+import de.rinderle.softviz3d.dto.SonarSnapshotDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

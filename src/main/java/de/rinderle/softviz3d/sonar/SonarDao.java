@@ -19,6 +19,7 @@
  */
 package de.rinderle.softviz3d.sonar;
 
+import de.rinderle.softviz3d.dto.MinMaxValueDTO;
 import org.sonar.api.database.DatabaseSession;
 
 import java.util.List;

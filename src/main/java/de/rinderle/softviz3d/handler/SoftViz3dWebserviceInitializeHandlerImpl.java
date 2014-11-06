@@ -20,10 +20,10 @@
 package de.rinderle.softviz3d.handler;
 
 import com.google.inject.Inject;
+import de.rinderle.softviz3d.dto.SonarDependencyDTO;
 import de.rinderle.softviz3d.layout.calc.DependencyExpander;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
-import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import de.rinderle.softviz3d.tree.TreeNode;

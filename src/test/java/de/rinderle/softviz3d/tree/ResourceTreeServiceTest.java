@@ -19,10 +19,10 @@
  */
 package de.rinderle.softviz3d.tree;
 
+import de.rinderle.softviz3d.dto.SonarSnapshotDTO;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 import de.rinderle.softviz3d.sonar.SonarService;
-import de.rinderle.softviz3d.sonar.SonarSnapshotDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

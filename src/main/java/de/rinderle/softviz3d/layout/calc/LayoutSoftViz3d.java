@@ -21,13 +21,13 @@ package de.rinderle.softviz3d.layout.calc;
 
 import att.grappa.Graph;
 import com.google.inject.Inject;
+import de.rinderle.softviz3d.dto.MinMaxValueDTO;
+import de.rinderle.softviz3d.dto.SonarDependencyDTO;
 import de.rinderle.softviz3d.guice.SnapshotVisitorFactory;
 import de.rinderle.softviz3d.layout.calc.bottomup.BottomUpProcessor;
 import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
 import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
 import de.rinderle.softviz3d.layout.dot.DotExecutorException;
-import de.rinderle.softviz3d.sonar.MinMaxValueDTO;
-import de.rinderle.softviz3d.sonar.SonarDependencyDTO;
 import de.rinderle.softviz3d.sonar.SonarService;
 import de.rinderle.softviz3d.tree.ResourceTreeService;
 import org.apache.commons.lang.time.StopWatch;

@@ -19,6 +19,9 @@
  */
 package de.rinderle.softviz3d.sonar;
 
+import de.rinderle.softviz3d.dto.MinMaxValueDTO;
+import de.rinderle.softviz3d.dto.SonarDependencyDTO;
+import de.rinderle.softviz3d.dto.SonarSnapshotDTO;
 import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 import org.sonar.api.config.Settings;
 

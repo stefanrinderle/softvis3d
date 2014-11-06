@@ -19,7 +19,7 @@
  */
 package de.rinderle.softviz3d.tree;
 
-import de.rinderle.softviz3d.sonar.SonarSnapshotDTO;
+import de.rinderle.softviz3d.dto.SonarSnapshotDTO;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

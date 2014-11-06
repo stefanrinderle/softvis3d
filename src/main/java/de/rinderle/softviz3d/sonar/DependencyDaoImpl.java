@@ -20,6 +20,7 @@
 package de.rinderle.softviz3d.sonar;
 
 import com.google.inject.Singleton;
+import de.rinderle.softviz3d.dto.SonarDependencyDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.database.DatabaseSession;
