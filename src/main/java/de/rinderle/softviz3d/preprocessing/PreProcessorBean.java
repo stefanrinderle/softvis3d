@@ -56,15 +56,19 @@ public class PreProcessorBean implements PreProcessor {
 
     final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
-    if (!snapshotCacheService.containsKey(mapKey)) {
-      final TreeNode tree = treeBuilder.createTreeStructure(requestDTO);
+    final TreeNode tree;
+    if (snapshotCacheService.containsKey(mapKey)) {
+      tree = snapshotCacheService.getTreeStructure(mapKey);
+    } else {
+      tree = treeBuilder.createTreeStructure(requestDTO);
       this.optimizeTreeStructure.removeUnnecessaryNodes(tree);
-      snapshotCacheService.save(mapKey, tree);
-    }
 
-    if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
-      final List<SonarDependencyDTO> dependencies = this.sonarService.getDependencies(requestDTO.getRootSnapshotId());
-      maxEdgeCounter = this.dependencyExpander.execute(mapKey, dependencies);
+      if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
+        final List<SonarDependencyDTO> dependencies = this.sonarService.getDependencies(requestDTO.getRootSnapshotId());
+        maxEdgeCounter = this.dependencyExpander.execute(tree, dependencies);
+      }
+
+      snapshotCacheService.save(mapKey, tree);
     }
 
     return new SnapshotTreeResult(mapKey, maxEdgeCounter);

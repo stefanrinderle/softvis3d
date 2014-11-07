@@ -38,8 +38,6 @@ public interface SnapshotCacheService {
 
   TreeNode findNode(SnapshotStorageKey key, Integer id);
 
-  TreeNode findInterfaceLeafNode(SnapshotStorageKey key, String intLeafLabel);
-
   TreeNode getTreeStructure(SnapshotStorageKey key);
 
 }

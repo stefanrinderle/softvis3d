@@ -19,14 +19,10 @@
  */
 package de.rinderle.softviz3d.preprocessing.dependencies;
 
-import de.rinderle.softviz3d.cache.InterfaceNodeService;
-import de.rinderle.softviz3d.cache.SnapshotCacheService;
-import de.rinderle.softviz3d.domain.SnapshotStorageKey;
 import de.rinderle.softviz3d.domain.tree.Edge;
 import de.rinderle.softviz3d.domain.tree.TreeNode;
+import de.rinderle.softviz3d.domain.tree.TreeNodeType;
 import de.rinderle.softviz3d.dto.SonarDependencyDTO;
-
-import javax.inject.Inject;
 
 import java.util.List;
 
@@ -35,26 +31,21 @@ public class DependencyExpanderBean implements DependencyExpander {
   public static final String INTERFACE_PREFIX = "interface";
   private static final String DEP_PATH_EDGE_PREFIX = "depPath";
 
-  private SnapshotStorageKey storageKey;
   private int maxEdgeCounter;
 
-  @Inject
-  private SnapshotCacheService snapshotCacheService;
-  @Inject
-  private InterfaceNodeService interfaceNodeService;
+  private int generatedIdSequence = Integer.MAX_VALUE - 1000000;
 
-  public int execute(final SnapshotStorageKey storageKey, final List<SonarDependencyDTO> dependencies) {
+  public int execute(final TreeNode treeRootNode, final List<SonarDependencyDTO> dependencies) {
     this.maxEdgeCounter = 1;
-
-    this.storageKey = storageKey;
 
     for (final SonarDependencyDTO dependency : dependencies) {
 
       final Integer sourceId = dependency.getFromSnapshotId();
       final Integer destinationId = dependency.getToSnapshotId();
+
       // search for the common ancestor
-      final TreeNode source = this.snapshotCacheService.findNode(this.storageKey, sourceId);
-      final TreeNode destination = this.snapshotCacheService.findNode(this.storageKey, destinationId);
+      final TreeNode source = treeRootNode.findNode(sourceId);
+      final TreeNode destination = treeRootNode.findNode(destinationId);
 
       final DependencyType dependencyType = this.getDependencyType(source, destination);
 
@@ -72,7 +63,9 @@ public class DependencyExpanderBean implements DependencyExpander {
 
   private DependencyType getDependencyType(final TreeNode from, final TreeNode to) {
     // TODO check this - should be if a dependency to a dir was given.
-    if (from != null && to != null) {
+    if (from == null || to == null) {
+      return DependencyType.DIR;
+    } else {
       final boolean hasSameParent = from.getParent().getId().equals(to.getParent().getId());
 
       if (hasSameParent) {
@@ -80,8 +73,6 @@ public class DependencyExpanderBean implements DependencyExpander {
       } else {
         return DependencyType.INPUT_TREE;
       }
-    } else {
-      return DependencyType.DIR;
     }
   }
 
@@ -146,7 +137,7 @@ public class DependencyExpanderBean implements DependencyExpander {
 
         treeNode.setEdge(edge);
       } else {
-        final TreeNode depNode = this.getInterfaceNode(treeNode.getParent().getId());
+        final TreeNode depNode = this.getInterfaceNode(treeNode.getParent());
 
         final Edge element = new Edge(depEdgeLabel, treeNode.getId(), depNode.getId(), treeNode.getParent().getId());
 
@@ -154,7 +145,7 @@ public class DependencyExpanderBean implements DependencyExpander {
       }
     } else {
       // interface node is source
-      final TreeNode depNode = this.getInterfaceNode(treeNode.getParent().getId());
+      final TreeNode depNode = this.getInterfaceNode(treeNode.getParent());
       if (depNode.hasEdge(depEdgeLabel)) {
         final Edge edge = depNode.getEdge(depEdgeLabel);
         edge.setCounter(edge.getCounter() + 1);
@@ -164,21 +155,34 @@ public class DependencyExpanderBean implements DependencyExpander {
         depNode.setEdge(element);
       }
     }
-
   }
 
-  private TreeNode getInterfaceNode(final Integer parentId) {
+  private TreeNode getInterfaceNode(final TreeNode parent) {
     final TreeNode result;
-    final String intLeafLabel = INTERFACE_PREFIX + "_" + parentId;
+    final String intLeafLabel = INTERFACE_PREFIX + "_" + parent.getId();
 
-    final TreeNode treeNode = this.snapshotCacheService.findInterfaceLeafNode(this.storageKey, intLeafLabel);
+    final TreeNode treeNode = parent.findInterfaceLeafNode(intLeafLabel);
 
     if (treeNode == null) {
-      result = this.interfaceNodeService.addInterfaceLeafNode(this.storageKey, intLeafLabel, parentId);
+      result = this.addInterfaceLeafNode(intLeafLabel, parent);
     } else {
       result = treeNode;
     }
 
     return result;
+  }
+
+  private TreeNode addInterfaceLeafNode(final String intLeafLabel, final TreeNode parent) {
+    final Integer id = this.getNextSequence();
+    final TreeNode interfaceLeafTreeNode = new TreeNode(id, parent, parent.getDepth() + 1,
+      TreeNodeType.DEPENDENCY_GENERATED, "elevatorNode_" + id, 0, 0);
+    parent.getChildren().put(intLeafLabel, interfaceLeafTreeNode);
+
+    return interfaceLeafTreeNode;
+  }
+
+  private int getNextSequence() {
+    this.generatedIdSequence = this.generatedIdSequence + 1;
+    return this.generatedIdSequence;
   }
 }

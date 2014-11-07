@@ -19,12 +19,12 @@
  */
 package de.rinderle.softviz3d.preprocessing.dependencies;
 
-import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.tree.TreeNode;
 import de.rinderle.softviz3d.dto.SonarDependencyDTO;
 
 import java.util.List;
 
 public interface DependencyExpander {
 
-  int execute(SnapshotStorageKey storageKey, List<SonarDependencyDTO> dependencies);
+  int execute(TreeNode tree, List<SonarDependencyDTO> dependencies);
 }

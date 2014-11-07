@@ -69,32 +69,8 @@ public class SnapshotCacheServiceBean implements SnapshotCacheService {
   }
 
   @Override
-  public TreeNode findInterfaceLeafNode(final SnapshotStorageKey key, final String intLeafLabel) {
-    final TreeNode rootNode = SnapshotTreeStorage.get(key);
-    return this.recursiveSearch(intLeafLabel, rootNode);
-  }
-
-  @Override
   public TreeNode getTreeStructure(final SnapshotStorageKey key) {
     return SnapshotTreeStorage.get(key);
-  }
-
-  private TreeNode recursiveSearch(final String name, final TreeNode treeNode) {
-    final Map<String, TreeNode> children = treeNode.getChildren();
-    TreeNode temp;
-
-    if (children.containsKey(name)) {
-      return children.get(name);
-    } else if (!children.isEmpty()) {
-      for (final TreeNode child : children.values()) {
-        temp = this.recursiveSearch(name, child);
-        if (temp != null) {
-          return temp;
-        }
-      }
-    }
-
-    return null;
   }
 
   private TreeNode recursiveSearch(final Integer id, final TreeNode treeNode) {

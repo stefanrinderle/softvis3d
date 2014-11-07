@@ -21,8 +21,6 @@ package de.rinderle.softviz3d.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import de.rinderle.softviz3d.cache.InterfaceNodeService;
-import de.rinderle.softviz3d.cache.InterfaceNodeServiceBean;
 import de.rinderle.softviz3d.cache.SnapshotCacheService;
 import de.rinderle.softviz3d.cache.SnapshotCacheServiceBean;
 import de.rinderle.softviz3d.handler.SoftViz3dWebserviceInitializeHandler;
@@ -59,8 +57,6 @@ public class SoftViz3dModule extends AbstractModule {
     this.bind(OptimizeTreeStructure.class).to(OptimizeTreeStructureImpl.class);
     this.bind(SnapshotCacheService.class).to(SnapshotCacheServiceBean.class);
     this.bind(DependencyExpander.class).to(DependencyExpanderBean.class);
-
-    this.bind(InterfaceNodeService.class).to(InterfaceNodeServiceBean.class);
 
     this.bind(Layout.class).to(LayoutSoftViz3d.class);
     this.bind(LayerFormatter.class).to(ViewLayerFormatter.class);

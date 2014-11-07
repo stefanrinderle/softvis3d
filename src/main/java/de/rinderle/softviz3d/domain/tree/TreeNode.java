@@ -19,11 +19,17 @@
  */
 package de.rinderle.softviz3d.domain.tree;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class TreeNode {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(TreeNode.class);
+
   private int depth;
   private final Integer id;
   private TreeNodeType type;
@@ -109,5 +115,52 @@ public class TreeNode {
 
   public Map<String, Edge> getEdges() {
     return this.edges;
+  }
+
+  public TreeNode findNode(Integer id) {
+    return this.recursiveSearch(id, this);
+  }
+
+  public TreeNode findInterfaceLeafNode(final String label) {
+    final Map<String, TreeNode> children = this.getChildren();
+
+    if (children.containsKey(label)) {
+      return children.get(label);
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * TODO: Could be placed somewhere else
+   */
+  private TreeNode recursiveSearch(final Integer id, final TreeNode treeNode) {
+    if (treeNode.getId().equals(id)) {
+      /**
+       * check if there is a child treeNode with the same id.
+       * This is to parse long paths and get the last treeNode
+       * of the chain with the same id.
+       */
+      for (final TreeNode child : treeNode.getChildren().values()) {
+        if (child.getId().equals(id)) {
+          return this.recursiveSearch(id, child);
+        }
+      }
+
+      return treeNode;
+    }
+
+    final Map<String, TreeNode> children = treeNode.getChildren();
+    TreeNode temp;
+    if (!children.isEmpty()) {
+      for (final TreeNode child : children.values()) {
+        temp = this.recursiveSearch(id, child);
+        if (temp != null) {
+          return temp;
+        }
+      }
+    }
+
+    return null;
   }
 }
