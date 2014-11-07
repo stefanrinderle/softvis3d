@@ -123,8 +123,8 @@ public class AbsolutePositionCalculator implements PositionCalculator {
       this.innerGraphTranslation.put(id, pos);
 
       // set the position of the node
-      nodeLocationX = getXTranslation(posTranslation, translatedBb, pos.getX());
-      nodeLocationY = getXTranslation(posTranslation, translatedBb, pos.getY());
+      nodeLocationX = posTranslation.getX() + pos.getX() - translatedBb.getWidth() / 2;
+      nodeLocationY = posTranslation.getY() + pos.getY() + translatedBb.getHeight() / 2;
       pos.setLocation(nodeLocationX, nodeLocationY);
 
       this.leafElements = this.leafElements + 1;
@@ -133,33 +133,20 @@ public class AbsolutePositionCalculator implements PositionCalculator {
     }
 
     for (final att.grappa.Edge edge : graph.edgeElementsAsArray()) {
-      translateEdge(posTranslation, translatedBb, height3d, edge);
+      final GrappaLine line = (GrappaLine) edge.getAttributeValue(POS_ATTR);
+
+      final GrappaPoint[] points = line.getGrappaPoints();
+      final GrappaPoint start = points[0];
+      final GrappaPoint end = points[points.length - 2];
+
+      edge.setAttribute("origin", (posTranslation.getX() + start.getX() - translatedBb.getWidth() / 2) +
+        "," + height3d
+        + "," + (posTranslation.getY() + start.getY() + translatedBb.getHeight() / 2));
+
+      edge.setAttribute("destination", (posTranslation.getX() + end.getX() - translatedBb.getWidth() / 2) +
+        "," + height3d
+        + "," + (posTranslation.getY() + end.getY() + translatedBb.getHeight() / 2));
     }
-  }
-
-  private void translateEdge(GrappaPoint posTranslation, GrappaBox translatedBb, String height3d, Edge edge) {
-    final GrappaLine line = (GrappaLine) edge.getAttributeValue(POS_ATTR);
-
-    final GrappaPoint[] points = line.getGrappaPoints();
-    final GrappaPoint start = points[0];
-    final GrappaPoint end = points[points.length - 2];
-
-    final double startXTranslation = getXTranslation(posTranslation, translatedBb, start.getX());
-    final double startYTranslation = getYTranslation(posTranslation, translatedBb, start.getY());
-
-    final double endXTranslation = getXTranslation(posTranslation, translatedBb, end.getX());
-    final double endYTranslation = getYTranslation(posTranslation, translatedBb, end.getY());
-
-    edge.setAttribute("origin", startXTranslation + "," + height3d + "," + startYTranslation);
-    edge.setAttribute("destination", endXTranslation + "," + height3d + "," + endYTranslation);
-  }
-
-  private double getXTranslation(GrappaPoint posTranslation, GrappaBox boundingBox, double pointX) {
-    return posTranslation.getX() + pointX - boundingBox.getWidth() / 2;
-  }
-
-  private double getYTranslation(GrappaPoint posTranslation, GrappaBox boundingBox, double pointY) {
-    return posTranslation.getY() + pointY + boundingBox.getHeight() / 2;
   }
 
   private GrappaBox translateGraphBoundingBox(final GrappaPoint posTranslation, final Graph graph) {
