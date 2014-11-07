@@ -17,11 +17,11 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.tree;
+package de.rinderle.softviz3d.domain.tree;
 
-import de.rinderle.softviz3d.dto.SonarSnapshotDTO;
+import de.rinderle.softviz3d.cache.SnapshotCacheServiceBean;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
-import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
+import de.rinderle.softviz3d.preprocessing.tree.OptimizeTreeStructure;
 import de.rinderle.softviz3d.sonar.SonarService;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,9 +32,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
-
-public class ResourceTreeServiceTest {
+public class SnapshotCacheServiceTest {
 
   private static final LayoutViewType VIEW_TYPE = LayoutViewType.CITY;
 
@@ -44,39 +42,39 @@ public class ResourceTreeServiceTest {
   private OptimizeTreeStructure optimizeTreeStructure;
 
   @InjectMocks
-  private ResourceTreeServiceImpl underTest;
+  private SnapshotCacheServiceBean underTest;
 
   @Before
   public void setup() {
     MockitoAnnotations.initMocks(this);
   }
 
-  @Test
-  public void test() {
-    final int rootSnapshotId = 1;
-
-    List<SonarSnapshotDTO> children = new ArrayList<SonarSnapshotDTO>();
-    children.add(new SonarSnapshotDTO(2, "src", 0.0, 0.0));
-    children.add(new SonarSnapshotDTO(3, "src/eins", 0.0, 0.0));
-    children.add(new SonarSnapshotDTO(4, "src/zwei", 0.0, 0.0));
-    children.add(new SonarSnapshotDTO(5, "src/zwei/drei", 0.0, 0.0));
-
-    final VisualizationRequestDTO requestDTO = new VisualizationRequestDTO(rootSnapshotId, VIEW_TYPE, 0, 0);
-
-    when(this.sonarService.getFlatChildrenWithMetrics(requestDTO)).thenReturn(children);
-
-    this.underTest.getOrCreateTreeStructure(requestDTO);
-
-    // Check leaf
-    // List<TreeNode> leafs = underTest.getChildrenLeafIds(VIEW_TYPE, rootSnapshotId, rootSnapshotId);
-    // assertTrue(leafs.contains(3));
-    // assertEquals(1, leafs.size());
-
-    // Check node
-    // List<TreeNode> nodes = underTest.getChildrenNodeIds(VIEW_TYPE, rootSnapshotId, 4);
-    // assertTrue(nodes.contains(4));
-    // assertEquals(1, nodes.size());
-  }
+  // @Test
+  // public void test() {
+  // final int rootSnapshotId = 1;
+  //
+  // List<SonarSnapshotDTO> children = new ArrayList<SonarSnapshotDTO>();
+  // children.add(new SonarSnapshotDTO(2, "src", 0.0, 0.0));
+  // children.add(new SonarSnapshotDTO(3, "src/eins", 0.0, 0.0));
+  // children.add(new SonarSnapshotDTO(4, "src/zwei", 0.0, 0.0));
+  // children.add(new SonarSnapshotDTO(5, "src/zwei/drei", 0.0, 0.0));
+  //
+  // final VisualizationRequestDTO requestDTO = new VisualizationRequestDTO(rootSnapshotId, VIEW_TYPE, 0, 0);
+  //
+  // when(this.sonarService.getFlatChildrenWithMetrics(requestDTO)).thenReturn(children);
+  //
+  // this.underTest.getOrCreateTreeStructure(requestDTO);
+  //
+  // // Check leaf
+  // // List<TreeNode> leafs = underTest.getChildrenLeafIds(VIEW_TYPE, rootSnapshotId, rootSnapshotId);
+  // // assertTrue(leafs.contains(3));
+  // // assertEquals(1, leafs.size());
+  //
+  // // Check node
+  // // List<TreeNode> nodes = underTest.getChildrenNodeIds(VIEW_TYPE, rootSnapshotId, 4);
+  // // assertTrue(nodes.contains(4));
+  // // assertEquals(1, nodes.size());
+  // }
 
   @Test
   public void testLongSameIdInTree() {

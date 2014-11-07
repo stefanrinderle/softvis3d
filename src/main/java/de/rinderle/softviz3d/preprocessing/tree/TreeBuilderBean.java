@@ -17,36 +17,38 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.sonar;
+package de.rinderle.softviz3d.preprocessing.tree;
 
+import com.google.inject.Inject;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
-import de.rinderle.softviz3d.dto.MinMaxValueDTO;
-import de.rinderle.softviz3d.dto.SonarDependencyDTO;
+import de.rinderle.softviz3d.domain.tree.TreeNode;
 import de.rinderle.softviz3d.dto.SonarSnapshotDTO;
-import org.sonar.api.config.Settings;
+import de.rinderle.softviz3d.sonar.SonarService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public interface SonarService {
+public class TreeBuilderBean implements TreeBuilder {
 
-  Integer getMetric1FromSettings(Settings settings);
+  private static final Logger LOGGER = LoggerFactory.getLogger(TreeBuilderBean.class);
 
-  Integer getMetric2FromSettings(Settings settings);
+  @Inject
+  private SonarService sonarService;
 
-  /**
-   * Request all metrics which are set on the file level (Scope) for
-   * the requested root snapshot.
-   * 
-   * @param snapshotId Root snapshot ID
-   * @return defined metrics on the file level scope
-   */
-  List<Integer> getDefinedMetricsForSnapshot(
-    Integer snapshotId);
+  @Override
+  public TreeNode createTreeStructure(final VisualizationRequest requestDTO) {
+    LOGGER.info("Created tree structure for id " + requestDTO.getRootSnapshotId());
+    final PathWalker pathWalker = new PathWalker(requestDTO.getRootSnapshotId());
 
-  MinMaxValueDTO getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId);
+    final List<SonarSnapshotDTO> flatChildren =
+      this.sonarService.getFlatChildrenWithMetrics(requestDTO);
 
-  List<SonarDependencyDTO> getDependencies(Integer snapshotId);
+    for (final SonarSnapshotDTO flatChild : flatChildren) {
+      pathWalker.addPath(flatChild);
+    }
 
-  List<SonarSnapshotDTO> getFlatChildrenWithMetrics(VisualizationRequest requestDTO);
+    return pathWalker.getTree();
+  }
 
 }

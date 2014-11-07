@@ -19,8 +19,9 @@
  */
 package de.rinderle.softviz3d.layout.calc;
 
-import de.rinderle.softviz3d.tree.TreeNode;
-import de.rinderle.softviz3d.tree.TreeNodeType;
+import de.rinderle.softviz3d.domain.tree.Edge;
+import de.rinderle.softviz3d.domain.tree.TreeNode;
+import de.rinderle.softviz3d.domain.tree.TreeNodeType;
 
 import java.util.Map;
 

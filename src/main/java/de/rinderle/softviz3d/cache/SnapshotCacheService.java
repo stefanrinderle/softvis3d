@@ -17,8 +17,29 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.tree;
+package de.rinderle.softviz3d.cache;
 
-public interface OptimizeTreeStructure {
-  void removeUnnecessaryNodes(TreeNode root);
+import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.tree.TreeNode;
+
+import java.util.List;
+
+public interface SnapshotCacheService {
+
+  void printCacheContents();
+
+  boolean containsKey(SnapshotStorageKey key);
+
+  void save(SnapshotStorageKey key, TreeNode tree);
+
+  List<TreeNode> getChildrenNodeIds(SnapshotStorageKey key, Integer id);
+
+  List<TreeNode> getChildrenLeafIds(SnapshotStorageKey key, Integer id);
+
+  TreeNode findNode(SnapshotStorageKey key, Integer id);
+
+  TreeNode findInterfaceLeafNode(SnapshotStorageKey key, String intLeafLabel);
+
+  TreeNode getTreeStructure(SnapshotStorageKey key);
+
 }

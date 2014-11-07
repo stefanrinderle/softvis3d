@@ -19,7 +19,7 @@
  */
 package de.rinderle.softviz3d.handler;
 
-import de.rinderle.softviz3d.tree.TreeNode;
+import de.rinderle.softviz3d.domain.tree.TreeNode;
 import org.sonar.api.server.ws.Response;
 
 public interface TreeNodeJsonWriter {

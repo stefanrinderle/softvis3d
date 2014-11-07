@@ -21,19 +21,18 @@ package de.rinderle.softviz3d.layout.calc.topdown;
 
 import att.grappa.*;
 import com.google.inject.Inject;
+import de.rinderle.softviz3d.cache.SnapshotCacheService;
+import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.tree.TreeNode;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.helper.HexaColor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.tree.ResourceTreeService;
-import de.rinderle.softviz3d.tree.TreeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static att.grappa.GrappaConstants.POS_ATTR;
 
 public class AbsolutePositionCalculator implements PositionCalculator {
 
@@ -47,13 +46,13 @@ public class AbsolutePositionCalculator implements PositionCalculator {
   private int leafElements;
 
   @Inject
-  private ResourceTreeService resourceTreeService;
-  private String mapKey;
+  private SnapshotCacheService snapshotCacheService;
+  private SnapshotStorageKey storageKey;
 
   @Override
   public int calculate(final LayoutViewType viewType, final Integer snapshotId,
-    final Map<Integer, Graph> inputGraphList, final String mapKey) {
-    this.mapKey = mapKey;
+    final Map<Integer, Graph> inputGraphList, final SnapshotStorageKey key) {
+    this.storageKey = key;
 
     this.leafElements = 0;
 
@@ -86,7 +85,7 @@ public class AbsolutePositionCalculator implements PositionCalculator {
   }
 
   private void translateNodes(final Integer sourceId, final Graph graph, final LayoutViewType layoutViewType) {
-    final List<TreeNode> children = this.resourceTreeService.getChildrenNodeIds(this.mapKey, sourceId);
+    final List<TreeNode> children = this.snapshotCacheService.getChildrenNodeIds(this.storageKey, sourceId);
 
     for (final TreeNode child : children) {
       final GrappaPoint pos = this.innerGraphTranslation.get(child.getId());
@@ -117,7 +116,7 @@ public class AbsolutePositionCalculator implements PositionCalculator {
     String height3d = "0";
 
     for (final Node leaf : graph.nodeElementsAsArray()) {
-      pos = (GrappaPoint) leaf.getAttributeValue(POS_ATTR);
+      pos = (GrappaPoint) leaf.getAttributeValue(GrappaConstants.POS_ATTR);
 
       final int id = Integer.valueOf(leaf.getAttributeValue("id").toString());
       this.innerGraphTranslation.put(id, pos);
@@ -133,7 +132,7 @@ public class AbsolutePositionCalculator implements PositionCalculator {
     }
 
     for (final att.grappa.Edge edge : graph.edgeElementsAsArray()) {
-      final GrappaLine line = (GrappaLine) edge.getAttributeValue(POS_ATTR);
+      final GrappaLine line = (GrappaLine) edge.getAttributeValue(GrappaConstants.POS_ATTR);
 
       final GrappaPoint[] points = line.getGrappaPoints();
       final GrappaPoint start = points[0];

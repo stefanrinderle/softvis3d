@@ -17,39 +17,44 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc;
+package de.rinderle.softviz3d.preprocessing.dependencies;
 
+import de.rinderle.softviz3d.cache.InterfaceNodeService;
+import de.rinderle.softviz3d.cache.SnapshotCacheService;
+import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.tree.Edge;
+import de.rinderle.softviz3d.domain.tree.TreeNode;
 import de.rinderle.softviz3d.dto.SonarDependencyDTO;
-import de.rinderle.softviz3d.tree.ResourceTreeService;
-import de.rinderle.softviz3d.tree.TreeNode;
 
 import javax.inject.Inject;
 
 import java.util.List;
 
-public class DependencyExpanderImpl implements DependencyExpander {
+public class DependencyExpanderBean implements DependencyExpander {
 
   public static final String INTERFACE_PREFIX = "interface";
   private static final String DEP_PATH_EDGE_PREFIX = "depPath";
 
-  private String mapKey;
+  private SnapshotStorageKey storageKey;
   private int maxEdgeCounter;
 
   @Inject
-  private ResourceTreeService resourceTreeService;
+  private SnapshotCacheService snapshotCacheService;
+  @Inject
+  private InterfaceNodeService interfaceNodeService;
 
-  public int execute(final String mapKey, final List<SonarDependencyDTO> dependencies) {
+  public int execute(final SnapshotStorageKey storageKey, final List<SonarDependencyDTO> dependencies) {
     this.maxEdgeCounter = 1;
 
-    this.mapKey = mapKey;
+    this.storageKey = storageKey;
 
     for (final SonarDependencyDTO dependency : dependencies) {
 
       final Integer sourceId = dependency.getFromSnapshotId();
       final Integer destinationId = dependency.getToSnapshotId();
       // search for the common ancestor
-      final TreeNode source = this.resourceTreeService.findNode(this.mapKey, sourceId);
-      final TreeNode destination = this.resourceTreeService.findNode(this.mapKey, destinationId);
+      final TreeNode source = this.snapshotCacheService.findNode(this.storageKey, sourceId);
+      final TreeNode destination = this.snapshotCacheService.findNode(this.storageKey, destinationId);
 
       final DependencyType dependencyType = this.getDependencyType(source, destination);
 
@@ -166,10 +171,10 @@ public class DependencyExpanderImpl implements DependencyExpander {
     final TreeNode result;
     final String intLeafLabel = INTERFACE_PREFIX + "_" + parentId;
 
-    final TreeNode treeNode = this.resourceTreeService.findInterfaceLeafNode(this.mapKey, intLeafLabel);
+    final TreeNode treeNode = this.snapshotCacheService.findInterfaceLeafNode(this.storageKey, intLeafLabel);
 
     if (treeNode == null) {
-      result = this.resourceTreeService.addInterfaceLeafNode(this.mapKey, intLeafLabel, parentId);
+      result = this.interfaceNodeService.addInterfaceLeafNode(this.storageKey, intLeafLabel, parentId);
     } else {
       result = treeNode;
     }

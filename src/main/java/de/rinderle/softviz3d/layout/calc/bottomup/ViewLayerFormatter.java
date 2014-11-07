@@ -22,11 +22,11 @@ package de.rinderle.softviz3d.layout.calc.bottomup;
 import att.grappa.Edge;
 import att.grappa.Graph;
 import att.grappa.Node;
+import de.rinderle.softviz3d.domain.tree.TreeNodeType;
 import de.rinderle.softviz3d.dto.MinMaxValueDTO;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.helper.HexaColor;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.tree.TreeNodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

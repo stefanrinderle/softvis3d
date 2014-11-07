@@ -17,13 +17,33 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc;
+package de.rinderle.softviz3d.preprocessing;
 
-import de.rinderle.softviz3d.dto.SonarDependencyDTO;
+import de.rinderle.softviz3d.domain.SnapshotStorageKey;
 
-import java.util.List;
+public class SnapshotTreeResult {
 
-public interface DependencyExpander {
+  private final SnapshotStorageKey snapshotStorageKey;
+  private final int maxEdgeCounter;
 
-  public int execute(final String mapKey, final List<SonarDependencyDTO> dependencies);
+  public SnapshotTreeResult(final SnapshotStorageKey snapshotStorageKey, final int maxEdgeCounter) {
+    validateMaxEdgeCounter(maxEdgeCounter);
+
+    this.snapshotStorageKey = snapshotStorageKey;
+    this.maxEdgeCounter = maxEdgeCounter;
+  }
+
+  private void validateMaxEdgeCounter(int maxEdgeCounter) {
+    if (maxEdgeCounter < 0) {
+      throw new IllegalArgumentException("maxEdgeCounter should not be < 0: " + maxEdgeCounter);
+    }
+  }
+
+  public SnapshotStorageKey getStorageKey() {
+    return this.snapshotStorageKey;
+  }
+
+  public int getMaxEdgeCounter() {
+    return this.maxEdgeCounter;
+  }
 }

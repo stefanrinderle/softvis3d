@@ -22,8 +22,8 @@ package de.rinderle.softviz3d.grappa;
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.Node;
+import de.rinderle.softviz3d.domain.tree.TreeNodeType;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
-import de.rinderle.softviz3d.tree.TreeNodeType;
 
 public class GrappaGraphFactory {
 

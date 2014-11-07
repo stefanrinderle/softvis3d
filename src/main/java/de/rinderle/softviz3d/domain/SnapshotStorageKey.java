@@ -17,26 +17,18 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.tree;
+package de.rinderle.softviz3d.domain;
 
-import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
+public class SnapshotStorageKey {
 
-import java.util.List;
+  private String key;
 
-public interface ResourceTreeService {
+  public SnapshotStorageKey(final VisualizationRequest requestDTO) {
+    this.key = requestDTO.getRootSnapshotId() + "_" + requestDTO.getViewType().name() + "_"
+      + requestDTO.getFootprintMetricId() + "_" + requestDTO.getHeightMetricId();
+  }
 
-  String getOrCreateTreeStructure(VisualizationRequestDTO requestDTO);
-
-  List<TreeNode> getChildrenNodeIds(String mapKey, Integer id);
-
-  List<TreeNode> getChildrenLeafIds(String mapKey, Integer id);
-
-  TreeNode findNode(String mapKey, Integer id);
-
-  TreeNode addInterfaceLeafNode(String mapKey, String intLeafLabel, Integer parentId);
-
-  TreeNode findInterfaceLeafNode(String mapKey, String intLeafLabel);
-
-  TreeNode getTreeStructure(String mapKey);
-
+  public String getString() {
+    return this.key;
+  }
 }

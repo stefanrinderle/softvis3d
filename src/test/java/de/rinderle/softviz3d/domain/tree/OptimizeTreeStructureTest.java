@@ -17,9 +17,11 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.tree;
+package de.rinderle.softviz3d.domain.tree;
 
 import de.rinderle.softviz3d.dto.SonarSnapshotDTO;
+import de.rinderle.softviz3d.preprocessing.tree.OptimizeTreeStructureImpl;
+import de.rinderle.softviz3d.preprocessing.tree.PathWalker;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

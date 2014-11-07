@@ -17,15 +17,10 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc;
+package de.rinderle.softviz3d.preprocessing.tree;
 
-import att.grappa.Graph;
-import de.rinderle.softviz3d.domain.VisualizationRequest;
-import de.rinderle.softviz3d.layout.dot.DotExecutorException;
-import org.sonar.api.config.Settings;
+import de.rinderle.softviz3d.domain.tree.TreeNode;
 
-import java.util.Map;
-
-public interface Layout {
-  Map<Integer, Graph> startLayout(Settings settings, VisualizationRequest requestDTO) throws DotExecutorException;
+public interface OptimizeTreeStructure {
+  void removeUnnecessaryNodes(TreeNode root);
 }

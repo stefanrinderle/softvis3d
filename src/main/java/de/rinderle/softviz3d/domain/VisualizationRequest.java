@@ -17,15 +17,41 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.calc.topdown;
+package de.rinderle.softviz3d.domain;
 
-import att.grappa.Graph;
-import de.rinderle.softviz3d.domain.SnapshotStorageKey;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 
-import java.util.Map;
+public class VisualizationRequest {
 
-public interface PositionCalculator {
-  int calculate(LayoutViewType viewType, Integer snapshotId, Map<Integer, Graph> inputGraphList,
-    SnapshotStorageKey storageKey);
+  private final int rootSnapshotId;
+
+  private final LayoutViewType viewType;
+
+  private final int footprintMetricId;
+  private final int heightMetricId;
+
+  public VisualizationRequest(int rootSnapshotId, LayoutViewType viewType, int footprintMetricId, int heightMetricId) {
+    this.rootSnapshotId = rootSnapshotId;
+
+    this.viewType = viewType;
+
+    this.footprintMetricId = footprintMetricId;
+    this.heightMetricId = heightMetricId;
+  }
+
+  public int getRootSnapshotId() {
+    return this.rootSnapshotId;
+  }
+
+  public LayoutViewType getViewType() {
+    return this.viewType;
+  }
+
+  public int getFootprintMetricId() {
+    return this.footprintMetricId;
+  }
+
+  public int getHeightMetricId() {
+    return this.heightMetricId;
+  }
 }

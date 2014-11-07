@@ -17,8 +17,14 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.tree;
+package de.rinderle.softviz3d.preprocessing.dependencies;
 
-public enum TreeNodeType {
-  TREE, PATH_GENERATED, DEPENDENCY_GENERATED
+import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.dto.SonarDependencyDTO;
+
+import java.util.List;
+
+public interface DependencyExpander {
+
+  int execute(SnapshotStorageKey storageKey, List<SonarDependencyDTO> dependencies);
 }

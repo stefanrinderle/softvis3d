@@ -22,8 +22,8 @@ package de.rinderle.softviz3d.layout.calc.bottomup;
 import att.grappa.Graph;
 import att.grappa.Node;
 import com.google.inject.Inject;
+import de.rinderle.softviz3d.domain.tree.Edge;
 import de.rinderle.softviz3d.dto.MinMaxValueDTO;
-import de.rinderle.softviz3d.layout.calc.Edge;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
 

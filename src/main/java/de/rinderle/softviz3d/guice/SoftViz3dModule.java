@@ -21,23 +21,29 @@ package de.rinderle.softviz3d.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import de.rinderle.softviz3d.cache.InterfaceNodeService;
+import de.rinderle.softviz3d.cache.InterfaceNodeServiceBean;
+import de.rinderle.softviz3d.cache.SnapshotCacheService;
+import de.rinderle.softviz3d.cache.SnapshotCacheServiceBean;
 import de.rinderle.softviz3d.handler.SoftViz3dWebserviceInitializeHandler;
 import de.rinderle.softviz3d.handler.SoftViz3dWebserviceInitializeHandlerImpl;
 import de.rinderle.softviz3d.handler.TreeNodeJsonWriter;
 import de.rinderle.softviz3d.handler.TreeNodeJsonWriterImpl;
-import de.rinderle.softviz3d.layout.calc.DependencyExpander;
-import de.rinderle.softviz3d.layout.calc.DependencyExpanderImpl;
 import de.rinderle.softviz3d.layout.calc.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutSoftViz3d;
 import de.rinderle.softviz3d.layout.calc.bottomup.*;
 import de.rinderle.softviz3d.layout.calc.topdown.AbsolutePositionCalculator;
 import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
 import de.rinderle.softviz3d.layout.dot.*;
+import de.rinderle.softviz3d.preprocessing.PreProcessor;
+import de.rinderle.softviz3d.preprocessing.PreProcessorBean;
+import de.rinderle.softviz3d.preprocessing.dependencies.DependencyExpander;
+import de.rinderle.softviz3d.preprocessing.dependencies.DependencyExpanderBean;
+import de.rinderle.softviz3d.preprocessing.tree.OptimizeTreeStructure;
+import de.rinderle.softviz3d.preprocessing.tree.OptimizeTreeStructureImpl;
+import de.rinderle.softviz3d.preprocessing.tree.TreeBuilder;
+import de.rinderle.softviz3d.preprocessing.tree.TreeBuilderBean;
 import de.rinderle.softviz3d.sonar.*;
-import de.rinderle.softviz3d.tree.OptimizeTreeStructure;
-import de.rinderle.softviz3d.tree.OptimizeTreeStructureImpl;
-import de.rinderle.softviz3d.tree.ResourceTreeService;
-import de.rinderle.softviz3d.tree.ResourceTreeServiceImpl;
 
 public class SoftViz3dModule extends AbstractModule {
   @Override
@@ -51,13 +57,18 @@ public class SoftViz3dModule extends AbstractModule {
     this.bind(SonarService.class).to(SonarServiceImpl.class);
 
     this.bind(OptimizeTreeStructure.class).to(OptimizeTreeStructureImpl.class);
-    this.bind(ResourceTreeService.class).to(ResourceTreeServiceImpl.class);
-    this.bind(DependencyExpander.class).to(DependencyExpanderImpl.class);
+    this.bind(SnapshotCacheService.class).to(SnapshotCacheServiceBean.class);
+    this.bind(DependencyExpander.class).to(DependencyExpanderBean.class);
+
+    this.bind(InterfaceNodeService.class).to(InterfaceNodeServiceBean.class);
 
     this.bind(Layout.class).to(LayoutSoftViz3d.class);
     this.bind(LayerFormatter.class).to(ViewLayerFormatter.class);
 
     this.bind(PositionCalculator.class).to(AbsolutePositionCalculator.class);
+
+    this.bind(PreProcessor.class).to(PreProcessorBean.class);
+    this.bind(TreeBuilder.class).to(TreeBuilderBean.class);
 
     this.bind(TreeNodeJsonWriter.class).to(TreeNodeJsonWriterImpl.class);
     this.bind(SoftViz3dWebserviceInitializeHandler.class).to(SoftViz3dWebserviceInitializeHandlerImpl.class);

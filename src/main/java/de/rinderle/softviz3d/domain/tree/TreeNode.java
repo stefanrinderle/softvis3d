@@ -17,9 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.tree;
-
-import de.rinderle.softviz3d.layout.calc.Edge;
+package de.rinderle.softviz3d.domain.tree;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,10 +49,6 @@ public class TreeNode {
 
   public Map<String, TreeNode> getChildren() {
     return this.children;
-  }
-
-  public void setChildren(final Map<String, TreeNode> children) {
-    this.children = children;
   }
 
   public boolean isNode() {
@@ -101,8 +95,8 @@ public class TreeNode {
     this.name = name;
   }
 
-  public void setEdge(final Edge outEdge) {
-    this.edges.put(outEdge.getDepEdgeLabel(), outEdge);
+  public void setEdge(final Edge edge) {
+    this.edges.put(edge.getDepEdgeLabel(), edge);
   }
 
   public boolean hasEdge(final String edgeLabel) {

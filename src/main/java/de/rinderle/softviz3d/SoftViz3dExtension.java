@@ -22,10 +22,10 @@ package de.rinderle.softviz3d;
 import att.grappa.Graph;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import de.rinderle.softviz3d.domain.VisualizationRequest;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
 import de.rinderle.softviz3d.layout.calc.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
-import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import de.rinderle.softviz3d.sonar.DependencyDao;
 import de.rinderle.softviz3d.sonar.SonarDao;
@@ -49,6 +49,7 @@ public class SoftViz3dExtension implements ServerExtension {
   private final Injector softVizInjector;
 
   public SoftViz3dExtension(final DatabaseSession session, final Settings settings) {
+    LOGGER.warn("Constructor SoftViz3dExtension");
     this.settings = settings;
 
     this.softVizInjector = Guice.createInjector(new SoftViz3dModule());
@@ -86,7 +87,7 @@ public class SoftViz3dExtension implements ServerExtension {
     final Integer footprintMetricId = Integer.valueOf(metricString1);
     final Integer heightMetricId = Integer.valueOf(metricString2);
 
-    final VisualizationRequestDTO requestDTO = new VisualizationRequestDTO(snapshotId, type, footprintMetricId,
+    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, type, footprintMetricId,
       heightMetricId);
 
     final Layout layout = this.softVizInjector.getInstance(Layout.class);

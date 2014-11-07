@@ -20,9 +20,9 @@
 package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import att.grappa.Graph;
+import de.rinderle.softviz3d.domain.tree.TreeNode;
 import de.rinderle.softviz3d.layout.calc.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.dot.DotExecutorException;
-import de.rinderle.softviz3d.tree.TreeNode;
 
 import java.util.List;
 import java.util.Map;

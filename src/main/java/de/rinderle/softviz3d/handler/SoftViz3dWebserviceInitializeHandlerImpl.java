@@ -20,28 +20,26 @@
 package de.rinderle.softviz3d.handler;
 
 import com.google.inject.Inject;
-import de.rinderle.softviz3d.dto.SonarDependencyDTO;
-import de.rinderle.softviz3d.layout.calc.DependencyExpander;
+import de.rinderle.softviz3d.cache.SnapshotCacheService;
+import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.VisualizationRequest;
+import de.rinderle.softviz3d.domain.tree.TreeNode;
 import de.rinderle.softviz3d.layout.calc.LayoutViewType;
-import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
+import de.rinderle.softviz3d.preprocessing.PreProcessor;
 import de.rinderle.softviz3d.sonar.SonarService;
-import de.rinderle.softviz3d.tree.ResourceTreeService;
-import de.rinderle.softviz3d.tree.TreeNode;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
-
-import java.util.List;
 
 public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebserviceInitializeHandler {
 
   @Inject
-  private ResourceTreeService resourceTreeService;
-  @Inject
-  private DependencyExpander dependencyExpander;
+  private SnapshotCacheService snapshotCacheService;
   @Inject
   private SonarService sonarService;
   @Inject
   private TreeNodeJsonWriter treeNodeJsonWriter;
+  @Inject
+  private PreProcessor preProcessor;
 
   @Override
   public void handle(final Request request, final Response response) {
@@ -50,16 +48,9 @@ public class SoftViz3dWebserviceInitializeHandlerImpl implements SoftViz3dWebser
     final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
 
     final LayoutViewType type = LayoutViewType.valueOfRequest(request.param("viewType"));
-    final VisualizationRequestDTO requestDTO = new VisualizationRequestDTO(id, type, footprintMetricId, heightMetricId);
+    final VisualizationRequest requestDTO = new VisualizationRequest(id, type, footprintMetricId, heightMetricId);
 
-    // TODO: do in one step
-    final String mapKey = this.resourceTreeService.getOrCreateTreeStructure(requestDTO);
-    if (LayoutViewType.DEPENDENCY.equals(type)) {
-      final List<SonarDependencyDTO> dependencies = this.sonarService.getDependencies(id);
-      this.dependencyExpander.execute(mapKey, dependencies);
-    }
-
-    final TreeNode tree = this.resourceTreeService.getTreeStructure(mapKey);
+    final TreeNode tree = snapshotCacheService.getTreeStructure(new SnapshotStorageKey(requestDTO));
 
     this.treeNodeJsonWriter.transformTreeToJson(response, tree);
   }

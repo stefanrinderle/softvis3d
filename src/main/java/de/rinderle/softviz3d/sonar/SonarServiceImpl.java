@@ -20,10 +20,10 @@
 package de.rinderle.softviz3d.sonar;
 
 import com.google.inject.Inject;
+import de.rinderle.softviz3d.domain.VisualizationRequest;
 import de.rinderle.softviz3d.dto.MinMaxValueDTO;
 import de.rinderle.softviz3d.dto.SonarDependencyDTO;
 import de.rinderle.softviz3d.dto.SonarSnapshotDTO;
-import de.rinderle.softviz3d.layout.calc.VisualizationRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
@@ -74,7 +74,7 @@ public class SonarServiceImpl implements SonarService {
   }
 
   @Override
-  public List<SonarSnapshotDTO> getFlatChildrenWithMetrics(final VisualizationRequestDTO requestDTO) {
+  public List<SonarSnapshotDTO> getFlatChildrenWithMetrics(final VisualizationRequest requestDTO) {
     final List<SonarSnapshotDTO> result = new ArrayList<SonarSnapshotDTO>();
 
     final List<Object[]> resultFootprintMetric =
