@@ -20,16 +20,19 @@
 package de.rinderle.softviz3d.preprocessing;
 
 import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.tree.TreeNode;
 
 public class SnapshotTreeResult {
 
   private final SnapshotStorageKey snapshotStorageKey;
+  private final TreeNode tree;
   private final int maxEdgeCounter;
 
-  public SnapshotTreeResult(final SnapshotStorageKey snapshotStorageKey, final int maxEdgeCounter) {
+  public SnapshotTreeResult(final SnapshotStorageKey snapshotStorageKey, final TreeNode tree, final int maxEdgeCounter) {
     validateMaxEdgeCounter(maxEdgeCounter);
 
     this.snapshotStorageKey = snapshotStorageKey;
+    this.tree = tree;
     this.maxEdgeCounter = maxEdgeCounter;
   }
 
@@ -45,5 +48,9 @@ public class SnapshotTreeResult {
 
   public int getMaxEdgeCounter() {
     return this.maxEdgeCounter;
+  }
+
+  public TreeNode getTree() {
+    return this.tree;
   }
 }

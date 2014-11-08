@@ -21,6 +21,7 @@ package de.rinderle.softviz3d.cache;
 
 import de.rinderle.softviz3d.domain.SnapshotStorageKey;
 import de.rinderle.softviz3d.domain.tree.TreeNode;
+import de.rinderle.softviz3d.preprocessing.SnapshotTreeResult;
 
 import java.util.List;
 
@@ -30,8 +31,6 @@ public interface SnapshotCacheService {
 
   boolean containsKey(SnapshotStorageKey key);
 
-  void save(SnapshotStorageKey key, TreeNode tree);
-
   List<TreeNode> getChildrenNodeIds(SnapshotStorageKey key, Integer id);
 
   List<TreeNode> getChildrenLeafIds(SnapshotStorageKey key, Integer id);
@@ -39,5 +38,9 @@ public interface SnapshotCacheService {
   TreeNode findNode(SnapshotStorageKey key, Integer id);
 
   TreeNode getTreeStructure(SnapshotStorageKey key);
+
+  SnapshotTreeResult getSnapshotTreeResult(SnapshotStorageKey key);
+
+  void save(SnapshotTreeResult result);
 
 }

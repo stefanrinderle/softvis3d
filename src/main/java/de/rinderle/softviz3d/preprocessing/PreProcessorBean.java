@@ -48,7 +48,6 @@ public class PreProcessorBean implements PreProcessor {
 
   @Override
   public SnapshotTreeResult process(VisualizationRequest requestDTO) {
-    // TODO: do in one step
     int maxEdgeCounter = 0;
     // final String mapKey = this.resourceTreeService.getOrCreateTreeStructure(requestDTO);
 
@@ -56,11 +55,11 @@ public class PreProcessorBean implements PreProcessor {
 
     final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
-    final TreeNode tree;
+    final SnapshotTreeResult result;
     if (snapshotCacheService.containsKey(mapKey)) {
-      tree = snapshotCacheService.getTreeStructure(mapKey);
+      result = snapshotCacheService.getSnapshotTreeResult(mapKey);
     } else {
-      tree = treeBuilder.createTreeStructure(requestDTO);
+      final TreeNode tree = treeBuilder.createTreeStructure(requestDTO);
       this.optimizeTreeStructure.removeUnnecessaryNodes(tree);
 
       if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
@@ -68,10 +67,11 @@ public class PreProcessorBean implements PreProcessor {
         maxEdgeCounter = this.dependencyExpander.execute(tree, dependencies);
       }
 
-      snapshotCacheService.save(mapKey, tree);
+      result = new SnapshotTreeResult(mapKey, tree, maxEdgeCounter);
+      this.snapshotCacheService.save(result);
     }
 
-    return new SnapshotTreeResult(mapKey, maxEdgeCounter);
+    return result;
   }
 
 }

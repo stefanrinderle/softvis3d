@@ -20,7 +20,7 @@
 package de.rinderle.softviz3d.cache;
 
 import de.rinderle.softviz3d.domain.SnapshotStorageKey;
-import de.rinderle.softviz3d.domain.tree.TreeNode;
+import de.rinderle.softviz3d.preprocessing.SnapshotTreeResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,15 +38,15 @@ class SnapshotTreeStorage {
    * This will prevent the calculation of the same tree structure once for
    * the page and once for the webservice.
    */
-  private static Map<String, TreeNode> storage = new ConcurrentHashMap<String, TreeNode>();
+  private static Map<String, SnapshotTreeResult> storage = new ConcurrentHashMap<String, SnapshotTreeResult>();
 
-  static TreeNode get(final SnapshotStorageKey key) {
+  static SnapshotTreeResult get(final SnapshotStorageKey key) {
     return storage.get(key.getString());
   }
 
   static void print() {
     LOGGER.info("Current SnapshotTreeStorage size " + storage.size());
-    for (final Map.Entry<String, TreeNode> entry : storage.entrySet()) {
+    for (final Map.Entry<String, SnapshotTreeResult> entry : storage.entrySet()) {
       LOGGER.info(entry.getKey());
     }
     LOGGER.info("---");
@@ -56,7 +56,7 @@ class SnapshotTreeStorage {
     return storage.containsKey(key.getString());
   }
 
-  static void save(SnapshotStorageKey key, TreeNode tree) {
-    storage.put(key.getString(), tree);
+  public static void save(SnapshotTreeResult result) {
+    storage.put(result.getStorageKey().getString(), result);
   }
 }

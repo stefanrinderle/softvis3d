@@ -21,6 +21,7 @@ package de.rinderle.softviz3d.cache;
 
 import de.rinderle.softviz3d.domain.SnapshotStorageKey;
 import de.rinderle.softviz3d.domain.tree.TreeNode;
+import de.rinderle.softviz3d.preprocessing.SnapshotTreeResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,8 +44,8 @@ public class SnapshotCacheServiceBean implements SnapshotCacheService {
   }
 
   @Override
-  public void save(SnapshotStorageKey key, TreeNode tree) {
-    SnapshotTreeStorage.save(key, tree);
+  public void save(SnapshotTreeResult result) {
+    SnapshotTreeStorage.save(result);
   }
 
   @Override
@@ -63,13 +64,18 @@ public class SnapshotCacheServiceBean implements SnapshotCacheService {
 
   @Override
   public TreeNode findNode(final SnapshotStorageKey key, final Integer id) {
-    final TreeNode rootNode = SnapshotTreeStorage.get(key);
+    final TreeNode rootNode = getTreeStructure(key);
 
     return this.recursiveSearch(id, rootNode);
   }
 
   @Override
-  public TreeNode getTreeStructure(final SnapshotStorageKey key) {
+  public TreeNode getTreeStructure(SnapshotStorageKey key) {
+    return SnapshotTreeStorage.get(key).getTree();
+  }
+
+  @Override
+  public SnapshotTreeResult getSnapshotTreeResult(SnapshotStorageKey key) {
     return SnapshotTreeStorage.get(key);
   }
 
