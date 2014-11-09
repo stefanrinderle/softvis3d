@@ -22,26 +22,24 @@ package de.rinderle.softviz3d;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
-import de.rinderle.softviz3d.handler.SoftViz3dWebserviceInitializeHandler;
-import de.rinderle.softviz3d.sonar.DependencyDao;
-import de.rinderle.softviz3d.sonar.SonarDao;
+import de.rinderle.softviz3d.webservice.TreeWebserviceHandler;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.WebService;
 
 public class SoftViz3dWebservice implements WebService {
 
-  private final SoftViz3dWebserviceInitializeHandler initializeHandler;
+  private final TreeWebserviceHandler treeHandler;
 
   public SoftViz3dWebservice(final DatabaseSession session) {
     final Injector softVizInjector = Guice.createInjector(new SoftViz3dModule());
 
-    final SonarDao sonarDao = softVizInjector.getInstance(SonarDao.class);
-    sonarDao.setDatabaseSession(session);
+    // final SonarDao sonarDao = softVizInjector.getInstance(SonarDao.class);
+    // sonarDao.setDatabaseSession(session);
+    //
+    // final DependencyDao dependencyDao = softVizInjector.getInstance(DependencyDao.class);
+    // dependencyDao.setDatabaseSession(session);
 
-    final DependencyDao dependencyDao = softVizInjector.getInstance(DependencyDao.class);
-    dependencyDao.setDatabaseSession(session);
-
-    this.initializeHandler = softVizInjector.getInstance(SoftViz3dWebserviceInitializeHandler.class);
+    this.treeHandler = softVizInjector.getInstance(TreeWebserviceHandler.class);
   }
 
   @Override
@@ -50,9 +48,9 @@ public class SoftViz3dWebservice implements WebService {
     controller.setDescription("SoftViz3d webservice");
 
     // create the URL /api/softViz3d/initialize
-    controller.createAction("initialize")
-      .setDescription("Initialize point")
-      .setHandler(this.initializeHandler)
+    controller.createAction("getTree")
+      .setDescription("Get tree structure")
+      .setHandler(this.treeHandler)
       .createParam("snapshotId", "Snapshot id")
       .createParam("footprintMetricId", "Footprint metric id")
       .createParam("heightMetricId", "Height metric id")

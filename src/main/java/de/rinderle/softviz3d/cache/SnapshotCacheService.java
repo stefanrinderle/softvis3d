@@ -20,8 +20,8 @@
 package de.rinderle.softviz3d.cache;
 
 import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import de.rinderle.softviz3d.domain.tree.TreeNode;
-import de.rinderle.softviz3d.preprocessing.SnapshotTreeResult;
 
 import java.util.List;
 

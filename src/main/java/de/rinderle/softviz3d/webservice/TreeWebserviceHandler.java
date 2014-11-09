@@ -17,13 +17,13 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.handler;
+package de.rinderle.softviz3d.webservice;
 
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
 
-public interface SoftViz3dWebserviceInitializeHandler extends RequestHandler {
+public interface TreeWebserviceHandler extends RequestHandler {
 
   @Override
   void handle(Request request, Response response);

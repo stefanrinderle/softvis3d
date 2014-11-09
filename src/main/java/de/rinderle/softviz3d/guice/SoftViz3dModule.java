@@ -23,10 +23,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import de.rinderle.softviz3d.cache.SnapshotCacheService;
 import de.rinderle.softviz3d.cache.SnapshotCacheServiceBean;
-import de.rinderle.softviz3d.handler.SoftViz3dWebserviceInitializeHandler;
-import de.rinderle.softviz3d.handler.SoftViz3dWebserviceInitializeHandlerImpl;
-import de.rinderle.softviz3d.handler.TreeNodeJsonWriter;
-import de.rinderle.softviz3d.handler.TreeNodeJsonWriterImpl;
 import de.rinderle.softviz3d.layout.calc.Layout;
 import de.rinderle.softviz3d.layout.calc.LayoutSoftViz3d;
 import de.rinderle.softviz3d.layout.calc.bottomup.*;
@@ -42,6 +38,10 @@ import de.rinderle.softviz3d.preprocessing.tree.OptimizeTreeStructureImpl;
 import de.rinderle.softviz3d.preprocessing.tree.TreeBuilder;
 import de.rinderle.softviz3d.preprocessing.tree.TreeBuilderBean;
 import de.rinderle.softviz3d.sonar.*;
+import de.rinderle.softviz3d.webservice.TreeNodeJsonWriter;
+import de.rinderle.softviz3d.webservice.TreeNodeJsonWriterImpl;
+import de.rinderle.softviz3d.webservice.TreeWebserviceHandler;
+import de.rinderle.softviz3d.webservice.TreeWebserviceHandlerBean;
 
 public class SoftViz3dModule extends AbstractModule {
   @Override
@@ -67,7 +67,7 @@ public class SoftViz3dModule extends AbstractModule {
     this.bind(TreeBuilder.class).to(TreeBuilderBean.class);
 
     this.bind(TreeNodeJsonWriter.class).to(TreeNodeJsonWriterImpl.class);
-    this.bind(SoftViz3dWebserviceInitializeHandler.class).to(SoftViz3dWebserviceInitializeHandlerImpl.class);
+    this.bind(TreeWebserviceHandler.class).to(TreeWebserviceHandlerBean.class);
 
     this.install(new FactoryModuleBuilder().implement(de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor.class,
       SnapshotVisitorImpl.class).build(SnapshotVisitorFactory.class));

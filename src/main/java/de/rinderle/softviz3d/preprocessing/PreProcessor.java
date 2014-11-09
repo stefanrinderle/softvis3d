@@ -19,6 +19,7 @@
  */
 package de.rinderle.softviz3d.preprocessing;
 
+import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
 
 public interface PreProcessor {

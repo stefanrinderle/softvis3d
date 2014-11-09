@@ -22,6 +22,7 @@ package de.rinderle.softviz3d.preprocessing;
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.cache.SnapshotCacheService;
 import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
 import de.rinderle.softviz3d.domain.tree.TreeNode;
 import de.rinderle.softviz3d.dto.SonarDependencyDTO;

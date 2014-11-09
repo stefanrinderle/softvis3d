@@ -120,7 +120,7 @@
     init(document.getElementById('renderContainer'), false);
     animate();
 
-    initializeWebservice(<%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>");
+    getTreeViaWebserver(<%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>");
 
     // city or dependency
     var viewType = "<%= params[:viewType] %>";

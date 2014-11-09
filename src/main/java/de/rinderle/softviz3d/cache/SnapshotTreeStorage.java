@@ -20,7 +20,7 @@
 package de.rinderle.softviz3d.cache;
 
 import de.rinderle.softviz3d.domain.SnapshotStorageKey;
-import de.rinderle.softviz3d.preprocessing.SnapshotTreeResult;
+import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

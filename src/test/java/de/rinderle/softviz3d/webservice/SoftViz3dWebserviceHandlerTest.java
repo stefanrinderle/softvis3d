@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.handler;
+package de.rinderle.softviz3d.webservice;
 
 import de.rinderle.softviz3d.cache.SnapshotCacheService;
 import de.rinderle.softviz3d.sonar.SonarService;
@@ -53,7 +53,7 @@ public class SoftViz3dWebserviceHandlerTest {
   private TreeNodeJsonWriter treeNodeJsonWriter;
 
   @InjectMocks
-  private final SoftViz3dWebserviceInitializeHandler handler = new SoftViz3dWebserviceInitializeHandlerImpl();
+  private final TreeWebserviceHandler handler = new TreeWebserviceHandlerBean();
 
   @Before
   public void setUp() {

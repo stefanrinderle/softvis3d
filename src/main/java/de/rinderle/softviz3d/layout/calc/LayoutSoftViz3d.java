@@ -22,6 +22,7 @@ package de.rinderle.softviz3d.layout.calc;
 import att.grappa.Graph;
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.cache.SnapshotCacheService;
+import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
 import de.rinderle.softviz3d.dto.MinMaxValueDTO;
 import de.rinderle.softviz3d.guice.SnapshotVisitorFactory;
@@ -30,7 +31,6 @@ import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
 import de.rinderle.softviz3d.layout.calc.topdown.PositionCalculator;
 import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import de.rinderle.softviz3d.preprocessing.PreProcessor;
-import de.rinderle.softviz3d.preprocessing.SnapshotTreeResult;
 import de.rinderle.softviz3d.preprocessing.dependencies.DependencyExpander;
 import de.rinderle.softviz3d.sonar.SonarService;
 import org.apache.commons.lang.time.StopWatch;
@@ -72,14 +72,6 @@ public class LayoutSoftViz3d implements Layout {
 
     final StopWatch stopWatch = new StopWatch();
     stopWatch.start();
-
-    // // TODO: do in one step
-    // int maxEdgeCounter = 0;
-    // final String mapKey = this.resourceTreeService.getOrCreateTreeStructure(requestDTO);
-    // if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
-    // final List<SonarDependencyDTO> dependencies = this.sonarService.getDependencies(requestDTO.getRootSnapshotId());
-    // maxEdgeCounter = this.dependencyExpander.execute(mapKey, dependencies);
-    // }
 
     final SnapshotTreeResult snapshotTreeResult = preProcessor.process(requestDTO);
 
