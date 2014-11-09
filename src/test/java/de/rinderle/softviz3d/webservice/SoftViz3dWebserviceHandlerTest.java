@@ -20,7 +20,7 @@
 package de.rinderle.softviz3d.webservice;
 
 import de.rinderle.softviz3d.cache.SnapshotCacheService;
-import de.rinderle.softviz3d.sonar.SonarService;
+import de.rinderle.softviz3d.dao.DaoService;
 import org.junit.Before;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -46,7 +46,7 @@ public class SoftViz3dWebserviceHandlerTest {
   private final static String MAP_KEY = "1";
 
   @Mock
-  private SonarService sonarService;
+  private DaoService daoService;
   @Mock
   private SnapshotCacheService snapshotCacheService;
   @Mock

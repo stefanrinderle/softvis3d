@@ -17,10 +17,15 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.dot;
+package de.rinderle.softviz3d.postprocessing;
 
-public interface DotVersion {
+import att.grappa.Graph;
+import de.rinderle.softviz3d.domain.LayoutViewType;
+import de.rinderle.softviz3d.domain.SnapshotStorageKey;
 
-  String getVersion(String dotBin);
+import java.util.Map;
 
+public interface PostProcessor {
+  int process(LayoutViewType viewType, Integer snapshotId, Map<Integer, Graph> inputGraphList,
+    SnapshotStorageKey storageKey);
 }

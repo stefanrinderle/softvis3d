@@ -20,9 +20,9 @@
 package de.rinderle.softviz3d.domain.tree;
 
 import de.rinderle.softviz3d.cache.SnapshotCacheServiceBean;
-import de.rinderle.softviz3d.layout.calc.LayoutViewType;
+import de.rinderle.softviz3d.dao.DaoService;
+import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.preprocessing.tree.OptimizeTreeStructure;
-import de.rinderle.softviz3d.sonar.SonarService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -37,7 +37,7 @@ public class SnapshotCacheServiceTest {
   private static final LayoutViewType VIEW_TYPE = LayoutViewType.CITY;
 
   @Mock
-  private SonarService sonarService;
+  private DaoService daoService;
   @Mock
   private OptimizeTreeStructure optimizeTreeStructure;
 

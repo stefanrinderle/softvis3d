@@ -20,7 +20,7 @@
 package de.rinderle.softviz3d.layout.dot;
 
 import att.grappa.Graph;
-import de.rinderle.softviz3d.layout.calc.LayoutViewType;
+import de.rinderle.softviz3d.domain.LayoutViewType;
 import org.sonar.api.config.Settings;
 
 public interface DotExecutor {

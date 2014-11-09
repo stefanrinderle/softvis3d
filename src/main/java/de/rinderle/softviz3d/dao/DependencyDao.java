@@ -17,10 +17,15 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.dot;
+package de.rinderle.softviz3d.dao;
 
-public interface DotVersion {
+import de.rinderle.softviz3d.domain.sonar.SonarDependency;
+import org.sonar.api.database.DatabaseSession;
 
-  String getVersion(String dotBin);
+import java.util.List;
 
+public interface DependencyDao {
+  void setDatabaseSession(DatabaseSession session);
+
+  List<SonarDependency> getDependencies(Integer projectSnapshotId);
 }

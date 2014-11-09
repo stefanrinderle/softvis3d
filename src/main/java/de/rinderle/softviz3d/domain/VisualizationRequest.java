@@ -19,8 +19,6 @@
  */
 package de.rinderle.softviz3d.domain;
 
-import de.rinderle.softviz3d.layout.calc.LayoutViewType;
-
 public class VisualizationRequest {
 
   private final int rootSnapshotId;

@@ -19,7 +19,7 @@
  */
 package de.rinderle.softviz3d;
 
-import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
+import de.rinderle.softviz3d.domain.SoftViz3dConstants;
 import org.sonar.api.*;
 
 import java.util.ArrayList;

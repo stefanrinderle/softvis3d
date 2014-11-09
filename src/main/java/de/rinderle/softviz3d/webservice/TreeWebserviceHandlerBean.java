@@ -21,10 +21,10 @@ package de.rinderle.softviz3d.webservice;
 
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.cache.SnapshotCacheService;
+import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.domain.SnapshotStorageKey;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
 import de.rinderle.softviz3d.domain.tree.TreeNode;
-import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.preprocessing.PreProcessor;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;

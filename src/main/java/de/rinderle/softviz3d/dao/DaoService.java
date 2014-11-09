@@ -17,38 +17,36 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.preprocessing.tree;
+package de.rinderle.softviz3d.dao;
 
-import com.google.inject.Inject;
-import de.rinderle.softviz3d.dao.DaoService;
+import de.rinderle.softviz3d.domain.MinMaxValue;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
+import de.rinderle.softviz3d.domain.sonar.SonarDependency;
 import de.rinderle.softviz3d.domain.sonar.SonarSnapshot;
-import de.rinderle.softviz3d.domain.tree.TreeNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
 
 import java.util.List;
 
-public class TreeBuilderBean implements TreeBuilder {
+public interface DaoService {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(TreeBuilderBean.class);
+  Integer getMetric1FromSettings(Settings settings);
 
-  @Inject
-  private DaoService daoService;
+  Integer getMetric2FromSettings(Settings settings);
 
-  @Override
-  public TreeNode createTreeStructure(final VisualizationRequest requestDTO) {
-    LOGGER.info("Created tree structure for id " + requestDTO.getRootSnapshotId());
-    final PathWalker pathWalker = new PathWalker(requestDTO.getRootSnapshotId());
+  /**
+   * Request all metrics which are set on the file level (Scope) for
+   * the requested root snapshot.
+   * 
+   * @param snapshotId Root snapshot ID
+   * @return defined metrics on the file level scope
+   */
+  List<Integer> getDefinedMetricsForSnapshot(
+    Integer snapshotId);
 
-    final List<SonarSnapshot> flatChildren =
-      this.daoService.getFlatChildrenWithMetrics(requestDTO);
+  MinMaxValue getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId);
 
-    for (final SonarSnapshot flatChild : flatChildren) {
-      pathWalker.addPath(flatChild);
-    }
+  List<SonarDependency> getDependencies(Integer snapshotId);
 
-    return pathWalker.getTree();
-  }
+  List<SonarSnapshot> getFlatChildrenWithMetrics(VisualizationRequest requestDTO);
 
 }

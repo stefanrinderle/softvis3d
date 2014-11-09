@@ -19,9 +19,9 @@
  */
 package de.rinderle.softviz3d.preprocessing.tree;
 
+import de.rinderle.softviz3d.domain.sonar.SonarSnapshot;
 import de.rinderle.softviz3d.domain.tree.TreeNode;
 import de.rinderle.softviz3d.domain.tree.TreeNodeType;
-import de.rinderle.softviz3d.dto.SonarSnapshotDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +48,7 @@ public class PathWalker {
     return this.root;
   }
 
-  public void addPath(final SonarSnapshotDTO element) {
+  public void addPath(final SonarSnapshot element) {
     final String[] names = this.pathSeparator.split(element.getPath());
     TreeNode currentNode = this.root;
 

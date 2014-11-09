@@ -17,10 +17,23 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.dot;
+package de.rinderle.softviz3d.layout.bottomUp;
 
-public interface DotVersion {
+import att.grappa.Graph;
+import de.rinderle.softviz3d.domain.layout.LayeredLayoutElement;
+import de.rinderle.softviz3d.domain.tree.TreeNode;
+import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 
-  String getVersion(String dotBin);
+import java.util.List;
+import java.util.Map;
+
+public interface SnapshotVisitor {
+
+  Map<Integer, Graph> getResultingGraphList();
+
+  LayeredLayoutElement visitNode(TreeNode node,
+    List<LayeredLayoutElement> elements) throws DotExecutorException;
+
+  LayeredLayoutElement visitFile(TreeNode leaf);
 
 }

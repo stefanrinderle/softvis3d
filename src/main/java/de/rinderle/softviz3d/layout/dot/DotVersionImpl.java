@@ -28,11 +28,6 @@ public class DotVersionImpl implements DotVersion {
   @Inject
   private ExecuteCommand executeCommand;
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.rinderle.softviz3d.layout.dot.DotVersion#getVersion(org.sonar.api.config.Settings)
-   */
   @Override
   public String getVersion(final String dotBin) {
     if (this.version == null) {

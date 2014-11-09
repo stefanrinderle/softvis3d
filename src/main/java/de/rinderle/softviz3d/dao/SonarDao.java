@@ -17,10 +17,22 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.dot;
+package de.rinderle.softviz3d.dao;
 
-public interface DotVersion {
+import de.rinderle.softviz3d.domain.MinMaxValue;
+import org.sonar.api.database.DatabaseSession;
 
-  String getVersion(String dotBin);
+import java.util.List;
 
+public interface SonarDao {
+
+  void setDatabaseSession(DatabaseSession session);
+
+  Integer getMetricIdByName(String name);
+
+  List<Integer> getDistinctMetricsBySnapshotId(Integer snapshotId);
+
+  List<Object[]> getAllProjectElementsWithMetric(Integer rootSnapshotId, Integer metricId);
+
+  MinMaxValue getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId);
 }

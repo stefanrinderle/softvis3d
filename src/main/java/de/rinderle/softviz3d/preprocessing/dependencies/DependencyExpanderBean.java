@@ -19,10 +19,10 @@
  */
 package de.rinderle.softviz3d.preprocessing.dependencies;
 
+import de.rinderle.softviz3d.domain.sonar.SonarDependency;
 import de.rinderle.softviz3d.domain.tree.Edge;
 import de.rinderle.softviz3d.domain.tree.TreeNode;
 import de.rinderle.softviz3d.domain.tree.TreeNodeType;
-import de.rinderle.softviz3d.dto.SonarDependencyDTO;
 
 import java.util.List;
 
@@ -35,10 +35,10 @@ public class DependencyExpanderBean implements DependencyExpander {
 
   private int generatedIdSequence = Integer.MAX_VALUE - 1000000;
 
-  public int execute(final TreeNode treeRootNode, final List<SonarDependencyDTO> dependencies) {
+  public int execute(final TreeNode treeRootNode, final List<SonarDependency> dependencies) {
     this.maxEdgeCounter = 1;
 
-    for (final SonarDependencyDTO dependency : dependencies) {
+    for (final SonarDependency dependency : dependencies) {
 
       final Integer sourceId = dependency.getFromSnapshotId();
       final Integer destinationId = dependency.getToSnapshotId();

@@ -20,6 +20,8 @@
 package de.rinderle.softviz3d.layout.calc.bottomup;
 
 import de.rinderle.softviz3d.cache.SnapshotCacheService;
+import de.rinderle.softviz3d.layout.bottomUp.BottomUpLayoutBean;
+import de.rinderle.softviz3d.layout.bottomUp.SnapshotVisitor;
 import org.junit.Before;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -38,7 +40,7 @@ public class BottomUpProcessorTest {
   private SnapshotVisitor mockVisitor;
 
   @InjectMocks
-  private BottomUpProcessor underTest = new BottomUpProcessor();
+  private BottomUpLayoutBean underTest = new BottomUpLayoutBean();
 
   @Before
   public void setUp() {

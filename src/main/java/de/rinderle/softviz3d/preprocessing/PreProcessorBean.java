@@ -21,16 +21,16 @@ package de.rinderle.softviz3d.preprocessing;
 
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.cache.SnapshotCacheService;
+import de.rinderle.softviz3d.dao.DaoService;
+import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.domain.SnapshotStorageKey;
 import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
+import de.rinderle.softviz3d.domain.sonar.SonarDependency;
 import de.rinderle.softviz3d.domain.tree.TreeNode;
-import de.rinderle.softviz3d.dto.SonarDependencyDTO;
-import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.preprocessing.dependencies.DependencyExpander;
 import de.rinderle.softviz3d.preprocessing.tree.OptimizeTreeStructure;
 import de.rinderle.softviz3d.preprocessing.tree.TreeBuilder;
-import de.rinderle.softviz3d.sonar.SonarService;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class PreProcessorBean implements PreProcessor {
   @Inject
   private SnapshotCacheService snapshotCacheService;
   @Inject
-  private SonarService sonarService;
+  private DaoService daoService;
   @Inject
   private DependencyExpander dependencyExpander;
 
@@ -64,7 +64,7 @@ public class PreProcessorBean implements PreProcessor {
       this.optimizeTreeStructure.removeUnnecessaryNodes(tree);
 
       if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
-        final List<SonarDependencyDTO> dependencies = this.sonarService.getDependencies(requestDTO.getRootSnapshotId());
+        final List<SonarDependency> dependencies = this.daoService.getDependencies(requestDTO.getRootSnapshotId());
         maxEdgeCounter = this.dependencyExpander.execute(tree, dependencies);
       }
 

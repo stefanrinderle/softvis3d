@@ -22,14 +22,13 @@ package de.rinderle.softviz3d;
 import att.grappa.Graph;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import de.rinderle.softviz3d.dao.DaoService;
+import de.rinderle.softviz3d.dao.DependencyDao;
+import de.rinderle.softviz3d.dao.SonarDao;
+import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
-import de.rinderle.softviz3d.layout.calc.Layout;
-import de.rinderle.softviz3d.layout.calc.LayoutViewType;
 import de.rinderle.softviz3d.layout.dot.DotExecutorException;
-import de.rinderle.softviz3d.sonar.DependencyDao;
-import de.rinderle.softviz3d.sonar.SonarDao;
-import de.rinderle.softviz3d.sonar.SonarService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
@@ -45,7 +44,7 @@ public class SoftViz3dExtension implements ServerExtension {
     .getLogger(SoftViz3dExtension.class);
 
   private final Settings settings;
-  private final SonarService sonarService;
+  private final DaoService daoService;
   private final Injector softVizInjector;
 
   public SoftViz3dExtension(final DatabaseSession session, final Settings settings) {
@@ -59,21 +58,21 @@ public class SoftViz3dExtension implements ServerExtension {
     final DependencyDao dependencyDao = this.softVizInjector.getInstance(DependencyDao.class);
     dependencyDao.setDatabaseSession(session);
 
-    this.sonarService = this.softVizInjector.getInstance(SonarService.class);
+    this.daoService = this.softVizInjector.getInstance(DaoService.class);
   }
 
   public List<Integer> getMetricsForSnapshot(final Integer snapshotId) {
     LOGGER.info("getMetricsForSnapshot " + snapshotId);
 
-    return this.sonarService.getDefinedMetricsForSnapshot(snapshotId);
+    return this.daoService.getDefinedMetricsForSnapshot(snapshotId);
   }
 
   public Integer getMetric1FromSettings() {
-    return this.sonarService.getMetric1FromSettings(this.settings);
+    return this.daoService.getMetric1FromSettings(this.settings);
   }
 
   public Integer getMetric2FromSettings() {
-    return this.sonarService.getMetric2FromSettings(this.settings);
+    return this.daoService.getMetric2FromSettings(this.settings);
   }
 
   public Map<Integer, Graph> createLayoutBySnapshotId(final Integer snapshotId,
@@ -90,8 +89,9 @@ public class SoftViz3dExtension implements ServerExtension {
     final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, type, footprintMetricId,
       heightMetricId);
 
-    final Layout layout = this.softVizInjector.getInstance(Layout.class);
-    return layout.startLayout(this.settings, requestDTO);
+    final VisualizationProcessor visualizationProcessor = this.softVizInjector
+      .getInstance(VisualizationProcessor.class);
+    return visualizationProcessor.visualize(this.settings, requestDTO);
   }
 
   private void logStartOfCalc(final String metricId1, final String metricId2,

@@ -20,7 +20,7 @@
 package de.rinderle.softviz3d.dot;
 
 import att.grappa.Graph;
-import de.rinderle.softviz3d.layout.calc.LayoutViewType;
+import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import de.rinderle.softviz3d.layout.dot.DotExecutorImpl;
 import de.rinderle.softviz3d.layout.dot.DotVersion;

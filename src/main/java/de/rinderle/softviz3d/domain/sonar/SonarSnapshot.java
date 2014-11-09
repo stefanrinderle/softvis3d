@@ -17,10 +17,36 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.dot;
+package de.rinderle.softviz3d.domain.sonar;
 
-public interface DotVersion {
+public class SonarSnapshot {
 
-  String getVersion(String dotBin);
+  private final int id;
+  private final String path;
+  private final double footprintMetricValue;
+  private final double heightMetricValue;
+
+  public SonarSnapshot(int id, String path, double footprintMetricValue, double heightMetricValue) {
+    this.id = id;
+    this.path = path;
+    this.footprintMetricValue = footprintMetricValue;
+    this.heightMetricValue = heightMetricValue;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public String getPath() {
+    return path;
+  }
+
+  public double getFootprintMetricValue() {
+    return footprintMetricValue;
+  }
+
+  public double getHeightMetricValue() {
+    return heightMetricValue;
+  }
 
 }

@@ -17,10 +17,15 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.dot;
+package de.rinderle.softviz3d.layout.bottomUp;
 
-public interface DotVersion {
+import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.layout.LayeredLayoutElement;
+import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 
-  String getVersion(String dotBin);
+public interface BottomUpLayout {
+
+  LayeredLayoutElement accept(SnapshotVisitor visitor, Integer snapshotId, SnapshotStorageKey storageKey)
+    throws DotExecutorException;
 
 }

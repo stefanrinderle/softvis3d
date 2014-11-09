@@ -17,10 +17,20 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.dot;
+package de.rinderle.softviz3d.domain;
 
-public interface DotVersion {
+public enum LayoutViewType {
+  CITY, DEPENDENCY;
 
-  String getVersion(String dotBin);
+  // TODO: make this nicer
+  public static LayoutViewType valueOfRequest(String requestValue) {
+    final LayoutViewType result;
+    if ("city".equals(requestValue)) {
+      result = LayoutViewType.CITY;
+    } else {
+      result = LayoutViewType.DEPENDENCY;
+    }
 
+    return result;
+  }
 }

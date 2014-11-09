@@ -22,7 +22,7 @@
 //import att.grappa.Graph;
 //import att.grappa.GrappaBox;
 //import de.rinderle.softviz3d.grappa.GrappaGraphFactory;
-//import de.rinderle.softviz3d.layout.calc.LayoutViewType;
+//import de.rinderle.softviz3d.domain.LayoutViewType;
 //import de.rinderle.softviz3d.cache.ResourceTreeService;
 //import de.rinderle.softviz3d.domain.tree.TreeNode;
 //import de.rinderle.softviz3d.domain.tree.TreeNodeType;
@@ -66,7 +66,7 @@
 //    final Map<Integer, Graph> inputGraphList = new ConcurrentHashMap<Integer, Graph>();
 //    inputGraphList.put(ID, GrappaGraphFactory.createGraph());
 //
-//    this.underTest.calculate(VIEW_TYPE, ID, inputGraphList, MAP_KEY);
+//    this.underTest.process(VIEW_TYPE, ID, inputGraphList, MAP_KEY);
 //
 //    final Graph result = inputGraphList.get(ID);
 //
@@ -88,7 +88,7 @@
 //    childrenNodes.add(new TreeNode(SUBGRAPH_ID, null, 0, TreeNodeType.TREE, "" + SUBGRAPH_ID, 0, 0));
 //    when(this.resourceTreeService.getChildrenNodeIds(eq(MAP_KEY), eq(ID))).thenReturn(childrenNodes);
 //
-//    this.underTest.calculate(VIEW_TYPE, ID, inputGraphList, MAP_KEY);
+//    this.underTest.process(VIEW_TYPE, ID, inputGraphList, MAP_KEY);
 //
 //    final Graph result = inputGraphList.get(SUBGRAPH_ID);
 //

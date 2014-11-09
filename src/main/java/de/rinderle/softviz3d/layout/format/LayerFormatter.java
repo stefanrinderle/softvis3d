@@ -17,10 +17,18 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.dot;
+package de.rinderle.softviz3d.layout.format;
 
-public interface DotVersion {
+import att.grappa.Graph;
+import de.rinderle.softviz3d.domain.LayoutViewType;
+import de.rinderle.softviz3d.domain.MinMaxValue;
 
-  String getVersion(String dotBin);
+public interface LayerFormatter {
+  void format(Graph graph, Integer depth, LayoutViewType viewType);
 
+  double calcBuildingHeight(Double value, MinMaxValue minMaxMetricHeight);
+
+  double calcSideLength(Double value, MinMaxValue minMaxMetricFootprint);
+
+  double calcEdgeRadius(int counter, MinMaxValue minMaxEdgeCounter);
 }

@@ -17,10 +17,25 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.dot;
+package de.rinderle.softviz3d.domain;
 
-public interface DotVersion {
+public class MinMaxValue {
 
-  String getVersion(String dotBin);
+  private final Double minValue;
+  private final Double maxValue;
+
+  public MinMaxValue(final Double minValue, final Double maxValue) {
+    super();
+    this.minValue = minValue;
+    this.maxValue = maxValue;
+  }
+
+  public Double getMinValue() {
+    return this.minValue;
+  }
+
+  public Double getMaxValue() {
+    return this.maxValue;
+  }
 
 }

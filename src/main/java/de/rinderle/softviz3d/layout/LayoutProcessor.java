@@ -17,10 +17,15 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.dot;
+package de.rinderle.softviz3d.layout;
 
-public interface DotVersion {
+import de.rinderle.softviz3d.domain.SnapshotTreeResult;
+import de.rinderle.softviz3d.domain.VisualizationRequest;
+import de.rinderle.softviz3d.layout.dot.DotExecutorException;
+import org.sonar.api.config.Settings;
 
-  String getVersion(String dotBin);
+public interface LayoutProcessor {
 
+  java.util.Map<Integer, att.grappa.Graph> process(Settings settings,
+    VisualizationRequest requestDTO, SnapshotTreeResult snapshotTreeResult) throws DotExecutorException;
 }

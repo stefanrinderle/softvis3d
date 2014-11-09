@@ -20,7 +20,7 @@
 package de.rinderle.softviz3d.grappa;
 
 import att.grappa.*;
-import de.rinderle.softviz3d.layout.interfaces.SoftViz3dConstants;
+import de.rinderle.softviz3d.domain.SoftViz3dConstants;
 import org.junit.Before;
 import org.junit.Test;
 

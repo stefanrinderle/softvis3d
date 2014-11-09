@@ -20,15 +20,15 @@
 package de.rinderle.softviz3d.guice;
 
 import com.google.inject.assistedinject.Assisted;
-import de.rinderle.softviz3d.dto.MinMaxValueDTO;
-import de.rinderle.softviz3d.layout.calc.LayoutViewType;
-import de.rinderle.softviz3d.layout.calc.bottomup.SnapshotVisitor;
+import de.rinderle.softviz3d.domain.LayoutViewType;
+import de.rinderle.softviz3d.domain.MinMaxValue;
+import de.rinderle.softviz3d.layout.bottomUp.SnapshotVisitor;
 import org.sonar.api.config.Settings;
 
 public interface SnapshotVisitorFactory {
   public SnapshotVisitor create(
     @Assisted Settings settings, @Assisted LayoutViewType viewType,
-    @Assisted(value = "minMaxFootprintMetricValues") MinMaxValueDTO minMaxFootprintMetricValues,
-    @Assisted(value = "minMaxHeightMetricValues") MinMaxValueDTO minMaxHeightMetricValues,
-    @Assisted(value = "minMaxEdgeCounter") MinMaxValueDTO minMaxEdgeCounter);
+    @Assisted(value = "minMaxFootprintMetricValues") MinMaxValue minMaxFootprintMetricValues,
+    @Assisted(value = "minMaxHeightMetricValues") MinMaxValue minMaxHeightMetricValues,
+    @Assisted(value = "minMaxEdgeCounter") MinMaxValue minMaxEdgeCounter);
 }
