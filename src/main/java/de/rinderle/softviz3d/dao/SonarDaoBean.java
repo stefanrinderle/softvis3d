@@ -57,9 +57,13 @@ public class SonarDaoBean implements SonarDao {
       this.session.start();
 
       final Query metricsQuery = this.session
-        .createQuery("SELECT distinct metricId "
-          + "FROM MeasureModel m WHERE m.snapshotId = :snapshotId "
-          + "AND m.value is not null");
+        .createNativeQuery("SELECT DISTINCT m.metric_id "
+          + "FROM project_measures m "
+          + "INNER JOIN snapshots s ON s.id = m.snapshot_id "
+          + "WHERE s.root_snapshot_id = :snapshotId "
+          + "AND m.value is not null "
+          + "AND s.scope != 'PRJ' AND s.scope != 'DIR' "
+          + "ORDER BY m.metric_id ASC");
       metricsQuery.setParameter("snapshotId", snapshotId);
 
       metricIds = metricsQuery.getResultList();
