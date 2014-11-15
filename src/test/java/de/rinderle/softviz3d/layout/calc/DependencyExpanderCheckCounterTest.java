@@ -67,12 +67,12 @@ public class DependencyExpanderCheckCounterTest {
   //
   // this.underTest.execute(MAP_KEY, dependencies);
   //
-  // assertTrue(treeNode2.getEdges().containsKey("depPath_2"));
-  // assertTrue(treeNode2.getEdges().get("depPath_2").getCounter() == 1);
-  // assertTrue(treeNode3.getEdges().containsKey("depPath_3"));
-  // assertTrue(treeNode3.getEdges().get("depPath_3").getCounter() == 1);
+  // assertTrue(treeNode2.getArrows().containsKey("depPath_2"));
+  // assertTrue(treeNode2.getArrows().get("depPath_2").getCounter() == 1);
+  // assertTrue(treeNode3.getArrows().containsKey("depPath_3"));
+  // assertTrue(treeNode3.getArrows().get("depPath_3").getCounter() == 1);
   //
-  // assertTrue(treeNode1.getEdges().isEmpty());
+  // assertTrue(treeNode1.getArrows().isEmpty());
   // }
   //
   // /**
@@ -96,11 +96,11 @@ public class DependencyExpanderCheckCounterTest {
   //
   // this.underTest.execute(MAP_KEY, dependencies);
   //
-  // assertTrue(treeNode2.getEdges().containsKey("depPath_2"));
-  // assertTrue(treeNode2.getEdges().get("depPath_2").getCounter() == 2);
+  // assertTrue(treeNode2.getArrows().containsKey("depPath_2"));
+  // assertTrue(treeNode2.getArrows().get("depPath_2").getCounter() == 2);
   //
-  // assertTrue(treeNode1.getEdges().isEmpty());
-  // assertTrue(treeNode3.getEdges().isEmpty());
+  // assertTrue(treeNode1.getArrows().isEmpty());
+  // assertTrue(treeNode3.getArrows().isEmpty());
   // }
   //
   // /**
@@ -134,17 +134,17 @@ public class DependencyExpanderCheckCounterTest {
   // this.underTest.execute(MAP_KEY, dependencies);
   //
   // // dependency elevator edge start
-  // assertTrue(treeNode3.getEdges().containsKey("depPath_3"));
-  // assertTrue(treeNode3.getEdges().get("depPath_3").getCounter() == 2);
+  // assertTrue(treeNode3.getArrows().containsKey("depPath_3"));
+  // assertTrue(treeNode3.getArrows().get("depPath_3").getCounter() == 2);
   // // flat edge
-  // assertTrue(treeNode2.getEdges().containsKey("depPath_2"));
-  // assertTrue(treeNode2.getEdges().get("depPath_2").getCounter() == 2);
+  // assertTrue(treeNode2.getArrows().containsKey("depPath_2"));
+  // assertTrue(treeNode2.getArrows().get("depPath_2").getCounter() == 2);
   // // dependency elevator edge end
-  // assertTrue(interfaceLeafNode4.getEdges().containsKey("depPath_5"));
-  // assertTrue(interfaceLeafNode4.getEdges().get("depPath_5").getCounter() == 1);
+  // assertTrue(interfaceLeafNode4.getArrows().containsKey("depPath_5"));
+  // assertTrue(interfaceLeafNode4.getArrows().get("depPath_5").getCounter() == 1);
   //
-  // assertTrue(treeNode5.getEdges().isEmpty());
-  // assertTrue(interfaceLeafNode2.getEdges().isEmpty());
+  // assertTrue(treeNode5.getArrows().isEmpty());
+  // assertTrue(interfaceLeafNode2.getArrows().isEmpty());
   // }
   //
   // private TreeNode createTreeNode(final int id, final TreeNode parent, final int depth) {

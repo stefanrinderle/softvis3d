@@ -19,12 +19,12 @@
  */
 package de.rinderle.softviz3d.layout;
 
-import att.grappa.Graph;
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.dao.DaoService;
 import de.rinderle.softviz3d.domain.MinMaxValue;
 import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
+import de.rinderle.softviz3d.domain.graph.ResultPlatform;
 import de.rinderle.softviz3d.guice.SnapshotVisitorFactory;
 import de.rinderle.softviz3d.layout.bottomUp.BottomUpLayout;
 import de.rinderle.softviz3d.layout.bottomUp.SnapshotVisitor;
@@ -48,7 +48,7 @@ public class LayoutProcessorBean implements LayoutProcessor {
     .getLogger(LayoutProcessorBean.class);
 
   @Override
-  public Map<Integer, Graph> process(Settings settings, VisualizationRequest requestDTO,
+  public Map<Integer, ResultPlatform> process(Settings settings, VisualizationRequest requestDTO,
     SnapshotTreeResult snapshotTreeResult)
     throws DotExecutorException {
     final MinMaxValue minMaxFootprintValues = this.daoService.getMinMaxMetricValuesByRootSnapshotId(

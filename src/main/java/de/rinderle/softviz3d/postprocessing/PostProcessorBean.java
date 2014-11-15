@@ -19,10 +19,16 @@
  */
 package de.rinderle.softviz3d.postprocessing;
 
-import att.grappa.*;
+import att.grappa.GrappaBox;
+import att.grappa.GrappaConstants;
+import att.grappa.GrappaLine;
+import att.grappa.GrappaPoint;
 import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import de.rinderle.softviz3d.domain.SoftViz3dConstants;
+import de.rinderle.softviz3d.domain.graph.ResultArrow;
+import de.rinderle.softviz3d.domain.graph.ResultBuilding;
+import de.rinderle.softviz3d.domain.graph.ResultPlatform;
 import de.rinderle.softviz3d.domain.tree.TreeNode;
 import de.rinderle.softviz3d.layout.helper.HexaColor;
 import org.slf4j.Logger;
@@ -37,7 +43,7 @@ public class PostProcessorBean implements PostProcessor {
   private static final Logger LOGGER = LoggerFactory
     .getLogger(PostProcessorBean.class);
 
-  private Map<Integer, Graph> inputGraphs;
+  private Map<Integer, ResultPlatform> resultGraphs;
 
   private Map<Integer, GrappaPoint> innerGraphTranslation;
 
@@ -45,11 +51,11 @@ public class PostProcessorBean implements PostProcessor {
 
   @Override
   public int process(final LayoutViewType viewType, final Integer snapshotId,
-    final Map<Integer, Graph> inputGraphList, final SnapshotTreeResult treeResult) {
+    final Map<Integer, ResultPlatform> resultGraphs, final SnapshotTreeResult treeResult) {
     this.leafElements = 0;
 
     this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
-    this.inputGraphs = inputGraphList;
+    this.resultGraphs = resultGraphs;
 
     this.addTranslationToLayer(treeResult.getTree(), new GrappaPoint(0, 0), viewType);
 
@@ -59,25 +65,25 @@ public class PostProcessorBean implements PostProcessor {
   private void addTranslationToLayer(final TreeNode currentNode,
     final GrappaPoint posTranslation,
     final LayoutViewType layoutViewType) {
-    LOGGER.debug("AbsolutePositionCalculator addTranslationToLayer " + currentNode.getId());
 
     LOGGER.debug("addTranslationToLayer" + currentNode.getId() + " " + posTranslation.toString());
 
     // inputGraphs --> Map<Integer, Graph>
     // Step 1 - search the graph for the source given
-    final Graph graph = this.inputGraphs.get(currentNode.getId());
+    final ResultPlatform platform = this.resultGraphs.get(currentNode.getId());
 
     // Step 2 - set translation for the graph itself (will be a layer later)
-    final GrappaBox translatedBb = this.translateGraphBoundingBox(posTranslation, graph);
+    final GrappaBox translatedBb = this.translatePlatform(platform, posTranslation);
 
     // Step 3 - for all leaves, just add the parent point3d changes
-    this.translateLeaves(posTranslation, graph, translatedBb);
+    this.translateLeaves(posTranslation, platform, translatedBb);
 
     // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes
-    this.translateNodes(currentNode, graph, layoutViewType);
+    this.translateNodes(currentNode, platform, layoutViewType);
   }
 
-  private void translateNodes(final TreeNode currentNode, final Graph graph, final LayoutViewType layoutViewType) {
+  private void translateNodes(final TreeNode currentNode, final ResultPlatform graph,
+    final LayoutViewType layoutViewType) {
     final List<TreeNode> children = currentNode.getChildrenNodes();
 
     for (final TreeNode child : children) {
@@ -89,11 +95,11 @@ public class PostProcessorBean implements PostProcessor {
     }
   }
 
-  private void formatOrDeleteRepresentationNode(Graph graph, LayoutViewType layoutViewType, TreeNode child) {
+  private void formatOrDeleteRepresentationNode(ResultPlatform graph, LayoutViewType layoutViewType, TreeNode child) {
     if (LayoutViewType.CITY.equals(layoutViewType)) {
       graph.removeNode("dir_" + child.getId());
     } else {
-      final Node dirNode = graph.findNodeByName("dir_" + child.getId());
+      final ResultBuilding dirNode = graph.findNodeByName("dir_" + child.getId());
       final HexaColor color = new HexaColor(100, 100, 100);
       dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, color.getHex());
       dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_OPACITY, "0.7");
@@ -101,14 +107,15 @@ public class PostProcessorBean implements PostProcessor {
     }
   }
 
-  private void translateLeaves(final GrappaPoint posTranslation, final Graph graph, final GrappaBox translatedBb) {
+  private void translateLeaves(final GrappaPoint posTranslation, final ResultPlatform graph,
+    final GrappaBox translatedBb) {
     GrappaPoint pos;
     double nodeLocationX;
     double nodeLocationY;
 
-    String height3d = "0";
+    String height3d;
 
-    for (final Node leaf : graph.nodeElementsAsArray()) {
+    for (final ResultBuilding leaf : graph.getNodes()) {
       pos = (GrappaPoint) leaf.getAttributeValue(GrappaConstants.POS_ATTR);
 
       final int id = Integer.valueOf(leaf.getAttributeValue("id").toString());
@@ -122,30 +129,35 @@ public class PostProcessorBean implements PostProcessor {
       this.leafElements = this.leafElements + 1;
 
       height3d = (String) leaf.getAttributeValue("layerHeight3d");
+
+      for (final ResultArrow arrow : leaf.getArrows()) {
+        translateArrow(posTranslation, translatedBb, height3d, arrow);
+      }
     }
 
-    for (final att.grappa.Edge edge : graph.edgeElementsAsArray()) {
-      final GrappaLine line = (GrappaLine) edge.getAttributeValue(GrappaConstants.POS_ATTR);
-
-      final GrappaPoint[] points = line.getGrappaPoints();
-      final GrappaPoint start = points[0];
-      final GrappaPoint end = points[points.length - 2];
-
-      edge.setAttribute("origin", (posTranslation.getX() + start.getX() - translatedBb.getWidth() / 2) +
-        "," + height3d
-        + "," + (posTranslation.getY() + start.getY() + translatedBb.getHeight() / 2));
-
-      edge.setAttribute("destination", (posTranslation.getX() + end.getX() - translatedBb.getWidth() / 2) +
-        "," + height3d
-        + "," + (posTranslation.getY() + end.getY() + translatedBb.getHeight() / 2));
-    }
   }
 
-  private GrappaBox translateGraphBoundingBox(final GrappaPoint posTranslation, final Graph graph) {
-    final GrappaBox bb = (GrappaBox) graph.getAttributeValue("bb");
+  private void translateArrow(GrappaPoint posTranslation, GrappaBox translatedBb, String height3d, ResultArrow arrow) {
+    final GrappaLine line = (GrappaLine) arrow.getAttributeValue(GrappaConstants.POS_ATTR);
+
+    final GrappaPoint[] points = line.getGrappaPoints();
+    final GrappaPoint start = points[0];
+    final GrappaPoint end = points[points.length - 2];
+
+    arrow.setAttribute("origin", (posTranslation.getX() + start.getX() - translatedBb.getWidth() / 2) +
+      "," + height3d
+      + "," + (posTranslation.getY() + start.getY() + translatedBb.getHeight() / 2));
+
+    arrow.setAttribute("destination", (posTranslation.getX() + end.getX() - translatedBb.getWidth() / 2) +
+      "," + height3d
+      + "," + (posTranslation.getY() + end.getY() + translatedBb.getHeight() / 2));
+  }
+
+  private GrappaBox translatePlatform(final ResultPlatform platform, final GrappaPoint posTranslation) {
+    final GrappaBox bb = (GrappaBox) platform.getAttributeValue("bb");
     final GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY(), bb.getWidth(),
       bb.getHeight());
-    graph.setAttribute("bb", translatedBb);
+    platform.setAttribute("bb", translatedBb);
     return translatedBb;
   }
 

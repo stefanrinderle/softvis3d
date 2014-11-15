@@ -19,13 +19,13 @@
  */
 package de.rinderle.softviz3d.postprocessing;
 
-import att.grappa.Graph;
 import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.domain.SnapshotTreeResult;
+import de.rinderle.softviz3d.domain.graph.ResultPlatform;
 
 import java.util.Map;
 
 public interface PostProcessor {
-  int process(LayoutViewType viewType, Integer snapshotId, Map<Integer, Graph> inputGraphList,
+  int process(LayoutViewType viewType, Integer snapshotId, Map<Integer, ResultPlatform> resultGraphList,
     SnapshotTreeResult treeResult);
 }

@@ -19,12 +19,12 @@
  */
 package de.rinderle.softviz3d.layout.format;
 
-import att.grappa.Graph;
 import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.domain.MinMaxValue;
+import de.rinderle.softviz3d.domain.graph.ResultPlatform;
 
 public interface LayerFormatter {
-  void format(Graph graph, Integer depth, LayoutViewType viewType);
+  void format(ResultPlatform graph, Integer depth, LayoutViewType viewType);
 
   double calcBuildingHeight(Double value, MinMaxValue minMaxMetricHeight);
 

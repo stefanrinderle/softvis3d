@@ -21,11 +21,12 @@ package de.rinderle.softviz3d.layout;
 
 import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
+import de.rinderle.softviz3d.domain.graph.ResultPlatform;
 import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import org.sonar.api.config.Settings;
 
 public interface LayoutProcessor {
 
-  java.util.Map<Integer, att.grappa.Graph> process(Settings settings,
+  java.util.Map<Integer, ResultPlatform> process(Settings settings,
     VisualizationRequest requestDTO, SnapshotTreeResult snapshotTreeResult) throws DotExecutorException;
 }

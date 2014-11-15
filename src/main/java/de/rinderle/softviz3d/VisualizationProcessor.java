@@ -19,13 +19,14 @@
  */
 package de.rinderle.softviz3d;
 
-import att.grappa.Graph;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
+import de.rinderle.softviz3d.domain.graph.ResultPlatform;
 import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import org.sonar.api.config.Settings;
 
 import java.util.Map;
 
 public interface VisualizationProcessor {
-  Map<Integer, Graph> visualize(Settings settings, VisualizationRequest requestDTO) throws DotExecutorException;
+  Map<Integer, ResultPlatform> visualize(Settings settings, VisualizationRequest requestDTO)
+    throws DotExecutorException;
 }

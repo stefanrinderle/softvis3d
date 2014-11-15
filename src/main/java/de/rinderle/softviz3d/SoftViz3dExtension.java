@@ -19,7 +19,6 @@
  */
 package de.rinderle.softviz3d;
 
-import att.grappa.Graph;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.rinderle.softviz3d.dao.DaoService;
@@ -27,6 +26,7 @@ import de.rinderle.softviz3d.dao.DependencyDao;
 import de.rinderle.softviz3d.dao.SonarDao;
 import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
+import de.rinderle.softviz3d.domain.graph.ResultPlatform;
 import de.rinderle.softviz3d.guice.SoftViz3dModule;
 import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import org.slf4j.Logger;
@@ -75,7 +75,7 @@ public class SoftViz3dExtension implements ServerExtension {
     return this.daoService.getMetric2FromSettings(this.settings);
   }
 
-  public Map<Integer, Graph> createLayoutBySnapshotId(final Integer snapshotId,
+  public Map<Integer, ResultPlatform> createLayoutBySnapshotId(final Integer snapshotId,
     final String metricString1, final String metricString2, final String viewType) throws DotExecutorException {
     LOGGER.info("Startup SoftViz3d plugin with snapshot " + snapshotId);
 

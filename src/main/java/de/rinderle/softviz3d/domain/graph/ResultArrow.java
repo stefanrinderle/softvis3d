@@ -17,23 +17,44 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softviz3d.layout.bottomUp;
+package de.rinderle.softviz3d.domain.graph;
 
-import de.rinderle.softviz3d.domain.graph.ResultPlatform;
-import de.rinderle.softviz3d.domain.layout.LayeredLayoutElement;
-import de.rinderle.softviz3d.domain.tree.TreeNode;
-import de.rinderle.softviz3d.layout.dot.DotExecutorException;
+import att.grappa.Edge;
 
-import java.util.List;
-import java.util.Map;
+public class ResultArrow {
 
-public interface SnapshotVisitor {
+  private final Edge edge;
 
-  Map<Integer, ResultPlatform> getResultingGraphList();
+  private final int headBuildingId;
+  private final int tailBuildingId;
 
-  LayeredLayoutElement visitNode(TreeNode node,
-    List<LayeredLayoutElement> elements) throws DotExecutorException;
+  public ResultArrow(Edge edge) {
+    this.edge = edge;
 
-  LayeredLayoutElement visitFile(TreeNode leaf);
+    this.headBuildingId = edge.getHead().getId();
+    this.tailBuildingId = edge.getTail().getId();
+  }
+
+  public Object getAttributeValue(String value) {
+    return edge.getAttributeValue(value);
+  }
+
+  public void setAttribute(String key, String value) {
+    edge.setAttribute(key, value);
+  }
+
+  /**
+   * used by view.
+   */
+  public int getTailId() {
+    return tailBuildingId;
+  }
+
+  /**
+   * used by view.
+   */
+  public int getHeadId() {
+    return headBuildingId;
+  }
 
 }

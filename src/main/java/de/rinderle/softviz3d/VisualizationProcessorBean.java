@@ -19,10 +19,10 @@
  */
 package de.rinderle.softviz3d;
 
-import att.grappa.Graph;
 import com.google.inject.Inject;
 import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
+import de.rinderle.softviz3d.domain.graph.ResultPlatform;
 import de.rinderle.softviz3d.layout.LayoutProcessor;
 import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 import de.rinderle.softviz3d.postprocessing.PostProcessor;
@@ -48,7 +48,7 @@ public class VisualizationProcessorBean implements VisualizationProcessor {
   private PostProcessor calc;
 
   @Override
-  public Map<Integer, Graph> visualize(final Settings settings, final VisualizationRequest requestDTO)
+  public Map<Integer, ResultPlatform> visualize(final Settings settings, final VisualizationRequest requestDTO)
     throws DotExecutorException {
 
     final StopWatch stopWatch = new StopWatch();
@@ -58,7 +58,7 @@ public class VisualizationProcessorBean implements VisualizationProcessor {
 
     LOGGER.info("Created tree structure after " + stopWatch.getTime());
 
-    final Map<Integer, Graph> resultGraphs = layoutProcessor.process(settings, requestDTO, snapshotTreeResult);
+    final Map<Integer, ResultPlatform> resultGraphs = layoutProcessor.process(settings, requestDTO, snapshotTreeResult);
 
     final int leavesCounter = this.calc.process(requestDTO.getViewType(), requestDTO.getRootSnapshotId(),
       resultGraphs, snapshotTreeResult);

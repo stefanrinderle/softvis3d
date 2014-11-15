@@ -27,6 +27,7 @@ import com.google.inject.assistedinject.Assisted;
 import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.domain.MinMaxValue;
 import de.rinderle.softviz3d.domain.SoftViz3dConstants;
+import de.rinderle.softviz3d.domain.graph.ResultPlatform;
 import de.rinderle.softviz3d.domain.layout.GrappaTransformer;
 import de.rinderle.softviz3d.domain.layout.LayeredLayoutElement;
 import de.rinderle.softviz3d.domain.tree.Edge;
@@ -58,7 +59,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
   private final MinMaxValue minMaxMetricHeight;
   private final MinMaxValue minMaxEdgeCounter;
 
-  private final Map<Integer, Graph> resultingGraphList = new ConcurrentHashMap<Integer, Graph>();
+  private final Map<Integer, ResultPlatform> resultingGraphList = new ConcurrentHashMap<Integer, ResultPlatform>();
 
   private final LayoutViewType viewType;
 
@@ -84,7 +85,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
   }
 
   @Override
-  public Map<Integer, Graph> getResultingGraphList() {
+  public Map<Integer, ResultPlatform> getResultingGraphList() {
     return this.resultingGraphList;
   }
 
@@ -95,29 +96,21 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     LOGGER.debug("LayoutVisitor.visitNode " + node.getId() + " " + node.getName());
 
     // create layout graph
-    final Graph inputGraph = new Graph(node.getId().toString());
-
-    for (final LayeredLayoutElement element : elements) {
-      final Node elementNode = this.transformer.transformToGrappaNode(inputGraph, element);
-      inputGraph.addNode(elementNode);
-    }
-
-    for (final LayeredLayoutElement element : elements) {
-      for (final Edge edge : element.getEdges().values()) {
-        inputGraph.addEdge(this.transformer.transformToGrappaEdge(inputGraph, edge, this.minMaxEdgeCounter));
-      }
-    }
+    final Graph inputGraph = createGrappaInputGraph(node, elements);
 
     // run dot layout for this layer
     final Graph outputGraph = this.dotExecutor.run(inputGraph, this.settings, this.viewType);
 
-    // adjust graph
-    this.formatter.format(outputGraph, node.getDepth(), this.viewType);
+    final ResultPlatform resultPlatform = new ResultPlatform(outputGraph);
 
-    this.resultingGraphList.put(node.getId(), outputGraph);
+    // adjust graph
+    this.formatter.format(resultPlatform, node.getDepth(), this.viewType);
+
+    this.resultingGraphList.put(node.getId(), resultPlatform);
+    // this.resultLayers.put(node.getId(), )
 
     // adjusted graph has a bounding box !
-    final GrappaBox bb = (GrappaBox) outputGraph.getAttributeValue("bb");
+    final GrappaBox bb = (GrappaBox) resultPlatform.getAttributeValue("bb");
 
     /**
      * The dot output of the bb is given in DPI. The actual width
@@ -130,6 +123,22 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     final double platformHeight = 5;
 
     return LayeredLayoutElement.createLayeredLayoutNodeElement(node, width, height, platformHeight);
+  }
+
+  private Graph createGrappaInputGraph(TreeNode node, List<LayeredLayoutElement> elements) {
+    final Graph inputGraph = new Graph(node.getId().toString());
+
+    for (final LayeredLayoutElement element : elements) {
+      final Node elementNode = this.transformer.transformToGrappaNode(inputGraph, element);
+      inputGraph.addNode(elementNode);
+    }
+
+    for (final LayeredLayoutElement element : elements) {
+      for (final Edge edge : element.getEdges().values()) {
+        inputGraph.addEdge(this.transformer.transformToGrappaEdge(inputGraph, edge, this.minMaxEdgeCounter));
+      }
+    }
+    return inputGraph;
   }
 
   @Override

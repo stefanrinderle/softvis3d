@@ -57,8 +57,6 @@ public class DotExecutorImpl implements DotExecutor {
   @Override
   public Graph run(final Graph inputGraph, final Settings settings, final LayoutViewType viewType)
     throws DotExecutorException {
-    final StringWriter writer = new StringWriter();
-    inputGraph.printGraph(writer);
 
     final String dotBin = settings.getString(SoftViz3dConstants.DOT_BIN_KEY);
     String command = dotBin + " ";
@@ -66,6 +64,8 @@ public class DotExecutorImpl implements DotExecutor {
       command = dotBin + " -K neato ";
     }
 
+    final StringWriter writer = new StringWriter();
+    inputGraph.printGraph(writer);
     String adot = this.executeCommand.executeCommandReadAdot(command, writer.toString());
 
     if (this.dotVersion.getVersion(dotBin).equals(DOT_BUG_VERSION)) {

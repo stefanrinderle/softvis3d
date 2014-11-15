@@ -163,7 +163,7 @@
 
     <%
     # show all treeNodes
-    value.nodeElementsAsArray.each { |val|
+    value.getNodes.each { |val|
         %>
     var nodeMaterial = new THREE.MeshLambertMaterial({
         color: <%= val.getAttributeValue('nodesColor') %>,
@@ -187,21 +187,20 @@
 
     // <%= val.to_s %>
     createBox(nodeGeometry, nodeMaterial, position, "<%= val.getAttributeValue('id') %>", "leaf");
+
     <%
+        # show all treeEdges
+        val.getArrows.each { |arrow| %>
+    // <%= arrow.to_s %>
+    // edgeRadius: <%= arrow.getAttributeValue('edgeRadius').to_s %>
+    drawCylinder(v(<%= arrow.getAttributeValue("origin").to_s %>),
+            v(<%= arrow.getAttributeValue("destination").to_s %>),
+            "<%= arrow.getTailId().to_s %> -> <%= arrow.getHeadId().to_s %>",
+            <%= arrow.getAttributeValue('edgeRadius').to_s %>);
+    <%
+    }
 }
-%>
-    <%
-    # show all treeEdges
-    value.edgeElementsAsArray.each { |val|
-    %>
-    // <%= val.to_s %>
-    // edgeRadius: <%= val.getAttributeValue('edgeRadius').to_s %>
-    drawCylinder(v(<%= val.getAttributeValue("origin").to_s %>),
-            v(<%= val.getAttributeValue("destination").to_s %>),
-            "<%= val.getTail().getAttributeValue('id').to_s %> -> <%= val.getHead().getAttributeValue('id').to_s %>",
-            <%= val.getAttributeValue('edgeRadius').to_s %>);
-    <%
-}
+
 end
 end
 %>

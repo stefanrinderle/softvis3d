@@ -19,10 +19,10 @@
  */
 package de.rinderle.softviz3d.layout.calc.bottomup;
 
-import att.grappa.Graph;
 import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.domain.MinMaxValue;
 import de.rinderle.softviz3d.domain.SoftViz3dConstants;
+import de.rinderle.softviz3d.domain.graph.ResultPlatform;
 import de.rinderle.softviz3d.grappa.GrappaGraphFactory;
 import de.rinderle.softviz3d.layout.format.LayerFormatterBean;
 import org.junit.Test;
@@ -42,21 +42,21 @@ public class LayerFormatterBeanTest {
   @Test
   public void testFormat() {
     final Integer depth = 0;
-    final Graph graph = GrappaGraphFactory.createGraph();
+    final ResultPlatform graph = GrappaGraphFactory.createGraph();
     this.underTest.format(graph, depth, LayoutViewType.CITY);
 
-    assertNotNull(graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR));
+    assertNotNull(graph.getAttributeValue(SoftViz3dConstants.GRAPH_ATTR_COLOR));
   }
 
   @Test
   public void testMaxDepth() {
     final Integer depth = Integer.MAX_VALUE;
-    final Graph graph = GrappaGraphFactory.createGraph();
+    final ResultPlatform graph = GrappaGraphFactory.createGraph();
     this.underTest.format(graph, depth, LayoutViewType.CITY);
 
-    assertNotNull(graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR));
+    assertNotNull(graph.getAttributeValue(SoftViz3dConstants.GRAPH_ATTR_COLOR));
 
-    final Color color = (Color) graph.getAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR).getValue();
+    final Color color = (Color) graph.getAttributeValue(SoftViz3dConstants.GRAPH_ATTR_COLOR);
     assertTrue(color.getRed() == 254);
   }
 

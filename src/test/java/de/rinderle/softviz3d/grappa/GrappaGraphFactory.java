@@ -23,11 +23,12 @@ import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.Node;
 import de.rinderle.softviz3d.domain.SoftViz3dConstants;
+import de.rinderle.softviz3d.domain.graph.ResultPlatform;
 import de.rinderle.softviz3d.domain.tree.TreeNodeType;
 
 public class GrappaGraphFactory {
 
-  public static Graph createGraph() {
+  public static ResultPlatform createGraph() {
     final Graph graph = new Graph("root");
     final double x = 0;
     final double y = 0;
@@ -46,7 +47,7 @@ public class GrappaGraphFactory {
     leaf2.setAttribute("type", TreeNodeType.TREE.name());
     graph.addNode(leaf2);
 
-    return graph;
+    return new ResultPlatform(graph);
   }
 
   private static Graph graphLeaf1() {
