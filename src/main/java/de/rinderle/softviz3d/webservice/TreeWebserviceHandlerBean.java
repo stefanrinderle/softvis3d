@@ -23,8 +23,8 @@ import com.google.inject.Inject;
 import de.rinderle.softviz3d.cache.SnapshotCacheService;
 import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import de.rinderle.softviz3d.domain.VisualizationRequest;
-import de.rinderle.softviz3d.domain.tree.TreeNode;
 import de.rinderle.softviz3d.preprocessing.PreProcessor;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
@@ -47,9 +47,9 @@ public class TreeWebserviceHandlerBean implements TreeWebserviceHandler {
     final LayoutViewType type = LayoutViewType.valueOfRequest(request.param("viewType"));
     final VisualizationRequest requestDTO = new VisualizationRequest(id, type, footprintMetricId, heightMetricId);
 
-    final TreeNode tree = snapshotCacheService.getTreeStructure(new SnapshotStorageKey(requestDTO));
+    final SnapshotTreeResult result = snapshotCacheService.getSnapshotTreeResult(new SnapshotStorageKey(requestDTO));
 
-    this.treeNodeJsonWriter.transformTreeToJson(response, tree);
+    this.treeNodeJsonWriter.transformTreeToJson(response, result.getTree());
   }
 
 }

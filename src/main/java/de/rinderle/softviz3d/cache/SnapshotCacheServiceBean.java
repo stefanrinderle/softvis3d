@@ -21,13 +21,8 @@ package de.rinderle.softviz3d.cache;
 
 import de.rinderle.softviz3d.domain.SnapshotStorageKey;
 import de.rinderle.softviz3d.domain.SnapshotTreeResult;
-import de.rinderle.softviz3d.domain.tree.TreeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class SnapshotCacheServiceBean implements SnapshotCacheService {
 
@@ -49,88 +44,8 @@ public class SnapshotCacheServiceBean implements SnapshotCacheService {
   }
 
   @Override
-  public List<TreeNode> getChildrenNodeIds(final SnapshotStorageKey key, final Integer id) {
-    final TreeNode treeNode = this.findNode(key, id);
-
-    return this.getChildrenNodes(treeNode.getChildren());
-  }
-
-  @Override
-  public List<TreeNode> getChildrenLeafIds(final SnapshotStorageKey key, final Integer id) {
-    final TreeNode treeNode = this.findNode(key, id);
-
-    return this.getChildrenLeaves(treeNode.getChildren());
-  }
-
-  @Override
-  public TreeNode findNode(final SnapshotStorageKey key, final Integer id) {
-    final TreeNode rootNode = getTreeStructure(key);
-
-    return this.recursiveSearch(id, rootNode);
-  }
-
-  @Override
-  public TreeNode getTreeStructure(SnapshotStorageKey key) {
-    return SnapshotTreeStorage.get(key).getTree();
-  }
-
-  @Override
   public SnapshotTreeResult getSnapshotTreeResult(SnapshotStorageKey key) {
     return SnapshotTreeStorage.get(key);
-  }
-
-  private TreeNode recursiveSearch(final Integer id, final TreeNode treeNode) {
-    if (treeNode.getId().equals(id)) {
-      /**
-       * check if there is a child treeNode with the same id.
-       * This is to parse long paths and get the last treeNode
-       * of the chain with the same id.
-       */
-      for (final TreeNode child : treeNode.getChildren().values()) {
-        if (child.getId().equals(id)) {
-          return this.recursiveSearch(id, child);
-        }
-      }
-
-      return treeNode;
-    }
-
-    final Map<String, TreeNode> children = treeNode.getChildren();
-    TreeNode temp;
-    if (!children.isEmpty()) {
-      for (final TreeNode child : children.values()) {
-        temp = this.recursiveSearch(id, child);
-        if (temp != null) {
-          return temp;
-        }
-      }
-    }
-
-    return null;
-  }
-
-  private List<TreeNode> getChildrenNodes(final Map<String, TreeNode> children) {
-    final List<TreeNode> result = new ArrayList<TreeNode>();
-
-    for (final TreeNode child : children.values()) {
-      if (!child.getChildren().isEmpty()) {
-        result.add(child);
-      }
-    }
-
-    return result;
-  }
-
-  private List<TreeNode> getChildrenLeaves(final Map<String, TreeNode> children) {
-    final List<TreeNode> result = new ArrayList<TreeNode>();
-
-    for (final TreeNode child : children.values()) {
-      if (child.getChildren().isEmpty()) {
-        result.add(child);
-      }
-    }
-
-    return result;
   }
 
 }

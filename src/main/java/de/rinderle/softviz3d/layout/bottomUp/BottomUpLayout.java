@@ -19,13 +19,13 @@
  */
 package de.rinderle.softviz3d.layout.bottomUp;
 
-import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import de.rinderle.softviz3d.domain.layout.LayeredLayoutElement;
 import de.rinderle.softviz3d.layout.dot.DotExecutorException;
 
 public interface BottomUpLayout {
 
-  LayeredLayoutElement accept(SnapshotVisitor visitor, Integer snapshotId, SnapshotStorageKey storageKey)
+  LayeredLayoutElement accept(SnapshotVisitor visitor, SnapshotTreeResult storageKey)
     throws DotExecutorException;
 
 }

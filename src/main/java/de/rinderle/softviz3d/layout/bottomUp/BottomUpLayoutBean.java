@@ -19,9 +19,7 @@
  */
 package de.rinderle.softviz3d.layout.bottomUp;
 
-import com.google.inject.Inject;
-import de.rinderle.softviz3d.cache.SnapshotCacheService;
-import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import de.rinderle.softviz3d.domain.layout.LayeredLayoutElement;
 import de.rinderle.softviz3d.domain.tree.TreeNode;
 import de.rinderle.softviz3d.layout.dot.DotExecutorException;
@@ -36,57 +34,50 @@ public class BottomUpLayoutBean implements BottomUpLayout {
   private static final Logger LOGGER = LoggerFactory
     .getLogger(BottomUpLayoutBean.class);
 
-  @Inject
-  private SnapshotCacheService snapshotCacheService;
-
-  private SnapshotStorageKey storageKey;
-
   /**
    * Bottom up calculation of layout layers.
    */
-  public LayeredLayoutElement accept(final SnapshotVisitor visitor, final Integer snapshotId,
-    final SnapshotStorageKey storageKey)
+  public LayeredLayoutElement accept(final SnapshotVisitor visitor,
+    final SnapshotTreeResult snapshotTreeResult)
     throws DotExecutorException {
-    this.storageKey = storageKey;
 
-    return this.accept(visitor, snapshotId);
+    return this.accept(visitor, snapshotTreeResult.getTree());
   }
 
   /**
    * Bottom up calculation of layout layers.
    */
-  private LayeredLayoutElement accept(final SnapshotVisitor visitor, final Integer snapshotId)
+  private LayeredLayoutElement accept(final SnapshotVisitor visitor, final TreeNode rootNode)
     throws DotExecutorException {
 
-    LOGGER.debug("Layout.accept " + snapshotId);
+    LOGGER.debug("Layout.accept " + rootNode.getId());
 
-    final TreeNode currentNode = this.snapshotCacheService.findNode(this.storageKey, snapshotId);
-
-    final List<LayeredLayoutElement> nodeElements = this.processChildrenNodes(visitor, snapshotId);
-    final List<LayeredLayoutElement> leafElements = this.processChildrenLeaves(visitor, snapshotId);
+    final List<LayeredLayoutElement> nodeElements = this.processChildrenNodes(visitor, rootNode);
+    final List<LayeredLayoutElement> leafElements = this.processChildrenLeaves(visitor, rootNode);
 
     final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
     layerElements.addAll(nodeElements);
     layerElements.addAll(leafElements);
 
-    return visitor.visitNode(currentNode, layerElements);
+    return visitor.visitNode(rootNode, layerElements);
   }
 
-  private List<LayeredLayoutElement> processChildrenNodes(final SnapshotVisitor visitor, final Integer snapshotId)
+  private List<LayeredLayoutElement> processChildrenNodes(final SnapshotVisitor visitor, final TreeNode node)
     throws DotExecutorException {
-    final List<TreeNode> childrenTreeNodes = this.snapshotCacheService.getChildrenNodeIds(this.storageKey, snapshotId);
+
+    final List<TreeNode> childrenTreeNodes = node.getChildrenNodes();
 
     final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
 
-    for (final TreeNode node : childrenTreeNodes) {
-      layerElements.add(this.accept(visitor, node.getId()));
+    for (final TreeNode child : childrenTreeNodes) {
+      layerElements.add(this.accept(visitor, child));
     }
 
     return layerElements;
   }
 
-  private List<LayeredLayoutElement> processChildrenLeaves(final SnapshotVisitor visitor, final Integer snapshotId) {
-    final List<TreeNode> childrenLeaves = this.snapshotCacheService.getChildrenLeafIds(this.storageKey, snapshotId);
+  private List<LayeredLayoutElement> processChildrenLeaves(final SnapshotVisitor visitor, final TreeNode node) {
+    final List<TreeNode> childrenLeaves = node.getChildrenLeaves();
 
     final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
     for (final TreeNode leaf : childrenLeaves) {

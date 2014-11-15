@@ -21,23 +21,12 @@ package de.rinderle.softviz3d.cache;
 
 import de.rinderle.softviz3d.domain.SnapshotStorageKey;
 import de.rinderle.softviz3d.domain.SnapshotTreeResult;
-import de.rinderle.softviz3d.domain.tree.TreeNode;
-
-import java.util.List;
 
 public interface SnapshotCacheService {
 
   void printCacheContents();
 
   boolean containsKey(SnapshotStorageKey key);
-
-  List<TreeNode> getChildrenNodeIds(SnapshotStorageKey key, Integer id);
-
-  List<TreeNode> getChildrenLeafIds(SnapshotStorageKey key, Integer id);
-
-  TreeNode findNode(SnapshotStorageKey key, Integer id);
-
-  TreeNode getTreeStructure(SnapshotStorageKey key);
 
   SnapshotTreeResult getSnapshotTreeResult(SnapshotStorageKey key);
 

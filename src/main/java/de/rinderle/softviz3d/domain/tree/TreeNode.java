@@ -22,9 +22,7 @@ package de.rinderle.softviz3d.domain.tree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class TreeNode {
 
@@ -162,5 +160,29 @@ public class TreeNode {
     }
 
     return null;
+  }
+
+  public List<TreeNode> getChildrenNodes() {
+    final List<TreeNode> result = new ArrayList<TreeNode>();
+
+    for (final TreeNode child : children.values()) {
+      if (!child.getChildren().isEmpty()) {
+        result.add(child);
+      }
+    }
+
+    return result;
+  }
+
+  public List<TreeNode> getChildrenLeaves() {
+    final List<TreeNode> result = new ArrayList<TreeNode>();
+
+    for (final TreeNode child : children.values()) {
+      if (child.getChildren().isEmpty()) {
+        result.add(child);
+      }
+    }
+
+    return result;
   }
 }

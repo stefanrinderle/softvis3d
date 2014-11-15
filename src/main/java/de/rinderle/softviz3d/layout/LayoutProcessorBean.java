@@ -64,7 +64,7 @@ public class LayoutProcessorBean implements LayoutProcessor {
     final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO.getViewType(),
       minMaxFootprintValues, minMaxHeightValues, minMaxEdgeCounter);
 
-    this.bottomUpLayout.accept(visitor, requestDTO.getRootSnapshotId(), snapshotTreeResult.getStorageKey());
+    this.bottomUpLayout.accept(visitor, snapshotTreeResult);
 
     return visitor.getResultingGraphList();
   }

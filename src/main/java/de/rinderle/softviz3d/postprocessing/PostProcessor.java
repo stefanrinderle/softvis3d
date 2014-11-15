@@ -21,11 +21,11 @@ package de.rinderle.softviz3d.postprocessing;
 
 import att.grappa.Graph;
 import de.rinderle.softviz3d.domain.LayoutViewType;
-import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 
 import java.util.Map;
 
 public interface PostProcessor {
   int process(LayoutViewType viewType, Integer snapshotId, Map<Integer, Graph> inputGraphList,
-    SnapshotStorageKey storageKey);
+    SnapshotTreeResult treeResult);
 }

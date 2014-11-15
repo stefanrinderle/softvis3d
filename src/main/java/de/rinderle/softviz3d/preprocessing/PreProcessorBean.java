@@ -50,8 +50,6 @@ public class PreProcessorBean implements PreProcessor {
   @Override
   public SnapshotTreeResult process(VisualizationRequest requestDTO) {
     int maxEdgeCounter = 0;
-    // final String mapKey = this.resourceTreeService.getOrCreateTreeStructure(requestDTO);
-
     snapshotCacheService.printCacheContents();
 
     final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);

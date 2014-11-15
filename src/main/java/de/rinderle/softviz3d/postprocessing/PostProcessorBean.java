@@ -20,10 +20,8 @@
 package de.rinderle.softviz3d.postprocessing;
 
 import att.grappa.*;
-import com.google.inject.Inject;
-import de.rinderle.softviz3d.cache.SnapshotCacheService;
 import de.rinderle.softviz3d.domain.LayoutViewType;
-import de.rinderle.softviz3d.domain.SnapshotStorageKey;
+import de.rinderle.softviz3d.domain.SnapshotTreeResult;
 import de.rinderle.softviz3d.domain.SoftViz3dConstants;
 import de.rinderle.softviz3d.domain.tree.TreeNode;
 import de.rinderle.softviz3d.layout.helper.HexaColor;
@@ -45,34 +43,29 @@ public class PostProcessorBean implements PostProcessor {
 
   private int leafElements;
 
-  @Inject
-  private SnapshotCacheService snapshotCacheService;
-  private SnapshotStorageKey storageKey;
-
   @Override
   public int process(final LayoutViewType viewType, final Integer snapshotId,
-    final Map<Integer, Graph> inputGraphList, final SnapshotStorageKey key) {
-    this.storageKey = key;
-
+    final Map<Integer, Graph> inputGraphList, final SnapshotTreeResult treeResult) {
     this.leafElements = 0;
 
     this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
     this.inputGraphs = inputGraphList;
 
-    this.addTranslationToLayer(snapshotId, new GrappaPoint(0, 0), viewType);
+    this.addTranslationToLayer(treeResult.getTree(), new GrappaPoint(0, 0), viewType);
 
     return this.leafElements;
   }
 
-  private void addTranslationToLayer(final Integer sourceId, final GrappaPoint posTranslation,
+  private void addTranslationToLayer(final TreeNode currentNode,
+    final GrappaPoint posTranslation,
     final LayoutViewType layoutViewType) {
-    LOGGER.debug("AbsolutePositionCalculator addTranslationToLayer " + sourceId);
+    LOGGER.debug("AbsolutePositionCalculator addTranslationToLayer " + currentNode.getId());
 
-    LOGGER.debug("addTranslationToLayer" + sourceId + " " + posTranslation.toString());
+    LOGGER.debug("addTranslationToLayer" + currentNode.getId() + " " + posTranslation.toString());
 
     // inputGraphs --> Map<Integer, Graph>
     // Step 1 - search the graph for the source given
-    final Graph graph = this.inputGraphs.get(sourceId);
+    final Graph graph = this.inputGraphs.get(currentNode.getId());
 
     // Step 2 - set translation for the graph itself (will be a layer later)
     final GrappaBox translatedBb = this.translateGraphBoundingBox(posTranslation, graph);
@@ -81,16 +74,16 @@ public class PostProcessorBean implements PostProcessor {
     this.translateLeaves(posTranslation, graph, translatedBb);
 
     // Step 4 - for all dirs, call this method (recursive) with the parent + the self changes
-    this.translateNodes(sourceId, graph, layoutViewType);
+    this.translateNodes(currentNode, graph, layoutViewType);
   }
 
-  private void translateNodes(final Integer sourceId, final Graph graph, final LayoutViewType layoutViewType) {
-    final List<TreeNode> children = this.snapshotCacheService.getChildrenNodeIds(this.storageKey, sourceId);
+  private void translateNodes(final TreeNode currentNode, final Graph graph, final LayoutViewType layoutViewType) {
+    final List<TreeNode> children = currentNode.getChildrenNodes();
 
     for (final TreeNode child : children) {
       final GrappaPoint pos = this.innerGraphTranslation.get(child.getId());
 
-      this.addTranslationToLayer(child.getId(), pos, layoutViewType);
+      this.addTranslationToLayer(child, pos, layoutViewType);
 
       formatOrDeleteRepresentationNode(graph, layoutViewType, child);
     }
