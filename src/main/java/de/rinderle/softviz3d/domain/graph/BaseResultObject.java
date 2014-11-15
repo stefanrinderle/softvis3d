@@ -19,42 +19,38 @@
  */
 package de.rinderle.softviz3d.domain.graph;
 
-import att.grappa.Edge;
+public abstract class BaseResultObject {
 
-public class ResultArrow extends BaseResultObject {
+  private double opacity;
+  private int height3d;
 
-  private final Edge edge;
-
-  private final int headBuildingId;
-  private final int tailBuildingId;
-
-  public ResultArrow(Edge edge) {
-    this.edge = edge;
-
-    this.headBuildingId = edge.getHead().getId();
-    this.tailBuildingId = edge.getTail().getId();
+  public void setOpacity(double opacity) {
+    this.opacity = opacity;
   }
 
-  public Object getAttributeValue(String value) {
-    return edge.getAttributeValue(value);
-  }
-
-  public void setAttribute(String key, String value) {
-    edge.setAttribute(key, value);
+  public double getOpacity() {
+    return opacity;
   }
 
   /**
-   * used by view.
+   * String name for y axis in 3d.
+   *
+   *   I(y)
+   *   I
+   *   I
+   *   ---------- (x)
+   *  /
+   * / (z)
    */
-  public int getTailId() {
-    return tailBuildingId;
+  public void setHeight3d(int height3d) {
+    this.height3d = height3d;
   }
 
   /**
-   * used by view.
+   * called from view.
    */
-  public int getHeadId() {
-    return headBuildingId;
+  public int getHeight3d() {
+    return height3d;
   }
 
 }

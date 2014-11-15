@@ -52,22 +52,8 @@ public interface SoftViz3dConstants {
    * Layout constants.
    */
 
-  String GRAPH_ATTR_COLOR = "color";
   String GRAPH_ATTR_NODES_COLOR = "nodesColor";
-  String GRAPH_ATTR_OPACITY = "opacity";
   String GRAPH_ATTR_BUILDING_HEIGHT = "buildingHeight";
-
-  /**
-   * String name for y axis in 3d.
-   *
-   *   I(y)
-   *   I
-   *   I
-   *   ---------- (x)
-   *  /
-   * / (z)
-   */
-  String LAYER_HEIGHT_3D = "layerHeight3d";
 
   double DPI_DOT_SCALE = 72.0;
 

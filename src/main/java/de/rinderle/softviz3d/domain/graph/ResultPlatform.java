@@ -28,32 +28,45 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ResultPlatform {
-
-  private final Graph graph;
+public class ResultPlatform extends BaseResultObject {
 
   private final Map<String, ResultBuilding> nodes;
+  private GrappaBox boundingBox;
+
+  private HexaColor platformColor;
+
+  // TODO could be moved to a formatter.
+  private double platformHeight = 5;
 
   public ResultPlatform(Graph graph) {
-    this.graph = graph;
-
+    this.boundingBox = (GrappaBox) graph.getAttributeValue("bb");
     this.nodes = transformNodes(graph.nodeElementsAsArray());
   }
 
-  public void setAttribute(final String attribute, final HexaColor value) {
-    graph.setAttribute(attribute, value);
+  public void setPlatformColor(final HexaColor color) {
+    this.platformColor = color;
   }
 
-  public void setAttribute(String attribute, String value) {
-    graph.setAttribute(attribute, value);
+  /**
+   * Used in view.
+   */
+  public double getPlatformHeight() {
+    return platformHeight;
   }
 
-  public void setAttribute(String key, GrappaBox value) {
-    graph.setAttribute(key, value);
+  /**
+   * Used in view.
+   */
+  public HexaColor getPlatformColor() {
+    return platformColor;
   }
 
-  public Object getAttributeValue(String key) {
-    return graph.getAttributeValue(key);
+  public void setBoundingBox(GrappaBox boundingBox) {
+    this.boundingBox = boundingBox;
+  }
+
+  public GrappaBox getBoundingBox() {
+    return boundingBox;
   }
 
   public ResultBuilding findNodeByName(String key) {
@@ -81,4 +94,5 @@ public class ResultPlatform {
   private ResultBuilding transformNode(Node node) {
     return new ResultBuilding(node);
   }
+
 }

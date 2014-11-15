@@ -25,7 +25,7 @@ import att.grappa.Node;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResultBuilding {
+public class ResultBuilding extends BaseResultObject {
 
   private final Node node;
 

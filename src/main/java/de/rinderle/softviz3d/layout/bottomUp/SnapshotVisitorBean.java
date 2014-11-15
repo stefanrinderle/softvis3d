@@ -110,7 +110,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     // this.resultLayers.put(node.getId(), )
 
     // adjusted graph has a bounding box !
-    final GrappaBox bb = (GrappaBox) resultPlatform.getAttributeValue("bb");
+    final GrappaBox bb = resultPlatform.getBoundingBox();
 
     /**
      * The dot output of the bb is given in DPI. The actual width

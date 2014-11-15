@@ -102,7 +102,7 @@ public class PostProcessorBean implements PostProcessor {
       final ResultBuilding dirNode = graph.findNodeByName("dir_" + child.getId());
       final HexaColor color = new HexaColor(100, 100, 100);
       dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, color.getHex());
-      dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_OPACITY, "0.7");
+      dirNode.setOpacity(1.0);
       dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, "5");
     }
   }
@@ -113,7 +113,7 @@ public class PostProcessorBean implements PostProcessor {
     double nodeLocationX;
     double nodeLocationY;
 
-    String height3d;
+    int height3d;
 
     for (final ResultBuilding leaf : graph.getNodes()) {
       pos = (GrappaPoint) leaf.getAttributeValue(GrappaConstants.POS_ATTR);
@@ -128,7 +128,7 @@ public class PostProcessorBean implements PostProcessor {
 
       this.leafElements = this.leafElements + 1;
 
-      height3d = (String) leaf.getAttributeValue("layerHeight3d");
+      height3d = leaf.getHeight3d();
 
       for (final ResultArrow arrow : leaf.getArrows()) {
         translateArrow(posTranslation, translatedBb, height3d, arrow);
@@ -137,7 +137,7 @@ public class PostProcessorBean implements PostProcessor {
 
   }
 
-  private void translateArrow(GrappaPoint posTranslation, GrappaBox translatedBb, String height3d, ResultArrow arrow) {
+  private void translateArrow(GrappaPoint posTranslation, GrappaBox translatedBb, int height3d, ResultArrow arrow) {
     final GrappaLine line = (GrappaLine) arrow.getAttributeValue(GrappaConstants.POS_ATTR);
 
     final GrappaPoint[] points = line.getGrappaPoints();
@@ -154,10 +154,10 @@ public class PostProcessorBean implements PostProcessor {
   }
 
   private GrappaBox translatePlatform(final ResultPlatform platform, final GrappaPoint posTranslation) {
-    final GrappaBox bb = (GrappaBox) platform.getAttributeValue("bb");
+    final GrappaBox bb = platform.getBoundingBox();
     final GrappaBox translatedBb = new GrappaBox(posTranslation.getX(), posTranslation.getY(), bb.getWidth(),
       bb.getHeight());
-    platform.setAttribute("bb", translatedBb);
+    platform.setBoundingBox(translatedBb);
     return translatedBb;
   }
 

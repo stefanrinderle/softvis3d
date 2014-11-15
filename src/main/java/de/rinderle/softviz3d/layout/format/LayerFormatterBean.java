@@ -41,7 +41,7 @@ public class LayerFormatterBean implements LayerFormatter {
   private static final int MIN_BUILDING_HEIGHT = 10;
 
   @Override
-  public void format(final ResultPlatform graph, final Integer depth, final LayoutViewType viewType) {
+  public void format(final ResultPlatform platform, final Integer depth, final LayoutViewType viewType) {
     // calc color
     int colorCalc = depth * 16;
     if (colorCalc > 154 || colorCalc < 0) {
@@ -51,7 +51,7 @@ public class LayerFormatterBean implements LayerFormatter {
     final HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
     final HexaColor nodesColor = new HexaColor(254, 140, 0);
 
-    graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR, color);
+    platform.setPlatformColor(color);
 
     double opacity = 1.0;
     Integer height3d = depth * 20;
@@ -61,11 +61,11 @@ public class LayerFormatterBean implements LayerFormatter {
       opacity = 0.7;
     }
 
-    graph.setAttribute(SoftViz3dConstants.GRAPH_ATTR_OPACITY, opacity + "");
+    platform.setOpacity(opacity);
 
-    graph.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
+    platform.setHeight3d(height3d);
 
-    for (final ResultBuilding leaf : graph.getNodes()) {
+    for (final ResultBuilding leaf : platform.getNodes()) {
       this.fixBuildingHeight(leaf);
 
       Double width = (Double) leaf.getAttributeValue(WIDTH_ATTR);
@@ -84,7 +84,7 @@ public class LayerFormatterBean implements LayerFormatter {
         leaf.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, nodesColor.getHex());
       }
 
-      leaf.setAttribute(SoftViz3dConstants.LAYER_HEIGHT_3D, height3d.toString());
+      leaf.setHeight3d(height3d);
 
       for (final ResultArrow arrow : leaf.getArrows()) {
         fixEdgeRadius(arrow);

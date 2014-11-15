@@ -20,11 +20,8 @@
 package de.rinderle.softviz3d.grappa;
 
 import att.grappa.*;
-import de.rinderle.softviz3d.domain.SoftViz3dConstants;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.awt.*;
 
 import static org.junit.Assert.assertTrue;
 
@@ -112,11 +109,9 @@ public class GrappaGraphTest {
 
     final double[] translation = new double[] {pos.getX(), 0, pos.getY()};
     final double opacity = 1.0;
-    final Color color = new Color(200, 200, 255);
 
-    node.setAttribute(SoftViz3dConstants.GRAPH_ATTR_COLOR, color);
     node.setAttribute("translation", translation.toString());
-    node.setAttribute(SoftViz3dConstants.GRAPH_ATTR_OPACITY, opacity + "");
+    // node.setAttribute(SoftViz3dConstants.GRAPH_ATTR_OPACITY, opacity + "");
     node.setAttribute("height", 20 + "");
   }
 }

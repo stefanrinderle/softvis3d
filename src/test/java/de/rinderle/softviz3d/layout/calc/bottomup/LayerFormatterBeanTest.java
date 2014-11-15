@@ -42,21 +42,21 @@ public class LayerFormatterBeanTest {
   @Test
   public void testFormat() {
     final Integer depth = 0;
-    final ResultPlatform graph = GrappaGraphFactory.createGraph();
-    this.underTest.format(graph, depth, LayoutViewType.CITY);
+    final ResultPlatform platform = GrappaGraphFactory.createGraph();
+    this.underTest.format(platform, depth, LayoutViewType.CITY);
 
-    assertNotNull(graph.getAttributeValue(SoftViz3dConstants.GRAPH_ATTR_COLOR));
+    assertNotNull(platform.getPlatformColor());
   }
 
   @Test
   public void testMaxDepth() {
     final Integer depth = Integer.MAX_VALUE;
-    final ResultPlatform graph = GrappaGraphFactory.createGraph();
-    this.underTest.format(graph, depth, LayoutViewType.CITY);
+    final ResultPlatform platform = GrappaGraphFactory.createGraph();
+    this.underTest.format(platform, depth, LayoutViewType.CITY);
 
-    assertNotNull(graph.getAttributeValue(SoftViz3dConstants.GRAPH_ATTR_COLOR));
+    assertNotNull(platform.getPlatformColor());
 
-    final Color color = (Color) graph.getAttributeValue(SoftViz3dConstants.GRAPH_ATTR_COLOR);
+    final Color color = platform.getPlatformColor();
     assertTrue(color.getRed() == 254);
   }
 

@@ -137,68 +137,67 @@
     resultMap = softviz3d.createLayoutBySnapshotId(@snapshot.id, params[:metric1], params[:metric2], params[:viewType])
 
     # show all graph (as layers)
-    resultMap.each do |key, value|
+    resultMap.each do |key, platform|
          # set bb (position and size)
-         layerBB = value.getAttributeValue('bb')
+         layerBB = platform.getBoundingBox
         %>
     position = new Array();
     position.x = <%= layerBB.getX() %>;
-    position.y = <%= value.getAttributeValue('layerHeight3d') %>;
+    position.y = <%= platform.getHeight3d.to_s %>;
     position.z = <%= layerBB.getY() %>;
 
-    <% heightString = value.getAttributeValue('buildingHeight').to_s %>
-
-    geometryLayer = new THREE.BoxGeometry(<%= layerBB.getWidth() %>, 5,
-            <%= layerBB.getHeight() %>);
+    geometryLayer = new THREE.BoxGeometry(<%= layerBB.getWidth %>,
+            <%= platform.getPlatformHeight.to_s %>,
+            <%= layerBB.getHeight %>);
 
     // set material (color)
     layerMaterial = new THREE.MeshLambertMaterial({
-        color: <%= value.getAttributeValue('color').getHex %>,
+        color: <%= platform.getPlatformColor.getHex %>,
         transparent: true,
-        opacity: <%= value.getAttributeValue('opacity') %>
+        opacity: <%= platform.getOpacity.to_s %>
     });
 
-    // <%= value.to_s %>
+    // <%= platform.to_s %>
     createBox(geometryLayer, layerMaterial, position, "<%= key %>", "node");
 
     <%
     # show all treeNodes
-    value.getNodes.each { |val|
+    platform.getNodes.each { |building|
         %>
     var nodeMaterial = new THREE.MeshLambertMaterial({
-        color: <%= val.getAttributeValue('nodesColor') %>,
+        color: <%= building.getAttributeValue('nodesColor') %>,
         transparent: true,
-        opacity: <%= value.getAttributeValue('opacity') %>
+        opacity: <%= platform.getOpacity.to_s %>
     });
     <%
-    point = val.getAttributeValue('pos')
+    point = building.getAttributeValue('pos')
     pointArray = point.to_s.split(',')
-    heightString = val.getAttributeValue('buildingHeight')
+    heightString = building.getAttributeValue('buildingHeight')
    %>
     var nodeGeometry = new THREE.BoxGeometry(
-            <%= val.getAttributeValue('width').to_s %>, <%= heightString %>,
-            <%= val.getAttributeValue('height').to_s %>);
+            <%= building.getAttributeValue('width').to_s %>, <%= heightString %>,
+            <%= building.getAttributeValue('height').to_s %>);
 
     var position = new Array();
     position.x = <%= pointArray[0] %>;
-    <% zPos = val.getAttributeValue('layerHeight3d').to_f + heightString.to_f / 2 %>
+    <% zPos = building.getHeight3d.to_f + heightString.to_f / 2 %>
     position.y = <%= zPos.to_s %>;
     position.z = <%= pointArray[1] %>;
 
-    // <%= val.to_s %>
-    createBox(nodeGeometry, nodeMaterial, position, "<%= val.getAttributeValue('id') %>", "leaf");
+    // <%= building.to_s %>
+    createBox(nodeGeometry, nodeMaterial, position, "<%= building.getAttributeValue('id') %>", "leaf");
 
     <%
         # show all treeEdges
-        val.getArrows.each { |arrow| %>
+building.getArrows.each { |arrow| %>
     // <%= arrow.to_s %>
     // edgeRadius: <%= arrow.getAttributeValue('edgeRadius').to_s %>
     drawCylinder(v(<%= arrow.getAttributeValue("origin").to_s %>),
             v(<%= arrow.getAttributeValue("destination").to_s %>),
-            "<%= arrow.getTailId().to_s %> -> <%= arrow.getHeadId().to_s %>",
+            "<%= arrow.getTailId.to_s %> -> <%= arrow.getHeadId.to_s %>",
             <%= arrow.getAttributeValue('edgeRadius').to_s %>);
     <%
-    }
+}
 }
 
 end
