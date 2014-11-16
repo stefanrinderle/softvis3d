@@ -22,7 +22,6 @@ package de.rinderle.softviz3d.layout.format;
 import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.domain.MinMaxValue;
 import de.rinderle.softviz3d.domain.SoftViz3dConstants;
-import de.rinderle.softviz3d.domain.graph.ResultArrow;
 import de.rinderle.softviz3d.domain.graph.ResultBuilding;
 import de.rinderle.softviz3d.domain.graph.ResultPlatform;
 import de.rinderle.softviz3d.domain.tree.TreeNodeType;
@@ -79,25 +78,6 @@ public class LayerFormatterBean implements LayerFormatter {
 
       leaf.setHeight3d(height3d);
 
-      for (final ResultArrow arrow : leaf.getArrows()) {
-        fixEdgeRadius(arrow);
-      }
-    }
-  }
-
-  /**
-   * As dot gets an exception when the edge radius attribute is set as a number,
-   * we prefix the edge radius value with "x". This has to be removed in order to
-   * parse the value in the view later.
-   */
-  private void fixEdgeRadius(final ResultArrow edge) {
-    // there is an x at the beginning of the buildingHeight percent value
-    final String radiusString = edge.getAttributeValue("edgeRadius").toString();
-
-    final Double radius;
-    if ("x".equals(radiusString.substring(0, 1))) {
-      radius = Double.valueOf(radiusString.substring(1));
-      edge.setAttribute("edgeRadius", radius.toString());
     }
   }
 

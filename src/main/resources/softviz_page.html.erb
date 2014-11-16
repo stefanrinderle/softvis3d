@@ -191,11 +191,11 @@
     # show all treeEdges
     building.getArrows.each { |arrow| %>
     // <%= arrow.to_s %>
-    // edgeRadius: <%= arrow.getAttributeValue('edgeRadius').to_s %>
-    drawCylinder(v(<%= arrow.getAttributeValue("origin").to_s %>),
-            v(<%= arrow.getAttributeValue("destination").to_s %>),
+    // edgeRadius: <%= arrow.getRadius.to_s %>
+    drawCylinder(v(<%= arrow.getOrigin.to_s %>),
+            v(<%= arrow.getDestination.to_s %>),
             "<%= arrow.getTailId.to_s %> -> <%= arrow.getHeadId.to_s %>",
-            <%= arrow.getAttributeValue('edgeRadius').to_s %>);
+            <%= arrow.getRadius.to_s %>);
     <%
 }
 }

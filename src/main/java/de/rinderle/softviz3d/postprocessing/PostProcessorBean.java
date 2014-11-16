@@ -20,11 +20,10 @@
 package de.rinderle.softviz3d.postprocessing;
 
 import att.grappa.GrappaBox;
-import att.grappa.GrappaConstants;
-import att.grappa.GrappaLine;
 import att.grappa.GrappaPoint;
 import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.domain.SnapshotTreeResult;
+import de.rinderle.softviz3d.domain.graph.Point3d;
 import de.rinderle.softviz3d.domain.graph.ResultArrow;
 import de.rinderle.softviz3d.domain.graph.ResultBuilding;
 import de.rinderle.softviz3d.domain.graph.ResultPlatform;
@@ -136,19 +135,24 @@ public class PostProcessorBean implements PostProcessor {
   }
 
   private void translateArrow(GrappaPoint posTranslation, GrappaBox translatedBb, int height3d, ResultArrow arrow) {
-    final GrappaLine line = (GrappaLine) arrow.getAttributeValue(GrappaConstants.POS_ATTR);
+    final GrappaPoint start = arrow.getStart();
+    final GrappaPoint end = arrow.getEnd();
 
-    final GrappaPoint[] points = line.getGrappaPoints();
-    final GrappaPoint start = points[0];
-    final GrappaPoint end = points[points.length - 2];
+    arrow.setOrigin(new Point3d(posTranslation.getX() + start.getX() - translatedBb.getWidth() / 2,
+      calc3dArrowPosition(height3d, arrow),
+      posTranslation.getY() + start.getY() + translatedBb.getHeight() / 2));
 
-    arrow.setAttribute("origin", (posTranslation.getX() + start.getX() - translatedBb.getWidth() / 2) +
-      "," + height3d
-      + "," + (posTranslation.getY() + start.getY() + translatedBb.getHeight() / 2));
+    arrow.setDestination(new Point3d(posTranslation.getX() + end.getX() - translatedBb.getWidth() / 2,
+      calc3dArrowPosition(height3d, arrow),
+      posTranslation.getY() + end.getY() + translatedBb.getHeight() / 2));
+  }
 
-    arrow.setAttribute("destination", (posTranslation.getX() + end.getX() - translatedBb.getWidth() / 2) +
-      "," + height3d
-      + "," + (posTranslation.getY() + end.getY() + translatedBb.getHeight() / 2));
+  private double calc3dArrowPosition(int height3d, ResultArrow arrow) {
+    double result = height3d;
+    result = result + ResultPlatform.PLATFORM_HEIGHT;
+    double diameter = (2 * 3.14) / arrow.getRadius();
+
+    return result + diameter;
   }
 
   private GrappaBox translatePlatform(final ResultPlatform platform, final GrappaPoint posTranslation) {

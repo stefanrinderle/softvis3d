@@ -33,7 +33,7 @@ public class ResultPlatform extends BaseResultObject {
   private GrappaBox boundingBox;
 
   // TODO could be moved to a formatter.
-  private double platformHeight = 5;
+  public static double PLATFORM_HEIGHT = 5;
 
   public ResultPlatform(Graph graph) {
     this.boundingBox = (GrappaBox) graph.getAttributeValue("bb");
@@ -44,7 +44,7 @@ public class ResultPlatform extends BaseResultObject {
    * Used in view.
    */
   public double getPlatformHeight() {
-    return platformHeight;
+    return PLATFORM_HEIGHT;
   }
 
   public void setBoundingBox(GrappaBox boundingBox) {
