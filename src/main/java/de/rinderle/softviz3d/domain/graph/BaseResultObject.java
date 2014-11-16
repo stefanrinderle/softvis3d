@@ -19,10 +19,13 @@
  */
 package de.rinderle.softviz3d.domain.graph;
 
+import de.rinderle.softviz3d.layout.helper.HexaColor;
+
 public abstract class BaseResultObject {
 
   private double opacity;
   private int height3d;
+  private HexaColor platformColor;
 
   public void setOpacity(double opacity) {
     this.opacity = opacity;
@@ -51,6 +54,21 @@ public abstract class BaseResultObject {
    */
   public int getHeight3d() {
     return height3d;
+  }
+
+  public void setColor(final HexaColor color) {
+    this.platformColor = color;
+  }
+
+  /**
+   * Used in view.
+   */
+  public HexaColor getColor() {
+    return platformColor;
+  }
+
+  protected double roundTo2Decimals(final double value) {
+    return Math.round(value * 100.0) / 100.0;
   }
 
 }

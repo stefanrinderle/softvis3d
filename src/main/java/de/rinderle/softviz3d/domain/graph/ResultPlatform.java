@@ -22,7 +22,6 @@ package de.rinderle.softviz3d.domain.graph;
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.Node;
-import de.rinderle.softviz3d.layout.helper.HexaColor;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,8 +32,6 @@ public class ResultPlatform extends BaseResultObject {
   private final Map<String, ResultBuilding> nodes;
   private GrappaBox boundingBox;
 
-  private HexaColor platformColor;
-
   // TODO could be moved to a formatter.
   private double platformHeight = 5;
 
@@ -43,22 +40,11 @@ public class ResultPlatform extends BaseResultObject {
     this.nodes = transformNodes(graph.nodeElementsAsArray());
   }
 
-  public void setPlatformColor(final HexaColor color) {
-    this.platformColor = color;
-  }
-
   /**
    * Used in view.
    */
   public double getPlatformHeight() {
     return platformHeight;
-  }
-
-  /**
-   * Used in view.
-   */
-  public HexaColor getPlatformColor() {
-    return platformColor;
   }
 
   public void setBoundingBox(GrappaBox boundingBox) {

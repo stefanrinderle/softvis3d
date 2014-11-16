@@ -25,7 +25,6 @@ import att.grappa.GrappaLine;
 import att.grappa.GrappaPoint;
 import de.rinderle.softviz3d.domain.LayoutViewType;
 import de.rinderle.softviz3d.domain.SnapshotTreeResult;
-import de.rinderle.softviz3d.domain.SoftViz3dConstants;
 import de.rinderle.softviz3d.domain.graph.ResultArrow;
 import de.rinderle.softviz3d.domain.graph.ResultBuilding;
 import de.rinderle.softviz3d.domain.graph.ResultPlatform;
@@ -101,9 +100,9 @@ public class PostProcessorBean implements PostProcessor {
     } else {
       final ResultBuilding dirNode = graph.findNodeByName("dir_" + child.getId());
       final HexaColor color = new HexaColor(100, 100, 100);
-      dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, color.getHex());
+      dirNode.setColor(color);
       dirNode.setOpacity(1.0);
-      dirNode.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, "5");
+      dirNode.setBuildingHeight(5);
     }
   }
 
@@ -116,10 +115,9 @@ public class PostProcessorBean implements PostProcessor {
     int height3d;
 
     for (final ResultBuilding leaf : graph.getNodes()) {
-      pos = (GrappaPoint) leaf.getAttributeValue(GrappaConstants.POS_ATTR);
+      pos = leaf.getPosition();
 
-      final int id = Integer.valueOf(leaf.getAttributeValue("id").toString());
-      this.innerGraphTranslation.put(id, pos);
+      this.innerGraphTranslation.put(leaf.getId(), pos);
 
       // set the position of the node
       nodeLocationX = posTranslation.getX() + pos.getX() - translatedBb.getWidth() / 2;

@@ -45,7 +45,7 @@ public class LayerFormatterBeanTest {
     final ResultPlatform platform = GrappaGraphFactory.createGraph();
     this.underTest.format(platform, depth, LayoutViewType.CITY);
 
-    assertNotNull(platform.getPlatformColor());
+    assertNotNull(platform.getColor());
   }
 
   @Test
@@ -54,9 +54,9 @@ public class LayerFormatterBeanTest {
     final ResultPlatform platform = GrappaGraphFactory.createGraph();
     this.underTest.format(platform, depth, LayoutViewType.CITY);
 
-    assertNotNull(platform.getPlatformColor());
+    assertNotNull(platform.getColor());
 
-    final Color color = platform.getPlatformColor();
+    final Color color = platform.getColor();
     assertTrue(color.getRed() == 254);
   }
 

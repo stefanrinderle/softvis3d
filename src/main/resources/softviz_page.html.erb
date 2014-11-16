@@ -152,7 +152,7 @@
 
     // set material (color)
     layerMaterial = new THREE.MeshLambertMaterial({
-        color: <%= platform.getPlatformColor.getHex %>,
+        color: <%= platform.getColor.getHex %>,
         transparent: true,
         opacity: <%= platform.getOpacity.to_s %>
     });
@@ -165,18 +165,18 @@
     platform.getNodes.each { |building|
         %>
     var nodeMaterial = new THREE.MeshLambertMaterial({
-        color: <%= building.getAttributeValue('nodesColor') %>,
+        color: <%= building.getColor.getHex %>,
         transparent: true,
         opacity: <%= platform.getOpacity.to_s %>
     });
     <%
-    point = building.getAttributeValue('pos')
+    point = building.getPosition()
     pointArray = point.to_s.split(',')
-    heightString = building.getAttributeValue('buildingHeight')
+    heightString = building.getBuildingHeight
    %>
     var nodeGeometry = new THREE.BoxGeometry(
-            <%= building.getAttributeValue('width').to_s %>, <%= heightString %>,
-            <%= building.getAttributeValue('height').to_s %>);
+            <%= building.getWidth.to_s %>, <%= heightString %>,
+            <%= building.getHeight().to_s %>);
 
     var position = new Array();
     position.x = <%= pointArray[0] %>;
@@ -185,11 +185,11 @@
     position.z = <%= pointArray[1] %>;
 
     // <%= building.to_s %>
-    createBox(nodeGeometry, nodeMaterial, position, "<%= building.getAttributeValue('id') %>", "leaf");
+    createBox(nodeGeometry, nodeMaterial, position, "<%= building.getId %>", "leaf");
 
     <%
-        # show all treeEdges
-building.getArrows.each { |arrow| %>
+    # show all treeEdges
+    building.getArrows.each { |arrow| %>
     // <%= arrow.to_s %>
     // edgeRadius: <%= arrow.getAttributeValue('edgeRadius').to_s %>
     drawCylinder(v(<%= arrow.getAttributeValue("origin").to_s %>),

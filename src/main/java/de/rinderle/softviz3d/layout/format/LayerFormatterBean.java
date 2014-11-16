@@ -30,15 +30,10 @@ import de.rinderle.softviz3d.layout.helper.HexaColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static att.grappa.GrappaConstants.HEIGHT_ATTR;
-import static att.grappa.GrappaConstants.WIDTH_ATTR;
-
 public class LayerFormatterBean implements LayerFormatter {
 
   private static final Logger LOGGER = LoggerFactory
     .getLogger(LayerFormatterBean.class);
-
-  private static final int MIN_BUILDING_HEIGHT = 10;
 
   @Override
   public void format(final ResultPlatform platform, final Integer depth, final LayoutViewType viewType) {
@@ -51,7 +46,7 @@ public class LayerFormatterBean implements LayerFormatter {
     final HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
     final HexaColor nodesColor = new HexaColor(254, 140, 0);
 
-    platform.setPlatformColor(color);
+    platform.setColor(color);
 
     double opacity = 1.0;
     Integer height3d = depth * 20;
@@ -66,22 +61,20 @@ public class LayerFormatterBean implements LayerFormatter {
     platform.setHeight3d(height3d);
 
     for (final ResultBuilding leaf : platform.getNodes()) {
-      this.fixBuildingHeight(leaf);
-
-      Double width = (Double) leaf.getAttributeValue(WIDTH_ATTR);
+      double width = leaf.getWidth();
       // keep some distance to each other
       width = width * SoftViz3dConstants.DPI_DOT_SCALE;
-      leaf.setAttribute(WIDTH_ATTR, this.roundTo2Decimals(width));
+      leaf.setWidth(width);
 
-      Double height = (Double) leaf.getAttributeValue(HEIGHT_ATTR);
+      double height = leaf.getHeight();
       // keep some distance to each other
       height = height * SoftViz3dConstants.DPI_DOT_SCALE;
-      leaf.setAttribute(HEIGHT_ATTR, this.roundTo2Decimals(height));
+      leaf.setHeight((height));
 
-      if (leaf.getAttributeValue("type").toString().equals(TreeNodeType.DEPENDENCY_GENERATED.name())) {
-        leaf.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, color.getHex());
+      if (leaf.getType().equals(TreeNodeType.DEPENDENCY_GENERATED)) {
+        leaf.setColor(color);
       } else {
-        leaf.setAttribute(SoftViz3dConstants.GRAPH_ATTR_NODES_COLOR, nodesColor.getHex());
+        leaf.setColor(nodesColor);
       }
 
       leaf.setHeight3d(height3d);
@@ -90,10 +83,6 @@ public class LayerFormatterBean implements LayerFormatter {
         fixEdgeRadius(arrow);
       }
     }
-  }
-
-  private double roundTo2Decimals(final double value) {
-    return Math.round(value * 100.0) / 100.0;
   }
 
   /**
@@ -110,20 +99,6 @@ public class LayerFormatterBean implements LayerFormatter {
       radius = Double.valueOf(radiusString.substring(1));
       edge.setAttribute("edgeRadius", radius.toString());
     }
-  }
-
-  /**
-   * As dot gets an exception when the building height attribute is set as a number,
-   * we prefix the building height value with "x". This has to be removed in order to
-   * parse the value in the view later.
-   */
-  private void fixBuildingHeight(final ResultBuilding leaf) {
-    // there is an x at the beginning of the buildingHeight percent value
-    final String heightString = leaf.getAttributeValue(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT).toString();
-
-    final Double height = Double.valueOf(heightString.substring(1)) + MIN_BUILDING_HEIGHT;
-
-    leaf.setAttribute(SoftViz3dConstants.GRAPH_ATTR_BUILDING_HEIGHT, height.toString());
   }
 
   /**

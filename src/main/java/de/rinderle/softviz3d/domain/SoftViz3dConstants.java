@@ -52,7 +52,6 @@ public interface SoftViz3dConstants {
    * Layout constants.
    */
 
-  String GRAPH_ATTR_NODES_COLOR = "nodesColor";
   String GRAPH_ATTR_BUILDING_HEIGHT = "buildingHeight";
 
   double DPI_DOT_SCALE = 72.0;
