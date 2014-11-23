@@ -31,8 +31,8 @@ public class ResultArrow extends BaseResultObject {
   private static final Logger LOGGER = LoggerFactory
     .getLogger(ResultArrow.class);
 
-  private final int headBuildingId;
-  private final int tailBuildingId;
+  private final String headBuildingId;
+  private final String tailBuildingId;
   private final double radius;
   private Point3d origin;
   private Point3d destination;
@@ -41,8 +41,8 @@ public class ResultArrow extends BaseResultObject {
   private GrappaPoint end;
 
   public ResultArrow(Edge edge) {
-    this.headBuildingId = edge.getHead().getId();
-    this.tailBuildingId = edge.getTail().getId();
+    this.headBuildingId = edge.getHead().getName();
+    this.tailBuildingId = edge.getTail().getName();
 
     this.radius = transformEdgeRadius(edge);
 
@@ -65,14 +65,14 @@ public class ResultArrow extends BaseResultObject {
   /**
    * used by view.
    */
-  public int getTailId() {
+  public String getTailId() {
     return tailBuildingId;
   }
 
   /**
    * used by view.
    */
-  public int getHeadId() {
+  public String getHeadId() {
     return headBuildingId;
   }
 

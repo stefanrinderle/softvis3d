@@ -55,22 +55,11 @@ public final class LayeredLayoutElement {
     this.edges = edges;
   }
 
-  public static LayeredLayoutElement createLayeredLayoutLeafElement(
+  public static LayeredLayoutElement createLayeredLayoutElement(
     final TreeNode node, final Double width, final Double height, final Double buildingHeight) {
-    return createLayeredLayoutElement("file_", node, width, height, buildingHeight, node.getEdges());
-  }
-
-  public static LayeredLayoutElement createLayeredLayoutNodeElement(
-    final TreeNode node, final Double width, final Double height, final Double buildingHeight) {
-    return createLayeredLayoutElement("dir_", node, width, height, buildingHeight, node.getEdges());
-  }
-
-  private static LayeredLayoutElement createLayeredLayoutElement(
-    final String namePrefix, final TreeNode node, final Double width, final Double height, final Double buildingHeight,
-    final Map<String, Edge> edges) {
-    return new LayeredLayoutElement(node.getType(), node.getId(), namePrefix
-      + node.getId().toString(), width, height,
-      buildingHeight, node.getName(), edges);
+    return new LayeredLayoutElement(node.getType(), node.getId(),
+      node.getId().toString(), width, height,
+      buildingHeight, node.getName(), node.getEdges());
   }
 
   public TreeNodeType getElementType() {

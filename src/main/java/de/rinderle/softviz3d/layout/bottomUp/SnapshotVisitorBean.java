@@ -122,7 +122,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
     final double platformHeight = 5;
 
-    return LayeredLayoutElement.createLayeredLayoutNodeElement(node, width, height, platformHeight);
+    return LayeredLayoutElement.createLayeredLayoutElement(node, width, height, platformHeight);
   }
 
   private Graph createGrappaInputGraph(TreeNode node, List<LayeredLayoutElement> elements) {
@@ -157,7 +157,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
       buildingHeight = 200;
     }
 
-    return LayeredLayoutElement.createLayeredLayoutLeafElement(leaf, sideLength, sideLength, buildingHeight);
+    return LayeredLayoutElement.createLayeredLayoutElement(leaf, sideLength, sideLength, buildingHeight);
   }
 
 }

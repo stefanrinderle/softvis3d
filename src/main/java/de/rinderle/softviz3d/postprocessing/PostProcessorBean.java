@@ -95,9 +95,9 @@ public class PostProcessorBean implements PostProcessor {
 
   private void formatOrDeleteRepresentationNode(ResultPlatform graph, LayoutViewType layoutViewType, TreeNode child) {
     if (LayoutViewType.CITY.equals(layoutViewType)) {
-      graph.removeNode("dir_" + child.getId());
+      graph.removeNode(child.getId().toString());
     } else {
-      final ResultBuilding dirNode = graph.findNodeByName("dir_" + child.getId());
+      final ResultBuilding dirNode = graph.findNodeByName(child.getId().toString());
       final HexaColor color = new HexaColor(100, 100, 100);
       dirNode.setColor(color);
       dirNode.setOpacity(1.0);
