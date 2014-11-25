@@ -1,7 +1,7 @@
 var tree;
 
 function getTreeViaWebserver(snapshotId, footprintMetricId, heightMetricId, viewType) {
-    callAjax("../../api/softViz3d/getTree?snapshotId=" + snapshotId
+    callAjax("../../api/softVis3D/getTree?snapshotId=" + snapshotId
             + "&footprintMetricId=" + footprintMetricId + "&heightMetricId=" + heightMetricId + "&viewType=" + viewType,
         function (response) {
             var myArray = JSON.parse(response);

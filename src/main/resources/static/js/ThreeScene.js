@@ -86,7 +86,7 @@ function onDocumentMouseDown(event) {
         selectedObjectColor = selectedObject.material.color.getHex();
         selectedObject.material.color.setHex(0xFFBF00);
 
-        showDetails(intersects[ 0 ].object.softviz3dId, intersects[ 0 ].object.type);
+        showDetails(intersects[ 0 ].object.softVis3DId, intersects[ 0 ].object.type);
     }
 }
 
@@ -107,7 +107,7 @@ function createBox(geometry, material, position, id, type) {
     object.position.y = position.y;
     object.position.z = position.z;
 
-    object.softviz3dId = id;
+    object.softVis3DId = id;
     object.type = type;
 
     objects.push(object);
@@ -145,7 +145,7 @@ function drawCylinder(pointX, pointY, id, thickness) {
     edge.applyMatrix(new THREE.Matrix4().makeTranslation(
             pointX.x + direction.x, pointX.y + direction.y, pointX.z + direction.z));
 
-    edge.softviz3dId = id;
+    edge.softVis3DId = id;
     scene.add(edge);
     objects.push(edge);
     objectsInView.push(edge);
@@ -161,7 +161,7 @@ function drawCylinder(pointX, pointY, id, thickness) {
     edgeHead.applyMatrix(new THREE.Matrix4().makeTranslation(
         pointY.x, pointY.y, pointY.z));
 
-    edgeHead.softviz3dId = id;
+    edgeHead.softVis3DId = id;
     scene.add(edgeHead);
     objects.push(edgeHead);
     objectsInView.push(edgeHead);
@@ -285,7 +285,7 @@ function showDetails(snapshotId, type) {
 
 function selectSceneObject(id) {
     for (var index = 0; index < objects.length; index++) {
-        if (id == objects[index].softviz3dId) {
+        if (id == objects[index].softVis3DId) {
             // reset former selected object
             if (!!selectedObject) {
                 selectedObject.material.color.setHex(selectedObjectColor);
@@ -295,14 +295,14 @@ function selectSceneObject(id) {
             selectedObjectColor = selectedObject.material.color.getHex();
             selectedObject.material.color.setHex(0xFFBF00);
 
-            showDetails(objects[index].softviz3dId, objects[index].type);
+            showDetails(objects[index].softVis3DId, objects[index].type);
         }
     }
 }
 
 function selectSceneObjectByType(id, type) {
     for (var index = 0; index < objects.length; index++) {
-        if (id == objects[index].softviz3dId && type == objects[index].type) {
+        if (id == objects[index].softVis3DId && type == objects[index].type) {
             // reset former selected object
             if (!!selectedObject) {
                 selectedObject.material.color.setHex(selectedObjectColor);
@@ -312,7 +312,7 @@ function selectSceneObjectByType(id, type) {
             selectedObjectColor = selectedObject.material.color.getHex();
             selectedObject.material.color.setHex(0xFFBF00);
 
-            showDetails(objects[index].softviz3dId, objects[index].type);
+            showDetails(objects[index].softVis3DId, objects[index].type);
         }
     }
 }
@@ -341,7 +341,7 @@ function showNodeAndAllParents(id) {
 
 function showSingleNode(id) {
     for (var index = 0; index < objects.length; index++) {
-        if (id == objects[index].softviz3dId) {
+        if (id == objects[index].softVis3DId) {
             scene.add(objects[index]);
             objectsInView[index] = objects[index];
         }
@@ -350,7 +350,7 @@ function showSingleNode(id) {
 
 function showEdge(id) {
     for (var index = 0; index < objects.length; index++) {
-        if (id == objects[index].softviz3dId) {
+        if (id == objects[index].softVis3DId) {
             scene.add(objects[index]);
             objectsInView[index] = objects[index];
         }
@@ -359,7 +359,7 @@ function showEdge(id) {
 
 function showSingleNodeByType(id, type) {
     for (var index = 0; index < objects.length; index++) {
-        if (id == objects[index].softviz3dId && type == objects[index].type) {
+        if (id == objects[index].softVis3DId && type == objects[index].type) {
             scene.add(objects[index]);
             objectsInView[index] = objects[index];
         }
@@ -392,7 +392,7 @@ emptyObject.position.z = 0;
 
 function removeNode(id) {
     for (var index = 0; index < objects.length; index++) {
-        if (id == objects[index].softviz3dId) {
+        if (id == objects[index].softVis3DId) {
             objectsInView[index] = emptyObject;
             scene.remove(objects[index]);
         }
@@ -423,7 +423,7 @@ function removeNodeAndChildren(id) {
 
 function removeEdge(id) {
     for (var index = 0; index < objects.length; index++) {
-        if (id == objects[index].softviz3dId) {
+        if (id == objects[index].softVis3DId) {
             objectsInView[index] = emptyObject;
             scene.remove(objects[index]);
         }
@@ -432,7 +432,7 @@ function removeEdge(id) {
 
 function removeNodeByType(id, type) {
     for (var index = 0; index < objects.length; index++) {
-        if (id == objects[index].softviz3dId && type == objects[index].type) {
+        if (id == objects[index].softVis3DId && type == objects[index].type) {
             objectsInView[index] = emptyObject;
             scene.remove(objects[index]);
         }

@@ -8,17 +8,17 @@
 		<version>18</version>
 	</parent>
 
-	<artifactId>sonar-softviz3d-plugin</artifactId>
+	<artifactId>sonar-softVis3D-plugin</artifactId>
 	<version>0.2.1-SNAPSHOT</version>
 	<packaging>sonar-plugin</packaging>
-	<name>SoftViz3d Sonar plugin</name>
+	<name>SoftVis3D Sonar plugin</name>
 	<description>Creates a 3d view of the project structure</description>
 
 	<organization>
 		<name>Stefan Rinderle</name>
 	</organization>
 
-	<url>http://docs.codehaus.org/display/SONAR/softviz3d</url>
+	<url>http://docs.codehaus.org/display/SONAR/softVis3D</url>
 	<inceptionYear>2013</inceptionYear>
 	<developers>
 		<developer>
@@ -160,8 +160,8 @@
 					<version>1.9</version>
 					<extensions>true</extensions>
 					<configuration>
-						<pluginClass>de.rinderle.softviz3d.SoftViz3dPlugin</pluginClass>
-						<pluginName>Softviz3d</pluginName>
+						<pluginClass>de.rinderle.softvis3d.SoftVis3DPlugin</pluginClass>
+						<pluginName>SoftVis3D</pluginName>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -205,9 +205,9 @@
 	</build>
 
     <scm>
-        <connection>scm:git:ssh://github.com/stefanrinderle/sonar-softviz3d.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/stefanrinderle/sonar-softviz3d.git</developerConnection>
-        <url>https://github.com/stefanrinderle/sonar-softviz3d</url>
+        <connection>scm:git:ssh://github.com/stefanrinderle/sonar-softVis3D.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/stefanrinderle/sonar-softVis3D.git</developerConnection>
+        <url>https://github.com/stefanrinderle/sonar-softVis3D</url>
         <tag>HEAD</tag>
     </scm>
 

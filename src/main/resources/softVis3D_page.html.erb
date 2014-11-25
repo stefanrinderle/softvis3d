@@ -1,0 +1,210 @@
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/three.min.js"></script>
+
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/OrbitControls.js"></script>
+
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/Detector.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/stats.min.js"></script>
+
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/ThreeScene.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/BackendApi.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/TreeServices.js"></script>
+
+<div id="metricForm" style="height: 30px;">
+    <%
+       # get extension class and start layout
+       softVis3D = Api::Utils.java_facade.
+               getComponentByClassname('softVis3D', 'de.rinderle.softvis3d.SoftVis3DExtension')
+
+       metricIds = softVis3D.getMetricsForSnapshot(@snapshot.id)
+
+       # get all defined metric for project files
+       metrics=[]
+       metricIds.each do |index|
+         m = metric(index)
+         metrics << m if m
+       end
+
+       # set default metric ids if no metrics selected
+       if (params[:metric1].blank?)
+         puts("no param 1 - default param")
+         params[:metric1] = softVis3D.getMetric1FromSettings().to_s
+       end
+       if (params[:metric2].blank?)
+         puts("no param 2 - default param")
+         params[:metric2] = softVis3D.getMetric2FromSettings().to_s
+       end
+    %>
+    <% form_tag({:action => @resource.id.to_s}, {:id => 'softVis3DForm', :method => 'get'}) do %>
+        <input type="hidden" name="page" value="SoftVis3D">
+
+        Building footprint metric:
+        <select name="metric1">
+            <%
+               # show all graph (as layers)
+               metrics.each do |metric|
+                 if (metric.id.to_s==params[:metric1].to_s)
+            %>
+                    <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
+                <% else %>
+                    <option value="<%= metric.id %>"><%= metric.short_name %></option>
+                <% end %>
+            <%
+               end
+            %>
+        </select>
+
+        Building height metric:
+
+        <select name="metric2">
+            <%
+               # show all graph (as layers)
+               metrics.each do |metric|
+                 if (metric.id.to_s==params[:metric2].to_s)
+            %>
+                    <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
+                <% else %>
+                    <option value="<%= metric.id %>"><%= metric.short_name %></option>
+                <% end %>
+            <%
+               end
+            %>
+        </select>
+
+        View type:
+        <select name="viewType">
+            <%
+               if ("city"==params[:viewType].to_s)
+            %>
+                <option value="city" selected>City</option>
+            <% else %>
+                <option value="city">City</option>
+            <% end %>
+            <%
+               if ("dependency"==params[:viewType].to_s)
+            %>
+                <option value="dependency" selected>Dependency</option>
+            <% else %>
+                <option value="dependency">Dependency</option>
+            <% end %>
+        </select>
+
+        <input type="submit" value="Submit">
+    <% end %>
+</div>
+
+
+<div id="renderContainer" style="border: 1px solid black;">
+    <% if (params[:viewType].blank?) %>
+        <div style="padding: 30px; height: 300px;">
+            <h3>Please select the metrics and a view type and submit the form above.</h3>
+        </div>
+    <% end %>
+</div>
+<div id="detailsContainer"
+     style="border: 1px solid black; position: absolute;
+             top: 40px; right: 10px; width: 200px; height: 300px;
+             overflow: auto;">
+</div>
+
+<script type="text/javascript">
+    <%
+
+    if (params[:viewType].blank?)
+
+    else
+    %>
+
+    if (!Detector.webgl) {
+        Detector.addGetWebGLMessage();
+    }
+
+    init(document.getElementById('renderContainer'), false);
+    animate();
+
+    getTreeViaWebserver(<%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>");
+
+    // city or dependency
+    var viewType = "<%= params[:viewType] %>";
+
+    function v(x, y, z) {
+        return new THREE.Vector3(x, y, z);
+    }
+
+    <%
+    # get extension class and start layout
+    softVis3D = Api::Utils.java_facade.
+            getComponentByClassname('softVis3D', 'de.rinderle.softvis3d.SoftVis3DExtension')
+
+    resultMap = softVis3D.createLayoutBySnapshotId(@snapshot.id, params[:metric1], params[:metric2], params[:viewType])
+
+    # show all graph (as layers)
+    resultMap.each do |key, platform|
+         # set bb (position and size)
+         layerBB = platform.getBoundingBox
+        %>
+    position = new Array();
+    position.x = <%= layerBB.getX() %>;
+    position.y = <%= platform.getHeight3d.to_s %>;
+    position.z = <%= layerBB.getY() %>;
+
+    geometryLayer = new THREE.BoxGeometry(<%= layerBB.getWidth %>,
+            <%= platform.getPlatformHeight.to_s %>,
+            <%= layerBB.getHeight %>);
+
+    // set material (color)
+    layerMaterial = new THREE.MeshLambertMaterial({
+        color: <%= platform.getColor.getHex %>,
+        transparent: true,
+        opacity: <%= platform.getOpacity.to_s %>
+    });
+
+    // <%= platform.to_s %>
+    createBox(geometryLayer, layerMaterial, position, "<%= key %>", "node");
+
+    <%
+    # show all treeNodes
+    platform.getNodes.each { |building|
+        %>
+    var nodeMaterial = new THREE.MeshLambertMaterial({
+        color: <%= building.getColor.getHex %>,
+        transparent: true,
+        opacity: <%= platform.getOpacity.to_s %>
+    });
+    <%
+    point = building.getPosition()
+    pointArray = point.to_s.split(',')
+    heightString = building.getBuildingHeight
+   %>
+    var nodeGeometry = new THREE.BoxGeometry(
+            <%= building.getWidth.to_s %>, <%= heightString %>,
+            <%= building.getHeight().to_s %>);
+
+    var position = new Array();
+    position.x = <%= pointArray[0] %>;
+    <% zPos = building.getHeight3d.to_f + heightString.to_f / 2 %>
+    position.y = <%= zPos.to_s %>;
+    position.z = <%= pointArray[1] %>;
+
+    // <%= building.to_s %>
+    createBox(nodeGeometry, nodeMaterial, position, "<%= building.getId %>", "leaf");
+
+    <%
+    # show all treeEdges
+    building.getArrows.each { |arrow| %>
+    // <%= arrow.to_s %>
+    // edgeRadius: <%= arrow.getRadius.to_s %>
+    drawCylinder(v(<%= arrow.getOrigin.to_s %>),
+            v(<%= arrow.getDestination.to_s %>),
+            "<%= arrow.getTailId.to_s %> -> <%= arrow.getHeadId.to_s %>",
+            <%= arrow.getRadius.to_s %>);
+    <%
+}
+}
+
+end
+end
+%>
+
+    setLight();
+
+</script>
