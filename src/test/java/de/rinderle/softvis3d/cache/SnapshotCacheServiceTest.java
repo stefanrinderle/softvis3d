@@ -17,9 +17,8 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.domain.tree;
+package de.rinderle.softvis3d.cache;
 
-import de.rinderle.softvis3d.cache.SnapshotCacheServiceBean;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructure;

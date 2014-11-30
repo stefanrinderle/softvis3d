@@ -17,14 +17,13 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.layout.calc.bottomup;
+package de.rinderle.softvis3d.layout.format;
 
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
-import de.rinderle.softvis3d.grappa.GrappaGraphFactory;
-import de.rinderle.softvis3d.layout.format.LayerFormatterBean;
+import de.rinderle.softvis3d.grappa.GrappaGraphTestFactory;
 import org.junit.Test;
 
 import java.awt.*;
@@ -42,7 +41,7 @@ public class LayerFormatterBeanTest {
   @Test
   public void testFormat() {
     final Integer depth = 0;
-    final ResultPlatform platform = GrappaGraphFactory.createGraph();
+    final ResultPlatform platform = GrappaGraphTestFactory.createGraph();
     this.underTest.format(platform, depth, LayoutViewType.CITY);
 
     assertNotNull(platform.getColor());
@@ -51,7 +50,7 @@ public class LayerFormatterBeanTest {
   @Test
   public void testMaxDepth() {
     final Integer depth = Integer.MAX_VALUE;
-    final ResultPlatform platform = GrappaGraphFactory.createGraph();
+    final ResultPlatform platform = GrappaGraphTestFactory.createGraph();
     this.underTest.format(platform, depth, LayoutViewType.CITY);
 
     assertNotNull(platform.getColor());

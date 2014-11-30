@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.layout.calc.bottomup;
+package de.rinderle.softvis3d.layout.bottomUp;
 
 import att.grappa.Graph;
 import att.grappa.GrappaBox;

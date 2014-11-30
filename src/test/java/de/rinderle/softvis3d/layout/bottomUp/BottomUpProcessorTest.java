@@ -17,11 +17,9 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.layout.calc.bottomup;
+package de.rinderle.softvis3d.layout.bottomUp;
 
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
-import de.rinderle.softvis3d.layout.bottomUp.BottomUpLayoutBean;
-import de.rinderle.softvis3d.layout.bottomUp.SnapshotVisitor;
 import org.junit.Before;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

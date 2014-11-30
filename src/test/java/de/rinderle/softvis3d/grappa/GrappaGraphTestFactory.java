@@ -26,7 +26,7 @@ import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 
-public class GrappaGraphFactory {
+public class GrappaGraphTestFactory {
 
   public static ResultPlatform createGraph() {
     final Graph graph = new Graph("root");

@@ -17,14 +17,10 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.dot;
+package de.rinderle.softvis3d.layout.dot;
 
 import att.grappa.Graph;
 import de.rinderle.softvis3d.domain.LayoutViewType;
-import de.rinderle.softvis3d.layout.dot.DotExecutorException;
-import de.rinderle.softvis3d.layout.dot.DotExecutorImpl;
-import de.rinderle.softvis3d.layout.dot.DotVersion;
-import de.rinderle.softvis3d.layout.dot.ExecuteCommand;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
