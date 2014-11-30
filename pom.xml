@@ -12,21 +12,42 @@
 	<version>0.2.1-SNAPSHOT</version>
 	<packaging>sonar-plugin</packaging>
 	<name>SoftVis3D Sonar plugin</name>
+    <url>http://softvis3d.com</url>
 	<description>Creates a 3d view of the project structure</description>
+
+    <inceptionYear>2014</inceptionYear>
 
 	<organization>
 		<name>Stefan Rinderle</name>
 	</organization>
 
-	<url>http://docs.codehaus.org/display/SONAR/softVis3D</url>
-	<inceptionYear>2013</inceptionYear>
-	<developers>
-		<developer>
-			<id>srinderle</id>
-			<name>Stefan Rinderle</name>
-			<email>stefan@rinderle.info</email>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <id>srinderle</id>
+            <name>Stefan Rinderle</name>
+            <email>stefan@rinderle.info</email>
+        </developer>
+    </developers>
+
+    <!-- remove parent pom properties -->
+    <licenses>
+        <license>
+            <name>No open source.</name>
+            <url>License url tbd</url>
+        </license>
+    </licenses>
+    <issueManagement>
+        <url>Issue management url tbd</url>
+    </issueManagement>
+    <scm>
+        <!-- TODO define this right for gitolite and my server. -->
+        <!--connection>scm:git:ssh://github.com/stefanrinderle/sonar-softVis3D.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/stefanrinderle/sonar-softVis3D.git</developerConnection>
+        <url>https://github.com/stefanrinderle/sonar-softVis3D</url>
+        <tag>HEAD</tag>-->
+        <url></url>
+        <tag>HEAD</tag>
+    </scm>
 
 	<properties>
 		<sonar.version>4.2</sonar.version>
@@ -66,7 +87,6 @@
 			<groupId>org.codehaus.sonar</groupId>
 			<artifactId>sonar-plugin-api</artifactId>
 			<version>${sonar.version}</version>
-			<!-- scope>provided</scope -->
 		</dependency>
 
         <dependency>
@@ -181,6 +201,73 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.sonar-plugins</groupId>
+                        <artifactId>license-headers</artifactId>
+                        <version>1.0</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <header>licenceHeader.txt</header>
+                    <strictCheck>true</strictCheck>
+                    <includes>
+                        <include>src/main/java/**</include>
+                        <include>src/test/java/**</include>
+                        <include>src/main/resources/**</include>
+                    </includes>
+                    <excludes>
+                        <exclude>src/main/resources/static/threeJS/**</exclude>
+                    </excludes>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
+                    <properties>
+                        <title>${license.title}</title>
+                        <year>${license.year}</year>
+                        <owner>${license.owner}</owner>
+                        <mailto>${license.mailto}</mailto>
+                    </properties>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>enforce-license-headers</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--
+            <plugin>
+                <http://wvengen.github.io/proguard-maven-plugin>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <version>2.0.8</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>proguard</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <options>
+                        <option>-allowaccessmodification</option>
+                        <option>-keep public final class * extends org.sonar.api.SonarPlugin { *; }</option>
+                    </options>
+                    <libs>
+                        <lib>${java.home}/lib/rt.jar</lib>
+                    </libs>
+                </configuration>
+            </plugin>
+            -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -203,13 +290,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
-    <scm>
-        <connection>scm:git:ssh://github.com/stefanrinderle/sonar-softVis3D.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/stefanrinderle/sonar-softVis3D.git</developerConnection>
-        <url>https://github.com/stefanrinderle/sonar-softVis3D</url>
-        <tag>HEAD</tag>
-    </scm>
 
     <distributionManagement>
         <repository>
