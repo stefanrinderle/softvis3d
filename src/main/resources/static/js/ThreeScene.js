@@ -176,7 +176,6 @@ function showDetails(snapshotId, type) {
     result += "(" + node.footprintMetricValue;
     result += "/" + node.heightMetricValue + ")";
 
-    // TODO this is a bug - viewType is not set.
     if (viewType == "city") {
         if (node.isNode) {
             var selectId;
