@@ -50,6 +50,10 @@ public class SoftVis3DExtension implements ServerExtension {
     this.daoService = this.softVis3DInjector.getInstance(DaoService.class);
   }
 
+  public boolean isProd() {
+    return SoftVis3DPlugin.IS_PROD;
+  }
+
   public List<Integer> getMetricsForSnapshot(final Integer snapshotId) {
     LOGGER.info("getMetricsForSnapshot " + snapshotId);
 

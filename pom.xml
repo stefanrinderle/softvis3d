@@ -243,31 +243,33 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--
             <plugin>
-                <http://wvengen.github.io/proguard-maven-plugin>
-                <groupId>com.github.wvengen</groupId>
-                <artifactId>proguard-maven-plugin</artifactId>
-                <version>2.0.8</version>
+                <groupId>com.samaxes.maven</groupId>
+                <artifactId>minify-maven-plugin</artifactId>
+                <version>1.7.4</version>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <id>default-minify</id>
+                        <!--phase>package</phase>-->
+                        <configuration>
+                            <charset>UTF-8</charset>
+                            <webappSourceDir>src/main/resources</webappSourceDir>
+                            <webappTargetDir>target/classes</webappTargetDir>
+                            <jsSourceDir>static/js</jsSourceDir>
+                            <jsSourceFiles>
+                                <jsSourceFile>BackendApi.js</jsSourceFile>
+                                <jsSourceFile>ThreeScene.js</jsSourceFile>
+                                <jsSourceFile>TreeServices.js</jsSourceFile>
+                            </jsSourceFiles>
+                            <jsFinalFile>softvis3d.js</jsFinalFile>
+                            <jsEngine>CLOSURE</jsEngine>
+                        </configuration>
                         <goals>
-                            <goal>proguard</goal>
+                            <goal>minify</goal>
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <options>
-                        <option>-allowaccessmodification</option>
-                        <option>-keep public final class * extends org.sonar.api.SonarPlugin { *; }</option>
-                    </options>
-                    <libs>
-                        <lib>${java.home}/lib/rt.jar</lib>
-                    </libs>
-                </configuration>
             </plugin>
-            -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -290,6 +292,36 @@
 			</plugin>
 		</plugins>
 	</build>
+
+    <profiles>
+        <profile>
+            <id>secureRelease</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <delete file="target/classes/static/js/BackendApi.js"/>
+                                        <delete file="target/classes/static/js/ThreeScene.js"/>
+                                        <delete file="target/classes/static/js/TreeServices.js"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <distributionManagement>
         <repository>

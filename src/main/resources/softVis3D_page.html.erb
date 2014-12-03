@@ -15,16 +15,22 @@
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/Detector.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/stats.min.js"></script>
 
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/ThreeScene.js"></script>
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/BackendApi.js"></script>
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/TreeServices.js"></script>
+<%
+   # get extension class and start layout
+   softVis3D = Api::Utils.java_facade.
+           getComponentByClassname('softVis3D', 'de.rinderle.softvis3d.SoftVis3DExtension')
+%>
+
+<% if (softVis3D.isProd()) %>
+    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/softvis3d.min.js"></script>
+<% else %>
+    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/ThreeScene.js"></script>
+    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/BackendApi.js"></script>
+    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/TreeServices.js"></script>
+<% end %>
 
 <div id="metricForm" style="height: 30px;">
     <%
-       # get extension class and start layout
-       softVis3D = Api::Utils.java_facade.
-               getComponentByClassname('softVis3D', 'de.rinderle.softvis3d.SoftVis3DExtension')
-
        metricIds = softVis3D.getMetricsForSnapshot(@snapshot.id)
 
        # get all defined metric for project files

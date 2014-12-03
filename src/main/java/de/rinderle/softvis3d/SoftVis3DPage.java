@@ -39,10 +39,11 @@ public class SoftVis3DPage extends AbstractRubyTemplate implements
   @Override
   protected String getTemplatePath() {
 
-    return "/softVis3D_page.html.erb";
-    
-    // development mode
-//    return "/Users/stefan/Documents/workspace_new/softvizSonarPlugin/src/main/resources/softVis3D_page.html.erb";
+    if (SoftVis3DPlugin.IS_PROD) {
+      return "/softVis3D_page.html.erb";
+    } else {
+      return "/Users/stefan/Documents/workspace_new/softvizSonarPlugin/src/main/resources/softVis3D_page.html.erb";
+    }
   }
 
 }
