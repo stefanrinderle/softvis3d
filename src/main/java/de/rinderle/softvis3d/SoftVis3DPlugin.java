@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class is the entry point for all extensions
+ * This class is the entry point for all extensions.
  */
 @Properties({
   @Property(key = SoftVis3DConstants.DOT_BIN_KEY, defaultValue = SoftVis3DConstants.DOT_BIN_DEFAULT,

@@ -27,4 +27,11 @@ public class MinMaxValue {
     return this.maxValue;
   }
 
+  @Override
+  public String toString() {
+    return "MinMaxValue{" +
+            "minValue=" + minValue +
+            ", maxValue=" + maxValue +
+            '}';
+  }
 }

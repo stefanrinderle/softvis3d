@@ -260,6 +260,8 @@
                                 <jsSourceFile>BackendApi.js</jsSourceFile>
                                 <jsSourceFile>ThreeScene.js</jsSourceFile>
                                 <jsSourceFile>TreeServices.js</jsSourceFile>
+                                <jsSourceFile>CreateElements.js</jsSourceFile>
+                                <jsSourceFile>Details.js</jsSourceFile>
                             </jsSourceFiles>
                             <jsFinalFile>softvis3d.js</jsFinalFile>
                             <jsEngine>CLOSURE</jsEngine>

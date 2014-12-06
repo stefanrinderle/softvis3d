@@ -27,6 +27,8 @@
     <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/ThreeScene.js"></script>
     <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/BackendApi.js"></script>
     <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/TreeServices.js"></script>
+    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/CreateElements.js"></script>
+    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/Details.js"></script>
 <% end %>
 
 <div id="metricForm" style="height: 30px;">
@@ -135,16 +137,11 @@
         }
 
         init(document.getElementById('renderContainer'), false);
-        animate();
 
         getTreeViaWebserver(<%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>");
 
         // city or dependency
         var viewType = "<%= params[:viewType] %>";
-
-        function v(x, y, z) {
-            return new THREE.Vector3(x, y, z);
-        }
 
         <%
         # get extension class and start layout
@@ -158,69 +155,65 @@
              # set bb (position and size)
              layerBB = platform.getBoundingBox
             %>
-        position = new Array();
-        position.x = <%= layerBB.getX() %>;
-        position.y = <%= platform.getHeight3d.to_s %>;
-        position.z = <%= layerBB.getY() %>;
+            position = new Array();
+            position.x = <%= layerBB.getX() %>;
+            position.y = <%= platform.getHeight3d.to_s %>;
+            position.z = <%= layerBB.getY() %>;
 
-        geometryLayer = new THREE.BoxGeometry(<%= layerBB.getWidth %>,
-                <%= platform.getPlatformHeight.to_s %>,
-                <%= layerBB.getHeight %>);
+            geometryLayer = new THREE.BoxGeometry(<%= layerBB.getWidth %>,
+                    <%= platform.getPlatformHeight.to_s %>,
+                    <%= layerBB.getHeight %>);
 
-        // set material (color)
-        layerMaterial = new THREE.MeshLambertMaterial({
-            color: <%= platform.getColor.getHex %>,
-            transparent: true,
-            opacity: <%= platform.getOpacity.to_s %>
-        });
+            // set material (color)
+            layerMaterial = new THREE.MeshLambertMaterial({
+                color: <%= platform.getColor.getHex %>,
+                transparent: true,
+                opacity: <%= platform.getOpacity.to_s %>
+            });
 
-        // <%= platform.to_s %>
-        createBox(geometryLayer, layerMaterial, position, "<%= key %>", "node");
+            // <%= platform.to_s %>
+            createBox(geometryLayer, layerMaterial, position, "<%= key %>", "node");
 
-        <%
-        # show all treeNodes
-        platform.getNodes.each { |building|
-            %>
-        var nodeMaterial = new THREE.MeshLambertMaterial({
-            color: <%= building.getColor.getHex %>,
-            transparent: true,
-            opacity: <%= platform.getOpacity.to_s %>
-        });
-        <%
-        point = building.getPosition()
-        pointArray = point.to_s.split(',')
-        heightString = building.getBuildingHeight
-       %>
-        var nodeGeometry = new THREE.BoxGeometry(
-                <%= building.getWidth.to_s %>, <%= heightString %>,
-                <%= building.getHeight().to_s %>);
+            <%
+            # show all treeNodes
+            platform.getNodes.each { |building|
+                %>
+                var nodeMaterial = new THREE.MeshLambertMaterial({
+                    color: <%= building.getColor.getHex %>,
+                    transparent: true,
+                    opacity: <%= platform.getOpacity.to_s %>
+                });
+                <%
+                point = building.getPosition()
+                pointArray = point.to_s.split(',')
+                heightString = building.getBuildingHeight
+               %>
+                var nodeGeometry = new THREE.BoxGeometry(
+                        <%= building.getWidth.to_s %>, <%= heightString %>,
+                        <%= building.getHeight().to_s %>);
 
-        var position = new Array();
-        position.x = <%= pointArray[0] %>;
-        <% zPos = building.getHeight3d.to_f + heightString.to_f / 2 %>
-        position.y = <%= zPos.to_s %>;
-        position.z = <%= pointArray[1] %>;
+                var position = new Array();
+                position.x = <%= pointArray[0] %>;
+                <% zPos = building.getHeight3d.to_f + heightString.to_f / 2 %>
+                position.y = <%= zPos.to_s %>;
+                position.z = <%= pointArray[1] %>;
 
-        // <%= building.to_s %>
-        createBox(nodeGeometry, nodeMaterial, position, "<%= building.getId %>", "leaf");
+                // <%= building.to_s %>
+                createBox(nodeGeometry, nodeMaterial, position, "<%= building.getId %>", "leaf");
 
-        <%
-        # show all treeEdges
-        building.getArrows.each { |arrow| %>
-        // <%= arrow.to_s %>
-        // edgeRadius: <%= arrow.getRadius.to_s %>
-        drawCylinder(v(<%= arrow.getOrigin.to_s %>),
-                v(<%= arrow.getDestination.to_s %>),
-                "<%= arrow.getTailId.to_s %> -> <%= arrow.getHeadId.to_s %>",
-                <%= arrow.getRadius.to_s %>);
-        <%
-    }
-    }
-
-    end
+                <%
+                # show all treeEdges
+                building.getArrows.each { |arrow| %>
+                    // <%= arrow.to_s %>
+                    drawCylinder(<%= arrow.getOrigin.to_s %>,
+                                 <%= arrow.getDestination.to_s %>,
+                                 "<%= arrow.getTailId.to_s %> -> <%= arrow.getHeadId.to_s %>",
+                                 <%= arrow.getRadius.to_s %>);
+                <%
+                }
+            }
+        end
 end
 %>
-
-    setLight();
 
 </script>
