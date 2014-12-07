@@ -129,6 +129,11 @@ public class SonarDaoBean implements SonarDao {
     try {
       this.session.start();
 
+      /**
+       * test files could be disabled by using "AND s.qualifier !=  'UTS' "
+       * but the folders would be there.
+       */
+
       final String sqlQuery = "SELECT s.id, p.path, metric.value " +
         "FROM snapshots s " +
         "INNER JOIN projects p ON s.project_id = p.id " +
@@ -137,8 +142,7 @@ public class SonarDaoBean implements SonarDao {
         "WHERE s.root_snapshot_id = :id " +
         "ORDER BY p.path";
 
-      final Query query = this.session
-        .createNativeQuery(sqlQuery);
+      final Query query = this.session.createNativeQuery(sqlQuery);
 
       query.setParameter("id", rootSnapshotId);
       query.setParameter("metricId", metricId);

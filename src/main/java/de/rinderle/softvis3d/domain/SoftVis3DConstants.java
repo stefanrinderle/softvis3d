@@ -35,7 +35,8 @@ public interface SoftVis3DConstants {
    * Visualization
    */
 
-  double MIN_SIDE_LENGTH_PERCENT = 5;
+  int MIN_SIDE_LENGTH = 5;
+  int MIN_BUILDING_HEIGHT = 10;
 
   /**
    * Layout constants.
@@ -45,4 +46,7 @@ public interface SoftVis3DConstants {
 
   double DPI_DOT_SCALE = 72.0;
 
+  int LAYER_HEIGHT = 200;
+  int PLATFORM_DEFAULT_HEIGHT = 1;
+  int BUILDING_HEIGHT_MULTIPLIER = 2;
 }

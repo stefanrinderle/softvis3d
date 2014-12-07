@@ -40,7 +40,7 @@ public class LayerFormatterBean implements LayerFormatter {
     Integer height3d = depth * 20;
 
     if (LayoutViewType.DEPENDENCY.equals(viewType)) {
-      height3d = -(depth * 200);
+      height3d = -(depth * SoftVis3DConstants.LAYER_HEIGHT);
       opacity = 0.7;
     }
 
@@ -79,15 +79,21 @@ public class LayerFormatterBean implements LayerFormatter {
    */
   @Override
   public double calcBuildingHeight(final Double value, final MinMaxValue minMaxMetricHeight) {
-    return this.calcPercentage(value, minMaxMetricHeight);
+    double buildingHeight =  this.calcPercentage(value, minMaxMetricHeight);
+
+    if (buildingHeight < SoftVis3DConstants.MIN_BUILDING_HEIGHT) {
+      buildingHeight = SoftVis3DConstants.MIN_BUILDING_HEIGHT;
+    }
+
+    return buildingHeight;
   }
 
   @Override
   public double calcSideLength(final Double value, final MinMaxValue minMaxMetricFootprint) {
     double sideLength = this.calcPercentage(value, minMaxMetricFootprint);
 
-    if (sideLength < SoftVis3DConstants.MIN_SIDE_LENGTH_PERCENT) {
-      sideLength = SoftVis3DConstants.MIN_SIDE_LENGTH_PERCENT;
+    if (sideLength < SoftVis3DConstants.MIN_SIDE_LENGTH) {
+      sideLength = SoftVis3DConstants.MIN_SIDE_LENGTH;
     }
 
     return sideLength;

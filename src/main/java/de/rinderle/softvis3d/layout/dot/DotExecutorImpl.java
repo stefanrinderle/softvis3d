@@ -55,6 +55,7 @@ public class DotExecutorImpl implements DotExecutor {
 
     final StringWriter writer = new StringWriter();
     inputGraph.printGraph(writer);
+
     String adot = this.executeCommand.executeCommandReadAdot(command, writer.toString());
 
     if (this.dotVersion.getVersion(dotBin).equals(DOT_BUG_VERSION)) {

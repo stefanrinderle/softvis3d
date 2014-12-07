@@ -96,7 +96,6 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     this.formatter.format(resultPlatform, node.getDepth(), this.viewType);
 
     this.resultingGraphList.put(node.getId(), resultPlatform);
-    // this.resultLayers.put(node.getId(), )
 
     // adjusted graph has a bounding box !
     final GrappaBox bb = resultPlatform.getBoundingBox();
@@ -109,7 +108,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     final Double width = bb.getWidth() / SoftVis3DConstants.DPI_DOT_SCALE;
     final Double height = bb.getHeight() / SoftVis3DConstants.DPI_DOT_SCALE;
 
-    final double platformHeight = 5;
+    final double platformHeight = SoftVis3DConstants.PLATFORM_DEFAULT_HEIGHT;
 
     return LayeredLayoutElement.createLayeredLayoutElement(node, width, height, platformHeight);
   }
@@ -137,13 +136,16 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     sideLength = sideLength / SoftVis3DConstants.DPI_DOT_SCALE;
 
     double buildingHeight = this.formatter.calcBuildingHeight(leaf.getHeightMetricValue(), this.minMaxMetricHeight);
-    buildingHeight = buildingHeight / SoftVis3DConstants.DPI_DOT_SCALE;
-
-    buildingHeight = buildingHeight * 100;
+    /**
+     * building height is in percent with min size.
+     * multiplier to get higher buildings in the view.
+     */
+    buildingHeight = buildingHeight * SoftVis3DConstants.BUILDING_HEIGHT_MULTIPLIER;
+    buildingHeight = Math.round(buildingHeight);
 
     if (TreeNodeType.DEPENDENCY_GENERATED.equals(leaf.getType())
       && LayoutViewType.DEPENDENCY.equals(this.viewType)) {
-      buildingHeight = 200;
+      buildingHeight = SoftVis3DConstants.LAYER_HEIGHT;
     }
 
     return LayeredLayoutElement.createLayeredLayoutElement(leaf, sideLength, sideLength, buildingHeight);

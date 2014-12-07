@@ -35,7 +35,6 @@ public class ResultBuilding extends BaseResultObject {
 
   private TreeNodeType type;
 
-  private static final int MIN_BUILDING_HEIGHT = 10;
   private GrappaPoint position;
 
   public ResultBuilding(final Node node) {
@@ -93,6 +92,9 @@ public class ResultBuilding extends BaseResultObject {
     this.buildingHeight = height;
   }
 
+  /**
+   * called from view.
+   */
   public double getBuildingHeight() {
     return buildingHeight;
   }
@@ -123,7 +125,7 @@ public class ResultBuilding extends BaseResultObject {
    */
   private double transformBuildingHeight(final Node node) {
     String buildingHeightString = (String) node.getAttributeValue(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT);
-    return Double.valueOf(buildingHeightString.substring(1)) + MIN_BUILDING_HEIGHT;
+    return Double.valueOf(buildingHeightString.substring(1));
   }
 
   private TreeNodeType transformType(final Node node) {
