@@ -66,6 +66,8 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     this.minMaxMetricHeight = minMaxHeightMetricValues;
     this.minMaxEdgeCounter = minMaxEdgeCounter;
 
+    LOGGER.info("minmaxedgecounter " + minMaxEdgeCounter.toString());
+
     this.dotExecutor = dotExecutor;
     this.formatter = formatter;
     this.transformer = transformer;

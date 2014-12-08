@@ -8,6 +8,7 @@
  */
 package de.rinderle.softvis3d.layout.dot;
 
+import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,8 @@ public class ExecuteCommandImpl implements ExecuteCommand {
   private static String checkForAdotBug(String line) {
     if (line.contains(HEIGHT_ATTR)) {
       line = addQuotationMarks(line, HEIGHT_ATTR);
-    } else if (line.contains(WIDTH_ATTR)) {
+    } else if (line.contains(WIDTH_ATTR) &&
+            !line.contains(SoftVis3DConstants.GRAPH_ATTR_PENWIDTH)) {
       line = line.replace(WIDTH_ATTR + "=", WIDTH_ATTR + "=\"");
       if (line.indexOf(']') >= 0) {
         line = line.replace("]", "\"]");

@@ -43,10 +43,11 @@ public interface SoftVis3DConstants {
    */
 
   String GRAPH_ATTR_BUILDING_HEIGHT = "buildingHeight";
+  String GRAPH_ATTR_PENWIDTH = "penwidth";
 
   double DPI_DOT_SCALE = 72.0;
 
   int LAYER_HEIGHT = 200;
-  int PLATFORM_DEFAULT_HEIGHT = 1;
+  int PLATFORM_DEFAULT_HEIGHT = 3;
   int BUILDING_HEIGHT_MULTIPLIER = 2;
 }

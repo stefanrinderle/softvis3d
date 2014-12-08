@@ -101,7 +101,8 @@ public class LayerFormatterBean implements LayerFormatter {
 
   @Override
   public double calcEdgeRadius(int counter, MinMaxValue minMaxEdgeCounter) {
-    return this.calcPercentage((double) counter, minMaxEdgeCounter);
+    return counter;
+//    return this.calcPercentage((double) counter, minMaxEdgeCounter);
   }
 
   private double calcPercentage(final Double value, final MinMaxValue minMaxDao) {
