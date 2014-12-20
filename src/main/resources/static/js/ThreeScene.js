@@ -9,7 +9,7 @@
 var camera, scene, projector, renderer;
 
 var controls;
-var objects = [];
+//var objects = [];
 var objectsInView = [];
 
 var containerWidth, containerHeight;
@@ -113,7 +113,7 @@ function onDocumentMouseUp(event) {
             selectedObjectColor = selectedObject.material.color.getHex();
             selectedObject.material.color.setHex(0xFFBF00);
 
-            showDetails(intersects[ 0 ].object.softVis3DId, intersects[ 0 ].object.type);
+            angular.element(document.getElementById('detailsContainer')).scope().showDetails(intersects[ 0 ].object.softVis3DId);
         }
     }
 }

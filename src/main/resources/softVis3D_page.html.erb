@@ -15,6 +15,11 @@
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/Detector.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/stats.min.js"></script>
 
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/angular.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/backendService.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/treeService.js"></script>
+
 <%
    # get extension class and start layout
    softVis3D = Api::Utils.java_facade.
@@ -25,195 +30,319 @@
     <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/softvis3d.min.js"></script>
 <% else %>
     <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/ThreeScene.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/BackendApi.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/TreeServices.js"></script>
     <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/CreateElements.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/Details.js"></script>
 <% end %>
 
-<div id="metricForm" style="height: 30px;">
-    <%
-       metricIds = softVis3D.getMetricsForSnapshot(@snapshot.id)
+<div ng-app="softVis3dAngular">
+    <div id="metricForm" style="height: 30px;">
+        <%
+           metricIds = softVis3D.getMetricsForSnapshot(@snapshot.id)
 
-       # get all defined metric for project files
-       metrics=[]
-       metricIds.each do |index|
-         m = metric(index)
-         metrics << m if m
-       end
+           # get all defined metric for project files
+           metrics=[]
+           metricIds.each do |index|
+             m = metric(index)
+             metrics << m if m
+           end
 
-       # set default metric ids if no metrics selected
-       if (params[:metric1].blank?)
-         puts("no param 1 - default param")
-         params[:metric1] = softVis3D.getMetric1FromSettings().to_s
-       end
-       if (params[:metric2].blank?)
-         puts("no param 2 - default param")
-         params[:metric2] = softVis3D.getMetric2FromSettings().to_s
-       end
-    %>
-    <% form_tag({:action => @resource.id.to_s}, {:id => 'softVis3DForm', :method => 'get'}) do %>
-        <input type="hidden" name="page" value="SoftVis3D">
+           # set default metric ids if no metrics selected
+           if (params[:metric1].blank?)
+             puts("no param 1 - default param")
+             params[:metric1] = softVis3D.getMetric1FromSettings().to_s
+           end
+           if (params[:metric2].blank?)
+             puts("no param 2 - default param")
+             params[:metric2] = softVis3D.getMetric2FromSettings().to_s
+           end
+        %>
+        <% form_tag({:action => @resource.id.to_s}, {:id => 'softVis3DForm', :method => 'get'}) do %>
+            <input type="hidden" name="page" value="SoftVis3D">
 
-        Building footprint metric:
-        <select name="metric1">
-            <%
-               # show all graph (as layers)
-               metrics.each do |metric|
-                 if (metric.id.to_s==params[:metric1].to_s)
-            %>
-                    <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
+            Building footprint metric:
+            <select name="metric1">
+                <%
+                   # show all graph (as layers)
+                   metrics.each do |metric|
+                     if (metric.id.to_s==params[:metric1].to_s)
+                %>
+                        <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
+                    <% else %>
+                        <option value="<%= metric.id %>"><%= metric.short_name %></option>
+                    <% end %>
+                <%
+                   end
+                %>
+            </select>
+
+            Building height metric:
+
+            <select name="metric2">
+                <%
+                   # show all graph (as layers)
+                   metrics.each do |metric|
+                     if (metric.id.to_s==params[:metric2].to_s)
+                %>
+                        <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
+                    <% else %>
+                        <option value="<%= metric.id %>"><%= metric.short_name %></option>
+                    <% end %>
+                <%
+                   end
+                %>
+            </select>
+
+            View type:
+            <select name="viewType">
+                <%
+                   if ("city"==params[:viewType].to_s)
+                %>
+                    <option value="city" selected>City</option>
                 <% else %>
-                    <option value="<%= metric.id %>"><%= metric.short_name %></option>
+                    <option value="city">City</option>
                 <% end %>
-            <%
-               end
-            %>
-        </select>
-
-        Building height metric:
-
-        <select name="metric2">
-            <%
-               # show all graph (as layers)
-               metrics.each do |metric|
-                 if (metric.id.to_s==params[:metric2].to_s)
-            %>
-                    <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
+                <%
+                   if ("dependency"==params[:viewType].to_s)
+                %>
+                    <option value="dependency" selected>Dependency</option>
                 <% else %>
-                    <option value="<%= metric.id %>"><%= metric.short_name %></option>
+                    <option value="dependency">Dependency</option>
                 <% end %>
-            <%
-               end
-            %>
-        </select>
+            </select>
 
-        View type:
-        <select name="viewType">
-            <%
-               if ("city"==params[:viewType].to_s)
-            %>
-                <option value="city" selected>City</option>
-            <% else %>
-                <option value="city">City</option>
-            <% end %>
-            <%
-               if ("dependency"==params[:viewType].to_s)
-            %>
-                <option value="dependency" selected>Dependency</option>
-            <% else %>
-                <option value="dependency">Dependency</option>
-            <% end %>
-        </select>
+            <input type="submit" value="Submit">
+        <% end %>
+    </div>
 
-        <input type="submit" value="Submit">
-    <% end %>
-</div>
+    <div id="renderContainer" style="border: 1px solid black;">
+        <% if (params[:viewType].blank?) %>
+            <div style="padding: 30px; height: 300px;">
+                <h3>Please select the metrics and a view type and submit the form above.</h3>
+            </div>
+        <% end %>
+    </div>
 
+    <div ng-controller="DetailsController" id="detailsContainer"
+         style="border: 1px solid black; position: absolute;
+                 top: 40px; right: 10px; width: 200px; height: 300px;
+                 overflow: auto;">
 
-<div id="renderContainer" style="border: 1px solid black;">
-    <% if (params[:viewType].blank?) %>
-        <div style="padding: 30px; height: 300px;">
-            <h3>Please select the metrics and a view type and submit the form above.</h3>
+        <h2>{{node.name}} ({{node.footprintMetricValue}} / {{node.heightMetricValue}})</h2>
+        <div ng-show="node.isNode">
+            <button ng-hide="node.isHidden" type='button' ng-click='triggerVisible();'>Show all</button>
+            <button ng-show="node.isHidden" type='button' ng-click='triggerVisible();'>Hide all</button>
         </div>
-    <% end %>
-</div>
-<div id="detailsContainer"
-     style="border: 1px solid black; position: absolute;
-             top: 40px; right: 10px; width: 200px; height: 300px;
-             overflow: auto;">
+
+        <div ng-show="node.parentInfo">
+            <h3>Parent</h3>
+            <p>
+                <a href='#' ng-click="selectNodeFromDetails(node.parentInfo);">
+                    {{node.parentInfo.name}}
+                    ({{node.parentInfo.footprintMetricValue}} / {{node.parentInfo.heightMetricValue}})
+                </a>
+            </p>
+        </div>
+
+        <h3>Children {{node.children.length}}</h3>
+        <ul style="list-style: none;">
+            <li ng-repeat="child in node.children">
+                <a href='#' ng-click="selectNodeFromDetails(child);">
+                    {{child.name}}
+                    ({{child.footprintMetricValue}} / {{child.heightMetricValue}})
+                </a>
+            </li>
+            <li ng-if="node.children.length == 0">
+                <strong>No children</strong>
+            </li>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+        <%
+
+        if (params[:viewType].blank?)
+
+        else
+            %>
+            var viewType = "<%= params[:viewType].to_s %>";
+            if (!Detector.webgl) {
+                Detector.addGetWebGLMessage();
+            }
+
+            init(document.getElementById('renderContainer'), false);
+
+            function initializeTestStuff() {
+                var objectTest = "objectStefan";
+                angular.element(document.getElementById('detailsContainer')).scope().pushObject(objectTest);
+                <%
+                # get extension class and start layout
+                softVis3D = Api::Utils.java_facade.
+                        getComponentByClassname('softVis3D', 'de.rinderle.softvis3d.SoftVis3DExtension')
+
+                resultMap = softVis3D.createLayoutBySnapshotId(@snapshot.id, params[:metric1], params[:metric2], params[:viewType])
+
+                # show all graph (as layers)
+                resultMap.each do |key, platform|
+                     # set bb (position and size)
+                     layerBB = platform.getBoundingBox
+                    %>
+                    position = new Array();
+                    position.x = <%= layerBB.getX() %>;
+                    position.y = <%= platform.getHeight3d.to_s %>;
+                    position.z = <%= layerBB.getY() %>;
+
+                    geometryLayer = new THREE.BoxGeometry(<%= layerBB.getWidth %>,
+                            <%= platform.getPlatformHeight.to_s %>,
+                            <%= layerBB.getHeight %>);
+
+                    // set material (color)
+                    layerMaterial = new THREE.MeshLambertMaterial({
+                        color: <%= platform.getColor.getHex %>,
+                        transparent: true,
+                        opacity: <%= platform.getOpacity.to_s %>
+                    });
+
+                    // <%= platform.to_s %>
+                    createBox(geometryLayer, layerMaterial, position, "<%= key %>", "node");
+
+                    <%
+                    # show all treeNodes
+                    platform.getNodes.each { |building|
+                        %>
+                        var nodeMaterial = new THREE.MeshLambertMaterial({
+                            color: <%= building.getColor.getHex %>,
+                            transparent: true,
+                            opacity: <%= platform.getOpacity.to_s %>
+                        });
+                        <%
+                        point = building.getPosition()
+                        pointArray = point.to_s.split(',')
+                        heightString = building.getBuildingHeight
+                       %>
+                        var nodeGeometry = new THREE.BoxGeometry(
+                                <%= building.getWidth.to_s %>, <%= heightString %>,
+                                <%= building.getHeight().to_s %>);
+
+                        var position = new Array();
+                        position.x = <%= pointArray[0] %>;
+                        <% zPos = building.getHeight3d.to_f + heightString.to_f / 2 %>
+                        position.y = <%= zPos.to_s %>;
+                        position.z = <%= pointArray[1] %>;
+
+                        // <%= building.to_s %>
+                        createBox(nodeGeometry, nodeMaterial, position, "<%= building.getId %>", "leaf");
+
+                        <%
+                        # show all treeEdges
+                        building.getArrows.each { |arrow| %>
+                            // <%= arrow.to_s %>
+                            drawCylinder(<%= arrow.getOrigin.to_s %>,
+                                         <%= arrow.getDestination.to_s %>,
+                                         "<%= arrow.getTailId.to_s %> -> <%= arrow.getHeadId.to_s %>",
+                                         <%= arrow.getRadius.to_s %>);
+                        <%
+                        }
+                    }
+                end
+                %>
+            }
+            <%
+    end
+    %>
+
+</script>
 </div>
 
 <script type="text/javascript">
-    <%
+    softVis3dAngular.controller('DetailsController',
+            ['$scope', 'backendService', 'treeService', 'sceneObjectsService',
+                function ($scope, backendService, treeService, sceneObjectsService) {
 
-    if (params[:viewType].blank?)
+                    $scope.node = null;
 
-    else
-        %>
-        var viewType = "<%= params[:viewType].to_s %>";
-        if (!Detector.webgl) {
-            Detector.addGetWebGLMessage();
-        }
+                    $scope.showDetails = function (snapshotId) {
+                        $scope.node = treeService.searchTree(snapshotId);
+                        $scope.$apply();
+                    };
 
-        init(document.getElementById('renderContainer'), false);
+                    $scope.selectNodeFromDetails = function (node) {
+                        if (node.isNode) {
+                            sceneObjectsService.selectSceneObjectByType(node.id, "node");
+                        } else {
+                            sceneObjectsService.selectSceneObjectByType(node.id, "leaf");
+                        }
 
-        getTreeViaWebserver(<%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>");
+                        $scope.showDetails(node.id);
+                    };
 
-        // city or dependency
-        var viewType = "<%= params[:viewType] %>";
+                    $scope.triggerVisible = function () {
+                        var selectId;
+                        if ($scope.node.parentInfo == null) {
+                            selectId = $scope.node.id;
+                        } else {
+                            selectId = $scope.node.parentInfo.id;
+                        }
 
-        <%
-        # get extension class and start layout
-        softVis3D = Api::Utils.java_facade.
-                getComponentByClassname('softVis3D', 'de.rinderle.softvis3d.SoftVis3DExtension')
+                        if ($scope.node.isHidden != null && $scope.node.isHidden) {
+                            console.log("show");
+                            $scope.node.isHidden = false;
+//                showAll($scope.node.id, selectId);
+                        } else {
+                            console.log("hide");
+                            $scope.node.isHidden = true;
+//                hideAll($scope.node.id, selectId);
+                        }
+                    };
 
-        resultMap = softVis3D.createLayoutBySnapshotId(@snapshot.id, params[:metric1], params[:metric2], params[:viewType])
+                    $scope.loadTree = function (snapshotId, footprintMetricId, heightMetricId, viewType) {
+                        backendService.getTreeForSnapshotView(snapshotId, footprintMetricId, heightMetricId, viewType)
+                                .then(function(response) {
+                                    treeService.setTree(response);
+                                    //42725 --> root node
+                                    //42727 --> Java class
+                                    $scope.showDetails(snapshotId);
+                                });
+                    };
 
-        # show all graph (as layers)
-        resultMap.each do |key, platform|
-             # set bb (position and size)
-             layerBB = platform.getBoundingBox
-            %>
-            position = new Array();
-            position.x = <%= layerBB.getX() %>;
-            position.y = <%= platform.getHeight3d.to_s %>;
-            position.z = <%= layerBB.getY() %>;
+                    $scope.pushObject = function (object) {
+                        console.log("pushObject.controller " + object);
+                        sceneObjectsService.push(object);
+                    };
+                }]);
 
-            geometryLayer = new THREE.BoxGeometry(<%= layerBB.getWidth %>,
-                    <%= platform.getPlatformHeight.to_s %>,
-                    <%= layerBB.getHeight %>);
+    softVis3dAngular.factory('sceneObjectsService', [ function(){
+        var sceneObjectsServiceObjects = [];
+        return {
+            push : function (object) {
+                console.log("pushObject.service " + object);
+                sceneObjectsServiceObjects.push(object);
+            },
 
-            // set material (color)
-            layerMaterial = new THREE.MeshLambertMaterial({
-                color: <%= platform.getColor.getHex %>,
-                transparent: true,
-                opacity: <%= platform.getOpacity.to_s %>
-            });
+            selectSceneObjectByType : function (id, type) {
+                console.log("selectSceneObjectByType " + id + " " + type);
+                for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
+                    if (id == sceneObjectsServiceObjects[index].softVis3DId && type == sceneObjectsServiceObjects[index].type) {
+                        // reset former selected object
+                        if (!!selectedObject) {
+                            selectedObject.material.color.setHex(selectedObjectColor);
+                        }
 
-            // <%= platform.to_s %>
-            createBox(geometryLayer, layerMaterial, position, "<%= key %>", "node");
-
-            <%
-            # show all treeNodes
-            platform.getNodes.each { |building|
-                %>
-                var nodeMaterial = new THREE.MeshLambertMaterial({
-                    color: <%= building.getColor.getHex %>,
-                    transparent: true,
-                    opacity: <%= platform.getOpacity.to_s %>
-                });
-                <%
-                point = building.getPosition()
-                pointArray = point.to_s.split(',')
-                heightString = building.getBuildingHeight
-               %>
-                var nodeGeometry = new THREE.BoxGeometry(
-                        <%= building.getWidth.to_s %>, <%= heightString %>,
-                        <%= building.getHeight().to_s %>);
-
-                var position = new Array();
-                position.x = <%= pointArray[0] %>;
-                <% zPos = building.getHeight3d.to_f + heightString.to_f / 2 %>
-                position.y = <%= zPos.to_s %>;
-                position.z = <%= pointArray[1] %>;
-
-                // <%= building.to_s %>
-                createBox(nodeGeometry, nodeMaterial, position, "<%= building.getId %>", "leaf");
-
-                <%
-                # show all treeEdges
-                building.getArrows.each { |arrow| %>
-                    // <%= arrow.to_s %>
-                    drawCylinder(<%= arrow.getOrigin.to_s %>,
-                                 <%= arrow.getDestination.to_s %>,
-                                 "<%= arrow.getTailId.to_s %> -> <%= arrow.getHeadId.to_s %>",
-                                 <%= arrow.getRadius.to_s %>);
-                <%
+                        selectedObject = sceneObjectsServiceObjects[index];
+                        selectedObjectColor = selectedObject.material.color.getHex();
+                        selectedObject.material.color.setHex(0xFFBF00);
+                    }
                 }
             }
-        end
-end
-%>
-
+        }
+    }]);
 </script>
+
+<script type="text/javascript">
+window.onload = function () {
+    initializeTestStuff();
+
+    angular.element(document.getElementById('detailsContainer')).scope().loadTree(
+            <%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
+    );
+}
+</script>
+

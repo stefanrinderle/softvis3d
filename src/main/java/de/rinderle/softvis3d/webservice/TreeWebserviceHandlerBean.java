@@ -24,8 +24,6 @@ public class TreeWebserviceHandlerBean implements TreeWebserviceHandler {
   private SnapshotCacheService snapshotCacheService;
   @Inject
   private TreeNodeJsonWriter treeNodeJsonWriter;
-  @Inject
-  private PreProcessor preProcessor;
 
   @Override
   public void handle(final Request request, final Response response) {
