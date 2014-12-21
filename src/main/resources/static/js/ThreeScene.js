@@ -11,16 +11,8 @@ var camera, scene, projector, renderer;
 var controls;
 var objectsInView = [];
 
-var containerWidth, containerHeight;
-
-
 function init(container, showStats) {
-    // header of sonar is 70 px + metric select form 30 px + footer 50 px
-    // sidebar 200px
-    containerWidth = window.innerWidth - 380;
-    containerHeight = window.innerHeight - 170;
-
-    camera = new THREE.PerspectiveCamera(45, containerWidth / containerHeight, 1, 10000);
+    camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
     camera.position.set(0, 300, 500);
 
     scene = new THREE.Scene();
@@ -48,32 +40,15 @@ function init(container, showStats) {
         });
     }
 
-    window.addEventListener('resize', onWindowResize, false);
-
-    onWindowResize();
-
     setLight();
     animate();
 }
-
-function onWindowResize() {
-    containerWidth = window.innerWidth - 380;
-    containerHeight = window.innerHeight - 170;
-
-    renderer.setSize(containerWidth, containerHeight);
-    camera.aspect = containerWidth / containerHeight;
-    camera.updateProjectionMatrix();
-
-    document.getElementById("detailsContainer").style.height = containerHeight + "px";
-}
-
 
 function animate() {
     requestAnimationFrame(animate);
 
     renderer.render(scene, camera);
 }
-
 
 function setLight() {
     var light = new THREE.DirectionalLight(0xaaaaaa);

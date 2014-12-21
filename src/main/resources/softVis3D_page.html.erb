@@ -20,6 +20,7 @@
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/SoftVis3dAngular.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/BackendService.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/DetailsController.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/Directives.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/SceneObjectsService.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/TreeService.js"></script>
 
@@ -36,7 +37,7 @@
     <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/CreateElements.js"></script>
 <% end %>
 
-<div ng-app="softVis3dAngular">
+<div ng-app="softVis3dAngular" resize>
     <div id="metricForm" style="height: 30px;">
         <%
            metricIds = softVis3D.getMetricsForSnapshot(@snapshot.id)
@@ -255,6 +256,7 @@
 </div>
 
 <script type="text/javascript">
+
     softVis3dAngular.controller('RenderController',
         ['$rootScope', '$scope', 'sceneObjectsService',
             function ($rootScope, $scope, sceneObjectsService) {
@@ -293,6 +295,7 @@
                     var intersectedObject = sceneObjectsService.intersectClickEvent(event);
 
                     if (intersectedObject != null) {
+                        // TODO: sceneObjectsService shouls also listen on the event 'updateDetails'
                         sceneObjectsService.selectSceneObjectByType(intersectedObject.softVis3DId, intersectedObject.type);
                         $rootScope.$broadcast('updateDetails', intersectedObject.softVis3DId);
                     }
