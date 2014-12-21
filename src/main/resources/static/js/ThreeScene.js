@@ -9,14 +9,10 @@
 var camera, scene, projector, renderer;
 
 var controls;
-//var objects = [];
 var objectsInView = [];
 
 var containerWidth, containerHeight;
 
-var selectedObject, selectedObjectColor;
-
-var clickOrDragFlag = 0;
 
 function init(container, showStats) {
     // header of sonar is 70 px + metric select form 30 px + footer 50 px
@@ -52,8 +48,6 @@ function init(container, showStats) {
         });
     }
 
-    initMouseEvents();
-
     window.addEventListener('resize', onWindowResize, false);
 
     onWindowResize();
@@ -73,50 +67,6 @@ function onWindowResize() {
     document.getElementById("detailsContainer").style.height = containerHeight + "px";
 }
 
-function initMouseEvents() {
-    document.getElementById("detailsContainer").addEventListener('mousedown', function (e) {
-        e.stopPropagation();
-    }, false);
-
-    document.addEventListener("mousedown", function(){
-        clickOrDragFlag = 0;
-    }, false);
-    document.addEventListener("mousemove", function(){
-        clickOrDragFlag = 1;
-    }, false);
-
-    document.addEventListener('mouseup', onDocumentMouseUp, false);
-}
-
-function onDocumentMouseUp(event) {
-    if(clickOrDragFlag === 1){
-        clickOrDragFlag = 0;
-    } else if(clickOrDragFlag === 0){
-        // header of sonar is 70 px + metric select form 30 px
-        var mouseVector = new THREE.Vector3(
-                2 * ((event.clientX - 170) / containerWidth) - 1,
-                1 - 2 * ((event.clientY - 100) / containerHeight),
-            0.5);
-
-        var raycaster = projector.pickingRay(mouseVector.clone(), camera);
-
-        var intersects = raycaster.intersectObjects(objectsInView);
-
-        if (intersects.length > 0) {
-
-            // reset former selected object
-            if (!!selectedObject) {
-                selectedObject.material.color.setHex(selectedObjectColor);
-            }
-
-            selectedObject = intersects[ 0 ].object;
-            selectedObjectColor = selectedObject.material.color.getHex();
-            selectedObject.material.color.setHex(0xFFBF00);
-
-            angular.element(document.getElementById('detailsContainer')).scope().showDetails(intersects[ 0 ].object.softVis3DId);
-        }
-    }
-}
 
 function animate() {
     requestAnimationFrame(animate);

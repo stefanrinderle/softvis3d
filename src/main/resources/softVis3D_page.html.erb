@@ -16,9 +16,12 @@
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/stats.min.js"></script>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script>
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/angular.js"></script>
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/backendService.js"></script>
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/treeService.js"></script>
+
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/SoftVis3dAngular.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/BackendService.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/DetailsController.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/SceneObjectsService.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/TreeService.js"></script>
 
 <%
    # get extension class and start layout
@@ -113,27 +116,19 @@
         <% end %>
     </div>
 
-    <div id="renderContainer" style="border: 1px solid black;">
-        <% if (params[:viewType].blank?) %>
-            <div style="padding: 30px; height: 300px;">
-                <h3>Please select the metrics and a view type and submit the form above.</h3>
-            </div>
-        <% end %>
-    </div>
-
     <div ng-controller="DetailsController" id="detailsContainer"
          style="border: 1px solid black; position: absolute;
                  top: 40px; right: 10px; width: 200px; height: 300px;
                  overflow: auto;">
 
-        <h2>{{node.name}} ({{node.footprintMetricValue}} / {{node.heightMetricValue}})</h2>
-        <div ng-show="node.isNode">
+        <h2 style="color: #d58512">{{node.name}} ({{node.footprintMetricValue}} / {{node.heightMetricValue}})</h2>
+        <!--div ng-show="node.isNode">
             <button ng-hide="node.isHidden" type='button' ng-click='triggerVisible();'>Show all</button>
             <button ng-show="node.isHidden" type='button' ng-click='triggerVisible();'>Hide all</button>
-        </div>
+        </div-->
 
         <div ng-show="node.parentInfo">
-            <h3>Parent</h3>
+            <h2>Parent</h2>
             <p>
                 <a href='#' ng-click="selectNodeFromDetails(node.parentInfo);">
                     {{node.parentInfo.name}}
@@ -142,7 +137,7 @@
             </p>
         </div>
 
-        <h3>Children {{node.children.length}}</h3>
+        <h2>Children ({{node.children.length}})</h2>
         <ul style="list-style: none;">
             <li ng-repeat="child in node.children">
                 <a href='#' ng-click="selectNodeFromDetails(child);">
@@ -156,6 +151,16 @@
         </ul>
     </div>
 
+    <div ng-controller="RenderController" id="renderContainerController">
+        <div ng-show="isVisualisationActive" id="renderContainer"
+             ng-mousedown="mousedown($event)" ng-mouseup="mouseup($event)" ng-mousemove="mousemove($event)"
+             style="border: 1px solid black;">
+        </div>
+        <div ng-hide="isVisualisationActive" style="padding: 30px; height: 300px;">
+            <h3>Please select the metrics and a view type and submit the form above.</h3>
+        </div>
+    </div>
+
     <script type="text/javascript">
         <%
 
@@ -163,7 +168,6 @@
 
         else
             %>
-            var viewType = "<%= params[:viewType].to_s %>";
             if (!Detector.webgl) {
                 Detector.addGetWebGLMessage();
             }
@@ -171,8 +175,6 @@
             init(document.getElementById('renderContainer'), false);
 
             function initializeTestStuff() {
-                var objectTest = "objectStefan";
-                angular.element(document.getElementById('detailsContainer')).scope().pushObject(objectTest);
                 <%
                 # get extension class and start layout
                 softVis3D = Api::Utils.java_facade.
@@ -253,96 +255,66 @@
 </div>
 
 <script type="text/javascript">
-    softVis3dAngular.controller('DetailsController',
-            ['$scope', 'backendService', 'treeService', 'sceneObjectsService',
-                function ($scope, backendService, treeService, sceneObjectsService) {
+    softVis3dAngular.controller('RenderController',
+        ['$rootScope', '$scope', 'sceneObjectsService',
+            function ($rootScope, $scope, sceneObjectsService) {
 
-                    $scope.node = null;
+            $scope.isVisualisationActive = false;
+            $scope.clickOrDragFlag = false;
 
-                    $scope.showDetails = function (snapshotId) {
-                        $scope.node = treeService.searchTree(snapshotId);
-                        $scope.$apply();
-                    };
+            $scope.init = function (snapshotId, metric1, metric2, viewType) {
+                if (snapshotId != "" && metric1 != "" && metric2 != "" && viewType != "") {
+                    $scope.initVisualization(snapshotId, metric1, metric2, viewType);
+                }
+            };
 
-                    $scope.selectNodeFromDetails = function (node) {
-                        if (node.isNode) {
-                            sceneObjectsService.selectSceneObjectByType(node.id, "node");
-                        } else {
-                            sceneObjectsService.selectSceneObjectByType(node.id, "leaf");
-                        }
+            $scope.initVisualization = function (snapshotId, metric1, metric2, viewType) {
+                $scope.isVisualisationActive = true;
+            };
 
-                        $scope.showDetails(node.id);
-                    };
+            /**
+             * Mouse events for drag or click
+             */
 
-                    $scope.triggerVisible = function () {
-                        var selectId;
-                        if ($scope.node.parentInfo == null) {
-                            selectId = $scope.node.id;
-                        } else {
-                            selectId = $scope.node.parentInfo.id;
-                        }
+            $scope.mousedown = function (event) {
+                $scope.clickOrDragFlag = false;
+            };
 
-                        if ($scope.node.isHidden != null && $scope.node.isHidden) {
-                            console.log("show");
-                            $scope.node.isHidden = false;
-//                showAll($scope.node.id, selectId);
-                        } else {
-                            console.log("hide");
-                            $scope.node.isHidden = true;
-//                hideAll($scope.node.id, selectId);
-                        }
-                    };
+            $scope.mousemove = function (event) {
+                $scope.clickOrDragFlag = true;
+            };
 
-                    $scope.loadTree = function (snapshotId, footprintMetricId, heightMetricId, viewType) {
-                        backendService.getTreeForSnapshotView(snapshotId, footprintMetricId, heightMetricId, viewType)
-                                .then(function(response) {
-                                    treeService.setTree(response);
-                                    //42725 --> root node
-                                    //42727 --> Java class
-                                    $scope.showDetails(snapshotId);
-                                });
-                    };
+            $scope.mouseup = function (event) {
+                if($scope.clickOrDragFlag){
+                    // drag
+                    $scope.clickOrDragFlag = false;
+                } else {
+                    // click
+                    var intersectedObject = sceneObjectsService.intersectClickEvent(event);
 
-                    $scope.pushObject = function (object) {
-                        console.log("pushObject.controller " + object);
-                        sceneObjectsService.push(object);
-                    };
-                }]);
-
-    softVis3dAngular.factory('sceneObjectsService', [ function(){
-        var sceneObjectsServiceObjects = [];
-        return {
-            push : function (object) {
-                console.log("pushObject.service " + object);
-                sceneObjectsServiceObjects.push(object);
-            },
-
-            selectSceneObjectByType : function (id, type) {
-                console.log("selectSceneObjectByType " + id + " " + type);
-                for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
-                    if (id == sceneObjectsServiceObjects[index].softVis3DId && type == sceneObjectsServiceObjects[index].type) {
-                        // reset former selected object
-                        if (!!selectedObject) {
-                            selectedObject.material.color.setHex(selectedObjectColor);
-                        }
-
-                        selectedObject = sceneObjectsServiceObjects[index];
-                        selectedObjectColor = selectedObject.material.color.getHex();
-                        selectedObject.material.color.setHex(0xFFBF00);
+                    if (intersectedObject != null) {
+                        sceneObjectsService.selectSceneObjectByType(intersectedObject.softVis3DId, intersectedObject.type);
+                        $rootScope.$broadcast('updateDetails', intersectedObject.softVis3DId);
                     }
                 }
-            }
-        }
-    }]);
+            };
+        }]
+    );
 </script>
 
 <script type="text/javascript">
 window.onload = function () {
-    initializeTestStuff();
+
+    angular.element(document.getElementById('renderContainerController')).scope().init(
+            <%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
+    );
 
     angular.element(document.getElementById('detailsContainer')).scope().loadTree(
             <%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
     );
+
+    initializeTestStuff();
+
 }
 </script>
 
