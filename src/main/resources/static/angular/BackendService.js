@@ -26,7 +26,7 @@ softVis3dAngular.factory('backendService', ['$http', function($http) {
 
         getVisualization: function(snapshotId, footprintMetricId, heightMetricId, viewType) {
             // $http returns a promise, which has a then function, which also returns a promise
-            var promise = $http.get("../../api/softVis3D/getTree?snapshotId=" + snapshotId
+            var promise = $http.get("../../api/softVis3D/getVisualization?snapshotId=" + snapshotId
                 + "&footprintMetricId=" + footprintMetricId
                 + "&heightMetricId=" + heightMetricId
                 + "&viewType=" + viewType).then(function (response) {

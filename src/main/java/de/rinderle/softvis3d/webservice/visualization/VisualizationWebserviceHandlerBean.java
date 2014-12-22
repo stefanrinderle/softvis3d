@@ -54,7 +54,14 @@ public class VisualizationWebserviceHandlerBean implements VisualizationWebservi
   }
 
   private Map<Integer, ResultPlatform> createLayoutBySnapshotId(final VisualizationRequest visualizationRequest) throws DotExecutorException {
+    logStartOfCalc(visualizationRequest);
     return visualizationProcessor.visualize(this.settings, visualizationRequest);
+  }
+
+  private void logStartOfCalc(VisualizationRequest visualizationRequest) {
+    LOGGER.info("Start layout calculation for snapshot "
+            + visualizationRequest.getRootSnapshotId() + ", " + "metrics " + visualizationRequest.getHeightMetricId()
+            + " and " + visualizationRequest.getFootprintMetricId());
   }
 
   @Override

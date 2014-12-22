@@ -11,22 +11,15 @@ package de.rinderle.softvis3d;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.rinderle.softvis3d.dao.DaoService;
-import de.rinderle.softvis3d.dao.DependencyDao;
 import de.rinderle.softvis3d.dao.SonarDao;
-import de.rinderle.softvis3d.domain.LayoutViewType;
-import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.guice.SoftVis3DModule;
-import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
 import org.sonar.api.config.Settings;
 import org.sonar.api.database.DatabaseSession;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SoftVis3DExtension implements ServerExtension {
 
@@ -45,8 +38,6 @@ public class SoftVis3DExtension implements ServerExtension {
 
     final SonarDao sonarDao = this.softVis3DInjector.getInstance(SonarDao.class);
     sonarDao.setDatabaseSession(session);
-    final DependencyDao dependencyDao = this.softVis3DInjector.getInstance(DependencyDao.class);
-    dependencyDao.setDatabaseSession(session);
 
     this.daoService = this.softVis3DInjector.getInstance(DaoService.class);
   }
@@ -69,33 +60,5 @@ public class SoftVis3DExtension implements ServerExtension {
     return this.daoService.getMetric2FromSettings(this.settings);
   }
 
-  public Map<Integer, ResultPlatform> createLayoutBySnapshotId(final Integer snapshotId,
-    final String metricString1, final String metricString2, final String viewType) throws DotExecutorException {
-    LOGGER.info("Startup SoftVis3D plugin with snapshot " + snapshotId);
-
-    this.logStartOfCalc(metricString1, metricString2, snapshotId);
-
-    final LayoutViewType type = LayoutViewType.valueOfRequest(viewType);
-
-    final Integer footprintMetricId = Integer.valueOf(metricString1);
-    final Integer heightMetricId = Integer.valueOf(metricString2);
-
-    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, type, footprintMetricId,
-      heightMetricId);
-
-    final VisualizationProcessor visualizationProcessor = this.softVis3DInjector
-      .getInstance(VisualizationProcessor.class);
-
-    Map<Integer, ResultPlatform> result = visualizationProcessor.visualize(this.settings, requestDTO);
-
-    return new HashMap<Integer, ResultPlatform>();
-  }
-
-  private void logStartOfCalc(final String metricId1, final String metricId2,
-    final Integer snapshotId) {
-    LOGGER.info("Start layout calculation for snapshot "
-      + snapshotId + ", " + "metrics " + metricId1
-      + " and " + metricId2);
-  }
 
 }

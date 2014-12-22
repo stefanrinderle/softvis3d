@@ -72,7 +72,6 @@ softVis3dAngular.factory('sceneObjectsService',
             },
 
             selectSceneObjectByType: function (id, type) {
-                console.log("selectSceneObjectByType " + id + " " + type);
                 for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
                     if (id == sceneObjectsServiceObjects[index].softVis3DId &&
                         type == sceneObjectsServiceObjects[index].type) {

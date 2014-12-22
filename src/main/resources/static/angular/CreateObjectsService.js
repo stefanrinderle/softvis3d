@@ -12,7 +12,6 @@ softVis3dAngular.factory('createObjectsService',
             var service = {
 
                 createObjects: function (platformArray) {
-                    console.log(platformArray);
                     for (var i = 0; i < platformArray.webserviceResult.length; i++) {
                         service.createPlatform(platformArray.webserviceResult[i]);
                     }
@@ -27,7 +26,6 @@ softVis3dAngular.factory('createObjectsService',
                     var geometryLayer = new THREE.BoxGeometry(
                         platform.width, platform.platformHeight, platform.height);
 
-                    console.log("platform color " + platform.color);
                     var layerMaterial = new THREE.MeshLambertMaterial({
                         color: platform.color,
                         transparent: true,
@@ -42,7 +40,6 @@ softVis3dAngular.factory('createObjectsService',
                 },
 
                 createBuilding: function(building) {
-                    console.log("building color " + building.color);
                     var nodeMaterial = new THREE.MeshLambertMaterial({
                         color: building.color,
                         transparent: true,
