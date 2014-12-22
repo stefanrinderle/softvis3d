@@ -14,7 +14,7 @@ public abstract class BaseResultObject {
 
   private double opacity;
   private int height3d;
-  private HexaColor platformColor;
+  private HexaColor color;
 
   public void setOpacity(double opacity) {
     this.opacity = opacity;
@@ -46,14 +46,14 @@ public abstract class BaseResultObject {
   }
 
   public void setColor(final HexaColor color) {
-    this.platformColor = color;
+    this.color = color;
   }
 
   /**
    * Used in view.
    */
   public HexaColor getColor() {
-    return platformColor;
+    return color;
   }
 
   protected double roundTo2Decimals(final double value) {

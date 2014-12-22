@@ -27,7 +27,7 @@ import java.util.List;
 })
 public final class SoftVis3DPlugin extends SonarPlugin {
 
-  public final static boolean IS_PROD = true;
+  public final static boolean IS_PROD = false;
 
   public SoftVis3DPlugin() {
     super();

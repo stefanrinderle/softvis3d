@@ -24,6 +24,7 @@ import org.sonar.api.ServerExtension;
 import org.sonar.api.config.Settings;
 import org.sonar.api.database.DatabaseSession;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +85,10 @@ public class SoftVis3DExtension implements ServerExtension {
 
     final VisualizationProcessor visualizationProcessor = this.softVis3DInjector
       .getInstance(VisualizationProcessor.class);
-    return visualizationProcessor.visualize(this.settings, requestDTO);
+
+    Map<Integer, ResultPlatform> result = visualizationProcessor.visualize(this.settings, requestDTO);
+
+    return new HashMap<Integer, ResultPlatform>();
   }
 
   private void logStartOfCalc(final String metricId1, final String metricId2,

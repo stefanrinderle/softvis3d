@@ -10,6 +10,9 @@ package de.rinderle.softvis3d.webservice;
 
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
+import de.rinderle.softvis3d.webservice.tree.TreeNodeJsonWriter;
+import de.rinderle.softvis3d.webservice.tree.TreeWebserviceHandler;
+import de.rinderle.softvis3d.webservice.tree.TreeWebserviceHandlerBean;
 import org.junit.Before;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

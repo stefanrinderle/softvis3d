@@ -6,7 +6,7 @@
  * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
  * permission of Stefan Rinderle.
  */
-package de.rinderle.softvis3d.webservice;
+package de.rinderle.softvis3d.webservice.tree;
 
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
@@ -14,7 +14,6 @@ import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
 

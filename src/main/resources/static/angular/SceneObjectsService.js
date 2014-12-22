@@ -57,7 +57,6 @@ softVis3dAngular.factory('sceneObjectsService',
             },
 
             windowResize: function (event, width, height) {
-                console.log("window resize");
                 // header of sonar is 70 px + metric select form 30 px + footer 50 px
                 // sidebar 200px
                 containerWidthLocal = width - 380;

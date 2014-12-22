@@ -28,7 +28,7 @@ public class HexaColor extends Color {
    * @return a browser-friendly HEX value
    */
   public static String toHex(final int r, final int g, final int b) {
-    return "0x" + toBrowserHexValue(r) + toBrowserHexValue(g) + toBrowserHexValue(b);
+    return "#" + toBrowserHexValue(r) + toBrowserHexValue(g) + toBrowserHexValue(b);
   }
 
   private static String toBrowserHexValue(final int number) {

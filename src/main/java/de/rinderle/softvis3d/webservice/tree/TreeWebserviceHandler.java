@@ -6,7 +6,7 @@
  * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
  * permission of Stefan Rinderle.
  */
-package de.rinderle.softvis3d.webservice;
+package de.rinderle.softvis3d.webservice.tree;
 
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;

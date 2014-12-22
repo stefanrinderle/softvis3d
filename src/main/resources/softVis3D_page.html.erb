@@ -15,10 +15,12 @@
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/Detector.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/stats.min.js"></script>
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script>
+<!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script-->
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/angular.min.js"></script>
 
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/SoftVis3dAngular.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/BackendService.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/CreateObjectsService.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/DetailsController.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/Directives.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/RenderController.js"></script>
@@ -31,9 +33,8 @@
            getComponentByClassname('softVis3D', 'de.rinderle.softvis3d.SoftVis3DExtension')
 %>
 
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/CreateElements.js"></script>
-
 <div ng-app="softVis3dAngular" resize>
+
     <div id="metricForm" style="height: 30px;">
         <%
            metricIds = softVis3D.getMetricsForSnapshot(@snapshot.id)
@@ -157,115 +158,91 @@
             <h3>Please select the metrics and a view type and submit the form above.</h3>
         </div>
     </div>
-
-    <script type="text/javascript">
-        <%
-
-        if (params[:viewType].blank?)
-
-        else
-            %>
-            if (!Detector.webgl) {
-                Detector.addGetWebGLMessage();
-            }
-
-            function loadObjects() {
-                <%
-                # get extension class and start layout
-                softVis3D = Api::Utils.java_facade.
-                        getComponentByClassname('softVis3D', 'de.rinderle.softvis3d.SoftVis3DExtension')
-
-                resultMap = softVis3D.createLayoutBySnapshotId(@snapshot.id, params[:metric1], params[:metric2], params[:viewType])
-
-                # show all graph (as layers)
-                resultMap.each do |key, platform|
-                     # set bb (position and size)
-                     layerBB = platform.getBoundingBox
-                    %>
-                    position = new Array();
-                    position.x = <%= layerBB.getX() %>;
-                    position.y = <%= platform.getHeight3d.to_s %>;
-                    position.z = <%= layerBB.getY() %>;
-
-                    geometryLayer = new THREE.BoxGeometry(<%= layerBB.getWidth %>,
-                            <%= platform.getPlatformHeight.to_s %>,
-                            <%= layerBB.getHeight %>);
-
-                    // set material (color)
-                    layerMaterial = new THREE.MeshLambertMaterial({
-                        color: <%= platform.getColor.getHex %>,
-                        transparent: true,
-                        opacity: <%= platform.getOpacity.to_s %>
-                    });
-
-                    // <%= platform.to_s %>
-                    angular.element(document.getElementById('renderContainerController')).scope().createBox(geometryLayer, layerMaterial, position, "<%= key %>", "node");
-
-                    <%
-                    # show all treeNodes
-                    platform.getNodes.each { |building|
-                        %>
-                        var nodeMaterial = new THREE.MeshLambertMaterial({
-                            color: <%= building.getColor.getHex %>,
-                            transparent: true,
-                            opacity: <%= platform.getOpacity.to_s %>
-                        });
-                        <%
-                        point = building.getPosition()
-                        pointArray = point.to_s.split(',')
-                        heightString = building.getBuildingHeight
-                       %>
-                        var nodeGeometry = new THREE.BoxGeometry(
-                                <%= building.getWidth.to_s %>, <%= heightString %>,
-                                <%= building.getHeight().to_s %>);
-
-                        var position = new Array();
-                        position.x = <%= pointArray[0] %>;
-                        <% zPos = building.getHeight3d.to_f + heightString.to_f / 2 %>
-                        position.y = <%= zPos.to_s %>;
-                        position.z = <%= pointArray[1] %>;
-
-                        // <%= building.to_s %>
-                        angular.element(document.getElementById('renderContainerController')).scope().createBox(nodeGeometry, nodeMaterial, position, "<%= building.getId %>", "leaf");
-
-                        <%
-                        # show all treeEdges
-                        building.getArrows.each { |arrow| %>
-                            // <%= arrow.to_s %>
-                            angular.element(document.getElementById('renderContainerController')).scope().drawCylinder(<%= arrow.getOrigin.to_s %>,
-                                         <%= arrow.getDestination.to_s %>,
-                                         "<%= arrow.getTailId.to_s %> -> <%= arrow.getHeadId.to_s %>",
-                                         <%= arrow.getRadius.to_s %>);
-                        <%
-                        }
-                    }
-                end
-                %>
-            }
-            <%
-    end
-    %>
-
-</script>
 </div>
 
 <script type="text/javascript">
+    softVis3dAngular.controller('RenderController',
+            ['$rootScope', '$scope', 'sceneObjectsService', 'backendService', 'createObjectsService',
+                function ($rootScope, $scope, sceneObjectsService, backendService, createObjectsService) {
 
-</script>
+                    $scope.isVisualisationActive = false;
+                    $scope.clickOrDragFlag = false;
 
-<script type="text/javascript">
+                    $scope.webserviceVisualizationResult = null;
+
+                    $scope.init = function (snapshotId, metric1, metric2, viewType) {
+                        if (snapshotId != "" && metric1 != "" && metric2 != "" && viewType != "") {
+                            $scope.initVisualization(snapshotId, metric1, metric2, viewType);
+                        }
+                    };
+
+                    $scope.initVisualization = function (snapshotId, metric1, metric2, viewType) {
+                        $scope.isVisualisationActive = true;
+
+                        sceneObjectsService.initScene();
+                    };
+
+                    /**
+                     * Mouse events for drag or click
+                     */
+
+                    $scope.mousedown = function (event) {
+                        $scope.clickOrDragFlag = false;
+                    };
+
+                    $scope.mousemove = function (event) {
+                        $scope.clickOrDragFlag = true;
+                    };
+
+                    $scope.mouseup = function (event) {
+                        if($scope.clickOrDragFlag){
+                            // drag
+                            $scope.clickOrDragFlag = false;
+                        } else {
+                            // click
+                            var intersectedObject = sceneObjectsService.intersectClickEvent(event);
+
+                            if (intersectedObject != null) {
+                                $rootScope.$broadcast('objectSelected', intersectedObject.softVis3DId, intersectedObject.type);
+                            }
+                        }
+                    };
+
+                    $scope.getVisualization = function (snapshotId, footprintMetricId, heightMetricId, viewType) {
+                        backendService.getVisualization(snapshotId, footprintMetricId, heightMetricId, viewType)
+                                .then(function (response) {
+                                    createObjectsService.createObjects(response);
+                                });
+                    };
+
+                }]
+    );
+
 window.onload = function () {
 
-    angular.element(document.getElementById('renderContainerController')).scope().init(
-            <%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
-    );
+    <%
+    if (!@snapshot.id.blank? && !params[:viewType].blank? &&
+        !params[:metric1].blank? && !params[:metric2].blank?)
+    %>
+        // Direct link to visualization. Load and display.
+        angular.element(document.getElementById('renderContainerController')).scope().init(
+                <%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
+        );
 
-    angular.element(document.getElementById('detailsContainer')).scope().loadTree(
-            <%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
-    );
+        angular.element(document.getElementById('renderContainerController')).scope().getVisualization(
+                <%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
+        );
 
-    loadObjects();
-
+        angular.element(document.getElementById('detailsContainer')).scope().loadTree(
+                <%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
+        );
+    <%
+    else
+    %>
+        // no direct link to visualization. Do nothing,
+    <%
+    end
+    %>
 }
 </script>
 
