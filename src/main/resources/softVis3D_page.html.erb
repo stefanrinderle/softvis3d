@@ -21,6 +21,7 @@
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/BackendService.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/DetailsController.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/Directives.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/RenderController.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/SceneObjectsService.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/TreeService.js"></script>
 
@@ -30,12 +31,7 @@
            getComponentByClassname('softVis3D', 'de.rinderle.softvis3d.SoftVis3DExtension')
 %>
 
-<% if (softVis3D.isProd()) %>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/softvis3d.min.js"></script>
-<% else %>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/ThreeScene.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/CreateElements.js"></script>
-<% end %>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/CreateElements.js"></script>
 
 <div ng-app="softVis3dAngular" resize>
     <div id="metricForm" style="height: 30px;">
@@ -173,9 +169,7 @@
                 Detector.addGetWebGLMessage();
             }
 
-//            init(document.getElementById('renderContainer'), false);
-
-            function initializeTestStuff() {
+            function loadObjects() {
                 <%
                 # get extension class and start layout
                 softVis3D = Api::Utils.java_facade.
@@ -205,7 +199,7 @@
                     });
 
                     // <%= platform.to_s %>
-                    createBox(geometryLayer, layerMaterial, position, "<%= key %>", "node");
+                    angular.element(document.getElementById('renderContainerController')).scope().createBox(geometryLayer, layerMaterial, position, "<%= key %>", "node");
 
                     <%
                     # show all treeNodes
@@ -232,13 +226,13 @@
                         position.z = <%= pointArray[1] %>;
 
                         // <%= building.to_s %>
-                        createBox(nodeGeometry, nodeMaterial, position, "<%= building.getId %>", "leaf");
+                        angular.element(document.getElementById('renderContainerController')).scope().createBox(nodeGeometry, nodeMaterial, position, "<%= building.getId %>", "leaf");
 
                         <%
                         # show all treeEdges
                         building.getArrows.each { |arrow| %>
                             // <%= arrow.to_s %>
-                            drawCylinder(<%= arrow.getOrigin.to_s %>,
+                            angular.element(document.getElementById('renderContainerController')).scope().drawCylinder(<%= arrow.getOrigin.to_s %>,
                                          <%= arrow.getDestination.to_s %>,
                                          "<%= arrow.getTailId.to_s %> -> <%= arrow.getHeadId.to_s %>",
                                          <%= arrow.getRadius.to_s %>);
@@ -257,53 +251,6 @@
 
 <script type="text/javascript">
 
-    softVis3dAngular.controller('RenderController',
-        ['$rootScope', '$scope', 'sceneObjectsService',
-            function ($rootScope, $scope, sceneObjectsService) {
-
-            $scope.isVisualisationActive = false;
-            $scope.clickOrDragFlag = false;
-
-            $scope.init = function (snapshotId, metric1, metric2, viewType) {
-                if (snapshotId != "" && metric1 != "" && metric2 != "" && viewType != "") {
-                    $scope.initVisualization(snapshotId, metric1, metric2, viewType);
-                }
-            };
-
-            $scope.initVisualization = function (snapshotId, metric1, metric2, viewType) {
-                $scope.isVisualisationActive = true;
-
-                sceneObjectsService.initScene();
-            };
-
-            /**
-             * Mouse events for drag or click
-             */
-
-            $scope.mousedown = function (event) {
-                $scope.clickOrDragFlag = false;
-            };
-
-            $scope.mousemove = function (event) {
-                $scope.clickOrDragFlag = true;
-            };
-
-            $scope.mouseup = function (event) {
-                if($scope.clickOrDragFlag){
-                    // drag
-                    $scope.clickOrDragFlag = false;
-                } else {
-                    // click
-                    var intersectedObject = sceneObjectsService.intersectClickEvent(event);
-
-                    if (intersectedObject != null) {
-                        $rootScope.$broadcast('objectSelected', intersectedObject.softVis3DId, intersectedObject.type);
-                    }
-                }
-            };
-        }]
-    );
-
 </script>
 
 <script type="text/javascript">
@@ -317,7 +264,7 @@ window.onload = function () {
             <%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
     );
 
-    initializeTestStuff();
+    loadObjects();
 
 }
 </script>

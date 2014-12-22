@@ -59,11 +59,6 @@ softVis3dAngular.controller('DetailsController',
                     });
             };
 
-            // this is only a facade to the service, refactor later
-            $scope.pushObject = function (object) {
-                sceneObjectsService.push(object);
-            };
-
         }
     ]
 );

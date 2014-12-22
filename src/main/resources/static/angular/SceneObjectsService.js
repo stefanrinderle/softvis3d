@@ -9,6 +9,8 @@
 softVis3dAngular.factory('sceneObjectsService',
     ['$rootScope', '$window', function ($rootScope, $window) {
         var sceneObjectsServiceObjects = [];
+        var objectsInView = [];
+
         var selectedObject = null;
         var selectedObjectColor = null;
 
@@ -50,15 +52,10 @@ softVis3dAngular.factory('sceneObjectsService',
 
             push: function (object) {
                 sceneObjectsServiceObjects.push(object);
+                objectsInView.push(object);
                 scene.add(object);
             },
 
-            /**
-             * TODO:
-             * Next step here:
-             * renderer and camera settings should be made by another service
-             * also watching the 'windowResize' event.
-             */
             windowResize: function (event, width, height) {
                 console.log("window resize");
                 // header of sonar is 70 px + metric select form 30 px + footer 50 px
