@@ -173,7 +173,7 @@
                 Detector.addGetWebGLMessage();
             }
 
-            init(document.getElementById('renderContainer'), false);
+//            init(document.getElementById('renderContainer'), false);
 
             function initializeTestStuff() {
                 <%
@@ -272,6 +272,8 @@
 
             $scope.initVisualization = function (snapshotId, metric1, metric2, viewType) {
                 $scope.isVisualisationActive = true;
+
+                sceneObjectsService.initScene();
             };
 
             /**
@@ -295,14 +297,13 @@
                     var intersectedObject = sceneObjectsService.intersectClickEvent(event);
 
                     if (intersectedObject != null) {
-                        // TODO: sceneObjectsService shouls also listen on the event 'updateDetails'
-                        sceneObjectsService.selectSceneObjectByType(intersectedObject.softVis3DId, intersectedObject.type);
-                        $rootScope.$broadcast('updateDetails', intersectedObject.softVis3DId);
+                        $rootScope.$broadcast('objectSelected', intersectedObject.softVis3DId, intersectedObject.type);
                     }
                 }
             };
         }]
     );
+
 </script>
 
 <script type="text/javascript">

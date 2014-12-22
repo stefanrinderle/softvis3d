@@ -18,10 +18,7 @@ function createBox(geometry, material, position, id, type) {
     object.type = type;
 
     angular.element(document.getElementById('detailsContainer')).scope().pushObject(object);
-//    objects.push(object);
     objectsInView.push(object);
-
-    scene.add(object);
 };
 
 function drawCylinder(pointXx, pointXy, pointXz, pointYx, pointYy, pointYz, id, thickness) {
@@ -56,9 +53,7 @@ function drawCylinder(pointXx, pointXy, pointXz, pointYx, pointYy, pointYz, id, 
             pointX.x + direction.x, pointX.y + direction.y, pointX.z + direction.z));
 
     edge.softVis3DId = id;
-    scene.add(edge);
     angular.element(document.getElementById('detailsContainer')).scope().pushObject(edge);
-//    objects.push(edge);
     objectsInView.push(edge);
 
     // add head
@@ -73,9 +68,7 @@ function drawCylinder(pointXx, pointXy, pointXz, pointYx, pointYy, pointYz, id, 
         pointY.x, pointY.y, pointY.z));
 
     edgeHead.softVis3DId = id;
-    scene.add(edgeHead);
     angular.element(document.getElementById('detailsContainer')).scope().pushObject(edgeHead);
-//    objects.push(edgeHead);
     objectsInView.push(edgeHead);
 }
 

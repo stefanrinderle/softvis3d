@@ -16,7 +16,7 @@ softVis3dAngular.controller('DetailsController',
                 $scope.node = treeService.searchTree(snapshotId);
             };
 
-            $rootScope.$on('updateDetails', function(event, id) {
+            $rootScope.$on('objectSelected', function(event, id) {
                 $scope.showDetails(id);
             });
 
@@ -30,24 +30,24 @@ softVis3dAngular.controller('DetailsController',
                 $scope.showDetails(node.id);
             };
 
-            $scope.triggerVisible = function () {
-                var selectId;
-                if ($scope.node.parentInfo == null) {
-                    selectId = $scope.node.id;
-                } else {
-                    selectId = $scope.node.parentInfo.id;
-                }
-
-                if ($scope.node.isHidden != null && $scope.node.isHidden) {
-                    console.log("show");
-                    $scope.node.isHidden = false;
-//                          showAll($scope.node.id, selectId);
-                } else {
-                    console.log("hide");
-                    $scope.node.isHidden = true;
-//                          hideAll($scope.node.id, selectId);
-                }
-            };
+//            $scope.triggerVisible = function () {
+//                var selectId;
+//                if ($scope.node.parentInfo == null) {
+//                    selectId = $scope.node.id;
+//                } else {
+//                    selectId = $scope.node.parentInfo.id;
+//                }
+//
+//                if ($scope.node.isHidden != null && $scope.node.isHidden) {
+//                    console.log("show");
+//                    $scope.node.isHidden = false;
+////                          showAll($scope.node.id, selectId);
+//                } else {
+//                    console.log("hide");
+//                    $scope.node.isHidden = true;
+////                          hideAll($scope.node.id, selectId);
+//                }
+//            };
 
             $scope.loadTree = function (snapshotId, footprintMetricId, heightMetricId, viewType) {
                 backendService.getTreeForSnapshotView(snapshotId, footprintMetricId, heightMetricId, viewType)
