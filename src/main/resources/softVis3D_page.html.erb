@@ -154,32 +154,57 @@
              ng-mousedown="mousedown($event)" ng-mouseup="mouseup($event)" ng-mousemove="mousemove($event)"
              style="border: 1px solid black;">
         </div>
-        <div ng-hide="isVisualisationActive" style="padding: 30px; height: 300px;">
+        <div ng-show="!isVisualisationActive && !isLoading" style="padding: 30px; height: 300px;">
             <h3>Please select the metrics and a view type and submit the form above.</h3>
+        </div>
+        <div ng-show="!isVisualisationActive && isLoading" style="padding: 30px; height: 300px;">
+            <h3>LOADING - please wait..</h3>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
     softVis3dAngular.controller('RenderController',
-            ['$rootScope', '$scope', 'sceneObjectsService', 'backendService', 'createObjectsService',
-                function ($rootScope, $scope, sceneObjectsService, backendService, createObjectsService) {
+            ['$rootScope', '$scope', 'sceneObjectsService', 'backendService', 'createObjectsService', 'treeService',
+                function ($rootScope, $scope, sceneObjectsService, backendService, createObjectsService, treeService) {
 
                     $scope.isVisualisationActive = false;
+                    $scope.isLoading = false;
+
                     $scope.clickOrDragFlag = false;
 
                     $scope.webserviceVisualizationResult = null;
 
-                    $scope.init = function (snapshotId, metric1, metric2, viewType) {
-                        if (snapshotId != "" && metric1 != "" && metric2 != "" && viewType != "") {
-                            $scope.initVisualization(snapshotId, metric1, metric2, viewType);
-                        }
+                    /**
+                     * Method which should be called to visualize a project.
+                     */
+                    $scope.loadVisualization = function (snapshotId, footprintMetricId, heightMetricId, viewType) {
+                        $scope.isLoading = true;
+
+                        backendService.getVisualization(snapshotId, footprintMetricId, heightMetricId, viewType)
+                                .then(function (response) {
+                                    $scope.loadTree(snapshotId, footprintMetricId, heightMetricId, viewType);
+                                    $scope.showVisualization(response);
+                                });
                     };
 
-                    $scope.initVisualization = function (snapshotId, metric1, metric2, viewType) {
+                    /**
+                     * Load the information tree and select root object.
+                     */
+                    $scope.loadTree = function (snapshotId, footprintMetricId, heightMetricId, viewType) {
+                        backendService.getTreeForSnapshotView(snapshotId, footprintMetricId, heightMetricId, viewType)
+                                .then(function (response) {
+                                    treeService.setTree(response);
+                                    $rootScope.$broadcast('objectSelected', snapshotId);
+                                });
+                    };
+
+                    $scope.showVisualization = function (webserviceResponse) {
                         $scope.isVisualisationActive = true;
+                        $scope.isLoading = false;
 
                         sceneObjectsService.initScene();
+                        createObjectsService.createObjects(webserviceResponse);
                     };
 
                     /**
@@ -203,16 +228,9 @@
                             var intersectedObject = sceneObjectsService.intersectClickEvent(event);
 
                             if (intersectedObject != null) {
-                                $rootScope.$broadcast('objectSelected', intersectedObject.softVis3DId, intersectedObject.type);
+                                $rootScope.$broadcast('objectSelected', intersectedObject.softVis3DId);
                             }
                         }
-                    };
-
-                    $scope.getVisualization = function (snapshotId, footprintMetricId, heightMetricId, viewType) {
-                        backendService.getVisualization(snapshotId, footprintMetricId, heightMetricId, viewType)
-                                .then(function (response) {
-                                    createObjectsService.createObjects(response);
-                                });
                     };
 
                 }]
@@ -221,19 +239,11 @@
 window.onload = function () {
 
     <%
-    if (!@snapshot.id.blank? && !params[:viewType].blank? &&
-        !params[:metric1].blank? && !params[:metric2].blank?)
+    if !@snapshot.id.blank? && !params[:viewType].blank? &&
+        !params[:metric1].blank? && !params[:metric2].blank?
     %>
         // Direct link to visualization. Load and display.
-        angular.element(document.getElementById('renderContainerController')).scope().init(
-                <%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
-        );
-
-        angular.element(document.getElementById('renderContainerController')).scope().getVisualization(
-                <%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
-        );
-
-        angular.element(document.getElementById('detailsContainer')).scope().loadTree(
+        angular.element(document.getElementById('renderContainerController')).scope().loadVisualization(
                 <%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
         );
     <%

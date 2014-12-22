@@ -7,8 +7,8 @@
  * permission of Stefan Rinderle.
  */
 softVis3dAngular.controller('DetailsController',
-    ['$rootScope', '$scope', 'backendService', 'treeService', 'sceneObjectsService',
-        function ($rootScope, $scope, backendService, treeService, sceneObjectsService) {
+    ['$rootScope', '$scope', 'treeService', 'sceneObjectsService',
+        function ($rootScope, $scope, treeService, sceneObjectsService) {
 
             $scope.node = null;
 
@@ -48,16 +48,6 @@ softVis3dAngular.controller('DetailsController',
 ////                          hideAll($scope.node.id, selectId);
 //                }
 //            };
-
-            $scope.loadTree = function (snapshotId, footprintMetricId, heightMetricId, viewType) {
-                backendService.getTreeForSnapshotView(snapshotId, footprintMetricId, heightMetricId, viewType)
-                    .then(function (response) {
-                        treeService.setTree(response);
-                        //42725 --> root node
-                        //42727 --> Java class
-                        $scope.showDetails(snapshotId);
-                    });
-            };
 
         }
     ]
