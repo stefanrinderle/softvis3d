@@ -15,6 +15,9 @@ import att.grappa.GrappaPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ResultArrow extends BaseResultObject {
 
   private static final Logger LOGGER = LoggerFactory
@@ -23,11 +26,10 @@ public class ResultArrow extends BaseResultObject {
   private final String headBuildingId;
   private final String tailBuildingId;
   private final double radius;
-  private Point3d origin;
-  private Point3d destination;
 
-  private GrappaPoint start;
-  private GrappaPoint end;
+  // new stuff for multiple points per arrow
+  private List<GrappaPoint> sourcePoints;
+  private List<Point3d> translatedPoints;
 
   public ResultArrow(Edge edge) {
     this.headBuildingId = edge.getHead().getName();
@@ -42,8 +44,11 @@ public class ResultArrow extends BaseResultObject {
     GrappaLine line = (GrappaLine) edge.getAttributeValue(GrappaConstants.POS_ATTR);
 
     final GrappaPoint[] points = line.getGrappaPoints();
-    start = points[0];
-    end = points[points.length - 2];
+
+    sourcePoints = new ArrayList<GrappaPoint>();
+    for (int i = 0; i < points.length - 1; i++) {
+      sourcePoints.add(points[i]);
+    }
   }
 
   private double transformEdgeRadius(final Edge edge) {
@@ -51,54 +56,28 @@ public class ResultArrow extends BaseResultObject {
     return Double.valueOf(radiusString.substring(1));
   }
 
-  /**
-   * used by view.
-   */
   public String getTailId() {
     return tailBuildingId;
   }
 
-  /**
-   * used by view.
-   */
   public String getHeadId() {
     return headBuildingId;
   }
 
-  public void setOrigin(Point3d origin) {
-    this.origin = origin;
-  }
-
-  /**
-   * Used by view.
-   */
-  public Point3d getOrigin() {
-    return origin;
-  }
-
-  public void setDestination(Point3d destination) {
-    this.destination = destination;
-  }
-
-  /**
-   * Used by view.
-   */
-  public Point3d getDestination() {
-    return destination;
-  }
-
-  /**
-   * Used by view.
-   */
   public double getRadius() {
     return radius;
   }
 
-  public GrappaPoint getStart() {
-    return start;
+  public List<GrappaPoint> getSourcePoints() {
+    return sourcePoints;
   }
 
-  public GrappaPoint getEnd() {
-    return end;
+  public void setTranslatedPoints(List<Point3d> translatedPoints) {
+    this.translatedPoints = translatedPoints;
   }
+
+  public List<Point3d> getTranslatedPoints() {
+    return translatedPoints;
+  }
+
 }

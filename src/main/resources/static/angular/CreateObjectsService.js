@@ -62,9 +62,16 @@ softVis3dAngular.factory('createObjectsService',
                 },
 
                 createArrow: function(arrow) {
-                    service.drawCylinder(arrow.originX, arrow.originY, arrow.originZ,
-                        arrow.destinationX, arrow.destinationY, arrow.destinationZ,
-                            "'" + arrow.tailId + " -> " + arrow.headId, arrow.radius)
+                    var pointsLength = arrow.translatedPoints.length;
+
+                    for (var i = 0; i < pointsLength - 1; i++) {
+                        service.drawArrowPart(arrow.translatedPoints[i], arrow.translatedPoints[i+1],
+                            arrow.radius, "'" + arrow.tailId + " -> " + arrow.headId + "'");
+                    }
+
+                    service.drawArrowHead(arrow.translatedPoints[pointsLength - 2],
+                        arrow.translatedPoints[pointsLength - 1],
+                        arrow.radius, "'" + arrow.tailId + " -> " + arrow.headId + "'");
                 },
 
                 createBox: function(geometry, material, position, id, type) {
@@ -80,14 +87,14 @@ softVis3dAngular.factory('createObjectsService',
                     sceneObjectsService.push(object);
                 },
 
-                drawCylinder: function (pointXx, pointXy, pointXz, pointYx, pointYy, pointYz, id, thickness) {
-                    var pointX = service.createVector(pointXx, pointXy, pointXz);
-                    var pointY = service.createVector(pointYx, pointYy, pointYz);
+                drawArrowPart: function (startPoint, endPoint, thickness, id) {
+                    var pointXVector = service.createVectorFromPoint(startPoint);
+                    var pointYVector = service.createVectorFromPoint(endPoint);
                     /* edge from X to Y */
-                    var direction = new THREE.Vector3().subVectors(pointY, pointX);
+                    var direction = new THREE.Vector3().subVectors(pointYVector, pointXVector);
                     var orientation = new THREE.Matrix4();
                     /* THREE.Object3D().up (=Y) default orientation for all objects */
-                    orientation.lookAt(pointX, pointY, new THREE.Object3D().up);
+                    orientation.lookAt(pointXVector, pointYVector, new THREE.Object3D().up);
                     /* rotation around axis X by -90 degrees
                      * matches the default orientation Y
                      * with the orientation of looking Z */
@@ -109,10 +116,30 @@ softVis3dAngular.factory('createObjectsService',
                     direction = direction.multiplyScalar(0.5);
 
                     edge.applyMatrix(new THREE.Matrix4().makeTranslation(
-                            pointX.x + direction.x, pointX.y + direction.y, pointX.z + direction.z));
+                            pointXVector.x + direction.x,
+                            pointXVector.y + direction.y,
+                            pointXVector.z + direction.z));
 
                     edge.softVis3DId = id;
                     sceneObjectsService.push(edge);
+                },
+
+                drawArrowHead: function (startPoint, endPoint, thickness, id) {
+                    var pointXVector = service.createVectorFromPoint(startPoint);
+                    var pointYVector = service.createVectorFromPoint(endPoint);
+                    var orientation = new THREE.Matrix4();
+                    /* THREE.Object3D().up (=Y) default orientation for all objects */
+                    orientation.lookAt(pointXVector, pointYVector, new THREE.Object3D().up);
+                    /* rotation around axis X by -90 degrees
+                     * matches the default orientation Y
+                     * with the orientation of looking Z */
+                    orientation.multiply(new THREE.Matrix4(1, 0, 0, 0,
+                        0, 0, 1, 0,
+                        0, -1, 0, 0,
+                        0, 0, 0, 1));
+
+                    /* thickness is in percent at the moment */
+                    var radius = 10 * (thickness / 100);
 
                     // add head
                     /* cylinder: radiusAtTop, radiusAtBottom,
@@ -123,14 +150,14 @@ softVis3dAngular.factory('createObjectsService',
 
                     edgeHead.applyMatrix(orientation);
                     edgeHead.applyMatrix(new THREE.Matrix4().makeTranslation(
-                        pointY.x, pointY.y, pointY.z));
+                        pointYVector.x, pointYVector.y, pointYVector.z));
 
                     edgeHead.softVis3DId = id;
                     sceneObjectsService.push(edgeHead);
                 },
 
-                createVector: function (x, y, z) {
-                    return new THREE.Vector3(x, y, z);
+                createVectorFromPoint: function (point) {
+                    return new THREE.Vector3(point.x, point.y, point.z);
                 }
             };
 

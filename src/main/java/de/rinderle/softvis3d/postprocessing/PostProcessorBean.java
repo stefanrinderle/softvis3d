@@ -21,6 +21,7 @@ import de.rinderle.softvis3d.layout.helper.HexaColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,16 +125,22 @@ public class PostProcessorBean implements PostProcessor {
   }
 
   private void translateArrow(GrappaPoint posTranslation, GrappaBox translatedBb, int height3d, ResultArrow arrow) {
-    final GrappaPoint start = arrow.getStart();
-    final GrappaPoint end = arrow.getEnd();
+    // new stuff with many points for an arrow
+    final List<Point3d> translatedPoints = new ArrayList<Point3d>();
+    List<GrappaPoint> sourcePoints = arrow.getSourcePoints();
 
-    arrow.setOrigin(new Point3d(posTranslation.getX() + start.getX() - translatedBb.getWidth() / 2,
-      calc3dArrowPosition(height3d, arrow),
-      posTranslation.getY() + start.getY() + translatedBb.getHeight() / 2));
+    for (GrappaPoint sourcePoint : sourcePoints) {
+      translatedPoints.add(translateSourcePoint(posTranslation, translatedBb, height3d, arrow, sourcePoint));
+    }
 
-    arrow.setDestination(new Point3d(posTranslation.getX() + end.getX() - translatedBb.getWidth() / 2,
-      calc3dArrowPosition(height3d, arrow),
-      posTranslation.getY() + end.getY() + translatedBb.getHeight() / 2));
+    arrow.setTranslatedPoints(translatedPoints);
+  }
+
+  private Point3d translateSourcePoint(GrappaPoint posTranslation, GrappaBox translatedBb, int height3d,
+                                       ResultArrow arrow, GrappaPoint sourcePoint) {
+    return new Point3d(posTranslation.getX() + sourcePoint.getX() - translatedBb.getWidth() / 2,
+            calc3dArrowPosition(height3d, arrow),
+            posTranslation.getY() + sourcePoint.getY() + translatedBb.getHeight() / 2);
   }
 
   private double calc3dArrowPosition(int height3d, ResultArrow arrow) {

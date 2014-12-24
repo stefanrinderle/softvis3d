@@ -8,10 +8,7 @@
  */
 package de.rinderle.softvis3d.webservice.visualization;
 
-import de.rinderle.softvis3d.domain.graph.BaseResultObject;
-import de.rinderle.softvis3d.domain.graph.ResultArrow;
-import de.rinderle.softvis3d.domain.graph.ResultBuilding;
-import de.rinderle.softvis3d.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.domain.graph.*;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
 
@@ -123,15 +120,31 @@ public class VisualizationJsonWriterImpl implements VisualizationJsonWriter {
 
     jsonWriter.prop("radius", arrow.getRadius());
 
-    jsonWriter.prop("originX", arrow.getOrigin().getX());
-    jsonWriter.prop("originY", arrow.getOrigin().getY());
-    jsonWriter.prop("originZ", arrow.getOrigin().getZ());
-
-    jsonWriter.prop("destinationX", arrow.getDestination().getX());
-    jsonWriter.prop("destinationY", arrow.getDestination().getY());
-    jsonWriter.prop("destinationZ", arrow.getDestination().getZ());
-
     transformBaseObjectProperties(jsonWriter, arrow);
+
+    transformArrowPoints(jsonWriter, arrow.getTranslatedPoints());
+
+    jsonWriter.endObject();
+  }
+
+  private void transformArrowPoints(JsonWriter jsonWriter, List<Point3d> translatedPoints) {
+    jsonWriter.name("translatedPoints");
+    jsonWriter.beginArray();
+
+    for (final Point3d point : translatedPoints) {
+      transformPoint(jsonWriter, point);
+    }
+
+    jsonWriter.endArray();
+
+  }
+
+  private void transformPoint(JsonWriter jsonWriter, Point3d point) {
+    jsonWriter.beginObject();
+
+    jsonWriter.prop("x", point.getX());
+    jsonWriter.prop("y", point.getY());
+    jsonWriter.prop("z", point.getZ());
 
     jsonWriter.endObject();
   }
