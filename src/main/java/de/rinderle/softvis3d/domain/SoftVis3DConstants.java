@@ -8,6 +8,8 @@
  */
 package de.rinderle.softvis3d.domain;
 
+import de.rinderle.softvis3d.layout.helper.HexaColor;
+
 public interface SoftVis3DConstants {
 
   /**
@@ -47,7 +49,10 @@ public interface SoftVis3DConstants {
 
   double DPI_DOT_SCALE = 72.0;
 
-  int LAYER_HEIGHT = 200;
+  int LAYER_HEIGHT = 250;
   int PLATFORM_DEFAULT_HEIGHT = 3;
   int BUILDING_HEIGHT_MULTIPLIER = 2;
+
+  HexaColor BUILDING_COLOR = new HexaColor(254, 140, 0);
+
 }

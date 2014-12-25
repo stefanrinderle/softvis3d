@@ -80,7 +80,7 @@ softVis3dAngular.factory('createObjectsService',
                     var pointsLength = arrow.translatedPoints.length;
                     service.createArrowHead(arrow.translatedPoints[pointsLength - 2],
                         arrow.translatedPoints[pointsLength - 1],
-                        arrow.radius, arrow.id);
+                        arrow);
                 },
 
                 createSpline: function (arrow) {
@@ -97,14 +97,14 @@ softVis3dAngular.factory('createObjectsService',
                         new THREE.SplineCurve3(vectorPointArray),
                             vectorPointArray.length * 2, radius, 8, false);
                     var material = new THREE.MeshBasicMaterial({
-                        color: "#ff0000"
+                        color: arrow.color
                     });
                     var mesh = new THREE.Mesh(geometry, material);
                     mesh.softVis3DId = arrow.id;
                     sceneObjectsService.push(mesh);
                 },
 
-                createArrowHead: function (startPoint, endPoint, thickness, id) {
+                createArrowHead: function (startPoint, endPoint, arrow) {
                     var pointXVector = service.createVectorFromPoint(startPoint);
                     var pointYVector = service.createVectorFromPoint(endPoint);
                     var orientation = new THREE.Matrix4();
@@ -119,20 +119,20 @@ softVis3dAngular.factory('createObjectsService',
                         0, 0, 0, 1));
 
                     /* thickness is in percent at the moment */
-                    var radius = 10 * (thickness / 100);
+                    var radius = 10 * (arrow.radius / 100);
 
                     // add head
                     /* cylinder: radiusAtTop, radiusAtBottom,
                      height, radiusSegments, heightSegments */
                     var edgeHeadGeometry = new THREE.CylinderGeometry(1, radius + 3, 10, 8, 1);
                     var edgeHead = new THREE.Mesh(edgeHeadGeometry,
-                        new THREE.MeshBasicMaterial({ color: "#ff0000" }));
+                        new THREE.MeshBasicMaterial({ color: arrow.color }));
 
                     edgeHead.applyMatrix(orientation);
                     edgeHead.applyMatrix(new THREE.Matrix4().makeTranslation(
                         pointYVector.x, pointYVector.y, pointYVector.z));
 
-                    edgeHead.softVis3DId = id;
+                    edgeHead.softVis3DId = arrow.id;
                     sceneObjectsService.push(edgeHead);
                 },
 

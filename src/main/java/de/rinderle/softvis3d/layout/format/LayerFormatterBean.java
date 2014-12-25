@@ -32,7 +32,6 @@ public class LayerFormatterBean implements LayerFormatter {
     }
 
     final HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
-    final HexaColor nodesColor = new HexaColor(254, 140, 0);
 
     platform.setColor(color);
 
@@ -49,11 +48,11 @@ public class LayerFormatterBean implements LayerFormatter {
     platform.setHeight3d(height3d);
 
     for (final ResultBuilding leaf : platform.getNodes()) {
-      formatResultBuilding(color, nodesColor, height3d, leaf);
+      formatResultBuilding(color, height3d, leaf);
     }
   }
 
-  private void formatResultBuilding(HexaColor color, HexaColor nodesColor, Integer height3d, ResultBuilding leaf) {
+  private void formatResultBuilding(HexaColor color, Integer height3d, ResultBuilding leaf) {
     double width = leaf.getWidth();
     // keep some distance to each other
     width = width * SoftVis3DConstants.DPI_DOT_SCALE;
@@ -67,7 +66,7 @@ public class LayerFormatterBean implements LayerFormatter {
     if (leaf.getType().equals(TreeNodeType.DEPENDENCY_GENERATED)) {
       leaf.setColor(color);
     } else {
-      leaf.setColor(nodesColor);
+      leaf.setColor(SoftVis3DConstants.BUILDING_COLOR);
     }
 
     leaf.setHeight3d(height3d);
