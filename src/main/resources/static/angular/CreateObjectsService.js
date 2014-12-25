@@ -84,8 +84,6 @@ softVis3dAngular.factory('createObjectsService',
                 },
 
                 createSpline: function (arrow) {
-                    console.log("create spline");
-
                     var radius = 10 * (arrow.radius / 100);
 
                     var vectorPointArray = [];

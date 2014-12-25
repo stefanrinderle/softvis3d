@@ -52,9 +52,9 @@ public class GrappaTransformer {
 
     if (sourceNode != null && destNode != null) {
       final att.grappa.Edge result = new att.grappa.Edge(inputGraph, sourceNode, destNode);
-      final double edgeRadius = this.formatter.calcEdgeRadius(edge.getCounter(), minMaxEdgeCounter);
+      final double edgeRadius = this.formatter.calcEdgeRadius(edge.getIncludingDependenciesSize(), minMaxEdgeCounter);
       result.setAttribute("edgeRadius", "x" + edgeRadius);
-      result.setAttribute("penwidth", String.valueOf(edge.getCounter()));
+      result.setAttribute("penwidth", String.valueOf(edge.getIncludingDependenciesSize()));
 
       return result;
     }

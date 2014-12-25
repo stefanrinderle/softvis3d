@@ -154,7 +154,12 @@
             <h2>Dependencies ({{node.edges.length}})</h2>
             <ul style="list-style: none;">
                 <li ng-repeat="edge in node.edges">
-                     {{edge.id}} ({{edge.counter}})
+                     {{edge.id}} ({{edge.includingDependencies.length}})
+                    <ul style="list-style: circle;">
+                        <li ng-repeat="dependency in edge.includingDependencies">
+                            {{dependency.id}}
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

@@ -11,6 +11,7 @@ package de.rinderle.softvis3d.preprocessing.dependencies;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
 import de.rinderle.softvis3d.domain.tree.*;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public class DependencyExpanderBean implements DependencyExpander {
@@ -36,9 +37,9 @@ public class DependencyExpanderBean implements DependencyExpander {
       final DependencyType dependencyType = this.getDependencyType(source, destination);
 
       if (dependencyType.equals(DependencyType.INPUT_FLAT)) {
-        this.handleNewFlatDepEdge(source, destination);
+        this.handleNewFlatDepEdge(source, destination, dependency.getId());
       } else if (dependencyType.equals(DependencyType.INPUT_TREE)) {
-        this.createDependencyPath(source, destination);
+        this.createDependencyPath(source, destination, dependency.getId());
       } else {
         // do nothing. That's on dependency type dir. Analyse and fix.
       }
@@ -66,13 +67,13 @@ public class DependencyExpanderBean implements DependencyExpander {
     }
   }
 
-  private void createDependencyPath(TreeNode source, TreeNode dest) {
+  private void createDependencyPath(TreeNode source, TreeNode dest, final BigInteger dependencyId) {
     while (!source.getParent().getId().equals(dest.getParent().getId())) {
       if (source.getDepth() > dest.getDepth()) {
-        this.handleNewDepEdge(source, true);
+        this.handleNewDepEdge(source, dependencyId, true);
         source = source.getParent();
       } else {
-        this.handleNewDepEdge(dest, false);
+        this.handleNewDepEdge(dest, dependencyId, false);
         dest = dest.getParent();
       }
     }
@@ -80,71 +81,72 @@ public class DependencyExpanderBean implements DependencyExpander {
     // compute till both have the same parent
     while (!source.getParent().getId().equals(dest.getParent().getId())) {
       if (source.getDepth() > dest.getDepth()) {
-        this.handleNewDepEdge(source, true);
+        this.handleNewDepEdge(source, dependencyId, true);
         source = source.getParent();
       } else {
-        this.handleNewDepEdge(dest, false);
+        this.handleNewDepEdge(dest, dependencyId, false);
         dest = dest.getParent();
       }
     }
 
-    this.handleNewFlatDepEdge(source, dest);
+    this.handleNewFlatDepEdge(source, dest, dependencyId);
   }
 
-  private void handleNewFlatDepEdge(final TreeNode source, final TreeNode dest) {
+  private void handleNewFlatDepEdge(final TreeNode source, final TreeNode dest, final BigInteger dependencyId) {
     final String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + source.getId();
 
+    Edge edge;
     if (source.hasEdge(depEdgeLabel)) {
-      final Edge edge = source.getEdge(depEdgeLabel);
-      final int edgeCount = edge.getCounter() + 1;
-      edge.setCounter(edgeCount);
-
+      edge = source.getEdge(depEdgeLabel);
+      final int edgeCount = edge.getIncludingDependenciesSize() + 1;
       if (edgeCount > this.maxEdgeCounter) {
         this.maxEdgeCounter = edgeCount;
       }
 
       source.setEdge(edge);
     } else {
-      final Edge edge = new Edge(depEdgeLabel,
+      edge = new Edge(depEdgeLabel,
         source.getId(), dest.getId(), source.getParent().getId());
       source.setEdge(edge);
     }
+
+    edge.addIncludingDependency(dependencyId);
   }
 
-  private void handleNewDepEdge(final TreeNode treeNode, final boolean isOut) {
+  private void handleNewDepEdge(final TreeNode treeNode, final BigInteger dependencyId, final boolean isOut) {
     final String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + treeNode.getId();
     final DependencyTreeNode depNode = this.getInterfaceNode(treeNode.getParent());
     depNode.increaseCounter();
 
+    Edge edge;
     // always attach edge to source node
     if (isOut) {
       // treeNode is source
       if (treeNode.hasEdge(depEdgeLabel)) {
-        final Edge edge = treeNode.getEdge(depEdgeLabel);
-        final int edgeCount = edge.getCounter() + 1;
-        edge.setCounter(edgeCount);
-
+        edge = treeNode.getEdge(depEdgeLabel);
+        final int edgeCount = edge.getIncludingDependenciesSize() + 1;
         if (edgeCount > this.maxEdgeCounter) {
           this.maxEdgeCounter = edgeCount;
         }
 
         treeNode.setEdge(edge);
       } else {
-        final Edge element = new Edge(depEdgeLabel, treeNode.getId(), depNode.getId(), treeNode.getParent().getId());
+        edge = new Edge(depEdgeLabel, treeNode.getId(), depNode.getId(), treeNode.getParent().getId());
 
-        treeNode.setEdge(element);
+        treeNode.setEdge(edge);
       }
     } else {
       // interface node is source
       if (depNode.hasEdge(depEdgeLabel)) {
-        final Edge edge = depNode.getEdge(depEdgeLabel);
-        edge.setCounter(edge.getCounter() + 1);
+        edge = depNode.getEdge(depEdgeLabel);
         depNode.setEdge(edge);
       } else {
-        final Edge element = new Edge(depEdgeLabel, depNode.getId(), treeNode.getId(), treeNode.getParent().getId());
-        depNode.setEdge(element);
+        edge = new Edge(depEdgeLabel, depNode.getId(), treeNode.getId(), treeNode.getParent().getId());
+        depNode.setEdge(edge);
       }
     }
+
+    edge.addIncludingDependency(dependencyId);
   }
 
   private DependencyTreeNode getInterfaceNode(final TreeNode parent) {

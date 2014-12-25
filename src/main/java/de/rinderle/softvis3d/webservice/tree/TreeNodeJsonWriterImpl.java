@@ -12,6 +12,8 @@ import de.rinderle.softvis3d.domain.tree.*;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
 
+import java.math.BigInteger;
+import java.util.List;
 import java.util.Map;
 
 public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
@@ -104,8 +106,23 @@ public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
     jsonWriter.prop("destinationId", edge.getDestinationId());
     jsonWriter.prop("depEdgeLabel", edge.getDepEdgeLabel());
     jsonWriter.prop("parentId", edge.getParentId());
-    jsonWriter.prop("counter", edge.getCounter());
+
+    transformIncludingDependencies(jsonWriter, edge.getIncludingDependencies());
+
     jsonWriter.endObject();
+  }
+
+  private void transformIncludingDependencies(JsonWriter jsonWriter, List<BigInteger> includingDependencies) {
+    jsonWriter.name("includingDependencies");
+    jsonWriter.beginArray();
+
+    for (final BigInteger dependencyId : includingDependencies) {
+      jsonWriter.beginObject();
+      jsonWriter.prop("id", dependencyId);
+      jsonWriter.endObject();
+    }
+
+    jsonWriter.endArray();
   }
 
   private void transformChildren(final JsonWriter jsonWriter, final Map<String, TreeNode> children) {
