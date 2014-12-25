@@ -68,6 +68,11 @@ public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
   private void transformEdge(final JsonWriter jsonWriter, final Edge edge) {
     jsonWriter.beginObject();
     jsonWriter.prop("id", edge.getSourceId() + " -> " + edge.getDestinationId());
+    jsonWriter.prop("sourceId", edge.getSourceId());
+    jsonWriter.prop("destinationId", edge.getDestinationId());
+    jsonWriter.prop("depEdgeLabel", edge.getDepEdgeLabel());
+    jsonWriter.prop("parentId", edge.getParentId());
+    jsonWriter.prop("counter", edge.getCounter());
     jsonWriter.endObject();
   }
 

@@ -133,22 +133,34 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
   @Override
   public LayeredLayoutElement visitFile(final TreeNode leaf) {
+
     LOGGER.debug("Leaf : " + leaf.getId() + " " + leaf.getName());
-    double sideLength = this.formatter.calcSideLength(leaf.getFootprintMetricValue(), this.minMaxMetricFootprint);
-    sideLength = sideLength / SoftVis3DConstants.DPI_DOT_SCALE;
 
-    double buildingHeight = this.formatter.calcBuildingHeight(leaf.getHeightMetricValue(), this.minMaxMetricHeight);
-    /**
-     * building height is in percent with min size.
-     * multiplier to get higher buildings in the view.
-     */
-    buildingHeight = buildingHeight * SoftVis3DConstants.BUILDING_HEIGHT_MULTIPLIER;
-    buildingHeight = Math.round(buildingHeight);
+    boolean isDependencyNode = TreeNodeType.DEPENDENCY_GENERATED.equals(leaf.getType())
+            && LayoutViewType.DEPENDENCY.equals(this.viewType);
 
-    if (TreeNodeType.DEPENDENCY_GENERATED.equals(leaf.getType())
-      && LayoutViewType.DEPENDENCY.equals(this.viewType)) {
+    double sideLength;
+    double buildingHeight;
+    if (isDependencyNode) {
+      sideLength = this.formatter.calcSideLength(Integer.valueOf(leaf.getCounter()).doubleValue(), this.minMaxEdgeCounter);
+
+      // make dependency buildings smaller
+      sideLength = sideLength / 2;
+
       buildingHeight = SoftVis3DConstants.LAYER_HEIGHT;
+    } else {
+      sideLength = this.formatter.calcSideLength(leaf.getFootprintMetricValue(), this.minMaxMetricFootprint);
+
+      buildingHeight = this.formatter.calcBuildingHeight(leaf.getHeightMetricValue(), this.minMaxMetricHeight);
+      /**
+       * building height is in percent with min size.
+       * multiplier to get higher buildings in the view.
+       */
+      buildingHeight = buildingHeight * SoftVis3DConstants.BUILDING_HEIGHT_MULTIPLIER;
+      buildingHeight = Math.round(buildingHeight);
     }
+
+    sideLength = sideLength / SoftVis3DConstants.DPI_DOT_SCALE;
 
     return LayeredLayoutElement.createLayeredLayoutElement(leaf, sideLength, sideLength, buildingHeight);
   }

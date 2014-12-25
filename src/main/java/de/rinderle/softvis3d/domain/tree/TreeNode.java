@@ -17,16 +17,21 @@ public class TreeNode {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TreeNode.class);
 
-  private int depth;
   private final Integer id;
-  private TreeNodeType type;
+  private String name;
+
   private TreeNode parent;
+  private int depth;
+  private TreeNodeType type;
+
   private final double heightMetricValue;
   private final double footprintMetricValue;
-  private String name;
 
   private Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
   private Map<String, Edge> edges = new HashMap<String, Edge>();
+
+  // only for dependency nodes
+  private int counter = 1;
 
   public TreeNode(final Integer id, final TreeNode parent, final int depth, final TreeNodeType type, final String name,
     final double footprintMetricValue,
@@ -173,5 +178,15 @@ public class TreeNode {
     }
 
     return result;
+  }
+
+  // only for dependency nodes
+  public void increaseCounter() {
+    this.counter++;
+  }
+
+  // only for dependency nodes
+  public int getCounter() {
+    return counter;
   }
 }

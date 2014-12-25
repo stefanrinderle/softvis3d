@@ -126,6 +126,7 @@
         </div-->
 
         <div ng-show="node.parentInfo">
+            <br />
             <h2>Parent</h2>
             <p>
                 <a href='#' ng-click="selectNodeFromDetails(node.parentInfo);">
@@ -135,18 +136,28 @@
             </p>
         </div>
 
-        <h2>Children ({{node.children.length}})</h2>
-        <ul style="list-style: none;">
-            <li ng-repeat="child in node.children">
-                <a href='#' ng-click="selectNodeFromDetails(child);">
-                    {{child.name}}
-                    ({{child.footprintMetricValue}} / {{child.heightMetricValue}})
-                </a>
-            </li>
-            <li ng-if="node.children.length == 0">
-                <strong>No children</strong>
-            </li>
-        </ul>
+        <div ng-if="node.children.length > 0">
+            <br />
+            <h2>Children ({{node.children.length}})</h2>
+            <ul style="list-style: none;">
+                <li ng-repeat="child in node.children">
+                    <a href='#' ng-click="selectNodeFromDetails(child);">
+                        {{child.name}}
+                        ({{child.footprintMetricValue}} / {{child.heightMetricValue}})
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div ng-if="node.edges.length > 0">
+            <br />
+            <h2>Dependencies ({{node.edges.length}})</h2>
+            <ul style="list-style: none;">
+                <li ng-repeat="edge in node.edges">
+                     {{edge.id}} ({{edge.counter}})
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div ng-controller="RenderController" id="renderContainerController">

@@ -112,6 +112,9 @@ public class DependencyExpanderBean implements DependencyExpander {
 
   private void handleNewDepEdge(final TreeNode treeNode, final boolean isOut) {
     final String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + treeNode.getId();
+    final TreeNode depNode = this.getInterfaceNode(treeNode.getParent());
+    depNode.increaseCounter();
+
     // always attach edge to source node
     if (isOut) {
       // treeNode is source
@@ -126,15 +129,12 @@ public class DependencyExpanderBean implements DependencyExpander {
 
         treeNode.setEdge(edge);
       } else {
-        final TreeNode depNode = this.getInterfaceNode(treeNode.getParent());
-
         final Edge element = new Edge(depEdgeLabel, treeNode.getId(), depNode.getId(), treeNode.getParent().getId());
 
         treeNode.setEdge(element);
       }
     } else {
       // interface node is source
-      final TreeNode depNode = this.getInterfaceNode(treeNode.getParent());
       if (depNode.hasEdge(depEdgeLabel)) {
         final Edge edge = depNode.getEdge(depEdgeLabel);
         edge.setCounter(edge.getCounter() + 1);
