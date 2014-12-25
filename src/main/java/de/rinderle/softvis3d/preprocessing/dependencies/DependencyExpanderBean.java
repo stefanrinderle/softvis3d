@@ -9,9 +9,7 @@
 package de.rinderle.softvis3d.preprocessing.dependencies;
 
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
-import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
-import de.rinderle.softvis3d.domain.tree.Edge;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.*;
 
 import java.util.List;
 
@@ -24,11 +22,10 @@ public class DependencyExpanderBean implements DependencyExpander {
 
   private int generatedIdSequence = Integer.MAX_VALUE - 1000000;
 
-  public int execute(final TreeNode treeRootNode, final List<SonarDependency> dependencies) {
+  public int execute(final RootTreeNode treeRootNode, final List<SonarDependency> dependencies) {
     this.maxEdgeCounter = 1;
 
     for (final SonarDependency dependency : dependencies) {
-
       final Integer sourceId = dependency.getFromSnapshotId();
       final Integer destinationId = dependency.getToSnapshotId();
 
@@ -45,6 +42,10 @@ public class DependencyExpanderBean implements DependencyExpander {
       } else {
         // do nothing. That's on dependency type dir. Analyse and fix.
       }
+
+      Dependency treeDependency = new Dependency(dependency.getId(), sourceId,
+              source.getName(), destinationId, destination.getName());
+      treeRootNode.addDependency(treeDependency);
     }
 
     return this.maxEdgeCounter;

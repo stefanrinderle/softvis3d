@@ -9,11 +9,11 @@
 package de.rinderle.softvis3d.preprocessing.tree;
 
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 
 /**
  * Created by stefan on 07.11.14.
  */
 public interface TreeBuilder {
-  TreeNode createTreeStructure(VisualizationRequest requestDTO);
+  RootTreeNode createTreeStructure(VisualizationRequest requestDTO);
 }

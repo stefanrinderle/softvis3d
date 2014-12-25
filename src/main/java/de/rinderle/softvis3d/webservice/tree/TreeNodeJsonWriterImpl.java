@@ -8,9 +8,7 @@
  */
 package de.rinderle.softvis3d.webservice.tree;
 
-import de.rinderle.softvis3d.domain.tree.Edge;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
-import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
+import de.rinderle.softvis3d.domain.tree.*;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
 
@@ -19,7 +17,7 @@ import java.util.Map;
 public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
 
   @Override
-  public void transformTreeToJson(final Response response, final TreeNode tree) {
+  public void transformTreeToJson(final Response response, final RootTreeNode tree) {
     final JsonWriter jsonWriter = response.newJsonWriter();
 
     this.transformTreeToJson(jsonWriter, tree);
@@ -33,7 +31,7 @@ public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
     jsonWriter.prop("id", node.getId());
     jsonWriter.prop("name", node.getName());
     jsonWriter.prop("isNode", node.isNode());
-    optionalTransformMetricvalues(jsonWriter, node);
+    optionalTransformMetricValues(jsonWriter, node);
 
     final TreeNode parent = node.getParent();
     if (parent != null) {
@@ -43,7 +41,7 @@ public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
       jsonWriter.prop("id", parent.getId());
       jsonWriter.prop("name", parent.getName());
       jsonWriter.prop("isNode", parent.isNode());
-      optionalTransformMetricvalues(jsonWriter, node);
+      optionalTransformMetricValues(jsonWriter, node);
       jsonWriter.endObject();
     }
 
@@ -51,10 +49,35 @@ public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
 
     this.transformEdges(jsonWriter, node.getEdges());
 
+    if (node instanceof RootTreeNode) {
+      this.transformDependencies(jsonWriter, (RootTreeNode) node);
+    }
+
     jsonWriter.endObject();
   }
 
-  private void optionalTransformMetricvalues(JsonWriter jsonWriter, TreeNode node) {
+  private void transformDependencies(JsonWriter jsonWriter, RootTreeNode node) {
+    jsonWriter.name("dependencies");
+    jsonWriter.beginArray();
+
+    for (final Map.Entry<Integer, Dependency> dependencyEntry : node.getSourceDependencies().entrySet()) {
+      this.transformDependency(jsonWriter, dependencyEntry.getValue());
+    }
+
+    jsonWriter.endArray();
+  }
+
+  private void transformDependency(JsonWriter jsonWriter, Dependency dependency) {
+    jsonWriter.beginObject();
+    jsonWriter.prop("id", dependency.getId());
+    jsonWriter.prop("sourceId", dependency.getFromNodeId());
+    jsonWriter.prop("sourceName", dependency.getFromNodeName());
+    jsonWriter.prop("destinationId", dependency.getToNodeId());
+    jsonWriter.prop("destinationName", dependency.getToNodeName());
+    jsonWriter.endObject();
+  }
+
+  private void optionalTransformMetricValues(JsonWriter jsonWriter, TreeNode node) {
     if (node instanceof ValueTreeNode) {
       ValueTreeNode valueNode = (ValueTreeNode) node;
       jsonWriter.prop("heightMetricValue", valueNode.getHeightMetricValue());

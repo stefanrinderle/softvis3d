@@ -16,7 +16,7 @@ import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpander;
 import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructure;
 import de.rinderle.softvis3d.preprocessing.tree.TreeBuilder;
@@ -47,7 +47,7 @@ public class PreProcessorBean implements PreProcessor {
     if (snapshotCacheService.containsKey(mapKey)) {
       result = snapshotCacheService.getSnapshotTreeResult(mapKey);
     } else {
-      final TreeNode tree = treeBuilder.createTreeStructure(requestDTO);
+      final RootTreeNode tree = treeBuilder.createTreeStructure(requestDTO);
       this.optimizeTreeStructure.removeUnnecessaryNodes(tree);
 
       if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {

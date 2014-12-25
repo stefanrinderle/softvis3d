@@ -9,6 +9,7 @@
 package de.rinderle.softvis3d.preprocessing.tree;
 
 import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
@@ -25,17 +26,17 @@ import java.util.regex.Pattern;
 public class PathWalker {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PathWalker.class);
-  private final TreeNode root;
+  private final RootTreeNode root;
   // TODO: different generated id sequence in DependencyExpander and PathWalker.
   private int generatedIdSequence = Integer.MAX_VALUE - 100000;
 
   private final Pattern pathSeparator = Pattern.compile("/");
 
   public PathWalker(final int id) {
-    this.root = new TreeNode(id, null, 0, TreeNodeType.TREE, "root");
+    this.root = new RootTreeNode(id);
   }
 
-  public TreeNode getTree() {
+  public RootTreeNode getTree() {
     return this.root;
   }
 
@@ -78,7 +79,6 @@ public class PathWalker {
   private TreeNode getOrCreateGeneratedChild(final TreeNode node, final String name,
                                              final double footprintMetricValue, final double heightMetricValue) {
     // generated child nodes do not have any metric values - but the values from the parent will be set.
-
     return this.getOrCreateChild(node, this.getNextSequence(), name, TreeNodeType.PATH_GENERATED,
             footprintMetricValue, heightMetricValue);
   }

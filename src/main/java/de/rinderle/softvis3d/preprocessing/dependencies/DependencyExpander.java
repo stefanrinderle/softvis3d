@@ -9,11 +9,11 @@
 package de.rinderle.softvis3d.preprocessing.dependencies;
 
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 
 import java.util.List;
 
 public interface DependencyExpander {
 
-  int execute(TreeNode tree, List<SonarDependency> dependencies);
+  int execute(RootTreeNode tree, List<SonarDependency> dependencies);
 }

@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +26,7 @@ public class TreeBuilderBean implements TreeBuilder {
   private DaoService daoService;
 
   @Override
-  public TreeNode createTreeStructure(final VisualizationRequest requestDTO) {
+  public RootTreeNode createTreeStructure(final VisualizationRequest requestDTO) {
     LOGGER.info("Created tree structure for id " + requestDTO.getRootSnapshotId());
     final PathWalker pathWalker = new PathWalker(requestDTO.getRootSnapshotId());
 

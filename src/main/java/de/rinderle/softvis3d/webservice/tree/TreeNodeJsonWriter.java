@@ -8,10 +8,10 @@
  */
 package de.rinderle.softvis3d.webservice.tree;
 
-import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import org.sonar.api.server.ws.Response;
 
 public interface TreeNodeJsonWriter {
 
-  void transformTreeToJson(Response response, TreeNode tree);
+  void transformTreeToJson(Response response, RootTreeNode tree);
 }

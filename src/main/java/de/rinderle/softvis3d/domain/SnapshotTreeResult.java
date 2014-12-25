@@ -8,15 +8,15 @@
  */
 package de.rinderle.softvis3d.domain;
 
-import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 
 public class SnapshotTreeResult {
 
   private final SnapshotStorageKey snapshotStorageKey;
-  private final TreeNode tree;
+  private final RootTreeNode tree;
   private final int maxEdgeCounter;
 
-  public SnapshotTreeResult(final SnapshotStorageKey snapshotStorageKey, final TreeNode tree, final int maxEdgeCounter) {
+  public SnapshotTreeResult(final SnapshotStorageKey snapshotStorageKey, final RootTreeNode tree, final int maxEdgeCounter) {
     validateMaxEdgeCounter(maxEdgeCounter);
 
     this.snapshotStorageKey = snapshotStorageKey;
@@ -38,7 +38,7 @@ public class SnapshotTreeResult {
     return this.maxEdgeCounter;
   }
 
-  public TreeNode getTree() {
+  public RootTreeNode getTree() {
     return this.tree;
   }
 }
