@@ -24,25 +24,15 @@ public class TreeNode {
   private int depth;
   private TreeNodeType type;
 
-  private final double heightMetricValue;
-  private final double footprintMetricValue;
-
   private Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
   private Map<String, Edge> edges = new HashMap<String, Edge>();
 
-  // only for dependency nodes
-  private int counter = 1;
-
-  public TreeNode(final Integer id, final TreeNode parent, final int depth, final TreeNodeType type, final String name,
-    final double footprintMetricValue,
-    final double heightMetricValue) {
+  public TreeNode(final Integer id, final TreeNode parent, final int depth, final TreeNodeType type, final String name) {
     this.id = id;
     this.parent = parent;
     this.depth = depth;
     this.name = name;
     this.type = type;
-    this.footprintMetricValue = footprintMetricValue;
-    this.heightMetricValue = heightMetricValue;
   }
 
   public Map<String, TreeNode> getChildren() {
@@ -77,14 +67,6 @@ public class TreeNode {
     return this.type;
   }
 
-  public double getHeightMetricValue() {
-    return this.heightMetricValue;
-  }
-
-  public double getFootprintMetricValue() {
-    return this.footprintMetricValue;
-  }
-
   public String getName() {
     return this.name;
   }
@@ -113,11 +95,11 @@ public class TreeNode {
     return this.recursiveSearch(id, this);
   }
 
-  public TreeNode findInterfaceLeafNode(final String label) {
+  public DependencyTreeNode findInterfaceLeafNode(final String label) {
     final Map<String, TreeNode> children = this.getChildren();
 
     if (children.containsKey(label)) {
-      return children.get(label);
+      return (DependencyTreeNode) children.get(label);
     } else {
       return null;
     }
@@ -180,13 +162,4 @@ public class TreeNode {
     return result;
   }
 
-  // only for dependency nodes
-  public void increaseCounter() {
-    this.counter++;
-  }
-
-  // only for dependency nodes
-  public int getCounter() {
-    return counter;
-  }
 }

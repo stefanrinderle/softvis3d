@@ -19,9 +19,7 @@ import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.layout.GrappaTransformer;
 import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
-import de.rinderle.softvis3d.domain.tree.Edge;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
-import de.rinderle.softvis3d.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.domain.tree.*;
 import de.rinderle.softvis3d.layout.dot.DotExecutor;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.layout.format.LayerFormatter;
@@ -142,16 +140,18 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     double sideLength;
     double buildingHeight;
     if (isDependencyNode) {
-      sideLength = this.formatter.calcSideLength(Integer.valueOf(leaf.getCounter()).doubleValue(), this.minMaxEdgeCounter);
+      DependencyTreeNode leafNode = (DependencyTreeNode) leaf;
+      sideLength = this.formatter.calcSideLength(Integer.valueOf(leafNode.getCounter()).doubleValue(), this.minMaxEdgeCounter);
 
       // make dependency buildings smaller
       sideLength = sideLength / 2;
 
       buildingHeight = SoftVis3DConstants.LAYER_HEIGHT;
     } else {
-      sideLength = this.formatter.calcSideLength(leaf.getFootprintMetricValue(), this.minMaxMetricFootprint);
+      ValueTreeNode leafNode = (ValueTreeNode) leaf;
+      sideLength = this.formatter.calcSideLength(leafNode.getFootprintMetricValue(), this.minMaxMetricFootprint);
 
-      buildingHeight = this.formatter.calcBuildingHeight(leaf.getHeightMetricValue(), this.minMaxMetricHeight);
+      buildingHeight = this.formatter.calcBuildingHeight(leafNode.getHeightMetricValue(), this.minMaxMetricHeight);
       /**
        * building height is in percent with min size.
        * multiplier to get higher buildings in the view.

@@ -9,9 +9,9 @@
 package de.rinderle.softvis3d.preprocessing.dependencies;
 
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
+import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
 import de.rinderle.softvis3d.domain.tree.Edge;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
-import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 
 import java.util.List;
 
@@ -112,7 +112,7 @@ public class DependencyExpanderBean implements DependencyExpander {
 
   private void handleNewDepEdge(final TreeNode treeNode, final boolean isOut) {
     final String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + treeNode.getId();
-    final TreeNode depNode = this.getInterfaceNode(treeNode.getParent());
+    final DependencyTreeNode depNode = this.getInterfaceNode(treeNode.getParent());
     depNode.increaseCounter();
 
     // always attach edge to source node
@@ -146,11 +146,11 @@ public class DependencyExpanderBean implements DependencyExpander {
     }
   }
 
-  private TreeNode getInterfaceNode(final TreeNode parent) {
-    final TreeNode result;
+  private DependencyTreeNode getInterfaceNode(final TreeNode parent) {
+    final DependencyTreeNode result;
     final String intLeafLabel = INTERFACE_PREFIX + "_" + parent.getId();
 
-    final TreeNode treeNode = parent.findInterfaceLeafNode(intLeafLabel);
+    final DependencyTreeNode treeNode = parent.findInterfaceLeafNode(intLeafLabel);
 
     if (treeNode == null) {
       result = this.addInterfaceLeafNode(intLeafLabel, parent);
@@ -161,10 +161,9 @@ public class DependencyExpanderBean implements DependencyExpander {
     return result;
   }
 
-  private TreeNode addInterfaceLeafNode(final String intLeafLabel, final TreeNode parent) {
+  private DependencyTreeNode addInterfaceLeafNode(final String intLeafLabel, final TreeNode parent) {
     final Integer id = this.getNextSequence();
-    final TreeNode interfaceLeafTreeNode = new TreeNode(id, parent, parent.getDepth() + 1,
-      TreeNodeType.DEPENDENCY_GENERATED, "elevatorNode_" + id, 0, 0);
+    final DependencyTreeNode interfaceLeafTreeNode = new DependencyTreeNode(id, parent, parent.getDepth() + 1);
     parent.getChildren().put(intLeafLabel, interfaceLeafTreeNode);
 
     return interfaceLeafTreeNode;

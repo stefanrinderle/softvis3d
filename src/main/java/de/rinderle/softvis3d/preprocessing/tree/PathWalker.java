@@ -11,6 +11,7 @@ package de.rinderle.softvis3d.preprocessing.tree;
 import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,12 +26,13 @@ public class PathWalker {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PathWalker.class);
   private final TreeNode root;
-  // TODO: different generated id sequence in ResourceTreeServiceImpl and PathWalker.
+  // TODO: different generated id sequence in DependencyExpander and PathWalker.
   private int generatedIdSequence = Integer.MAX_VALUE - 100000;
+
   private final Pattern pathSeparator = Pattern.compile("/");
 
   public PathWalker(final int id) {
-    this.root = new TreeNode(id, null, 0, TreeNodeType.TREE, "root", 0, 0);
+    this.root = new TreeNode(id, null, 0, TreeNodeType.TREE, "root");
   }
 
   public TreeNode getTree() {
@@ -48,7 +50,8 @@ public class PathWalker {
         currentNode = this.getOrCreateChild(currentNode, element.getId(), names[i], TreeNodeType.TREE,
           element.getFootprintMetricValue(), element.getHeightMetricValue());
       } else {
-        currentNode = this.getOrCreateGeneratedChild(currentNode, names[i]);
+        currentNode = this.getOrCreateGeneratedChild(currentNode, names[i],
+                element.getFootprintMetricValue(), element.getHeightMetricValue());
       }
     }
   }
@@ -65,16 +68,19 @@ public class PathWalker {
       return children.get(name);
     }
 
-    final TreeNode result = new TreeNode(id, node, node.getDepth() + 1, type, name, footprintMetricValue,
+    final TreeNode result = new ValueTreeNode(id, node, node.getDepth() + 1, type, name, footprintMetricValue,
       heightMetricValue);
 
     children.put(name, result);
     return result;
   }
 
-  private TreeNode getOrCreateGeneratedChild(final TreeNode node, final String name) {
-    // generated child nodes do not have any metric values.
-    return this.getOrCreateChild(node, this.getNextSequence(), name, TreeNodeType.PATH_GENERATED, 0.0, 0.0);
+  private TreeNode getOrCreateGeneratedChild(final TreeNode node, final String name,
+                                             final double footprintMetricValue, final double heightMetricValue) {
+    // generated child nodes do not have any metric values - but the values from the parent will be set.
+
+    return this.getOrCreateChild(node, this.getNextSequence(), name, TreeNodeType.PATH_GENERATED,
+            footprintMetricValue, heightMetricValue);
   }
 
 }

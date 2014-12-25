@@ -10,6 +10,7 @@ package de.rinderle.softvis3d.webservice.tree;
 
 import de.rinderle.softvis3d.domain.tree.Edge;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
 
@@ -26,32 +27,40 @@ public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
     jsonWriter.close();
   }
 
-  private void transformTreeToJson(final JsonWriter jsonWriter, final TreeNode tree) {
+  private void transformTreeToJson(final JsonWriter jsonWriter, final TreeNode node) {
     jsonWriter.beginObject();
 
-    jsonWriter.prop("id", tree.getId());
-    jsonWriter.prop("name", tree.getName());
-    jsonWriter.prop("heightMetricValue", tree.getHeightMetricValue());
-    jsonWriter.prop("footprintMetricValue", tree.getFootprintMetricValue());
-    jsonWriter.prop("isNode", tree.isNode());
+    jsonWriter.prop("id", node.getId());
+    jsonWriter.prop("name", node.getName());
+    jsonWriter.prop("isNode", node.isNode());
+    optionalTransformMetricvalues(jsonWriter, node);
 
-    final TreeNode parent = tree.getParent();
+    final TreeNode parent = node.getParent();
     if (parent != null) {
       jsonWriter.name("parentInfo");
+
       jsonWriter.beginObject();
       jsonWriter.prop("id", parent.getId());
       jsonWriter.prop("name", parent.getName());
-      jsonWriter.prop("heightMetricValue", parent.getHeightMetricValue());
-      jsonWriter.prop("footprintMetricValue", parent.getFootprintMetricValue());
       jsonWriter.prop("isNode", parent.isNode());
+      optionalTransformMetricvalues(jsonWriter, node);
       jsonWriter.endObject();
     }
 
-    this.transformChildren(jsonWriter, tree.getChildren());
+    this.transformChildren(jsonWriter, node.getChildren());
 
-    this.transformEdges(jsonWriter, tree.getEdges());
+    this.transformEdges(jsonWriter, node.getEdges());
 
     jsonWriter.endObject();
+  }
+
+  private void optionalTransformMetricvalues(JsonWriter jsonWriter, TreeNode node) {
+    if (node instanceof ValueTreeNode) {
+      ValueTreeNode valueNode = (ValueTreeNode) node;
+      jsonWriter.prop("heightMetricValue", valueNode.getHeightMetricValue());
+      jsonWriter.prop("footprintMetricValue", valueNode.getFootprintMetricValue());
+    }
+
   }
 
   private void transformEdges(final JsonWriter jsonWriter, final Map<String, Edge> edges) {
