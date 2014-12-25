@@ -49,25 +49,28 @@ public class LayerFormatterBean implements LayerFormatter {
     platform.setHeight3d(height3d);
 
     for (final ResultBuilding leaf : platform.getNodes()) {
-      double width = leaf.getWidth();
-      // keep some distance to each other
-      width = width * SoftVis3DConstants.DPI_DOT_SCALE;
-      leaf.setWidth(width);
-
-      double height = leaf.getHeight();
-      // keep some distance to each other
-      height = height * SoftVis3DConstants.DPI_DOT_SCALE;
-      leaf.setHeight((height));
-
-      if (leaf.getType().equals(TreeNodeType.DEPENDENCY_GENERATED)) {
-        leaf.setColor(color);
-      } else {
-        leaf.setColor(nodesColor);
-      }
-
-      leaf.setHeight3d(height3d);
-
+      formatResultBuilding(color, nodesColor, height3d, leaf);
     }
+  }
+
+  private void formatResultBuilding(HexaColor color, HexaColor nodesColor, Integer height3d, ResultBuilding leaf) {
+    double width = leaf.getWidth();
+    // keep some distance to each other
+    width = width * SoftVis3DConstants.DPI_DOT_SCALE;
+    leaf.setWidth(width);
+
+    double height = leaf.getHeight();
+    // keep some distance to each other
+    height = height * SoftVis3DConstants.DPI_DOT_SCALE;
+    leaf.setHeight((height));
+
+    if (leaf.getType().equals(TreeNodeType.DEPENDENCY_GENERATED)) {
+      leaf.setColor(color);
+    } else {
+      leaf.setColor(nodesColor);
+    }
+
+    leaf.setHeight3d(height3d);
   }
 
   /**
@@ -102,7 +105,6 @@ public class LayerFormatterBean implements LayerFormatter {
   @Override
   public double calcEdgeRadius(int counter, MinMaxValue minMaxEdgeCounter) {
     return counter;
-//    return this.calcPercentage((double) counter, minMaxEdgeCounter);
   }
 
   private double calcPercentage(final Double value, final MinMaxValue minMaxDao) {

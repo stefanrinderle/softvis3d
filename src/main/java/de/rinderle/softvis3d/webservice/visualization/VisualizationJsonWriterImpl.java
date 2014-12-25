@@ -115,6 +115,8 @@ public class VisualizationJsonWriterImpl implements VisualizationJsonWriter {
   private void transformArrow(JsonWriter jsonWriter, ResultArrow arrow) {
     jsonWriter.beginObject();
 
+    jsonWriter.prop("id", arrow.getId());
+
     jsonWriter.prop("headId", arrow.getHeadId());
     jsonWriter.prop("tailId", arrow.getTailId());
 
@@ -122,7 +124,7 @@ public class VisualizationJsonWriterImpl implements VisualizationJsonWriter {
 
     transformBaseObjectProperties(jsonWriter, arrow);
 
-    transformArrowPoints(jsonWriter, arrow.getTranslatedPoints());
+    transformArrowPoints(jsonWriter, arrow.getLinePoints());
 
     jsonWriter.endObject();
   }
@@ -136,7 +138,6 @@ public class VisualizationJsonWriterImpl implements VisualizationJsonWriter {
     }
 
     jsonWriter.endArray();
-
   }
 
   private void transformPoint(JsonWriter jsonWriter, Point3d point) {

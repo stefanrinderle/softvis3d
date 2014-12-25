@@ -61,19 +61,6 @@ softVis3dAngular.factory('createObjectsService',
                     }
                 },
 
-                createArrow: function(arrow) {
-                    var pointsLength = arrow.translatedPoints.length;
-
-                    for (var i = 0; i < pointsLength - 1; i++) {
-                        service.drawArrowPart(arrow.translatedPoints[i], arrow.translatedPoints[i+1],
-                            arrow.radius, "'" + arrow.tailId + " -> " + arrow.headId + "'");
-                    }
-
-                    service.drawArrowHead(arrow.translatedPoints[pointsLength - 2],
-                        arrow.translatedPoints[pointsLength - 1],
-                        arrow.radius, "'" + arrow.tailId + " -> " + arrow.headId + "'");
-                },
-
                 createBox: function(geometry, material, position, id, type) {
                     var object = new THREE.Mesh(geometry, material);
 
@@ -87,44 +74,37 @@ softVis3dAngular.factory('createObjectsService',
                     sceneObjectsService.push(object);
                 },
 
-                drawArrowPart: function (startPoint, endPoint, thickness, id) {
-                    var pointXVector = service.createVectorFromPoint(startPoint);
-                    var pointYVector = service.createVectorFromPoint(endPoint);
-                    /* edge from X to Y */
-                    var direction = new THREE.Vector3().subVectors(pointYVector, pointXVector);
-                    var orientation = new THREE.Matrix4();
-                    /* THREE.Object3D().up (=Y) default orientation for all objects */
-                    orientation.lookAt(pointXVector, pointYVector, new THREE.Object3D().up);
-                    /* rotation around axis X by -90 degrees
-                     * matches the default orientation Y
-                     * with the orientation of looking Z */
-                    orientation.multiply(new THREE.Matrix4(1, 0, 0, 0,
-                        0, 0, 1, 0,
-                        0, -1, 0, 0,
-                        0, 0, 0, 1));
+                createArrow: function(arrow) {
+                    service.createSpline(arrow);
 
-                    /* cylinder: radiusAtTop, radiusAtBottom,
-                     height, radiusSegments, heightSegments */
-
-                    /* thickness is in percent at the moment */
-                    var radius = 10 * (thickness / 100);
-                    var edgeGeometry = new THREE.CylinderGeometry(radius, radius, direction.length(), 8, 1);
-                    var edge = new THREE.Mesh(edgeGeometry,
-                        new THREE.MeshBasicMaterial({ color: 0xff0000 }));
-
-                    edge.applyMatrix(orientation);
-                    direction = direction.multiplyScalar(0.5);
-
-                    edge.applyMatrix(new THREE.Matrix4().makeTranslation(
-                            pointXVector.x + direction.x,
-                            pointXVector.y + direction.y,
-                            pointXVector.z + direction.z));
-
-                    edge.softVis3DId = id;
-                    sceneObjectsService.push(edge);
+                    var pointsLength = arrow.translatedPoints.length;
+                    service.createArrowHead(arrow.translatedPoints[pointsLength - 2],
+                        arrow.translatedPoints[pointsLength - 1],
+                        arrow.radius, arrow.id);
                 },
 
-                drawArrowHead: function (startPoint, endPoint, thickness, id) {
+                createSpline: function (arrow) {
+                    console.log("create spline");
+
+                    var radius = 10 * (arrow.radius / 100);
+
+                    var vectorPointArray = [];
+                    for (var i = 0; i < arrow.translatedPoints.length; i++) {
+                        vectorPointArray.push(service.createVectorFromPoint(arrow.translatedPoints[i]));
+                    }
+
+                    var geometry = new THREE.TubeGeometry(
+                        new THREE.SplineCurve3(vectorPointArray),
+                            vectorPointArray.length * 2, radius, 8, false);
+                    var material = new THREE.MeshBasicMaterial({
+                        color: "#ff0000"
+                    });
+                    var mesh = new THREE.Mesh(geometry, material);
+                    mesh.softVis3DId = arrow.id;
+                    sceneObjectsService.push(mesh);
+                },
+
+                createArrowHead: function (startPoint, endPoint, thickness, id) {
                     var pointXVector = service.createVectorFromPoint(startPoint);
                     var pointYVector = service.createVectorFromPoint(endPoint);
                     var orientation = new THREE.Matrix4();
@@ -146,7 +126,7 @@ softVis3dAngular.factory('createObjectsService',
                      height, radiusSegments, heightSegments */
                     var edgeHeadGeometry = new THREE.CylinderGeometry(1, radius + 3, 10, 8, 1);
                     var edgeHead = new THREE.Mesh(edgeHeadGeometry,
-                        new THREE.MeshBasicMaterial({ color: 0xff0000 }));
+                        new THREE.MeshBasicMaterial({ color: "#ff0000" }));
 
                     edgeHead.applyMatrix(orientation);
                     edgeHead.applyMatrix(new THREE.Matrix4().makeTranslation(
@@ -159,6 +139,7 @@ softVis3dAngular.factory('createObjectsService',
                 createVectorFromPoint: function (point) {
                     return new THREE.Vector3(point.x, point.y, point.z);
                 }
+
             };
 
             return service;

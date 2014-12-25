@@ -27,9 +27,7 @@ public class ResultArrow extends BaseResultObject {
   private final String tailBuildingId;
   private final double radius;
 
-  // new stuff for multiple points per arrow
-  private List<GrappaPoint> sourcePoints;
-  private List<Point3d> translatedPoints;
+  private List<Point3d> linePoints;
 
   public ResultArrow(Edge edge) {
     this.headBuildingId = edge.getHead().getName();
@@ -45,15 +43,20 @@ public class ResultArrow extends BaseResultObject {
 
     final GrappaPoint[] points = line.getGrappaPoints();
 
-    sourcePoints = new ArrayList<GrappaPoint>();
+    linePoints = new ArrayList<Point3d>();
     for (int i = 0; i < points.length - 1; i++) {
-      sourcePoints.add(points[i]);
+      final Point3d point = new Point3d(points[i].x, 0, points[i].y);
+      linePoints.add(point);
     }
   }
 
   private double transformEdgeRadius(final Edge edge) {
     final String radiusString = edge.getAttributeValue("edgeRadius").toString();
     return Double.valueOf(radiusString.substring(1));
+  }
+
+  public String getId() {
+    return this.getTailId() + " -> " + getHeadId();
   }
 
   public String getTailId() {
@@ -68,16 +71,8 @@ public class ResultArrow extends BaseResultObject {
     return radius;
   }
 
-  public List<GrappaPoint> getSourcePoints() {
-    return sourcePoints;
-  }
-
-  public void setTranslatedPoints(List<Point3d> translatedPoints) {
-    this.translatedPoints = translatedPoints;
-  }
-
-  public List<Point3d> getTranslatedPoints() {
-    return translatedPoints;
+  public List<Point3d> getLinePoints() {
+    return linePoints;
   }
 
 }
