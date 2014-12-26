@@ -15,5 +15,5 @@ import java.util.List;
 
 public interface DependencyExpander {
 
-  int execute(RootTreeNode tree, List<SonarDependency> dependencies);
+  void execute(RootTreeNode tree, List<SonarDependency> dependencies);
 }

@@ -19,5 +19,5 @@ public interface SnapshotVisitorFactory {
     @Assisted Settings settings, @Assisted LayoutViewType viewType,
     @Assisted(value = "minMaxFootprintMetricValues") MinMaxValue minMaxFootprintMetricValues,
     @Assisted(value = "minMaxHeightMetricValues") MinMaxValue minMaxHeightMetricValues,
-    @Assisted(value = "minMaxEdgeCounter") MinMaxValue minMaxEdgeCounter);
+    @Assisted(value = "dependenciesCount") int dependenciesCount);
 }

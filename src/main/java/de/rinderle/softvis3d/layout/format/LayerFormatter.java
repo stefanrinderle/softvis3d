@@ -19,5 +19,5 @@ public interface LayerFormatter {
 
   double calcSideLength(Double value, MinMaxValue minMaxMetricFootprint);
 
-  double calcEdgeRadius(int counter, MinMaxValue minMaxEdgeCounter);
+  double calcEdgeRadius(int counter);
 }

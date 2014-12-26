@@ -38,7 +38,7 @@ public class PreProcessorBean implements PreProcessor {
 
   @Override
   public SnapshotTreeResult process(VisualizationRequest requestDTO) {
-    int maxEdgeCounter = 0;
+    int dependencyCount = 0;
     snapshotCacheService.printCacheContents();
 
     final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
@@ -52,10 +52,11 @@ public class PreProcessorBean implements PreProcessor {
 
       if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
         final List<SonarDependency> dependencies = this.daoService.getDependencies(requestDTO.getRootSnapshotId());
-        maxEdgeCounter = this.dependencyExpander.execute(tree, dependencies);
+        this.dependencyExpander.execute(tree, dependencies);
+        dependencyCount = dependencies.size();
       }
 
-      result = new SnapshotTreeResult(mapKey, tree, maxEdgeCounter);
+      result = new SnapshotTreeResult(mapKey, tree, dependencyCount);
       this.snapshotCacheService.save(result);
     }
 

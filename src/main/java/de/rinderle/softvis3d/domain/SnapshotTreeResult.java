@@ -14,28 +14,20 @@ public class SnapshotTreeResult {
 
   private final SnapshotStorageKey snapshotStorageKey;
   private final RootTreeNode tree;
-  private final int maxEdgeCounter;
+  private final int dependenciesCount;
 
-  public SnapshotTreeResult(final SnapshotStorageKey snapshotStorageKey, final RootTreeNode tree, final int maxEdgeCounter) {
-    validateMaxEdgeCounter(maxEdgeCounter);
-
+  public SnapshotTreeResult(final SnapshotStorageKey snapshotStorageKey, final RootTreeNode tree, final int dependenciesCount) {
     this.snapshotStorageKey = snapshotStorageKey;
     this.tree = tree;
-    this.maxEdgeCounter = maxEdgeCounter;
-  }
-
-  private void validateMaxEdgeCounter(int maxEdgeCounter) {
-    if (maxEdgeCounter < 0) {
-      throw new IllegalArgumentException("maxEdgeCounter should not be < 0: " + maxEdgeCounter);
-    }
+    this.dependenciesCount = dependenciesCount;
   }
 
   public SnapshotStorageKey getStorageKey() {
     return this.snapshotStorageKey;
   }
 
-  public int getMaxEdgeCounter() {
-    return this.maxEdgeCounter;
+  public int getDependenciesCount() {
+    return this.dependenciesCount;
   }
 
   public RootTreeNode getTree() {

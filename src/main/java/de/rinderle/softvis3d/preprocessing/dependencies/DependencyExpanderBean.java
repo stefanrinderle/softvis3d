@@ -19,13 +19,9 @@ public class DependencyExpanderBean implements DependencyExpander {
   public static final String INTERFACE_PREFIX = "interface";
   private static final String DEP_PATH_EDGE_PREFIX = "depPath";
 
-  private int maxEdgeCounter;
-
   private int generatedIdSequence = Integer.MAX_VALUE - 1000000;
 
-  public int execute(final RootTreeNode treeRootNode, final List<SonarDependency> dependencies) {
-    this.maxEdgeCounter = 1;
-
+  public void execute(final RootTreeNode treeRootNode, final List<SonarDependency> dependencies) {
     for (final SonarDependency dependency : dependencies) {
       final Integer sourceId = dependency.getFromSnapshotId();
       final Integer destinationId = dependency.getToSnapshotId();
@@ -48,8 +44,6 @@ public class DependencyExpanderBean implements DependencyExpander {
               source.getName(), destinationId, destination.getName());
       treeRootNode.addDependency(treeDependency);
     }
-
-    return this.maxEdgeCounter;
   }
 
   private DependencyType getDependencyType(final TreeNode from, final TreeNode to) {
@@ -98,15 +92,9 @@ public class DependencyExpanderBean implements DependencyExpander {
     Edge edge;
     if (source.hasEdge(depEdgeLabel)) {
       edge = source.getEdge(depEdgeLabel);
-      final int edgeCount = edge.getIncludingDependenciesSize() + 1;
-      if (edgeCount > this.maxEdgeCounter) {
-        this.maxEdgeCounter = edgeCount;
-      }
-
       source.setEdge(edge);
     } else {
-      edge = new Edge(depEdgeLabel,
-        source.getId(), dest.getId(), source.getParent().getId());
+      edge = new Edge(depEdgeLabel, source.getId(), dest.getId(), source.getParent().getId());
       source.setEdge(edge);
     }
 
@@ -124,11 +112,6 @@ public class DependencyExpanderBean implements DependencyExpander {
       // treeNode is source
       if (treeNode.hasEdge(depEdgeLabel)) {
         edge = treeNode.getEdge(depEdgeLabel);
-        final int edgeCount = edge.getIncludingDependenciesSize() + 1;
-        if (edgeCount > this.maxEdgeCounter) {
-          this.maxEdgeCounter = edgeCount;
-        }
-
         treeNode.setEdge(edge);
       } else {
         edge = new Edge(depEdgeLabel, treeNode.getId(), depNode.getId(), treeNode.getParent().getId());

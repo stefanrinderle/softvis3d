@@ -44,7 +44,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
   private final MinMaxValue minMaxMetricFootprint;
   private final MinMaxValue minMaxMetricHeight;
-  private final MinMaxValue minMaxEdgeCounter;
+  private final int dependenciesCount;
 
   private final Map<Integer, ResultPlatform> resultingGraphList = new ConcurrentHashMap<Integer, ResultPlatform>();
 
@@ -57,14 +57,12 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     @Assisted final LayoutViewType viewType,
     @Assisted(value = "minMaxFootprintMetricValues") final MinMaxValue minMaxFootprintMetricValues,
     @Assisted(value = "minMaxHeightMetricValues") final MinMaxValue minMaxHeightMetricValues,
-    @Assisted(value = "minMaxEdgeCounter") final MinMaxValue minMaxEdgeCounter) {
+    @Assisted(value = "dependenciesCount") final int dependenciesCount) {
     this.settings = settings;
 
     this.minMaxMetricFootprint = minMaxFootprintMetricValues;
     this.minMaxMetricHeight = minMaxHeightMetricValues;
-    this.minMaxEdgeCounter = minMaxEdgeCounter;
-
-    LOGGER.info("minmaxedgecounter " + minMaxEdgeCounter.toString());
+    this.dependenciesCount = dependenciesCount;
 
     this.dotExecutor = dotExecutor;
     this.formatter = formatter;
@@ -123,7 +121,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
     for (final LayeredLayoutElement element : elements) {
       for (final Edge edge : element.getEdges().values()) {
-        inputGraph.addEdge(this.transformer.transformToGrappaEdge(inputGraph, edge, this.minMaxEdgeCounter));
+        inputGraph.addEdge(this.transformer.transformToGrappaEdge(inputGraph, edge));
       }
     }
     return inputGraph;
@@ -141,7 +139,8 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     double buildingHeight;
     if (isDependencyNode) {
       DependencyTreeNode leafNode = (DependencyTreeNode) leaf;
-      sideLength = this.formatter.calcSideLength(Integer.valueOf(leafNode.getCounter()).doubleValue(), this.minMaxEdgeCounter);
+      final MinMaxValue minMaxDependencies = new MinMaxValue(0.0, Integer.valueOf(dependenciesCount).doubleValue());
+      sideLength = this.formatter.calcSideLength(Integer.valueOf(leafNode.getCounter()).doubleValue(), minMaxDependencies);
 
       // make dependency buildings smaller
       sideLength = sideLength / 2;

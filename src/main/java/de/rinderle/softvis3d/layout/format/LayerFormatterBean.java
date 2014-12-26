@@ -102,7 +102,7 @@ public class LayerFormatterBean implements LayerFormatter {
   }
 
   @Override
-  public double calcEdgeRadius(int counter, MinMaxValue minMaxEdgeCounter) {
+  public double calcEdgeRadius(int counter) {
     return counter;
   }
 
@@ -114,12 +114,12 @@ public class LayerFormatterBean implements LayerFormatter {
 
       final Double rangeSize = maxValue - minValue;
       if (rangeSize < 0) {
-        LOGGER.error("Building calcPercentage range size below zero" + rangeSize);
+        LOGGER.error("CalcPercentage range size below zero" + rangeSize);
       } else {
         if (value >= minValue && value <= maxValue) {
           result = 100 / rangeSize * (value - minValue);
         } else {
-          LOGGER.warn("Building calcPercentage value not between min and max " +
+          LOGGER.warn("CalcPercentage value not between min and max " +
             value + " " + minValue + " " + maxValue);
         }
       }

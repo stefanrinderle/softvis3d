@@ -48,10 +48,10 @@ public class LayoutProcessorBean implements LayoutProcessor {
     LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxFootprintValues.toString() + " "
       + minMaxHeightValues.toString());
 
-    final MinMaxValue minMaxEdgeCounter = new MinMaxValue(1.0, (double) snapshotTreeResult.getMaxEdgeCounter());
+    final int dependenciesCount = snapshotTreeResult.getDependenciesCount();
 
     final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO.getViewType(),
-      minMaxFootprintValues, minMaxHeightValues, minMaxEdgeCounter);
+      minMaxFootprintValues, minMaxHeightValues, dependenciesCount);
 
     this.bottomUpLayout.accept(visitor, snapshotTreeResult);
 

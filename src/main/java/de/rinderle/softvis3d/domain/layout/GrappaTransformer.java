@@ -11,7 +11,6 @@ package de.rinderle.softvis3d.domain.layout;
 import att.grappa.Graph;
 import att.grappa.Node;
 import com.google.inject.Inject;
-import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.tree.Edge;
 import de.rinderle.softvis3d.layout.format.LayerFormatter;
@@ -45,14 +44,13 @@ public class GrappaTransformer {
     return elementNode;
   }
 
-  public att.grappa.Edge transformToGrappaEdge(final Graph inputGraph, final Edge edge,
-    final MinMaxValue minMaxEdgeCounter) {
+  public att.grappa.Edge transformToGrappaEdge(final Graph inputGraph, final Edge edge) {
     final Node sourceNode = this.searchNodeById(inputGraph, edge.getSourceId());
     final Node destNode = this.searchNodeById(inputGraph, edge.getDestinationId());
 
     if (sourceNode != null && destNode != null) {
       final att.grappa.Edge result = new att.grappa.Edge(inputGraph, sourceNode, destNode);
-      final double edgeRadius = this.formatter.calcEdgeRadius(edge.getIncludingDependenciesSize(), minMaxEdgeCounter);
+      final double edgeRadius = this.formatter.calcEdgeRadius(edge.getIncludingDependenciesSize());
       result.setAttribute("edgeRadius", "x" + edgeRadius);
       result.setAttribute("penwidth", String.valueOf(edge.getIncludingDependenciesSize()));
 
