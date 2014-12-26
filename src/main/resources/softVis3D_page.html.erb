@@ -18,6 +18,13 @@
 <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script-->
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/angular.min.js"></script>
 
+<!--
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/ui-bootstrap-tpls-0.12.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/css/main.css">
+-->
+
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/SoftVis3dAngular.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/BackendService.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/CreateObjectsService.js"></script>
@@ -114,16 +121,12 @@
         <% end %>
     </div>
 
-    <div ng-controller="DetailsController" id="detailsContainer"
+    <div ng-controller="DetailsController" id="detailsContainer" ng-show="node"
          style="border: 1px solid black; position: absolute;
                  top: 40px; right: 10px; width: 200px; height: 300px;
                  overflow: auto;">
 
         <h2 style="color: #d58512">{{node.name}} ({{node.footprintMetricValue}} / {{node.heightMetricValue}})</h2>
-        <!--div ng-show="node.isNode">
-            <button ng-hide="node.isHidden" type='button' ng-click='triggerVisible();'>Show all</button>
-            <button ng-show="node.isHidden" type='button' ng-click='triggerVisible();'>Hide all</button>
-        </div-->
 
         <div ng-show="node.parentInfo">
             <br />
@@ -157,7 +160,7 @@
                      {{edge.id}} ({{edge.includingDependencies.length}})
                     <ul style="list-style: circle;">
                         <li ng-repeat="dependency in edge.includingDependencies">
-                            {{dependency.id}}
+                            {{getDependencyForId(dependency.id)}}
                         </li>
                     </ul>
                 </li>

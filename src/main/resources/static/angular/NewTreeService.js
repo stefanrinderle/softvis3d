@@ -32,6 +32,16 @@ softVis3dAngular.factory('treeService', [ function(){
                 return result;
             }
             return null;
+        },
+
+        getDependencyForId : function (id) {
+            var dependencies = treeServiceTree.dependencies;
+            for (var i = 0; i < dependencies.length; i++) {
+                if (id === dependencies[i].id) {
+                    return dependencies[i].sourceName + " -> "
+                        + dependencies[i].destinationName;
+                }
+            }
         }
     }
 }]);

@@ -30,6 +30,10 @@ softVis3dAngular.controller('DetailsController',
                 $scope.showDetails(node.id);
             };
 
+            $scope.getDependencyForId = function (id) {
+                return treeService.getDependencyForId(id);
+            };
+
 //            $scope.triggerVisible = function () {
 //                var selectId;
 //                if ($scope.node.parentInfo == null) {
