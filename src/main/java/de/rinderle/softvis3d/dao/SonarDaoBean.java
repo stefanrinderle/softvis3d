@@ -51,7 +51,7 @@ public class SonarDaoBean implements SonarDao {
           + "INNER JOIN snapshots s ON s.id = m.snapshot_id "
           + "WHERE s.root_snapshot_id = :snapshotId "
           + "AND m.value is not null "
-          + "AND s.scope != 'PRJ' AND s.scope != 'DIR' "
+          + "AND s.scope = 'FIL' "
           + "ORDER BY m.metric_id ASC");
       metricsQuery.setParameter("snapshotId", snapshotId);
 
@@ -97,7 +97,7 @@ public class SonarDaoBean implements SonarDao {
           + "from snapshots s "
           + "INNER JOIN project_measures m ON s.id = m.snapshot_id "
           + "WHERE s.path LIKE :rootSnapshotId AND m.metric_id = :metric_id "
-          + "AND s.scope != 'PRJ' AND s.scope != 'DIR'");
+          + "AND s.scope = 'FIL'");
 
       query.setParameter("rootSnapshotId", rootSnapshotId + ".%");
       query.setParameter("metric_id", metricId);
@@ -129,17 +129,12 @@ public class SonarDaoBean implements SonarDao {
     try {
       this.session.start();
 
-      /**
-       * test files could be disabled by using "AND s.qualifier !=  'UTS' "
-       * but the folders would be there.
-       */
-
       final String sqlQuery = "SELECT s.id, p.path, metric.value " +
         "FROM snapshots s " +
         "INNER JOIN projects p ON s.project_id = p.id " +
         "LEFT JOIN project_measures metric ON s.id = metric.snapshot_id " +
         "AND metric.metric_id = :metricId " +
-        "WHERE s.root_snapshot_id = :id " +
+        "WHERE s.root_snapshot_id = :id AND s.qualifier = 'FIL' " +
         "ORDER BY p.path";
 
       final Query query = this.session.createNativeQuery(sqlQuery);

@@ -44,17 +44,15 @@ public class ResultArrow extends BaseResultObject {
     final TreeNodeType typeHead = transformNodeType(edge.getHead());
     final TreeNodeType typeTail = transformNodeType(edge.getTail());
 
-    if (TreeNodeType.PATH_GENERATED.equals(typeHead) || TreeNodeType.PATH_GENERATED.equals(typeTail)) {
-      LOGGER.warn("This should no happen. PathGenerated arrow source or tail.");
-    } else if (TreeNodeType.DEPENDENCY_GENERATED.equals(typeTail)) {
+    if (TreeNodeType.DEPENDENCY_GENERATED.equals(typeTail)) {
       // BLUE
       return new HexaColor(0, 0, 255);
     } else if (TreeNodeType.DEPENDENCY_GENERATED.equals(typeHead)) {
       // RED
       return new HexaColor(255, 0, 0);
+    } else {
+      return SoftVis3DConstants.BUILDING_COLOR;
     }
-
-    return SoftVis3DConstants.BUILDING_COLOR;
   }
 
   private TreeNodeType transformNodeType(final Node node) {

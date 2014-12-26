@@ -45,7 +45,9 @@ public class DependencyDaoBean implements DependencyDao {
     try {
       this.session.start();
       final Query query = this.session
-        .createNativeQuery("SELECT * FROM dependencies d WHERE project_snapshot_id = :projectSnapshotId");
+        .createNativeQuery("SELECT * FROM dependencies d " +
+                "WHERE project_snapshot_id = :projectSnapshotId " +
+                "AND from_scope = 'FIL' AND to_scope = 'FIL'");
 
       query.setParameter("projectSnapshotId", projectSnapshotId);
 

@@ -51,8 +51,7 @@ public class PathWalker {
         currentNode = this.getOrCreateChild(currentNode, element.getId(), names[i], TreeNodeType.TREE,
           element.getFootprintMetricValue(), element.getHeightMetricValue());
       } else {
-        currentNode = this.getOrCreateGeneratedChild(currentNode, names[i],
-                element.getFootprintMetricValue(), element.getHeightMetricValue());
+        currentNode = this.getOrCreateGeneratedChild(currentNode, names[i]);
       }
     }
   }
@@ -76,11 +75,8 @@ public class PathWalker {
     return result;
   }
 
-  private TreeNode getOrCreateGeneratedChild(final TreeNode node, final String name,
-                                             final double footprintMetricValue, final double heightMetricValue) {
-    // generated child nodes do not have any metric values - but the values from the parent will be set.
-    return this.getOrCreateChild(node, this.getNextSequence(), name, TreeNodeType.PATH_GENERATED,
-            footprintMetricValue, heightMetricValue);
+  private TreeNode getOrCreateGeneratedChild(final TreeNode node, final String name) {
+    return this.getOrCreateChild(node, this.getNextSequence(), name, TreeNodeType.PATH_GENERATED, 0, 0);
   }
 
 }

@@ -142,9 +142,6 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
       final MinMaxValue minMaxDependencies = new MinMaxValue(0.0, Integer.valueOf(dependenciesCount).doubleValue());
       sideLength = this.formatter.calcSideLength(Integer.valueOf(leafNode.getCounter()).doubleValue(), minMaxDependencies);
 
-      // make dependency buildings smaller
-      sideLength = sideLength / 2;
-
       buildingHeight = SoftVis3DConstants.LAYER_HEIGHT;
     } else {
       ValueTreeNode leafNode = (ValueTreeNode) leaf;

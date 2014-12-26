@@ -126,7 +126,9 @@
                  top: 40px; right: 10px; width: 200px; height: 300px;
                  overflow: auto;">
 
-        <h2 style="color: #d58512">{{node.name}} ({{node.footprintMetricValue}} / {{node.heightMetricValue}})</h2>
+        <h2 style="color: #FFBF00">{{node.name}}
+            <span ng-show="!node.isNode">({{node.footprintMetricValue}} / {{node.heightMetricValue}})</span>
+        </h2>
 
         <div ng-show="node.parentInfo">
             <br />
@@ -134,7 +136,6 @@
             <p>
                 <a href='#' ng-click="selectNodeFromDetails(node.parentInfo);">
                     {{node.parentInfo.name}}
-                    ({{node.parentInfo.footprintMetricValue}} / {{node.parentInfo.heightMetricValue}})
                 </a>
             </p>
         </div>
@@ -144,9 +145,11 @@
             <h2>Children ({{node.children.length}})</h2>
             <ul style="list-style: none;">
                 <li ng-repeat="child in node.children">
+                    <span ng-show="!child.isNode">(F)</span>
+                    <span ng-show="child.isNode">(N)</span>
                     <a href='#' ng-click="selectNodeFromDetails(child);">
                         {{child.name}}
-                        ({{child.footprintMetricValue}} / {{child.heightMetricValue}})
+                        <span ng-show="!child.isNode">({{child.footprintMetricValue}} / {{child.heightMetricValue}})</span>
                     </a>
                 </li>
             </ul>
