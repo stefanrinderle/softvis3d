@@ -99,6 +99,7 @@ softVis3dAngular.factory('createObjectsService',
                     });
                     var mesh = new THREE.Mesh(geometry, material);
                     mesh.softVis3DId = arrow.id;
+                    mesh.type = "dependency";
                     sceneObjectsService.push(mesh);
                 },
 
@@ -131,6 +132,7 @@ softVis3dAngular.factory('createObjectsService',
                         pointYVector.x, pointYVector.y, pointYVector.z));
 
                     edgeHead.softVis3DId = arrow.id;
+                    edgeHead.type = "dependency";
                     sceneObjectsService.push(edgeHead);
                 },
 

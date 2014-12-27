@@ -126,9 +126,15 @@
                  top: 40px; right: 10px; width: 200px; height: 300px;
                  overflow: auto;">
 
+        <!--button type='button' ng-click='showAllSceneElements();'>Show all nodes (reset)</button-->
+
         <h2 style="color: #FFBF00">{{node.name}}
             <span ng-show="!node.isNode">({{node.footprintMetricValue}} / {{node.heightMetricValue}})</span>
         </h2>
+        <!--div ng-show="node.isNode">
+            <button ng-show="node.isHidden" type='button' ng-click='triggerVisible();'>Show</button>
+            <button ng-show="!node.isHidden" type='button' ng-click='triggerVisible();'>Hide</button>
+        </div-->
 
         <div ng-show="node.parentInfo">
             <br />
@@ -186,8 +192,8 @@
 </div>
 
 <script type="text/javascript">
-window.onload = function () {
 
+window.onload = function () {
     <%
     if !@snapshot.id.blank? && !params[:viewType].blank? &&
         !params[:metric1].blank? && !params[:metric2].blank?

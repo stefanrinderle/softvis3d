@@ -8,7 +8,7 @@
  */
 softVis3dAngular.factory('treeService', [ function(){
     var treeServiceTree = null;
-    return {
+    var service = {
         setTree : function (tree) {
             treeServiceTree = tree;
         },
@@ -42,6 +42,44 @@ softVis3dAngular.factory('treeService', [ function(){
                         + dependencies[i].destinationName;
                 }
             }
+        },
+
+        showAllSceneElements: function () {
+            service.privateShowAllSceneElementsRecursive(treeServiceTree);
+        },
+
+        privateShowAllSceneElementsRecursive: function (node) {
+            node.isHidden = false;
+
+            // children nodes
+            for (var i = 0; i < node.children.length; i++) {
+                service.privateShowAllSceneElementsRecursive(node.children[i]);
+            }
+
+            // edges
+            for (var j = 0; j < node.edges.length; j++) {
+                node.edges[j].isHidden = false;
+            }
+        },
+
+        getPlatformElementIds : function (parentId) {
+            var parentNode = service.searchTree(parentId);
+
+            var result = [];
+
+            // children nodes
+            for (var i = 0; i < parentNode.children.length; i++) {
+                result.push(parentNode.children[i].id);
+
+                // edges
+                for (var j = 0; j < parentNode.children[i].edges.length; j++) {
+                    result.push(parentNode.children[i].edges[j].id);
+                }
+            }
+
+            return result;
         }
-    }
+    };
+
+    return service;
 }]);

@@ -22,6 +22,13 @@ softVis3dAngular.factory('sceneObjectsService',
         var projector = null;
         var renderer = null;
 
+        var emptyObjectMaterial = new THREE.MeshBasicMaterial({ color: 0xFFBF00, opacity: 0.5 });
+        var emptyObjectGeometry = new THREE.BoxGeometry(0, 0, 0);
+        var emptyObject = new THREE.Mesh(emptyObjectGeometry, emptyObjectMaterial);
+        emptyObject.position.x = 0;
+        emptyObject.position.y = 0;
+        emptyObject.position.z = 0;
+
         var service = {
 
             initScene: function () {
@@ -54,6 +61,30 @@ softVis3dAngular.factory('sceneObjectsService',
                 sceneObjectsServiceObjects.push(object);
                 objectsInView.push(object);
                 scene.add(object);
+            },
+
+            removeObject: function (objectSoftVis3dId, type) {
+                for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
+                    if (objectSoftVis3dId == sceneObjectsServiceObjects[index].softVis3DId
+                        && type == sceneObjectsServiceObjects[index].type) {
+                        objectsInView[index] = emptyObject;
+                        scene.remove(sceneObjectsServiceObjects[index]);
+                        console.log("remove " + sceneObjectsServiceObjects[index].type);
+                    }
+                }
+            },
+
+            showAllSceneElements: function () {
+                for (var index = 0; index < objectsInView.length; index++) {
+                    scene.remove(objectsInView[index]);
+                }
+
+                objectsInView = [];
+
+                for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
+                    objectsInView.push(sceneObjectsServiceObjects[index]);
+                    scene.add(sceneObjectsServiceObjects[index]);
+                }
             },
 
             windowResize: function (event, width, height) {
