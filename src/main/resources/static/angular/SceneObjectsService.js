@@ -11,8 +11,7 @@ softVis3dAngular.factory('sceneObjectsService',
         var sceneObjectsServiceObjects = [];
         var objectsInView = [];
 
-        var selectedObject = null;
-        var selectedObjectColor = null;
+        var selectedObjects = [];
 
         var containerWidthLocal;
         var containerHeightLocal;
@@ -69,7 +68,6 @@ softVis3dAngular.factory('sceneObjectsService',
                         && type == sceneObjectsServiceObjects[index].type) {
                         objectsInView[index] = emptyObject;
                         scene.remove(sceneObjectsServiceObjects[index]);
-                        console.log("remove " + sceneObjectsServiceObjects[index].type);
                     }
                 }
             },
@@ -87,33 +85,23 @@ softVis3dAngular.factory('sceneObjectsService',
                 }
             },
 
-            windowResize: function (event, width, height) {
-                // header of sonar is 70 px + metric select form 30 px + footer 50 px
-                // sidebar 200px
-                containerWidthLocal = width - 380;
-                containerHeightLocal = height - 170;
-
-                if (renderer != null && camera != null) {
-                    renderer.setSize(containerWidthLocal, containerHeightLocal);
-                    camera.aspect = containerWidthLocal / containerHeightLocal;
-                    camera.updateProjectionMatrix();
+            selectSceneObjects: function (id) {
+                // reset former selected objects
+                for (var index = 0; index < selectedObjects.length; index++) {
+                    selectedObjects[index].object.material.color.setHex(selectedObjects[index].color);
                 }
 
-                document.getElementById("detailsContainer").style.height = containerHeightLocal + "px";
-            },
+                selectedObjects = [];
 
-            selectSceneObjectByType: function (id, type) {
                 for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
-                    if (id == sceneObjectsServiceObjects[index].softVis3DId &&
-                        type == sceneObjectsServiceObjects[index].type) {
-                        // reset former selected object
-                        if (!!selectedObject) {
-                            selectedObject.material.color.setHex(selectedObjectColor);
-                        }
+                    if (id == sceneObjectsServiceObjects[index].softVis3DId) {
+                        var selectedObjectInformation = {
+                            "object" : sceneObjectsServiceObjects[index],
+                            "color" : sceneObjectsServiceObjects[index].material.color.getHex()
+                        };
+                        selectedObjects.push(selectedObjectInformation);
 
-                        selectedObject = sceneObjectsServiceObjects[index];
-                        selectedObjectColor = selectedObject.material.color.getHex();
-                        selectedObject.material.color.setHex(0xFFBF00);
+                        sceneObjectsServiceObjects[index].material.color.setHex(0xFFBF00);
                     }
                 }
             },
@@ -130,11 +118,27 @@ softVis3dAngular.factory('sceneObjectsService',
 
                 if (intersects.length > 0) {
                     var intersectedObject = intersects[ 0 ].object;
-                    this.selectSceneObjectByType(intersectedObject.softVis3DId, intersectedObject.type);
+                    this.selectSceneObjects(intersectedObject.softVis3DId);
+
                     return intersectedObject;
                 } else {
                     return null;
                 }
+            },
+
+            windowResize: function (event, width, height) {
+                // header of sonar is 70 px + metric select form 30 px + footer 50 px
+                // sidebar 200px
+                containerWidthLocal = width - 380;
+                containerHeightLocal = height - 170;
+
+                if (renderer != null && camera != null) {
+                    renderer.setSize(containerWidthLocal, containerHeightLocal);
+                    camera.aspect = containerWidthLocal / containerHeightLocal;
+                    camera.updateProjectionMatrix();
+                }
+
+                document.getElementById("detailsContainer").style.height = containerHeightLocal + "px";
             },
 
             animate: function () {

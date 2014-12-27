@@ -25,12 +25,7 @@ softVis3dAngular.controller('DetailsController',
             });
 
             $scope.selectNodeFromDetails = function (node) {
-                if (node.isNode) {
-                    sceneObjectsService.selectSceneObjectByType(node.id, "node");
-                } else {
-                    sceneObjectsService.selectSceneObjectByType(node.id, "leaf");
-                }
-
+                sceneObjectsService.selectSceneObjects(node.id);
                 $scope.showDetails(node.id);
             };
 

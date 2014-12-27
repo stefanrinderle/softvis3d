@@ -47,6 +47,11 @@ public class VisualizationWebserviceHandlerBean implements VisualizationWebservi
     try {
       Map<Integer, ResultPlatform> result = createLayoutBySnapshotId(requestDTO);
 
+      /**
+       * TODO: I don't know how to do this anywhere else.
+       */
+      result.remove(id);
+
       this.visualizationJsonWriter.transformResponseToJson(response, result);
     } catch (DotExecutorException e) {
       e.printStackTrace();
