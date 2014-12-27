@@ -126,15 +126,13 @@
                  top: 40px; right: 10px; width: 200px; height: 300px;
                  overflow: auto;">
 
-        <!--button type='button' ng-click='showAllSceneElements();'>Show all nodes (reset)</button-->
+        <button type='button' ng-click='showAllSceneElements();'>Show all objects (reset)</button>
+        <br /><br />
 
         <h2 style="color: #FFBF00">{{node.name}}
             <span ng-show="!node.isNode">({{node.footprintMetricValue}} / {{node.heightMetricValue}})</span>
+            <button ng-show="node.isNode" type='button' ng-click='hideAllSceneElementsExceptIdTree(node.id);'>Focus this</button>
         </h2>
-        <!--div ng-show="node.isNode">
-            <button ng-show="node.isHidden" type='button' ng-click='triggerVisible();'>Show</button>
-            <button ng-show="!node.isHidden" type='button' ng-click='triggerVisible();'>Hide</button>
-        </div-->
 
         <div ng-show="node.parentInfo">
             <br />

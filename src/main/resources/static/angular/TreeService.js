@@ -44,41 +44,31 @@ softVis3dAngular.factory('treeService', [ function(){
             }
         },
 
-        showAllSceneElements: function () {
-            service.privateShowAllSceneElementsRecursive(treeServiceTree);
-        },
-
-        privateShowAllSceneElementsRecursive: function (node) {
-            node.isHidden = false;
+        privateGetAllSceneElementsRecursive: function (node) {
+            var showIds = [];
+            showIds.push(node.id);
 
             // children nodes
             for (var i = 0; i < node.children.length; i++) {
-                service.privateShowAllSceneElementsRecursive(node.children[i]);
+                var result = service.privateGetAllSceneElementsRecursive(node.children[i]);
+                showIds = showIds.concat(result);
             }
 
             // edges
             for (var j = 0; j < node.edges.length; j++) {
-                node.edges[j].isHidden = false;
+                showIds.push(node.edges[j].id);
             }
+
+            return showIds;
         },
 
-        getPlatformElementIds : function (parentId) {
-            var parentNode = service.searchTree(parentId);
+        getAllSceneElementsRecursive : function(id) {
+            var node = service.searchTree(id);
+            var showIds = service.privateGetAllSceneElementsRecursive(node);
 
-            var result = [];
-
-            // children nodes
-            for (var i = 0; i < parentNode.children.length; i++) {
-                result.push(parentNode.children[i].id);
-
-                // edges
-                for (var j = 0; j < parentNode.children[i].edges.length; j++) {
-                    result.push(parentNode.children[i].edges[j].id);
-                }
-            }
-
-            return result;
+            return showIds;
         }
+
     };
 
     return service;

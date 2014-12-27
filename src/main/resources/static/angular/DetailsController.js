@@ -14,10 +14,6 @@ softVis3dAngular.controller('DetailsController',
 
             $scope.showDetails = function (snapshotId) {
                 $scope.node = treeService.searchTree(snapshotId);
-
-                if ($scope.node.isHidden == null) {
-                    $scope.node.isHidden = false;
-                }
             };
 
             $rootScope.$on('objectSelected', function(event, id) {
@@ -34,44 +30,12 @@ softVis3dAngular.controller('DetailsController',
             };
 
             $scope.showAllSceneElements = function () {
-                treeService.showAllSceneElements();
                 sceneObjectsService.showAllSceneElements();
             };
 
-            $scope.triggerVisible = function () {
-                var selectId;
-                if ($scope.node.parentInfo == null) {
-                    selectId = $scope.node.id;
-                } else {
-                    selectId = $scope.node.parentInfo.id;
-                }
-
-                if ($scope.node.isHidden != null && $scope.node.isHidden) {
-                    console.log("show");
-                    $scope.node.isHidden = false;
-                    //                          showAll($scope.node.id, selectId);
-                } else {
-                    /**
-                     * TODO get dependency ids and node ids to remove in two seperated
-                     * functions and remove them seperate.
-                     */
-
-                    console.log("hide - all nodes and edges from the current platform");
-                    var elementIds = treeService.getPlatformElementIds($scope.node.id);
-
-                    console.log("----remove platform elements");
-
-                    for (var index = 0; index < elementIds.length; index++) {
-                        sceneObjectsService.removeObject(elementIds[index], "leaf");
-                        sceneObjectsService.removeObject(elementIds[index], "dependency");
-                    }
-
-                    console.log("----remove platform");
-                    sceneObjectsService.removeObject($scope.node.id, "node");
-
-                    $scope.node.isHidden = true;
-                    //                          hideAll($scope.node.id, selectId);
-                }
+            $scope.hideAllSceneElementsExceptIdTree = function (id) {
+                var showIds = treeService.getAllSceneElementsRecursive(id);
+                sceneObjectsService.hideAllSceneElementsExceptIds(showIds);
             };
         }
     ]

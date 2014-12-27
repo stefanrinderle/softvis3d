@@ -85,6 +85,34 @@ softVis3dAngular.factory('sceneObjectsService',
                 }
             },
 
+            hideAllSceneElementsExceptIds: function (showIds) {
+                service.hideAllSceneElements();
+
+                for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
+                    if (service.contains(showIds, sceneObjectsServiceObjects[index].softVis3DId)) {
+                        objectsInView.push(sceneObjectsServiceObjects[index]);
+                        scene.add(sceneObjectsServiceObjects[index]);
+                    }
+                }
+            },
+
+            contains : function contains(a, obj) {
+                for (var i = 0; i < a.length; i++) {
+                    if (a[i] === obj) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+
+            hideAllSceneElements: function () {
+                for (var index = 0; index < objectsInView.length; index++) {
+                    scene.remove(objectsInView[index]);
+                }
+
+                objectsInView = [];
+            },
+
             selectSceneObjects: function (id) {
                 // reset former selected objects
                 for (var index = 0; index < selectedObjects.length; index++) {
