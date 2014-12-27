@@ -11,6 +11,8 @@ softVis3dAngular.controller('DetailsController',
         function ($rootScope, $scope, treeService, sceneObjectsService) {
 
             $scope.node = null;
+            $scope.displayChildren = false;
+            $scope.displayEdges = false;
 
             $scope.showDetails = function (snapshotId) {
                 $scope.node = treeService.searchTree(snapshotId);
@@ -37,6 +39,31 @@ softVis3dAngular.controller('DetailsController',
                 var showIds = treeService.getAllSceneElementsRecursive(id);
                 sceneObjectsService.hideAllSceneElementsExceptIds(showIds);
             };
+
+            $scope.triggerDisplayChildren = function () {
+                if ($scope.displayChildren) {
+                    $scope.displayChildren = false;
+                } else {
+                    $scope.displayChildren = true;
+                }
+            };
+
+            $scope.triggerDisplayEdges = function () {
+                if ($scope.displayEdges) {
+                    $scope.displayEdges = false;
+                } else {
+                    $scope.displayEdges = true;
+                }
+            };
+
+            $scope.triggerDisplayEdgeDetails = function (edge) {
+                if (edge.displayDetails) {
+                    edge.displayDetails = false;
+                } else {
+                    edge.displayDetails = true;
+                }
+            };
+
         }
     ]
 );

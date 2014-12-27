@@ -146,14 +146,23 @@
 
         <div ng-if="node.children.length > 0">
             <br />
-            <h2>Children ({{node.children.length}})</h2>
-            <ul style="list-style: none;">
+
+            <h2>
+                <img ng-hide="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: top;"
+                     src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
+                <img ng-show="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: top;"
+                     src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
+                Children ({{node.children.length}})
+            </h2>
+            <ul ng-show="displayChildren" style="list-style: none;">
                 <li ng-repeat="child in node.children">
-                    <span ng-show="!child.isNode">(F)</span>
-                    <span ng-show="child.isNode">(N)</span>
+                    <img ng-hide="child.isNode" style="vertical-align: top;"
+                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/file.gif"/>
+                    <img ng-show="child.isNode" style="vertical-align: top;"
+                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/folder.gif"/>
                     <a href='#' ng-click="selectNodeFromDetails(child);">
-                        {{child.name}}
-                        <span ng-show="!child.isNode">({{child.footprintMetricValue}} / {{child.heightMetricValue}})</span>
+                        {{ child.name | limitTo:21 }}{{child.name.length > 21 ? '...' : ''}}
+                        <span ng-show="!child.isNode">({{child.footprintMetricValue}}/{{child.heightMetricValue}})</span>
                     </a>
                 </li>
             </ul>
@@ -161,11 +170,21 @@
 
         <div ng-if="node.edges.length > 0">
             <br />
-            <h2>Dependencies ({{node.edges.length}})</h2>
-            <ul style="list-style: none;">
+            <h2>
+                <img ng-hide="displayEdges" ng-click="triggerDisplayEdges();" style="vertical-align: top;"
+                     src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
+                <img ng-show="displayEdges" ng-click="triggerDisplayEdges();" style="vertical-align: top;"
+                     src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
+                Dependencies ({{node.edges.length}})
+            </h2>
+            <ul ng-show="displayEdges" style="list-style: none;">
                 <li ng-repeat="edge in node.edges">
-                     {{edge.id}} ({{edge.includingDependencies.length}})
-                    <ul style="list-style: circle;">
+                    <img ng-hide="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
+                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
+                    <img ng-show="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
+                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
+                    {{edge.id}} ({{edge.includingDependencies.length}})
+                    <ul ng-show="edge.displayDetails" style="list-style: circle;">
                         <li ng-repeat="dependency in edge.includingDependencies">
                             {{getDependencyForId(dependency.id)}}
                         </li>
@@ -190,7 +209,6 @@
 </div>
 
 <script type="text/javascript">
-
 window.onload = function () {
     <%
     if !@snapshot.id.blank? && !params[:viewType].blank? &&

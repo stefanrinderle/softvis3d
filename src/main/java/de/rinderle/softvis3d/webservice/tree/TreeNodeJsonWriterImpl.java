@@ -129,8 +129,18 @@ public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
     jsonWriter.name("children");
     jsonWriter.beginArray();
 
+    // first folders
     for (final TreeNode child : children.values()) {
-      this.transformTreeToJson(jsonWriter, child);
+      if (child.isNode()) {
+        this.transformTreeToJson(jsonWriter, child);
+      }
+    }
+
+    // then files
+    for (final TreeNode child : children.values()) {
+      if (!child.isNode()) {
+        this.transformTreeToJson(jsonWriter, child);
+      }
     }
 
     jsonWriter.endArray();
