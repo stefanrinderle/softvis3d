@@ -94,7 +94,7 @@ public class DependencyExpanderBean implements DependencyExpander {
       edge = source.getEdge(depEdgeLabel);
       source.setEdge(edge);
     } else {
-      edge = new Edge(depEdgeLabel, source.getId(), dest.getId(), source.getParent().getId());
+      edge = new Edge(depEdgeLabel, source.getId(), source.getName(), dest.getId(), dest.getName());
       source.setEdge(edge);
     }
 
@@ -114,7 +114,7 @@ public class DependencyExpanderBean implements DependencyExpander {
         edge = treeNode.getEdge(depEdgeLabel);
         treeNode.setEdge(edge);
       } else {
-        edge = new Edge(depEdgeLabel, treeNode.getId(), depNode.getId(), treeNode.getParent().getId());
+        edge = new Edge(depEdgeLabel, treeNode.getId(), treeNode.getName(), depNode.getId(), depNode.getName());
 
         treeNode.setEdge(edge);
       }
@@ -124,7 +124,7 @@ public class DependencyExpanderBean implements DependencyExpander {
         edge = depNode.getEdge(depEdgeLabel);
         depNode.setEdge(edge);
       } else {
-        edge = new Edge(depEdgeLabel, depNode.getId(), treeNode.getId(), treeNode.getParent().getId());
+        edge = new Edge(depEdgeLabel, depNode.getId(), depNode.getName(), treeNode.getId(), treeNode.getName());
         depNode.setEdge(edge);
       }
     }

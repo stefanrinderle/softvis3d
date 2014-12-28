@@ -168,25 +168,25 @@
             </ul>
         </div>
 
-        <div ng-if="node.edges.length > 0">
+        <div ng-if="edges.length > 0">
             <br />
             <h2>
                 <img ng-hide="displayEdges" ng-click="triggerDisplayEdges();" style="vertical-align: top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
                 <img ng-show="displayEdges" ng-click="triggerDisplayEdges();" style="vertical-align: top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
-                Dependencies ({{node.edges.length}})
+                Dependencies ({{edges.length}})
             </h2>
             <ul ng-show="displayEdges" style="list-style: none;">
-                <li ng-repeat="edge in node.edges">
+                <li ng-repeat="edge in edges">
                     <img ng-hide="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
                     <img ng-show="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
-                    {{edge.id}} ({{edge.includingDependencies.length}})
+                    {{edge.sourceName | inDisplay}} -> {{edge.destinationName | outDisplay}} ({{edge.includingDependencies.length}})
                     <ul ng-show="edge.displayDetails" style="list-style: circle;">
                         <li ng-repeat="dependency in edge.includingDependencies">
-                            {{getDependencyForId(dependency.id)}}
+                            {{dependency.displayValue}}
                         </li>
                     </ul>
                 </li>

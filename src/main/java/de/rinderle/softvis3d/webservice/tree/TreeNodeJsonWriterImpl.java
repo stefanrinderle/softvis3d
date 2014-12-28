@@ -85,7 +85,6 @@ public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
       jsonWriter.prop("heightMetricValue", valueNode.getHeightMetricValue());
       jsonWriter.prop("footprintMetricValue", valueNode.getFootprintMetricValue());
     }
-
   }
 
   private void transformEdges(final JsonWriter jsonWriter, final Map<String, Edge> edges) {
@@ -103,9 +102,9 @@ public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
     jsonWriter.beginObject();
     jsonWriter.prop("id", edge.getSourceId() + " -> " + edge.getDestinationId());
     jsonWriter.prop("sourceId", edge.getSourceId());
+    jsonWriter.prop("sourceName", edge.getSourceName());
     jsonWriter.prop("destinationId", edge.getDestinationId());
-    jsonWriter.prop("depEdgeLabel", edge.getDepEdgeLabel());
-    jsonWriter.prop("parentId", edge.getParentId());
+    jsonWriter.prop("destinationName", edge.getDestinationName());
 
     transformIncludingDependencies(jsonWriter, edge.getIncludingDependencies());
 
