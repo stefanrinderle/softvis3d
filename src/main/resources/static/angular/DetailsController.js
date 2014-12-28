@@ -17,13 +17,31 @@ softVis3dAngular.controller('DetailsController',
             $scope.outEdges = [];
             $scope.displayEdges = false;
 
-            $scope.showDetails = function (snapshotId) {
-                $scope.node = treeService.searchTree(snapshotId);
+            $scope.edge = null;
+            $scope.edgeIncludingEdges = null;
+            $scope.displayEdgeIncludingEdges = false;
 
+            $scope.showDetails = function (softVis3dId) {
+                $scope.node = treeService.searchTreeNode(softVis3dId);
+
+                if ($scope.node != null) {
+                    $scope.privateShowNodeEdgeDetails($scope.node);
+                    $scope.edge = null;
+                    $scope.edgeIncludingEdges = null;
+                    $scope.displayEdgeIncludingEdges = false;
+                } else {
+                    $scope.edge = treeService.searchEdge(softVis3dId)
+                    $scope.privateShowEdgeEdgeDetails($scope.edge);
+                    $scope.inEdges = [];
+                    $scope.outEdges = [];
+                }
+            };
+
+            $scope.privateShowNodeEdgeDetails = function (sourceNode) {
                 $scope.outEdges = [];
                 // outbound dependencies
-                for (var index = 0; index < $scope.node.edges.length; index++) {
-                    var sourceEdge = $scope.node.edges[index];
+                for (var index = 0; index < sourceNode.edges.length; index++) {
+                    var sourceEdge = sourceNode.edges[index];
                     var targetEdge = {};
                     targetEdge.id = sourceEdge.id;
                     targetEdge.sourceName = sourceEdge.sourceName;
@@ -41,7 +59,7 @@ softVis3dAngular.controller('DetailsController',
 
                 $scope.inEdges = [];
                 // inbound dependencies
-                var inboundEdges = treeService.getInboundEdges($scope.node);
+                var inboundEdges = treeService.getInboundEdges(sourceNode);
                 for (var index = 0; index < inboundEdges.length; index++) {
                     var sourceEdge = inboundEdges[index];
                     var targetEdge = {};
@@ -60,13 +78,29 @@ softVis3dAngular.controller('DetailsController',
                 }
             };
 
+            $scope.privateShowEdgeEdgeDetails = function (sourceEdge) {
+                $scope.edgeIncludingEdges = [];
+
+                for(var j = 0; j < sourceEdge.includingDependencies.length; j++) {
+                    var result = {};
+                    result.id = sourceEdge.includingDependencies[j].id;
+                    result.displayValue = treeService.getDependencyForId(sourceEdge.includingDependencies[j].id);
+
+                    $scope.edgeIncludingEdges.push(result);
+                }
+            };
+
+            $scope.selectAllDependentDependencies = function (edge) {
+                // TODO
+            };
+
             $rootScope.$on('objectSelected', function(event, id) {
                 $scope.showDetails(id);
             });
 
-            $scope.selectNodeFromDetails = function (node) {
-                sceneObjectsService.selectSceneObjects(node.id);
-                $scope.showDetails(node.id);
+            $scope.selectSceneObjectFromDetails = function (objectId) {
+                sceneObjectsService.selectSceneObjects(objectId);
+                $scope.showDetails(objectId);
             };
 
             $scope.showAllSceneElements = function () {
@@ -99,6 +133,14 @@ softVis3dAngular.controller('DetailsController',
                     edge.displayDetails = false;
                 } else {
                     edge.displayDetails = true;
+                }
+            };
+
+            $scope.triggerDisplayEdgeIncludingEdges = function () {
+                if ($scope.displayEdgeIncludingEdges) {
+                    $scope.displayEdgeIncludingEdges = false;
+                } else {
+                    $scope.displayEdgeIncludingEdges = true;
                 }
             };
 

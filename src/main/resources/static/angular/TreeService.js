@@ -13,7 +13,7 @@ softVis3dAngular.factory('treeService', [ function(){
             treeServiceTree = tree;
         },
 
-        searchTree : function (id) {
+        searchTreeNode : function (id) {
             if (treeServiceTree != null) {
                 return this.searchIdInElement(treeServiceTree, id);
             } else {
@@ -34,6 +34,26 @@ softVis3dAngular.factory('treeService', [ function(){
             return null;
         },
 
+        searchEdge : function (id) {
+            return this.searchEdgeInElement(treeServiceTree, id);
+        },
+
+        searchEdgeInElement : function(element, id) {
+            var result;
+
+            for (var i = 0; result == null && i < element.edges.length; i++) {
+                if (element.edges[i].id === id) {
+                    result = element.edges[i];
+                }
+            }
+
+            for (var i = 0; result == null && i < element.children.length; i++) {
+                result = this.searchEdgeInElement(element.children[i], id);
+            }
+
+            return result;
+        },
+
         getDependencyForId : function (id) {
             var dependencies = treeServiceTree.dependencies;
             for (var i = 0; i < dependencies.length; i++) {
@@ -42,6 +62,38 @@ softVis3dAngular.factory('treeService', [ function(){
                         + dependencies[i].destinationName;
                 }
             }
+        },
+
+        getAllSceneElementsRecursive : function(id) {
+            var node = service.searchTreeNode(id);
+            var showIds = service.privateGetAllSceneElementsRecursive(node);
+
+            showIds = showIds.concat(service.privateGetInboundDependencyIds(node));
+
+            return showIds;
+        },
+
+        privateGetInboundDependencyIds : function(node) {
+            var result = [];
+            if (node.parentInfo) {
+                var parent = service.searchTreeNode(node.parentInfo.id);
+
+                // children nodes
+                for (var i = 0; i < parent.children.length; i++) {
+                    var child = parent.children[i];
+
+                    // edges
+                    for (var j = 0; j < child.edges.length; j++) {
+                        console.log("node.edges[j].destinationId " + child.edges[j].destinationId);
+                        console.log("node.id " + node.id);
+                        if (child.edges[j].destinationId === node.id) {
+                            result.push(child.edges[j].id);
+                        }
+                    }
+                }
+            }
+
+            return result;
         },
 
         privateGetAllSceneElementsRecursive: function (node) {
@@ -62,23 +114,15 @@ softVis3dAngular.factory('treeService', [ function(){
             return showIds;
         },
 
-        getAllSceneElementsRecursive : function(id) {
-            var node = service.searchTree(id);
-            var showIds = service.privateGetAllSceneElementsRecursive(node);
-
-            return showIds;
-        },
-
         getInboundEdges : function(node) {
             var result = [];
             if (node.parentInfo) {
-                var parent = service.searchTree(node.parentInfo.id);
+                var parent = service.searchTreeNode(node.parentInfo.id);
 
                 for (var i = 0; i < parent.children.length; i++) {
                     var child = parent.children[i];
                     for (var j = 0; j < child.edges.length; j++) {
                         var edge = child.edges[j];
-                        console.log(edge);
                         if (edge.destinationId === node.id) {
                             result.push(edge);
                         }
