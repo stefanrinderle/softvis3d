@@ -22,8 +22,9 @@
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/ui-bootstrap-tpls-0.12.0.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/css/main.css">
 -->
+<link rel="stylesheet" type="text/css" href="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/css/main.css">
+
 
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/SoftVis3dAngular.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/BackendService.js"></script>
@@ -134,40 +135,6 @@
             <button ng-show="node.isNode" type='button' ng-click='hideAllSceneElementsExceptIdTree(node.id);'>Focus this</button>
         </h2>
 
-        <div ng-show="node.parentInfo">
-            <br />
-            <h2>Parent</h2>
-            <p>
-                <a href='#' ng-click="selectNodeFromDetails(node.parentInfo);">
-                    {{node.parentInfo.name}}
-                </a>
-            </p>
-        </div>
-
-        <div ng-if="node.children.length > 0">
-            <br />
-
-            <h2>
-                <img ng-hide="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: top;"
-                     src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
-                <img ng-show="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: top;"
-                     src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
-                Children ({{node.children.length}})
-            </h2>
-            <ul ng-show="displayChildren" style="list-style: none;">
-                <li ng-repeat="child in node.children">
-                    <img ng-hide="child.isNode" style="vertical-align: top;"
-                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/file.gif"/>
-                    <img ng-show="child.isNode" style="vertical-align: top;"
-                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/folder.gif"/>
-                    <a href='#' ng-click="selectNodeFromDetails(child);">
-                        {{ child.name | limitTo:21 }}{{child.name.length > 21 ? '...' : ''}}
-                        <span ng-show="!child.isNode">({{child.footprintMetricValue}}/{{child.heightMetricValue}})</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
         <div ng-if="(inEdges.length + outEdges.length) > 0">
             <br />
             <h2>
@@ -178,7 +145,7 @@
                 Dependencies ({{inEdges.length + outEdges.length}})
             </h2>
             <ul ng-show="displayEdges" style="list-style: none;">
-                Inbound
+                <h3>Inbound</h3>
                 <li ng-repeat="edge in inEdges">
                     <img ng-hide="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
@@ -186,12 +153,12 @@
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
                     {{edge.sourceName | inDisplay}} -> ({{edge.includingDependencies.length}})
                     <ul ng-show="edge.displayDetails" style="list-style: circle;">
-                        <li ng-repeat="dependency in edge.includingDependencies">
+                        <li ng-repeat="dependency in edge.includingDependencies" ng-class="{listEven: $even}">
                             {{dependency.displayValue}}
                         </li>
                     </ul>
                 </li>
-                Outbound
+                <h3>Outbound</h3>
                 <li ng-repeat="edge in outEdges">
                     <img ng-hide="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
@@ -199,10 +166,46 @@
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
                     {{edge.sourceName | inDisplay}} -> {{edge.destinationName | outDisplay}} ({{edge.includingDependencies.length}})
                     <ul ng-show="edge.displayDetails" style="list-style: circle;">
-                        <li ng-repeat="dependency in edge.includingDependencies">
+                        <li ng-repeat="dependency in edge.includingDependencies" ng-class="{listEven: $even}">
                             {{dependency.displayValue}}
                         </li>
                     </ul>
+                </li>
+            </ul>
+        </div>
+
+        <br />
+        <h2>Navigation</h2>
+        <div ng-show="node.parentInfo">
+            <br />
+            <h3>Parent</h3>
+            <p>
+                <a href='#' ng-click="selectNodeFromDetails(node.parentInfo);">
+                    {{node.parentInfo.name}}
+                </a>
+            </p>
+        </div>
+
+        <div ng-if="node.children.length > 0">
+            <br />
+
+            <h3>
+                <img ng-hide="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: top;"
+                     src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
+                <img ng-show="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: top;"
+                     src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
+                Children ({{node.children.length}})
+            </h3>
+            <ul ng-show="displayChildren" style="list-style: none;">
+                <li ng-repeat="child in node.children">
+                    <img ng-hide="child.isNode" style="vertical-align: top;"
+                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/file.gif"/>
+                    <img ng-show="child.isNode" style="vertical-align: top;"
+                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/folder.gif"/>
+                    <a href='#' ng-click="selectNodeFromDetails(child);">
+                        {{ child.name | limitTo:21 }}{{child.name.length > 21 ? '...' : ''}}
+                        <span ng-show="!child.isNode">({{child.footprintMetricValue}}/{{child.heightMetricValue}})</span>
+                    </a>
                 </li>
             </ul>
         </div>
