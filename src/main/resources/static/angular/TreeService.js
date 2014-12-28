@@ -67,6 +67,26 @@ softVis3dAngular.factory('treeService', [ function(){
             var showIds = service.privateGetAllSceneElementsRecursive(node);
 
             return showIds;
+        },
+
+        getInboundEdges : function(node) {
+            var result = [];
+            if (node.parentInfo) {
+                var parent = service.searchTree(node.parentInfo.id);
+
+                for (var i = 0; i < parent.children.length; i++) {
+                    var child = parent.children[i];
+                    for (var j = 0; j < child.edges.length; j++) {
+                        var edge = child.edges[j];
+                        console.log(edge);
+                        if (edge.destinationId === node.id) {
+                            result.push(edge);
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
 
     };

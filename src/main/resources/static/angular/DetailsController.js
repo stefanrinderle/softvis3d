@@ -6,26 +6,6 @@
  * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
  * permission of Stefan Rinderle.
  */
-softVis3dAngular.filter('inDisplay', function() {
-    return function(nodeName) {
-        if (nodeName.indexOf("elevatorNode_") > -1) {
-            return "IN"
-        } else {
-            return nodeName;
-        }
-    };
-});
-
-softVis3dAngular.filter('outDisplay', function() {
-    return function(nodeName) {
-        if (nodeName.indexOf("elevatorNode_") > -1) {
-            return "OUT"
-        } else {
-            return nodeName;
-        }
-    };
-});
-
 softVis3dAngular.controller('DetailsController',
     ['$rootScope', '$scope', 'treeService', 'sceneObjectsService',
         function ($rootScope, $scope, treeService, sceneObjectsService) {
@@ -33,13 +13,15 @@ softVis3dAngular.controller('DetailsController',
             $scope.node = null;
             $scope.displayChildren = false;
 
-            $scope.edges = [];
+            $scope.inEdges = [];
+            $scope.outEdges = [];
             $scope.displayEdges = false;
 
             $scope.showDetails = function (snapshotId) {
                 $scope.node = treeService.searchTree(snapshotId);
 
-                $scope.edges = [];
+                $scope.outEdges = [];
+                // outbound dependencies
                 for (var index = 0; index < $scope.node.edges.length; index++) {
                     var sourceEdge = $scope.node.edges[index];
                     var targetEdge = {};
@@ -54,7 +36,27 @@ softVis3dAngular.controller('DetailsController',
                             treeService.getDependencyForId(targetEdge.includingDependencies[j].id);
                     }
 
-                    $scope.edges.push(targetEdge);
+                    $scope.outEdges.push(targetEdge);
+                }
+
+                $scope.inEdges = [];
+                // inbound dependencies
+                var inboundEdges = treeService.getInboundEdges($scope.node);
+                for (var index = 0; index < inboundEdges.length; index++) {
+                    var sourceEdge = inboundEdges[index];
+                    var targetEdge = {};
+                    targetEdge.id = sourceEdge.id;
+                    targetEdge.sourceName = sourceEdge.sourceName;
+                    targetEdge.destinationName = sourceEdge.destinationName;
+                    // copy including dependencies
+                    targetEdge.includingDependencies = sourceEdge.includingDependencies.slice();
+
+                    for(var j = 0; j < targetEdge.includingDependencies.length; j++) {
+                        targetEdge.includingDependencies[j].displayValue =
+                            treeService.getDependencyForId(targetEdge.includingDependencies[j].id);
+                    }
+
+                    $scope.inEdges.push(targetEdge);
                 }
             };
 
@@ -103,3 +105,23 @@ softVis3dAngular.controller('DetailsController',
         }
     ]
 );
+
+softVis3dAngular.filter('inDisplay', function() {
+    return function(nodeName) {
+        if (nodeName.indexOf("elevatorNode_") > -1) {
+            return "From parent layer"
+        } else {
+            return nodeName;
+        }
+    };
+});
+
+softVis3dAngular.filter('outDisplay', function() {
+    return function(nodeName) {
+        if (nodeName.indexOf("elevatorNode_") > -1) {
+            return "To parent layer"
+        } else {
+            return nodeName;
+        }
+    };
+});

@@ -168,17 +168,31 @@
             </ul>
         </div>
 
-        <div ng-if="edges.length > 0">
+        <div ng-if="(inEdges.length + outEdges.length) > 0">
             <br />
             <h2>
                 <img ng-hide="displayEdges" ng-click="triggerDisplayEdges();" style="vertical-align: top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
                 <img ng-show="displayEdges" ng-click="triggerDisplayEdges();" style="vertical-align: top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
-                Dependencies ({{edges.length}})
+                Dependencies ({{inEdges.length + outEdges.length}})
             </h2>
             <ul ng-show="displayEdges" style="list-style: none;">
-                <li ng-repeat="edge in edges">
+                Inbound
+                <li ng-repeat="edge in inEdges">
+                    <img ng-hide="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
+                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
+                    <img ng-show="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
+                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
+                    {{edge.sourceName | inDisplay}} -> ({{edge.includingDependencies.length}})
+                    <ul ng-show="edge.displayDetails" style="list-style: circle;">
+                        <li ng-repeat="dependency in edge.includingDependencies">
+                            {{dependency.displayValue}}
+                        </li>
+                    </ul>
+                </li>
+                Outbound
+                <li ng-repeat="edge in outEdges">
                     <img ng-hide="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
                     <img ng-show="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"

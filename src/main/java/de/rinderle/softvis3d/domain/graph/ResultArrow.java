@@ -8,9 +8,10 @@
  */
 package de.rinderle.softvis3d.domain.graph;
 
-import att.grappa.*;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
-import de.rinderle.softvis3d.domain.tree.TreeNodeType;
+import att.grappa.Edge;
+import att.grappa.GrappaConstants;
+import att.grappa.GrappaLine;
+import att.grappa.GrappaPoint;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,24 +42,26 @@ public class ResultArrow extends BaseResultObject {
   }
 
   private HexaColor calculateColor(final Edge edge) {
-    final TreeNodeType typeHead = transformNodeType(edge.getHead());
-    final TreeNodeType typeTail = transformNodeType(edge.getTail());
+//    final TreeNodeType typeHead = transformNodeType(edge.getHead());
+//    final TreeNodeType typeTail = transformNodeType(edge.getTail());
 
-    if (TreeNodeType.DEPENDENCY_GENERATED.equals(typeTail)) {
-      // BLUE
-      return new HexaColor(0, 0, 255);
-    } else if (TreeNodeType.DEPENDENCY_GENERATED.equals(typeHead)) {
-      // RED
-      return new HexaColor(255, 0, 0);
-    } else {
-      return SoftVis3DConstants.BUILDING_COLOR;
-    }
+//    if (TreeNodeType.DEPENDENCY_GENERATED.equals(typeTail)) {
+//      // BLUE
+//      return new HexaColor(0, 0, 255);
+//    } else if (TreeNodeType.DEPENDENCY_GENERATED.equals(typeHead)) {
+//      // RED
+//      return new HexaColor(255, 0, 0);
+//    } else {
+//      return SoftVis3DConstants.BUILDING_COLOR;
+//    }
+    // BLUE
+    return new HexaColor(0, 0, 255);
   }
 
-  private TreeNodeType transformNodeType(final Node node) {
-    String typeString = node.getAttributeValue("type").toString();
-    return TreeNodeType.valueOf(typeString);
-  }
+//  private TreeNodeType transformNodeType(final Node node) {
+//    String typeString = node.getAttributeValue("type").toString();
+//    return TreeNodeType.valueOf(typeString);
+//  }
 
   private void transformEdgeLine(Edge edge) {
     GrappaLine line = (GrappaLine) edge.getAttributeValue(GrappaConstants.POS_ATTR);
