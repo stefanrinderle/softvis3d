@@ -21,19 +21,19 @@ softVis3dAngular.controller('DetailsController',
             $scope.edgeIncludingEdges = null;
             $scope.displayEdgeIncludingEdges = false;
 
-            $scope.showDetails = function (softVis3dId) {
-                $scope.node = treeService.searchTreeNode(softVis3dId);
-
-                if ($scope.node != null) {
-                    $scope.privateShowNodeEdgeDetails($scope.node);
-                    $scope.edge = null;
-                    $scope.edgeIncludingEdges = null;
-                    $scope.displayEdgeIncludingEdges = false;
-                } else {
+            $scope.showDetails = function (softVis3dId, type) {
+                if (type == "dependency") {
+                    $scope.node = null;
                     $scope.edge = treeService.searchEdge(softVis3dId)
                     $scope.privateShowEdgeEdgeDetails($scope.edge);
                     $scope.inEdges = [];
                     $scope.outEdges = [];
+                } else {
+                    $scope.node = treeService.searchTreeNode(softVis3dId);
+                    $scope.privateShowNodeEdgeDetails($scope.node);
+                    $scope.edge = null;
+                    $scope.edgeIncludingEdges = null;
+                    $scope.displayEdgeIncludingEdges = false;
                 }
             };
 
@@ -91,19 +91,47 @@ softVis3dAngular.controller('DetailsController',
             };
 
             $scope.selectAllDependentDependencies = function (edge) {
-                var edgeIds = treeService.getAllDependentEdgeIds(edge.includingDependencies);
-                sceneObjectsService.selectSceneObjects(edgeIds);
+                var clearedIncludingDependencyIds = [];
+                for (var index = 0; index < edge.includingDependencies.length; index++) {
+                    clearedIncludingDependencyIds.push(edge.includingDependencies[index].id);
+                }
+
+                $scope.selectAllDependentDependenciesByIds(clearedIncludingDependencyIds);
             };
 
-            $rootScope.$on('objectSelected', function(event, id) {
-                $scope.showDetails(id);
+            $scope.selectAllDependentDependenciesById = function (dependencyId) {
+                var ids = [];
+                ids.push(dependencyId);
+                $scope.selectAllDependentDependenciesByIds(ids);
+            };
+
+            $scope.selectAllDependentDependenciesByIds = function (includingDependencyIds) {
+                var edgeIds = treeService.getAllDependentEdgeIds(includingDependencyIds);
+                sceneObjectsService.selectSceneEdgeObjects(edgeIds);
+            };
+
+            $rootScope.$on('objectSelected', function(event, id, type) {
+                if (type === "dependency") {
+                    var edgeIds = [];
+                    edgeIds.push(id);
+                    sceneObjectsService.selectSceneEdgeObjects(edgeIds);
+                } else {
+                    sceneObjectsService.selectSceneTreeObject(id);
+                }
+
+                $scope.showDetails(id, type);
             });
 
-            $scope.selectSceneObjectFromDetails = function (objectId) {
-                var objects = [];
-                objects.push(objectId);
-                sceneObjectsService.selectSceneObjects(objects);
-                $scope.showDetails(objectId);
+            $scope.selectSceneObjectFromDetails = function (objectId, type) {
+                if (type === "dependency") {
+                    var edgeIds = [];
+                    edgeIds.push(objectId);
+                    sceneObjectsService.selectSceneEdgeObjects(edgeIds);
+                } else {
+                    sceneObjectsService.selectSceneTreeObject(objectId);
+                }
+
+                $scope.showDetails(objectId, type);
             };
 
             $scope.showAllSceneElements = function () {

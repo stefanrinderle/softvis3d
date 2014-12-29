@@ -11,7 +11,8 @@ softVis3dAngular.factory('sceneObjectsService',
         var sceneObjectsServiceObjects = [];
         var objectsInView = [];
 
-        var selectedObjects = [];
+        var selectedTreeObjects = [];
+        var selectedEdgeObjects = [];
 
         var containerWidthLocal;
         var containerHeightLocal;
@@ -106,13 +107,33 @@ softVis3dAngular.factory('sceneObjectsService',
                 objectsInView = [];
             },
 
-            selectSceneObjects: function (ids) {
+            selectSceneTreeObject: function (id) {
                 // reset former selected objects
-                for (var index = 0; index < selectedObjects.length; index++) {
-                    selectedObjects[index].object.material.color.setHex(selectedObjects[index].color);
+                for (var index = 0; index < selectedTreeObjects.length; index++) {
+                    selectedTreeObjects[index].object.material.color.setHex(selectedTreeObjects[index].color);
                 }
 
-                selectedObjects = [];
+                selectedTreeObjects = [];
+
+                for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
+                    if (id === sceneObjectsServiceObjects[index].softVis3DId) {
+                        var selectedObjectInformation = {
+                            "object" : sceneObjectsServiceObjects[index],
+                            "color" : sceneObjectsServiceObjects[index].material.color.getHex()
+                        };
+                        selectedTreeObjects.push(selectedObjectInformation);
+                        sceneObjectsServiceObjects[index].material.color.setHex(0xFFBF00);
+                    }
+                }
+            },
+
+            selectSceneEdgeObjects: function (ids) {
+                // reset former selected objects
+                for (var index = 0; index < selectedEdgeObjects.length; index++) {
+                    selectedEdgeObjects[index].object.material.color.setHex(selectedEdgeObjects[index].color);
+                }
+
+                selectedEdgeObjects = [];
 
                 for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
                     if (service.contains(ids, sceneObjectsServiceObjects[index].softVis3DId)) {
@@ -120,15 +141,8 @@ softVis3dAngular.factory('sceneObjectsService',
                             "object" : sceneObjectsServiceObjects[index],
                             "color" : sceneObjectsServiceObjects[index].material.color.getHex()
                         };
-                        selectedObjects.push(selectedObjectInformation);
-
-                        console.log(sceneObjectsServiceObjects[index].softVis3DId);
-                        console.log(sceneObjectsServiceObjects[index].type);
-                        if (sceneObjectsServiceObjects[index].type == "dependency") {
-                            sceneObjectsServiceObjects[index].material.color.setHex(0xFF0000);
-                        } else {
-                            sceneObjectsServiceObjects[index].material.color.setHex(0xFFBF00);
-                        }
+                        selectedEdgeObjects.push(selectedObjectInformation);
+                        sceneObjectsServiceObjects[index].material.color.setHex(0xFF0000);
                     }
                 }
             },
@@ -145,9 +159,6 @@ softVis3dAngular.factory('sceneObjectsService',
 
                 if (intersects.length > 0) {
                     var intersectedObject = intersects[ 0 ].object;
-                    var objects = [];
-                    objects.push(intersectedObject.softVis3DId);
-                    this.selectSceneObjects(objects);
 
                     return intersectedObject;
                 } else {

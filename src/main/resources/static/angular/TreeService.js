@@ -127,13 +127,8 @@ softVis3dAngular.factory('treeService', [ function(){
             return result;
         },
 
-        getAllDependentEdgeIds : function(includingDependencies) {
-            var clearedIncludingDependencies = [];
-            for (var index = 0; index < includingDependencies.length; index++) {
-                clearedIncludingDependencies.push(includingDependencies[index].id);
-            }
-
-            var edgeIds = service.privateGetAllDependentEdgeIds(treeServiceTree, clearedIncludingDependencies);
+        getAllDependentEdgeIds : function(includingDependencyIds) {
+            var edgeIds = service.privateGetAllDependentEdgeIds(treeServiceTree, includingDependencyIds);
 
             // remove duplicates
             edgeIds.sort();
@@ -165,7 +160,6 @@ softVis3dAngular.factory('treeService', [ function(){
                 var edge = node.edges[j];
 
                 for (var k = 0; k < edge.includingDependencies.length; k++) {
-                    console.log(edge.includingDependencies[k].id);
                     if (service.contains(includingDependencies, edge.includingDependencies[k].id)) {
                         edgeIds.push(edge.id);
                         break;

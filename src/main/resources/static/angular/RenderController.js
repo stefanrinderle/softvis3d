@@ -37,7 +37,7 @@ softVis3dAngular.controller('RenderController',
                 backendService.getTreeForSnapshotView(snapshotId, footprintMetricId, heightMetricId, viewType)
                     .then(function (response) {
                         treeService.setTree(response);
-                        $rootScope.$broadcast('objectSelected', snapshotId);
+                        $rootScope.$broadcast('objectSelected', snapshotId, "node");
                     });
             };
 
@@ -70,7 +70,7 @@ softVis3dAngular.controller('RenderController',
                     var intersectedObject = sceneObjectsService.intersectClickEvent(event);
 
                     if (intersectedObject != null) {
-                        $rootScope.$broadcast('objectSelected', intersectedObject.softVis3DId);
+                        $rootScope.$broadcast('objectSelected', intersectedObject.softVis3DId, intersectedObject.type);
                     }
                 }
             };

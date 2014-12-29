@@ -147,9 +147,9 @@
             </h2>
             <br />
             <button type='button' ng-click='selectAllDependentDependencies(edge);'>
-                Select all depending dependencies
+                Select all depending
             </button>
-            <br />
+            <br /><br />
         </div>
 
         <!-- NODE INCLUDING EDGE DETAILS -->
@@ -170,12 +170,14 @@
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
                     <img ng-show="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
-                    <a href='#' ng-click="selectSceneObjectFromDetails(edge.id);">
+                    <a href='#' ng-click="selectSceneObjectFromDetails(edge.id, 'dependency');">
                         {{edge.sourceName | inDisplay}} -> ({{edge.includingDependencies.length}})
                     </a>
                     <ul ng-show="edge.displayDetails" style="list-style: circle;">
                         <li ng-repeat="dependency in edge.includingDependencies" ng-class="{listEven: $even}">
-                            {{dependency.displayValue}}
+                            <a href='#' ng-click="selectAllDependentDependenciesById(dependency.id);">
+                                {{dependency.displayValue}}
+                            </a>
                         </li>
                     </ul>
                 </li>
@@ -185,12 +187,14 @@
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
                     <img ng-show="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
-                    <a href='#' ng-click="selectSceneObjectFromDetails(edge.id);">
+                    <a href='#' ng-click="selectSceneObjectFromDetails(edge.id, 'dependency');">
                         -> {{edge.destinationName | outDisplay}} ({{edge.includingDependencies.length}})
                     </a>
                     <ul ng-show="edge.displayDetails" style="list-style: circle;">
                         <li ng-repeat="dependency in edge.includingDependencies" ng-class="{listEven: $even}">
-                            {{dependency.displayValue}}
+                            <a href='#' ng-click="selectAllDependentDependenciesById(dependency.id);">
+                                {{dependency.displayValue}}
+                            </a>
                         </li>
                     </ul>
                 </li>
@@ -208,7 +212,9 @@
             </h2>
             <ul ng-show="displayEdgeIncludingEdges" style="list-style: circle;">
                 <li ng-repeat="dependency in edgeIncludingEdges" ng-class="{listEven: $even}">
-                    {{dependency.displayValue}}
+                    <a href='#' ng-click="selectAllDependentDependenciesById(dependency.id);">
+                        {{dependency.displayValue}}
+                    </a>
                 </li>
             </ul>
         </div>
@@ -221,7 +227,7 @@
             <br />
             <h3>Parent</h3>
             <p>
-                <a href='#' ng-click="selectSceneObjectFromDetails(node.parentInfo.id);">
+                <a href='#' ng-click="selectSceneObjectFromDetails(node.parentInfo.id, node.parentInfo.type);">
                     {{node.parentInfo.name}}
                 </a>
             </p>
@@ -243,7 +249,7 @@
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/file.gif"/>
                     <img ng-show="child.isNode" style="vertical-align: top;"
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/folder.gif"/>
-                    <a href='#' ng-click="selectSceneObjectFromDetails(child.id);">
+                    <a href='#' ng-click="selectSceneObjectFromDetails(child.id, child.type);">
                         {{ child.name | limitTo:21 }}{{child.name.length > 21 ? '...' : ''}}
                         <span ng-show="!child.isNode">({{child.footprintMetricValue}}/{{child.heightMetricValue}})</span>
                     </a>
@@ -254,11 +260,11 @@
         <!-- EDGE NAVIGATION -->
         <div ng-if="edge">
             <h3>Source</h3>
-            <a href='#' ng-click="selectSceneObjectFromDetails(edge.sourceId);">
+            <a href='#' ng-click="selectSceneObjectFromDetails(edge.sourceId, 'node');">
                 {{ edge.sourceName }}
             </a>
             <h3>Destination</h3>
-            <a href='#' ng-click="selectSceneObjectFromDetails(edge.destinationId);">
+            <a href='#' ng-click="selectSceneObjectFromDetails(edge.destinationId, 'node');">
                 {{ edge.destinationName }}
             </a>
         </div>
@@ -279,11 +285,6 @@
 </div>
 
 <script type="text/javascript">
-
-
-
-
-
 
 window.onload = function () {
     <%
