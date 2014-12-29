@@ -15,7 +15,6 @@
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/Detector.js"></script>
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/stats.min.js"></script>
 
-<!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script-->
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/angular.min.js"></script>
 
 <!--
@@ -26,21 +25,20 @@
 <link rel="stylesheet" type="text/css" href="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/css/main.css">
 
 
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/SoftVis3dAngular.js"></script>
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/BackendService.js"></script>
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/CreateObjectsService.js"></script>
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/DetailsController.js"></script>
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/Directives.js"></script>
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/RenderController.js"></script>
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/SceneObjectsService.js"></script>
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/TreeService.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/SoftVis3dAngular.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/BackendService.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/CreateObjectsService.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/DetailsController.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/Directives.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/RenderController.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/SceneObjectsService.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/TreeService.js"></script>
 
 <%
    # get extension class and start layout
    softVis3D = Api::Utils.java_facade.
            getComponentByClassname('softVis3D', 'de.rinderle.softvis3d.SoftVis3DExtension')
 %>
-
 <div ng-app="softVis3dAngular" resize>
 
     <div id="metricForm" style="height: 30px;">
