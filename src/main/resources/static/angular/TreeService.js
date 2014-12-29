@@ -39,7 +39,7 @@ softVis3dAngular.factory('treeService', [ function(){
         },
 
         searchEdgeInElement : function(element, id) {
-            var result;
+            var result = null;
 
             for (var i = 0; result == null && i < element.edges.length; i++) {
                 if (element.edges[i].id === id) {
@@ -68,32 +68,26 @@ softVis3dAngular.factory('treeService', [ function(){
             var node = service.searchTreeNode(id);
             var showIds = service.privateGetAllSceneElementsRecursive(node);
 
-            showIds = showIds.concat(service.privateGetInboundDependencyIds(node));
+            /**
+             * Remove inbound edges from node and showIds.
+             */
+            for (var index = 0; index < node.edges.length; index++) {
+                var indexInArray = showIds.indexOf(node.edges[index].id);
+                if (indexInArray > -1) {
+                    showIds.splice(indexInArray, 1);
+                }
+            }
 
             return showIds;
         },
 
-        privateGetInboundDependencyIds : function(node) {
-            var result = [];
-            if (node.parentInfo) {
-                var parent = service.searchTreeNode(node.parentInfo.id);
-
-                // children nodes
-                for (var i = 0; i < parent.children.length; i++) {
-                    var child = parent.children[i];
-
-                    // edges
-                    for (var j = 0; j < child.edges.length; j++) {
-                        console.log("node.edges[j].destinationId " + child.edges[j].destinationId);
-                        console.log("node.id " + node.id);
-                        if (child.edges[j].destinationId === node.id) {
-                            result.push(child.edges[j].id);
-                        }
-                    }
+        contains : function (array, obj) {
+            for (var i = 0; i < array.length; i++) {
+                if (array[i] === obj) {
+                    return true;
                 }
             }
-
-            return result;
+            return false;
         },
 
         privateGetAllSceneElementsRecursive: function (node) {
@@ -131,6 +125,55 @@ softVis3dAngular.factory('treeService', [ function(){
             }
 
             return result;
+        },
+
+        getAllDependentEdgeIds : function(includingDependencies) {
+            var clearedIncludingDependencies = [];
+            for (var index = 0; index < includingDependencies.length; index++) {
+                clearedIncludingDependencies.push(includingDependencies[index].id);
+            }
+
+            var edgeIds = service.privateGetAllDependentEdgeIds(treeServiceTree, clearedIncludingDependencies);
+
+            // remove duplicates
+            edgeIds.sort();
+            var lastId = "";
+
+            for (var index = 0; index < edgeIds.length; index++) {
+                if (lastId == edgeIds[index]) {
+                    edgeIds.splice(index, 1);
+                    index--;
+                } else {
+                    lastId = edgeIds[index];
+                }
+            }
+
+            return edgeIds;
+        },
+
+        privateGetAllDependentEdgeIds : function(node, includingDependencies) {
+            var edgeIds = [];
+
+            // children nodes
+            for (var i = 0; i < node.children.length; i++) {
+                var result = service.privateGetAllDependentEdgeIds(node.children[i], includingDependencies);
+                edgeIds = edgeIds.concat(result);
+            }
+
+            // edges
+            for (var j = 0; j < node.edges.length; j++) {
+                var edge = node.edges[j];
+
+                for (var k = 0; k < edge.includingDependencies.length; k++) {
+                    console.log(edge.includingDependencies[k].id);
+                    if (service.contains(includingDependencies, edge.includingDependencies[k].id)) {
+                        edgeIds.push(edge.id);
+                        break;
+                    }
+                }
+            }
+
+            return edgeIds;
         }
 
     };

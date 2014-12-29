@@ -91,7 +91,8 @@ softVis3dAngular.controller('DetailsController',
             };
 
             $scope.selectAllDependentDependencies = function (edge) {
-                // TODO
+                var edgeIds = treeService.getAllDependentEdgeIds(edge.includingDependencies);
+                sceneObjectsService.selectSceneObjects(edgeIds);
             };
 
             $rootScope.$on('objectSelected', function(event, id) {
@@ -99,7 +100,9 @@ softVis3dAngular.controller('DetailsController',
             });
 
             $scope.selectSceneObjectFromDetails = function (objectId) {
-                sceneObjectsService.selectSceneObjects(objectId);
+                var objects = [];
+                objects.push(objectId);
+                sceneObjectsService.selectSceneObjects(objects);
                 $scope.showDetails(objectId);
             };
 
@@ -110,6 +113,7 @@ softVis3dAngular.controller('DetailsController',
             $scope.hideAllSceneElementsExceptIdTree = function (id) {
                 var showIds = treeService.getAllSceneElementsRecursive(id);
                 sceneObjectsService.hideAllSceneElementsExceptIds(showIds);
+                sceneObjectsService.removeObject(id, "leaf");
             };
 
             $scope.triggerDisplayChildren = function () {

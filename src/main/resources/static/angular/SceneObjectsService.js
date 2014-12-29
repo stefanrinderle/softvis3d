@@ -21,13 +21,6 @@ softVis3dAngular.factory('sceneObjectsService',
         var projector = null;
         var renderer = null;
 
-        var emptyObjectMaterial = new THREE.MeshBasicMaterial({ color: 0xFFBF00, opacity: 0.5 });
-        var emptyObjectGeometry = new THREE.BoxGeometry(0, 0, 0);
-        var emptyObject = new THREE.Mesh(emptyObjectGeometry, emptyObjectMaterial);
-        emptyObject.position.x = 0;
-        emptyObject.position.y = 0;
-        emptyObject.position.z = 0;
-
         var service = {
 
             initScene: function () {
@@ -66,8 +59,8 @@ softVis3dAngular.factory('sceneObjectsService',
                 for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
                     if (objectSoftVis3dId == sceneObjectsServiceObjects[index].softVis3DId
                         && type == sceneObjectsServiceObjects[index].type) {
-                        objectsInView[index] = emptyObject;
                         scene.remove(sceneObjectsServiceObjects[index]);
+                        objectsInView.slice(index, 1);
                     }
                 }
             },
@@ -96,7 +89,7 @@ softVis3dAngular.factory('sceneObjectsService',
                 }
             },
 
-            contains : function contains(a, obj) {
+            contains : function (a, obj) {
                 for (var i = 0; i < a.length; i++) {
                     if (a[i] === obj) {
                         return true;
@@ -113,7 +106,7 @@ softVis3dAngular.factory('sceneObjectsService',
                 objectsInView = [];
             },
 
-            selectSceneObjects: function (id) {
+            selectSceneObjects: function (ids) {
                 // reset former selected objects
                 for (var index = 0; index < selectedObjects.length; index++) {
                     selectedObjects[index].object.material.color.setHex(selectedObjects[index].color);
@@ -122,14 +115,20 @@ softVis3dAngular.factory('sceneObjectsService',
                 selectedObjects = [];
 
                 for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
-                    if (id == sceneObjectsServiceObjects[index].softVis3DId) {
+                    if (service.contains(ids, sceneObjectsServiceObjects[index].softVis3DId)) {
                         var selectedObjectInformation = {
                             "object" : sceneObjectsServiceObjects[index],
                             "color" : sceneObjectsServiceObjects[index].material.color.getHex()
                         };
                         selectedObjects.push(selectedObjectInformation);
 
-                        sceneObjectsServiceObjects[index].material.color.setHex(0xFFBF00);
+                        console.log(sceneObjectsServiceObjects[index].softVis3DId);
+                        console.log(sceneObjectsServiceObjects[index].type);
+                        if (sceneObjectsServiceObjects[index].type == "dependency") {
+                            sceneObjectsServiceObjects[index].material.color.setHex(0xFF0000);
+                        } else {
+                            sceneObjectsServiceObjects[index].material.color.setHex(0xFFBF00);
+                        }
                     }
                 }
             },
@@ -146,7 +145,9 @@ softVis3dAngular.factory('sceneObjectsService',
 
                 if (intersects.length > 0) {
                     var intersectedObject = intersects[ 0 ].object;
-                    this.selectSceneObjects(intersectedObject.softVis3DId);
+                    var objects = [];
+                    objects.push(intersectedObject.softVis3DId);
+                    this.selectSceneObjects(objects);
 
                     return intersectedObject;
                 } else {
