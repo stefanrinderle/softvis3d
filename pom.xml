@@ -243,7 +243,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--plugin>
+            <plugin>
                 <groupId>com.samaxes.maven</groupId>
                 <artifactId>minify-maven-plugin</artifactId>
                 <version>1.7.4</version>
@@ -256,8 +256,14 @@
                             <webappTargetDir>target/classes</webappTargetDir>
                             <jsSourceDir>static/js</jsSourceDir>
                             <jsSourceFiles>
-                                <jsSourceFile>ThreeScene.js</jsSourceFile>
-                                <jsSourceFile>CreateElements.js</jsSourceFile>
+                                <jsSourceFile>SoftVis3dAngular.js</jsSourceFile>
+                                <jsSourceFile>BackendService.js</jsSourceFile>
+                                <jsSourceFile>CreateObjectsService.js</jsSourceFile>
+                                <jsSourceFile>DetailsController.js</jsSourceFile>
+                                <jsSourceFile>Directives.js</jsSourceFile>
+                                <jsSourceFile>RenderController.js</jsSourceFile>
+                                <jsSourceFile>SceneObjectsService.js</jsSourceFile>
+                                <jsSourceFile>TreeService.js</jsSourceFile>
                             </jsSourceFiles>
                             <jsFinalFile>softvis3d.js</jsFinalFile>
                             <jsEngine>CLOSURE</jsEngine>
@@ -267,7 +273,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>-->
+            </plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -308,9 +314,15 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <delete file="target/classes/static/js/BackendApi.js"/>
-                                        <delete file="target/classes/static/js/ThreeScene.js"/>
-                                        <delete file="target/classes/static/js/TreeServices.js"/>
+                                        <!-- TODO update and activate profile in jenkins on prod build. -->
+                                        <delete file="target/classes/static/js/SoftVis3dAngular.js"/>
+                                        <delete file="target/classes/static/js/BackendService.js"/>
+                                        <delete file="target/classes/static/js/CreateObjectsService.js"/>
+                                        <delete file="target/classes/static/js/DetailsController.js"/>
+                                        <delete file="target/classes/static/js/Directives.js"/>
+                                        <delete file="target/classes/static/js/RenderController.js"/>
+                                        <delete file="target/classes/static/js/SceneObjectsService.js"/>
+                                        <delete file="target/classes/static/js/TreeService.js"/>
                                     </target>
                                 </configuration>
                             </execution>
