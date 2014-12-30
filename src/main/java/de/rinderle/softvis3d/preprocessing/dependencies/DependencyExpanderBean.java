@@ -10,45 +10,57 @@ package de.rinderle.softvis3d.preprocessing.dependencies;
 
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
 import de.rinderle.softvis3d.domain.tree.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
 import java.util.List;
 
 public class DependencyExpanderBean implements DependencyExpander {
 
-  public static final String INTERFACE_PREFIX = "interface";
+  private static final Logger LOGGER = LoggerFactory
+          .getLogger(DependencyExpanderBean.class);
+
   private static final String DEP_PATH_EDGE_PREFIX = "depPath";
 
   private int generatedIdSequence = Integer.MAX_VALUE - 1000000;
 
+  public static final String INTERFACE_PREFIX = "interface";
+
   public void execute(final RootTreeNode treeRootNode, final List<SonarDependency> dependencies) {
     for (final SonarDependency dependency : dependencies) {
-      final Integer sourceId = dependency.getFromSnapshotId();
-      final Integer destinationId = dependency.getToSnapshotId();
-
-      // search for the common ancestor
-      final TreeNode source = treeRootNode.findNode(sourceId);
-      final TreeNode destination = treeRootNode.findNode(destinationId);
-
-      final DependencyType dependencyType = this.getDependencyType(source, destination);
-
-      if (dependencyType.equals(DependencyType.INPUT_FLAT)) {
-        this.handleNewFlatDepEdge(source, destination, dependency.getId());
-      } else if (dependencyType.equals(DependencyType.INPUT_TREE)) {
-        this.createDependencyPath(source, destination, dependency.getId());
-      } else {
-        // do nothing. That's on dependency type dir. Analyse and fix.
-      }
-
-      Dependency treeDependency = new Dependency(dependency.getId(), sourceId,
-              source.getName(), destinationId, destination.getName());
+      final Dependency treeDependency = processSourceDependency(treeRootNode, dependency);
       treeRootNode.addDependency(treeDependency);
     }
+  }
+
+  private Dependency processSourceDependency(RootTreeNode treeRootNode, SonarDependency sonarDependency) {
+    final Integer sourceId = sonarDependency.getFromSnapshotId();
+    final Integer destinationId = sonarDependency.getToSnapshotId();
+
+    // search for the common ancestor
+    final TreeNode source = treeRootNode.findNode(sourceId);
+    final TreeNode destination = treeRootNode.findNode(destinationId);
+
+    final DependencyType dependencyType = this.getDependencyType(source, destination);
+
+    if (dependencyType.equals(DependencyType.INPUT_FLAT)) {
+      this.handleNewFlatDepEdge(source, destination, sonarDependency.getId());
+    } else if (dependencyType.equals(DependencyType.INPUT_TREE)) {
+      this.createDependencyPath(source, destination, sonarDependency.getId());
+    } else {
+      LOGGER.warn("That's on dependency type dir. Analyse and fix.");
+      // do nothing. That's on dependency type dir. Analyse and fix.
+    }
+
+    return new Dependency(sonarDependency.getId(), sourceId,
+            source.getName(), destinationId, destination.getName());
   }
 
   private DependencyType getDependencyType(final TreeNode from, final TreeNode to) {
     // TODO check this - should be if a dependency to a dir was given.
     if (from == null || to == null) {
+      LOGGER.warn("That's on dependency type dir. Analyse and fix.");
       return DependencyType.DIR;
     } else {
       final boolean hasSameParent = from.getParent().getId().equals(to.getParent().getId());
@@ -87,9 +99,9 @@ public class DependencyExpanderBean implements DependencyExpander {
   }
 
   private void handleNewFlatDepEdge(final TreeNode source, final TreeNode dest, final BigInteger dependencyId) {
-    final String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + source.getId();
+    final String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + dest.getId();
 
-    Edge edge;
+    final Edge edge;
     if (source.hasEdge(depEdgeLabel)) {
       edge = source.getEdge(depEdgeLabel);
       source.setEdge(edge);
@@ -102,13 +114,14 @@ public class DependencyExpanderBean implements DependencyExpander {
   }
 
   private void handleNewDepEdge(final TreeNode treeNode, final BigInteger dependencyId, final boolean isOut) {
-    final String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + treeNode.getId();
     final DependencyTreeNode depNode = this.getInterfaceNode(treeNode.getParent());
     depNode.increaseCounter();
 
     Edge edge;
+    final String depEdgeLabel;
     // always attach edge to source node
     if (isOut) {
+      depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + depNode.getId();
       // treeNode is source
       if (treeNode.hasEdge(depEdgeLabel)) {
         edge = treeNode.getEdge(depEdgeLabel);
@@ -119,6 +132,7 @@ public class DependencyExpanderBean implements DependencyExpander {
         treeNode.setEdge(edge);
       }
     } else {
+      depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + treeNode.getId();
       // interface node is source
       if (depNode.hasEdge(depEdgeLabel)) {
         edge = depNode.getEdge(depEdgeLabel);
