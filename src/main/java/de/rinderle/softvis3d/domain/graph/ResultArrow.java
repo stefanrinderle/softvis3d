@@ -12,6 +12,7 @@ import att.grappa.Edge;
 import att.grappa.GrappaConstants;
 import att.grappa.GrappaLine;
 import att.grappa.GrappaPoint;
+import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,8 @@ public class ResultArrow extends BaseResultObject {
   private final String tailBuildingId;
   private final double radius;
 
+  private final static HexaColor BLUE = new HexaColor(0, 0, 255);
+
   private List<Point3d> linePoints;
 
   public ResultArrow(Edge edge) {
@@ -38,30 +41,8 @@ public class ResultArrow extends BaseResultObject {
 
     transformEdgeLine(edge);
 
-    this.setColor(calculateColor(edge));
+    this.setColor(BLUE);
   }
-
-  private HexaColor calculateColor(final Edge edge) {
-//    final TreeNodeType typeHead = transformNodeType(edge.getHead());
-//    final TreeNodeType typeTail = transformNodeType(edge.getTail());
-
-//    if (TreeNodeType.DEPENDENCY_GENERATED.equals(typeTail)) {
-//      // BLUE
-//      return new HexaColor(0, 0, 255);
-//    } else if (TreeNodeType.DEPENDENCY_GENERATED.equals(typeHead)) {
-//      // RED
-//      return new HexaColor(255, 0, 0);
-//    } else {
-//      return SoftVis3DConstants.BUILDING_COLOR;
-//    }
-    // BLUE
-    return new HexaColor(0, 0, 255);
-  }
-
-//  private TreeNodeType transformNodeType(final Node node) {
-//    String typeString = node.getAttributeValue("type").toString();
-//    return TreeNodeType.valueOf(typeString);
-//  }
 
   private void transformEdgeLine(Edge edge) {
     GrappaLine line = (GrappaLine) edge.getAttributeValue(GrappaConstants.POS_ATTR);
@@ -76,7 +57,7 @@ public class ResultArrow extends BaseResultObject {
   }
 
   private double transformEdgeRadius(final Edge edge) {
-    final String radiusString = edge.getAttributeValue("edgeRadius").toString();
+    final String radiusString = edge.getAttributeValue(SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS).toString();
     return Double.valueOf(radiusString.substring(1));
   }
 

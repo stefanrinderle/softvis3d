@@ -51,7 +51,7 @@ softVis3dAngular.controller('DetailsController',
 
                     for(var j = 0; j < targetEdge.includingDependencies.length; j++) {
                         targetEdge.includingDependencies[j].displayValue =
-                            treeService.getDependencyForId(targetEdge.includingDependencies[j].id);
+                            treeService.getDependencyNameForId(targetEdge.includingDependencies[j].id);
                     }
 
                     $scope.outEdges.push(targetEdge);
@@ -71,7 +71,7 @@ softVis3dAngular.controller('DetailsController',
 
                     for(var j = 0; j < targetEdge.includingDependencies.length; j++) {
                         targetEdge.includingDependencies[j].displayValue =
-                            treeService.getDependencyForId(targetEdge.includingDependencies[j].id);
+                            treeService.getDependencyNameForId(targetEdge.includingDependencies[j].id);
                     }
 
                     $scope.inEdges.push(targetEdge);
@@ -84,7 +84,7 @@ softVis3dAngular.controller('DetailsController',
                 for(var j = 0; j < sourceEdge.includingDependencies.length; j++) {
                     var result = {};
                     result.id = sourceEdge.includingDependencies[j].id;
-                    result.displayValue = treeService.getDependencyForId(sourceEdge.includingDependencies[j].id);
+                    result.displayValue = treeService.getDependencyNameForId(sourceEdge.includingDependencies[j].id);
 
                     $scope.edgeIncludingEdges.push(result);
                 }

@@ -172,7 +172,7 @@
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
                     <img ng-show="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
-                    <a href='#' ng-click="selectSceneObjectFromDetails(edge.id, 'dependency');">
+                    <a href='#' ng-click="selectAllDependentDependencies(edge);">
                         {{edge.sourceName | inDisplay}} -> ({{edge.includingDependencies.length}})
                     </a>
                     <ul ng-show="edge.displayDetails" style="list-style: circle;">
@@ -189,7 +189,7 @@
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
                     <img ng-show="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
-                    <a href='#' ng-click="selectSceneObjectFromDetails(edge.id, 'dependency');">
+                    <a href='#' ng-click="selectAllDependentDependencies(edge);">
                         -> {{edge.destinationName | outDisplay}} ({{edge.includingDependencies.length}})
                     </a>
                     <ul ng-show="edge.displayDetails" style="list-style: circle;">
@@ -287,6 +287,7 @@
 </div>
 
 <script type="text/javascript">
+
 window.onload = function () {
     <%
     if !@snapshot.id.blank? && !params[:viewType].blank? &&

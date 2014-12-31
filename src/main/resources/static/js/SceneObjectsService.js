@@ -61,7 +61,13 @@ softVis3dAngular.factory('sceneObjectsService',
                     if (objectSoftVis3dId == sceneObjectsServiceObjects[index].softVis3DId
                         && type == sceneObjectsServiceObjects[index].type) {
                         scene.remove(sceneObjectsServiceObjects[index]);
-                        objectsInView.slice(index, 1);
+                    }
+                }
+
+                for (var k = 0; k < objectsInView.length; k++) {
+                    if (objectSoftVis3dId == objectsInView[k].softVis3DId
+                        && type == objectsInView[k].type) {
+                        objectsInView.splice(k, 1);
                     }
                 }
             },
@@ -158,9 +164,7 @@ softVis3dAngular.factory('sceneObjectsService',
                 var intersects = raycaster.intersectObjects(objectsInView);
 
                 if (intersects.length > 0) {
-                    var intersectedObject = intersects[ 0 ].object;
-
-                    return intersectedObject;
+                    return intersects[ 0 ].object;
                 } else {
                     return null;
                 }

@@ -70,10 +70,10 @@ public class DependencyExpanderTest {
   }
 
   /**
-   *     A(1)
-   *    /   \
+   * A(1)
+   * /   \
    * B(2)-->C(3)
-   *     -->
+   * -->
    */
   @Test
   public void testDependenciesSameFlatEdge() {
@@ -100,69 +100,50 @@ public class DependencyExpanderTest {
     assertTrue(treeNode3.getEdges().isEmpty());
   }
 
-  //
-//  /**
-//  * A(1)
-//  * / \
-//  * B(2) D(4)
-//  * / > \
-//  * / / \
-//  * C(3)--/ E(5)
-//  * ------->
-//  *
-//  **/
-//  @Test
-//  public void testMultipleDependencyEdges() {
-//  final List<SonarDependencyDTO> dependencies = new ArrayList<SonarDependencyDTO>();
-//
-//  final SonarDependencyDTO fromCtoD = this.createDependency(3, 4);
-//  dependencies.add(fromCtoD);
-//  final SonarDependencyDTO fromCtoE = this.createDependency(3, 5);
-//  dependencies.add(fromCtoE);
-//
-//  final TreeNode treeNode1 = this.createTreeNode(1, null, 0);
-//  final TreeNode treeNode2 = this.createTreeNode(2, treeNode1, 1);
-//  final TreeNode treeNode3 = this.createTreeNode(3, treeNode2, 2);
-//  final TreeNode treeNode4 = this.createTreeNode(4, treeNode1, 1);
-//  final TreeNode treeNode5 = this.createTreeNode(5, treeNode4, 2);
-//
-//  final TreeNode interfaceLeafNode2 = this.createInterfaceLeafNode(90, treeNode2);
-//  final TreeNode interfaceLeafNode4 = this.createInterfaceLeafNode(91, treeNode4);
-//
-//  this.underTest.execute(MAP_KEY, dependencies);
-//
-//  // dependency elevator edge start
-//  assertTrue(treeNode3.getArrows().containsKey("depPath_3"));
-//  assertTrue(treeNode3.getArrows().get("depPath_3").getIncludingDependenciesSize() == 2);
-//  // flat edge
-//  assertTrue(treeNode2.getArrows().containsKey("depPath_2"));
-//  assertTrue(treeNode2.getArrows().get("depPath_2").getIncludingDependenciesSize() == 2);
-//  // dependency elevator edge end
-//  assertTrue(interfaceLeafNode4.getArrows().containsKey("depPath_5"));
-//  assertTrue(interfaceLeafNode4.getArrows().get("depPath_5").getIncludingDependenciesSize() == 1);
-//
-//  assertTrue(treeNode5.getArrows().isEmpty());
-//  assertTrue(interfaceLeafNode2.getArrows().isEmpty());
-//  }
-//
+
+  /**
+   *       A(1)
+   *       / \
+   *     B(2) D(4)
+   *     /     \
+   *    /       \
+   * C(3) ----> E(5)
+   *
+   */
+  @Test
+  public void testMultipleDependencyEdges() {
+    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+
+    final SonarDependency fromCtoD = this.createDependency("1000", 3, 4);
+    dependencies.add(fromCtoD);
+    final SonarDependency fromCtoE = this.createDependency("1001", 3, 5);
+    dependencies.add(fromCtoE);
+
+    final RootTreeNode rootTreeNode = new RootTreeNode(1);
+    final TreeNode treeNode2 = this.createTreeNode(2, rootTreeNode, 1);
+    final TreeNode treeNode4 = this.createTreeNode(4, rootTreeNode, 1);
+
+    rootTreeNode.getChildren().put("2", treeNode2);
+    rootTreeNode.getChildren().put("3", treeNode4);
+
+    final TreeNode treeNode3 = this.createTreeNode(3, treeNode2, 2);
+    treeNode2.getChildren().put("2", treeNode3);
+    final TreeNode treeNode5 = this.createTreeNode(5, treeNode4, 2);
+    treeNode4.getChildren().put("2", treeNode5);
+
+    this.underTest.execute(rootTreeNode, dependencies);
+
+    // dependency elevator edge start
+    assertTrue(treeNode3.getEdges().size() == 1);
+    assertTrue(treeNode2.getEdges().size() == 1);
+    assertTrue(treeNode5.getEdges().isEmpty());
+  }
+
   private TreeNode createTreeNode(final int id, final TreeNode parent, final int depth) {
     final TreeNode result = new ValueTreeNode(id, parent, depth, TreeNodeType.TREE, id + "", 0, 0);
 
-//    when(this.treeService.findNode(MAP_KEY, id)).thenReturn(result);
-
     return result;
   }
-//
-//  // resourceTreeService.findInterfaceLeafNode(LayoutViewType.DEPENDENCY, projectId, intLeafLabel);
-//  private TreeNode createInterfaceLeafNode(final int id, final TreeNode parent) {
-//  final TreeNode result = new TreeNode(id, parent, 0, TreeNodeType.DEPENDENCY_GENERATED, id + "", 0, 0);
-//
-//  final String intLeafLabel = DependencyExpanderBean.INTERFACE_PREFIX + "_" + parent.getId();
-//  when(this.treeService.findInterfaceLeafNode(MAP_KEY, intLeafLabel))
-//  .thenReturn(result);
-//
-//  return result;
-//  }
 
   private SonarDependency createDependency(final String dependencyId, final int from, final int to) {
     final SonarDependency result = new SonarDependency();

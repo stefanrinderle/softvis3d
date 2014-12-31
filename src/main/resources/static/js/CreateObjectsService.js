@@ -84,7 +84,7 @@ softVis3dAngular.factory('createObjectsService',
                 },
 
                 createSpline: function (arrow) {
-                    var radius = 10 * (arrow.radius / 100);
+                    var radius = 1 + (10 * (arrow.radius / 100));
 
                     var vectorPointArray = [];
                     for (var i = 0; i < arrow.translatedPoints.length; i++) {
@@ -118,7 +118,7 @@ softVis3dAngular.factory('createObjectsService',
                         0, 0, 0, 1));
 
                     /* thickness is in percent at the moment */
-                    var radius = 10 * (arrow.radius / 100);
+                    var radius = 1 + (10 * (arrow.radius / 100));
 
                     // add head
                     /* cylinder: radiusAtTop, radiusAtBottom,

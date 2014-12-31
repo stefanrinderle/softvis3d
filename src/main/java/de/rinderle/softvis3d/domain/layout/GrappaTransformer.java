@@ -51,8 +51,9 @@ public class GrappaTransformer {
     if (sourceNode != null && destNode != null) {
       final att.grappa.Edge result = new att.grappa.Edge(inputGraph, sourceNode, destNode);
       final double edgeRadius = this.formatter.calcEdgeRadius(edge.getIncludingDependenciesSize());
-      result.setAttribute("edgeRadius", "x" + edgeRadius);
-      result.setAttribute("penwidth", String.valueOf(edge.getIncludingDependenciesSize()));
+      result.setAttribute(SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS, "x" + edgeRadius);
+      result.setAttribute(SoftVis3DConstants.GRAPH_ATTR_PENWIDTH,
+              String.valueOf(edge.getIncludingDependenciesSize()));
 
       return result;
     }
