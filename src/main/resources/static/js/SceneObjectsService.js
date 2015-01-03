@@ -58,15 +58,15 @@ softVis3dAngular.factory('sceneObjectsService',
 
             removeObject: function (objectSoftVis3dId, type) {
                 for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
-                    if (objectSoftVis3dId == sceneObjectsServiceObjects[index].softVis3DId
-                        && type == sceneObjectsServiceObjects[index].type) {
+                    if (objectSoftVis3dId == sceneObjectsServiceObjects[index].softVis3dId
+                        && type == sceneObjectsServiceObjects[index].softVis3dType) {
                         scene.remove(sceneObjectsServiceObjects[index]);
                     }
                 }
 
                 for (var k = 0; k < objectsInView.length; k++) {
-                    if (objectSoftVis3dId == objectsInView[k].softVis3DId
-                        && type == objectsInView[k].type) {
+                    if (objectSoftVis3dId == objectsInView[k].softVis3dId
+                        && type == objectsInView[k].softVis3dType) {
                         objectsInView.splice(k, 1);
                     }
                 }
@@ -89,7 +89,7 @@ softVis3dAngular.factory('sceneObjectsService',
                 service.hideAllSceneElements();
 
                 for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
-                    if (service.contains(showIds, sceneObjectsServiceObjects[index].softVis3DId)) {
+                    if (service.contains(showIds, sceneObjectsServiceObjects[index].softVis3dId)) {
                         objectsInView.push(sceneObjectsServiceObjects[index]);
                         scene.add(sceneObjectsServiceObjects[index]);
                     }
@@ -122,7 +122,7 @@ softVis3dAngular.factory('sceneObjectsService',
                 selectedTreeObjects = [];
 
                 for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
-                    if (id === sceneObjectsServiceObjects[index].softVis3DId) {
+                    if (id === sceneObjectsServiceObjects[index].softVis3dId) {
                         var selectedObjectInformation = {
                             "object" : sceneObjectsServiceObjects[index],
                             "color" : sceneObjectsServiceObjects[index].material.color.getHex()
@@ -142,7 +142,7 @@ softVis3dAngular.factory('sceneObjectsService',
                 selectedEdgeObjects = [];
 
                 for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
-                    if (service.contains(ids, sceneObjectsServiceObjects[index].softVis3DId)) {
+                    if (service.contains(ids, sceneObjectsServiceObjects[index].softVis3dId)) {
                         var selectedObjectInformation = {
                             "object" : sceneObjectsServiceObjects[index],
                             "color" : sceneObjectsServiceObjects[index].material.color.getHex()

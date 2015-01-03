@@ -70,7 +70,7 @@ softVis3dAngular.controller('RenderController',
                     var intersectedObject = sceneObjectsService.intersectClickEvent(event);
 
                     if (intersectedObject != null) {
-                        $rootScope.$broadcast('objectSelected', intersectedObject.softVis3DId, intersectedObject.type);
+                        $rootScope.$broadcast('objectSelected', intersectedObject.softVis3dId, intersectedObject.softVis3dType);
                     }
                 }
             };
