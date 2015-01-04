@@ -25,7 +25,7 @@ softVis3dAngular.factory('sceneObjectsService',
         var service = {
 
             initScene: function () {
-                camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
+                camera = new THREE.PerspectiveCamera(45, 1, 1, 1000000);
                 camera.position.set(0, 300, 500);
 
                 scene = new THREE.Scene();
