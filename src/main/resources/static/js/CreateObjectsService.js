@@ -146,7 +146,7 @@ softVis3dAngular.factory('createObjectsService',
                      height, radiusSegments, heightSegments */
                     var edgeHeadGeometry = new THREE.CylinderGeometry(1, radius + 3, 10, 8, 1);
                     var edgeHead = new THREE.Mesh(edgeHeadGeometry,
-                        new THREE.MeshBasicMaterial({ color: arrow.color }));
+                        new THREE.MeshBasicMaterial({ color: "#000000" }));
 
                     edgeHead.applyMatrix(orientation);
                     edgeHead.applyMatrix(new THREE.Matrix4().makeTranslation(

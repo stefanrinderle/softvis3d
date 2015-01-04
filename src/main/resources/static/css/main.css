@@ -6,6 +6,45 @@
  * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
  * permission of Stefan Rinderle.
  */
+#detailsContainer h2 {
+    background-color: #4b9fd5;
+    color: #ffffff;
+}
+
+#detailsContainer h3 {
+    text-transform: uppercase;
+    font-size: 93%;
+    font-weight: 700;
+}
+
 .listEven {
     background: #dddddd;
+}
+
+#detailsContainer {
+    border: 2px solid black;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 200px;
+    max-height: 10px;
+    overflow: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    background-color: #cae3f2;
+}
+
+#renderContainerController {
+    border: 2px solid black;
+}
+
+#loadingContainer {
+    padding: 30px;
+    height: 300px;
+}
+
+#selectContainer {
+    padding: 30px;
+    height: 300px;
 }

@@ -42,106 +42,26 @@
 
 <div ng-app="softVis3dAngular" resize>
 
-    <div id="metricForm" style="height: 30px;">
-        <%
-           metricIds = softVis3D.getMetricsForSnapshot(@snapshot.id)
-
-           # get all defined metric for project files
-           metrics=[]
-           metricIds.each do |index|
-             m = metric(index)
-             metrics << m if m
-           end
-
-           # set default metric ids if no metrics selected
-           if (params[:metric1].blank?)
-             puts("no param 1 - default param")
-             params[:metric1] = softVis3D.getMetric1FromSettings().to_s
-           end
-           if (params[:metric2].blank?)
-             puts("no param 2 - default param")
-             params[:metric2] = softVis3D.getMetric2FromSettings().to_s
-           end
-        %>
-        <% form_tag({:action => @resource.id.to_s}, {:id => 'softVis3DForm', :method => 'get'}) do %>
-            <input type="hidden" name="page" value="SoftVis3D">
-
-            Building footprint metric:
-            <select name="metric1">
-                <%
-                   # show all graph (as layers)
-                   metrics.each do |metric|
-                     if (metric.id.to_s==params[:metric1].to_s)
-                %>
-                        <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
-                    <% else %>
-                        <option value="<%= metric.id %>"><%= metric.short_name %></option>
-                    <% end %>
-                <%
-                   end
-                %>
-            </select>
-
-            Building height metric:
-
-            <select name="metric2">
-                <%
-                   # show all graph (as layers)
-                   metrics.each do |metric|
-                     if (metric.id.to_s==params[:metric2].to_s)
-                %>
-                        <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
-                    <% else %>
-                        <option value="<%= metric.id %>"><%= metric.short_name %></option>
-                    <% end %>
-                <%
-                   end
-                %>
-            </select>
-
-            View type:
-            <select name="viewType">
-                <%
-                   if ("city"==params[:viewType].to_s)
-                %>
-                    <option value="city" selected>City</option>
-                <% else %>
-                    <option value="city">City</option>
-                <% end %>
-                <%
-                   if ("dependency"==params[:viewType].to_s)
-                %>
-                    <option value="dependency" selected>Dependency</option>
-                <% else %>
-                    <option value="dependency">Dependency</option>
-                <% end %>
-            </select>
-
-            <input type="submit" value="Submit">
-        <% end %>
-    </div>
-
-    <div ng-controller="DetailsController" id="detailsContainer" ng-show="node || edge"
-         style="border: 1px solid black; position: absolute;
-                 top: 40px; right: 10px; width: 200px; height: 300px;
-                 overflow: auto;">
+    <div ng-controller="DetailsController" id="detailsContainer" ng-show="node || edge">
 
         <!-- NODE MAIN INFO -->
 
-        <div ng-show="node">
-            <button type='button' ng-click='showAllSceneElements();'>Show all objects (reset)</button>
-            <br /><br />
+        <button type='button' ng-click='showAllSceneElements();'>Show all objects (reset)</button>
+        <br />
+        <hr/>
 
-            <h2 style="color: #FFBF00">{{node.name}}
+        <div ng-show="node">
+            <h2>{{node.name}}
                 <span ng-show="!node.isNode">({{node.footprintMetricValue}} / {{node.heightMetricValue}})</span>
-                <button ng-show="node.isNode" type='button' ng-click='hideAllSceneElementsExceptIdTree(node.id);'>Focus this</button>
             </h2>
+            <br />
+            <button ng-show="node.isNode" type='button' ng-click='hideAllSceneElementsExceptIdTree(node.id);'>Focus this</button>
         </div>
 
         <!-- EDGE MAIN INFO -->
 
         <div ng-if="edge">
-            <h2 style="color: #FFBF00">
+            <h2>
                 {{edge.sourceName | inDisplay}} -> {{edge.destinationName | outDisplay}} ({{edge.includingDependencies.length}})
             </h2>
             <br />
@@ -151,17 +71,19 @@
             <br /><br />
         </div>
 
+        <hr/>
+
         <!-- NODE INCLUDING EDGE DETAILS -->
 
         <div ng-if="(inEdges.length + outEdges.length) > 0">
             <br />
-            <h2>
+            <h3>
                 <img ng-hide="displayEdges" ng-click="triggerDisplayEdges();" style="vertical-align: top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
                 <img ng-show="displayEdges" ng-click="triggerDisplayEdges();" style="vertical-align: top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
                 Dependencies ({{inEdges.length + outEdges.length}})
-            </h2>
+            </h3>
             <ul ng-show="displayEdges" style="list-style: none;">
                 <h3>Inbound</h3>
                 <li ng-repeat="edge in inEdges">
@@ -202,13 +124,13 @@
 
         <!-- EDGE INCLUDING EDGE DETAILS -->
         <div ng-show="edgeIncludingEdges">
-            <h2>
+            <h3>
                 <img ng-hide="displayEdgeIncludingEdges" ng-click="triggerDisplayEdgeIncludingEdges();" style="vertical-align: top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
                 <img ng-show="displayEdgeIncludingEdges" ng-click="triggerDisplayEdgeIncludingEdges();" style="vertical-align: top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
                 Including dependencies
-            </h2>
+            </h3>
             <ul ng-show="displayEdgeIncludingEdges" style="list-style: circle;">
                 <li ng-repeat="dependency in edgeIncludingEdges" ng-class="{listEven: $even}">
                     <a href='#' ng-click="selectAllDependentDependenciesById(dependency.id);">
@@ -217,9 +139,6 @@
                 </li>
             </ul>
         </div>
-
-        <br />
-        <h2>Navigation</h2>
 
         <!-- NODE NAVIGATION -->
         <div ng-show="node.parentInfo">
@@ -236,17 +155,17 @@
             <br />
 
             <h3>
-                <img ng-hide="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: top;"
+                <img ng-hide="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: text-top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
-                <img ng-show="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: top;"
+                <img ng-show="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: text-top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
                 Children ({{node.children.length}})
             </h3>
             <ul ng-show="displayChildren" style="list-style: none;">
                 <li ng-repeat="child in node.children">
-                    <img ng-hide="child.isNode" style="vertical-align: top;"
+                    <img ng-hide="child.isNode" style="vertical-align: text-top;"
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/file.gif"/>
-                    <img ng-show="child.isNode" style="vertical-align: top;"
+                    <img ng-show="child.isNode" style="vertical-align: text-top;"
                          src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/folder.gif"/>
                     <a href='#' ng-click="selectSceneObjectFromDetails(child.id, child.type);">
                         {{ child.name | limitTo:21 }}{{child.name.length > 21 ? '...' : ''}}
@@ -271,13 +190,90 @@
 
     <div ng-controller="RenderController" id="renderContainerController">
         <div ng-show="isVisualisationActive" id="renderContainer"
-             ng-mousedown="mousedown($event)" ng-mouseup="mouseup($event)" ng-mousemove="mousemove($event)"
-             style="border: 1px solid black;">
+             ng-mousedown="mousedown($event)" ng-mouseup="mouseup($event)" ng-mousemove="mousemove($event)">
         </div>
-        <div ng-show="!isVisualisationActive && !isLoading" style="padding: 30px; height: 300px;">
+        <div ng-show="!isVisualisationActive && !isLoading" id="loadingContainer">
             <h3>Please select the metrics and a view type and submit the form above.</h3>
+            <div id="metricForm" style="height: 30px;">
+                <%
+                   metricIds = softVis3D.getMetricsForSnapshot(@snapshot.id)
+
+                   # get all defined metric for project files
+                   metrics=[]
+                   metricIds.each do |index|
+                     m = metric(index)
+                     metrics << m if m
+                   end
+
+                   # set default metric ids if no metrics selected
+                   if (params[:metric1].blank?)
+                     puts("no param 1 - default param")
+                     params[:metric1] = softVis3D.getMetric1FromSettings().to_s
+                   end
+                   if (params[:metric2].blank?)
+                     puts("no param 2 - default param")
+                     params[:metric2] = softVis3D.getMetric2FromSettings().to_s
+                   end
+                %>
+                <% form_tag({:action => @resource.id.to_s}, {:id => 'softVis3DForm', :method => 'get'}) do %>
+                    <input type="hidden" name="page" value="SoftVis3D">
+
+                    Building footprint metric:
+                    <select name="metric1">
+                        <%
+                           # show all graph (as layers)
+                           metrics.each do |metric|
+                             if (metric.id.to_s==params[:metric1].to_s)
+                        %>
+                                <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
+                            <% else %>
+                                <option value="<%= metric.id %>"><%= metric.short_name %></option>
+                            <% end %>
+                        <%
+                           end
+                        %>
+                    </select>
+
+                    Building height metric:
+
+                    <select name="metric2">
+                        <%
+                           # show all graph (as layers)
+                           metrics.each do |metric|
+                             if (metric.id.to_s==params[:metric2].to_s)
+                        %>
+                                <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
+                            <% else %>
+                                <option value="<%= metric.id %>"><%= metric.short_name %></option>
+                            <% end %>
+                        <%
+                           end
+                        %>
+                    </select>
+
+                    View type:
+                    <select name="viewType">
+                        <%
+                           if ("city"==params[:viewType].to_s)
+                        %>
+                            <option value="city" selected>City</option>
+                        <% else %>
+                            <option value="city">City</option>
+                        <% end %>
+                        <%
+                           if ("dependency"==params[:viewType].to_s)
+                        %>
+                            <option value="dependency" selected>Dependency</option>
+                        <% else %>
+                            <option value="dependency">Dependency</option>
+                        <% end %>
+                    </select>
+
+                    <input type="submit" value="Submit">
+                <% end %>
+            </div>
         </div>
-        <div ng-show="!isVisualisationActive && isLoading" style="padding: 30px; height: 300px;">
+        <div ng-show="!isVisualisationActive && isLoading" id="selectContainer">
             <h3>LOADING - please wait..</h3>
         </div>
     </div>

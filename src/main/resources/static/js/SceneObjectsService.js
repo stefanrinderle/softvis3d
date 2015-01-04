@@ -154,10 +154,10 @@ softVis3dAngular.factory('sceneObjectsService',
             },
 
             intersectClickEvent: function (event) {
-                // header of sonar is 70 px + metric select form 30 px
+                // header of sonar is 68 px (30 + 26 + 10 + 2)
                 var mouseVector = new THREE.Vector3(
                         2 * ((event.clientX - 170) / containerWidthLocal) - 1,
-                        1 - 2 * ((event.clientY - 100) / containerHeightLocal),
+                        1 - 2 * ((event.clientY - 68) / containerHeightLocal),
                     0.5);
 
                 var raycaster = projector.pickingRay(mouseVector.clone(), camera);
@@ -171,10 +171,10 @@ softVis3dAngular.factory('sceneObjectsService',
             },
 
             windowResize: function (event, width, height) {
-                // header of sonar is 70 px + metric select form 30 px + footer 50 px
+                // header of sonar is 66 px + footer 59 px
                 // sidebar 200px
-                containerWidthLocal = width - 380;
-                containerHeightLocal = height - 170;
+                containerWidthLocal = width - 184;
+                containerHeightLocal = height - 142;
 
                 if (renderer != null && camera != null) {
                     renderer.setSize(containerWidthLocal, containerHeightLocal);
@@ -182,7 +182,8 @@ softVis3dAngular.factory('sceneObjectsService',
                     camera.updateProjectionMatrix();
                 }
 
-                document.getElementById("detailsContainer").style.height = containerHeightLocal + "px";
+                var detailsHeight = containerHeightLocal - 17;
+                document.getElementById("detailsContainer").style.maxHeight = detailsHeight + "px";
             },
 
             animate: function () {
