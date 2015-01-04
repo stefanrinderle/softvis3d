@@ -192,8 +192,10 @@
         <div ng-show="isVisualisationActive" id="renderContainer"
              ng-mousedown="mousedown($event)" ng-mouseup="mouseup($event)" ng-mousemove="mousemove($event)">
         </div>
-        <div ng-show="!isVisualisationActive && !isLoading" id="loadingContainer">
-            <h3>Please select the metrics and a view type and submit the form above.</h3>
+        <div ng-show="!isVisualisationActive && !isLoading" id="selectContainer">
+            <h1>Please select a view type and the metrics</h1>
+            <br />
+
             <div id="metricForm" style="height: 30px;">
                 <%
                    metricIds = softVis3D.getMetricsForSnapshot(@snapshot.id)
@@ -217,6 +219,59 @@
                 %>
                 <% form_tag({:action => @resource.id.to_s}, {:id => 'softVis3DForm', :method => 'get'}) do %>
                     <input type="hidden" name="page" value="SoftVis3D">
+
+                    <h2>View type</h2>
+
+                    <p>The <a href="http://softvis3d.com/#/product/city">code city</a> view is focused on the structure
+                        and file metrics of the project.
+
+                        The <a href="http://softvis3d.com/#/product/dependency">dependency</a> view is focused on the
+                        dependencies within that structure.</p>
+
+                    <p>Please take a look at the <a href="http://softvis3d.com/">project web page</a> for details.</p>
+                    <br />
+                    <select name="viewType">
+                        <%
+                           if ("city"==params[:viewType].to_s)
+                        %>
+                            <option value="city" selected>City</option>
+                        <% else %>
+                            <option value="city">City</option>
+                        <% end %>
+                        <%
+                           if ("dependency"==params[:viewType].to_s)
+                        %>
+                            <option value="dependency" selected>Dependency</option>
+                        <% else %>
+                            <option value="dependency">Dependency</option>
+                        <% end %>
+                    </select>
+
+                    <br /><br />
+
+                    <h2>Metric options</h2>
+
+                    <p>The following list contains some examples which metrics can be combined to give meaningful
+                        results.</p>
+                    <br />
+                    <ul style="list-style: circle;">
+                        <li><b>Complexity and lines</b></li>
+                        <p>The calculated complexity for each file is the base for the building footprint. The lines of
+                            code metric is used for the building height.
+                            Search for skyscraper buildings and especially for ones with a big footprint. Also building
+                            small buildings (height) with a big footprint (like warehouses) should be interesting.</p>
+                        <li><b>Issues and lines</b></li>
+                        <p>The calculated issue count for each file is the base for the building footprint. The lines of
+                            code metric is used for the building height.
+                            Search for skyscraper buildings and especially for ones with a big footprint. Also building
+                            small buildings (height) with a big footprint (like warehouses) should be interesting.</p>
+                        <li><b>Functions and lines</b></li>
+                        <p>The function count per file is the base for the building footprint. The lines of
+                            code metric is used for the building height.
+                            Search for skyscraper buildings and especially for ones with a small footprint.</p>
+                    </ul>
+
+                    <br />
 
                     Building footprint metric:
                     <select name="metric1">
@@ -250,31 +305,19 @@
                            end
                         %>
                     </select>
-
-                    View type:
-                    <select name="viewType">
-                        <%
-                           if ("city"==params[:viewType].to_s)
-                        %>
-                            <option value="city" selected>City</option>
-                        <% else %>
-                            <option value="city">City</option>
-                        <% end %>
-                        <%
-                           if ("dependency"==params[:viewType].to_s)
-                        %>
-                            <option value="dependency" selected>Dependency</option>
-                        <% else %>
-                            <option value="dependency">Dependency</option>
-                        <% end %>
-                    </select>
-
+                    <br /><br />
+                    <p>Please also take a look at the <a href="http://softvis3d.com/#/product/usage">usage guide</a>.</p>
+                    <br />
                     <input type="submit" value="Submit">
                 <% end %>
             </div>
         </div>
-        <div ng-show="!isVisualisationActive && isLoading" id="selectContainer">
+        <div ng-show="!isVisualisationActive && isLoading" id="loadingContainer">
             <h3>LOADING - please wait..</h3>
+            <br /><br />
+            <p>Dependent on the project size, this may take a while.</p>
+            <br /><br />
+            <img src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/ajax-loader.gif"/>
         </div>
     </div>
 </div>

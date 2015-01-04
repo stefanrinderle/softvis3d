@@ -39,12 +39,16 @@
     border: 2px solid black;
 }
 
-#loadingContainer {
-    padding: 30px;
-    height: 300px;
+#selectContainer {
+    padding-top: 20px;
+    padding-left: 30px;
+    height: 460px;
 }
 
-#selectContainer {
-    padding: 30px;
-    height: 300px;
+#loadingContainer {
+    padding: 100px;
+    height: 380px;
+    text-align: center;
+    vertical-align: middle;
 }
+
