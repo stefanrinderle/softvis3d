@@ -271,7 +271,7 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>minify three js files</id>
+                        <id>minify threeJs files</id>
                         <configuration>
                             <charset>UTF-8</charset>
                             <webappSourceDir>src/main/resources</webappSourceDir>
