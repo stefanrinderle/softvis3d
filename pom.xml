@@ -270,6 +270,28 @@
                             <goal>minify</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>minify three js files</id>
+                        <configuration>
+                            <charset>UTF-8</charset>
+                            <webappSourceDir>src/main/resources</webappSourceDir>
+                            <webappTargetDir>target/classes</webappTargetDir>
+                            <jsSourceDir>static/threeJS</jsSourceDir>
+                            <jsSourceFiles>
+                                <jsSourceFile>three.js</jsSourceFile>
+                                <jsSourceFile>NURBSUtils.js</jsSourceFile>
+                                <jsSourceFile>NURBSCurve.js</jsSourceFile>
+                                <jsSourceFile>OrbitControls.js</jsSourceFile>
+                                <jsSourceFile>Detector.js</jsSourceFile>
+                            </jsSourceFiles>
+                            <jsFinalFile>threeJsAll.js</jsFinalFile>
+                            <jsEngine>CLOSURE</jsEngine>
+                            <closureLanguage>ECMASCRIPT5</closureLanguage>
+                        </configuration>
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -317,6 +339,7 @@
                                 </goals>
                                 <configuration>
                                     <target>
+                                        <!-- own angular js files -->
                                         <delete file="target/classes/static/js/SoftVis3dAngular.js" />
                                         <delete file="target/classes/static/js/BackendService.js" />
                                         <delete file="target/classes/static/js/CreateObjectsService.js" />
@@ -325,6 +348,14 @@
                                         <delete file="target/classes/static/js/RenderController.js" />
                                         <delete file="target/classes/static/js/SceneObjectsService.js" />
                                         <delete file="target/classes/static/js/TreeService.js" />
+                                        <delete file="target/classes/static/js/softvis3d.js" />
+                                        <!-- threeJS files -->
+                                        <delete file="target/classes/static/threeJS/three.js" />
+                                        <delete file="target/classes/static/threeJS/NURBSUtils.js" />
+                                        <delete file="target/classes/static/threeJS/NURBSCurve.js" />
+                                        <delete file="target/classes/static/threeJS/OrbitControls.js" />
+                                        <delete file="target/classes/static/threeJS/Detector.js" />
+                                        <delete file="target/classes/static/threeJS/threeJsAll.js" />
                                     </target>
                                 </configuration>
                             </execution>

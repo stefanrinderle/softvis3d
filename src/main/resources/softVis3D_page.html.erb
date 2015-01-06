@@ -16,27 +16,6 @@
            getComponentByClassname('softVis3D', 'de.rinderle.softvis3d.SoftVis3DExtension')
 %>
 
-<!-- THREE JS FILES -->
-<% if (softVis3D.isProd()) %>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/three.min.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/NURBSCurve.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/NURBSUtils.js"></script>
-
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/OrbitControls.js"></script>
-
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/Detector.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/stats.min.js"></script>
-<% else %>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/three.min.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/NURBSCurve.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/NURBSUtils.js"></script>
-
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/OrbitControls.js"></script>
-
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/Detector.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/stats.min.js"></script>
-<% end %>
-
 <!-- ANGULAR JS FILES -->
 <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/angular.min.js"></script>
 
@@ -51,6 +30,19 @@
     <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/RenderController.js"></script>
     <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/SceneObjectsService.js"></script>
     <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/TreeService.js"></script>
+<% end %>
+
+<!-- THREE JS FILES -->
+<% if (softVis3D.isProd()) %>
+    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/threeJsAll.min.js"></script>
+<% else %>
+    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/three.js"></script>
+    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/NURBSCurve.js"></script>
+    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/NURBSUtils.js"></script>
+
+    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/OrbitControls.js"></script>
+
+    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/Detector.js"></script>
 <% end %>
 
 <div ng-app="softVis3dAngular" resize>
