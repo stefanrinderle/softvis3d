@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>sonar-softVis3D-plugin</artifactId>
-	<version>0.2.1-SNAPSHOT</version>
+	<version>0.2.1</version>
 	<packaging>sonar-plugin</packaging>
 	<name>SoftVis3D Sonar plugin</name>
     <url>http://softvis3d.com</url>
@@ -44,7 +44,7 @@
         <connection>scm:git:ssh://46.38.242.170:66/softVis3DSonarPlugin.git</connection>
         <developerConnection>scm:git:ssh://git@46.38.242.170:66/softVis3DSonarPlugin.git</developerConnection>
         <url>https://git@46.38.242.170:66/softVis3DSonarPlugin.git</url>
-        <tag>HEAD</tag>
+        <tag>sonar-softVis3D-plugin-0.2.1</tag>
     </scm>
 
 	<properties>
@@ -317,14 +317,14 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <delete file="target/classes/static/js/SoftVis3dAngular.js"/>
-                                        <delete file="target/classes/static/js/BackendService.js"/>
-                                        <delete file="target/classes/static/js/CreateObjectsService.js"/>
-                                        <delete file="target/classes/static/js/DetailsController.js"/>
-                                        <delete file="target/classes/static/js/Directives.js"/>
-                                        <delete file="target/classes/static/js/RenderController.js"/>
-                                        <delete file="target/classes/static/js/SceneObjectsService.js"/>
-                                        <delete file="target/classes/static/js/TreeService.js"/>
+                                        <delete file="target/classes/static/js/SoftVis3dAngular.js" />
+                                        <delete file="target/classes/static/js/BackendService.js" />
+                                        <delete file="target/classes/static/js/CreateObjectsService.js" />
+                                        <delete file="target/classes/static/js/DetailsController.js" />
+                                        <delete file="target/classes/static/js/Directives.js" />
+                                        <delete file="target/classes/static/js/RenderController.js" />
+                                        <delete file="target/classes/static/js/SceneObjectsService.js" />
+                                        <delete file="target/classes/static/js/TreeService.js" />
                                     </target>
                                 </configuration>
                             </execution>
