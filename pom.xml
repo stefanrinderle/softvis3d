@@ -39,13 +39,11 @@
     <issueManagement>
         <url>Issue management url tbd</url>
     </issueManagement>
+
     <scm>
-        <!-- TODO define this right for gitolite and my server. -->
-        <!--connection>scm:git:ssh://github.com/stefanrinderle/sonar-softVis3D.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/stefanrinderle/sonar-softVis3D.git</developerConnection>
-        <url>https://github.com/stefanrinderle/sonar-softVis3D</url>
-        <tag>HEAD</tag>-->
-        <url></url>
+        <connection>scm:git:ssh://rindernet:softVis3DSonarPlugin.git</connection>
+        <developerConnection>scm:git:ssh://git@rindernet:softVis3DSonarPlugin.git</developerConnection>
+        <url>https://git@rindernet:softVis3DSonarPlugin.git</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -274,6 +272,11 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.1</version>
+            </plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -314,7 +317,6 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <!-- TODO update and activate profile in jenkins on prod build. -->
                                         <delete file="target/classes/static/js/SoftVis3dAngular.js"/>
                                         <delete file="target/classes/static/js/BackendService.js"/>
                                         <delete file="target/classes/static/js/CreateObjectsService.js"/>
