@@ -25,38 +25,41 @@ import java.util.Map;
 
 public class VisualizationProcessorBean implements VisualizationProcessor {
 
-  private static final Logger LOGGER = LoggerFactory
-    .getLogger(VisualizationProcessorBean.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(VisualizationProcessorBean.class);
 
-  @Inject
-  private PreProcessor preProcessor;
-  @Inject
-  private LayoutProcessor layoutProcessor;
+	@Inject
+	private PreProcessor preProcessor;
+	@Inject
+	private LayoutProcessor layoutProcessor;
 
-  @Inject
-  private PostProcessor calc;
+	@Inject
+	private PostProcessor calc;
 
-  @Override
-  public Map<Integer, ResultPlatform> visualize(final Settings settings, final VisualizationRequest requestDTO)
-    throws DotExecutorException {
+	@Override
+	public Map<Integer, ResultPlatform> visualize(final Settings settings,
+			final VisualizationRequest requestDTO) throws DotExecutorException {
 
-    final StopWatch stopWatch = new StopWatch();
-    stopWatch.start();
+		final StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
 
-    final SnapshotTreeResult snapshotTreeResult = preProcessor.process(requestDTO);
+		final SnapshotTreeResult snapshotTreeResult = preProcessor
+				.process(requestDTO);
 
-    LOGGER.info("Created tree structure after " + stopWatch.getTime());
+		LOGGER.info("Created tree structure after " + stopWatch.getTime());
 
-    final Map<Integer, ResultPlatform> resultGraphs = layoutProcessor.process(settings, requestDTO, snapshotTreeResult);
+		final Map<Integer, ResultPlatform> resultGraphs = layoutProcessor
+				.process(settings, requestDTO, snapshotTreeResult);
 
-    final int leavesCounter = this.calc.process(requestDTO.getViewType(), requestDTO.getRootSnapshotId(),
-      resultGraphs, snapshotTreeResult);
+		final int leavesCounter = this.calc.process(requestDTO.getViewType(),
+				requestDTO.getRootSnapshotId(), resultGraphs,
+				snapshotTreeResult);
 
-    stopWatch.stop();
-    LOGGER.info("Calculation finished after " + stopWatch.getTime() + " with "
-      + leavesCounter + " leaves");
+		stopWatch.stop();
+		LOGGER.info("Calculation finished after " + stopWatch.getTime()
+				+ " with " + leavesCounter + " leaves");
 
-    return resultGraphs;
-  }
+		return resultGraphs;
+	}
 
 }

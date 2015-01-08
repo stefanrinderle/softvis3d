@@ -17,46 +17,46 @@ import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 
 public class GrappaGraphTestFactory {
 
-  public static ResultPlatform createGraph() {
-    final Graph graph = new Graph("root");
-    final double x = 0;
-    final double y = 0;
-    final double width = 50;
-    final double height = 50;
-    graph.setAttribute("bb", new GrappaBox(x, y, width, height));
+	public static ResultPlatform createGraph() {
+		final Graph graph = new Graph("root");
+		final double x = 0;
+		final double y = 0;
+		final double width = 50;
+		final double height = 50;
+		graph.setAttribute("bb", new GrappaBox(x, y, width, height));
 
-    final Node leaf1 = new Node(graphLeaf1());
-    leaf1.setAttribute("id", "2");
-    leaf1.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
-    leaf1.setAttribute("type", TreeNodeType.TREE.name());
-    graph.addNode(leaf1);
-    final Node leaf2 = new Node(graphLeaf2());
-    leaf2.setAttribute("id", "3");
-    leaf2.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
-    leaf2.setAttribute("type", TreeNodeType.TREE.name());
-    graph.addNode(leaf2);
+		final Node leaf1 = new Node(graphLeaf1());
+		leaf1.setAttribute("id", "2");
+		leaf1.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
+		leaf1.setAttribute("type", TreeNodeType.TREE.name());
+		graph.addNode(leaf1);
+		final Node leaf2 = new Node(graphLeaf2());
+		leaf2.setAttribute("id", "3");
+		leaf2.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
+		leaf2.setAttribute("type", TreeNodeType.TREE.name());
+		graph.addNode(leaf2);
 
-    return new ResultPlatform(graph);
-  }
+		return new ResultPlatform(graph);
+	}
 
-  private static Graph graphLeaf1() {
-    final Graph graph = new Graph("leaf1");
-    final double x = 0;
-    final double y = 0;
-    final double width = 50;
-    final double height = 50;
-    graph.setAttribute("bb", new GrappaBox(x, y, width, height));
-    return graph;
-  }
+	private static Graph graphLeaf1() {
+		final Graph graph = new Graph("leaf1");
+		final double x = 0;
+		final double y = 0;
+		final double width = 50;
+		final double height = 50;
+		graph.setAttribute("bb", new GrappaBox(x, y, width, height));
+		return graph;
+	}
 
-  private static Graph graphLeaf2() {
-    final Graph graph = new Graph("leaf2");
-    final double x = 0;
-    final double y = 0;
-    final double width = 50;
-    final double height = 50;
-    graph.setAttribute("bb", new GrappaBox(x, y, width, height));
-    return graph;
-  }
+	private static Graph graphLeaf2() {
+		final Graph graph = new Graph("leaf2");
+		final double x = 0;
+		final double y = 0;
+		final double width = 50;
+		final double height = 50;
+		graph.setAttribute("bb", new GrappaBox(x, y, width, height));
+		return graph;
+	}
 
 }

@@ -20,28 +20,30 @@ import static org.junit.Assert.assertNotNull;
 
 public class DotVersionTest {
 
-  @Mock
-  private ExecuteCommand executeCommand;
+	@Mock
+	private ExecuteCommand executeCommand;
 
-  @InjectMocks
-  private final DotVersion underTest = new DotVersionImpl();
+	@InjectMocks
+	private final DotVersion underTest = new DotVersionImpl();
 
-  @Before
-  public void setUp() {
-    MockitoAnnotations.initMocks(this);
-  }
+	@Before
+	public void setUp() {
+		MockitoAnnotations.initMocks(this);
+	}
 
-  @Test
-  public void testHappy() throws DotExecutorException {
-    final String version = "2.20.2";
-    final String versionInfo = "dot - Graphviz version " + version + " (Tue Jan 14 19:38:44 UTC 2014)";
-    Mockito.when(
-      this.executeCommand.executeCommandReadErrorStream(Mockito.any(String.class))).thenReturn(versionInfo);
+	@Test
+	public void testHappy() throws DotExecutorException {
+		final String version = "2.20.2";
+		final String versionInfo = "dot - Graphviz version " + version
+				+ " (Tue Jan 14 19:38:44 UTC 2014)";
+		Mockito.when(
+				this.executeCommand.executeCommandReadErrorStream(Mockito
+						.any(String.class))).thenReturn(versionInfo);
 
-    final String result = this.underTest.getVersion("dotBin");
+		final String result = this.underTest.getVersion("dotBin");
 
-    assertNotNull(result);
-    assertTrue(version.equals(result));
-  }
+		assertNotNull(result);
+		assertTrue(version.equals(result));
+	}
 
 }

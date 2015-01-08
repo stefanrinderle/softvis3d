@@ -13,19 +13,22 @@ import org.slf4j.LoggerFactory;
 
 public class DependencyTreeNode extends TreeNode {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(DependencyTreeNode.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(DependencyTreeNode.class);
 
-  private int counter = 1;
+	private int counter = 1;
 
-  public DependencyTreeNode(final Integer id, final TreeNode parent, final int depth) {
-    super(id, parent, depth, TreeNodeType.DEPENDENCY_GENERATED, "elevatorNode_" + id);
-  }
+	public DependencyTreeNode(final Integer id, final TreeNode parent,
+			final int depth) {
+		super(id, parent, depth, TreeNodeType.DEPENDENCY_GENERATED,
+				"elevatorNode_" + id);
+	}
 
-  public void increaseCounter() {
-    this.counter++;
-  }
+	public void increaseCounter() {
+		this.counter++;
+	}
 
-  public int getCounter() {
-    return counter;
-  }
+	public int getCounter() {
+		return counter;
+	}
 }

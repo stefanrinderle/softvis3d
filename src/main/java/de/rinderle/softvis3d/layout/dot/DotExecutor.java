@@ -14,7 +14,7 @@ import org.sonar.api.config.Settings;
 
 public interface DotExecutor {
 
-  public abstract Graph run(Graph inputGraph, Settings settings, LayoutViewType viewType)
-    throws DotExecutorException;
+	public abstract Graph run(Graph inputGraph, Settings settings,
+			LayoutViewType viewType) throws DotExecutorException;
 
 }

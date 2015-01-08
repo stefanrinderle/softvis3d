@@ -16,19 +16,21 @@ import java.util.Map;
 
 public class RootTreeNode extends TreeNode {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(RootTreeNode.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RootTreeNode.class);
 
-  private Map<Integer, Dependency> sourceDependencies = new HashMap<Integer, Dependency>();
+	private Map<Integer, Dependency> sourceDependencies = new HashMap<Integer, Dependency>();
 
-  public RootTreeNode(final Integer id) {
-    super(id, null, 0, TreeNodeType.TREE, "root");
-  }
+	public RootTreeNode(final Integer id) {
+		super(id, null, 0, TreeNodeType.TREE, "root");
+	}
 
-  public Map<Integer, Dependency> getSourceDependencies() {
-    return sourceDependencies;
-  }
+	public Map<Integer, Dependency> getSourceDependencies() {
+		return sourceDependencies;
+	}
 
-  public void addDependency(Dependency treeDependency) {
-    sourceDependencies.put(treeDependency.getId().intValue(), treeDependency);
-  }
+	public void addDependency(Dependency treeDependency) {
+		sourceDependencies.put(treeDependency.getId().intValue(),
+				treeDependency);
+	}
 }

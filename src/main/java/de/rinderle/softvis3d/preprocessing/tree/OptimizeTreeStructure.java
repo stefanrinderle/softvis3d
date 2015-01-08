@@ -11,5 +11,5 @@ package de.rinderle.softvis3d.preprocessing.tree;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 
 public interface OptimizeTreeStructure {
-  void removeUnnecessaryNodes(TreeNode root);
+	void removeUnnecessaryNodes(TreeNode root);
 }

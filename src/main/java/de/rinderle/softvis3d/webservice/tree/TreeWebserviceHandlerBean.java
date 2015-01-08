@@ -19,23 +19,28 @@ import org.sonar.api.server.ws.Response;
 
 public class TreeWebserviceHandlerBean implements TreeWebserviceHandler {
 
-  @Inject
-  private SnapshotCacheService snapshotCacheService;
-  @Inject
-  private TreeNodeJsonWriter treeNodeJsonWriter;
+	@Inject
+	private SnapshotCacheService snapshotCacheService;
+	@Inject
+	private TreeNodeJsonWriter treeNodeJsonWriter;
 
-  @Override
-  public void handle(final Request request, final Response response) {
-    final Integer id = Integer.valueOf(request.param("snapshotId"));
-    final Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
-    final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
+	@Override
+	public void handle(final Request request, final Response response) {
+		final Integer id = Integer.valueOf(request.param("snapshotId"));
+		final Integer footprintMetricId = Integer.valueOf(request
+				.param("footprintMetricId"));
+		final Integer heightMetricId = Integer.valueOf(request
+				.param("heightMetricId"));
 
-    final LayoutViewType type = LayoutViewType.valueOfRequest(request.param("viewType"));
-    final VisualizationRequest requestDTO = new VisualizationRequest(id, type, footprintMetricId, heightMetricId);
+		final LayoutViewType type = LayoutViewType.valueOfRequest(request
+				.param("viewType"));
+		final VisualizationRequest requestDTO = new VisualizationRequest(id,
+				type, footprintMetricId, heightMetricId);
 
-    final SnapshotTreeResult result = snapshotCacheService.getSnapshotTreeResult(new SnapshotStorageKey(requestDTO));
+		final SnapshotTreeResult result = snapshotCacheService
+				.getSnapshotTreeResult(new SnapshotStorageKey(requestDTO));
 
-    this.treeNodeJsonWriter.transformTreeToJson(response, result.getTree());
-  }
+		this.treeNodeJsonWriter.transformTreeToJson(response, result.getTree());
+	}
 
 }

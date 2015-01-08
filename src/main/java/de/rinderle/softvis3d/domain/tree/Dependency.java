@@ -12,37 +12,38 @@ import java.math.BigInteger;
 
 public class Dependency {
 
-  private BigInteger id;
-  private Integer fromNodeId;
-  private String fromNodeName;
-  private Integer toNodeId;
-  private String toNodeName;
+	private BigInteger id;
+	private Integer fromNodeId;
+	private String fromNodeName;
+	private Integer toNodeId;
+	private String toNodeName;
 
-  public Dependency(BigInteger id, Integer fromNodeId, String fromNodeName, Integer toNodeId, String toNodeName) {
-    this.id = id;
-    this.fromNodeId = fromNodeId;
-    this.fromNodeName = fromNodeName;
-    this.toNodeId = toNodeId;
-    this.toNodeName = toNodeName;
-  }
+	public Dependency(BigInteger id, Integer fromNodeId, String fromNodeName,
+			Integer toNodeId, String toNodeName) {
+		this.id = id;
+		this.fromNodeId = fromNodeId;
+		this.fromNodeName = fromNodeName;
+		this.toNodeId = toNodeId;
+		this.toNodeName = toNodeName;
+	}
 
-  public BigInteger getId() {
-    return id;
-  }
+	public BigInteger getId() {
+		return id;
+	}
 
-  public Integer getFromNodeId() {
-    return fromNodeId;
-  }
+	public Integer getFromNodeId() {
+		return fromNodeId;
+	}
 
-  public String getFromNodeName() {
-    return fromNodeName;
-  }
+	public String getFromNodeName() {
+		return fromNodeName;
+	}
 
-  public Integer getToNodeId() {
-    return toNodeId;
-  }
+	public Integer getToNodeId() {
+		return toNodeId;
+	}
 
-  public String getToNodeName() {
-    return toNodeName;
-  }
+	public String getToNodeName() {
+		return toNodeName;
+	}
 }

@@ -16,6 +16,7 @@ import org.sonar.api.config.Settings;
 
 public interface LayoutProcessor {
 
-  java.util.Map<Integer, ResultPlatform> process(Settings settings,
-    VisualizationRequest requestDTO, SnapshotTreeResult snapshotTreeResult) throws DotExecutorException;
+	java.util.Map<Integer, ResultPlatform> process(Settings settings,
+			VisualizationRequest requestDTO,
+			SnapshotTreeResult snapshotTreeResult) throws DotExecutorException;
 }

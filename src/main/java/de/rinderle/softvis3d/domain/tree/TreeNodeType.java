@@ -9,5 +9,5 @@
 package de.rinderle.softvis3d.domain.tree;
 
 public enum TreeNodeType {
-  TREE, PATH_GENERATED, DEPENDENCY_GENERATED
+	TREE, PATH_GENERATED, DEPENDENCY_GENERATED
 }

@@ -13,5 +13,5 @@ import org.sonar.api.server.ws.Response;
 
 public interface TreeNodeJsonWriter {
 
-  void transformTreeToJson(Response response, RootTreeNode tree);
+	void transformTreeToJson(Response response, RootTreeNode tree);
 }

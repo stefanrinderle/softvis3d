@@ -15,5 +15,5 @@ import de.rinderle.softvis3d.domain.tree.RootTreeNode;
  * Created by stefan on 07.11.14.
  */
 public interface TreeBuilder {
-  RootTreeNode createTreeStructure(VisualizationRequest requestDTO);
+	RootTreeNode createTreeStructure(VisualizationRequest requestDTO);
 }

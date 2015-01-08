@@ -20,24 +20,28 @@ import java.util.List;
 
 public class TreeBuilderBean implements TreeBuilder {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(TreeBuilderBean.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(TreeBuilderBean.class);
 
-  @Inject
-  private DaoService daoService;
+	@Inject
+	private DaoService daoService;
 
-  @Override
-  public RootTreeNode createTreeStructure(final VisualizationRequest requestDTO) {
-    LOGGER.info("Created tree structure for id " + requestDTO.getRootSnapshotId());
-    final PathWalker pathWalker = new PathWalker(requestDTO.getRootSnapshotId());
+	@Override
+	public RootTreeNode createTreeStructure(
+			final VisualizationRequest requestDTO) {
+		LOGGER.info("Created tree structure for id "
+				+ requestDTO.getRootSnapshotId());
+		final PathWalker pathWalker = new PathWalker(
+				requestDTO.getRootSnapshotId());
 
-    final List<SonarSnapshot> flatChildren =
-      this.daoService.getFlatChildrenWithMetrics(requestDTO);
+		final List<SonarSnapshot> flatChildren = this.daoService
+				.getFlatChildrenWithMetrics(requestDTO);
 
-    for (final SonarSnapshot flatChild : flatChildren) {
-      pathWalker.addPath(flatChild);
-    }
+		for (final SonarSnapshot flatChild : flatChildren) {
+			pathWalker.addPath(flatChild);
+		}
 
-    return pathWalker.getTree();
-  }
+		return pathWalker.getTree();
+	}
 
 }

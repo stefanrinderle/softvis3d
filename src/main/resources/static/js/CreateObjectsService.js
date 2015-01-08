@@ -17,7 +17,7 @@ softVis3dAngular.factory('createObjectsService',
                     }
                 },
 
-                createPlatform: function(platform) {
+                createPlatform: function (platform) {
                     var position = new Array();
                     position.x = platform.positionX;
                     position.y = platform.height3d;
@@ -39,7 +39,7 @@ softVis3dAngular.factory('createObjectsService',
                     }
                 },
 
-                createBuilding: function(building) {
+                createBuilding: function (building) {
                     var nodeMaterial = new THREE.MeshLambertMaterial({
                         color: building.color,
                         transparent: true,
@@ -61,7 +61,7 @@ softVis3dAngular.factory('createObjectsService',
                     }
                 },
 
-                createBox: function(geometry, material, position, id, type) {
+                createBox: function (geometry, material, position, id, type) {
                     var object = new THREE.Mesh(geometry, material);
 
                     object.position.x = position.x;
@@ -74,7 +74,7 @@ softVis3dAngular.factory('createObjectsService',
                     sceneObjectsService.push(object);
                 },
 
-                createArrow: function(arrow) {
+                createArrow: function (arrow) {
                     service.createSpline(arrow);
 
                     var pointsLength = arrow.translatedPoints.length;
@@ -91,9 +91,9 @@ softVis3dAngular.factory('createObjectsService',
                     var nurbsKnots = [];
                     var nurbsDegree = 3;
 
-                    for ( var i = 0; i <= nurbsDegree; i ++ ) {
+                    for (var i = 0; i <= nurbsDegree; i++) {
 
-                        nurbsKnots.push( 0 );
+                        nurbsKnots.push(0);
 
                     }
 
@@ -108,7 +108,7 @@ softVis3dAngular.factory('createObjectsService',
                         );
 
                         var knot = ( i + 1 ) / ( arrow.translatedPoints.length - nurbsDegree );
-                        nurbsKnots.push( THREE.Math.clamp( knot, 0, 1 ) );
+                        nurbsKnots.push(THREE.Math.clamp(knot, 0, 1));
 
                     }
 
@@ -116,12 +116,12 @@ softVis3dAngular.factory('createObjectsService',
 
                     var nurbsGeometry = new THREE.Geometry();
                     nurbsGeometry.vertices = nurbsCurve.getPoints(200);
-                    var nurbsMaterial = new THREE.LineBasicMaterial( { linewidth: radius, color: arrow.color, transparent: true } );
+                    var nurbsMaterial = new THREE.LineBasicMaterial({ linewidth: radius, color: arrow.color, transparent: true });
 
-                    var nurbsLine = new THREE.Line( nurbsGeometry, nurbsMaterial );
+                    var nurbsLine = new THREE.Line(nurbsGeometry, nurbsMaterial);
                     nurbsLine.softVis3dId = arrow.id;
                     nurbsLine.softVis3dType = "dependency";
-                    sceneObjectsService.push( nurbsLine );
+                    sceneObjectsService.push(nurbsLine);
                 },
 
                 createArrowHead: function (startPoint, endPoint, arrow) {

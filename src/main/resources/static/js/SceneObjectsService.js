@@ -96,7 +96,7 @@ softVis3dAngular.factory('sceneObjectsService',
                 }
             },
 
-            contains : function (a, obj) {
+            contains: function (a, obj) {
                 for (var i = 0; i < a.length; i++) {
                     if (a[i] === obj) {
                         return true;
@@ -124,8 +124,8 @@ softVis3dAngular.factory('sceneObjectsService',
                 for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
                     if (id === sceneObjectsServiceObjects[index].softVis3dId) {
                         var selectedObjectInformation = {
-                            "object" : sceneObjectsServiceObjects[index],
-                            "color" : sceneObjectsServiceObjects[index].material.color.getHex()
+                            "object": sceneObjectsServiceObjects[index],
+                            "color": sceneObjectsServiceObjects[index].material.color.getHex()
                         };
                         selectedTreeObjects.push(selectedObjectInformation);
                         sceneObjectsServiceObjects[index].material.color.setHex(0xFFBF00);
@@ -144,8 +144,8 @@ softVis3dAngular.factory('sceneObjectsService',
                 for (var index = 0; index < sceneObjectsServiceObjects.length; index++) {
                     if (service.contains(ids, sceneObjectsServiceObjects[index].softVis3dId)) {
                         var selectedObjectInformation = {
-                            "object" : sceneObjectsServiceObjects[index],
-                            "color" : sceneObjectsServiceObjects[index].material.color.getHex()
+                            "object": sceneObjectsServiceObjects[index],
+                            "color": sceneObjectsServiceObjects[index].material.color.getHex()
                         };
                         selectedEdgeObjects.push(selectedObjectInformation);
                         sceneObjectsServiceObjects[index].material.color.setHex(0xFF0000);

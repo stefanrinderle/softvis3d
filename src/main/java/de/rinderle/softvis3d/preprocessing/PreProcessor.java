@@ -13,6 +13,6 @@ import de.rinderle.softvis3d.domain.VisualizationRequest;
 
 public interface PreProcessor {
 
-  SnapshotTreeResult process(final VisualizationRequest requestDTO);
+	SnapshotTreeResult process(final VisualizationRequest requestDTO);
 
 }

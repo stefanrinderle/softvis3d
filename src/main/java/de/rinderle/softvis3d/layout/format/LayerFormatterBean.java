@@ -20,111 +20,117 @@ import org.slf4j.LoggerFactory;
 
 public class LayerFormatterBean implements LayerFormatter {
 
-  private static final Logger LOGGER = LoggerFactory
-    .getLogger(LayerFormatterBean.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(LayerFormatterBean.class);
 
-  @Override
-  public void format(final ResultPlatform platform, final Integer depth, final LayoutViewType viewType) {
-    // calc color
-    int colorCalc = depth * 16;
-    if (colorCalc > 154 || colorCalc < 0) {
-      colorCalc = 154;
-    }
+	@Override
+	public void format(final ResultPlatform platform, final Integer depth,
+			final LayoutViewType viewType) {
+		// calc color
+		int colorCalc = depth * 16;
+		if (colorCalc > 154 || colorCalc < 0) {
+			colorCalc = 154;
+		}
 
-    final HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
+		final HexaColor color = new HexaColor(100 + colorCalc, 100 + colorCalc,
+				100 + colorCalc);
 
-    platform.setColor(color);
+		platform.setColor(color);
 
-    double opacity = 1.0;
-    Integer height3d = depth * 20;
+		double opacity = 1.0;
+		Integer height3d = depth * 20;
 
-    if (LayoutViewType.DEPENDENCY.equals(viewType)) {
-      height3d = -(depth * SoftVis3DConstants.LAYER_HEIGHT);
-      opacity = 0.7;
-    }
+		if (LayoutViewType.DEPENDENCY.equals(viewType)) {
+			height3d = -(depth * SoftVis3DConstants.LAYER_HEIGHT);
+			opacity = 0.7;
+		}
 
-    platform.setOpacity(opacity);
+		platform.setOpacity(opacity);
 
-    platform.setHeight3d(height3d);
+		platform.setHeight3d(height3d);
 
-    for (final ResultBuilding leaf : platform.getNodes()) {
-      formatResultBuilding(color, height3d, leaf);
-    }
-  }
+		for (final ResultBuilding leaf : platform.getNodes()) {
+			formatResultBuilding(color, height3d, leaf);
+		}
+	}
 
-  private void formatResultBuilding(HexaColor color, Integer height3d, ResultBuilding leaf) {
-    double width = leaf.getWidth();
-    // keep some distance to each other
-    width = width * SoftVis3DConstants.DPI_DOT_SCALE;
-    leaf.setWidth(width);
+	private void formatResultBuilding(HexaColor color, Integer height3d,
+			ResultBuilding leaf) {
+		double width = leaf.getWidth();
+		// keep some distance to each other
+		width = width * SoftVis3DConstants.DPI_DOT_SCALE;
+		leaf.setWidth(width);
 
-    double height = leaf.getHeight();
-    // keep some distance to each other
-    height = height * SoftVis3DConstants.DPI_DOT_SCALE;
-    leaf.setHeight((height));
+		double height = leaf.getHeight();
+		// keep some distance to each other
+		height = height * SoftVis3DConstants.DPI_DOT_SCALE;
+		leaf.setHeight((height));
 
-    if (leaf.getType().equals(TreeNodeType.DEPENDENCY_GENERATED)) {
-      leaf.setColor(color);
-    } else {
-      leaf.setColor(SoftVis3DConstants.BUILDING_COLOR);
-    }
+		if (leaf.getType().equals(TreeNodeType.DEPENDENCY_GENERATED)) {
+			leaf.setColor(color);
+		} else {
+			leaf.setColor(SoftVis3DConstants.BUILDING_COLOR);
+		}
 
-    leaf.setHeight3d(height3d);
-  }
+		leaf.setHeight3d(height3d);
+	}
 
-  /**
-   * Building height is calculated in percent.
-   *
-   * @param value
-   *            Metric value for the building size
-   * @return percent 0-100%
-   */
-  @Override
-  public double calcBuildingHeight(final Double value, final MinMaxValue minMaxMetricHeight) {
-    double buildingHeight =  this.calcPercentage(value, minMaxMetricHeight);
+	/**
+	 * Building height is calculated in percent.
+	 *
+	 * @param value
+	 *            Metric value for the building size
+	 * @return percent 0-100%
+	 */
+	@Override
+	public double calcBuildingHeight(final Double value,
+			final MinMaxValue minMaxMetricHeight) {
+		double buildingHeight = this.calcPercentage(value, minMaxMetricHeight);
 
-    if (buildingHeight < SoftVis3DConstants.MIN_BUILDING_HEIGHT) {
-      buildingHeight = SoftVis3DConstants.MIN_BUILDING_HEIGHT;
-    }
+		if (buildingHeight < SoftVis3DConstants.MIN_BUILDING_HEIGHT) {
+			buildingHeight = SoftVis3DConstants.MIN_BUILDING_HEIGHT;
+		}
 
-    return buildingHeight;
-  }
+		return buildingHeight;
+	}
 
-  @Override
-  public double calcSideLength(final Double value, final MinMaxValue minMaxMetricFootprint) {
-    double sideLength = this.calcPercentage(value, minMaxMetricFootprint);
+	@Override
+	public double calcSideLength(final Double value,
+			final MinMaxValue minMaxMetricFootprint) {
+		double sideLength = this.calcPercentage(value, minMaxMetricFootprint);
 
-    if (sideLength < SoftVis3DConstants.MIN_SIDE_LENGTH) {
-      sideLength = SoftVis3DConstants.MIN_SIDE_LENGTH;
-    }
+		if (sideLength < SoftVis3DConstants.MIN_SIDE_LENGTH) {
+			sideLength = SoftVis3DConstants.MIN_SIDE_LENGTH;
+		}
 
-    return sideLength;
-  }
+		return sideLength;
+	}
 
-  @Override
-  public double calcEdgeRadius(int counter) {
-    return counter;
-  }
+	@Override
+	public double calcEdgeRadius(int counter) {
+		return counter;
+	}
 
-  private double calcPercentage(final Double value, final MinMaxValue minMaxDao) {
-    double result = 0.0;
-    if (value != null) {
-      final Double minValue = minMaxDao.getMinValue();
-      final Double maxValue = minMaxDao.getMaxValue();
+	private double calcPercentage(final Double value,
+			final MinMaxValue minMaxDao) {
+		double result = 0.0;
+		if (value != null) {
+			final Double minValue = minMaxDao.getMinValue();
+			final Double maxValue = minMaxDao.getMaxValue();
 
-      final Double rangeSize = maxValue - minValue;
-      if (rangeSize < 0) {
-        LOGGER.error("CalcPercentage range size below zero" + rangeSize);
-      } else {
-        if (value >= minValue && value <= maxValue) {
-          result = 100 / rangeSize * (value - minValue);
-        } else {
-          LOGGER.warn("CalcPercentage value not between min and max " +
-            value + " " + minValue + " " + maxValue);
-        }
-      }
-    }
-    return result;
-  }
+			final Double rangeSize = maxValue - minValue;
+			if (rangeSize < 0) {
+				LOGGER.error("CalcPercentage range size below zero" + rangeSize);
+			} else {
+				if (value >= minValue && value <= maxValue) {
+					result = 100 / rangeSize * (value - minValue);
+				} else {
+					LOGGER.warn("CalcPercentage value not between min and max "
+							+ value + " " + minValue + " " + maxValue);
+				}
+			}
+		}
+		return result;
+	}
 
 }

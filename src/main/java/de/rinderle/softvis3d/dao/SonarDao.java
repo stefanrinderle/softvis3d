@@ -15,13 +15,15 @@ import java.util.List;
 
 public interface SonarDao {
 
-  void setDatabaseSession(DatabaseSession session);
+	void setDatabaseSession(DatabaseSession session);
 
-  Integer getMetricIdByName(String name);
+	Integer getMetricIdByName(String name);
 
-  List<Integer> getDistinctMetricsBySnapshotId(Integer snapshotId);
+	List<Integer> getDistinctMetricsBySnapshotId(Integer snapshotId);
 
-  List<Object[]> getAllProjectElementsWithMetric(Integer rootSnapshotId, Integer metricId);
+	List<Object[]> getAllProjectElementsWithMetric(Integer rootSnapshotId,
+			Integer metricId);
 
-  MinMaxValue getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId);
+	MinMaxValue getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId,
+			int metricId);
 }

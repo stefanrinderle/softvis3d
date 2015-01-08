@@ -14,7 +14,7 @@ import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 
 public interface BottomUpLayout {
 
-  LayeredLayoutElement accept(SnapshotVisitor visitor, SnapshotTreeResult storageKey)
-    throws DotExecutorException;
+	LayeredLayoutElement accept(SnapshotVisitor visitor,
+			SnapshotTreeResult storageKey) throws DotExecutorException;
 
 }

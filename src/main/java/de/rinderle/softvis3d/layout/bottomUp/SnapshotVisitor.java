@@ -18,11 +18,11 @@ import java.util.Map;
 
 public interface SnapshotVisitor {
 
-  Map<Integer, ResultPlatform> getResultingGraphList();
+	Map<Integer, ResultPlatform> getResultingGraphList();
 
-  LayeredLayoutElement visitNode(TreeNode node,
-    List<LayeredLayoutElement> elements) throws DotExecutorException;
+	LayeredLayoutElement visitNode(TreeNode node,
+			List<LayeredLayoutElement> elements) throws DotExecutorException;
 
-  LayeredLayoutElement visitFile(TreeNode leaf);
+	LayeredLayoutElement visitFile(TreeNode leaf);
 
 }

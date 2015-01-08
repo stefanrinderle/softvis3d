@@ -6,9 +6,9 @@
  * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
  * permission of Stefan Rinderle.
  */
-softVis3dAngular.factory('backendService', ['$http', function($http) {
+softVis3dAngular.factory('backendService', ['$http', function ($http) {
     return {
-        getTreeForSnapshotView: function(snapshotId, footprintMetricId, heightMetricId, viewType) {
+        getTreeForSnapshotView: function (snapshotId, footprintMetricId, heightMetricId, viewType) {
             // $http returns a promise, which has a then function, which also returns a promise
             var promise = $http.get("../../api/softVis3D/getTree?snapshotId=" + snapshotId
                 + "&footprintMetricId=" + footprintMetricId
@@ -24,7 +24,7 @@ softVis3dAngular.factory('backendService', ['$http', function($http) {
             return promise;
         },
 
-        getVisualization: function(snapshotId, footprintMetricId, heightMetricId, viewType) {
+        getVisualization: function (snapshotId, footprintMetricId, heightMetricId, viewType) {
             // $http returns a promise, which has a then function, which also returns a promise
             var promise = $http.get("../../api/softVis3D/getVisualization?snapshotId=" + snapshotId
                 + "&footprintMetricId=" + footprintMetricId

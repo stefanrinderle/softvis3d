@@ -49,7 +49,7 @@ softVis3dAngular.controller('DetailsController',
                     // copy including dependencies
                     targetEdge.includingDependencies = sourceEdge.includingDependencies.slice();
 
-                    for(var j = 0; j < targetEdge.includingDependencies.length; j++) {
+                    for (var j = 0; j < targetEdge.includingDependencies.length; j++) {
                         targetEdge.includingDependencies[j].displayValue =
                             treeService.getDependencyNameForId(targetEdge.includingDependencies[j].id);
                     }
@@ -69,7 +69,7 @@ softVis3dAngular.controller('DetailsController',
                     // copy including dependencies
                     targetEdge.includingDependencies = sourceEdge.includingDependencies.slice();
 
-                    for(var j = 0; j < targetEdge.includingDependencies.length; j++) {
+                    for (var j = 0; j < targetEdge.includingDependencies.length; j++) {
                         targetEdge.includingDependencies[j].displayValue =
                             treeService.getDependencyNameForId(targetEdge.includingDependencies[j].id);
                     }
@@ -81,7 +81,7 @@ softVis3dAngular.controller('DetailsController',
             $scope.privateShowEdgeEdgeDetails = function (sourceEdge) {
                 $scope.edgeIncludingEdges = [];
 
-                for(var j = 0; j < sourceEdge.includingDependencies.length; j++) {
+                for (var j = 0; j < sourceEdge.includingDependencies.length; j++) {
                     var result = {};
                     result.id = sourceEdge.includingDependencies[j].id;
                     result.displayValue = treeService.getDependencyNameForId(sourceEdge.includingDependencies[j].id);
@@ -110,7 +110,7 @@ softVis3dAngular.controller('DetailsController',
                 sceneObjectsService.selectSceneEdgeObjects(edgeIds);
             };
 
-            $rootScope.$on('objectSelected', function(event, id, type) {
+            $rootScope.$on('objectSelected', function (event, id, type) {
                 if (type === "dependency") {
                     var edgeIds = [];
                     edgeIds.push(id);
@@ -180,8 +180,8 @@ softVis3dAngular.controller('DetailsController',
     ]
 );
 
-softVis3dAngular.filter('inDisplay', function() {
-    return function(nodeName) {
+softVis3dAngular.filter('inDisplay', function () {
+    return function (nodeName) {
         if (nodeName.indexOf("elevatorNode_") > -1) {
             return "From parent layer"
         } else {
@@ -190,8 +190,8 @@ softVis3dAngular.filter('inDisplay', function() {
     };
 });
 
-softVis3dAngular.filter('outDisplay', function() {
-    return function(nodeName) {
+softVis3dAngular.filter('outDisplay', function () {
+    return function (nodeName) {
         if (nodeName.indexOf("elevatorNode_") > -1) {
             return "To parent layer"
         } else {

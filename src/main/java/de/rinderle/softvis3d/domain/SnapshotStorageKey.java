@@ -10,14 +10,16 @@ package de.rinderle.softvis3d.domain;
 
 public class SnapshotStorageKey {
 
-  private String key;
+	private String key;
 
-  public SnapshotStorageKey(final VisualizationRequest requestDTO) {
-    this.key = requestDTO.getRootSnapshotId() + "_" + requestDTO.getViewType().name() + "_"
-      + requestDTO.getFootprintMetricId() + "_" + requestDTO.getHeightMetricId();
-  }
+	public SnapshotStorageKey(final VisualizationRequest requestDTO) {
+		this.key = requestDTO.getRootSnapshotId() + "_"
+				+ requestDTO.getViewType().name() + "_"
+				+ requestDTO.getFootprintMetricId() + "_"
+				+ requestDTO.getHeightMetricId();
+	}
 
-  public String getString() {
-    return this.key;
-  }
+	public String getString() {
+		return this.key;
+	}
 }

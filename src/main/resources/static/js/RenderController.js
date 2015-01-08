@@ -62,7 +62,7 @@ softVis3dAngular.controller('RenderController',
             };
 
             $scope.mouseup = function (event) {
-                if($scope.clickOrDragFlag){
+                if ($scope.clickOrDragFlag) {
                     // drag
                     $scope.clickOrDragFlag = false;
                 } else {

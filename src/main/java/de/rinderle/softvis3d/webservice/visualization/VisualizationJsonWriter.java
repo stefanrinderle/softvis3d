@@ -15,5 +15,6 @@ import java.util.Map;
 
 public interface VisualizationJsonWriter {
 
-  void transformResponseToJson(Response response, Map<Integer, ResultPlatform> tree);
+	void transformResponseToJson(Response response,
+			Map<Integer, ResultPlatform> tree);
 }

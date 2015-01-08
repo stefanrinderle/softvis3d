@@ -6,14 +6,14 @@
  * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
  * permission of Stefan Rinderle.
  */
-softVis3dAngular.factory('treeService', [ function(){
+softVis3dAngular.factory('treeService', [ function () {
     var treeServiceTree = null;
     var service = {
-        setTree : function (tree) {
+        setTree: function (tree) {
             treeServiceTree = tree;
         },
 
-        searchTreeNode : function (id) {
+        searchTreeNode: function (id) {
             if (treeServiceTree != null) {
                 return this.searchIdInElement(treeServiceTree, id);
             } else {
@@ -21,7 +21,7 @@ softVis3dAngular.factory('treeService', [ function(){
             }
         },
 
-        searchIdInElement : function (element, id) {
+        searchIdInElement: function (element, id) {
             if (element.id == id) {
                 return element;
             } else if (element.children != null) {
@@ -34,11 +34,11 @@ softVis3dAngular.factory('treeService', [ function(){
             return null;
         },
 
-        searchEdge : function (id) {
+        searchEdge: function (id) {
             return this.searchEdgeInElement(treeServiceTree, id);
         },
 
-        searchEdgeInElement : function(element, id) {
+        searchEdgeInElement: function (element, id) {
             var result = null;
 
             for (var i = 0; result == null && i < element.edges.length; i++) {
@@ -54,7 +54,7 @@ softVis3dAngular.factory('treeService', [ function(){
             return result;
         },
 
-        getDependencyNameForId : function (id) {
+        getDependencyNameForId: function (id) {
             var dependencies = treeServiceTree.dependencies;
             for (var i = 0; i < dependencies.length; i++) {
                 if (id === dependencies[i].id) {
@@ -64,7 +64,7 @@ softVis3dAngular.factory('treeService', [ function(){
             }
         },
 
-        getAllSceneElementsRecursive : function(id) {
+        getAllSceneElementsRecursive: function (id) {
             var node = service.searchTreeNode(id);
             var showIds = service.privateGetAllSceneElementsRecursive(node);
 
@@ -81,7 +81,7 @@ softVis3dAngular.factory('treeService', [ function(){
             return showIds;
         },
 
-        contains : function (array, obj) {
+        contains: function (array, obj) {
             for (var i = 0; i < array.length; i++) {
                 if (array[i] === obj) {
                     return true;
@@ -108,7 +108,7 @@ softVis3dAngular.factory('treeService', [ function(){
             return showIds;
         },
 
-        getInboundEdges : function(node) {
+        getInboundEdges: function (node) {
             var result = [];
             if (node.parentInfo) {
                 var parent = service.searchTreeNode(node.parentInfo.id);
@@ -127,7 +127,7 @@ softVis3dAngular.factory('treeService', [ function(){
             return result;
         },
 
-        getAllDependentEdgeIds : function(includingDependencyIds) {
+        getAllDependentEdgeIds: function (includingDependencyIds) {
             var edgeIds = service.privateGetAllDependentEdgeIds(treeServiceTree, includingDependencyIds);
 
             // remove duplicates
@@ -146,7 +146,7 @@ softVis3dAngular.factory('treeService', [ function(){
             return edgeIds;
         },
 
-        privateGetAllDependentEdgeIds : function(node, includingDependencies) {
+        privateGetAllDependentEdgeIds: function (node, includingDependencies) {
             var edgeIds = [];
 
             // children nodes

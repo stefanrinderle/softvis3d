@@ -26,35 +26,41 @@ import java.util.Map;
 
 public class LayoutProcessorBean implements LayoutProcessor {
 
-  @Inject
-  private DaoService daoService;
-  @Inject
-  private SnapshotVisitorFactory visitorFactory;
-  @Inject
-  private BottomUpLayout bottomUpLayout;
+	@Inject
+	private DaoService daoService;
+	@Inject
+	private SnapshotVisitorFactory visitorFactory;
+	@Inject
+	private BottomUpLayout bottomUpLayout;
 
-  private static final Logger LOGGER = LoggerFactory
-    .getLogger(LayoutProcessorBean.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(LayoutProcessorBean.class);
 
-  @Override
-  public Map<Integer, ResultPlatform> process(Settings settings, VisualizationRequest requestDTO,
-    SnapshotTreeResult snapshotTreeResult)
-    throws DotExecutorException {
-    final MinMaxValue minMaxFootprintValues = this.daoService.getMinMaxMetricValuesByRootSnapshotId(
-      requestDTO.getRootSnapshotId(), requestDTO.getFootprintMetricId());
-    final MinMaxValue minMaxHeightValues = this.daoService.getMinMaxMetricValuesByRootSnapshotId(
-      requestDTO.getRootSnapshotId(), requestDTO.getHeightMetricId());
+	@Override
+	public Map<Integer, ResultPlatform> process(Settings settings,
+			VisualizationRequest requestDTO,
+			SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
+		final MinMaxValue minMaxFootprintValues = this.daoService
+				.getMinMaxMetricValuesByRootSnapshotId(
+						requestDTO.getRootSnapshotId(),
+						requestDTO.getFootprintMetricId());
+		final MinMaxValue minMaxHeightValues = this.daoService
+				.getMinMaxMetricValuesByRootSnapshotId(
+						requestDTO.getRootSnapshotId(),
+						requestDTO.getHeightMetricId());
 
-    LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxFootprintValues.toString() + " "
-      + minMaxHeightValues.toString());
+		LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId()
+				+ " : " + minMaxFootprintValues.toString() + " "
+				+ minMaxHeightValues.toString());
 
-    final int dependenciesCount = snapshotTreeResult.getDependenciesCount();
+		final int dependenciesCount = snapshotTreeResult.getDependenciesCount();
 
-    final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO.getViewType(),
-      minMaxFootprintValues, minMaxHeightValues, dependenciesCount);
+		final SnapshotVisitor visitor = this.visitorFactory.create(settings,
+				requestDTO.getViewType(), minMaxFootprintValues,
+				minMaxHeightValues, dependenciesCount);
 
-    this.bottomUpLayout.accept(visitor, snapshotTreeResult);
+		this.bottomUpLayout.accept(visitor, snapshotTreeResult);
 
-    return visitor.getResultingGraphList();
-  }
+		return visitor.getResultingGraphList();
+	}
 }

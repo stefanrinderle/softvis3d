@@ -15,26 +15,27 @@ import org.slf4j.LoggerFactory;
 
 public class SnapshotCacheServiceBean implements SnapshotCacheService {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(SnapshotCacheServiceBean.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(SnapshotCacheServiceBean.class);
 
-  @Override
-  public void printCacheContents() {
-    SnapshotTreeStorage.print();
-  }
+	@Override
+	public void printCacheContents() {
+		SnapshotTreeStorage.print();
+	}
 
-  @Override
-  public boolean containsKey(SnapshotStorageKey key) {
-    return SnapshotTreeStorage.containsKey(key);
-  }
+	@Override
+	public boolean containsKey(SnapshotStorageKey key) {
+		return SnapshotTreeStorage.containsKey(key);
+	}
 
-  @Override
-  public void save(SnapshotTreeResult result) {
-    SnapshotTreeStorage.save(result);
-  }
+	@Override
+	public void save(SnapshotTreeResult result) {
+		SnapshotTreeStorage.save(result);
+	}
 
-  @Override
-  public SnapshotTreeResult getSnapshotTreeResult(SnapshotStorageKey key) {
-    return SnapshotTreeStorage.get(key);
-  }
+	@Override
+	public SnapshotTreeResult getSnapshotTreeResult(SnapshotStorageKey key) {
+		return SnapshotTreeStorage.get(key);
+	}
 
 }

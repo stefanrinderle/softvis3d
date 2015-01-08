@@ -12,15 +12,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class StringOutputStream extends OutputStream {
-  private StringBuilder string = new StringBuilder();
+	private StringBuilder string = new StringBuilder();
 
-  @Override
-  public void write(final int b) throws IOException {
-    this.string.append((char) b);
-  }
+	@Override
+	public void write(final int b) throws IOException {
+		this.string.append((char) b);
+	}
 
-  @Override
-  public String toString() {
-    return this.string.toString();
-  }
+	@Override
+	public String toString() {
+		return this.string.toString();
+	}
 }

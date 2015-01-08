@@ -9,5 +9,5 @@
 package de.rinderle.softvis3d.preprocessing.dependencies;
 
 public enum DependencyType {
-  INPUT_TREE, INPUT_FLAT, DIR
+	INPUT_TREE, INPUT_FLAT, DIR
 }

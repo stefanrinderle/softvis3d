@@ -10,6 +10,6 @@ package de.rinderle.softvis3d.layout.dot;
 
 public interface DotVersion {
 
-  String getVersion(String dotBin);
+	String getVersion(String dotBin);
 
 }

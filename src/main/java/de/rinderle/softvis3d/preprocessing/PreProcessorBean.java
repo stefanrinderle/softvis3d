@@ -25,42 +25,44 @@ import java.util.List;
 
 public class PreProcessorBean implements PreProcessor {
 
-  @Inject
-  private TreeBuilder treeBuilder;
-  @Inject
-  private OptimizeTreeStructure optimizeTreeStructure;
-  @Inject
-  private SnapshotCacheService snapshotCacheService;
-  @Inject
-  private DaoService daoService;
-  @Inject
-  private DependencyExpander dependencyExpander;
+	@Inject
+	private TreeBuilder treeBuilder;
+	@Inject
+	private OptimizeTreeStructure optimizeTreeStructure;
+	@Inject
+	private SnapshotCacheService snapshotCacheService;
+	@Inject
+	private DaoService daoService;
+	@Inject
+	private DependencyExpander dependencyExpander;
 
-  @Override
-  public SnapshotTreeResult process(VisualizationRequest requestDTO) {
-    int dependencyCount = 0;
-    snapshotCacheService.printCacheContents();
+	@Override
+	public SnapshotTreeResult process(VisualizationRequest requestDTO) {
+		int dependencyCount = 0;
+		snapshotCacheService.printCacheContents();
 
-    final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
+		final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
-    final SnapshotTreeResult result;
-    if (snapshotCacheService.containsKey(mapKey)) {
-      result = snapshotCacheService.getSnapshotTreeResult(mapKey);
-    } else {
-      final RootTreeNode tree = treeBuilder.createTreeStructure(requestDTO);
-      this.optimizeTreeStructure.removeUnnecessaryNodes(tree);
+		final SnapshotTreeResult result;
+		if (snapshotCacheService.containsKey(mapKey)) {
+			result = snapshotCacheService.getSnapshotTreeResult(mapKey);
+		} else {
+			final RootTreeNode tree = treeBuilder
+					.createTreeStructure(requestDTO);
+			this.optimizeTreeStructure.removeUnnecessaryNodes(tree);
 
-      if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
-        final List<SonarDependency> dependencies = this.daoService.getDependencies(requestDTO.getRootSnapshotId());
-        this.dependencyExpander.execute(tree, dependencies);
-        dependencyCount = dependencies.size();
-      }
+			if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
+				final List<SonarDependency> dependencies = this.daoService
+						.getDependencies(requestDTO.getRootSnapshotId());
+				this.dependencyExpander.execute(tree, dependencies);
+				dependencyCount = dependencies.size();
+			}
 
-      result = new SnapshotTreeResult(mapKey, tree, dependencyCount);
-      this.snapshotCacheService.save(result);
-    }
+			result = new SnapshotTreeResult(mapKey, tree, dependencyCount);
+			this.snapshotCacheService.save(result);
+		}
 
-    return result;
-  }
+		return result;
+	}
 
 }

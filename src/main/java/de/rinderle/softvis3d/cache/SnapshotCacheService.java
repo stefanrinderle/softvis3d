@@ -13,12 +13,12 @@ import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 
 public interface SnapshotCacheService {
 
-  void printCacheContents();
+	void printCacheContents();
 
-  boolean containsKey(SnapshotStorageKey key);
+	boolean containsKey(SnapshotStorageKey key);
 
-  SnapshotTreeResult getSnapshotTreeResult(SnapshotStorageKey key);
+	SnapshotTreeResult getSnapshotTreeResult(SnapshotStorageKey key);
 
-  void save(SnapshotTreeResult result);
+	void save(SnapshotTreeResult result);
 
 }

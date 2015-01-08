@@ -9,17 +9,17 @@
 package de.rinderle.softvis3d.domain;
 
 public enum LayoutViewType {
-  CITY, DEPENDENCY;
+	CITY, DEPENDENCY;
 
-  // TODO: make this nicer
-  public static LayoutViewType valueOfRequest(String requestValue) {
-    final LayoutViewType result;
-    if ("city".equals(requestValue)) {
-      result = LayoutViewType.CITY;
-    } else {
-      result = LayoutViewType.DEPENDENCY;
-    }
+	// TODO: make this nicer
+	public static LayoutViewType valueOfRequest(String requestValue) {
+		final LayoutViewType result;
+		if ("city".equals(requestValue)) {
+			result = LayoutViewType.CITY;
+		} else {
+			result = LayoutViewType.DEPENDENCY;
+		}
 
-    return result;
-  }
+		return result;
+	}
 }

@@ -8,7 +8,6 @@
  */
 package de.rinderle.softvis3d.webservice.visualization;
 
-
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.VisualizationProcessor;
 import de.rinderle.softvis3d.domain.LayoutViewType;
@@ -23,54 +22,64 @@ import org.sonar.api.server.ws.Response;
 
 import java.util.Map;
 
-public class VisualizationWebserviceHandlerBean implements VisualizationWebserviceHandler {
+public class VisualizationWebserviceHandlerBean implements
+		VisualizationWebserviceHandler {
 
-  private static final Logger LOGGER = LoggerFactory
-          .getLogger(VisualizationWebserviceHandlerBean.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(VisualizationWebserviceHandlerBean.class);
 
-  private Settings settings;
+	private Settings settings;
 
-  @Inject
-  private VisualizationProcessor visualizationProcessor;
-  @Inject
-  private VisualizationJsonWriter visualizationJsonWriter;
+	@Inject
+	private VisualizationProcessor visualizationProcessor;
+	@Inject
+	private VisualizationJsonWriter visualizationJsonWriter;
 
-  @Override
-  public void handle(final Request request, final Response response) {
-    final Integer id = Integer.valueOf(request.param("snapshotId"));
-    final Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
-    final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
+	@Override
+	public void handle(final Request request, final Response response) {
+		final Integer id = Integer.valueOf(request.param("snapshotId"));
+		final Integer footprintMetricId = Integer.valueOf(request
+				.param("footprintMetricId"));
+		final Integer heightMetricId = Integer.valueOf(request
+				.param("heightMetricId"));
 
-    final LayoutViewType type = LayoutViewType.valueOfRequest(request.param("viewType"));
-    final VisualizationRequest requestDTO = new VisualizationRequest(id, type, footprintMetricId, heightMetricId);
+		final LayoutViewType type = LayoutViewType.valueOfRequest(request
+				.param("viewType"));
+		final VisualizationRequest requestDTO = new VisualizationRequest(id,
+				type, footprintMetricId, heightMetricId);
 
-    try {
-      Map<Integer, ResultPlatform> result = createLayoutBySnapshotId(requestDTO);
+		try {
+			Map<Integer, ResultPlatform> result = createLayoutBySnapshotId(requestDTO);
 
-      /**
-       * TODO: I don't know how to do this anywhere else.
-       */
-      result.remove(id);
+			/**
+			 * TODO: I don't know how to do this anywhere else.
+			 */
+			result.remove(id);
 
-      this.visualizationJsonWriter.transformResponseToJson(response, result);
-    } catch (DotExecutorException e) {
-      e.printStackTrace();
-    }
-  }
+			this.visualizationJsonWriter.transformResponseToJson(response,
+					result);
+		} catch (DotExecutorException e) {
+			e.printStackTrace();
+		}
+	}
 
-  private Map<Integer, ResultPlatform> createLayoutBySnapshotId(final VisualizationRequest visualizationRequest) throws DotExecutorException {
-    logStartOfCalc(visualizationRequest);
-    return visualizationProcessor.visualize(this.settings, visualizationRequest);
-  }
+	private Map<Integer, ResultPlatform> createLayoutBySnapshotId(
+			final VisualizationRequest visualizationRequest)
+			throws DotExecutorException {
+		logStartOfCalc(visualizationRequest);
+		return visualizationProcessor.visualize(this.settings,
+				visualizationRequest);
+	}
 
-  private void logStartOfCalc(VisualizationRequest visualizationRequest) {
-    LOGGER.info("Start layout calculation for snapshot "
-            + visualizationRequest.getRootSnapshotId() + ", " + "metrics " + visualizationRequest.getHeightMetricId()
-            + " and " + visualizationRequest.getFootprintMetricId());
-  }
+	private void logStartOfCalc(VisualizationRequest visualizationRequest) {
+		LOGGER.info("Start layout calculation for snapshot "
+				+ visualizationRequest.getRootSnapshotId() + ", " + "metrics "
+				+ visualizationRequest.getHeightMetricId() + " and "
+				+ visualizationRequest.getFootprintMetricId());
+	}
 
-  @Override
-  public void setSettings(Settings settings) {
-    this.settings = settings;
-  }
+	@Override
+	public void setSettings(Settings settings) {
+		this.settings = settings;
+	}
 }

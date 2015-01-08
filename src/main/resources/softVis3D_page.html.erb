@@ -47,304 +47,312 @@
 
 <div ng-app="softVis3dAngular" resize>
 
-    <div ng-controller="DetailsController" id="detailsContainer" ng-show="node || edge">
+<div ng-controller="DetailsController" id="detailsContainer" ng-show="node || edge">
 
-        <!-- NODE MAIN INFO -->
+    <!-- NODE MAIN INFO -->
 
-        <button type='button' ng-click='showAllSceneElements();'>Show all objects (reset)</button>
-        <br />
-        <hr/>
+    <button type='button' ng-click='showAllSceneElements();'>Show all objects (reset)</button>
+    <br/>
+    <hr/>
 
-        <div ng-show="node">
-            <h2>{{node.name}}
-                <span ng-show="!node.isNode">({{node.footprintMetricValue}} / {{node.heightMetricValue}})</span>
-            </h2>
-            <br />
-            <button ng-show="node.isNode" type='button' ng-click='hideAllSceneElementsExceptIdTree(node.id);'>Focus this</button>
-        </div>
+    <div ng-show="node">
+        <h2>{{node.name}}
+            <span ng-show="!node.isNode">({{node.footprintMetricValue}} / {{node.heightMetricValue}})</span>
+        </h2>
+        <br/>
+        <button ng-show="node.isNode" type='button' ng-click='hideAllSceneElementsExceptIdTree(node.id);'>Focus this
+        </button>
+    </div>
 
-        <!-- EDGE MAIN INFO -->
+    <!-- EDGE MAIN INFO -->
 
-        <div ng-if="edge">
-            <h2>
-                {{edge.sourceName | inDisplay}} -> {{edge.destinationName | outDisplay}} ({{edge.includingDependencies.length}})
-            </h2>
-            <br />
-            <button type='button' ng-click='selectAllDependentDependencies(edge);'>
-                Select all depending
-            </button>
-            <br /><br />
-        </div>
+    <div ng-if="edge">
+        <h2>
+            {{edge.sourceName | inDisplay}} -> {{edge.destinationName | outDisplay}}
+            ({{edge.includingDependencies.length}})
+        </h2>
+        <br/>
+        <button type='button' ng-click='selectAllDependentDependencies(edge);'>
+            Select all depending
+        </button>
+        <br/><br/>
+    </div>
 
-        <hr/>
+    <hr/>
 
-        <!-- NODE INCLUDING EDGE DETAILS -->
+    <!-- NODE INCLUDING EDGE DETAILS -->
 
-        <div ng-if="(inEdges.length + outEdges.length) > 0">
-            <br />
-            <h3>
-                <img ng-hide="displayEdges" ng-click="triggerDisplayEdges();" style="vertical-align: top;"
+    <div ng-if="(inEdges.length + outEdges.length) > 0">
+        <br/>
+
+        <h3>
+            <img ng-hide="displayEdges" ng-click="triggerDisplayEdges();" style="vertical-align: top;"
+                 src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
+            <img ng-show="displayEdges" ng-click="triggerDisplayEdges();" style="vertical-align: top;"
+                 src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
+            Dependencies ({{inEdges.length + outEdges.length}})
+        </h3>
+        <ul ng-show="displayEdges" style="list-style: none;">
+            <h3>Inbound</h3>
+            <li ng-repeat="edge in inEdges">
+                <img ng-hide="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
-                <img ng-show="displayEdges" ng-click="triggerDisplayEdges();" style="vertical-align: top;"
+                <img ng-show="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
-                Dependencies ({{inEdges.length + outEdges.length}})
-            </h3>
-            <ul ng-show="displayEdges" style="list-style: none;">
-                <h3>Inbound</h3>
-                <li ng-repeat="edge in inEdges">
-                    <img ng-hide="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
-                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
-                    <img ng-show="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
-                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
-                    <a href='#' ng-click="selectAllDependentDependencies(edge);">
-                        {{edge.sourceName | inDisplay}} -> ({{edge.includingDependencies.length}})
-                    </a>
-                    <ul ng-show="edge.displayDetails" style="list-style: circle;">
-                        <li ng-repeat="dependency in edge.includingDependencies" ng-class="{listEven: $even}">
-                            <a href='#' ng-click="selectAllDependentDependenciesById(dependency.id);">
-                                {{dependency.displayValue}}
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <h3>Outbound</h3>
-                <li ng-repeat="edge in outEdges">
-                    <img ng-hide="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
-                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
-                    <img ng-show="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
-                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
-                    <a href='#' ng-click="selectAllDependentDependencies(edge);">
-                        -> {{edge.destinationName | outDisplay}} ({{edge.includingDependencies.length}})
-                    </a>
-                    <ul ng-show="edge.displayDetails" style="list-style: circle;">
-                        <li ng-repeat="dependency in edge.includingDependencies" ng-class="{listEven: $even}">
-                            <a href='#' ng-click="selectAllDependentDependenciesById(dependency.id);">
-                                {{dependency.displayValue}}
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-
-        <!-- EDGE INCLUDING EDGE DETAILS -->
-        <div ng-show="edgeIncludingEdges">
-            <h3>
-                <img ng-hide="displayEdgeIncludingEdges" ng-click="triggerDisplayEdgeIncludingEdges();" style="vertical-align: top;"
-                     src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
-                <img ng-show="displayEdgeIncludingEdges" ng-click="triggerDisplayEdgeIncludingEdges();" style="vertical-align: top;"
-                     src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
-                Including dependencies
-            </h3>
-            <ul ng-show="displayEdgeIncludingEdges" style="list-style: circle;">
-                <li ng-repeat="dependency in edgeIncludingEdges" ng-class="{listEven: $even}">
-                    <a href='#' ng-click="selectAllDependentDependenciesById(dependency.id);">
-                        {{dependency.displayValue}}
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <!-- NODE NAVIGATION -->
-        <div ng-show="node.parentInfo">
-            <br />
-            <h3>Parent</h3>
-            <p>
-                <a href='#' ng-click="selectSceneObjectFromDetails(node.parentInfo.id, node.parentInfo.type);">
-                    {{node.parentInfo.name}}
+                <a href='#' ng-click="selectAllDependentDependencies(edge);">
+                    {{edge.sourceName | inDisplay}} -> ({{edge.includingDependencies.length}})
                 </a>
-            </p>
-        </div>
-
-        <div ng-if="node.children.length > 0">
-            <br />
-
-            <h3>
-                <img ng-hide="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: text-top;"
+                <ul ng-show="edge.displayDetails" style="list-style: circle;">
+                    <li ng-repeat="dependency in edge.includingDependencies" ng-class="{listEven: $even}">
+                        <a href='#' ng-click="selectAllDependentDependenciesById(dependency.id);">
+                            {{dependency.displayValue}}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <h3>Outbound</h3>
+            <li ng-repeat="edge in outEdges">
+                <img ng-hide="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
-                <img ng-show="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: text-top;"
+                <img ng-show="edge.displayDetails" ng-click="triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
                      src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
-                Children ({{node.children.length}})
-            </h3>
-            <ul ng-show="displayChildren" style="list-style: none;">
-                <li ng-repeat="child in node.children">
-                    <img ng-hide="child.isNode" style="vertical-align: text-top;"
-                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/file.gif"/>
-                    <img ng-show="child.isNode" style="vertical-align: text-top;"
-                         src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/folder.gif"/>
-                    <a href='#' ng-click="selectSceneObjectFromDetails(child.id, child.type);">
-                        {{ child.name | limitTo:21 }}{{child.name.length > 21 ? '...' : ''}}
-                        <span ng-show="!child.isNode">({{child.footprintMetricValue}}/{{child.heightMetricValue}})</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <!-- EDGE NAVIGATION -->
-        <div ng-if="edge">
-            <h3>Source</h3>
-            <a href='#' ng-click="selectSceneObjectFromDetails(edge.sourceId, 'node');">
-                {{ edge.sourceName }}
-            </a>
-            <h3>Destination</h3>
-            <a href='#' ng-click="selectSceneObjectFromDetails(edge.destinationId, 'node');">
-                {{ edge.destinationName }}
-            </a>
-        </div>
+                <a href='#' ng-click="selectAllDependentDependencies(edge);">
+                    -> {{edge.destinationName | outDisplay}} ({{edge.includingDependencies.length}})
+                </a>
+                <ul ng-show="edge.displayDetails" style="list-style: circle;">
+                    <li ng-repeat="dependency in edge.includingDependencies" ng-class="{listEven: $even}">
+                        <a href='#' ng-click="selectAllDependentDependenciesById(dependency.id);">
+                            {{dependency.displayValue}}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </div>
 
-    <div ng-controller="RenderController" id="renderContainerController">
-        <div ng-show="isVisualisationActive" id="renderContainer"
-             ng-mousedown="mousedown($event)" ng-mouseup="mouseup($event)" ng-mousemove="mousemove($event)">
-        </div>
-        <div ng-show="!isVisualisationActive && !isLoading" id="selectContainer">
-            <h1>Please select a view type and the metrics</h1>
-            <br />
+    <!-- EDGE INCLUDING EDGE DETAILS -->
+    <div ng-show="edgeIncludingEdges">
+        <h3>
+            <img ng-hide="displayEdgeIncludingEdges" ng-click="triggerDisplayEdgeIncludingEdges();" style="vertical-align: top;"
+                 src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
+            <img ng-show="displayEdgeIncludingEdges" ng-click="triggerDisplayEdgeIncludingEdges();" style="vertical-align: top;"
+                 src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
+            Including dependencies
+        </h3>
+        <ul ng-show="displayEdgeIncludingEdges" style="list-style: circle;">
+            <li ng-repeat="dependency in edgeIncludingEdges" ng-class="{listEven: $even}">
+                <a href='#' ng-click="selectAllDependentDependenciesById(dependency.id);">
+                    {{dependency.displayValue}}
+                </a>
+            </li>
+        </ul>
+    </div>
 
-            <div id="metricForm" style="height: 30px;">
-                <%
-                   metricIds = softVis3D.getMetricsForSnapshot(@snapshot.id)
+    <!-- NODE NAVIGATION -->
+    <div ng-show="node.parentInfo">
+        <br/>
 
-                   # get all defined metric for project files
-                   metrics=[]
-                   metricIds.each do |index|
-                     m = metric(index)
-                     metrics << m if m
-                   end
+        <h3>Parent</h3>
 
-                   # set default metric ids if no metrics selected
-                   if (params[:metric1].blank?)
-                     puts("no param 1 - default param")
-                     params[:metric1] = softVis3D.getMetric1FromSettings().to_s
-                   end
-                   if (params[:metric2].blank?)
-                     puts("no param 2 - default param")
-                     params[:metric2] = softVis3D.getMetric2FromSettings().to_s
-                   end
-                %>
-                <% form_tag({:action => @resource.id.to_s}, {:id => 'softVis3DForm', :method => 'get'}) do %>
-                    <input type="hidden" name="page" value="SoftVis3D">
+        <p>
+            <a href='#' ng-click="selectSceneObjectFromDetails(node.parentInfo.id, node.parentInfo.type);">
+                {{node.parentInfo.name}}
+            </a>
+        </p>
+    </div>
 
-                    <h2>View type</h2>
+    <div ng-if="node.children.length > 0">
+        <br/>
 
-                    <p>The <a href="http://softvis3d.com/#/product/city">code city</a> view is focused on the structure
-                        and file metrics of the project.
+        <h3>
+            <img ng-hide="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: text-top;"
+                 src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_plus.gif"/>
+            <img ng-show="displayChildren" ng-click="triggerDisplayChildren();" style="vertical-align: text-top;"
+                 src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/tree_minus.gif"/>
+            Children ({{node.children.length}})
+        </h3>
+        <ul ng-show="displayChildren" style="list-style: none;">
+            <li ng-repeat="child in node.children">
+                <img ng-hide="child.isNode" style="vertical-align: text-top;"
+                     src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/file.gif"/>
+                <img ng-show="child.isNode" style="vertical-align: text-top;"
+                     src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/folder.gif"/>
+                <a href='#' ng-click="selectSceneObjectFromDetails(child.id, child.type);">
+                    {{ child.name | limitTo:21 }}{{child.name.length > 21 ? '...' : ''}}
+                    <span ng-show="!child.isNode">({{child.footprintMetricValue}}/{{child.heightMetricValue}})</span>
+                </a>
+            </li>
+        </ul>
+    </div>
 
-                        The <a href="http://softvis3d.com/#/product/dependency">dependency</a> view is focused on the
-                        dependencies within that structure.</p>
+    <!-- EDGE NAVIGATION -->
+    <div ng-if="edge">
+        <h3>Source</h3>
+        <a href='#' ng-click="selectSceneObjectFromDetails(edge.sourceId, 'node');">
+            {{ edge.sourceName }}
+        </a>
 
-                    <p>Please take a look at the <a href="http://softvis3d.com/">project web page</a> for details.</p>
-                    <br />
-                    <select name="viewType">
-                        <%
-                           if ("city"==params[:viewType].to_s)
-                        %>
-                            <option value="city" selected>City</option>
+        <h3>Destination</h3>
+        <a href='#' ng-click="selectSceneObjectFromDetails(edge.destinationId, 'node');">
+            {{ edge.destinationName }}
+        </a>
+    </div>
+</div>
+
+<div ng-controller="RenderController" id="renderContainerController">
+    <div ng-show="isVisualisationActive" id="renderContainer"
+         ng-mousedown="mousedown($event)" ng-mouseup="mouseup($event)" ng-mousemove="mousemove($event)">
+    </div>
+    <div ng-show="!isVisualisationActive && !isLoading" id="selectContainer">
+        <h1>Please select a view type and the metrics</h1>
+        <br/>
+
+        <div id="metricForm" style="height: 30px;">
+            <%
+               metricIds = softVis3D.getMetricsForSnapshot(@snapshot.id)
+
+               # get all defined metric for project files
+               metrics=[]
+               metricIds.each do |index|
+                 m = metric(index)
+                 metrics << m if m
+               end
+
+               # set default metric ids if no metrics selected
+               if (params[:metric1].blank?)
+                 puts("no param 1 - default param")
+                 params[:metric1] = softVis3D.getMetric1FromSettings().to_s
+               end
+               if (params[:metric2].blank?)
+                 puts("no param 2 - default param")
+                 params[:metric2] = softVis3D.getMetric2FromSettings().to_s
+               end
+            %>
+            <% form_tag({:action => @resource.id.to_s}, {:id => 'softVis3DForm', :method => 'get'}) do %>
+                <input type="hidden" name="page" value="SoftVis3D">
+
+                <h2>View type</h2>
+
+                <p>The <a href="http://softvis3d.com/#/product/city">code city</a> view is focused on the structure
+                    and file metrics of the project.
+
+                    The <a href="http://softvis3d.com/#/product/dependency">dependency</a> view is focused on the
+                    dependencies within that structure.</p>
+
+                <p>Please take a look at the <a href="http://softvis3d.com/">project web page</a> for details.</p>
+                <br/>
+                <select name="viewType">
+                    <%
+                       if ("city"==params[:viewType].to_s)
+                    %>
+                        <option value="city" selected>City</option>
+                    <% else %>
+                        <option value="city">City</option>
+                    <% end %>
+                    <%
+                       if ("dependency"==params[:viewType].to_s)
+                    %>
+                        <option value="dependency" selected>Dependency</option>
+                    <% else %>
+                        <option value="dependency">Dependency</option>
+                    <% end %>
+                </select>
+
+                <br/><br/>
+
+                <h2>Metric options</h2>
+
+                <p>The following list contains some examples which metrics can be combined to give meaningful
+                    results.</p>
+                <br/>
+                <ul style="list-style: circle;">
+                    <li><b>Complexity and lines</b></li>
+                    <p>The calculated complexity for each file is the base for the building footprint. The lines of
+                        code metric is used for the building height.
+                        Search for skyscraper buildings and especially for ones with a big footprint. Also building
+                        small buildings (height) with a big footprint (like warehouses) should be interesting.</p>
+                    <li><b>Issues and lines</b></li>
+                    <p>The calculated issue count for each file is the base for the building footprint. The lines of
+                        code metric is used for the building height.
+                        Search for skyscraper buildings and especially for ones with a big footprint. Also building
+                        small buildings (height) with a big footprint (like warehouses) should be interesting.</p>
+                    <li><b>Functions and lines</b></li>
+                    <p>The function count per file is the base for the building footprint. The lines of
+                        code metric is used for the building height.
+                        Search for skyscraper buildings and especially for ones with a small footprint.</p>
+                </ul>
+
+                <br/>
+
+                Building footprint metric:
+                <select name="metric1">
+                    <%
+                       # show all graph (as layers)
+                       metrics.each do |metric|
+                         if (metric.id.to_s==params[:metric1].to_s)
+                    %>
+                            <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
                         <% else %>
-                            <option value="city">City</option>
+                            <option value="<%= metric.id %>"><%= metric.short_name %></option>
                         <% end %>
-                        <%
-                           if ("dependency"==params[:viewType].to_s)
-                        %>
-                            <option value="dependency" selected>Dependency</option>
+                    <%
+                       end
+                    %>
+                </select>
+
+                Building height metric:
+
+                <select name="metric2">
+                    <%
+                       # show all graph (as layers)
+                       metrics.each do |metric|
+                         if (metric.id.to_s==params[:metric2].to_s)
+                    %>
+                            <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
                         <% else %>
-                            <option value="dependency">Dependency</option>
+                            <option value="<%= metric.id %>"><%= metric.short_name %></option>
                         <% end %>
-                    </select>
+                    <%
+                       end
+                    %>
+                </select>
+                <br/><br/>
 
-                    <br /><br />
-
-                    <h2>Metric options</h2>
-
-                    <p>The following list contains some examples which metrics can be combined to give meaningful
-                        results.</p>
-                    <br />
-                    <ul style="list-style: circle;">
-                        <li><b>Complexity and lines</b></li>
-                        <p>The calculated complexity for each file is the base for the building footprint. The lines of
-                            code metric is used for the building height.
-                            Search for skyscraper buildings and especially for ones with a big footprint. Also building
-                            small buildings (height) with a big footprint (like warehouses) should be interesting.</p>
-                        <li><b>Issues and lines</b></li>
-                        <p>The calculated issue count for each file is the base for the building footprint. The lines of
-                            code metric is used for the building height.
-                            Search for skyscraper buildings and especially for ones with a big footprint. Also building
-                            small buildings (height) with a big footprint (like warehouses) should be interesting.</p>
-                        <li><b>Functions and lines</b></li>
-                        <p>The function count per file is the base for the building footprint. The lines of
-                            code metric is used for the building height.
-                            Search for skyscraper buildings and especially for ones with a small footprint.</p>
-                    </ul>
-
-                    <br />
-
-                    Building footprint metric:
-                    <select name="metric1">
-                        <%
-                           # show all graph (as layers)
-                           metrics.each do |metric|
-                             if (metric.id.to_s==params[:metric1].to_s)
-                        %>
-                                <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
-                            <% else %>
-                                <option value="<%= metric.id %>"><%= metric.short_name %></option>
-                            <% end %>
-                        <%
-                           end
-                        %>
-                    </select>
-
-                    Building height metric:
-
-                    <select name="metric2">
-                        <%
-                           # show all graph (as layers)
-                           metrics.each do |metric|
-                             if (metric.id.to_s==params[:metric2].to_s)
-                        %>
-                                <option value="<%= metric.id %>" selected><%= metric.short_name %></option>
-                            <% else %>
-                                <option value="<%= metric.id %>"><%= metric.short_name %></option>
-                            <% end %>
-                        <%
-                           end
-                        %>
-                    </select>
-                    <br /><br />
-                    <p>Please also take a look at the <a href="http://softvis3d.com/#/product/usage">usage guide</a>.</p>
-                    <br />
-                    <input type="submit" value="Submit">
-                <% end %>
-            </div>
-        </div>
-        <div ng-show="!isVisualisationActive && isLoading" id="loadingContainer">
-            <h3>LOADING - please wait..</h3>
-            <br /><br />
-            <p>Dependent on the project size, this may take a while.</p>
-            <br /><br />
-            <img src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/ajax-loader.gif"/>
+                <p>Please also take a look at the <a href="http://softvis3d.com/#/product/usage">usage guide</a>.</p>
+                <br/>
+                <input type="submit" value="Submit">
+            <% end %>
         </div>
     </div>
+    <div ng-show="!isVisualisationActive && isLoading" id="loadingContainer">
+        <h3>LOADING - please wait..</h3>
+        <br/><br/>
+
+        <p>Dependent on the project size, this may take a while.</p>
+        <br/><br/>
+        <img src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/images/ajax-loader.gif"/>
+    </div>
+</div>
 </div>
 
 <script type="text/javascript">
 
-window.onload = function () {
-    <%
-    if !@snapshot.id.blank? && !params[:viewType].blank? &&
-        !params[:metric1].blank? && !params[:metric2].blank?
-    %>
+    window.onload = function () {
+        <%
+        if !@snapshot.id.blank? && !params[:viewType].blank? &&
+            !params[:metric1].blank? && !params[:metric2].blank?
+        %>
         // Direct link to visualization. Load and display.
         angular.element(document.getElementById('renderContainerController')).scope().loadVisualization(
                 <%= @snapshot.id %>, <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
         );
-    <%
-    else
-    %>
+        <%
+        else
+        %>
         // no direct link to visualization. Do nothing,
-    <%
-    end
-    %>
-}
+        <%
+        end
+        %>
+    }
 </script>
 

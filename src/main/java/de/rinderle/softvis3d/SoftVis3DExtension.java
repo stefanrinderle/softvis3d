@@ -23,42 +23,43 @@ import java.util.List;
 
 public class SoftVis3DExtension implements ServerExtension {
 
-  private static final Logger LOGGER = LoggerFactory
-    .getLogger(SoftVis3DExtension.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(SoftVis3DExtension.class);
 
-  private final Settings settings;
-  private final DaoService daoService;
-  private final Injector softVis3DInjector;
+	private final Settings settings;
+	private final DaoService daoService;
+	private final Injector softVis3DInjector;
 
-  public SoftVis3DExtension(final DatabaseSession session, final Settings settings) {
-    LOGGER.warn("Constructor SoftVis3DExtension");
-    this.settings = settings;
+	public SoftVis3DExtension(final DatabaseSession session,
+			final Settings settings) {
+		LOGGER.warn("Constructor SoftVis3DExtension");
+		this.settings = settings;
 
-    this.softVis3DInjector = Guice.createInjector(new SoftVis3DModule());
+		this.softVis3DInjector = Guice.createInjector(new SoftVis3DModule());
 
-    final SonarDao sonarDao = this.softVis3DInjector.getInstance(SonarDao.class);
-    sonarDao.setDatabaseSession(session);
+		final SonarDao sonarDao = this.softVis3DInjector
+				.getInstance(SonarDao.class);
+		sonarDao.setDatabaseSession(session);
 
-    this.daoService = this.softVis3DInjector.getInstance(DaoService.class);
-  }
+		this.daoService = this.softVis3DInjector.getInstance(DaoService.class);
+	}
 
-  public boolean isProd() {
-    return SoftVis3DPlugin.IS_PROD;
-  }
+	public boolean isProd() {
+		return SoftVis3DPlugin.IS_PROD;
+	}
 
-  public List<Integer> getMetricsForSnapshot(final Integer snapshotId) {
-    LOGGER.info("getMetricsForSnapshot " + snapshotId);
+	public List<Integer> getMetricsForSnapshot(final Integer snapshotId) {
+		LOGGER.info("getMetricsForSnapshot " + snapshotId);
 
-    return this.daoService.getDefinedMetricsForSnapshot(snapshotId);
-  }
+		return this.daoService.getDefinedMetricsForSnapshot(snapshotId);
+	}
 
-  public Integer getMetric1FromSettings() {
-    return this.daoService.getMetric1FromSettings(this.settings);
-  }
+	public Integer getMetric1FromSettings() {
+		return this.daoService.getMetric1FromSettings(this.settings);
+	}
 
-  public Integer getMetric2FromSettings() {
-    return this.daoService.getMetric2FromSettings(this.settings);
-  }
-
+	public Integer getMetric2FromSettings() {
+		return this.daoService.getMetric2FromSettings(this.settings);
+	}
 
 }

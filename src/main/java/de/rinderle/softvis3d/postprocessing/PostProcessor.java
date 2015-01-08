@@ -15,6 +15,7 @@ import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import java.util.Map;
 
 public interface PostProcessor {
-  int process(LayoutViewType viewType, Integer snapshotId, Map<Integer, ResultPlatform> resultGraphList,
-    SnapshotTreeResult treeResult);
+	int process(LayoutViewType viewType, Integer snapshotId,
+			Map<Integer, ResultPlatform> resultGraphList,
+			SnapshotTreeResult treeResult);
 }

@@ -12,25 +12,26 @@ import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 
 public class SnapshotTreeResult {
 
-  private final SnapshotStorageKey snapshotStorageKey;
-  private final RootTreeNode tree;
-  private final int dependenciesCount;
+	private final SnapshotStorageKey snapshotStorageKey;
+	private final RootTreeNode tree;
+	private final int dependenciesCount;
 
-  public SnapshotTreeResult(final SnapshotStorageKey snapshotStorageKey, final RootTreeNode tree, final int dependenciesCount) {
-    this.snapshotStorageKey = snapshotStorageKey;
-    this.tree = tree;
-    this.dependenciesCount = dependenciesCount;
-  }
+	public SnapshotTreeResult(final SnapshotStorageKey snapshotStorageKey,
+			final RootTreeNode tree, final int dependenciesCount) {
+		this.snapshotStorageKey = snapshotStorageKey;
+		this.tree = tree;
+		this.dependenciesCount = dependenciesCount;
+	}
 
-  public SnapshotStorageKey getStorageKey() {
-    return this.snapshotStorageKey;
-  }
+	public SnapshotStorageKey getStorageKey() {
+		return this.snapshotStorageKey;
+	}
 
-  public int getDependenciesCount() {
-    return this.dependenciesCount;
-  }
+	public int getDependenciesCount() {
+		return this.dependenciesCount;
+	}
 
-  public RootTreeNode getTree() {
-    return this.tree;
-  }
+	public RootTreeNode getTree() {
+		return this.tree;
+	}
 }

@@ -16,6 +16,6 @@ import org.sonar.api.config.Settings;
 import java.util.Map;
 
 public interface VisualizationProcessor {
-  Map<Integer, ResultPlatform> visualize(Settings settings, VisualizationRequest requestDTO)
-    throws DotExecutorException;
+	Map<Integer, ResultPlatform> visualize(Settings settings,
+			VisualizationRequest requestDTO) throws DotExecutorException;
 }

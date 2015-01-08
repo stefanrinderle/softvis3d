@@ -18,56 +18,56 @@ import java.util.Map;
 
 public class ResultPlatform extends BaseResultObject {
 
-  private final Map<String, ResultBuilding> nodes;
-  private GrappaBox boundingBox;
+	private final Map<String, ResultBuilding> nodes;
+	private GrappaBox boundingBox;
 
-  // TODO could be moved to a formatter.
-  public static double PLATFORM_HEIGHT = 5;
+	// TODO could be moved to a formatter.
+	public static double PLATFORM_HEIGHT = 5;
 
-  public ResultPlatform(Graph graph) {
-    this.boundingBox = (GrappaBox) graph.getAttributeValue("bb");
-    this.nodes = transformNodes(graph.nodeElementsAsArray());
-  }
+	public ResultPlatform(Graph graph) {
+		this.boundingBox = (GrappaBox) graph.getAttributeValue("bb");
+		this.nodes = transformNodes(graph.nodeElementsAsArray());
+	}
 
-  /**
-   * Used in view.
-   */
-  public double getPlatformHeight() {
-    return PLATFORM_HEIGHT;
-  }
+	/**
+	 * Used in view.
+	 */
+	public double getPlatformHeight() {
+		return PLATFORM_HEIGHT;
+	}
 
-  public void setBoundingBox(GrappaBox boundingBox) {
-    this.boundingBox = boundingBox;
-  }
+	public void setBoundingBox(GrappaBox boundingBox) {
+		this.boundingBox = boundingBox;
+	}
 
-  public GrappaBox getBoundingBox() {
-    return boundingBox;
-  }
+	public GrappaBox getBoundingBox() {
+		return boundingBox;
+	}
 
-  public ResultBuilding findNodeByName(String key) {
-    return nodes.get(key);
-  }
+	public ResultBuilding findNodeByName(String key) {
+		return nodes.get(key);
+	}
 
-  public Collection<ResultBuilding> getNodes() {
-    return nodes.values();
-  }
+	public Collection<ResultBuilding> getNodes() {
+		return nodes.values();
+	}
 
-  public void removeNode(String key) {
-    nodes.remove(key);
-  }
+	public void removeNode(String key) {
+		nodes.remove(key);
+	}
 
-  private Map<String, ResultBuilding> transformNodes(Node[] inputNodes) {
-    Map<String, ResultBuilding> result = new HashMap<String, ResultBuilding>();
+	private Map<String, ResultBuilding> transformNodes(Node[] inputNodes) {
+		Map<String, ResultBuilding> result = new HashMap<String, ResultBuilding>();
 
-    for (int i = 0; i < inputNodes.length; i = i + 1) {
-      result.put(inputNodes[i].getName(), transformNode(inputNodes[i]));
-    }
+		for (int i = 0; i < inputNodes.length; i = i + 1) {
+			result.put(inputNodes[i].getName(), transformNode(inputNodes[i]));
+		}
 
-    return result;
-  }
+		return result;
+	}
 
-  private ResultBuilding transformNode(Node node) {
-    return new ResultBuilding(node);
-  }
+	private ResultBuilding transformNode(Node node) {
+		return new ResultBuilding(node);
+	}
 
 }

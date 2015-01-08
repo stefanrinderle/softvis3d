@@ -15,9 +15,10 @@ import de.rinderle.softvis3d.layout.bottomUp.SnapshotVisitor;
 import org.sonar.api.config.Settings;
 
 public interface SnapshotVisitorFactory {
-  public SnapshotVisitor create(
-    @Assisted Settings settings, @Assisted LayoutViewType viewType,
-    @Assisted(value = "minMaxFootprintMetricValues") MinMaxValue minMaxFootprintMetricValues,
-    @Assisted(value = "minMaxHeightMetricValues") MinMaxValue minMaxHeightMetricValues,
-    @Assisted(value = "dependenciesCount") int dependenciesCount);
+	public SnapshotVisitor create(
+			@Assisted Settings settings,
+			@Assisted LayoutViewType viewType,
+			@Assisted(value = "minMaxFootprintMetricValues") MinMaxValue minMaxFootprintMetricValues,
+			@Assisted(value = "minMaxHeightMetricValues") MinMaxValue minMaxHeightMetricValues,
+			@Assisted(value = "dependenciesCount") int dependenciesCount);
 }
