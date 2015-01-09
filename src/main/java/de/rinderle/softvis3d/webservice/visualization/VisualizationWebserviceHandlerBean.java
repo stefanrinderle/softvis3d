@@ -1,6 +1,6 @@
 /*
  * SoftVis3D Sonar plugin
- * Copyright (C) 2014 Stefan Rinderle
+ * Copyright (C) 2014 - Stefan Rinderle
  * stefan@rinderle.info
  *
  * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
@@ -59,7 +59,7 @@ public class VisualizationWebserviceHandlerBean implements
 			this.visualizationJsonWriter.transformResponseToJson(response,
 					result);
 		} catch (DotExecutorException e) {
-			e.printStackTrace();
+      LOGGER.error("error on dot execution.", e);
 		}
 	}
 

@@ -1,5 +1,5 @@
 ${title}
-Copyright (C) ${year} ${owner}
+Copyright (C) ${year} - ${owner}
 ${mailto}
 
 ${title} can not be copied and/or distributed without the express

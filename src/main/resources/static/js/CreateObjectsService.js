@@ -1,6 +1,6 @@
 /*
  * SoftVis3D Sonar plugin
- * Copyright (C) 2014 Stefan Rinderle
+ * Copyright (C) 2014 - Stefan Rinderle
  * stefan@rinderle.info
  *
  * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
@@ -18,7 +18,7 @@ softVis3dAngular.factory('createObjectsService',
                 },
 
                 createPlatform: function (platform) {
-                    var position = new Array();
+                    var position = [];
                     position.x = platform.positionX;
                     position.y = platform.height3d;
                     position.z = platform.positionY;
@@ -49,7 +49,7 @@ softVis3dAngular.factory('createObjectsService',
                     var nodeGeometry = new THREE.BoxGeometry(
                         building.width, building.buildingHeight, building.height);
 
-                    var position = new Array();
+                    var position = [];
                     position.x = building.positionX;
                     position.y = building.height3d + building.buildingHeight / 2;
                     position.z = building.positionY;
