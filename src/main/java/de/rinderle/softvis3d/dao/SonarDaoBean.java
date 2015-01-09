@@ -119,6 +119,8 @@ public class SonarDaoBean implements SonarDao {
 
 	/**
 	 * TODO: Should be done within one method for both metrics using
+	 * Annotation SqlResultSetMapping. Gave it a try but didn't work as expected.
+	 *
 	 */
 	@Override
 	public List<Object[]> getAllProjectElementsWithMetric(
