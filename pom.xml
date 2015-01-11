@@ -241,59 +241,59 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>com.samaxes.maven</groupId>
-                <artifactId>minify-maven-plugin</artifactId>
-                <version>1.7.4</version>
-                <executions>
-                    <execution>
-                        <id>minify angularJS files</id>
-                        <configuration>
-                            <charset>UTF-8</charset>
-                            <webappSourceDir>src/main/resources</webappSourceDir>
-                            <webappTargetDir>target/classes</webappTargetDir>
-                            <jsSourceDir>static/js</jsSourceDir>
-                            <jsSourceFiles>
-                                <jsSourceFile>SoftVis3dAngular.js</jsSourceFile>
-                                <jsSourceFile>BackendService.js</jsSourceFile>
-                                <jsSourceFile>CreateObjectsService.js</jsSourceFile>
-                                <jsSourceFile>DetailsController.js</jsSourceFile>
-                                <jsSourceFile>Directives.js</jsSourceFile>
-                                <jsSourceFile>RenderController.js</jsSourceFile>
-                                <jsSourceFile>SceneObjectsService.js</jsSourceFile>
-                                <jsSourceFile>TreeService.js</jsSourceFile>
-                            </jsSourceFiles>
-                            <jsFinalFile>softvis3d.js</jsFinalFile>
-                            <jsEngine>CLOSURE</jsEngine>
-                        </configuration>
-                        <goals>
-                            <goal>minify</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>minify threeJs files</id>
-                        <configuration>
-                            <charset>UTF-8</charset>
-                            <webappSourceDir>src/main/resources</webappSourceDir>
-                            <webappTargetDir>target/classes</webappTargetDir>
-                            <jsSourceDir>static/threeJS</jsSourceDir>
-                            <jsSourceFiles>
-                                <jsSourceFile>three.js</jsSourceFile>
-                                <jsSourceFile>NURBSUtils.js</jsSourceFile>
-                                <jsSourceFile>NURBSCurve.js</jsSourceFile>
-                                <jsSourceFile>OrbitControls.js</jsSourceFile>
-                                <jsSourceFile>Detector.js</jsSourceFile>
-                            </jsSourceFiles>
-                            <jsFinalFile>threeJsAll.js</jsFinalFile>
-                            <jsEngine>CLOSURE</jsEngine>
-                            <closureLanguage>ECMASCRIPT5</closureLanguage>
-                        </configuration>
-                        <goals>
-                            <goal>minify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>com.samaxes.maven</groupId>-->
+                <!--<artifactId>minify-maven-plugin</artifactId>-->
+                <!--<version>1.7.4</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>minify angularJS files</id>-->
+                        <!--<configuration>-->
+                            <!--<charset>UTF-8</charset>-->
+                            <!--<webappSourceDir>src/main/resources</webappSourceDir>-->
+                            <!--<webappTargetDir>target/classes</webappTargetDir>-->
+                            <!--<jsSourceDir>static/js</jsSourceDir>-->
+                            <!--<jsSourceFiles>-->
+                                <!--<jsSourceFile>SoftVis3dAngular.js</jsSourceFile>-->
+                                <!--<jsSourceFile>BackendService.js</jsSourceFile>-->
+                                <!--<jsSourceFile>CreateObjectsService.js</jsSourceFile>-->
+                                <!--<jsSourceFile>DetailsController.js</jsSourceFile>-->
+                                <!--<jsSourceFile>Directives.js</jsSourceFile>-->
+                                <!--<jsSourceFile>RenderController.js</jsSourceFile>-->
+                                <!--<jsSourceFile>SceneObjectsService.js</jsSourceFile>-->
+                                <!--<jsSourceFile>TreeService.js</jsSourceFile>-->
+                            <!--</jsSourceFiles>-->
+                            <!--<jsFinalFile>softvis3d.js</jsFinalFile>-->
+                            <!--<jsEngine>CLOSURE</jsEngine>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>minify</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                    <!--<execution>-->
+                        <!--<id>minify threeJs files</id>-->
+                        <!--<configuration>-->
+                            <!--<charset>UTF-8</charset>-->
+                            <!--<webappSourceDir>src/main/resources</webappSourceDir>-->
+                            <!--<webappTargetDir>target/classes</webappTargetDir>-->
+                            <!--<jsSourceDir>static/threeJS</jsSourceDir>-->
+                            <!--<jsSourceFiles>-->
+                                <!--<jsSourceFile>three.js</jsSourceFile>-->
+                                <!--<jsSourceFile>NURBSUtils.js</jsSourceFile>-->
+                                <!--<jsSourceFile>NURBSCurve.js</jsSourceFile>-->
+                                <!--<jsSourceFile>OrbitControls.js</jsSourceFile>-->
+                                <!--<jsSourceFile>Detector.js</jsSourceFile>-->
+                            <!--</jsSourceFiles>-->
+                            <!--<jsFinalFile>threeJsAll.js</jsFinalFile>-->
+                            <!--<jsEngine>CLOSURE</jsEngine>-->
+                            <!--<closureLanguage>ECMASCRIPT5</closureLanguage>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>minify</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>

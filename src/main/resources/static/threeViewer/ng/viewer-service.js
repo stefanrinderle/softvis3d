@@ -73,37 +73,6 @@ ThreeViewer.ViewerService.prototype.makeSelection = function (mouse) {
 };
 
 
-/**
- * Load OBJ and MTL file
- * @param {!{obj: string, mtl: string, name: string, type: string}} info
- */
-ThreeViewer.ViewerService.prototype.loadOBJMTL = function (info){
-    this.home.wrangler.loadOBJMTL(info.obj, info.mtl, info.name);
-};
-/**
- * Load OBJ file.
- * @param {!{obj: string, name: string, type: string}} info
- */
-ThreeViewer.ViewerService.prototype.loadOBJ = function (info){
-    this.home.wrangler.loadOBJ(info.obj, info.name);
-};
-
-/**
- * Load a glTF file
- * @param {!{url: string, name: string, type: string}} info
- */
-ThreeViewer.ViewerService.prototype.loadGLTF = function (info){
-    this.home.wrangler.loadGLTF(info.url, info.name);
-};
-
-/**
- * Load a JavaScript model
- * @param {!{url: string, name: string, type: string}} info
- */
-ThreeViewer.ViewerService.prototype.loadJSON = function (info) {
-    this.home.wrangler.loadJSON(info.url, info.name);
-};
-
 ThreeViewer.ViewerService.prototype.loadSoftVis3d = function (data) {
     this.home.wrangler.loadSoftVis3d(data);
 };

@@ -32,8 +32,7 @@ angular.module('ThreeViewerApp', ['ngHammer', 'ngRoute', 'LocalStorageModule'])
     .service('StorageService', ['localStorageService', 'MessageBus', ThreeViewer.StorageService])
     .service('MessageBus', ['$rootScope', ThreeViewer.MessageBus])
     .service('ViewerService', ['$timeout', 'MessageBus', ThreeViewer.ViewerService])
-    .service('FileLoaderController', ['$scope', 'MessageBus', 'ViewerService', 'StorageService'])
     .service('BackendService', ['$http', ThreeViewer.BackendService])
     .controller('AppController', ['$scope', 'ViewerService', ThreeViewer.AppController])
     .controller('ToolbarController', ['$scope', 'ViewerService', ThreeViewer.ToolbarController])
-    .controller('FileLoaderController', ['$scope', 'MessageBus', 'ViewerService', 'StorageService', 'BackendService', ThreeViewer.FileLoaderController]);
+    .controller('FileLoaderController', ['$scope', 'MessageBus', 'ViewerService', 'BackendService', ThreeViewer.FileLoaderController]);

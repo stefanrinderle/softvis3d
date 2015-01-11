@@ -16,12 +16,19 @@ Viewer.ObjectBuilder = function (params) {
 
 Viewer.ObjectBuilder.prototype = {
     createObjects: function (platformArray) {
+        var result = [];
+
         for (var i = 0; i < platformArray.webserviceResult.length; i++) {
-            this.createPlatform(platformArray.webserviceResult[i]);
+            var platformResult = this.createPlatform(platformArray.webserviceResult[i]);
+            result = result.concat(platformResult);
         }
+
+        return result;
     },
 
     createPlatform: function (platform) {
+        var result = [];
+
         var position = [];
         position.x = platform.positionX;
         position.y = platform.height3d;
@@ -36,14 +43,19 @@ Viewer.ObjectBuilder.prototype = {
             opacity: platform.opacity
         });
 
-        this.createBox(geometryLayer, layerMaterial, position, platform.platformId, "node");
+        result.push(this.createBox(geometryLayer, layerMaterial, position, platform.platformId, "node"));
 
         for (var i = 0; i < platform.nodes.length; i++) {
-            this.createBuilding(platform.nodes[i]);
+            var buildingResult = this.createBuilding(platform.nodes[i]);
+            result = result.concat(buildingResult);
         }
+
+        return result;
     },
 
     createBuilding: function (building) {
+        var result = [];
+
         var nodeMaterial = new THREE.MeshLambertMaterial({
             color: building.color,
             transparent: true,
@@ -58,11 +70,14 @@ Viewer.ObjectBuilder.prototype = {
         position.y = building.height3d + building.buildingHeight / 2;
         position.z = building.positionY;
 
-        this.createBox(nodeGeometry, nodeMaterial, position, building.id, "leaf");
+        result.push(this.createBox(nodeGeometry, nodeMaterial, position, building.id, "leaf"));
 
         for (var i = 0; i < building.arrows.length; i++) {
-            this.createArrow(building.arrows[i]);
+            var arrowResult = this.createArrow(building.arrows[i]);
+            result = result.concat(arrowResult);
         }
+
+        return result;
     },
 
     createBox: function (geometry, material, position, id, type) {
@@ -75,16 +90,21 @@ Viewer.ObjectBuilder.prototype = {
         object.softVis3dId = id;
         object.softVis3dType = type;
 
-        this.context.scene.add(object);
+        return object;
     },
 
     createArrow: function (arrow) {
-        this.createSpline(arrow);
+        var result = [];
+
+        result.push(this.createSpline(arrow));
 
         var pointsLength = arrow.translatedPoints.length;
-        this.createArrowHead(arrow.translatedPoints[pointsLength - 2],
+
+        result.push(this.createArrowHead(arrow.translatedPoints[pointsLength - 2],
             arrow.translatedPoints[pointsLength - 1],
-            arrow);
+            arrow));
+
+        return result;
     },
 
     createSpline: function (arrow) {
@@ -125,7 +145,8 @@ Viewer.ObjectBuilder.prototype = {
         var nurbsLine = new THREE.Line(nurbsGeometry, nurbsMaterial);
         nurbsLine.softVis3dId = arrow.id;
         nurbsLine.softVis3dType = "dependency";
-        this.context.scene.add(nurbsLine);
+
+        return nurbsLine;
     },
 
     createArrowHead: function (startPoint, endPoint, arrow) {
@@ -137,10 +158,12 @@ Viewer.ObjectBuilder.prototype = {
         /* rotation around axis X by -90 degrees
          * matches the default orientation Y
          * with the orientation of looking Z */
-        orientation.multiply(new THREE.Matrix4(1, 0, 0, 0,
+        var multiplyMatrix = new THREE.Matrix4();
+        multiplyMatrix.set(1, 0, 0, 0,
             0, 0, 1, 0,
             0, -1, 0, 0,
-            0, 0, 0, 1));
+            0, 0, 0, 1);
+         orientation.multiply(multiplyMatrix);
 
         /* thickness is in percent at the moment */
         var radius = 1 + (10 * (arrow.radius / 100));
@@ -158,7 +181,8 @@ Viewer.ObjectBuilder.prototype = {
 
         edgeHead.softVis3dId = arrow.id;
         edgeHead.softVis3dType = "dependency";
-        this.context.scene.add(edgeHead);
+
+        return edgeHead;
     },
 
     createVectorFromPoint: function (point) {
