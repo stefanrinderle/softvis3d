@@ -132,6 +132,13 @@ Viewer.Wrangler.prototype = {
         }.bind(this));
     },
 
+    loadSoftVis3d: function(data) {
+        this.removeFromScene();
+        this.name = "softvis3d";
+
+        this.context.objectBuilder.createObjects(data);
+    },
+
     /**
      * Loading a normal texture
      * @param {!string} tex

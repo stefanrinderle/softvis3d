@@ -104,6 +104,10 @@ ThreeViewer.ViewerService.prototype.loadJSON = function (info) {
     this.home.wrangler.loadJSON(info.url, info.name);
 };
 
+ThreeViewer.ViewerService.prototype.loadSoftVis3d = function (data) {
+    this.home.wrangler.loadSoftVis3d(data);
+};
+
 /**
  * Rotate the model
  * @param {!number} x

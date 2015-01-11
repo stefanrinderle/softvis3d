@@ -23,12 +23,13 @@ goog.provide('ThreeViewer.FileLoaderController');
  * @export
  * @ngInject
  */
-ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, StorageService) {
+ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, StorageService, BackendService) {
 
     this.scope = $scope;
     this.MessageBus = MessageBus;
     this.ViewerService = ViewerService;
     this.StorageService = StorageService;
+    this.BackendService = BackendService;
 
     // visibility of the overall app and individual tabs
     /**
@@ -200,21 +201,38 @@ ThreeViewer.FileLoaderController.prototype.loadSampleOBJMTL = function () {
  *  FIXME:  Add animation support
  */
 ThreeViewer.FileLoaderController.prototype.loadglTF = function () {
-    if (this.data.url && this.data.gltfname) {
+    var me = this;
+    this.BackendService.getVisualization(96467, 1, 20, "city").then(function (response) {
+//        $scope.loadTree(snapshotId, footprintMetricId, heightMetricId, viewType);
+//        $scope.showVisualization(response);
 
-        var info = {
-            'url': this.data.url,
-            'name': this.data.gltfname,
-            'type': 'glTF'
-        };
+        me.ViewerService.loadSoftVis3d(response);
 
-        this.ViewerService.loadGLTF(info);
-        this.StorageService.saveFile(info);
-        this.clearOut();
-        this.MessageBus.trigger('hideLoader');
-    } else {
-        alert('URL to a glTF file and a unique name required');
-    }
+        me.clearOut();
+        me.MessageBus.trigger('hideLoader');
+    });
+
+//    backendService.getVisualization(snapshotId, footprintMetricId, heightMetricId, viewType)
+//        .then(function (response) {
+//            $scope.loadTree(snapshotId, footprintMetricId, heightMetricId, viewType);
+//            $scope.showVisualization(response);
+//        });
+
+//    if (this.data.url && this.data.gltfname) {
+//
+//        var info = {
+//            'url': this.data.url,
+//            'name': this.data.gltfname,
+//            'type': 'glTF'
+//        };
+//
+//        this.ViewerService.loadGLTF(info);
+//        this.StorageService.saveFile(info);
+//        this.clearOut();
+//        this.MessageBus.trigger('hideLoader');
+//    } else {
+//        alert('URL to a glTF file and a unique name required');
+//    }
 };
 
 /**

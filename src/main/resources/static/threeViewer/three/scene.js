@@ -32,6 +32,8 @@ Viewer.Scene = function (params) {
     this.controls = null;
     this.raycaster = null;
 
+    this.objectBuilder = null;
+
     this.init();
 
 };
@@ -51,6 +53,9 @@ Viewer.Scene.prototype = {
         this.controls = new THREE.OrbitControls( this.cameras.liveCam, this.container );
         this.raycaster = new THREE.Raycaster();
         this.wrangler.init();
+
+        this.objectBuilder = new Viewer.ObjectBuilder(params);
+
         this.listeners();
     },
 

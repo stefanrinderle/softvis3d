@@ -14,6 +14,7 @@ goog.require('ThreeViewer.Directives');
 goog.require('ThreeViewer.Filters');
 goog.require('ThreeViewer.MessageBus');
 goog.require('ThreeViewer.StorageService');
+goog.require('ThreeViewer.BackendService');
 goog.require('ThreeViewer.Config');
 //goog.require('Viewer.Scene');
 
@@ -32,6 +33,7 @@ angular.module('ThreeViewerApp', ['ngHammer', 'ngRoute', 'LocalStorageModule'])
     .service('MessageBus', ['$rootScope', ThreeViewer.MessageBus])
     .service('ViewerService', ['$timeout', 'MessageBus', ThreeViewer.ViewerService])
     .service('FileLoaderController', ['$scope', 'MessageBus', 'ViewerService', 'StorageService'])
+    .service('BackendService', ['$http', ThreeViewer.BackendService])
     .controller('AppController', ['$scope', 'ViewerService', ThreeViewer.AppController])
     .controller('ToolbarController', ['$scope', 'ViewerService', ThreeViewer.ToolbarController])
-    .controller('FileLoaderController', ['$scope', 'MessageBus', 'ViewerService', 'StorageService', ThreeViewer.FileLoaderController]);
+    .controller('FileLoaderController', ['$scope', 'MessageBus', 'ViewerService', 'StorageService', 'BackendService', ThreeViewer.FileLoaderController]);

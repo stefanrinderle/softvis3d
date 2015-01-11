@@ -41,6 +41,7 @@
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/filters.js"></script>
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/viewer-service.js"></script>
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/storage-service.js"></script>
+<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/backend-service.js"></script>
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/message-bus.js"></script>
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/app.js"></script>
 
@@ -50,6 +51,8 @@
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/util.js"></script>
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/camera.js"></script>
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/wrangler.js"></script>
+
+<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/softvis/ObjectBuilder.js"></script>
 
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/three/DDSLoader.js"></script>
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/three/MTLLoader.js"></script>
@@ -70,18 +73,18 @@
 <!-- ANGULAR JS FILES -->
 <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/angular.min.js"></script>-->
 
-<% if (softVis3D.isProd()) %>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/softvis3d.min.js"></script>
-<% else %>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/SoftVis3dAngular.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/BackendService.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/CreateObjectsService.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/DetailsController.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/Directives.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/RenderController.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/SceneObjectsService.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/TreeService.js"></script>
-<% end %>
+<!--<% if (softVis3D.isProd()) %>-->
+    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/softvis3d.min.js"></script>-->
+<!--<% else %>-->
+    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/SoftVis3dAngular.js"></script>-->
+    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/BackendService.js"></script>-->
+    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/CreateObjectsService.js"></script>-->
+    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/DetailsController.js"></script>-->
+    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/Directives.js"></script>-->
+    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/RenderController.js"></script>-->
+    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/SceneObjectsService.js"></script>-->
+    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/TreeService.js"></script>-->
+<!--<% end %>-->
 
 <!-- THREE JS FILES -->
 <% if (softVis3D.isProd()) %>
