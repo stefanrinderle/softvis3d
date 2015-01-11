@@ -33,20 +33,6 @@ ThreeViewer.AppController = function ($scope, ViewerService) {
         'loader': true
     };
 
-    /**
-     * @expose
-     * @type {{scale: number, rotateX: number, rotateY: number, rotateZ: number, positionX: number, positionY: number, positionZ: number}}
-     */
-    this.data = {
-        'scale': 1,
-        'rotateX': 0,
-        'rotateY': 0,
-        'rotateZ': 0,
-        'positionX': 0,
-        'positionY': 0,
-        'positionZ': 0
-    };
-
     this.init();
 };
 
@@ -110,31 +96,4 @@ ThreeViewer.AppController.prototype.hideLoader = function () {
  */
 ThreeViewer.AppController.prototype.hideToolbar = function () {
     this.tb.visible = false;
-};
-
-/**
- * @export
- */
-ThreeViewer.AppController.prototype.scale = function () {
-    this.ViewerService.scale(this.data.scale);
-};
-
-/**
- * Rotate around an axis
- */
-ThreeViewer.AppController.prototype.rotate = function () {
-    this.ViewerService.rotate(
-        parseFloat(this.data.rotateX),
-        parseFloat(this.data.rotateY),
-        parseFloat(this.data.rotateZ));
-};
-
-/**
- * Translate around the scene
- */
-ThreeViewer.AppController.prototype.translate = function () {
-    this.ViewerService.translate(
-        parseFloat(this.data.positionX),
-        parseFloat(this.data.positionY),
-        parseFloat(this.data.positionZ));
 };

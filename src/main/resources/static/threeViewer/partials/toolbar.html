@@ -8,3 +8,41 @@
     permission of Stefan Rinderle.
 
 -->
+<div id="toolbar" ng-controller="ToolbarController as toolbar" ng-cloak>
+    <h2>Toolbar</h2><a href="#" class="close" ng-click="viewer.hideToolbar()">X</a>
+    <div>
+        <label>Scale:  <span>{{toolbar.data.scale | forceFloat}}</span><br />
+            <input class="inputControls" type="range" min=0.1 max=10 step=0.1 ng-model="toolbar.data.scale" ng-change="toolbar.scale()"/>
+        </label>
+    </div>
+    <div>
+        <label>Rotate X: <span>{{toolbar.data.rotateX | forceInt}}</span><br />
+            <input class="inputControls" type="range" min=0 max=359 step=1 ng-model="toolbar.data.rotateX" ng-change="toolbar.rotate('x')"/>
+        </label>
+    </div>
+    <div>
+        <label>Rotate Y: <span>{{toolbar.data.rotateY | forceInt}}</span><br />
+            <input class="inputControls" type="range" min=0 max=359 step=1 ng-model="toolbar.data.rotateY" ng-change="toolbar.rotate('y')"/>
+        </label>
+    </div>
+    <div>
+        <label>Rotate Z: <span>{{toolbar.data.rotateZ | forceInt}}</span><br />
+            <input class="inputControls" type="range" min=0 max=359 step=1 ng-model="toolbar.data.rotateZ" ng-change="toolbar.rotate('z')"/>
+        </label>
+    </div>
+    <div>
+        <label>Translate X: <span>{{toolbar.data.positionX | forceFloat}}</span><br />
+            <input class="inputControls" type="range" min=-1000 max=1000 step=0.1 ng-model="toolbar.data.positionX" ng-change="toolbar.translate()"/>
+        </label>
+    </div>
+    <div>
+        <label>Translate Y: <span>{{toolbar.data.positionY | forceFloat}}</span><br />
+            <input class="inputControls" type="range" min=-1000 max=1000 step=0.1 ng-model="toolbar.data.positionY" ng-change="toolbar.translate()"/>
+        </label>
+    </div>
+    <div>
+        <label>Translate Z: <span>{{toolbar.data.positionZ | forceFloat}}</span><br />
+            <input class="inputControls" type="range" min=-1000 max=1000 step=0.1 ng-model="toolbar.data.positionZ" ng-change="toolbar.translate()"/>
+        </label>
+    </div>
+</div>

@@ -6,21 +6,6 @@
  * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
  * permission of Stefan Rinderle.
  */
-/** {*/
-    /*font-family: Dosis, sans-serif;*/
-    /*margin: 0;*/
-    /*padding: 0;*/
-    /*box-sizing: border-box*/
-/*}*/
-
-/*body {*/
-    /*overflow: hidden*/
-/*}*/
-
-/*button {*/
-    /*padding: 5px*/
-/*}*/
-
 #viewer {
     position: relative;
     /*left: 0;*/
@@ -135,8 +120,8 @@
 
 .sidebarThreeJs {
     position: fixed;
-    bottom: 0;
-    right: 0;
+    bottom: 71px;
+    right: 10px;
     z-index: 15;
     background-color: #225378;
     text-align: center

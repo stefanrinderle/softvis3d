@@ -89,7 +89,7 @@ ThreeViewer.FileLoaderDirective = function() {
 /**
  * @constructor
  */
-ThreeViewer.ToolbarsDirective = function() {
+ThreeViewer.ToolbarDirective = function() {
     return {
         restrict: 'A',
         templateUrl: '/static/softVis3D/threeViewer/partials/toolbar.html'

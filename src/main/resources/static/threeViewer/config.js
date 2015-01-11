@@ -29,7 +29,7 @@ var SETUP = {
         SPOT: true,
         AMBIENT: true
     },
-    DEBUG_MODE: false,
+    DEBUG_MODE: true,
     SAMPLES: {
         GLTFURL : '/v2/dist/gltf/duck.json',
         GLTFNAME: 'glTF Duck',
