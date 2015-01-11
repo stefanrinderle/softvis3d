@@ -52,27 +52,10 @@ ThreeViewer.SelectDirective.prototype.link = function (scope, elem, attrs) {
     this.elem = elem;
     this.attrs = attrs;
 
-    var x, y,
-        width,
-        height,
-        offsetLeft,
-        offsetTop,
-        mouseDown = {};
     jQuery(this.elem).hammer({
         prevent_default: false
-    }).bind('tap', function(e) {
-        x = e.gesture.center.x;
-        y = e.gesture.center.y;
-
-        offsetLeft = this.elem.context.offsetLeft;
-        offsetTop = this.elem.context.offsetTop;
-        width = window.innerWidth;
-        height = window.innerHeight;
-
-        // creating NDC coordinates for ray intersection.
-        mouseDown.x = (x / width) * 2 - 1;
-        mouseDown.y = -(y / height) * 2 + 1;
-        this.ViewerService.makeSelection(mouseDown);
+    }).bind('tap', function(event) {
+        this.ViewerService.makeSelection(event);
     }.bind(this));
 };
 

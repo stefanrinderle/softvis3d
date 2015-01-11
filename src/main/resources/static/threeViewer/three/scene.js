@@ -57,6 +57,7 @@ Viewer.Scene.prototype = {
         this.objectBuilder = new Viewer.ObjectBuilder(params);
 
         this.listeners();
+        this.onWindowResize();
     },
 
 
@@ -83,7 +84,7 @@ Viewer.Scene.prototype = {
     * Resizes the camera when document is resized.
     */
     onWindowResize: function () {
-        this.WIDTH = window.innerWidth;
+        this.WIDTH = window.innerWidth - 184;
         this.HEIGHT = window.innerHeight - 142;
 
         this.cameras.liveCam.aspect = this.WIDTH / this.HEIGHT;

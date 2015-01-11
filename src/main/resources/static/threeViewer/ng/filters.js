@@ -54,3 +54,58 @@ ThreeViewer.ForceFloat.factory = function (){
 ThreeViewer.ForceFloat.prototype.force = function(input){
     return parseFloat(input);
 };
+
+//
+///**
+// * @constructor
+// */
+//ThreeViewer.ToolbarInDisplay= function () {
+//    this.force = this.force.bind(this);
+//};
+//
+///**
+// * @return {function}
+// */
+//ThreeViewer.ToolbarInDisplay.factory = function (){
+//    var filter = new ThreeViewer.ToolbarInDisplay();
+//    return filter.force;
+//};
+//
+///**
+// * @param {String} input
+// * @return {String}
+// */
+//ThreeViewer.ToolbarInDisplay.prototype.force = function(input){
+//        if (input.indexOf("elevatorNode_") > -1) {
+//            return "From parent layer"
+//        } else {
+//            return input;
+//        }
+//};
+//
+///**
+// * @constructor
+// */
+//ThreeViewer.ToolbarOutDisplay= function () {
+//    this.force = this.force.bind(this);
+//};
+//
+///**
+// * @return {function}
+// */
+//ThreeViewer.ToolbarOutDisplay.factory = function (){
+//    var filter = new ThreeViewer.ToolbarOutDisplay();
+//    return filter.force;
+//};
+//
+///**
+// * @param {String} input
+// * @return {String}
+// */
+//ThreeViewer.ToolbarOutDisplay.prototype.force = function(input){
+//    if (input.indexOf("elevatorNode_") > -1) {
+//        return "To parent layer"
+//    } else {
+//        return input;
+//    }
+//};

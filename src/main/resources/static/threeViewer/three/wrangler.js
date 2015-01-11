@@ -22,17 +22,9 @@ Viewer.Wrangler = function (params) {
     this.resultObjects = [];
     this.objectsInView = [];
 
-    this.loadingManager = new THREE.LoadingManager();
-    //used
-    this.objMtlLoader = new THREE.OBJMTLLoader(this.loadingManager);
-    this.objLoader = new THREE.OBJLoader(this.loadingManager);
-    this.imgLoader = new THREE.ImageLoader(this.loadingManager);
-    this.glTFLoader = new THREE.glTFLoader();
-    this.jsLoader = new THREE.JSONLoader();
+    this.selectedTreeObjects = [];
 
     this.name = null;
-
-    this.imgFiles = {};
 };
 
 /**
@@ -41,14 +33,10 @@ Viewer.Wrangler = function (params) {
 Viewer.Wrangler.prototype = {
 
     init: function () {
-        THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
         this.listeners();
     },
 
     listeners: function () {
-        this.loadingManager.onProgress = function (item, loaded, total) {
-            console.log(item, loaded, total);
-        };
     },
 
     loadSoftVis3d: function(data) {
@@ -60,6 +48,26 @@ Viewer.Wrangler.prototype = {
             var object = this.resultObjects[index];
             this.objectsInView.push(object);
             this.context.scene.add(object);
+        }
+    },
+
+    selectSceneTreeObject: function (objectSoftVis3dId) {
+        // reset former selected objects
+        for (var index = 0; index < this.selectedTreeObjects.length; index++) {
+            this.selectedTreeObjects[index].object.material.color.setHex(this.selectedTreeObjects[index].color);
+        }
+
+        this.selectedTreeObjects = [];
+
+        for (var index = 0; index < this.resultObjects.length; index++) {
+            if (objectSoftVis3dId === this.resultObjects[index].softVis3dId) {
+                var selectedObjectInformation = {
+                    "object": this.resultObjects[index],
+                    "color": this.resultObjects[index].material.color.getHex()
+                };
+                this.selectedTreeObjects.push(selectedObjectInformation);
+                this.resultObjects[index].material.color.setHex(0xFFBF00);
+            }
         }
     },
 
