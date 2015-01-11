@@ -9,15 +9,6 @@
 goog.provide('ThreeViewer.Config');
 
 /**
- * @constructor
- * @ngInject
- */
-ThreeViewer.ConfigLocalStorage = function (localStorageServiceProvider) {
-    localStorageServiceProvider.setPrefix('ng-three-viewer');
-};
-
-
-/**
  * @param {angular.$locationProvider} $locationProvider
  * @constructor
  * @ngInject
