@@ -27,12 +27,13 @@ angular.module('ThreeViewerApp', ['ngHammer', 'ngRoute'])
     .directive('about', ThreeViewer.AboutDirective)
     .filter('forceInt', ThreeViewer.ForceInt.factory)
     .filter('forceFloat', ThreeViewer.ForceFloat.factory)
-//    .filter('inDisplay', ThreeViewer.ToolbarInDisplay.factory)
-//    .filter('outDisplay', ThreeViewer.ToolbarOutDisplay.factory)
+    .filter('inDisplay', ThreeViewer.ToolbarInDisplay.factory)
+    .filter('outDisplay', ThreeViewer.ToolbarOutDisplay.factory)
     .service('MessageBus', ['$rootScope', ThreeViewer.MessageBus])
     .service('ViewerService', ['$timeout', 'MessageBus', ThreeViewer.ViewerService])
     .service('BackendService', ['$http', ThreeViewer.BackendService])
     .service('TreeService', ['$http', ThreeViewer.TreeService])
     .controller('AppController', ['$scope', 'ViewerService', ThreeViewer.AppController])
-    .controller('ToolbarController', ['$scope', 'ViewerService', 'TreeService', ThreeViewer.ToolbarController])
-    .controller('FileLoaderController', ['$scope', 'MessageBus', 'ViewerService', 'BackendService', ThreeViewer.FileLoaderController]);
+    .controller('ToolbarController', ['$scope', 'ViewerService', 'TreeService', 'MessageBus', ThreeViewer.ToolbarController])
+    .controller('FileLoaderController', ['$scope', 'MessageBus', 'ViewerService', 'BackendService', 'TreeService',
+        ThreeViewer.FileLoaderController]);

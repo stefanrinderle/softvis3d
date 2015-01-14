@@ -35,6 +35,16 @@ ThreeViewer.MessageBus.prototype.trigger = function (type, message) {
 };
 
 /**
+ * @export
+ *
+ * Get a message from rootScope.
+ * @param {!string} type
+ */
+ThreeViewer.MessageBus.prototype.getMessage = function (type) {
+    return this.message[type];
+};
+
+/**
  * Trigger a message from rootScope.
  * @param {!string} type
  */

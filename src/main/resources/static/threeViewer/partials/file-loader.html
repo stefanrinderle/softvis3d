@@ -14,7 +14,7 @@
         <div class="load-button" ng-click="loader.showTab('loadJS');">JSON</div>
         <div class="load-button" ng-click="loader.showTab('loadOBJ');">OBJ/MTL</div>
         <div class="load-button" ng-click="loader.showTab('loadGLTF');">glTF</div>
-        <div href="#" class="close2" ng-click="viewer.hideLoader()"></div>
+        <div href="#" class="close2" ng-click="viewer.toggleLoader()">X</div>
     </div>
     <div class="loader-options">
         <div id="recent" class="loader-options" ng-show="loader.state.recent">

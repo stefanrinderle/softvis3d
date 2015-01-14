@@ -87,9 +87,14 @@ ThreeViewer.ViewerService.prototype.makeSelection = function (e) {
 
     if(intersected.length > 0){
         var objectSoftVis3dId = intersected[0].object.softVis3dId;
+        var objectSoftVis3dType = intersected[0].object.softVis3dType;
+
+        var eventObject = {};
+        eventObject.softVis3dId = objectSoftVis3dId;
+        eventObject.softVis3dType = objectSoftVis3dType;
 
         this.selectSceneTreeObject(objectSoftVis3dId);
-        this.MessageBus.trigger('objectSelected', objectSoftVis3dId);
+        this.MessageBus.trigger('objectSelected', eventObject);
     } else {
         intersected = null;
         console.info('No intersection detected');

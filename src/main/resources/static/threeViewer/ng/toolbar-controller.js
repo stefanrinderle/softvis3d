@@ -18,11 +18,12 @@ goog.provide('ThreeViewer.ToolbarController');
  * @export
  * @ngInject
  */
-ThreeViewer.ToolbarController = function ($scope, ViewerService, TreeService) {
+ThreeViewer.ToolbarController = function ($scope, ViewerService, TreeService, MessageBus) {
 
     this.scope = $scope;
     this.ViewerService = ViewerService;
     this.TreeService = TreeService;
+    this.MessageBus = MessageBus;
 
     this.node = null;
     this.displayChildren = false;
@@ -43,21 +44,20 @@ ThreeViewer.ToolbarController.prototype.init = function () {
 };
 
 ThreeViewer.ToolbarController.prototype.listeners = function () {
-    this.scope.$on('objectSelected', function (event, selectObject) {
-        console.log("objectSelected toolbar");
-//        console.log(event);
-//        console.log(id);
-//        console.log(type);
+    var me = this;
+    this.scope.$on('objectSelected', function (event) {
+        var eventObject = this.MessageBus.getMessage('objectSelected');
 
-//        if (type === "dependency") {
+//        if (eventObject.softVis3dType === "dependency") {
 //            var edgeIds = [];
-//            edgeIds.push(id);
+//            edgeIds.push(eventObject.softVis3dId);
 //            sceneObjectsService.selectSceneEdgeObjects(edgeIds);
 //        } else {
 //            sceneObjectsService.selectSceneTreeObject(id);
 //        }
 
-//        this.showDetails(id, type);
+        this.showDetails(eventObject.softVis3dId, eventObject.softVis3dType);
+        me.scope.$apply();
     }.bind(this));
 };
 
@@ -147,29 +147,29 @@ ThreeViewer.ToolbarController.prototype.selectAllDependentDependenciesById = fun
 
 ThreeViewer.ToolbarController.prototype.selectAllDependentDependenciesByIds = function (includingDependencyIds) {
     var edgeIds = this.TreeService.getAllDependentEdgeIds(includingDependencyIds);
-    sceneObjectsService.selectSceneEdgeObjects(edgeIds);
+//    sceneObjectsService.selectSceneEdgeObjects(edgeIds);
 };
 
 ThreeViewer.ToolbarController.prototype.selectSceneObjectFromDetails = function (objectId, type) {
     if (type === "dependency") {
         var edgeIds = [];
         edgeIds.push(objectId);
-        sceneObjectsService.selectSceneEdgeObjects(edgeIds);
+//        sceneObjectsService.selectSceneEdgeObjects(edgeIds);
     } else {
-        sceneObjectsService.selectSceneTreeObject(objectId);
+//        sceneObjectsService.selectSceneTreeObject(objectId);
     }
 
     this.showDetails(objectId, type);
 };
 
 ThreeViewer.ToolbarController.prototype.showAllSceneElements = function () {
-    sceneObjectsService.showAllSceneElements();
+//    sceneObjectsService.showAllSceneElements();
 };
 
 ThreeViewer.ToolbarController.prototype.hideAllSceneElementsExceptIdTree = function (id) {
     var showIds = this.TreeService.getAllSceneElementsRecursive(id);
-    sceneObjectsService.hideAllSceneElementsExceptIds(showIds);
-    sceneObjectsService.removeObject(id, "leaf");
+//    sceneObjectsService.hideAllSceneElementsExceptIds(showIds);
+//    sceneObjectsService.removeObject(id, "leaf");
 };
 
 ThreeViewer.ToolbarController.prototype.triggerDisplayChildren = function () {

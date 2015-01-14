@@ -105,6 +105,10 @@
 </div>
 
 <script type="text/javascript">
-
+window.onload = function () {
+//    Direct link to visualization. Load and display.
+//    angular.element(document.getElementById('file-loader')).scope().setSnapshotId(<%= @snapshot.id %>);
+    ThreeViewer.SNAPSHOT_ID = <%= @snapshot.id %>;
+}
 </script>
 

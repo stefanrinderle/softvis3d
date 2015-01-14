@@ -8,9 +8,10 @@
     permission of Stefan Rinderle.
 
 -->
-<div id="toolbar" ng-controller="ToolbarController as toolbar" ng-show="toolbar.node || toolbar.edge" ng-cloak>
-    <h2>Toolbar</h2><a href="#" class="close" ng-click="viewer.hideToolbar()">X</a>
+<div id="toolbar" ng-controller="ToolbarController as toolbar" ng-cloak>
+    <h2>Toolbar</h2><a href="#" class="close" ng-click="viewer.toggleToolbar()">X</a>
 
+    <div ng-show="toolbar.node || toolbar.edge">
         <!-- NODE MAIN INFO -->
 
         <button type='button' ng-click='toolbar.showAllSceneElements();'>Show all objects (reset)</button>

@@ -23,12 +23,13 @@ goog.provide('ThreeViewer.FileLoaderController');
  * @export
  * @ngInject
  */
-ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, BackendService) {
+ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, BackendService, TreeService) {
 
     this.scope = $scope;
     this.MessageBus = MessageBus;
     this.ViewerService = ViewerService;
     this.BackendService = BackendService;
+    this.TreeService = TreeService;
 
     /**
      * @type {{recent: boolean, loadJS: boolean, loadGLTF: boolean, loadOBJ: boolean}}
@@ -79,9 +80,13 @@ ThreeViewer.FileLoaderController.prototype.showTab = function (tab) {
  */
 ThreeViewer.FileLoaderController.prototype.visualisationExample = function () {
     var me = this;
-    this.BackendService.getVisualization(96467, 1, 20, this.data.viewType).then(function (response) {
-        me.ViewerService.loadSoftVis3d(response);
+    console.log("hier id: " + ThreeViewer.SNAPSHOT_ID);
+    this.BackendService.getVisualization(96467, 1, 20, this.data.viewType).then(function (data) {
+        me.ViewerService.loadSoftVis3d(data);
 
-        me.MessageBus.trigger('hideLoader');
+        me.BackendService.getTreeForSnapshotView(96467, 1, 20, me.data.viewType).then(function (data) {
+            me.TreeService.setTree(data);
+            me.MessageBus.trigger('hideLoader');
+        });
     });
 };
