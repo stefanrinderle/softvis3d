@@ -8,39 +8,151 @@
     permission of Stefan Rinderle.
 
 -->
-<div id="file-loader" ng-controller="FileLoaderController as loader" ng-cloak>
+<div id="file-loader" class="closeLoader" ng-controller="FileLoaderController as loader" ng-cloak>
     <div id="loader-buttons">
-        <div class="load-button" ng-click="loader.showTab('recent');">RECENT</div>
-        <div class="load-button" ng-click="loader.showTab('loadJS');">JSON</div>
-        <div class="load-button" ng-click="loader.showTab('loadOBJ');">OBJ/MTL</div>
-        <div class="load-button" ng-click="loader.showTab('loadGLTF');">glTF</div>
-        <div href="#" class="close2" ng-click="viewer.toggleLoader()">X</div>
+        <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.city}"
+             ng-click="loader.showTab('city');">City</div>
+        <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.dependency}"
+             ng-click="loader.showTab('dependency');">Dependency</div>
+        <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.custom}"
+             ng-click="loader.showTab('custom');">Custom</div>
+        <div href="#" class="close closeLoader" ng-click="viewer.toggleLoader()">X</div>
     </div>
     <div class="loader-options">
-        <div id="recent" class="loader-options" ng-show="loader.state.recent">
-            <label>Load recent files</label>
-        </div>
-        <div id="obj-loader" class="loader-options" ng-show="loader.state.loadOBJ" ng-cloak>
+        <div id="city-loader" class="loader-options" ng-show="loader.state.city" ng-cloak>
             <label>
                 Load object
             </label>
         </div>
-        <div id="gltf-loader" class="loader-options" ng-show="loader.state.loadGLTF" ng-cloak>
+        <div id="dependency-loader" class="loader-options" ng-show="loader.state.dependency" ng-cloak>
             <label>
                 Load visualisation example!!!
                 <br /><br /><br />
 
-                <input type="text" ng-model="loader.data.viewType" placeholder="city or dependency">
+                <input type="text" ng-model="loader.data.viewType" text="city">
 
                 <br /><br /><br />
 
                 <button ng-click="loader.visualisationExample()">visualisationExample</button>
             </label>
         </div>
-        <div id="js-loader" class="loader-options" ng-show="loader.state.loadJS" ng-cloak>
-            <label>
-                Json loader <br /><br /><br />
-            </label>
+        <div id="custom-loader" class="loader-options" ng-show="loader.state.custom" ng-cloak>
+            <div id="metricForm" style="height: 30px;">
+                <!--<%-->
+                <!--metricIds = softVis3D.getMetricsForSnapshot(@snapshot.id)-->
+
+                <!--# get all defined metric for project files-->
+                <!--metrics=[]-->
+                <!--metricIds.each do |index|-->
+                <!--m = metric(index)-->
+                <!--metrics << m if m-->
+                <!--end-->
+
+                <!--# set default metric ids if no metrics selected-->
+                <!--if (params[:metric1].blank?)-->
+                <!--puts("no param 1 - default param")-->
+                <!--params[:metric1] = softVis3D.getMetric1FromSettings().to_s-->
+                <!--end-->
+                <!--if (params[:metric2].blank?)-->
+                <!--puts("no param 2 - default param")-->
+                <!--params[:metric2] = softVis3D.getMetric2FromSettings().to_s-->
+                <!--end-->
+                <!--%>-->
+                <!--<% form_tag({:action => @resource.id.to_s}, {:id => 'softVis3DForm', :method => 'get'}) do %>-->
+                <input type="hidden" name="page" value="SoftVis3D">
+
+                <h2>View type</h2>
+
+                <p>The <a href="http://softvis3d.com/#/product/city">code city</a> view is focused on the structure
+                    and file metrics of the project.
+
+                    The <a href="http://softvis3d.com/#/product/dependency">dependency</a> view is focused on the
+                    dependencies within that structure.</p>
+
+                <p>Please take a look at the <a href="http://softvis3d.com/">project web page</a> for details.</p>
+                <br/>
+                <select name="viewType">
+                    <!--<%-->
+                    <!--if ("city"==params[:viewType].to_s)-->
+                    <!--%>-->
+                    <!--<option value="city" selected>City</option>-->
+                    <!--<% else %>-->
+                    <!--<option value="city">City</option>-->
+                    <!--<% end %>-->
+                    <!--<%-->
+                    <!--if ("dependency"==params[:viewType].to_s)-->
+                    <!--%>-->
+                    <!--<option value="dependency" selected>Dependency</option>-->
+                    <!--<% else %>-->
+                    <!--<option value="dependency">Dependency</option>-->
+                    <!--<% end %>-->
+                </select>
+
+                <br/><br/>
+
+                <h2>Metric options</h2>
+
+                <p>The following list contains some examples which metrics can be combined to give meaningful
+                    results.</p>
+                <br/>
+                <ul style="list-style: circle;">
+                    <li><b>Complexity and lines</b></li>
+                    <p>The calculated complexity for each file is the base for the building footprint. The lines of
+                        code metric is used for the building height.
+                        Search for skyscraper buildings and especially for ones with a big footprint. Also building
+                        small buildings (height) with a big footprint (like warehouses) should be interesting.</p>
+                    <li><b>Issues and lines</b></li>
+                    <p>The calculated issue count for each file is the base for the building footprint. The lines of
+                        code metric is used for the building height.
+                        Search for skyscraper buildings and especially for ones with a big footprint. Also building
+                        small buildings (height) with a big footprint (like warehouses) should be interesting.</p>
+                    <li><b>Functions and lines</b></li>
+                    <p>The function count per file is the base for the building footprint. The lines of
+                        code metric is used for the building height.
+                        Search for skyscraper buildings and especially for ones with a small footprint.</p>
+                </ul>
+
+                <br/>
+
+                Building footprint metric:
+                <select name="metric1">
+                    <!--<%-->
+                    <!--# show all graph (as layers)-->
+                    <!--metrics.each do |metric|-->
+                    <!--if (metric.id.to_s==params[:metric1].to_s)-->
+                    <!--%>-->
+                    <!--<option value="<%= metric.id %>" selected><%= metric.short_name %></option>-->
+                    <!--<% else %>-->
+                    <!--<option value="<%= metric.id %>"><%= metric.short_name %></option>-->
+                    <!--<% end %>-->
+                    <!--<%-->
+                    <!--end-->
+                    <!--%>-->
+                </select>
+
+                Building height metric:
+
+                <select name="metric2">
+                    <!--<%-->
+                    <!--# show all graph (as layers)-->
+                    <!--metrics.each do |metric|-->
+                    <!--if (metric.id.to_s==params[:metric2].to_s)-->
+                    <!--%>-->
+                    <!--<option value="<%= metric.id %>" selected><%= metric.short_name %></option>-->
+                    <!--<% else %>-->
+                    <!--<option value="<%= metric.id %>"><%= metric.short_name %></option>-->
+                    <!--<% end %>-->
+                    <!--<%-->
+                    <!--end-->
+                    <!--%>-->
+                </select>
+                <br/><br/>
+
+                <p>Please also take a look at the <a href="http://softvis3d.com/#/product/usage">usage guide</a>.</p>
+                <br/>
+                <input type="submit" value="Submit">
+                <!--<% end %>-->
+            </div>
         </div>
     </div>
 </div>

@@ -32,13 +32,12 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
     this.TreeService = TreeService;
 
     /**
-     * @type {{recent: boolean, loadJS: boolean, loadGLTF: boolean, loadOBJ: boolean}}
+     * @type {{city: boolean, dependency: boolean, custom: boolean}}
      */
     this.state = {
-        'recent': true,
-        'loadJS': false,
-        'loadGLTF': false,
-        'loadOBJ': false
+        'city': true,
+        'dependency': false,
+        'custom': false
     };
 
     this.data = {
@@ -67,10 +66,9 @@ ThreeViewer.FileLoaderController.prototype.listeners = function () {
  * @param {!string} tab
  */
 ThreeViewer.FileLoaderController.prototype.showTab = function (tab) {
-    this.state.recent = false;
-    this.state.loadJS = false;
-    this.state.loadGLTF = false;
-    this.state.loadOBJ = false;
+    this.state.city = false;
+    this.state.dependency = false;
+    this.state.custom = false;
     this.state[tab] = true;
 };
 
@@ -88,6 +86,12 @@ ThreeViewer.FileLoaderController.prototype.visualisationExample = function () {
                 ThreeViewer.SNAPSHOT_ID, 1, 20, me.data.viewType).then(function (data) {
                 me.TreeService.setTree(data);
                 me.MessageBus.trigger('hideLoader');
+
+                var eventObject = {};
+                eventObject.softVis3dId = ThreeViewer.SNAPSHOT_ID;
+                eventObject.softVis3dType = "node";
+
+                me.MessageBus.trigger('objectSelected', eventObject);
             });
     });
 };

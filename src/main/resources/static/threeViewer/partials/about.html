@@ -9,7 +9,10 @@
 
 -->
 <div id="about">
-    <h2>About</h2><a href="#" class="close" ng-click="viewer.toggleAbout()">X</a>
+    <div id="loader-buttons">
+        <div class="load-button loadButtonStayActive">About</div>
+        <div href="#" class="close closeLoader" ng-click="viewer.toggleAbout()">X</div>
+    </div>
     <div id="list">
         <p>JSON, glTF and OBJ file viewer.</p>
         <p>Created by Josh Staples (

@@ -25,7 +25,7 @@ ThreeViewer.AppController = function ($scope, ViewerService) {
 
     /**
      * @expose
-     * @type {{about: boolean, visible: boolean, loader: boolean}}
+     * @type {{about: boolean, toolbar: boolean, loader: boolean}}
      */
     this.tb = {
         'about': false,
@@ -45,9 +45,10 @@ ThreeViewer.AppController.prototype.init = function () {
 };
 
 ThreeViewer.AppController.prototype.listeners = function () {
+    var me = this;
     this.scope.$on('hideLoader', function () {
-        this.tb.loader = false;
-        this.tb.toolbar = true;
+        me.tb.loader = false;
+        me.tb.toolbar = true;
     }.bind(this));
 
 };

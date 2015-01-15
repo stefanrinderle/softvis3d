@@ -19,10 +19,10 @@ var SETUP = {
         VIEWSIZE: 1000
     },
     SCENE: {
-        HELPERS: true,
+        HELPERS: false,
         AXIS_LENGTH: 50,
-        GRID: true,
-        GROUND: true
+        GRID: false,
+        GROUND: false
     },
     LIGHTS: {
         DIRECTIONAL: true,
@@ -30,16 +30,5 @@ var SETUP = {
         AMBIENT: true
     },
     DEBUG_MODE: true,
-    SAMPLES: {
-        GLTFURL : '/v2/dist/gltf/duck.json',
-        GLTFNAME: 'glTF Duck',
-        JSONURL: '/v1/dist/js/female.js',
-        JSONNAME: 'Textured_Lady',
-        OBJURL: '/static/softVis3D/threeViewer/obj/male02.obj',
-        MTLURL: '/static/softVis3D/threeViewer/obj/male02.mtl',
-        OBJNAME: 'No texture guy',
-        OBJMTLNAME: 'Textured guy',
-        GRIDTEXTURE: '/static/softVis3D/threeViewer/obj/UV_Grid_Sm.jpg'
-    },
     'LOAD_DELAY': 1500
 };

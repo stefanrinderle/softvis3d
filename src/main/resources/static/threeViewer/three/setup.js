@@ -46,16 +46,17 @@ Viewer.Setup.prototype = {
         if(SETUP.SCENE.HELPERS){
             this.helpers();
         }
+        this.context.renderer.setClearColorHex( 0xffffff, 1 );
     },
 
     /**
      * Add scene helpers
      */
     helpers: function () {
-        this.axisHelper = new THREE.AxisHelper(SETUP.SCENE.AXIS_LENGTH);
-        this.axisHelper.position.setZ(5);
-        this.axisHelper.name="axishelper";
-        this.context.scene.add(this.axisHelper);
+//        this.axisHelper = new THREE.AxisHelper(SETUP.SCENE.AXIS_LENGTH);
+//        this.axisHelper.position.setZ(5);
+//        this.axisHelper.name="axishelper";
+//        this.context.scene.add(this.axisHelper);
     },
 
     /**

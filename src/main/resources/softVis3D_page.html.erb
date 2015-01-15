@@ -9,7 +9,6 @@
 
 -->
 <link rel="stylesheet" type="text/css" href="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/css/main.css">
-<link rel="stylesheet" type="text/css" href="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/css/demo.css">
 
 <!-- Three Viewer -->
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/base.js"></script>
@@ -30,6 +29,9 @@
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular.js"></script>
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular-route.js"></script>
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/ngHammer.js"></script>
+
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/NURBSCurve.js"></script>
+<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/NURBSUtils.js"></script>
 
 
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/app-config.js"></script>
@@ -84,21 +86,6 @@
     <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/SceneObjectsService.js"></script>-->
     <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/TreeService.js"></script>-->
 <!--<% end %>-->
-
-<!-- THREE JS FILES -->
-<% if (softVis3D.isProd()) %>
-    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/threeJsAll.min.js"></script>-->
-<% else %>
-    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/three.js"></script>-->
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/NURBSCurve.js"></script>
-    <script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/NURBSUtils.js"></script>
-
-    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/OrbitControls.js"></script>-->
-
-    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/Detector.js"></script>-->
-<% end %>
-
-
 
 <div ng-app="ThreeViewerApp">
     <div ng-view></div>

@@ -46,7 +46,7 @@ Viewer.Scene.prototype = {
 
         this.scene = new THREE.Scene();
         this.projector = new THREE.Projector();
-        this.renderer = new THREE.WebGLRenderer({canvas: this.container, antialias: true});
+        this.renderer = new THREE.WebGLRenderer({canvas: this.container, antialias: true, alpha: true});
         this.wrangler = new Viewer.Wrangler(params);
         this.setup = new Viewer.Setup(params);
         this.cameras = new Viewer.Cameras(params);
@@ -91,5 +91,10 @@ Viewer.Scene.prototype = {
         this.cameras.liveCam.updateProjectionMatrix();
         this.renderer.setSize(this.WIDTH, this.HEIGHT);
         this.renderer.setViewport(0, 0, this.WIDTH, this.HEIGHT);
+
+        var detailsContainer = document.getElementById("toolbar");
+        if (detailsContainer) {
+            document.getElementById("toolbar").style.maxHeight = this.HEIGHT + "px";
+        }
     }
 };
