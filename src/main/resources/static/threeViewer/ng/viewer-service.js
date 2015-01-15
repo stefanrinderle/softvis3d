@@ -62,6 +62,26 @@ ThreeViewer.ViewerService.prototype.selectSceneTreeObject = function (objectSoft
     this.home.wrangler.selectSceneTreeObject(objectSoftVis3dId);
 };
 
+ThreeViewer.ViewerService.prototype.showAllSceneElements = function () {
+    this.home.wrangler.showAllSceneElements();
+};
+
+ThreeViewer.ViewerService.prototype.hideAllSceneElementsExceptIds = function (showIds) {
+    this.home.wrangler.hideAllSceneElementsExceptIds(showIds);
+};
+
+ThreeViewer.ViewerService.prototype.removeObject = function (objectSoftVis3dId, type) {
+    this.home.wrangler.removeObject(objectSoftVis3dId, type);
+};
+
+/**
+ * from details
+ */
+ThreeViewer.ViewerService.prototype.selectSceneEdgeObjects = function (objectSoftVis3dId) {
+    this.home.wrangler.selectSceneEdgeObjects(objectSoftVis3dId);
+};
+
+
 /**
  * See if a mouse click intersects an object.
  * @param {!{x:number, y:number}} mouse

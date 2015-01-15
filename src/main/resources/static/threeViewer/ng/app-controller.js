@@ -29,7 +29,7 @@ ThreeViewer.AppController = function ($scope, ViewerService) {
      */
     this.tb = {
         'about': false,
-        'visible': false,
+        'toolbar': false,
         'loader': true
     };
 
@@ -47,6 +47,7 @@ ThreeViewer.AppController.prototype.init = function () {
 ThreeViewer.AppController.prototype.listeners = function () {
     this.scope.$on('hideLoader', function () {
         this.tb.loader = false;
+        this.tb.toolbar = true;
     }.bind(this));
 
 };
@@ -71,5 +72,5 @@ ThreeViewer.AppController.prototype.toggleAbout = function () {
  * @export
  */
 ThreeViewer.AppController.prototype.toggleToolbar = function () {
-    this.tb.visible = !this.tb.visible;
+    this.tb.toolbar = !this.tb.toolbar;
 };

@@ -80,13 +80,14 @@ ThreeViewer.FileLoaderController.prototype.showTab = function (tab) {
  */
 ThreeViewer.FileLoaderController.prototype.visualisationExample = function () {
     var me = this;
-    console.log("hier id: " + ThreeViewer.SNAPSHOT_ID);
-    this.BackendService.getVisualization(96467, 1, 20, this.data.viewType).then(function (data) {
-        me.ViewerService.loadSoftVis3d(data);
+    this.BackendService.getVisualization(
+        ThreeViewer.SNAPSHOT_ID, 1, 20, this.data.viewType).then(function (data) {
+            me.ViewerService.loadSoftVis3d(data);
 
-        me.BackendService.getTreeForSnapshotView(96467, 1, 20, me.data.viewType).then(function (data) {
-            me.TreeService.setTree(data);
-            me.MessageBus.trigger('hideLoader');
-        });
+            me.BackendService.getTreeForSnapshotView(
+                ThreeViewer.SNAPSHOT_ID, 1, 20, me.data.viewType).then(function (data) {
+                me.TreeService.setTree(data);
+                me.MessageBus.trigger('hideLoader');
+            });
     });
 };

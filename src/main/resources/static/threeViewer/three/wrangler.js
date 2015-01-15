@@ -23,6 +23,7 @@ Viewer.Wrangler = function (params) {
     this.objectsInView = [];
 
     this.selectedTreeObjects = [];
+    this.selectedEdgeObjects = [];
 
     this.name = null;
 };
@@ -69,6 +70,83 @@ Viewer.Wrangler.prototype = {
                 this.resultObjects[index].material.color.setHex(0xFFBF00);
             }
         }
+    },
+
+    showAllSceneElements: function () {
+        for (var index = 0; index < this.objectsInView.length; index++) {
+            this.context.scene.remove(this.objectsInView[index]);
+        }
+
+        this.objectsInView = [];
+
+        for (var index = 0; index < this.resultObjects.length; index++) {
+            this.objectsInView.push(this.resultObjects[index]);
+            this.context.scene.add(this.resultObjects[index]);
+        }
+    },
+
+    hideAllSceneElementsExceptIds: function (showIds) {
+        this.hideAllSceneElements();
+
+        for (var index = 0; index < this.resultObjects.length; index++) {
+            if (this.contains(showIds, this.resultObjects[index].softVis3dId)) {
+                this.objectsInView.push(this.resultObjects[index]);
+                this.context.scene.add(this.resultObjects[index]);
+            }
+        }
+    },
+
+    hideAllSceneElements: function () {
+        for (var index = 0; index < this.objectsInView.length; index++) {
+            this.context.scene.remove(this.objectsInView[index]);
+        }
+
+        this.objectsInView = [];
+    },
+
+    selectSceneEdgeObjects: function (ids) {
+        // reset former selected objects
+        for (var index = 0; index < this.selectedEdgeObjects.length; index++) {
+            this.selectedEdgeObjects[index].object.material.color.setHex(this.selectedEdgeObjects[index].color);
+        }
+
+        this.selectedEdgeObjects = [];
+
+        for (var index = 0; index < this.resultObjects.length; index++) {
+            if (this.contains(ids, this.resultObjects[index].softVis3dId)) {
+                var selectedObjectInformation = {
+                    "object": this.resultObjects[index],
+                    "color": this.resultObjects[index].material.color.getHex()
+                };
+                this.selectedEdgeObjects.push(selectedObjectInformation);
+                this.resultObjects[index].material.color.setHex(0xFF0000);
+            }
+        }
+    },
+
+    removeObject: function (objectSoftVis3dId, type) {
+        for (var index = 0; index < this.resultObjects.length; index++) {
+            if (objectSoftVis3dId == this.resultObjects[index].softVis3dId
+                && type == this.resultObjects[index].softVis3dType) {
+                this.context.scene.remove(this.resultObjects[index]);
+            }
+        }
+
+        for (var k = 0; k < this.objectsInView.length; k++) {
+            if (objectSoftVis3dId == this.objectsInView[k].softVis3dId
+                && type == this.objectsInView[k].softVis3dType) {
+                this.objectsInView.splice(k, 1);
+            }
+        }
+    },
+
+    contains: function (a, obj) {
+        for (var i = 0; i < a.length; i++) {
+            if (a[i] === obj) {
+                return true;
+            }
+        }
+        return false;
     },
 
     /**

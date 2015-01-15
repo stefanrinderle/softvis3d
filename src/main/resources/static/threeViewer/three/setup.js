@@ -71,25 +71,45 @@ Viewer.Setup.prototype = {
      * Add light(s) to the scene
      */
     lights: function () {
-        var dl1 = new THREE.DirectionalLight( 0xdddddd );
-        dl1.position.set( 0, -1, 1 ).normalize();
-        dl1.name="light";
-        this.context.scene.add( dl1 );
+//        var dl1 = new THREE.DirectionalLight( 0xdddddd );
+//        dl1.position.set( 0, -1, 1 ).normalize();
+//        dl1.name="light";
+//        this.context.scene.add( dl1 );
+//
+//        var spot1   = new THREE.SpotLight( 0xffffff, 1 );
+//        spot1.position.set( -300, 600, 300 );
+//        spot1.target.position.set( 0, 0, 0 );
+//        spot1.name = "light";
+//        this.context.scene.add( spot1 );
+//
+//        var ambient = new THREE.AmbientLight( 0x444444 );
+//        ambient.name="ambient";
+//        this.context.scene.add( ambient );
+//
+//        var dl2 = new THREE.DirectionalLight( 0xffeedd );
+//        dl2.position.set( 0, 0, 1 ).normalize();
+//        ambient.name="dl2";
+//        this.context.scene.add( dl2 );
 
-        var spot1   = new THREE.SpotLight( 0xffffff, 1 );
-        spot1.position.set( -300, 600, 300 );
-        spot1.target.position.set( 0, 0, 0 );
-        spot1.name = "light";
-        this.context.scene.add( spot1 );
+        var light = new THREE.DirectionalLight(0xaaaaaa);
+        light.position.set(1, 0, 0).normalize();
+        this.context.scene.add(light);
 
-        var ambient = new THREE.AmbientLight( 0x444444 );
-        ambient.name="ambient";
-        this.context.scene.add( ambient );
+        var light = new THREE.DirectionalLight(0xcccccc);
+        light.position.set(-1, 0, 0).normalize();
+        this.context.scene.add(light);
 
-        var dl2 = new THREE.DirectionalLight( 0xffeedd );
-        dl2.position.set( 0, 0, 1 ).normalize();
-        ambient.name="dl2";
-        this.context.scene.add( dl2 );
+        var light = new THREE.DirectionalLight(0xddddddd);
+        light.position.set(0, 0, 1).normalize();
+        this.context.scene.add(light);
+
+        var light = new THREE.DirectionalLight(0xeeeeee);
+        light.position.set(0, 0, -1).normalize();
+        this.context.scene.add(light);
+
+        var directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(0, 1, 0);
+        this.context.scene.add(directionalLight);
 
     },
 
