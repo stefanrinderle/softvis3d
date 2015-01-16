@@ -40,9 +40,9 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
         'custom': false
     };
 
-    this.data = {
-        'viewType': "city"
-    };
+    this.cityInnerState = "complexity";
+
+    this.customViewType = "city";
 
     this.settings = {
         'metric1': null,
@@ -86,26 +86,55 @@ ThreeViewer.FileLoaderController.prototype.showTab = function (tab) {
     this.state[tab] = true;
 };
 
+ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
+    console.log("submitCityForm");
+    var cityType = "city";
+
+    if (this.cityInnerState === "complexity") {
+        this.loadVisualisation(20, 1, cityType);
+    } else if (this.cityInnerState === "issues") {
+        this.loadVisualisation(95, 1, cityType);
+    } else if (this.cityInnerState === "functions") {
+        this.loadVisualisation(9, 1, cityType);
+    } else {
+        console.log("invalid option selected.")
+    }
+};
+
 /**
  * @export
  *
  */
-ThreeViewer.FileLoaderController.prototype.visualisationExample = function () {
+ThreeViewer.FileLoaderController.prototype.loadDependencyView = function () {
+    this.loadVisualisation(20, 1, "dependency");
+};
+
+ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
+    this.loadVisualisation(this.settings.metric1, this.settings.metric2, this.customViewType);
+};
+
+ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, viewType) {
+    console.log("loadVisualisation1");
+
     var me = this;
     this.BackendService.getVisualization(
-        ThreeViewer.SNAPSHOT_ID, 1, 20, this.data.viewType).then(function (data) {
+        ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType).then(function (data) {
             me.ViewerService.loadSoftVis3d(data);
 
+            console.log("loadVisualisation2");
+
             me.BackendService.getTreeForSnapshotView(
-                ThreeViewer.SNAPSHOT_ID, 1, 20, me.data.viewType).then(function (data) {
-                me.TreeService.setTree(data);
-                me.MessageBus.trigger('hideLoader');
+                ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType).then(function (data) {
+                    me.TreeService.setTree(data);
+                    me.MessageBus.trigger('hideLoader');
 
-                var eventObject = {};
-                eventObject.softVis3dId = ThreeViewer.SNAPSHOT_ID;
-                eventObject.softVis3dType = "node";
+                    console.log("loadVisualisation3");
 
-                me.MessageBus.trigger('objectSelected', eventObject);
-            });
-    });
+                    var eventObject = {};
+                    eventObject.softVis3dId = ThreeViewer.SNAPSHOT_ID;
+                    eventObject.softVis3dType = "node";
+
+                    me.MessageBus.trigger('objectSelected', eventObject);
+                });
+        });
 };
