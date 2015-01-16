@@ -32,7 +32,7 @@ Viewer.Scene = function (params) {
     this.controls = null;
     this.raycaster = null;
 
-    this.objectBuilder = null;
+    this.objectFactory = null;
 
     this.init();
 
@@ -54,7 +54,7 @@ Viewer.Scene.prototype = {
         this.raycaster = new THREE.Raycaster();
         this.wrangler.init();
 
-        this.objectBuilder = new Viewer.ObjectBuilder(params);
+        this.objectFactory = new Viewer.ObjectFactory(params);
 
         this.listeners();
         this.onWindowResize();

@@ -43,7 +43,7 @@ Viewer.Wrangler.prototype = {
     loadSoftVis3d: function(data) {
         this.removeAllFromScene();
 
-        this.resultObjects = this.context.objectBuilder.createObjects(data);
+        this.resultObjects = this.context.objectFactory.createObjects(data);
 
         for (var index = 0; index < this.resultObjects.length; index++) {
             var object = this.resultObjects[index];

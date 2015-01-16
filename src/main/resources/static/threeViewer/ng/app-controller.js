@@ -50,7 +50,6 @@ ThreeViewer.AppController.prototype.listeners = function () {
         me.tb.loader = false;
         me.tb.toolbar = true;
     }.bind(this));
-
 };
 
 /**

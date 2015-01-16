@@ -10,48 +10,16 @@
 -->
 <link rel="stylesheet" type="text/css" href="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/css/main.css">
 
-<!-- Three Viewer -->
+<!-- Closure -->
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/base.js"></script>
 
+<!-- Three Viewer -->
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/config.js"></script>
 <script>
     var Viewer = {};
 
     var ThreeViewer = {};
 </script>
-
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/three.69.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/OrbitControls.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/hammer.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/jquery.hammer.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular-route.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/ngHammer.js"></script>
-
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/NURBSCurve.js"></script>
-<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeJS/NURBSUtils.js"></script>
-
-
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/app-config.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/app-controller.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/toolbar-controller.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/file-loader-controller.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/directives.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/filters.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/viewer-service.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/tree-service.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/backend-service.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/message-bus.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/app.js"></script>
-
-
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/scene.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/setup.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/util.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/camera.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/wrangler.js"></script>
-
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/softvis/ObjectBuilder.js"></script>
 
 <%
    # get extension class and start layout
@@ -60,20 +28,42 @@
 %>
 
 <!-- ANGULAR JS FILES -->
-<!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/angular/angular.min.js"></script>-->
+<% if (softVis3D.isProd()) %>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/libraryAll.min.js"></script>
+    <!--<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/softVis3dAll.min.js"></script>-->
+<% else %>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/threejs/three.69.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/threejs/OrbitControls.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/threejs/NURBSCurve.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/threejs/NURBSUtils.js"></script>
 
-<!--<% if (softVis3D.isProd()) %>-->
-    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/softvis3d.min.js"></script>-->
-<!--<% else %>-->
-    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/SoftVis3dAngular.js"></script>-->
-    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/BackendService.js"></script>-->
-    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/CreateObjectsService.js"></script>-->
-    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/DetailsController.js"></script>-->
-    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/Directives.js"></script>-->
-    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/RenderController.js"></script>-->
-    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/SceneObjectsService.js"></script>-->
-    <!--<script type="text/javascript" src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/js/TreeService.js"></script>-->
-<!--<% end %>-->
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/hammer/hammer.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/hammer/jquery.hammer.js"></script>
+
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular/angular.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular/angular-route.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular/ngHammer.js"></script>
+<% end %>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/app-config.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/app-controller.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/toolbar-controller.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/file-loader-controller.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/directives.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/filters.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/viewer-service.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/tree-service.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/backend-service.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/message-bus.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/app.js"></script>
+
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/scene.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/setup.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/util.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/camera.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/wrangler.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/objectFactory.js"></script>
+
+
 
 <div ng-app="ThreeViewerApp">
     <div ng-view></div>
@@ -81,8 +71,6 @@
 
 <script type="text/javascript">
 window.onload = function () {
-//    Direct link to visualization. Load and display.
-//    angular.element(document.getElementById('file-loader')).scope().setSnapshotId(<%= @snapshot.id %>);
     ThreeViewer.SNAPSHOT_ID = <%= @snapshot.id %>;
 }
 </script>

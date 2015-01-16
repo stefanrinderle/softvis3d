@@ -114,21 +114,15 @@ ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
 };
 
 ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, viewType) {
-    console.log("loadVisualisation1");
-
     var me = this;
     this.BackendService.getVisualization(
         ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType).then(function (data) {
             me.ViewerService.loadSoftVis3d(data);
 
-            console.log("loadVisualisation2");
-
             me.BackendService.getTreeForSnapshotView(
                 ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType).then(function (data) {
                     me.TreeService.setTree(data);
                     me.MessageBus.trigger('hideLoader');
-
-                    console.log("loadVisualisation3");
 
                     var eventObject = {};
                     eventObject.softVis3dId = ThreeViewer.SNAPSHOT_ID;
