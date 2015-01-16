@@ -13,6 +13,7 @@ import com.google.inject.Injector;
 import de.rinderle.softvis3d.dao.DependencyDao;
 import de.rinderle.softvis3d.dao.SonarDao;
 import de.rinderle.softvis3d.guice.SoftVis3DModule;
+import de.rinderle.softvis3d.webservice.tree.ConfigWebserviceHandler;
 import de.rinderle.softvis3d.webservice.tree.TreeWebserviceHandler;
 import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHandler;
 import org.sonar.api.config.Settings;
@@ -23,8 +24,9 @@ public class SoftVis3DWebservice implements WebService {
 
 	private final TreeWebserviceHandler treeHandler;
 	private final VisualizationWebserviceHandler visualizationHandler;
+  private final ConfigWebserviceHandler configHandler;
 
-	public SoftVis3DWebservice(final DatabaseSession session,
+  public SoftVis3DWebservice(final DatabaseSession session,
 			final Settings settings) {
 		final Injector softVis3DInjector = Guice
 				.createInjector(new SoftVis3DModule());
@@ -37,6 +39,9 @@ public class SoftVis3DWebservice implements WebService {
 
 		this.treeHandler = softVis3DInjector
 				.getInstance(TreeWebserviceHandler.class);
+    this.configHandler = softVis3DInjector
+            .getInstance(ConfigWebserviceHandler.class);
+    this.configHandler.setSettings(settings);
 		this.visualizationHandler = softVis3DInjector
 				.getInstance(VisualizationWebserviceHandler.class);
 		this.visualizationHandler.setSettings(settings);
@@ -55,6 +60,10 @@ public class SoftVis3DWebservice implements WebService {
 				.createParam("footprintMetricId", "Footprint metric id")
 				.createParam("heightMetricId", "Height metric id")
 				.createParam("viewType", "Current view type");
+
+    controller.createAction("getConfig").setDescription("Get config for snapshot")
+            .setHandler(this.configHandler)
+            .createParam("snapshotId", "Snapshot id");
 
 		// create the URL /api/softVis3D/getVisualization
 		controller.createAction("getVisualization")

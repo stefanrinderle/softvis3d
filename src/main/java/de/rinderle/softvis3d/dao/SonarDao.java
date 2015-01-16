@@ -19,7 +19,7 @@ public interface SonarDao {
 
 	Integer getMetricIdByName(String name);
 
-	List<Integer> getDistinctMetricsBySnapshotId(Integer snapshotId);
+	List<de.rinderle.softvis3d.domain.Metric> getDistinctMetricsBySnapshotId(Integer snapshotId);
 
 	List<Object[]> getAllProjectElementsWithMetric(Integer rootSnapshotId,
 			Integer metricId);

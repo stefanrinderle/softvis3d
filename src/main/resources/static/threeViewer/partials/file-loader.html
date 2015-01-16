@@ -25,6 +25,12 @@
             </label>
         </div>
         <div id="dependency-loader" class="loader-options" ng-show="loader.state.dependency" ng-cloak>
+            <div ng-hide="loader.hasDependencies">
+                Your project has either no dependencies or the dependencies have not been analysed.
+            </div>
+            <div ng-show="loader.hasDependencies">
+                Your project has either no dependencies or the dependencies have not been analysed.
+            </div>
             <label>
                 Load visualisation example!!!
                 <br /><br /><br />
@@ -38,27 +44,6 @@
         </div>
         <div id="custom-loader" class="loader-options" ng-show="loader.state.custom" ng-cloak>
             <div id="metricForm" style="height: 30px;">
-                <!--<%-->
-                <!--metricIds = softVis3D.getMetricsForSnapshot(@snapshot.id)-->
-
-                <!--# get all defined metric for project files-->
-                <!--metrics=[]-->
-                <!--metricIds.each do |index|-->
-                <!--m = metric(index)-->
-                <!--metrics << m if m-->
-                <!--end-->
-
-                <!--# set default metric ids if no metrics selected-->
-                <!--if (params[:metric1].blank?)-->
-                <!--puts("no param 1 - default param")-->
-                <!--params[:metric1] = softVis3D.getMetric1FromSettings().to_s-->
-                <!--end-->
-                <!--if (params[:metric2].blank?)-->
-                <!--puts("no param 2 - default param")-->
-                <!--params[:metric2] = softVis3D.getMetric2FromSettings().to_s-->
-                <!--end-->
-                <!--%>-->
-                <!--<% form_tag({:action => @resource.id.to_s}, {:id => 'softVis3DForm', :method => 'get'}) do %>-->
                 <input type="hidden" name="page" value="SoftVis3D">
 
                 <h2>View type</h2>
@@ -72,20 +57,6 @@
                 <p>Please take a look at the <a href="http://softvis3d.com/">project web page</a> for details.</p>
                 <br/>
                 <select name="viewType">
-                    <!--<%-->
-                    <!--if ("city"==params[:viewType].to_s)-->
-                    <!--%>-->
-                    <!--<option value="city" selected>City</option>-->
-                    <!--<% else %>-->
-                    <!--<option value="city">City</option>-->
-                    <!--<% end %>-->
-                    <!--<%-->
-                    <!--if ("dependency"==params[:viewType].to_s)-->
-                    <!--%>-->
-                    <!--<option value="dependency" selected>Dependency</option>-->
-                    <!--<% else %>-->
-                    <!--<option value="dependency">Dependency</option>-->
-                    <!--<% end %>-->
                 </select>
 
                 <br/><br/>
@@ -115,37 +86,13 @@
                 <br/>
 
                 Building footprint metric:
-                <select name="metric1">
-                    <!--<%-->
-                    <!--# show all graph (as layers)-->
-                    <!--metrics.each do |metric|-->
-                    <!--if (metric.id.to_s==params[:metric1].to_s)-->
-                    <!--%>-->
-                    <!--<option value="<%= metric.id %>" selected><%= metric.short_name %></option>-->
-                    <!--<% else %>-->
-                    <!--<option value="<%= metric.id %>"><%= metric.short_name %></option>-->
-                    <!--<% end %>-->
-                    <!--<%-->
-                    <!--end-->
-                    <!--%>-->
-                </select>
+                <select name="metric1" ng-options="item.id as item.name for item in loader.availableMetrics"
+                        ng-model="loader.settings.metric1"></select>
 
                 Building height metric:
+                <select name="metric2" ng-options="item.id as item.name for item in loader.availableMetrics"
+                            ng-model="loader.settings.metric2"></select>
 
-                <select name="metric2">
-                    <!--<%-->
-                    <!--# show all graph (as layers)-->
-                    <!--metrics.each do |metric|-->
-                    <!--if (metric.id.to_s==params[:metric2].to_s)-->
-                    <!--%>-->
-                    <!--<option value="<%= metric.id %>" selected><%= metric.short_name %></option>-->
-                    <!--<% else %>-->
-                    <!--<option value="<%= metric.id %>"><%= metric.short_name %></option>-->
-                    <!--<% end %>-->
-                    <!--<%-->
-                    <!--end-->
-                    <!--%>-->
-                </select>
                 <br/><br/>
 
                 <p>Please also take a look at the <a href="http://softvis3d.com/#/product/usage">usage guide</a>.</p>

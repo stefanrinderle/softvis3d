@@ -30,7 +30,7 @@ public interface DaoService {
 	 *            Root snapshot ID
 	 * @return defined metrics on the file level scope
 	 */
-	List<Integer> getDefinedMetricsForSnapshot(Integer snapshotId);
+	List<de.rinderle.softvis3d.domain.Metric> getDefinedMetricsForSnapshot(Integer snapshotId);
 
 	MinMaxValue getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId,
 			int metricId);
@@ -40,4 +40,5 @@ public interface DaoService {
 	List<SonarSnapshot> getFlatChildrenWithMetrics(
 			VisualizationRequest requestDTO);
 
+  boolean hasDependencies(Integer snapshotId);
 }

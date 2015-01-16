@@ -9,6 +9,7 @@
 package de.rinderle.softvis3d.dao;
 
 import com.google.inject.Singleton;
+import de.rinderle.softvis3d.domain.Metric;
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,31 +41,40 @@ public class SonarDaoBean implements SonarDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Integer> getDistinctMetricsBySnapshotId(final Integer snapshotId) {
-		List<Integer> metricIds;
+	public List<Metric> getDistinctMetricsBySnapshotId(final Integer snapshotId) {
+		List<Metric> metrics = new ArrayList<Metric>();
 
 		try {
 			this.session.start();
 
 			final Query metricsQuery = this.session
-					.createNativeQuery("SELECT DISTINCT m.metric_id "
+					.createNativeQuery("SELECT DISTINCT m.metric_id, metrics.description "
                   + "FROM project_measures m "
                   + "INNER JOIN snapshots s ON s.id = m.snapshot_id "
+                  + "INNER JOIN metrics metrics ON metrics.id = m.metric_id "
                   + "WHERE s.root_snapshot_id = :snapshotId "
                   + "AND m.value is not null "
                   + "AND s.scope = 'FIL' "
                   + "ORDER BY m.metric_id ASC");
 			metricsQuery.setParameter("snapshotId", snapshotId);
 
-			metricIds = metricsQuery.getResultList();
+      List<Object[]> sqlResult = metricsQuery.getResultList();
+
+			for (Object[] metric : sqlResult) {
+				final Integer id = (Integer) metric[0];
+				final String description = (String) metric[1];
+
+        metrics.add(new Metric(id, description));
+			}
+
 		} catch (final PersistenceException e) {
 			LOGGER.error(e.getMessage(), e);
-			metricIds = null;
+      metrics = null;
 		} finally {
 			this.session.stop();
 		}
 
-		return metricIds;
+		return metrics;
 	}
 
 	@Override

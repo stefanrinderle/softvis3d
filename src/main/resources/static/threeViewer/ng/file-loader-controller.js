@@ -41,8 +41,15 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
     };
 
     this.data = {
-        'viewType': null
+        'viewType': "city"
     };
+
+    this.settings = {
+        'metric1': null,
+        'metric2': null
+    };
+
+    this.availableMetrics = [];
 
     this.init();
 };
@@ -52,6 +59,13 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
  */
 ThreeViewer.FileLoaderController.prototype.init = function () {
     this.listeners();
+
+    var me = this;
+    this.BackendService.getConfig(ThreeViewer.SNAPSHOT_ID).then(function (data) {
+            me.settings = data.settings;
+            me.availableMetrics = data.metricsForSnapshot;
+            me.hasDependencies = data.hasDependencies;
+        });
 };
 
 ThreeViewer.FileLoaderController.prototype.listeners = function () {

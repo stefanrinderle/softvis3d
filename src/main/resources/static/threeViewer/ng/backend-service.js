@@ -44,3 +44,17 @@ ThreeViewer.BackendService.prototype.getVisualization = function (snapshotId, fo
     // Return the promise to the controller
     return promise;
 };
+
+ThreeViewer.BackendService.prototype.getConfig = function (snapshotId) {
+    // $http returns a promise, which has a then function, which also returns a promise
+    var promise = this.http.get("../../api/softVis3D/getConfig?snapshotId=" + snapshotId)
+        .then(function (response) {
+
+        console.log("getConfig:");
+        console.log(response.data);
+
+        return response.data;
+    });
+    // Return the promise to the controller
+    return promise;
+};

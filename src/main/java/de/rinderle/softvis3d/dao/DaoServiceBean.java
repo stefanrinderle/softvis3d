@@ -44,7 +44,7 @@ public class DaoServiceBean implements DaoService {
 	}
 
 	@Override
-	public List<Integer> getDefinedMetricsForSnapshot(final Integer snapshotId) {
+	public List<de.rinderle.softvis3d.domain.Metric> getDefinedMetricsForSnapshot(final Integer snapshotId) {
 		LOGGER.debug("getDefinedMetricsForSnapshot " + snapshotId);
 		return this.sonarDao.getDistinctMetricsBySnapshotId(snapshotId);
 	}
@@ -57,6 +57,13 @@ public class DaoServiceBean implements DaoService {
 				rootSnapshotId, metricId);
 
 	}
+
+  @Override
+  public boolean hasDependencies(Integer snapshotId) {
+    LOGGER.debug("hasDependencies" + snapshotId);
+    List<SonarDependency> dependencies = this.getDependencies(snapshotId);
+    return dependencies.size() > 0;
+  }
 
 	@Override
 	public List<SonarDependency> getDependencies(Integer snapshotId) {
