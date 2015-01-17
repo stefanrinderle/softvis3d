@@ -94,8 +94,8 @@ Viewer.Scene.prototype = {
         this.renderer.setSize(this.WIDTH, this.HEIGHT);
         this.renderer.setViewport(0, 0, this.WIDTH, this.HEIGHT);
 
-        var detailsContainer = document.getElementById("toolbar");
-        if (detailsContainer) {
+        var toolbarContainer = document.getElementById("toolbar");
+        if (toolbarContainer) {
             document.getElementById("toolbar").style.maxHeight = this.HEIGHT + "px";
         }
     }

@@ -74,7 +74,6 @@ Viewer.Cameras.prototype = {
         this.orthoCam.name = 'ortho';
 
     this.liveCam = this.orthoCam;
-    // console.log('init orth cam');
   },
 
     /**

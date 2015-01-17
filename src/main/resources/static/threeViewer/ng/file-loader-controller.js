@@ -51,6 +51,8 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
 
     this.availableMetrics = [];
 
+    this.BASE_PATH = ThreeViewer.RESOURCES_BASE_PATH;
+
     this.init();
 };
 
@@ -88,7 +90,6 @@ ThreeViewer.FileLoaderController.prototype.showTab = function (tab) {
 };
 
 ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
-    console.log("submitCityForm");
     var cityType = "city";
 
     if (this.cityInnerState === "complexity") {
