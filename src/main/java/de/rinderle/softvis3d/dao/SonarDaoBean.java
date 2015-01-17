@@ -55,6 +55,7 @@ public class SonarDaoBean implements SonarDao {
                   + "WHERE s.root_snapshot_id = :snapshotId "
                   + "AND m.value is not null "
                   + "AND s.scope = 'FIL' "
+                  + "AND metrics.description is not null "
                   + "ORDER BY m.metric_id ASC");
 			metricsQuery.setParameter("snapshotId", snapshotId);
 

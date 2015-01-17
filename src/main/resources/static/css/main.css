@@ -83,14 +83,10 @@
 .closeToolbar {
     color: #ffffff;
 }
-/*#loader-options {*/
-    /*width: 100%;*/
-    /*overflow: hidden*/
-/*}*/
 
 .loader-options {
     background-color: #cae3f2;
-    height: 238px;
+    min-height: 238px;
     padding: 10px;
     overflow: scroll;
 }
@@ -191,35 +187,4 @@
     z-index: 15;
     border: 1px solid #ACF0F2;
     margin: auto
-}
-
-#list {
-    display: block;
-    height: 270px;
-    background-color: #cae3f2;
-    text-align: left;
-    font-size: 13px;
-    color: #333;
-    overflow-y: scroll
-}
-
-#list p {
-    padding: 5px
-}
-
-#list ul {
-    list-style: none;
-    margin: 0;
-    padding: 5px
-}
-
-#list li {
-    list-style: none;
-    margin: 0;
-    padding-left: 15px
-}
-
-#list a {
-    color: #EB7F00;
-    text-decoration: none
 }

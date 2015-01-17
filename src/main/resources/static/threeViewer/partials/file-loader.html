@@ -77,17 +77,28 @@
             <select ng-model="loader.customViewType">
                 <option value="city" label="Code city view">Code city view
                 </option>
-                <option value="dependency" label="Dependency view">Dependency view
+                <option ng-show="loader.hasDependencies" value="dependency" label="Dependency view">
+                    Dependency view
                 </option>
             </select>
 
             <br /><br />
             Building footprint metric:<br />
+            <!--<select name="metric1" ng-model="loader.settings.metric1">-->
+                <!--<option ng-repeat="item in loader.availableMetrics" value="{{item.id}}">-->
+                    <!--{{item.name | limitTo: 20}}{{item.name.length > 20 ? '...' : ''}}-->
+                <!--</option>-->
+            <!--</select>-->
             <select name="metric1" ng-options="item.id as item.name for item in loader.availableMetrics"
                     ng-model="loader.settings.metric1" style="width: 200px;"></select>
 
             <br /><br />
             Building height metric:<br />
+            <!--<select name="metric2" ng-model="loader.settings.metric2">-->
+                <!--<option ng-repeat="item in loader.availableMetrics" value="{{item.id}}">-->
+                    <!--{{item.name | limitTo: 20}}{{item.name.length > 20 ? '...' : ''}}-->
+                <!--</option>-->
+            <!--</select>-->
             <select name="metric2" ng-options="item.id as item.name for item in loader.availableMetrics"
                     ng-model="loader.settings.metric2" style="width: 200px;"></select>
 
