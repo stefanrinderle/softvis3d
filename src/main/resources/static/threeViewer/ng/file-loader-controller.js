@@ -32,16 +32,17 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
     this.TreeService = TreeService;
 
     /**
-     * @type {{city: boolean, dependency: boolean, custom: boolean}}
+     * @type {{city: boolean, dependency: boolean, custom: boolean, loading: boolean}}
      */
     this.state = {
         'city': true,
         'dependency': false,
-        'custom': false
+        'custom': false,
+        'loading': false
     };
 
     this.cityInnerState = "complexity";
-
+    this.loadingInnerState = "idle";
     this.customViewType = "city";
 
     this.settings = {
@@ -83,6 +84,7 @@ ThreeViewer.FileLoaderController.prototype.showTab = function (tab) {
     this.state.city = false;
     this.state.dependency = false;
     this.state.custom = false;
+    this.state.loading = false;
     this.state[tab] = true;
 };
 
@@ -115,6 +117,9 @@ ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
 
 ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, viewType) {
     var me = this;
+
+    this.loadingInnerState = "loading";
+    this.showTab("loading");
     this.BackendService.getVisualization(
         ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType).then(function (data) {
             me.ViewerService.loadSoftVis3d(data);
@@ -122,13 +127,18 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
             me.BackendService.getTreeForSnapshotView(
                 ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType).then(function (data) {
                     me.TreeService.setTree(data);
-                    me.MessageBus.trigger('hideLoader');
 
                     var eventObject = {};
                     eventObject.softVis3dId = ThreeViewer.SNAPSHOT_ID;
-                    eventObject.softVis3dType = "node";
+                    eventObject.metric1 = metric1;
+                    eventObject.metric2 = metric2;
 
-                    me.MessageBus.trigger('objectSelected', eventObject);
+                    me.MessageBus.trigger('visualizationReady', eventObject);
+
+                    me.loadingInnerState = "idle";
+                    me.showTab("city");
+
+                    me.MessageBus.trigger('hideLoader');
                 });
         });
 };

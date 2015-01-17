@@ -51,6 +51,16 @@ ThreeViewer.ToolbarController.prototype.listeners = function () {
         this.showDetails(eventObject.softVis3dId, eventObject.softVis3dType);
         me.scope.$apply();
     }.bind(this));
+
+    this.scope.$on('visualizationReady', function (event) {
+        var eventObject = this.MessageBus.getMessage('visualizationReady');
+
+        console.log("visualizationReady")
+        console.log(eventObject);
+
+        this.showDetails(eventObject.softVis3dId, "node");
+    }.bind(this));
+
 };
 
 ThreeViewer.ToolbarController.prototype.showDetails = function (softVis3dId, type) {

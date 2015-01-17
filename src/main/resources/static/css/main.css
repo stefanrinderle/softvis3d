@@ -28,7 +28,7 @@
     margin: auto;
     top: 100px;
     left: 300px;
-    width: 500px;
+    width: 600px;
     z-index: 10;
     flex-flow: column;
     border: 1px solid #ACF0F2;
@@ -44,7 +44,7 @@
 }
 
 .load-button {
-    width: 25%;
+    width: 23%;
     float: left;
     line-height: 50px;
     font-size: 20px;
@@ -183,6 +183,17 @@
     top: 100px;
     left: 300px;
     width: 500px;
+    height: 300px;
+    z-index: 15;
+    border: 1px solid #ACF0F2;
+    margin: auto
+}
+
+#loading {
+    position: fixed;
+    top: 100px;
+    left: 300px;
+    width: 300px;
     height: 300px;
     z-index: 15;
     border: 1px solid #ACF0F2;

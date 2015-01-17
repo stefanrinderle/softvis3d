@@ -16,6 +16,9 @@
              ng-click="loader.showTab('dependency');">Dependency</div>
         <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.custom}"
              ng-click="loader.showTab('custom');">Custom</div>
+        <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.loading}"
+             ng-click="loader.showTab('loading');" ng-show="loader.loadingInnerState === 'loading'">Loading</div>
+
         <div href="#" class="close closeLoader" ng-click="viewer.toggleLoader()">X</div>
     </div>
     <div class="loader-options">
@@ -104,6 +107,17 @@
 
             <br /><br />
             <button ng-click="loader.loadCustomView()">Submit</button>
+        </div>
+        <div id="loading-loader" class="loader-options" ng-show="loader.state.loading" ng-cloak>
+            <div ng-show="loader.loadingInnerState === 'idle'">
+                Idle
+            </div>
+            <div ng-show="loader.loadingInnerState === 'loading'" style="text-align: center;">
+                <br /><br /><br />
+                <img src="/static/softVis3D/images/ajax-loader.gif"/>
+                <br /><br />
+                <p>Please wait...</p>
+            </div>
         </div>
         <div style="position: absolute; bottom: 0;">
             <br />
