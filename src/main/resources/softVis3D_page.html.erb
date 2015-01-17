@@ -19,6 +19,7 @@
     var Viewer = {};
 
     var ThreeViewer = {};
+    ThreeViewer.RESOURCES_BASE_PATH = "<%= "#{ApplicationController.root_context}" -%>";
 </script>
 
 <%
@@ -76,6 +77,20 @@ if (!softVis3D.isLicenseValid())
     <script type="text/javascript">
     window.onload = function () {
         ThreeViewer.SNAPSHOT_ID = <%= @snapshot.id %>;
+
+        setTimeout(function () {
+            <%
+            if !@snapshot.id.blank? && !params[:viewType].blank? &&
+                !params[:metric1].blank? && !params[:metric2].blank?
+            %>
+            // Direct link to visualization. Load and display.
+            angular.element(document.getElementById('file-loader')).controller().loadDirectLink(
+                    <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
+            );
+            <%
+            end
+            %>
+        }, 2000);
     }
     </script>
 <% end %>

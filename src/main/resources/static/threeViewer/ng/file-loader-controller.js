@@ -114,6 +114,10 @@ ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
     this.loadVisualisation(this.settings.metric1, this.settings.metric2, this.customViewType);
 };
 
+ThreeViewer.FileLoaderController.prototype.loadDirectLink = function (metric1Id, metric2Id, viewType) {
+    this.loadVisualisation(metric1Id, metric2Id, viewType);
+};
+
 ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, viewType) {
     var me = this;
 
