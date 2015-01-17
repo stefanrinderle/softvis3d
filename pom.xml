@@ -272,41 +272,42 @@
                             <goal>minify</goal>
                         </goals>
                     </execution>
-                    <!--<execution>-->
-                        <!--<id>minify softvis3d files</id>-->
-                        <!--<configuration>-->
-                            <!--<charset>UTF-8</charset>-->
-                            <!--<webappSourceDir>src/main/resources</webappSourceDir>-->
-                            <!--<webappTargetDir>target/classes</webappTargetDir>-->
-                            <!--<jsSourceDir>static/threeViewer/</jsSourceDir>-->
-                            <!--<jsSourceFiles>-->
-                                <!--<jsSourceFile>ng/app-config.js</jsSourceFile>-->
-                                <!--<jsSourceFile>ng/app-controller.js</jsSourceFile>-->
-                                <!--<jsSourceFile>ng/toolbar-controller.js</jsSourceFile>-->
-                                <!--<jsSourceFile>ng/file-loader-controller.js</jsSourceFile>-->
-                                <!--<jsSourceFile>ng/directives.js</jsSourceFile>-->
-                                <!--<jsSourceFile>ng/filters.js</jsSourceFile>-->
-                                <!--<jsSourceFile>ng/viewer-service.js</jsSourceFile>-->
-                                <!--<jsSourceFile>ng/tree-service.js</jsSourceFile>-->
-                                <!--<jsSourceFile>ng/backend-service.js</jsSourceFile>-->
-                                <!--<jsSourceFile>ng/message-bus.js</jsSourceFile>-->
-                                <!--<jsSourceFile>app.js</jsSourceFile>-->
+                    <execution>
+                        <id>minify softvis3d files</id>
+                        <configuration>
+                            <charset>UTF-8</charset>
+                            <webappSourceDir>src/main/resources</webappSourceDir>
+                            <webappTargetDir>target/classes</webappTargetDir>
+                            <jsSourceDir>static/threeViewer/</jsSourceDir>
+                            <jsSourceFiles>
+                                <jsSourceFile>three/setup.js</jsSourceFile>
+                                <jsSourceFile>three/util.js</jsSourceFile>
+                                <jsSourceFile>three/camera.js</jsSourceFile>
+                                <jsSourceFile>three/wrangler.js</jsSourceFile>
+                                <jsSourceFile>three/objectFactory.js</jsSourceFile>
 
-                                <!--<jsSourceFile>three/scene.js</jsSourceFile>-->
-                                <!--<jsSourceFile>three/setup.js</jsSourceFile>-->
-                                <!--<jsSourceFile>three/util.js</jsSourceFile>-->
-                                <!--<jsSourceFile>three/camera.js</jsSourceFile>-->
-                                <!--<jsSourceFile>three/wrangler.js</jsSourceFile>-->
-                                <!--<jsSourceFile>three/objectFactory.js</jsSourceFile>-->
-                            <!--</jsSourceFiles>-->
-                            <!--<jsFinalFile>softVis3dAll.js</jsFinalFile>-->
-                            <!--<jsEngine>CLOSURE</jsEngine>-->
-                            <!--<closureLanguage>ECMASCRIPT5</closureLanguage>-->
-                        <!--</configuration>-->
-                        <!--<goals>-->
-                            <!--<goal>minify</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
+                                <jsSourceFile>three/scene.js</jsSourceFile>
+
+                                <jsSourceFile>ng/app-config.js</jsSourceFile>
+                                <jsSourceFile>ng/app-controller.js</jsSourceFile>
+                                <jsSourceFile>ng/toolbar-controller.js</jsSourceFile>
+                                <jsSourceFile>ng/file-loader-controller.js</jsSourceFile>
+                                <jsSourceFile>ng/directives.js</jsSourceFile>
+                                <jsSourceFile>ng/filters.js</jsSourceFile>
+                                <jsSourceFile>ng/viewer-service.js</jsSourceFile>
+                                <jsSourceFile>ng/tree-service.js</jsSourceFile>
+                                <jsSourceFile>ng/backend-service.js</jsSourceFile>
+                                <jsSourceFile>ng/message-bus.js</jsSourceFile>
+                                <jsSourceFile>app.js</jsSourceFile>
+                            </jsSourceFiles>
+                            <jsFinalFile>softVis3dAll.js</jsFinalFile>
+                            <jsEngine>CLOSURE</jsEngine>
+                            <closureLanguage>ECMASCRIPT5</closureLanguage>
+                        </configuration>
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>

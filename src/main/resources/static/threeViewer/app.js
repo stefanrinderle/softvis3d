@@ -9,6 +9,7 @@
 'use strict';
 goog.require('ThreeViewer.ViewerService');
 goog.require('ThreeViewer.AppController');
+goog.require('ThreeViewer.ToolbarController');
 goog.require('ThreeViewer.FileLoaderController');
 goog.require('ThreeViewer.Directives');
 goog.require('ThreeViewer.Filters');
@@ -16,6 +17,7 @@ goog.require('ThreeViewer.MessageBus');
 goog.require('ThreeViewer.BackendService');
 goog.require('ThreeViewer.TreeService');
 goog.require('ThreeViewer.Config');
+goog.require('Viewer.Scene');
 
 angular.module('ThreeViewerApp', ['ngHammer', 'ngRoute'])
     .config(ThreeViewer.ConfigLocation)
