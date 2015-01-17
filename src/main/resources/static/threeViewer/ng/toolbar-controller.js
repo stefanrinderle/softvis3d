@@ -36,6 +36,9 @@ ThreeViewer.ToolbarController = function ($scope, ViewerService, TreeService, Me
     this.edgeIncludingEdges = null;
     this.displayEdgeIncludingEdges = false;
 
+    this.metric1Name = "";
+    this.metric2Name = "";
+
     this.init();
 };
 
@@ -46,19 +49,22 @@ ThreeViewer.ToolbarController.prototype.init = function () {
 ThreeViewer.ToolbarController.prototype.listeners = function () {
     var me = this;
     this.scope.$on('objectSelected', function (event) {
-        var eventObject = this.MessageBus.getMessage('objectSelected');
+        var eventObject = me.MessageBus.getMessage('objectSelected');
 
-        this.showDetails(eventObject.softVis3dId, eventObject.softVis3dType);
+        me.showDetails(eventObject.softVis3dId, eventObject.softVis3dType);
         me.scope.$apply();
     }.bind(this));
 
     this.scope.$on('visualizationReady', function (event) {
-        var eventObject = this.MessageBus.getMessage('visualizationReady');
+        var eventObject = me.MessageBus.getMessage('visualizationReady');
 
         console.log("visualizationReady")
         console.log(eventObject);
 
-        this.showDetails(eventObject.softVis3dId, "node");
+        me.metric1Name = eventObject.metric1Name;
+        me.metric2Name = eventObject.metric2Name;
+
+        me.showDetails(eventObject.softVis3dId, "node");
     }.bind(this));
 
 };

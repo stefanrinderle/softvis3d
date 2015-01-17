@@ -12,6 +12,10 @@
     <h2>Toolbar</h2><a href="#" class="close" ng-click="viewer.toggleToolbar()">X</a>
 
     <div ng-show="toolbar.node || toolbar.edge">
+        <br />
+        <p ng-show="toolbar.metric1Name || toolbar.metric2Name">
+            ({{toolbar.metric1Name}} / {{toolbar.metric2Name}})
+        </p>
         <!-- NODE MAIN INFO -->
 
         <button type='button' ng-click='toolbar.showAllSceneElements();'>Show all objects (reset)</button>

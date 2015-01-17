@@ -24,7 +24,6 @@ goog.provide('ThreeViewer.FileLoaderController');
  * @ngInject
  */
 ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, BackendService, TreeService) {
-
     this.scope = $scope;
     this.MessageBus = MessageBus;
     this.ViewerService = ViewerService;
@@ -130,8 +129,8 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
 
                     var eventObject = {};
                     eventObject.softVis3dId = ThreeViewer.SNAPSHOT_ID;
-                    eventObject.metric1 = metric1;
-                    eventObject.metric2 = metric2;
+                    eventObject.metric1Name = me.getNameForMetricId(metric1);
+                    eventObject.metric2Name = me.getNameForMetricId(metric2);
 
                     me.MessageBus.trigger('visualizationReady', eventObject);
 
@@ -141,4 +140,14 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
                     me.MessageBus.trigger('hideLoader');
                 });
         });
+};
+
+ThreeViewer.FileLoaderController.prototype.getNameForMetricId = function (metricId) {
+    for (var index = 0; index < this.availableMetrics.length; index++) {
+        if (this.availableMetrics[index].id === metricId) {
+            return this.availableMetrics[index].name;
+        }
+    }
+
+    return "no name found";
 };
