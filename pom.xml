@@ -285,7 +285,6 @@
                                 <jsSourceFile>three/camera.js</jsSourceFile>
                                 <jsSourceFile>three/wrangler.js</jsSourceFile>
                                 <jsSourceFile>three/objectFactory.js</jsSourceFile>
-
                                 <jsSourceFile>three/scene.js</jsSourceFile>
 
                                 <jsSourceFile>ng/app-config.js</jsSourceFile>

@@ -44,6 +44,13 @@
     <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular/angular-route.js"></script>
     <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular/ngHammer.js"></script>
 <% end %>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/setup.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/util.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/camera.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/wrangler.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/objectFactory.js"></script>
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/scene.js"></script>
+
     <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/app-config.js"></script>
     <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/app-controller.js"></script>
     <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/toolbar-controller.js"></script>
@@ -55,15 +62,6 @@
     <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/backend-service.js"></script>
     <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/message-bus.js"></script>
     <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/app.js"></script>
-
-    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/scene.js"></script>
-    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/setup.js"></script>
-    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/util.js"></script>
-    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/camera.js"></script>
-    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/wrangler.js"></script>
-    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/objectFactory.js"></script>
-
-
 
 <div ng-app="ThreeViewerApp">
     <div ng-view></div>
