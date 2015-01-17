@@ -12,6 +12,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import de.rinderle.softvis3d.VisualizationProcessor;
 import de.rinderle.softvis3d.VisualizationProcessorBean;
+import de.rinderle.softvis3d.cache.LayoutCacheService;
+import de.rinderle.softvis3d.cache.LayoutCacheServiceBean;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.cache.SnapshotCacheServiceBean;
 import de.rinderle.softvis3d.dao.*;
@@ -34,7 +36,12 @@ import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructure;
 import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructureImpl;
 import de.rinderle.softvis3d.preprocessing.tree.TreeBuilder;
 import de.rinderle.softvis3d.preprocessing.tree.TreeBuilderBean;
-import de.rinderle.softvis3d.webservice.tree.*;
+import de.rinderle.softvis3d.webservice.config.ConfigWebserviceHandler;
+import de.rinderle.softvis3d.webservice.config.ConfigWebserviceHandlerBean;
+import de.rinderle.softvis3d.webservice.tree.TreeNodeJsonWriter;
+import de.rinderle.softvis3d.webservice.tree.TreeNodeJsonWriterImpl;
+import de.rinderle.softvis3d.webservice.tree.TreeWebserviceHandler;
+import de.rinderle.softvis3d.webservice.tree.TreeWebserviceHandlerBean;
 import de.rinderle.softvis3d.webservice.visualization.VisualizationJsonWriter;
 import de.rinderle.softvis3d.webservice.visualization.VisualizationJsonWriterImpl;
 import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHandler;
@@ -67,6 +74,9 @@ public class SoftVis3DModule extends AbstractModule {
 		this.bind(TreeBuilder.class).to(TreeBuilderBean.class);
 
 		this.bind(LayoutProcessor.class).to(LayoutProcessorBean.class);
+
+    this.bind(LayoutCacheService.class)
+            .to(LayoutCacheServiceBean.class);
 
 		this.bind(TreeNodeJsonWriter.class).to(TreeNodeJsonWriterImpl.class);
 		this.bind(TreeWebserviceHandler.class).to(

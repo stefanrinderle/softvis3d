@@ -13,7 +13,7 @@ import com.google.inject.Injector;
 import de.rinderle.softvis3d.dao.DependencyDao;
 import de.rinderle.softvis3d.dao.SonarDao;
 import de.rinderle.softvis3d.guice.SoftVis3DModule;
-import de.rinderle.softvis3d.webservice.tree.ConfigWebserviceHandler;
+import de.rinderle.softvis3d.webservice.config.ConfigWebserviceHandler;
 import de.rinderle.softvis3d.webservice.tree.TreeWebserviceHandler;
 import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHandler;
 import org.sonar.api.config.Settings;

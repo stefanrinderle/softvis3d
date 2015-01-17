@@ -10,7 +10,9 @@ package de.rinderle.softvis3d.webservice.visualization;
 
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.VisualizationProcessor;
+import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
+import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
@@ -21,6 +23,7 @@ import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class VisualizationWebserviceHandlerBean implements
 		VisualizationWebserviceHandler {
@@ -34,6 +37,8 @@ public class VisualizationWebserviceHandlerBean implements
 	private VisualizationProcessor visualizationProcessor;
 	@Inject
 	private VisualizationJsonWriter visualizationJsonWriter;
+	@Inject
+	private LayoutCacheService layoutCacheService;
 
 	@Override
 	public void handle(final Request request, final Response response) {
@@ -48,27 +53,37 @@ public class VisualizationWebserviceHandlerBean implements
 		final VisualizationRequest requestDTO = new VisualizationRequest(id,
 				type, footprintMetricId, heightMetricId);
 
+		SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
+
+		final Map<Integer, ResultPlatform> result;
+		if (layoutCacheService.containsKey(key)) {
+      LOGGER.info("Layout out of cache for " + key.getString());
+			result = layoutCacheService.getLayoutResult(key);
+		} else {
+      LOGGER.info("Create layout for " + key.getString());
+			result = createLayout(id, requestDTO);
+      layoutCacheService.save(key, result);
+		}
+
+		this.visualizationJsonWriter.transformResponseToJson(response, result);
+	}
+
+	private Map<Integer, ResultPlatform> createLayout(Integer id,
+			VisualizationRequest requestDTO) {
+		Map<Integer, ResultPlatform> result = new ConcurrentHashMap<Integer, ResultPlatform>();
+    logStartOfCalc(requestDTO);
 		try {
-			Map<Integer, ResultPlatform> result = createLayoutBySnapshotId(requestDTO);
+
+			result = visualizationProcessor.visualize(this.settings, requestDTO);
 
 			/**
 			 * TODO: I don't know how to do this anywhere else.
 			 */
 			result.remove(id);
-
-			this.visualizationJsonWriter.transformResponseToJson(response,
-					result);
 		} catch (DotExecutorException e) {
-      LOGGER.error("error on dot execution.", e);
+			LOGGER.error("error on dot execution.", e);
 		}
-	}
-
-	private Map<Integer, ResultPlatform> createLayoutBySnapshotId(
-			final VisualizationRequest visualizationRequest)
-			throws DotExecutorException {
-		logStartOfCalc(visualizationRequest);
-		return visualizationProcessor.visualize(this.settings,
-				visualizationRequest);
+		return result;
 	}
 
 	private void logStartOfCalc(VisualizationRequest visualizationRequest) {
