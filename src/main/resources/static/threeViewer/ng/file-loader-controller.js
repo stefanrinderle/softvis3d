@@ -51,7 +51,7 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
 
     this.availableMetrics = [];
 
-    this.BASE_PATH = ThreeViewer.RESOURCES_BASE_PATH;
+    this.BASE_PATH = RESOURCES_BASE_PATH;
 
     this.init();
 };

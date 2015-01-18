@@ -288,7 +288,7 @@
                             <jsEngine>CLOSURE</jsEngine>
                             <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
                             <closureAngularPass>true</closureAngularPass>
-                            <closureLanguage>ECMASCRIPT5_STRICT</closureLanguage>
+                            <closureLanguage>ECMASCRIPT5</closureLanguage>
                         </configuration>
                         <goals>
                             <goal>minify</goal>

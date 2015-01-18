@@ -39,7 +39,7 @@ ThreeViewer.ToolbarController = function ($scope, ViewerService, TreeService, Me
     this.metric1Name = "";
     this.metric2Name = "";
 
-    this.BASE_PATH = ThreeViewer.RESOURCES_BASE_PATH;
+    this.BASE_PATH = RESOURCES_BASE_PATH;
 
     this.init();
 };
