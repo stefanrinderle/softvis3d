@@ -36,8 +36,7 @@ if (!softVis3D.isLicenseValid())
 
     <!-- ANGULAR JS FILES -->
     <% if (softVis3D.isProd()) %>
-        <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/libraryAll.min.js"></script>
-        <!--<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/softVis3dAll.min.js"></script>-->
+        <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/softVis3dAll.min.js"></script>
     <% else %>
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/threejs/three.69.js"></script>
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/threejs/OrbitControls.js"></script>
@@ -50,9 +49,8 @@ if (!softVis3D.isLicenseValid())
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular/angular.js"></script>
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular/angular-route.js"></script>
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular/ngHammer.js"></script>
-    <% end %>
 
-    <!-- MY JS FILES -->
+        <!-- MY JS FILES -->
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/setup.js"></script>
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/util.js"></script>
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/camera.js"></script>
@@ -71,6 +69,7 @@ if (!softVis3D.isLicenseValid())
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/backend-service.js"></script>
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/ng/message-bus.js"></script>
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/app.js"></script>
+    <% end %>
 
     <div ng-app="ThreeViewerApp">
         <div ng-view></div>
