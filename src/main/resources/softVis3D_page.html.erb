@@ -10,18 +10,6 @@
 -->
 <link rel="stylesheet" type="text/css" href="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/css/main.css">
 
-<!-- Closure -->
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/base.js"></script>
-
-<!-- Three Viewer -->
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/config.js"></script>
-<script>
-    var Viewer = {};
-
-    var ThreeViewer = {};
-    ThreeViewer.RESOURCES_BASE_PATH = "<%= "#{ApplicationController.root_context}" -%>";
-</script>
-
 <%
 # get extension class and start layout
 softVis3D = Api::Utils.java_facade.
@@ -34,6 +22,18 @@ if (!softVis3D.isLicenseValid())
         project website and get the current version of the plugin.
     </div>
 <% else %>
+    <!-- Closure -->
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/base.js"></script>
+
+    <!-- Three Viewer -->
+    <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/config.js"></script>
+    <script>
+        var Viewer = {};
+
+        var ThreeViewer = {};
+        ThreeViewer.RESOURCES_BASE_PATH = "<%= "#{ApplicationController.root_context}" -%>";
+    </script>
+
     <!-- ANGULAR JS FILES -->
     <% if (softVis3D.isProd()) %>
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/libraryAll.min.js"></script>
@@ -51,6 +51,8 @@ if (!softVis3D.isLicenseValid())
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular/angular-route.js"></script>
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular/ngHammer.js"></script>
     <% end %>
+
+    <!-- MY JS FILES -->
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/setup.js"></script>
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/util.js"></script>
         <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/camera.js"></script>
