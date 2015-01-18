@@ -75,22 +75,39 @@ if (!softVis3D.isLicenseValid())
     </div>
 
     <script type="text/javascript">
-    window.onload = function () {
-        ThreeViewer.SNAPSHOT_ID = <%= @snapshot.id %>;
+        function waitFor(msec, count, callback) {
+            // Check if condition met. If not, re-check later (msec).
+            while (jQuery('#file-loader').length <= 0) {
+                count++;
+                setTimeout(function () {
+                    waitFor(msec, count, callback);
+                }, msec);
+                return;
+            }
+            // Condition finally met. callback() can be executed.
+            callback();
+        }
 
-        setTimeout(function () {
+        window.onload = function () {
+            ThreeViewer.SNAPSHOT_ID = <%= @snapshot.id %>;
+
             <%
             if !@snapshot.id.blank? && !params[:viewType].blank? &&
                 !params[:metric1].blank? && !params[:metric2].blank?
             %>
-            // Direct link to visualization. Load and display.
-            angular.element(document.getElementById('file-loader')).controller().loadDirectLink(
-                    <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
-            );
+
+            // Wait until idle (busy must be false)
+            waitFor(500, 0, function () {
+                console.log('Load direct link metrics!');
+                // Direct link to visualization. Load and display.
+                angular.element(document.getElementById('file-loader')).controller().loadDirectLink(
+                        <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
+                );
+            });
+
             <%
             end
             %>
-        }, 4000);
-    }
+        }
     </script>
 <% end %>
