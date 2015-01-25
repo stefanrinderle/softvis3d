@@ -248,7 +248,7 @@
                 <version>1.7.4</version>
                 <executions>
                     <execution>
-                        <id>minify softvis3d files</id>
+                        <id>minify lib files</id>
                         <configuration>
                             <charset>UTF-8</charset>
                             <webappSourceDir>src/main/resources</webappSourceDir>
@@ -259,18 +259,31 @@
                                 <jsSourceFile>lib/threejs/OrbitControls.js</jsSourceFile>
                                 <jsSourceFile>lib/threejs/NURBSCurve.js</jsSourceFile>
                                 <jsSourceFile>lib/threejs/NURBSUtils.js</jsSourceFile>
+
                                 <jsSourceFile>lib/hammer/hammer.js</jsSourceFile>
                                 <jsSourceFile>lib/hammer/jquery.hammer.js</jsSourceFile>
                                 <jsSourceFile>lib/angular/angular.js</jsSourceFile>
                                 <jsSourceFile>lib/angular/angular-route.js</jsSourceFile>
                                 <jsSourceFile>lib/angular/ngHammer.js</jsSourceFile>
-
-                                <jsSourceFile>three/setup.js</jsSourceFile>
-                                <jsSourceFile>three/util.js</jsSourceFile>
-                                <jsSourceFile>three/camera.js</jsSourceFile>
-                                <jsSourceFile>three/wrangler.js</jsSourceFile>
-                                <jsSourceFile>three/objectFactory.js</jsSourceFile>
-                                <jsSourceFile>three/scene.js</jsSourceFile>
+                            </jsSourceFiles>
+                            <jsFinalFile>libAll.js</jsFinalFile>
+                            <jsEngine>CLOSURE</jsEngine>
+                            <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
+                            <closureLanguage>ECMASCRIPT5</closureLanguage>
+                        </configuration>
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>minify softvis3d files</id>
+                        <configuration>
+                            <charset>UTF-8</charset>
+                            <webappSourceDir>src/main/resources</webappSourceDir>
+                            <webappTargetDir>target/classes</webappTargetDir>
+                            <jsSourceDir>static/threeViewer/</jsSourceDir>
+                            <jsSourceFiles>
+                                <jsSourceFile>lib/base.js</jsSourceFile>
 
                                 <jsSourceFile>ng/app-config.js</jsSourceFile>
                                 <jsSourceFile>ng/app-controller.js</jsSourceFile>
@@ -282,13 +295,33 @@
                                 <jsSourceFile>ng/tree-service.js</jsSourceFile>
                                 <jsSourceFile>ng/backend-service.js</jsSourceFile>
                                 <jsSourceFile>ng/message-bus.js</jsSourceFile>
+
+                                <jsSourceFile>three/setup.js</jsSourceFile>
+                                <jsSourceFile>three/util.js</jsSourceFile>
+                                <jsSourceFile>three/camera.js</jsSourceFile>
+                                <jsSourceFile>three/wrangler.js</jsSourceFile>
+                                <jsSourceFile>three/objectFactory.js</jsSourceFile>
+                                <jsSourceFile>three/scene.js</jsSourceFile>
+
                                 <jsSourceFile>app.js</jsSourceFile>
                             </jsSourceFiles>
                             <jsFinalFile>softVis3dAll.js</jsFinalFile>
                             <jsEngine>CLOSURE</jsEngine>
                             <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
                             <closureAngularPass>true</closureAngularPass>
+                            <closureSortDependencies>true</closureSortDependencies>
                             <closureLanguage>ECMASCRIPT5</closureLanguage>
+                            <closureExterns>
+                                <closureExtern>static/threeViewer/lib/threejs/three.69.js</closureExtern>
+                                <closureExtern>static/threeViewer/lib/threejs/OrbitControls.js</closureExtern>
+                                <closureExtern>static/threeViewer/lib/threejs/NURBSCurve.js</closureExtern>
+                                <closureExtern>static/threeViewer/lib/threejs/NURBSUtils.js</closureExtern>
+                                <closureExtern>static/threeViewer/lib/hammer/hammer.js</closureExtern>
+                                <closureExtern>static/threeViewer/lib/hammer/jquery.hammer.js</closureExtern>
+                                <closureExtern>static/threeViewer/lib/angular/angular.js</closureExtern>
+                                <closureExtern>static/threeViewer/lib/angular/angular-route.js</closureExtern>
+                                <closureExtern>static/threeViewer/lib/angular/ngHammer.js</closureExtern>
+                            </closureExterns>
                         </configuration>
                         <goals>
                             <goal>minify</goal>
@@ -351,6 +384,9 @@
                                         <delete file="target/classes/static/threeViewer/lib/angular/angular.js" />
                                         <delete file="target/classes/static/threeViewer/lib/angular/angular-route.js" />
                                         <delete file="target/classes/static/threeViewer/lib/angular/ngHammer.js" />
+
+                                        <delete file="target/classes/static/threeViewer/libAll.min.js" />
+
                                         <!-- softviz3d files -->
                                         <delete file="target/classes/static/threeViewer/ng/app-config.js" />
                                         <delete file="target/classes/static/threeViewer/ng/app-controller.js" />
