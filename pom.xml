@@ -242,94 +242,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <!-- http://samaxes.github.io/minify-maven-plugin/minify-mojo.html#closureExterns -->
-                <groupId>com.samaxes.maven</groupId>
-                <artifactId>minify-maven-plugin</artifactId>
-                <version>1.7.4</version>
-                <executions>
-                    <execution>
-                        <id>minify lib files</id>
-                        <configuration>
-                            <charset>UTF-8</charset>
-                            <webappSourceDir>src/main/resources</webappSourceDir>
-                            <webappTargetDir>target/classes</webappTargetDir>
-                            <jsSourceDir>static/threeViewer/</jsSourceDir>
-                            <jsSourceFiles>
-                                <jsSourceFile>lib/threejs/three.69.js</jsSourceFile>
-                                <jsSourceFile>lib/threejs/OrbitControls.js</jsSourceFile>
-                                <jsSourceFile>lib/threejs/NURBSCurve.js</jsSourceFile>
-                                <jsSourceFile>lib/threejs/NURBSUtils.js</jsSourceFile>
-
-                                <jsSourceFile>lib/hammer/hammer.js</jsSourceFile>
-                                <jsSourceFile>lib/hammer/jquery.hammer.js</jsSourceFile>
-                                <jsSourceFile>lib/angular/angular.js</jsSourceFile>
-                                <jsSourceFile>lib/angular/angular-route.js</jsSourceFile>
-                                <jsSourceFile>lib/angular/ngHammer.js</jsSourceFile>
-                            </jsSourceFiles>
-                            <jsFinalFile>libAll.js</jsFinalFile>
-                            <jsEngine>CLOSURE</jsEngine>
-                            <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
-                            <closureLanguage>ECMASCRIPT5</closureLanguage>
-                        </configuration>
-                        <goals>
-                            <goal>minify</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>minify softvis3d files</id>
-                        <configuration>
-                            <charset>UTF-8</charset>
-                            <webappSourceDir>src/main/resources</webappSourceDir>
-                            <webappTargetDir>target/classes</webappTargetDir>
-                            <jsSourceDir>static/threeViewer/</jsSourceDir>
-                            <jsSourceFiles>
-                                <jsSourceFile>lib/base.js</jsSourceFile>
-
-                                <jsSourceFile>ng/app-config.js</jsSourceFile>
-                                <jsSourceFile>ng/app-controller.js</jsSourceFile>
-                                <jsSourceFile>ng/toolbar-controller.js</jsSourceFile>
-                                <jsSourceFile>ng/file-loader-controller.js</jsSourceFile>
-                                <jsSourceFile>ng/directives.js</jsSourceFile>
-                                <jsSourceFile>ng/filters.js</jsSourceFile>
-                                <jsSourceFile>ng/viewer-service.js</jsSourceFile>
-                                <jsSourceFile>ng/tree-service.js</jsSourceFile>
-                                <jsSourceFile>ng/backend-service.js</jsSourceFile>
-                                <jsSourceFile>ng/message-bus.js</jsSourceFile>
-
-                                <jsSourceFile>three/setup.js</jsSourceFile>
-                                <jsSourceFile>three/util.js</jsSourceFile>
-                                <jsSourceFile>three/camera.js</jsSourceFile>
-                                <jsSourceFile>three/wrangler.js</jsSourceFile>
-                                <jsSourceFile>three/objectFactory.js</jsSourceFile>
-                                <jsSourceFile>three/scene.js</jsSourceFile>
-
-                                <jsSourceFile>app.js</jsSourceFile>
-                            </jsSourceFiles>
-                            <jsFinalFile>softVis3dAll.js</jsFinalFile>
-                            <jsEngine>CLOSURE</jsEngine>
-                            <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
-                            <closureAngularPass>true</closureAngularPass>
-                            <closureSortDependencies>true</closureSortDependencies>
-                            <closureLanguage>ECMASCRIPT5</closureLanguage>
-                            <closureExterns>
-                                <closureExtern>static/threeViewer/lib/threejs/three.69.js</closureExtern>
-                                <closureExtern>static/threeViewer/lib/threejs/OrbitControls.js</closureExtern>
-                                <closureExtern>static/threeViewer/lib/threejs/NURBSCurve.js</closureExtern>
-                                <closureExtern>static/threeViewer/lib/threejs/NURBSUtils.js</closureExtern>
-                                <closureExtern>static/threeViewer/lib/hammer/hammer.js</closureExtern>
-                                <closureExtern>static/threeViewer/lib/hammer/jquery.hammer.js</closureExtern>
-                                <closureExtern>static/threeViewer/lib/angular/angular.js</closureExtern>
-                                <closureExtern>static/threeViewer/lib/angular/angular-route.js</closureExtern>
-                                <closureExtern>static/threeViewer/lib/angular/ngHammer.js</closureExtern>
-                            </closureExterns>
-                        </configuration>
-                        <goals>
-                            <goal>minify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.1</version>
@@ -362,6 +274,94 @@
             <id>secureRelease</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <!-- http://samaxes.github.io/minify-maven-plugin/minify-mojo.html#closureExterns -->
+                        <groupId>com.samaxes.maven</groupId>
+                        <artifactId>minify-maven-plugin</artifactId>
+                        <version>1.7.4</version>
+                        <executions>
+                            <execution>
+                                <id>minify lib files</id>
+                                <configuration>
+                                    <charset>UTF-8</charset>
+                                    <webappSourceDir>src/main/resources</webappSourceDir>
+                                    <webappTargetDir>target/classes</webappTargetDir>
+                                    <jsSourceDir>static/threeViewer/</jsSourceDir>
+                                    <jsSourceFiles>
+                                        <jsSourceFile>lib/threejs/three.69.js</jsSourceFile>
+                                        <jsSourceFile>lib/threejs/OrbitControls.js</jsSourceFile>
+                                        <jsSourceFile>lib/threejs/NURBSCurve.js</jsSourceFile>
+                                        <jsSourceFile>lib/threejs/NURBSUtils.js</jsSourceFile>
+
+                                        <jsSourceFile>lib/hammer/hammer.js</jsSourceFile>
+                                        <jsSourceFile>lib/hammer/jquery.hammer.js</jsSourceFile>
+                                        <jsSourceFile>lib/angular/angular.js</jsSourceFile>
+                                        <jsSourceFile>lib/angular/angular-route.js</jsSourceFile>
+                                        <jsSourceFile>lib/angular/ngHammer.js</jsSourceFile>
+                                    </jsSourceFiles>
+                                    <jsFinalFile>libAll.js</jsFinalFile>
+                                    <jsEngine>CLOSURE</jsEngine>
+                                    <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
+                                    <closureLanguage>ECMASCRIPT5</closureLanguage>
+                                </configuration>
+                                <goals>
+                                    <goal>minify</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>minify softvis3d files</id>
+                                <configuration>
+                                    <charset>UTF-8</charset>
+                                    <webappSourceDir>src/main/resources</webappSourceDir>
+                                    <webappTargetDir>target/classes</webappTargetDir>
+                                    <jsSourceDir>static/threeViewer/</jsSourceDir>
+                                    <jsSourceFiles>
+                                        <jsSourceFile>lib/base.js</jsSourceFile>
+
+                                        <jsSourceFile>ng/app-config.js</jsSourceFile>
+                                        <jsSourceFile>ng/app-controller.js</jsSourceFile>
+                                        <jsSourceFile>ng/toolbar-controller.js</jsSourceFile>
+                                        <jsSourceFile>ng/file-loader-controller.js</jsSourceFile>
+                                        <jsSourceFile>ng/directives.js</jsSourceFile>
+                                        <jsSourceFile>ng/filters.js</jsSourceFile>
+                                        <jsSourceFile>ng/viewer-service.js</jsSourceFile>
+                                        <jsSourceFile>ng/tree-service.js</jsSourceFile>
+                                        <jsSourceFile>ng/backend-service.js</jsSourceFile>
+                                        <jsSourceFile>ng/message-bus.js</jsSourceFile>
+
+                                        <jsSourceFile>three/setup.js</jsSourceFile>
+                                        <jsSourceFile>three/util.js</jsSourceFile>
+                                        <jsSourceFile>three/camera.js</jsSourceFile>
+                                        <jsSourceFile>three/wrangler.js</jsSourceFile>
+                                        <jsSourceFile>three/objectFactory.js</jsSourceFile>
+                                        <jsSourceFile>three/scene.js</jsSourceFile>
+
+                                        <jsSourceFile>app.js</jsSourceFile>
+                                    </jsSourceFiles>
+                                    <jsFinalFile>softVis3dAll.js</jsFinalFile>
+                                    <jsEngine>CLOSURE</jsEngine>
+                                    <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
+                                    <closureAngularPass>true</closureAngularPass>
+                                    <closureSortDependencies>true</closureSortDependencies>
+                                    <closureLanguage>ECMASCRIPT5</closureLanguage>
+                                    <closureExterns>
+                                        <closureExtern>static/threeViewer/lib/threejs/three.69.js</closureExtern>
+                                        <closureExtern>static/threeViewer/lib/threejs/OrbitControls.js</closureExtern>
+                                        <closureExtern>static/threeViewer/lib/threejs/NURBSCurve.js</closureExtern>
+                                        <closureExtern>static/threeViewer/lib/threejs/NURBSUtils.js</closureExtern>
+                                        <closureExtern>static/threeViewer/lib/hammer/hammer.js</closureExtern>
+                                        <closureExtern>static/threeViewer/lib/hammer/jquery.hammer.js</closureExtern>
+                                        <closureExtern>static/threeViewer/lib/angular/angular.js</closureExtern>
+                                        <closureExtern>static/threeViewer/lib/angular/angular-route.js</closureExtern>
+                                        <closureExtern>static/threeViewer/lib/angular/ngHammer.js</closureExtern>
+                                    </closureExterns>
+                                </configuration>
+                                <goals>
+                                    <goal>minify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
@@ -412,6 +412,56 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>proguard</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.wvengen</groupId>
+                        <artifactId>proguard-maven-plugin</artifactId>
+                        <version>2.0.8</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals><goal>proguard</goal></goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <!-- http://www.alexeyshmalko.com/2014/proguard-real-world-example/ -->
+                            <!-- Our application is so big that ProGuard had ran out of memory -->
+                            <!--<maxMemory>1024m</maxMemory>-->
+
+                            <!-- File with proguard configuration -->
+                            <proguardInclude>${basedir}/proguard.conf</proguardInclude>
+
+                            <!-- Now exclude all modules that are embedded in the jar, so that
+                                ProGuard won't see redefinition of each single class.
+                                You don't have to write down your main module. -->
+                            <exclusions>
+                                <!--<exclusion>-->
+                                <!--<groupId>com.yourcompany</groupId>-->
+                                <!--<artifactId>data</artifactId>-->
+                                <!--</exclusion>-->
+
+                                <!-- And so on -->
+                            </exclusions>
+
+                            <!--
+                                List external jars your application depends on
+                                (that not listed in maven dependencies).
+                                You probably depend on jave runtime (rt.jar).
+
+                                JCE stands for Java Cryptography Extension.
+                                You probably don't need it, but my application does.
+                            -->
+                            <libs>
+                                <lib>${java.home}/lib/rt.jar</lib>
+                            </libs>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
