@@ -1,3 +1,3 @@
 mvn clean license:format install
-cp target/sonar-softVis3D-plugin-0.2.5-SNAPSHOT.jar /Users/stefan/opt/sonarqube-5.0/extensions/downloads
+cp target/sonar-softVis3D-plugin-0.2.6-SNAPSHOT.jar /Users/stefan/opt/sonarqube-5.0/extensions/downloads
 /Users/stefan/opt/sonarqube-5.0/bin/macosx-universal-64/sonar.sh restart
