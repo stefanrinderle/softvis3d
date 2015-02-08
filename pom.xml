@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>sonar-softVis3D-plugin</artifactId>
-	<version>0.2.4-SNAPSHOT</version>
+	<version>0.2.5-SNAPSHOT</version>
 	<packaging>sonar-plugin</packaging>
 	<name>SoftVis3D Sonar plugin</name>
     <url>http://softvis3d.com</url>
