@@ -92,12 +92,17 @@ ThreeViewer.FileLoaderController.prototype.showTab = function (tab) {
 ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
     var cityType = "city";
 
+    var linesId = this.getMetricIdForName("Lines");
+    var complexityId = this.getMetricIdForName("Cyclomatic complexity");
+    var issuesId = this.getMetricIdForName("Issues");
+    var functionsId = this.getMetricIdForName("Functions");
+
     if (this.cityInnerState === "complexity") {
-        this.loadVisualisation(20, 1, cityType);
+        this.loadVisualisation(complexityId, linesId, cityType);
     } else if (this.cityInnerState === "issues") {
-        this.loadVisualisation(95, 1, cityType);
+        this.loadVisualisation(issuesId, linesId, cityType);
     } else if (this.cityInnerState === "functions") {
-        this.loadVisualisation(9, 1, cityType);
+        this.loadVisualisation(functionsId, linesId, cityType);
     } else {
         console.log("invalid option selected.")
     }
@@ -108,7 +113,10 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
  *
  */
 ThreeViewer.FileLoaderController.prototype.loadDependencyView = function () {
-    this.loadVisualisation(20, 1, "dependency");
+    var linesId = this.getMetricIdForName("Lines");
+    var complexityId = this.getMetricIdForName("Cyclomatic complexity");
+
+    this.loadVisualisation(complexityId, linesId, "dependency");
 };
 
 ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
@@ -151,6 +159,16 @@ ThreeViewer.FileLoaderController.prototype.getNameForMetricId = function (metric
     for (var index = 0; index < this.availableMetrics.length; index++) {
         if (this.availableMetrics[index].id === metricId) {
             return this.availableMetrics[index].name;
+        }
+    }
+
+    return "no name found";
+};
+
+ThreeViewer.FileLoaderController.prototype.getMetricIdForName = function (nameToSearch) {
+    for (var index = 0; index < this.availableMetrics.length; index++) {
+        if (this.availableMetrics[index].name === nameToSearch) {
+            return this.availableMetrics[index].id;
         }
     }
 
