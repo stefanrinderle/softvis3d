@@ -11,11 +11,14 @@ package de.rinderle.softvis3d.preprocessing.tree;
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
+import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.database.model.Snapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TreeBuilderBean implements TreeBuilder {
@@ -29,19 +32,54 @@ public class TreeBuilderBean implements TreeBuilder {
 	@Override
 	public RootTreeNode createTreeStructure(
 			final VisualizationRequest requestDTO) {
-		LOGGER.info("Created tree structure for id "
+		LOGGER.info("Create tree structure for id "
 				+ requestDTO.getRootSnapshotId());
 		final PathWalker pathWalker = new PathWalker(
 				requestDTO.getRootSnapshotId());
 
-		final List<SonarSnapshot> flatChildren = this.daoService
-				.getFlatChildrenWithMetrics(requestDTO);
+    final List<ModuleInfo> modules = getModules(requestDTO.getRootSnapshotId());
 
-		for (final SonarSnapshot flatChild : flatChildren) {
-			pathWalker.addPath(flatChild);
-		}
+    LOGGER.info("Number of modules: " + modules.size());
+
+    if (!modules.isEmpty()) {
+      for (ModuleInfo module : modules) {
+        VisualizationRequest moduleTemp = new VisualizationRequest(
+                module.getId(), requestDTO.getViewType(),
+                requestDTO.getFootprintMetricId(), requestDTO.getHeightMetricId());
+
+        SonarSnapshot moduleElement = new SonarSnapshot(module.getId(), module.getName(), 0, 0);
+        LOGGER.info(moduleElement.toString());
+        pathWalker.addPath(moduleElement);
+
+        addModuleToTreeWalker(pathWalker, moduleTemp, module.getName());
+      }
+    }
 
 		return pathWalker.getTree();
 	}
+
+	private void addModuleToTreeWalker(PathWalker pathWalker,
+			final VisualizationRequest requestDTO, final String moduleName) {
+    final List<SonarSnapshot> flatChildren = this.daoService
+            .getFlatChildrenWithMetrics(requestDTO);
+
+    for (final SonarSnapshot flatChild : flatChildren) {
+      if (moduleName.length() > 0) {
+        flatChild.setPath(moduleName + "/" + flatChild.getPath());
+      }
+
+      pathWalker.addPath(flatChild);
+    }
+  }
+
+  private List<ModuleInfo> getModules(int rootSnapshotId) {
+    List<ModuleInfo> result = this.daoService.getDirectModuleChildrenIds(rootSnapshotId);
+
+    if (result == null || result.size() == 0) {
+      result = new ArrayList<ModuleInfo>();
+    }
+
+    return result;
+  }
 
 }

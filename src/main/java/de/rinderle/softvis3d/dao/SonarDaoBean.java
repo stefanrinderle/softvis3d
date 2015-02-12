@@ -11,9 +11,11 @@ package de.rinderle.softvis3d.dao;
 import com.google.inject.Singleton;
 import de.rinderle.softvis3d.domain.Metric;
 import de.rinderle.softvis3d.domain.MinMaxValue;
+import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.database.DatabaseSession;
+import org.sonar.api.database.model.Snapshot;
 
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -78,6 +80,39 @@ public class SonarDaoBean implements SonarDao {
 		return metrics;
 	}
 
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<ModuleInfo> getDirectModuleChildrenIds(final Integer snapshotId) {
+    final List<ModuleInfo> result = new ArrayList<ModuleInfo>();
+
+    try {
+      this.session.start();
+
+      final Query query = this.session
+              .createNativeQuery("SELECT s.id, p.long_name FROM snapshots s " +
+                      "INNER JOIN projects p ON s.project_id = p.id " +
+                      "WHERE s.path LIKE :snapshotId and s.qualifier = 'BRC'");
+
+      query.setParameter("snapshotId", snapshotId + ".%");
+
+      List<Object[]> sqlResult = query.getResultList();
+
+      for (Object[] info : sqlResult) {
+        final Integer id = (Integer) info[0];
+        final String name = (String) info[1];
+
+        result.add(new ModuleInfo(id, name));
+      }
+
+    } catch (final PersistenceException e) {
+      LOGGER.error(e.getMessage(), e);
+    } finally {
+      this.session.stop();
+    }
+
+    return result;
+  }
+
 	@Override
 	public Integer getMetricIdByName(final String name) {
 		Integer metricId;
@@ -137,7 +172,7 @@ public class SonarDaoBean implements SonarDao {
 	@Override
 	public List<Object[]> getAllProjectElementsWithMetric(
 			final Integer rootSnapshotId, final Integer metricId) {
-		List<Object[]> result;
+		  List<Object[]> result;
 
 		try {
 			this.session.start();
@@ -147,12 +182,12 @@ public class SonarDaoBean implements SonarDao {
 					+ "INNER JOIN projects p ON s.project_id = p.id "
 					+ "LEFT JOIN project_measures metric ON s.id = metric.snapshot_id "
 					+ "AND metric.metric_id = :metricId "
-					+ "WHERE s.root_snapshot_id = :id AND s.qualifier = 'FIL' "
+					+ "WHERE s.path LIKE :id AND s.qualifier = 'FIL' "
 					+ "ORDER BY p.path";
 
 			final Query query = this.session.createNativeQuery(sqlQuery);
 
-			query.setParameter("id", rootSnapshotId);
+			query.setParameter("id", "%" + rootSnapshotId + "%");
 			query.setParameter("metricId", metricId);
 
 			result = query.getResultList();

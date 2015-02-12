@@ -11,11 +11,13 @@ package de.rinderle.softvis3d.dao;
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
+import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
 import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
+import org.sonar.api.database.model.Snapshot;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -61,14 +63,33 @@ public class DaoServiceBean implements DaoService {
   @Override
   public boolean hasDependencies(Integer snapshotId) {
     LOGGER.debug("hasDependencies" + snapshotId);
-    List<SonarDependency> dependencies = this.getDependencies(snapshotId);
-    return dependencies.size() > 0;
+
+    final List<SonarDependency> result = getDependencies(snapshotId);
+
+    return result.size() > 0;
   }
 
-	@Override
+  @Override
+  public List<ModuleInfo> getDirectModuleChildrenIds(Integer snapshotId) {
+    return this.sonarDao.getDirectModuleChildrenIds(snapshotId);
+  }
+
+  @Override
 	public List<SonarDependency> getDependencies(Integer snapshotId) {
 		LOGGER.debug("getDependencies " + snapshotId);
-		return this.dependencyDao.getDependencies(snapshotId);
+
+    List<ModuleInfo> modules = getDirectModuleChildrenIds(snapshotId);
+
+    List<SonarDependency> result = new ArrayList<SonarDependency>();
+    if (modules == null || modules.size() == 0) {
+      result = this.dependencyDao.getDependencies(snapshotId);
+    } else {
+      for (ModuleInfo module : modules) {
+        result.addAll(this.dependencyDao.getDependencies(module.getId()));
+      }
+    }
+
+		return result;
 	}
 
 	@Override
@@ -113,5 +134,7 @@ public class DaoServiceBean implements DaoService {
 		return result;
 
 	}
+
+
 
 }

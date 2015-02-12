@@ -42,4 +42,14 @@ public class VisualizationRequest {
 	public int getHeightMetricId() {
 		return this.heightMetricId;
 	}
+
+  @Override
+  public String toString() {
+    return "VisualizationRequest{" +
+            "rootSnapshotId=" + rootSnapshotId +
+            ", viewType=" + viewType +
+            ", footprintMetricId=" + footprintMetricId +
+            ", heightMetricId=" + heightMetricId +
+            '}';
+  }
 }

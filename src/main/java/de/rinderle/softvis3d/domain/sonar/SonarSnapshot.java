@@ -11,7 +11,7 @@ package de.rinderle.softvis3d.domain.sonar;
 public class SonarSnapshot {
 
 	private final int id;
-	private final String path;
+	private String path;
 	private final double footprintMetricValue;
 	private final double heightMetricValue;
 
@@ -39,4 +39,17 @@ public class SonarSnapshot {
 		return heightMetricValue;
 	}
 
+  public void setPath(String path) {
+    this.path = path;
+  }
+
+  @Override
+  public String toString() {
+    return "SonarSnapshot{" +
+            "id=" + id +
+            ", path='" + path + '\'' +
+            ", footprintMetricValue=" + footprintMetricValue +
+            ", heightMetricValue=" + heightMetricValue +
+            '}';
+  }
 }

@@ -10,9 +10,11 @@ package de.rinderle.softvis3d.dao;
 
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
+import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
 import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
 import org.sonar.api.config.Settings;
+import org.sonar.api.database.model.Snapshot;
 
 import java.util.List;
 
@@ -41,4 +43,6 @@ public interface DaoService {
 			VisualizationRequest requestDTO);
 
   boolean hasDependencies(Integer snapshotId);
+
+  List<ModuleInfo> getDirectModuleChildrenIds(Integer snapshotId);
 }

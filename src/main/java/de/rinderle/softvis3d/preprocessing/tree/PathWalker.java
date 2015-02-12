@@ -42,7 +42,8 @@ public class PathWalker {
 	}
 
 	public void addPath(final SonarSnapshot element) {
-		final String[] names = this.pathSeparator.split(element.getPath());
+    String[] names = this.pathSeparator.split(element.getPath());
+
 		TreeNode currentNode = this.root;
 
 		boolean isLastIndex;
