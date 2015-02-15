@@ -53,6 +53,8 @@ public class TreeBuilderBean implements TreeBuilder {
 
         addModuleToTreeWalker(pathWalker, moduleTemp, module.getName());
       }
+    } else {
+        addModuleToTreeWalker(pathWalker, requestDTO, "");
     }
 
 		return pathWalker.getTree();

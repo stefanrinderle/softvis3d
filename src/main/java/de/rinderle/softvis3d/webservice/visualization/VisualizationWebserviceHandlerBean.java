@@ -77,9 +77,13 @@ public class VisualizationWebserviceHandlerBean implements
 			result = visualizationProcessor.visualize(this.settings, requestDTO);
 
 			/**
+       * Remove root layer in dependency view
 			 * TODO: I don't know how to do this anywhere else.
 			 */
-			result.remove(id);
+      if (requestDTO.getViewType().equals(LayoutViewType.DEPENDENCY)) {
+        result.remove(id);
+      }
+
 		} catch (DotExecutorException e) {
 			LOGGER.error("error on dot execution.", e);
 		}
