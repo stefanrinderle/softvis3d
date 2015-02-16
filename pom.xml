@@ -385,7 +385,7 @@
                                         <delete file="target/classes/static/threeViewer/lib/angular/angular-route.js" />
                                         <delete file="target/classes/static/threeViewer/lib/angular/ngHammer.js" />
 
-                                        <delete file="target/classes/static/threeViewer/libAll.min.js" />
+                                        <delete file="target/classes/static/threeViewer/libAll.js" />
 
                                         <!-- softviz3d files -->
                                         <delete file="target/classes/static/threeViewer/ng/app-config.js" />
