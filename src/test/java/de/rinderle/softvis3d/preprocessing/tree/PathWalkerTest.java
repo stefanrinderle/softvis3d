@@ -8,10 +8,11 @@
  */
 package de.rinderle.softvis3d.preprocessing.tree;
 
-import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
+import de.rinderle.softvis3d.domain.sonar.SonarSnapshotBuilder;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -182,7 +183,13 @@ public class PathWalkerTest {
 
 	private void callWalkerWithMetrics(final PathWalker walker, final int id,
 			final String path) {
-		walker.addPath(new SonarSnapshot(id, path, 1, 1));
+
+    SonarSnapshotBuilder builder =
+            new SonarSnapshotBuilder(id, path)
+                    .footprintMetricValue(BigDecimal.ONE)
+                    .heightMetricValue(BigDecimal.ONE);
+
+		walker.addPath(builder.build());
 	}
 
 }

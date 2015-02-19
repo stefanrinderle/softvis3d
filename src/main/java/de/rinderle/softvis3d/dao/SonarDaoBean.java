@@ -9,19 +9,21 @@
 package de.rinderle.softvis3d.dao;
 
 import com.google.inject.Singleton;
+import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
 import de.rinderle.softvis3d.domain.Metric;
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.database.DatabaseSession;
-import org.sonar.api.database.model.Snapshot;
 
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -34,7 +36,7 @@ public class SonarDaoBean implements SonarDao {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SonarDaoBean.class);
 
-	private DatabaseSession session;
+  private DatabaseSession session;
 
 	@Override
 	public void setDatabaseSession(final DatabaseSession session) {
@@ -79,6 +81,28 @@ public class SonarDaoBean implements SonarDao {
 
 		return metrics;
 	}
+
+  @Override
+  public BigInteger getScmInfoMetricId(final String name) {
+    final BigInteger id;
+
+    try {
+      this.session.start();
+
+      final Query query = this.session
+              .createNativeQuery("SELECT m.id FROM metrics m " +
+                      "WHERE s.name = :scmInfoName");
+
+      query.setParameter("scmInfoName", name);
+
+      id = (BigInteger) query.getSingleResult();
+
+    } finally {
+      this.session.stop();
+    }
+
+    return id;
+  }
 
   @SuppressWarnings("unchecked")
   @Override
@@ -164,33 +188,30 @@ public class SonarDaoBean implements SonarDao {
 		return result;
 	}
 
-	/**
-	 * TODO: Should be done within one method for both metrics using
-	 * Annotation SqlResultSetMapping. Gave it a try but didn't work as expected.
-	 *
-	 */
 	@Override
-	public List<Object[]> getAllProjectElementsWithMetric(
-			final Integer rootSnapshotId, final Integer metricId) {
-		  List<Object[]> result;
+	public List<MetricResultDTO<String>> getAllProjectElementsWithPath(final Integer rootSnapshotId) {
+		  List<MetricResultDTO<String>> result = new ArrayList<MetricResultDTO<String>>();
 
 		try {
 			this.session.start();
 
-			final String sqlQuery = "SELECT s.id, p.path, metric.value "
+			final String sqlQuery = "SELECT s.id, p.path "
 					+ "FROM snapshots s "
 					+ "INNER JOIN projects p ON s.project_id = p.id "
-					+ "LEFT JOIN project_measures metric ON s.id = metric.snapshot_id "
-					+ "AND metric.metric_id = :metricId "
 					+ "WHERE s.path LIKE :id AND s.qualifier = 'FIL' "
 					+ "ORDER BY p.path";
 
 			final Query query = this.session.createNativeQuery(sqlQuery);
 
 			query.setParameter("id", "%" + rootSnapshotId + "%");
-			query.setParameter("metricId", metricId);
 
-			result = query.getResultList();
+      List<Object[]> sqlResult = query.getResultList();
+
+      for (Object[] aSqlResult : sqlResult) {
+        result.add(new MetricResultDTO<String>((Integer) aSqlResult[0], (String) aSqlResult[1]));
+      }
+
+      return result;
 		} catch (final PersistenceException e) {
 			LOGGER.error(e.getMessage(), e);
 			result = null;
@@ -201,4 +222,79 @@ public class SonarDaoBean implements SonarDao {
 		return result;
 	}
 
+  @Override
+  public List<MetricResultDTO<BigDecimal>> getAllProjectElementsWithMetric(
+          final Integer rootSnapshotId, final Integer metricId) {
+    List<MetricResultDTO<BigDecimal>> result = new ArrayList<MetricResultDTO<BigDecimal>>();
+
+    try {
+      this.session.start();
+
+      final String sqlQuery = "SELECT s.id, metric.value "
+              + "FROM snapshots s "
+              + "INNER JOIN projects p ON s.project_id = p.id "
+              + "LEFT JOIN project_measures metric ON s.id = metric.snapshot_id "
+              + "AND metric.metric_id = :metricId "
+              + "WHERE s.path LIKE :id AND s.qualifier = 'FIL' "
+              + "ORDER BY p.path";
+
+      final Query query = this.session.createNativeQuery(sqlQuery);
+
+      query.setParameter("id", "%" + rootSnapshotId + "%");
+      query.setParameter("metricId", metricId);
+
+      List<Object[]> sqlResult = query.getResultList();
+
+      for (Object[] aSqlResult : sqlResult) {
+        result.add(new MetricResultDTO<BigDecimal>((Integer) aSqlResult[0], (BigDecimal) aSqlResult[1]));
+      }
+
+      return result;
+    } catch (final PersistenceException e) {
+      LOGGER.error(e.getMessage(), e);
+      result = null;
+    } finally {
+      this.session.stop();
+    }
+
+    return result;
+  }
+
+  @Override
+  public List<MetricResultDTO<String>> getMetricTextForAllProjectElementsWithMetric(
+          final Integer rootSnapshotId, final Integer metricId) {
+    List<MetricResultDTO<String>> result = new ArrayList<MetricResultDTO<String>>();
+
+    try {
+      this.session.start();
+
+      final String sqlQuery = "SELECT s.id, metric.text_value "
+              + "FROM snapshots s "
+              + "INNER JOIN projects p ON s.project_id = p.id "
+              + "LEFT JOIN project_measures metric ON s.id = metric.snapshot_id "
+              + "AND metric.metric_id = :metricId "
+              + "WHERE s.path LIKE :id AND s.qualifier = 'FIL' "
+              + "ORDER BY p.path";
+
+      final Query query = this.session.createNativeQuery(sqlQuery);
+
+      query.setParameter("id", "%" + rootSnapshotId + "%");
+      query.setParameter("metricId", metricId);
+
+      List<Object[]> sqlResult = query.getResultList();
+
+      for (Object[] aSqlResult : sqlResult) {
+        result.add(new MetricResultDTO<String>((Integer) aSqlResult[0], (String) aSqlResult[1]));
+      }
+
+      return result;
+    } catch (final PersistenceException e) {
+      LOGGER.error(e.getMessage(), e);
+      result = null;
+    } finally {
+      this.session.stop();
+    }
+
+    return result;
+  }
 }

@@ -13,6 +13,7 @@ import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.database.model.Snapshot;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public interface SonarDao {
@@ -25,8 +26,15 @@ public interface SonarDao {
 
 	List<de.rinderle.softvis3d.domain.Metric> getDistinctMetricsBySnapshotId(Integer snapshotId);
 
-	List<Object[]> getAllProjectElementsWithMetric(Integer rootSnapshotId, Integer metricId);
+  BigInteger getScmInfoMetricId(String name);
+
+  List<de.rinderle.softvis3d.dao.dto.MetricResultDTO<String>> getAllProjectElementsWithPath(Integer rootSnapshotId);
+
+  List<de.rinderle.softvis3d.dao.dto.MetricResultDTO<java.math.BigDecimal>> getAllProjectElementsWithMetric(Integer rootSnapshotId, Integer metricId);
 
 	MinMaxValue getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId,
 			int metricId);
+
+  List<de.rinderle.softvis3d.dao.dto.MetricResultDTO<String>> getMetricTextForAllProjectElementsWithMetric(
+          Integer rootSnapshotId, Integer metricId);
 }
