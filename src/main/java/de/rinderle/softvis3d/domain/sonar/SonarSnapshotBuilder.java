@@ -28,7 +28,7 @@ public class SonarSnapshotBuilder {
   String path;
   double footprintMetricValue;
   double heightMetricValue;
-  public int committerCount;
+  public int authorCount;
 
   public SonarSnapshotBuilder(int id, String path) {
 		this.id = id;
@@ -57,11 +57,11 @@ public class SonarSnapshotBuilder {
 
   public SonarSnapshotBuilder scmInfo(String scmCommitterString, String scmTimeString) {
     if (StringUtils.isBlank(scmCommitterString)) {
-      this.committerCount = 0;
+      this.authorCount = 0;
     } else {
       final List<ScmInfo> resultList = extractScmInfo(scmCommitterString, scmTimeString);
 
-      this.committerCount = getDifferentUsers(resultList);
+      this.authorCount = getDifferentUsers(resultList);
     }
 
     return this;

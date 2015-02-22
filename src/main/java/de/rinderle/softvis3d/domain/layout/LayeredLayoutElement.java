@@ -11,6 +11,7 @@ package de.rinderle.softvis3d.domain.layout;
 import de.rinderle.softvis3d.domain.tree.Edge;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.layout.helper.HexaColor;
 
 import java.util.Map;
 
@@ -29,11 +30,12 @@ public final class LayeredLayoutElement {
 	private final String displayName;
 
 	private final Map<String, Edge> edges;
+  private final HexaColor color;
 
-	private LayeredLayoutElement(final TreeNodeType type, final Integer id,
-			final String name, final Double width, final Double height,
-			final Double buildingHeight, final String displayName,
-			final Map<String, Edge> edges) {
+  private LayeredLayoutElement(final TreeNodeType type, final Integer id,
+                               final String name, final Double width, final Double height,
+                               final Double buildingHeight, final String displayName,
+                               final Map<String, Edge> edges, HexaColor color) {
 		super();
 		this.type = type;
 		this.id = id;
@@ -43,14 +45,15 @@ public final class LayeredLayoutElement {
 		this.buildingHeight = buildingHeight;
 		this.displayName = displayName;
 		this.edges = edges;
+    this.color = color;
 	}
 
 	public static LayeredLayoutElement createLayeredLayoutElement(
-			final TreeNode node, final Double width, final Double height,
-			final Double buildingHeight) {
+          final TreeNode node, final Double width, final Double height,
+          final Double buildingHeight, final HexaColor color) {
 		return new LayeredLayoutElement(node.getType(), node.getId(), node
 				.getId().toString(), width, height, buildingHeight,
-				node.getName(), node.getEdges());
+				node.getName(), node.getEdges(), color);
 	}
 
 	public TreeNodeType getElementType() {
@@ -84,4 +87,8 @@ public final class LayeredLayoutElement {
 	public Map<String, Edge> getEdges() {
 		return this.edges;
 	}
+
+  public HexaColor getColor() {
+    return color;
+  }
 }

@@ -9,6 +9,7 @@
 package de.rinderle.softvis3d.domain.layout;
 
 import att.grappa.Graph;
+import att.grappa.GrappaConstants;
 import att.grappa.Node;
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
@@ -43,6 +44,8 @@ public class GrappaTransformer {
 
 		elementNode.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT,
 				element.getBuildingHeight());
+
+    elementNode.setAttribute("SOFTVIZ_COLOR", element.getColor().getHex());
 
 		elementNode.setAttribute("displayName", element.getDisplayName());
 		return elementNode;

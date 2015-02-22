@@ -53,7 +53,8 @@ public class PathWalker {
 				currentNode = this.getOrCreateChild(currentNode,
 						element.getId(), names[i], TreeNodeType.TREE,
 						element.getFootprintMetricValue(),
-						element.getHeightMetricValue());
+						element.getHeightMetricValue(),
+            element.getAuthorCount());
 			} else {
 				currentNode = this.getOrCreateGeneratedChild(currentNode,
 						names[i]);
@@ -68,7 +69,8 @@ public class PathWalker {
 
 	private TreeNode getOrCreateChild(final TreeNode node, Integer id,
 			final String name, final TreeNodeType type,
-			final double footprintMetricValue, final double heightMetricValue) {
+			final double footprintMetricValue, final double heightMetricValue,
+      final int authorCount) {
 		final Map<String, TreeNode> children = node.getChildren();
 		if (children.containsKey(name)) {
 			return children.get(name);
@@ -76,7 +78,7 @@ public class PathWalker {
 
 		final TreeNode result = new ValueTreeNode(id, node,
 				node.getDepth() + 1, type, name, footprintMetricValue,
-				heightMetricValue);
+				heightMetricValue, authorCount);
 
 		children.put(name, result);
 		return result;
@@ -85,7 +87,7 @@ public class PathWalker {
 	private TreeNode getOrCreateGeneratedChild(final TreeNode node,
 			final String name) {
 		return this.getOrCreateChild(node, this.getNextSequence(), name,
-				TreeNodeType.PATH_GENERATED, 0, 0);
+				TreeNodeType.PATH_GENERATED, 0, 0, 0);
 	}
 
 }

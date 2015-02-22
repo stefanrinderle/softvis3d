@@ -91,6 +91,8 @@ public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
 					valueNode.getHeightMetricValue());
 			jsonWriter.prop("footprintMetricValue",
 					valueNode.getFootprintMetricValue());
+      jsonWriter.prop("authorCount",
+              valueNode.getAuthorCount());
 		}
 	}
 

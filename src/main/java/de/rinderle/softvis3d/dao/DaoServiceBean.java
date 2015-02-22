@@ -122,7 +122,7 @@ public class DaoServiceBean implements DaoService {
 
       SonarSnapshot snapshotResult = builder.build();
 
-      LOGGER.info(snapshotResult.getCommitterCount() + "");
+//      LOGGER.info(snapshotResult.getAuthorCount() + "");
 
 			result.add(snapshotResult);
 		}

@@ -18,6 +18,12 @@ public class HexaColor extends Color {
 		super(r, g, b);
 	}
 
+  public HexaColor(final String hexValueString) {
+		super(Integer.parseInt(hexValueString.substring(1, 2), 16), Integer
+				.parseInt(hexValueString.substring(3, 4), 16), Integer.parseInt(hexValueString
+				.substring(5, 6), 16));
+  }
+
 	/**
 	 * Returns a web browser-friendly HEX value representing the colour in the
 	 * default sRGB ColorModel.

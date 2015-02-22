@@ -132,7 +132,7 @@ public class DependencyExpanderTest {
 	private TreeNode createTreeNode(final int id, final TreeNode parent,
 			final int depth) {
 		final TreeNode result = new ValueTreeNode(id, parent, depth,
-				TreeNodeType.TREE, id + "", 0, 0);
+				TreeNodeType.TREE, id + "", 0, 0, 0);
 
 		return result;
 	}

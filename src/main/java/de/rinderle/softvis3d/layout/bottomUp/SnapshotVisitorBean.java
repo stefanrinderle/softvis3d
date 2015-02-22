@@ -23,6 +23,7 @@ import de.rinderle.softvis3d.domain.tree.*;
 import de.rinderle.softvis3d.layout.dot.DotExecutor;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.layout.format.LayerFormatter;
+import de.rinderle.softvis3d.layout.helper.HexaColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
@@ -114,7 +115,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 		final double platformHeight = SoftVis3DConstants.PLATFORM_DEFAULT_HEIGHT;
 
 		return LayeredLayoutElement.createLayeredLayoutElement(node, width,
-				height, platformHeight);
+            height, platformHeight, new HexaColor(0, 0, 0));
 	}
 
 	private Graph createGrappaInputGraph(TreeNode node,
@@ -147,6 +148,9 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
 		double sideLength;
 		double buildingHeight;
+
+    HexaColor color = new HexaColor(255, 255, 255);
+
 		if (isDependencyNode) {
 			DependencyTreeNode leafNode = (DependencyTreeNode) leaf;
 			final MinMaxValue minMaxDependencies = new MinMaxValue(0.0, Integer
@@ -171,12 +175,15 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 			buildingHeight = buildingHeight
 					* SoftVis3DConstants.BUILDING_HEIGHT_MULTIPLIER;
 			buildingHeight = Math.round(buildingHeight);
-		}
+
+      int authors = leafNode.getAuthorCount() * 20;
+      color = new HexaColor(authors, authors, authors);
+    }
 
 		sideLength = sideLength / SoftVis3DConstants.DPI_DOT_SCALE;
 
 		return LayeredLayoutElement.createLayeredLayoutElement(leaf,
-				sideLength, sideLength, buildingHeight);
+				sideLength, sideLength, buildingHeight, color);
 	}
 
 }

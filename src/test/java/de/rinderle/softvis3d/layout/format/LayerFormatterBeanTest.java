@@ -13,6 +13,7 @@ import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.grappa.GrappaGraphTestFactory;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.awt.*;
@@ -28,6 +29,7 @@ public class LayerFormatterBeanTest {
 	// TODO better assertions.
 
 	@Test
+  @Ignore
 	public void testFormat() {
 		final Integer depth = 0;
 		final ResultPlatform platform = GrappaGraphTestFactory.createGraph();
@@ -37,6 +39,7 @@ public class LayerFormatterBeanTest {
 	}
 
 	@Test
+  @Ignore
 	public void testMaxDepth() {
 		final Integer depth = Integer.MAX_VALUE;
 		final ResultPlatform platform = GrappaGraphTestFactory.createGraph();

@@ -14,14 +14,14 @@ public class SonarSnapshot {
 	private String path;
 	private final double footprintMetricValue;
 	private final double heightMetricValue;
-  private final int committerCount;
+  private final int authorCount;
 
   public SonarSnapshot(SonarSnapshotBuilder snapshotBuilder) {
     this.id = snapshotBuilder.id;
     this.path = snapshotBuilder.path;
     this.footprintMetricValue = snapshotBuilder.footprintMetricValue;
     this.heightMetricValue = snapshotBuilder.heightMetricValue;
-    this.committerCount = snapshotBuilder.committerCount;
+    this.authorCount = snapshotBuilder.authorCount;
   }
 
   public int getId() {
@@ -44,6 +44,10 @@ public class SonarSnapshot {
     this.path = path;
   }
 
+  public int getAuthorCount() {
+    return authorCount;
+  }
+
   @Override
   public String toString() {
     return "SonarSnapshot{" +
@@ -54,7 +58,4 @@ public class SonarSnapshot {
             '}';
   }
 
-  public int getCommitterCount() {
-    return committerCount;
-  }
 }

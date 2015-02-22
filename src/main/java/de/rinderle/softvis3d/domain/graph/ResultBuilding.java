@@ -8,12 +8,10 @@
  */
 package de.rinderle.softvis3d.domain.graph;
 
-import att.grappa.Edge;
-import att.grappa.GrappaConstants;
-import att.grappa.GrappaPoint;
-import att.grappa.Node;
+import att.grappa.*;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.layout.helper.HexaColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +47,8 @@ public class ResultBuilding extends BaseResultObject {
 		this.height = (Double) node
 				.getAttributeValue(GrappaConstants.HEIGHT_ATTR);
 
+    this.setColor(transformToColor(node.getAttributeValue("SOFTVIZ_COLOR")));
+
 		this.buildingHeight = transformBuildingHeight(node);
 
 		this.type = transformType(node);
@@ -57,7 +57,12 @@ public class ResultBuilding extends BaseResultObject {
 				.getAttributeValue(GrappaConstants.POS_ATTR);
 	}
 
-	public int getId() {
+  private HexaColor transformToColor(Object attributeValue) {
+    LOGGER.info((String) attributeValue);
+    return new HexaColor((String) attributeValue);
+  }
+
+  public int getId() {
 		return id;
 	}
 
@@ -76,13 +81,13 @@ public class ResultBuilding extends BaseResultObject {
 	private List<ResultArrow> transformEdges(Edge[] inputEdges) {
 		List<ResultArrow> result = new ArrayList<ResultArrow>();
 
-		for (int i = 0; i < inputEdges.length; i = i + 1) {
-			boolean isTailEnd = inputEdges[i].getTail().getId() == this
-					.getGrappaId();
-			if (isTailEnd) {
-				result.add(transformEdge(inputEdges[i]));
-			}
-		}
+    for (Edge inputEdge : inputEdges) {
+      boolean isTailEnd = inputEdge.getTail().getId() == this
+              .getGrappaId();
+      if (isTailEnd) {
+        result.add(transformEdge(inputEdge));
+      }
+    }
 
 		return result;
 	}
@@ -118,7 +123,7 @@ public class ResultBuilding extends BaseResultObject {
 		return height;
 	}
 
-	/**
+  /**
 	 * As dot gets an exception when the building height attribute is set as a
 	 * number, we prefix the building height value with "x". This has to be
 	 * removed in order to parse the value in the view later.
