@@ -56,4 +56,5 @@ public interface SoftVis3DConstants {
 	HexaColor BUILDING_COLOR = new HexaColor(254, 140, 0);
 
 	String GRAPH_ATTR_EDGE_RADIUS = "edgeRadius";
+  String SOFTVIZ_COLOR = "SOFTVIZ_COLOR";
 }

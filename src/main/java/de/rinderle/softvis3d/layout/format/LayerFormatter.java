@@ -11,6 +11,8 @@ package de.rinderle.softvis3d.layout.format;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
+import de.rinderle.softvis3d.layout.helper.HexaColor;
 
 public interface LayerFormatter {
 	void format(ResultPlatform graph, Integer depth, LayoutViewType viewType);
@@ -20,4 +22,6 @@ public interface LayerFormatter {
 	double calcSideLength(Double value, MinMaxValue minMaxMetricFootprint);
 
 	double calcEdgeRadius(int counter);
+
+  HexaColor getScmColorInfo(ValueTreeNode leafNode, int maxScmValue);
 }

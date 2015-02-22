@@ -14,6 +14,7 @@ import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultBuilding;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,7 +110,34 @@ public class LayerFormatterBean implements LayerFormatter {
 		return counter;
 	}
 
-	private double calcPercentage(final Double value,
+  @Override
+  public HexaColor getScmColorInfo(final ValueTreeNode leafNode, final int maxScmValue) {
+    return makeColor(leafNode.getAuthorCount(), maxScmValue);
+  }
+
+  /**
+   * Value between 0 and 510.
+   */
+  private HexaColor makeColor(int authorCount, double maxScmValue) {
+    int valueBetween0And510 = (int) (((double) authorCount / maxScmValue) * 510);
+
+    int newGreenValue;
+    int newRedValue;
+    if (valueBetween0And510 < 255) {
+      newGreenValue = 255;
+      double newRedValueTemp = Math.sqrt(valueBetween0And510) * 16;
+      newRedValue = (int) Math.round(newRedValueTemp);
+    } else {
+      newRedValue = 255;
+      valueBetween0And510 = valueBetween0And510 - 255;
+      newGreenValue = 255 - (valueBetween0And510 * valueBetween0And510 / 255);
+      newGreenValue = Math.round(newGreenValue);
+    }
+
+    return new HexaColor(newRedValue, newGreenValue, 0);
+  }
+
+  private double calcPercentage(final Double value,
 			final MinMaxValue minMaxDao) {
 		double result = 0.0;
 		if (value != null) {

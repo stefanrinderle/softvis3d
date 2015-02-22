@@ -45,7 +45,7 @@ public class GrappaTransformer {
 		elementNode.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT,
 				element.getBuildingHeight());
 
-    elementNode.setAttribute("SOFTVIZ_COLOR", element.getColor().getHex());
+    elementNode.setAttribute(SoftVis3DConstants.SOFTVIZ_COLOR, element.getColor().getHex());
 
 		elementNode.setAttribute("displayName", element.getDisplayName());
 		return elementNode;

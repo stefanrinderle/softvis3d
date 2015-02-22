@@ -27,8 +27,6 @@ import java.util.Map;
 public class LayoutProcessorBean implements LayoutProcessor {
 
 	@Inject
-	private DaoService daoService;
-	@Inject
 	private SnapshotVisitorFactory visitorFactory;
 	@Inject
 	private BottomUpLayout bottomUpLayout;
@@ -40,24 +38,8 @@ public class LayoutProcessorBean implements LayoutProcessor {
 	public Map<Integer, ResultPlatform> process(Settings settings,
 			VisualizationRequest requestDTO,
 			SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
-		final MinMaxValue minMaxFootprintValues = this.daoService
-				.getMinMaxMetricValuesByRootSnapshotId(
-						requestDTO.getRootSnapshotId(),
-						requestDTO.getFootprintMetricId());
-		final MinMaxValue minMaxHeightValues = this.daoService
-				.getMinMaxMetricValuesByRootSnapshotId(
-						requestDTO.getRootSnapshotId(),
-						requestDTO.getHeightMetricId());
 
-		LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId()
-				+ " : " + minMaxFootprintValues.toString() + " "
-				+ minMaxHeightValues.toString());
-
-		final int dependenciesCount = snapshotTreeResult.getDependenciesCount();
-
-		final SnapshotVisitor visitor = this.visitorFactory.create(settings,
-				requestDTO.getViewType(), minMaxFootprintValues,
-				minMaxHeightValues, dependenciesCount);
+		final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO);
 
 		this.bottomUpLayout.accept(visitor, snapshotTreeResult);
 

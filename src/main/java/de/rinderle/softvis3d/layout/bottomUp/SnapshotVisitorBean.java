@@ -13,9 +13,11 @@ import att.grappa.GrappaBox;
 import att.grappa.Node;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.layout.GrappaTransformer;
 import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
@@ -51,28 +53,37 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 	private final Map<Integer, ResultPlatform> resultingGraphList = new ConcurrentHashMap<Integer, ResultPlatform>();
 
 	private final LayoutViewType viewType;
+  private final int maxScmInfo;
 
-	@Inject
+  @Inject
 	public SnapshotVisitorBean(
 			final LayerFormatter formatter,
 			final DotExecutor dotExecutor,
 			final GrappaTransformer transformer,
+      final DaoService daoService,
 			@Assisted final Settings settings,
-			@Assisted final LayoutViewType viewType,
-			@Assisted(value = "minMaxFootprintMetricValues") final MinMaxValue minMaxFootprintMetricValues,
-			@Assisted(value = "minMaxHeightMetricValues") final MinMaxValue minMaxHeightMetricValues,
-			@Assisted(value = "dependenciesCount") final int dependenciesCount) {
+			@Assisted final VisualizationRequest requestDTO) {
 		this.settings = settings;
-
-		this.minMaxMetricFootprint = minMaxFootprintMetricValues;
-		this.minMaxMetricHeight = minMaxHeightMetricValues;
-		this.dependenciesCount = dependenciesCount;
 
 		this.dotExecutor = dotExecutor;
 		this.formatter = formatter;
 		this.transformer = transformer;
 
-		this.viewType = viewType;
+    this.minMaxMetricFootprint = daoService.getMinMaxMetricValuesByRootSnapshotId(
+            requestDTO.getRootSnapshotId(),
+            requestDTO.getFootprintMetricId());
+    this.minMaxMetricHeight = daoService.getMinMaxMetricValuesByRootSnapshotId(
+            requestDTO.getRootSnapshotId(),
+            requestDTO.getHeightMetricId());
+
+    this.dependenciesCount = daoService.getDependencies(requestDTO.getRootSnapshotId()).size();
+
+    this.maxScmInfo = daoService.getMaxScmInfo(requestDTO.getRootSnapshotId());
+    LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId()
+            + " : " + minMaxMetricFootprint.toString() + " "
+            + minMaxMetricHeight.toString() + " Dependencies: " + this.dependenciesCount);
+
+		this.viewType = requestDTO.getViewType();
 	}
 
 	@Override
@@ -139,7 +150,6 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
 	@Override
 	public LayeredLayoutElement visitFile(final TreeNode leaf) {
-
 		LOGGER.debug("Leaf : " + leaf.getId() + " " + leaf.getName());
 
 		boolean isDependencyNode = TreeNodeType.DEPENDENCY_GENERATED
@@ -176,8 +186,9 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 					* SoftVis3DConstants.BUILDING_HEIGHT_MULTIPLIER;
 			buildingHeight = Math.round(buildingHeight);
 
-      int authors = leafNode.getAuthorCount() * 20;
-      color = new HexaColor(authors, authors, authors);
+      color = this.formatter.getScmColorInfo(leafNode, this.maxScmInfo);
+
+      LOGGER.info(color.getHex());
     }
 
 		sideLength = sideLength / SoftVis3DConstants.DPI_DOT_SCALE;

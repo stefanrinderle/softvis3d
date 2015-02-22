@@ -38,7 +38,6 @@ public class PreProcessorBean implements PreProcessor {
 
 	@Override
 	public SnapshotTreeResult process(VisualizationRequest requestDTO) {
-		int dependencyCount = 0;
 		snapshotCacheService.printCacheContents();
 
 		final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
@@ -55,10 +54,9 @@ public class PreProcessorBean implements PreProcessor {
 				final List<SonarDependency> dependencies = this.daoService
 						.getDependencies(requestDTO.getRootSnapshotId());
 				this.dependencyExpander.execute(tree, dependencies);
-				dependencyCount = dependencies.size();
 			}
 
-			result = new SnapshotTreeResult(mapKey, tree, dependencyCount);
+			result = new SnapshotTreeResult(mapKey, tree);
 			this.snapshotCacheService.save(result);
 		}
 

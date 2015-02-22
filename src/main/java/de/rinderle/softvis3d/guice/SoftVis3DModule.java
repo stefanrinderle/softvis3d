@@ -58,6 +58,8 @@ public class SoftVis3DModule extends AbstractModule {
 		this.bind(DependencyDao.class).to(DependencyDaoBean.class);
 		this.bind(DaoService.class).to(DaoServiceBean.class);
 
+    this.bind(ScmCalculationService.class).to(ScmCalculationServiceBean.class);
+
 		this.bind(OptimizeTreeStructure.class).to(
 				OptimizeTreeStructureImpl.class);
 		this.bind(SnapshotCacheService.class)

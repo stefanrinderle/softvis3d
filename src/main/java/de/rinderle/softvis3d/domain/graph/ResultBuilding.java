@@ -47,7 +47,7 @@ public class ResultBuilding extends BaseResultObject {
 		this.height = (Double) node
 				.getAttributeValue(GrappaConstants.HEIGHT_ATTR);
 
-    this.setColor(transformToColor(node.getAttributeValue("SOFTVIZ_COLOR")));
+    this.setColor(transformToColor(node.getAttributeValue(SoftVis3DConstants.SOFTVIZ_COLOR)));
 
 		this.buildingHeight = transformBuildingHeight(node);
 
@@ -58,7 +58,6 @@ public class ResultBuilding extends BaseResultObject {
 	}
 
   private HexaColor transformToColor(Object attributeValue) {
-    LOGGER.info((String) attributeValue);
     return new HexaColor((String) attributeValue);
   }
 
