@@ -85,21 +85,14 @@ public class PostProcessorBean implements PostProcessor {
 
 			this.addTranslationToLayer(child, pos, layoutViewType);
 
-			formatOrDeleteRepresentationNode(graph, layoutViewType, child);
+			removeRepresentationNode(graph, layoutViewType, child);
 		}
 	}
 
-	private void formatOrDeleteRepresentationNode(ResultPlatform graph,
+	private void removeRepresentationNode(ResultPlatform graph,
 			LayoutViewType layoutViewType, TreeNode child) {
 		if (LayoutViewType.CITY.equals(layoutViewType)) {
 			graph.removeNode(child.getId().toString());
-		} else {
-			final ResultBuilding dirNode = graph.findNodeByName(child.getId()
-					.toString());
-			final HexaColor color = new HexaColor(100, 100, 100);
-			dirNode.setColor(color);
-			dirNode.setOpacity(1.0);
-			dirNode.setBuildingHeight(5);
 		}
 	}
 

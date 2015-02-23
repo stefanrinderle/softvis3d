@@ -17,7 +17,9 @@ import de.rinderle.softvis3d.layout.helper.HexaColor;
 public interface LayerFormatter {
 	void format(ResultPlatform graph, Integer depth, LayoutViewType viewType);
 
-	double calcBuildingHeight(Double value, MinMaxValue minMaxMetricHeight);
+  HexaColor getPlatformBaseColor(int depth);
+
+  double calcBuildingHeight(Double value, MinMaxValue minMaxMetricHeight);
 
 	double calcSideLength(Double value, MinMaxValue minMaxMetricFootprint);
 

@@ -27,17 +27,6 @@ public class LayerFormatterBean implements LayerFormatter {
 	@Override
 	public void format(final ResultPlatform platform, final Integer depth,
 			final LayoutViewType viewType) {
-		// calc color
-		int colorCalc = depth * 16;
-		if (colorCalc > 154 || colorCalc < 0) {
-			colorCalc = 154;
-		}
-
-		final HexaColor platformColor = new HexaColor(100 + colorCalc, 100 + colorCalc,
-				100 + colorCalc);
-
-		platform.setColor(platformColor);
-
 		double opacity = 1.0;
 		Integer height3d = depth * 20;
 
@@ -50,13 +39,26 @@ public class LayerFormatterBean implements LayerFormatter {
 
 		platform.setHeight3d(height3d);
 
+    LOGGER.info(depth + "" + getPlatformBaseColor(depth).getHex());
+    platform.setColor(getPlatformBaseColor(depth));
+
 		for (final ResultBuilding leaf : platform.getNodes()) {
-			formatResultBuilding(platformColor, height3d, leaf);
+			formatResultBuilding(depth, height3d, leaf);
 		}
 	}
 
-	private void formatResultBuilding(HexaColor platformColor, Integer height3d,
-			ResultBuilding leaf) {
+  @Override
+  public HexaColor getPlatformBaseColor(int depth) {
+    // calc color
+    int colorCalc = depth * 32;
+    if (colorCalc > 154 || colorCalc < 0) {
+      colorCalc = 154;
+    }
+
+    return new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
+  }
+
+	private void formatResultBuilding(int depth, Integer height3d, ResultBuilding leaf) {
 		double width = leaf.getWidth();
 		// keep some distance to each other
 		width = width * SoftVis3DConstants.DPI_DOT_SCALE;
@@ -68,7 +70,7 @@ public class LayerFormatterBean implements LayerFormatter {
 		leaf.setHeight((height));
 
 		if (leaf.getType().equals(TreeNodeType.DEPENDENCY_GENERATED)) {
-			leaf.setColor(platformColor);
+			leaf.setColor(getPlatformBaseColor(depth));
 		}
 
 		leaf.setHeight3d(height3d);

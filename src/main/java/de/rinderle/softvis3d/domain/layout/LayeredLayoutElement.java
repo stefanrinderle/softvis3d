@@ -91,4 +91,5 @@ public final class LayeredLayoutElement {
   public HexaColor getColor() {
     return color;
   }
+
 }

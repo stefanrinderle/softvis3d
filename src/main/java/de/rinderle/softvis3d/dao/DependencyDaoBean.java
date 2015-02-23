@@ -51,8 +51,7 @@ public class DependencyDaoBean implements DependencyDao {
 
 			query.setParameter("projectSnapshotId", projectSnapshotId);
 
-			final List<Object[]> queryResult = (List<Object[]>) query
-					.getResultList();
+			final List<Object[]> queryResult = (List<Object[]>) query.getResultList();
 
 			result = this.castToSonarDependency(queryResult);
 

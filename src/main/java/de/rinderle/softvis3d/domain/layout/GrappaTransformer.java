@@ -15,6 +15,8 @@ import com.google.inject.Inject;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.tree.Edge;
 import de.rinderle.softvis3d.layout.format.LayerFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static att.grappa.GrappaConstants.*;
 
@@ -23,6 +25,9 @@ import static att.grappa.GrappaConstants.*;
  * LayeredLayoutElement domain object.
  */
 public class GrappaTransformer {
+
+  private static final Logger LOGGER = LoggerFactory
+          .getLogger(GrappaTransformer.class);
 
 	@Inject
 	private LayerFormatter formatter;

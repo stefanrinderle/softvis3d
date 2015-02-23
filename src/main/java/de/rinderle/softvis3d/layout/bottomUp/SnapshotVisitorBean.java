@@ -125,8 +125,14 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
 		final double platformHeight = SoftVis3DConstants.PLATFORM_DEFAULT_HEIGHT;
 
+    final HexaColor platformColor = this.formatter.getPlatformBaseColor(node.getDepth());
+
+    /**
+     * this will be the representation node of this layer in the upper layer.
+     * Currently, the "building" is the deleted if the city view is enabled.
+     */
 		return LayeredLayoutElement.createLayeredLayoutElement(node, width,
-            height, platformHeight, new HexaColor(0, 0, 0));
+            height, platformHeight, platformColor);
 	}
 
 	private Graph createGrappaInputGraph(TreeNode node,
@@ -159,7 +165,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 		double sideLength;
 		double buildingHeight;
 
-    HexaColor color = new HexaColor(255, 255, 255);
+    final HexaColor color;
 
 		if (isDependencyNode) {
 			DependencyTreeNode leafNode = (DependencyTreeNode) leaf;
@@ -170,6 +176,9 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 					minMaxDependencies);
 
 			buildingHeight = SoftVis3DConstants.LAYER_HEIGHT;
+
+      // not used, will be overriden somewhere
+      color = new HexaColor(255, 255, 255);
 		} else {
 			ValueTreeNode leafNode = (ValueTreeNode) leaf;
 			sideLength = this.formatter.calcSideLength(
@@ -187,8 +196,6 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 			buildingHeight = Math.round(buildingHeight);
 
       color = this.formatter.getScmColorInfo(leafNode, this.maxScmInfo);
-
-      LOGGER.info(color.getHex());
     }
 
 		sideLength = sideLength / SoftVis3DConstants.DPI_DOT_SCALE;
