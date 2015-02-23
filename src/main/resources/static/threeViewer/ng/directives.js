@@ -82,10 +82,10 @@ ThreeViewer.ToolbarDirective = function() {
 /**
  * @constructor
  */
-ThreeViewer.AboutDirective = function() {
+ThreeViewer.HelpDirective = function() {
     return {
         restrict: 'A',
-        templateUrl: RESOURCES_BASE_PATH + '/static/softVis3D/threeViewer/partials/about.html'
+        templateUrl: RESOURCES_BASE_PATH + '/static/softVis3D/threeViewer/partials/help.html'
     };
 };
 

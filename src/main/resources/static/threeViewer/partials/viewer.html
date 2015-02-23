@@ -11,15 +11,15 @@
 <div ng-controller="AppController as viewer">
     <div class="container">
         <div class="sidebarThreeJs">
-            <button ng-click="viewer.toggleLoader()">FL</button>
+            <button ng-click="viewer.toggleLoader()">VW</button>
             <button ng-click="viewer.toggleToolbar()">TB</button>
-            <button ng-click="viewer.toggleAbout()">?</button>
+            <button ng-click="viewer.toggleHelp()">?</button>
         </div>
     </div>
 
     <div class="toolbar" ng-show="viewer.tb.toolbar" stop-event toolbar></div>
 
-    <div class="container" ng-show="viewer.tb.about" stop-event about></div>
+    <div class="container" ng-show="viewer.tb.help" stop-event help></div>
 
     <div id="container" class="container">
         <canvas id="viewer" select></canvas>

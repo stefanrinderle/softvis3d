@@ -163,7 +163,7 @@
     color: #ffffff;
 }
 
-#about h2 {
+#help h2 {
     background-color: #4b9fd5;
     color: #ffffff;
 }
@@ -178,7 +178,7 @@
     margin: 10px
 }
 
-#about {
+#help {
     position: fixed;
     top: 100px;
     left: 300px;

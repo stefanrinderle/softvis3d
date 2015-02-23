@@ -39,7 +39,6 @@ public class LayerFormatterBean implements LayerFormatter {
 
 		platform.setHeight3d(height3d);
 
-    LOGGER.info(depth + "" + getPlatformBaseColor(depth).getHex());
     platform.setColor(getPlatformBaseColor(depth));
 
 		for (final ResultBuilding leaf : platform.getNodes()) {

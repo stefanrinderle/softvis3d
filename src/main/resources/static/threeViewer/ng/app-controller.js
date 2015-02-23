@@ -25,10 +25,10 @@ ThreeViewer.AppController = function ($scope, ViewerService) {
 
     /**
      * @expose
-     * @type {{about: boolean, toolbar: boolean, loader: boolean}}
+     * @type {{help: boolean, toolbar: boolean, loader: boolean}}
      */
     this.tb = {
-        'about': false,
+        'help': false,
         'toolbar': false,
         'loader': true
     };
@@ -56,16 +56,16 @@ ThreeViewer.AppController.prototype.listeners = function () {
  * @export
  */
 ThreeViewer.AppController.prototype.toggleLoader = function () {
-    this.tb.about = false;
+    this.tb.help = false;
     this.tb.loader = !this.tb.loader;
 };
 
 /**
  * @export
  */
-ThreeViewer.AppController.prototype.toggleAbout = function () {
+ThreeViewer.AppController.prototype.toggleHelp = function () {
     this.tb.loader = false;
-    this.tb.about = !this.tb.about;
+    this.tb.help = !this.tb.help;
 };
 
 /**
