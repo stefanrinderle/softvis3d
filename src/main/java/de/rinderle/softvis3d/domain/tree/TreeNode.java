@@ -164,4 +164,7 @@ public class TreeNode {
 		return result;
 	}
 
+  public void addChildrenNode(String name, TreeNode result) {
+    children.put(name, result);
+  }
 }

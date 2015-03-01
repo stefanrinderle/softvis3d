@@ -80,7 +80,8 @@ public class PathWalker {
 				node.getDepth() + 1, type, name, footprintMetricValue,
 				heightMetricValue, authorCount);
 
-		children.put(name, result);
+    node.addChildrenNode(name, result);
+
 		return result;
 	}
 

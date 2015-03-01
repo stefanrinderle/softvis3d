@@ -28,8 +28,6 @@ import static org.junit.Assert.assertTrue;
 
 public class DependencyExpanderTest {
 
-	private static final String MAP_KEY = "1";
-
 	@Mock
 	private SnapshotCacheService treeService;
 
@@ -41,9 +39,12 @@ public class DependencyExpanderTest {
 		MockitoAnnotations.initMocks(this);
 	}
 
-	/**
-	 * A(1) / \ B(2)-->C(3) <--
-	 */
+  /**
+   * A(1)
+   * /    \
+   * B(2)-->C(3)
+   * <--
+   */
 	@Test
 	public void testDependenciesFlatEdges() {
 		final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
@@ -67,9 +68,12 @@ public class DependencyExpanderTest {
 		assertTrue(rootTreeNode.getEdges().isEmpty());
 	}
 
-	/**
-	 * A(1) / \ B(2)-->C(3) -->
-	 */
+  /**
+   *     A(1)
+   *    /   \
+   * B(2)-->C(3)
+   *     -->
+   */
 	@Test
 	public void testDependenciesSameFlatEdge() {
 		final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
@@ -96,10 +100,15 @@ public class DependencyExpanderTest {
 		assertTrue(treeNode3.getEdges().isEmpty());
 	}
 
-	/**
-	 * A(1) / \ B(2) D(4) / \ / \ C(3) ----> E(5)
-	 *
-	 */
+  /**
+   *       A(1)
+   *       / \
+   *     B(2) D(4)
+   *     /     \
+   *    /       \
+   * C(3) ----> E(5)
+   *
+   */
 	@Test
 	public void testMultipleDependencyEdges() {
 		final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();

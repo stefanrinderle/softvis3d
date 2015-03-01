@@ -29,11 +29,13 @@ public class GrappaGraphTestFactory {
 		leaf1.setAttribute("id", "2");
 		leaf1.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
 		leaf1.setAttribute("type", TreeNodeType.TREE.name());
+    leaf1.setAttribute(SoftVis3DConstants.SOFTVIZ_COLOR, "#ffffff");
 		graph.addNode(leaf1);
 		final Node leaf2 = new Node(graphLeaf2());
 		leaf2.setAttribute("id", "3");
 		leaf2.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
 		leaf2.setAttribute("type", TreeNodeType.TREE.name());
+    leaf2.setAttribute(SoftVis3DConstants.SOFTVIZ_COLOR, "#ffffff");
 		graph.addNode(leaf2);
 
 		return new ResultPlatform(graph);

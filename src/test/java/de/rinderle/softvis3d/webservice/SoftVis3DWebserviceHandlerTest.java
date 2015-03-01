@@ -10,10 +10,16 @@ package de.rinderle.softvis3d.webservice;
 
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
+import de.rinderle.softvis3d.domain.LayoutViewType;
+import de.rinderle.softvis3d.domain.SnapshotStorageKey;
+import de.rinderle.softvis3d.domain.SnapshotTreeResult;
+import de.rinderle.softvis3d.domain.VisualizationRequest;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.webservice.tree.TreeNodeJsonWriter;
 import de.rinderle.softvis3d.webservice.tree.TreeWebserviceHandler;
 import de.rinderle.softvis3d.webservice.tree.TreeWebserviceHandlerBean;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -25,6 +31,9 @@ import org.sonar.api.utils.text.XmlWriter;
 
 import java.io.StringWriter;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
+
 public class SoftVis3DWebserviceHandlerTest {
 
 	private final StringWriter stringWriter = new StringWriter();
@@ -34,8 +43,6 @@ public class SoftVis3DWebserviceHandlerTest {
 	private final Integer footprintMetricId = 1;
 	private final Integer heightMetricId = 21;
 	private final String viewType = "city";
-
-	private final static String MAP_KEY = "1";
 
 	@Mock
 	private DaoService daoService;
@@ -52,21 +59,26 @@ public class SoftVis3DWebserviceHandlerTest {
 		MockitoAnnotations.initMocks(this);
 	}
 
-	// @Test
-	// public void testHandler() throws Exception {
-	// final Request request = this.createRequest();
-	// final Response response = this.createResponse();
-	//
-	// final VisualizationRequestDTO requestDTO = new
-	// VisualizationRequestDTO(this.snapshotId, LayoutViewType.CITY,
-	// this.footprintMetricId, this.heightMetricId);
-	//
-	// when(this.resourceTreeService.getOrCreateTreeStructure(requestDTO)).thenReturn(MAP_KEY);
-	//
-	// this.handler.handle(request, response);
-	//
-	// // TODO: assert response stream
-	// }
+	@Test
+	public void testHandler() throws Exception {
+		final Request request = this.createRequest();
+		final Response response = this.createResponse();
+
+		final VisualizationRequest requestDTO = new VisualizationRequest(
+				this.snapshotId, LayoutViewType.CITY, this.footprintMetricId,
+				this.heightMetricId);
+
+		final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
+		final RootTreeNode rootTreeNode = new RootTreeNode(1);
+		final SnapshotTreeResult result = new SnapshotTreeResult(key,
+				rootTreeNode);
+
+		when(this.snapshotCacheService.getSnapshotTreeResult(any(SnapshotStorageKey.class)))
+				.thenReturn(result);
+
+		this.handler.handle(request, response);
+		// TODO: assert response stream
+	}
 
 	private Request createRequest() {
 		return new Request() {
