@@ -6,61 +6,36 @@
  * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
  * permission of Stefan Rinderle.
  */
-package de.rinderle.softvis3d;
+package de.rinderle.softvis3d.dao;
 
-import de.rinderle.softvis3d.domain.sonar.ScmInfo;
 import org.junit.Test;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 import static org.junit.Assert.assertSame;
 
-public class ScmProviderTest {
+public class ScmCalculationServiceTest {
+
+  private final ScmCalculationService scmCalculationService = new ScmCalculationServiceBean();
+
+  @Test
+  public void testFirstExample() throws ParseException {
+    final int differentUsers = scmCalculationService.getDifferentAuthors(getFirstExample(), getFirstExampleTime());
+    assertSame(3, differentUsers);
+  }
 
 	@Test
-	public void test() throws ParseException {
-    final String scmInfo = getSecondExample();
-    final String scmTimeInfo = getSecondExampleTime();
-
-    final String[] resultCommitters = scmInfo.split(";");
-    final String[] resultScmTime = scmTimeInfo.split(";");
-
-    final List<ScmInfo> resultList = new ArrayList<ScmInfo>();
-
-    for (int i = 0; i < resultCommitters.length; i++) {
-      final String[] committerSplit = resultCommitters[i].split("=");
-      final String[] scmTimeSplit = resultScmTime[i].split("=");
-      final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-			final ScmInfo currentScmInfo = new ScmInfo(
-					Integer.valueOf(committerSplit[0]), committerSplit[1],
-					format.parse(scmTimeSplit[1]));
-
-      resultList.add(currentScmInfo);
-    }
-
-    final int differentUsers = getDifferentUsers(resultList);
+	public void testSecondExample() throws ParseException {
+    final int differentUsers  = scmCalculationService.getDifferentAuthors(getSecondExample(), getSecondExampleTime());
     assertSame(2, differentUsers);
 	}
 
-  private int getDifferentUsers(final List<ScmInfo> result) {
-    final Map<String, Integer> usersResultList = getUsersWithLineCount(result);
-
-    return usersResultList.size();
+  public String getFirstExample() {
+    return "1=andrew@raines.me;2=simonw@apache.org;3=simonw@apache.org;4=simonw@apache.org;5=simonw@apache.org;6=simonw@apache.org;7=simonw@apache.org;8=simonw@apache.org;9=andrew@raines.me;10=andrew@raines.me;11=andrew@raines.me;12=andrew@raines.me;13=andrew@raines.me;14=andrew@raines.me;15=andrew@raines.me;16=andrew@raines.me;17=andrew@raines.me;18=andrew@raines.me;19=andrew@raines.me;20=andrew@raines.me;21=andrew@raines.me;22=andrew@raines.me;23=kimchy@gmail.com;24=andrew@raines.me;25=kimchy@gmail.com;26=andrew@raines.me;27=andrew@raines.me;28=andrew@raines.me;29=andrew@raines.me;30=andrew@raines.me;31=kimchy@gmail.com;32=kimchy@gmail.com;33=kimchy@gmail.com;34=kimchy@gmail.com;35=andrew@raines.me;36=andrew@raines.me";
   }
 
-  private Map<String, Integer> getUsersWithLineCount(List<ScmInfo> resultList) {
-    final Map<String, Integer> usersResultList = new HashMap<String, Integer>();
-
-    for (ScmInfo current : resultList) {
-       if (!usersResultList.containsKey(current)) {
-         usersResultList.put(current.getCommitter(), 1);
-       } else {
-         usersResultList.put(current.getCommitter(), usersResultList.get(current.getCommitter()) + 1);
-       }
-    }
-    return usersResultList;
+  public String getFirstExampleTime() {
+    return "1=2013-09-11T19:49:49+0200;2=2014-01-06T22:48:02+0100;3=2014-01-06T22:48:02+0100;4=2014-01-06T22:48:02+0100;5=2014-01-06T22:48:02+0100;6=2014-01-06T22:48:02+0100;7=2014-01-06T22:48:02+0100;8=2014-01-06T22:48:02+0100;9=2013-09-11T19:49:49+0200;10=2013-09-11T19:49:49+0200;11=2013-09-11T19:49:49+0200;12=2013-09-11T19:49:49+0200;13=2013-09-11T19:49:49+0200;14=2013-09-11T19:49:49+0200;15=2013-09-11T19:49:49+0200;16=2013-09-11T19:49:49+0200;17=2013-09-11T19:49:49+0200;18=2013-09-11T19:49:49+0200;19=2013-09-11T19:49:49+0200;20=2013-09-11T19:49:49+0200;21=2013-09-11T19:49:49+0200;22=2013-09-11T19:49:49+0200;23=2014-03-31T22:13:57+0200;24=2013-09-11T19:49:49+0200;25=2014-03-31T22:13:57+0200;26=2013-09-11T19:49:49+0200;27=2013-09-11T19:49:49+0200;28=2013-09-11T19:49:49+0200;29=2013-09-11T19:49:49+0200;30=2013-09-11T19:49:49+0200;31=2014-03-31T22:13:57+0200;32=2014-03-31T22:13:57+0200;33=2014-03-31T22:13:57+0200;34=2014-03-31T22:13:57+0200;35=2013-09-11T19:49:49+0200;36=2013-09-11T19:49:49+0200";
   }
 
   private String getSecondExample() {

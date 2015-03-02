@@ -8,13 +8,7 @@
  */
 package de.rinderle.softvis3d.domain.tree;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class DependencyTreeNode extends TreeNode {
-
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(DependencyTreeNode.class);
 
 	private int counter = 1;
 
