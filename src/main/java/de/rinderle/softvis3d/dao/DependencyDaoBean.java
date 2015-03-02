@@ -10,6 +10,7 @@ package de.rinderle.softvis3d.dao;
 
 import com.google.inject.Singleton;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
+import de.rinderle.softvis3d.domain.sonar.SonarDependencyBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.database.DatabaseSession;
@@ -45,7 +46,7 @@ public class DependencyDaoBean implements DependencyDao {
 		try {
 			this.session.start();
 			final Query query = this.session
-					.createNativeQuery("SELECT * FROM dependencies d "
+					.createNativeQuery("SELECT id, from_snapshot_id, to_snapshot_id FROM dependencies d "
                   + "WHERE project_snapshot_id = :projectSnapshotId "
                   + "AND from_scope = 'FIL' AND to_scope = 'FIL'");
 
@@ -70,14 +71,12 @@ public class DependencyDaoBean implements DependencyDao {
 				queryResult.size());
 
 		for (final Object[] object : queryResult) {
-			final SonarDependency dependency = new SonarDependency();
-			dependency.setId((BigInteger) object[0]);
-			dependency.setFromSnapshotId((Integer) object[1]);
-			dependency.setFromResourceId((Integer) object[2]);
-			dependency.setToSnapshotId((Integer) object[3]);
-			dependency.setToResourceId((Integer) object[4]);
+			final SonarDependencyBuilder dependency = new SonarDependencyBuilder();
+			dependency.withId((BigInteger) object[0]);
+			dependency.withFromSnapshotId((Integer) object[1]);
+			dependency.withToSnapshotId((Integer) object[2]);
 
-			result.add(dependency);
+			result.add(dependency.createSonarDependency());
 		}
 
 		return result;

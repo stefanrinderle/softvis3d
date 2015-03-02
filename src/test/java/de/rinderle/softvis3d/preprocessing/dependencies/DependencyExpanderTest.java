@@ -10,6 +10,7 @@ package de.rinderle.softvis3d.preprocessing.dependencies;
 
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
+import de.rinderle.softvis3d.domain.sonar.SonarDependencyBuilder;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
@@ -146,15 +147,15 @@ public class DependencyExpanderTest {
 		return result;
 	}
 
-	private SonarDependency createDependency(final String dependencyId,
-			final int from, final int to) {
-		final SonarDependency result = new SonarDependency();
+  private SonarDependency createDependency(final String dependencyId, final int from, final int to) {
+    final SonarDependencyBuilder result = new SonarDependencyBuilder();
 
-		result.setId(new BigInteger(dependencyId));
-		result.setFromSnapshotId(from);
-		result.setToSnapshotId(to);
+    result.withId(new BigInteger(dependencyId));
+    result.withFromSnapshotId(from);
+    result.withToSnapshotId(to);
 
-		return result;
-	}
+    return result.createSonarDependency();
+  }
+
 
 }
