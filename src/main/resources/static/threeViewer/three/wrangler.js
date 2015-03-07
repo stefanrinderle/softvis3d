@@ -50,6 +50,8 @@ Viewer.Wrangler.prototype = {
             this.objectsInView.push(object);
             this.context.scene.add(object);
         }
+
+        this.context.ca
     },
 
     selectSceneTreeObject: function (objectSoftVis3dId) {

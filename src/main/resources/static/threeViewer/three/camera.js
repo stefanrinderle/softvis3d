@@ -89,12 +89,19 @@ Viewer.Cameras.prototype = {
                             this.PERP_FAR_PLANE
                         );
 
-        this.perpCam.position.y = 100;
-        this.perpCam.position.z = 400;
+        this.perpCam.position.y = 800;
+        this.perpCam.position.z = 800;
         this.perpCam.lookAt( this.context.scene.position );
 
         this.perpCam.name = 'perp';
 
         this.liveCam = this.perpCam;
-  }
+  },
+
+    setCameraPosition: function (positionX, positionY, positionZ) {
+        this.perpCam.position.x = positionX;
+        this.perpCam.position.y = positionY;
+        this.perpCam.position.z = positionZ;
+        this.perpCam.lookAt( this.context.scene.position );
+    }
 };

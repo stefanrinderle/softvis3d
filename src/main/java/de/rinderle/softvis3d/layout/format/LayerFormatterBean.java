@@ -25,6 +25,9 @@ public class LayerFormatterBean implements LayerFormatter {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(LayerFormatterBean.class);
 
+  private static final int BASE_PLATFORM_BRIGHTNESS = 50;
+  private static final int MAX_COLOR_VALUE = 254;
+
 	@Override
 	public void format(final ResultPlatform platform, final Integer depth,
 			final LayoutViewType viewType) {
@@ -50,12 +53,13 @@ public class LayerFormatterBean implements LayerFormatter {
   @Override
   public HexaColor getPlatformBaseColor(int depth) {
     // calc color
-    int colorCalc = depth * 32;
-    if (colorCalc > 154 || colorCalc < 0) {
-      colorCalc = 154;
+    int colorCalc = depth * 16;
+    if (colorCalc > (MAX_COLOR_VALUE - BASE_PLATFORM_BRIGHTNESS) || colorCalc < 0) {
+      colorCalc = MAX_COLOR_VALUE - BASE_PLATFORM_BRIGHTNESS;
     }
 
-    return new HexaColor(100 + colorCalc, 100 + colorCalc, 100 + colorCalc);
+    final int colorValue = BASE_PLATFORM_BRIGHTNESS + colorCalc;
+    return new HexaColor(colorValue, colorValue, colorValue);
   }
 
 	private void formatResultBuilding(int depth, Integer height3d, ResultBuilding leaf) {

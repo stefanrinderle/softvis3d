@@ -44,7 +44,8 @@ public class LayerFormatterBeanTest {
 		assertNotNull(platform.getColor());
 
 		final Color color = platform.getColor();
-		assertTrue(color.getRed() == 254);
+    System.out.println(color.getRed());
+    assertTrue(color.getRed() == 254);
 	}
 
 	/**
