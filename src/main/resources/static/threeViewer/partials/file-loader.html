@@ -60,7 +60,7 @@
                 Search for skyscraper buildings and especially for ones with a small footprint.
             </div>
             <br />
-            <button ng-click="loader.submitCityForm()">Submit</button>
+            <button ng-click="loader.submitCityForm()">Show</button>
         </div>
         <div id="dependency-loader" class="loader-options" ng-show="loader.state.dependency" ng-cloak>
             <div ng-hide="loader.hasDependencies">
@@ -73,7 +73,7 @@
                     dependencies have been aggregated and can be explored easily without overloading the visualisation.
                 </p>
                 <br />
-                <button ng-click="loader.loadDependencyView()">Submit</button>
+                <button ng-click="loader.loadDependencyView()">Show</button>
             </div>
         </div>
         <div id="custom-loader" class="loader-options" ng-show="loader.state.custom" ng-cloak>
@@ -106,7 +106,7 @@
                     ng-model="loader.settings.metric2" style="width: 200px;"></select>
 
             <br /><br />
-            <button ng-click="loader.loadCustomView()">Submit</button>
+            <button ng-click="loader.loadCustomView()">Show</button>
         </div>
         <div id="loading-loader" class="loader-options" ng-show="loader.state.loading" ng-cloak>
             <div ng-show="loader.loadingInnerState === 'idle'">

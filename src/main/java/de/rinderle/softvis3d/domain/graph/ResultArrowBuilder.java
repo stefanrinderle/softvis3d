@@ -29,7 +29,7 @@ public class ResultArrowBuilder {
   double radius;
   HexaColor color;
 
-  private List<Point3d> linePoints;
+  List<Point3d> linePoints;
 
   public ResultArrowBuilder withEdge(final Edge edge) {
     this.headBuildingId = edge.getHead().getName();

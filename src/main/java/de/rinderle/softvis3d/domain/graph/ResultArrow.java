@@ -24,6 +24,8 @@ public class ResultArrow extends BaseResultObject {
     this.radius = resultArrowBuilder.radius;
 
 		this.setColor(resultArrowBuilder.color);
+
+    this.linePoints = resultArrowBuilder.linePoints;
 	}
 
 	public String getId() {

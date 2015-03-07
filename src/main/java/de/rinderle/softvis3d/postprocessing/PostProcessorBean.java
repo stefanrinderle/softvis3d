@@ -133,7 +133,8 @@ public class PostProcessorBean implements PostProcessor {
     final List<Point3d> result = new ArrayList<Point3d>();
 
     double arrowHeight = calc3dArrowPosition(height3d, arrow);
-		for (Point3d point : arrow.getLinePoints()) {
+
+    for (Point3d point : arrow.getLinePoints()) {
       final Point3d temp = translateLinePoint(posTranslation, translatedBb, arrowHeight, point);
       result.add(temp);
 		}
