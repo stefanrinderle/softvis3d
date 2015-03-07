@@ -51,8 +51,4 @@ public abstract class BaseResultObject {
 		return color;
 	}
 
-	protected double roundTo2Decimals(final double value) {
-		return Math.round(value * 100.0) / 100.0;
-	}
-
 }

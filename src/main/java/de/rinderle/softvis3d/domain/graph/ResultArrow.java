@@ -8,59 +8,22 @@
  */
 package de.rinderle.softvis3d.domain.graph;
 
-import att.grappa.Edge;
-import att.grappa.GrappaConstants;
-import att.grappa.GrappaLine;
-import att.grappa.GrappaPoint;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
-import de.rinderle.softvis3d.layout.helper.HexaColor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResultArrow extends BaseResultObject {
-
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ResultArrow.class);
 
 	private final String headBuildingId;
 	private final String tailBuildingId;
 	private final double radius;
 
-	private final static HexaColor BLUE = new HexaColor(0, 0, 255);
-
 	private List<Point3d> linePoints;
 
-	public ResultArrow(Edge edge) {
-		this.headBuildingId = edge.getHead().getName();
-		this.tailBuildingId = edge.getTail().getName();
+	public ResultArrow(ResultArrowBuilder resultArrowBuilder) {
+		this.headBuildingId = resultArrowBuilder.headBuildingId;
+    this.tailBuildingId = resultArrowBuilder.tailBuildingId;
+    this.radius = resultArrowBuilder.radius;
 
-		this.radius = transformEdgeRadius(edge);
-
-		transformEdgeLine(edge);
-
-		this.setColor(BLUE);
-	}
-
-	private void transformEdgeLine(Edge edge) {
-		GrappaLine line = (GrappaLine) edge
-				.getAttributeValue(GrappaConstants.POS_ATTR);
-
-		final GrappaPoint[] points = line.getGrappaPoints();
-
-		linePoints = new ArrayList<Point3d>();
-		for (int i = 0; i < points.length - 1; i++) {
-			final Point3d point = new Point3d(points[i].x, 0, points[i].y);
-			linePoints.add(point);
-		}
-	}
-
-	private double transformEdgeRadius(final Edge edge) {
-		final String radiusString = edge.getAttributeValue(
-				SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS).toString();
-		return Double.valueOf(radiusString.substring(1));
+		this.setColor(resultArrowBuilder.color);
 	}
 
 	public String getId() {
@@ -82,5 +45,9 @@ public class ResultArrow extends BaseResultObject {
 	public List<Point3d> getLinePoints() {
 		return linePoints;
 	}
+
+  public void setPoints(final List<Point3d> linePoints) {
+    this.linePoints = linePoints;
+  }
 
 }

@@ -44,10 +44,6 @@ public class ResultPlatform extends BaseResultObject {
 		return boundingBox;
 	}
 
-	public ResultBuilding findNodeByName(String key) {
-		return nodes.get(key);
-	}
-
 	public Collection<ResultBuilding> getNodes() {
 		return nodes.values();
 	}
@@ -66,8 +62,8 @@ public class ResultPlatform extends BaseResultObject {
 		return result;
 	}
 
-	private ResultBuilding transformNode(Node node) {
-		return new ResultBuilding(node);
+	private ResultBuilding transformNode(final Node node) {
+		return new ResultBuildingBuilder().withNode(node).createResultBuilding();
 	}
 
 }

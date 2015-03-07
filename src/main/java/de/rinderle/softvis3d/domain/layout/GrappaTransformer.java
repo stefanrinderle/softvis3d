@@ -26,9 +26,6 @@ import static att.grappa.GrappaConstants.*;
  */
 public class GrappaTransformer {
 
-  private static final Logger LOGGER = LoggerFactory
-          .getLogger(GrappaTransformer.class);
-
 	@Inject
 	private LayerFormatter formatter;
 
