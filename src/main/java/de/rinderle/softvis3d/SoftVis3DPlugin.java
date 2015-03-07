@@ -25,6 +25,8 @@ public final class SoftVis3DPlugin extends SonarPlugin {
 
 	public final static boolean IS_PROD = true;
 
+  public final static boolean HAS_SCM_FEATURE = false;
+
 	public SoftVis3DPlugin() {
 		super();
 	}

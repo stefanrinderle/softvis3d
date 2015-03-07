@@ -8,6 +8,7 @@
  */
 package de.rinderle.softvis3d.layout.format;
 
+import de.rinderle.softvis3d.SoftVis3DPlugin;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
@@ -113,7 +114,12 @@ public class LayerFormatterBean implements LayerFormatter {
 
   @Override
   public HexaColor getScmColorInfo(final ValueTreeNode leafNode, final int maxScmValue) {
-    return makeColor(leafNode.getAuthorCount(), maxScmValue);
+
+    if (SoftVis3DPlugin.HAS_SCM_FEATURE) {
+      return makeColor(leafNode.getAuthorCount(), maxScmValue);
+    } else {
+      return SoftVis3DConstants.BUILDING_COLOR;
+    }
   }
 
   /**

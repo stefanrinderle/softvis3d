@@ -33,7 +33,7 @@ public class SoftVis3DExtension implements ServerExtension {
     now.getTime();
 
     final Calendar licenceEndDate = Calendar.getInstance();
-    licenceEndDate.set(2015, 5, 30, 0, 0);
+    licenceEndDate.set(2015, 8, 30, 0, 0);
 
     final int compareResult = now.compareTo(licenceEndDate);
 
