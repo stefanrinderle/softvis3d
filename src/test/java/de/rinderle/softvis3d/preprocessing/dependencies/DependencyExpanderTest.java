@@ -41,7 +41,7 @@ public class DependencyExpanderTest {
 	}
 
   /**
-   * A(1)
+   * A(1)exa
    * /    \
    * B(2)-->C(3)
    * <--
@@ -56,9 +56,6 @@ public class DependencyExpanderTest {
 		final RootTreeNode rootTreeNode = new RootTreeNode(1);
 		final TreeNode treeNode2 = this.createTreeNode(2, rootTreeNode, 1);
 		final TreeNode treeNode3 = this.createTreeNode(3, rootTreeNode, 2);
-
-		rootTreeNode.getChildren().put("2", treeNode2);
-		rootTreeNode.getChildren().put("3", treeNode3);
 
 		this.underTest.execute(rootTreeNode, dependencies);
 
@@ -88,9 +85,6 @@ public class DependencyExpanderTest {
 		final TreeNode treeNode2 = this.createTreeNode(2, rootTreeNode, 1);
 		final TreeNode treeNode3 = this.createTreeNode(3, rootTreeNode, 2);
 
-		rootTreeNode.getChildren().put("2", treeNode2);
-		rootTreeNode.getChildren().put("3", treeNode3);
-
 		this.underTest.execute(rootTreeNode, dependencies);
 
 		assertTrue(treeNode2.getEdges().containsKey("depPath_3"));
@@ -111,25 +105,18 @@ public class DependencyExpanderTest {
    *
    */
 	@Test
-	public void testMultipleDependencyEdges() {
+	public void testDependencyEdge() {
 		final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-		final SonarDependency fromCtoD = this.createDependency("1000", 3, 4);
-		dependencies.add(fromCtoD);
-		final SonarDependency fromCtoE = this.createDependency("1001", 3, 5);
+		final SonarDependency fromCtoE = this.createDependency("1000", 3, 5);
 		dependencies.add(fromCtoE);
 
 		final RootTreeNode rootTreeNode = new RootTreeNode(1);
 		final TreeNode treeNode2 = this.createTreeNode(2, rootTreeNode, 1);
 		final TreeNode treeNode4 = this.createTreeNode(4, rootTreeNode, 1);
 
-		rootTreeNode.getChildren().put("2", treeNode2);
-		rootTreeNode.getChildren().put("3", treeNode4);
-
 		final TreeNode treeNode3 = this.createTreeNode(3, treeNode2, 2);
-		treeNode2.getChildren().put("2", treeNode3);
 		final TreeNode treeNode5 = this.createTreeNode(5, treeNode4, 2);
-		treeNode4.getChildren().put("2", treeNode5);
 
 		this.underTest.execute(rootTreeNode, dependencies);
 
@@ -141,10 +128,12 @@ public class DependencyExpanderTest {
 
 	private TreeNode createTreeNode(final int id, final TreeNode parent,
 			final int depth) {
-		final TreeNode result = new ValueTreeNode(id, parent, depth,
-				TreeNodeType.TREE, id + "", 0, 0, 0);
 
-		return result;
+    TreeNode node = new ValueTreeNode(id, parent, depth,
+            TreeNodeType.TREE, id + "", 0, 0, 0);
+    parent.getChildren().put(node.getName(), node);
+
+    return node;
 	}
 
   private SonarDependency createDependency(final String dependencyId, final int from, final int to) {
