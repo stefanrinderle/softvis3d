@@ -25,80 +25,71 @@ import org.sonar.api.server.ws.Response;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class VisualizationWebserviceHandlerBean implements
-		VisualizationWebserviceHandler {
+public class VisualizationWebserviceHandlerBean implements VisualizationWebserviceHandler {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(VisualizationWebserviceHandlerBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VisualizationWebserviceHandlerBean.class);
 
-	private Settings settings;
+    private Settings settings;
 
-	@Inject
-	private VisualizationProcessor visualizationProcessor;
-	@Inject
-	private VisualizationJsonWriter visualizationJsonWriter;
-	@Inject
-	private LayoutCacheService layoutCacheService;
+    @Inject
+    private VisualizationProcessor visualizationProcessor;
+    @Inject
+    private VisualizationJsonWriter visualizationJsonWriter;
+    @Inject
+    private LayoutCacheService layoutCacheService;
 
-	@Override
-	public void handle(final Request request, final Response response) {
-		final Integer id = Integer.valueOf(request.param("snapshotId"));
-		final Integer footprintMetricId = Integer.valueOf(request
-				.param("footprintMetricId"));
-		final Integer heightMetricId = Integer.valueOf(request
-				.param("heightMetricId"));
+    @Override
+    public void handle(final Request request, final Response response) {
+        final Integer id = Integer.valueOf(request.param("snapshotId"));
+        final Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
+        final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
 
-		final LayoutViewType type = LayoutViewType.valueOfRequest(request
-				.param("viewType"));
-		final VisualizationRequest requestDTO = new VisualizationRequest(id,
-				type, footprintMetricId, heightMetricId);
+        final LayoutViewType type = LayoutViewType.valueOfRequest(request.param("viewType"));
+        final VisualizationRequest requestDTO = new VisualizationRequest(id, type, footprintMetricId, heightMetricId);
 
-		SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
+        SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
 
-		final Map<Integer, ResultPlatform> result;
-		if (layoutCacheService.containsKey(key)) {
-      LOGGER.info("Layout out of cache for " + key.getString());
-			result = layoutCacheService.getLayoutResult(key);
-		} else {
-      LOGGER.info("Create layout for " + key.getString());
-			result = createLayout(id, requestDTO);
-      layoutCacheService.save(key, result);
-		}
+        final Map<Integer, ResultPlatform> result;
+        if (layoutCacheService.containsKey(key)) {
+            LOGGER.info("Layout out of cache for " + key.getString());
+            result = layoutCacheService.getLayoutResult(key);
+        } else {
+            LOGGER.info("Create layout for " + key.getString());
+            result = createLayout(id, requestDTO);
+            layoutCacheService.save(key, result);
+        }
 
-		this.visualizationJsonWriter.transformResponseToJson(response, result);
-	}
+        this.visualizationJsonWriter.transformResponseToJson(response, result);
+    }
 
-	private Map<Integer, ResultPlatform> createLayout(Integer id,
-			VisualizationRequest requestDTO) {
-		Map<Integer, ResultPlatform> result = new ConcurrentHashMap<Integer, ResultPlatform>();
-    logStartOfCalc(requestDTO);
-		try {
+    private Map<Integer, ResultPlatform> createLayout(Integer id, VisualizationRequest requestDTO) {
+        Map<Integer, ResultPlatform> result = new ConcurrentHashMap<Integer, ResultPlatform>();
+        logStartOfCalc(requestDTO);
+        try {
 
-			result = visualizationProcessor.visualize(this.settings, requestDTO);
+            result = visualizationProcessor.visualize(this.settings, requestDTO);
 
-			/**
-       * Remove root layer in dependency view
-			 * TODO: I don't know how to do this anywhere else.
-			 */
-      if (requestDTO.getViewType().equals(LayoutViewType.DEPENDENCY)) {
-        result.remove(id);
-      }
+            /**
+             * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
+             */
+            if (requestDTO.getViewType().equals(LayoutViewType.DEPENDENCY)) {
+                result.remove(id);
+            }
 
-		} catch (DotExecutorException e) {
-			LOGGER.error("error on dot execution.", e);
-		}
-		return result;
-	}
+        } catch (DotExecutorException e) {
+            LOGGER.error("error on dot execution.", e);
+        }
+        return result;
+    }
 
-	private void logStartOfCalc(VisualizationRequest visualizationRequest) {
-		LOGGER.info("Start layout calculation for snapshot "
-				+ visualizationRequest.getRootSnapshotId() + ", " + "metrics "
-				+ visualizationRequest.getHeightMetricId() + " and "
-				+ visualizationRequest.getFootprintMetricId());
-	}
+    private void logStartOfCalc(VisualizationRequest visualizationRequest) {
+        LOGGER.info("Start layout calculation for snapshot " + visualizationRequest.getRootSnapshotId() + ", "
+                + "metrics " + visualizationRequest.getHeightMetricId() + " and "
+                + visualizationRequest.getFootprintMetricId());
+    }
 
-	@Override
-	public void setSettings(Settings settings) {
-		this.settings = settings;
-	}
+    @Override
+    public void setSettings(Settings settings) {
+        this.settings = settings;
+    }
 }

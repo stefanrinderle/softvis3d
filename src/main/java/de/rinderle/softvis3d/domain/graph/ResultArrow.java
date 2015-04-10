@@ -12,44 +12,44 @@ import java.util.List;
 
 public class ResultArrow extends BaseResultObject {
 
-	private final String headBuildingId;
-	private final String tailBuildingId;
-	private final double radius;
+    private final String headBuildingId;
+    private final String tailBuildingId;
+    private final double radius;
 
-	private List<Point3d> linePoints;
+    private List<Point3d> linePoints;
 
-	public ResultArrow(ResultArrowBuilder resultArrowBuilder) {
-		this.headBuildingId = resultArrowBuilder.headBuildingId;
-    this.tailBuildingId = resultArrowBuilder.tailBuildingId;
-    this.radius = resultArrowBuilder.radius;
+    public ResultArrow(ResultArrowBuilder resultArrowBuilder) {
+        this.headBuildingId = resultArrowBuilder.headBuildingId;
+        this.tailBuildingId = resultArrowBuilder.tailBuildingId;
+        this.radius = resultArrowBuilder.radius;
 
-		this.setColor(resultArrowBuilder.color);
+        this.setColor(resultArrowBuilder.color);
 
-    this.linePoints = resultArrowBuilder.linePoints;
-	}
+        this.linePoints = resultArrowBuilder.linePoints;
+    }
 
-	public String getId() {
-		return this.getTailId() + " -> " + getHeadId();
-	}
+    public String getId() {
+        return this.getTailId() + " -> " + getHeadId();
+    }
 
-	public String getTailId() {
-		return tailBuildingId;
-	}
+    public String getTailId() {
+        return tailBuildingId;
+    }
 
-	public String getHeadId() {
-		return headBuildingId;
-	}
+    public String getHeadId() {
+        return headBuildingId;
+    }
 
-	public double getRadius() {
-		return radius;
-	}
+    public double getRadius() {
+        return radius;
+    }
 
-	public List<Point3d> getLinePoints() {
-		return linePoints;
-	}
+    public List<Point3d> getLinePoints() {
+        return linePoints;
+    }
 
-  public void setPoints(final List<Point3d> linePoints) {
-    this.linePoints = linePoints;
-  }
+    public void setPoints(final List<Point3d> linePoints) {
+        this.linePoints = linePoints;
+    }
 
 }

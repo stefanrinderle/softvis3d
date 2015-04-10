@@ -12,39 +12,36 @@ import java.math.BigInteger;
 
 public class SonarDependency {
 
-	private BigInteger id;
-	private Integer fromSnapshotId;
-	private Integer toSnapshotId;
+    private BigInteger id;
+    private Integer fromSnapshotId;
+    private Integer toSnapshotId;
 
-  public SonarDependency(final SonarDependencyBuilder sonarDependencyBuilder) {
-    this.id = sonarDependencyBuilder.id;
-    this.fromSnapshotId = sonarDependencyBuilder.fromSnapshotId;
-    this.toSnapshotId = sonarDependencyBuilder.toSnapshotId;
-  }
+    public SonarDependency(final SonarDependencyBuilder sonarDependencyBuilder) {
+        this.id = sonarDependencyBuilder.id;
+        this.fromSnapshotId = sonarDependencyBuilder.fromSnapshotId;
+        this.toSnapshotId = sonarDependencyBuilder.toSnapshotId;
+    }
 
-  public BigInteger getId() {
-		return this.id;
-	}
+    public BigInteger getId() {
+        return this.id;
+    }
 
-	public void setId(final BigInteger id) {
-		this.id = id;
-	}
+    public void setId(final BigInteger id) {
+        this.id = id;
+    }
 
-	public Integer getFromSnapshotId() {
-		return this.fromSnapshotId;
-	}
+    public Integer getFromSnapshotId() {
+        return this.fromSnapshotId;
+    }
 
-	public Integer getToSnapshotId() {
-		return this.toSnapshotId;
-	}
+    public Integer getToSnapshotId() {
+        return this.toSnapshotId;
+    }
 
-  @Override
-  public String toString() {
-    return "SonarDependency{" +
-            "id=" + id +
-            ", fromSnapshotId=" + fromSnapshotId +
-            ", toSnapshotId='" + toSnapshotId + '\'' +
-            '}';
-  }
+    @Override
+    public String toString() {
+        return "SonarDependency{" + "id=" + id + ", fromSnapshotId=" + fromSnapshotId + ", toSnapshotId='"
+                + toSnapshotId + '\'' + '}';
+    }
 
 }

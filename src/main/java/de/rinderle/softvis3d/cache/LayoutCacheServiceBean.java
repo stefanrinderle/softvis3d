@@ -14,24 +14,25 @@ import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import java.util.Map;
 
 public class LayoutCacheServiceBean implements LayoutCacheService {
-  @Override
-  public void printCacheContents() {
-    LayoutResultStorage.print();;
-  }
 
-  @Override
-  public boolean containsKey(SnapshotStorageKey key) {
-    return LayoutResultStorage.containsKey(key);
-  }
+    @Override
+    public void printCacheContents() {
+        LayoutResultStorage.print();
+    }
 
-  @Override
-  public Map<Integer, ResultPlatform> getLayoutResult(SnapshotStorageKey key) {
-    return LayoutResultStorage.get(key);
-  }
+    @Override
+    public boolean containsKey(SnapshotStorageKey key) {
+        return LayoutResultStorage.containsKey(key);
+    }
 
-  @Override
-  public void save(SnapshotStorageKey key, Map<Integer, ResultPlatform> result) {
-    LayoutResultStorage.save(key, result);
-  }
+    @Override
+    public Map<Integer, ResultPlatform> getLayoutResult(SnapshotStorageKey key) {
+        return LayoutResultStorage.get(key);
+    }
+
+    @Override
+    public void save(SnapshotStorageKey key, Map<Integer, ResultPlatform> result) {
+        LayoutResultStorage.save(key, result);
+    }
 
 }

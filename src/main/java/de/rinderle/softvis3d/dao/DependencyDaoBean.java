@@ -23,63 +23,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Use singleton to set the database session once on startup and to be sure that
- * it is set on any other injection.
+ * Use singleton to set the database session once on startup and to be sure that it is set on any other injection.
  */
 @Singleton
 public class DependencyDaoBean implements DependencyDao {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(DependencyDaoBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DependencyDaoBean.class);
 
-	private DatabaseSession session;
+    private DatabaseSession session;
 
-	@Override
-	public void setDatabaseSession(final DatabaseSession session) {
-		this.session = session;
-	}
+    @Override
+    public void setDatabaseSession(final DatabaseSession session) {
+        this.session = session;
+    }
 
-	@Override
-	public List<SonarDependency> getDependencies(final Integer projectSnapshotId) {
-		List<SonarDependency> result = null;
+    @Override
+    public List<SonarDependency> getDependencies(final Integer projectSnapshotId) {
+        List<SonarDependency> result = null;
 
-		try {
-			this.session.start();
-			final Query query = this.session
-					.createNativeQuery("SELECT id, from_snapshot_id, to_snapshot_id FROM dependencies d "
-                  + "WHERE project_snapshot_id = :projectSnapshotId "
-                  + "AND from_scope = 'FIL' AND to_scope = 'FIL'");
+        try {
+            this.session.start();
+            final Query query =
+                    this.session.createNativeQuery("SELECT id, from_snapshot_id, to_snapshot_id FROM dependencies d "
+                            + "WHERE project_snapshot_id = :projectSnapshotId "
+                            + "AND from_scope = 'FIL' AND to_scope = 'FIL'");
 
-			query.setParameter("projectSnapshotId", projectSnapshotId);
+            query.setParameter("projectSnapshotId", projectSnapshotId);
 
-			final List<Object[]> queryResult = (List<Object[]>) query.getResultList();
+            final List<Object[]> queryResult = (List<Object[]>) query.getResultList();
 
-			result = this.castToSonarDependency(queryResult);
+            result = this.castToSonarDependency(queryResult);
 
-		} catch (final PersistenceException e) {
-			LOGGER.error(e.getMessage(), e);
-		} finally {
-			this.session.stop();
-		}
+        } catch (final PersistenceException e) {
+            LOGGER.error(e.getMessage(), e);
+        } finally {
+            this.session.stop();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	private List<SonarDependency> castToSonarDependency(
-			final List<Object[]> queryResult) {
-		final List<SonarDependency> result = new ArrayList<SonarDependency>(
-				queryResult.size());
+    private List<SonarDependency> castToSonarDependency(final List<Object[]> queryResult) {
+        final List<SonarDependency> result = new ArrayList<SonarDependency>(queryResult.size());
 
-		for (final Object[] object : queryResult) {
-			final SonarDependencyBuilder dependency = new SonarDependencyBuilder();
-			dependency.withId((BigInteger) object[0]);
-			dependency.withFromSnapshotId((Integer) object[1]);
-			dependency.withToSnapshotId((Integer) object[2]);
+        for (final Object[] object : queryResult) {
+            final SonarDependencyBuilder dependency = new SonarDependencyBuilder();
+            dependency.withId((BigInteger) object[0]);
+            dependency.withFromSnapshotId((Integer) object[1]);
+            dependency.withToSnapshotId((Integer) object[2]);
 
-			result.add(dependency.createSonarDependency());
-		}
+            result.add(dependency.createSonarDependency());
+        }
 
-		return result;
-	}
+        return result;
+    }
 
 }

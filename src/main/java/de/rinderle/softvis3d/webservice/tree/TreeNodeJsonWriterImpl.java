@@ -18,144 +18,131 @@ import java.util.Map;
 
 public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
 
-	@Override
-	public void transformTreeToJson(final Response response,
-			final RootTreeNode tree) {
-		final JsonWriter jsonWriter = response.newJsonWriter();
+    @Override
+    public void transformTreeToJson(final Response response, final RootTreeNode tree) {
+        final JsonWriter jsonWriter = response.newJsonWriter();
 
-		this.transformTreeToJson(jsonWriter, tree);
+        this.transformTreeToJson(jsonWriter, tree);
 
-		jsonWriter.close();
-	}
+        jsonWriter.close();
+    }
 
-	private void transformTreeToJson(final JsonWriter jsonWriter,
-			final TreeNode node) {
-		jsonWriter.beginObject();
+    private void transformTreeToJson(final JsonWriter jsonWriter, final TreeNode node) {
+        jsonWriter.beginObject();
 
-		jsonWriter.prop("id", node.getId());
-		jsonWriter.prop("name", node.getName());
-		jsonWriter.prop("isNode", node.isNode());
-		optionalTransformMetricValues(jsonWriter, node);
+        jsonWriter.prop("id", node.getId());
+        jsonWriter.prop("name", node.getName());
+        jsonWriter.prop("isNode", node.isNode());
+        optionalTransformMetricValues(jsonWriter, node);
 
-		final TreeNode parent = node.getParent();
-		if (parent != null) {
-			jsonWriter.name("parentInfo");
+        final TreeNode parent = node.getParent();
+        if (parent != null) {
+            jsonWriter.name("parentInfo");
 
-			jsonWriter.beginObject();
-			jsonWriter.prop("id", parent.getId());
-			jsonWriter.prop("name", parent.getName());
-			jsonWriter.prop("isNode", parent.isNode());
-			optionalTransformMetricValues(jsonWriter, node);
-			jsonWriter.endObject();
-		}
+            jsonWriter.beginObject();
+            jsonWriter.prop("id", parent.getId());
+            jsonWriter.prop("name", parent.getName());
+            jsonWriter.prop("isNode", parent.isNode());
+            optionalTransformMetricValues(jsonWriter, node);
+            jsonWriter.endObject();
+        }
 
-		this.transformChildren(jsonWriter, node.getChildren());
+        this.transformChildren(jsonWriter, node.getChildren());
 
-		this.transformEdges(jsonWriter, node.getEdges());
+        this.transformEdges(jsonWriter, node.getEdges());
 
-		if (node instanceof RootTreeNode) {
-			this.transformDependencies(jsonWriter, (RootTreeNode) node);
-		}
+        if (node instanceof RootTreeNode) {
+            this.transformDependencies(jsonWriter, (RootTreeNode) node);
+        }
 
-		jsonWriter.endObject();
-	}
+        jsonWriter.endObject();
+    }
 
-	private void transformDependencies(JsonWriter jsonWriter, RootTreeNode node) {
-		jsonWriter.name("dependencies");
-		jsonWriter.beginArray();
+    private void transformDependencies(JsonWriter jsonWriter, RootTreeNode node) {
+        jsonWriter.name("dependencies");
+        jsonWriter.beginArray();
 
-		for (final Map.Entry<Integer, Dependency> dependencyEntry : node
-				.getSourceDependencies().entrySet()) {
-			this.transformDependency(jsonWriter, dependencyEntry.getValue());
-		}
+        for (final Map.Entry<Integer, Dependency> dependencyEntry : node.getSourceDependencies().entrySet()) {
+            this.transformDependency(jsonWriter, dependencyEntry.getValue());
+        }
 
-		jsonWriter.endArray();
-	}
+        jsonWriter.endArray();
+    }
 
-	private void transformDependency(JsonWriter jsonWriter,
-			Dependency dependency) {
-		jsonWriter.beginObject();
-		jsonWriter.prop("id", dependency.getId());
-		jsonWriter.prop("sourceId", dependency.getFromNodeId());
-		jsonWriter.prop("sourceName", dependency.getFromNodeName());
-		jsonWriter.prop("destinationId", dependency.getToNodeId());
-		jsonWriter.prop("destinationName", dependency.getToNodeName());
-		jsonWriter.endObject();
-	}
+    private void transformDependency(JsonWriter jsonWriter, Dependency dependency) {
+        jsonWriter.beginObject();
+        jsonWriter.prop("id", dependency.getId());
+        jsonWriter.prop("sourceId", dependency.getFromNodeId());
+        jsonWriter.prop("sourceName", dependency.getFromNodeName());
+        jsonWriter.prop("destinationId", dependency.getToNodeId());
+        jsonWriter.prop("destinationName", dependency.getToNodeName());
+        jsonWriter.endObject();
+    }
 
-	private void optionalTransformMetricValues(JsonWriter jsonWriter,
-			TreeNode node) {
-		if (node instanceof ValueTreeNode) {
-			ValueTreeNode valueNode = (ValueTreeNode) node;
-			jsonWriter.prop("heightMetricValue",
-					valueNode.getHeightMetricValue());
-			jsonWriter.prop("footprintMetricValue",
-					valueNode.getFootprintMetricValue());
-      jsonWriter.prop("authorCount",
-              valueNode.getAuthorCount());
-		}
-	}
+    private void optionalTransformMetricValues(JsonWriter jsonWriter, TreeNode node) {
+        if (node instanceof ValueTreeNode) {
+            ValueTreeNode valueNode = (ValueTreeNode) node;
+            jsonWriter.prop("heightMetricValue", valueNode.getHeightMetricValue());
+            jsonWriter.prop("footprintMetricValue", valueNode.getFootprintMetricValue());
+            jsonWriter.prop("authorCount", valueNode.getAuthorCount());
+        }
+    }
 
-	private void transformEdges(final JsonWriter jsonWriter,
-			final Map<String, Edge> edges) {
-		jsonWriter.name("edges");
-		jsonWriter.beginArray();
+    private void transformEdges(final JsonWriter jsonWriter, final Map<String, Edge> edges) {
+        jsonWriter.name("edges");
+        jsonWriter.beginArray();
 
-		for (final Edge child : edges.values()) {
-			this.transformEdge(jsonWriter, child);
-		}
+        for (final Edge child : edges.values()) {
+            this.transformEdge(jsonWriter, child);
+        }
 
-		jsonWriter.endArray();
-	}
+        jsonWriter.endArray();
+    }
 
-	private void transformEdge(final JsonWriter jsonWriter, final Edge edge) {
-		jsonWriter.beginObject();
-		jsonWriter.prop("id",
-				edge.getSourceId() + " -> " + edge.getDestinationId());
-		jsonWriter.prop("sourceId", edge.getSourceId());
-		jsonWriter.prop("sourceName", edge.getSourceName());
-		jsonWriter.prop("destinationId", edge.getDestinationId());
-		jsonWriter.prop("destinationName", edge.getDestinationName());
+    private void transformEdge(final JsonWriter jsonWriter, final Edge edge) {
+        jsonWriter.beginObject();
+        jsonWriter.prop("id", edge.getSourceId() + " -> " + edge.getDestinationId());
+        jsonWriter.prop("sourceId", edge.getSourceId());
+        jsonWriter.prop("sourceName", edge.getSourceName());
+        jsonWriter.prop("destinationId", edge.getDestinationId());
+        jsonWriter.prop("destinationName", edge.getDestinationName());
 
-		transformIncludingDependencies(jsonWriter,
-				edge.getIncludingDependencies());
+        transformIncludingDependencies(jsonWriter, edge.getIncludingDependencies());
 
-		jsonWriter.endObject();
-	}
+        jsonWriter.endObject();
+    }
 
-	private void transformIncludingDependencies(JsonWriter jsonWriter,
-			List<BigInteger> includingDependencies) {
-		jsonWriter.name("includingDependencies");
-		jsonWriter.beginArray();
+    private void transformIncludingDependencies(JsonWriter jsonWriter, List<BigInteger> includingDependencies) {
+        jsonWriter.name("includingDependencies");
+        jsonWriter.beginArray();
 
-		for (final BigInteger dependencyId : includingDependencies) {
-			jsonWriter.beginObject();
-			jsonWriter.prop("id", dependencyId);
-			jsonWriter.endObject();
-		}
+        for (final BigInteger dependencyId : includingDependencies) {
+            jsonWriter.beginObject();
+            jsonWriter.prop("id", dependencyId);
+            jsonWriter.endObject();
+        }
 
-		jsonWriter.endArray();
-	}
+        jsonWriter.endArray();
+    }
 
-	private void transformChildren(final JsonWriter jsonWriter,
-			final Map<String, TreeNode> children) {
-		jsonWriter.name("children");
-		jsonWriter.beginArray();
+    private void transformChildren(final JsonWriter jsonWriter, final Map<String, TreeNode> children) {
+        jsonWriter.name("children");
+        jsonWriter.beginArray();
 
-		// first folders
-		for (final TreeNode child : children.values()) {
-			if (child.isNode()) {
-				this.transformTreeToJson(jsonWriter, child);
-			}
-		}
+        // first folders
+        for (final TreeNode child : children.values()) {
+            if (child.isNode()) {
+                this.transformTreeToJson(jsonWriter, child);
+            }
+        }
 
-		// then files
-		for (final TreeNode child : children.values()) {
-			if (!child.isNode()) {
-				this.transformTreeToJson(jsonWriter, child);
-			}
-		}
+        // then files
+        for (final TreeNode child : children.values()) {
+            if (!child.isNode()) {
+                this.transformTreeToJson(jsonWriter, child);
+            }
+        }
 
-		jsonWriter.endArray();
-	}
+        jsonWriter.endArray();
+    }
 }

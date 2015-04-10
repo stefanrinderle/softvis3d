@@ -36,104 +36,97 @@ import static org.mockito.Mockito.when;
 
 public class SoftVis3DWebserviceHandlerTest {
 
-	private final StringWriter stringWriter = new StringWriter();
-	private final JsonWriter jsonWriter = JsonWriter.of(this.stringWriter);
+    private final StringWriter stringWriter = new StringWriter();
+    private final JsonWriter jsonWriter = JsonWriter.of(this.stringWriter);
 
-	private final Integer snapshotId = 123;
-	private final Integer footprintMetricId = 1;
-	private final Integer heightMetricId = 21;
-	private final String viewType = "city";
+    private final Integer snapshotId = 123;
+    private final Integer footprintMetricId = 1;
+    private final Integer heightMetricId = 21;
+    private final String viewType = "city";
+    @InjectMocks
+    private final TreeWebserviceHandler handler = new TreeWebserviceHandlerBean();
+    @Mock
+    private DaoService daoService;
+    @Mock
+    private SnapshotCacheService snapshotCacheService;
+    @Mock
+    private TreeNodeJsonWriter treeNodeJsonWriter;
 
-	@Mock
-	private DaoService daoService;
-	@Mock
-	private SnapshotCacheService snapshotCacheService;
-	@Mock
-	private TreeNodeJsonWriter treeNodeJsonWriter;
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
 
-	@InjectMocks
-	private final TreeWebserviceHandler handler = new TreeWebserviceHandlerBean();
+    @Test
+    public void testHandler() throws Exception {
+        final Request request = this.createRequest();
+        final Response response = this.createResponse();
 
-	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-	}
+        final VisualizationRequest requestDTO =
+                new VisualizationRequest(this.snapshotId, LayoutViewType.CITY, this.footprintMetricId,
+                        this.heightMetricId);
 
-	@Test
-	public void testHandler() throws Exception {
-		final Request request = this.createRequest();
-		final Response response = this.createResponse();
+        final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
+        final RootTreeNode rootTreeNode = new RootTreeNode(1);
+        final SnapshotTreeResult result = new SnapshotTreeResult(key, rootTreeNode);
 
-		final VisualizationRequest requestDTO = new VisualizationRequest(
-				this.snapshotId, LayoutViewType.CITY, this.footprintMetricId,
-				this.heightMetricId);
+        when(this.snapshotCacheService.getSnapshotTreeResult(any(SnapshotStorageKey.class))).thenReturn(result);
 
-		final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
-		final RootTreeNode rootTreeNode = new RootTreeNode(1);
-		final SnapshotTreeResult result = new SnapshotTreeResult(key,
-				rootTreeNode);
+        this.handler.handle(request, response);
+        // TODO: assert response stream
+    }
 
-		when(this.snapshotCacheService.getSnapshotTreeResult(any(SnapshotStorageKey.class)))
-				.thenReturn(result);
+    private Request createRequest() {
+        return new Request() {
+            @Override
+            public WebService.Action action() {
+                return null;
+            }
 
-		this.handler.handle(request, response);
-		// TODO: assert response stream
-	}
+            @Override
+            public String method() {
+                return "initialize";
+            }
 
-	private Request createRequest() {
-		return new Request() {
-			@Override
-			public WebService.Action action() {
-				return null;
-			}
+            @Override
+            public String param(final String key) {
+                if ("snapshotId".equals(key)) {
+                    return SoftVis3DWebserviceHandlerTest.this.snapshotId.toString();
+                } else if ("footprintMetricId".equals(key)) {
+                    return SoftVis3DWebserviceHandlerTest.this.footprintMetricId.toString();
+                } else if ("heightMetricId".equals(key)) {
+                    return SoftVis3DWebserviceHandlerTest.this.heightMetricId.toString();
+                } else if ("viewType".equals(key)) {
+                    return SoftVis3DWebserviceHandlerTest.this.viewType;
+                } else {
+                    return "";
+                }
+            }
+        };
+    }
 
-			@Override
-			public String method() {
-				return "initialize";
-			}
+    private Response createResponse() {
+        return new Response() {
+            @Override
+            public JsonWriter newJsonWriter() {
+                return SoftVis3DWebserviceHandlerTest.this.jsonWriter;
+            }
 
-			@Override
-			public String param(final String key) {
-				if ("snapshotId".equals(key)) {
-					return SoftVis3DWebserviceHandlerTest.this.snapshotId
-							.toString();
-				} else if ("footprintMetricId".equals(key)) {
-					return SoftVis3DWebserviceHandlerTest.this.footprintMetricId
-							.toString();
-				} else if ("heightMetricId".equals(key)) {
-					return SoftVis3DWebserviceHandlerTest.this.heightMetricId
-							.toString();
-				} else if ("viewType".equals(key)) {
-					return SoftVis3DWebserviceHandlerTest.this.viewType;
-				} else {
-					return "";
-				}
-			}
-		};
-	}
+            @Override
+            public XmlWriter newXmlWriter() {
+                return null;
+            }
 
-	private Response createResponse() {
-		return new Response() {
-			@Override
-			public JsonWriter newJsonWriter() {
-				return SoftVis3DWebserviceHandlerTest.this.jsonWriter;
-			}
+            @Override
+            public Response noContent() {
+                return null;
+            }
 
-			@Override
-			public XmlWriter newXmlWriter() {
-				return null;
-			}
-
-			@Override
-			public Response noContent() {
-				return null;
-			}
-
-			@Override
-			public Stream stream() {
-				return null;
-			}
-		};
-	}
+            @Override
+            public Stream stream() {
+                return null;
+            }
+        };
+    }
 
 }

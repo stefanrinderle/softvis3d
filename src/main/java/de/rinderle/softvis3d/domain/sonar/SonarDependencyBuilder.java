@@ -11,26 +11,26 @@ package de.rinderle.softvis3d.domain.sonar;
 import java.math.BigInteger;
 
 public class SonarDependencyBuilder {
-  BigInteger id;
-  Integer fromSnapshotId;
-  Integer toSnapshotId;
+    BigInteger id;
+    Integer fromSnapshotId;
+    Integer toSnapshotId;
 
-  public SonarDependencyBuilder withId(BigInteger id) {
-    this.id = id;
-    return this;
-  }
+    public SonarDependencyBuilder withId(BigInteger id) {
+        this.id = id;
+        return this;
+    }
 
-  public SonarDependencyBuilder withFromSnapshotId(Integer fromSnapshotId) {
-    this.fromSnapshotId = fromSnapshotId;
-    return this;
-  }
+    public SonarDependencyBuilder withFromSnapshotId(Integer fromSnapshotId) {
+        this.fromSnapshotId = fromSnapshotId;
+        return this;
+    }
 
-  public SonarDependencyBuilder withToSnapshotId(Integer toSnapshotId) {
-    this.toSnapshotId = toSnapshotId;
-    return this;
-  }
+    public SonarDependencyBuilder withToSnapshotId(Integer toSnapshotId) {
+        this.toSnapshotId = toSnapshotId;
+        return this;
+    }
 
-  public SonarDependency createSonarDependency() {
-    return new SonarDependency(this);
-  }
+    public SonarDependency createSonarDependency() {
+        return new SonarDependency(this);
+    }
 }

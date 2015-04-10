@@ -17,79 +17,76 @@ import java.util.Map;
 
 public final class LayeredLayoutElement {
 
-	private final TreeNodeType type;
+    private final TreeNodeType type;
 
-	private final Integer id;
+    private final Integer id;
 
-	private final String name;
+    private final String name;
 
-	private final Double width;
-	private final Double height;
-	private final Double buildingHeight;
+    private final Double width;
+    private final Double height;
+    private final Double buildingHeight;
 
-	private final String displayName;
+    private final String displayName;
 
-	private final Map<String, Edge> edges;
-  private final HexaColor color;
+    private final Map<String, Edge> edges;
+    private final HexaColor color;
 
-  private LayeredLayoutElement(final TreeNodeType type, final Integer id,
-                               final String name, final Double width, final Double height,
-                               final Double buildingHeight, final String displayName,
-                               final Map<String, Edge> edges, HexaColor color) {
-		super();
-		this.type = type;
-		this.id = id;
-		this.name = name;
-		this.width = width;
-		this.height = height;
-		this.buildingHeight = buildingHeight;
-		this.displayName = displayName;
-		this.edges = edges;
-    this.color = color;
-	}
+    private LayeredLayoutElement(final TreeNodeType type, final Integer id, final String name, final Double width,
+            final Double height, final Double buildingHeight, final String displayName, final Map<String, Edge> edges,
+            HexaColor color) {
+        super();
+        this.type = type;
+        this.id = id;
+        this.name = name;
+        this.width = width;
+        this.height = height;
+        this.buildingHeight = buildingHeight;
+        this.displayName = displayName;
+        this.edges = edges;
+        this.color = color;
+    }
 
-	public static LayeredLayoutElement createLayeredLayoutElement(
-          final TreeNode node, final Double width, final Double height,
-          final Double buildingHeight, final HexaColor color) {
-		return new LayeredLayoutElement(node.getType(), node.getId(), node
-				.getId().toString(), width, height, buildingHeight,
-				node.getName(), node.getEdges(), color);
-	}
+    public static LayeredLayoutElement createLayeredLayoutElement(final TreeNode node, final Double width,
+            final Double height, final Double buildingHeight, final HexaColor color) {
+        return new LayeredLayoutElement(node.getType(), node.getId(), node.getId().toString(), width, height,
+                buildingHeight, node.getName(), node.getEdges(), color);
+    }
 
-	public TreeNodeType getElementType() {
-		return this.type;
-	}
+    public TreeNodeType getElementType() {
+        return this.type;
+    }
 
-	public Integer getId() {
-		return this.id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public Double getWidth() {
-		return this.width;
-	}
+    public Double getWidth() {
+        return this.width;
+    }
 
-	public Double getHeight() {
-		return this.height;
-	}
+    public Double getHeight() {
+        return this.height;
+    }
 
-	public String getBuildingHeight() {
-		return "x" + this.buildingHeight;
-	}
+    public String getBuildingHeight() {
+        return "x" + this.buildingHeight;
+    }
 
-	public String getDisplayName() {
-		return this.displayName;
-	}
+    public String getDisplayName() {
+        return this.displayName;
+    }
 
-	public Map<String, Edge> getEdges() {
-		return this.edges;
-	}
+    public Map<String, Edge> getEdges() {
+        return this.edges;
+    }
 
-  public HexaColor getColor() {
-    return color;
-  }
+    public HexaColor getColor() {
+        return color;
+    }
 
 }

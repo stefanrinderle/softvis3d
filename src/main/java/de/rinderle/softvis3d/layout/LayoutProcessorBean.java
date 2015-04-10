@@ -9,8 +9,6 @@
 package de.rinderle.softvis3d.layout;
 
 import com.google.inject.Inject;
-import de.rinderle.softvis3d.dao.DaoService;
-import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
@@ -26,23 +24,20 @@ import java.util.Map;
 
 public class LayoutProcessorBean implements LayoutProcessor {
 
-	@Inject
-	private SnapshotVisitorFactory visitorFactory;
-	@Inject
-	private BottomUpLayout bottomUpLayout;
+    private static final Logger LOGGER = LoggerFactory.getLogger(LayoutProcessorBean.class);
+    @Inject
+    private SnapshotVisitorFactory visitorFactory;
+    @Inject
+    private BottomUpLayout bottomUpLayout;
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(LayoutProcessorBean.class);
+    @Override
+    public Map<Integer, ResultPlatform> process(Settings settings, VisualizationRequest requestDTO,
+            SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
 
-	@Override
-	public Map<Integer, ResultPlatform> process(Settings settings,
-			VisualizationRequest requestDTO,
-			SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
+        final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO);
 
-		final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO);
+        this.bottomUpLayout.accept(visitor, snapshotTreeResult);
 
-		this.bottomUpLayout.accept(visitor, snapshotTreeResult);
-
-		return visitor.getResultingGraphList();
-	}
+        return visitor.getResultingGraphList();
+    }
 }

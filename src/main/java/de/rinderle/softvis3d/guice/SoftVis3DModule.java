@@ -48,52 +48,43 @@ import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHan
 import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHandlerBean;
 
 public class SoftVis3DModule extends AbstractModule {
-	@Override
-	protected void configure() {
-		this.bind(DotVersion.class).to(DotVersionImpl.class);
-		this.bind(DotExecutor.class).to(DotExecutorImpl.class);
-		this.bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
+    @Override
+    protected void configure() {
+        this.bind(DotVersion.class).to(DotVersionImpl.class);
+        this.bind(DotExecutor.class).to(DotExecutorImpl.class);
+        this.bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
 
-		this.bind(SonarDao.class).to(SonarDaoBean.class);
-		this.bind(DependencyDao.class).to(DependencyDaoBean.class);
-		this.bind(DaoService.class).to(DaoServiceBean.class);
+        this.bind(SonarDao.class).to(SonarDaoBean.class);
+        this.bind(DependencyDao.class).to(DependencyDaoBean.class);
+        this.bind(DaoService.class).to(DaoServiceBean.class);
 
-    this.bind(ScmCalculationService.class).to(ScmCalculationServiceBean.class);
+        this.bind(ScmCalculationService.class).to(ScmCalculationServiceBean.class);
 
-		this.bind(OptimizeTreeStructure.class).to(
-				OptimizeTreeStructureImpl.class);
-		this.bind(SnapshotCacheService.class)
-				.to(SnapshotCacheServiceBean.class);
-		this.bind(DependencyExpander.class).to(DependencyExpanderBean.class);
+        this.bind(OptimizeTreeStructure.class).to(OptimizeTreeStructureImpl.class);
+        this.bind(SnapshotCacheService.class).to(SnapshotCacheServiceBean.class);
+        this.bind(DependencyExpander.class).to(DependencyExpanderBean.class);
 
-		this.bind(VisualizationProcessor.class).to(
-				VisualizationProcessorBean.class);
-		this.bind(LayerFormatter.class).to(LayerFormatterBean.class);
+        this.bind(VisualizationProcessor.class).to(VisualizationProcessorBean.class);
+        this.bind(LayerFormatter.class).to(LayerFormatterBean.class);
 
-		this.bind(PostProcessor.class).to(PostProcessorBean.class);
+        this.bind(PostProcessor.class).to(PostProcessorBean.class);
 
-		this.bind(PreProcessor.class).to(PreProcessorBean.class);
-		this.bind(TreeBuilder.class).to(TreeBuilderBean.class);
+        this.bind(PreProcessor.class).to(PreProcessorBean.class);
+        this.bind(TreeBuilder.class).to(TreeBuilderBean.class);
 
-		this.bind(LayoutProcessor.class).to(LayoutProcessorBean.class);
+        this.bind(LayoutProcessor.class).to(LayoutProcessorBean.class);
 
-    this.bind(LayoutCacheService.class)
-            .to(LayoutCacheServiceBean.class);
+        this.bind(LayoutCacheService.class).to(LayoutCacheServiceBean.class);
 
-		this.bind(TreeNodeJsonWriter.class).to(TreeNodeJsonWriterImpl.class);
-		this.bind(TreeWebserviceHandler.class).to(
-				TreeWebserviceHandlerBean.class);
-		this.bind(VisualizationJsonWriter.class).to(
-				VisualizationJsonWriterImpl.class);
-		this.bind(VisualizationWebserviceHandler.class).to(
-				VisualizationWebserviceHandlerBean.class);
-		this.bind(ConfigWebserviceHandler.class).to(
-				ConfigWebserviceHandlerBean.class);
+        this.bind(TreeNodeJsonWriter.class).to(TreeNodeJsonWriterImpl.class);
+        this.bind(TreeWebserviceHandler.class).to(TreeWebserviceHandlerBean.class);
+        this.bind(VisualizationJsonWriter.class).to(VisualizationJsonWriterImpl.class);
+        this.bind(VisualizationWebserviceHandler.class).to(VisualizationWebserviceHandlerBean.class);
+        this.bind(ConfigWebserviceHandler.class).to(ConfigWebserviceHandlerBean.class);
 
-		this.install(new FactoryModuleBuilder().implement(
-				SnapshotVisitor.class, SnapshotVisitorBean.class).build(
-				SnapshotVisitorFactory.class));
+        this.install(new FactoryModuleBuilder().implement(SnapshotVisitor.class, SnapshotVisitorBean.class).build(
+                SnapshotVisitorFactory.class));
 
-		this.bind(BottomUpLayout.class).to(BottomUpLayoutBean.class);
-	}
+        this.bind(BottomUpLayout.class).to(BottomUpLayoutBean.class);
+    }
 }

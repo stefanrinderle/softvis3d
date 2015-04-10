@@ -20,50 +20,46 @@ import static org.junit.Assert.assertNotNull;
 
 public class DotVersionTest {
 
-	@Mock
-	private ExecuteCommand executeCommand;
+    @InjectMocks
+    private final DotVersion underTest = new DotVersionImpl();
+    @Mock
+    private ExecuteCommand executeCommand;
 
-	@InjectMocks
-	private final DotVersion underTest = new DotVersionImpl();
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
 
-	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-	}
+    @Test
+    public void testHappy() throws DotExecutorException {
+        final String versionString = "2.20.2";
+        final Version version = new Version(versionString);
+        final String versionInfo = "dot - Graphviz version " + versionString + " (Tue Jan 14 19:38:44 UTC 2014)";
+        Mockito.when(this.executeCommand.executeCommandReadErrorStream(Mockito.any(String.class))).thenReturn(
+                versionInfo);
 
-	@Test
-	public void testHappy() throws DotExecutorException {
-		final String versionString = "2.20.2";
-		final Version version = new Version(versionString);
-		final String versionInfo = "dot - Graphviz version " + versionString
-				+ " (Tue Jan 14 19:38:44 UTC 2014)";
-		Mockito.when(
-				this.executeCommand.executeCommandReadErrorStream(Mockito
-						.any(String.class))).thenReturn(versionInfo);
+        final Version result = this.underTest.getVersion("dotBin");
 
-		final Version result = this.underTest.getVersion("dotBin");
+        assertNotNull(result);
 
-		assertNotNull(result);
+        System.out.println(result);
+        assertTrue(version.equals(result));
+    }
 
-		System.out.println(result);
-		assertTrue(version.equals(result));
-	}
+    @Test
+    public void testVersion2() throws DotExecutorException {
+        final String versionString = "2.0";
+        final Version version = new Version(versionString);
+        final String versionInfo = "dot version " + versionString + " (Mon Apr  6 14:19:01 UTC 2015)";
+        Mockito.when(this.executeCommand.executeCommandReadErrorStream(Mockito.any(String.class))).thenReturn(
+                versionInfo);
 
-	@Test
-	public void testVersion2() throws DotExecutorException {
-		final String versionString = "2.0";
-		final Version version = new Version(versionString);
-		final String versionInfo = "dot version " + versionString + " (Mon Apr  6 14:19:01 UTC 2015)";
-		Mockito.when(
-			this.executeCommand.executeCommandReadErrorStream(Mockito
-				.any(String.class))).thenReturn(versionInfo);
+        final Version result = this.underTest.getVersion("dotBin");
 
-		final Version result = this.underTest.getVersion("dotBin");
+        System.out.println(result);
 
-		System.out.println(result);
-
-		assertNotNull(result);
-		assertTrue(version.equals(result));
-	}
+        assertNotNull(result);
+        assertTrue(version.equals(result));
+    }
 
 }

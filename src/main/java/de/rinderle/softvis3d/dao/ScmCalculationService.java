@@ -10,6 +10,6 @@ package de.rinderle.softvis3d.dao;
 
 public interface ScmCalculationService {
 
-  int getDifferentAuthors(String scmCommitterString, String scmTimeString);
+    int getDifferentAuthors(String scmCommitterString, String scmTimeString);
 
 }

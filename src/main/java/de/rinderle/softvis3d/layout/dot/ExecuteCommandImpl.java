@@ -19,105 +19,99 @@ import static att.grappa.GrappaConstants.WIDTH_ATTR;
 
 public class ExecuteCommandImpl implements ExecuteCommand {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ExecuteCommandImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteCommandImpl.class);
 
-	private static String checkForAdotBug(String line) {
-		if (line.contains(HEIGHT_ATTR)) {
-			line = addQuotationMarks(line, HEIGHT_ATTR);
-		} else if (line.contains(WIDTH_ATTR)
-				&& !line.contains(SoftVis3DConstants.GRAPH_ATTR_PENWIDTH)) {
-			line = line.replace(WIDTH_ATTR + "=", WIDTH_ATTR + "=\"");
-			if (line.indexOf(']') >= 0) {
-				line = line.replace("]", "\"]");
-			} else {
-				line = line + "\"";
-			}
-		}
+    private static String checkForAdotBug(String line) {
+        if (line.contains(HEIGHT_ATTR)) {
+            line = addQuotationMarks(line, HEIGHT_ATTR);
+        } else if (line.contains(WIDTH_ATTR) && !line.contains(SoftVis3DConstants.GRAPH_ATTR_PENWIDTH)) {
+            line = line.replace(WIDTH_ATTR + "=", WIDTH_ATTR + "=\"");
+            if (line.indexOf(']') >= 0) {
+                line = line.replace("]", "\"]");
+            } else {
+                line = line + "\"";
+            }
+        }
 
-		return line;
-	}
+        return line;
+    }
 
-	private static String addQuotationMarks(String line, final String attrName) {
-		line = line.replace(attrName + "=", attrName + "=\"");
-		line = line.replace(",", "\",");
-		return line;
-	}
+    private static String addQuotationMarks(String line, final String attrName) {
+        line = line.replace(attrName + "=", attrName + "=\"");
+        line = line.replace(",", "\",");
+        return line;
+    }
 
-	@Override
-	public String executeCommandReadErrorStream(final String command) {
-		final StringBuilder output = new StringBuilder();
+    @Override
+    public String executeCommandReadErrorStream(final String command) {
+        final StringBuilder output = new StringBuilder();
 
-		final Process p;
-		try {
-			p = Runtime.getRuntime().exec(command);
+        final Process p;
+        try {
+            p = Runtime.getRuntime().exec(command);
 
-			final BufferedReader reader = new BufferedReader(
-					new InputStreamReader(p.getErrorStream()));
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 
-			String line;
-			while ((line = reader.readLine()) != null) {
-				output.append(line);
-				output.append("\n");
-			}
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line);
+                output.append("\n");
+            }
 
-			reader.close();
-		} catch (final IOException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
+            reader.close();
+        } catch (final IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
 
-		return output.toString();
-	}
+        return output.toString();
+    }
 
-	@Override
-	public String executeCommandReadAdot(final String command,
-			final String inputGraph, final Version currentVersion) throws DotExecutorException {
-		final StringBuilder adot = new StringBuilder();
+    @Override
+    public String executeCommandReadAdot(final String command, final String inputGraph, final Version currentVersion)
+        throws DotExecutorException {
+        final StringBuilder adot = new StringBuilder();
 
-		final Process process;
-		try {
-			process = Runtime.getRuntime().exec(command);
+        final Process process;
+        try {
+            process = Runtime.getRuntime().exec(command);
 
-			final BufferedWriter out = new BufferedWriter(
-					new OutputStreamWriter(process.getOutputStream()));
-			out.write(inputGraph);
-			out.close();
+            final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
+            out.write(inputGraph);
+            out.close();
 
-			final BufferedReader reader = new BufferedReader(
-				new InputStreamReader(process.getErrorStream()));
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
-			String line;
-			while ((line = reader.readLine()) != null) {
-				LOGGER.error(line);
-			}
+            String line;
+            while ((line = reader.readLine()) != null) {
+                LOGGER.error(line);
+            }
 
-			reader.close();
+            reader.close();
 
-			final BufferedReader in = new BufferedReader(new InputStreamReader(
-				process.getInputStream()));
+            final BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-			final Version startBug = new Version("2.30.0");
-			// return -1 (a<b) return 0 (a=b) return 1 (a>b)
-			final boolean adotBug = currentVersion.compareTo(startBug) >= 0;
+            final Version startBug = new Version("2.30.0");
+            // return -1 (a<b) return 0 (a=b) return 1 (a>b)
+            final boolean adotBug = currentVersion.compareTo(startBug) >= 0;
 
-			while ((line = in.readLine()) != null) {
-				if (adotBug) {
-					line = checkForAdotBug(line);
-				}
+            while ((line = in.readLine()) != null) {
+                if (adotBug) {
+                    line = checkForAdotBug(line);
+                }
 
-				adot.append(line);
-				adot.append("\n");
-			}
+                adot.append(line);
+                adot.append("\n");
+            }
 
-			process.waitFor();
-			in.close();
+            process.waitFor();
+            in.close();
 
-		} catch (final IOException e) {
-			throw new DotExecutorException(e.getMessage(), e);
-		} catch (final InterruptedException e) {
-			throw new DotExecutorException(e.getMessage(), e);
-		}
+        } catch (final IOException e) {
+            throw new DotExecutorException(e.getMessage(), e);
+        } catch (final InterruptedException e) {
+            throw new DotExecutorException(e.getMessage(), e);
+        }
 
-		return adot.toString();
-	}
+        return adot.toString();
+    }
 }

@@ -19,31 +19,28 @@ import java.util.List;
 
 public interface DaoService {
 
-	Integer getMetric1FromSettings(Settings settings);
+    Integer getMetric1FromSettings(Settings settings);
 
-	Integer getMetric2FromSettings(Settings settings);
+    Integer getMetric2FromSettings(Settings settings);
 
-	/**
-	 * Request all metrics which are set on the file level (Scope) for the
-	 * requested root snapshot.
-	 * 
-	 * @param snapshotId
-	 *            Root snapshot ID
-	 * @return defined metrics on the file level scope
-	 */
-	List<de.rinderle.softvis3d.domain.Metric> getDefinedMetricsForSnapshot(Integer snapshotId);
+    /**
+     * Request all metrics which are set on the file level (Scope) for the requested root snapshot.
+     * 
+     * @param snapshotId
+     *            Root snapshot ID
+     * @return defined metrics on the file level scope
+     */
+    List<de.rinderle.softvis3d.domain.Metric> getDefinedMetricsForSnapshot(Integer snapshotId);
 
-	MinMaxValue getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId,
-			int metricId);
+    MinMaxValue getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId);
 
-	List<SonarDependency> getDependencies(Integer snapshotId);
+    List<SonarDependency> getDependencies(Integer snapshotId);
 
-	List<SonarSnapshot> getFlatChildrenWithMetrics(
-			VisualizationRequest requestDTO);
+    List<SonarSnapshot> getFlatChildrenWithMetrics(VisualizationRequest requestDTO);
 
-  boolean hasDependencies(Integer snapshotId);
+    boolean hasDependencies(Integer snapshotId);
 
-  List<ModuleInfo> getDirectModuleChildrenIds(Integer snapshotId);
+    List<ModuleInfo> getDirectModuleChildrenIds(Integer snapshotId);
 
-  int getMaxScmInfo(int rootSnapshotId);
+    int getMaxScmInfo(int rootSnapshotId);
 }

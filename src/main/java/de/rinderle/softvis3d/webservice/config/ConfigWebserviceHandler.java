@@ -15,8 +15,8 @@ import org.sonar.api.server.ws.Response;
 
 public interface ConfigWebserviceHandler extends RequestHandler {
 
-	@Override
-	void handle(Request request, Response response);
+    @Override
+    void handle(Request request, Response response);
 
-  void setSettings(Settings settings);
+    void setSettings(Settings settings);
 }

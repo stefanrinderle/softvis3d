@@ -9,19 +9,20 @@
 package de.rinderle.softvis3d.dao.dto;
 
 public class MetricResultDTO<K> {
-  private final int id;
-  private final K value;
 
-  public MetricResultDTO(int id, K value) {
-    this.id = id;
-    this.value = value;
-  }
+    private final int id;
+    private final K value;
 
-  public int getId() {
-    return id;
-  }
+    public MetricResultDTO(int id, K value) {
+        this.id = id;
+        this.value = value;
+    }
 
-  public K getValue() {
-    return value;
-  }
+    public int getId() {
+        return id;
+    }
+
+    public K getValue() {
+        return value;
+    }
 }

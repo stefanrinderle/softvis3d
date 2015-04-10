@@ -12,45 +12,45 @@ import java.math.BigDecimal;
 
 public class SonarSnapshotBuilder {
 
-	int id;
-  String path;
-  double footprintMetricValue;
-  double heightMetricValue;
-  public int authorCount;
+    public int authorCount;
+    int id;
+    String path;
+    double footprintMetricValue;
+    double heightMetricValue;
 
-  public SonarSnapshotBuilder(int id, String path) {
-		this.id = id;
-		this.path = path;
-	}
-
-	public SonarSnapshotBuilder footprintMetricValue(BigDecimal footprintMetricValue) {
-    if (footprintMetricValue == null) {
-      this.footprintMetricValue = BigDecimal.ZERO.doubleValue();
-    } else {
-      this.footprintMetricValue = footprintMetricValue.doubleValue();
+    public SonarSnapshotBuilder(int id, String path) {
+        this.id = id;
+        this.path = path;
     }
 
-		return this;
-	}
+    public SonarSnapshotBuilder footprintMetricValue(BigDecimal footprintMetricValue) {
+        if (footprintMetricValue == null) {
+            this.footprintMetricValue = BigDecimal.ZERO.doubleValue();
+        } else {
+            this.footprintMetricValue = footprintMetricValue.doubleValue();
+        }
 
-	public SonarSnapshotBuilder heightMetricValue(BigDecimal heightMetricValue) {
-    if (heightMetricValue == null) {
-      this.footprintMetricValue = BigDecimal.ZERO.doubleValue();
-    } else {
-      this.heightMetricValue = heightMetricValue.doubleValue();
+        return this;
     }
 
-		return this;
-	}
+    public SonarSnapshotBuilder heightMetricValue(BigDecimal heightMetricValue) {
+        if (heightMetricValue == null) {
+            this.footprintMetricValue = BigDecimal.ZERO.doubleValue();
+        } else {
+            this.heightMetricValue = heightMetricValue.doubleValue();
+        }
 
-  public SonarSnapshotBuilder differentAuthors(int differentAuthors) {
-    this.authorCount = differentAuthors;
+        return this;
+    }
 
-    return this;
-  }
+    public SonarSnapshotBuilder differentAuthors(int differentAuthors) {
+        this.authorCount = differentAuthors;
 
-	public SonarSnapshot build() {
-		return new SonarSnapshot(this);
-	}
+        return this;
+    }
+
+    public SonarSnapshot build() {
+        return new SonarSnapshot(this);
+    }
 
 }

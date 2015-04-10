@@ -14,7 +14,9 @@ import org.sonar.api.database.DatabaseSession;
 import java.util.List;
 
 public interface DependencyDao {
-	void setDatabaseSession(DatabaseSession session);
 
-	List<SonarDependency> getDependencies(Integer projectSnapshotId);
+    void setDatabaseSession(DatabaseSession session);
+
+    List<SonarDependency> getDependencies(Integer projectSnapshotId);
+
 }

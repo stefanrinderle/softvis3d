@@ -18,28 +18,31 @@ import java.util.List;
  * This class is the entry point for all extensions.
  */
 @Properties({
-		@Property(key = SoftVis3DConstants.DOT_BIN_KEY, defaultValue = SoftVis3DConstants.DOT_BIN_DEFAULT, name = SoftVis3DConstants.DOT_BIN_NAME, description = SoftVis3DConstants.DOT_BIN_DESCRIPTION),
-		@Property(key = "metric1", defaultValue = "complexity", type = PropertyType.METRIC, name = "Metric type 1", description = "This metric will be used for the building footprint"),
-		@Property(key = "metric2", defaultValue = "lines", type = PropertyType.METRIC, name = "Metric type 2", description = "This metric will be used for the building height") })
+        @Property(key = SoftVis3DConstants.DOT_BIN_KEY, defaultValue = SoftVis3DConstants.DOT_BIN_DEFAULT,
+                name = SoftVis3DConstants.DOT_BIN_NAME, description = SoftVis3DConstants.DOT_BIN_DESCRIPTION),
+        @Property(key = "metric1", defaultValue = "complexity", type = PropertyType.METRIC, name = "Metric type 1",
+                description = "This metric will be used for the building footprint"),
+        @Property(key = "metric2", defaultValue = "lines", type = PropertyType.METRIC, name = "Metric type 2",
+                description = "This metric will be used for the building height")})
 public final class SoftVis3DPlugin extends SonarPlugin {
 
-	public final static boolean IS_PROD = true;
+    public final static boolean IS_PROD = true;
 
-  public final static boolean HAS_SCM_FEATURE = false;
+    public final static boolean HAS_SCM_FEATURE = false;
 
-	public SoftVis3DPlugin() {
-		super();
-	}
+    public SoftVis3DPlugin() {
+        super();
+    }
 
-	@Override
-	public List<Class<? extends Extension>> getExtensions() {
-		final List<Class<? extends Extension>> extensions = new ArrayList<Class<? extends Extension>>();
+    @Override
+    public List<Class<? extends Extension>> getExtensions() {
+        final List<Class<? extends Extension>> extensions = new ArrayList<Class<? extends Extension>>();
 
-		extensions.add(SoftVis3DPage.class);
-		extensions.add(SoftVis3DExtension.class);
-		extensions.add(SoftVis3DWebservice.class);
+        extensions.add(SoftVis3DPage.class);
+        extensions.add(SoftVis3DExtension.class);
+        extensions.add(SoftVis3DWebservice.class);
 
-		return extensions;
-	}
+        return extensions;
+    }
 
 }

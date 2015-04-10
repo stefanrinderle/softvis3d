@@ -15,12 +15,12 @@ import java.util.Map;
 
 public interface LayoutCacheService {
 
-	void printCacheContents();
+    void printCacheContents();
 
-	boolean containsKey(SnapshotStorageKey key);
+    boolean containsKey(SnapshotStorageKey key);
 
-  Map<Integer, ResultPlatform> getLayoutResult(SnapshotStorageKey key);
+    Map<Integer, ResultPlatform> getLayoutResult(SnapshotStorageKey key);
 
-	void save(SnapshotStorageKey key, Map<Integer, ResultPlatform> result);
+    void save(SnapshotStorageKey key, Map<Integer, ResultPlatform> result);
 
 }

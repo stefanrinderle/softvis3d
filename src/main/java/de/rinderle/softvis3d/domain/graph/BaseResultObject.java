@@ -12,43 +12,43 @@ import de.rinderle.softvis3d.layout.helper.HexaColor;
 
 public abstract class BaseResultObject {
 
-	private double opacity;
-	private int height3d;
-	private HexaColor color;
+    private double opacity;
+    private int height3d;
+    private HexaColor color;
 
-	public void setOpacity(double opacity) {
-		this.opacity = opacity;
-	}
+    public double getOpacity() {
+        return opacity;
+    }
 
-	public double getOpacity() {
-		return opacity;
-	}
+    public void setOpacity(double opacity) {
+        this.opacity = opacity;
+    }
 
-	/**
-	 * String name for y axis in 3d.
-	 *
-	 * I(y) I I ---------- (x) / / (z)
-	 */
-	public void setHeight3d(int height3d) {
-		this.height3d = height3d;
-	}
+    /**
+     * called from view.
+     */
+    public int getHeight3d() {
+        return height3d;
+    }
 
-	/**
-	 * called from view.
-	 */
-	public int getHeight3d() {
-		return height3d;
-	}
+    /**
+     * String name for y axis in 3d.
+     *
+     * I(y) I I ---------- (x) / / (z)
+     */
+    public void setHeight3d(int height3d) {
+        this.height3d = height3d;
+    }
 
-	public void setColor(final HexaColor color) {
-		this.color = color;
-	}
+    /**
+     * Used in view.
+     */
+    public HexaColor getColor() {
+        return color;
+    }
 
-	/**
-	 * Used in view.
-	 */
-	public HexaColor getColor() {
-		return color;
-	}
+    public void setColor(final HexaColor color) {
+        this.color = color;
+    }
 
 }

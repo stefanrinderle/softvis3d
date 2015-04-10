@@ -15,15 +15,15 @@ import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
 
 public interface LayerFormatter {
-	void format(ResultPlatform graph, Integer depth, LayoutViewType viewType);
+    void format(ResultPlatform graph, Integer depth, LayoutViewType viewType);
 
-  HexaColor getPlatformBaseColor(int depth);
+    HexaColor getPlatformBaseColor(int depth);
 
-  double calcBuildingHeight(Double value, MinMaxValue minMaxMetricHeight);
+    double calcBuildingHeight(Double value, MinMaxValue minMaxMetricHeight);
 
-	double calcSideLength(Double value, MinMaxValue minMaxMetricFootprint);
+    double calcSideLength(Double value, MinMaxValue minMaxMetricFootprint);
 
-	double calcEdgeRadius(int counter);
+    double calcEdgeRadius(int counter);
 
-  HexaColor getScmColorInfo(ValueTreeNode leafNode, int maxScmValue);
+    HexaColor getScmColorInfo(ValueTreeNode leafNode, int maxScmValue);
 }
