@@ -1,5 +1,4 @@
-/* Translate the graph so the lower-left point of the bounding box is at the
-origin.
+/* Translate the graph so the lower-left point of the bounding box is at the origin.
  * We rely on bounding box being set.
  */
 BEGIN {

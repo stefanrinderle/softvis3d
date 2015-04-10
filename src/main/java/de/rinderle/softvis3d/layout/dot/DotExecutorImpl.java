@@ -31,7 +31,7 @@ import java.io.*;
 @Singleton
 public class DotExecutorImpl implements DotExecutor {
 
-	public static final String DOT_BUG_VERSION = "2.38.0";
+	public static final Version DOT_BUG_VERSION = new Version("2.38.0");
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(DotExecutorImpl.class);
 
@@ -49,9 +49,16 @@ public class DotExecutorImpl implements DotExecutor {
 
 		final String dotBin = settings
 				.getString(SoftVis3DConstants.DOT_BIN_KEY);
+		final Version currentVersion = this.dotVersion.getVersion(dotBin);
+
 		String command = dotBin + " ";
-		if (LayoutViewType.CITY.equals(viewType)
-				|| inputGraph.edgeElementsAsArray().length == 0) {
+
+		final Version firstNeatoVersion = new Version("2.2.1");
+		// return -1 (a<b) return 0 (a=b)
+		final boolean noNeato = currentVersion.compareTo(firstNeatoVersion) < 1;
+
+		if (!noNeato && (LayoutViewType.CITY.equals(viewType)
+				|| inputGraph.edgeElementsAsArray().length == 0)) {
 			command = dotBin + " -K neato ";
 		}
 
@@ -60,31 +67,27 @@ public class DotExecutorImpl implements DotExecutor {
 
 		String sourceDot = writer.toString();
 
-		String adot = this.executeCommand.executeCommandReadAdot(command,
-				sourceDot);
+		String adot = this.executeCommand.executeCommandReadAdot(command, sourceDot, currentVersion);
 
-		if (this.dotVersion.getVersion(dotBin).equals(DOT_BUG_VERSION)) {
+		if (currentVersion.equals(DOT_BUG_VERSION)) {
 			try {
 
 				if (this.translationFile == null) {
-					final InputStream file = DotExecutorImpl.class
-							.getResourceAsStream("/translate.g");
-					this.translationFile = File.createTempFile("translate",
-							".g");
-					final FileOutputStream out = new FileOutputStream(
-							this.translationFile);
+					final InputStream file = DotExecutorImpl.class.getResourceAsStream("/translate.g");
+					this.translationFile = File.createTempFile("translate", ".g");
+					final FileOutputStream out = new FileOutputStream(this.translationFile);
 					IOUtils.copy(file, out);
 				}
 
 				final int lastIndex = dotBin.lastIndexOf("/");
-				final String translationBin = dotBin
-						.substring(0, lastIndex + 1);
+				final String translationBin = dotBin.substring(0, lastIndex + 1);
 				final String translationCommand = translationBin
 						+ "gvpr -c -f "
 						+ this.translationFile.getAbsolutePath();
 
-				adot = this.executeCommand.executeCommandReadAdot(
-						translationCommand, adot);
+				LOGGER.debug("Translation command " + translationCommand);
+
+				adot = this.executeCommand.executeCommandReadAdot(translationCommand, adot, currentVersion);
 			} catch (final IOException e) {
 				LOGGER.error("Error on create temp file", e);
 			}
@@ -95,6 +98,10 @@ public class DotExecutorImpl implements DotExecutor {
 
 	private Graph parseDot(final String adot) throws DotExecutorException {
 		final String graphName = "LayoutLayer";
+
+		LOGGER.debug("----------------adot--------------------------");
+		LOGGER.debug(adot);
+		LOGGER.debug("----------------------------------------------");
 
 		final Graph newGraph = new Graph("new" + graphName, true, false);
 

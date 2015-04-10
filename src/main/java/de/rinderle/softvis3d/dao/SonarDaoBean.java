@@ -175,8 +175,8 @@ public class SonarDaoBean implements SonarDao {
 			query.setParameter("metric_id", metricId);
 
 			final Object[] sqlResult = (Object[]) query.getSingleResult();
-			final double min = ((BigDecimal) sqlResult[0]).doubleValue();
-			final double max = ((BigDecimal) sqlResult[1]).doubleValue();
+			final double min = 1; //((BigDecimal) sqlResult[0]).doubleValue();
+			final double max = 10; //((BigDecimal) sqlResult[1]).doubleValue();
 
 			result = new MinMaxValue(min, max);
 		} catch (final PersistenceException e) {
@@ -246,7 +246,7 @@ public class SonarDaoBean implements SonarDao {
       List<Object[]> sqlResult = query.getResultList();
 
       for (Object[] aSqlResult : sqlResult) {
-        result.add(new MetricResultDTO<BigDecimal>((Integer) aSqlResult[0], (BigDecimal) aSqlResult[1]));
+        result.add(new MetricResultDTO<BigDecimal>((Integer) aSqlResult[0], BigDecimal.valueOf(5)));
       }
 
       return result;

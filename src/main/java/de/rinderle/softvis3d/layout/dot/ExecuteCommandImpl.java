@@ -71,7 +71,7 @@ public class ExecuteCommandImpl implements ExecuteCommand {
 
 	@Override
 	public String executeCommandReadAdot(final String command,
-			final String inputGraph) throws DotExecutorException {
+			final String inputGraph, final Version currentVersion) throws DotExecutorException {
 		final StringBuilder adot = new StringBuilder();
 
 		final Process process;
@@ -83,13 +83,28 @@ public class ExecuteCommandImpl implements ExecuteCommand {
 			out.write(inputGraph);
 			out.close();
 
-			final BufferedReader in = new BufferedReader(new InputStreamReader(
-					process.getInputStream()));
+			final BufferedReader reader = new BufferedReader(
+				new InputStreamReader(process.getErrorStream()));
 
 			String line;
+			while ((line = reader.readLine()) != null) {
+				LOGGER.error(line);
+			}
+
+			reader.close();
+
+			final BufferedReader in = new BufferedReader(new InputStreamReader(
+				process.getInputStream()));
+
+			final Version startBug = new Version("2.30.0");
+			// return -1 (a<b) return 0 (a=b) return 1 (a>b)
+			final boolean adotBug = currentVersion.compareTo(startBug) >= 0;
+
 			while ((line = in.readLine()) != null) {
-				// TODO SRI !!! dirty hack !!!
-				line = checkForAdotBug(line);
+				if (adotBug) {
+					line = checkForAdotBug(line);
+				}
+
 				adot.append(line);
 				adot.append("\n");
 			}

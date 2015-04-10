@@ -51,11 +51,11 @@ public class DotExecutorTest {
 	@Test
 	public void testHappy() throws DotExecutorException {
 		Mockito.when(this.dotVersion.getVersion(Mockito.anyString()))
-				.thenReturn("2.36.0");
+				.thenReturn(new Version("2.36.0"));
 
 		Mockito.when(
 				this.executeCommand.executeCommandReadAdot(
-						Mockito.any(String.class), Mockito.any(String.class)))
+						Mockito.any(String.class), Mockito.any(String.class), Mockito.any(Version.class)))
 				.thenReturn(this.createADot());
 
 		final Graph inputGraph = new Graph("not used in test");
@@ -69,11 +69,11 @@ public class DotExecutorTest {
 	@Test
 	public void testHappyDependency() throws DotExecutorException {
 		Mockito.when(this.dotVersion.getVersion(Mockito.anyString()))
-				.thenReturn("2.36.0");
+				.thenReturn(new Version("2.36.0"));
 
 		Mockito.when(
 				this.executeCommand.executeCommandReadAdot(
-						Mockito.any(String.class), Mockito.any(String.class)))
+						Mockito.any(String.class), Mockito.any(String.class), Mockito.any(Version.class)))
 				.thenReturn(this.createADot());
 
 		final Graph inputGraph = new Graph("not used in test");
@@ -87,11 +87,11 @@ public class DotExecutorTest {
 	@Test
 	public void testVersionFalse() throws DotExecutorException {
 		Mockito.when(this.dotVersion.getVersion(Mockito.anyString()))
-				.thenReturn("2.36.0");
+				.thenReturn(new Version("2.36.0"));
 
 		Mockito.when(
 				this.executeCommand.executeCommandReadAdot(
-						Mockito.any(String.class), Mockito.any(String.class)))
+						Mockito.any(String.class), Mockito.any(String.class), Mockito.any(Version.class)))
 				.thenReturn(this.createADot());
 
 		final Graph inputGraph = new Graph("not used in test");
@@ -99,7 +99,7 @@ public class DotExecutorTest {
 
 		Mockito.verify(this.executeCommand, Mockito.times(1))
 				.executeCommandReadAdot(Mockito.any(String.class),
-						Mockito.any(String.class));
+						Mockito.any(String.class), Mockito.any(Version.class));
 	}
 
 	@Test
@@ -111,7 +111,7 @@ public class DotExecutorTest {
 
 		Mockito.when(
 				this.executeCommand.executeCommandReadAdot(
-						Mockito.any(String.class), Mockito.any(String.class)))
+						Mockito.any(String.class), Mockito.any(String.class), Mockito.any(Version.class)))
 				.thenReturn(this.createADot());
 
 		final Graph inputGraph = new Graph("not used in test");
@@ -119,7 +119,7 @@ public class DotExecutorTest {
 
 		Mockito.verify(this.executeCommand, Mockito.times(2))
 				.executeCommandReadAdot(Mockito.any(String.class),
-						Mockito.any(String.class));
+						Mockito.any(String.class), Mockito.any(Version.class));
 	}
 
 	public String createADot() {
