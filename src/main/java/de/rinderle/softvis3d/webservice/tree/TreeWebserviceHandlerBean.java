@@ -14,33 +14,36 @@ import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
 
 public class TreeWebserviceHandlerBean implements TreeWebserviceHandler {
 
-	@Inject
-	private SnapshotCacheService snapshotCacheService;
-	@Inject
-	private TreeNodeJsonWriter treeNodeJsonWriter;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TreeWebserviceHandlerBean.class);
 
-	@Override
-	public void handle(final Request request, final Response response) {
-		final Integer id = Integer.valueOf(request.param("snapshotId"));
-		final Integer footprintMetricId = Integer.valueOf(request
-				.param("footprintMetricId"));
-		final Integer heightMetricId = Integer.valueOf(request
-				.param("heightMetricId"));
+    @Inject
+    private SnapshotCacheService snapshotCacheService;
+    @Inject
+    private TreeNodeJsonWriter treeNodeJsonWriter;
 
-		final LayoutViewType type = LayoutViewType.valueOfRequest(request
-				.param("viewType"));
-		final VisualizationRequest requestDTO = new VisualizationRequest(id,
-				type, footprintMetricId, heightMetricId);
+    @Override
+    public void handle(final Request request, final Response response) {
+        final Integer id = Integer.valueOf(request.param("snapshotId"));
+        final Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
+        final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
 
-		final SnapshotTreeResult result = snapshotCacheService
-				.getSnapshotTreeResult(new SnapshotStorageKey(requestDTO));
+        final LayoutViewType type = LayoutViewType.valueOfRequest(request.param("viewType"));
 
-		this.treeNodeJsonWriter.transformTreeToJson(response, result.getTree());
-	}
+        final VisualizationRequest requestDTO = new VisualizationRequest(id, type, footprintMetricId, heightMetricId);
+
+        LOGGER.info("TreeWebserviceHandler " + requestDTO.toString());
+
+        final SnapshotTreeResult result =
+                snapshotCacheService.getSnapshotTreeResult(new SnapshotStorageKey(requestDTO));
+
+        this.treeNodeJsonWriter.transformTreeToJson(response, result.getTree());
+    }
 
 }

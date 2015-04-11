@@ -48,6 +48,8 @@ public class VisualizationWebserviceHandlerBean implements VisualizationWebservi
         final LayoutViewType type = LayoutViewType.valueOfRequest(request.param("viewType"));
         final VisualizationRequest requestDTO = new VisualizationRequest(id, type, footprintMetricId, heightMetricId);
 
+        LOGGER.info("VisualizationWebserviceHandler " + requestDTO.toString());
+
         SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
 
         final Map<Integer, ResultPlatform> result;

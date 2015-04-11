@@ -37,8 +37,7 @@ public class ConfigWebserviceHandlerBean implements ConfigWebserviceHandler {
     public void handle(final Request request, final Response response) {
         final Integer id = Integer.valueOf(request.param("snapshotId"));
 
-        // 96467
-        LOGGER.info("getConfigForSnapshot " + id);
+        LOGGER.info("ConfigWebserviceHandler " + id);
 
         final Integer metric1 = this.daoService.getMetric1FromSettings(this.settings);
         final Integer metric2 = this.daoService.getMetric2FromSettings(this.settings);
