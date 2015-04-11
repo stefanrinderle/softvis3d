@@ -44,7 +44,7 @@ public class PreProcessorBean implements PreProcessor {
         final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
         final SnapshotTreeResult result;
-        if (SoftVis3DPlugin.CACHE_ENABLED && snapshotCacheService.containsKey(mapKey)) {
+        if (snapshotCacheService.containsKey(mapKey)) {
             result = snapshotCacheService.getSnapshotTreeResult(mapKey);
         } else {
             final RootTreeNode tree = treeBuilder.createTreeStructure(requestDTO);
@@ -57,10 +57,7 @@ public class PreProcessorBean implements PreProcessor {
             }
 
             result = new SnapshotTreeResult(mapKey, tree);
-
-            if (SoftVis3DPlugin.CACHE_ENABLED) {
-                this.snapshotCacheService.save(result);
-            }
+            this.snapshotCacheService.save(result);
         }
 
         return result;

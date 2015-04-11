@@ -114,9 +114,7 @@ Viewer.ObjectFactory.prototype = {
         var nurbsDegree = 3;
 
         for (var i = 0; i <= nurbsDegree; i++) {
-
             nurbsKnots.push(0);
-
         }
 
         for (var i = 0; i < arrow.translatedPoints.length; i++) {
@@ -136,15 +134,23 @@ Viewer.ObjectFactory.prototype = {
 
         var nurbsCurve = new THREE.NURBSCurve(nurbsDegree, nurbsKnots, nurbsControlPoints);
 
-        var nurbsGeometry = new THREE.Geometry();
-        nurbsGeometry.vertices = nurbsCurve.getPoints(200);
-        var nurbsMaterial = new THREE.LineBasicMaterial({ linewidth: radius, color: arrow.color, transparent: true });
+        var pipeSpline = new THREE.SplineCurve3(nurbsCurve.getPoints(200));
 
-        var nurbsLine = new THREE.Line(nurbsGeometry, nurbsMaterial);
-        nurbsLine.softVis3dId = arrow.id;
-        nurbsLine.softVis3dType = "dependency";
+        var tubegeometry = new THREE.TubeGeometry(
+                pipeSpline,  //path
+                20,    //segments
+                radius,     //radius
+                8,     //radiusSegments
+                false  //closed
+        );
 
-        return nurbsLine;
+        var edgeMesh = new THREE.Mesh(tubegeometry,
+                new THREE.MeshBasicMaterial({ color: "#0000ff" }));
+
+        edgeMesh.softVis3dId = arrow.id;
+        edgeMesh.softVis3dType = "dependency";
+
+        return edgeMesh;
     },
 
     createArrowHead: function (startPoint, endPoint, arrow) {
