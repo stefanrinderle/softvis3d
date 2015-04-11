@@ -11,7 +11,7 @@
 <div id="toolbar" ng-controller="ToolbarController as toolbar" ng-cloak>
     <h2>Toolbar</h2><a href="#" class="close" ng-click="viewer.toggleToolbar()">X</a>
 
-    <div ng-show="(toolbar.node || toolbar.edge)">
+    <div ng-show="(toolbar.node || toolbar.edge)" class="toolbar-content">
         <br />
         <p ng-show="toolbar.metric1Name || toolbar.metric2Name">
             ({{toolbar.metric1Name}} / {{toolbar.metric2Name}})

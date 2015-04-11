@@ -88,7 +88,6 @@
     background-color: #cae3f2;
     min-height: 238px;
     padding: 10px;
-    overflow: scroll;
 }
 
 .loader-options span {
@@ -142,8 +141,7 @@
     border: 1px solid #ACF0F2;
     width: 200px;
     text-align: center;
-    margin: 2px auto;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .toolbar .listEven {
@@ -152,10 +150,11 @@
 
 .toolbar div {
     display: block;
-    float: left;
     text-align: left;
-    width: 100%;
-    margin-left: 2px;
+}
+
+#toolbar-content {
+    padding-left: 4px;
 }
 
 .toolbar h2 {
