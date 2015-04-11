@@ -9,6 +9,7 @@
 package de.rinderle.softvis3d.webservice.visualization;
 
 import com.google.inject.Inject;
+import de.rinderle.softvis3d.SoftVis3DPlugin;
 import de.rinderle.softvis3d.VisualizationProcessor;
 import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
@@ -50,7 +51,7 @@ public class VisualizationWebserviceHandlerBean implements VisualizationWebservi
         SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
 
         final Map<Integer, ResultPlatform> result;
-        if (layoutCacheService.containsKey(key)) {
+        if (SoftVis3DPlugin.CACHE_ENABLED && layoutCacheService.containsKey(key)) {
             LOGGER.info("Layout out of cache for " + key.getString());
             result = layoutCacheService.getLayoutResult(key);
         } else {

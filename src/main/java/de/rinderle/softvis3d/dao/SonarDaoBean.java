@@ -192,7 +192,7 @@ public class SonarDaoBean implements SonarDao {
 
             final Query query = this.session.createNativeQuery(sqlQuery);
 
-            query.setParameter("id", "%" + rootSnapshotId + "%");
+            query.setParameter("id", rootSnapshotId + ".%");
 
             List<Object[]> sqlResult = query.getResultList();
 

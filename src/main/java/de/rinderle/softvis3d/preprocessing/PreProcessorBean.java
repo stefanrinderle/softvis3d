@@ -9,6 +9,7 @@
 package de.rinderle.softvis3d.preprocessing;
 
 import com.google.inject.Inject;
+import de.rinderle.softvis3d.SoftVis3DPlugin;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
@@ -25,42 +26,44 @@ import java.util.List;
 
 public class PreProcessorBean implements PreProcessor {
 
-	@Inject
-	private TreeBuilder treeBuilder;
-	@Inject
-	private OptimizeTreeStructure optimizeTreeStructure;
-	@Inject
-	private SnapshotCacheService snapshotCacheService;
-	@Inject
-	private DaoService daoService;
-	@Inject
-	private DependencyExpander dependencyExpander;
+    @Inject
+    private TreeBuilder treeBuilder;
+    @Inject
+    private OptimizeTreeStructure optimizeTreeStructure;
+    @Inject
+    private SnapshotCacheService snapshotCacheService;
+    @Inject
+    private DaoService daoService;
+    @Inject
+    private DependencyExpander dependencyExpander;
 
-	@Override
-	public SnapshotTreeResult process(VisualizationRequest requestDTO) {
-		snapshotCacheService.printCacheContents();
+    @Override
+    public SnapshotTreeResult process(VisualizationRequest requestDTO) {
+        snapshotCacheService.printCacheContents();
 
-		final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
+        final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
-		final SnapshotTreeResult result;
-		if (snapshotCacheService.containsKey(mapKey)) {
-			result = snapshotCacheService.getSnapshotTreeResult(mapKey);
-		} else {
-			final RootTreeNode tree = treeBuilder
-					.createTreeStructure(requestDTO);
-			this.optimizeTreeStructure.removeUnnecessaryNodes(tree);
+        final SnapshotTreeResult result;
+        if (SoftVis3DPlugin.CACHE_ENABLED && snapshotCacheService.containsKey(mapKey)) {
+            result = snapshotCacheService.getSnapshotTreeResult(mapKey);
+        } else {
+            final RootTreeNode tree = treeBuilder.createTreeStructure(requestDTO);
+            this.optimizeTreeStructure.removeUnnecessaryNodes(tree);
 
-			if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
-				final List<SonarDependency> dependencies = this.daoService
-						.getDependencies(requestDTO.getRootSnapshotId());
-				this.dependencyExpander.execute(tree, dependencies);
-			}
+            if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
+                final List<SonarDependency> dependencies =
+                        this.daoService.getDependencies(requestDTO.getRootSnapshotId());
+                this.dependencyExpander.execute(tree, dependencies);
+            }
 
-			result = new SnapshotTreeResult(mapKey, tree);
-			this.snapshotCacheService.save(result);
-		}
+            result = new SnapshotTreeResult(mapKey, tree);
 
-		return result;
-	}
+            if (SoftVis3DPlugin.CACHE_ENABLED) {
+                this.snapshotCacheService.save(result);
+            }
+        }
+
+        return result;
+    }
 
 }
