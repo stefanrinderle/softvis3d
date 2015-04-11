@@ -51,6 +51,8 @@ public class VisualizationProcessorBean implements VisualizationProcessor {
 		final Map<Integer, ResultPlatform> resultGraphs = layoutProcessor
 				.process(settings, requestDTO, snapshotTreeResult);
 
+		LOGGER.info("Created " + resultGraphs.size() + " result graphs in " + stopWatch.getTime());
+
 		final int leavesCounter = this.calc.process(requestDTO.getViewType(),
 				requestDTO.getRootSnapshotId(), resultGraphs,
 				snapshotTreeResult);

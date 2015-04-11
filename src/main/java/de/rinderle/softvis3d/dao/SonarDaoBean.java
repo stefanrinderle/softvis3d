@@ -187,12 +187,14 @@ public class SonarDaoBean implements SonarDao {
             this.session.start();
 
             final String sqlQuery =
-                    "SELECT s.id, p.path " + "FROM snapshots s " + "INNER JOIN projects p ON s.project_id = p.id "
-                            + "WHERE s.path LIKE :id AND s.qualifier = 'FIL' " + "ORDER BY p.path";
+                    "SELECT s.id, p.path FROM snapshots s INNER JOIN projects p ON s.project_id = p.id "
+                            + "WHERE (s.path LIKE :idRoot OR s.path LIKE :idModule) AND s.qualifier = 'FIL' "
+                            + "ORDER BY" + " p.path";
 
             final Query query = this.session.createNativeQuery(sqlQuery);
 
-            query.setParameter("id", rootSnapshotId + ".%");
+            query.setParameter("idRoot", rootSnapshotId + ".%");
+            query.setParameter("idModule", "%." + rootSnapshotId + ".%");
 
             List<Object[]> sqlResult = query.getResultList();
 

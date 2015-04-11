@@ -57,7 +57,9 @@ public class VisualizationWebserviceHandlerBean implements VisualizationWebservi
         } else {
             LOGGER.info("Create layout for " + key.getString());
             result = createLayout(id, requestDTO);
-            layoutCacheService.save(key, result);
+            if (SoftVis3DPlugin.CACHE_ENABLED) {
+                layoutCacheService.save(key, result);
+            }
         }
 
         this.visualizationJsonWriter.transformResponseToJson(response, result);
@@ -67,8 +69,9 @@ public class VisualizationWebserviceHandlerBean implements VisualizationWebservi
         Map<Integer, ResultPlatform> result = new ConcurrentHashMap<Integer, ResultPlatform>();
         logStartOfCalc(requestDTO);
         try {
-
             result = visualizationProcessor.visualize(this.settings, requestDTO);
+
+            LOGGER.info("Finished layout");
 
             /**
              * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
@@ -79,6 +82,8 @@ public class VisualizationWebserviceHandlerBean implements VisualizationWebservi
 
         } catch (DotExecutorException e) {
             LOGGER.error("error on dot execution.", e);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
         }
         return result;
     }

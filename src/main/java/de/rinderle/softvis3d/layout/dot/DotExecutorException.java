@@ -15,4 +15,8 @@ public class DotExecutorException extends Exception {
 	public DotExecutorException(final String message, final Exception e) {
 		super(message, e);
 	}
+
+	public DotExecutorException(final String message) {
+		super(message);
+	}
 }

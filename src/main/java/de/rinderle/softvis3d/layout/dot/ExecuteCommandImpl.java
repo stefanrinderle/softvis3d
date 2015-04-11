@@ -9,6 +9,7 @@
 package de.rinderle.softvis3d.layout.dot;
 
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,49 +70,71 @@ public class ExecuteCommandImpl implements ExecuteCommand {
     @Override
     public String executeCommandReadAdot(final String command, final String inputGraph, final Version currentVersion)
         throws DotExecutorException {
-        final StringBuilder adot = new StringBuilder();
-
         final Process process;
         try {
             process = Runtime.getRuntime().exec(command);
 
-            final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
-            out.write(inputGraph);
-            out.close();
+            writeStringToOutput(inputGraph, process);
 
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                LOGGER.error(line);
+            final String errorOutput = readOutputStream(process.getErrorStream());
+            if (!StringUtils.isEmpty(errorOutput)) {
+                throw new DotExecutorException(errorOutput);
             }
 
-            reader.close();
-
-            final BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-            final Version startBug = new Version("2.30.0");
-            // return -1 (a<b) return 0 (a=b) return 1 (a>b)
-            final boolean adotBug = currentVersion.compareTo(startBug) >= 0;
-
-            while ((line = in.readLine()) != null) {
-                if (adotBug) {
-                    line = checkForAdotBug(line);
-                }
-
-                adot.append(line);
-                adot.append("\n");
-            }
-
-            process.waitFor();
-            in.close();
+            return readAdotStream(currentVersion, process);
 
         } catch (final IOException e) {
             throw new DotExecutorException(e.getMessage(), e);
         } catch (final InterruptedException e) {
             throw new DotExecutorException(e.getMessage(), e);
         }
+    }
 
-        return adot.toString();
+    private String readAdotStream(final Version currentVersion, final Process process) throws IOException,
+        InterruptedException {
+        String line;
+        final StringBuilder adotBuilder = new StringBuilder();
+
+        final BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+        final Version startBug = new Version("2.30.0");
+        // return -1 (a<b) return 0 (a=b) return 1 (a>b)
+        final boolean adotBug = currentVersion.compareTo(startBug) >= 0;
+
+        while ((line = in.readLine()) != null) {
+            if (adotBug) {
+                line = checkForAdotBug(line);
+            }
+
+            adotBuilder.append(line);
+            adotBuilder.append("\n");
+        }
+
+        process.waitFor();
+        in.close();
+
+        return adotBuilder.toString();
+    }
+
+    private String readOutputStream(final InputStream inputStream) throws IOException {
+        String result = "";
+
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        if (reader.ready()) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result += line;
+            }
+            reader.close();
+        }
+
+        return result;
+    }
+
+    private void writeStringToOutput(final String inputGraph, final Process process) throws IOException {
+        final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
+        out.write(inputGraph);
+        out.close();
     }
 }
