@@ -33,10 +33,10 @@ public class SoftVis3DWebserviceTest {
         assertThat(controller).isNotNull();
         assertThat(controller.path()).isEqualTo("api/softVis3D");
         assertThat(controller.description()).isNotEmpty();
-        assertThat(controller.actions()).hasSize(3);
+        assertThat(controller.actions()).hasSize(2);
 
-        final WebService.Action getTree = controller.action("getTree");
-        assertThat(getTree).isNotNull();
-        assertThat(getTree.key()).isEqualTo("getTree");
+//        final WebService.Action getTree = controller.action("getVisualization");
+//        assertThat(getTree).isNotNull();
+//        assertThat(getTree.key()).isEqualTo("getTree");
     }
 }

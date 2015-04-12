@@ -10,11 +10,11 @@ package de.rinderle.softvis3d.webservice.visualization;
 
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import org.sonar.api.server.ws.Response;
+import org.sonar.api.utils.text.JsonWriter;
 
 import java.util.Map;
 
 public interface VisualizationJsonWriter {
 
-	void transformResponseToJson(Response response,
-			Map<Integer, ResultPlatform> tree);
+    void transformResponseToJson(JsonWriter jsonWriter, Map<Integer, ResultPlatform> tree);
 }

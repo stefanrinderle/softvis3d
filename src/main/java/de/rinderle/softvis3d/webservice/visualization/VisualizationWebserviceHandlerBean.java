@@ -14,15 +14,18 @@ import de.rinderle.softvis3d.VisualizationProcessor;
 import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
+import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
+import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
+import org.sonar.api.utils.text.JsonWriter;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,6 +42,10 @@ public class VisualizationWebserviceHandlerBean extends AbstractWebserviceHandle
     private VisualizationJsonWriter visualizationJsonWriter;
     @Inject
     private LayoutCacheService layoutCacheService;
+    @Inject
+    private PreProcessor preProcessor;
+    @Inject
+    private TreeNodeJsonWriter treeNodeJsonWriter;
 
     @Override
     public void handleRequest(final Request request, final Response response) throws Exception {
@@ -53,26 +60,49 @@ public class VisualizationWebserviceHandlerBean extends AbstractWebserviceHandle
 
         SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
 
-        final Map<Integer, ResultPlatform> result;
+        final SnapshotTreeResult snapshotTreeResult = preProcessor.process(requestDTO);
+
+        final Map<Integer, ResultPlatform> visualizationResult;
         if (SoftVis3DPlugin.CACHE_ENABLED && layoutCacheService.containsKey(key)) {
             LOGGER.info("Layout out of cache for " + key.getString());
-            result = layoutCacheService.getLayoutResult(key);
+            visualizationResult = layoutCacheService.getLayoutResult(key);
         } else {
             LOGGER.info("Create layout for " + key.getString());
-            result = createLayout(id, requestDTO);
+            visualizationResult = createLayout(id, requestDTO, snapshotTreeResult);
             if (SoftVis3DPlugin.CACHE_ENABLED) {
-                layoutCacheService.save(key, result);
+                layoutCacheService.save(key, visualizationResult);
             }
         }
 
-        this.visualizationJsonWriter.transformResponseToJson(response, result);
+        this.writeResultsToResponse(response, snapshotTreeResult, visualizationResult);
     }
 
-    private Map<Integer, ResultPlatform> createLayout(Integer id, VisualizationRequest requestDTO) {
+    private void writeResultsToResponse(final Response response, final SnapshotTreeResult snapshotTreeResult,
+        final Map<Integer, ResultPlatform> visualizationResult) {
+
+        final JsonWriter jsonWriter = response.newJsonWriter();
+
+        jsonWriter.beginObject();
+        jsonWriter.name("resultObject");
+
+        jsonWriter.beginArray();
+
+        this.treeNodeJsonWriter.transformTreeToJsonBla(jsonWriter, snapshotTreeResult.getTree());
+        this.visualizationJsonWriter.transformResponseToJson(jsonWriter, visualizationResult);
+
+        jsonWriter.endArray();
+
+        jsonWriter.endObject();
+
+        jsonWriter.close();
+    }
+
+    private Map<Integer, ResultPlatform> createLayout(final Integer id, final VisualizationRequest requestDTO,
+        final SnapshotTreeResult snapshotTreeResult) {
         Map<Integer, ResultPlatform> result = new ConcurrentHashMap<Integer, ResultPlatform>();
         logStartOfCalc(requestDTO);
         try {
-            result = visualizationProcessor.visualize(this.settings, requestDTO);
+            result = visualizationProcessor.visualize(this.settings, requestDTO, snapshotTreeResult);
 
             /**
              * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.

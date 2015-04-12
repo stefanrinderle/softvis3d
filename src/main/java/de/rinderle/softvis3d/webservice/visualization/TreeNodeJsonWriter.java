@@ -6,12 +6,12 @@
  * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
  * permission of Stefan Rinderle.
  */
-package de.rinderle.softvis3d.webservice.tree;
+package de.rinderle.softvis3d.webservice.visualization;
 
+import org.sonar.api.utils.text.JsonWriter;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
-import org.sonar.api.server.ws.Response;
 
 public interface TreeNodeJsonWriter {
 
-	void transformTreeToJson(Response response, RootTreeNode tree);
+	void transformTreeToJsonBla(JsonWriter jsonWriter, RootTreeNode tree);
 }

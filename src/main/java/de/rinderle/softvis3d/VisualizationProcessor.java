@@ -8,6 +8,7 @@
  */
 package de.rinderle.softvis3d;
 
+import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
@@ -17,5 +18,5 @@ import java.util.Map;
 
 public interface VisualizationProcessor {
 	Map<Integer, ResultPlatform> visualize(Settings settings,
-			VisualizationRequest requestDTO) throws DotExecutorException;
+			VisualizationRequest requestDTO, SnapshotTreeResult snapshotTreeResult) throws DotExecutorException;
 }

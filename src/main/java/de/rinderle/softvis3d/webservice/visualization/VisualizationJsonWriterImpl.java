@@ -18,142 +18,128 @@ import java.util.Map;
 
 public class VisualizationJsonWriterImpl implements VisualizationJsonWriter {
 
-	@Override
-	public void transformResponseToJson(final Response response,
-			final Map<Integer, ResultPlatform> results) {
-		final JsonWriter jsonWriter = response.newJsonWriter();
+    @Override
+    public void transformResponseToJson(final JsonWriter jsonWriter, final Map<Integer, ResultPlatform> results) {
+        jsonWriter.beginObject();
 
-		this.transformResponseToJson(jsonWriter, results);
+        jsonWriter.name("visualizationResult");
+        jsonWriter.beginArray();
 
-		jsonWriter.close();
-	}
+        for (Map.Entry<Integer, ResultPlatform> entry : results.entrySet()) {
+            transformPlatform(jsonWriter, entry.getKey(), entry.getValue());
+        }
 
-	private void transformResponseToJson(JsonWriter jsonWriter,
-			Map<Integer, ResultPlatform> results) {
-		jsonWriter.beginObject();
+        jsonWriter.endArray();
+        jsonWriter.endObject();
+    }
 
-		jsonWriter.name("webserviceResult");
-		jsonWriter.beginArray();
+    private void transformPlatform(final JsonWriter jsonWriter, final Integer id, final ResultPlatform platform) {
+        jsonWriter.beginObject();
 
-		for (Map.Entry<Integer, ResultPlatform> entry : results.entrySet()) {
-			transformPlatform(jsonWriter, entry.getKey(), entry.getValue());
-		}
+        jsonWriter.prop("platformId", id);
 
-		jsonWriter.endArray();
-		jsonWriter.endObject();
-	}
+        transformBaseObjectProperties(jsonWriter, platform);
 
-	private void transformPlatform(final JsonWriter jsonWriter,
-			final Integer id, final ResultPlatform platform) {
-		jsonWriter.beginObject();
+        jsonWriter.prop("positionX", platform.getBoundingBox().getX());
+        jsonWriter.prop("positionY", platform.getBoundingBox().getY());
 
-		jsonWriter.prop("platformId", id);
+        jsonWriter.prop("width", platform.getBoundingBox().getWidth());
+        jsonWriter.prop("platformHeight", platform.getPlatformHeight());
+        jsonWriter.prop("height", platform.getBoundingBox().getHeight());
 
-		transformBaseObjectProperties(jsonWriter, platform);
+        transformNodes(jsonWriter, platform.getNodes());
 
-		jsonWriter.prop("positionX", platform.getBoundingBox().getX());
-		jsonWriter.prop("positionY", platform.getBoundingBox().getY());
+        jsonWriter.endObject();
+    }
 
-		jsonWriter.prop("width", platform.getBoundingBox().getWidth());
-		jsonWriter.prop("platformHeight", platform.getPlatformHeight());
-		jsonWriter.prop("height", platform.getBoundingBox().getHeight());
+    private void transformBaseObjectProperties(final JsonWriter jsonWriter, final BaseResultObject baseResultObject) {
+        jsonWriter.prop("opacity", baseResultObject.getOpacity());
 
-		transformNodes(jsonWriter, platform.getNodes());
+        if (baseResultObject.getColor() != null) {
+            jsonWriter.prop("color", baseResultObject.getColor().getHex());
+        }
 
-		jsonWriter.endObject();
-	}
+        jsonWriter.prop("height3d", baseResultObject.getHeight3d());
+    }
 
-	private void transformBaseObjectProperties(final JsonWriter jsonWriter,
-			final BaseResultObject baseResultObject) {
-		jsonWriter.prop("opacity", baseResultObject.getOpacity());
+    private void transformNodes(JsonWriter jsonWriter, Collection<ResultBuilding> nodes) {
+        jsonWriter.name("nodes");
+        jsonWriter.beginArray();
 
-		if (baseResultObject.getColor() != null) {
-			jsonWriter.prop("color", baseResultObject.getColor().getHex());
-		}
+        for (final ResultBuilding node : nodes) {
+            transformNode(jsonWriter, node);
+        }
 
-		jsonWriter.prop("height3d", baseResultObject.getHeight3d());
-	}
+        jsonWriter.endArray();
+    }
 
-	private void transformNodes(JsonWriter jsonWriter,
-			Collection<ResultBuilding> nodes) {
-		jsonWriter.name("nodes");
-		jsonWriter.beginArray();
+    private void transformNode(JsonWriter jsonWriter, ResultBuilding node) {
+        jsonWriter.beginObject();
 
-		for (final ResultBuilding node : nodes) {
-			transformNode(jsonWriter, node);
-		}
+        jsonWriter.prop("id", node.getId());
+        jsonWriter.prop("buildingHeight", node.getBuildingHeight());
+        jsonWriter.prop("height", node.getHeight());
+        jsonWriter.prop("width", node.getWidth());
 
-		jsonWriter.endArray();
-	}
+        jsonWriter.prop("positionX", node.getPosition().getX());
+        jsonWriter.prop("positionY", node.getPosition().getY());
 
-	private void transformNode(JsonWriter jsonWriter, ResultBuilding node) {
-		jsonWriter.beginObject();
+        jsonWriter.prop("type", node.getType().name());
 
-		jsonWriter.prop("id", node.getId());
-		jsonWriter.prop("buildingHeight", node.getBuildingHeight());
-		jsonWriter.prop("height", node.getHeight());
-		jsonWriter.prop("width", node.getWidth());
+        transformBaseObjectProperties(jsonWriter, node);
 
-		jsonWriter.prop("positionX", node.getPosition().getX());
-		jsonWriter.prop("positionY", node.getPosition().getY());
+        transformArrows(jsonWriter, node.getArrows());
 
-		jsonWriter.prop("type", node.getType().name());
+        jsonWriter.endObject();
+    }
 
-		transformBaseObjectProperties(jsonWriter, node);
+    private void transformArrows(JsonWriter jsonWriter, List<ResultArrow> arrows) {
+        jsonWriter.name("arrows");
+        jsonWriter.beginArray();
 
-		transformArrows(jsonWriter, node.getArrows());
+        for (final ResultArrow arrow : arrows) {
+            transformArrow(jsonWriter, arrow);
+        }
 
-		jsonWriter.endObject();
-	}
+        jsonWriter.endArray();
+    }
 
-	private void transformArrows(JsonWriter jsonWriter, List<ResultArrow> arrows) {
-		jsonWriter.name("arrows");
-		jsonWriter.beginArray();
+    private void transformArrow(JsonWriter jsonWriter, ResultArrow arrow) {
+        jsonWriter.beginObject();
 
-		for (final ResultArrow arrow : arrows) {
-			transformArrow(jsonWriter, arrow);
-		}
+        jsonWriter.prop("id", arrow.getId());
 
-		jsonWriter.endArray();
-	}
+        jsonWriter.prop("headId", arrow.getHeadId());
+        jsonWriter.prop("tailId", arrow.getTailId());
 
-	private void transformArrow(JsonWriter jsonWriter, ResultArrow arrow) {
-		jsonWriter.beginObject();
+        jsonWriter.prop("radius", arrow.getRadius());
 
-		jsonWriter.prop("id", arrow.getId());
+        transformBaseObjectProperties(jsonWriter, arrow);
 
-		jsonWriter.prop("headId", arrow.getHeadId());
-		jsonWriter.prop("tailId", arrow.getTailId());
+        transformArrowPoints(jsonWriter, arrow.getLinePoints());
 
-		jsonWriter.prop("radius", arrow.getRadius());
+        jsonWriter.endObject();
+    }
 
-		transformBaseObjectProperties(jsonWriter, arrow);
+    private void transformArrowPoints(JsonWriter jsonWriter, List<Point3d> translatedPoints) {
+        jsonWriter.name("translatedPoints");
+        jsonWriter.beginArray();
 
-		transformArrowPoints(jsonWriter, arrow.getLinePoints());
+        for (final Point3d point : translatedPoints) {
+            transformPoint(jsonWriter, point);
+        }
 
-		jsonWriter.endObject();
-	}
+        jsonWriter.endArray();
+    }
 
-	private void transformArrowPoints(JsonWriter jsonWriter,
-			List<Point3d> translatedPoints) {
-		jsonWriter.name("translatedPoints");
-		jsonWriter.beginArray();
+    private void transformPoint(JsonWriter jsonWriter, Point3d point) {
+        jsonWriter.beginObject();
 
-		for (final Point3d point : translatedPoints) {
-			transformPoint(jsonWriter, point);
-		}
+        jsonWriter.prop("x", point.getX());
+        jsonWriter.prop("y", point.getY());
+        jsonWriter.prop("z", point.getZ());
 
-		jsonWriter.endArray();
-	}
-
-	private void transformPoint(JsonWriter jsonWriter, Point3d point) {
-		jsonWriter.beginObject();
-
-		jsonWriter.prop("x", point.getX());
-		jsonWriter.prop("y", point.getY());
-		jsonWriter.prop("z", point.getZ());
-
-		jsonWriter.endObject();
-	}
+        jsonWriter.endObject();
+    }
 
 }

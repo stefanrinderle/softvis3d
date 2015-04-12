@@ -142,27 +142,25 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
 
     this.infoInnerState = "loading";
     this.showTab("info");
-    this.BackendService.getVisualization(
-        ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType).then(function (data) {
-            me.ViewerService.loadSoftVis3d(data);
+    this.BackendService.getVisualization(ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType).then(function (data) {
+                var treeResult = data.resultObject[0].treeResult;
+                var visualizationResult = data.resultObject[1].visualizationResult;
 
-            me.BackendService.getTreeForSnapshotView(
-                ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType).then(function (data) {
-                    me.TreeService.setTree(data);
+                me.ViewerService.loadSoftVis3d(visualizationResult);
+                me.TreeService.setTree(treeResult);
 
-                    var eventObject = {};
-                    eventObject.softVis3dId = ThreeViewer.SNAPSHOT_ID;
-                    eventObject.metric1Name = me.getNameForMetricId(metric1);
-                    eventObject.metric2Name = me.getNameForMetricId(metric2);
+                var eventObject = {};
+                eventObject.softVis3dId = ThreeViewer.SNAPSHOT_ID;
+                eventObject.metric1Name = me.getNameForMetricId(metric1);
+                eventObject.metric2Name = me.getNameForMetricId(metric2);
 
-                    me.MessageBus.trigger('visualizationReady', eventObject);
+                me.MessageBus.trigger('visualizationReady', eventObject);
 
-                    me.infoInnerState = "idle";
-                    me.showTab("city");
+                me.infoInnerState = "idle";
+                me.showTab("city");
 
-                    me.MessageBus.trigger('hideLoader');
-                });
-        });
+                me.MessageBus.trigger('hideLoader');
+            });
 };
 
 ThreeViewer.FileLoaderController.prototype.getNameForMetricId = function (metricId) {

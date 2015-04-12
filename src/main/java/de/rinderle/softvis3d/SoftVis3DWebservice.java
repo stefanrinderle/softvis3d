@@ -8,21 +8,19 @@
  */
 package de.rinderle.softvis3d;
 
+import org.sonar.api.config.Settings;
+import org.sonar.api.database.DatabaseSession;
+import org.sonar.api.server.ws.WebService;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.rinderle.softvis3d.dao.DependencyDao;
 import de.rinderle.softvis3d.dao.SonarDao;
 import de.rinderle.softvis3d.guice.SoftVis3DModule;
 import de.rinderle.softvis3d.webservice.config.ConfigWebserviceHandler;
-import de.rinderle.softvis3d.webservice.tree.TreeWebserviceHandler;
 import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHandler;
-import org.sonar.api.config.Settings;
-import org.sonar.api.database.DatabaseSession;
-import org.sonar.api.server.ws.WebService;
 
 public class SoftVis3DWebservice implements WebService {
 
-    private final TreeWebserviceHandler treeHandler;
     private final VisualizationWebserviceHandler visualizationHandler;
     private final ConfigWebserviceHandler configHandler;
 
@@ -34,7 +32,6 @@ public class SoftVis3DWebservice implements WebService {
         final DependencyDao dependencyDao = softVis3DInjector.getInstance(DependencyDao.class);
         dependencyDao.setDatabaseSession(session);
 
-        this.treeHandler = softVis3DInjector.getInstance(TreeWebserviceHandler.class);
         this.configHandler = softVis3DInjector.getInstance(ConfigWebserviceHandler.class);
         this.configHandler.setSettings(settings);
         this.visualizationHandler = softVis3DInjector.getInstance(VisualizationWebserviceHandler.class);
@@ -45,11 +42,6 @@ public class SoftVis3DWebservice implements WebService {
     public void define(final Context context) {
         final WebService.NewController controller = context.createController("api/softVis3D");
         controller.setDescription("SoftVis3D webservice");
-
-        // create the URL /api/softVis3D/getTree
-        controller.createAction("getTree").setDescription("Get tree structure").setHandler(this.treeHandler)
-                .createParam("snapshotId", "Snapshot id").createParam("footprintMetricId", "Footprint metric id")
-                .createParam("heightMetricId", "Height metric id").createParam("viewType", "Current view type");
 
         controller.createAction("getConfig").setDescription("Get config for snapshot").setHandler(this.configHandler)
                 .createParam("snapshotId", "Snapshot id");

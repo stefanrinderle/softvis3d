@@ -25,43 +25,34 @@ import java.util.Map;
 
 public class VisualizationProcessorBean implements VisualizationProcessor {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(VisualizationProcessorBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VisualizationProcessorBean.class);
 
-	@Inject
-	private PreProcessor preProcessor;
-	@Inject
-	private LayoutProcessor layoutProcessor;
+    @Inject
+    private LayoutProcessor layoutProcessor;
 
-	@Inject
-	private PostProcessor calc;
+    @Inject
+    private PostProcessor calc;
 
-	@Override
-	public Map<Integer, ResultPlatform> visualize(final Settings settings,
-			final VisualizationRequest requestDTO) throws DotExecutorException {
+    @Override
+    public Map<Integer, ResultPlatform> visualize(final Settings settings, final VisualizationRequest requestDTO,
+            SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
 
-		final StopWatch stopWatch = new StopWatch();
-		stopWatch.start();
+        final StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
 
-		final SnapshotTreeResult snapshotTreeResult = preProcessor
-				.process(requestDTO);
+        final Map<Integer, ResultPlatform> resultGraphs =
+                layoutProcessor.process(settings, requestDTO, snapshotTreeResult);
 
-		LOGGER.info("Created tree structure after " + stopWatch.getTime() + " ms");
+        LOGGER.info("Created " + resultGraphs.size() + " result graphs in " + stopWatch.getTime() + " ms");
 
-		final Map<Integer, ResultPlatform> resultGraphs = layoutProcessor
-				.process(settings, requestDTO, snapshotTreeResult);
+        final int leavesCounter =
+                this.calc.process(requestDTO.getViewType(), requestDTO.getRootSnapshotId(), resultGraphs,
+                        snapshotTreeResult);
 
-		LOGGER.info("Created " + resultGraphs.size() + " result graphs in " + stopWatch.getTime() + " ms");
+        stopWatch.stop();
+        LOGGER.info("Calculation finished after " + stopWatch.getTime() + " ms with " + leavesCounter + " leaves");
 
-		final int leavesCounter = this.calc.process(requestDTO.getViewType(),
-				requestDTO.getRootSnapshotId(), resultGraphs,
-				snapshotTreeResult);
-
-		stopWatch.stop();
-		LOGGER.info("Calculation finished after " + stopWatch.getTime()
-				+ " ms with " + leavesCounter + " leaves");
-
-		return resultGraphs;
-	}
+        return resultGraphs;
+    }
 
 }

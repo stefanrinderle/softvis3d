@@ -16,8 +16,8 @@ Viewer.ObjectFactory.prototype = {
     createObjects: function (platformArray) {
         var result = [];
 
-        for (var i = 0; i < platformArray.webserviceResult.length; i++) {
-            var platformResult = this.createPlatform(platformArray.webserviceResult[i]);
+        for (var i = 0; i < platformArray.length; i++) {
+            var platformResult = this.createPlatform(platformArray[i]);
             result = result.concat(platformResult);
         }
 

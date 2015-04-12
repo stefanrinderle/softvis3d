@@ -13,22 +13,6 @@ ThreeViewer.BackendService = function($http){
     this.http = $http;
 };
 
-ThreeViewer.BackendService.prototype.getTreeForSnapshotView = function (snapshotId, footprintMetricId, heightMetricId, viewType) {
-    // $http returns a promise, which has a then function, which also returns a promise
-    var promise = this.http.get("../../api/softVis3D/getTree?snapshotId=" + snapshotId
-        + "&footprintMetricId=" + footprintMetricId
-        + "&heightMetricId=" + heightMetricId
-        + "&viewType=" + viewType).then(function (response) {
-
-        console.log("getTreeForSnapshotView:");
-        console.log(response.data);
-
-        return response.data;
-    });
-    // Return the promise to the controller
-    return promise;
-};
-
 ThreeViewer.BackendService.prototype.getVisualization = function (snapshotId, footprintMetricId, heightMetricId, viewType) {
     // $http returns a promise, which has a then function, which also returns a promise
     var promise = this.http.get("../../api/softVis3D/getVisualization?snapshotId=" + snapshotId

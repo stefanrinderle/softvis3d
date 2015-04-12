@@ -6,25 +6,30 @@
  * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
  * permission of Stefan Rinderle.
  */
-package de.rinderle.softvis3d.webservice.tree;
-
-import de.rinderle.softvis3d.domain.tree.*;
-import org.sonar.api.server.ws.Response;
-import org.sonar.api.utils.text.JsonWriter;
+package de.rinderle.softvis3d.webservice.visualization;
 
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
+import org.sonar.api.utils.text.JsonWriter;
+import de.rinderle.softvis3d.domain.tree.Dependency;
+import de.rinderle.softvis3d.domain.tree.Edge;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
+
 public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
 
     @Override
-    public void transformTreeToJson(final Response response, final RootTreeNode tree) {
-        final JsonWriter jsonWriter = response.newJsonWriter();
+    public void transformTreeToJsonBla(final JsonWriter jsonWriter, final RootTreeNode tree) {
+        jsonWriter.beginObject();
+
+        jsonWriter.name("treeResult");
 
         this.transformTreeToJson(jsonWriter, tree);
 
-        jsonWriter.close();
+        jsonWriter.endObject();
     }
 
     private void transformTreeToJson(final JsonWriter jsonWriter, final TreeNode node) {
@@ -145,4 +150,5 @@ public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
 
         jsonWriter.endArray();
     }
+
 }

@@ -12,8 +12,6 @@ import com.google.inject.Inject;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.Metric;
 import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
-import de.rinderle.softvis3d.webservice.ExceptionJsonWriter;
-import de.rinderle.softvis3d.webservice.tree.TreeNodeJsonWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
@@ -22,7 +20,6 @@ import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
 
 import java.util.List;
-import javax.naming.OperationNotSupportedException;
 
 public class ConfigWebserviceHandlerBean extends AbstractWebserviceHandler implements ConfigWebserviceHandler {
 
