@@ -49,9 +49,11 @@ public class SonarDaoBean implements SonarDao {
                 this.session.createNativeQuery("SELECT DISTINCT m.metric_id, metrics.description "
                         + "FROM project_measures m INNER JOIN snapshots s ON s.id = m.snapshot_id "
                         + "INNER JOIN metrics metrics ON metrics.id = m.metric_id "
-                        + "WHERE s.root_snapshot_id = :snapshotId AND m.value is not null "
+                        + "WHERE (s.path LIKE :idRoot OR s.path LIKE :idModule) AND m.value is not null "
                         + "AND s.scope = 'FIL' AND metrics.description is not null ORDER BY m.metric_id ASC");
-        metricsQuery.setParameter("snapshotId", snapshotId);
+
+        metricsQuery.setParameter("idRoot", snapshotId + ".%");
+        metricsQuery.setParameter("idModule", "%." + snapshotId + ".%");
 
         List<Object[]> sqlResult = metricsQuery.getResultList();
 
@@ -112,9 +114,11 @@ public class SonarDaoBean implements SonarDao {
         final Query query =
                 this.session.createNativeQuery("select MIN(m.value) as min, MAX(m.value) as max from snapshots s "
                         + "INNER JOIN project_measures m ON s.id = m.snapshot_id "
-                        + "WHERE s.path LIKE :rootSnapshotId AND m.metric_id = :metric_id AND s.scope = 'FIL'");
+                        + "WHERE (s.path LIKE :idRoot OR s.path LIKE :idModule) AND m.metric_id = :metric_id AND s.scope = 'FIL'");
 
-        query.setParameter("rootSnapshotId", rootSnapshotId + ".%");
+        query.setParameter("idRoot", rootSnapshotId + ".%");
+        query.setParameter("idModule", "%." + rootSnapshotId + ".%");
+
         query.setParameter("metric_id", metricId);
 
         final Object[] sqlResult = (Object[]) query.getSingleResult();
@@ -155,12 +159,15 @@ public class SonarDaoBean implements SonarDao {
         final String sqlQuery =
                 "SELECT s.id, metric.value FROM snapshots s INNER JOIN projects p ON s.project_id = p.id "
                         + "LEFT JOIN project_measures metric ON s.id = metric.snapshot_id "
-                        + "AND metric.metric_id = :metricId WHERE s.path LIKE :id AND s.qualifier = 'FIL' "
+                        + "AND metric.metric_id = :metricId "
+                        + "WHERE (s.path LIKE :idRoot OR s.path LIKE :idModule) AND s.qualifier = 'FIL' "
                         + "ORDER BY p.path";
 
         final Query query = this.session.createNativeQuery(sqlQuery);
 
-        query.setParameter("id", "%" + rootSnapshotId + "%");
+        query.setParameter("idRoot", rootSnapshotId + ".%");
+        query.setParameter("idModule", "%." + rootSnapshotId + ".%");
+
         query.setParameter("metricId", metricId);
 
         List<Object[]> sqlResult = query.getResultList();
@@ -181,12 +188,15 @@ public class SonarDaoBean implements SonarDao {
                 "SELECT s.id, metric.text_value FROM snapshots s "
                         + "INNER JOIN projects p ON s.project_id = p.id "
                         + "LEFT JOIN project_measures metric ON s.id = metric.snapshot_id "
-                        + "AND metric.metric_id = :metricId WHERE s.path LIKE :id AND s.qualifier = 'FIL' "
+                        + "AND metric.metric_id = :metricId WHERE(s.path LIKE :idRoot OR s.path LIKE :idModule) "
+                        + "AND s.qualifier = 'FIL' "
                         + "ORDER BY p.path";
 
         final Query query = this.session.createNativeQuery(sqlQuery);
 
-        query.setParameter("id", "%" + rootSnapshotId + "%");
+        query.setParameter("idRoot", rootSnapshotId + ".%");
+        query.setParameter("idModule", "%." + rootSnapshotId + ".%");
+
         query.setParameter("metricId", metricId);
 
         List<Object[]> sqlResult = query.getResultList();

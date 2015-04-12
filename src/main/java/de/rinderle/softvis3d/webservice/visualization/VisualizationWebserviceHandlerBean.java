@@ -8,6 +8,14 @@
  */
 package de.rinderle.softvis3d.webservice.visualization;
 
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
+import org.sonar.api.server.ws.Request;
+import org.sonar.api.server.ws.Response;
+import org.sonar.api.utils.text.JsonWriter;
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.SoftVis3DPlugin;
 import de.rinderle.softvis3d.VisualizationProcessor;
@@ -20,15 +28,6 @@ import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
-import org.sonar.api.server.ws.Request;
-import org.sonar.api.server.ws.Response;
-import org.sonar.api.utils.text.JsonWriter;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class VisualizationWebserviceHandlerBean extends AbstractWebserviceHandler implements VisualizationWebserviceHandler {
 
