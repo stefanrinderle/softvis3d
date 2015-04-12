@@ -85,6 +85,5 @@ public class SoftVis3DModule extends AbstractModule {
         this.install(new FactoryModuleBuilder().implement(SnapshotVisitor.class, SnapshotVisitorBean.class).build(
                 SnapshotVisitorFactory.class));
 
-        this.bind(BottomUpLayout.class).to(BottomUpLayoutBean.class);
     }
 }

@@ -10,6 +10,7 @@ package de.rinderle.softvis3d.layout.bottomUp;
 
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import org.slf4j.Logger;
@@ -20,64 +21,71 @@ import java.util.List;
 
 public class BottomUpLayoutBean implements BottomUpLayout {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(BottomUpLayoutBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BottomUpLayoutBean.class);
 
-	/**
-	 * Bottom up calculation of layout layers.
-	 */
-	public LayeredLayoutElement accept(final SnapshotVisitor visitor,
-			final SnapshotTreeResult snapshotTreeResult)
-			throws DotExecutorException {
+    private final SnapshotVisitor visitor;
+    private int maxNodesCount;
+    private int currentProcessCount = 0;
 
-		return this.accept(visitor, snapshotTreeResult.getTree());
-	}
+    public BottomUpLayoutBean(final SnapshotVisitor visitor) {
+        this.visitor = visitor;
+    }
 
-	/**
-	 * Bottom up calculation of layout layers.
-	 */
-	private LayeredLayoutElement accept(final SnapshotVisitor visitor,
-			final TreeNode rootNode) throws DotExecutorException {
+    /**
+     * Bottom up calculation of layout layers.
+     */
+    public LayeredLayoutElement accept(final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
 
-		LOGGER.debug("Layout.accept " + rootNode.getId());
+        final RootTreeNode rootTreeNode = snapshotTreeResult.getTree();
+		// +1 is the root node
+        this.maxNodesCount = rootTreeNode.getAllChildrenNodesSize() + 1;
 
-		final List<LayeredLayoutElement> nodeElements = this
-				.processChildrenNodes(visitor, rootNode);
-		final List<LayeredLayoutElement> leafElements = this
-				.processChildrenLeaves(visitor, rootNode);
+        return this.accept(snapshotTreeResult.getTree());
+    }
 
-		final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
-		layerElements.addAll(nodeElements);
-		layerElements.addAll(leafElements);
+    /**
+     * Bottom up calculation of layout layers.
+     */
+    private LayeredLayoutElement accept(final TreeNode rootNode) throws DotExecutorException {
 
-		return visitor.visitNode(rootNode, layerElements);
-	}
-
-	private List<LayeredLayoutElement> processChildrenNodes(
-			final SnapshotVisitor visitor, final TreeNode node)
-			throws DotExecutorException {
-
-		final List<TreeNode> childrenTreeNodes = node.getChildrenNodes();
-
-		final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
-
-		for (final TreeNode child : childrenTreeNodes) {
-			layerElements.add(this.accept(visitor, child));
+		if (this.currentProcessCount % 10 == 0) {
+			LOGGER.info("Processing layout " + this.currentProcessCount + "/" + this.maxNodesCount);
 		}
 
-		return layerElements;
-	}
+		this.currentProcessCount++;
 
-	private List<LayeredLayoutElement> processChildrenLeaves(
-			final SnapshotVisitor visitor, final TreeNode node) {
-		final List<TreeNode> childrenLeaves = node.getChildrenLeaves();
+        final List<LayeredLayoutElement> nodeElements = this.processChildrenNodes(rootNode);
+        final List<LayeredLayoutElement> leafElements = this.processChildrenLeaves(rootNode);
 
-		final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
-		for (final TreeNode leaf : childrenLeaves) {
-			layerElements.add(visitor.visitFile(leaf));
-		}
+        final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
+        layerElements.addAll(nodeElements);
+        layerElements.addAll(leafElements);
 
-		return layerElements;
-	}
+        return visitor.visitNode(rootNode, layerElements);
+    }
+
+    private List<LayeredLayoutElement> processChildrenNodes(final TreeNode node) throws DotExecutorException {
+
+        final List<TreeNode> childrenTreeNodes = node.getChildrenNodes();
+
+        final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
+
+        for (final TreeNode child : childrenTreeNodes) {
+            layerElements.add(this.accept(child));
+        }
+
+        return layerElements;
+    }
+
+    private List<LayeredLayoutElement> processChildrenLeaves(final TreeNode node) {
+        final List<TreeNode> childrenLeaves = node.getChildrenLeaves();
+
+        final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
+        for (final TreeNode leaf : childrenLeaves) {
+            layerElements.add(visitor.visitFile(leaf));
+        }
+
+        return layerElements;
+    }
 
 }

@@ -73,8 +73,6 @@ public class VisualizationWebserviceHandlerBean implements VisualizationWebservi
         try {
             result = visualizationProcessor.visualize(this.settings, requestDTO);
 
-            LOGGER.info("Finished layout");
-
             /**
              * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
              */

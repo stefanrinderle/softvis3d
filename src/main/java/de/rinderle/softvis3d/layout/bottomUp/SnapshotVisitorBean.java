@@ -74,6 +74,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
         this.dependenciesCount = daoService.getDependencies(requestDTO.getRootSnapshotId()).size();
 
         this.maxScmInfo = daoService.getMaxScmInfo(requestDTO.getRootSnapshotId());
+
         LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxMetricFootprint.toString()
                 + " " + minMaxMetricHeight.toString() + " Dependencies: " + this.dependenciesCount);
 

@@ -105,6 +105,17 @@ public class TreeNode {
         }
     }
 
+    public int getAllChildrenNodesSize() {
+        int result = 0;
+
+        result += this.getChildrenNodes().size();
+        for (TreeNode node : this.getChildrenNodes()) {
+            result += node.getAllChildrenNodesSize();
+        }
+
+        return result;
+    }
+
     /**
      * TODO: Could be placed somewhere else
      */
