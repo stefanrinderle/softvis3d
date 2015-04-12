@@ -98,24 +98,18 @@ public class VisualizationWebserviceHandlerBean extends AbstractWebserviceHandle
     }
 
     private Map<Integer, ResultPlatform> createLayout(final Integer id, final VisualizationRequest requestDTO,
-        final SnapshotTreeResult snapshotTreeResult) {
-        Map<Integer, ResultPlatform> result = new ConcurrentHashMap<Integer, ResultPlatform>();
+            final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
         logStartOfCalc(requestDTO);
-        try {
-            result = visualizationProcessor.visualize(this.settings, requestDTO, snapshotTreeResult);
+        Map<Integer, ResultPlatform> result =
+                visualizationProcessor.visualize(this.settings, requestDTO, snapshotTreeResult);
 
-            /**
-             * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
-             */
-            if (requestDTO.getViewType().equals(LayoutViewType.DEPENDENCY)) {
-                result.remove(id);
-            }
-
-        } catch (DotExecutorException e) {
-            LOGGER.error("error on dot execution.", e);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+        /**
+         * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
+         */
+        if (requestDTO.getViewType().equals(LayoutViewType.DEPENDENCY)) {
+            result.remove(id);
         }
+
         return result;
     }
 

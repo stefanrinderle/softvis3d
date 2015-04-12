@@ -39,28 +39,16 @@ public class DependencyDaoBean implements DependencyDao {
 
     @Override
     public List<SonarDependency> getDependencies(final Integer projectSnapshotId) {
-        List<SonarDependency> result = null;
+        final Query query =
+                this.session.createNativeQuery("SELECT id, from_snapshot_id, to_snapshot_id FROM dependencies d "
+                        + "WHERE project_snapshot_id = :projectSnapshotId "
+                        + "AND from_scope = 'FIL' AND to_scope = 'FIL'");
 
-        try {
-            this.session.start();
-            final Query query =
-                    this.session.createNativeQuery("SELECT id, from_snapshot_id, to_snapshot_id FROM dependencies d "
-                            + "WHERE project_snapshot_id = :projectSnapshotId "
-                            + "AND from_scope = 'FIL' AND to_scope = 'FIL'");
+        query.setParameter("projectSnapshotId", projectSnapshotId);
 
-            query.setParameter("projectSnapshotId", projectSnapshotId);
+        final List<Object[]> queryResult = (List<Object[]>) query.getResultList();
 
-            final List<Object[]> queryResult = (List<Object[]>) query.getResultList();
-
-            result = this.castToSonarDependency(queryResult);
-
-        } catch (final PersistenceException e) {
-            LOGGER.error(e.getMessage(), e);
-        } finally {
-            this.session.stop();
-        }
-
-        return result;
+        return this.castToSonarDependency(queryResult);
     }
 
     private List<SonarDependency> castToSonarDependency(final List<Object[]> queryResult) {

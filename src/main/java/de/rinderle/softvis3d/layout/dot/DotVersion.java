@@ -10,6 +10,6 @@ package de.rinderle.softvis3d.layout.dot;
 
 public interface DotVersion {
 
-	Version getVersion(String dotBin);
+	Version getVersion(String dotBin) throws DotExecutorException;
 
 }

@@ -84,7 +84,7 @@ public class DotExecutorImpl implements DotExecutor {
 
                 adot = this.executeCommand.executeCommandReadAdot(translationCommand, adot, currentVersion);
             } catch (final IOException e) {
-                LOGGER.error("Error on create temp file", e);
+                throw new DotExecutorException("Error on create temp file", e);
             }
         }
 
@@ -110,8 +110,7 @@ public class DotExecutorImpl implements DotExecutor {
         try {
             parser.parse();
         } catch (final Exception e) {
-            LOGGER.error("Error on parsing graph string - parseDot: " + e.getMessage());
-            throw new DotExecutorException(e.getMessage(), e);
+            throw new DotExecutorException("Error on parsing graph string - parseDot: " + adot, e);
         }
 
         return newGraph;

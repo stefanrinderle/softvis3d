@@ -34,10 +34,7 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
      * @type {{city: boolean, dependency: boolean, custom: boolean, info: boolean}}
      */
     this.state = {
-        'city': true,
-        'dependency': false,
-        'custom': false,
-        'info': false
+        'city': true, 'dependency': false, 'custom': false, 'info': false
     };
 
     this.cityInnerState = "complexity";
@@ -47,8 +44,7 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
     this.exceptionMessage;
 
     this.settings = {
-        'metric1': null,
-        'metric2': null
+        'metric1': null, 'metric2': null
     };
 
     this.availableMetrics = [];
@@ -68,15 +64,15 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
 
     var me = this;
     this.BackendService.getConfig(ThreeViewer.SNAPSHOT_ID).then(function (response) {
-            me.settings = response.data.settings;
-            me.availableMetrics = response.data.metricsForSnapshot;
-            me.hasDependencies = response.data.hasDependencies;
-            me.configLoaded = true;
-        }, function (response) {
-            console.log(response);
-            me.infoInnerState = "error";
-            me.exceptionMessage = response.data.errors[0].msg;
-            me.showTab("info");
+        me.settings = response.data.settings;
+        me.availableMetrics = response.data.metricsForSnapshot;
+        me.hasDependencies = response.data.hasDependencies;
+        me.configLoaded = true;
+    }, function (response) {
+        console.log(response);
+        me.infoInnerState = "error";
+        me.exceptionMessage = response.data.errors[0].msg;
+        me.showTab("info");
     });
 };
 
@@ -142,9 +138,9 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
 
     this.infoInnerState = "loading";
     this.showTab("info");
-    this.BackendService.getVisualization(ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType).then(function (data) {
-                var treeResult = data.resultObject[0].treeResult;
-                var visualizationResult = data.resultObject[1].visualizationResult;
+    this.BackendService.getVisualization(ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType).then(function (response) {
+                var treeResult = response.data.resultObject[0].treeResult;
+                var visualizationResult = response.data.resultObject[1].visualizationResult;
 
                 me.ViewerService.loadSoftVis3d(visualizationResult);
                 me.TreeService.setTree(treeResult);
@@ -160,6 +156,11 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
                 me.showTab("city");
 
                 me.MessageBus.trigger('hideLoader');
+            }, function (response) {
+                console.log(response);
+                me.infoInnerState = "error";
+                me.exceptionMessage = response.data.errors[0].msg;
+                me.showTab("info");
             });
 };
 

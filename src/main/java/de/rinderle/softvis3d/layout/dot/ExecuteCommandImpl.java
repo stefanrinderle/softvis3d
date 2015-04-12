@@ -44,7 +44,7 @@ public class ExecuteCommandImpl implements ExecuteCommand {
     }
 
     @Override
-    public String executeCommandReadErrorStream(final String command) {
+    public String executeCommandReadErrorStream(final String command) throws DotExecutorException {
         final StringBuilder output = new StringBuilder();
 
         final Process p;
@@ -61,7 +61,7 @@ public class ExecuteCommandImpl implements ExecuteCommand {
 
             reader.close();
         } catch (final IOException e) {
-            LOGGER.error(e.getMessage(), e);
+            throw new DotExecutorException(e.getMessage(), e);
         }
 
         return output.toString();

@@ -22,7 +22,7 @@ public class DotVersionImpl implements DotVersion {
     private ExecuteCommand executeCommand;
 
     @Override
-    public Version getVersion(final String dotBin) {
+    public Version getVersion(final String dotBin) throws DotExecutorException {
         if (this.version == null) {
 
             String commandResult = this.executeCommand.executeCommandReadErrorStream(dotBin + " -V");

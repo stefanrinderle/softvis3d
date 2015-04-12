@@ -13,6 +13,6 @@ public interface ExecuteCommand {
     String executeCommandReadAdot(String command, String inputGraph, Version currentVersion)
         throws DotExecutorException;
 
-    String executeCommandReadErrorStream(String command);
+    String executeCommandReadErrorStream(String command) throws DotExecutorException;
 
 }
