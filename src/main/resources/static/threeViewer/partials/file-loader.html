@@ -16,8 +16,8 @@
              ng-click="loader.showTab('dependency');">Dependency</div>
         <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.custom}"
              ng-click="loader.showTab('custom');">Custom</div>
-        <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.loading}"
-             ng-click="loader.showTab('loading');" ng-show="loader.loadingInnerState === 'loading'">Loading</div>
+        <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.info}"
+             ng-click="loader.showTab('info');" ng-show="loader.infoInnerState != 'idle'">Info</div>
 
         <div href="#" class="close closeLoader" ng-click="viewer.toggleLoader()">X</div>
     </div>
@@ -60,7 +60,7 @@
                 Search for skyscraper buildings and especially for ones with a small footprint.
             </div>
             <br />
-            <button ng-click="loader.submitCityForm()">Show</button>
+            <button ng-click="loader.submitCityForm()" ng-disabled="!loader.configLoaded">Show</button>
         </div>
         <div id="dependency-loader" class="loader-options" ng-show="loader.state.dependency" ng-cloak>
             <div ng-hide="loader.hasDependencies">
@@ -73,7 +73,7 @@
                     dependencies have been aggregated and can be explored easily without overloading the visualisation.
                 </p>
                 <br />
-                <button ng-click="loader.loadDependencyView()">Show</button>
+                <button ng-click="loader.loadDependencyView()" ng-disabled="!loader.configLoaded">Show</button>
             </div>
         </div>
         <div id="custom-loader" class="loader-options" ng-show="loader.state.custom" ng-cloak>
@@ -87,36 +87,30 @@
 
             <br /><br />
             Building footprint metric:<br />
-            <!--<select name="metric1" ng-model="loader.settings.metric1">-->
-                <!--<option ng-repeat="item in loader.availableMetrics" value="{{item.id}}">-->
-                    <!--{{item.name | limitTo: 20}}{{item.name.length > 20 ? '...' : ''}}-->
-                <!--</option>-->
-            <!--</select>-->
             <select name="metric1" ng-options="item.id as item.name for item in loader.availableMetrics"
                     ng-model="loader.settings.metric1" style="width: 200px;"></select>
 
             <br /><br />
             Building height metric:<br />
-            <!--<select name="metric2" ng-model="loader.settings.metric2">-->
-                <!--<option ng-repeat="item in loader.availableMetrics" value="{{item.id}}">-->
-                    <!--{{item.name | limitTo: 20}}{{item.name.length > 20 ? '...' : ''}}-->
-                <!--</option>-->
-            <!--</select>-->
             <select name="metric2" ng-options="item.id as item.name for item in loader.availableMetrics"
                     ng-model="loader.settings.metric2" style="width: 200px;"></select>
 
             <br /><br />
-            <button ng-click="loader.loadCustomView()">Show</button>
+            <button ng-click="loader.loadCustomView()" ng-disabled="!loader.configLoaded">Show</button>
         </div>
-        <div id="loading-loader" class="loader-options" ng-show="loader.state.loading" ng-cloak>
-            <div ng-show="loader.loadingInnerState === 'idle'">
+        <div class="loader-options" ng-show="loader.state.info" ng-cloak>
+            <div ng-show="loader.infoInnerState === 'idle'">
                 Idle
             </div>
-            <div ng-show="loader.loadingInnerState === 'loading'" style="text-align: center;">
+            <div ng-show="loader.infoInnerState === 'loading'" style="text-align: center;">
                 <br /><br /><br />
                 <img ng-src="{{loader.BASE_PATH}}/static/softVis3D/images/ajax-loader.gif"/>
                 <br /><br />
                 <p>Please wait...</p>
+            </div>
+            <div ng-show="loader.infoInnerState === 'error'" style="text-align: center;">
+                <h1>Ups. An error occurred:</h1>
+                <p>{{loader.exceptionMessage}}</p>
             </div>
         </div>
         <div style="position: absolute; bottom: 0; text-align: center;">

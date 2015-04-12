@@ -17,6 +17,7 @@ import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
+import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
@@ -26,7 +27,7 @@ import org.sonar.api.server.ws.Response;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class VisualizationWebserviceHandlerBean implements VisualizationWebserviceHandler {
+public class VisualizationWebserviceHandlerBean extends AbstractWebserviceHandler implements VisualizationWebserviceHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VisualizationWebserviceHandlerBean.class);
 
@@ -40,7 +41,7 @@ public class VisualizationWebserviceHandlerBean implements VisualizationWebservi
     private LayoutCacheService layoutCacheService;
 
     @Override
-    public void handle(final Request request, final Response response) {
+    public void handleRequest(final Request request, final Response response) throws Exception {
         final Integer id = Integer.valueOf(request.param("snapshotId"));
         final Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
         final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));

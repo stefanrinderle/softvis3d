@@ -46,12 +46,12 @@ public class VisualizationProcessorBean implements VisualizationProcessor {
 		final SnapshotTreeResult snapshotTreeResult = preProcessor
 				.process(requestDTO);
 
-		LOGGER.info("Created tree structure after " + stopWatch.getTime());
+		LOGGER.info("Created tree structure after " + stopWatch.getTime() + " ms");
 
 		final Map<Integer, ResultPlatform> resultGraphs = layoutProcessor
 				.process(settings, requestDTO, snapshotTreeResult);
 
-		LOGGER.info("Created " + resultGraphs.size() + " result graphs in " + stopWatch.getTime());
+		LOGGER.info("Created " + resultGraphs.size() + " result graphs in " + stopWatch.getTime() + " ms");
 
 		final int leavesCounter = this.calc.process(requestDTO.getViewType(),
 				requestDTO.getRootSnapshotId(), resultGraphs,
@@ -59,7 +59,7 @@ public class VisualizationProcessorBean implements VisualizationProcessor {
 
 		stopWatch.stop();
 		LOGGER.info("Calculation finished after " + stopWatch.getTime()
-				+ " with " + leavesCounter + " leaves");
+				+ " ms with " + leavesCounter + " leaves");
 
 		return resultGraphs;
 	}

@@ -36,6 +36,8 @@ import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructure;
 import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructureImpl;
 import de.rinderle.softvis3d.preprocessing.tree.TreeBuilder;
 import de.rinderle.softvis3d.preprocessing.tree.TreeBuilderBean;
+import de.rinderle.softvis3d.webservice.ExceptionJsonWriter;
+import de.rinderle.softvis3d.webservice.ExceptionJsonWriterImpl;
 import de.rinderle.softvis3d.webservice.config.ConfigWebserviceHandler;
 import de.rinderle.softvis3d.webservice.config.ConfigWebserviceHandlerBean;
 import de.rinderle.softvis3d.webservice.tree.TreeNodeJsonWriter;
@@ -81,6 +83,7 @@ public class SoftVis3DModule extends AbstractModule {
         this.bind(VisualizationJsonWriter.class).to(VisualizationJsonWriterImpl.class);
         this.bind(VisualizationWebserviceHandler.class).to(VisualizationWebserviceHandlerBean.class);
         this.bind(ConfigWebserviceHandler.class).to(ConfigWebserviceHandlerBean.class);
+        this.bind(ExceptionJsonWriter.class).to(ExceptionJsonWriterImpl.class);
 
         this.install(new FactoryModuleBuilder().implement(SnapshotVisitor.class, SnapshotVisitorBean.class).build(
                 SnapshotVisitorFactory.class));

@@ -14,12 +14,13 @@ import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
+import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
 
-public class TreeWebserviceHandlerBean implements TreeWebserviceHandler {
+public class TreeWebserviceHandlerBean extends AbstractWebserviceHandler implements TreeWebserviceHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TreeWebserviceHandlerBean.class);
 
@@ -29,7 +30,7 @@ public class TreeWebserviceHandlerBean implements TreeWebserviceHandler {
     private TreeNodeJsonWriter treeNodeJsonWriter;
 
     @Override
-    public void handle(final Request request, final Response response) {
+    public void handleRequest(final Request request, final Response response) throws Exception {
         final Integer id = Integer.valueOf(request.param("snapshotId"));
         final Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
         final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
@@ -41,7 +42,7 @@ public class TreeWebserviceHandlerBean implements TreeWebserviceHandler {
         LOGGER.info("TreeWebserviceHandler " + requestDTO.toString());
 
         final SnapshotTreeResult result =
-                snapshotCacheService.getSnapshotTreeResult(new SnapshotStorageKey(requestDTO));
+            snapshotCacheService.getSnapshotTreeResult(new SnapshotStorageKey(requestDTO));
 
         this.treeNodeJsonWriter.transformTreeToJson(response, result.getTree());
     }
