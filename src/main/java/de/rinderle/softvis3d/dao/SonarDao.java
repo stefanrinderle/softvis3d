@@ -21,7 +21,7 @@ public interface SonarDao {
 
     List<ModuleInfo> getDirectModuleChildrenIds(Integer snapshotId);
 
-    Integer getMetricIdByName(String name);
+    Integer getMetricIdByKey(String name);
 
     List<de.rinderle.softvis3d.domain.Metric> getDistinctMetricsBySnapshotId(Integer snapshotId);
 
@@ -29,7 +29,7 @@ public interface SonarDao {
 
     List<de.rinderle.softvis3d.dao.dto.MetricResultDTO<String>> getAllProjectElementsWithPath(Integer rootSnapshotId);
 
-    List<de.rinderle.softvis3d.dao.dto.MetricResultDTO<java.math.BigDecimal>> getAllProjectElementsWithMetric(
+    List<de.rinderle.softvis3d.dao.dto.MetricResultDTO<Double>> getAllProjectElementsWithMetric(
             Integer rootSnapshotId, Integer metricId);
 
     MinMaxValue getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId);

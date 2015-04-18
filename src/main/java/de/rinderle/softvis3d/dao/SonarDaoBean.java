@@ -8,6 +8,7 @@
  */
 package de.rinderle.softvis3d.dao;
 
+import com.google.common.collect.Maps;
 import com.google.inject.Singleton;
 import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
 import de.rinderle.softvis3d.domain.Metric;
@@ -16,14 +17,17 @@ import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.database.DatabaseSession;
+import org.sonar.api.database.model.MeasureModel;
+import org.sonar.api.database.model.ResourceModel;
+import org.sonar.api.database.model.Snapshot;
+import org.sonar.api.resources.Qualifiers;
 
-import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Use singleton to set the database session once on startup and to be sure that it is set on any other injection.
@@ -43,38 +47,18 @@ public class SonarDaoBean implements SonarDao {
     @SuppressWarnings("unchecked")
     @Override
     public List<Metric> getDistinctMetricsBySnapshotId(final Integer snapshotId) {
+        // TODO: check if the metric is defined for that snapshot id.
+
         List<Metric> metrics = new ArrayList<Metric>();
 
-        final Query metricsQuery =
-                this.session.createNativeQuery("SELECT DISTINCT m.metric_id, metrics.description "
-                        + "FROM project_measures m INNER JOIN snapshots s ON s.id = m.snapshot_id "
-                        + "INNER JOIN metrics metrics ON metrics.id = m.metric_id "
-                        + "WHERE (s.path LIKE :idRoot OR s.path LIKE :idModule) AND m.value is not null "
-                        + "AND s.scope = 'FIL' AND metrics.description is not null ORDER BY m.metric_id ASC");
-
-        metricsQuery.setParameter("idRoot", snapshotId + ".%");
-        metricsQuery.setParameter("idModule", "%." + snapshotId + ".%");
-
-        List<Object[]> sqlResult = metricsQuery.getResultList();
-
-        for (Object[] metric : sqlResult) {
-            final Integer id = (Integer) metric[0];
-            final String description = (String) metric[1];
-
-            metrics.add(new Metric(id, description));
+        List<org.sonar.api.measures.Metric> metricsTest = session.getResults(org.sonar.api.measures.Metric.class);
+        for (org.sonar.api.measures.Metric metrictemp : metricsTest) {
+          if (metrictemp.isNumericType() && !metrictemp.isHidden() && metrictemp.getEnabled()) {
+            metrics.add(new Metric(metrictemp.getId(), metrictemp.getName()));
+          }
         }
 
         return metrics;
-    }
-
-    @Override
-    public BigInteger getScmInfoMetricId(final String name) {
-        final Query query =
-                this.session.createNativeQuery("SELECT m.id FROM metrics m WHERE s.name = :scmInfoName");
-
-        query.setParameter("scmInfoName", name);
-
-        return (BigInteger) query.getSingleResult();
     }
 
     @SuppressWarnings("unchecked")
@@ -82,50 +66,49 @@ public class SonarDaoBean implements SonarDao {
     public List<ModuleInfo> getDirectModuleChildrenIds(final Integer snapshotId) {
         final List<ModuleInfo> result = new ArrayList<ModuleInfo>();
 
-        final Query query =
-                this.session.createNativeQuery("SELECT s.id, p.long_name FROM snapshots s "
-                        + "INNER JOIN projects p ON s.project_id = p.id "
-                        + "WHERE s.path LIKE :snapshotId and s.qualifier = 'BRC'");
+        final List<Snapshot> snapshots = session.getResults(Snapshot.class,
+                "parentId", snapshotId, "qualifier", Qualifiers.MODULE);
 
-        query.setParameter("snapshotId", snapshotId + ".%");
+        for (Snapshot snapshot : snapshots) {
+          final ResourceModel resource =
+                  this.session.getSingleResult(ResourceModel.class, "id", snapshot.getResourceId());
 
-        List<Object[]> sqlResult = query.getResultList();
-
-        for (Object[] info : sqlResult) {
-            final Integer id = (Integer) info[0];
-            final String name = (String) info[1];
-
-            result.add(new ModuleInfo(id, name));
+          result.add(new ModuleInfo(snapshot.getId(), resource.getName()));
         }
+
 
         return result;
     }
 
     @Override
-    public Integer getMetricIdByName(final String name) {
-        final Query query = this.session.createNativeQuery("SELECT id FROM metrics m WHERE m.name = :name");
-        query.setParameter("name", name);
+    public Integer getMetricIdByKey(final String key) {
+      org.sonar.api.measures.Metric result =
+              this.session.getSingleResult(org.sonar.api.measures.Metric.class, "key", key);
 
-        return (Integer) query.getSingleResult();
+        return result.getId();
     }
 
     @Override
     public MinMaxValue getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId) {
-        final Query query =
-                this.session.createNativeQuery("select MIN(m.value) as min, MAX(m.value) as max from snapshots s "
-                        + "INNER JOIN project_measures m ON s.id = m.snapshot_id "
-                        + "WHERE (s.path LIKE :idRoot OR s.path LIKE :idModule) AND m.metric_id = :metric_id AND s.scope = 'FIL'");
+        final StringBuilder sb = new StringBuilder();
 
-        query.setParameter("idRoot", rootSnapshotId + ".%");
-        query.setParameter("idModule", "%." + rootSnapshotId + ".%");
+        sb.append("SELECT MIN(m.value), MAX(m.value) ");
+        sb.append(" FROM ")
+                .append(MeasureModel.class.getSimpleName())
+                .append(" m, ")
+                .append(Snapshot.class.getSimpleName())
+                .append(" s WHERE m.snapshotId=s.id ")
+                .append("AND (s.path LIKE :idRoot OR s.path LIKE :idModule) AND ")
+                .append("m.metricId =:metric_id AND s.scope = 'FIL'");
 
-        query.setParameter("metric_id", metricId);
+        Query jpaQuery = session.createQuery(sb.toString());
 
-        final Object[] sqlResult = (Object[]) query.getSingleResult();
-        final double min = ((BigDecimal) sqlResult[0]).doubleValue();
-        final double max = ((BigDecimal) sqlResult[1]).doubleValue();
+        jpaQuery.setParameter("idRoot", rootSnapshotId + ".%");
+        jpaQuery.setParameter("idModule", "%." + rootSnapshotId + ".%");
+        jpaQuery.setParameter("metric_id", metricId);
 
-        return new MinMaxValue(min, max);
+        final Object[] result = (Object[]) jpaQuery.getSingleResult();
+        return new MinMaxValue((Double) result[0], (Double) result[1]);
     }
 
     @Override
@@ -152,9 +135,10 @@ public class SonarDaoBean implements SonarDao {
     }
 
     @Override
-    public List<MetricResultDTO<BigDecimal>> getAllProjectElementsWithMetric(final Integer rootSnapshotId,
+    public List<MetricResultDTO<Double>> getAllProjectElementsWithMetric(final Integer rootSnapshotId,
             final Integer metricId) {
-        List<MetricResultDTO<BigDecimal>> result = new ArrayList<MetricResultDTO<BigDecimal>>();
+
+        List<MetricResultDTO<Double>> result = new ArrayList<MetricResultDTO<Double>>();
 
         final String sqlQuery =
                 "SELECT s.id, metric.value FROM snapshots s INNER JOIN projects p ON s.project_id = p.id "
@@ -173,7 +157,12 @@ public class SonarDaoBean implements SonarDao {
         List<Object[]> sqlResult = query.getResultList();
 
         for (Object[] aSqlResult : sqlResult) {
-            result.add(new MetricResultDTO<BigDecimal>((Integer) aSqlResult[0], (BigDecimal) aSqlResult[1]));
+            if (aSqlResult[1] == null) {
+              result.add(new MetricResultDTO<Double>((Integer) aSqlResult[0], 0.0));
+            } else {
+              result.add(new MetricResultDTO<Double>((Integer) aSqlResult[0],
+                      ((BigDecimal) aSqlResult[1]).doubleValue()));
+            }
         }
 
         return result;
@@ -206,5 +195,15 @@ public class SonarDaoBean implements SonarDao {
         }
 
         return result;
+    }
+
+    @Override
+    public BigInteger getScmInfoMetricId(final String name) {
+      final Query query =
+              this.session.createNativeQuery("SELECT m.id FROM metrics m WHERE s.name = :scmInfoName");
+
+      query.setParameter("scmInfoName", name);
+
+      return (BigInteger) query.getSingleResult();
     }
 }

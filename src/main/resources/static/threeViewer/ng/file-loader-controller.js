@@ -99,7 +99,7 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
     var cityType = "city";
 
     var linesId = this.getMetricIdForName("Lines");
-    var complexityId = this.getMetricIdForName("Cyclomatic complexity");
+    var complexityId = this.getMetricIdForName("Complexity");
     var issuesId = this.getMetricIdForName("Issues");
     var functionsId = this.getMetricIdForName("Functions");
 
@@ -120,7 +120,7 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
  */
 ThreeViewer.FileLoaderController.prototype.loadDependencyView = function () {
     var linesId = this.getMetricIdForName("Lines");
-    var complexityId = this.getMetricIdForName("Cyclomatic complexity");
+    var complexityId = this.getMetricIdForName("Complexity");
 
     this.loadVisualisation(complexityId, linesId, "dependency");
 };

@@ -41,13 +41,13 @@ public class DaoServiceBean implements DaoService {
     @Override
     public Integer getMetric1FromSettings(final Settings settings) {
         LOGGER.debug("getMetric1FromSettings");
-        return this.sonarDao.getMetricIdByName(settings.getString("metric1"));
+        return this.sonarDao.getMetricIdByKey(settings.getString("metric1"));
     }
 
     @Override
     public Integer getMetric2FromSettings(final Settings settings) {
         LOGGER.debug("getMetric2FromSettings");
-        return this.sonarDao.getMetricIdByName(settings.getString("metric2"));
+        return this.sonarDao.getMetricIdByKey(settings.getString("metric2"));
     }
 
     @Override
@@ -116,8 +116,8 @@ public class DaoServiceBean implements DaoService {
 
         final List<MetricResultDTO<String>> resultPath = getProjectElements(requestDTO);
 
-        final List<MetricResultDTO<BigDecimal>> resultFootprintMetric = getFootprintMetric(requestDTO);
-        final List<MetricResultDTO<BigDecimal>> resultHeightMetric = getHeightMetric(requestDTO);
+        final List<MetricResultDTO<Double>> resultFootprintMetric = getFootprintMetric(requestDTO);
+        final List<MetricResultDTO<Double>> resultHeightMetric = getHeightMetric(requestDTO);
         final List<MetricResultDTO<String>> scmCommitter = getScmAuthors(requestDTO.getRootSnapshotId());
         final List<MetricResultDTO<String>> scmTime = getScmTime(requestDTO.getRootSnapshotId());
 
@@ -145,13 +145,13 @@ public class DaoServiceBean implements DaoService {
     }
 
     private List<MetricResultDTO<String>> getScmTime(int rootSnapshotId) {
-        final Integer authorMetricId = this.sonarDao.getMetricIdByName(SCM_DATE_NAME);
+        final Integer authorMetricId = this.sonarDao.getMetricIdByKey(SCM_DATE_NAME);
 
         return this.sonarDao.getMetricTextForAllProjectElementsWithMetric(rootSnapshotId, authorMetricId);
     }
 
     private List<MetricResultDTO<String>> getScmAuthors(int rootSnapshotId) {
-        final Integer authorMetricId = this.sonarDao.getMetricIdByName(SCM_AUTHOR_NAME);
+        final Integer authorMetricId = this.sonarDao.getMetricIdByKey(SCM_AUTHOR_NAME);
 
         return this.sonarDao.getMetricTextForAllProjectElementsWithMetric(rootSnapshotId, authorMetricId);
     }
@@ -160,12 +160,12 @@ public class DaoServiceBean implements DaoService {
         return this.sonarDao.getAllProjectElementsWithPath(requestDTO.getRootSnapshotId());
     }
 
-    private List<MetricResultDTO<BigDecimal>> getFootprintMetric(VisualizationRequest requestDTO) {
+    private List<MetricResultDTO<Double>> getFootprintMetric(VisualizationRequest requestDTO) {
         return this.sonarDao.getAllProjectElementsWithMetric(requestDTO.getRootSnapshotId(),
                 requestDTO.getFootprintMetricId());
     }
 
-    private List<MetricResultDTO<BigDecimal>> getHeightMetric(VisualizationRequest requestDTO) {
+    private List<MetricResultDTO<Double>> getHeightMetric(VisualizationRequest requestDTO) {
         return this.sonarDao.getAllProjectElementsWithMetric(requestDTO.getRootSnapshotId(),
                 requestDTO.getHeightMetricId());
     }

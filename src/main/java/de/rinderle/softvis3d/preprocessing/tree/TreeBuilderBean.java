@@ -18,7 +18,6 @@ import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +45,7 @@ public class TreeBuilderBean implements TreeBuilder {
 
                 SonarSnapshotBuilder builder =
                         new SonarSnapshotBuilder(module.getId(), module.getName())
-                                .footprintMetricValue(BigDecimal.ZERO).heightMetricValue(BigDecimal.ZERO);
+                                .footprintMetricValue(0.0).heightMetricValue(0.0);
 
                 SonarSnapshot moduleElement = builder.build();
                 LOGGER.info(moduleElement.toString());

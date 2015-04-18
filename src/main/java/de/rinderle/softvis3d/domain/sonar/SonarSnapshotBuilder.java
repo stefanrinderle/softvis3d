@@ -8,8 +8,6 @@
  */
 package de.rinderle.softvis3d.domain.sonar;
 
-import java.math.BigDecimal;
-
 public class SonarSnapshotBuilder {
 
     public int authorCount;
@@ -23,9 +21,9 @@ public class SonarSnapshotBuilder {
         this.path = path;
     }
 
-    public SonarSnapshotBuilder footprintMetricValue(BigDecimal footprintMetricValue) {
+    public SonarSnapshotBuilder footprintMetricValue(Double footprintMetricValue) {
         if (footprintMetricValue == null) {
-            this.footprintMetricValue = BigDecimal.ZERO.doubleValue();
+            this.footprintMetricValue = 0.0;
         } else {
             this.footprintMetricValue = footprintMetricValue.doubleValue();
         }
@@ -33,9 +31,9 @@ public class SonarSnapshotBuilder {
         return this;
     }
 
-    public SonarSnapshotBuilder heightMetricValue(BigDecimal heightMetricValue) {
+    public SonarSnapshotBuilder heightMetricValue(Double heightMetricValue) {
         if (heightMetricValue == null) {
-            this.footprintMetricValue = BigDecimal.ZERO.doubleValue();
+            this.footprintMetricValue = 0.0;
         } else {
             this.heightMetricValue = heightMetricValue.doubleValue();
         }
