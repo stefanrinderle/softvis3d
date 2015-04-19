@@ -8,12 +8,12 @@
  */
 package de.rinderle.softvis3d.dao;
 
+import java.util.List;
+
+import org.sonar.api.database.DatabaseSession;
+import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
-import org.sonar.api.database.DatabaseSession;
-
-import java.math.BigInteger;
-import java.util.List;
 
 public interface SonarDao {
 
@@ -25,15 +25,17 @@ public interface SonarDao {
 
     List<de.rinderle.softvis3d.domain.Metric> getDistinctMetricsBySnapshotId(Integer snapshotId);
 
-    BigInteger getScmInfoMetricId(String name);
+    Double getMetricDouble(int metricId, Integer snapshotId);
 
-    List<de.rinderle.softvis3d.dao.dto.MetricResultDTO<String>> getAllProjectElementsWithPath(Integer rootSnapshotId);
+    String getMetricText(int metricId, Integer snapshotId);
 
-    List<de.rinderle.softvis3d.dao.dto.MetricResultDTO<Double>> getAllProjectElementsWithMetric(
-            Integer rootSnapshotId, Integer metricId);
+    List<MetricResultDTO<Integer>> getAllSnapshotIdsWithRescourceId(Integer rootSnapshotId);
 
     MinMaxValue getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId);
 
     List<de.rinderle.softvis3d.dao.dto.MetricResultDTO<String>> getMetricTextForAllProjectElementsWithMetric(
             Integer rootSnapshotId, Integer metricId);
+
+    String getResourcePath(Integer resourceId);
+
 }

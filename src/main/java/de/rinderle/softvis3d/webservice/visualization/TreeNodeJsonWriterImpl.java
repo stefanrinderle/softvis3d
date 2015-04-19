@@ -8,7 +8,6 @@
  */
 package de.rinderle.softvis3d.webservice.visualization;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -117,11 +116,11 @@ public class TreeNodeJsonWriterImpl implements TreeNodeJsonWriter {
         jsonWriter.endObject();
     }
 
-    private void transformIncludingDependencies(JsonWriter jsonWriter, List<BigInteger> includingDependencies) {
+    private void transformIncludingDependencies(JsonWriter jsonWriter, List<Long> includingDependencies) {
         jsonWriter.name("includingDependencies");
         jsonWriter.beginArray();
 
-        for (final BigInteger dependencyId : includingDependencies) {
+        for (final Long dependencyId : includingDependencies) {
             jsonWriter.beginObject();
             jsonWriter.prop("id", dependencyId);
             jsonWriter.endObject();

@@ -8,17 +8,15 @@
  */
 package de.rinderle.softvis3d.domain.tree;
 
-import java.math.BigInteger;
-
 public class Dependency {
 
-	private BigInteger id;
+	private Long id;
 	private Integer fromNodeId;
 	private String fromNodeName;
 	private Integer toNodeId;
 	private String toNodeName;
 
-	public Dependency(BigInteger id, Integer fromNodeId, String fromNodeName,
+	public Dependency(Long id, Integer fromNodeId, String fromNodeName,
 			Integer toNodeId, String toNodeName) {
 		this.id = id;
 		this.fromNodeId = fromNodeId;
@@ -27,7 +25,7 @@ public class Dependency {
 		this.toNodeName = toNodeName;
 	}
 
-	public BigInteger getId() {
+	public Long getId() {
 		return id;
 	}
 

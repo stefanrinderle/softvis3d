@@ -13,29 +13,29 @@ public class SonarSnapshotBuilder {
     public int authorCount;
     int id;
     String path;
-    double footprintMetricValue;
-    double heightMetricValue;
+    double footprintMetricValue = 0.0;
+    double heightMetricValue = 0.0;
 
-    public SonarSnapshotBuilder(int id, String path) {
+    public SonarSnapshotBuilder(int id) {
         this.id = id;
-        this.path = path;
     }
 
-    public SonarSnapshotBuilder footprintMetricValue(Double footprintMetricValue) {
-        if (footprintMetricValue == null) {
-            this.footprintMetricValue = 0.0;
-        } else {
-            this.footprintMetricValue = footprintMetricValue.doubleValue();
+    public SonarSnapshotBuilder withPath(final String resourcePath) {
+        this.path = resourcePath;
+        return this;
+    }
+
+    public SonarSnapshotBuilder withFootprintMeasure(final Double metricValue) {
+        if (metricValue != null) {
+            this.footprintMetricValue = metricValue;
         }
 
         return this;
     }
 
-    public SonarSnapshotBuilder heightMetricValue(Double heightMetricValue) {
-        if (heightMetricValue == null) {
-            this.footprintMetricValue = 0.0;
-        } else {
-            this.heightMetricValue = heightMetricValue.doubleValue();
+    public SonarSnapshotBuilder withHeightMeasure(final Double metricValue) {
+        if (metricValue != null) {
+            this.heightMetricValue = metricValue;
         }
 
         return this;
@@ -46,6 +46,8 @@ public class SonarSnapshotBuilder {
 
         return this;
     }
+
+
 
     public SonarSnapshot build() {
         return new SonarSnapshot(this);

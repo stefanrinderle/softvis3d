@@ -8,11 +8,9 @@
  */
 package de.rinderle.softvis3d.domain.sonar;
 
-import java.math.BigInteger;
-
 public class SonarDependency {
 
-    private BigInteger id;
+    private Long id;
     private Integer fromSnapshotId;
     private Integer toSnapshotId;
 
@@ -22,11 +20,11 @@ public class SonarDependency {
         this.toSnapshotId = sonarDependencyBuilder.toSnapshotId;
     }
 
-    public BigInteger getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(final BigInteger id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

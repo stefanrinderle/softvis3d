@@ -8,27 +8,21 @@
  */
 package de.rinderle.softvis3d.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Query;
+
+import org.sonar.api.database.DatabaseSession;
+import org.sonar.api.design.DependencyDto;
 import com.google.inject.Singleton;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
 import de.rinderle.softvis3d.domain.sonar.SonarDependencyBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.database.DatabaseSession;
-
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Use singleton to set the database session once on startup and to be sure that it is set on any other injection.
  */
 @Singleton
 public class DependencyDaoBean implements DependencyDao {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DependencyDaoBean.class);
 
     private DatabaseSession session;
 
@@ -39,10 +33,11 @@ public class DependencyDaoBean implements DependencyDao {
 
     @Override
     public List<SonarDependency> getDependencies(final Integer projectSnapshotId) {
-        final Query query =
-                this.session.createNativeQuery("SELECT id, from_snapshot_id, to_snapshot_id FROM dependencies d "
-                        + "WHERE project_snapshot_id = :projectSnapshotId "
-                        + "AND from_scope = 'FIL' AND to_scope = 'FIL'");
+        final String sqlQuery =
+            "SELECT d.id, d.fromSnapshotId, d.toSnapshotId FROM " + DependencyDto.class.getSimpleName() + " d "
+                + "WHERE d.projectSnapshotId = :projectSnapshotId AND fromScope = 'FIL' AND toScope = 'FIL' ";
+
+        final Query query = this.session.createQuery(sqlQuery);
 
         query.setParameter("projectSnapshotId", projectSnapshotId);
 
@@ -56,7 +51,7 @@ public class DependencyDaoBean implements DependencyDao {
 
         for (final Object[] object : queryResult) {
             final SonarDependencyBuilder dependency = new SonarDependencyBuilder();
-            dependency.withId((BigInteger) object[0]);
+            dependency.withId((Long) object[0]);
             dependency.withFromSnapshotId((Integer) object[1]);
             dependency.withToSnapshotId((Integer) object[2]);
 

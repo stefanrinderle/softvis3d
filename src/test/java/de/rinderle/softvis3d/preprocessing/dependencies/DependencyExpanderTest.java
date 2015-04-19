@@ -139,7 +139,7 @@ public class DependencyExpanderTest {
   private SonarDependency createDependency(final String dependencyId, final int from, final int to) {
     final SonarDependencyBuilder result = new SonarDependencyBuilder();
 
-    result.withId(new BigInteger(dependencyId));
+    result.withId(new Long(dependencyId));
     result.withFromSnapshotId(from);
     result.withToSnapshotId(to);
 

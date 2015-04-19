@@ -68,8 +68,7 @@ public class OptimizeTreeStructureTest {
 
     private void callWalkerWithMetrics(final PathWalker walker, final int id, final String path) {
 
-        SonarSnapshotBuilder builder =
-                new SonarSnapshotBuilder(id, path).footprintMetricValue(1.0).heightMetricValue(1.0);
+        SonarSnapshotBuilder builder = new SonarSnapshotBuilder(id).withPath(path);
 
         walker.addPath(builder.build());
     }

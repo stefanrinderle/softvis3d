@@ -8,7 +8,6 @@
  */
 package de.rinderle.softvis3d.domain.tree;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class Edge {
 	private final Integer destinationId;
 	private final String destinationName;
 
-	private List<BigInteger> includingDependencies = new ArrayList<BigInteger>();
+	private List<Long> includingDependencies = new ArrayList<Long>();
 
 	public Edge(final String depEdgeLabel, final Integer sourceId,
 			String sourceName, final Integer destinationId,
@@ -56,11 +55,11 @@ public class Edge {
 		return this.includingDependencies.size();
 	}
 
-	public void addIncludingDependency(BigInteger dependencyId) {
+	public void addIncludingDependency(Long dependencyId) {
 		includingDependencies.add(dependencyId);
 	}
 
-	public List<BigInteger> getIncludingDependencies() {
+	public List<Long> getIncludingDependencies() {
 		return includingDependencies;
 	}
 }

@@ -8,6 +8,11 @@
  */
 package de.rinderle.softvis3d.preprocessing.tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
@@ -15,11 +20,6 @@ import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
 import de.rinderle.softvis3d.domain.sonar.SonarSnapshotBuilder;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TreeBuilderBean implements TreeBuilder {
 
@@ -43,9 +43,7 @@ public class TreeBuilderBean implements TreeBuilder {
                         new VisualizationRequest(module.getId(), requestDTO.getViewType(),
                                 requestDTO.getFootprintMetricId(), requestDTO.getHeightMetricId());
 
-                SonarSnapshotBuilder builder =
-                        new SonarSnapshotBuilder(module.getId(), module.getName())
-                                .footprintMetricValue(0.0).heightMetricValue(0.0);
+                SonarSnapshotBuilder builder = new SonarSnapshotBuilder(module.getId()).withPath(module.getName());
 
                 SonarSnapshot moduleElement = builder.build();
                 LOGGER.info(moduleElement.toString());

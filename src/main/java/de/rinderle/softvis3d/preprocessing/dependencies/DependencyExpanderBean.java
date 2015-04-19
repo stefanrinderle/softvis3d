@@ -8,13 +8,16 @@
  */
 package de.rinderle.softvis3d.preprocessing.dependencies;
 
-import de.rinderle.softvis3d.domain.sonar.SonarDependency;
-import de.rinderle.softvis3d.domain.tree.*;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.math.BigInteger;
-import java.util.List;
+import de.rinderle.softvis3d.domain.sonar.SonarDependency;
+import de.rinderle.softvis3d.domain.tree.Dependency;
+import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
+import de.rinderle.softvis3d.domain.tree.Edge;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.domain.tree.TreeNode;
 
 public class DependencyExpanderBean implements DependencyExpander {
 
@@ -68,7 +71,7 @@ public class DependencyExpanderBean implements DependencyExpander {
         }
     }
 
-    private void createDependencyPath(TreeNode source, TreeNode dest, final BigInteger dependencyId) {
+    private void createDependencyPath(TreeNode source, TreeNode dest, final Long dependencyId) {
         while (!source.getParent().getId().equals(dest.getParent().getId())) {
             if (source.getDepth() > dest.getDepth()) {
                 this.handleNewDepEdge(source, dependencyId, true);
@@ -93,7 +96,7 @@ public class DependencyExpanderBean implements DependencyExpander {
         this.handleNewFlatDepEdge(source, dest, dependencyId);
     }
 
-    private void handleNewFlatDepEdge(final TreeNode source, final TreeNode dest, final BigInteger dependencyId) {
+    private void handleNewFlatDepEdge(final TreeNode source, final TreeNode dest, final Long dependencyId) {
         final String depEdgeLabel = DEP_PATH_EDGE_PREFIX + "_" + dest.getId();
 
         final Edge edge;
@@ -108,7 +111,7 @@ public class DependencyExpanderBean implements DependencyExpander {
         edge.addIncludingDependency(dependencyId);
     }
 
-    private void handleNewDepEdge(final TreeNode treeNode, final BigInteger dependencyId, final boolean isOut) {
+    private void handleNewDepEdge(final TreeNode treeNode, final Long dependencyId, final boolean isOut) {
         final DependencyTreeNode depNode = this.getInterfaceNode(treeNode.getParent());
         depNode.increaseCounter();
 
