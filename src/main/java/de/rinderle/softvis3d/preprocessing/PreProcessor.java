@@ -10,9 +10,9 @@ package de.rinderle.softvis3d.preprocessing;
 
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
+import org.sonar.api.config.Settings;
 
 public interface PreProcessor {
 
-	SnapshotTreeResult process(final VisualizationRequest requestDTO);
-
+	SnapshotTreeResult process(VisualizationRequest requestDTO, Settings settings);
 }

@@ -47,4 +47,8 @@ class SnapshotTreeStorage {
     public static void save(SnapshotTreeResult result) {
         storage.put(result.getStorageKey().getString(), result);
     }
+
+    public static void delete(SnapshotStorageKey toDelete) {
+        storage.remove(toDelete);
+    }
 }

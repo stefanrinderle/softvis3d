@@ -59,16 +59,17 @@ public class VisualizationWebserviceHandlerBean extends AbstractWebserviceHandle
 
         SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
 
-        final SnapshotTreeResult snapshotTreeResult = preProcessor.process(requestDTO);
+        final SnapshotTreeResult snapshotTreeResult = preProcessor.process(requestDTO, this.settings);
 
+        boolean cacheEnabled = this.settings.getBoolean("cacheEnabled");
         final Map<Integer, ResultPlatform> visualizationResult;
-        if (SoftVis3DPlugin.CACHE_ENABLED && layoutCacheService.containsKey(key)) {
+        if (cacheEnabled && layoutCacheService.containsKey(key)) {
             LOGGER.info("Layout out of cache for " + key.getString());
             visualizationResult = layoutCacheService.getLayoutResult(key);
         } else {
             LOGGER.info("Create layout for " + key.getString());
             visualizationResult = createLayout(id, requestDTO, snapshotTreeResult);
-            if (SoftVis3DPlugin.CACHE_ENABLED) {
+            if (cacheEnabled) {
                 layoutCacheService.save(key, visualizationResult);
             }
         }

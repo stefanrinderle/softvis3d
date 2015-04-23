@@ -10,13 +10,12 @@ package de.rinderle.softvis3d.cache;
 
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import java.util.LinkedList;
 
 public class SnapshotCacheServiceBean implements SnapshotCacheService {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(SnapshotCacheServiceBean.class);
+	private static LinkedList<SnapshotStorageKey> stack = new LinkedList<SnapshotStorageKey>();
 
 	@Override
 	public void printCacheContents() {
@@ -30,6 +29,11 @@ public class SnapshotCacheServiceBean implements SnapshotCacheService {
 
 	@Override
 	public void save(SnapshotTreeResult result) {
+		if (stack.size() == 5) {
+			final SnapshotStorageKey toDelete = stack.removeLast();
+			SnapshotTreeStorage.delete(toDelete);
+		}
+		stack.addFirst(result.getStorageKey());
 		SnapshotTreeStorage.save(result);
 	}
 

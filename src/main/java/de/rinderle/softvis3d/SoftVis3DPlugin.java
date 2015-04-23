@@ -20,16 +20,16 @@ import java.util.List;
 @Properties({
         @Property(key = SoftVis3DConstants.DOT_BIN_KEY, defaultValue = SoftVis3DConstants.DOT_BIN_DEFAULT,
                 name = SoftVis3DConstants.DOT_BIN_NAME, description = SoftVis3DConstants.DOT_BIN_DESCRIPTION),
+        @Property(key = "cacheEnabled", defaultValue = "true", type = PropertyType.BOOLEAN, name = "Cache enabled",
+                description = "This metric will be used for the building footprint"),
         @Property(key = "metric1", defaultValue = "complexity", type = PropertyType.METRIC, name = "Metric type 1",
                 description = "This metric will be used for the building footprint"),
         @Property(key = "metric2", defaultValue = "lines", type = PropertyType.METRIC, name = "Metric type 2",
                 description = "This metric will be used for the building height")})
 public final class SoftVis3DPlugin extends SonarPlugin {
 
-    public final static boolean IS_PROD = false;
-
+    public final static boolean IS_PROD = true;
     public final static boolean HAS_SCM_FEATURE = false;
-    public final static boolean CACHE_ENABLED = true;
 
     public SoftVis3DPlugin() {
         super();

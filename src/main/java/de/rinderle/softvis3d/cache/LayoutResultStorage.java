@@ -34,7 +34,7 @@ class LayoutResultStorage {
     }
 
     static void print() {
-        LOGGER.info("Current SnapshotTreeStorage size " + storage.size());
+        LOGGER.info("Current LayoutResultStorage size " + storage.size());
         for (final Map.Entry<String, Map<Integer, ResultPlatform>> entry : storage.entrySet()) {
             LOGGER.info(entry.getKey());
         }
@@ -45,7 +45,11 @@ class LayoutResultStorage {
         return storage.containsKey(key.getString());
     }
 
-    public static void save(SnapshotStorageKey key, Map<Integer, ResultPlatform> result) {
+    static void save(SnapshotStorageKey key, Map<Integer, ResultPlatform> result) {
         storage.put(key.getString(), result);
+    }
+
+    static void delete(SnapshotStorageKey toDelete) {
+        storage.remove(toDelete.getString());
     }
 }

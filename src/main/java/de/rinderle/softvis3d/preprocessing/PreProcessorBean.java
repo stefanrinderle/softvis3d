@@ -21,6 +21,7 @@ import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpander;
 import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructure;
 import de.rinderle.softvis3d.preprocessing.tree.TreeBuilder;
+import org.sonar.api.config.Settings;
 
 import java.util.List;
 
@@ -38,13 +39,15 @@ public class PreProcessorBean implements PreProcessor {
     private DependencyExpander dependencyExpander;
 
     @Override
-    public SnapshotTreeResult process(VisualizationRequest requestDTO) {
+    public SnapshotTreeResult process(VisualizationRequest requestDTO, Settings settings) {
         snapshotCacheService.printCacheContents();
 
         final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
+        boolean cacheEnabled = settings.getBoolean("cacheEnabled");
+
         final SnapshotTreeResult result;
-        if (snapshotCacheService.containsKey(mapKey)) {
+        if (cacheEnabled && snapshotCacheService.containsKey(mapKey)) {
             result = snapshotCacheService.getSnapshotTreeResult(mapKey);
         } else {
             final RootTreeNode tree = treeBuilder.createTreeStructure(requestDTO);
@@ -57,7 +60,9 @@ public class PreProcessorBean implements PreProcessor {
             }
 
             result = new SnapshotTreeResult(mapKey, tree);
-            this.snapshotCacheService.save(result);
+            if (cacheEnabled) {
+                this.snapshotCacheService.save(result);
+            }
         }
 
         return result;
