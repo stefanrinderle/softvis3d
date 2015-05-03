@@ -172,9 +172,11 @@ public class SonarDaoBean implements SonarDao {
 
     @Override
     public Double getMetricDouble(final int metricId, final Integer snapshotId) {
+        // TODO: AND m.rule_id is null ??? AND m.characteristicId is null
         final String sqlQuery =
             "SELECT m.value FROM " + MeasureModel.class.getSimpleName() + " m "
-                + "WHERE m.snapshotId = :snapshotId AND m.metricId = :metricId";
+                + "WHERE m.snapshotId = :snapshotId AND m.metricId = :metricId AND m.ruleId is null AND "
+                + "m.characteristicId is null";
 
         final Query query = this.session.createQuery(sqlQuery);
         query.setParameter("snapshotId", snapshotId);
@@ -191,7 +193,8 @@ public class SonarDaoBean implements SonarDao {
     public String getMetricText(final int metricId, final Integer snapshotId) {
         final String sqlQuery =
             "SELECT m.textValue FROM " + MeasureModel.class.getSimpleName() + " m "
-                + "WHERE m.snapshotId = :snapshotId AND m.metricId = :metricId";
+                + "WHERE m.snapshotId = :snapshotId AND m.metricId = :metricId AND m.ruleId is null AND "
+                + "m.characteristicId is null";
 
         final Query query = this.session.createQuery(sqlQuery);
         query.setParameter("snapshotId", snapshotId);

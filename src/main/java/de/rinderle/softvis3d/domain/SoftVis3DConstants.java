@@ -31,7 +31,7 @@ public interface SoftVis3DConstants {
     String DOT_BIN_DESCRIPTION = "This plugin requires Graphviz in order to create the layout. "
             + "See http://www.graphviz.org/ for installation instructions.";
 
-    String DOT_BIN_DEFAULT = "/usr/local/bin/dot";
+    String DOT_BIN_DEFAULT = "/usr/bin/dot";
 
     /**
      * Visualization
