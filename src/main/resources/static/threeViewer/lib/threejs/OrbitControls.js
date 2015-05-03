@@ -76,7 +76,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	this.noKeys = false;
 
 	// The four arrow keys
-	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };
+	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40, F: 70, B: 66 };
 
 	////////////
 	// internals
@@ -104,6 +104,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 	var thetaDelta = 0;
 	var scale = 1;
 	var pan = new THREE.Vector3();
+	var forward = new THREE.Vector3();
+	var forwardOffset = new THREE.Vector3();
 
 	var lastPosition = new THREE.Vector3();
 	var lastQuaternion = new THREE.Quaternion();
@@ -154,15 +156,24 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	// pass in distance in world space to move left
 	this.panLeft = function ( distance ) {
-
 		var te = this.object.matrix.elements;
 
 		// get X column of matrix
 		panOffset.set( te[ 0 ], te[ 1 ], te[ 2 ] );
 		panOffset.multiplyScalar( - distance );
-		
-		pan.add( panOffset );
 
+		pan.add( panOffset );
+	};
+
+
+	this.panForward = function ( distance ) {
+		var te = this.object.matrix.elements;
+
+		// get Z column of matrix
+		forwardOffset.set( te[ 8 ], te[ 9 ], te[ 10 ] );
+		forwardOffset.multiplyScalar( - distance );
+
+		forward.add( forwardOffset );
 	};
 
 	// pass in distance in world space to move up
@@ -173,11 +184,11 @@ THREE.OrbitControls = function ( object, domElement ) {
 		// get Y column of matrix
 		panOffset.set( te[ 4 ], te[ 5 ], te[ 6 ] );
 		panOffset.multiplyScalar( distance );
-		
+
 		pan.add( panOffset );
 
 	};
-	
+
 	// pass in x,y of change desired in pixel space,
 	// right and down are positive
 	this.pan = function ( deltaX, deltaY ) {
@@ -185,7 +196,6 @@ THREE.OrbitControls = function ( object, domElement ) {
 		var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
 
 		if ( scope.object.fov !== undefined ) {
-
 			// perspective
 			var position = scope.object.position;
 			var offset = position.clone().sub( scope.target );
@@ -199,11 +209,37 @@ THREE.OrbitControls = function ( object, domElement ) {
 			scope.panUp( 2 * deltaY * targetDistance / element.clientHeight );
 
 		} else if ( scope.object.top !== undefined ) {
-
 			// orthographic
 			scope.panLeft( deltaX * (scope.object.right - scope.object.left) / element.clientWidth );
 			scope.panUp( deltaY * (scope.object.top - scope.object.bottom) / element.clientHeight );
 
+		} else {
+
+			// camera neither orthographic or perspective
+			console.warn( 'WARNING: OrbitControls.js encountered an unknown camera type - pan disabled.' );
+
+		}
+
+	};
+
+	this.forward = function ( deltaZ ) {
+
+		var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
+
+		if ( scope.object.fov !== undefined ) {
+			// perspective
+			var position = scope.object.position;
+			var offset = position.clone().sub( scope.target );
+			var targetDistance = offset.length();
+
+			// half of the fov is center to top of screen
+			targetDistance *= Math.tan( ( scope.object.fov / 2 ) * Math.PI / 180.0 );
+
+			// we actually don't use screenWidth, since perspective camera is fixed to screen height
+			scope.panForward( 2 * deltaZ * targetDistance / element.clientHeight );
+		} else if ( scope.object.top !== undefined ) {
+			// orthographic
+			scope.panForward( 2 * deltaZ * targetDistance / element.clientHeight );
 		} else {
 
 			// camera neither orthographic or perspective
@@ -273,9 +309,10 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		// restrict radius to be between desired limits
 		radius = Math.max( this.minDistance, Math.min( this.maxDistance, radius ) );
-		
+
 		// move target to panned location
 		this.target.add( pan );
+		this.target.add( forward );
 
 		offset.x = radius * Math.sin( phi ) * Math.sin( theta );
 		offset.y = radius * Math.cos( phi );
@@ -292,13 +329,14 @@ THREE.OrbitControls = function ( object, domElement ) {
 		phiDelta = 0;
 		scale = 1;
 		pan.set( 0, 0, 0 );
+		forward.set( 0, 0, 0 );
 
 		// update condition is:
 		// min(camera displacement, camera rotation in radians)^2 > EPS
 		// using small-angle approximation cos(x/2) = 1 - x^2 / 8
 
 		if ( lastPosition.distanceToSquared( this.object.position ) > EPS
-		    || 8 * (1 - lastQuaternion.dot(this.object.quaternion)) > EPS ) {
+			|| 8 * (1 - lastQuaternion.dot(this.object.quaternion)) > EPS ) {
 
 			this.dispatchEvent( changeEvent );
 
@@ -415,7 +453,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 			panEnd.set( event.clientX, event.clientY );
 			panDelta.subVectors( panEnd, panStart );
-			
+
 			scope.pan( panDelta.x, panDelta.y );
 
 			panStart.copy( panEnd );
@@ -458,12 +496,12 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		if ( delta > 0 ) {
 
-			scope.dollyOut();
-
+//                    scope.dollyOut();
+			scope.forward(delta);
 		} else {
 
-			scope.dollyIn();
-
+//                    scope.dollyIn();
+			scope.forward(delta);
 		}
 
 		scope.update();
@@ -475,7 +513,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	function onKeyDown( event ) {
 
 		if ( scope.enabled === false || scope.noKeys === true || scope.noPan === true ) return;
-		
+
 		switch ( event.keyCode ) {
 
 			case scope.keys.UP:
@@ -495,6 +533,16 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 			case scope.keys.RIGHT:
 				scope.pan( - scope.keyPanSpeed, 0 );
+				scope.update();
+				break;
+
+			case scope.keys.F:
+				scope.forward( scope.keyPanSpeed );
+				scope.update();
+				break;
+
+			case scope.keys.B:
+				scope.forward( - scope.keyPanSpeed );
 				scope.update();
 				break;
 
@@ -611,7 +659,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 				panEnd.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY );
 				panDelta.subVectors( panEnd, panStart );
-				
+
 				scope.pan( panDelta.x, panDelta.y );
 
 				panStart.copy( panEnd );
