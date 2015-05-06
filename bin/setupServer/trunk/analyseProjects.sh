@@ -7,7 +7,7 @@ git pull
 
 ./quick-build.sh
 
-cp /target/sonar-softVis3D-plugin-0.2.7-SNAPSHOT.jar /opt/sonarqube/sonar-application/target/sonarqube-5.2-SNAPSHOT/extensions/downloads/
+cp /target/sonar-softVis3D-plugin-0.2.8-SNAPSHOT.jar /opt/sonarqube/sonar-application/target/sonarqube-5.2-SNAPSHOT/extensions/downloads/
 
 ./start.sh
 

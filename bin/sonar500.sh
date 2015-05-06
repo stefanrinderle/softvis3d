@@ -8,7 +8,7 @@ DEPLOYDIR=${BASEDIR}"extensions/downloads"
 START=${BASEDIR}"bin/macosx-universal-64/sonar.sh"
 
 PLUGINFILE="src/main/java/de/rinderle/softvis3d/SoftVis3DPlugin.java"
-ARTEFACT="target/sonar-softVis3D-plugin-0.2.7-SNAPSHOT.jar"
+ARTEFACT="target/sonar-softVis3D-plugin-0.2.8-SNAPSHOT.jar"
 
 RUNNERCONFIG="/Users/stefan/opt/sonar-runner-2.4/conf/sonar-runner.properties"
 
