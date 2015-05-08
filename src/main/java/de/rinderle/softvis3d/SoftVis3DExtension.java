@@ -34,35 +34,11 @@ public class SoftVis3DExtension implements ServerExtension {
     LOGGER.warn("Constructor SoftVis3DExtension");
   }
 
+  /**
+   * Used in ruby view.
+   */
   public boolean isProd() {
     return SoftVis3DPlugin.IS_PROD;
   }
 
-  public boolean isLicenseValid() {
-    final Calendar now = Calendar.getInstance();
-    now.getTime();
-
-    final Calendar licenceEndDate = Calendar.getInstance();
-    licenceEndDate.set(2015, 8, 30, 0, 0);
-
-    final int compareResult = now.compareTo(licenceEndDate);
-
-    final String dateStringEndOfLicence =
-      DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(licenceEndDate.getTime());
-    LOGGER.debug("Checking licence which is valid till " + dateStringEndOfLicence);
-    final String dateStringNow =
-      DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(now.getTime());
-    LOGGER.debug("System time " + dateStringNow);
-
-    boolean isValid;
-    if (compareResult <= 0) {
-      LOGGER.debug("Licence valid " + compareResult);
-      isValid = true;
-    } else {
-      LOGGER.debug("Licence invalid " + compareResult);
-      isValid = false;
-    }
-
-    return isValid;
-  }
 }

@@ -19,9 +19,6 @@
  */
 package de.rinderle.softvis3d.domain.tree;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +26,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class TreeNode {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(TreeNode.class);
 
   private final Integer id;
   private String name;
@@ -111,8 +106,6 @@ public class TreeNode {
   }
 
   public DependencyTreeNode findInterfaceLeafNode(final String label) {
-    final Map<String, TreeNode> children = this.getChildren();
-
     if (children.containsKey(label)) {
       return (DependencyTreeNode) children.get(label);
     } else {
@@ -149,10 +142,10 @@ public class TreeNode {
       return treeNode;
     }
 
-    final Map<String, TreeNode> children = treeNode.getChildren();
+    final Map<String, TreeNode> nodeChildren = treeNode.getChildren();
     TreeNode temp;
-    if (!children.isEmpty()) {
-      for (final TreeNode child : children.values()) {
+    if (!nodeChildren.isEmpty()) {
+      for (final TreeNode child : nodeChildren.values()) {
         temp = this.recursiveSearch(id, child);
         if (temp != null) {
           return temp;

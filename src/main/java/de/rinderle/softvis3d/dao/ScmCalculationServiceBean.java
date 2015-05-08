@@ -36,7 +36,7 @@ public class ScmCalculationServiceBean implements ScmCalculationService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ScmCalculationService.class);
 
-  private final static SimpleDateFormat SCM_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+  private static final SimpleDateFormat SCM_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
   @Override
   public int getDifferentAuthors(String scmCommitterString, String scmTimeString) {

@@ -24,8 +24,6 @@ import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -35,7 +33,6 @@ import java.util.regex.Pattern;
  */
 public class PathWalker {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(PathWalker.class);
   private final RootTreeNode root;
   private final Pattern pathSeparator = Pattern.compile("/");
   // TODO: different generated id sequence in DependencyExpander and

@@ -195,6 +195,7 @@ public class SonarDaoBean implements SonarDao {
     try {
       return (Double) query.getSingleResult();
     } catch (NoResultException e) {
+      LOGGER.error("getMetricDouble for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage());
       return 0.0;
     }
   }
@@ -212,6 +213,7 @@ public class SonarDaoBean implements SonarDao {
     try {
       return (String) query.getSingleResult();
     } catch (NoResultException e) {
+      LOGGER.error("getMetricText for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage());
       return null;
     }
   }

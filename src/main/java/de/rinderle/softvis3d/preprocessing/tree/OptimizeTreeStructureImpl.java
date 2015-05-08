@@ -20,10 +20,9 @@
 package de.rinderle.softvis3d.preprocessing.tree;
 
 import de.rinderle.softvis3d.domain.tree.TreeNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
@@ -31,9 +30,6 @@ import java.util.TreeMap;
  * optimized tree structure as a result.
  */
 public class OptimizeTreeStructureImpl implements OptimizeTreeStructure {
-
-  private static final Logger LOGGER = LoggerFactory
-    .getLogger(OptimizeTreeStructureImpl.class);
 
   /**
    * An unnecessary node would be "B" in this example: A / \ B D / C
@@ -66,7 +62,7 @@ public class OptimizeTreeStructureImpl implements OptimizeTreeStructure {
   private void removeNodeFromStructure(final TreeNode node) {
     if (node.getParent() != null) {
       // set new parent for child
-      final TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node
+      final SortedMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node
         .getChildren();
       final TreeNode child = (TreeNode) children.values().toArray()[0];
 

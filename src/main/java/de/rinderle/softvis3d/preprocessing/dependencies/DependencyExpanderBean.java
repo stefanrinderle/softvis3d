@@ -37,6 +37,7 @@ public class DependencyExpanderBean implements DependencyExpander {
   private static final String DEP_PATH_EDGE_PREFIX = "depPath";
   private int generatedIdSequence = Integer.MAX_VALUE - 1000000;
 
+  @Override
   public void execute(final RootTreeNode treeRootNode, final List<SonarDependency> dependencies) {
     for (final SonarDependency dependency : dependencies) {
       final Dependency treeDependency = processSourceDependency(treeRootNode, dependency);
@@ -83,28 +84,31 @@ public class DependencyExpanderBean implements DependencyExpander {
   }
 
   private void createDependencyPath(TreeNode source, TreeNode dest, final Long dependencyId) {
-    while (!source.getParent().getId().equals(dest.getParent().getId())) {
-      if (source.getDepth() > dest.getDepth()) {
-        this.handleNewDepEdge(source, dependencyId, true);
-        source = source.getParent();
+    TreeNode sourceResult = source;
+    TreeNode destinationResult = dest;
+
+    while (!sourceResult.getParent().getId().equals(destinationResult.getParent().getId())) {
+      if (sourceResult.getDepth() > destinationResult.getDepth()) {
+        this.handleNewDepEdge(sourceResult, dependencyId, true);
+        sourceResult = sourceResult.getParent();
       } else {
-        this.handleNewDepEdge(dest, dependencyId, false);
-        dest = dest.getParent();
+        this.handleNewDepEdge(destinationResult, dependencyId, false);
+        destinationResult = destinationResult.getParent();
       }
     }
 
     // compute till both have the same parent
-    while (!source.getParent().getId().equals(dest.getParent().getId())) {
-      if (source.getDepth() > dest.getDepth()) {
-        this.handleNewDepEdge(source, dependencyId, true);
-        source = source.getParent();
+    while (!sourceResult.getParent().getId().equals(destinationResult.getParent().getId())) {
+      if (sourceResult.getDepth() > destinationResult.getDepth()) {
+        this.handleNewDepEdge(sourceResult, dependencyId, true);
+        sourceResult = sourceResult.getParent();
       } else {
-        this.handleNewDepEdge(dest, dependencyId, false);
-        dest = dest.getParent();
+        this.handleNewDepEdge(destinationResult, dependencyId, false);
+        destinationResult = destinationResult.getParent();
       }
     }
 
-    this.handleNewFlatDepEdge(source, dest, dependencyId);
+    this.handleNewFlatDepEdge(sourceResult, destinationResult, dependencyId);
   }
 
   private void handleNewFlatDepEdge(final TreeNode source, final TreeNode dest, final Long dependencyId) {

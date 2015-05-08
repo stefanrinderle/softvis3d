@@ -21,22 +21,26 @@ package de.rinderle.softvis3d.layout.dot;
 
 public class Version implements Comparable<Version> {
 
-  private String version;
+  private String versionNumber;
 
-  public Version(String version) {
-    if (version == null)
+  public Version(String versionNumber) {
+    if (versionNumber == null) {
       throw new IllegalArgumentException("Version can not be null");
-    if (!version.matches("[0-9]+(\\.[0-9]+)*"))
+    }
+
+    if (!versionNumber.matches("[0-9]+(\\.[0-9]+)*")) {
       throw new IllegalArgumentException("Invalid version format");
-    this.version = version;
+    }
+
+    this.versionNumber = versionNumber;
   }
 
   public final String get() {
-    return this.version;
+    return this.versionNumber;
   }
 
   @Override
-  public int compareTo(Version that) {
+  public int compareTo(final Version that) {
     if (that == null)
       return 1;
     String[] thisParts = this.get().split("\\.");
@@ -55,13 +59,18 @@ public class Version implements Comparable<Version> {
 
   @Override
   public boolean equals(Object that) {
-    if (this == that)
+    if (this == that) {
       return true;
-    if (that == null)
+    }
+    if (that == null) {
       return false;
-    if (this.getClass() != that.getClass())
-      return false;
-    return this.compareTo((Version) that) == 0;
+    }
+
+    return this.getClass() == that.getClass() && this.compareTo((Version) that) == 0;
   }
 
+  @Override
+  public int hashCode() {
+    return versionNumber.hashCode();
+  }
 }

@@ -21,8 +21,6 @@ package de.rinderle.softvis3d.layout.dot;
 
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -36,27 +34,26 @@ import static att.grappa.GrappaConstants.WIDTH_ATTR;
 
 public class ExecuteCommandImpl implements ExecuteCommand {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteCommandImpl.class);
-
   private static String checkForAdotBug(String line) {
-    if (line.contains(HEIGHT_ATTR)) {
-      line = addQuotationMarks(line, HEIGHT_ATTR);
-    } else if (line.contains(WIDTH_ATTR) && !line.contains(SoftVis3DConstants.GRAPH_ATTR_PENWIDTH)) {
-      line = line.replace(WIDTH_ATTR + "=", WIDTH_ATTR + "=\"");
-      if (line.indexOf(']') >= 0) {
-        line = line.replace("]", "\"]");
+    String result = line;
+    if (result.contains(HEIGHT_ATTR)) {
+      result = addQuotationMarks(result, HEIGHT_ATTR);
+    } else if (result.contains(WIDTH_ATTR) && !result.contains(SoftVis3DConstants.GRAPH_ATTR_PENWIDTH)) {
+      result = result.replace(WIDTH_ATTR + "=", WIDTH_ATTR + "=\"");
+      if (result.indexOf(']') >= 0) {
+        result = result.replace("]", "\"]");
       } else {
-        line = line + "\"";
+        result = result + "\"";
       }
     }
 
-    return line;
+    return result;
   }
 
   private static String addQuotationMarks(String line, final String attrName) {
-    line = line.replace(attrName + "=", attrName + "=\"");
-    line = line.replace(",", "\",");
-    return line;
+    String result = line.replace(attrName + "=", attrName + "=\"");
+    result = result.replace(",", "\",");
+    return result;
   }
 
   @Override

@@ -45,6 +45,7 @@ public class BottomUpLayoutBean implements BottomUpLayout {
   /**
    * Bottom up calculation of layout layers.
    */
+  @Override
   public LayeredLayoutElement accept(final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
 
     final RootTreeNode rootTreeNode = snapshotTreeResult.getTree();

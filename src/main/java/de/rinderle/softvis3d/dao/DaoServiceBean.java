@@ -79,7 +79,7 @@ public class DaoServiceBean implements DaoService {
 
     final List<SonarDependency> result = getDependencies(snapshotId);
 
-    return result.size() > 0;
+    return !result.isEmpty();
   }
 
   @Override
@@ -112,7 +112,7 @@ public class DaoServiceBean implements DaoService {
     List<ModuleInfo> modules = getDirectModuleChildrenIds(snapshotId);
 
     List<SonarDependency> result = new ArrayList<SonarDependency>();
-    if (modules == null || modules.size() == 0) {
+    if (modules == null || modules.isEmpty()) {
       result = this.dependencyDao.getDependencies(snapshotId);
     } else {
       for (ModuleInfo module : modules) {
@@ -142,10 +142,11 @@ public class DaoServiceBean implements DaoService {
       builder.withFootprintMeasure(sonarDao.getMetricDouble(requestDTO.getFootprintMetricId(), snapshotId));
       builder.withHeightMeasure(sonarDao.getMetricDouble(requestDTO.getHeightMetricId(), snapshotId));
 
-      final String authors = this.sonarDao.getMetricText(authorMetricId, snapshotId);
-      final String authorDateMetric = this.sonarDao.getMetricText(authorDateMetricId, snapshotId);
+      // TODO: do something with this information here or delete.
+//      final String authors = this.sonarDao.getMetricText(authorMetricId, snapshotId);
+//      final String authorDateMetric = this.sonarDao.getMetricText(authorDateMetricId, snapshotId);
 
-      int differentAuthors = scmCalculationService.getDifferentAuthors(authors, authorDateMetric);
+//      int differentAuthors = scmCalculationService.getDifferentAuthors(authors, authorDateMetric);
 
       SonarSnapshot snapshotResult = builder.build();
 

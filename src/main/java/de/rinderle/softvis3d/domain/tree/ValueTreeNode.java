@@ -24,8 +24,6 @@ import org.slf4j.LoggerFactory;
 
 public class ValueTreeNode extends TreeNode {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ValueTreeNode.class);
-
   private final double heightMetricValue;
   private final double footprintMetricValue;
   private final int authorCount;

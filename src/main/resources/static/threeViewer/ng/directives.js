@@ -1,12 +1,22 @@
 /*
  * SoftVis3D Sonar plugin
- * Copyright (C) 2014 - Stefan Rinderle
+ * Copyright (C) 2014 Stefan Rinderle
  * stefan@rinderle.info
  *
- * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
- * permission of Stefan Rinderle.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-'use strict';
 goog.provide('ThreeViewer.Directives');
 
 /**
@@ -15,17 +25,17 @@ goog.provide('ThreeViewer.Directives');
  * @constructor
  */
 ThreeViewer.SelectDirective = function (ViewerService) {
-    /** @type {angular.Scope} */
-    this.scope;
-    /** @type {angular.JQLite} */
-    this.elem;
-    /** @type {angular.Attributes} */
-    this.attrs;
+  /** @type {angular.Scope} */
+  this.scope;
+  /** @type {angular.JQLite} */
+  this.elem;
+  /** @type {angular.Attributes} */
+  this.attrs;
 
-    /**@type {ThreeViewer.ViewerService} */
-    this.ViewerService = ViewerService;
+  /**@type {ThreeViewer.ViewerService} */
+  this.ViewerService = ViewerService;
 
-    this.link = this.link.bind(this);
+  this.link = this.link.bind(this);
 };
 
 /**
@@ -36,11 +46,11 @@ ThreeViewer.SelectDirective = function (ViewerService) {
  * @ngInject
  */
 ThreeViewer.SelectDirective.factory = function (ViewerService) {
-    var d = new ThreeViewer.SelectDirective(ViewerService);
-    return {
-        'restrict': 'A',
-        link: d.link
-    };
+  var d = new ThreeViewer.SelectDirective(ViewerService);
+  return {
+    'restrict': 'A',
+    link: d.link
+  };
 };
 
 /**
@@ -48,68 +58,68 @@ ThreeViewer.SelectDirective.factory = function (ViewerService) {
  * @ngInject
  */
 ThreeViewer.SelectDirective.prototype.link = function (scope, elem, attrs) {
-    this.scope = scope;
-    this.elem = elem;
-    this.attrs = attrs;
+  this.scope = scope;
+  this.elem = elem;
+  this.attrs = attrs;
 
-    jQuery(this.elem).hammer({
-        prevent_default: false
-    }).bind('tap', function (event) {
-        this.ViewerService.makeSelection(event);
-    }.bind(this));
+  jQuery(this.elem).hammer({
+    prevent_default: false
+  }).bind('tap', function (event) {
+    this.ViewerService.makeSelection(event);
+  }.bind(this));
 };
 
 /**
  * @constructor
  */
 ThreeViewer.FileLoaderDirective = function () {
-    return {
-        restrict: 'A',
-        templateUrl: RESOURCES_BASE_PATH + '/static/softVis3D/threeViewer/partials/file-loader.html'
-    };
+  return {
+    restrict: 'A',
+    templateUrl: RESOURCES_BASE_PATH + '/static/softVis3D/threeViewer/partials/file-loader.html'
+  };
 };
 
 /**
  * @constructor
  */
 ThreeViewer.ToolbarDirective = function () {
-    return {
-        restrict: 'A',
-        templateUrl: RESOURCES_BASE_PATH + '/static/softVis3D/threeViewer/partials/toolbar.html'
-    };
+  return {
+    restrict: 'A',
+    templateUrl: RESOURCES_BASE_PATH + '/static/softVis3D/threeViewer/partials/toolbar.html'
+  };
 };
 
 /**
  * @constructor
  */
 ThreeViewer.HelpDirective = function () {
-    return {
-        restrict: 'A',
-        templateUrl: RESOURCES_BASE_PATH + '/static/softVis3D/threeViewer/partials/help.html'
-    };
+  return {
+    restrict: 'A',
+    templateUrl: RESOURCES_BASE_PATH + '/static/softVis3D/threeViewer/partials/help.html'
+  };
 };
 
 /**
  * @constructor
  */
 ThreeViewer.StopEventDirective = function () {
-    /** @type {angular.Scope} */
-    this.scope;
-    /** @type {angular.JQLite} */
-    this.elem;
-    /** @type {angular.Attributes} */
-    this.attrs;
+  /** @type {angular.Scope} */
+  this.scope;
+  /** @type {angular.JQLite} */
+  this.elem;
+  /** @type {angular.Attributes} */
+  this.attrs;
 
-    this.link = this.link.bind(this);
+  this.link = this.link.bind(this);
 };
 
 ThreeViewer.StopEventDirective.factory = function () {
-    var d = new ThreeViewer.StopEventDirective();
+  var d = new ThreeViewer.StopEventDirective();
 
-    return {
-        restrict: 'A',
-        link: d.link
-    };
+  return {
+    restrict: 'A',
+    link: d.link
+  };
 };
 /**
  * Linking function
@@ -118,11 +128,11 @@ ThreeViewer.StopEventDirective.factory = function () {
  * @param {angular.Attributes} attrs
  */
 ThreeViewer.StopEventDirective.prototype.link = function (scope, elem, attrs) {
-    this.scope = scope;
-    this.elem = elem;
-    this.attrs = attrs;
-    this.elem.on('click', function (e) {
-        e.stopImmediatePropagation();
-        e.preventDefault();
-    });
+  this.scope = scope;
+  this.elem = elem;
+  this.attrs = attrs;
+  this.elem.on('click', function (e) {
+    e.stopImmediatePropagation();
+    e.preventDefault();
+  });
 };

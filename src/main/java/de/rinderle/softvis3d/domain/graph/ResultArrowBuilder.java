@@ -31,7 +31,7 @@ import java.util.List;
 
 public class ResultArrowBuilder {
 
-  private final static HexaColor BLUE = new HexaColor(0, 0, 255);
+  private static final HexaColor BLUE = new HexaColor(0, 0, 255);
 
   String headBuildingId;
   String tailBuildingId;

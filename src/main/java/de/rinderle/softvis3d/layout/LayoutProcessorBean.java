@@ -28,15 +28,11 @@ import de.rinderle.softvis3d.layout.bottomUp.BottomUpLayout;
 import de.rinderle.softvis3d.layout.bottomUp.BottomUpLayoutBean;
 import de.rinderle.softvis3d.layout.bottomUp.SnapshotVisitor;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
 
 import java.util.Map;
 
 public class LayoutProcessorBean implements LayoutProcessor {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(LayoutProcessorBean.class);
 
   @Inject
   private SnapshotVisitorFactory visitorFactory;
