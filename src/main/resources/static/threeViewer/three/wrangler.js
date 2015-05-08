@@ -40,7 +40,7 @@ Viewer.Wrangler.prototype = {
     listeners: function () {
     },
 
-    loadSoftVis3d: function(data) {
+    loadSoftVis3d: function (data) {
         this.removeAllFromScene();
 
         this.resultObjects = this.context.objectFactory.createObjects(data);
@@ -152,7 +152,7 @@ Viewer.Wrangler.prototype = {
     /**
      * Removes the old object from the scene
      */
-    removeAllFromScene: function(){
+    removeAllFromScene: function () {
         for (var index = 0; index < this.objectsInView.length; index++) {
             var object = this.objectsInView[index];
             this.context.scene.remove(object);

@@ -11,13 +11,17 @@
 <div id="file-loader" class="closeLoader" ng-controller="FileLoaderController as loader" ng-cloak>
     <div id="loader-buttons">
         <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.city}"
-             ng-click="loader.showTab('city');">City</div>
+             ng-click="loader.showTab('city');">City
+        </div>
         <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.dependency}"
-             ng-click="loader.showTab('dependency');">Dependency</div>
+             ng-click="loader.showTab('dependency');">Dependency
+        </div>
         <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.custom}"
-             ng-click="loader.showTab('custom');">Custom</div>
+             ng-click="loader.showTab('custom');">Custom
+        </div>
         <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.info}"
-             ng-click="loader.showTab('info');" ng-show="loader.infoInnerState != 'idle'">Info</div>
+             ng-click="loader.showTab('info');" ng-show="loader.infoInnerState != 'idle'">Info
+        </div>
 
         <div href="#" class="close closeLoader" ng-click="viewer.toggleLoader()">X</div>
     </div>
@@ -25,11 +29,11 @@
         <div id="city-loader" class="loader-options" ng-show="loader.state.city" ng-cloak>
             <p>
                 The code city view is focused on the structure
-                and file metrics of the project.<br />
+                and file metrics of the project.<br/>
                 Folders or packages are shown as districts, files as buildings. The building footprint and height are
                 dependent on two arbitrary sonar metrics.
             </p>
-            <br />
+            <br/>
             <select ng-model="loader.cityInnerState">
                 <option value="complexity" label="Complexity and lines">Complexity
                     and lines
@@ -41,7 +45,8 @@
                     and lines
                 </option>
             </select>
-            <br /><br />
+            <br/><br/>
+
             <div ng-show="loader.cityInnerState === 'complexity'">
                 The calculated complexity for each file is the base for the building footprint. The lines of
                 code metric is used for the building height.
@@ -59,7 +64,7 @@
                 code metric is used for the building height.
                 Search for skyscraper buildings and especially for ones with a small footprint.
             </div>
-            <br />
+            <br/>
             <button ng-click="loader.submitCityForm()" ng-disabled="!loader.configLoaded">Show</button>
         </div>
         <div id="dependency-loader" class="loader-options" ng-show="loader.state.dependency" ng-cloak>
@@ -72,7 +77,7 @@
                     dependencies within that structure.The basic 3D layout for the structure is build downwards. The
                     dependencies have been aggregated and can be explored easily without overloading the visualisation.
                 </p>
-                <br />
+                <br/>
                 <button ng-click="loader.loadDependencyView()" ng-disabled="!loader.configLoaded">Show</button>
             </div>
         </div>
@@ -85,17 +90,17 @@
                 </option>
             </select>
 
-            <br /><br />
-            Building footprint metric:<br />
+            <br/><br/>
+            Building footprint metric:<br/>
             <select name="metric1" ng-options="item.id as item.name for item in loader.availableMetrics"
                     ng-model="loader.settings.metric1" style="width: 200px;"></select>
 
-            <br /><br />
-            Building height metric:<br />
+            <br/><br/>
+            Building height metric:<br/>
             <select name="metric2" ng-options="item.id as item.name for item in loader.availableMetrics"
                     ng-model="loader.settings.metric2" style="width: 200px;"></select>
 
-            <br /><br />
+            <br/><br/>
             <button ng-click="loader.loadCustomView()" ng-disabled="!loader.configLoaded">Show</button>
         </div>
         <div class="loader-options" ng-show="loader.state.info" ng-cloak>
@@ -103,21 +108,25 @@
                 Idle
             </div>
             <div ng-show="loader.infoInnerState === 'loading'" style="text-align: center;">
-                <br /><br /><br />
+                <br/><br/><br/>
                 <img ng-src="{{loader.BASE_PATH}}/static/softVis3D/images/ajax-loader.gif"/>
-                <br /><br />
+                <br/><br/>
+
                 <p>Please wait...</p>
             </div>
             <div ng-show="loader.infoInnerState === 'error'" style="text-align: center;">
                 <h1>Ups. An error occurred:</h1>
+
                 <p>{{loader.exceptionMessage}}</p>
             </div>
         </div>
         <div style="position: absolute; bottom: 0; text-align: center;">
-            <br />
-            <p>Please also take a look at the <a href="http://softvis3d.com/" target="_blank">project web page</a> and the <a
-                    href="http://softvis3d.com/#/details/usage" target="_blank">usage guide</a>.</p>
-            <br />
+            <br/>
+
+            <p>Please also take a look at the <a href="http://softvis3d.com/" target="_blank">project web page</a> and
+                the <a
+                        href="http://softvis3d.com/#/details/usage" target="_blank">usage guide</a>.</p>
+            <br/>
         </div>
     </div>
 </div>

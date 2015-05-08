@@ -1,10 +1,21 @@
 /*
  * SoftVis3D Sonar plugin
- * Copyright (C) 2014 - Stefan Rinderle
+ * Copyright (C) 2014 Stefan Rinderle
  * stefan@rinderle.info
  *
- * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
- * permission of Stefan Rinderle.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 package de.rinderle.softvis3d.domain.graph;
 
@@ -12,44 +23,44 @@ import java.util.List;
 
 public class ResultArrow extends BaseResultObject {
 
-    private final String headBuildingId;
-    private final String tailBuildingId;
-    private final double radius;
+  private final String headBuildingId;
+  private final String tailBuildingId;
+  private final double radius;
 
-    private List<Point3d> linePoints;
+  private List<Point3d> linePoints;
 
-    public ResultArrow(ResultArrowBuilder resultArrowBuilder) {
-        this.headBuildingId = resultArrowBuilder.headBuildingId;
-        this.tailBuildingId = resultArrowBuilder.tailBuildingId;
-        this.radius = resultArrowBuilder.radius;
+  public ResultArrow(ResultArrowBuilder resultArrowBuilder) {
+    this.headBuildingId = resultArrowBuilder.headBuildingId;
+    this.tailBuildingId = resultArrowBuilder.tailBuildingId;
+    this.radius = resultArrowBuilder.radius;
 
-        this.setColor(resultArrowBuilder.color);
+    this.setColor(resultArrowBuilder.color);
 
-        this.linePoints = resultArrowBuilder.linePoints;
-    }
+    this.linePoints = resultArrowBuilder.linePoints;
+  }
 
-    public String getId() {
-        return this.getTailId() + " -> " + getHeadId();
-    }
+  public String getId() {
+    return this.getTailId() + " -> " + getHeadId();
+  }
 
-    public String getTailId() {
-        return tailBuildingId;
-    }
+  public String getTailId() {
+    return tailBuildingId;
+  }
 
-    public String getHeadId() {
-        return headBuildingId;
-    }
+  public String getHeadId() {
+    return headBuildingId;
+  }
 
-    public double getRadius() {
-        return radius;
-    }
+  public double getRadius() {
+    return radius;
+  }
 
-    public List<Point3d> getLinePoints() {
-        return linePoints;
-    }
+  public List<Point3d> getLinePoints() {
+    return linePoints;
+  }
 
-    public void setPoints(final List<Point3d> linePoints) {
-        this.linePoints = linePoints;
-    }
+  public void setPoints(final List<Point3d> linePoints) {
+    this.linePoints = linePoints;
+  }
 
 }

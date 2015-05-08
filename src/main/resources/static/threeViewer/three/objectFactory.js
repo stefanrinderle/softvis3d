@@ -137,15 +137,15 @@ Viewer.ObjectFactory.prototype = {
         var pipeSpline = new THREE.SplineCurve3(nurbsCurve.getPoints(200));
 
         var tubegeometry = new THREE.TubeGeometry(
-                pipeSpline,  //path
-                20,    //segments
-                radius,     //radius
-                8,     //radiusSegments
-                false  //closed
+            pipeSpline,  //path
+            20,    //segments
+            radius,     //radius
+            8,     //radiusSegments
+            false  //closed
         );
 
         var edgeMesh = new THREE.Mesh(tubegeometry,
-                new THREE.MeshBasicMaterial({ color: "#0000ff" }));
+            new THREE.MeshBasicMaterial({color: "#0000ff"}));
 
         edgeMesh.softVis3dId = arrow.id;
         edgeMesh.softVis3dType = "dependency";
@@ -177,7 +177,7 @@ Viewer.ObjectFactory.prototype = {
          height, radiusSegments, heightSegments */
         var edgeHeadGeometry = new THREE.CylinderGeometry(1, radius + 3, 10, 8, 1);
         var edgeHead = new THREE.Mesh(edgeHeadGeometry,
-            new THREE.MeshBasicMaterial({ color: "#000000" }));
+            new THREE.MeshBasicMaterial({color: "#000000"}));
 
         edgeHead.applyMatrix(orientation);
         edgeHead.applyMatrix(new THREE.Matrix4().makeTranslation(

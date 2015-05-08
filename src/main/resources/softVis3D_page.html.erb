@@ -1,11 +1,11 @@
 <link rel="stylesheet" type="text/css" href="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/css/main.css">
 
 <%
-# get extension class and start layout
-softVis3D = Api::Utils.java_facade.
+   # get extension class and start layout
+   softVis3D = Api::Utils.java_facade.
            getComponentByClassname('softVis3D', 'de.rinderle.softvis3d.SoftVis3DExtension')
 
-if (!softVis3D.isLicenseValid())
+   if (!softVis3D.isLicenseValid())
 %>
     <div>
         This beta version of the plugin works only till end of june 2015. Please take a look at the

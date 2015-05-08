@@ -35,7 +35,7 @@ ThreeViewer.SelectDirective = function (ViewerService) {
  *
  * @ngInject
  */
-ThreeViewer.SelectDirective.factory = function(ViewerService) {
+ThreeViewer.SelectDirective.factory = function (ViewerService) {
     var d = new ThreeViewer.SelectDirective(ViewerService);
     return {
         'restrict': 'A',
@@ -54,7 +54,7 @@ ThreeViewer.SelectDirective.prototype.link = function (scope, elem, attrs) {
 
     jQuery(this.elem).hammer({
         prevent_default: false
-    }).bind('tap', function(event) {
+    }).bind('tap', function (event) {
         this.ViewerService.makeSelection(event);
     }.bind(this));
 };
@@ -62,7 +62,7 @@ ThreeViewer.SelectDirective.prototype.link = function (scope, elem, attrs) {
 /**
  * @constructor
  */
-ThreeViewer.FileLoaderDirective = function() {
+ThreeViewer.FileLoaderDirective = function () {
     return {
         restrict: 'A',
         templateUrl: RESOURCES_BASE_PATH + '/static/softVis3D/threeViewer/partials/file-loader.html'
@@ -72,7 +72,7 @@ ThreeViewer.FileLoaderDirective = function() {
 /**
  * @constructor
  */
-ThreeViewer.ToolbarDirective = function() {
+ThreeViewer.ToolbarDirective = function () {
     return {
         restrict: 'A',
         templateUrl: RESOURCES_BASE_PATH + '/static/softVis3D/threeViewer/partials/toolbar.html'
@@ -82,7 +82,7 @@ ThreeViewer.ToolbarDirective = function() {
 /**
  * @constructor
  */
-ThreeViewer.HelpDirective = function() {
+ThreeViewer.HelpDirective = function () {
     return {
         restrict: 'A',
         templateUrl: RESOURCES_BASE_PATH + '/static/softVis3D/threeViewer/partials/help.html'
@@ -121,7 +121,7 @@ ThreeViewer.StopEventDirective.prototype.link = function (scope, elem, attrs) {
     this.scope = scope;
     this.elem = elem;
     this.attrs = attrs;
-    this.elem.on('click', function(e){
+    this.elem.on('click', function (e) {
         e.stopImmediatePropagation();
         e.preventDefault();
     });

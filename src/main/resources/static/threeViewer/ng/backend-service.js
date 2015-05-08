@@ -9,15 +9,15 @@
 'use strict';
 goog.provide('ThreeViewer.BackendService');
 
-ThreeViewer.BackendService = function($http){
+ThreeViewer.BackendService = function ($http) {
     this.http = $http;
 };
 
 ThreeViewer.BackendService.prototype.getVisualization = function (snapshotId, footprintMetricId, heightMetricId, viewType) {
     return this.http.get("../../api/softVis3D/getVisualization?snapshotId=" + snapshotId
-        + "&footprintMetricId=" + footprintMetricId
-        + "&heightMetricId=" + heightMetricId
-        + "&viewType=" + viewType);
+    + "&footprintMetricId=" + footprintMetricId
+    + "&heightMetricId=" + heightMetricId
+    + "&viewType=" + viewType);
 };
 
 ThreeViewer.BackendService.prototype.getConfig = function (snapshotId) {

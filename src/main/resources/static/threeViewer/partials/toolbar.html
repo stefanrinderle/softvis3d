@@ -12,7 +12,8 @@
     <h2>Toolbar</h2><a href="#" class="close" ng-click="viewer.toggleToolbar()">X</a>
 
     <div ng-show="(toolbar.node || toolbar.edge)" class="toolbar-content">
-        <br />
+        <br/>
+
         <p ng-show="toolbar.metric1Name || toolbar.metric2Name">
             ({{toolbar.metric1Name}} / {{toolbar.metric2Name}})
         </p>
@@ -27,7 +28,8 @@
                 <span ng-show="!toolbar.node.isNode">({{toolbar.node.footprintMetricValue}} / {{toolbar.node.heightMetricValue}})</span>
             </h2>
             <br/>
-            <button ng-show="toolbar.node.isNode" type='button' ng-click='toolbar.hideAllSceneElementsExceptIdTree(toolbar.node.id);'>Focus this
+            <button ng-show="toolbar.node.isNode" type='button'
+                    ng-click='toolbar.hideAllSceneElementsExceptIdTree(toolbar.node.id);'>Focus this
             </button>
         </div>
 
@@ -53,18 +55,22 @@
             <br/>
 
             <h3>
-                <img ng-hide="toolbar.displayEdges" ng-click="toolbar.triggerDisplayEdges();" style="vertical-align: top;"
+                <img ng-hide="toolbar.displayEdges" ng-click="toolbar.triggerDisplayEdges();"
+                     style="vertical-align: top;"
                      ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_plus.gif"/>
-                <img ng-show="toolbar.displayEdges" ng-click="toolbar.triggerDisplayEdges();" style="vertical-align: top;"
+                <img ng-show="toolbar.displayEdges" ng-click="toolbar.triggerDisplayEdges();"
+                     style="vertical-align: top;"
                      ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_minus.gif"/>
                 Dependencies ({{toolbar.inEdges.length + toolbar.outEdges.length}})
             </h3>
             <ul ng-show="toolbar.displayEdges" style="list-style: none;">
                 <h3>Inbound</h3>
                 <li ng-repeat="edge in toolbar.inEdges">
-                    <img ng-hide="edge.displayDetails" ng-click="toolbar.triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
+                    <img ng-hide="edge.displayDetails" ng-click="toolbar.triggerDisplayEdgeDetails(edge);"
+                         style="vertical-align: top;"
                          ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_plus.gif"/>
-                    <img ng-show="edge.displayDetails" ng-click="toolbar.triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
+                    <img ng-show="edge.displayDetails" ng-click="toolbar.triggerDisplayEdgeDetails(edge);"
+                         style="vertical-align: top;"
                          ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_minus.gif"/>
                     <a href='#' ng-click="toolbar.selectAllDependentDependencies(edge);">
                         {{edge.sourceName}} -> ({{edge.includingDependencies.length}})
@@ -79,9 +85,11 @@
                 </li>
                 <h3>Outbound</h3>
                 <li ng-repeat="edge in toolbar.outEdges">
-                    <img ng-hide="edge.displayDetails" ng-click="toolbar.triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
+                    <img ng-hide="edge.displayDetails" ng-click="toolbar.triggerDisplayEdgeDetails(edge);"
+                         style="vertical-align: top;"
                          ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_plus.gif"/>
-                    <img ng-show="edge.displayDetails" ng-click="toolbar.triggerDisplayEdgeDetails(edge);" style="vertical-align: top;"
+                    <img ng-show="edge.displayDetails" ng-click="toolbar.triggerDisplayEdgeDetails(edge);"
+                         style="vertical-align: top;"
                          ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_minus.gif"/>
                     <a href='#' ng-click="toolbar.selectAllDependentDependencies(edge);">
                         -> {{edge.destinationName}} ({{edge.includingDependencies.length}})
@@ -100,9 +108,11 @@
         <!-- EDGE INCLUDING EDGE DETAILS -->
         <div ng-show="toolbar.edgeIncludingEdges">
             <h3>
-                <img ng-hide="toolbar.displayEdgeIncludingEdges" ng-click="toolbar.triggerDisplayEdgeIncludingEdges();" style="vertical-align: top;"
+                <img ng-hide="toolbar.displayEdgeIncludingEdges" ng-click="toolbar.triggerDisplayEdgeIncludingEdges();"
+                     style="vertical-align: top;"
                      ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_plus.gif"/>
-                <img ng-show="toolbar.displayEdgeIncludingEdges" ng-click="toolbar.triggerDisplayEdgeIncludingEdges();" style="vertical-align: top;"
+                <img ng-show="toolbar.displayEdgeIncludingEdges" ng-click="toolbar.triggerDisplayEdgeIncludingEdges();"
+                     style="vertical-align: top;"
                      ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_minus.gif"/>
                 Including dependencies
             </h3>
@@ -122,7 +132,8 @@
             <h3>Parent</h3>
 
             <p>
-                <a href='#' ng-click="toolbar.selectSceneObjectFromDetails(toolbar.node.parentInfo.id, toolbar.node.parentInfo.type);">
+                <a href='#'
+                   ng-click="toolbar.selectSceneObjectFromDetails(toolbar.node.parentInfo.id, toolbar.node.parentInfo.type);">
                     {{toolbar.node.parentInfo.name}}
                 </a>
             </p>
@@ -132,9 +143,11 @@
             <br/>
 
             <h3>
-                <img ng-hide="toolbar.displayChildren" ng-click="toolbar.triggerDisplayChildren();" style="vertical-align: text-top;"
+                <img ng-hide="toolbar.displayChildren" ng-click="toolbar.triggerDisplayChildren();"
+                     style="vertical-align: text-top;"
                      ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_plus.gif"/>
-                <img ng-show="toolbar.displayChildren" ng-click="toolbar.triggerDisplayChildren();" style="vertical-align: text-top;"
+                <img ng-show="toolbar.displayChildren" ng-click="toolbar.triggerDisplayChildren();"
+                     style="vertical-align: text-top;"
                      ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_minus.gif"/>
                 Children ({{toolbar.node.children.length}})
             </h3>

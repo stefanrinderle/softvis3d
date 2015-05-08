@@ -1,15 +1,25 @@
 /*
  * SoftVis3D Sonar plugin
- * Copyright (C) 2014 - Stefan Rinderle
+ * Copyright (C) 2014 Stefan Rinderle
  * stefan@rinderle.info
  *
- * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
- * permission of Stefan Rinderle.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 package de.rinderle.softvis3d.preprocessing;
 
 import com.google.inject.Inject;
-import de.rinderle.softvis3d.SoftVis3DPlugin;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
@@ -27,45 +37,45 @@ import java.util.List;
 
 public class PreProcessorBean implements PreProcessor {
 
-    @Inject
-    private TreeBuilder treeBuilder;
-    @Inject
-    private OptimizeTreeStructure optimizeTreeStructure;
-    @Inject
-    private SnapshotCacheService snapshotCacheService;
-    @Inject
-    private DaoService daoService;
-    @Inject
-    private DependencyExpander dependencyExpander;
+  @Inject
+  private TreeBuilder treeBuilder;
+  @Inject
+  private OptimizeTreeStructure optimizeTreeStructure;
+  @Inject
+  private SnapshotCacheService snapshotCacheService;
+  @Inject
+  private DaoService daoService;
+  @Inject
+  private DependencyExpander dependencyExpander;
 
-    @Override
-    public SnapshotTreeResult process(VisualizationRequest requestDTO, Settings settings) {
-        snapshotCacheService.printCacheContents();
+  @Override
+  public SnapshotTreeResult process(VisualizationRequest requestDTO, Settings settings) {
+    snapshotCacheService.printCacheContents();
 
-        final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
+    final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
-        boolean cacheEnabled = settings.getBoolean("cacheEnabled");
+    boolean cacheEnabled = settings.getBoolean("cacheEnabled");
 
-        final SnapshotTreeResult result;
-        if (cacheEnabled && snapshotCacheService.containsKey(mapKey)) {
-            result = snapshotCacheService.getSnapshotTreeResult(mapKey);
-        } else {
-            final RootTreeNode tree = treeBuilder.createTreeStructure(requestDTO);
-            this.optimizeTreeStructure.removeUnnecessaryNodes(tree);
+    final SnapshotTreeResult result;
+    if (cacheEnabled && snapshotCacheService.containsKey(mapKey)) {
+      result = snapshotCacheService.getSnapshotTreeResult(mapKey);
+    } else {
+      final RootTreeNode tree = treeBuilder.createTreeStructure(requestDTO);
+      this.optimizeTreeStructure.removeUnnecessaryNodes(tree);
 
-            if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
-                final List<SonarDependency> dependencies =
-                        this.daoService.getDependencies(requestDTO.getRootSnapshotId());
-                this.dependencyExpander.execute(tree, dependencies);
-            }
+      if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
+        final List<SonarDependency> dependencies =
+          this.daoService.getDependencies(requestDTO.getRootSnapshotId());
+        this.dependencyExpander.execute(tree, dependencies);
+      }
 
-            result = new SnapshotTreeResult(mapKey, tree);
-            if (cacheEnabled) {
-                this.snapshotCacheService.save(result);
-            }
-        }
-
-        return result;
+      result = new SnapshotTreeResult(mapKey, tree);
+      if (cacheEnabled) {
+        this.snapshotCacheService.save(result);
+      }
     }
+
+    return result;
+  }
 
 }

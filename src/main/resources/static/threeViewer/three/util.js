@@ -17,13 +17,13 @@ Viewer.Util = {
      *  Create a random color
      */
     randomHex: function () {
-        return ('000000' + Math.floor(Math.random()*16777215).toString(16)).slice(-6);
+        return ('000000' + Math.floor(Math.random() * 16777215).toString(16)).slice(-6);
     },
 
     /**
-    *   Change a group of meshes to random colors.
-    *   @param {THREE.Mesh} mesh Cube mesh.
-    */
+     *   Change a group of meshes to random colors.
+     *   @param {THREE.Mesh} mesh Cube mesh.
+     */
     changeColor: function (mesh) {
 
         var rand = parseInt('0x' + this.randomHex(), 16);
@@ -41,8 +41,8 @@ Viewer.Util = {
 
     supportsWebGL: function () {
         try {
-            return !! window.WebGLRenderingContext && !! document.createElement( 'canvas' ).getContext( 'experimental-webgl' );
-        } catch( e ) {
+            return !!window.WebGLRenderingContext && !!document.createElement('canvas').getContext('experimental-webgl');
+        } catch (e) {
             return false;
         }
     }

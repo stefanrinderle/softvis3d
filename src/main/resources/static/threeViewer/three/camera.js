@@ -46,35 +46,35 @@ Viewer.Cameras = function (params) {
 
 Viewer.Cameras.prototype = {
 
-  /**
-   * Initialize a camera.
-   */
-  init: function () {
-    if(this.ORTHO_CAMERA){
-      this.initOrthographicCamera();
-    } else {
-      this.initPerspective();
-    }
-  },
+    /**
+     * Initialize a camera.
+     */
+    init: function () {
+        if (this.ORTHO_CAMERA) {
+            this.initOrthographicCamera();
+        } else {
+            this.initPerspective();
+        }
+    },
 
     /**
      *  Inititalize the orthographic camera.
      */
     initOrthographicCamera: function () {
         this.orthoCam = new THREE.OrthographicCamera
-                            (
-                                -this.ASPECT_RATIO * this.VIEWSIZE/2,
-                                this.ASPECT_RATIO * this.VIEWSIZE/2,
-                                this.VIEWSIZE / 2,
-                                this.VIEWSIZE / -2,
-                                this.ORTH_NEAR_PLANE,
-                                this.ORTH_FAR_PLANE
-                            );
+        (
+            -this.ASPECT_RATIO * this.VIEWSIZE / 2,
+            this.ASPECT_RATIO * this.VIEWSIZE / 2,
+            this.VIEWSIZE / 2,
+            this.VIEWSIZE / -2,
+            this.ORTH_NEAR_PLANE,
+            this.ORTH_FAR_PLANE
+        );
 
         this.orthoCam.name = 'ortho';
 
-    this.liveCam = this.orthoCam;
-  },
+        this.liveCam = this.orthoCam;
+    },
 
     /**
      * Initialize the perspective camera.
@@ -82,26 +82,26 @@ Viewer.Cameras.prototype = {
     initPerspective: function () {
 
         this.perpCam = new THREE.PerspectiveCamera
-                        (
-                            this.FOV,
-                            this.ASPECT_RATIO,
-                            this.PERP_NEAR_PLANE,
-                            this.PERP_FAR_PLANE
-                        );
+        (
+            this.FOV,
+            this.ASPECT_RATIO,
+            this.PERP_NEAR_PLANE,
+            this.PERP_FAR_PLANE
+        );
 
         this.perpCam.position.y = 800;
         this.perpCam.position.z = 800;
-        this.perpCam.lookAt( this.context.scene.position );
+        this.perpCam.lookAt(this.context.scene.position);
 
         this.perpCam.name = 'perp';
 
         this.liveCam = this.perpCam;
-  },
+    },
 
     setCameraPosition: function (positionX, positionY, positionZ) {
         this.perpCam.position.x = positionX;
         this.perpCam.position.y = positionY;
         this.perpCam.position.z = positionZ;
-        this.perpCam.lookAt( this.context.scene.position );
+        this.perpCam.lookAt(this.context.scene.position);
     }
 };

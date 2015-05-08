@@ -43,10 +43,10 @@ Viewer.Setup.prototype = {
         this.setupRenderer();
         this.lights();
         this.createGeometry();
-        if(SETUP.SCENE.HELPERS){
+        if (SETUP.SCENE.HELPERS) {
             this.helpers();
         }
-        this.context.renderer.setClearColorHex( 0xffffff, 1 );
+        this.context.renderer.setClearColorHex(0xffffff, 1);
     },
 
     /**
@@ -118,10 +118,10 @@ Viewer.Setup.prototype = {
      * Add supporting geometry to the scene.
      */
     createGeometry: function () {
-        if(SETUP.SCENE.GROUND) {
+        if (SETUP.SCENE.GROUND) {
             this.createGround();
         }
-        if(SETUP.SCENE.GRID) {
+        if (SETUP.SCENE.GRID) {
             this.createGrid();
         }
     },
@@ -132,14 +132,14 @@ Viewer.Setup.prototype = {
         var size = 100, step = 10;
         var geometry = new THREE.Geometry();
         var material = new THREE.LineBasicMaterial({color: 'black'});
-        for(var i = -size; i <= size; i += step){
+        for (var i = -size; i <= size; i += step) {
             geometry.vertices.push(new THREE.Vector3(-size, 0.04, i));
             geometry.vertices.push(new THREE.Vector3(size, 0.04, i));
             geometry.vertices.push(new THREE.Vector3(i, 0.04, -size));
             geometry.vertices.push(new THREE.Vector3(i, 0.04, size));
         }
         var line = new THREE.Line(geometry, material, THREE.LinePieces);
-        line.name="grid";
+        line.name = "grid";
         this.context.scene.add(line);
     },
 
@@ -151,9 +151,9 @@ Viewer.Setup.prototype = {
             shading: THREE.SmoothShading
         });
 
-        ground = new THREE.Mesh( new THREE.PlaneGeometry(1024, 1024), groundMaterial);
+        ground = new THREE.Mesh(new THREE.PlaneGeometry(1024, 1024), groundMaterial);
         ground.rotation.x = -Math.PI / 2;
-        ground.name="ground";
+        ground.name = "ground";
         this.context.scene.add(ground);
     }
 };

@@ -139,29 +139,29 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
     this.infoInnerState = "loading";
     this.showTab("info");
     this.BackendService.getVisualization(ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType).then(function (response) {
-                var treeResult = response.data.resultObject[0].treeResult;
-                var visualizationResult = response.data.resultObject[1].visualizationResult;
+        var treeResult = response.data.resultObject[0].treeResult;
+        var visualizationResult = response.data.resultObject[1].visualizationResult;
 
-                me.ViewerService.loadSoftVis3d(visualizationResult);
-                me.TreeService.setTree(treeResult);
+        me.ViewerService.loadSoftVis3d(visualizationResult);
+        me.TreeService.setTree(treeResult);
 
-                var eventObject = {};
-                eventObject.softVis3dId = ThreeViewer.SNAPSHOT_ID;
-                eventObject.metric1Name = me.getNameForMetricId(metric1);
-                eventObject.metric2Name = me.getNameForMetricId(metric2);
+        var eventObject = {};
+        eventObject.softVis3dId = ThreeViewer.SNAPSHOT_ID;
+        eventObject.metric1Name = me.getNameForMetricId(metric1);
+        eventObject.metric2Name = me.getNameForMetricId(metric2);
 
-                me.MessageBus.trigger('visualizationReady', eventObject);
+        me.MessageBus.trigger('visualizationReady', eventObject);
 
-                me.infoInnerState = "idle";
-                me.showTab("city");
+        me.infoInnerState = "idle";
+        me.showTab("city");
 
-                me.MessageBus.trigger('hideLoader');
-            }, function (response) {
-                console.log(response);
-                me.infoInnerState = "error";
-                me.exceptionMessage = response.data.errors[0].msg;
-                me.showTab("info");
-            });
+        me.MessageBus.trigger('hideLoader');
+    }, function (response) {
+        console.log(response);
+        me.infoInnerState = "error";
+        me.exceptionMessage = response.data.errors[0].msg;
+        me.showTab("info");
+    });
 };
 
 ThreeViewer.FileLoaderController.prototype.getNameForMetricId = function (metricId) {

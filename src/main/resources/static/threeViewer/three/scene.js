@@ -44,7 +44,7 @@ Viewer.Scene.prototype = {
 
     init: function () {
 
-    var params = {context: this};
+        var params = {context: this};
 
         this.scene = new THREE.Scene();
         this.projector = new THREE.Projector();
@@ -52,7 +52,7 @@ Viewer.Scene.prototype = {
         this.wrangler = new Viewer.Wrangler(params);
         this.setup = new Viewer.Setup(params);
         this.cameras = new Viewer.Cameras(params);
-        this.controls = new THREE.OrbitControls( this.cameras.liveCam, this.container );
+        this.controls = new THREE.OrbitControls(this.cameras.liveCam, this.container);
         this.raycaster = new THREE.Raycaster();
         this.wrangler.init();
 
@@ -65,17 +65,17 @@ Viewer.Scene.prototype = {
 
     listeners: function () {
         var to = null;
-        window.addEventListener( 'resize', function(){
+        window.addEventListener('resize', function () {
 
             // if timeout already set, clear it so you can set a new one
             // this prevents N resize events from resizing the canvas
-            if(to){
+            if (to) {
                 clearTimeout(to);
             }
             to = setTimeout(function () {
                 this.onWindowResize();
             }.bind(this), 100);
-        }.bind(this), false );
+        }.bind(this), false);
 
         jQuery(document).on('mediaready', function (e) {
             this.scene.add(e.mesh);
@@ -83,8 +83,8 @@ Viewer.Scene.prototype = {
     },
 
     /**
-    * Resizes the camera when document is resized.
-    */
+     * Resizes the camera when document is resized.
+     */
     onWindowResize: function () {
         this.WIDTH = window.innerWidth - 184;
         this.HEIGHT = window.innerHeight - 142;

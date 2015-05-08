@@ -13,7 +13,7 @@ goog.provide('ThreeViewer.Config');
  * @constructor
  * @ngInject
  */
-ThreeViewer.ConfigLocation = function ($locationProvider){
+ThreeViewer.ConfigLocation = function ($locationProvider) {
     $locationProvider.html5Mode = true;
 };
 
@@ -22,7 +22,7 @@ ThreeViewer.ConfigLocation = function ($locationProvider){
  * @constructor
  * @ngInject
  */
-ThreeViewer.ConfigRouters = function ($routeProvider){
+ThreeViewer.ConfigRouters = function ($routeProvider) {
     $routeProvider.when('/', {
         templateUrl: RESOURCES_BASE_PATH + '/static/softVis3D/threeViewer/partials/viewer.html'
     }).otherwise({

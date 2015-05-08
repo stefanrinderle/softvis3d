@@ -1,10 +1,21 @@
 /*
  * SoftVis3D Sonar plugin
- * Copyright (C) 2014 - Stefan Rinderle
+ * Copyright (C) 2014 Stefan Rinderle
  * stefan@rinderle.info
  *
- * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
- * permission of Stefan Rinderle.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 package de.rinderle.softvis3d;
 
@@ -15,7 +26,6 @@ import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.layout.LayoutProcessor;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.postprocessing.PostProcessor;
-import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,34 +35,34 @@ import java.util.Map;
 
 public class VisualizationProcessorBean implements VisualizationProcessor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VisualizationProcessorBean.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(VisualizationProcessorBean.class);
 
-    @Inject
-    private LayoutProcessor layoutProcessor;
+  @Inject
+  private LayoutProcessor layoutProcessor;
 
-    @Inject
-    private PostProcessor calc;
+  @Inject
+  private PostProcessor calc;
 
-    @Override
-    public Map<Integer, ResultPlatform> visualize(final Settings settings, final VisualizationRequest requestDTO,
-            SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
+  @Override
+  public Map<Integer, ResultPlatform> visualize(final Settings settings, final VisualizationRequest requestDTO,
+    SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
 
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+    final StopWatch stopWatch = new StopWatch();
+    stopWatch.start();
 
-        final Map<Integer, ResultPlatform> resultGraphs =
-                layoutProcessor.process(settings, requestDTO, snapshotTreeResult);
+    final Map<Integer, ResultPlatform> resultGraphs =
+      layoutProcessor.process(settings, requestDTO, snapshotTreeResult);
 
-        LOGGER.info("Created " + resultGraphs.size() + " result graphs in " + stopWatch.getTime() + " ms");
+    LOGGER.info("Created " + resultGraphs.size() + " result graphs in " + stopWatch.getTime() + " ms");
 
-        final int leavesCounter =
-                this.calc.process(requestDTO.getViewType(), requestDTO.getRootSnapshotId(), resultGraphs,
-                        snapshotTreeResult);
+    final int leavesCounter =
+      this.calc.process(requestDTO.getViewType(), requestDTO.getRootSnapshotId(), resultGraphs,
+        snapshotTreeResult);
 
-        stopWatch.stop();
-        LOGGER.info("Calculation finished after " + stopWatch.getTime() + " ms with " + leavesCounter + " leaves");
+    stopWatch.stop();
+    LOGGER.info("Calculation finished after " + stopWatch.getTime() + " ms with " + leavesCounter + " leaves");
 
-        return resultGraphs;
-    }
+    return resultGraphs;
+  }
 
 }

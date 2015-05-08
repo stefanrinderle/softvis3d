@@ -20,7 +20,7 @@ goog.provide('ThreeViewer.ViewerService');
  * @export
  * @ngInject
  */
-ThreeViewer.ViewerService = function($timeout, MessageBus){
+ThreeViewer.ViewerService = function ($timeout, MessageBus) {
     this.timeout = $timeout;
     this.MessageBus = MessageBus;
     this.home = null;
@@ -30,9 +30,9 @@ ThreeViewer.ViewerService = function($timeout, MessageBus){
  * Initialize the 3D scene
  * @param {!object} params
  */
-ThreeViewer.ViewerService.prototype.init = function (params){
+ThreeViewer.ViewerService.prototype.init = function (params) {
     this.home = new Viewer.Scene(params);
-    this.timeout(function(){
+    this.timeout(function () {
         this.MessageBus.trigger('appReady');
     }.bind(this), SETUP.LOAD_DELAY);
 
@@ -42,7 +42,7 @@ ThreeViewer.ViewerService.prototype.init = function (params){
 /**
  * @export
  */
-ThreeViewer.ViewerService.prototype.animate = function(){
+ThreeViewer.ViewerService.prototype.animate = function () {
     requestAnimationFrame(this.animate.bind(this));
     this.render();
 };
@@ -101,11 +101,11 @@ ThreeViewer.ViewerService.prototype.makeSelection = function (e) {
     mouseDown.x = (x / width) * 2 - 1;
     mouseDown.y = -(y / height) * 2 + 1;
 
-    var vector = new THREE.Vector3( mouseDown.x, mouseDown.y, 1).unproject(this.home.cameras.liveCam);
+    var vector = new THREE.Vector3(mouseDown.x, mouseDown.y, 1).unproject(this.home.cameras.liveCam);
     this.home.raycaster.set(this.home.cameras.liveCam.position, vector.sub(this.home.cameras.liveCam.position).normalize());
     var intersected = this.home.raycaster.intersectObjects(this.home.wrangler.objectsInView, true);
 
-    if(intersected.length > 0){
+    if (intersected.length > 0) {
         var objectSoftVis3dId = intersected[0].object.softVis3dId;
         var objectSoftVis3dType = intersected[0].object.softVis3dType;
 

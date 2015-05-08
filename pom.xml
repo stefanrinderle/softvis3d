@@ -5,13 +5,16 @@
 	<parent>
 		<groupId>org.codehaus.sonar-plugins</groupId>
 		<artifactId>parent</artifactId>
-		<version>18</version>
+		<version>19</version>
 	</parent>
 
 	<artifactId>sonar-softVis3D-plugin</artifactId>
 	<version>0.2.8-SNAPSHOT</version>
-	<packaging>sonar-plugin</packaging>
+
+    <packaging>sonar-plugin</packaging>
+
 	<name>SoftVis3D Sonar plugin</name>
+
     <url>http://softvis3d.com</url>
 	<description>Creates a 3d view of the project structure</description>
 
@@ -29,15 +32,9 @@
         </developer>
     </developers>
 
-    <!-- remove parent pom properties -->
-    <licenses>
-        <license>
-            <name>No open source.</name>
-            <url>License url tbd</url>
-        </license>
-    </licenses>
     <issueManagement>
-        <url>Issue management url tbd</url>
+        <system>JIRA</system>
+        <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/MY-JIRA-COMPONENT-ID</url>
     </issueManagement>
 
     <scm>
@@ -52,18 +49,10 @@
 
 		<license.mailto>stefan@rinderle.info</license.mailto>
 
-		<coverage.reports.dir>
-			${basedir}/target/coverage-reports
-		</coverage.reports.dir>
-		<sonar.jacoco.reportPath>
-			${coverage.reports.dir}/jacoco-unit.exec
-		</sonar.jacoco.reportPath>
-		<sonar.jacoco.itReportPath>
-			${coverage.reports.dir}/jacoco-it.exec
-		</sonar.jacoco.itReportPath>
-		<sonar.jacoco.jar>
-			${basedir}/lib/jacocoagent.jar
-		</sonar.jacoco.jar>
+        <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
+
+		<coverage.reports.dir>${basedir}/target/coverage-reports</coverage.reports.dir>
+		<sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
 	</properties>
 
 	<repositories>
@@ -199,48 +188,6 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
-            <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.sonar-plugins</groupId>
-                        <artifactId>license-headers</artifactId>
-                        <version>1.0</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <header>licenceHeader.txt</header>
-                    <strictCheck>true</strictCheck>
-                    <includes>
-                        <include>src/main/java/**</include>
-                        <include>src/test/java/**</include>
-                        <include>src/main/resources/**</include>
-                    </includes>
-                    <excludes>
-                        <exclude>src/main/resources/static/threeJS/**</exclude>
-                    </excludes>
-                    <mapping>
-                        <java>SLASHSTAR_STYLE</java>
-                    </mapping>
-                    <properties>
-                        <title>${license.title}</title>
-                        <year>${license.year}</year>
-                        <owner>${license.owner}</owner>
-                        <mailto>${license.mailto}</mailto>
-                    </properties>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>enforce-license-headers</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -412,56 +359,6 @@
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>proguard</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.wvengen</groupId>
-                        <artifactId>proguard-maven-plugin</artifactId>
-                        <version>2.0.8</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals><goal>proguard</goal></goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <!-- http://www.alexeyshmalko.com/2014/proguard-real-world-example/ -->
-                            <!-- Our application is so big that ProGuard had ran out of memory -->
-                            <!--<maxMemory>1024m</maxMemory>-->
-
-                            <!-- File with proguard configuration -->
-                            <proguardInclude>${basedir}/proguard.conf</proguardInclude>
-
-                            <!-- Now exclude all modules that are embedded in the jar, so that
-                                ProGuard won't see redefinition of each single class.
-                                You don't have to write down your main module. -->
-                            <exclusions>
-                                <!--<exclusion>-->
-                                <!--<groupId>com.yourcompany</groupId>-->
-                                <!--<artifactId>data</artifactId>-->
-                                <!--</exclusion>-->
-
-                                <!-- And so on -->
-                            </exclusions>
-
-                            <!--
-                                List external jars your application depends on
-                                (that not listed in maven dependencies).
-                                You probably depend on jave runtime (rt.jar).
-
-                                JCE stands for Java Cryptography Extension.
-                                You probably don't need it, but my application does.
-                            -->
-                            <libs>
-                                <lib>${java.home}/lib/rt.jar</lib>
-                            </libs>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>

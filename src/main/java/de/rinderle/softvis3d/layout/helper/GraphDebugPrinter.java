@@ -1,10 +1,21 @@
 /*
  * SoftVis3D Sonar plugin
- * Copyright (C) 2014 - Stefan Rinderle
+ * Copyright (C) 2014 Stefan Rinderle
  * stefan@rinderle.info
  *
- * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
- * permission of Stefan Rinderle.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 package de.rinderle.softvis3d.layout.helper;
 
@@ -15,67 +26,69 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static att.grappa.GrappaConstants.*;
+import static att.grappa.GrappaConstants.HEIGHT_ATTR;
+import static att.grappa.GrappaConstants.POS_ATTR;
+import static att.grappa.GrappaConstants.WIDTH_ATTR;
 
 public class GraphDebugPrinter {
 
-	private static final String BREAK_STRING = "-----------------------<br /><br />";
+  private static final String BREAK_STRING = "-----------------------<br /><br />";
 
-	private String printSimpleGraphLayoutInfos(final Graph graph) {
-		final StringBuilder builder = new StringBuilder();
-		builder.append(graph.getId() + " " + graph.getName() + "\n");
-		if (graph.getAttribute("bb") != null) {
-			builder.append("bb: " + graph.getAttribute("bb").toString() + "\n");
-		}
+  private String printSimpleGraphLayoutInfos(final Graph graph) {
+    final StringBuilder builder = new StringBuilder();
+    builder.append(graph.getId() + " " + graph.getName() + "\n");
+    if (graph.getAttribute("bb") != null) {
+      builder.append("bb: " + graph.getAttribute("bb").toString() + "\n");
+    }
 
-		for (final Node node : graph.nodeElementsAsArray()) {
-			builder.append("--" + node.getId() + " " + node.getName());
-			builder.append(" " + node.getAttribute(POS_ATTR).toString());
-			builder.append(" " + node.getAttribute(HEIGHT_ATTR) + " "
-					+ node.getAttribute(WIDTH_ATTR) + "\n");
-		}
+    for (final Node node : graph.nodeElementsAsArray()) {
+      builder.append("--" + node.getId() + " " + node.getName());
+      builder.append(" " + node.getAttribute(POS_ATTR).toString());
+      builder.append(" " + node.getAttribute(HEIGHT_ATTR) + " "
+        + node.getAttribute(WIDTH_ATTR) + "\n");
+    }
 
-		return builder.toString();
-	}
+    return builder.toString();
+  }
 
-	public String printFullGraph(final Graph graph) {
-		final StringBuilder builder = new StringBuilder();
-		final StringOutputStream os = new StringOutputStream();
-		builder.append("-----------------------\n\n");
-		graph.printGraph(os);
-		builder.append(os.toString());
-		builder.append("-----------------------\n\n");
-		return builder.toString();
-	}
+  public String printFullGraph(final Graph graph) {
+    final StringBuilder builder = new StringBuilder();
+    final StringOutputStream os = new StringOutputStream();
+    builder.append("-----------------------\n\n");
+    graph.printGraph(os);
+    builder.append(os.toString());
+    builder.append("-----------------------\n\n");
+    return builder.toString();
+  }
 
-	public void printGraphsWithAbsolutePosition(final StringBuilder builder,
-			final Map<Integer, Graph> resultGraphs) {
-		Iterator<Entry<Integer, Graph>> iterator = resultGraphs.entrySet()
-				.iterator();
-		builder.append("-------Result graphs with absolute position--------<br /><br />");
-		Entry<Integer, Graph> graph;
-		while (iterator.hasNext()) {
-			graph = iterator.next();
-			final StringOutputStream os = new StringOutputStream();
-			graph.getValue().printGraph(os);
-			builder.append(os.toString());
-		}
+  public void printGraphsWithAbsolutePosition(final StringBuilder builder,
+    final Map<Integer, Graph> resultGraphs) {
+    Iterator<Entry<Integer, Graph>> iterator = resultGraphs.entrySet()
+      .iterator();
+    builder.append("-------Result graphs with absolute position--------<br /><br />");
+    Entry<Integer, Graph> graph;
+    while (iterator.hasNext()) {
+      graph = iterator.next();
+      final StringOutputStream os = new StringOutputStream();
+      graph.getValue().printGraph(os);
+      builder.append(os.toString());
+    }
 
-		builder.append(BREAK_STRING);
-		builder.append(BREAK_STRING);
-	}
+    builder.append(BREAK_STRING);
+    builder.append(BREAK_STRING);
+  }
 
-	public void printGraphsWithoutAbsolutePosition(final StringBuilder builder,
-			final Map<Integer, Graph> resultGraphs) {
-		builder.append("-------Result graphs without absolute position--------<br /><br />");
-		final Iterator<Entry<Integer, Graph>> iterator = resultGraphs
-				.entrySet().iterator();
-		Entry<Integer, Graph> graph;
-		while (iterator.hasNext()) {
-			graph = iterator.next();
-			builder.append(this.printSimpleGraphLayoutInfos(graph.getValue()));
-		}
-		builder.append(BREAK_STRING);
-		builder.append(BREAK_STRING);
-	}
+  public void printGraphsWithoutAbsolutePosition(final StringBuilder builder,
+    final Map<Integer, Graph> resultGraphs) {
+    builder.append("-------Result graphs without absolute position--------<br /><br />");
+    final Iterator<Entry<Integer, Graph>> iterator = resultGraphs
+      .entrySet().iterator();
+    Entry<Integer, Graph> graph;
+    while (iterator.hasNext()) {
+      graph = iterator.next();
+      builder.append(this.printSimpleGraphLayoutInfos(graph.getValue()));
+    }
+    builder.append(BREAK_STRING);
+    builder.append(BREAK_STRING);
+  }
 }
