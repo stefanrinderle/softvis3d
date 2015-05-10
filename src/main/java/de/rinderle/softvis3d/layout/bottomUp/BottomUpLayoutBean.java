@@ -57,8 +57,10 @@ public class BottomUpLayoutBean implements BottomUpLayout {
 
   /**
    * Bottom up calculation of layout layers.
+   *
+   * Package private for testing purposes.
    */
-  private LayeredLayoutElement accept(final TreeNode rootNode) throws DotExecutorException {
+  LayeredLayoutElement accept(final TreeNode rootNode) throws DotExecutorException {
 
     if (this.currentProcessCount % 10 == 0) {
       LOGGER.info("Processing layout " + this.currentProcessCount + "/" + this.maxNodesCount);
@@ -76,7 +78,10 @@ public class BottomUpLayoutBean implements BottomUpLayout {
     return visitor.visitNode(rootNode, layerElements);
   }
 
-  private List<LayeredLayoutElement> processChildrenNodes(final TreeNode node) throws DotExecutorException {
+  /**
+   * Package private for testing purposes.
+   */
+  List<LayeredLayoutElement> processChildrenNodes(final TreeNode node) throws DotExecutorException {
 
     final List<TreeNode> childrenTreeNodes = node.getChildrenNodes();
 
@@ -89,7 +94,10 @@ public class BottomUpLayoutBean implements BottomUpLayout {
     return layerElements;
   }
 
-  private List<LayeredLayoutElement> processChildrenLeaves(final TreeNode node) {
+  /**
+   * Package private for testing purposes.
+   */
+  List<LayeredLayoutElement> processChildrenLeaves(final TreeNode node) {
     final List<TreeNode> childrenLeaves = node.getChildrenLeaves();
 
     final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();

@@ -19,6 +19,7 @@
  */
 package de.rinderle.softvis3d.preprocessing.dependencies;
 
+import de.rinderle.softvis3d.TestTreeBuilder;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
 import de.rinderle.softvis3d.domain.sonar.SonarDependencyBuilder;
@@ -61,14 +62,14 @@ public class DependencyExpanderCheckCounterTest {
   public void testDependenciesFlatEdges() {
     final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-    final SonarDependency fromBtoC = this.createDependency(2, 3);
+    final SonarDependency fromBtoC = TestTreeBuilder.createDependency(2, 3);
     dependencies.add(fromBtoC);
-    final SonarDependency fromCtoB = this.createDependency(3, 2);
+    final SonarDependency fromCtoB = TestTreeBuilder.createDependency(3, 2);
     dependencies.add(fromCtoB);
 
     final RootTreeNode treeNode1 = new RootTreeNode(1);
-    final TreeNode treeNode2 = this.createTreeNode(2, treeNode1, 1);
-    final TreeNode treeNode3 = this.createTreeNode(3, treeNode1, 2);
+    final TreeNode treeNode2 = TestTreeBuilder.createTreeNode(2, treeNode1, 1);
+    final TreeNode treeNode3 = TestTreeBuilder.createTreeNode(3, treeNode1, 2);
 
     this.underTest.execute(treeNode1, dependencies);
 
@@ -88,13 +89,13 @@ public class DependencyExpanderCheckCounterTest {
   public void testDependenciesSameFlatEdge() {
     final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-    final SonarDependency fromBtoC = this.createDependency(2, 3);
+    final SonarDependency fromBtoC = TestTreeBuilder.createDependency(2, 3);
     dependencies.add(fromBtoC);
     dependencies.add(fromBtoC);
 
     final RootTreeNode rootTreeNode = new RootTreeNode(1);
-    final TreeNode treeNode2 = this.createTreeNode(2, rootTreeNode, 1);
-    final TreeNode treeNode3 = this.createTreeNode(3, rootTreeNode, 2);
+    final TreeNode treeNode2 = TestTreeBuilder.createTreeNode(2, rootTreeNode, 1);
+    final TreeNode treeNode3 = TestTreeBuilder.createTreeNode(3, rootTreeNode, 2);
 
     this.underTest.execute(rootTreeNode, dependencies);
 
@@ -113,19 +114,19 @@ public class DependencyExpanderCheckCounterTest {
   public void testMultipleDependencyEdges() {
     final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
-    final SonarDependency fromCtoD = this.createDependency(3, 4);
+    final SonarDependency fromCtoD = TestTreeBuilder.createDependency(3, 4);
     dependencies.add(fromCtoD);
-    final SonarDependency fromCtoE = this.createDependency(3, 5);
+    final SonarDependency fromCtoE = TestTreeBuilder.createDependency(3, 5);
     dependencies.add(fromCtoE);
 
     final RootTreeNode treeNode1 = new RootTreeNode(1);
-    final TreeNode treeNode2 = this.createTreeNode(2, treeNode1, 1);
-    final TreeNode treeNode3 = this.createTreeNode(3, treeNode2, 2);
-    final TreeNode treeNode4 = this.createTreeNode(4, treeNode1, 1);
-    final TreeNode treeNode5 = this.createTreeNode(5, treeNode4, 2);
+    final TreeNode treeNode2 = TestTreeBuilder.createTreeNode(2, treeNode1, 1);
+    final TreeNode treeNode3 = TestTreeBuilder.createTreeNode(3, treeNode2, 2);
+    final TreeNode treeNode4 = TestTreeBuilder.createTreeNode(4, treeNode1, 1);
+    final TreeNode treeNode5 = TestTreeBuilder.createTreeNode(5, treeNode4, 2);
 
-    final TreeNode interfaceLeafNode2 = this.createInterfaceLeafNode(90, treeNode2);
-    final TreeNode interfaceLeafNode4 = this.createInterfaceLeafNode(91, treeNode4);
+    final TreeNode interfaceLeafNode2 = TestTreeBuilder.createInterfaceLeafNode(90, treeNode2);
+    final TreeNode interfaceLeafNode4 = TestTreeBuilder.createInterfaceLeafNode(91, treeNode4);
 
     this.underTest.execute(treeNode1, dependencies);
 
@@ -143,32 +144,32 @@ public class DependencyExpanderCheckCounterTest {
     assertTrue(interfaceLeafNode2.getEdges().isEmpty());
   }
 
-  private TreeNode createTreeNode(final int id, final TreeNode parent, final int depth) {
-    final TreeNode result = new TreeNode(id, parent, depth, TreeNodeType.TREE, id + "");
-
-    parent.addChildrenNode(id + "", result);
-
-    return result;
-  }
-
-  private TreeNode createInterfaceLeafNode(final int id, final TreeNode parent) {
-    final DependencyTreeNode result = new DependencyTreeNode(id, parent, parent.getDepth() + 1);
-
-    final String intLeafLabel = DependencyExpanderBean.INTERFACE_PREFIX + "_" + parent.getId();
-
-    parent.addChildrenNode(intLeafLabel, result);
-
-    return result;
-  }
-
-  private SonarDependency createDependency(final int from, final int to) {
-    final SonarDependencyBuilder result = new SonarDependencyBuilder();
-
-    result.withId(new Long(from + "" + to));
-    result.withFromSnapshotId(from);
-    result.withToSnapshotId(to);
-
-    return result.createSonarDependency();
-  }
+//  private TreeNode createTreeNode(final int id, final TreeNode parent, final int depth) {
+//    final TreeNode result = new TreeNode(id, parent, depth, TreeNodeType.TREE, id + "");
+//
+//    parent.addChildrenNode(id + "", result);
+//
+//    return result;
+//  }
+//
+//  private TreeNode createInterfaceLeafNode(final int id, final TreeNode parent) {
+//    final DependencyTreeNode result = new DependencyTreeNode(id, parent, parent.getDepth() + 1);
+//
+//    final String intLeafLabel = DependencyExpanderBean.INTERFACE_PREFIX + "_" + parent.getId();
+//
+//    parent.addChildrenNode(intLeafLabel, result);
+//
+//    return result;
+//  }
+//
+//  private SonarDependency createDependency(final int from, final int to) {
+//    final SonarDependencyBuilder result = new SonarDependencyBuilder();
+//
+//    result.withId(new Long(from + "" + to));
+//    result.withFromSnapshotId(from);
+//    result.withToSnapshotId(to);
+//
+//    return result.createSonarDependency();
+//  }
 
 }
