@@ -23,7 +23,6 @@ import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
-import de.rinderle.softvis3d.grappa.GrappaGraphTestFactory;
 import org.junit.Test;
 
 import java.awt.*;
