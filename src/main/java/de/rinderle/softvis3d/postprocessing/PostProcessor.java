@@ -1,10 +1,21 @@
 /*
  * SoftVis3D Sonar plugin
- * Copyright (C) 2014 - Stefan Rinderle
+ * Copyright (C) 2014 Stefan Rinderle
  * stefan@rinderle.info
  *
- * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
- * permission of Stefan Rinderle.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 package de.rinderle.softvis3d.postprocessing;
 
@@ -15,7 +26,7 @@ import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import java.util.Map;
 
 public interface PostProcessor {
-	int process(LayoutViewType viewType, Integer snapshotId,
-			Map<Integer, ResultPlatform> resultGraphList,
-			SnapshotTreeResult treeResult);
+  int process(LayoutViewType viewType, Integer snapshotId,
+    Map<Integer, ResultPlatform> resultGraphList,
+    SnapshotTreeResult treeResult);
 }

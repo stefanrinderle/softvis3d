@@ -1,12 +1,22 @@
 /*
  * SoftVis3D Sonar plugin
- * Copyright (C) 2014 - Stefan Rinderle
+ * Copyright (C) 2014 Stefan Rinderle
  * stefan@rinderle.info
  *
- * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
- * permission of Stefan Rinderle.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-'use strict';
 goog.provide('ThreeViewer.MessageBus');
 
 /**
@@ -18,8 +28,8 @@ goog.provide('ThreeViewer.MessageBus');
  * @ngInject
  */
 ThreeViewer.MessageBus = function ($rootScope) {
-    this.message = {};
-    this.rootScope = $rootScope;
+  this.message = {};
+  this.rootScope = $rootScope;
 };
 
 /**
@@ -30,8 +40,8 @@ ThreeViewer.MessageBus = function ($rootScope) {
  * @param {!string=} message
  */
 ThreeViewer.MessageBus.prototype.trigger = function (type, message) {
-    this.message[type] = message;
-    this.broadcast(type);
+  this.message[type] = message;
+  this.broadcast(type);
 };
 
 /**
@@ -41,7 +51,7 @@ ThreeViewer.MessageBus.prototype.trigger = function (type, message) {
  * @param {!string} type
  */
 ThreeViewer.MessageBus.prototype.getMessage = function (type) {
-    return this.message[type];
+  return this.message[type];
 };
 
 /**
@@ -49,5 +59,5 @@ ThreeViewer.MessageBus.prototype.getMessage = function (type) {
  * @param {!string} type
  */
 ThreeViewer.MessageBus.prototype.broadcast = function (type) {
-    this.rootScope.$broadcast(type);
+  this.rootScope.$broadcast(type);
 };

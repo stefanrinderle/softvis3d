@@ -1,11 +1,3 @@
-/*
- * SoftVis3D Sonar plugin
- * Copyright (C) 2014 - Stefan Rinderle
- * stefan@rinderle.info
- *
- * SoftVis3D Sonar plugin can not be copied and/or distributed without the express
- * permission of Stefan Rinderle.
- */
 /**
  * @license ngHammer.js v1.0.0
  * (c) 2014 Daniel Smith http://www.danmasta.com
