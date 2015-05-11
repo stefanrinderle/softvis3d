@@ -1,4 +1,6 @@
 /local
+/vagrant
+/ansible
 
 # Build files #
 ###############
