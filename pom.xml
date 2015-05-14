@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>sonar-softVis3D-plugin</artifactId>
-  <version>0.2.8</version>
+  <version>0.2.9-SNAPSHOT</version>
 
   <packaging>sonar-plugin</packaging>
 
@@ -41,7 +41,7 @@
     <connection>scm:git:ssh://46.38.242.170:66/softVis3DSonarPlugin.git</connection>
     <developerConnection>scm:git:ssh://git@46.38.242.170:66/softVis3DSonarPlugin.git</developerConnection>
     <url>https://git@46.38.242.170:66/softVis3DSonarPlugin.git</url>
-    <tag>sonar-softVis3D-plugin-0.2.8</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
