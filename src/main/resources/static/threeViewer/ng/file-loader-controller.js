@@ -72,19 +72,36 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
   this.listeners();
 
   var me = this;
-  this.BackendService.getConfig(ThreeViewer.SNAPSHOT_ID).then(function (response) {
-    me.settings = response.data.settings;
-    me.availableMetrics = response.data.metricsForSnapshot;
-    me.hasDependencies = response.data.hasDependencies;
-    me.configLoaded = true;
-  }, function (response) {
-    console.log(response);
-    me.infoInnerState = "error";
-    me.exceptionMessage = response.data.errors[0].msg;
-    me.showTab("info");
+
+  this.waitFor(500, 0, function () {
+    me.BackendService.getConfig(ThreeViewer.SNAPSHOT_ID).then(function (response) {
+      me.settings = response.data.settings;
+      me.availableMetrics = response.data.metricsForSnapshot;
+      me.hasDependencies = response.data.hasDependencies;
+      me.configLoaded = true;
+    }, function (response) {
+      console.log(response);
+      me.infoInnerState = "error";
+      me.exceptionMessage = response.data.errors[0].msg;
+      me.showTab("info");
+    });
   });
 };
 
+ThreeViewer.FileLoaderController.prototype.waitFor = function(msec, count, callback) {
+  var me = this;
+  // Check if condition met. If not, re-check later (msec).
+  if (ThreeViewer.SNAPSHOT_ID === undefined) {
+    count++;
+    setTimeout(function () {
+      me.waitFor(msec, count, callback);
+    }, msec);
+    return;
+  } else {
+    // Condition finally met. callback() can be executed.
+    callback();
+  }
+};
 ThreeViewer.FileLoaderController.prototype.listeners = function () {
   this.scope.$on('appReady', function () {
     console.log("app ready");
