@@ -28,20 +28,20 @@
     <developer>
       <id>srinderle</id>
       <name>Stefan Rinderle</name>
+      <url>https://github.com/kevinsawicki</url>
       <email>stefan@rinderle.info</email>
     </developer>
   </developers>
 
   <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/MY-JIRA-COMPONENT-ID</url>
+    <url>https://github.com/stefanrinderle/sonar-softvis3d-plugin/issues</url>
+    <system>GitHub Issues</system>
   </issueManagement>
 
   <scm>
-    <connection>scm:git:ssh://46.38.242.170:66/softVis3DSonarPlugin.git</connection>
-    <developerConnection>scm:git:ssh://git@46.38.242.170:66/softVis3DSonarPlugin.git</developerConnection>
-    <url>https://git@46.38.242.170:66/softVis3DSonarPlugin.git</url>
-    <tag>HEAD</tag>
+    <url>https://github.com/stefanrinderle/sonar-softvis3d-plugin</url>
+    <connection>scm:git:git://github.com/stefanrinderle/sonar-softvis3d-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:stefanrinderle/sonar-softvis3d-plugin.git</developerConnection>
   </scm>
 
   <properties>
