@@ -75,6 +75,8 @@
   }
 
   window.onload = function () {
+    ThreeViewer.SNAPSHOT_ID = <%= @snapshot.id %>;
+
     <%
     if !@snapshot.id.blank? && !params[:viewType].blank? &&
         !params[:metric1].blank? && !params[:metric2].blank?

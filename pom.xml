@@ -245,11 +245,8 @@
                     <jsSourceFile>lib/threejs/NURBSCurve.js</jsSourceFile>
                     <jsSourceFile>lib/threejs/NURBSUtils.js</jsSourceFile>
 
-                    <jsSourceFile>lib/hammer/hammer.js</jsSourceFile>
-                    <jsSourceFile>lib/hammer/jquery.hammer.js</jsSourceFile>
                     <jsSourceFile>lib/angular/angular.js</jsSourceFile>
                     <jsSourceFile>lib/angular/angular-route.js</jsSourceFile>
-                    <jsSourceFile>lib/angular/ngHammer.js</jsSourceFile>
                   </jsSourceFiles>
                   <jsFinalFile>libAll.js</jsFinalFile>
                   <jsEngine>CLOSURE</jsEngine>
@@ -301,11 +298,8 @@
                     <closureExtern>static/threeViewer/lib/threejs/OrbitControls.js</closureExtern>
                     <closureExtern>static/threeViewer/lib/threejs/NURBSCurve.js</closureExtern>
                     <closureExtern>static/threeViewer/lib/threejs/NURBSUtils.js</closureExtern>
-                    <closureExtern>static/threeViewer/lib/hammer/hammer.js</closureExtern>
-                    <closureExtern>static/threeViewer/lib/hammer/jquery.hammer.js</closureExtern>
                     <closureExtern>static/threeViewer/lib/angular/angular.js</closureExtern>
                     <closureExtern>static/threeViewer/lib/angular/angular-route.js</closureExtern>
-                    <closureExtern>static/threeViewer/lib/angular/ngHammer.js</closureExtern>
                   </closureExterns>
                 </configuration>
                 <goals>

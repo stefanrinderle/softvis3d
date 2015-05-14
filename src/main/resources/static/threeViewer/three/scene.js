@@ -109,6 +109,9 @@ Viewer.Scene.prototype = {
       }
     }
 
+    paddingLeft += 20;
+    paddingTop += 50;
+
     console.log(paddingLeft);
     console.log(paddingTop);
 
