@@ -11,7 +11,9 @@
   var Viewer = {
     'Scene': null
   };
+
   var ThreeViewer = {};
+  ThreeViewer.SNAPSHOT_ID = <%= @snapshot.id %>;
 
   var RESOURCES_BASE_PATH = "<%= "#{ApplicationController.root_context}" -%>";
 </script>
@@ -30,12 +32,8 @@
   <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/threejs/NURBSCurve.js"></script>
   <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/threejs/NURBSUtils.js"></script>
 
-  <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/hammer/hammer.js"></script>
-  <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/hammer/jquery.hammer.js"></script>
-
   <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular/angular.js"></script>
   <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular/angular-route.js"></script>
-  <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/lib/angular/ngHammer.js"></script>
 
   <!-- MY JS FILES -->
   <script src="<%= "#{ApplicationController.root_context}" -%>/static/softVis3D/threeViewer/three/setup.js"></script>
@@ -77,8 +75,6 @@
   }
 
   window.onload = function () {
-    ThreeViewer.SNAPSHOT_ID = <%= @snapshot.id %>;
-
     <%
     if !@snapshot.id.blank? && !params[:viewType].blank? &&
         !params[:metric1].blank? && !params[:metric2].blank?

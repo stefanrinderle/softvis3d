@@ -19,21 +19,19 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 
 -->
-<div ng-controller="AppController as viewer">
-  <div class="container">
-    <div class="sidebarThreeJs">
-      <button ng-click="viewer.toggleLoader()">VW</button>
-      <button ng-click="viewer.toggleToolbar()">TB</button>
-      <button ng-click="viewer.toggleHelp()">?</button>
-    </div>
+<div ng-controller="AppController as viewer" style="position: relative;">
+  <div class="sidebarThreeJs">
+    <button ng-click="viewer.toggleLoader()">VW</button>
+    <button ng-click="viewer.toggleToolbar()">TB</button>
+    <button ng-click="viewer.toggleHelp()">?</button>
   </div>
 
   <div class="toolbar" ng-show="viewer.tb.toolbar" stop-event toolbar></div>
 
-  <div class="container" ng-show="viewer.tb.help" stop-event help></div>
+  <div class="infoContainer" ng-show="viewer.tb.help" stop-event help></div>
 
-  <div id="container" class="container">
+  <div id="infoContainer" class="infoContainer">
     <canvas id="viewer" select></canvas>
   </div>
-  <div class="container" ng-show="viewer.tb.loader" file-loader></div>
+  <div class="infoContainer" ng-show="viewer.tb.loader" file-loader></div>
 </div>

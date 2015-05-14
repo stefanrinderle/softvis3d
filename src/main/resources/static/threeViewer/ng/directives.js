@@ -32,6 +32,8 @@ ThreeViewer.SelectDirective = function (ViewerService) {
   /** @type {angular.Attributes} */
   this.attrs;
 
+  this.clickOrDragFlag = false;
+
   /**@type {ThreeViewer.ViewerService} */
   this.ViewerService = ViewerService;
 
@@ -61,12 +63,25 @@ ThreeViewer.SelectDirective.prototype.link = function (scope, elem, attrs) {
   this.scope = scope;
   this.elem = elem;
   this.attrs = attrs;
+  this.clickOrDragFlag = false;
 
-  jQuery(this.elem).hammer({
-    prevent_default: false
-  }).bind('tap', function (event) {
-    this.ViewerService.makeSelection(event);
-  }.bind(this));
+  var me = this;
+  this.elem.on('mousedown', function (e) {
+    me.clickOrDragFlag = false;
+  });
+
+  this.elem.on('mousemove', function (e) {
+    me.clickOrDragFlag = true;
+  });
+
+  this.elem.on('mouseup', function (event) {
+    if(me.clickOrDragFlag){
+      // drag
+      me.clickOrDragFlag = false;
+    } else {
+      me.ViewerService.makeSelection(event);
+    }
+  });
 };
 
 /**

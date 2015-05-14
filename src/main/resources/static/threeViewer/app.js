@@ -30,7 +30,7 @@ goog.require('ThreeViewer.TreeService');
 goog.require('ThreeViewer.Config');
 goog.require('Viewer.Scene');
 
-angular.module('ThreeViewerApp', ['ngHammer', 'ngRoute'])
+angular.module('ThreeViewerApp', ['ngRoute'])
     .config(ThreeViewer.ConfigLocation)
     .config(ThreeViewer.ConfigRouters)
     .directive('select', ['ViewerService', ThreeViewer.SelectDirective.factory])

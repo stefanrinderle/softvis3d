@@ -49,7 +49,7 @@ ThreeViewer.AppController = function ($scope, ViewerService) {
 ThreeViewer.AppController.prototype.init = function () {
   this.ViewerService.init({
     canvasId: 'viewer',
-    containerId: 'container'
+    containerId: 'infoContainer'
   });
   this.listeners();
 };

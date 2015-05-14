@@ -97,11 +97,8 @@ ThreeViewer.ViewerService.prototype.selectSceneEdgeObjects = function (objectSof
  * @param {!{x:number, y:number}} mouse
  */
 ThreeViewer.ViewerService.prototype.makeSelection = function (e) {
-  var offsetLeft = 170;
-  var offsetTop = 68;
-
-  var x = e.gesture.center.x - offsetLeft;
-  var y = e.gesture.center.y - offsetTop;
+  var x = e.offsetX;
+  var y = e.offsetY;
 
   var width = this.home.WIDTH;
   var height = this.home.HEIGHT;
