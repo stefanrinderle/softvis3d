@@ -97,20 +97,22 @@ ThreeViewer.ViewerService.prototype.selectSceneEdgeObjects = function (objectSof
  * @param {!{x:number, y:number}} mouse
  */
 ThreeViewer.ViewerService.prototype.makeSelection = function (event) {
-  var canvas = document.getElementById("content");
+  var canvas = jQuery("#content");
 
   var x, y;
-  if (event.x != undefined && event.y != undefined) {
-    x = event.x;
-    y = event.y;
+  if (event.offsetX != undefined && event.offsetY != undefined) {
+    x = event.offsetX;
+    y = event.offsetY;
   } else // Firefox method to get the position
   {
     x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
     y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    x -= canvas.offset().left;
+    y -= canvas.offset().top;
   }
 
-  x -= canvas.offsetLeft;
-  y -= canvas.offsetTop;
+  x -= canvas.css("padding-left").replace("px", "");
+  y -= canvas.css("padding-top").replace("px", "");
 
   var width = this.home.WIDTH;
   var height = this.home.HEIGHT;
