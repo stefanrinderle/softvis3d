@@ -80,7 +80,6 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
       me.hasDependencies = response.data.hasDependencies;
       me.configLoaded = true;
     }, function (response) {
-      console.log(response);
       me.infoInnerState = "error";
       me.exceptionMessage = response.data.errors[0].msg;
       me.showTab("info");
@@ -183,7 +182,6 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
 
     me.MessageBus.trigger('hideLoader');
   }, function (response) {
-    console.log(response);
     me.infoInnerState = "error";
     me.exceptionMessage = response.data.errors[0].msg;
     me.showTab("info");

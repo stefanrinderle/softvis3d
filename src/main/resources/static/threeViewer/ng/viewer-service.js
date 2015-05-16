@@ -109,10 +109,10 @@ ThreeViewer.ViewerService.prototype.makeSelection = function (event) {
     y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
     x -= canvas.offset().left;
     y -= canvas.offset().top;
-  }
 
-  x -= canvas.css("padding-left").replace("px", "");
-  y -= canvas.css("padding-top").replace("px", "");
+    x -= canvas.css("padding-left").replace("px", "");
+    y -= canvas.css("padding-top").replace("px", "");
+  }
 
   var width = this.home.WIDTH;
   var height = this.home.HEIGHT;

@@ -112,9 +112,6 @@ Viewer.Scene.prototype = {
     paddingLeft += 25;
     paddingTop += 50;
 
-    console.log(paddingLeft);
-    console.log(paddingTop);
-
     this.WIDTH = window.innerWidth - paddingLeft;
     this.HEIGHT = window.innerHeight - paddingTop;
 
