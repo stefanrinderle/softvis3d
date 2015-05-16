@@ -55,6 +55,8 @@ public class DependencyDaoBean implements DependencyDao {
 
     final List<Object[]> queryResult = (List<Object[]>) query.getResultList();
 
+    this.session.commit();
+
     return this.castToSonarDependency(queryResult);
   }
 
