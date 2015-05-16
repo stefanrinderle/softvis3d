@@ -20,9 +20,9 @@ This view is focused on the dependencies within the given structure. The basic 3
 
 ## Requirenments
 
-SonarQube server with version >= 4.2 and < 5.1.
+SonarQube server with version >= 4.2 (except 4.5 and 5.1 - see below)
 
-Due to a bug in SonarQube 4.5 (see SONAR-5699) the plugin does not work in this version. The bug was fixed in 4.5.1 but unfortunately its not possible to get the plugin to work with version 4.5
+Due to a bug in SonarQube 4.5 (see SONAR-5699) and 5.1 (see SONAR-6425) the plugin does not work in this versions. The bugs have been fixed in 4.5.1 / 5.1.1 but unfortunately its not possible to get the plugin to work with version 4.5 or 5.1.
 
 SoftVis3DPlugin requires the graphviz software to be installed. It should be easily available for your linux or windows server instance. Please take a look at graphviz install page (http://www.graphviz.org/Download.php) for details.
 
