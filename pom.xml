@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -10,7 +9,7 @@
   </parent>
 
   <artifactId>sonar-softVis3D-plugin</artifactId>
-  <version>0.2.8-SNAPSHOT</version>
+  <version>0.2.9-SNAPSHOT</version>
 
   <packaging>sonar-plugin</packaging>
 
@@ -29,20 +28,20 @@
     <developer>
       <id>srinderle</id>
       <name>Stefan Rinderle</name>
+      <url>https://github.com/kevinsawicki</url>
       <email>stefan@rinderle.info</email>
     </developer>
   </developers>
 
   <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/MY-JIRA-COMPONENT-ID</url>
+    <url>https://github.com/stefanrinderle/sonar-softvis3d-plugin/issues</url>
+    <system>GitHub Issues</system>
   </issueManagement>
 
   <scm>
-    <connection>scm:git:ssh://46.38.242.170:66/softVis3DSonarPlugin.git</connection>
-    <developerConnection>scm:git:ssh://git@46.38.242.170:66/softVis3DSonarPlugin.git</developerConnection>
-    <url>https://git@46.38.242.170:66/softVis3DSonarPlugin.git</url>
-    <tag>HEAD</tag>
+    <url>https://github.com/stefanrinderle/sonar-softvis3d-plugin</url>
+    <connection>scm:git:git://github.com/stefanrinderle/sonar-softvis3d-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:stefanrinderle/sonar-softvis3d-plugin.git</developerConnection>
   </scm>
 
   <properties>
@@ -321,39 +320,39 @@
                 <configuration>
                   <target>
                     <!-- lib files -->
-                    <delete file="target/classes/static/threeViewer/lib/threejs/three.69.js"/>
-                    <delete file="target/classes/static/threeViewer/lib/threejs/OrbitControls.js"/>
-                    <delete file="target/classes/static/threeViewer/lib/threejs/NURBSCurve.js"/>
-                    <delete file="target/classes/static/threeViewer/lib/threejs/NURBSUtils.js"/>
-                    <delete file="target/classes/static/threeViewer/lib/hammer/hammer.js"/>
-                    <delete file="target/classes/static/threeViewer/lib/hammer/jquery.hammer.js"/>
-                    <delete file="target/classes/static/threeViewer/lib/angular/angular.js"/>
-                    <delete file="target/classes/static/threeViewer/lib/angular/angular-route.js"/>
-                    <delete file="target/classes/static/threeViewer/lib/angular/ngHammer.js"/>
+                    <delete file="target/classes/static/threeViewer/lib/threejs/three.69.js" />
+                    <delete file="target/classes/static/threeViewer/lib/threejs/OrbitControls.js" />
+                    <delete file="target/classes/static/threeViewer/lib/threejs/NURBSCurve.js" />
+                    <delete file="target/classes/static/threeViewer/lib/threejs/NURBSUtils.js" />
+                    <delete file="target/classes/static/threeViewer/lib/hammer/hammer.js" />
+                    <delete file="target/classes/static/threeViewer/lib/hammer/jquery.hammer.js" />
+                    <delete file="target/classes/static/threeViewer/lib/angular/angular.js" />
+                    <delete file="target/classes/static/threeViewer/lib/angular/angular-route.js" />
+                    <delete file="target/classes/static/threeViewer/lib/angular/ngHammer.js" />
 
-                    <delete file="target/classes/static/threeViewer/libAll.js"/>
+                    <delete file="target/classes/static/threeViewer/libAll.js" />
 
                     <!-- softviz3d files -->
-                    <delete file="target/classes/static/threeViewer/ng/app-config.js"/>
-                    <delete file="target/classes/static/threeViewer/ng/app-controller.js"/>
-                    <delete file="target/classes/static/threeViewer/ng/toolbar-controller.js"/>
-                    <delete file="target/classes/static/threeViewer/ng/file-loader-controller.js"/>
-                    <delete file="target/classes/static/threeViewer/ng/directives.js"/>
-                    <delete file="target/classes/static/threeViewer/ng/filters.js"/>
-                    <delete file="target/classes/static/threeViewer/ng/viewer-service.js"/>
-                    <delete file="target/classes/static/threeViewer/ng/tree-service.js"/>
-                    <delete file="target/classes/static/threeViewer/ng/backend-service.js"/>
-                    <delete file="target/classes/static/threeViewer/ng/message-bus.js"/>
-                    <delete file="target/classes/static/threeViewer/app.js"/>
+                    <delete file="target/classes/static/threeViewer/ng/app-config.js" />
+                    <delete file="target/classes/static/threeViewer/ng/app-controller.js" />
+                    <delete file="target/classes/static/threeViewer/ng/toolbar-controller.js" />
+                    <delete file="target/classes/static/threeViewer/ng/file-loader-controller.js" />
+                    <delete file="target/classes/static/threeViewer/ng/directives.js" />
+                    <delete file="target/classes/static/threeViewer/ng/filters.js" />
+                    <delete file="target/classes/static/threeViewer/ng/viewer-service.js" />
+                    <delete file="target/classes/static/threeViewer/ng/tree-service.js" />
+                    <delete file="target/classes/static/threeViewer/ng/backend-service.js" />
+                    <delete file="target/classes/static/threeViewer/ng/message-bus.js" />
+                    <delete file="target/classes/static/threeViewer/app.js" />
 
-                    <delete file="target/classes/static/threeViewer/three/scene.js"/>
-                    <delete file="target/classes/static/threeViewer/three/setup.js"/>
-                    <delete file="target/classes/static/threeViewer/three/util.js"/>
-                    <delete file="target/classes/static/threeViewer/three/camera.js"/>
-                    <delete file="target/classes/static/threeViewer/three/wrangler.js"/>
-                    <delete file="target/classes/static/threeViewer/three/objectFactory.js"/>
+                    <delete file="target/classes/static/threeViewer/three/scene.js" />
+                    <delete file="target/classes/static/threeViewer/three/setup.js" />
+                    <delete file="target/classes/static/threeViewer/three/util.js" />
+                    <delete file="target/classes/static/threeViewer/three/camera.js" />
+                    <delete file="target/classes/static/threeViewer/three/wrangler.js" />
+                    <delete file="target/classes/static/threeViewer/three/objectFactory.js" />
 
-                    <delete file="target/classes/static/threeViewer/softVis3dAll.js"/>
+                    <delete file="target/classes/static/threeViewer/softVis3dAll.js" />
                   </target>
                 </configuration>
               </execution>
