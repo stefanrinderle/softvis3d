@@ -33,6 +33,7 @@ import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
+import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
@@ -44,6 +45,7 @@ public class VisualizationWebserviceHandlerBean extends AbstractWebserviceHandle
   private static final Logger LOGGER = LoggerFactory.getLogger(VisualizationWebserviceHandlerBean.class);
 
   private Settings settings;
+  private DatabaseSession session;
 
   @Inject
   private VisualizationProcessor visualizationProcessor;
@@ -53,11 +55,14 @@ public class VisualizationWebserviceHandlerBean extends AbstractWebserviceHandle
   private LayoutCacheService layoutCacheService;
   @Inject
   private PreProcessor preProcessor;
+
   @Inject
   private TreeNodeJsonWriter treeNodeJsonWriter;
 
   @Override
   public void handleRequest(final Request request, final Response response) throws Exception {
+    this.session.start();
+
     final Integer id = Integer.valueOf(request.param("snapshotId"));
     final Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
     final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
@@ -85,6 +90,8 @@ public class VisualizationWebserviceHandlerBean extends AbstractWebserviceHandle
     }
 
     this.writeResultsToResponse(response, snapshotTreeResult, visualizationResult);
+
+    this.session.commit();
   }
 
   private void writeResultsToResponse(final Response response, final SnapshotTreeResult snapshotTreeResult,
@@ -132,5 +139,10 @@ public class VisualizationWebserviceHandlerBean extends AbstractWebserviceHandle
   @Override
   public void setSettings(Settings settings) {
     this.settings = settings;
+  }
+
+  @Override
+  public void setDatabaseSession(DatabaseSession session) {
+    this.session = session;
   }
 }

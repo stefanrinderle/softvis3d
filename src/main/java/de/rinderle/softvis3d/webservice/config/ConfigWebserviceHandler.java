@@ -20,9 +20,12 @@
 package de.rinderle.softvis3d.webservice.config;
 
 import org.sonar.api.config.Settings;
+import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.RequestHandler;
 
 public interface ConfigWebserviceHandler extends RequestHandler {
 
   void setSettings(Settings settings);
+
+  void setDatabaseSession(DatabaseSession session);
 }

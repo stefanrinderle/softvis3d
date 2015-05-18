@@ -20,6 +20,7 @@
 package de.rinderle.softvis3d.webservice.visualization;
 
 import org.sonar.api.config.Settings;
+import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
@@ -30,4 +31,6 @@ public interface VisualizationWebserviceHandler extends RequestHandler {
   public void handle(final Request request, final Response response);
 
   void setSettings(Settings settings);
+
+  void setDatabaseSession(DatabaseSession session);
 }

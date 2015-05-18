@@ -26,6 +26,7 @@ import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
+import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
@@ -38,7 +39,9 @@ public class ConfigWebserviceHandlerBean extends AbstractWebserviceHandler imple
 
   @Inject
   private DaoService daoService;
+
   private Settings settings;
+  private DatabaseSession session;
 
   @Override
   public void setSettings(final Settings settings) {
@@ -46,7 +49,14 @@ public class ConfigWebserviceHandlerBean extends AbstractWebserviceHandler imple
   }
 
   @Override
+  public void setDatabaseSession(DatabaseSession session) {
+    this.session = session;
+  }
+
+  @Override
   public void handleRequest(final Request request, final Response response) throws Exception {
+    this.session.start();
+
     final Integer id = Integer.valueOf(request.param("snapshotId"));
 
     LOGGER.info("ConfigWebserviceHandler " + id);
@@ -65,6 +75,8 @@ public class ConfigWebserviceHandlerBean extends AbstractWebserviceHandler imple
     this.transformMetrics(jsonWriter, metrics);
     jsonWriter.endObject();
     jsonWriter.close();
+
+    this.session.commit();
   }
 
   private void transformMetricSettings(JsonWriter jsonWriter, Integer metric1, Integer metric2) {

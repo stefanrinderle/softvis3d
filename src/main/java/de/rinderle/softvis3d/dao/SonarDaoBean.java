@@ -67,8 +67,6 @@ public class SonarDaoBean implements SonarDao {
       }
     }
 
-    session.commit();
-
     return metrics;
   }
 
@@ -87,7 +85,6 @@ public class SonarDaoBean implements SonarDao {
       result.add(new ModuleInfo(snapshot.getId(), resource.getName()));
     }
 
-    session.commit();
     return result;
   }
 
@@ -119,7 +116,6 @@ public class SonarDaoBean implements SonarDao {
     jpaQuery.setParameter("metric_id", metricId);
 
     final Object[] result = (Object[]) jpaQuery.getSingleResult();
-    session.commit();
     return new MinMaxValue((Double) result[0], (Double) result[1]);
   }
 
@@ -140,8 +136,6 @@ public class SonarDaoBean implements SonarDao {
     for (Object[] aSqlResult : sqlResult) {
       result.add(new MetricResultDTO<Integer>((Integer) aSqlResult[0], (Integer) aSqlResult[1]));
     }
-
-    session.commit();
 
     return result;
   }
@@ -173,8 +167,6 @@ public class SonarDaoBean implements SonarDao {
       result.add(new MetricResultDTO<String>((Integer) aSqlResult[0], (String) aSqlResult[1]));
     }
 
-    session.commit();
-
     return result;
   }
 
@@ -188,7 +180,6 @@ public class SonarDaoBean implements SonarDao {
     query.setParameter("resourceId", resourceId);
 
     final String result = (String) query.getSingleResult();
-    this.session.commit();
     return result;
   }
 
@@ -204,7 +195,6 @@ public class SonarDaoBean implements SonarDao {
 
     try {
       final Double result = (Double) query.getSingleResult();
-      this.session.commit();
       return result;
     } catch (NoResultException e) {
       LOGGER.error("getMetricDouble for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage());
@@ -224,7 +214,6 @@ public class SonarDaoBean implements SonarDao {
 
     try {
       final String result = (String) query.getSingleResult();
-      this.session.commit();
       return result;
     } catch (NoResultException e) {
       LOGGER.error("getMetricText for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage());

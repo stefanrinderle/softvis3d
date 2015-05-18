@@ -35,6 +35,8 @@ public class SoftVis3DWebservice implements WebService {
   private final VisualizationWebserviceHandler visualizationHandler;
   private final ConfigWebserviceHandler configHandler;
 
+  private final DatabaseSession session;
+
   public SoftVis3DWebservice(final DatabaseSession session, final Settings settings) {
     final Injector softVis3DInjector = Guice.createInjector(new SoftVis3DModule());
 
@@ -43,10 +45,14 @@ public class SoftVis3DWebservice implements WebService {
     final DependencyDao dependencyDao = softVis3DInjector.getInstance(DependencyDao.class);
     dependencyDao.setDatabaseSession(session);
 
+    this.session = session;
+
     this.configHandler = softVis3DInjector.getInstance(ConfigWebserviceHandler.class);
     this.configHandler.setSettings(settings);
+    this.configHandler.setDatabaseSession(session);
     this.visualizationHandler = softVis3DInjector.getInstance(VisualizationWebserviceHandler.class);
     this.visualizationHandler.setSettings(settings);
+    this.visualizationHandler.setDatabaseSession(session);
   }
 
   @Override
