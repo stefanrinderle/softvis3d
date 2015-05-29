@@ -53,6 +53,16 @@ public class ResultArrowBuilder {
     return this;
   }
 
+  /**
+   * Last point is removed. Why? Check the docu one more time, but the last point is never in the path. Example:
+   *
+   * TODO: check docu what the last point means.
+   *
+   * pos="e456.310000,259.080000 433.570000,337.670000 440.430000,313.980000 447.170000,290.670000
+   *      453.520000,268.730000 "];
+   *
+   * @param edge
+   */
   private void transformEdgeLine(Edge edge) {
     GrappaLine line = (GrappaLine) edge.getAttributeValue(GrappaConstants.POS_ATTR);
 
