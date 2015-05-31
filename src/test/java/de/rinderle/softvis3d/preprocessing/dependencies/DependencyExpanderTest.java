@@ -22,8 +22,11 @@ package de.rinderle.softvis3d.preprocessing.dependencies;
 import de.rinderle.softvis3d.TestTreeBuilder;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
+import de.rinderle.softvis3d.domain.sonar.SonarDependencyBuilder;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -133,24 +136,24 @@ public class DependencyExpanderTest {
     assertTrue(treeNode5.getEdges().isEmpty());
   }
 
-  // private TreeNode createTreeNode(final int id, final TreeNode parent,
-  // final int depth) {
-  //
-  // TreeNode node = new ValueTreeNode(id, parent, depth,
-  // TreeNodeType.TREE, id + "", 0, 0, 0);
-  // parent.getChildren().put(node.getName(), node);
-  //
-  // return node;
-  // }
-  //
-  // private SonarDependency createDependency(final String dependencyId, final int from, final int to) {
-  // final SonarDependencyBuilder result = new SonarDependencyBuilder();
-  //
-  // result.withId(new Long(dependencyId));
-  // result.withFromSnapshotId(from);
-  // result.withToSnapshotId(to);
-  //
-  // return result.createSonarDependency();
-  // }
+//  private TreeNode createTreeNode(final int id, final TreeNode parent,
+//    final int depth) {
+//
+//    TreeNode node = new ValueTreeNode(id, parent, depth,
+//      TreeNodeType.TREE, id + "", 0, 0, 0);
+//    parent.getChildren().put(node.getName(), node);
+//
+//    return node;
+//  }
+//
+//  private SonarDependency createDependency(final String dependencyId, final int from, final int to) {
+//    final SonarDependencyBuilder result = new SonarDependencyBuilder();
+//
+//    result.withId(new Long(dependencyId));
+//    result.withFromSnapshotId(from);
+//    result.withToSnapshotId(to);
+//
+//    return result.createSonarDependency();
+//  }
 
 }

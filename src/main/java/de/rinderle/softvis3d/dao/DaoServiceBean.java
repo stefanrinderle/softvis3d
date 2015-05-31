@@ -40,7 +40,7 @@ public class DaoServiceBean implements DaoService {
   private static final Logger LOGGER = LoggerFactory.getLogger(DaoServiceBean.class);
 
   private static final String SCM_AUTHOR_NAME = "authors_by_line";
-  // private static final String SCM_DATE_NAME = "last_commit_datetimes_by_line";
+//  private static final String SCM_DATE_NAME = "last_commit_datetimes_by_line";
 
   @Inject
   private SonarDao sonarDao;
@@ -130,8 +130,8 @@ public class DaoServiceBean implements DaoService {
     final StopWatch stopWatch = new StopWatch();
     stopWatch.start();
 
-    // final Integer authorMetricId = this.sonarDao.getMetricIdByKey(SCM_DATE_NAME);
-    // final Integer authorDateMetricId = this.sonarDao.getMetricIdByKey(SCM_DATE_NAME);
+//    final Integer authorMetricId = this.sonarDao.getMetricIdByKey(SCM_DATE_NAME);
+//    final Integer authorDateMetricId = this.sonarDao.getMetricIdByKey(SCM_DATE_NAME);
     final List<MetricResultDTO<Integer>> snapshots = sonarDao.getAllSnapshotIdsWithRescourceId(
       requestDTO.getRootSnapshotId());
 
@@ -143,10 +143,10 @@ public class DaoServiceBean implements DaoService {
       builder.withHeightMeasure(sonarDao.getMetricDouble(requestDTO.getHeightMetricId(), snapshotId));
 
       // TODO: do something with this information here or delete.
-      // final String authors = this.sonarDao.getMetricText(authorMetricId, snapshotId);
-      // final String authorDateMetric = this.sonarDao.getMetricText(authorDateMetricId, snapshotId);
+//      final String authors = this.sonarDao.getMetricText(authorMetricId, snapshotId);
+//      final String authorDateMetric = this.sonarDao.getMetricText(authorDateMetricId, snapshotId);
 
-      // int differentAuthors = scmCalculationService.getDifferentAuthors(authors, authorDateMetric);
+//      int differentAuthors = scmCalculationService.getDifferentAuthors(authors, authorDateMetric);
 
       SonarSnapshot snapshotResult = builder.build();
 

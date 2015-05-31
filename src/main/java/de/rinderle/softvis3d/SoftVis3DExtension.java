@@ -23,6 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+
 public class SoftVis3DExtension implements ServerExtension {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SoftVis3DExtension.class);

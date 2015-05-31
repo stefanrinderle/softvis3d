@@ -19,8 +19,6 @@
  */
 package de.rinderle.softvis3d.domain;
 
-import java.util.Objects;
-
 public class VisualizationRequest {
 
   private final int rootSnapshotId;
@@ -59,23 +57,5 @@ public class VisualizationRequest {
   public String toString() {
     return "VisualizationRequest{" + "rootSnapshotId=" + rootSnapshotId + ", viewType=" + viewType
       + ", footprintMetricId=" + footprintMetricId + ", heightMetricId=" + heightMetricId + '}';
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (!(o instanceof VisualizationRequest))
-      return false;
-    VisualizationRequest that = (VisualizationRequest) o;
-    return Objects.equals(rootSnapshotId, that.rootSnapshotId) &&
-      Objects.equals(footprintMetricId, that.footprintMetricId) &&
-      Objects.equals(heightMetricId, that.heightMetricId) &&
-      Objects.equals(viewType, that.viewType);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(rootSnapshotId, viewType, footprintMetricId, heightMetricId);
   }
 }

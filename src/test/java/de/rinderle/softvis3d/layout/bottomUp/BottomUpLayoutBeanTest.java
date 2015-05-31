@@ -130,7 +130,7 @@ public class BottomUpLayoutBeanTest {
     final TreeNode treeNode5 = TestTreeBuilder.createTreeNode(nodeId.intValue(), treeNode1, 2);
 
     LayeredLayoutElement leafResultElement =
-      LayeredLayoutElement.createLayeredLayoutElement(treeNode5, null, null, null, null);
+            LayeredLayoutElement.createLayeredLayoutElement(treeNode5, null, null, null, null);
     when(visitor.visitFile(eq(treeNode5))).thenReturn(leafResultElement);
 
     List<LayeredLayoutElement> result = underTest.processChildrenLeaves(treeNode1);

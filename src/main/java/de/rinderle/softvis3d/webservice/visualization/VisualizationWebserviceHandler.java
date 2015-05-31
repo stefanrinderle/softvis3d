@@ -28,10 +28,9 @@ import org.sonar.api.server.ws.Response;
 public interface VisualizationWebserviceHandler extends RequestHandler {
 
   @Override
-  void handle(final Request request, final Response response);
+  public void handle(final Request request, final Response response);
 
   void setSettings(Settings settings);
 
   void setDatabaseSession(DatabaseSession session);
-
 }

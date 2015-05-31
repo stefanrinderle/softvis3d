@@ -39,9 +39,6 @@ public abstract class AbstractWebserviceHandler implements RequestHandler {
       this.handleRequest(request, response);
     } catch (final Exception exception) {
       LOGGER.error(exception.getMessage(), exception);
-
-      exception.printStackTrace();
-
       exceptionJsonWriter.transformExceptionToJson(response, exception);
     }
   }

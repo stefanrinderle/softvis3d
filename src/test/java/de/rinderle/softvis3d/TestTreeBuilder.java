@@ -29,9 +29,9 @@ import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpanderBean;
 public class TestTreeBuilder {
 
   public static TreeNode createTreeNode(final int id, final TreeNode parent,
-    final int depth) {
+                                  final int depth) {
     final TreeNode result = new TreeNode(id, parent, depth,
-      TreeNodeType.TREE, id + "");
+            TreeNodeType.TREE, id + "");
 
     parent.addChildrenNode(id + "", result);
 
@@ -42,7 +42,7 @@ public class TestTreeBuilder {
     final TreeNode result = new DependencyTreeNode(id, parent, parent.getDepth() + 1);
 
     final String intLeafLabel = DependencyExpanderBean.INTERFACE_PREFIX
-      + "_" + parent.getId();
+            + "_" + parent.getId();
 
     parent.addChildrenNode(intLeafLabel, result);
 
