@@ -22,11 +22,8 @@ package de.rinderle.softvis3d.preprocessing.dependencies;
 import de.rinderle.softvis3d.TestTreeBuilder;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
-import de.rinderle.softvis3d.domain.sonar.SonarDependencyBuilder;
-import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
-import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -144,32 +141,32 @@ public class DependencyExpanderCheckCounterTest {
     assertTrue(interfaceLeafNode2.getEdges().isEmpty());
   }
 
-//  private TreeNode createTreeNode(final int id, final TreeNode parent, final int depth) {
-//    final TreeNode result = new TreeNode(id, parent, depth, TreeNodeType.TREE, id + "");
-//
-//    parent.addChildrenNode(id + "", result);
-//
-//    return result;
-//  }
-//
-//  private TreeNode createInterfaceLeafNode(final int id, final TreeNode parent) {
-//    final DependencyTreeNode result = new DependencyTreeNode(id, parent, parent.getDepth() + 1);
-//
-//    final String intLeafLabel = DependencyExpanderBean.INTERFACE_PREFIX + "_" + parent.getId();
-//
-//    parent.addChildrenNode(intLeafLabel, result);
-//
-//    return result;
-//  }
-//
-//  private SonarDependency createDependency(final int from, final int to) {
-//    final SonarDependencyBuilder result = new SonarDependencyBuilder();
-//
-//    result.withId(new Long(from + "" + to));
-//    result.withFromSnapshotId(from);
-//    result.withToSnapshotId(to);
-//
-//    return result.createSonarDependency();
-//  }
+  // private TreeNode createTreeNode(final int id, final TreeNode parent, final int depth) {
+  // final TreeNode result = new TreeNode(id, parent, depth, TreeNodeType.TREE, id + "");
+  //
+  // parent.addChildrenNode(id + "", result);
+  //
+  // return result;
+  // }
+  //
+  // private TreeNode createInterfaceLeafNode(final int id, final TreeNode parent) {
+  // final DependencyTreeNode result = new DependencyTreeNode(id, parent, parent.getDepth() + 1);
+  //
+  // final String intLeafLabel = DependencyExpanderBean.INTERFACE_PREFIX + "_" + parent.getId();
+  //
+  // parent.addChildrenNode(intLeafLabel, result);
+  //
+  // return result;
+  // }
+  //
+  // private SonarDependency createDependency(final int from, final int to) {
+  // final SonarDependencyBuilder result = new SonarDependencyBuilder();
+  //
+  // result.withId(new Long(from + "" + to));
+  // result.withFromSnapshotId(from);
+  // result.withToSnapshotId(to);
+  //
+  // return result.createSonarDependency();
+  // }
 
 }

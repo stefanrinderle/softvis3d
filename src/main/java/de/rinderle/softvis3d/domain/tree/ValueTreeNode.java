@@ -19,9 +19,6 @@
  */
 package de.rinderle.softvis3d.domain.tree;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class ValueTreeNode extends TreeNode {
 
   private final double heightMetricValue;

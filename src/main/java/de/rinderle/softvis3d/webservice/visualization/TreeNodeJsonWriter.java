@@ -24,5 +24,5 @@ import org.sonar.api.utils.text.JsonWriter;
 
 public interface TreeNodeJsonWriter {
 
-  void transformTreeToJsonBla(JsonWriter jsonWriter, RootTreeNode tree);
+  void transformTreeToJson(JsonWriter jsonWriter, RootTreeNode tree);
 }

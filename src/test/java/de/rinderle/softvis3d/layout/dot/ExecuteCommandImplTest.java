@@ -20,13 +20,10 @@
 package de.rinderle.softvis3d.layout.dot;
 
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static att.grappa.GrappaConstants.HEIGHT_ATTR;
-import static att.grappa.GrappaConstants.WIDTH_ATTR;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by stefan on 29.05.15.
