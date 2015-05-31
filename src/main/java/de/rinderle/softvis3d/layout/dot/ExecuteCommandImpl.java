@@ -97,7 +97,6 @@ public class ExecuteCommandImpl implements ExecuteCommand {
     final boolean adotBug = currentVersion.compareTo(startBug) >= 0;
 
     while ((line = in.readLine()) != null) {
-      LOGGER.info("LINE: " + line);
       if (adotBug) {
         line = checkForAdotBug(line);
       }

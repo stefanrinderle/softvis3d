@@ -54,7 +54,7 @@ Viewer.Setup.prototype = {
     this.setupRenderer();
     this.lights();
     this.createGeometry();
-    this.context.renderer.setClearColorHex(0xffffff, 1);
+    this.context.renderer.setClearColor(0xffffff, 1);
   },
 
   /**

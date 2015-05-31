@@ -29,9 +29,16 @@ public class HexaColor extends Color {
     super(r, g, b);
   }
 
-  public HexaColor(final String hexValueString) {
-    super(Integer.parseInt(hexValueString.substring(1, 2), 16), Integer
-      .parseInt(hexValueString.substring(3, 4), 16), Integer.parseInt(hexValueString.substring(5, 6), 16));
+  public static HexaColor createHexaColorFromHex(final String hexValueString) {
+    final String redString = hexValueString.substring(1, 3);
+    final String greenString = hexValueString.substring(3, 5);
+    final String blueString = hexValueString.substring(5, 7);
+
+    final Integer red = Integer.parseInt(redString, 16);
+    final Integer green = Integer.parseInt(greenString, 16);
+    final Integer blue = Integer.parseInt(blueString, 16);
+
+    return new HexaColor(red, green, blue);
   }
 
   /**
@@ -45,7 +52,7 @@ public class HexaColor extends Color {
    *            blue
    * @return a browser-friendly HEX value
    */
-  public static String toHex(final int r, final int g, final int b) {
+  private static String toHex(final int r, final int g, final int b) {
     return "#" + toBrowserHexValue(r) + toBrowserHexValue(g) + toBrowserHexValue(b);
   }
 

@@ -23,12 +23,15 @@ import att.grappa.Edge;
 import att.grappa.GrappaConstants;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
+import com.google.inject.Inject;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ResultBuildingBuilder {
 
@@ -67,7 +70,7 @@ public class ResultBuildingBuilder {
   }
 
   private HexaColor transformToColor(Object attributeValue) {
-    return new HexaColor((String) attributeValue);
+    return HexaColor.createHexaColorFromHex((String) attributeValue);
   }
 
   /**

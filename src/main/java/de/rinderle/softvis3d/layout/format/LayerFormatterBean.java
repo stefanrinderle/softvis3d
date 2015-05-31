@@ -62,7 +62,7 @@ public class LayerFormatterBean implements LayerFormatter {
   @Override
   public HexaColor getPlatformBaseColor(int depth) {
     // calc color
-    int colorCalc = depth * 16;
+    int colorCalc = depth * 32;
     if (colorCalc > (MAX_COLOR_VALUE - BASE_PLATFORM_BRIGHTNESS) || colorCalc < 0) {
       colorCalc = MAX_COLOR_VALUE - BASE_PLATFORM_BRIGHTNESS;
     }
