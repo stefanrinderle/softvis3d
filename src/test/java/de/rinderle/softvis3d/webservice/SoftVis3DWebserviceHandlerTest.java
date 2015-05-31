@@ -91,7 +91,6 @@ public class SoftVis3DWebserviceHandlerTest {
   }
 
   @Test
-  @Ignore
   public void testHandler() throws Exception {
     final Request request = this.createRequest();
     final Response response = this.createResponse();

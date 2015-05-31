@@ -19,6 +19,9 @@
  */
 package de.rinderle.softvis3d.domain;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 public class VisualizationRequest {
 
   private final int rootSnapshotId;
@@ -57,5 +60,31 @@ public class VisualizationRequest {
   public String toString() {
     return "VisualizationRequest{" + "rootSnapshotId=" + rootSnapshotId + ", viewType=" + viewType
       + ", footprintMetricId=" + footprintMetricId + ", heightMetricId=" + heightMetricId + '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+
+    if (o == null || getClass() != o.getClass()) return false;
+
+    VisualizationRequest that = (VisualizationRequest) o;
+
+    return new EqualsBuilder()
+            .append(rootSnapshotId, that.rootSnapshotId)
+            .append(footprintMetricId, that.footprintMetricId)
+            .append(heightMetricId, that.heightMetricId)
+            .append(viewType, that.viewType)
+            .isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 37)
+            .append(rootSnapshotId)
+            .append(viewType)
+            .append(footprintMetricId)
+            .append(heightMetricId)
+            .toHashCode();
   }
 }
