@@ -32,7 +32,7 @@ import static org.junit.Assert.assertNotNull;
 public class DotVersionTest {
 
   @InjectMocks
-  private final DotVersion underTest = new DotVersionImpl();
+  private final DotVersion underTest = new DotVersion();
   @Mock
   private ExecuteCommand executeCommand;
 

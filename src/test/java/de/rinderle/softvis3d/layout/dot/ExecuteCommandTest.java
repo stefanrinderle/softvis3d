@@ -20,18 +20,15 @@
 package de.rinderle.softvis3d.layout.dot;
 
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static att.grappa.GrappaConstants.HEIGHT_ATTR;
-import static att.grappa.GrappaConstants.WIDTH_ATTR;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by stefan on 29.05.15.
  */
-public class ExecuteCommandImplTest {
+public class ExecuteCommandTest {
 
   @Test
   public void checkForAdotBugHeight() throws Exception {
@@ -42,7 +39,7 @@ public class ExecuteCommandImplTest {
     final String check = HEIGHT_ATTR + "=" + value + "," + postFix;
     final String expected = HEIGHT_ATTR + "=\"" + value + "\"," + postFix;
 
-    String result = ExecuteCommandImpl.checkForAdotBug(check);
+    String result = ExecuteCommand.checkForAdotBug(check);
 
     assertEquals(expected, result);
   }
@@ -52,7 +49,7 @@ public class ExecuteCommandImplTest {
     final String check = "width=0.27778];";
     final String expected = "width=\"0.27778\"];";
 
-    String result = ExecuteCommandImpl.checkForAdotBug(check);
+    String result = ExecuteCommand.checkForAdotBug(check);
 
     assertEquals(expected, result);
   }
@@ -62,7 +59,7 @@ public class ExecuteCommandImplTest {
     final String check = "width=0.27778";
     final String expected = "width=\"0.27778\"";
 
-    String result = ExecuteCommandImpl.checkForAdotBug(check);
+    String result = ExecuteCommand.checkForAdotBug(check);
 
     assertEquals(expected, result);
   }
@@ -75,7 +72,7 @@ public class ExecuteCommandImplTest {
 
     final String check = SoftVis3DConstants.GRAPH_ATTR_PENWIDTH + "=" + value + "," + postFix;
 
-    String result = ExecuteCommandImpl.checkForAdotBug(check);
+    String result = ExecuteCommand.checkForAdotBug(check);
 
     assertEquals("Do not add quotation marks if the attribute is the oen width", check, result);
   }

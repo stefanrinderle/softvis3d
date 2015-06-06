@@ -39,12 +39,6 @@ import de.rinderle.softvis3d.layout.LayoutProcessor;
 import de.rinderle.softvis3d.layout.LayoutProcessorBean;
 import de.rinderle.softvis3d.layout.bottomUp.SnapshotVisitor;
 import de.rinderle.softvis3d.layout.bottomUp.SnapshotVisitorBean;
-import de.rinderle.softvis3d.layout.dot.DotExecutor;
-import de.rinderle.softvis3d.layout.dot.DotExecutorImpl;
-import de.rinderle.softvis3d.layout.dot.DotVersion;
-import de.rinderle.softvis3d.layout.dot.DotVersionImpl;
-import de.rinderle.softvis3d.layout.dot.ExecuteCommand;
-import de.rinderle.softvis3d.layout.dot.ExecuteCommandImpl;
 import de.rinderle.softvis3d.layout.format.LayerFormatter;
 import de.rinderle.softvis3d.layout.format.LayerFormatterBean;
 import de.rinderle.softvis3d.postprocessing.PostProcessor;
@@ -71,10 +65,6 @@ import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHan
 public class SoftVis3DModule extends AbstractModule {
   @Override
   protected void configure() {
-    this.bind(DotVersion.class).to(DotVersionImpl.class);
-    this.bind(DotExecutor.class).to(DotExecutorImpl.class);
-    this.bind(ExecuteCommand.class).to(ExecuteCommandImpl.class);
-
     this.bind(SonarDao.class).to(SonarDaoBean.class);
     this.bind(DependencyDao.class).to(DependencyDaoBean.class);
     this.bind(DaoService.class).to(DaoServiceBean.class);

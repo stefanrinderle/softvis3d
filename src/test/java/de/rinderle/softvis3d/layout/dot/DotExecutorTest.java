@@ -37,7 +37,7 @@ public class DotExecutorTest {
 
   private final static Settings SETTINGS = new Settings();
   @InjectMocks
-  private final DotExecutorImpl underTest = new DotExecutorImpl();
+  private final DotExecutor underTest = new DotExecutor();
   @Mock
   private DotVersion dotVersion;
   @Mock
@@ -107,7 +107,7 @@ public class DotExecutorTest {
   public void testVersionTrue() throws DotExecutorException {
     SETTINGS.setProperty("dotBinDirectory", "/usr/local/bin/dot");
 
-    Mockito.when(this.dotVersion.getVersion(Mockito.anyString())).thenReturn(DotExecutorImpl.DOT_BUG_VERSION);
+    Mockito.when(this.dotVersion.getVersion(Mockito.anyString())).thenReturn(DotExecutor.DOT_BUG_VERSION);
 
     Mockito.when(
       this.executeCommand.executeCommandReadAdot(Mockito.any(String.class), Mockito.any(String.class),
