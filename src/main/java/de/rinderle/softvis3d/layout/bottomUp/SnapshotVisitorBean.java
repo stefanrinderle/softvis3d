@@ -30,13 +30,14 @@ import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
-import de.rinderle.softvis3d.domain.layout.GrappaTransformer;
+import de.rinderle.softvis3d.layout.bottomUp.grappa.GrappaEdgeFactory;
 import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
 import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
 import de.rinderle.softvis3d.domain.tree.Edge;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
+import de.rinderle.softvis3d.layout.bottomUp.grappa.GrappaNodeFactory;
 import de.rinderle.softvis3d.layout.dot.DotExecutor;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.layout.format.LayerFormatter;
@@ -56,7 +57,8 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
   // getting injected - see constructor
   private final DotExecutor dotExecutor;
   private final LayerFormatter formatter;
-  private final GrappaTransformer transformer;
+  private final GrappaNodeFactory nodeFactory;
+  private final GrappaEdgeFactory edgeFactory;
 
   private final Settings settings;
 
@@ -71,13 +73,15 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
   @Inject
   public SnapshotVisitorBean(final LayerFormatter formatter, final DotExecutor dotExecutor,
-    final GrappaTransformer transformer, final DaoService daoService, @Assisted final Settings settings,
+    final GrappaNodeFactory nodeFactory, final GrappaEdgeFactory edgeFactory,
+    final DaoService daoService, @Assisted final Settings settings,
     @Assisted final VisualizationRequest requestDTO) {
     this.settings = settings;
 
     this.dotExecutor = dotExecutor;
     this.formatter = formatter;
-    this.transformer = transformer;
+    this.nodeFactory = nodeFactory;
+    this.edgeFactory = edgeFactory;
 
     this.minMaxMetricFootprint =
       daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
@@ -145,13 +149,13 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     final Graph inputGraph = new Graph(node.getId().toString());
 
     for (final LayeredLayoutElement element : elements) {
-      final Node elementNode = this.transformer.transformToGrappaNode(inputGraph, element);
+      final Node elementNode = this.nodeFactory.transformToGrappaNode(inputGraph, element);
       inputGraph.addNode(elementNode);
     }
 
     for (final LayeredLayoutElement element : elements) {
       for (final Edge edge : element.getEdges().values()) {
-        inputGraph.addEdge(this.transformer.transformToGrappaEdge(inputGraph, edge));
+        inputGraph.addEdge(this.edgeFactory.createGrappaEdge(inputGraph, edge));
       }
     }
     return inputGraph;
