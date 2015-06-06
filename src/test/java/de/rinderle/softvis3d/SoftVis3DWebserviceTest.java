@@ -19,6 +19,7 @@
  */
 package de.rinderle.softvis3d;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
 import org.sonar.api.database.DatabaseSession;
@@ -29,25 +30,42 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class SoftVis3DWebserviceTest {
 
-  private DatabaseSession session;
-  private Settings settings;
-  private WebService ws = new SoftVis3DWebservice(this.session, this.settings);
+  private WebService.Controller controller;
 
-  @Test
-  public void shouldDefineSoftVis3DWebservice() throws Exception {
+  @Before
+  public void setUp() {
+    final DatabaseSession session = null;
+    final Settings settings = null;
+    final WebService ws = new SoftVis3DWebservice(session, settings);
+
     // WsTester is available in the Maven artifact
     // org.codehaus.sonar:sonar-plugin-api
     // with type "test-jar"
-    final WsTester tester = new WsTester(this.ws);
-    final WebService.Controller controller = tester.controller("api/softVis3D");
+    final WsTester tester = new WsTester(ws);
+    controller = tester.controller("api/softVis3D");
+  }
 
+  @Test
+  public void testController() throws Exception {
     assertThat(controller).isNotNull();
     assertThat(controller.path()).isEqualTo("api/softVis3D");
     assertThat(controller.description()).isNotEmpty();
     assertThat(controller.actions()).hasSize(2);
+  }
 
-    // final WebService.Action getTree = controller.action("getVisualization");
-    // assertThat(getTree).isNotNull();
-    // assertThat(getTree.key()).isEqualTo("getTree");
+  @Test
+  public void testVisualizationWebservice() throws Exception {
+    final WebService.Action getTree = controller.action("getVisualization");
+    assertThat(getTree).isNotNull();
+    assertThat(getTree.key()).isEqualTo("getVisualization");
+    assertThat(getTree.params()).hasSize(4);
+  }
+
+  @Test
+  public void testConfigWebservice() throws Exception {
+    final WebService.Action getTree = controller.action("getConfig");
+    assertThat(getTree).isNotNull();
+    assertThat(getTree.key()).isEqualTo("getConfig");
+    assertThat(getTree.params()).hasSize(1);
   }
 }
