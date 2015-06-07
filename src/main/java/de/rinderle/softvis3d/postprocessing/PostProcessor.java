@@ -46,11 +46,11 @@ public class PostProcessor {
 
   private int leafElements;
 
-  public int process(final LayoutViewType viewType, final Integer snapshotId,
+  public int process(final LayoutViewType viewType,
     final Map<Integer, ResultPlatform> resultGraphs, final SnapshotTreeResult treeResult) {
     this.leafElements = 0;
 
-    this.innerGraphTranslation = new HashMap<Integer, GrappaPoint>();
+    this.innerGraphTranslation = new HashMap<>();
     this.resultGraphs = resultGraphs;
 
     this.addTranslationToLayer(treeResult.getTree(), new GrappaPoint(0, 0), viewType);

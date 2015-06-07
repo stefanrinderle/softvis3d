@@ -84,8 +84,8 @@ public class TreeBuilder {
   private List<ModuleInfo> getModules(int rootSnapshotId) {
     List<ModuleInfo> result = this.daoService.getDirectModuleChildrenIds(rootSnapshotId);
 
-    if (result == null || result.size() == 0) {
-      result = new ArrayList<ModuleInfo>();
+    if (result == null || result.isEmpty()) {
+      result = new ArrayList<>();
     }
 
     return result;

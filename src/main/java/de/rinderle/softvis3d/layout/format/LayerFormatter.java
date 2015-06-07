@@ -78,7 +78,7 @@ public class LayerFormatter {
     double height = leaf.getHeight();
     // keep some distance to each other
     height = height * SoftVis3DConstants.DPI_DOT_SCALE;
-    leaf.setHeight((height));
+    leaf.setHeight(height);
 
     if (leaf.getType().equals(TreeNodeType.DEPENDENCY_GENERATED)) {
       leaf.setColor(getPlatformBaseColor(depth));

@@ -39,6 +39,10 @@ class SnapshotTreeStorage {
    */
   private static Map<String, SnapshotTreeResult> storage = new ConcurrentHashMap<String, SnapshotTreeResult>();
 
+  private SnapshotTreeStorage() {
+    // to permit construction.
+  }
+
   static SnapshotTreeResult get(final SnapshotStorageKey key) {
     return storage.get(key.getString());
   }

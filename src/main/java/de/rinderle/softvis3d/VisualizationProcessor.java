@@ -55,8 +55,7 @@ public class VisualizationProcessor {
     LOGGER.info("Created " + resultGraphs.size() + " result graphs in " + stopWatch.getTime() + " ms");
 
     final int leavesCounter =
-      this.calc.process(requestDTO.getViewType(), requestDTO.getRootSnapshotId(), resultGraphs,
-        snapshotTreeResult);
+      this.calc.process(requestDTO.getViewType(), resultGraphs, snapshotTreeResult);
 
     stopWatch.stop();
     LOGGER.info("Calculation finished after " + stopWatch.getTime() + " ms with " + leavesCounter + " leaves");

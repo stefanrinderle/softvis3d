@@ -28,8 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static att.grappa.GrappaConstants.HEIGHT_ATTR;
 import static att.grappa.GrappaConstants.WIDTH_ATTR;

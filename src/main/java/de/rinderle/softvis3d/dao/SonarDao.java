@@ -203,8 +203,7 @@ public class SonarDao {
     query.setParameter("metricId", metricId);
 
     try {
-      final String result = (String) query.getSingleResult();
-      return result;
+      return (String) query.getSingleResult();
     } catch (NoResultException e) {
       LOGGER.error("getMetricText for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage());
       return null;

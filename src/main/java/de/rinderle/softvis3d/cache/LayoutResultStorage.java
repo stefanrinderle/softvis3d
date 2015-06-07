@@ -40,6 +40,10 @@ class LayoutResultStorage {
   private static Map<String, Map<Integer, ResultPlatform>> storage =
     new ConcurrentHashMap<String, Map<Integer, ResultPlatform>>();
 
+  private LayoutResultStorage() {
+    // to permit construction.
+  }
+
   static Map<Integer, ResultPlatform> get(final SnapshotStorageKey key) {
     return storage.get(key.getString());
   }
