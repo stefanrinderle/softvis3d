@@ -19,15 +19,32 @@
  */
 package de.rinderle.softvis3d.layout;
 
+import com.google.inject.Inject;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.guice.SnapshotVisitorFactory;
+import de.rinderle.softvis3d.layout.bottomUp.BottomUpLayout;
+import de.rinderle.softvis3d.layout.bottomUp.BottomUpLayoutBean;
+import de.rinderle.softvis3d.layout.bottomUp.SnapshotVisitor;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import org.sonar.api.config.Settings;
 
-public interface LayoutProcessor {
+import java.util.Map;
 
-  java.util.Map<Integer, ResultPlatform> process(Settings settings,
-    VisualizationRequest requestDTO,
-    SnapshotTreeResult snapshotTreeResult) throws DotExecutorException;
+public class LayoutProcessor {
+
+  @Inject
+  private SnapshotVisitorFactory visitorFactory;
+
+  public Map<Integer, ResultPlatform> process(Settings settings, VisualizationRequest requestDTO,
+    SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
+
+    final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO);
+
+    final BottomUpLayout bottomUpLayout = new BottomUpLayoutBean(visitor);
+    bottomUpLayout.accept(snapshotTreeResult);
+
+    return visitor.getResultingGraphList();
+  }
 }

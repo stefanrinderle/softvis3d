@@ -22,11 +22,8 @@ package de.rinderle.softvis3d.preprocessing.dependencies;
 import de.rinderle.softvis3d.TestTreeBuilder;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
-import de.rinderle.softvis3d.domain.sonar.SonarDependencyBuilder;
-import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
-import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -44,7 +41,7 @@ import static org.junit.Assert.assertTrue;
 public class DependencyExpanderCheckCounterTest {
 
   @InjectMocks
-  private final DependencyExpanderBean underTest = new DependencyExpanderBean();
+  private final DependencyExpander underTest = new DependencyExpander();
   @Mock
   private SnapshotCacheService treeService;
 

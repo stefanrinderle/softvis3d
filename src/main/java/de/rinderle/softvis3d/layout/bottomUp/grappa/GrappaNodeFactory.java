@@ -21,10 +21,8 @@ package de.rinderle.softvis3d.layout.bottomUp.grappa;
 
 import att.grappa.Graph;
 import att.grappa.Node;
-import com.google.inject.Inject;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
-import de.rinderle.softvis3d.layout.format.LayerFormatter;
 
 import static att.grappa.GrappaConstants.HEIGHT_ATTR;
 import static att.grappa.GrappaConstants.LABEL_ATTR;

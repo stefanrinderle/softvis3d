@@ -24,7 +24,7 @@ import de.rinderle.softvis3d.domain.sonar.SonarDependencyBuilder;
 import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
-import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpanderBean;
+import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpander;
 
 public class TestTreeBuilder {
 
@@ -41,7 +41,7 @@ public class TestTreeBuilder {
   public static TreeNode createInterfaceLeafNode(final int id, final TreeNode parent) {
     final TreeNode result = new DependencyTreeNode(id, parent, parent.getDepth() + 1);
 
-    final String intLeafLabel = DependencyExpanderBean.INTERFACE_PREFIX
+    final String intLeafLabel = DependencyExpander.INTERFACE_PREFIX
             + "_" + parent.getId();
 
     parent.addChildrenNode(intLeafLabel, result);

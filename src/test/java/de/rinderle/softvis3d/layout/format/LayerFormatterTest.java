@@ -31,9 +31,9 @@ import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class LayerFormatterBeanTest {
+public class LayerFormatterTest {
 
-  private LayerFormatterBean underTest = new LayerFormatterBean();
+  private LayerFormatter underTest = new LayerFormatter();
 
   @Test
   public void testFormat() {

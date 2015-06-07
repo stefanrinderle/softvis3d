@@ -31,7 +31,6 @@ import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import de.rinderle.softvis3d.webservice.visualization.TreeNodeJsonWriter;
 import de.rinderle.softvis3d.webservice.visualization.VisualizationJsonWriter;
 import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHandler;
-import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHandlerBean;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -67,7 +66,7 @@ public class VisualizationWebserviceHandlerTest {
   private final String viewType = "city";
 
   @InjectMocks
-  private final VisualizationWebserviceHandler handler = new VisualizationWebserviceHandlerBean();
+  private final VisualizationWebserviceHandler handler = new VisualizationWebserviceHandler();
   @Mock
   private TreeNodeJsonWriter treeNodeJsonWriter;
   @Mock

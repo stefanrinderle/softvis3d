@@ -22,7 +22,6 @@ package de.rinderle.softvis3d.webservice;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.Metric;
 import de.rinderle.softvis3d.webservice.config.ConfigWebserviceHandler;
-import de.rinderle.softvis3d.webservice.config.ConfigWebserviceHandlerBean;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -52,7 +51,7 @@ public class ConfigWebserviceHandlerTest {
   private final Integer snapshotId = 123;
 
   @InjectMocks
-  private final ConfigWebserviceHandler handler = new ConfigWebserviceHandlerBean();
+  private final ConfigWebserviceHandler handler = new ConfigWebserviceHandler();
   @Mock
   private DaoService daoService;
   @Mock

@@ -20,8 +20,29 @@
 package de.rinderle.softvis3d.webservice;
 
 import org.sonar.api.server.ws.Response;
+import org.sonar.api.utils.text.JsonWriter;
 
-public interface ExceptionJsonWriter {
+public class ExceptionJsonWriter {
 
-  void transformExceptionToJson(Response response, Exception exception);
+  public void transformExceptionToJson(final Response response, final Exception
+    exception) {
+    response.stream().setStatus(500);
+
+    final JsonWriter jsonWriter = response.newJsonWriter();
+    jsonWriter.beginObject();
+
+    jsonWriter.name("errors");
+    jsonWriter.beginArray();
+
+    jsonWriter.beginObject();
+    jsonWriter.prop("msg", exception.getMessage());
+    jsonWriter.endObject();
+
+    jsonWriter.endArray();
+
+    jsonWriter.endObject();
+
+    jsonWriter.close();
+  }
+
 }

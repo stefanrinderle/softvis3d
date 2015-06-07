@@ -19,11 +19,62 @@
  */
 package de.rinderle.softvis3d.preprocessing;
 
+import com.google.inject.Inject;
+import de.rinderle.softvis3d.cache.SnapshotCacheService;
+import de.rinderle.softvis3d.dao.DaoService;
+import de.rinderle.softvis3d.domain.LayoutViewType;
+import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
+import de.rinderle.softvis3d.domain.sonar.SonarDependency;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpander;
+import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructure;
+import de.rinderle.softvis3d.preprocessing.tree.TreeBuilder;
 import org.sonar.api.config.Settings;
 
-public interface PreProcessor {
+import java.util.List;
 
-  SnapshotTreeResult process(VisualizationRequest requestDTO, Settings settings);
+public class PreProcessor {
+
+  @Inject
+  private TreeBuilder treeBuilder;
+  @Inject
+  private OptimizeTreeStructure optimizeTreeStructure;
+  @Inject
+  private SnapshotCacheService snapshotCacheService;
+  @Inject
+  private DaoService daoService;
+  @Inject
+  private DependencyExpander dependencyExpander;
+
+  public SnapshotTreeResult process(VisualizationRequest requestDTO, Settings settings) {
+    snapshotCacheService.printCacheContents();
+
+    final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
+
+    boolean cacheEnabled = settings.getBoolean("cacheEnabled");
+
+    final SnapshotTreeResult result;
+    if (cacheEnabled && snapshotCacheService.containsKey(mapKey)) {
+      result = snapshotCacheService.getSnapshotTreeResult(mapKey);
+    } else {
+      final RootTreeNode tree = treeBuilder.createTreeStructure(requestDTO);
+      this.optimizeTreeStructure.removeUnnecessaryNodes(tree);
+
+      if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
+        final List<SonarDependency> dependencies =
+          this.daoService.getDependencies(requestDTO.getRootSnapshotId());
+        this.dependencyExpander.execute(tree, dependencies);
+      }
+
+      result = new SnapshotTreeResult(mapKey, tree);
+      if (cacheEnabled) {
+        this.snapshotCacheService.save(result);
+      }
+    }
+
+    return result;
+  }
+
 }

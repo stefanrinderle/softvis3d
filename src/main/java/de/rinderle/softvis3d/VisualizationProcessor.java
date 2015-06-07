@@ -19,15 +19,49 @@
  */
 package de.rinderle.softvis3d;
 
+import com.google.inject.Inject;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.layout.LayoutProcessor;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
+import de.rinderle.softvis3d.postprocessing.PostProcessor;
+import org.apache.commons.lang.time.StopWatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
 
 import java.util.Map;
 
-public interface VisualizationProcessor {
-  Map<Integer, ResultPlatform> visualize(Settings settings,
-    VisualizationRequest requestDTO, SnapshotTreeResult snapshotTreeResult) throws DotExecutorException;
+public class VisualizationProcessor {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(VisualizationProcessor.class);
+
+  @Inject
+  private LayoutProcessor layoutProcessor;
+
+  @Inject
+  private PostProcessor calc;
+
+  public Map<Integer, ResultPlatform> visualize(final Settings settings, final VisualizationRequest requestDTO,
+    SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
+
+    final StopWatch stopWatch = new StopWatch();
+    stopWatch.start();
+
+    final Map<Integer, ResultPlatform> resultGraphs =
+      layoutProcessor.process(settings, requestDTO, snapshotTreeResult);
+
+    LOGGER.info("Created " + resultGraphs.size() + " result graphs in " + stopWatch.getTime() + " ms");
+
+    final int leavesCounter =
+      this.calc.process(requestDTO.getViewType(), requestDTO.getRootSnapshotId(), resultGraphs,
+        snapshotTreeResult);
+
+    stopWatch.stop();
+    LOGGER.info("Calculation finished after " + stopWatch.getTime() + " ms with " + leavesCounter + " leaves");
+
+    return resultGraphs;
+  }
+
 }
