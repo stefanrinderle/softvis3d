@@ -55,7 +55,7 @@ public class OptimizeTreeStructureTest {
     final TreeNode tree = walker.getTree();
     assertEquals("children are not main and test", 2, tree.getChildren().get("src").getChildren().size());
 
-    final OptimizeTreeStructureImpl normalizer = new OptimizeTreeStructureImpl();
+    final OptimizeTreeStructure normalizer = new OptimizeTreeStructure();
     normalizer.removeUnnecessaryNodes(tree);
 
     assertEquals("children of src are not main and test", 2, tree.getChildren().get("src").getChildren().size());

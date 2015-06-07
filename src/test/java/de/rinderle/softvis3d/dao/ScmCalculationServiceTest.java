@@ -27,7 +27,7 @@ import static org.junit.Assert.assertSame;
 
 public class ScmCalculationServiceTest {
 
-  private final ScmCalculationService scmCalculationService = new ScmCalculationServiceBean();
+  private final ScmCalculationService scmCalculationService = new ScmCalculationService();
 
   @Test
   public void testFirstExample() throws ParseException {

@@ -27,14 +27,6 @@ import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.cache.LayoutCacheServiceBean;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.cache.SnapshotCacheServiceBean;
-import de.rinderle.softvis3d.dao.DaoService;
-import de.rinderle.softvis3d.dao.DaoServiceBean;
-import de.rinderle.softvis3d.dao.DependencyDao;
-import de.rinderle.softvis3d.dao.DependencyDaoBean;
-import de.rinderle.softvis3d.dao.ScmCalculationService;
-import de.rinderle.softvis3d.dao.ScmCalculationServiceBean;
-import de.rinderle.softvis3d.dao.SonarDao;
-import de.rinderle.softvis3d.dao.SonarDaoBean;
 import de.rinderle.softvis3d.layout.LayoutProcessor;
 import de.rinderle.softvis3d.layout.LayoutProcessorBean;
 import de.rinderle.softvis3d.layout.bottomUp.SnapshotVisitor;
@@ -47,8 +39,6 @@ import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import de.rinderle.softvis3d.preprocessing.PreProcessorBean;
 import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpander;
 import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpanderBean;
-import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructure;
-import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructureImpl;
 import de.rinderle.softvis3d.preprocessing.tree.TreeBuilder;
 import de.rinderle.softvis3d.preprocessing.tree.TreeBuilderBean;
 import de.rinderle.softvis3d.webservice.ExceptionJsonWriter;
@@ -65,13 +55,6 @@ import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHan
 public class SoftVis3DModule extends AbstractModule {
   @Override
   protected void configure() {
-    this.bind(SonarDao.class).to(SonarDaoBean.class);
-    this.bind(DependencyDao.class).to(DependencyDaoBean.class);
-    this.bind(DaoService.class).to(DaoServiceBean.class);
-
-    this.bind(ScmCalculationService.class).to(ScmCalculationServiceBean.class);
-
-    this.bind(OptimizeTreeStructure.class).to(OptimizeTreeStructureImpl.class);
     this.bind(SnapshotCacheService.class).to(SnapshotCacheServiceBean.class);
     this.bind(DependencyExpander.class).to(DependencyExpanderBean.class);
 
