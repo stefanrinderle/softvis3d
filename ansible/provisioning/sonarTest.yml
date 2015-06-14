@@ -1,0 +1,57 @@
+---
+# prepare the sonar environment on a VirtualBox
+#
+
+- name: Prepare sonar environment
+  hosts: sonarqube-{{ sonar_version }}
+  user: root
+  vars:
+    vagrant_priv: "{{ lookup('file', 'files/vagrant/master/keys/vagrant') }}"
+    vagrant_pub: "{{ lookup('file', 'files/vagrant/master/keys/vagrant.pub') }}"
+
+  pre_tasks:
+  
+    - name: Modify hostname
+      hostname: name={{ inventory_hostname }}
+
+    - debug: msg="Test sonar version {{ sonar_version }}"
+
+    - name: Update apt-get repository
+      apt: update_cache=yes
+      sudo: true
+
+    - name: Upgrade apt-get repository
+      apt: upgrade=full
+      sudo: true
+
+    - name: Install list of packages
+      apt: pkg={{item}} state=present
+      with_items:
+      - unzip
+      - openjdk-7-jdk
+      - maven
+      - git
+      - python-pip
+      - xvfb
+      - firefox
+      - graphviz
+
+    - name: create dot symlink
+      file: path=/usr/local/bin/dot
+            src=/usr/bin/dot
+            state=link
+            force=yes
+
+  roles:
+    - { role: ANXS.mysql }
+    - { role: sonar }
+    - { role: softVis3dPlugin, sonar_plugin_path: '/opt/sonarqube/extensions/plugins/' }
+    - { role: restartSonar, start_command: '/opt/sonarqube/bin/linux-x86-64/sonar.sh restart' }
+    - { role: analyse }
+    - { role: test }
+
+  tasks:
+    - shell: echo 'still busy'
+
+  post_tasks:
+    - shell: echo 'goodbye'

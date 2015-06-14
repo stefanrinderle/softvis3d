@@ -1,0 +1,12 @@
+---
+# prepare the sonar environment on a VirtualBox
+#
+# ansible-playbook -i ../inventory/hosts sonarTestSequence.yml
+#
+
+- include: sonarTest.yml sonar_version=4.5
+- include: sonarTest.yml sonar_version=4.5.4
+- include: sonarTest.yml sonar_version=5.0.1
+- include: sonarTest.yml sonar_version=5.1
+- include: sonarTest.yml sonar_version=5.1.1
+- include: sonarTestTrunk.yml

@@ -1,0 +1,31 @@
+---
+#
+# test plugin install
+#
+
+- name: install pyvirtualdisplay
+  command: pip install pyvirtualdisplay
+
+- name: install selenium
+  command: pip install selenium
+
+- name: Create screenshot directory
+  file: path=/home/vagrant/screenshots state=directory
+
+- name: copy python test file
+  copy:
+      src=checkPlugin.py
+      dest=/tmp/checkPlugin.py
+      mode=0644
+
+- name: Run test
+  command: python checkPlugin.py
+  args:
+    chdir: /tmp/
+  ignore_errors: yes
+
+- fetch: src=/home/vagrant/screenshots/cityModel.png dest={{ playbook_dir }}/screenshots/{{ sonar_version }}_cityModel.png flat=yes
+  ignore_errors: yes
+
+- fetch: src=/home/vagrant/screenshots/startScreen.png dest={{ playbook_dir }}/screenshots/{{ sonar_version }}_startScreen.png flat=yes
+  ignore_errors: yes

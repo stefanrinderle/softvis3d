@@ -1,0 +1,179 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # All Vagrant configuration is done here. The most common configuration
+  # options are documented and commented below. For a complete reference,
+  # please see the online documentation at vagrantup.com.
+
+  # Every Vagrant virtual environment requires a box to build off of.
+  config.vm.box = "ubuntu/trusty64"
+
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+    config.proxy.http     = ""
+    config.proxy.https    = ""
+    config.proxy.no_proxy = "localhost,127.0.0.1"
+  end
+
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  #
+  config.vm.provider "virtualbox" do |vb|
+  #   # Don't boot with headless mode
+      vb.gui = true
+  #
+  #   # Use VBoxManage to customize the VM. For example to change memory:
+  #   vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end
+
+	graphvizVersion = {
+      'graphviz' => { "graphviz" => "192.168.56.241" },
+      'sonarqube-trunk' => { "sonarqube-trunk" => "192.168.56.95" },
+      'sonarqube-4.5' => { "sonarqube-4.5" => "192.168.56.96" },
+      'sonarqube-4.5.4' => { "sonarqube-4.5.4" => "192.168.56.97" },
+      'sonarqube-5.0.1' => { "sonarqube-5.0.1" => "192.168.56.99" },
+      'sonarqube-5.1' => { "sonarqube-5.1" => "192.168.56.98" },
+      'sonarqube-5.1.1' => { "sonarqube-5.1.1" => "192.168.56.94" }
+  }
+
+  common_suffix = "rinderle.info"
+  all = {
+      nil => graphvizVersion
+  }
+
+  config.vm.define "seusri" do |seusri|
+
+    seusri.vm.hostname = "seusri"
+
+    # prepare this box with an Ansible installation
+    # seusri.vm.provision "shell", path: "seusri/epel.sh"
+    #seusri.vm.provision "shell", path: "seusri/ansible-pip.sh"
+	  seusri.vm.provision "shell", path: "seusri/ansible.sh"
+
+		# provide keypair for users vagrant and root
+		seusri.vm.provision "shell", path: "seusri/vagrant_keys.sh"
+
+    # always use 192.168.56.xxx - preconfigured in VirtualBox network adapters
+	# creating own network adapters wont work (no Admin rights -> E_FAIL (0x80004005)
+    seusri.vm.network :private_network, ip: "192.168.56.240"
+
+  # set up resolver for VM subnet (for all environments)
+    seusri.vm.provision :shell, {
+            privileged: true,
+        keep_color: true,
+        inline: <<-SCRIPT
+      cat > /etc/hosts <<EOD
+127.0.0.1    seu localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1          localhost localhost.localdomain localhost6 localhost6.localdomain6
+#{
+    all.to_a.map{|domain, hosts|
+      hosts.to_a.map{ |vm, host_ip|
+        host_ip.to_a.map{ |host, ip|
+          ip + "\t" + host + (
+          domain == nil ? "" : "\t" + host + "." + domain + "." + common_suffix
+          )
+        }.join("\n")
+      }.join("\n")
+    }.join("\n")
+    }
+EOD
+    SCRIPT
+    }
+
+		if ENV["SEU_SYNCEDFOLDER"].nil?
+		  puts "'SEU_SYNCEDFOLDER' not set - using ../Ansible"
+		  ENV["SEU_SYNCEDFOLDER"] = "../ansible"
+		end
+
+		if ENV["SEU_SYNCEDFOLDER_NAME"].nil?
+		  puts "'SEU_SYNCEDFOLDER_NAME' not set - using '/ansible'"
+		  ENV["SEU_SYNCEDFOLDER_NAME"] = "/ansible"
+		end
+
+	seusri.vm.synced_folder ENV["SEU_SYNCEDFOLDER"], ENV["SEU_SYNCEDFOLDER_NAME"], id: "ansible",
+		owner: "vagrant",
+		group: "vagrant",
+		mount_options: ["dmode=775,fmode=664"]
+
+    # Provider-specific configuration so you can fine-tune various
+    # backing providers for Vagrant. These expose provider-specific options.
+    # Example for VirtualBox:
+    #
+    seusri.vm.provider :virtualbox do |vb|
+      # Don't boot with headless mode
+      vb.gui = true
+      # vb.gui = false
+
+    #   # Use VBoxManage to customize the VM. For example to change memory:
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+      # "Software Entwicklungs Umgebung"
+      vb.name = "seusri"
+    end
+  end
+  # loop over all IPs defined above
+  all.each do |domain, ips|
+    ips.each do |vmname, host_ip|
+      host_ip.each do |hostname, ip|
+        puts ( "#{vmname}: #{ip}" )
+
+        config.vm.define vmname do |box|
+
+          box.vm.hostname = vmname
+
+          # ensure .ssh/authorized_keys for users vagrant and root
+          box.vm.provision "shell", path: "keys/authorized_keys.sh"
+
+          box.vm.network "forwarded_port", guest: 9000, host: 9000
+
+          # set up resolver for VM subnet (only for the current environment)
+          box.vm.provision :shell, {
+                  privileged: true,
+              keep_color: true,
+              inline: <<-SCRIPT
+            cat > /etc/hosts <<EOD
+127.0.0.1    #{vmname} localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1          #{vmname} localhost localhost.localdomain localhost6 localhost6.localdomain6
+#{
+          ips.to_a.map{ |vm, host_ip|
+            host_ip.to_a.map{ |host, ip|
+              ip + "\t" + host + (
+              domain == nil ? "" : "\t" + host + "." + domain + "." + common_suffix
+              )
+            }.join("\n")
+          }.join("\n")
+          }
+EOD
+          SCRIPT
+          }
+
+          # always use 192.168.56.xxx - preconfigured in VirtualBox network adapters
+          # creating own network adapters wont work (no Admin rights -> E_FAIL (0x80004005)
+          box.vm.network :private_network, ip: ip
+
+          box.vm.synced_folder ENV["TMPDIR_ANSIBLE"], "/tmp/ansible", id: "tmp_ansible",
+              owner: "vagrant",
+              group: "vagrant",
+              mount_options: ["dmode=775,fmode=664"]
+
+          box.vm.provider :virtualbox do |vb|
+            # Don't boot with headless mode
+            vb.gui = eval(ENV["VIRTUALBOX_GUI"])
+
+            #   # Use VBoxManage to customize the VM. For example to change memory:
+            memory = "2048"
+            # if memory_2048.include? ("#{vmname}")
+            #   memory = 2048
+            # end
+            vb.customize ["modifyvm", :id, "--memory", memory]
+            vb.name = vmname
+          end
+        end
+      end
+    end
+  end
+
+end
