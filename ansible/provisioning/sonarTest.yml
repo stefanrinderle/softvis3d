@@ -46,7 +46,7 @@
     - { role: ANXS.mysql }
     - { role: sonar }
     - { role: softVis3dPlugin, sonar_plugin_path: '/opt/sonarqube/extensions/plugins/' }
-    - { role: restartSonar, start_command: '/opt/sonarqube/bin/linux-x86-64/sonar.sh restart' }
+    - { role: restartSonar }
     - { role: analyse }
     - { role: test }
 

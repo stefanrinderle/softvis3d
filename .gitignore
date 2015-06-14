@@ -10,6 +10,7 @@
 .iml
 .pmd
 .classpath
+softvis3d-sonarqube-devops.iml
 
 # OS generated files #
 ######################

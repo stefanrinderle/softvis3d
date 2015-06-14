@@ -3,15 +3,12 @@
 # Sonar install
 #
 
-#- name: update plugin repo
-#  git: repo=https://github.com/SonarSource/sonarqube.git dest=/opt/sonarqube update=yes
-#
-#- command: ./quick-build.sh
-#  args:
-#    chdir: /opt/sonarqube/
+- name: update plugin repo
+  git: repo=https://github.com/SonarSource/sonarqube.git dest=/opt/sonarqube update=yes
 
-- name: Remove tail -f sonar.log from start script
-  command: sed -i '$ d' start.sh
+- command: ./quick-build.sh
+  args:
+    chdir: /opt/sonarqube/
 
 - command: ./start.sh
   args:
@@ -24,4 +21,4 @@
     chdir: /opt/sonarqube/
 
 - name: Set mysql database connection
-  command: sed -i '/#sonar.jdbc.url=jdbc:mysql/s/#//g' /sonar-application/target/sonarqube-5.2-SNAPSHOT/conf/sonar.properties
+  command: sed -i '/#sonar.jdbc.url=jdbc:mysql/s/#//g' /opt/sonarqube//sonar-application/target/sonarqube-5.2-SNAPSHOT/conf/sonar.properties
