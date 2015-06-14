@@ -42,12 +42,10 @@ public class GrappaEdgeFactoryTest {
   private static final String SOURCE_NAME = "first";
   private static final Integer DESTINATION_ID = 2;
   private static final String DESTINATION_NAME = "second";
-
-  @Mock
-  private LayerFormatter formatter;
-
   @InjectMocks
   private final GrappaEdgeFactory underTest = new GrappaEdgeFactory();
+  @Mock
+  private LayerFormatter formatter;
 
   @Before
   public void setUp() {

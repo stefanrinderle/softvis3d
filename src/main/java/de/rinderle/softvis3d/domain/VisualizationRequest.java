@@ -75,20 +75,20 @@ public class VisualizationRequest {
     VisualizationRequest that = (VisualizationRequest) o;
 
     return new EqualsBuilder()
-            .append(rootSnapshotId, that.rootSnapshotId)
-            .append(footprintMetricId, that.footprintMetricId)
-            .append(heightMetricId, that.heightMetricId)
-            .append(viewType, that.viewType)
-            .isEquals();
+      .append(rootSnapshotId, that.rootSnapshotId)
+      .append(footprintMetricId, that.footprintMetricId)
+      .append(heightMetricId, that.heightMetricId)
+      .append(viewType, that.viewType)
+      .isEquals();
   }
 
   @Override
   public int hashCode() {
     return new HashCodeBuilder(17, 37)
-            .append(rootSnapshotId)
-            .append(viewType)
-            .append(footprintMetricId)
-            .append(heightMetricId)
-            .toHashCode();
+      .append(rootSnapshotId)
+      .append(viewType)
+      .append(footprintMetricId)
+      .append(heightMetricId)
+      .toHashCode();
   }
 }

@@ -19,7 +19,6 @@
  */
 package de.rinderle.softvis3d.dao.dto;
 
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

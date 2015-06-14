@@ -83,7 +83,7 @@ public class ConfigWebserviceHandlerTest {
 
     // empty response because json transformer are mocked.
     assertEquals("{\"hasDependencies\":false,\"settings\":{\"metric1\":1,\"metric2\":2},\"metricsForSnapshot\":[]}",
-            this.stringWriter.toString());
+      this.stringWriter.toString());
   }
 
   private Request createRequest() {

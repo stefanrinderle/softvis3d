@@ -34,6 +34,28 @@ import static att.grappa.GrappaConstants.WIDTH_ATTR;
 
 public class ExecuteCommand {
 
+  static String checkForAdotBug(String line) {
+    String result = line;
+    if (result.contains(HEIGHT_ATTR)) {
+      result = addQuotationMarks(result, HEIGHT_ATTR);
+    } else if (result.contains(WIDTH_ATTR) && !result.contains(SoftVis3DConstants.GRAPH_ATTR_PENWIDTH)) {
+      result = result.replace(WIDTH_ATTR + "=", WIDTH_ATTR + "=\"");
+      if (result.indexOf(']') >= 0) {
+        result = result.replace("]", "\"]");
+      } else {
+        result = result + "\"";
+      }
+    }
+
+    return result;
+  }
+
+  private static String addQuotationMarks(String line, final String attrName) {
+    String result = line.replace(attrName + "=", attrName + "=\"");
+    result = result.replace(",", "\",");
+    return result;
+  }
+
   public String executeCommandReadErrorStream(final String command) throws DotExecutorException {
     final StringBuilder output = new StringBuilder();
 
@@ -103,28 +125,6 @@ public class ExecuteCommand {
     in.close();
 
     return adotBuilder.toString();
-  }
-
-  static String checkForAdotBug(String line) {
-    String result = line;
-    if (result.contains(HEIGHT_ATTR)) {
-      result = addQuotationMarks(result, HEIGHT_ATTR);
-    } else if (result.contains(WIDTH_ATTR) && !result.contains(SoftVis3DConstants.GRAPH_ATTR_PENWIDTH)) {
-      result = result.replace(WIDTH_ATTR + "=", WIDTH_ATTR + "=\"");
-      if (result.indexOf(']') >= 0) {
-        result = result.replace("]", "\"]");
-      } else {
-        result = result + "\"";
-      }
-    }
-
-    return result;
-  }
-
-  private static String addQuotationMarks(String line, final String attrName) {
-    String result = line.replace(attrName + "=", attrName + "=\"");
-    result = result.replace(",", "\",");
-    return result;
   }
 
   private String readOutputStream(final InputStream inputStream) throws IOException {

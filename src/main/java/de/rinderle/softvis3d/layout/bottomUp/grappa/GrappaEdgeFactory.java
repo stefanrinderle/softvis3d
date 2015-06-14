@@ -42,7 +42,7 @@ public class GrappaEdgeFactory {
       final double edgeRadius = this.formatter.calcEdgeRadius(edge.getIncludingDependenciesSize());
       result.setAttribute(SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS, "x" + edgeRadius);
       result.setAttribute(SoftVis3DConstants.GRAPH_ATTR_PENWIDTH,
-              String.valueOf(edge.getIncludingDependenciesSize()));
+        String.valueOf(edge.getIncludingDependenciesSize()));
 
       return result;
     }

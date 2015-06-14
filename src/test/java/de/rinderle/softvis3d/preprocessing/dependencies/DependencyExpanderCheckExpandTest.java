@@ -144,9 +144,9 @@ public class DependencyExpanderCheckExpandTest {
     final TreeNode treeNode5 = TestTreeBuilder.createTreeNode(5, treeNode4, 2);
 
     final TreeNode interfaceLeafNode2 = TestTreeBuilder.createInterfaceLeafNode(90,
-            treeNode2);
+      treeNode2);
     final TreeNode interfaceLeafNode4 = TestTreeBuilder.createInterfaceLeafNode(91,
-            treeNode4);
+      treeNode4);
 
     this.underTest.execute(treeNode1, dependencies);
 
@@ -155,7 +155,7 @@ public class DependencyExpanderCheckExpandTest {
     assertTrue(treeNode3.getEdges().get("depPath_90").getSourceId()
       .equals(3));
     assertTrue(treeNode3.getEdges().get("depPath_90").getDestinationId()
-            .equals(90));
+      .equals(90));
     // flat parent connecting edge
     assertTrue(treeNode2.getEdges().containsKey("depPath_4"));
     assertTrue(treeNode2.getEdges().get("depPath_4").getSourceId()
@@ -197,9 +197,9 @@ public class DependencyExpanderCheckExpandTest {
     final TreeNode treeNode5 = TestTreeBuilder.createTreeNode(5, treeNode4, 2);
 
     final TreeNode interfaceLeafNode2 = TestTreeBuilder.createInterfaceLeafNode(90,
-            treeNode2);
+      treeNode2);
     final TreeNode interfaceLeafNode4 = TestTreeBuilder.createInterfaceLeafNode(91,
-            treeNode4);
+      treeNode4);
 
     this.underTest.execute(treeNode1, dependencies);
 
@@ -252,9 +252,9 @@ public class DependencyExpanderCheckExpandTest {
     final TreeNode treeNode5 = TestTreeBuilder.createTreeNode(5, treeNode4, 2);
 
     final TreeNode interfaceLeafNode2 = TestTreeBuilder.createInterfaceLeafNode(90,
-            treeNode2);
+      treeNode2);
     final TreeNode interfaceLeafNode4 = TestTreeBuilder.createInterfaceLeafNode(91,
-            treeNode4);
+      treeNode4);
 
     this.underTest.execute(treeNode1, dependencies);
 
@@ -328,7 +328,7 @@ public class DependencyExpanderCheckExpandTest {
     final TreeNode treeNode4 = TestTreeBuilder.createTreeNode(4, treeNode1, 1);
 
     final TreeNode interfaceLeafNode2 = TestTreeBuilder.createInterfaceLeafNode(90,
-            treeNode2);
+      treeNode2);
 
     this.underTest.execute(treeNode1, dependencies);
 

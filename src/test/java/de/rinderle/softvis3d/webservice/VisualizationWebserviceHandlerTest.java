@@ -94,7 +94,7 @@ public class VisualizationWebserviceHandlerTest {
     final Response response = this.createResponse();
 
     final VisualizationRequest requestDTO = new VisualizationRequest(
-            this.snapshotId, LayoutViewType.CITY, this.footprintMetricId, this.heightMetricId);
+      this.snapshotId, LayoutViewType.CITY, this.footprintMetricId, this.heightMetricId);
 
     final SnapshotTreeResult treeResult = mockPreProcessing(requestDTO);
 
@@ -112,7 +112,7 @@ public class VisualizationWebserviceHandlerTest {
   private Map<Integer, ResultPlatform> mockVisualization(VisualizationRequest requestDTO, SnapshotTreeResult treeResult) throws DotExecutorException {
     final Map<Integer, ResultPlatform> visualizationResult = new HashMap<Integer, ResultPlatform>();
     when(visualizationProcessor.visualize(any(Settings.class), eq(requestDTO), eq(treeResult)))
-            .thenReturn(visualizationResult);
+      .thenReturn(visualizationResult);
 
     return visualizationResult;
   }
