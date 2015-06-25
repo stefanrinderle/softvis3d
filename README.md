@@ -2,6 +2,10 @@
 
 Visualize your project in SonarQube. Please take a look at http://softvis3d.com for further details, screenshots and live demo.
 
+##License
+
+Licensed under the GNU Lesser General Public License, Version 3.0: http://www.gnu.org/licenses/lgpl.txt
+
 ## Benefits
 
 - Two different views: city and dependency
