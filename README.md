@@ -42,8 +42,6 @@ SoftVis3DPlugin requires the graphviz software to be installed. It should be eas
 
 Explore your project in 3D city and dependency view!
 
-## TravisCI and coveralls status
+## TravisCI status
 
 [![Build Status](https://travis-ci.org/stefanrinderle/sonar-softvis3d-plugin.svg?branch=master)](https://travis-ci.org/stefanrinderle/sonar-softvis3d-plugin)
-
-[![Coverage Status](https://coveralls.io/repos/stefanrinderle/sonar-softvis3d-plugin/badge.svg)](https://coveralls.io/r/stefanrinderle/sonar-softvis3d-plugin)
