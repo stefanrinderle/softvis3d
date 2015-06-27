@@ -33,7 +33,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Checks that the dependency expander creates dependency nodes and solves the
