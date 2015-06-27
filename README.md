@@ -41,3 +41,7 @@ SoftVis3DPlugin requires the graphviz software to be installed. It should be eas
 6. On any project in your SonarQube instance, click on "SoftVis3D Viewer" in the navigation section on the left.
 
 Explore your project in 3D city and dependency view!
+
+## Travis CI build status
+
+[![Build Status](https://travis-ci.org/stefanrinderle/sonar-softvis3d-plugin.svg?branch=master)](https://travis-ci.org/stefanrinderle/sonar-softvis3d-plugin)
