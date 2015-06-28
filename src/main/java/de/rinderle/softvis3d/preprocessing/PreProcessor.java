@@ -20,6 +20,7 @@
 package de.rinderle.softvis3d.preprocessing;
 
 import com.google.inject.Inject;
+import de.rinderle.softvis3d.SoftVis3DPlugin;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
@@ -53,10 +54,8 @@ public class PreProcessor {
 
     final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
-    boolean cacheEnabled = settings.getBoolean("cacheEnabled");
-
     final SnapshotTreeResult result;
-    if (cacheEnabled && snapshotCacheService.containsKey(mapKey)) {
+    if (SoftVis3DPlugin.CACHE_ENABLED && snapshotCacheService.containsKey(mapKey)) {
       result = snapshotCacheService.getSnapshotTreeResult(mapKey);
     } else {
       final RootTreeNode tree = treeBuilder.createTreeStructure(requestDTO);
@@ -69,7 +68,7 @@ public class PreProcessor {
       }
 
       result = new SnapshotTreeResult(mapKey, tree);
-      if (cacheEnabled) {
+      if (SoftVis3DPlugin.CACHE_ENABLED) {
         this.snapshotCacheService.save(result);
       }
     }

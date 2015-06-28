@@ -20,6 +20,7 @@
 package de.rinderle.softvis3d.webservice;
 
 import de.rinderle.softvis3d.VisualizationProcessor;
+import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
@@ -76,6 +77,8 @@ public class VisualizationWebserviceHandlerTest {
   @Mock
   private VisualizationJsonWriter visualizationJsonWriter;
   @Mock
+  private LayoutCacheService layoutCacheService;
+  @Mock
   private DatabaseSession session;
 
   @Before
@@ -83,9 +86,7 @@ public class VisualizationWebserviceHandlerTest {
     MockitoAnnotations.initMocks(this);
 
     this.handler.setDatabaseSession(session);
-    final Settings settings = new Settings();
-    settings.setProperty("cacheEnabled", false);
-    this.handler.setSettings(settings);
+    when(layoutCacheService.containsKey(any(SnapshotStorageKey.class))).thenReturn(false);
   }
 
   @Test

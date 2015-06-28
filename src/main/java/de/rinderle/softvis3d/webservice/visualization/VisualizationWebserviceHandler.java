@@ -20,6 +20,7 @@
 package de.rinderle.softvis3d.webservice.visualization;
 
 import com.google.inject.Inject;
+import de.rinderle.softvis3d.SoftVis3DPlugin;
 import de.rinderle.softvis3d.VisualizationProcessor;
 import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
@@ -73,19 +74,18 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
     LOGGER.info("VisualizationWebserviceHandler " + requestDTO.toString());
 
-    SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
+    final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
 
     final SnapshotTreeResult snapshotTreeResult = preProcessor.process(requestDTO, this.settings);
 
-    boolean cacheEnabled = this.settings.getBoolean("cacheEnabled");
     final Map<Integer, ResultPlatform> visualizationResult;
-    if (cacheEnabled && layoutCacheService.containsKey(key)) {
+    if (SoftVis3DPlugin.CACHE_ENABLED && layoutCacheService.containsKey(key)) {
       LOGGER.info("Layout out of cache for " + key.toString());
       visualizationResult = layoutCacheService.getLayoutResult(key);
     } else {
       LOGGER.info("Create layout for " + key.toString());
       visualizationResult = createLayout(id, requestDTO, snapshotTreeResult);
-      if (cacheEnabled) {
+      if (SoftVis3DPlugin.CACHE_ENABLED) {
         layoutCacheService.save(key, visualizationResult);
       }
     }
