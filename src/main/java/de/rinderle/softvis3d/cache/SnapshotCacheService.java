@@ -19,17 +19,33 @@
  */
 package de.rinderle.softvis3d.cache;
 
+import com.google.inject.Singleton;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 
-public interface SnapshotCacheService {
+@Singleton
+public class SnapshotCacheService {
 
-  void printCacheContents();
+  private Cache<SnapshotStorageKey, SnapshotTreeResult> storage;
 
-  boolean containsKey(SnapshotStorageKey key);
+  public SnapshotCacheService() {
+    storage = new Cache<>();
+  }
 
-  SnapshotTreeResult getSnapshotTreeResult(SnapshotStorageKey key);
+  public void printCacheContents() {
+    storage.logKeys();
+  }
 
-  void save(SnapshotTreeResult result);
+  public boolean containsKey(final SnapshotStorageKey key) {
+    return storage.containsKey(key);
+  }
+
+  public void save(final SnapshotTreeResult result) {
+    storage.put(result.getStorageKey(), result);
+  }
+
+  public SnapshotTreeResult getSnapshotTreeResult(final SnapshotStorageKey key) {
+    return storage.get(key);
+  }
 
 }

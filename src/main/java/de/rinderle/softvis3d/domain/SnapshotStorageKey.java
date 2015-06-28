@@ -19,6 +19,8 @@
  */
 package de.rinderle.softvis3d.domain;
 
+import java.util.Objects;
+
 public class SnapshotStorageKey {
 
   private String key;
@@ -30,7 +32,21 @@ public class SnapshotStorageKey {
       + requestDTO.getHeightMetricId();
   }
 
-  public String getString() {
-    return this.key;
+  @Override
+  public String toString() {
+    return key;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    SnapshotStorageKey that = (SnapshotStorageKey) o;
+    return Objects.equals(key, that.key);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(key);
   }
 }

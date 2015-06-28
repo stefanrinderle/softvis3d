@@ -21,10 +21,6 @@ package de.rinderle.softvis3d.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import de.rinderle.softvis3d.cache.LayoutCacheService;
-import de.rinderle.softvis3d.cache.LayoutCacheServiceBean;
-import de.rinderle.softvis3d.cache.SnapshotCacheService;
-import de.rinderle.softvis3d.cache.SnapshotCacheServiceBean;
 import de.rinderle.softvis3d.layout.bottomUp.SnapshotVisitor;
 import de.rinderle.softvis3d.layout.bottomUp.SnapshotVisitorBean;
 
@@ -32,11 +28,7 @@ public class SoftVis3DModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    this.bind(SnapshotCacheService.class).to(SnapshotCacheServiceBean.class);
-    this.bind(LayoutCacheService.class).to(LayoutCacheServiceBean.class);
-
     this.install(new FactoryModuleBuilder().implement(SnapshotVisitor.class, SnapshotVisitorBean.class).build(
       SnapshotVisitorFactory.class));
-
   }
 }

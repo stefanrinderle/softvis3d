@@ -80,10 +80,10 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     boolean cacheEnabled = this.settings.getBoolean("cacheEnabled");
     final Map<Integer, ResultPlatform> visualizationResult;
     if (cacheEnabled && layoutCacheService.containsKey(key)) {
-      LOGGER.info("Layout out of cache for " + key.getString());
+      LOGGER.info("Layout out of cache for " + key.toString());
       visualizationResult = layoutCacheService.getLayoutResult(key);
     } else {
-      LOGGER.info("Create layout for " + key.getString());
+      LOGGER.info("Create layout for " + key.toString());
       visualizationResult = createLayout(id, requestDTO, snapshotTreeResult);
       if (cacheEnabled) {
         layoutCacheService.save(key, visualizationResult);

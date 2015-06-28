@@ -19,19 +19,35 @@
  */
 package de.rinderle.softvis3d.cache;
 
+import com.google.inject.Singleton;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 
 import java.util.Map;
 
-public interface LayoutCacheService {
+@Singleton
+public class LayoutCacheService {
 
-  void printCacheContents();
+  private Cache<SnapshotStorageKey, Map<Integer, ResultPlatform>> storage;
 
-  boolean containsKey(SnapshotStorageKey key);
+  public LayoutCacheService() {
+    storage = new Cache<>();
+  }
 
-  Map<Integer, ResultPlatform> getLayoutResult(SnapshotStorageKey key);
+  public void printCacheContents() {
+    storage.logKeys();
+  }
 
-  void save(SnapshotStorageKey key, Map<Integer, ResultPlatform> result);
+  public boolean containsKey(final SnapshotStorageKey key) {
+    return storage.containsKey(key);
+  }
+
+  public Map<Integer, ResultPlatform> getLayoutResult(final SnapshotStorageKey key) {
+    return storage.get(key);
+  }
+
+  public void save(final SnapshotStorageKey key, final Map<Integer, ResultPlatform> value) {
+    storage.put(key, value);
+  }
 
 }

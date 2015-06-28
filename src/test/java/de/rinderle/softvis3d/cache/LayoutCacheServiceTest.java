@@ -19,43 +19,45 @@
  */
 package de.rinderle.softvis3d.cache;
 
+import att.grappa.Graph;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class LayoutCacheServiceBeanTest extends TestCase {
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-  private final LayoutCacheServiceBean underTest = new LayoutCacheServiceBean();
+public class LayoutCacheServiceTest {
 
-  public void testSave() throws Exception {
-    final SnapshotStorageKey key1 = getSnapshotStorageKey(1);
-    final SnapshotStorageKey key2 = getSnapshotStorageKey(2);
-    final SnapshotStorageKey key3 = getSnapshotStorageKey(3);
-    final SnapshotStorageKey key4 = getSnapshotStorageKey(4);
-    final SnapshotStorageKey key5 = getSnapshotStorageKey(5);
-    final SnapshotStorageKey key6 = getSnapshotStorageKey(6);
-    final Map<Integer, ResultPlatform> result = new HashMap<Integer, ResultPlatform>();
+  private final LayoutCacheService underTest = new LayoutCacheService();
 
-    underTest.save(key1, result);
-    underTest.save(key2, result);
-    underTest.save(key3, result);
-    underTest.save(key4, result);
-    underTest.save(key5, result);
-    underTest.save(key6, result);
+  @Test
+  public void test() throws Exception {
+    final int lastEntryKeyNumber = 100;
+
+    for (int i = 0; i < lastEntryKeyNumber + 1; i++) {
+      final SnapshotStorageKey key = getSnapshotStorageKey(i);
+      final Map<Integer, ResultPlatform> value = new HashMap<>();
+      value.put(i, new ResultPlatform(new Graph("" + i)));
+      underTest.save(key, value);
+    }
 
     underTest.printCacheContents();
+    // check limits
+    assertFalse(underTest.containsKey(getSnapshotStorageKey(0)));
+    assertTrue(underTest.containsKey(getSnapshotStorageKey(lastEntryKeyNumber)));
 
-    assertNull(underTest.getLayoutResult(key1));
-    assertNotNull(underTest.getLayoutResult(key2));
-    assertNotNull(underTest.getLayoutResult(key3));
-    assertNotNull(underTest.getLayoutResult(key4));
-    assertNotNull(underTest.getLayoutResult(key5));
-    assertNotNull(underTest.getLayoutResult(key6));
+    assertNull(underTest.getLayoutResult(getSnapshotStorageKey(0)));
+
+    Map<Integer, ResultPlatform> cachedValue = underTest.getLayoutResult(getSnapshotStorageKey(lastEntryKeyNumber));
+    assertTrue(cachedValue.containsKey(lastEntryKeyNumber));
   }
 
   private SnapshotStorageKey getSnapshotStorageKey(final int id) {
