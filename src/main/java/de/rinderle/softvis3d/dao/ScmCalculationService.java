@@ -36,7 +36,7 @@ public class ScmCalculationService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ScmCalculationService.class);
 
-  private static final SimpleDateFormat SCM_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+  private final SimpleDateFormat SCM_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
   public int getDifferentAuthors(String scmCommitterString, String scmTimeString) {
     int authorCount;
