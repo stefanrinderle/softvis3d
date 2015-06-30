@@ -33,7 +33,7 @@ import static org.junit.Assert.assertTrue;
 
 public class LayerFormatterTest {
 
-  private LayerFormatter underTest = new LayerFormatter();
+  private final LayerFormatter underTest = new LayerFormatter();
 
   @Test
   public void testFormat() {

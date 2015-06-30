@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public class SnapshotStorageKey {
 
-  private String key;
+  private final String key;
 
   public SnapshotStorageKey(final VisualizationRequest requestDTO) {
     this.key = requestDTO.getRootSnapshotId() + "_"

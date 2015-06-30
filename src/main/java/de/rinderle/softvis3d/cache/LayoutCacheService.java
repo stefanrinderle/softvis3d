@@ -28,7 +28,7 @@ import java.util.Map;
 @Singleton
 public class LayoutCacheService {
 
-  private Cache<SnapshotStorageKey, Map<Integer, ResultPlatform>> storage;
+  private final Cache<SnapshotStorageKey, Map<Integer, ResultPlatform>> storage;
 
   public LayoutCacheService() {
     storage = new Cache<>();

@@ -21,7 +21,7 @@ package de.rinderle.softvis3d.layout.dot;
 
 public class Version implements Comparable<Version> {
 
-  private String versionNumber;
+  private final String versionNumber;
 
   public Version(String versionNumber) {
     if (versionNumber == null) {

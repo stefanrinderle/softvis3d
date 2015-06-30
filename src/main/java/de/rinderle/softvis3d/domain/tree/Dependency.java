@@ -21,11 +21,11 @@ package de.rinderle.softvis3d.domain.tree;
 
 public class Dependency {
 
-  private Long id;
-  private Integer fromNodeId;
-  private String fromNodeName;
-  private Integer toNodeId;
-  private String toNodeName;
+  private final Long id;
+  private final Integer fromNodeId;
+  private final String fromNodeName;
+  private final Integer toNodeId;
+  private final String toNodeName;
 
   public Dependency(Long id, Integer fromNodeId, String fromNodeName,
     Integer toNodeId, String toNodeName) {

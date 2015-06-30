@@ -32,10 +32,10 @@ public class TreeNode {
 
   private TreeNode parent;
   private int depth;
-  private TreeNodeType type;
+  private final TreeNodeType type;
 
-  private Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
-  private Map<String, Edge> edges = new HashMap<String, Edge>();
+  private final Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
+  private final Map<String, Edge> edges = new HashMap<String, Edge>();
 
   public TreeNode(final Integer id, final TreeNode parent, final int depth, final TreeNodeType type, final String name) {
     this.id = id;

@@ -21,9 +21,9 @@ package de.rinderle.softvis3d.domain.graph;
 
 public class Point3d {
 
-  private double x;
-  private double y;
-  private double z;
+  private final double x;
+  private final double y;
+  private final double z;
 
   /**
    *

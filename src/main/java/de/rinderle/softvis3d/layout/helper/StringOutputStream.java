@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class StringOutputStream extends OutputStream {
-  private StringBuilder string = new StringBuilder();
+  private final StringBuilder string = new StringBuilder();
 
   @Override
   public void write(final int b) throws IOException {

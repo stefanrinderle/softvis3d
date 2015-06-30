@@ -27,14 +27,14 @@ import java.util.List;
 public class ResultBuilding extends BaseResultObject {
 
   private final List<ResultArrow> arrows;
-  private int id;
-  private double buildingHeight;
+  private final int id;
+  private final double buildingHeight;
   private double width;
   private double height;
 
-  private TreeNodeType type;
+  private final TreeNodeType type;
 
-  private GrappaPoint position;
+  private final GrappaPoint position;
 
   public ResultBuilding(final ResultBuildingBuilder resultBuildingBuilder) {
     this.id = resultBuildingBuilder.id;

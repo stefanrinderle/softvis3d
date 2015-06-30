@@ -26,7 +26,7 @@ import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 @Singleton
 public class SnapshotCacheService {
 
-  private Cache<SnapshotStorageKey, SnapshotTreeResult> storage;
+  private final Cache<SnapshotStorageKey, SnapshotTreeResult> storage;
 
   public SnapshotCacheService() {
     storage = new Cache<>();

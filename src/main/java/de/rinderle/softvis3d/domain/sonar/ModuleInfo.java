@@ -21,8 +21,8 @@ package de.rinderle.softvis3d.domain.sonar;
 
 public class ModuleInfo {
 
-  private Integer id;
-  private String name;
+  private final Integer id;
+  private final String name;
 
   public ModuleInfo(Integer id, String name) {
     this.id = id;
