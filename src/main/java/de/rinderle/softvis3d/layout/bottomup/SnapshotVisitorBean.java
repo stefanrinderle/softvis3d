@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.layout.bottomUp;
+package de.rinderle.softvis3d.layout.bottomup;
 
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
@@ -36,8 +36,8 @@ import de.rinderle.softvis3d.domain.tree.Edge;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
-import de.rinderle.softvis3d.layout.bottomUp.grappa.GrappaEdgeFactory;
-import de.rinderle.softvis3d.layout.bottomUp.grappa.GrappaNodeFactory;
+import de.rinderle.softvis3d.layout.bottomup.grappa.GrappaEdgeFactory;
+import de.rinderle.softvis3d.layout.bottomup.grappa.GrappaNodeFactory;
 import de.rinderle.softvis3d.layout.dot.DotExecutor;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.layout.format.LayerFormatter;

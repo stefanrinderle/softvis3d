@@ -17,14 +17,23 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.layout.bottomUp;
+package de.rinderle.softvis3d.layout.bottomup;
 
-import de.rinderle.softvis3d.domain.SnapshotTreeResult;
+import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
+import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 
-public interface BottomUpLayout {
+import java.util.List;
+import java.util.Map;
 
-  LayeredLayoutElement accept(SnapshotTreeResult storageKey) throws DotExecutorException;
+public interface SnapshotVisitor {
+
+  Map<Integer, ResultPlatform> getResultingGraphList();
+
+  LayeredLayoutElement visitNode(TreeNode node,
+    List<LayeredLayoutElement> elements) throws DotExecutorException;
+
+  LayeredLayoutElement visitFile(TreeNode leaf);
 
 }
