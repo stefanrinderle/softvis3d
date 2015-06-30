@@ -21,8 +21,8 @@ package de.rinderle.softvis3d.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import de.rinderle.softvis3d.layout.bottomUp.SnapshotVisitor;
-import de.rinderle.softvis3d.layout.bottomUp.SnapshotVisitorBean;
+import de.rinderle.softvis3d.layout.bottomup.SnapshotVisitor;
+import de.rinderle.softvis3d.layout.bottomup.SnapshotVisitorBean;
 
 public class SoftVis3DModule extends AbstractModule {
 
