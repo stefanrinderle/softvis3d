@@ -49,7 +49,7 @@ public class PreProcessor {
   @Inject
   private DependencyExpander dependencyExpander;
 
-  public SnapshotTreeResult process(VisualizationRequest requestDTO, Settings settings) {
+  public SnapshotTreeResult process(VisualizationRequest requestDTO) {
     snapshotCacheService.printCacheContents();
 
     final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);

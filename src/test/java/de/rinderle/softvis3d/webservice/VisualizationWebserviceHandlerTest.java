@@ -123,7 +123,7 @@ public class VisualizationWebserviceHandlerTest {
     final RootTreeNode rootTreeNode = new RootTreeNode(1);
     final SnapshotTreeResult treeResult = new SnapshotTreeResult(key, rootTreeNode);
 
-    when(preProcessor.process(eq(requestDTO), any(Settings.class))).thenReturn(treeResult);
+    when(preProcessor.process(eq(requestDTO))).thenReturn(treeResult);
 
     return treeResult;
   }

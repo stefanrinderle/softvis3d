@@ -76,7 +76,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
     final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
 
-    final SnapshotTreeResult snapshotTreeResult = preProcessor.process(requestDTO, this.settings);
+    final SnapshotTreeResult snapshotTreeResult = preProcessor.process(requestDTO);
 
     final Map<Integer, ResultPlatform> visualizationResult;
     if (SoftVis3DPlugin.CACHE_ENABLED && layoutCacheService.containsKey(key)) {
