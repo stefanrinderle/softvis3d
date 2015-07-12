@@ -67,7 +67,7 @@ public class VisualizationWebserviceHandlerTest {
   private final String viewType = "city";
 
   @InjectMocks
-  private final VisualizationWebserviceHandler handler = new VisualizationWebserviceHandler();
+  private VisualizationWebserviceHandler handler;
   @Mock
   private TreeNodeJsonWriter treeNodeJsonWriter;
   @Mock
