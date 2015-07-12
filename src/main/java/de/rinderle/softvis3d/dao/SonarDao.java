@@ -188,7 +188,8 @@ public class SonarDao {
       final Double result = (Double) query.getSingleResult();
       return result;
     } catch (NoResultException e) {
-      LOGGER.error("getMetricDouble for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage());
+      LOGGER.error(
+        "getMetricDouble for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage(), e);
       return 0.0;
     }
   }
@@ -205,7 +206,8 @@ public class SonarDao {
     try {
       return (String) query.getSingleResult();
     } catch (NoResultException e) {
-      LOGGER.error("getMetricText for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage());
+      LOGGER.error(
+        "getMetricText for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage(), e);
       return null;
     }
   }

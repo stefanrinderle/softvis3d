@@ -17,17 +17,31 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d;
+package de.rinderle.softvis3d.domain;
 
-import org.sonar.api.ServerExtension;
+import org.junit.Test;
 
-public class SoftVis3DExtension implements ServerExtension {
+import static org.junit.Assert.assertEquals;
 
-  /**
-   * Used in ruby view.
-   */
-  public boolean isProd() {
-    return SoftVis3DPlugin.IS_PROD;
+public class MetricTest {
+
+  @Test
+  public void testGetter() throws Exception {
+    final Integer id = 12213;
+    final String description = "testDescription";
+    final Metric metric = new Metric(id, description);
+
+    assertEquals(id, metric.getId());
+    assertEquals(description, metric.getDescription());
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testNullId() throws Exception {
+    new Metric(null, "testDescription");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testNullDescription() throws Exception {
+    new Metric(123, null);
+  }
 }

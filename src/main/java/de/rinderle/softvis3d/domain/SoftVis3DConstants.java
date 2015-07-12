@@ -31,6 +31,8 @@ public interface SoftVis3DConstants {
 
   String PLUGIN_NAME = "SoftVis3D Viewer";
 
+  String PLUGIN_TEMPLATE_PATH = "/softVis3D_page.html.erb";
+
   /**
    * Sonar properties.
    */
@@ -68,4 +70,5 @@ public interface SoftVis3DConstants {
 
   String GRAPH_ATTR_EDGE_RADIUS = "edgeRadius";
   String SOFTVIZ_COLOR = "SOFTVIZ_COLOR";
+
 }

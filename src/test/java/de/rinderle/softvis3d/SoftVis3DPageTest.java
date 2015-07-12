@@ -19,15 +19,34 @@
  */
 package de.rinderle.softvis3d;
 
-import org.sonar.api.ServerExtension;
+import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import org.junit.Test;
 
-public class SoftVis3DExtension implements ServerExtension {
+import static org.junit.Assert.assertEquals;
 
-  /**
-   * Used in ruby view.
-   */
-  public boolean isProd() {
-    return SoftVis3DPlugin.IS_PROD;
+/**
+ * Created by stefan on 10.07.15.
+ */
+public class SoftVis3DPageTest {
+
+  @Test
+  public void testGetId() throws Exception {
+    final SoftVis3DPage softVis3DPage = new SoftVis3DPage();
+
+    assertEquals(SoftVis3DConstants.PLUGIN_KEY, softVis3DPage.getId());
   }
 
+  @Test
+  public void testGetTitle() throws Exception {
+    final SoftVis3DPage softVis3DPage = new SoftVis3DPage();
+
+    assertEquals(SoftVis3DConstants.PLUGIN_NAME, softVis3DPage.getTitle());
+  }
+
+  @Test
+  public void testGetTemplatePath() throws Exception {
+    final SoftVis3DPage softVis3DPage = new SoftVis3DPage();
+
+    assertEquals(SoftVis3DConstants.PLUGIN_TEMPLATE_PATH, softVis3DPage.getTemplatePath());
+  }
 }

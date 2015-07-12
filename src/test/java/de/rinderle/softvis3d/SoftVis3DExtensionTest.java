@@ -19,15 +19,16 @@
  */
 package de.rinderle.softvis3d;
 
-import org.sonar.api.ServerExtension;
+import org.junit.Test;
 
-public class SoftVis3DExtension implements ServerExtension {
+import static org.junit.Assert.assertTrue;
 
-  /**
-   * Used in ruby view.
-   */
-  public boolean isProd() {
-    return SoftVis3DPlugin.IS_PROD;
+public class SoftVis3DExtensionTest {
+
+  @Test
+  public void testIsProdSetToTrueInRepo() throws Exception {
+    final SoftVis3DExtension underTest = new SoftVis3DExtension();
+    assertTrue(underTest.isProd());
   }
 
 }
