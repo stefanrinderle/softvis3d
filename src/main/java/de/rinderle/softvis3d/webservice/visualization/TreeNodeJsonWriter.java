@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class TreeNodeJsonWriter {
 
-  public void transformTreeToJsonBla(final JsonWriter jsonWriter, final RootTreeNode tree) {
+  public void transformRootTreeToJson(final JsonWriter jsonWriter, final RootTreeNode tree) {
     jsonWriter.beginObject();
 
     jsonWriter.name("treeResult");

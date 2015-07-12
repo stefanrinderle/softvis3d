@@ -105,7 +105,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
     jsonWriter.beginArray();
 
-    this.treeNodeJsonWriter.transformTreeToJsonBla(jsonWriter, snapshotTreeResult.getTree());
+    this.treeNodeJsonWriter.transformRootTreeToJson(jsonWriter, snapshotTreeResult.getTree());
     this.visualizationJsonWriter.transformResponseToJson(jsonWriter, visualizationResult);
 
     jsonWriter.endArray();

@@ -106,7 +106,7 @@ public class VisualizationWebserviceHandlerTest {
     // empty response because json transformer are mocked.
     assertEquals("{\"resultObject\":[]}", this.stringWriter.toString());
 
-    verify(treeNodeJsonWriter, times(1)).transformTreeToJsonBla(eq(jsonWriter), eq(treeResult.getTree()));
+    verify(treeNodeJsonWriter, times(1)).transformRootTreeToJson(eq(jsonWriter), eq(treeResult.getTree()));
     verify(visualizationJsonWriter, times(1)).transformResponseToJson(eq(jsonWriter), eq(visualizationResult));
   }
 
