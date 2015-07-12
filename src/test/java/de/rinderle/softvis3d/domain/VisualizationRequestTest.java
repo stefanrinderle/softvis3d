@@ -17,21 +17,28 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.layout.helper;
+package de.rinderle.softvis3d.domain;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import org.junit.Test;
 
-public class StringOutputStream extends OutputStream {
-  private final StringBuffer string = new StringBuffer();
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-  @Override
-  public void write(final int b) throws IOException {
-    this.string.append((char) b);
-  }
+/**
+ * Created by stefan on 12.07.15.
+ */
+public class VisualizationRequestTest {
 
-  @Override
-  public String toString() {
-    return this.string.toString();
+  @Test
+  public void testHashCode() throws Exception {
+    VisualizationRequest request1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+    VisualizationRequest request2 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+
+    assertEquals(request1.hashCode(), request2.hashCode());
+
+    request1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+    request2 = new VisualizationRequest(2, LayoutViewType.CITY, 1, 20);
+
+    assertNotEquals(request1.hashCode(), request2.hashCode());
   }
 }

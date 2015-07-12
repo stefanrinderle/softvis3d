@@ -17,21 +17,32 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.layout.helper;
+package de.rinderle.softvis3d.domain;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import org.junit.Test;
 
-public class StringOutputStream extends OutputStream {
-  private final StringBuffer string = new StringBuffer();
+import static org.junit.Assert.assertEquals;
 
-  @Override
-  public void write(final int b) throws IOException {
-    this.string.append((char) b);
+/**
+ * Created by stefan on 12.07.15.
+ */
+public class LayoutViewTypeTest {
+
+  @Test
+  public void testValueOfRequestCity() throws Exception {
+    LayoutViewType result = LayoutViewType.valueOfRequest("city");
+    assertEquals(result, LayoutViewType.CITY);
   }
 
-  @Override
-  public String toString() {
-    return this.string.toString();
+  @Test
+  public void testValueOfRequestDependency() throws Exception {
+    LayoutViewType result = LayoutViewType.valueOfRequest("dependency");
+    assertEquals(result, LayoutViewType.DEPENDENCY);
+  }
+
+  @Test
+  public void testValueOfRequestAnythingElse() throws Exception {
+    LayoutViewType result = LayoutViewType.valueOfRequest("ksudhgfifdgsuh");
+    assertEquals(result, LayoutViewType.DEPENDENCY);
   }
 }

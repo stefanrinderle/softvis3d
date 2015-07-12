@@ -35,10 +35,6 @@ public class SonarDependency {
     return this.id;
   }
 
-  public void setId(final Long id) {
-    this.id = id;
-  }
-
   public Integer getFromSnapshotId() {
     return this.fromSnapshotId;
   }

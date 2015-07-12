@@ -19,19 +19,24 @@
  */
 package de.rinderle.softvis3d.layout.helper;
 
+import org.junit.Test;
+
 import java.io.IOException;
-import java.io.OutputStream;
 
-public class StringOutputStream extends OutputStream {
-  private final StringBuffer string = new StringBuffer();
+/**
+ * Created by stefan on 12.07.15.
+ */
+public class StringOutputStreamTest {
 
-  @Override
-  public void write(final int b) throws IOException {
-    this.string.append((char) b);
+  @Test
+  public void test() throws IOException {
+    StringOutputStream stream = new StringOutputStream();
+
+    stream.write(1);
+    stream.write(2);
+    stream.write(3);
+
+    String result = stream.toString();
   }
 
-  @Override
-  public String toString() {
-    return this.string.toString();
-  }
 }

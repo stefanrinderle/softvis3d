@@ -17,21 +17,33 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.layout.helper;
+package de.rinderle.softvis3d.layout.dot;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import org.junit.Test;
 
-public class StringOutputStream extends OutputStream {
-  private final StringBuffer string = new StringBuffer();
+import static org.junit.Assert.assertEquals;
 
-  @Override
-  public void write(final int b) throws IOException {
-    this.string.append((char) b);
+/**
+ * Created by stefan on 12.07.15.
+ */
+public class VersionTest {
+
+  @Test
+  public void test() {
+    final String versionString1 = "1.20.2";
+    final String versionString2 = "2.20.2";
+    final String versionString3 = "2.20.2";
+    final String versionString4 = "2.20.3";
+
+    Version version1 = new Version(versionString1);
+    Version version2 = new Version(versionString2);
+    Version version3 = new Version(versionString3);
+    Version version4 = new Version(versionString4);
+
+    assertEquals(-1, version1.compareTo(version2));
+    assertEquals(0, version2.compareTo(version3));
+    assertEquals(0, version3.compareTo(version2));
+    assertEquals(1, version4.compareTo(version3));
   }
 
-  @Override
-  public String toString() {
-    return this.string.toString();
-  }
 }

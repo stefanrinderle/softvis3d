@@ -39,7 +39,7 @@ public class DaoService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DaoService.class);
 
-  private static final String SCM_AUTHOR_NAME = "authors_by_line";
+  static final String SCM_AUTHOR_NAME = "authors_by_line";
   // private static final String SCM_DATE_NAME = "last_commit_datetimes_by_line";
 
   @Inject
