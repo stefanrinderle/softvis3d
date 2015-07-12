@@ -53,7 +53,6 @@ public class DotVersionTest {
 
     assertNotNull(result);
 
-    System.out.println(result);
     assertTrue(version.equals(result));
   }
 
@@ -66,8 +65,6 @@ public class DotVersionTest {
       versionInfo);
 
     final Version result = this.underTest.getVersion("dotBin");
-
-    System.out.println(result);
 
     assertNotNull(result);
     assertTrue(version.equals(result));
