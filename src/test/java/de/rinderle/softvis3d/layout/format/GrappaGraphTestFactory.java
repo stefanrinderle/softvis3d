@@ -28,7 +28,7 @@ import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 
 public class GrappaGraphTestFactory {
 
-  public static ResultPlatform createGraph() {
+  public static ResultPlatform createPlatform() {
     final Graph graph = new Graph("root");
     final double x = 0;
     final double y = 0;

@@ -38,7 +38,7 @@ public class LayerFormatterTest {
   @Test
   public void testFormat() {
     final Integer depth = 0;
-    final ResultPlatform platform = GrappaGraphTestFactory.createGraph();
+    final ResultPlatform platform = GrappaGraphTestFactory.createPlatform();
     this.underTest.format(platform, depth, LayoutViewType.CITY);
 
     assertNotNull(platform.getColor());
@@ -47,7 +47,7 @@ public class LayerFormatterTest {
   @Test
   public void testMaxDepth() {
     final Integer depth = Integer.MAX_VALUE;
-    final ResultPlatform platform = GrappaGraphTestFactory.createGraph();
+    final ResultPlatform platform = GrappaGraphTestFactory.createPlatform();
     this.underTest.format(platform, depth, LayoutViewType.CITY);
 
     assertNotNull(platform.getColor());
