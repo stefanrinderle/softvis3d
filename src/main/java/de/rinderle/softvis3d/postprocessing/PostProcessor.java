@@ -91,7 +91,7 @@ public class PostProcessor {
     }
   }
 
-  private void removeRepresentationNode(ResultPlatform graph, LayoutViewType layoutViewType, TreeNode child) {
+  private void removeRepresentationNode(final ResultPlatform graph, final LayoutViewType layoutViewType, final TreeNode child) {
     if (LayoutViewType.CITY.equals(layoutViewType)) {
       graph.removeNode(child.getId().toString());
     }

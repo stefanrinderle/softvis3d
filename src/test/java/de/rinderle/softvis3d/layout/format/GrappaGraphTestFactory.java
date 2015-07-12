@@ -54,15 +54,15 @@ public class GrappaGraphTestFactory {
     graph.addNode(leaf2);
 
     final Edge edge = new Edge(graph, leaf1, leaf2);
-    GrappaPoint[] points = new GrappaPoint[3];
+    final GrappaPoint[] points = new GrappaPoint[3];
     points[0] = new GrappaPoint(0, 1);
     points[1] = new GrappaPoint(2, 3);
     points[2] = new GrappaPoint(100, 100);
 
-    GrappaLine pos = new GrappaLine(points, 0);
+    final GrappaLine pos = new GrappaLine(points, 0);
     edge.setAttribute(GrappaConstants.POS_ATTR, pos);
 
-    String radius = "x3.3";
+    final String radius = "x3.3";
     edge.setAttribute(SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS, radius);
 
     leaf1.addEdge(edge, false);

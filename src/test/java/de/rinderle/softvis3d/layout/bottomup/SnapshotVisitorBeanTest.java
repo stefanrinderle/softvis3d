@@ -50,33 +50,33 @@ public class SnapshotVisitorBeanTest {
 
   @Test
   public void testVisitFile() throws Exception {
-    int id = 1;
+    final int id = 1;
 
-    DaoService daoService = mock(DaoService.class);
+    final DaoService daoService = mock(DaoService.class);
     when(daoService.getMinMaxMetricValuesByRootSnapshotId(eq(id), anyInt())).thenReturn(new MinMaxValue(0.0, 10.0));
 
-    Settings settings = new Settings();
-    VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
-    SnapshotVisitorBean visitorBean =
+    final Settings settings = new Settings();
+    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+    final SnapshotVisitorBean visitorBean =
       new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, daoService, settings, requestDTO);
 
-    ValueTreeNode leaf = new ValueTreeNode(1, null, 0, TreeNodeType.TREE, "leaf1", 0.0, 10.0, 4);
+    final ValueTreeNode leaf = new ValueTreeNode(1, null, 0, TreeNodeType.TREE, "leaf1", 0.0, 10.0, 4);
     visitorBean.visitFile(leaf);
   }
 
   @Test
   public void testVisitFileDependency() throws Exception {
-    int id = 1;
+    final int id = 1;
 
-    DaoService daoService = mock(DaoService.class);
+    final DaoService daoService = mock(DaoService.class);
     when(daoService.getMinMaxMetricValuesByRootSnapshotId(eq(id), anyInt())).thenReturn(new MinMaxValue(0.0, 10.0));
 
-    Settings settings = new Settings();
-    VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20);
-    SnapshotVisitorBean visitorBean =
+    final Settings settings = new Settings();
+    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20);
+    final SnapshotVisitorBean visitorBean =
       new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, daoService, settings, requestDTO);
 
-    DependencyTreeNode leaf = new DependencyTreeNode(1, null, 0);
+    final DependencyTreeNode leaf = new DependencyTreeNode(1, null, 0);
     visitorBean.visitFile(leaf);
   }
 }

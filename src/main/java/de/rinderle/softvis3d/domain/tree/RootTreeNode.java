@@ -34,7 +34,7 @@ public class RootTreeNode extends TreeNode {
     return sourceDependencies;
   }
 
-  public void addDependency(Dependency treeDependency) {
+  public void addDependency(final Dependency treeDependency) {
     sourceDependencies.put(treeDependency.getId().intValue(),
       treeDependency);
   }

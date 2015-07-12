@@ -30,7 +30,7 @@ public class HexaColorTest {
 
   @Test
   public void testCreateColorRgbMax() throws Exception {
-    HexaColor color = new HexaColor(255, 254, 253);
+    final HexaColor color = new HexaColor(255, 254, 253);
 
     assertEquals(255, color.getRed());
     assertEquals(254, color.getGreen());
@@ -39,7 +39,7 @@ public class HexaColorTest {
 
   @Test
   public void testCreateColorRgbMin() throws Exception {
-    HexaColor color = new HexaColor(0, 1, 2);
+    final HexaColor color = new HexaColor(0, 1, 2);
 
     assertEquals(0, color.getRed());
     assertEquals(1, color.getGreen());

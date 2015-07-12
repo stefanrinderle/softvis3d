@@ -30,17 +30,17 @@ public class DotExecutorExceptionTest {
 
   @Test
   public void testMessage() {
-    String message = "message";
-    DotExecutorException underTest = new DotExecutorException(message);
+    final String message = "message";
+    final DotExecutorException underTest = new DotExecutorException(message);
 
     assertEquals(message, underTest.getMessage());
   }
 
   @Test
   public void testCause() {
-    String message = "message";
-    IllegalArgumentException exception = new IllegalArgumentException(message);
-    DotExecutorException underTest = new DotExecutorException(message, exception);
+    final String message = "message";
+    final IllegalArgumentException exception = new IllegalArgumentException(message);
+    final DotExecutorException underTest = new DotExecutorException(message, exception);
 
     assertEquals(message, underTest.getMessage());
     assertEquals(exception, underTest.getCause());

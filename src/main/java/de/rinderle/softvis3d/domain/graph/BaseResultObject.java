@@ -31,7 +31,7 @@ public abstract class BaseResultObject {
     return opacity;
   }
 
-  public void setOpacity(double opacity) {
+  public void setOpacity(final double opacity) {
     this.opacity = opacity;
   }
 
@@ -47,7 +47,7 @@ public abstract class BaseResultObject {
    *
    * I(y) I I ---------- (x) / / (z)
    */
-  public void setHeight3d(int height3d) {
+  public void setHeight3d(final int height3d) {
     this.height3d = height3d;
   }
 

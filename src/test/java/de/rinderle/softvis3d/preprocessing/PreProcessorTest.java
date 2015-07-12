@@ -64,7 +64,7 @@ public class PreProcessorTest {
 
   @Test
   public void testProcessCached() throws Exception {
-    VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
     final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
     when(snapshotCacheService.containsKey(eq(mapKey))).thenReturn(true);
@@ -72,29 +72,29 @@ public class PreProcessorTest {
     when(snapshotCacheService.getSnapshotTreeResult(eq(mapKey))).thenReturn(expectedResult);
     expectedResult = snapshotCacheService.getSnapshotTreeResult(mapKey);
 
-    SnapshotTreeResult result = preProcessor.process(requestDTO);
+    final SnapshotTreeResult result = preProcessor.process(requestDTO);
 
     assertEquals(expectedResult, result);
   }
 
   @Test
   public void testProcessNotCachedCity() throws Exception {
-    VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
     final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
     when(snapshotCacheService.containsKey(eq(mapKey))).thenReturn(false);
-    SnapshotTreeResult result = preProcessor.process(requestDTO);
+    final SnapshotTreeResult result = preProcessor.process(requestDTO);
 
     assertEquals(mapKey, result.getStorageKey());
   }
 
   @Test
   public void testProcessNotCachedDependency() throws Exception {
-    VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20);
     final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
     when(snapshotCacheService.containsKey(eq(mapKey))).thenReturn(false);
-    SnapshotTreeResult result = preProcessor.process(requestDTO);
+    final SnapshotTreeResult result = preProcessor.process(requestDTO);
 
     assertEquals(mapKey, result.getStorageKey());
   }

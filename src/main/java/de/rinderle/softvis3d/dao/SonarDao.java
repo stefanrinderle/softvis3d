@@ -56,10 +56,10 @@ public class SonarDao {
   public List<Metric> getDistinctMetricsBySnapshotId(final Integer snapshotId) {
     // TODO: check if the metric is defined for that snapshot id.
 
-    List<Metric> metrics = new ArrayList<Metric>();
+    final List<Metric> metrics = new ArrayList<Metric>();
 
-    List<org.sonar.api.measures.Metric> metricsTest = session.getResults(org.sonar.api.measures.Metric.class);
-    for (org.sonar.api.measures.Metric metrict : metricsTest) {
+    final List<org.sonar.api.measures.Metric> metricsTest = session.getResults(org.sonar.api.measures.Metric.class);
+    for (final org.sonar.api.measures.Metric metrict : metricsTest) {
       if (metrict.isNumericType() && !metrict.isHidden() && metrict.getEnabled()) {
         metrics.add(new Metric(metrict.getId(), metrict.getName()));
       }
@@ -75,7 +75,7 @@ public class SonarDao {
     final List<Snapshot> snapshots = session.getResults(Snapshot.class,
       "parentId", snapshotId, "qualifier", Qualifiers.MODULE);
 
-    for (Snapshot snapshot : snapshots) {
+    for (final Snapshot snapshot : snapshots) {
       final ResourceModel resource =
         this.session.getSingleResult(ResourceModel.class, "id", snapshot.getResourceId());
 
@@ -86,13 +86,13 @@ public class SonarDao {
   }
 
   public Integer getMetricIdByKey(final String key) {
-    org.sonar.api.measures.Metric result =
+    final org.sonar.api.measures.Metric result =
       this.session.getSingleResult(org.sonar.api.measures.Metric.class, "key", key);
 
     return result.getId();
   }
 
-  public MinMaxValue getMinMaxMetricValuesByRootSnapshotId(int rootSnapshotId, int metricId) {
+  public MinMaxValue getMinMaxMetricValuesByRootSnapshotId(final int rootSnapshotId, final int metricId) {
     final StringBuilder sb = new StringBuilder();
 
     sb.append("SELECT MIN(m.value), MAX(m.value) ");
@@ -104,7 +104,7 @@ public class SonarDao {
       .append("AND (s.path LIKE :idRoot OR s.path LIKE :idModule) AND ")
       .append("m.metricId =:metric_id AND s.scope = 'FIL'");
 
-    Query jpaQuery = session.createQuery(sb.toString());
+    final Query jpaQuery = session.createQuery(sb.toString());
 
     jpaQuery.setParameter("idRoot", rootSnapshotId + ".%");
     jpaQuery.setParameter("idModule", "%." + rootSnapshotId + ".%");
@@ -124,10 +124,10 @@ public class SonarDao {
     query.setParameter("idRoot", rootSnapshotId + ".%");
     query.setParameter("idModule", "%." + rootSnapshotId + ".%");
 
-    List<Object[]> sqlResult = query.getResultList();
+    final List<Object[]> sqlResult = query.getResultList();
 
     final List<MetricResultDTO<Integer>> result = new ArrayList<MetricResultDTO<Integer>>();
-    for (Object[] aSqlResult : sqlResult) {
+    for (final Object[] aSqlResult : sqlResult) {
       result.add(new MetricResultDTO<Integer>((Integer) aSqlResult[0], (Integer) aSqlResult[1]));
     }
 
@@ -147,16 +147,16 @@ public class SonarDao {
       .append("AND (s.path LIKE :idRoot OR s.path LIKE :idModule) AND ")
       .append("m.metricId =:metric_id AND s.scope = 'FIL'");
 
-    Query jpaQuery = session.createQuery(sb.toString());
+    final Query jpaQuery = session.createQuery(sb.toString());
 
     jpaQuery.setParameter("idRoot", rootSnapshotId + ".%");
     jpaQuery.setParameter("idModule", "%." + rootSnapshotId + ".%");
     jpaQuery.setParameter("metric_id", metricId);
 
-    List<Object[]> sqlResult = jpaQuery.getResultList();
+    final List<Object[]> sqlResult = jpaQuery.getResultList();
 
-    List<MetricResultDTO<String>> result = new ArrayList<MetricResultDTO<String>>();
-    for (Object[] aSqlResult : sqlResult) {
+    final List<MetricResultDTO<String>> result = new ArrayList<MetricResultDTO<String>>();
+    for (final Object[] aSqlResult : sqlResult) {
       result.add(new MetricResultDTO<String>((Integer) aSqlResult[0], (String) aSqlResult[1]));
     }
 
@@ -185,10 +185,9 @@ public class SonarDao {
     query.setParameter("metricId", metricId);
 
     try {
-      final Double result = (Double) query.getSingleResult();
-      return result;
-    } catch (NoResultException e) {
-      LOGGER.error(
+      return (Double) query.getSingleResult();
+    } catch (final NoResultException e) {
+      LOGGER.debug(
         "getMetricDouble for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage(), e);
       return 0.0;
     }
@@ -205,7 +204,7 @@ public class SonarDao {
 
     try {
       return (String) query.getSingleResult();
-    } catch (NoResultException e) {
+    } catch (final NoResultException e) {
       LOGGER.error(
         "getMetricText for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage(), e);
       return null;

@@ -39,7 +39,7 @@ public class ExecuteCommandAdotBugTest {
     final String check = HEIGHT_ATTR + "=" + value + "," + postFix;
     final String expected = HEIGHT_ATTR + "=\"" + value + "\"," + postFix;
 
-    String result = ExecuteCommand.checkForAdotBug(check);
+    final String result = ExecuteCommand.checkForAdotBug(check);
 
     assertEquals(expected, result);
   }
@@ -49,7 +49,7 @@ public class ExecuteCommandAdotBugTest {
     final String check = "width=0.27778];";
     final String expected = "width=\"0.27778\"];";
 
-    String result = ExecuteCommand.checkForAdotBug(check);
+    final String result = ExecuteCommand.checkForAdotBug(check);
 
     assertEquals(expected, result);
   }
@@ -59,7 +59,7 @@ public class ExecuteCommandAdotBugTest {
     final String check = "width=0.27778";
     final String expected = "width=\"0.27778\"";
 
-    String result = ExecuteCommand.checkForAdotBug(check);
+    final String result = ExecuteCommand.checkForAdotBug(check);
 
     assertEquals(expected, result);
   }
@@ -72,7 +72,7 @@ public class ExecuteCommandAdotBugTest {
 
     final String check = SoftVis3DConstants.GRAPH_ATTR_PENWIDTH + "=" + value + "," + postFix;
 
-    String result = ExecuteCommand.checkForAdotBug(check);
+    final String result = ExecuteCommand.checkForAdotBug(check);
 
     assertEquals("Do not add quotation marks if the attribute is the oen width", check, result);
   }

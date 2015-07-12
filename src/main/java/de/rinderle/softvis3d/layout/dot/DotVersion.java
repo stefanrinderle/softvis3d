@@ -40,7 +40,7 @@ public class DotVersion {
       // dot - Graphviz version 2.20.2 (Tue Jan 14 19:38:44 UTC 2014)
       // dot version 2.0 (Mon Apr 6 14:19:01 UTC 2015)
 
-      char[] crs = commandResult.toCharArray();
+      final char[] crs = commandResult.toCharArray();
       int result = 0;
       for (int i = 0; i < commandResult.length(); i++) {
         if (Character.isDigit(crs[i])) {

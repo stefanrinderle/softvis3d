@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -56,12 +55,12 @@ public class LayoutCacheServiceTest {
 
     assertNull(underTest.getLayoutResult(getSnapshotStorageKey(0)));
 
-    Map<Integer, ResultPlatform> cachedValue = underTest.getLayoutResult(getSnapshotStorageKey(lastEntryKeyNumber));
+    final Map<Integer, ResultPlatform> cachedValue = underTest.getLayoutResult(getSnapshotStorageKey(lastEntryKeyNumber));
     assertTrue(cachedValue.containsKey(lastEntryKeyNumber));
   }
 
   private SnapshotStorageKey getSnapshotStorageKey(final int id) {
-    VisualizationRequest requestDto = new VisualizationRequest(id, LayoutViewType.CITY, 1, 1);
+    final VisualizationRequest requestDto = new VisualizationRequest(id, LayoutViewType.CITY, 1, 1);
     return new SnapshotStorageKey(requestDto);
   }
 }

@@ -30,18 +30,18 @@ public class SonarSnapshotBuilderTest {
 
   @Test
   public void test() {
-    int id = 1;
-    double footprint = 12.34;
-    double height = 23.45;
-    String path = "/path/to/file";
-    int authorCount = 234;
-    SonarSnapshotBuilder builder = new SonarSnapshotBuilder(id)
+    final int id = 1;
+    final double footprint = 12.34;
+    final double height = 23.45;
+    final String path = "/path/to/file";
+    final int authorCount = 234;
+    final SonarSnapshotBuilder builder = new SonarSnapshotBuilder(id)
       .withFootprintMeasure(footprint)
       .withHeightMeasure(height)
       .withPath(path)
       .differentAuthors(authorCount);
 
-    SonarSnapshot result = builder.build();
+    final SonarSnapshot result = builder.build();
 
     assertEquals(id, result.getId());
     assertEquals(height, result.getHeightMetricValue(), 0.0);

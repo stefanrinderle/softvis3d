@@ -45,7 +45,7 @@ public final class LayeredLayoutElement {
 
   private LayeredLayoutElement(final TreeNodeType type, final Integer id, final String name, final Double width,
     final Double height, final Double buildingHeight, final String displayName, final Map<String, Edge> edges,
-    HexaColor color) {
+    final HexaColor color) {
     super();
     this.type = type;
     this.id = id;

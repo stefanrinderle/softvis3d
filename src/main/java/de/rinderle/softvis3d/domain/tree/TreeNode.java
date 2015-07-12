@@ -101,7 +101,7 @@ public class TreeNode {
     return this.edges;
   }
 
-  public TreeNode findNode(Integer id) {
+  public TreeNode findNode(final Integer id) {
     return this.recursiveSearch(id, this);
   }
 
@@ -117,7 +117,7 @@ public class TreeNode {
     int result = 0;
 
     result += this.getChildrenNodes().size();
-    for (TreeNode node : this.getChildrenNodes()) {
+    for (final TreeNode node : this.getChildrenNodes()) {
       result += node.getAllChildrenNodesSize();
     }
 
@@ -180,7 +180,7 @@ public class TreeNode {
     return result;
   }
 
-  public void addChildrenNode(String name, TreeNode child) {
+  public void addChildrenNode(final String name, final TreeNode child) {
     children.put(name, child);
   }
 }

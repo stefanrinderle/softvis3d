@@ -41,9 +41,9 @@ public class TreeNodeJsonWriterTest {
     final StringWriter stringWriter = new StringWriter();
     final JsonWriter jsonWriter = JsonWriter.of(stringWriter);
 
-    TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
+    final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
-    RootTreeNode tree = new RootTreeNode(1);
+    final RootTreeNode tree = new RootTreeNode(1);
     underTest.transformRootTreeToJson(jsonWriter, tree);
 
     final String expectedStringResult = "{\"treeResult\":{\"id\":1,\"name\":\"root\",\"isNode\":false,\"children\":[],\"edges\":[],\"dependencies\":[]}}";
@@ -56,7 +56,7 @@ public class TreeNodeJsonWriterTest {
     final StringWriter stringWriter = new StringWriter();
     final JsonWriter jsonWriter = JsonWriter.of(stringWriter);
 
-    TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
+    final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
     final RootTreeNode treeNode1 = new RootTreeNode(1);
     TestTreeBuilder.createValueTreeNode(2, treeNode1, 1);
@@ -74,13 +74,13 @@ public class TreeNodeJsonWriterTest {
     final StringWriter stringWriter = new StringWriter();
     final JsonWriter jsonWriter = JsonWriter.of(stringWriter);
 
-    TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
+    final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
     final RootTreeNode treeNode1 = new RootTreeNode(1);
-    TreeNode node2 = TestTreeBuilder.createValueTreeNode(2, treeNode1, 1);
+    final TreeNode node2 = TestTreeBuilder.createValueTreeNode(2, treeNode1, 1);
     TestTreeBuilder.createValueTreeNode(3, treeNode1, 2);
 
-    Edge edge = new Edge("edgeLabel", 2, "2", 3, "3");
+    final Edge edge = new Edge("edgeLabel", 2, "2", 3, "3");
     edge.addIncludingDependency(123L);
     node2.getEdges().put("123", edge);
 
@@ -96,10 +96,10 @@ public class TreeNodeJsonWriterTest {
     final StringWriter stringWriter = new StringWriter();
     final JsonWriter jsonWriter = JsonWriter.of(stringWriter);
 
-    TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
+    final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
     final RootTreeNode treeNode1 = new RootTreeNode(1);
-    Dependency dependency = new Dependency(1L, 2, "2", 3, "3");
+    final Dependency dependency = new Dependency(1L, 2, "2", 3, "3");
     treeNode1.addDependency(dependency);
 
     underTest.transformRootTreeToJson(jsonWriter, treeNode1);

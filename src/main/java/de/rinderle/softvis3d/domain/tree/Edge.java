@@ -33,8 +33,8 @@ public class Edge {
   private final List<Long> includingDependencies = new ArrayList<Long>();
 
   public Edge(final String depEdgeLabel, final Integer sourceId,
-    String sourceName, final Integer destinationId,
-    String destinationName) {
+    final String sourceName, final Integer destinationId,
+    final String destinationName) {
     this.depEdgeLabel = depEdgeLabel;
     this.sourceId = sourceId;
     this.sourceName = sourceName;
@@ -66,7 +66,7 @@ public class Edge {
     return this.includingDependencies.size();
   }
 
-  public void addIncludingDependency(Long dependencyId) {
+  public void addIncludingDependency(final Long dependencyId) {
     includingDependencies.add(dependencyId);
   }
 

@@ -24,17 +24,18 @@ import att.grappa.GrappaPoint;
 import de.rinderle.softvis3d.domain.graph.Point3d;
 import de.rinderle.softvis3d.domain.graph.ResultArrow;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TranslateArrow {
 
-  public void translate(ResultArrow arrow, GrappaPoint posTranslation, GrappaBox translatedBb, int height3d) {
+  public void translate(final ResultArrow arrow, final GrappaPoint posTranslation, final GrappaBox translatedBb, final int height3d) {
     final List<Point3d> result = new ArrayList<>();
 
-    double arrowHeight = calc3dArrowPosition(arrow, height3d);
+    final double arrowHeight = calc3dArrowPosition(arrow, height3d);
 
-    for (Point3d point : arrow.getLinePoints()) {
+    for (final Point3d point : arrow.getLinePoints()) {
       final Point3d temp = translateLinePoint(posTranslation, translatedBb, arrowHeight, point);
       result.add(temp);
     }
@@ -42,8 +43,8 @@ public class TranslateArrow {
     arrow.setPoints(result);
   }
 
-  private Point3d translateLinePoint(GrappaPoint posTranslation, GrappaBox translatedBb, double arrowHeight,
-                                     Point3d point) {
+  private Point3d translateLinePoint(final GrappaPoint posTranslation, final GrappaBox translatedBb, final double arrowHeight,
+    final Point3d point) {
 
     final double x = posTranslation.getX() + point.getX() - translatedBb.getWidth() / 2;
     final double z = posTranslation.getY() + point.getZ() + translatedBb.getHeight() / 2;
@@ -51,9 +52,9 @@ public class TranslateArrow {
     return new Point3d(x, arrowHeight, z);
   }
 
-  private double calc3dArrowPosition(ResultArrow arrow, int height3d) {
-    double result = height3d + ResultPlatform.PLATFORM_HEIGHT;
-    double diameter = (2 * 3.14) / arrow.getRadius();
+  private double calc3dArrowPosition(final ResultArrow arrow, final int height3d) {
+    final double result = height3d + ResultPlatform.PLATFORM_HEIGHT;
+    final double diameter = (2 * 3.14) / arrow.getRadius();
 
     return result + diameter;
   }

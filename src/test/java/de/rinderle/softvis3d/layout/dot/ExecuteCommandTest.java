@@ -31,7 +31,7 @@ public class ExecuteCommandTest {
 
   @Test
   public void testReadErrorStream() throws Exception {
-    String result = new ExecuteCommand().executeCommandReadErrorStream("ls");
+    final String result = new ExecuteCommand().executeCommandReadErrorStream("ls");
 
     assertTrue(StringUtils.isEmpty(result));
   }

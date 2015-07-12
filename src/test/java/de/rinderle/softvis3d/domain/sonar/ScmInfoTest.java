@@ -32,11 +32,11 @@ public class ScmInfoTest {
 
   @Test
   public void test() {
-    int line = 234;
-    String comitter = "stefan@riunderele.info";
-    Date timestamp = new Date();
+    final int line = 234;
+    final String comitter = "stefan@riunderele.info";
+    final Date timestamp = new Date();
 
-    ScmInfo underTest = new ScmInfo(line, comitter, timestamp);
+    final ScmInfo underTest = new ScmInfo(line, comitter, timestamp);
 
     assertEquals(line, underTest.getLine());
     assertEquals(comitter, underTest.getCommitter());
@@ -45,10 +45,10 @@ public class ScmInfoTest {
 
   @Test
   public void testWithoutTimestamp() {
-    int line = 234;
-    String comitter = "stefan@riunderele.info";
+    final int line = 234;
+    final String comitter = "stefan@riunderele.info";
 
-    ScmInfo underTest = new ScmInfo(line, comitter);
+    final ScmInfo underTest = new ScmInfo(line, comitter);
 
     assertEquals(line, underTest.getLine());
     assertEquals(comitter, underTest.getCommitter());

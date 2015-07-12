@@ -23,7 +23,7 @@ public enum LayoutViewType {
   CITY, DEPENDENCY;
 
   // TODO: make this nicer
-  public static LayoutViewType valueOfRequest(String requestValue) {
+  public static LayoutViewType valueOfRequest(final String requestValue) {
     final LayoutViewType result;
     if ("city".equals(requestValue)) {
       result = LayoutViewType.CITY;

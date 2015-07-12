@@ -55,15 +55,15 @@ public class PostProcessorTest {
 
   @Test
   public void testProcessMinimal() throws Exception {
-    int id = 1;
-    Map<Integer, ResultPlatform> resultGraphs = new HashMap<>();
-    ResultPlatform platform = new ResultPlatform(new Graph("root"));
+    final int id = 1;
+    final Map<Integer, ResultPlatform> resultGraphs = new HashMap<>();
+    final ResultPlatform platform = new ResultPlatform(new Graph("root"));
     platform.setBoundingBox(new GrappaBox(0, 0, 100, 200));
     resultGraphs.put(id, platform);
 
-    VisualizationRequest requestDTO = new VisualizationRequest(id, LayoutViewType.CITY, 1, 20);
-    SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
-    SnapshotTreeResult treeResult = new SnapshotTreeResult(key, new RootTreeNode(id));
+    final VisualizationRequest requestDTO = new VisualizationRequest(id, LayoutViewType.CITY, 1, 20);
+    final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
+    final SnapshotTreeResult treeResult = new SnapshotTreeResult(key, new RootTreeNode(id));
 
     underTest.process(LayoutViewType.CITY, resultGraphs, treeResult);
 
@@ -71,16 +71,16 @@ public class PostProcessorTest {
 
   @Test
   public void testProcessWithChildren() throws Exception {
-    int id = 1;
-    Map<Integer, ResultPlatform> resultGraphs = new HashMap<>();
+    final int id = 1;
+    final Map<Integer, ResultPlatform> resultGraphs = new HashMap<>();
 
-    ResultPlatform platform = GrappaGraphTestFactory.createPlatform();
+    final ResultPlatform platform = GrappaGraphTestFactory.createPlatform();
     platform.setBoundingBox(new GrappaBox(0, 0, 100, 200));
     resultGraphs.put(id, platform);
 
-    VisualizationRequest requestDTO = new VisualizationRequest(id, LayoutViewType.CITY, 1, 20);
-    SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
-    SnapshotTreeResult treeResult = new SnapshotTreeResult(key, new RootTreeNode(id));
+    final VisualizationRequest requestDTO = new VisualizationRequest(id, LayoutViewType.CITY, 1, 20);
+    final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
+    final SnapshotTreeResult treeResult = new SnapshotTreeResult(key, new RootTreeNode(id));
 
     underTest.process(LayoutViewType.CITY, resultGraphs, treeResult);
 

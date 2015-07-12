@@ -68,60 +68,60 @@ public class DaoServiceTest {
 
   @Test
   public void testGetMetric1FromSettings() throws Exception {
-    Settings settings = new Settings();
-    String metricKey = "ncloc";
-    Integer metricId = 12;
+    final Settings settings = new Settings();
+    final String metricKey = "ncloc";
+    final Integer metricId = 12;
     settings.setProperty("metric1", metricKey);
 
     when(sonarDao.getMetricIdByKey(eq(metricKey))).thenReturn(metricId);
 
-    Integer result = daoService.getMetric1FromSettings(settings);
+    final Integer result = daoService.getMetric1FromSettings(settings);
 
     assertEquals(metricId, result);
   }
 
   @Test
   public void testGetMetric2FromSettings() throws Exception {
-    Settings settings = new Settings();
-    String metricKey = "ncloc";
-    Integer metricId = 12;
+    final Settings settings = new Settings();
+    final String metricKey = "ncloc";
+    final Integer metricId = 12;
     settings.setProperty("metric2", metricKey);
 
     when(sonarDao.getMetricIdByKey(eq(metricKey))).thenReturn(metricId);
 
-    Integer result = daoService.getMetric2FromSettings(settings);
+    final Integer result = daoService.getMetric2FromSettings(settings);
 
     assertEquals(metricId, result);
   }
 
   @Test
   public void testGetDefinedMetricsForSnapshot() throws Exception {
-    int snapshotId = 12;
+    final int snapshotId = 12;
 
-    List<Metric> expectedResult = new ArrayList<>();
+    final List<Metric> expectedResult = new ArrayList<>();
     when(sonarDao.getDistinctMetricsBySnapshotId(eq(snapshotId))).thenReturn(expectedResult);
 
-    List<Metric> result = daoService.getDefinedMetricsForSnapshot(snapshotId);
+    final List<Metric> result = daoService.getDefinedMetricsForSnapshot(snapshotId);
 
     assertEquals(expectedResult, result);
   }
 
   @Test
   public void testGetMinMaxMetricValuesByRootSnapshotId() throws Exception {
-    int snapshotId = 12;
-    int metricId = 12;
+    final int snapshotId = 12;
+    final int metricId = 12;
 
-    MinMaxValue expectedMinMaxValue = new MinMaxValue(1.0, 20.0);
+    final MinMaxValue expectedMinMaxValue = new MinMaxValue(1.0, 20.0);
     when(sonarDao.getMinMaxMetricValuesByRootSnapshotId(eq(snapshotId), eq(metricId))).thenReturn(expectedMinMaxValue);
 
-    MinMaxValue minMaxValue = daoService.getMinMaxMetricValuesByRootSnapshotId(snapshotId, metricId);
+    final MinMaxValue minMaxValue = daoService.getMinMaxMetricValuesByRootSnapshotId(snapshotId, metricId);
 
     assertEquals(expectedMinMaxValue, minMaxValue);
   }
 
   @Test
   public void testHasDependenciesFalse() throws Exception {
-    int snapshotId = 12;
+    final int snapshotId = 12;
 
     when(sonarDao.getDirectModuleChildrenIds(eq(snapshotId))).thenReturn(Collections.<ModuleInfo>emptyList());
     when(dependencyDao.getDependencies(eq(snapshotId))).thenReturn(Collections.<SonarDependency>emptyList());
@@ -131,11 +131,11 @@ public class DaoServiceTest {
 
   @Test
   public void testHasDependenciesTrue() throws Exception {
-    int snapshotId = 12;
+    final int snapshotId = 12;
 
     when(sonarDao.getDirectModuleChildrenIds(eq(snapshotId))).thenReturn(Collections.<ModuleInfo>emptyList());
-    List<SonarDependency> dependencies = new ArrayList<>();
-    SonarDependency dependency = new SonarDependencyBuilder().createSonarDependency();
+    final List<SonarDependency> dependencies = new ArrayList<>();
+    final SonarDependency dependency = new SonarDependencyBuilder().createSonarDependency();
     dependencies.add(dependency);
     when(dependencyDao.getDependencies(eq(snapshotId))).thenReturn(dependencies);
 
@@ -144,73 +144,73 @@ public class DaoServiceTest {
 
   @Test
   public void testGetDirectModuleChildrenIds() throws Exception {
-    int snapshotId = 12;
+    final int snapshotId = 12;
 
-    List<ModuleInfo> moduleList = new ArrayList<>();
+    final List<ModuleInfo> moduleList = new ArrayList<>();
     when(sonarDao.getDirectModuleChildrenIds(eq(snapshotId))).thenReturn(moduleList);
 
-    List<ModuleInfo> result = daoService.getDirectModuleChildrenIds(snapshotId);
+    final List<ModuleInfo> result = daoService.getDirectModuleChildrenIds(snapshotId);
 
     assertEquals(moduleList, result);
   }
 
   @Test
   public void testGetDependencies() throws Exception {
-    int snapshotId = 12;
+    final int snapshotId = 12;
 
-    List<SonarDependency> dependencies = new ArrayList<>();
-    SonarDependency dependency = new SonarDependencyBuilder().createSonarDependency();
+    final List<SonarDependency> dependencies = new ArrayList<>();
+    final SonarDependency dependency = new SonarDependencyBuilder().createSonarDependency();
     dependencies.add(dependency);
     when(dependencyDao.getDependencies(eq(snapshotId))).thenReturn(dependencies);
 
-    List<SonarDependency> result = daoService.getDependencies(snapshotId);
+    final List<SonarDependency> result = daoService.getDependencies(snapshotId);
 
     assertEquals(dependencies, result);
   }
 
   @Test
   public void testGetFlatChildrenWithMetricsEmpty() throws Exception {
-    int snapshotId = 12;
-    VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 20);
+    final int snapshotId = 12;
+    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 20);
 
-    List<MetricResultDTO<Integer>> snapshots = new ArrayList<>();
+    final List<MetricResultDTO<Integer>> snapshots = new ArrayList<>();
 
     when(sonarDao.getAllSnapshotIdsWithRescourceId(eq(snapshotId))).thenReturn(snapshots);
 
-    List<SonarSnapshot> result = daoService.getFlatChildrenWithMetrics(requestDTO);
+    final List<SonarSnapshot> result = daoService.getFlatChildrenWithMetrics(requestDTO);
     assertEquals(0, result.size());
   }
 
   @Test
   public void testGetFlatChildrenWithMetrics() throws Exception {
-    int snapshotId = 12;
-    VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 20);
+    final int snapshotId = 12;
+    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 20);
 
-    List<MetricResultDTO<Integer>> snapshots = new ArrayList<>();
-    MetricResultDTO<Integer> metricResultDTO = new MetricResultDTO<>(1, 20);
+    final List<MetricResultDTO<Integer>> snapshots = new ArrayList<>();
+    final MetricResultDTO<Integer> metricResultDTO = new MetricResultDTO<>(1, 20);
     snapshots.add(metricResultDTO);
     when(sonarDao.getAllSnapshotIdsWithRescourceId(eq(snapshotId))).thenReturn(snapshots);
 
-    List<SonarSnapshot> result = daoService.getFlatChildrenWithMetrics(requestDTO);
+    final List<SonarSnapshot> result = daoService.getFlatChildrenWithMetrics(requestDTO);
     assertEquals(1, result.size());
   }
 
   @Test
   public void testGetMaxScmInfo() throws Exception {
-    int snapshotId = 12;
+    final int snapshotId = 12;
 
     final Integer authorMetricId = 14;
     when(sonarDao.getMetricIdByKey(eq(DaoService.SCM_AUTHOR_NAME))).thenReturn(authorMetricId);
-    List<MetricResultDTO<String>> metricResults = new ArrayList<>();
-    MetricResultDTO<String> metricResultDTO = new MetricResultDTO<>(1, "stefan@inderle.info");
+    final List<MetricResultDTO<String>> metricResults = new ArrayList<>();
+    final MetricResultDTO<String> metricResultDTO = new MetricResultDTO<>(1, "stefan@inderle.info");
     metricResults.add(metricResultDTO);
     when(sonarDao.getMetricTextForAllProjectElementsWithMetric(eq(snapshotId), eq(authorMetricId))).thenReturn(metricResults);
 
-    int expectedResult = 4;
+    final int expectedResult = 4;
 
     when(scmCalculationService.getDifferentAuthors(anyString(), anyString())).thenReturn(expectedResult);
 
-    int result = daoService.getMaxScmInfo(snapshotId);
+    final int result = daoService.getMaxScmInfo(snapshotId);
 
     assertEquals(expectedResult, result);
   }

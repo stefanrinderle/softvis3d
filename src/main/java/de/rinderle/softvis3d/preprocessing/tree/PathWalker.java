@@ -48,7 +48,7 @@ public class PathWalker {
   }
 
   public void addPath(final SonarSnapshot element) {
-    String[] names = this.pathSeparator.split(element.getPath());
+    final String[] names = this.pathSeparator.split(element.getPath());
 
     TreeNode currentNode = this.root;
 
@@ -71,7 +71,7 @@ public class PathWalker {
     return this.generatedIdSequence;
   }
 
-  private TreeNode getOrCreateChild(final TreeNode node, Integer id, final String name, final TreeNodeType type,
+  private TreeNode getOrCreateChild(final TreeNode node, final Integer id, final String name, final TreeNodeType type,
     final double footprintMetricValue, final double heightMetricValue, final int authorCount) {
     final Map<String, TreeNode> children = node.getChildren();
     if (children.containsKey(name)) {

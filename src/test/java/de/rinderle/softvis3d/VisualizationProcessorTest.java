@@ -19,7 +19,6 @@
  */
 package de.rinderle.softvis3d;
 
-import com.google.inject.Inject;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
@@ -28,9 +27,6 @@ import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.layout.LayoutProcessor;
 import de.rinderle.softvis3d.postprocessing.PostProcessor;
-import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHandler;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -38,8 +34,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.sonar.api.config.Settings;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -64,16 +62,16 @@ public class VisualizationProcessorTest {
 
   @Test
   public void testVisualize() throws Exception {
-    Settings settings = new Settings();
-    VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
-    SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
-    RootTreeNode tree = new RootTreeNode(1);
-    SnapshotTreeResult snapShotTreeResult = new SnapshotTreeResult(key, tree);
+    final Settings settings = new Settings();
+    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+    final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
+    final RootTreeNode tree = new RootTreeNode(1);
+    final SnapshotTreeResult snapShotTreeResult = new SnapshotTreeResult(key, tree);
     final Map<Integer, ResultPlatform> resultGraphs = new HashMap<>();
 
     when(layoutProcessor.process(eq(settings), eq(requestDTO), eq(snapShotTreeResult))).thenReturn(resultGraphs);
 
-    Map<Integer, ResultPlatform> result = underTest.visualize(settings, requestDTO, snapShotTreeResult);
+    final Map<Integer, ResultPlatform> result = underTest.visualize(settings, requestDTO, snapShotTreeResult);
 
     assertEquals(resultGraphs, result);
   }

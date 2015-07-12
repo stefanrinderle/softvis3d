@@ -35,10 +35,10 @@ public class VersionTest {
     final String versionString3 = "2.20.2";
     final String versionString4 = "2.20.3";
 
-    Version version1 = new Version(versionString1);
-    Version version2 = new Version(versionString2);
-    Version version3 = new Version(versionString3);
-    Version version4 = new Version(versionString4);
+    final Version version1 = new Version(versionString1);
+    final Version version2 = new Version(versionString2);
+    final Version version3 = new Version(versionString3);
+    final Version version4 = new Version(versionString4);
 
     assertEquals(-1, version1.compareTo(version2));
     assertEquals(0, version2.compareTo(version3));

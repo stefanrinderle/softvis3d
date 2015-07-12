@@ -44,7 +44,7 @@ public class VisualizationProcessor {
   private PostProcessor calc;
 
   public Map<Integer, ResultPlatform> visualize(final Settings settings, final VisualizationRequest requestDTO,
-    SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
+    final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
 
     final StopWatch stopWatch = new StopWatch();
     stopWatch.start();

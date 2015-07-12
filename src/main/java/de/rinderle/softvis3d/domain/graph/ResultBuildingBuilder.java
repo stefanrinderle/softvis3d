@@ -66,7 +66,7 @@ public class ResultBuildingBuilder {
     return this;
   }
 
-  private HexaColor transformToColor(Object attributeValue) {
+  private HexaColor transformToColor(final Object attributeValue) {
     return HexaColor.createHexaColorFromHex((String) attributeValue);
   }
 
@@ -74,11 +74,11 @@ public class ResultBuildingBuilder {
    * Only process the edges which are on the start of the node, otherwise each edge will be processed two times. One
    * for the head and one for the tail.
    */
-  private List<ResultArrow> transformEdges(Edge[] inputEdges) {
-    List<ResultArrow> result = new ArrayList<ResultArrow>();
+  private List<ResultArrow> transformEdges(final Edge[] inputEdges) {
+    final List<ResultArrow> result = new ArrayList<ResultArrow>();
 
-    for (Edge inputEdge : inputEdges) {
-      boolean isTailEnd = inputEdge.getTail().getId() == this.grappaId;
+    for (final Edge inputEdge : inputEdges) {
+      final boolean isTailEnd = inputEdge.getTail().getId() == this.grappaId;
       if (isTailEnd) {
         result.add(transformEdge(inputEdge));
       }
@@ -87,7 +87,7 @@ public class ResultBuildingBuilder {
     return result;
   }
 
-  private ResultArrow transformEdge(Edge edge) {
+  private ResultArrow transformEdge(final Edge edge) {
     return new ResultArrowBuilder().withEdge(edge).createResultArrow();
   }
 
@@ -98,12 +98,12 @@ public class ResultBuildingBuilder {
    * TODO: building height does not have to be set for layout calculation. Should be set in PostProcessing.
    */
   private double transformBuildingHeight(final Node node) {
-    String buildingHeightString = (String) node.getAttributeValue(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT);
+    final String buildingHeightString = (String) node.getAttributeValue(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT);
     return Double.valueOf(buildingHeightString.substring(1));
   }
 
   private TreeNodeType transformType(final Node node) {
-    String typeString = node.getAttributeValue("type").toString();
+    final String typeString = node.getAttributeValue("type").toString();
     return TreeNodeType.valueOf(typeString);
   }
 

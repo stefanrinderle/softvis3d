@@ -31,7 +31,7 @@ public class VisualizationRequest {
   private final int footprintMetricId;
   private final int heightMetricId;
 
-  public VisualizationRequest(int rootSnapshotId, LayoutViewType viewType, int footprintMetricId, int heightMetricId) {
+  public VisualizationRequest(final int rootSnapshotId, final LayoutViewType viewType, final int footprintMetricId, final int heightMetricId) {
     this.rootSnapshotId = rootSnapshotId;
 
     this.viewType = viewType;
@@ -63,7 +63,7 @@ public class VisualizationRequest {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (this == o) {
       return true;
     }
@@ -72,7 +72,7 @@ public class VisualizationRequest {
       return false;
     }
 
-    VisualizationRequest that = (VisualizationRequest) o;
+    final VisualizationRequest that = (VisualizationRequest) o;
 
     return new EqualsBuilder()
       .append(rootSnapshotId, that.rootSnapshotId)

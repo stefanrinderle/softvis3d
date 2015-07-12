@@ -27,7 +27,7 @@ public class SonarSnapshotBuilder {
   double footprintMetricValue = 0.0;
   double heightMetricValue = 0.0;
 
-  public SonarSnapshotBuilder(int id) {
+  public SonarSnapshotBuilder(final int id) {
     this.id = id;
   }
 
@@ -52,7 +52,7 @@ public class SonarSnapshotBuilder {
     return this;
   }
 
-  public SonarSnapshotBuilder differentAuthors(int differentAuthors) {
+  public SonarSnapshotBuilder differentAuthors(final int differentAuthors) {
     this.authorCount = differentAuthors;
 
     return this;

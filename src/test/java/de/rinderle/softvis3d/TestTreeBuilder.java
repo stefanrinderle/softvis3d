@@ -70,7 +70,7 @@ public class TestTreeBuilder {
     return result.createSonarDependency();
   }
 
-  public static SonarDependency createDependency(String id, final int from, final int to) {
+  public static SonarDependency createDependency(final String id, final int from, final int to) {
     final SonarDependencyBuilder result = new SonarDependencyBuilder();
 
     result.withId(new Long(id));

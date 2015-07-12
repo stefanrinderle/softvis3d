@@ -79,7 +79,7 @@ public class DotExecutor {
     final StringWriter writer = new StringWriter();
     inputGraph.printGraph(writer);
 
-    String sourceDot = writer.toString();
+    final String sourceDot = writer.toString();
 
     String adot = this.executeCommand.executeCommandReadAdot(command, sourceDot, currentVersion);
 

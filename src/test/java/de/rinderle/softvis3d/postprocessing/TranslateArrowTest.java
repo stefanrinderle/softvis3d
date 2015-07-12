@@ -34,7 +34,6 @@ import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class TranslateArrowTest {
@@ -58,7 +57,7 @@ public class TranslateArrowTest {
     assertEquals(1, arrow.getLinePoints().get(0).getX(), 0.0);
     assertEquals(2, arrow.getLinePoints().get(0).getZ(), 0.0);
 
-    double height3dAfterTranslation = arrow.getLinePoints().get(0).getY();
+    final double height3dAfterTranslation = arrow.getLinePoints().get(0).getY();
     assertTrue(height3dAfterTranslation > (height3d + ResultPlatform.PLATFORM_HEIGHT));
     assertTrue(height3dAfterTranslation < (height3d + ResultPlatform.PLATFORM_HEIGHT + radius));
   }
@@ -79,20 +78,20 @@ public class TranslateArrowTest {
   }
 
   private Edge createExampleEdge(final double radius, final GrappaPoint point) {
-    Subgraph subgraph = new Graph("testGraph", true, false);
-    Node tail = new Node(subgraph, "tailNode");
-    Node head = new Node(subgraph, "headNode");
-    Edge edge = new Edge(subgraph, tail, head);
+    final Subgraph subgraph = new Graph("testGraph", true, false);
+    final Node tail = new Node(subgraph, "tailNode");
+    final Node head = new Node(subgraph, "headNode");
+    final Edge edge = new Edge(subgraph, tail, head);
 
-    GrappaPoint[] points = new GrappaPoint[3];
+    final GrappaPoint[] points = new GrappaPoint[3];
     points[0] = point;
     points[1] = new GrappaPoint(2, 3);
     points[2] = new GrappaPoint(100, 100);
 
-    GrappaLine pos = new GrappaLine(points, 0);
+    final GrappaLine pos = new GrappaLine(points, 0);
     edge.setAttribute(GrappaConstants.POS_ATTR, pos);
 
-    String radiusString = "x" + radius;
+    final String radiusString = "x" + radius;
     edge.setAttribute(SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS, radiusString);
     return edge;
   }

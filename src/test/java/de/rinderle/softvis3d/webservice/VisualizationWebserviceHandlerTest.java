@@ -110,7 +110,7 @@ public class VisualizationWebserviceHandlerTest {
     verify(visualizationJsonWriter, times(1)).transformResponseToJson(eq(jsonWriter), eq(visualizationResult));
   }
 
-  private Map<Integer, ResultPlatform> mockVisualization(VisualizationRequest requestDTO, SnapshotTreeResult treeResult) throws DotExecutorException {
+  private Map<Integer, ResultPlatform> mockVisualization(final VisualizationRequest requestDTO, final SnapshotTreeResult treeResult) throws DotExecutorException {
     final Map<Integer, ResultPlatform> visualizationResult = new HashMap<Integer, ResultPlatform>();
     when(visualizationProcessor.visualize(any(Settings.class), eq(requestDTO), eq(treeResult)))
       .thenReturn(visualizationResult);
@@ -118,7 +118,7 @@ public class VisualizationWebserviceHandlerTest {
     return visualizationResult;
   }
 
-  private SnapshotTreeResult mockPreProcessing(VisualizationRequest requestDTO) {
+  private SnapshotTreeResult mockPreProcessing(final VisualizationRequest requestDTO) {
     final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
     final RootTreeNode rootTreeNode = new RootTreeNode(1);
     final SnapshotTreeResult treeResult = new SnapshotTreeResult(key, rootTreeNode);

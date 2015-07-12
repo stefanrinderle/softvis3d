@@ -37,7 +37,7 @@ public class SoftVis3DPluginTest {
 
     final SoftVis3DPlugin plugin = new SoftVis3DPlugin();
 
-    List<Class<? extends Extension>> extenstions = plugin.getExtensions();
+    final List<Class<? extends Extension>> extenstions = plugin.getExtensions();
 
     assertEquals(3, extenstions.size());
   }

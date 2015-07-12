@@ -29,7 +29,7 @@ public class ResultArrow extends BaseResultObject {
 
   private List<Point3d> linePoints;
 
-  public ResultArrow(ResultArrowBuilder resultArrowBuilder) {
+  public ResultArrow(final ResultArrowBuilder resultArrowBuilder) {
     this.headBuildingId = resultArrowBuilder.headBuildingId;
     this.tailBuildingId = resultArrowBuilder.tailBuildingId;
     this.radius = resultArrowBuilder.radius;

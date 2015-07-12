@@ -40,13 +40,13 @@ public class ExceptionJsonWriterTest {
   @Test
   public void testTransformExceptionToJson() throws Exception {
 
-    ExceptionJsonWriter underTest = new ExceptionJsonWriter();
+    final ExceptionJsonWriter underTest = new ExceptionJsonWriter();
 
-    Exception exception = new IllegalArgumentException("message");
+    final Exception exception = new IllegalArgumentException("message");
 
     underTest.transformExceptionToJson(createResponse(), exception);
 
-    String expectedString = "{\"errors\":[{\"msg\":\"message\"}]}";
+    final String expectedString = "{\"errors\":[{\"msg\":\"message\"}]}";
     assertEquals(expectedString, stringWriter.toString());
   }
 
@@ -71,12 +71,12 @@ public class ExceptionJsonWriterTest {
       public Stream stream() {
         return new Stream() {
           @Override
-          public Stream setMediaType(String s) {
+          public Stream setMediaType(final String s) {
             return null;
           }
 
           @Override
-          public Stream setStatus(int httpStatus) {
+          public Stream setStatus(final int httpStatus) {
             return this;
           }
 

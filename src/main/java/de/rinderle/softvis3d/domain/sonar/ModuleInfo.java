@@ -24,7 +24,7 @@ public class ModuleInfo {
   private final Integer id;
   private final String name;
 
-  public ModuleInfo(Integer id, String name) {
+  public ModuleInfo(final Integer id, final String name) {
     if (id == null || name == null) {
       throw new IllegalArgumentException("Metric initialization failed.");
     }

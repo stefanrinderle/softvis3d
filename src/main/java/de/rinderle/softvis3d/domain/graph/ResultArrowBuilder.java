@@ -63,8 +63,8 @@ public class ResultArrowBuilder {
    *
    * @param edge
    */
-  private void transformEdgeLine(Edge edge) {
-    GrappaLine line = (GrappaLine) edge.getAttributeValue(GrappaConstants.POS_ATTR);
+  private void transformEdgeLine(final Edge edge) {
+    final GrappaLine line = (GrappaLine) edge.getAttributeValue(GrappaConstants.POS_ATTR);
 
     final GrappaPoint[] points = line.getGrappaPoints();
 

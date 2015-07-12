@@ -24,7 +24,7 @@ public class MetricResultDTO<K> {
   private final int id;
   private final K value;
 
-  public MetricResultDTO(int id, K value) {
+  public MetricResultDTO(final int id, final K value) {
     this.id = id;
     this.value = value;
   }

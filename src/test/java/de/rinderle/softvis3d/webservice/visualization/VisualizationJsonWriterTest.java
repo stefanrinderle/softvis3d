@@ -48,15 +48,15 @@ public class VisualizationJsonWriterTest {
     final StringWriter stringWriter = new StringWriter();
     final JsonWriter jsonWriter = JsonWriter.of(stringWriter);
 
-    VisualizationJsonWriter underTest = new VisualizationJsonWriter();
+    final VisualizationJsonWriter underTest = new VisualizationJsonWriter();
 
-    Map<Integer, ResultPlatform> results = new HashMap<>();
-    ResultPlatform platform = createExamplePlatform();
+    final Map<Integer, ResultPlatform> results = new HashMap<>();
+    final ResultPlatform platform = createExamplePlatform();
     results.put(1, platform);
 
     underTest.transformResponseToJson(jsonWriter, results);
 
-    String expectedResult = "{\"visualizationResult\":[{\"platformId\":1,\"opacity\":0.0,\"height3d\":0,\"positionX\":0.0,\"positionY\":0.0,\"width\":100.0,\"platformHeight\":5.0,\"height\":200.0,\"nodes\":[{\"id\":123,\"buildingHeight\":10.3,\"height\":400.3,\"width\":300.4,\"positionX\":1.0,\"positionY\":2.0,\"type\":\"PATH_GENERATED\",\"opacity\":0.0,\"color\":\"#FE8C00\",\"height3d\":0,\"arrows\":[]}]}]}";
+    final String expectedResult = "{\"visualizationResult\":[{\"platformId\":1,\"opacity\":0.0,\"height3d\":0,\"positionX\":0.0,\"positionY\":0.0,\"width\":100.0,\"platformHeight\":5.0,\"height\":200.0,\"nodes\":[{\"id\":123,\"buildingHeight\":10.3,\"height\":400.3,\"width\":300.4,\"positionX\":1.0,\"positionY\":2.0,\"type\":\"PATH_GENERATED\",\"opacity\":0.0,\"color\":\"#FE8C00\",\"height3d\":0,\"arrows\":[]}]}]}";
     assertEquals(expectedResult, stringWriter.toString());
   }
 
@@ -65,10 +65,10 @@ public class VisualizationJsonWriterTest {
     final StringWriter stringWriter = new StringWriter();
     final JsonWriter jsonWriter = JsonWriter.of(stringWriter);
 
-    VisualizationJsonWriter underTest = new VisualizationJsonWriter();
+    final VisualizationJsonWriter underTest = new VisualizationJsonWriter();
 
-    Map<Integer, ResultPlatform> results = new HashMap<>();
-    ResultPlatform platform = GrappaGraphTestFactory.createPlatform();
+    final Map<Integer, ResultPlatform> results = new HashMap<>();
+    final ResultPlatform platform = GrappaGraphTestFactory.createPlatform();
     results.put(1, platform);
 
     underTest.transformResponseToJson(jsonWriter, results);
@@ -80,23 +80,23 @@ public class VisualizationJsonWriterTest {
   }
 
   private ResultPlatform createExamplePlatform() {
-    Graph graph = new Graph("rootNode");
-    Node node = new Node(graph, "testNode");
+    final Graph graph = new Graph("rootNode");
+    final Node node = new Node(graph, "testNode");
     node.setAttribute("id", "123");
     node.setAttribute(GrappaConstants.WIDTH_ATTR, "300.4");
     node.setAttribute(GrappaConstants.HEIGHT_ATTR, "400.3");
 
     node.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "x10.3");
 
-    HexaColor color = new HexaColor(254, 140, 0);
+    final HexaColor color = new HexaColor(254, 140, 0);
     node.setAttribute(SoftVis3DConstants.SOFTVIZ_COLOR, color.getHex());
 
-    TreeNodeType type = TreeNodeType.PATH_GENERATED;
+    final TreeNodeType type = TreeNodeType.PATH_GENERATED;
     node.setAttribute("type", type.name());
 
     node.setAttribute(GrappaConstants.POS_ATTR, new GrappaPoint(1, 2));
 
-    ResultPlatform platform = new ResultPlatform(graph);
+    final ResultPlatform platform = new ResultPlatform(graph);
 
     platform.setBoundingBox(new GrappaBox(0, 0, 100, 200));
 

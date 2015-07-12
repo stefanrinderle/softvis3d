@@ -41,7 +41,7 @@ import java.util.List;
     description = "This metric will be used for the building height")})
 public final class SoftVis3DPlugin extends SonarPlugin {
 
-  public static final boolean IS_PROD = true;
+  public static final boolean IS_PROD = false;
   public static final boolean CACHE_ENABLED = true;
   public static final boolean HAS_SCM_FEATURE = false;
 

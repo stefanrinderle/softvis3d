@@ -23,7 +23,7 @@ public class Version implements Comparable<Version> {
 
   private final String versionNumber;
 
-  public Version(String versionNumber) {
+  public Version(final String versionNumber) {
     if (versionNumber == null) {
       throw new IllegalArgumentException("Version can not be null");
     }
@@ -43,12 +43,12 @@ public class Version implements Comparable<Version> {
   public int compareTo(final Version that) {
     if (that == null)
       return 1;
-    String[] thisParts = this.get().split("\\.");
-    String[] thatParts = that.get().split("\\.");
-    int length = Math.max(thisParts.length, thatParts.length);
+    final String[] thisParts = this.get().split("\\.");
+    final String[] thatParts = that.get().split("\\.");
+    final int length = Math.max(thisParts.length, thatParts.length);
     for (int i = 0; i < length; i++) {
-      int thisPart = i < thisParts.length ? Integer.parseInt(thisParts[i]) : 0;
-      int thatPart = i < thatParts.length ? Integer.parseInt(thatParts[i]) : 0;
+      final int thisPart = i < thisParts.length ? Integer.parseInt(thisParts[i]) : 0;
+      final int thatPart = i < thatParts.length ? Integer.parseInt(thatParts[i]) : 0;
       if (thisPart < thatPart)
         return -1;
       if (thisPart > thatPart)
@@ -58,7 +58,7 @@ public class Version implements Comparable<Version> {
   }
 
   @Override
-  public boolean equals(Object that) {
+  public boolean equals(final Object that) {
     if (this == that) {
       return true;
     }

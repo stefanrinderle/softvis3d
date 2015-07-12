@@ -30,13 +30,13 @@ public class StringOutputStreamTest {
 
   @Test
   public void test() throws IOException {
-    StringOutputStream stream = new StringOutputStream();
+    final StringOutputStream stream = new StringOutputStream();
 
     stream.write(1);
     stream.write(2);
     stream.write(3);
 
-    String result = stream.toString();
+    final String result = stream.toString();
   }
 
 }

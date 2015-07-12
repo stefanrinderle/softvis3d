@@ -70,7 +70,7 @@ public class ResultBuilding extends BaseResultObject {
     return width;
   }
 
-  public void setWidth(double width) {
+  public void setWidth(final double width) {
     this.width = this.roundTo2Decimals(width);
   }
 
@@ -78,7 +78,7 @@ public class ResultBuilding extends BaseResultObject {
     return height;
   }
 
-  public void setHeight(double height) {
+  public void setHeight(final double height) {
     this.height = this.roundTo2Decimals(height);
   }
 

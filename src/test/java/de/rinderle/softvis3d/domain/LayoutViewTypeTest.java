@@ -30,19 +30,19 @@ public class LayoutViewTypeTest {
 
   @Test
   public void testValueOfRequestCity() throws Exception {
-    LayoutViewType result = LayoutViewType.valueOfRequest("city");
+    final LayoutViewType result = LayoutViewType.valueOfRequest("city");
     assertEquals(result, LayoutViewType.CITY);
   }
 
   @Test
   public void testValueOfRequestDependency() throws Exception {
-    LayoutViewType result = LayoutViewType.valueOfRequest("dependency");
+    final LayoutViewType result = LayoutViewType.valueOfRequest("dependency");
     assertEquals(result, LayoutViewType.DEPENDENCY);
   }
 
   @Test
   public void testValueOfRequestAnythingElse() throws Exception {
-    LayoutViewType result = LayoutViewType.valueOfRequest("ksudhgfifdgsuh");
+    final LayoutViewType result = LayoutViewType.valueOfRequest("ksudhgfifdgsuh");
     assertEquals(result, LayoutViewType.DEPENDENCY);
   }
 }

@@ -38,7 +38,7 @@ public class VisualizationJsonWriter {
     jsonWriter.name("visualizationResult");
     jsonWriter.beginArray();
 
-    for (Map.Entry<Integer, ResultPlatform> entry : results.entrySet()) {
+    for (final Map.Entry<Integer, ResultPlatform> entry : results.entrySet()) {
       transformPlatform(jsonWriter, entry.getKey(), entry.getValue());
     }
 
@@ -75,7 +75,7 @@ public class VisualizationJsonWriter {
     jsonWriter.prop("height3d", baseResultObject.getHeight3d());
   }
 
-  private void transformNodes(JsonWriter jsonWriter, Collection<ResultBuilding> nodes) {
+  private void transformNodes(final JsonWriter jsonWriter, final Collection<ResultBuilding> nodes) {
     jsonWriter.name("nodes");
     jsonWriter.beginArray();
 
@@ -86,7 +86,7 @@ public class VisualizationJsonWriter {
     jsonWriter.endArray();
   }
 
-  private void transformNode(JsonWriter jsonWriter, ResultBuilding node) {
+  private void transformNode(final JsonWriter jsonWriter, final ResultBuilding node) {
     jsonWriter.beginObject();
 
     jsonWriter.prop("id", node.getId());
@@ -106,7 +106,7 @@ public class VisualizationJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void transformArrows(JsonWriter jsonWriter, List<ResultArrow> arrows) {
+  private void transformArrows(final JsonWriter jsonWriter, final List<ResultArrow> arrows) {
     jsonWriter.name("arrows");
     jsonWriter.beginArray();
 
@@ -117,7 +117,7 @@ public class VisualizationJsonWriter {
     jsonWriter.endArray();
   }
 
-  private void transformArrow(JsonWriter jsonWriter, ResultArrow arrow) {
+  private void transformArrow(final JsonWriter jsonWriter, final ResultArrow arrow) {
     jsonWriter.beginObject();
 
     jsonWriter.prop("id", arrow.getId());
@@ -134,7 +134,7 @@ public class VisualizationJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void transformArrowPoints(JsonWriter jsonWriter, List<Point3d> translatedPoints) {
+  private void transformArrowPoints(final JsonWriter jsonWriter, final List<Point3d> translatedPoints) {
     jsonWriter.name("translatedPoints");
     jsonWriter.beginArray();
 
@@ -145,7 +145,7 @@ public class VisualizationJsonWriter {
     jsonWriter.endArray();
   }
 
-  private void transformPoint(JsonWriter jsonWriter, Point3d point) {
+  private void transformPoint(final JsonWriter jsonWriter, final Point3d point) {
     jsonWriter.beginObject();
 
     jsonWriter.prop("x", point.getX());

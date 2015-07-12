@@ -37,8 +37,8 @@ public class LayoutProcessor {
   @Inject
   private SnapshotVisitorFactory visitorFactory;
 
-  public Map<Integer, ResultPlatform> process(Settings settings, VisualizationRequest requestDTO,
-    SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
+  public Map<Integer, ResultPlatform> process(final Settings settings, final VisualizationRequest requestDTO,
+    final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
 
     final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO);
 

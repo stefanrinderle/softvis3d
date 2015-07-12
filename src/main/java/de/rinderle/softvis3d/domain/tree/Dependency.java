@@ -27,8 +27,8 @@ public class Dependency {
   private final Integer toNodeId;
   private final String toNodeName;
 
-  public Dependency(Long id, Integer fromNodeId, String fromNodeName,
-    Integer toNodeId, String toNodeName) {
+  public Dependency(final Long id, final Integer fromNodeId, final String fromNodeName,
+    final Integer toNodeId, final String toNodeName) {
     this.id = id;
     this.fromNodeId = fromNodeId;
     this.fromNodeName = fromNodeName;

@@ -60,7 +60,7 @@ public class GrappaEdgeFactoryTest {
 
     when(this.formatter.calcEdgeRadius(anyInt())).thenReturn(3.33);
 
-    att.grappa.Edge result = underTest.createGrappaEdge(inputGraph, edge);
+    final att.grappa.Edge result = underTest.createGrappaEdge(inputGraph, edge);
 
     assertNotNull(result);
   }
@@ -83,10 +83,10 @@ public class GrappaEdgeFactoryTest {
 
   private Graph createExampleGraph() {
     final Graph inputGraph = new Graph("name");
-    Node node1 = new Node(inputGraph, SOURCE_NAME);
+    final Node node1 = new Node(inputGraph, SOURCE_NAME);
     node1.setAttribute("id", SOURCE_ID.toString());
     inputGraph.addNode(node1);
-    Node node2 = new Node(inputGraph, DESTINATION_NAME);
+    final Node node2 = new Node(inputGraph, DESTINATION_NAME);
     node2.setAttribute("id", DESTINATION_ID.toString());
     inputGraph.addNode(node2);
     return inputGraph;

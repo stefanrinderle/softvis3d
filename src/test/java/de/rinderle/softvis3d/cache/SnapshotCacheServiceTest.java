@@ -52,12 +52,12 @@ public class SnapshotCacheServiceTest {
 
     assertNull(underTest.getSnapshotTreeResult(getSnapshotStorageKey(0)));
 
-    SnapshotTreeResult cachedValue = underTest.getSnapshotTreeResult(getSnapshotStorageKey(lastEntryKeyNumber));
+    final SnapshotTreeResult cachedValue = underTest.getSnapshotTreeResult(getSnapshotStorageKey(lastEntryKeyNumber));
     assertEquals(lastEntryKeyNumber, cachedValue.getTree().getId().intValue());
   }
 
   private SnapshotStorageKey getSnapshotStorageKey(final int id) {
-    VisualizationRequest requestDto = new VisualizationRequest(id, LayoutViewType.CITY, 1, 1);
+    final VisualizationRequest requestDto = new VisualizationRequest(id, LayoutViewType.CITY, 1, 1);
     return new SnapshotStorageKey(requestDto);
   }
 }
