@@ -39,6 +39,8 @@ public class TreeNodeJsonWriter {
     this.transformTreeToJson(jsonWriter, tree);
 
     jsonWriter.endObject();
+
+    jsonWriter.close();
   }
 
   private void transformTreeToJson(final JsonWriter jsonWriter, final TreeNode node) {
