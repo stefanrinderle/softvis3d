@@ -47,11 +47,16 @@ ThreeViewer.AppController = function ($scope, ViewerService) {
 };
 
 ThreeViewer.AppController.prototype.init = function () {
-  this.ViewerService.init({
-    canvasId: 'viewer',
-    containerId: 'infoContainer'
-  });
-  this.listeners();
+  if (!Detector.webgl) {
+    console.error("No webgl support detected.");
+  } else {
+    this.ViewerService.init({
+      canvasId: 'viewer',
+      containerId: 'infoContainer'
+    });
+    this.listeners();
+  }
+
 };
 
 ThreeViewer.AppController.prototype.listeners = function () {

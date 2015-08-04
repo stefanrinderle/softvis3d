@@ -229,6 +229,7 @@
                   <jsSourceDir>static/threeViewer/</jsSourceDir>
                   <jsSourceFiles>
                     <jsSourceFile>lib/threejs/three.69.js</jsSourceFile>
+                    <jsSourceFile>lib/threejs/Detector.js</jsSourceFile>
                     <jsSourceFile>lib/threejs/OrbitControls.js</jsSourceFile>
                     <jsSourceFile>lib/threejs/NURBSCurve.js</jsSourceFile>
                     <jsSourceFile>lib/threejs/NURBSUtils.js</jsSourceFile>
