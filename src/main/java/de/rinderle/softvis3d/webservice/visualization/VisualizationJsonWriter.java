@@ -44,8 +44,6 @@ public class VisualizationJsonWriter {
 
     jsonWriter.endArray();
     jsonWriter.endObject();
-
-    jsonWriter.close();
   }
 
   private void transformPlatform(final JsonWriter jsonWriter, final Integer id, final ResultPlatform platform) {
