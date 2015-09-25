@@ -78,7 +78,7 @@ public class ConfigWebserviceHandler extends AbstractWebserviceHandler implement
     this.session.commit();
   }
 
-  private void transformMetricSettings(JsonWriter jsonWriter, Integer metric1, Integer metric2) {
+  private void transformMetricSettings(final JsonWriter jsonWriter, final Integer metric1, final Integer metric2) {
     jsonWriter.name("settings");
     jsonWriter.beginObject();
     jsonWriter.prop("metric1", metric1);
@@ -86,11 +86,11 @@ public class ConfigWebserviceHandler extends AbstractWebserviceHandler implement
     jsonWriter.endObject();
   }
 
-  private void transformMetrics(JsonWriter jsonWriter, List<Metric> metrics) {
+  private void transformMetrics(final JsonWriter jsonWriter, final List<Metric> metrics) {
     jsonWriter.name("metricsForSnapshot");
     jsonWriter.beginArray();
 
-    for (Metric metric : metrics) {
+    for (final Metric metric : metrics) {
       jsonWriter.beginObject();
       jsonWriter.prop("id", metric.getId());
       jsonWriter.prop("name", metric.getDescription());

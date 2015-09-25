@@ -17,14 +17,33 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.layout.bottomUp;
+package de.rinderle.softvis3d.layout.dot;
 
-import de.rinderle.softvis3d.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
-import de.rinderle.softvis3d.layout.dot.DotExecutorException;
+import org.junit.Test;
 
-public interface BottomUpLayout {
+import static org.junit.Assert.assertEquals;
 
-  LayeredLayoutElement accept(SnapshotTreeResult storageKey) throws DotExecutorException;
+/**
+ * Created by stefan on 12.07.15.
+ */
+public class DotExecutorExceptionTest {
+
+  @Test
+  public void testMessage() {
+    final String message = "message";
+    final DotExecutorException underTest = new DotExecutorException(message);
+
+    assertEquals(message, underTest.getMessage());
+  }
+
+  @Test
+  public void testCause() {
+    final String message = "message";
+    final IllegalArgumentException exception = new IllegalArgumentException(message);
+    final DotExecutorException underTest = new DotExecutorException(message, exception);
+
+    assertEquals(message, underTest.getMessage());
+    assertEquals(exception, underTest.getCause());
+  }
 
 }

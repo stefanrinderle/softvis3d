@@ -24,7 +24,11 @@ public class Metric {
   private final Integer id;
   private final String description;
 
-  public Metric(Integer id, String description) {
+  public Metric(final Integer id, final String description) {
+    if (id == null || description == null) {
+      throw new IllegalArgumentException("Metric initialization failed.");
+    }
+
     this.id = id;
     this.description = description;
   }

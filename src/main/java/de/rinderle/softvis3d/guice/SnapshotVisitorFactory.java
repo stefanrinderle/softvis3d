@@ -21,7 +21,7 @@ package de.rinderle.softvis3d.guice;
 
 import com.google.inject.assistedinject.Assisted;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.layout.bottomUp.SnapshotVisitor;
+import de.rinderle.softvis3d.layout.bottomup.SnapshotVisitor;
 import org.sonar.api.config.Settings;
 
 public interface SnapshotVisitorFactory {

@@ -69,22 +69,30 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
  * Executes anything after construction.
  */
 ThreeViewer.FileLoaderController.prototype.init = function () {
-  this.listeners();
-
   var me = this;
 
-  this.waitFor(500, 0, function () {
-    me.BackendService.getConfig(ThreeViewer.SNAPSHOT_ID).then(function (response) {
-      me.settings = response.data.settings;
-      me.availableMetrics = response.data.metricsForSnapshot;
-      me.hasDependencies = response.data.hasDependencies;
-      me.configLoaded = true;
-    }, function (response) {
+  if (!Detector.webgl) {
+    this.waitFor(500, 0, function () {
       me.infoInnerState = "error";
-      me.exceptionMessage = response.data.errors[0].msg;
+      me.exceptionMessage = Detector.getWebGLErrorMessage();
       me.showTab("info");
     });
-  });
+  } else {
+    this.listeners();
+
+    this.waitFor(500, 0, function () {
+      me.BackendService.getConfig(ThreeViewer.SNAPSHOT_ID).then(function (response) {
+        me.settings = response.data.settings;
+        me.availableMetrics = response.data.metricsForSnapshot;
+        me.hasDependencies = response.data.hasDependencies;
+        me.configLoaded = true;
+      }, function (response) {
+        me.infoInnerState = "error";
+        me.exceptionMessage = response.data.errors[0].msg;
+        me.showTab("info");
+      });
+    });
+  }
 };
 
 ThreeViewer.FileLoaderController.prototype.waitFor = function(msec, count, callback) {

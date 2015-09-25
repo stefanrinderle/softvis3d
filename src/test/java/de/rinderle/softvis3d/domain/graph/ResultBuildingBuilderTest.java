@@ -40,8 +40,8 @@ public class ResultBuildingBuilderTest {
 
   @Test
   public void testNodeAttributes() {
-    Subgraph graph = new Graph("rootNode");
-    Node node = new Node(graph, "testNode");
+    final Subgraph graph = new Graph("rootNode");
+    final Node node = new Node(graph, "testNode");
 
     node.setAttribute("id", "123");
     node.setAttribute(GrappaConstants.WIDTH_ATTR, "300.4");
@@ -49,15 +49,15 @@ public class ResultBuildingBuilderTest {
 
     node.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "x10.3");
 
-    HexaColor color = new HexaColor(254, 140, 0);
+    final HexaColor color = new HexaColor(254, 140, 0);
     node.setAttribute(SoftVis3DConstants.SOFTVIZ_COLOR, color.getHex());
 
-    TreeNodeType type = TreeNodeType.PATH_GENERATED;
+    final TreeNodeType type = TreeNodeType.PATH_GENERATED;
     node.setAttribute("type", type.name());
 
     node.setAttribute(GrappaConstants.POS_ATTR, new GrappaPoint(1, 2));
 
-    ResultBuilding result = new ResultBuildingBuilder().withNode(node).createResultBuilding();
+    final ResultBuilding result = new ResultBuildingBuilder().withNode(node).createResultBuilding();
 
     assertEquals(123, result.getId());
 
@@ -74,15 +74,15 @@ public class ResultBuildingBuilderTest {
 
   @Test
   public void testNodeEdgesAttributes() {
-    Subgraph graph = new Graph("rootNode");
-    Node node = new Node(graph, "testNode");
+    final Subgraph graph = new Graph("rootNode");
+    final Node node = new Node(graph, "testNode");
 
     node.setAttribute("id", "123");
     node.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "x10.3");
     node.setAttribute(SoftVis3DConstants.SOFTVIZ_COLOR, new HexaColor(254, 140, 0).getHex());
     node.setAttribute("type", TreeNodeType.PATH_GENERATED.name());
 
-    Node secondNode = new Node(graph, "secondTestNode");
+    final Node secondNode = new Node(graph, "secondTestNode");
 
     final Edge out = new Edge(graph, node, secondNode);
     setEdgeAttributes(out);
@@ -92,7 +92,7 @@ public class ResultBuildingBuilderTest {
     node.addEdge(out, false);
     node.addEdge(in, true);
 
-    ResultBuilding result = new ResultBuildingBuilder().withNode(node).createResultBuilding();
+    final ResultBuilding result = new ResultBuildingBuilder().withNode(node).createResultBuilding();
 
     // TODO: Seems that there is a bug in the addEdge method. Returns 2 same edges.
     // But addEdge is never used in this application. Jst used for test cases.
@@ -101,16 +101,16 @@ public class ResultBuildingBuilderTest {
     assertEquals("testNode", result.getArrows().get(0).getTailId());
   }
 
-  private void setEdgeAttributes(Edge edge) {
-    GrappaPoint[] points = new GrappaPoint[3];
+  private void setEdgeAttributes(final Edge edge) {
+    final GrappaPoint[] points = new GrappaPoint[3];
     points[0] = new GrappaPoint(0, 1);
     points[1] = new GrappaPoint(2, 3);
     points[2] = new GrappaPoint(100, 100);
 
-    GrappaLine pos = new GrappaLine(points, 0);
+    final GrappaLine pos = new GrappaLine(points, 0);
     edge.setAttribute(GrappaConstants.POS_ATTR, pos);
 
-    String radius = "x3.3";
+    final String radius = "x3.3";
     edge.setAttribute(SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS, radius);
   }
 

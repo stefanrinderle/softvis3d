@@ -34,7 +34,7 @@ public class ResultPlatform extends BaseResultObject {
   private final Map<String, ResultBuilding> nodes;
   private GrappaBox boundingBox;
 
-  public ResultPlatform(Graph graph) {
+  public ResultPlatform(final Graph graph) {
     this.boundingBox = (GrappaBox) graph.getAttributeValue("bb");
     this.nodes = transformNodes(graph.nodeElementsAsArray());
   }
@@ -50,7 +50,7 @@ public class ResultPlatform extends BaseResultObject {
     return boundingBox;
   }
 
-  public void setBoundingBox(GrappaBox boundingBox) {
+  public void setBoundingBox(final GrappaBox boundingBox) {
     this.boundingBox = boundingBox;
   }
 
@@ -58,14 +58,14 @@ public class ResultPlatform extends BaseResultObject {
     return nodes.values();
   }
 
-  public void removeNode(String key) {
+  public void removeNode(final String key) {
     nodes.remove(key);
   }
 
-  private Map<String, ResultBuilding> transformNodes(Node[] inputNodes) {
-    Map<String, ResultBuilding> result = new HashMap<String, ResultBuilding>();
+  private Map<String, ResultBuilding> transformNodes(final Node[] inputNodes) {
+    final Map<String, ResultBuilding> result = new HashMap<String, ResultBuilding>();
 
-    for (Node inputNode : inputNodes) {
+    for (final Node inputNode : inputNodes) {
       result.put(inputNode.getName(), transformNode(inputNode));
     }
 

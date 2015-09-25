@@ -19,6 +19,7 @@
  */
 package de.rinderle.softvis3d.preprocessing.tree;
 
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 
 import java.util.Map;
@@ -32,22 +33,29 @@ import java.util.TreeMap;
 public class OptimizeTreeStructure {
 
   /**
-   * An unnecessary node would be "B" in this example: A / \ B D / C
+   * An unnecessary node would be "B" in this example:
+   *
+   *      A
+   *     / \
+   *    B  D
+   *   /
+   *  C
    *
    * This node would be just visualized as a platform with only one content
    * node. This reduces the "readability" of the visualisation. Therefore,
    * these nodes are removed.
    */
-  public void removeUnnecessaryNodes(final TreeNode root) {
+  public void removeUnnecessaryNodes(final RootTreeNode root) {
     this.removeUnnecessaryNode(root);
+
     recalculateDepth(root, 0);
   }
 
   private void removeUnnecessaryNode(final TreeNode node) {
-    final TreeMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node
-      .getChildren();
-    final TreeMap<String, TreeNode> copyOfChildren = (TreeMap<String, TreeNode>) children
-      .clone();
+    final TreeMap<String, TreeNode> children =
+            (TreeMap<String, TreeNode>) node.getChildren();
+    final TreeMap<String, TreeNode> copyOfChildren =
+            (TreeMap<String, TreeNode>) children.clone();
 
     if (children.size() == 1) {
       this.removeNodeFromStructure(node);
@@ -61,8 +69,8 @@ public class OptimizeTreeStructure {
   private void removeNodeFromStructure(final TreeNode node) {
     if (node.getParent() != null) {
       // set new parent for child
-      final SortedMap<String, TreeNode> children = (TreeMap<String, TreeNode>) node
-        .getChildren();
+      final SortedMap<String, TreeNode> children =
+              (TreeMap<String, TreeNode>) node.getChildren();
       final TreeNode child = (TreeNode) children.values().toArray()[0];
 
       child.setParent(node.getParent());
@@ -72,8 +80,9 @@ public class OptimizeTreeStructure {
 
       // update children of parent
       // check for root node
-      final Map<String, TreeNode> parentChildren = node.getParent()
-        .getChildren();
+      final Map<String, TreeNode> parentChildren =
+              node.getParent().getChildren();
+
       parentChildren.remove(node.getName());
       parentChildren.put(child.getName(), child);
     }

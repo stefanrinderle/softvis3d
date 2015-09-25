@@ -67,7 +67,7 @@ public class VisualizationWebserviceHandlerTest {
   private final String viewType = "city";
 
   @InjectMocks
-  private final VisualizationWebserviceHandler handler = new VisualizationWebserviceHandler();
+  private VisualizationWebserviceHandler handler;
   @Mock
   private TreeNodeJsonWriter treeNodeJsonWriter;
   @Mock
@@ -106,11 +106,11 @@ public class VisualizationWebserviceHandlerTest {
     // empty response because json transformer are mocked.
     assertEquals("{\"resultObject\":[]}", this.stringWriter.toString());
 
-    verify(treeNodeJsonWriter, times(1)).transformTreeToJsonBla(eq(jsonWriter), eq(treeResult.getTree()));
+    verify(treeNodeJsonWriter, times(1)).transformRootTreeToJson(eq(jsonWriter), eq(treeResult.getTree()));
     verify(visualizationJsonWriter, times(1)).transformResponseToJson(eq(jsonWriter), eq(visualizationResult));
   }
 
-  private Map<Integer, ResultPlatform> mockVisualization(VisualizationRequest requestDTO, SnapshotTreeResult treeResult) throws DotExecutorException {
+  private Map<Integer, ResultPlatform> mockVisualization(final VisualizationRequest requestDTO, final SnapshotTreeResult treeResult) throws DotExecutorException {
     final Map<Integer, ResultPlatform> visualizationResult = new HashMap<Integer, ResultPlatform>();
     when(visualizationProcessor.visualize(any(Settings.class), eq(requestDTO), eq(treeResult)))
       .thenReturn(visualizationResult);
@@ -118,12 +118,12 @@ public class VisualizationWebserviceHandlerTest {
     return visualizationResult;
   }
 
-  private SnapshotTreeResult mockPreProcessing(VisualizationRequest requestDTO) {
+  private SnapshotTreeResult mockPreProcessing(final VisualizationRequest requestDTO) {
     final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
     final RootTreeNode rootTreeNode = new RootTreeNode(1);
     final SnapshotTreeResult treeResult = new SnapshotTreeResult(key, rootTreeNode);
 
-    when(preProcessor.process(eq(requestDTO), any(Settings.class))).thenReturn(treeResult);
+    when(preProcessor.process(eq(requestDTO))).thenReturn(treeResult);
 
     return treeResult;
   }

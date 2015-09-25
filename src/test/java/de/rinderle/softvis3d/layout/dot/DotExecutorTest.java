@@ -120,6 +120,29 @@ public class DotExecutorTest {
       Mockito.any(String.class), Mockito.any(Version.class));
   }
 
+  @Test(expected = DotExecutorException.class)
+  public void testExceptionOnVersion() throws DotExecutorException {
+    SETTINGS.setProperty("dotBinDirectory", "/usr/local/bin/dot");
+
+    Mockito.when(this.dotVersion.getVersion(Mockito.anyString())).thenThrow(DotExecutorException.class);
+
+    final Graph inputGraph = new Graph("not used in test");
+    this.underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+  }
+
+  @Test(expected = DotExecutorException.class)
+  public void testExceptionOnAdot() throws DotExecutorException {
+    SETTINGS.setProperty("dotBinDirectory", "/usr/local/bin/dot");
+
+    Mockito.when(this.dotVersion.getVersion(Mockito.anyString())).thenReturn(DotExecutor.DOT_BUG_VERSION);
+
+    Mockito.when(this.executeCommand.executeCommandReadAdot(Mockito.any(String.class), Mockito.any(String.class),
+      Mockito.any(Version.class))).thenThrow(DotExecutorException.class);
+
+    final Graph inputGraph = new Graph("not used in test");
+    this.underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+  }
+
   public String createADot() {
     final StringBuilder builder = new StringBuilder();
     builder.append("digraph 777 {");

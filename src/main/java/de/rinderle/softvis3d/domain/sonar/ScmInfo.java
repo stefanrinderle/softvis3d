@@ -22,17 +22,17 @@ package de.rinderle.softvis3d.domain.sonar;
 import java.util.Date;
 
 public class ScmInfo {
-  private int line;
-  private String committer;
-  private Date timestamp;
+  private final int line;
+  private final String committer;
+  private final Date timestamp;
 
-  public ScmInfo(int line, String committer, Date timestamp) {
+  public ScmInfo(final int line, final String committer, final Date timestamp) {
     this.line = line;
     this.committer = committer;
     this.timestamp = timestamp;
   }
 
-  public ScmInfo(int line, String committer) {
+  public ScmInfo(final int line, final String committer) {
     this.line = line;
     this.committer = committer;
     this.timestamp = new Date();

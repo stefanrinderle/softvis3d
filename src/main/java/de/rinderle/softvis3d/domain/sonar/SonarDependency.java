@@ -22,8 +22,8 @@ package de.rinderle.softvis3d.domain.sonar;
 public class SonarDependency {
 
   private Long id;
-  private Integer fromSnapshotId;
-  private Integer toSnapshotId;
+  private final Integer fromSnapshotId;
+  private final Integer toSnapshotId;
 
   public SonarDependency(final SonarDependencyBuilder sonarDependencyBuilder) {
     this.id = sonarDependencyBuilder.id;
@@ -33,10 +33,6 @@ public class SonarDependency {
 
   public Long getId() {
     return this.id;
-  }
-
-  public void setId(final Long id) {
-    this.id = id;
   }
 
   public Integer getFromSnapshotId() {

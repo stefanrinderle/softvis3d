@@ -37,11 +37,11 @@ public class Cache<K, V> {
     map = new LinkedHashMap<>();
   }
 
-  public boolean containsKey(K key) {
+  public boolean containsKey(final K key) {
     return map.containsKey(key);
   }
 
-  public V get(K key) {
+  public V get(final K key) {
     return map.get(key);
   }
 
@@ -49,7 +49,7 @@ public class Cache<K, V> {
     return map.size();
   }
 
-  public void put(K key, V value) {
+  public void put(final K key, final V value) {
     map.put(key, value);
     removeOldestCacheEntryIfNecessary();
   }
@@ -64,7 +64,7 @@ public class Cache<K, V> {
 
   private void removeOldestCacheEntryIfNecessary() {
     if (map.size() > MAX_SIZE) {
-      K keyToDelete = map.keySet().iterator().next();
+      final K keyToDelete = map.keySet().iterator().next();
       map.remove(keyToDelete);
     }
   }

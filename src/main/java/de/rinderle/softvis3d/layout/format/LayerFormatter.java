@@ -58,7 +58,7 @@ public class LayerFormatter {
     }
   }
 
-  public HexaColor getPlatformBaseColor(int depth) {
+  public HexaColor getPlatformBaseColor(final int depth) {
     // calc color
     int colorCalc = depth * 32;
     if (colorCalc > (MAX_COLOR_VALUE - BASE_PLATFORM_BRIGHTNESS) || colorCalc < 0) {
@@ -69,7 +69,7 @@ public class LayerFormatter {
     return new HexaColor(colorValue, colorValue, colorValue);
   }
 
-  private void formatResultBuilding(int depth, Integer height3d, ResultBuilding leaf) {
+  private void formatResultBuilding(final int depth, final Integer height3d, final ResultBuilding leaf) {
     double width = leaf.getWidth();
     // keep some distance to each other
     width = width * SoftVis3DConstants.DPI_DOT_SCALE;
@@ -114,7 +114,7 @@ public class LayerFormatter {
     return sideLength;
   }
 
-  public double calcEdgeRadius(int counter) {
+  public double calcEdgeRadius(final int counter) {
     return counter;
   }
 
@@ -130,14 +130,14 @@ public class LayerFormatter {
   /**
    * Value between 0 and 510.
    */
-  private HexaColor makeColor(int authorCount, double maxScmValue) {
+  private HexaColor makeColor(final int authorCount, final double maxScmValue) {
     int valueBetween0And510 = (int) (((double) authorCount / maxScmValue) * 510);
 
     int newGreenValue;
-    int newRedValue;
+    final int newRedValue;
     if (valueBetween0And510 < 255) {
       newGreenValue = 255;
-      double newRedValueTemp = Math.sqrt(valueBetween0And510) * 16;
+      final double newRedValueTemp = Math.sqrt(valueBetween0And510) * 16;
       newRedValue = (int) Math.round(newRedValueTemp);
     } else {
       newRedValue = 255;

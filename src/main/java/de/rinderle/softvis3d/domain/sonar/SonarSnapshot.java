@@ -27,7 +27,7 @@ public class SonarSnapshot {
   private final int authorCount;
   private String path;
 
-  public SonarSnapshot(SonarSnapshotBuilder snapshotBuilder) {
+  public SonarSnapshot(final SonarSnapshotBuilder snapshotBuilder) {
     this.id = snapshotBuilder.id;
     this.path = snapshotBuilder.path;
     this.footprintMetricValue = snapshotBuilder.footprintMetricValue;
@@ -43,7 +43,7 @@ public class SonarSnapshot {
     return path;
   }
 
-  public void setPath(String path) {
+  public void setPath(final String path) {
     this.path = path;
   }
 

@@ -21,16 +21,16 @@ package de.rinderle.softvis3d.domain.graph;
 
 public class Point3d {
 
-  private double x;
-  private double y;
-  private double z;
+  private final double x;
+  private final double y;
+  private final double z;
 
   /**
    *
    * I I(y) I I______(x)_______________ / /(z) /
    *
    */
-  public Point3d(double x, double y, double z) {
+  public Point3d(final double x, final double y, final double z) {
     this.x = x;
     this.y = y;
     this.z = z;

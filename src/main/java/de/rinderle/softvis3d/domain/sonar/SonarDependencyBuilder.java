@@ -24,17 +24,17 @@ public class SonarDependencyBuilder {
   Integer fromSnapshotId;
   Integer toSnapshotId;
 
-  public SonarDependencyBuilder withId(Long id) {
+  public SonarDependencyBuilder withId(final Long id) {
     this.id = id;
     return this;
   }
 
-  public SonarDependencyBuilder withFromSnapshotId(Integer fromSnapshotId) {
+  public SonarDependencyBuilder withFromSnapshotId(final Integer fromSnapshotId) {
     this.fromSnapshotId = fromSnapshotId;
     return this;
   }
 
-  public SonarDependencyBuilder withToSnapshotId(Integer toSnapshotId) {
+  public SonarDependencyBuilder withToSnapshotId(final Integer toSnapshotId) {
     this.toSnapshotId = toSnapshotId;
     return this;
   }

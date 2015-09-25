@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>sonar-softVis3D-plugin</artifactId>
-  <version>0.3.1-SNAPSHOT</version>
+  <version>0.3.2-SNAPSHOT</version>
 
   <packaging>sonar-plugin</packaging>
 
@@ -229,6 +229,7 @@
                   <jsSourceDir>static/threeViewer/</jsSourceDir>
                   <jsSourceFiles>
                     <jsSourceFile>lib/threejs/three.69.js</jsSourceFile>
+                    <jsSourceFile>lib/threejs/Detector.js</jsSourceFile>
                     <jsSourceFile>lib/threejs/OrbitControls.js</jsSourceFile>
                     <jsSourceFile>lib/threejs/NURBSCurve.js</jsSourceFile>
                     <jsSourceFile>lib/threejs/NURBSUtils.js</jsSourceFile>

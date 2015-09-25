@@ -32,10 +32,10 @@ public class TreeNode {
 
   private TreeNode parent;
   private int depth;
-  private TreeNodeType type;
+  private final TreeNodeType type;
 
-  private Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
-  private Map<String, Edge> edges = new HashMap<String, Edge>();
+  private final Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
+  private final Map<String, Edge> edges = new HashMap<String, Edge>();
 
   public TreeNode(final Integer id, final TreeNode parent, final int depth, final TreeNodeType type, final String name) {
     this.id = id;
@@ -101,7 +101,7 @@ public class TreeNode {
     return this.edges;
   }
 
-  public TreeNode findNode(Integer id) {
+  public TreeNode findNode(final Integer id) {
     return this.recursiveSearch(id, this);
   }
 
@@ -117,7 +117,7 @@ public class TreeNode {
     int result = 0;
 
     result += this.getChildrenNodes().size();
-    for (TreeNode node : this.getChildrenNodes()) {
+    for (final TreeNode node : this.getChildrenNodes()) {
       result += node.getAllChildrenNodesSize();
     }
 
@@ -180,7 +180,7 @@ public class TreeNode {
     return result;
   }
 
-  public void addChildrenNode(String name, TreeNode result) {
-    children.put(name, result);
+  public void addChildrenNode(final String name, final TreeNode child) {
+    children.put(name, child);
   }
 }

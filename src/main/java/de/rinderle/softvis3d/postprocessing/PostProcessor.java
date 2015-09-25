@@ -21,9 +21,9 @@ package de.rinderle.softvis3d.postprocessing;
 
 import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
+import com.google.inject.Inject;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.domain.graph.Point3d;
 import de.rinderle.softvis3d.domain.graph.ResultArrow;
 import de.rinderle.softvis3d.domain.graph.ResultBuilding;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
@@ -31,7 +31,6 @@ import de.rinderle.softvis3d.domain.tree.TreeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,10 +40,11 @@ public class PostProcessor {
   private static final Logger LOGGER = LoggerFactory.getLogger(PostProcessor.class);
 
   private Map<Integer, ResultPlatform> resultGraphs;
-
   private Map<Integer, GrappaPoint> innerGraphTranslation;
-
   private int leafElements;
+
+  @Inject
+  private TranslateArrow translateArrow;
 
   public int process(final LayoutViewType viewType,
     final Map<Integer, ResultPlatform> resultGraphs, final SnapshotTreeResult treeResult) {
@@ -91,7 +91,7 @@ public class PostProcessor {
     }
   }
 
-  private void removeRepresentationNode(ResultPlatform graph, LayoutViewType layoutViewType, TreeNode child) {
+  private void removeRepresentationNode(final ResultPlatform graph, final LayoutViewType layoutViewType, final TreeNode child) {
     if (LayoutViewType.CITY.equals(layoutViewType)) {
       graph.removeNode(child.getId().toString());
     }
@@ -120,41 +120,10 @@ public class PostProcessor {
       height3d = leaf.getHeight3d();
 
       for (final ResultArrow arrow : leaf.getArrows()) {
-        translateArrow(posTranslation, translatedBb, height3d, arrow);
+        translateArrow.translate(arrow, posTranslation, translatedBb, height3d);
       }
     }
 
-  }
-
-  private void translateArrow(GrappaPoint posTranslation, GrappaBox translatedBb, int height3d, ResultArrow arrow) {
-    final List<Point3d> result = new ArrayList<Point3d>();
-
-    double arrowHeight = calc3dArrowPosition(height3d, arrow);
-
-    for (Point3d point : arrow.getLinePoints()) {
-      final Point3d temp = translateLinePoint(posTranslation, translatedBb, arrowHeight, point);
-      result.add(temp);
-    }
-
-    arrow.setPoints(result);
-  }
-
-  private Point3d translateLinePoint(GrappaPoint posTranslation, GrappaBox translatedBb, double arrowHeight,
-    Point3d point) {
-
-    final double x = posTranslation.getX() + point.getX() - translatedBb.getWidth() / 2;
-    final double y = arrowHeight;
-    final double z = posTranslation.getY() + point.getZ() + translatedBb.getHeight() / 2;
-
-    return new Point3d(x, y, z);
-  }
-
-  private double calc3dArrowPosition(int height3d, ResultArrow arrow) {
-    double result = height3d;
-    result = result + ResultPlatform.PLATFORM_HEIGHT;
-    double diameter = (2 * 3.14) / arrow.getRadius();
-
-    return result + diameter;
   }
 
   private GrappaBox translatePlatform(final ResultPlatform platform, final GrappaPoint posTranslation) {

@@ -27,8 +27,8 @@ public class MetricResultDTOTest {
 
   @Test
   public void testStringValue() {
-    int id = 111;
-    String value = "valueOf111";
+    final int id = 111;
+    final String value = "valueOf111";
 
     final MetricResultDTO<String> underTest = new MetricResultDTO<String>(id, value);
 
@@ -38,8 +38,8 @@ public class MetricResultDTOTest {
 
   @Test
   public void testDoubleValue() {
-    int id = 111;
-    Double value = 1.23;
+    final int id = 111;
+    final Double value = 1.23;
 
     final MetricResultDTO<Double> underTest = new MetricResultDTO<Double>(id, value);
 

@@ -43,9 +43,9 @@ public class ResultArrowBuilderTest {
 
   @Test
   public void testCopyValues() throws Exception {
-    Edge edge = createExampleEdge();
+    final Edge edge = createExampleEdge();
 
-    ResultArrow result = new ResultArrowBuilder().withEdge(edge).createResultArrow();
+    final ResultArrow result = new ResultArrowBuilder().withEdge(edge).createResultArrow();
 
     assertEquals(result.getHeadId(), HEAD_NODE);
     assertEquals(result.getTailId(), TAIL_NODE);
@@ -54,18 +54,18 @@ public class ResultArrowBuilderTest {
 
   @Test
   public void testRadius() throws Exception {
-    Edge edge = createExampleEdge();
+    final Edge edge = createExampleEdge();
 
-    ResultArrow result = new ResultArrowBuilder().withEdge(edge).createResultArrow();
+    final ResultArrow result = new ResultArrowBuilder().withEdge(edge).createResultArrow();
 
     assertEquals(result.getRadius(), RADIUS.doubleValue(), 0.001);
   }
 
   @Test
   public void testPointsRemoveLastPoint() throws Exception {
-    Edge edge = createExampleEdge();
+    final Edge edge = createExampleEdge();
 
-    ResultArrow result = new ResultArrowBuilder().withEdge(edge).createResultArrow();
+    final ResultArrow result = new ResultArrowBuilder().withEdge(edge).createResultArrow();
 
     assertEquals(2, result.getLinePoints().size());
     final Point3d secondPoint = result.getLinePoints().get(1);
@@ -74,9 +74,9 @@ public class ResultArrowBuilderTest {
 
   @Test
   public void testPointsRemovePoints() throws Exception {
-    Edge edge = createExampleEdge();
+    final Edge edge = createExampleEdge();
 
-    ResultArrow result = new ResultArrowBuilder().withEdge(edge).createResultArrow();
+    final ResultArrow result = new ResultArrowBuilder().withEdge(edge).createResultArrow();
 
     assertEquals(2, result.getLinePoints().size());
     final Point3d firstPoint = result.getLinePoints().get(0);
@@ -91,20 +91,20 @@ public class ResultArrowBuilderTest {
   }
 
   private Edge createExampleEdge() {
-    Subgraph subgraph = new Graph("testGraph", true, false);
-    Node tail = new Node(subgraph, TAIL_NODE);
-    Node head = new Node(subgraph, HEAD_NODE);
-    Edge edge = new Edge(subgraph, tail, head);
+    final Subgraph subgraph = new Graph("testGraph", true, false);
+    final Node tail = new Node(subgraph, TAIL_NODE);
+    final Node head = new Node(subgraph, HEAD_NODE);
+    final Edge edge = new Edge(subgraph, tail, head);
 
-    GrappaPoint[] points = new GrappaPoint[3];
+    final GrappaPoint[] points = new GrappaPoint[3];
     points[0] = new GrappaPoint(0, 1);
     points[1] = new GrappaPoint(2, 3);
     points[2] = new GrappaPoint(100, 100);
 
-    GrappaLine pos = new GrappaLine(points, 0);
+    final GrappaLine pos = new GrappaLine(points, 0);
     edge.setAttribute(GrappaConstants.POS_ATTR, pos);
 
-    String radius = "x" + RADIUS.toString();
+    final String radius = "x" + RADIUS.toString();
     edge.setAttribute(SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS, radius);
     return edge;
   }

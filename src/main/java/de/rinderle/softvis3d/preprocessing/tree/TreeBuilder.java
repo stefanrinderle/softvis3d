@@ -48,14 +48,14 @@ public class TreeBuilder {
     LOGGER.info("Number of modules: " + modules.size());
 
     if (!modules.isEmpty()) {
-      for (ModuleInfo module : modules) {
-        VisualizationRequest moduleTemp =
+      for (final ModuleInfo module : modules) {
+        final VisualizationRequest moduleTemp =
           new VisualizationRequest(module.getId(), requestDTO.getViewType(),
             requestDTO.getFootprintMetricId(), requestDTO.getHeightMetricId());
 
-        SonarSnapshotBuilder builder = new SonarSnapshotBuilder(module.getId()).withPath(module.getName());
+        final SonarSnapshotBuilder builder = new SonarSnapshotBuilder(module.getId()).withPath(module.getName());
 
-        SonarSnapshot moduleElement = builder.build();
+        final SonarSnapshot moduleElement = builder.build();
         LOGGER.info(moduleElement.toString());
         pathWalker.addPath(moduleElement);
 
@@ -68,7 +68,7 @@ public class TreeBuilder {
     return pathWalker.getTree();
   }
 
-  private void addModuleToTreeWalker(PathWalker pathWalker, final VisualizationRequest requestDTO,
+  private void addModuleToTreeWalker(final PathWalker pathWalker, final VisualizationRequest requestDTO,
     final String moduleName) {
     final List<SonarSnapshot> flatChildren = this.daoService.getFlatChildrenWithMetrics(requestDTO);
 
@@ -81,7 +81,7 @@ public class TreeBuilder {
     }
   }
 
-  private List<ModuleInfo> getModules(int rootSnapshotId) {
+  private List<ModuleInfo> getModules(final int rootSnapshotId) {
     List<ModuleInfo> result = this.daoService.getDirectModuleChildrenIds(rootSnapshotId);
 
     if (result == null || result.isEmpty()) {

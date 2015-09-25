@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public class SnapshotStorageKey {
 
-  private String key;
+  private final String key;
 
   public SnapshotStorageKey(final VisualizationRequest requestDTO) {
     this.key = requestDTO.getRootSnapshotId() + "_"
@@ -38,10 +38,10 @@ public class SnapshotStorageKey {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    SnapshotStorageKey that = (SnapshotStorageKey) o;
+    final SnapshotStorageKey that = (SnapshotStorageKey) o;
     return Objects.equals(key, that.key);
   }
 

@@ -76,7 +76,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
     final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
 
-    final SnapshotTreeResult snapshotTreeResult = preProcessor.process(requestDTO, this.settings);
+    final SnapshotTreeResult snapshotTreeResult = preProcessor.process(requestDTO);
 
     final Map<Integer, ResultPlatform> visualizationResult;
     if (SoftVis3DPlugin.CACHE_ENABLED && layoutCacheService.containsKey(key)) {
@@ -105,7 +105,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
     jsonWriter.beginArray();
 
-    this.treeNodeJsonWriter.transformTreeToJsonBla(jsonWriter, snapshotTreeResult.getTree());
+    this.treeNodeJsonWriter.transformRootTreeToJson(jsonWriter, snapshotTreeResult.getTree());
     this.visualizationJsonWriter.transformResponseToJson(jsonWriter, visualizationResult);
 
     jsonWriter.endArray();
@@ -118,7 +118,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
   private Map<Integer, ResultPlatform> createLayout(final Integer id, final VisualizationRequest requestDTO,
     final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
     logStartOfCalc(requestDTO);
-    Map<Integer, ResultPlatform> result =
+    final Map<Integer, ResultPlatform> result =
       visualizationProcessor.visualize(this.settings, requestDTO, snapshotTreeResult);
 
     /**
@@ -131,17 +131,17 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     return result;
   }
 
-  private void logStartOfCalc(VisualizationRequest visualizationRequest) {
+  private void logStartOfCalc(final VisualizationRequest visualizationRequest) {
     LOGGER.info("Start layout calculation for snapshot " + visualizationRequest.getRootSnapshotId() + ", "
       + "metrics " + visualizationRequest.getHeightMetricId() + " and "
       + visualizationRequest.getFootprintMetricId());
   }
 
-  public void setSettings(Settings settings) {
+  public void setSettings(final Settings settings) {
     this.settings = settings;
   }
 
-  public void setDatabaseSession(DatabaseSession session) {
+  public void setDatabaseSession(final DatabaseSession session) {
     this.session = session;
   }
 }

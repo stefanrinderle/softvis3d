@@ -19,11 +19,10 @@
  */
 package de.rinderle.softvis3d.layout.dot;
 
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
-import static att.grappa.GrappaConstants.HEIGHT_ATTR;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by stefan on 29.05.15.
@@ -31,49 +30,15 @@ import static org.junit.Assert.assertEquals;
 public class ExecuteCommandTest {
 
   @Test
-  public void checkForAdotBugHeight() throws Exception {
-    final String value = "123";
+  public void testReadErrorStream() throws Exception {
+    final String result = new ExecuteCommand().executeCommandReadErrorStream("ls");
 
-    final String postFix = "idsuoisdufhoisufh";
-
-    final String check = HEIGHT_ATTR + "=" + value + "," + postFix;
-    final String expected = HEIGHT_ATTR + "=\"" + value + "\"," + postFix;
-
-    String result = ExecuteCommand.checkForAdotBug(check);
-
-    assertEquals(expected, result);
+    assertTrue(StringUtils.isEmpty(result));
   }
 
-  @Test
-  public void checkForAdotBugWidthAtEnd() throws Exception {
-    final String check = "width=0.27778];";
-    final String expected = "width=\"0.27778\"];";
-
-    String result = ExecuteCommand.checkForAdotBug(check);
-
-    assertEquals(expected, result);
+  @Test(expected = DotExecutorException.class)
+  public void testReadErrorStreamException() throws Exception {
+    new ExecuteCommand().executeCommandReadErrorStream("diushfsiudfhiuh");
   }
 
-  @Test
-  public void checkForAdotBugWidth() throws Exception {
-    final String check = "width=0.27778";
-    final String expected = "width=\"0.27778\"";
-
-    String result = ExecuteCommand.checkForAdotBug(check);
-
-    assertEquals(expected, result);
-  }
-
-  @Test
-  public void checkForAdotBugPenWidth() throws Exception {
-    final String value = "123";
-
-    final String postFix = "idsuoisdufhoisufh";
-
-    final String check = SoftVis3DConstants.GRAPH_ATTR_PENWIDTH + "=" + value + "," + postFix;
-
-    String result = ExecuteCommand.checkForAdotBug(check);
-
-    assertEquals("Do not add quotation marks if the attribute is the oen width", check, result);
-  }
 }

@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.layout.bottomUp;
+package de.rinderle.softvis3d.layout.bottomup;
 
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
@@ -36,8 +36,8 @@ import de.rinderle.softvis3d.domain.tree.Edge;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
-import de.rinderle.softvis3d.layout.bottomUp.grappa.GrappaEdgeFactory;
-import de.rinderle.softvis3d.layout.bottomUp.grappa.GrappaNodeFactory;
+import de.rinderle.softvis3d.layout.bottomup.grappa.GrappaEdgeFactory;
+import de.rinderle.softvis3d.layout.bottomup.grappa.GrappaNodeFactory;
 import de.rinderle.softvis3d.layout.dot.DotExecutor;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.layout.format.LayerFormatter;
@@ -145,7 +145,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     return LayeredLayoutElement.createLayeredLayoutElement(node, width, height, platformHeight, platformColor);
   }
 
-  private Graph createGrappaInputGraph(TreeNode node, List<LayeredLayoutElement> elements) {
+  private Graph createGrappaInputGraph(final TreeNode node, final List<LayeredLayoutElement> elements) {
     final Graph inputGraph = new Graph(node.getId().toString());
 
     for (final LayeredLayoutElement element : elements) {
@@ -165,7 +165,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
   public LayeredLayoutElement visitFile(final TreeNode leaf) {
     LOGGER.debug("Leaf : " + leaf.getId() + " " + leaf.getName());
 
-    boolean isDependencyNode =
+    final boolean isDependencyNode =
       TreeNodeType.DEPENDENCY_GENERATED.equals(leaf.getType())
         && LayoutViewType.DEPENDENCY.equals(this.viewType);
 
@@ -175,7 +175,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     final HexaColor color;
 
     if (isDependencyNode) {
-      DependencyTreeNode leafNode = (DependencyTreeNode) leaf;
+      final DependencyTreeNode leafNode = (DependencyTreeNode) leaf;
       final MinMaxValue minMaxDependencies =
         new MinMaxValue(0.0, Integer.valueOf(dependenciesCount).doubleValue());
       sideLength =
@@ -187,7 +187,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
       // not used, will be overriden somewhere
       color = new HexaColor(255, 255, 255);
     } else {
-      ValueTreeNode leafNode = (ValueTreeNode) leaf;
+      final ValueTreeNode leafNode = (ValueTreeNode) leaf;
       sideLength = this.formatter.calcSideLength(leafNode.getFootprintMetricValue(), this.minMaxMetricFootprint);
 
       buildingHeight =

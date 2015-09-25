@@ -36,10 +36,10 @@ public class ScmCalculationService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ScmCalculationService.class);
 
-  private static final SimpleDateFormat SCM_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+  private final SimpleDateFormat SCM_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
-  public int getDifferentAuthors(String scmCommitterString, String scmTimeString) {
-    int authorCount;
+  public int getDifferentAuthors(final String scmCommitterString, final String scmTimeString) {
+    final int authorCount;
 
     if (StringUtils.isBlank(scmCommitterString)) {
       authorCount = 0;
@@ -52,11 +52,11 @@ public class ScmCalculationService {
     return authorCount;
   }
 
-  private List<ScmInfo> extractScmInfo(String scmCommitterString, String scmTimeString) {
+  private List<ScmInfo> extractScmInfo(final String scmCommitterString, final String scmTimeString) {
     final String[] resultCommitter = scmCommitterString.split(";");
     String[] resultScmTime = new String[0];
 
-    boolean isTimeGiven = !StringUtils.isBlank(scmTimeString);
+    final boolean isTimeGiven = !StringUtils.isBlank(scmTimeString);
     if (isTimeGiven) {
       resultScmTime = scmTimeString.split(";");
     }
@@ -81,10 +81,10 @@ public class ScmCalculationService {
     return resultList;
   }
 
-  private Date getDate(String source) {
+  private Date getDate(final String source) {
     try {
       return SCM_DATE_FORMAT.parse(source);
-    } catch (ParseException e) {
+    } catch (final ParseException e) {
       LOGGER.error("Could not parse date " + source, e);
       return new Date();
     }
@@ -96,10 +96,10 @@ public class ScmCalculationService {
     return usersResultList.size();
   }
 
-  private Map<String, Integer> getUsersWithLineCount(List<ScmInfo> resultList) {
+  private Map<String, Integer> getUsersWithLineCount(final List<ScmInfo> resultList) {
     final Map<String, Integer> usersResultList = new HashMap<String, Integer>();
 
-    for (ScmInfo current : resultList) {
+    for (final ScmInfo current : resultList) {
       if (!usersResultList.containsKey(current.getCommitter())) {
         usersResultList.put(current.getCommitter(), 1);
       } else {

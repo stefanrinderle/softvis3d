@@ -34,7 +34,7 @@ import static att.grappa.GrappaConstants.WIDTH_ATTR;
 
 public class ExecuteCommand {
 
-  static String checkForAdotBug(String line) {
+  static String checkForAdotBug(final String line) {
     String result = line;
     if (result.contains(HEIGHT_ATTR)) {
       result = addQuotationMarks(result, HEIGHT_ATTR);
@@ -50,7 +50,7 @@ public class ExecuteCommand {
     return result;
   }
 
-  private static String addQuotationMarks(String line, final String attrName) {
+  private static String addQuotationMarks(final String line, final String attrName) {
     String result = line.replace(attrName + "=", attrName + "=\"");
     result = result.replace(",", "\",");
     return result;

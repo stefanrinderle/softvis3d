@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class TreeNodeJsonWriter {
 
-  public void transformTreeToJsonBla(final JsonWriter jsonWriter, final RootTreeNode tree) {
+  public void transformRootTreeToJson(final JsonWriter jsonWriter, final RootTreeNode tree) {
     jsonWriter.beginObject();
 
     jsonWriter.name("treeResult");
@@ -72,7 +72,7 @@ public class TreeNodeJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void transformDependencies(JsonWriter jsonWriter, RootTreeNode node) {
+  private void transformDependencies(final JsonWriter jsonWriter, final RootTreeNode node) {
     jsonWriter.name("dependencies");
     jsonWriter.beginArray();
 
@@ -83,7 +83,7 @@ public class TreeNodeJsonWriter {
     jsonWriter.endArray();
   }
 
-  private void transformDependency(JsonWriter jsonWriter, Dependency dependency) {
+  private void transformDependency(final JsonWriter jsonWriter, final Dependency dependency) {
     jsonWriter.beginObject();
     jsonWriter.prop("id", dependency.getId());
     jsonWriter.prop("sourceId", dependency.getFromNodeId());
@@ -93,9 +93,9 @@ public class TreeNodeJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void optionalTransformMetricValues(JsonWriter jsonWriter, TreeNode node) {
+  private void optionalTransformMetricValues(final JsonWriter jsonWriter, final TreeNode node) {
     if (node instanceof ValueTreeNode) {
-      ValueTreeNode valueNode = (ValueTreeNode) node;
+      final ValueTreeNode valueNode = (ValueTreeNode) node;
       jsonWriter.prop("heightMetricValue", valueNode.getHeightMetricValue());
       jsonWriter.prop("footprintMetricValue", valueNode.getFootprintMetricValue());
       jsonWriter.prop("authorCount", valueNode.getAuthorCount());
@@ -126,7 +126,7 @@ public class TreeNodeJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void transformIncludingDependencies(JsonWriter jsonWriter, List<Long> includingDependencies) {
+  private void transformIncludingDependencies(final JsonWriter jsonWriter, final List<Long> includingDependencies) {
     jsonWriter.name("includingDependencies");
     jsonWriter.beginArray();
 

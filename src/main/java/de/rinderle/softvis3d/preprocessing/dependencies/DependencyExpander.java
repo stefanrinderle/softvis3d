@@ -44,7 +44,7 @@ public class DependencyExpander {
     }
   }
 
-  private Dependency processSourceDependency(RootTreeNode treeRootNode, SonarDependency sonarDependency) {
+  private Dependency processSourceDependency(final RootTreeNode treeRootNode, final SonarDependency sonarDependency) {
     final Integer sourceId = sonarDependency.getFromSnapshotId();
     final Integer destinationId = sonarDependency.getToSnapshotId();
 
@@ -82,7 +82,7 @@ public class DependencyExpander {
     }
   }
 
-  private void createDependencyPath(TreeNode source, TreeNode dest, final Long dependencyId) {
+  private void createDependencyPath(final TreeNode source, final TreeNode dest, final Long dependencyId) {
     TreeNode sourceResult = source;
     TreeNode destinationResult = dest;
 
@@ -129,7 +129,7 @@ public class DependencyExpander {
     final DependencyTreeNode depNode = this.getInterfaceNode(treeNode.getParent());
     depNode.increaseCounter();
 
-    Edge edge;
+    final Edge edge;
     final String depEdgeLabel;
     // always attach edge to source node
     if (isOut) {
