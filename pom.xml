@@ -39,9 +39,9 @@
   </issueManagement>
 
   <scm>
-    <url>http://github.com/stefanrinderle/sonar-softvis3d-plugin</url>
-    <connection>scm:git:git://github.com/stefanrinderle/sonar-softvis3d-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:stefanrinderle/sonar-softvis3d-plugin.git</developerConnection>
+    <url>https://github.com/stefanrinderle/sonar-softvis3d-plugin</url>
+    <connection>scm:git:https://github.com/stefanrinderle/sonar-softvis3d-plugin.git</connection>
+    <developerConnection>scm:git:https://github.com/stefanrinderle/sonar-softvis3d-plugin.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
