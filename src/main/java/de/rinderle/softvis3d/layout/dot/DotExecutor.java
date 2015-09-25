@@ -27,6 +27,7 @@ import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.layout.helper.StringOutputStream;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
@@ -95,11 +96,14 @@ public class DotExecutor {
 
         final int lastIndex = dotBin.lastIndexOf("/");
         final String translationBin = dotBin.substring(0, lastIndex + 1);
-        final String translationCommand =
+        String translationCommand =
           translationBin + "gvpr -c -f " + this.translationFile.getAbsolutePath();
 
-        LOGGER.debug("Translation command " + translationCommand);
+        if (SystemUtils.IS_OS_WINDOWS) {
+          translationCommand = translationCommand.replace("\\", "/");
+        }
 
+        LOGGER.debug("Translation command " + translationCommand);
         adot = this.executeCommand.executeCommandReadAdot(translationCommand, adot, currentVersion);
       } catch (final IOException e) {
         throw new DotExecutorException("Error on create temp file", e);
