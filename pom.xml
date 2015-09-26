@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>sonar-softVis3D-plugin</artifactId>
-  <version>0.3.3</version>
+  <version>0.3.4-SNAPSHOT</version>
 
   <packaging>sonar-plugin</packaging>
 
@@ -42,7 +42,7 @@
     <url>scm:git:git@github.com:stefanrinderle/sonar-softvis3d-plugin.git</url>
     <connection>scm:git:git@github.com:stefanrinderle/sonar-softvis3d-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:stefanrinderle/sonar-softvis3d-plugin.git</developerConnection>
-    <tag>sonar-softVis3D-plugin-0.3.3</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
