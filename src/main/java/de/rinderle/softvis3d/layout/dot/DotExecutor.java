@@ -94,7 +94,14 @@ public class DotExecutor {
           IOUtils.copy(file, out);
         }
 
-        final int lastIndex = dotBin.lastIndexOf("/");
+        final int lastIndex;
+
+        if (SystemUtils.IS_OS_WINDOWS) {
+          lastIndex = dotBin.lastIndexOf("\\");
+        } else {
+          lastIndex = dotBin.lastIndexOf("/");
+        }
+
         final String translationBin = dotBin.substring(0, lastIndex + 1);
         String translationCommand =
           translationBin + "gvpr -c -f " + this.translationFile.getAbsolutePath();
@@ -103,7 +110,6 @@ public class DotExecutor {
           translationCommand = translationCommand.replace("\\", "/");
         }
 
-        LOGGER.debug("Translation command " + translationCommand);
         adot = this.executeCommand.executeCommandReadAdot(translationCommand, adot, currentVersion);
       } catch (final IOException e) {
         throw new DotExecutorException("Error on create temp file", e);

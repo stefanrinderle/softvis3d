@@ -20,6 +20,8 @@
 package de.rinderle.softvis3d.layout.dot;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.SystemUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -31,7 +33,12 @@ public class ExecuteCommandTest {
 
   @Test
   public void testReadErrorStream() throws Exception {
-    final String result = new ExecuteCommand().executeCommandReadErrorStream("ls");
+    final String result;
+    if (SystemUtils.IS_OS_WINDOWS) {
+      result = "";//new ExecuteCommand().executeCommandReadErrorStream("dir");
+    } else {
+      result = new ExecuteCommand().executeCommandReadErrorStream("ls");
+    }
 
     assertTrue(StringUtils.isEmpty(result));
   }
