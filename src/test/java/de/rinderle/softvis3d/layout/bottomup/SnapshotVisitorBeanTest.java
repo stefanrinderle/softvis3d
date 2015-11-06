@@ -51,14 +51,13 @@ public class SnapshotVisitorBeanTest {
 
   @Test
   public void testVisitFile() throws Exception {
-    final int id = 1;
+    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.AUTHOR_COUNT);
 
     final DaoService daoService = mock(DaoService.class);
-    when(daoService.getMinMaxMetricValuesByRootSnapshotId(eq(id), anyInt())).thenReturn(new MinMaxValue(0.0, 10.0));
-    when(daoService.getMaxScmInfo(eq(id), eq(ScmInfoType.AUTHOR_COUNT))).thenReturn(10);
+    when(daoService.getMinMaxMetricValuesByRootSnapshotId(eq(requestDTO.getRootSnapshotId()), anyInt())).thenReturn(new MinMaxValue(0.0, 10.0));
+    when(daoService.getMaxScmInfo(eq(requestDTO))).thenReturn(10);
 
     final Settings settings = new Settings();
-    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.AUTHOR_COUNT);
     final SnapshotVisitorBean visitorBean =
       new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, daoService, settings, requestDTO);
 

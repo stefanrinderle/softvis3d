@@ -203,8 +203,7 @@ public class SonarDao {
     try {
       return (String) query.getSingleResult();
     } catch (final NoResultException e) {
-      LOGGER.info(
-              "getMetricText for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage(), e);
+      LOGGER.info("getMetricText for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage());
       return null;
     }
   }

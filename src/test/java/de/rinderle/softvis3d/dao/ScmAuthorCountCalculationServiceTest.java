@@ -19,6 +19,8 @@
  */
 package de.rinderle.softvis3d.dao;
 
+import de.rinderle.softvis3d.dao.scm.ScmAuthorCountCalculationService;
+import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
 import java.text.ParseException;
 import org.junit.Test;
 

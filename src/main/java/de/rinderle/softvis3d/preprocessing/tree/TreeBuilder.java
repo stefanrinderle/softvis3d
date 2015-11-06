@@ -21,7 +21,6 @@ package de.rinderle.softvis3d.preprocessing.tree;
 
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.dao.DaoService;
-import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
@@ -51,7 +50,7 @@ public class TreeBuilder {
       for (final ModuleInfo module : modules) {
         final VisualizationRequest moduleTemp =
           new VisualizationRequest(module.getId(), requestDTO.getViewType(),
-            requestDTO.getFootprintMetricId(), requestDTO.getHeightMetricId(), ScmInfoType.AUTHOR_COUNT);
+            requestDTO.getFootprintMetricId(), requestDTO.getHeightMetricId(), requestDTO.getScmInfoType());
 
         final SonarSnapshotBuilder builder = new SonarSnapshotBuilder(module.getId()).withPath(module.getName());
 

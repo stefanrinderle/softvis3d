@@ -27,7 +27,6 @@ import com.google.inject.assistedinject.Assisted;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
-import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
@@ -91,7 +90,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
         requestDTO.getHeightMetricId());
 
     this.dependenciesCount = daoService.getDependencies(requestDTO.getRootSnapshotId()).size();
-    this.maxScmInfo = daoService.getMaxScmInfo(requestDTO.getRootSnapshotId(), ScmInfoType.AUTHOR_COUNT);
+    this.maxScmInfo = daoService.getMaxScmInfo(requestDTO);
 
     LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxMetricFootprint.toString()
       + " " + minMaxMetricHeight.toString() + " Dependencies: " + this.dependenciesCount);

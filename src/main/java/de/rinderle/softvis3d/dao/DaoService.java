@@ -21,6 +21,7 @@ package de.rinderle.softvis3d.dao;
 
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
+import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
@@ -86,12 +87,12 @@ public class DaoService {
     return this.sonarDao.getDirectModuleChildrenIds(snapshotId);
   }
 
-  public int getMaxScmInfo(final int rootSnapshotId, final ScmInfoType scmInfoType) {
+  public int getMaxScmInfo(final VisualizationRequest requestDTO) {
     int maxScmMetricValue = 0;
 
-    final ScmCalculationService scmCalculationService = getCalculationService(scmInfoType);
+    final ScmCalculationService scmCalculationService = getCalculationService(requestDTO.getScmInfoType());
 
-    final List<MetricResultDTO<String>> scmCommitter = getScmAuthors(rootSnapshotId);
+    final List<MetricResultDTO<String>> scmCommitter = getScmAuthors(requestDTO.getRootSnapshotId());
     for (final MetricResultDTO<String> aScmCommitter : scmCommitter) {
       final int nodeScmMetricValue = scmCalculationService.getNodeValue(aScmCommitter.getValue(), "");
 

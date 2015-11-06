@@ -20,6 +20,7 @@
 package de.rinderle.softvis3d.dao;
 
 import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
+import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.Metric;
 import de.rinderle.softvis3d.domain.MinMaxValue;
@@ -199,21 +200,21 @@ public class DaoServiceTest {
 
   @Test
   public void testGetMaxScmInfo() throws Exception {
-    final int snapshotId = 12;
+    final VisualizationRequest requestDTO = new VisualizationRequest(12, LayoutViewType.CITY, 1, 20, ScmInfoType.AUTHOR_COUNT);
 
     final Integer authorMetricId = 14;
     when(sonarDao.getMetricIdByKey(eq(DaoService.SCM_AUTHOR_NAME))).thenReturn(authorMetricId);
     final List<MetricResultDTO<String>> metricResults = new ArrayList<>();
     final MetricResultDTO<String> metricResultDTO = new MetricResultDTO<>(1, "stefan@inderle.info");
     metricResults.add(metricResultDTO);
-    when(sonarDao.getMetricTextForAllProjectElementsWithMetric(eq(snapshotId), eq(authorMetricId))).thenReturn(metricResults);
+    when(sonarDao.getMetricTextForAllProjectElementsWithMetric(eq(requestDTO.getRootSnapshotId()), eq(authorMetricId))).thenReturn(metricResults);
 
     when(daoService.getCalculationService(ScmInfoType.AUTHOR_COUNT)).thenReturn(scmCalculationService);
 
     final int expectedResult = 4;
     when(scmCalculationService.getNodeValue(anyString(), anyString())).thenReturn(expectedResult);
 
-    final int result = daoService.getMaxScmInfo(snapshotId, ScmInfoType.AUTHOR_COUNT);
+    final int result = daoService.getMaxScmInfo(requestDTO);
 
     assertEquals(expectedResult, result);
   }

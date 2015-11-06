@@ -19,8 +19,8 @@
  */
 package de.rinderle.softvis3d.domain;
 
-import de.rinderle.softvis3d.dao.ScmAuthorCountCalculationService;
-import de.rinderle.softvis3d.dao.ScmCalculationService;
+import de.rinderle.softvis3d.dao.scm.ScmAuthorCountCalculationService;
+import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
 
 /**
  * Specifies, which type of SCM info should be used for the color of the buildings.
