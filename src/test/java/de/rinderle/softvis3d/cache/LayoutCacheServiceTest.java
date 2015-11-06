@@ -21,13 +21,13 @@ package de.rinderle.softvis3d.cache;
 
 import att.grappa.Graph;
 import de.rinderle.softvis3d.domain.LayoutViewType;
+import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
-import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -60,7 +60,7 @@ public class LayoutCacheServiceTest {
   }
 
   private SnapshotStorageKey getSnapshotStorageKey(final int id) {
-    final VisualizationRequest requestDto = new VisualizationRequest(id, LayoutViewType.CITY, 1, 1);
+    final VisualizationRequest requestDto = new VisualizationRequest(id, LayoutViewType.CITY, 1, 1, ScmInfoType.AUTHOR_COUNT);
     return new SnapshotStorageKey(requestDto);
   }
 }

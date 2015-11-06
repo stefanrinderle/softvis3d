@@ -19,9 +19,6 @@
  */
 package de.rinderle.softvis3d.domain;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 public class VisualizationRequest {
 
   private final int rootSnapshotId;
@@ -31,13 +28,16 @@ public class VisualizationRequest {
   private final int footprintMetricId;
   private final int heightMetricId;
 
-  public VisualizationRequest(final int rootSnapshotId, final LayoutViewType viewType, final int footprintMetricId, final int heightMetricId) {
+  private final ScmInfoType scmInfoType;
+
+  public VisualizationRequest(final int rootSnapshotId, final LayoutViewType viewType, final int footprintMetricId, final int heightMetricId, ScmInfoType scmInfoType) {
     this.rootSnapshotId = rootSnapshotId;
 
     this.viewType = viewType;
 
     this.footprintMetricId = footprintMetricId;
     this.heightMetricId = heightMetricId;
+    this.scmInfoType = scmInfoType;
   }
 
   public int getRootSnapshotId() {
@@ -56,39 +56,43 @@ public class VisualizationRequest {
     return this.heightMetricId;
   }
 
-  @Override
-  public String toString() {
-    return "VisualizationRequest{" + "rootSnapshotId=" + rootSnapshotId + ", viewType=" + viewType
-      + ", footprintMetricId=" + footprintMetricId + ", heightMetricId=" + heightMetricId + '}';
+  public ScmInfoType getScmInfoType() {
+    return scmInfoType;
   }
 
   @Override
-  public boolean equals(final Object o) {
-    if (this == o) {
-      return true;
-    }
+  public String toString() {
+    return "VisualizationRequest{" +
+            "rootSnapshotId=" + rootSnapshotId +
+            ", viewType=" + viewType +
+            ", footprintMetricId=" + footprintMetricId +
+            ", heightMetricId=" + heightMetricId +
+            ", scmInfoType=" + scmInfoType +
+            '}';
+  }
 
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
 
-    final VisualizationRequest that = (VisualizationRequest) o;
+    VisualizationRequest that = (VisualizationRequest) o;
 
-    return new EqualsBuilder()
-      .append(rootSnapshotId, that.rootSnapshotId)
-      .append(footprintMetricId, that.footprintMetricId)
-      .append(heightMetricId, that.heightMetricId)
-      .append(viewType, that.viewType)
-      .isEquals();
+    if (rootSnapshotId != that.rootSnapshotId) return false;
+    if (footprintMetricId != that.footprintMetricId) return false;
+    if (heightMetricId != that.heightMetricId) return false;
+    if (viewType != that.viewType) return false;
+    return scmInfoType == that.scmInfoType;
+
   }
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder(17, 37)
-      .append(rootSnapshotId)
-      .append(viewType)
-      .append(footprintMetricId)
-      .append(heightMetricId)
-      .toHashCode();
+    int result = rootSnapshotId;
+    result = 31 * result + viewType.hashCode();
+    result = 31 * result + footprintMetricId;
+    result = 31 * result + heightMetricId;
+    result = 31 * result + scmInfoType.hashCode();
+    return result;
   }
 }

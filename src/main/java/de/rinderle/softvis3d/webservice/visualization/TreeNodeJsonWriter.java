@@ -24,10 +24,9 @@ import de.rinderle.softvis3d.domain.tree.Edge;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
-import org.sonar.api.utils.text.JsonWriter;
-
 import java.util.List;
 import java.util.Map;
+import org.sonar.api.utils.text.JsonWriter;
 
 public class TreeNodeJsonWriter {
 
@@ -98,7 +97,7 @@ public class TreeNodeJsonWriter {
       final ValueTreeNode valueNode = (ValueTreeNode) node;
       jsonWriter.prop("heightMetricValue", valueNode.getHeightMetricValue());
       jsonWriter.prop("footprintMetricValue", valueNode.getFootprintMetricValue());
-      jsonWriter.prop("authorCount", valueNode.getAuthorCount());
+      jsonWriter.prop("scmMetricValue", valueNode.getScmMetricValue());
     }
   }
 

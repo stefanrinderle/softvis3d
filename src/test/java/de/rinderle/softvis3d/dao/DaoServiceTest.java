@@ -23,21 +23,22 @@ import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.Metric;
 import de.rinderle.softvis3d.domain.MinMaxValue;
+import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
 import de.rinderle.softvis3d.domain.sonar.SonarDependencyBuilder;
 import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.sonar.api.config.Settings;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -59,6 +60,7 @@ public class DaoServiceTest {
   private ScmCalculationService scmCalculationService;
 
   @InjectMocks
+  @Spy
   private DaoService daoService;
 
   @Before
@@ -171,7 +173,7 @@ public class DaoServiceTest {
   @Test
   public void testGetFlatChildrenWithMetricsEmpty() throws Exception {
     final int snapshotId = 12;
-    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 20, ScmInfoType.AUTHOR_COUNT);
 
     final List<MetricResultDTO<Integer>> snapshots = new ArrayList<>();
 
@@ -184,7 +186,7 @@ public class DaoServiceTest {
   @Test
   public void testGetFlatChildrenWithMetrics() throws Exception {
     final int snapshotId = 12;
-    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 20, ScmInfoType.AUTHOR_COUNT);
 
     final List<MetricResultDTO<Integer>> snapshots = new ArrayList<>();
     final MetricResultDTO<Integer> metricResultDTO = new MetricResultDTO<>(1, 20);
@@ -206,11 +208,12 @@ public class DaoServiceTest {
     metricResults.add(metricResultDTO);
     when(sonarDao.getMetricTextForAllProjectElementsWithMetric(eq(snapshotId), eq(authorMetricId))).thenReturn(metricResults);
 
+    when(daoService.getCalculationService(ScmInfoType.AUTHOR_COUNT)).thenReturn(scmCalculationService);
+
     final int expectedResult = 4;
+    when(scmCalculationService.getNodeValue(anyString(), anyString())).thenReturn(expectedResult);
 
-    when(scmCalculationService.getDifferentAuthors(anyString(), anyString())).thenReturn(expectedResult);
-
-    final int result = daoService.getMaxScmInfo(snapshotId);
+    final int result = daoService.getMaxScmInfo(snapshotId, ScmInfoType.AUTHOR_COUNT);
 
     assertEquals(expectedResult, result);
   }

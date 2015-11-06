@@ -22,6 +22,7 @@ package de.rinderle.softvis3d.layout.bottomup;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
+import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
@@ -54,9 +55,10 @@ public class SnapshotVisitorBeanTest {
 
     final DaoService daoService = mock(DaoService.class);
     when(daoService.getMinMaxMetricValuesByRootSnapshotId(eq(id), anyInt())).thenReturn(new MinMaxValue(0.0, 10.0));
+    when(daoService.getMaxScmInfo(eq(id), eq(ScmInfoType.AUTHOR_COUNT))).thenReturn(10);
 
     final Settings settings = new Settings();
-    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.AUTHOR_COUNT);
     final SnapshotVisitorBean visitorBean =
       new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, daoService, settings, requestDTO);
 
@@ -72,7 +74,7 @@ public class SnapshotVisitorBeanTest {
     when(daoService.getMinMaxMetricValuesByRootSnapshotId(eq(id), anyInt())).thenReturn(new MinMaxValue(0.0, 10.0));
 
     final Settings settings = new Settings();
-    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20, ScmInfoType.AUTHOR_COUNT);
     final SnapshotVisitorBean visitorBean =
       new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, daoService, settings, requestDTO);
 

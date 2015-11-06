@@ -22,20 +22,20 @@ package de.rinderle.softvis3d.postprocessing;
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import de.rinderle.softvis3d.domain.LayoutViewType;
+import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.layout.format.GrappaGraphTestFactory;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by stefan on 12.07.15.
@@ -61,7 +61,7 @@ public class PostProcessorTest {
     platform.setBoundingBox(new GrappaBox(0, 0, 100, 200));
     resultGraphs.put(id, platform);
 
-    final VisualizationRequest requestDTO = new VisualizationRequest(id, LayoutViewType.CITY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(id, LayoutViewType.CITY, 1, 20, ScmInfoType.AUTHOR_COUNT);
     final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
     final SnapshotTreeResult treeResult = new SnapshotTreeResult(key, new RootTreeNode(id));
 
@@ -78,7 +78,7 @@ public class PostProcessorTest {
     platform.setBoundingBox(new GrappaBox(0, 0, 100, 200));
     resultGraphs.put(id, platform);
 
-    final VisualizationRequest requestDTO = new VisualizationRequest(id, LayoutViewType.CITY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(id, LayoutViewType.CITY, 1, 20, ScmInfoType.AUTHOR_COUNT);
     final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
     final SnapshotTreeResult treeResult = new SnapshotTreeResult(key, new RootTreeNode(id));
 

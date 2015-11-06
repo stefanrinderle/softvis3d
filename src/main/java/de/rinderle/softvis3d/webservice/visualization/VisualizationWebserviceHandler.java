@@ -24,6 +24,7 @@ import de.rinderle.softvis3d.SoftVis3DPlugin;
 import de.rinderle.softvis3d.VisualizationProcessor;
 import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
+import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
@@ -31,6 +32,7 @@ import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
@@ -39,8 +41,6 @@ import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
-
-import java.util.Map;
 
 public class VisualizationWebserviceHandler extends AbstractWebserviceHandler implements RequestHandler {
 
@@ -70,7 +70,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
 
     final LayoutViewType type = LayoutViewType.valueOfRequest(request.param("viewType"));
-    final VisualizationRequest requestDTO = new VisualizationRequest(id, type, footprintMetricId, heightMetricId);
+    final VisualizationRequest requestDTO = new VisualizationRequest(id, type, footprintMetricId, heightMetricId, ScmInfoType.AUTHOR_COUNT);
 
     LOGGER.info("VisualizationWebserviceHandler " + requestDTO.toString());
 

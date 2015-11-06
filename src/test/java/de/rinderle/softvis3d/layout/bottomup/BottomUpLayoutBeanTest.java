@@ -21,6 +21,7 @@ package de.rinderle.softvis3d.layout.bottomup;
 
 import de.rinderle.softvis3d.TestTreeBuilder;
 import de.rinderle.softvis3d.domain.LayoutViewType;
+import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
@@ -28,12 +29,11 @@ import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -58,7 +58,7 @@ public class BottomUpLayoutBeanTest {
   @Test
   public void testAccept() throws Exception {
     final int snapshotId = 1;
-    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 1);
+    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 1, ScmInfoType.AUTHOR_COUNT);
     final SnapshotStorageKey storageKey = new SnapshotStorageKey(requestDTO);
 
     final RootTreeNode tree = new RootTreeNode(snapshotId);

@@ -24,7 +24,7 @@ public class SonarSnapshot {
   private final int id;
   private final double footprintMetricValue;
   private final double heightMetricValue;
-  private final int authorCount;
+  private final int scmMetricValue;
   private String path;
 
   public SonarSnapshot(final SonarSnapshotBuilder snapshotBuilder) {
@@ -32,7 +32,7 @@ public class SonarSnapshot {
     this.path = snapshotBuilder.path;
     this.footprintMetricValue = snapshotBuilder.footprintMetricValue;
     this.heightMetricValue = snapshotBuilder.heightMetricValue;
-    this.authorCount = snapshotBuilder.authorCount;
+    this.scmMetricValue = snapshotBuilder.scmMetricValue;
   }
 
   public int getId() {
@@ -55,8 +55,8 @@ public class SonarSnapshot {
     return heightMetricValue;
   }
 
-  public int getAuthorCount() {
-    return authorCount;
+  public int getScmMetricValue() {
+    return scmMetricValue;
   }
 
   @Override

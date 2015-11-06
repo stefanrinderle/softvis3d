@@ -26,7 +26,6 @@ import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultBuilding;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
-import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,10 +117,9 @@ public class LayerFormatter {
     return counter;
   }
 
-  public HexaColor getScmColorInfo(final ValueTreeNode leafNode, final int maxScmValue) {
-
+  public HexaColor getScmColorInfo(final int nodeScmValue, final int maxScmValue) {
     if (SoftVis3DPlugin.HAS_SCM_FEATURE) {
-      return makeColor(leafNode.getAuthorCount(), maxScmValue);
+      return makeColor(nodeScmValue, maxScmValue);
     } else {
       return SoftVis3DConstants.BUILDING_COLOR;
     }
@@ -130,8 +128,8 @@ public class LayerFormatter {
   /**
    * Value between 0 and 510.
    */
-  private HexaColor makeColor(final int authorCount, final double maxScmValue) {
-    int valueBetween0And510 = (int) (((double) authorCount / maxScmValue) * 510);
+  private HexaColor makeColor(final int nodeValue, final double maxValue) {
+    int valueBetween0And510 = (int) (((double) nodeValue / maxValue) * 510);
 
     int newGreenValue;
     final int newRedValue;

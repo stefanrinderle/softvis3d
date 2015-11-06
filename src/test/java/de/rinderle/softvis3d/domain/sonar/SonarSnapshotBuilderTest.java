@@ -34,12 +34,12 @@ public class SonarSnapshotBuilderTest {
     final double footprint = 12.34;
     final double height = 23.45;
     final String path = "/path/to/file";
-    final int authorCount = 234;
+    final int scmMetricValue = 234;
     final SonarSnapshotBuilder builder = new SonarSnapshotBuilder(id)
       .withFootprintMeasure(footprint)
       .withHeightMeasure(height)
       .withPath(path)
-      .differentAuthors(authorCount);
+      .withScmMetric(scmMetricValue);
 
     final SonarSnapshot result = builder.build();
 
@@ -47,7 +47,7 @@ public class SonarSnapshotBuilderTest {
     assertEquals(height, result.getHeightMetricValue(), 0.0);
     assertEquals(footprint, result.getFootprintMetricValue(), 0.0);
     assertEquals(path, result.getPath());
-    assertEquals(authorCount, result.getAuthorCount());
+    assertEquals(scmMetricValue, result.getScmMetricValue());
   }
 
 }

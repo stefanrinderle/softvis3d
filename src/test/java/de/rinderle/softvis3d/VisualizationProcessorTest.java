@@ -20,6 +20,7 @@
 package de.rinderle.softvis3d;
 
 import de.rinderle.softvis3d.domain.LayoutViewType;
+import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
@@ -27,15 +28,14 @@ import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.layout.LayoutProcessor;
 import de.rinderle.softvis3d.postprocessing.PostProcessor;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.sonar.api.config.Settings;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.eq;
@@ -63,7 +63,7 @@ public class VisualizationProcessorTest {
   @Test
   public void testVisualize() throws Exception {
     final Settings settings = new Settings();
-    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.AUTHOR_COUNT);
     final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
     final RootTreeNode tree = new RootTreeNode(1);
     final SnapshotTreeResult snapShotTreeResult = new SnapshotTreeResult(key, tree);

@@ -19,26 +19,17 @@
  */
 package de.rinderle.softvis3d.domain;
 
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import de.rinderle.softvis3d.dao.ScmAuthorCountCalculationService;
+import de.rinderle.softvis3d.dao.ScmCalculationService;
 
 /**
- * Wrapper class for a visualization request.
+ * Specifies, which type of SCM info should be used for the color of the buildings.
  */
-public class VisualizationRequestTest {
+public enum ScmInfoType {
 
-  @Test
-  public void testHashCode() throws Exception {
-    VisualizationRequest request1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.AUTHOR_COUNT);
-    VisualizationRequest request2 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.AUTHOR_COUNT);
+    AUTHOR_COUNT;
 
-    assertEquals(request1.hashCode(), request2.hashCode());
-
-    request1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.AUTHOR_COUNT);
-    request2 = new VisualizationRequest(2, LayoutViewType.CITY, 1, 20, ScmInfoType.AUTHOR_COUNT);
-
-    assertNotEquals(request1.hashCode(), request2.hashCode());
-  }
+    public ScmCalculationService getCalculationService() {
+        return new ScmAuthorCountCalculationService();
+    }
 }

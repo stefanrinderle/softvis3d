@@ -24,6 +24,10 @@ import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
 import de.rinderle.softvis3d.domain.Metric;
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.database.DatabaseSession;
@@ -31,12 +35,6 @@ import org.sonar.api.database.model.MeasureModel;
 import org.sonar.api.database.model.ResourceModel;
 import org.sonar.api.database.model.Snapshot;
 import org.sonar.api.resources.Qualifiers;
-
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Use singleton to set the database session once on startup and to be sure that it is set on any other injection.
@@ -205,8 +203,8 @@ public class SonarDao {
     try {
       return (String) query.getSingleResult();
     } catch (final NoResultException e) {
-      LOGGER.error(
-        "getMetricText for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage(), e);
+      LOGGER.info(
+              "getMetricText for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage(), e);
       return null;
     }
   }

@@ -19,26 +19,25 @@
  */
 package de.rinderle.softvis3d.dao;
 
-import org.junit.Test;
-
 import java.text.ParseException;
+import org.junit.Test;
 
 import static org.junit.Assert.assertSame;
 
-public class ScmCalculationServiceTest {
+public class ScmAuthorCountCalculationServiceTest {
 
-  private final ScmCalculationService scmCalculationService = new ScmCalculationService();
+  private final ScmCalculationService scmCalculationService = new ScmAuthorCountCalculationService();
 
   @Test
-  public void testFirstExample() throws ParseException {
-    final int differentUsers = scmCalculationService.getDifferentAuthors(getFirstExample(), getFirstExampleTime());
+  public void testDifferentUsersFirstExample() throws ParseException {
+    final int differentUsers = scmCalculationService.getNodeValue(getFirstExample(), getFirstExampleTime());
     assertSame(3, differentUsers);
   }
 
   @Test
-  public void testSecondExample() throws ParseException {
+  public void testDifferentUsersSecondExample() throws ParseException {
     final int differentUsers =
-      scmCalculationService.getDifferentAuthors(getSecondExample(), getSecondExampleTime());
+      scmCalculationService.getNodeValue(getSecondExample(), getSecondExampleTime());
     assertSame(2, differentUsers);
   }
 

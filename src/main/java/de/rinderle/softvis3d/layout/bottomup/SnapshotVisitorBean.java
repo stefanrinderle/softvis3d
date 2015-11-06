@@ -27,6 +27,7 @@ import com.google.inject.assistedinject.Assisted;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
+import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
@@ -42,13 +43,12 @@ import de.rinderle.softvis3d.layout.dot.DotExecutor;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.layout.format.LayerFormatter;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
 
 public class SnapshotVisitorBean implements SnapshotVisitor {
 
@@ -91,8 +91,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
         requestDTO.getHeightMetricId());
 
     this.dependenciesCount = daoService.getDependencies(requestDTO.getRootSnapshotId()).size();
-
-    this.maxScmInfo = daoService.getMaxScmInfo(requestDTO.getRootSnapshotId());
+    this.maxScmInfo = daoService.getMaxScmInfo(requestDTO.getRootSnapshotId(), ScmInfoType.AUTHOR_COUNT);
 
     LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxMetricFootprint.toString()
       + " " + minMaxMetricHeight.toString() + " Dependencies: " + this.dependenciesCount);
@@ -198,7 +197,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
       buildingHeight = buildingHeight * SoftVis3DConstants.BUILDING_HEIGHT_MULTIPLIER;
       buildingHeight = Math.round(buildingHeight);
 
-      color = this.formatter.getScmColorInfo(leafNode, this.maxScmInfo);
+      color = this.formatter.getScmColorInfo(leafNode.getScmMetricValue(), this.maxScmInfo);
     }
 
     sideLength = sideLength / SoftVis3DConstants.DPI_DOT_SCALE;

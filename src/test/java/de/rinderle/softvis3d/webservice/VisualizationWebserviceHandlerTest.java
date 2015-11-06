@@ -22,6 +22,7 @@ package de.rinderle.softvis3d.webservice;
 import de.rinderle.softvis3d.VisualizationProcessor;
 import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
+import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
@@ -32,6 +33,9 @@ import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import de.rinderle.softvis3d.webservice.visualization.TreeNodeJsonWriter;
 import de.rinderle.softvis3d.webservice.visualization.VisualizationJsonWriter;
 import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHandler;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -44,10 +48,6 @@ import org.sonar.api.server.ws.Response;
 import org.sonar.api.server.ws.WebService;
 import org.sonar.api.utils.text.JsonWriter;
 import org.sonar.api.utils.text.XmlWriter;
-
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -95,7 +95,7 @@ public class VisualizationWebserviceHandlerTest {
     final Response response = this.createResponse();
 
     final VisualizationRequest requestDTO = new VisualizationRequest(
-      this.snapshotId, LayoutViewType.CITY, this.footprintMetricId, this.heightMetricId);
+      this.snapshotId, LayoutViewType.CITY, this.footprintMetricId, this.heightMetricId, ScmInfoType.AUTHOR_COUNT);
 
     final SnapshotTreeResult treeResult = mockPreProcessing(requestDTO);
 

@@ -24,10 +24,9 @@ import de.rinderle.softvis3d.domain.tree.Dependency;
 import de.rinderle.softvis3d.domain.tree.Edge;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
+import java.io.StringWriter;
 import org.junit.Test;
 import org.sonar.api.utils.text.JsonWriter;
-
-import java.io.StringWriter;
 
 import static org.junit.Assert.assertEquals;
 
@@ -64,7 +63,7 @@ public class TreeNodeJsonWriterTest {
 
     underTest.transformRootTreeToJson(jsonWriter, treeNode1);
 
-    final String expectedResult = "{\"treeResult\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"children\":[{\"id\":2,\"name\":\"2\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"authorCount\":2,\"parentInfo\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"authorCount\":2},\"children\":[],\"edges\":[]},{\"id\":3,\"name\":\"3\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"authorCount\":2,\"parentInfo\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"authorCount\":2},\"children\":[],\"edges\":[]}],\"edges\":[],\"dependencies\":[]}}";
+    final String expectedResult = "{\"treeResult\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"children\":[{\"id\":2,\"name\":\"2\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"scmMetricValue\":2,\"parentInfo\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"scmMetricValue\":2},\"children\":[],\"edges\":[]},{\"id\":3,\"name\":\"3\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"scmMetricValue\":2,\"parentInfo\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"scmMetricValue\":2},\"children\":[],\"edges\":[]}],\"edges\":[],\"dependencies\":[]}}";
 
     assertEquals(expectedResult, stringWriter.toString());
   }
@@ -86,7 +85,7 @@ public class TreeNodeJsonWriterTest {
 
     underTest.transformRootTreeToJson(jsonWriter, treeNode1);
 
-    final String expectedResult = "{\"treeResult\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"children\":[{\"id\":2,\"name\":\"2\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"authorCount\":2,\"parentInfo\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"authorCount\":2},\"children\":[],\"edges\":[{\"id\":\"2 -> 3\",\"sourceId\":2,\"sourceName\":\"2\",\"destinationId\":3,\"destinationName\":\"3\",\"includingDependencies\":[{\"id\":123}]}]},{\"id\":3,\"name\":\"3\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"authorCount\":2,\"parentInfo\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"authorCount\":2},\"children\":[],\"edges\":[]}],\"edges\":[],\"dependencies\":[]}}";
+    final String expectedResult = "{\"treeResult\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"children\":[{\"id\":2,\"name\":\"2\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"scmMetricValue\":2,\"parentInfo\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"scmMetricValue\":2},\"children\":[],\"edges\":[{\"id\":\"2 -> 3\",\"sourceId\":2,\"sourceName\":\"2\",\"destinationId\":3,\"destinationName\":\"3\",\"includingDependencies\":[{\"id\":123}]}]},{\"id\":3,\"name\":\"3\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"scmMetricValue\":2,\"parentInfo\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"scmMetricValue\":2},\"children\":[],\"edges\":[]}],\"edges\":[],\"dependencies\":[]}}";
 
     assertEquals(expectedResult, stringWriter.toString());
   }

@@ -20,14 +20,13 @@
 package de.rinderle.softvis3d;
 
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import java.util.ArrayList;
+import java.util.List;
 import org.sonar.api.Extension;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class is the entry point for all extensions.
@@ -43,7 +42,7 @@ public final class SoftVis3DPlugin extends SonarPlugin {
 
   public static final boolean IS_PROD = true;
   public static final boolean CACHE_ENABLED = true;
-  public static final boolean HAS_SCM_FEATURE = false;
+  public static final boolean HAS_SCM_FEATURE = true;
 
   public SoftVis3DPlugin() {
     super();

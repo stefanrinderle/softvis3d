@@ -24,7 +24,6 @@ import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
-
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -59,7 +58,7 @@ public class PathWalker {
         currentNode =
           this.getOrCreateChild(currentNode, element.getId(), names[i], TreeNodeType.TREE,
             element.getFootprintMetricValue(), element.getHeightMetricValue(),
-            element.getAuthorCount());
+            element.getScmMetricValue());
       } else {
         currentNode = this.getOrCreateGeneratedChild(currentNode, names[i]);
       }
@@ -72,15 +71,14 @@ public class PathWalker {
   }
 
   private TreeNode getOrCreateChild(final TreeNode node, final Integer id, final String name, final TreeNodeType type,
-    final double footprintMetricValue, final double heightMetricValue, final int authorCount) {
+    final double footprintMetricValue, final double heightMetricValue, final int scmMetricValue) {
     final Map<String, TreeNode> children = node.getChildren();
     if (children.containsKey(name)) {
       return children.get(name);
     }
 
     final TreeNode result =
-      new ValueTreeNode(id, node, node.getDepth() + 1, type, name, footprintMetricValue, heightMetricValue,
-        authorCount);
+      new ValueTreeNode(id, node, node.getDepth() + 1, type, name, footprintMetricValue, heightMetricValue, scmMetricValue);
 
     node.addChildrenNode(name, result);
 
