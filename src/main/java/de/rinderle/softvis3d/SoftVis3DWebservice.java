@@ -63,7 +63,9 @@ public class SoftVis3DWebservice implements WebService {
     controller.createAction("getVisualization").setDescription("Get getVisualization structure")
       .setHandler(this.visualizationHandler).createParam("snapshotId", "Snapshot id")
       .createParam("footprintMetricId", "Footprint metric id")
-      .createParam("heightMetricId", "Height metric id").createParam("viewType", "Current view type");
+      .createParam("heightMetricId", "Height metric id")
+      .createParam("viewType", "Current view type")
+      .createParam("scmMetricType", "Current scm calc type");
 
     // important to apply changes
     controller.done();

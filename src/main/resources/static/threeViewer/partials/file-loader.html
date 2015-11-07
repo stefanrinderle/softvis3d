@@ -112,6 +112,11 @@
               ng-model="loader.settings.metric2" style="width: 200px;"></select>
 
       <br/><br/>
+      Scm info metric (beta):<br/>
+      <select name="scmMetricType" ng-options="item.name as item.description for item in loader.availableScmMetrics"
+              ng-model="loader.scmMetricType" style="width: 200px;"></select>
+
+      <br/><br/>
       <button ng-click="loader.loadCustomView()" ng-disabled="!loader.configLoaded">Show</button>
     </div>
     <div class="loader-options" ng-show="loader.state.info" ng-cloak>

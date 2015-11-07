@@ -19,12 +19,26 @@
  */
 package de.rinderle.softvis3d.dao.scm;
 
-public abstract class ScmCalculationService {
+import org.apache.commons.lang.StringUtils;
 
-  public abstract int getNodeValue(final String scmCommitterString, final String scmTimeString);
+/**
+ * Created by stefanrinderle on 06.11.15.
+ */
+public class ScmCommitCountCalculationService extends ScmCalculationService {
 
-  protected String[] splitPlainScmInfo(final String plainScmInfo) {
-    return plainScmInfo.split(";");
-  }
+
+    /**
+     * TODO: This is not the commit count but the line count!!!
+     * FIX!
+     */
+    @Override
+    public int getNodeValue(String scmCommitterString, String scmTimeString) {
+        if (StringUtils.isBlank(scmCommitterString)) {
+            return 0;
+        } else {
+            final String[] resultCommitter = splitPlainScmInfo(scmCommitterString);
+            return resultCommitter.length;
+        }
+    }
 
 }

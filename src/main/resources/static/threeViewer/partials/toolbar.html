@@ -25,8 +25,8 @@
   <div ng-show="(toolbar.node || toolbar.edge)" class="toolbar-content">
     <br/>
 
-    <p ng-show="toolbar.metric1Name || toolbar.metric2Name">
-      ({{toolbar.metric1Name}} / {{toolbar.metric2Name}})
+    <p ng-show="toolbar.metric1Name || toolbar.metric2Name || toolbar.scmMetricName">
+        ({{toolbar.metric1Name}} / {{toolbar.metric2Name}} / {{toolbar.scmMetricName}})
     </p>
     <!-- NODE MAIN INFO -->
 
@@ -36,7 +36,7 @@
 
     <div ng-show="toolbar.node">
       <h2>{{toolbar.node.name}}
-        <span ng-show="!toolbar.node.isNode">({{toolbar.node.footprintMetricValue}} / {{toolbar.node.heightMetricValue}})</span>
+        <span ng-show="!toolbar.node.isNode">({{toolbar.node.footprintMetricValue}} / {{toolbar.node.heightMetricValue}} / {{toolbar.node.scmMetricValue}})</span>
       </h2>
       <br/>
       <button ng-show="toolbar.node.isNode" type='button'

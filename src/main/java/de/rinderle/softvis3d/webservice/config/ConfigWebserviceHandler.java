@@ -22,7 +22,9 @@ package de.rinderle.softvis3d.webservice.config;
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.Metric;
+import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
@@ -31,8 +33,6 @@ import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
-
-import java.util.List;
 
 public class ConfigWebserviceHandler extends AbstractWebserviceHandler implements RequestHandler {
 
@@ -66,16 +66,36 @@ public class ConfigWebserviceHandler extends AbstractWebserviceHandler implement
     final List<Metric> metrics = this.daoService.getDefinedMetricsForSnapshot(id);
 
     final boolean hasDependencies = this.daoService.hasDependencies(id);
+    final boolean hasScmInfos = this.daoService.hasScmInfos(id);
 
     final JsonWriter jsonWriter = response.newJsonWriter();
     jsonWriter.beginObject();
     jsonWriter.prop("hasDependencies", hasDependencies);
+    jsonWriter.prop("hasScmInfos", hasScmInfos);
+
     this.transformMetricSettings(jsonWriter, metric1, metric2);
     this.transformMetrics(jsonWriter, metrics);
+
+    this.transformScmMetricTypes(jsonWriter);
+
     jsonWriter.endObject();
     jsonWriter.close();
 
     this.session.commit();
+  }
+
+  private void transformScmMetricTypes(JsonWriter jsonWriter) {
+    jsonWriter.name("scmMetricTypes");
+    jsonWriter.beginArray();
+
+    for (final ScmInfoType scmInfoType : ScmInfoType.values()) {
+      jsonWriter.beginObject();
+      jsonWriter.prop("name", scmInfoType.name());
+      jsonWriter.prop("description", scmInfoType.getDescription());
+      jsonWriter.endObject();
+    }
+
+    jsonWriter.endArray();
   }
 
   private void transformMetricSettings(final JsonWriter jsonWriter, final Integer metric1, final Integer metric2) {

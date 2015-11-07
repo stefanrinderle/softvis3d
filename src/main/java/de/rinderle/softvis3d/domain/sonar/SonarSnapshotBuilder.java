@@ -25,7 +25,7 @@ public class SonarSnapshotBuilder {
   String path;
   double footprintMetricValue = 0.0;
   double heightMetricValue = 0.0;
-  public int scmMetricValue;
+  public int scmMetricValue = 0;
 
   public SonarSnapshotBuilder(final int id) {
     this.id = id;

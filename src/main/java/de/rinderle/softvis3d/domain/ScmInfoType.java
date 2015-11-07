@@ -21,15 +21,33 @@ package de.rinderle.softvis3d.domain;
 
 import de.rinderle.softvis3d.dao.scm.ScmAuthorCountCalculationService;
 import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
+import de.rinderle.softvis3d.dao.scm.ScmCommitCountCalculationService;
 
 /**
  * Specifies, which type of SCM info should be used for the color of the buildings.
  */
 public enum ScmInfoType {
 
-    AUTHOR_COUNT;
+    /**
+     * ! enum names used in view !
+     */
+    NONE("None", null),
+    AUTHOR_COUNT("Author count", new ScmAuthorCountCalculationService()),
+    COMMIT_COUNT("Commit count", new ScmCommitCountCalculationService());
 
-    public ScmCalculationService getCalculationService() {
-        return new ScmAuthorCountCalculationService();
+    private final ScmCalculationService scmCalculationService;
+    private final String description;
+
+    ScmInfoType(String description, ScmCalculationService scmCalculationService) {
+        this.description = description;
+        this.scmCalculationService = scmCalculationService;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public ScmCalculationService getScmCalculationService() {
+        return this.scmCalculationService;
     }
 }

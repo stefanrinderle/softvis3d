@@ -27,6 +27,7 @@ import com.google.inject.assistedinject.Assisted;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
+import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
@@ -68,6 +69,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
   private final Map<Integer, ResultPlatform> resultingGraphList = new ConcurrentHashMap<Integer, ResultPlatform>();
 
   private final LayoutViewType viewType;
+  private final ScmInfoType scmInfoType;
   private final int maxScmInfo;
 
   @Inject
@@ -96,6 +98,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
       + " " + minMaxMetricHeight.toString() + " Dependencies: " + this.dependenciesCount);
 
     this.viewType = requestDTO.getViewType();
+    this.scmInfoType = requestDTO.getScmInfoType();
   }
 
   @Override
@@ -196,7 +199,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
       buildingHeight = buildingHeight * SoftVis3DConstants.BUILDING_HEIGHT_MULTIPLIER;
       buildingHeight = Math.round(buildingHeight);
 
-      color = this.formatter.getScmColorInfo(leafNode.getScmMetricValue(), this.maxScmInfo);
+      color = this.formatter.getScmColorInfo(this.scmInfoType, leafNode.getScmMetricValue(), this.maxScmInfo);
     }
 
     sideLength = sideLength / SoftVis3DConstants.DPI_DOT_SCALE;

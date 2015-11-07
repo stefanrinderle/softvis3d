@@ -22,6 +22,8 @@ package de.rinderle.softvis3d.webservice;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.Metric;
 import de.rinderle.softvis3d.webservice.config.ConfigWebserviceHandler;
+import java.io.StringWriter;
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -34,9 +36,6 @@ import org.sonar.api.server.ws.Response;
 import org.sonar.api.server.ws.WebService;
 import org.sonar.api.utils.text.JsonWriter;
 import org.sonar.api.utils.text.XmlWriter;
-
-import java.io.StringWriter;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -80,8 +79,8 @@ public class ConfigWebserviceHandlerTest {
     this.handler.handle(request, response);
 
     // empty response because json transformer are mocked.
-    assertEquals("{\"hasDependencies\":false,\"settings\":{\"metric1\":1,\"metric2\":2},\"metricsForSnapshot\":[]}",
-      this.stringWriter.toString());
+    assertEquals("{\"hasDependencies\":false,\"hasScmInfos\":false,\"settings\":{\"metric1\":1,\"metric2\":2},\"metricsForSnapshot\":[],\"scmMetricTypes\":[{\"name\":\"NONE\",\"description\":\"None\"},{\"name\":\"AUTHOR_COUNT\",\"description\":\"Author count\"},{\"name\":\"COMMIT_COUNT\",\"description\":\"Commit count\"}]}",
+            this.stringWriter.toString());
   }
 
   private Request createRequest() {

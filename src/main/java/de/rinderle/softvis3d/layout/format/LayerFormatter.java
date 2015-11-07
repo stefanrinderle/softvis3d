@@ -19,9 +19,9 @@
  */
 package de.rinderle.softvis3d.layout.format;
 
-import de.rinderle.softvis3d.SoftVis3DPlugin;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
+import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultBuilding;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
@@ -117,11 +117,11 @@ public class LayerFormatter {
     return counter;
   }
 
-  public HexaColor getScmColorInfo(final int nodeScmValue, final int maxScmValue) {
-    if (SoftVis3DPlugin.HAS_SCM_FEATURE) {
-      return makeColor(nodeScmValue, maxScmValue);
-    } else {
+  public HexaColor getScmColorInfo(final ScmInfoType scmInfoType, final int nodeScmValue, final int maxScmValue) {
+    if (ScmInfoType.NONE.equals(scmInfoType)) {
       return SoftVis3DConstants.BUILDING_COLOR;
+    } else {
+      return makeColor(nodeScmValue, maxScmValue);
     }
   }
 

@@ -48,6 +48,7 @@ ThreeViewer.ToolbarController = function ($scope, ViewerService, TreeService, Me
 
   this.metric1Name = "";
   this.metric2Name = "";
+  this.scmMetricName = "";
 
   this.BASE_PATH = RESOURCES_BASE_PATH;
 
@@ -72,6 +73,7 @@ ThreeViewer.ToolbarController.prototype.listeners = function () {
 
     me.metric1Name = eventObject.metric1Name;
     me.metric2Name = eventObject.metric2Name;
+    me.scmMetricName = eventObject.scmMetricName;
 
     me.showDetails(eventObject.softVis3dId, "node");
 

@@ -21,6 +21,7 @@ package de.rinderle.softvis3d.layout.format;
 
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
+import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
@@ -208,7 +209,7 @@ public class LayerFormatterTest {
     int nodeScmValue = 0;
     int maxScmValue = 10;
 
-    final HexaColor result = this.underTest.getScmColorInfo(nodeScmValue, maxScmValue);
+    final HexaColor result = this.underTest.getScmColorInfo(ScmInfoType.AUTHOR_COUNT, nodeScmValue, maxScmValue);
 
     assertNotNull(result);
     assertEquals("Should be full green", "#00FF00", result.getHex());
@@ -219,7 +220,7 @@ public class LayerFormatterTest {
     int nodeScmValue = 300;
     int maxScmValue = 300;
 
-    final HexaColor result = this.underTest.getScmColorInfo(nodeScmValue, maxScmValue);
+    final HexaColor result = this.underTest.getScmColorInfo(ScmInfoType.AUTHOR_COUNT, nodeScmValue, maxScmValue);
 
     assertNotNull(result);
     assertEquals("Should be full red", "#FF0000", result.getHex());
@@ -230,9 +231,20 @@ public class LayerFormatterTest {
     int nodeScmValue = 300;
     int maxScmValue = 1000;
 
-    final HexaColor result = this.underTest.getScmColorInfo(nodeScmValue, maxScmValue);
+    final HexaColor result = this.underTest.getScmColorInfo(ScmInfoType.AUTHOR_COUNT, nodeScmValue, maxScmValue);
 
     assertNotNull(result);
     assertEquals("Should be full something in between", "#C6FF00", result.getHex());
+  }
+
+  @Test
+  public void testCalcScmInfoColorNoneType() {
+    int nodeScmValue = 0;
+    int maxScmValue = 10;
+
+    final HexaColor result = this.underTest.getScmColorInfo(ScmInfoType.NONE, nodeScmValue, maxScmValue);
+
+    assertNotNull(result);
+    assertEquals("Should be full orange", "#FE8C00", result.getHex());
   }
 }

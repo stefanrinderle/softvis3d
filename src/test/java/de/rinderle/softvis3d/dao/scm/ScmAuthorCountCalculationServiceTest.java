@@ -19,12 +19,26 @@
  */
 package de.rinderle.softvis3d.dao.scm;
 
-public abstract class ScmCalculationService {
+import java.text.ParseException;
+import org.junit.Test;
 
-  public abstract int getNodeValue(final String scmCommitterString, final String scmTimeString);
+import static org.junit.Assert.assertSame;
 
-  protected String[] splitPlainScmInfo(final String plainScmInfo) {
-    return plainScmInfo.split(";");
+public class ScmAuthorCountCalculationServiceTest {
+
+  private final ScmCalculationService scmCalculationService = new ScmAuthorCountCalculationService();
+
+  @Test
+  public void testAuthorCountFirstExample() throws ParseException {
+    final int differentUsers = scmCalculationService.getNodeValue(ScmTestDataHelper.getFirstExample(), ScmTestDataHelper.getFirstExampleTime());
+    assertSame(3, differentUsers);
+  }
+
+  @Test
+  public void testAuthorCountSecondExample() throws ParseException {
+    final int differentUsers =
+      scmCalculationService.getNodeValue(ScmTestDataHelper.getSecondExample(), ScmTestDataHelper.getSecondExampleTime());
+    assertSame(2, differentUsers);
   }
 
 }

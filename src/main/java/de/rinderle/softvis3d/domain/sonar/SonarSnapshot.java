@@ -61,8 +61,12 @@ public class SonarSnapshot {
 
   @Override
   public String toString() {
-    return "SonarSnapshot{" + "id=" + id + ", path='" + path + '\'' + ", footprintMetricValue="
-      + footprintMetricValue + ", heightMetricValue=" + heightMetricValue + '}';
+    return "SonarSnapshot{" +
+            "id=" + id +
+            ", footprintMetricValue=" + footprintMetricValue +
+            ", heightMetricValue=" + heightMetricValue +
+            ", scmMetricValue=" + scmMetricValue +
+            ", path='" + path + '\'' +
+            '}';
   }
-
 }

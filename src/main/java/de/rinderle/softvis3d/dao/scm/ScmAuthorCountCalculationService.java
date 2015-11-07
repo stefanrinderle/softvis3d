@@ -44,7 +44,6 @@ public class ScmAuthorCountCalculationService extends ScmCalculationService {
       authorCount = 0;
     } else {
       final List<ScmInfo> resultList = extractScmInfo(scmCommitterString, scmTimeString);
-
       authorCount = getDifferentUsers(resultList);
     }
 
@@ -78,10 +77,6 @@ public class ScmAuthorCountCalculationService extends ScmCalculationService {
       resultList.add(currentScmInfo);
     }
     return resultList;
-  }
-
-  private String[] splitPlainScmInfo(final String plainScmInfo) {
-    return plainScmInfo.split(";");
   }
 
   private Date getDate(final String source) {

@@ -58,7 +58,7 @@ public class SoftVis3DWebserviceTest {
     final WebService.Action getTree = controller.action("getVisualization");
     assertThat(getTree).isNotNull();
     assertThat(getTree.key()).isEqualTo("getVisualization");
-    assertThat(getTree.params()).hasSize(4);
+    assertThat(getTree.params()).hasSize(5);
   }
 
   @Test

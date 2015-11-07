@@ -90,14 +90,16 @@ public class DaoService {
   public int getMaxScmInfo(final VisualizationRequest requestDTO) {
     int maxScmMetricValue = 0;
 
-    final ScmCalculationService scmCalculationService = getCalculationService(requestDTO.getScmInfoType());
+    if (!ScmInfoType.NONE.equals(requestDTO.getScmInfoType())) {
+      final ScmCalculationService scmCalculationService = getCalculationService(requestDTO.getScmInfoType());
 
-    final List<MetricResultDTO<String>> scmCommitter = getScmAuthors(requestDTO.getRootSnapshotId());
-    for (final MetricResultDTO<String> aScmCommitter : scmCommitter) {
-      final int nodeScmMetricValue = scmCalculationService.getNodeValue(aScmCommitter.getValue(), "");
+      final List<MetricResultDTO<String>> scmCommitter = getScmAuthors(requestDTO.getRootSnapshotId());
+      for (final MetricResultDTO<String> aScmCommitter : scmCommitter) {
+        final int nodeScmMetricValue = scmCalculationService.getNodeValue(aScmCommitter.getValue(), "");
 
-      if (nodeScmMetricValue > maxScmMetricValue) {
-        maxScmMetricValue = nodeScmMetricValue;
+        if (nodeScmMetricValue > maxScmMetricValue) {
+          maxScmMetricValue = nodeScmMetricValue;
+        }
       }
     }
 
@@ -110,7 +112,7 @@ public class DaoService {
    * provide mocking of calc service.
    */
   protected ScmCalculationService getCalculationService(final ScmInfoType scmInfoType) {
-    return scmInfoType.getCalculationService();
+    return scmInfoType.getScmCalculationService();
   }
 
   public List<SonarDependency> getDependencies(final Integer snapshotId) {
@@ -137,7 +139,7 @@ public class DaoService {
     stopWatch.start();
 
     final List<MetricResultDTO<Integer>> snapshots = sonarDao.getAllSnapshotIdsWithRescourceId(
-      requestDTO.getRootSnapshotId());
+            requestDTO.getRootSnapshotId());
 
     for (final MetricResultDTO<Integer> snapshot : snapshots) {
       final Integer snapshotId = snapshot.getId();
@@ -147,8 +149,10 @@ public class DaoService {
       builder.withFootprintMeasure(sonarDao.getMetricDouble(requestDTO.getFootprintMetricId(), snapshotId));
       builder.withHeightMeasure(sonarDao.getMetricDouble(requestDTO.getHeightMetricId(), snapshotId));
 
-      int scmMetric = getScmMetric(snapshotId, requestDTO.getScmInfoType());
-      builder.withScmMetric(scmMetric);
+      if (!ScmInfoType.NONE.equals(requestDTO.getScmInfoType())) {
+        int scmMetric = getScmMetric(snapshotId, requestDTO.getScmInfoType());
+        builder.withScmMetric(scmMetric);
+      }
 
       final SonarSnapshot snapshotResult = builder.build();
 
@@ -161,14 +165,26 @@ public class DaoService {
     return result;
   }
 
-  private int getScmMetric(final Integer snapshotId, final ScmInfoType scmInfoType) {
-    final Integer authorMetricId = this.sonarDao.getMetricIdByKey(SCM_AUTHOR_NAME);
-    final Integer authorDateMetricId = this.sonarDao.getMetricIdByKey(SCM_DATE_NAME);
+  /**
+   * TODO does not yet work.
+   * Get the first children and check if the metric is available or create
+   * dedicated sql statement --> webservice call in the future.
+   */
+  public boolean hasScmInfos(Integer rootSnapshotId) {
+    return true;
+  }
 
-    final String authors = this.sonarDao.getMetricText(authorMetricId, snapshotId);
+  private int getScmMetric(final Integer snapshotId, final ScmInfoType scmInfoType) {
+    final Integer authorDateMetricId = this.sonarDao.getMetricIdByKey(SCM_DATE_NAME);
     final String authorDateMetric = this.sonarDao.getMetricText(authorDateMetricId, snapshotId);
 
+    final String authors = getAuthors(snapshotId);
     return getCalculationService(scmInfoType).getNodeValue(authors, authorDateMetric);
+  }
+
+  private String getAuthors(final Integer snapshotId) {
+    final Integer authorMetricId = this.sonarDao.getMetricIdByKey(SCM_AUTHOR_NAME);
+    return this.sonarDao.getMetricText(authorMetricId, snapshotId);
   }
 
   private List<MetricResultDTO<String>> getScmAuthors(final int rootSnapshotId) {

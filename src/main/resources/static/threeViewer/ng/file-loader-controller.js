@@ -49,6 +49,7 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
   this.cityInnerState = "complexity";
   this.infoInnerState = "idle";
   this.customViewType = "city";
+  this.scmMetricType = "NONE";
 
   this.exceptionMessage;
 
@@ -85,6 +86,8 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
         me.settings = response.data.settings;
         me.availableMetrics = response.data.metricsForSnapshot;
         me.hasDependencies = response.data.hasDependencies;
+        me.hasScmInfos = response.data.hasScmInfos;
+        me.availableScmMetrics = response.data.scmMetricTypes;
         me.configLoaded = true;
       }, function (response) {
         me.infoInnerState = "error";
@@ -137,11 +140,11 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
   var functionsId = this.getMetricIdForName("Functions");
 
   if (this.cityInnerState === "complexity") {
-    this.loadVisualisation(complexityId, linesId, cityType);
+    this.loadVisualisation(complexityId, linesId, cityType, null);
   } else if (this.cityInnerState === "issues") {
-    this.loadVisualisation(issuesId, linesId, cityType);
+    this.loadVisualisation(issuesId, linesId, cityType, null);
   } else if (this.cityInnerState === "functions") {
-    this.loadVisualisation(functionsId, linesId, cityType);
+    this.loadVisualisation(functionsId, linesId, cityType, null);
   } else {
     console.log("invalid option selected.");
   }
@@ -155,23 +158,23 @@ ThreeViewer.FileLoaderController.prototype.loadDependencyView = function () {
   var linesId = this.getMetricIdForName("Lines");
   var complexityId = this.getMetricIdForName("Complexity");
 
-  this.loadVisualisation(complexityId, linesId, "dependency");
+  this.loadVisualisation(complexityId, linesId, "dependency", null);
 };
 
 ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
-  this.loadVisualisation(this.settings.metric1, this.settings.metric2, this.customViewType);
+  this.loadVisualisation(this.settings.metric1, this.settings.metric2, this.customViewType, this.scmMetricType);
 };
 
 ThreeViewer.FileLoaderController.prototype.loadDirectLink = function (metric1Id, metric2Id, viewType) {
-  this.loadVisualisation(metric1Id, metric2Id, viewType);
+  this.loadVisualisation(metric1Id, metric2Id, viewType, null);
 };
 
-ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, viewType) {
+ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, viewType, scmMetricType) {
   var me = this;
 
   this.infoInnerState = "loading";
   this.showTab("info");
-  this.BackendService.getVisualization(ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType).then(function (response) {
+  this.BackendService.getVisualization(ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType, scmMetricType).then(function (response) {
     var treeResult = response.data.resultObject[0].treeResult;
     var visualizationResult = response.data.resultObject[1].visualizationResult;
 
@@ -182,6 +185,7 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
     eventObject.softVis3dId = ThreeViewer.SNAPSHOT_ID;
     eventObject.metric1Name = me.getNameForMetricId(metric1);
     eventObject.metric2Name = me.getNameForMetricId(metric2);
+    eventObject.scmMetricName = me.getNameScmMetricType(scmMetricType);
 
     me.MessageBus.trigger('visualizationReady', eventObject);
 
@@ -196,6 +200,16 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
   });
 };
 
+ThreeViewer.FileLoaderController.prototype.getNameScmMetricType = function (scmMetricTypeName) {
+  for (var index = 0; index < this.availableScmMetrics.length; index++) {
+    if (this.availableScmMetrics[index].name === scmMetricTypeName) {
+      return this.availableScmMetrics[index].description;
+    }
+  }
+
+  return "No name found";
+};
+
 ThreeViewer.FileLoaderController.prototype.getNameForMetricId = function (metricId) {
   for (var index = 0; index < this.availableMetrics.length; index++) {
     if (this.availableMetrics[index].id === metricId) {
@@ -203,7 +217,7 @@ ThreeViewer.FileLoaderController.prototype.getNameForMetricId = function (metric
     }
   }
 
-  return "no name found";
+  return "No name found";
 };
 
 ThreeViewer.FileLoaderController.prototype.getMetricIdForName = function (nameToSearch) {

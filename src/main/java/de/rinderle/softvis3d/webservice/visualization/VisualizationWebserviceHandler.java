@@ -68,10 +68,11 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     final Integer id = Integer.valueOf(request.param("snapshotId"));
     final Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
     final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
+    final LayoutViewType layoutViewType = LayoutViewType.valueOfRequest(request.param("viewType"));
 
-    final LayoutViewType type = LayoutViewType.valueOfRequest(request.param("viewType"));
+    final ScmInfoType scmInfoType = ScmInfoType.valueOf(request.param("scmMetricType"));
     final VisualizationRequest requestDTO =
-            new VisualizationRequest(id, type, footprintMetricId, heightMetricId, ScmInfoType.AUTHOR_COUNT);
+            new VisualizationRequest(id, layoutViewType, footprintMetricId, heightMetricId, scmInfoType);
 
     LOGGER.info("VisualizationWebserviceHandler " + requestDTO.toString());
 
