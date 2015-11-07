@@ -65,6 +65,7 @@ public class VisualizationWebserviceHandlerTest {
   private final Integer footprintMetricId = 1;
   private final Integer heightMetricId = 21;
   private final String viewType = "city";
+  private final ScmInfoType scmMetricType = ScmInfoType.AUTHOR_COUNT;
 
   @InjectMocks
   private VisualizationWebserviceHandler handler;
@@ -95,7 +96,7 @@ public class VisualizationWebserviceHandlerTest {
     final Response response = this.createResponse();
 
     final VisualizationRequest requestDTO = new VisualizationRequest(
-      this.snapshotId, LayoutViewType.CITY, this.footprintMetricId, this.heightMetricId, ScmInfoType.AUTHOR_COUNT);
+      this.snapshotId, LayoutViewType.CITY, this.footprintMetricId, this.heightMetricId, this.scmMetricType);
 
     final SnapshotTreeResult treeResult = mockPreProcessing(requestDTO);
 
@@ -150,6 +151,8 @@ public class VisualizationWebserviceHandlerTest {
           return VisualizationWebserviceHandlerTest.this.heightMetricId.toString();
         } else if ("viewType".equals(key)) {
           return VisualizationWebserviceHandlerTest.this.viewType;
+        } else if ("scmMetricType".equals(key)) {
+        return VisualizationWebserviceHandlerTest.this.scmMetricType.name();
         } else {
           return "";
         }
