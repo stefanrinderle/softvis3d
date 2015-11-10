@@ -13,20 +13,20 @@
         path: "{{ ansible_env.PWD }}/docker_ansible_client/keys/id_rsa"
         mode: 0600
 
-#    - name: delete current container
-#      docker: >
-#        name=sonarContainer{{ sonar_version }}
-#        docker_api_version=1.18
-#        tls_hostname=localhost
-#        docker_url={{ docker_host }}
-#        image=rinderle:testversion
-#        state=absent
+    - name: delete current container
+      docker: >
+        name=sonarContainer{{ sonar_version }}
+        docker_api_version=1.18
+        tls_hostname=localhost
+        docker_url={{ docker_host }}
+        image=rinderle:testversion
+        state=absent
 
     - name: create client container new
       docker:
         name: sonarContainer{{ sonar_version }}
-        docker_api_version: 1.18
-        tls_hostname: localhost
+        docker_api_version: 1.18 # has to be removed on server
+        tls_hostname: localhost # has to be removed on server
         docker_url: "{{ docker_host }}"
         image: rinderle:testversion
         detach: False
@@ -38,7 +38,10 @@
         state: reloaded
 
     - name: Register ssh port
-      shell: "docker ps | grep 'sonarContainer{{ sonar_version }}' | grep -Eow '((\\d{5})->22)' | cut -c1-5"
+      # mac osx
+      # shell: "docker ps | grep 'sonarContainer{{ sonar_version }}' | grep -Eow '((\\d{5})->22)' | cut -c1-5"
+      # server
+      shell: "docker ps | grep 'sonarContainer5.1.2' | sed 's/->22.*//' | tail -c 6"
       register: ssh_port
 
     - debug: msg="Sonarqube running container {{ ssh_port }}"
@@ -47,7 +50,10 @@
       add_host:
         hostname: sonarContainer{{ sonar_version }}
         groups: docker
-        ansible_ssh_host: "192.168.99.100"
+        # mac osx
+        #ansible_ssh_host: "192.168.99.100"
+        # server
+        ansible_ssh_host: "127.0.0.1"
         ansible_ssh_port: "{{ ssh_port.stdout }}"
 
 - name: run the roles inside the client container

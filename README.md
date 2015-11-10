@@ -32,3 +32,17 @@ install python and pip
 eval "$(docker-machine env default)"
 
 docker build -t "rinderle:testversion" . (im order des docker files)
+
+---
+
+Old rindernet setup
+
+docker build -t "rinderle:testversion" .
+
+apt-get install python-pip
+
+for jenkins:
+
+chmod 600 ./docker_ansible_client/keys/id_rsa
+mkdir -p /tmp/ansibletemp
+chmod 777 /tmp/ansibletemp
