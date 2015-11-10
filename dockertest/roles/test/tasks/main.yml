@@ -24,10 +24,9 @@
     chdir: /tmp/
   ignore_errors: yes
 
-- fetch: src=/tmp/screenshotTempFolder/cityModel.png dest=/tmp/screenshotTempFolder/screenshots/{{ sonar_version }}_cityModel.png flat=yes
+- command: mv /tmp/screenshotTempFolder/startScreen.png /tmp/screenshotTempFolder/screenshots/{{ sonar_version }}_startScreen.png
   ignore_errors: yes
-
-- fetch: src=/tmp/screenshotTempFolder/startScreen.png dest=/tmp/screenshotTempFolder/screenshots/{{ sonar_version }}_startScreen.png flat=yes
+- command: mv /tmp/screenshotTempFolder/cityModel.png /tmp/screenshotTempFolder/screenshots/{{ sonar_version }}_cityModel.png
   ignore_errors: yes
 
 - name: ls /tmp/screenshotTempFolder/

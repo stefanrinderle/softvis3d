@@ -13,16 +13,6 @@
         path: "{{ ansible_env.PWD }}/docker_ansible_client/keys/id_rsa"
         mode: 0600
 
-# TODO uncomment
-#    - name: delete current container
-#      docker: >
-#        name=sonarContainer{{ sonar_version }}
-#        docker_api_version=1.18
-#        tls_hostname=localhost
-#        docker_url={{ docker_host }}
-#        image=rinderle:testversion
-#        state=absent
-
     - name: create client container new
       docker:
         name: sonarContainer{{ sonar_version }}
@@ -37,7 +27,7 @@
         volumes: "/tmp/screenshotTempFolder:/tmp/screenshotTempFolder"
         memory_limit: 0
         # TODO reloaded
-        state: started
+        state: reload
 
     # mac osx
     # shell: "docker ps | grep 'sonarContainer{{ sonar_version }}' | grep -Eow '((\\d{5})->22)' | cut -c1-5"
