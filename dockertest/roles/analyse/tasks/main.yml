@@ -1,0 +1,10 @@
+---
+#
+# Sonar install
+#
+
+- name: Analyse softvisSonarPlugin
+  command: mvn sonar:sonar
+  args:
+    chdir: /opt/projects/sonar-softvis3d-plugin
+

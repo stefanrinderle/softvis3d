@@ -1,0 +1,21 @@
+---
+#
+# Sonar install
+#
+
+- stat: path=/opt/sonarqube-{{ sonar_version }}.zip
+  register: sonarqube_download
+
+- name: download sonarqube
+  get_url: url=http://dist.sonar.codehaus.org/sonarqube-{{ sonar_version }}.zip dest=/opt/
+  when: sonarqube_download.stat.exists == False
+
+- stat: path=/opt/sonarqube
+  register: sonarqube_folder
+
+- unarchive: src=/opt/sonarqube-{{ sonar_version }}.zip dest=/opt copy=no
+  when: sonarqube_folder.stat.exists == False
+
+- name: Move unpacked folder to /opt/sonarqube
+  command: mv /opt/sonarqube-{{ sonar_version }} /opt/sonarqube
+  when: sonarqube_folder.stat.exists == False

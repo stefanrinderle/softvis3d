@@ -3,6 +3,9 @@
 # Sonarqube versions
 ###############
 
+[local]
+localhost ansible_connection=local
+
 [sonarqube-all:children]
 sonarqube-4.5
 sonarqube-4.5.4

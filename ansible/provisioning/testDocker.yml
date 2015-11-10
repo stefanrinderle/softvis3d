@@ -1,0 +1,56 @@
+---
+
+- name: Prepare sonar environment
+  hosts: local
+  user: root
+  vars:
+    docker_host: "{{ lookup('env','DOCKER_HOST') }}"
+
+  tasks:
+    - name: remove application container
+      docker: >
+          name=sonarContainer
+          docker_api_version=1.18
+          tls_hostname=localhost
+          docker_url={{ docker_host }}
+          image=ubuntu:14.04
+          state=absent
+
+    - name: add application container
+      shell: docker run -d --name sonarContainer centos tail -f /dev/null
+
+    - name: application container
+      docker: >
+          name=sonarContainer
+          docker_api_version=1.18
+          tls_hostname=localhost
+          docker_url={{ docker_host }}
+          image=ubuntu:14.04
+          state=restart
+          command=tail -f /dev/null
+
+    - name: Register running Docker containers
+      register: running_docker_containers
+      command: docker ps
+
+    - debug: msg="Sonarqube running container {{ running_docker_containers }}"
+
+#    - name: application container
+#      docker: >
+#        name=sonarContainer
+#        docker_api_version=1.18
+#        tls_hostname=localhost
+#        docker_url={{ docker_host }}
+#        image=nginx:latest
+#        state=absent
+#
+#    - name: Register running Docker containers
+#      register: running_docker_containers
+#      command: docker ps
+#
+#    - debug: msg="No running container {{ running_docker_containers }}"
+
+    - shell: echo 'still busy'
+
+  post_tasks:
+    - shell: echo 'goodbye'

@@ -1,0 +1,95 @@
+---
+- name: prepare docker container for tasks
+  hosts: localhost
+  user: root
+  vars:
+      - ansible_python_interpreter: python
+      - container_name: testContainer
+      - docker_host: "{{ lookup('env','DOCKER_HOST') }}"
+      - sonar_version: "5.1.2"
+
+  tasks:
+    - name: ensure local private key file is protected
+      file:
+        path: "{{ ansible_env.PWD }}/docker_ansible_client/keys/id_rsa"
+        mode: 0600
+
+# TODO: uncomment
+#    - name: ensure docker ansible client image is present new
+#      docker: >
+#        name=sonarContainer
+#        docker_api_version=1.18
+#        tls_hostname=localhost
+#        docker_url={{ docker_host }}
+#        image=rinderle:testversion
+#        state=absent
+
+    - name: create client container new
+      docker:
+        name: sonarContainer
+        docker_api_version: 1.18
+        tls_hostname: localhost
+        docker_url: "{{ docker_host }}"
+        image: rinderle:testversion
+        detach: False
+        hostname: sonarContainer
+        expose: "{{ ports }}"
+        ports: "{{ ports }}"
+        #state: reloaded TODO: change thid back
+        state: running
+
+    - name: Register ssh port
+      shell: "docker ps | grep 'sonarContainer' | grep -Eow '((\\d{5})->22)' | cut -c1-5"
+      register: ssh_port
+
+    - debug: msg="Sonarqube running container {{ ssh_port }}"
+
+    - name: add container to the hosts inventory
+      add_host:
+        hostname: sonarContainer
+        groups: docker
+        # TODO: get port from docker ps
+        ansible_ssh_host: "192.168.99.100"
+        ansible_ssh_port: "{{ ssh_port.stdout }}"
+
+- name: run the roles inside the client container
+  hosts: docker
+  remote_user: root
+
+  pre_tasks:
+
+# TODO uncomment
+#      - name: Update apt-get repository
+#        apt: update_cache=yes
+#        sudo: true
+
+#      - name: Upgrade apt-get repository
+#        apt: upgrade=full
+#        sudo: true
+
+
+
+      - name: Install list of packages
+        apt: pkg={{item}} state=present
+        with_items:
+        - unzip
+        - openjdk-7-jdk
+        - maven
+        - git
+        - python-pip
+        - xvfb
+        - firefox
+        - graphviz
+
+      - name: create dot symlink
+        file: path=/usr/local/bin/dot
+              src=/usr/bin/dot
+              state=link
+              force=yes
+
+  roles:
+    - { role: sonar, sonar_version: '5.1.2' }
+    - { role: softVis3dPlugin, sonar_plugin_path: '/opt/sonarqube/extensions/plugins/' }
+    - { role: restartSonar }
+    - { role: analyse }
+    - { role: test, sonar_version: '5.1.2' }
