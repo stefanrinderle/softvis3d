@@ -30,5 +30,8 @@
 #- fetch: src=/tmp/screenshots/startScreen.png dest={{ playbook_dir }}/screenshots/{{ sonar_version }}_startScreen.png flat=yes
 #  ignore_errors: yes
 
+- name: /tmp/screenshotTempFolder/
+  command: /tmp/screenshotTempFolder/
+
 - name: ls /tmp/screenshots/
   command: ls /tmp/screenshots/
