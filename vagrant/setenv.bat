@@ -1,6 +1,0 @@
-@ECHO OFF
-set VAGRANT_HTTP_PROXY=""
-set VAGRANT_HTTPS_PROXY=""
-
-set TMPDIR_ANSIBLE=D:\tmp\ansible
-set VIRTUALBOX_GUI=true
