@@ -43,6 +43,8 @@ apt-get install python-pip
 
 for jenkins:
 
+ansible-playbook -v -e="container_name=sonarContainer sonar_version='5.1.2'" site.yml
+
 chmod 600 ./docker_ansible_client/keys/id_rsa
 mkdir -p /tmp/ansibletemp
 chmod 777 /tmp/ansibletemp
