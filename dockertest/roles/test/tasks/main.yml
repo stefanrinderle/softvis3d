@@ -24,14 +24,11 @@
     chdir: /tmp/
   ignore_errors: yes
 
-#- fetch: src=/tmp/screenshots/cityModel.png dest={{ playbook_dir }}/screenshots/{{ sonar_version }}_cityModel.png flat=yes
-#  ignore_errors: yes
-#
-#- fetch: src=/tmp/screenshots/startScreen.png dest={{ playbook_dir }}/screenshots/{{ sonar_version }}_startScreen.png flat=yes
-#  ignore_errors: yes
+- fetch: src=/tmp/screenshotTempFolder/cityModel.png dest=/tmp/screenshotTempFolder/screenshots/{{ sonar_version }}_cityModel.png flat=yes
+  ignore_errors: yes
 
-- name: /tmp/screenshotTempFolder/
-  command: /tmp/screenshotTempFolder/
+- fetch: src=/tmp/screenshotTempFolder/startScreen.png dest=/tmp/screenshotTempFolder/screenshots/{{ sonar_version }}_startScreen.png flat=yes
+  ignore_errors: yes
 
-- name: ls /tmp/screenshots/
-  command: ls /tmp/screenshots/
+- name: ls /tmp/screenshotTempFolder/
+  command: ls /tmp/screenshotTempFolder/

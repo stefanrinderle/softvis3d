@@ -34,7 +34,7 @@
         hostname: sonarContainer{{ sonar_version }}
         expose: "22,9000"
         ports: "22,9000"
-        volumes: "/Users/stefanrinderle/ansibletemp:/tmp/screenshotTempFolder"
+        volumes: "/tmp/screenshotTempFolder:/tmp/screenshotTempFolder"
         memory_limit: 0
         # TODO reloaded
         state: started
