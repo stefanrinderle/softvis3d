@@ -31,10 +31,10 @@
     # mac osx
     # shell: "docker ps | grep 'sonarContainer{{ sonar_version }}' | grep -Eow '((\\d{5})->22)' | cut -c1-5"
     # server
-    # shell: "docker ps | grep 'sonarContainer5.1.2' | sed 's/->22.*//' | tail -c 6"
+    # shell: "docker ps | grep 'sonarContainer{{ sonar_version }}' | sed 's/->22.*//' | tail -c 6"
 
     - name: Register ssh port
-      shell: "docker ps | grep 'sonarContainer5.1.2' | sed 's/->22.*//' | tail -c 6"
+      shell: "docker ps | grep 'sonarContainer{{ sonar_version }}' | sed 's/->22.*//' | tail -c 6"
       register: ssh_port
 
     - debug: msg="Sonarqube running container {{ ssh_port }}"
