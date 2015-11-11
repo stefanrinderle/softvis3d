@@ -7,7 +7,7 @@
   register: sonarqube_download
 
 - name: download sonarqube
-  get_url: url=http://dist.sonar.codehaus.org/sonarqube-{{ sonar_version }}.zip dest=/opt/
+  get_url: url=https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-{{ sonar_version }}.zip dest=/opt/
   when: sonarqube_download.stat.exists == False
 
 - stat: path=/opt/sonarqube
