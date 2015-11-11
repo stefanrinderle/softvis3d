@@ -1,7 +1,6 @@
 ---
 - name: prepare docker container for tasks
   hosts: localhost
-  user: root
   vars:
       - ansible_python_interpreter: python
       - container_name: testContainer
