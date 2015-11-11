@@ -81,14 +81,14 @@
     - { role: test }
 
   post_tasks:
-    - name: create client container new
-      docker:
-        name: sonarContainer{{ sonar_version }}
-        docker_api_version: 1.18
-        tls_hostname: localhost
-        docker_url: "{{ docker_host }}"
-        image: rinderle:testversion
-        hostname: sonarContainer{{ sonar_version }}
-        state: absent
+#    - name: create client container new
+#      docker:
+#        name: sonarContainer{{ sonar_version }}
+#        docker_api_version: 1.18
+#        tls_hostname: localhost
+#        docker_url: "{{ docker_host }}"
+#        image: rinderle:testversion
+#        hostname: sonarContainer{{ sonar_version }}
+#        state: absent
 
     - shell: echo 'goodbye'
