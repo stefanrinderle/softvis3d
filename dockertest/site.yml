@@ -8,6 +8,9 @@
       - docker_host: "{{ lookup('env','DOCKER_HOST') }}"
 
   tasks:
+    - name: Who am i?
+      shell: "whoami"
+
     - name: ensure local private key file is protected
       file:
         path: "{{ ansible_env.PWD }}/docker_ansible_client/keys/id_rsa"
