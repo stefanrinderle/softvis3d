@@ -1,6 +1,7 @@
 ---
 - name: prepare docker container for tasks
   hosts: localhost
+  user: jenkins
   vars:
       - ansible_python_interpreter: python
       - container_name: testContainer
