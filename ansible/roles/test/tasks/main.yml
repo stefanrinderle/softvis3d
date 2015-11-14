@@ -24,10 +24,5 @@
     chdir: /tmp/
   ignore_errors: yes
 
-- command: mv /tmp/screenshotTempFolder/startScreen.png /tmp/screenshotTempFolder/screenshots/{{ sonar_version }}_startScreen.png
-  ignore_errors: yes
-- command: mv /tmp/screenshotTempFolder/cityModel.png /tmp/screenshotTempFolder/screenshots/{{ sonar_version }}_cityModel.png
-  ignore_errors: yes
-
 - name: ls /tmp/screenshotTempFolder/
   command: ls /tmp/screenshotTempFolder/

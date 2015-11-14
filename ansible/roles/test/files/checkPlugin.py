@@ -44,11 +44,11 @@ browser.find_element_by_xpath("//*[@id='city-loader']/button").click()
 time.sleep(20)
 browser.save_screenshot('/tmp/screenshotTempFolder/cityModel.png')
 
-# browser.find_element_by_xpath("//*[@id='loader-buttons']/div[2]").click()
-# browser.find_element_by_xpath("//*[@id='dependency-loader']/div[2]/button").click()
+browser.find_element_by_xpath("//*[@id='loader-buttons']/div[2]").click()
+browser.find_element_by_xpath("//*[@id='dependency-loader']/div[2]/button").click()
 
-# browser.implicitly_wait(10)
-# browser.save_screenshot('/tmp/screenshotTempFolder/dependencyView.png')
+time.sleep(20)
+browser.save_screenshot('/tmp/screenshotTempFolder/dependencyView.png')
 
 browser.quit()
 display.stop()
