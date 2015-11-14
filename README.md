@@ -2,6 +2,12 @@
 
 Visualize your project in SonarQube. Please take a look at http://softvis3d.com for further details, screenshots and live demo.
 
+## SonarQube version matrix
+
+| 4.2  | 4.3 | 4.4 | 4.5 | 4.5.1 and follow minor versions | 5.0 | 5.1 | 5.1.1 and follow minor versions | 5.2 | 
+| ---- | --- | --- | --- | ------------------------------- | --- | --- | ------------------------------- | --- | 
+| OK   | OK  | OK  | Not working (SONAR-5699) | OK  | OK | Not working (SONAR-6425) | OK | Not working |  
+
 ##License
 
 Licensed under the GNU Lesser General Public License, Version 3.0: http://www.gnu.org/licenses/lgpl.txt
