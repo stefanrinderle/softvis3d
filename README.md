@@ -4,9 +4,9 @@ Visualize your project in SonarQube. Please take a look at http://softvis3d.com 
 
 ## SonarQube version matrix
 
-| 4.2  | 4.3 | 4.4 | 4.5 | 4.5.1 and follow minor versions | 5.0 | 5.1 | 5.1.1 and follow minor versions | 5.2 | 
+| 4.2  | 4.3 | 4.4 | 4.5 | 4.5.1 and follow <br> minor versions | 5.0 | 5.1 | 5.1.1 and follow <br> minor versions | 5.2 | 
 | ---- | --- | --- | --- | ------------------------------- | --- | --- | ------------------------------- | --- | 
-| OK   | OK  | OK  | Not working (SONAR-5699) | OK  | OK | Not working (SONAR-6425) | OK | Not working |  
+| OK   | OK  | OK  | Not working<br>([SONAR-5699](https://jira.codehaus.org/browse/SONAR-5699)) | OK  | OK | Not working<br>[SONAR-6425](https://jira.codehaus.org/browse/SONAR-6425) | OK | Not working<br>[See my blog <br> for details](http://softvis3d.com/#/blog)|  
 
 ##License
 
@@ -30,12 +30,7 @@ This view is focused on the dependencies within the given structure. The basic 3
 
 ## Requirenments
 
-SonarQube server with version >= 4.2 (except 4.5 and 5.1 - see below)
-
-Due to a bug in SonarQube 4.5 (see SONAR-5699) and 5.1 (see SONAR-6425) the plugin does not work in this versions. The bugs have been fixed in 4.5.1 / 5.1.1 but unfortunately its not possible to get the plugin to work with version 4.5 or 5.1.
-
 SoftVis3DPlugin requires the graphviz software to be installed. It should be easily available for your linux or windows server instance. Please take a look at graphviz install page (http://www.graphviz.org/Download.php) for details.
-
 
 ## Install
 
