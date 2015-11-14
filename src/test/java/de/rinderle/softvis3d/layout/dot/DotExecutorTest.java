@@ -99,8 +99,8 @@ public class DotExecutorTest {
     final Graph inputGraph = new Graph("not used in test");
     this.underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
 
-    Mockito.verify(this.executeCommand, Mockito.times(1)).executeCommandReadAdot(Mockito.any(String.class),
-      Mockito.any(String.class), Mockito.any(Version.class));
+    Mockito.verify(this.executeCommand, Mockito.times(1)).executeCommandReadAdot(Mockito.any(String.class), Mockito.any(
+        String.class), Mockito.any(Version.class));
   }
 
   @Test
@@ -116,8 +116,8 @@ public class DotExecutorTest {
     final Graph inputGraph = new Graph("not used in test");
     this.underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
 
-    Mockito.verify(this.executeCommand, Mockito.times(2)).executeCommandReadAdot(Mockito.any(String.class),
-      Mockito.any(String.class), Mockito.any(Version.class));
+    Mockito.verify(this.executeCommand, Mockito.times(2)).executeCommandReadAdot(Mockito.any(String.class), Mockito.any(
+        String.class), Mockito.any(Version.class));
   }
 
   @Test(expected = DotExecutorException.class)
@@ -137,7 +137,7 @@ public class DotExecutorTest {
     Mockito.when(this.dotVersion.getVersion(Mockito.anyString())).thenReturn(DotExecutor.DOT_BUG_VERSION);
 
     Mockito.when(this.executeCommand.executeCommandReadAdot(Mockito.any(String.class), Mockito.any(String.class),
-      Mockito.any(Version.class))).thenThrow(DotExecutorException.class);
+        Mockito.any(Version.class))).thenThrow(DotExecutorException.class);
 
     final Graph inputGraph = new Graph("not used in test");
     this.underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
@@ -167,5 +167,55 @@ public class DotExecutorTest {
     builder.append("}");
 
     return builder.toString();
+  }
+
+  @Test
+  public void testGetBasePathWindowsForward() {
+    final String result = this.underTest.getBasePath("D:/x_sri/graphviz/bin/dot ");
+
+    assertEquals("D:/x_sri/graphviz/bin/", result);
+  }
+
+  @Test
+  public void testGetBasePathWindowsBackslash() {
+    final String result = this.underTest.getBasePath("D:\\x_sri\\graphviz\\bin\\dot");
+
+    assertEquals("D:\\x_sri\\graphviz\\bin\\", result);
+  }
+
+  @Test
+  public void testGetBasePathWindowsMixed() {
+    final String result = this.underTest.getBasePath("D:/x_sri\\graphviz/bin\\dot");
+
+    assertEquals("D:/x_sri\\graphviz/bin\\", result);
+
+    final String result2 = this.underTest.getBasePath("D:\\x_sri/graphviz\\bin/dot");
+
+    assertEquals("D:\\x_sri/graphviz\\bin/", result2);
+  }
+
+  @Test
+  public void testGetBasePathUnixForward() {
+    final String result = this.underTest.getBasePath("/usr/bin/dot ");
+
+    assertEquals("/usr/bin/", result);
+  }
+
+  @Test
+  public void testGetBasePathUnixBackslash() {
+    final String result = this.underTest.getBasePath("\\usr\\bin\\dot");
+
+    assertEquals("\\usr\\bin\\", result);
+  }
+
+  @Test
+  public void testGetBasePathUnixMixed() {
+    final String result = this.underTest.getBasePath("\\usr/bin\\dot");
+
+    assertEquals("\\usr/bin\\", result);
+
+    final String result2 = this.underTest.getBasePath("\\usr\\bin/dot");
+
+    assertEquals("\\usr\\bin/", result2);
   }
 }

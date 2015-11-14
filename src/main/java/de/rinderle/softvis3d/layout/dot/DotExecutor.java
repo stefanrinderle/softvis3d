@@ -94,15 +94,7 @@ public class DotExecutor {
           IOUtils.copy(file, out);
         }
 
-        final int lastIndex;
-
-        if (SystemUtils.IS_OS_WINDOWS) {
-          lastIndex = dotBin.lastIndexOf("\\");
-        } else {
-          lastIndex = dotBin.lastIndexOf("/");
-        }
-
-        final String translationBin = dotBin.substring(0, lastIndex + 1);
+        final String translationBin = getBasePath(dotBin);
         String translationCommand =
           translationBin + "gvpr -c -f " + this.translationFile.getAbsolutePath();
 
@@ -117,6 +109,14 @@ public class DotExecutor {
     }
 
     return this.parseDot(adot);
+  }
+
+  String getBasePath(final String dotBin) {
+    final int lastIndexBackslash = dotBin.lastIndexOf("\\");
+    final int lastIndexSlash = dotBin.lastIndexOf("/");
+
+    final int lastIndex = Math.max(lastIndexBackslash, lastIndexSlash);
+    return dotBin.substring(0, lastIndex + 1);
   }
 
   private Graph parseDot(final String adot) throws DotExecutorException {
