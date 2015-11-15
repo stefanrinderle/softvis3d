@@ -26,7 +26,7 @@
         ports: "22,9000"
         volumes: "/tmp/screenshotTempFolder:/tmp/screenshotTempFolder"
         memory_limit: 0
-        state: reloaded
+        state: present
 
     - name: Register ssh port
       shell: "docker ps | grep 'sonarContainer{{ sonar_version }}' | sed 's/->22.*//' | tail -c 6"
@@ -48,29 +48,5 @@
   hosts: docker
   remote_user: root
 
-  pre_tasks:
-
-      - name: Install list of packages
-        apt: pkg={{item}} state=present
-        with_items:
-        - unzip
-        - openjdk-7-jdk
-        - maven
-        - git
-        - python-pip
-        - xvfb
-        - firefox
-        - graphviz
-
-      - name: create dot symlink
-        file: path=/usr/local/bin/dot
-              src=/usr/bin/dot
-              state=link
-              force=yes
-
   roles:
-    - { role: sonar }
-    - { role: softVis3dPlugin, sonar_plugin_path: '/opt/sonarqube/extensions/plugins/' }
-    - { role: restartSonar }
-    - { role: analyse }
     - { role: test }

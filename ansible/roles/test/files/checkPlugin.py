@@ -2,6 +2,7 @@ from pyvirtualdisplay import Display
 from selenium import webdriver
 
 import time
+import sys
 
 HOST_BASE="http://localhost:9000"
 
@@ -36,19 +37,23 @@ browser.get(HOST_BASE + page)
 assert 'SonarQube' in browser.title
 
 time.sleep(10)
-browser.save_screenshot('/tmp/screenshotTempFolder/startScreen.png')
+browser.save_screenshot('/tmp/screenshotTempFolder/' + sys.argv[1] + 'startScreen.png')
 
 # show city view
 browser.find_element_by_xpath("//*[@id='city-loader']/button").click()
-
 time.sleep(20)
-browser.save_screenshot('/tmp/screenshotTempFolder/cityModel.png')
+browser.save_screenshot('/tmp/screenshotTempFolder/' + sys.argv[1] + 'cityModel.png')
 
-browser.find_element_by_xpath("//*[@id='loader-buttons']/div[2]").click()
-browser.find_element_by_xpath("//*[@id='dependency-loader']/div[2]/button").click()
+# Load selection
+browser.find_element_by_xpath("//*[@class='sidebarThreeJs']/button[1]").click()
+time.sleep(5)
+browser.save_screenshot('/tmp/screenshotTempFolder/' + sys.argv[1] + 'loadMenu.png')
 
-time.sleep(20)
-browser.save_screenshot('/tmp/screenshotTempFolder/dependencyView.png')
+# show dependency view
+# browser.find_element_by_xpath("//*[@id='loader-buttons']/div[2]").click()
+# browser.find_element_by_xpath("//*[@id='dependency-loader']/div[2]/button").click()
+# time.sleep(20)
+# browser.save_screenshot('/tmp/screenshotTempFolder/' + sys.argv[1] + 'dependencyView.png')
 
 browser.quit()
 display.stop()

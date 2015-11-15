@@ -19,7 +19,7 @@
       mode=0644
 
 - name: Run test
-  command: python checkPlugin.py
+  command: python checkPlugin.py {{ sonar_version }}
   args:
     chdir: /tmp/
   ignore_errors: yes
