@@ -95,11 +95,15 @@ public class DotExecutor {
         }
 
         final String translationBin = getBasePath(dotBin);
-        String translationCommand =
-          translationBin + "gvpr -c -f " + this.translationFile.getAbsolutePath();
 
+        String translationCommand;
         if (SystemUtils.IS_OS_WINDOWS) {
+          translationCommand =
+              translationBin + "gvpr -c -f \"" + this.translationFile.getAbsolutePath() + "\"";
           translationCommand = translationCommand.replace("\\", "/");
+        } else {
+          translationCommand =
+              translationBin + "gvpr -c -f " + this.translationFile.getAbsolutePath();
         }
 
         adot = this.executeCommand.executeCommandReadAdot(translationCommand, adot, currentVersion);
