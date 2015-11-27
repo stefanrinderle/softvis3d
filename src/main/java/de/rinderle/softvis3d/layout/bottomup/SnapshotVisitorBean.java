@@ -19,6 +19,14 @@
  */
 package de.rinderle.softvis3d.layout.bottomup;
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.commons.lang.SystemUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.Node;
@@ -41,14 +49,9 @@ import de.rinderle.softvis3d.layout.bottomup.grappa.GrappaEdgeFactory;
 import de.rinderle.softvis3d.layout.bottomup.grappa.GrappaNodeFactory;
 import de.rinderle.softvis3d.layout.dot.DotExecutor;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
+import de.rinderle.softvis3d.layout.dot.GraphvizPath;
 import de.rinderle.softvis3d.layout.format.LayerFormatter;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
 
 public class SnapshotVisitorBean implements SnapshotVisitor {
 
@@ -60,7 +63,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
   private final GrappaNodeFactory nodeFactory;
   private final GrappaEdgeFactory edgeFactory;
 
-  private final Settings settings;
+  private final GraphvizPath graphvizPath;
 
   private final MinMaxValue minMaxMetricFootprint;
   private final MinMaxValue minMaxMetricHeight;
@@ -77,7 +80,8 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     final GrappaNodeFactory nodeFactory, final GrappaEdgeFactory edgeFactory,
     final DaoService daoService, @Assisted final Settings settings,
     @Assisted final VisualizationRequest requestDTO) {
-    this.settings = settings;
+
+    this.graphvizPath = new GraphvizPath(settings.getString(SoftVis3DConstants.DOT_BIN_KEY), SystemUtils.IS_OS_WINDOWS);
 
     this.dotExecutor = dotExecutor;
     this.formatter = formatter;
@@ -116,7 +120,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     final Graph inputGraph = createGrappaInputGraph(node, elements);
 
     // run dot layout for this layer
-    final Graph outputGraph = this.dotExecutor.run(inputGraph, this.settings, this.viewType);
+    final Graph outputGraph = this.dotExecutor.run(inputGraph, this.graphvizPath, this.viewType);
 
     final ResultPlatform resultPlatform = new ResultPlatform(outputGraph);
 

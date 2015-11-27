@@ -19,9 +19,9 @@
  */
 package de.rinderle.softvis3d.layout.dot;
 
-import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.google.inject.Inject;
 
 public class DotVersion {
 
@@ -32,10 +32,10 @@ public class DotVersion {
   @Inject
   private ExecuteCommand executeCommand;
 
-  public Version getVersion(final String dotBin) throws DotExecutorException {
+  public Version getVersion(final GraphvizPath path) throws DotExecutorException {
     if (this.version == null) {
 
-      String commandResult = this.executeCommand.executeCommandReadErrorStream(dotBin + " -V");
+      String commandResult = this.executeCommand.executeCommandReadErrorStream(path.getDotExecutable() + " -V");
 
       // dot - Graphviz version 2.20.2 (Tue Jan 14 19:38:44 UTC 2014)
       // dot version 2.0 (Mon Apr 6 14:19:01 UTC 2015)

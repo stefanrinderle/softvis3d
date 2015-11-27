@@ -19,19 +19,6 @@
  */
 package de.rinderle.softvis3d.layout.dot;
 
-import att.grappa.Graph;
-import att.grappa.Parser;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import de.rinderle.softvis3d.domain.LayoutViewType;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
-import de.rinderle.softvis3d.layout.helper.StringOutputStream;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.SystemUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,6 +28,17 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.SystemUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import att.grappa.Graph;
+import att.grappa.Parser;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.rinderle.softvis3d.domain.LayoutViewType;
+import de.rinderle.softvis3d.layout.helper.StringOutputStream;
 
 /**
  * Use singleton because of the buggy dot version 2.38.0. The bug workaround (see
@@ -61,20 +59,18 @@ public class DotExecutor {
   @Inject
   private ExecuteCommand executeCommand;
 
-  public Graph run(final Graph inputGraph, final Settings settings, final LayoutViewType viewType)
+  public Graph run(final Graph inputGraph, final GraphvizPath path, final LayoutViewType viewType)
     throws DotExecutorException {
 
-    final String dotBin = settings.getString(SoftVis3DConstants.DOT_BIN_KEY);
-    final Version currentVersion = this.dotVersion.getVersion(dotBin);
-
-    String command = dotBin + " ";
+    final Version currentVersion = this.dotVersion.getVersion(path);
 
     final Version firstNeatoVersion = new Version("2.2.1");
     // return -1 (a<b) return 0 (a=b)
     final boolean noNeato = currentVersion.compareTo(firstNeatoVersion) < 1;
 
+    String command = path.getDotExecutable();
     if (!noNeato && (LayoutViewType.CITY.equals(viewType) || inputGraph.edgeElementsAsArray().length == 0)) {
-      command = dotBin + " -K neato ";
+      command = command + " -K neato";
     }
 
     final StringWriter writer = new StringWriter();
@@ -94,17 +90,10 @@ public class DotExecutor {
           IOUtils.copy(file, out);
         }
 
-        final String translationBin = getBasePath(dotBin);
+        String normalizedTranslationFilePath =
+            normalizeFilePath(this.translationFile.getAbsolutePath(), SystemUtils.IS_OS_WINDOWS);
 
-        String translationCommand;
-        if (SystemUtils.IS_OS_WINDOWS) {
-          translationCommand =
-              translationBin + "gvpr -c -f \"" + this.translationFile.getAbsolutePath() + "\"";
-          translationCommand = translationCommand.replace("\\", "/");
-        } else {
-          translationCommand =
-              translationBin + "gvpr -c -f " + this.translationFile.getAbsolutePath();
-        }
+        String translationCommand = path.getGvprExecutable() + " -c -f " + normalizedTranslationFilePath;
 
         adot = this.executeCommand.executeCommandReadAdot(translationCommand, adot, currentVersion);
       } catch (final IOException e) {
@@ -115,12 +104,14 @@ public class DotExecutor {
     return this.parseDot(adot);
   }
 
-  String getBasePath(final String dotBin) {
-    final int lastIndexBackslash = dotBin.lastIndexOf("\\");
-    final int lastIndexSlash = dotBin.lastIndexOf("/");
-
-    final int lastIndex = Math.max(lastIndexBackslash, lastIndexSlash);
-    return dotBin.substring(0, lastIndex + 1);
+  String normalizeFilePath(final String sourceBin, final boolean isWindows) {
+    if (isWindows) {
+      // because the gvpr and not gvpr.exe is used, the slashes have to be flipped on windows.
+      final String slashFlipped = sourceBin.replace("\\", "/");
+      return "\"" + slashFlipped + "\"";
+    } else {
+      return sourceBin;
+    }
   }
 
   private Graph parseDot(final String adot) throws DotExecutorException {

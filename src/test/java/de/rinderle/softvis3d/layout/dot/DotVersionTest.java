@@ -19,15 +19,15 @@
  */
 package de.rinderle.softvis3d.layout.dot;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 public class DotVersionTest {
 
@@ -49,7 +49,8 @@ public class DotVersionTest {
     Mockito.when(this.executeCommand.executeCommandReadErrorStream(Mockito.any(String.class))).thenReturn(
       versionInfo);
 
-    final Version result = this.underTest.getVersion("dotBin");
+    final GraphvizPath path = new GraphvizPath("/usr/bin/dot", false);
+    final Version result = this.underTest.getVersion(path);
 
     assertNotNull(result);
 
@@ -64,7 +65,8 @@ public class DotVersionTest {
     Mockito.when(this.executeCommand.executeCommandReadErrorStream(Mockito.any(String.class))).thenReturn(
       versionInfo);
 
-    final Version result = this.underTest.getVersion("dotBin");
+    final GraphvizPath path = new GraphvizPath("/usr/bin/dot", false);
+    final Version result = this.underTest.getVersion(path);
 
     assertNotNull(result);
     assertTrue(version.equals(result));

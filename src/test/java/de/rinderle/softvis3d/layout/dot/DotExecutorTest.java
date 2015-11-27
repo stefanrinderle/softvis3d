@@ -19,23 +19,23 @@
  */
 package de.rinderle.softvis3d.layout.dot;
 
-import att.grappa.Graph;
-import de.rinderle.softvis3d.domain.LayoutViewType;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.sonar.api.config.Settings;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import att.grappa.Graph;
+import de.rinderle.softvis3d.domain.LayoutViewType;
 
 public class DotExecutorTest {
 
-  private final static Settings SETTINGS = new Settings();
+  private final static GraphvizPath PATH = new GraphvizPath("/usr/local/bin/dot", true);
+
   @InjectMocks
   private final DotExecutor underTest = new DotExecutor();
   @Mock
@@ -60,14 +60,14 @@ public class DotExecutorTest {
 
   @Test
   public void testHappy() throws DotExecutorException {
-    Mockito.when(this.dotVersion.getVersion(Mockito.anyString())).thenReturn(new Version("2.36.0"));
+    Mockito.when(this.dotVersion.getVersion(Mockito.any(GraphvizPath.class))).thenReturn(new Version("2.36.0"));
 
     Mockito.when(
       this.executeCommand.executeCommandReadAdot(Mockito.any(String.class), Mockito.any(String.class),
         Mockito.any(Version.class))).thenReturn(this.createADot());
 
     final Graph inputGraph = new Graph("not used in test");
-    final Graph result = this.underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+    final Graph result = this.underTest.run(inputGraph, PATH, LayoutViewType.CITY);
 
     assertNotNull(result);
     assertTrue("777".equals(result.getName()));
@@ -75,14 +75,14 @@ public class DotExecutorTest {
 
   @Test
   public void testHappyDependency() throws DotExecutorException {
-    Mockito.when(this.dotVersion.getVersion(Mockito.anyString())).thenReturn(new Version("2.36.0"));
+    Mockito.when(this.dotVersion.getVersion(Mockito.any(GraphvizPath.class))).thenReturn(new Version("2.36.0"));
 
     Mockito.when(
       this.executeCommand.executeCommandReadAdot(Mockito.any(String.class), Mockito.any(String.class),
         Mockito.any(Version.class))).thenReturn(this.createADot());
 
     final Graph inputGraph = new Graph("not used in test");
-    final Graph result = this.underTest.run(inputGraph, SETTINGS, LayoutViewType.DEPENDENCY);
+    final Graph result = this.underTest.run(inputGraph, PATH, LayoutViewType.DEPENDENCY);
 
     assertNotNull(result);
     assertTrue("777".equals(result.getName()));
@@ -90,14 +90,14 @@ public class DotExecutorTest {
 
   @Test
   public void testVersionFalse() throws DotExecutorException {
-    Mockito.when(this.dotVersion.getVersion(Mockito.anyString())).thenReturn(new Version("2.36.0"));
+    Mockito.when(this.dotVersion.getVersion(Mockito.any(GraphvizPath.class))).thenReturn(new Version("2.36.0"));
 
     Mockito.when(
       this.executeCommand.executeCommandReadAdot(Mockito.any(String.class), Mockito.any(String.class),
         Mockito.any(Version.class))).thenReturn(this.createADot());
 
     final Graph inputGraph = new Graph("not used in test");
-    this.underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+    this.underTest.run(inputGraph, PATH, LayoutViewType.CITY);
 
     Mockito.verify(this.executeCommand, Mockito.times(1)).executeCommandReadAdot(Mockito.any(String.class), Mockito.any(
         String.class), Mockito.any(Version.class));
@@ -105,16 +105,14 @@ public class DotExecutorTest {
 
   @Test
   public void testVersionTrue() throws DotExecutorException {
-    SETTINGS.setProperty("dotBinDirectory", "/usr/local/bin/dot");
-
-    Mockito.when(this.dotVersion.getVersion(Mockito.anyString())).thenReturn(DotExecutor.DOT_BUG_VERSION);
+    Mockito.when(this.dotVersion.getVersion(Mockito.any(GraphvizPath.class))).thenReturn(DotExecutor.DOT_BUG_VERSION);
 
     Mockito.when(
       this.executeCommand.executeCommandReadAdot(Mockito.any(String.class), Mockito.any(String.class),
         Mockito.any(Version.class))).thenReturn(this.createADot());
 
     final Graph inputGraph = new Graph("not used in test");
-    this.underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+    this.underTest.run(inputGraph, PATH, LayoutViewType.CITY);
 
     Mockito.verify(this.executeCommand, Mockito.times(2)).executeCommandReadAdot(Mockito.any(String.class), Mockito.any(
         String.class), Mockito.any(Version.class));
@@ -122,25 +120,21 @@ public class DotExecutorTest {
 
   @Test(expected = DotExecutorException.class)
   public void testExceptionOnVersion() throws DotExecutorException {
-    SETTINGS.setProperty("dotBinDirectory", "/usr/local/bin/dot");
-
-    Mockito.when(this.dotVersion.getVersion(Mockito.anyString())).thenThrow(DotExecutorException.class);
+    Mockito.when(this.dotVersion.getVersion(Mockito.any(GraphvizPath.class))).thenThrow(DotExecutorException.class);
 
     final Graph inputGraph = new Graph("not used in test");
-    this.underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+    this.underTest.run(inputGraph, PATH, LayoutViewType.CITY);
   }
 
   @Test(expected = DotExecutorException.class)
   public void testExceptionOnAdot() throws DotExecutorException {
-    SETTINGS.setProperty("dotBinDirectory", "/usr/local/bin/dot");
-
-    Mockito.when(this.dotVersion.getVersion(Mockito.anyString())).thenReturn(DotExecutor.DOT_BUG_VERSION);
+    Mockito.when(this.dotVersion.getVersion(Mockito.any(GraphvizPath.class))).thenReturn(DotExecutor.DOT_BUG_VERSION);
 
     Mockito.when(this.executeCommand.executeCommandReadAdot(Mockito.any(String.class), Mockito.any(String.class),
         Mockito.any(Version.class))).thenThrow(DotExecutorException.class);
 
     final Graph inputGraph = new Graph("not used in test");
-    this.underTest.run(inputGraph, SETTINGS, LayoutViewType.CITY);
+    this.underTest.run(inputGraph, PATH, LayoutViewType.CITY);
   }
 
   public String createADot() {
@@ -170,52 +164,28 @@ public class DotExecutorTest {
   }
 
   @Test
-  public void testGetBasePathWindowsForward() {
-    final String result = this.underTest.getBasePath("D:/x_sri/graphviz/bin/dot ");
+  public void testNormalizeDotBinUnix() {
+    final String source = "/usr/bin/dot";
 
-    assertEquals("D:/x_sri/graphviz/bin/", result);
+    final String result = this.underTest.normalizeFilePath(source, false);
+
+    assertEquals(source, result);
   }
 
   @Test
-  public void testGetBasePathWindowsBackslash() {
-    final String result = this.underTest.getBasePath("D:\\x_sri\\graphviz\\bin\\dot");
+  public void testNormalizeDotBinWindows() {
+    final String source = "C:\\Program Files (x86)\\graphviz\\bin";
 
-    assertEquals("D:\\x_sri\\graphviz\\bin\\", result);
+    final String result = this.underTest.normalizeFilePath(source, true);
+
+    assertEquals("\"" + "C:/Program Files (x86)/graphviz/bin" + "\"", result);
   }
 
   @Test
-  public void testGetBasePathWindowsMixed() {
-    final String result = this.underTest.getBasePath("D:/x_sri\\graphviz/bin\\dot");
+  public void testGetBasePathWindowsNormalized() {
+    final String result = this.underTest.normalizeFilePath("D:/x_sri/graphviz/bin/dot", true);
 
-    assertEquals("D:/x_sri\\graphviz/bin\\", result);
-
-    final String result2 = this.underTest.getBasePath("D:\\x_sri/graphviz\\bin/dot");
-
-    assertEquals("D:\\x_sri/graphviz\\bin/", result2);
+    assertEquals("\"D:/x_sri/graphviz/bin/dot\"", result);
   }
 
-  @Test
-  public void testGetBasePathUnixForward() {
-    final String result = this.underTest.getBasePath("/usr/bin/dot ");
-
-    assertEquals("/usr/bin/", result);
-  }
-
-  @Test
-  public void testGetBasePathUnixBackslash() {
-    final String result = this.underTest.getBasePath("\\usr\\bin\\dot");
-
-    assertEquals("\\usr\\bin\\", result);
-  }
-
-  @Test
-  public void testGetBasePathUnixMixed() {
-    final String result = this.underTest.getBasePath("\\usr/bin\\dot");
-
-    assertEquals("\\usr/bin\\", result);
-
-    final String result2 = this.underTest.getBasePath("\\usr\\bin/dot");
-
-    assertEquals("\\usr\\bin/", result2);
-  }
 }
