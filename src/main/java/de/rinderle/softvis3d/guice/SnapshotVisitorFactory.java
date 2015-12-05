@@ -25,5 +25,7 @@ import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.layout.bottomup.SnapshotVisitor;
 
 public interface SnapshotVisitorFactory {
-  SnapshotVisitor create(@Assisted VisualizationSettings settings, @Assisted VisualizationRequest requestDTO);
+  // TODO reeneable inject
+  // removed in the first place
+//  SnapshotVisitor create(@Assisted VisualizationSettings settings, @Assisted VisualizationRequest requestDTO);
 }

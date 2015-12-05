@@ -24,22 +24,38 @@ import de.rinderle.softvis3d.VisualizationSettings;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
-import de.rinderle.softvis3d.guice.SnapshotVisitorFactory;
 import de.rinderle.softvis3d.layout.bottomup.BottomUpLayout;
 import de.rinderle.softvis3d.layout.bottomup.BottomUpLayoutBean;
 import de.rinderle.softvis3d.layout.bottomup.SnapshotVisitor;
+import de.rinderle.softvis3d.layout.bottomup.SnapshotVisitorBean;
+import de.rinderle.softvis3d.layout.bottomup.grappa.GrappaEdgeFactory;
+import de.rinderle.softvis3d.layout.bottomup.grappa.GrappaNodeFactory;
+import de.rinderle.softvis3d.layout.dot.DotExecutor;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
+import de.rinderle.softvis3d.layout.format.LayerFormatter;
 import java.util.Map;
 
 public class LayoutProcessor {
 
+//  @Inject
+//  private SnapshotVisitorFactory visitorFactory;
+
   @Inject
-  private SnapshotVisitorFactory visitorFactory;
+  private LayerFormatter formatter;
+  @Inject
+  private DotExecutor dotExcecutor;
+  @Inject
+  private GrappaNodeFactory nodeFactory;
+  @Inject
+  private GrappaEdgeFactory edgefactory;
 
   public Map<Integer, ResultPlatform> process(final VisualizationSettings settings, final VisualizationRequest requestDTO,
                                               final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
 
-    final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO);
+    //    final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO);
+
+    final SnapshotVisitor visitor = new SnapshotVisitorBean(formatter, dotExcecutor, nodeFactory, edgefactory,
+            settings, requestDTO);
 
     final BottomUpLayout bottomUpLayout = new BottomUpLayoutBean(visitor);
     bottomUpLayout.accept(snapshotTreeResult);
