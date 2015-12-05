@@ -47,7 +47,7 @@ public class SoftVis3DWebservice implements WebService {
     this.configHandler.setSettings(settings);
     this.configHandler.setDatabaseSession(session);
     this.visualizationHandler = softVis3DInjector.getInstance(VisualizationWebserviceHandler.class);
-    this.visualizationHandler.setSettings(settings);
+    this.visualizationHandler.setSettings(new VisualizationSettings());
     this.visualizationHandler.setDatabaseSession(session);
   }
 

@@ -22,7 +22,6 @@ package de.rinderle.softvis3d.webservice.config;
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.Metric;
-import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
 import java.util.List;
 import org.slf4j.Logger;
@@ -88,12 +87,12 @@ public class ConfigWebserviceHandler extends AbstractWebserviceHandler implement
     jsonWriter.name("scmMetricTypes");
     jsonWriter.beginArray();
 
-    for (final ScmInfoType scmInfoType : ScmInfoType.values()) {
-      jsonWriter.beginObject();
-      jsonWriter.prop("name", scmInfoType.name());
-      jsonWriter.prop("description", scmInfoType.getDescription());
-      jsonWriter.endObject();
-    }
+//    for (final ScmInfoType scmInfoType : ScmInfoType.values()) {
+//      jsonWriter.beginObject();
+//      jsonWriter.prop("name", scmInfoType.name());
+//      jsonWriter.prop("description", scmInfoType.getDescription());
+//      jsonWriter.endObject();
+//    }
 
     jsonWriter.endArray();
   }

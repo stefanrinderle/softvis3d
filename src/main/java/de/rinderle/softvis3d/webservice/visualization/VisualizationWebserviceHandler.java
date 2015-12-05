@@ -21,10 +21,13 @@ package de.rinderle.softvis3d.webservice.visualization;
 
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.SoftVis3DPlugin;
+import de.rinderle.softvis3d.VisualizationAdditionalInfos;
 import de.rinderle.softvis3d.VisualizationProcessor;
+import de.rinderle.softvis3d.VisualizationSettings;
 import de.rinderle.softvis3d.cache.LayoutCacheService;
+import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.LayoutViewType;
-import de.rinderle.softvis3d.domain.ScmInfoType;
+import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
@@ -35,7 +38,6 @@ import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
@@ -46,7 +48,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
   private static final Logger LOGGER = LoggerFactory.getLogger(VisualizationWebserviceHandler.class);
 
-  private Settings settings;
+  private VisualizationSettings settings;
   private DatabaseSession session;
 
   @Inject
@@ -57,6 +59,8 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
   private LayoutCacheService layoutCacheService;
   @Inject
   private PreProcessor preProcessor;
+  @Inject
+  private DaoService daoService;
 
   @Inject
   private TreeNodeJsonWriter treeNodeJsonWriter;
@@ -70,9 +74,11 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
     final LayoutViewType layoutViewType = LayoutViewType.valueOfRequest(request.param("viewType"));
 
-    final ScmInfoType scmInfoType = ScmInfoType.valueOf(request.param("scmMetricType"));
+//    final ScmInfoType scmInfoType = ScmInfoType.valueOf(request.param("scmMetricType"));
     final VisualizationRequest requestDTO =
-            new VisualizationRequest(id, layoutViewType, footprintMetricId, heightMetricId, scmInfoType);
+            new VisualizationRequest(id, layoutViewType, footprintMetricId, heightMetricId);
+//    final VisualizationRequest requestDTO =
+//            new VisualizationRequest(id, layoutViewType, footprintMetricId, heightMetricId, scmInfoType);
 
     LOGGER.info("VisualizationWebserviceHandler " + requestDTO.toString());
 
@@ -120,8 +126,9 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
   private Map<Integer, ResultPlatform> createLayout(final Integer id, final VisualizationRequest requestDTO,
     final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
     logStartOfCalc(requestDTO);
+
     final Map<Integer, ResultPlatform> result =
-      visualizationProcessor.visualize(this.settings, requestDTO, snapshotTreeResult);
+     visualizationProcessor.visualize(id, this.settings, requestDTO, snapshotTreeResult, createAdditionalInfos(requestDTO));
 
     /**
      * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
@@ -133,13 +140,25 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     return result;
   }
 
+    private VisualizationAdditionalInfos createAdditionalInfos(VisualizationRequest requestDTO) {
+   final MinMaxValue minMaxMetricFootprint = daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
+            requestDTO.getFootprintMetricId());
+    final MinMaxValue minMaxMetricHeight =
+      daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
+        requestDTO.getHeightMetricId());
+
+    int dependenciesCount = daoService.getDependencies(requestDTO.getRootSnapshotId()).size();
+
+    return new VisualizationAdditionalInfos(minMaxMetricFootprint, minMaxMetricHeight, dependenciesCount);
+  }
+
   private void logStartOfCalc(final VisualizationRequest visualizationRequest) {
     LOGGER.info("Start layout calculation for snapshot " + visualizationRequest.getRootSnapshotId() + ", "
       + "metrics " + visualizationRequest.getHeightMetricId() + " and "
       + visualizationRequest.getFootprintMetricId());
   }
 
-  public void setSettings(final Settings settings) {
+  public void setSettings(final VisualizationSettings settings) {
     this.settings = settings;
   }
 
