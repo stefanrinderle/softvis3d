@@ -19,8 +19,10 @@ public class UserDAO {
 		         if (UserDAO.userList.isEmpty()) {
 
 		        	 User user = new User(1, "Mahesh", "Teacher");
+					 User user2 = new User(2, "Mahesh", "Teacher");
 		            //userList = new ArrayList<User>();
 		            userList.add(user);
+					 userList.add(user);
 //		            saveUserList(userList);		
 		         }
 //		         else{
