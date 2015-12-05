@@ -73,7 +73,7 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.2.4</version>
-            <scope>test</scope>
+            <!--<scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -107,7 +107,7 @@
 
         <dependency>
             <groupId>de.rinderle</groupId>
-            <artifactId>softvis3d-maven</artifactId>
+            <artifactId>softvis3d-base</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
@@ -144,30 +144,6 @@
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
                     <!-- <optimize>true</optimize> <debug>true</debug> -->
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <useDefaultManifestFile>true</useDefaultManifestFile>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.elbart.jersey.Main</mainClass>
-                            <addClasspath>true</addClasspath>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <configuration>
-                    <mainClass>com.elbart.jersey.Main</mainClass>
                 </configuration>
             </plugin>
 
