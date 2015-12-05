@@ -36,6 +36,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -68,9 +69,9 @@ public class VisualizationProcessorTest {
     final SnapshotTreeResult snapShotTreeResult = new SnapshotTreeResult(key, tree);
     final Map<Integer, ResultPlatform> resultGraphs = new HashMap<>();
 
-    when(layoutProcessor.process(eq(settings), eq(requestDTO), eq(snapShotTreeResult))).thenReturn(resultGraphs);
+    when(layoutProcessor.process(eq(settings), eq(requestDTO), eq(snapShotTreeResult), any(VisualizationAdditionalInfos.class))).thenReturn(resultGraphs);
 
-    final Map<Integer, ResultPlatform> result = underTest.visualize(tree.getId(), settings, requestDTO, snapShotTreeResult);
+    final Map<Integer, ResultPlatform> result = underTest.visualize(tree.getId(), settings, requestDTO, snapShotTreeResult, null);
 
     assertEquals(resultGraphs, result);
   }

@@ -44,13 +44,13 @@ public class VisualizationProcessor {
 
   public Map<Integer, ResultPlatform> visualize(final Integer rootId, final VisualizationSettings settings,
                                                 final VisualizationRequest requestDTO,
-    final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
+                                                final SnapshotTreeResult snapshotTreeResult, VisualizationAdditionalInfos additionalInfos) throws DotExecutorException {
 
     final StopWatch stopWatch = new StopWatch();
     stopWatch.start();
 
     final Map<Integer, ResultPlatform> resultGraphs =
-      layoutProcessor.process(settings, requestDTO, snapshotTreeResult);
+      layoutProcessor.process(settings, requestDTO, snapshotTreeResult, additionalInfos);
 
     LOGGER.info("Created " + resultGraphs.size() + " result graphs in " + stopWatch.getTime() + " ms");
 

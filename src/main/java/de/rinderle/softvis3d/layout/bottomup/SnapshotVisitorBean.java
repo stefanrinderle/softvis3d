@@ -24,6 +24,7 @@ import att.grappa.GrappaBox;
 import att.grappa.Node;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import de.rinderle.softvis3d.VisualizationAdditionalInfos;
 import de.rinderle.softvis3d.VisualizationSettings;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
@@ -75,7 +76,8 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
   public SnapshotVisitorBean(final LayerFormatter formatter, final DotExecutor dotExecutor,
     final GrappaNodeFactory nodeFactory, final GrappaEdgeFactory edgeFactory,
     @Assisted final VisualizationSettings settings,
-    @Assisted final VisualizationRequest requestDTO) {
+    @Assisted final VisualizationRequest requestDTO,
+    @Assisted final VisualizationAdditionalInfos additionalInfos) {
 
     this.graphvizPath = new GraphvizPath(settings.getDotBinPath(), SystemUtils.IS_OS_WINDOWS);
 
@@ -84,14 +86,10 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     this.nodeFactory = nodeFactory;
     this.edgeFactory = edgeFactory;
 
-//    this.minMaxMetricFootprint =
-//      daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
-//        requestDTO.getFootprintMetricId());
-//    this.minMaxMetricHeight =
-//      daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
-//        requestDTO.getHeightMetricId());
-//
-//    this.dependenciesCount = daoService.getDependencies(requestDTO.getRootSnapshotId()).size();
+    this.minMaxMetricFootprint = additionalInfos.getMinMaxMetricFootprint();
+    this.minMaxMetricHeight = additionalInfos.getMinMaxMetricHeight();
+
+    this.dependenciesCount = additionalInfos.getDependenciesCount();
 //    this.maxScmInfo = daoService.getMaxScmInfo(requestDTO);
 
 //    LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxMetricFootprint.toString()
@@ -99,9 +97,6 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
     this.viewType = requestDTO.getViewType();
 //    this.scmInfoType = requestDTO.getScmInfoType();
-    minMaxMetricFootprint = new MinMaxValue(0.0, 100.0);
-    minMaxMetricHeight = new MinMaxValue(0.0, 100.0);
-    dependenciesCount = 0;
 
     maxScmInfo = 0;
   }
