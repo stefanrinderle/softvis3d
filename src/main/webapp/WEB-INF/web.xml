@@ -2,14 +2,14 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-    <display-name>Jersey Bla Demo</display-name>
+    <display-name>SoftVis3D layout as webservice demo</display-name>
 
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
 
     <listener>
-        <listener-class>com.elbart.jersey.GuiceServletConfig</listener-class>
+        <listener-class>de.rinderle.softvis3d.servlet.GuiceServletConfig</listener-class>
     </listener>
     <filter>
         <filter-name>Guice Filter</filter-name>

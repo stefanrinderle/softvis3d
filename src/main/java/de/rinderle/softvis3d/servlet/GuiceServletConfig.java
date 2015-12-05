@@ -1,4 +1,4 @@
-package com.elbart.jersey;
+package de.rinderle.softvis3d.servlet;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -8,6 +8,7 @@ public class GuiceServletConfig extends GuiceServletContextListener {
 
     @Override
     protected Injector getInjector() {
-        return Guice.createInjector(new MyGuiceConfig());
+        return Guice.createInjector(new SoftVis3DConfig());
     }
+
 }
