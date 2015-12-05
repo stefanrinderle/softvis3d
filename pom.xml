@@ -1,10 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.elbart</groupId>
-    <artifactId>jersey</artifactId>
+
+    <groupId>de.rinderle.softvis3d</groupId>
+    <artifactId>softVis3D-webservice-example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-      <packaging>jar</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <jersey.version>1.9.1</jersey.version>
@@ -15,6 +16,7 @@
     </properties>
 
     <dependencies>
+        <!-- JETTY -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
@@ -26,6 +28,7 @@
             <version>9.2.3.v20140905</version>
         </dependency>
 
+        <!-- JERSEY AND GUICE -->
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-server</artifactId>
@@ -57,35 +60,19 @@
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- !!! softvis3d base !!! -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.12</version>
+            <groupId>de.rinderle</groupId>
+            <artifactId>softvis3d-base</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>[4.0,5.0)</version>
-            <scope>test</scope>
-        </dependency>
+        <!-- LIBRARIES -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.2.4</version>
-            <!--<scope>test</scope>-->
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-project</artifactId>
-            <version>2.2.1</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>xml-apis</groupId>
@@ -93,29 +80,24 @@
             <version>1.3.03</version>
         </dependency>
         <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-junit4</artifactId>
-            <version>1.5.5</version>
-            <scope>test</scope>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.12</version>
         </dependency>
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito</artifactId>
-            <version>1.5.5</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>de.rinderle</groupId>
-            <artifactId>softvis3d-base</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
+
+        <!-- TESTS -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -139,11 +121,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <!-- <verbose>true</verbose> -->
                     <compilerVersion>${jdk.version}</compilerVersion>
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
-                    <!-- <optimize>true</optimize> <debug>true</debug> -->
                 </configuration>
             </plugin>
 
