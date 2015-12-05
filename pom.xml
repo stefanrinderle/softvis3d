@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>de.rinderle</groupId>
+  <artifactId>softvis3d-base</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <packaging>jar</packaging>
+
+  <name>softvis3d-base</name>
+
+  <url>http://softvis3d.com</url>
+
+  <inceptionYear>2015</inceptionYear>
+
+  <organization>
+    <name>Stefan Rinderle</name>
+  </organization>
+
+  <developers>
+    <developer>
+      <id>srinderle</id>
+      <name>Stefan Rinderle</name>
+      <url>https://github.com/kevinsawicki</url>
+      <email>stefan@rinderle.info</email>
+    </developer>
+  </developers>
+
+  <!--<issueManagement>-->
+  <!--<url>https://github.com/stefanrinderle/sonar-softvis3d-plugin/issues</url>-->
+  <!--<system>GitHub Issues</system>-->
+  <!--</issueManagement>-->
+
+  <!--<scm>-->
+  <!--<url>scm:git:git@github.com:stefanrinderle/sonar-softvis3d-plugin.git</url>-->
+  <!--<connection>scm:git:git@github.com:stefanrinderle/sonar-softvis3d-plugin.git</connection>-->
+  <!--<developerConnection>scm:git:git@github.com:stefanrinderle/sonar-softvis3d-plugin.git</developerConnection>-->
+  <!--<tag>HEAD</tag>-->
+  <!--</scm>-->
+
+  <properties>
+    <license.mailto>stefan@rinderle.info</license.mailto>
+
+    <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
+
+    <coverage.reports.dir>${basedir}/target/coverage-reports</coverage.reports.dir>
+    <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>lib</id>
+      <name>In Project Repo</name>
+      <url>file://${project.basedir}/libs</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>att</groupId>
+      <artifactId>grappa</artifactId>
+      <version>3.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.inject.extensions</groupId>
+      <artifactId>guice-assistedinject</artifactId>
+      <version>3.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.12</version>
+    </dependency>
+
+    <!-- unit tests -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.2.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <version>2.2.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>xml-apis</groupId>
+      <artifactId>xml-apis</artifactId>
+      <version>1.3.03</version>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>1.5.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>1.5.5</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.1.201405082137</version>
+        <executions>
+          <execution>
+            <id>jacoco-initialize</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jacoco-site</id>
+            <phase>package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.2</version>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
