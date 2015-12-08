@@ -65,12 +65,13 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
   private final MinMaxValue minMaxMetricFootprint;
   private final MinMaxValue minMaxMetricHeight;
+  private final MinMaxValue minMaxMetricColor;
+
   private final int dependenciesCount;
 
   private final Map<Integer, ResultPlatform> resultingGraphList = new ConcurrentHashMap<Integer, ResultPlatform>();
 
   private final LayoutViewType viewType;
-  private final int maxScmInfo;
 
   @Inject
   public SnapshotVisitorBean(final LayerFormatter formatter, final DotExecutor dotExecutor,
@@ -88,17 +89,14 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
     this.minMaxMetricFootprint = additionalInfos.getMinMaxMetricFootprint();
     this.minMaxMetricHeight = additionalInfos.getMinMaxMetricHeight();
+    this.minMaxMetricColor = additionalInfos.getMinMaxMetricColor();
 
     this.dependenciesCount = additionalInfos.getDependenciesCount();
-//    this.maxScmInfo = daoService.getMaxScmInfo(requestDTO);
 
-//    LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxMetricFootprint.toString()
-//      + " " + minMaxMetricHeight.toString() + " Dependencies: " + this.dependenciesCount);
+    LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxMetricFootprint.toString()
+      + " " + minMaxMetricHeight.toString() + " Dependencies: " + this.dependenciesCount);
 
     this.viewType = requestDTO.getViewType();
-//    this.scmInfoType = requestDTO.getScmInfoType();
-
-    maxScmInfo = 0;
   }
 
   @Override
@@ -199,9 +197,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
       buildingHeight = buildingHeight * SoftVis3DConstants.BUILDING_HEIGHT_MULTIPLIER;
       buildingHeight = Math.round(buildingHeight);
 
-//      color = this.formatter.getScmColorInfo(this.scmInfoType, leafNode.getScmMetricValue(), this.maxScmInfo);
-      // TODO scmInfoType for formatter!
-      color = this.formatter.getScmColorInfo(leafNode.getScmMetricValue(), this.maxScmInfo);
+      color = this.formatter.getMetricColorColor(leafNode.getColorMetricValue(), this.minMaxMetricColor);
     }
 
     sideLength = sideLength / SoftVis3DConstants.DPI_DOT_SCALE;

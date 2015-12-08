@@ -116,19 +116,16 @@ public class LayerFormatter {
     return counter;
   }
 
-  public HexaColor getScmColorInfo(final int nodeScmValue, final int maxScmValue) {
-//    if (ScmInfoType.NONE.equals(scmInfoType)) {
-      return SoftVis3DConstants.BUILDING_COLOR;
-//    } else {
-//      return makeColor(nodeScmValue, maxScmValue);
-//    }
+  public HexaColor getMetricColorColor(final double nodeColorMetricValue, final MinMaxValue minMaxMetricColor) {
+      double percentage = this.calcPercentage(nodeColorMetricValue, minMaxMetricColor);
+      return makeColor(percentage, 100);
   }
 
   /**
    * Value between 0 and 510.
    */
-  private HexaColor makeColor(final int nodeValue, final double maxValue) {
-    int valueBetween0And510 = (int) (((double) nodeValue / maxValue) * 510);
+  private HexaColor makeColor(final double nodeValue, final double maxValue) {
+    int valueBetween0And510 = (int) ((nodeValue / maxValue) * 510);
 
     int newGreenValue;
     final int newRedValue;
