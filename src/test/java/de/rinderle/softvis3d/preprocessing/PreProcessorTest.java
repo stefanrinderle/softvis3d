@@ -68,7 +68,7 @@ public class PreProcessorTest {
     final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
     when(snapshotCacheService.containsKey(eq(mapKey))).thenReturn(true);
-    SnapshotTreeResult expectedResult = new SnapshotTreeResult(mapKey, null);
+    SnapshotTreeResult expectedResult = new SnapshotTreeResult(null);
     when(snapshotCacheService.getSnapshotTreeResult(eq(mapKey))).thenReturn(expectedResult);
     expectedResult = snapshotCacheService.getSnapshotTreeResult(mapKey);
 
@@ -77,25 +77,4 @@ public class PreProcessorTest {
     assertEquals(expectedResult, result);
   }
 
-  @Test
-  public void testProcessNotCachedCity() throws Exception {
-    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
-    final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
-
-    when(snapshotCacheService.containsKey(eq(mapKey))).thenReturn(false);
-    final SnapshotTreeResult result = preProcessor.process(requestDTO);
-
-    assertEquals(mapKey, result.getStorageKey());
-  }
-
-  @Test
-  public void testProcessNotCachedDependency() throws Exception {
-    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20);
-    final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
-
-    when(snapshotCacheService.containsKey(eq(mapKey))).thenReturn(false);
-    final SnapshotTreeResult result = preProcessor.process(requestDTO);
-
-    assertEquals(mapKey, result.getStorageKey());
-  }
 }

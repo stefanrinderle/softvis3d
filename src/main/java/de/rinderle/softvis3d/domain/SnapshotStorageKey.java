@@ -17,35 +17,36 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.cache;
+package de.rinderle.softvis3d.domain;
 
-import com.google.inject.Singleton;
-import de.rinderle.softvis3d.domain.SnapshotStorageKey;
-import de.rinderle.softvis3d.domain.SnapshotTreeResult;
+import java.util.Objects;
 
-@Singleton
-public class SnapshotCacheService {
+public class SnapshotStorageKey {
 
-  private final Cache<SnapshotStorageKey, SnapshotTreeResult> storage;
+  private final String key;
 
-  public SnapshotCacheService() {
-    storage = new Cache<>();
+  public SnapshotStorageKey(final VisualizationRequest requestDTO) {
+    this.key = requestDTO.getRootSnapshotId() + "_"
+      + requestDTO.getViewType().name() + "_"
+      + requestDTO.getFootprintMetricId() + "_"
+      + requestDTO.getHeightMetricId();
   }
 
-  public void printCacheContents() {
-    storage.logKeys();
+  @Override
+  public String toString() {
+    return key;
   }
 
-  public boolean containsKey(final SnapshotStorageKey key) {
-    return storage.containsKey(key);
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    final SnapshotStorageKey that = (SnapshotStorageKey) o;
+    return Objects.equals(key, that.key);
   }
 
-  public void save(final SnapshotStorageKey key, final SnapshotTreeResult result) {
-    storage.put(key, result);
+  @Override
+  public int hashCode() {
+    return Objects.hash(key);
   }
-
-  public SnapshotTreeResult getSnapshotTreeResult(final SnapshotStorageKey key) {
-    return storage.get(key);
-  }
-
 }

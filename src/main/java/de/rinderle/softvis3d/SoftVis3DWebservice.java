@@ -23,6 +23,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.rinderle.softvis3d.dao.DependencyDao;
 import de.rinderle.softvis3d.dao.SonarDao;
+import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.guice.SoftVis3DModule;
 import de.rinderle.softvis3d.webservice.config.ConfigWebserviceHandler;
 import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHandler;
@@ -47,7 +48,8 @@ public class SoftVis3DWebservice implements WebService {
     this.configHandler.setSettings(settings);
     this.configHandler.setDatabaseSession(session);
     this.visualizationHandler = softVis3DInjector.getInstance(VisualizationWebserviceHandler.class);
-    this.visualizationHandler.setSettings(new VisualizationSettings());
+    final VisualizationSettings visualizationSettings = new VisualizationSettings(settings.getString(SoftVis3DConstants.DOT_BIN_KEY));
+    this.visualizationHandler.setSettings(visualizationSettings);
     this.visualizationHandler.setDatabaseSession(session);
   }
 

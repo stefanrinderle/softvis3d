@@ -17,35 +17,28 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.cache;
+package de.rinderle.softvis3d.domain;
 
-import com.google.inject.Singleton;
-import de.rinderle.softvis3d.domain.SnapshotStorageKey;
-import de.rinderle.softvis3d.domain.SnapshotTreeResult;
+import org.junit.Test;
 
-@Singleton
-public class SnapshotCacheService {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-  private final Cache<SnapshotStorageKey, SnapshotTreeResult> storage;
+/**
+ * Wrapper class for a visualization request.
+ */
+public class VisualizationRequestTest {
 
-  public SnapshotCacheService() {
-    storage = new Cache<>();
+  @Test
+  public void testHashCode() throws Exception {
+    VisualizationRequest request1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+    VisualizationRequest request2 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+
+    assertEquals(request1.hashCode(), request2.hashCode());
+
+    request1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+    request2 = new VisualizationRequest(2, LayoutViewType.CITY, 1, 20);
+
+    assertNotEquals(request1.hashCode(), request2.hashCode());
   }
-
-  public void printCacheContents() {
-    storage.logKeys();
-  }
-
-  public boolean containsKey(final SnapshotStorageKey key) {
-    return storage.containsKey(key);
-  }
-
-  public void save(final SnapshotStorageKey key, final SnapshotTreeResult result) {
-    storage.put(key, result);
-  }
-
-  public SnapshotTreeResult getSnapshotTreeResult(final SnapshotStorageKey key) {
-    return storage.get(key);
-  }
-
 }

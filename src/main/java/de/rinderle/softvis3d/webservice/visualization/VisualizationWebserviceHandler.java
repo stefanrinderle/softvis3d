@@ -48,7 +48,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
   private static final Logger LOGGER = LoggerFactory.getLogger(VisualizationWebserviceHandler.class);
 
-  private VisualizationSettings settings;
+  private VisualizationSettings visualizationSettings;
   private DatabaseSession session;
 
   @Inject
@@ -91,7 +91,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
       visualizationResult = layoutCacheService.getLayoutResult(key);
     } else {
       LOGGER.info("Create layout for " + key.toString());
-      visualizationResult = createLayout(id, requestDTO, snapshotTreeResult);
+      visualizationResult = createLayout(requestDTO, snapshotTreeResult);
       if (SoftVis3DPlugin.CACHE_ENABLED) {
         layoutCacheService.save(key, visualizationResult);
       }
@@ -122,17 +122,18 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     jsonWriter.close();
   }
 
-  private Map<Integer, ResultPlatform> createLayout(final Integer id, final VisualizationRequest requestDTO,
+  private Map<Integer, ResultPlatform> createLayout(final VisualizationRequest requestDTO,
     final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
     logStartOfCalc(requestDTO);
 
-    final Map<Integer, ResultPlatform> result = visualizationProcessor.visualize(id, this.settings, requestDTO, snapshotTreeResult, createAdditionalInfos(requestDTO));
+    final Map<Integer, ResultPlatform> result = visualizationProcessor.visualize(requestDTO.getViewType(), this.visualizationSettings, snapshotTreeResult,
+      createAdditionalInfos(requestDTO));
 
     /**
      * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
      */
     if (requestDTO.getViewType().equals(LayoutViewType.DEPENDENCY)) {
-      result.remove(id);
+      result.remove(requestDTO.getRootSnapshotId());
     }
 
     return result;
@@ -159,7 +160,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
   }
 
   public void setSettings(final VisualizationSettings settings) {
-    this.settings = settings;
+    this.visualizationSettings = settings;
   }
 
   public void setDatabaseSession(final DatabaseSession session) {

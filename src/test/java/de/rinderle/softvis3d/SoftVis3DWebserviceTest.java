@@ -19,6 +19,7 @@
  */
 package de.rinderle.softvis3d;
 
+import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
@@ -35,7 +36,8 @@ public class SoftVis3DWebserviceTest {
   @Before
   public void setUp() {
     final DatabaseSession session = null;
-    final Settings settings = null;
+    final Settings settings = new Settings();
+    settings.setProperty(SoftVis3DConstants.DOT_BIN_KEY, "/usr/local/bin/dot");
     final WebService ws = new SoftVis3DWebservice(session, settings);
 
     // WsTester is available in the Maven artifact

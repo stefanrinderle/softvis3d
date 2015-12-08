@@ -66,9 +66,9 @@ public class PreProcessor {
         this.dependencyExpander.execute(tree, dependencies);
       }
 
-      result = new SnapshotTreeResult(mapKey, tree);
+      result = new SnapshotTreeResult(tree);
       if (SoftVis3DPlugin.CACHE_ENABLED) {
-        this.snapshotCacheService.save(result);
+        this.snapshotCacheService.save(mapKey, result);
       }
     }
 

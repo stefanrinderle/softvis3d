@@ -41,8 +41,8 @@ public class SnapshotCacheServiceTest {
 
     for (int i = 0; i < lastEntryKeyNumber + 1; i++) {
       final SnapshotStorageKey key = getSnapshotStorageKey(i);
-      final SnapshotTreeResult value = new SnapshotTreeResult(key, new RootTreeNode(i));
-      underTest.save(value);
+      final SnapshotTreeResult value = new SnapshotTreeResult(new RootTreeNode(i));
+      underTest.save(key, value);
     }
 
     underTest.printCacheContents();
