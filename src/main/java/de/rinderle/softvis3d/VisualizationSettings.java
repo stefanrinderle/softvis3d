@@ -23,7 +23,18 @@ package de.rinderle.softvis3d;
  * Created by stefanrinderle on 05.12.15.
  */
 public class VisualizationSettings {
-    public String getDotBinPath() {
-        return "/usr/local/bin/dot";
+
+    private String dotBinPath = "/usr/local/bin/dot";
+
+    public VisualizationSettings() {
     }
+
+    public VisualizationSettings(String dotBinPath) {
+        this.dotBinPath = dotBinPath;
+    }
+
+    public String getDotBinPath() {
+        return dotBinPath;
+    }
+
 }

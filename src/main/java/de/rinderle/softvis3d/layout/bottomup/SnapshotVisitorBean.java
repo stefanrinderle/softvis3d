@@ -29,7 +29,6 @@ import de.rinderle.softvis3d.VisualizationSettings;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
-import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
 import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
@@ -77,7 +76,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
   public SnapshotVisitorBean(final LayerFormatter formatter, final DotExecutor dotExecutor,
     final GrappaNodeFactory nodeFactory, final GrappaEdgeFactory edgeFactory,
     @Assisted final VisualizationSettings settings,
-    @Assisted final VisualizationRequest requestDTO,
+    @Assisted final LayoutViewType viewType,
     @Assisted final VisualizationAdditionalInfos additionalInfos) {
 
     this.graphvizPath = new GraphvizPath(settings.getDotBinPath(), SystemUtils.IS_OS_WINDOWS);
@@ -93,10 +92,10 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
     this.dependenciesCount = additionalInfos.getDependenciesCount();
 
-    LOGGER.info("minMaxValues for " + requestDTO.getRootSnapshotId() + " : " + minMaxMetricFootprint.toString()
+    LOGGER.info("minMaxValues : " + minMaxMetricFootprint.toString()
       + " " + minMaxMetricHeight.toString() + " Dependencies: " + this.dependenciesCount);
 
-    this.viewType = requestDTO.getViewType();
+    this.viewType = viewType;
   }
 
   @Override

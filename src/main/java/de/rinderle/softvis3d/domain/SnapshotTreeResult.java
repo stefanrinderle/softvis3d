@@ -23,20 +23,15 @@ import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 
 public class SnapshotTreeResult {
 
-  private final SnapshotStorageKey snapshotStorageKey;
   private final RootTreeNode tree;
 
-  public SnapshotTreeResult(final SnapshotStorageKey snapshotStorageKey,
+  public SnapshotTreeResult(
     final RootTreeNode tree) {
-    this.snapshotStorageKey = snapshotStorageKey;
     this.tree = tree;
-  }
-
-  public SnapshotStorageKey getStorageKey() {
-    return this.snapshotStorageKey;
   }
 
   public RootTreeNode getTree() {
     return this.tree;
   }
+
 }

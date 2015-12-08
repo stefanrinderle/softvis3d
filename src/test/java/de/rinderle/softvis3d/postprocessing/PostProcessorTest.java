@@ -22,9 +22,7 @@ package de.rinderle.softvis3d.postprocessing;
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import de.rinderle.softvis3d.domain.LayoutViewType;
-import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.layout.format.GrappaGraphTestFactory;
@@ -60,9 +58,7 @@ public class PostProcessorTest {
     platform.setBoundingBox(new GrappaBox(0, 0, 100, 200));
     resultGraphs.put(id, platform);
 
-    final VisualizationRequest requestDTO = new VisualizationRequest(id, LayoutViewType.CITY, 1, 20);
-    final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
-    final SnapshotTreeResult treeResult = new SnapshotTreeResult(key, new RootTreeNode(id));
+    final SnapshotTreeResult treeResult = new SnapshotTreeResult(new RootTreeNode(id));
 
     underTest.process(LayoutViewType.CITY, resultGraphs, treeResult);
 
@@ -77,9 +73,7 @@ public class PostProcessorTest {
     platform.setBoundingBox(new GrappaBox(0, 0, 100, 200));
     resultGraphs.put(id, platform);
 
-    final VisualizationRequest requestDTO = new VisualizationRequest(id, LayoutViewType.CITY, 1, 20);
-    final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
-    final SnapshotTreeResult treeResult = new SnapshotTreeResult(key, new RootTreeNode(id));
+    final SnapshotTreeResult treeResult = new SnapshotTreeResult(new RootTreeNode(id));
 
     underTest.process(LayoutViewType.CITY, resultGraphs, treeResult);
 

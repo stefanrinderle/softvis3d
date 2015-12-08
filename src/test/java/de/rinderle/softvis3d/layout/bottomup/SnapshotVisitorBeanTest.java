@@ -19,10 +19,8 @@
  */
 package de.rinderle.softvis3d.layout.bottomup;
 
-import de.rinderle.softvis3d.VisualizationAdditionalInfos;
 import de.rinderle.softvis3d.VisualizationSettings;
 import de.rinderle.softvis3d.domain.LayoutViewType;
-import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
@@ -46,12 +44,10 @@ public class SnapshotVisitorBeanTest {
   @Test
   @Ignore
   public void testVisitFile() throws Exception {
-    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
-
     final VisualizationSettings settings = new VisualizationSettings();
 //    settings.setProperty(SoftVis3DConstants.DOT_BIN_KEY, "/usr/bin/dot");
     final SnapshotVisitorBean visitorBean =
-      new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, requestDTO, null);
+      new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, LayoutViewType.CITY, null);
 
     final ValueTreeNode leaf = new ValueTreeNode(1, null, 0, TreeNodeType.TREE, "leaf1", 0.0, 10.0, 4);
     visitorBean.visitFile(leaf);
@@ -64,9 +60,8 @@ public class SnapshotVisitorBeanTest {
 
     final VisualizationSettings settings = new VisualizationSettings();
 //    settings.setProperty(SoftVis3DConstants.DOT_BIN_KEY, "/usr/bin/dot");
-    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20);
     final SnapshotVisitorBean visitorBean =
-      new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, requestDTO, null);
+      new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, LayoutViewType.CITY, null);
 
     final DependencyTreeNode leaf = new DependencyTreeNode(1, null, 0);
     visitorBean.visitFile(leaf);

@@ -19,11 +19,6 @@
  */
 package de.rinderle.softvis3d.guice;
 
-import com.google.inject.assistedinject.Assisted;
-import de.rinderle.softvis3d.VisualizationSettings;
-import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.layout.bottomup.SnapshotVisitor;
-
 public interface SnapshotVisitorFactory {
   // TODO reeneable inject
   // removed in the first place

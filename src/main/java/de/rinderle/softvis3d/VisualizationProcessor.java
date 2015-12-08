@@ -22,7 +22,6 @@ package de.rinderle.softvis3d;
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.layout.LayoutProcessor;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
@@ -42,20 +41,21 @@ public class VisualizationProcessor {
   @Inject
   private PostProcessor calc;
 
-  public Map<Integer, ResultPlatform> visualize(final Integer rootId, final VisualizationSettings settings,
-                                                final VisualizationRequest requestDTO,
-                                                final SnapshotTreeResult snapshotTreeResult, VisualizationAdditionalInfos additionalInfos) throws DotExecutorException {
+  public Map<Integer, ResultPlatform> visualize(final LayoutViewType viewType,
+                                                final VisualizationSettings settings,
+                                                final SnapshotTreeResult snapshotTreeResult,
+                                                final VisualizationAdditionalInfos additionalInfos) throws DotExecutorException {
 
     final StopWatch stopWatch = new StopWatch();
     stopWatch.start();
 
     final Map<Integer, ResultPlatform> resultGraphs =
-      layoutProcessor.process(settings, requestDTO, snapshotTreeResult, additionalInfos);
+      layoutProcessor.process(settings, viewType, snapshotTreeResult, additionalInfos);
 
     LOGGER.info("Created " + resultGraphs.size() + " result graphs in " + stopWatch.getTime() + " ms");
 
     final int leavesCounter =
-      this.calc.process(requestDTO.getViewType(), resultGraphs, snapshotTreeResult);
+      this.calc.process(viewType, resultGraphs, snapshotTreeResult);
 
     stopWatch.stop();
     LOGGER.info("Calculation finished after " + stopWatch.getTime() + " ms with " + leavesCounter + " leaves");
@@ -63,8 +63,9 @@ public class VisualizationProcessor {
     /**
      * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
      */
-    if (requestDTO.getViewType().equals(LayoutViewType.DEPENDENCY)) {
-      resultGraphs.remove(rootId);
+    if (viewType.equals(LayoutViewType.DEPENDENCY)) {
+      final int rootSnapshotId = snapshotTreeResult.getTree().getId();
+      resultGraphs.remove(rootSnapshotId);
     }
 
     return resultGraphs;

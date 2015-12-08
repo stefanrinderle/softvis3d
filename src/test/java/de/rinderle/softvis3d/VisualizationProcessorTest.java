@@ -20,9 +20,7 @@
 package de.rinderle.softvis3d;
 
 import de.rinderle.softvis3d.domain.LayoutViewType;
-import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.layout.LayoutProcessor;
@@ -63,15 +61,13 @@ public class VisualizationProcessorTest {
   public void testVisualize() throws Exception {
     final VisualizationSettings settings = new VisualizationSettings();
 
-    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
-    final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
     final RootTreeNode tree = new RootTreeNode(1);
-    final SnapshotTreeResult snapShotTreeResult = new SnapshotTreeResult(key, tree);
+    final SnapshotTreeResult snapShotTreeResult = new SnapshotTreeResult(tree);
     final Map<Integer, ResultPlatform> resultGraphs = new HashMap<>();
 
-    when(layoutProcessor.process(eq(settings), eq(requestDTO), eq(snapShotTreeResult), any(VisualizationAdditionalInfos.class))).thenReturn(resultGraphs);
+    when(layoutProcessor.process(eq(settings), eq(LayoutViewType.CITY), eq(snapShotTreeResult), any(VisualizationAdditionalInfos.class))).thenReturn(resultGraphs);
 
-    final Map<Integer, ResultPlatform> result = underTest.visualize(tree.getId(), settings, requestDTO, snapShotTreeResult, null);
+    final Map<Integer, ResultPlatform> result = underTest.visualize(LayoutViewType.CITY, settings, snapShotTreeResult, null);
 
     assertEquals(resultGraphs, result);
   }

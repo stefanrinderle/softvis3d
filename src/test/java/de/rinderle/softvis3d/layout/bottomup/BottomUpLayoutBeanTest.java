@@ -21,9 +21,7 @@ package de.rinderle.softvis3d.layout.bottomup;
 
 import de.rinderle.softvis3d.TestTreeBuilder;
 import de.rinderle.softvis3d.domain.LayoutViewType;
-import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
@@ -57,11 +55,9 @@ public class BottomUpLayoutBeanTest {
   @Test
   public void testAccept() throws Exception {
     final int snapshotId = 1;
-    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 1);
-    final SnapshotStorageKey storageKey = new SnapshotStorageKey(requestDTO);
 
     final RootTreeNode tree = new RootTreeNode(snapshotId);
-    final SnapshotTreeResult snapshotTreeResult = new SnapshotTreeResult(storageKey, tree);
+    final SnapshotTreeResult snapshotTreeResult = new SnapshotTreeResult(tree);
 
     final LayeredLayoutElement resultElement = LayeredLayoutElement.createLayeredLayoutElement(tree, null, null, null, null);
     when(visitor.visitNode(eq(tree), anyListOf(LayeredLayoutElement.class))).thenReturn(resultElement);

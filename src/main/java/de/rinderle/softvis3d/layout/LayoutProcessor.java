@@ -22,8 +22,8 @@ package de.rinderle.softvis3d.layout;
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.VisualizationAdditionalInfos;
 import de.rinderle.softvis3d.VisualizationSettings;
+import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.layout.bottomup.BottomUpLayout;
 import de.rinderle.softvis3d.layout.bottomup.BottomUpLayoutBean;
@@ -50,13 +50,13 @@ public class LayoutProcessor {
   @Inject
   private GrappaEdgeFactory edgefactory;
 
-  public Map<Integer, ResultPlatform> process(final VisualizationSettings settings, final VisualizationRequest requestDTO,
+  public Map<Integer, ResultPlatform> process(final VisualizationSettings settings, final LayoutViewType viewType,
                                               final SnapshotTreeResult snapshotTreeResult, VisualizationAdditionalInfos additionalInfos) throws DotExecutorException {
 
     //    final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO);
 
     final SnapshotVisitor visitor = new SnapshotVisitorBean(formatter, dotExcecutor, nodeFactory, edgefactory,
-            settings, requestDTO, additionalInfos);
+            settings, viewType, additionalInfos);
 
     final BottomUpLayout bottomUpLayout = new BottomUpLayoutBean(visitor);
     bottomUpLayout.accept(snapshotTreeResult);
