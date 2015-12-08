@@ -19,7 +19,7 @@
  */
 package de.rinderle.softvis3d.dao.scm;
 
-import de.rinderle.softvis3d.domain.sonar.ScmInfo;
+import de.rinderle.softvis3d.domain.ScmInfo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

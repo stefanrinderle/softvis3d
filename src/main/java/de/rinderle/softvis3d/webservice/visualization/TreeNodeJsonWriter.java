@@ -97,7 +97,7 @@ public class TreeNodeJsonWriter {
       final ValueTreeNode valueNode = (ValueTreeNode) node;
       jsonWriter.prop("heightMetricValue", valueNode.getHeightMetricValue());
       jsonWriter.prop("footprintMetricValue", valueNode.getFootprintMetricValue());
-      jsonWriter.prop("scmMetricValue", valueNode.getScmMetricValue());
+      jsonWriter.prop("colorMetricValue", valueNode.getColorMetricValue());
     }
   }
 

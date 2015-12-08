@@ -74,11 +74,10 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
     final LayoutViewType layoutViewType = LayoutViewType.valueOfRequest(request.param("viewType"));
 
-//    final ScmInfoType scmInfoType = ScmInfoType.valueOf(request.param("scmMetricType"));
-    final VisualizationRequest requestDTO =
-            new VisualizationRequest(id, layoutViewType, footprintMetricId, heightMetricId);
-//    final VisualizationRequest requestDTO =
-//            new VisualizationRequest(id, layoutViewType, footprintMetricId, heightMetricId, scmInfoType);
+//     final ScmInfoType scmInfoType = ScmInfoType.valueOf(request.param("scmMetricType"));
+    final VisualizationRequest requestDTO = new VisualizationRequest(id, layoutViewType, footprintMetricId, heightMetricId);
+    // final VisualizationRequest requestDTO =
+    // new VisualizationRequest(id, layoutViewType, footprintMetricId, heightMetricId, scmInfoType);
 
     LOGGER.info("VisualizationWebserviceHandler " + requestDTO.toString());
 
@@ -127,8 +126,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
     logStartOfCalc(requestDTO);
 
-    final Map<Integer, ResultPlatform> result =
-     visualizationProcessor.visualize(id, this.settings, requestDTO, snapshotTreeResult, createAdditionalInfos(requestDTO));
+    final Map<Integer, ResultPlatform> result = visualizationProcessor.visualize(id, this.settings, requestDTO, snapshotTreeResult, createAdditionalInfos(requestDTO));
 
     /**
      * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
@@ -140,16 +138,18 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     return result;
   }
 
-    private VisualizationAdditionalInfos createAdditionalInfos(VisualizationRequest requestDTO) {
-   final MinMaxValue minMaxMetricFootprint = daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
-            requestDTO.getFootprintMetricId());
-    final MinMaxValue minMaxMetricHeight =
-      daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
-        requestDTO.getHeightMetricId());
+  private VisualizationAdditionalInfos createAdditionalInfos(VisualizationRequest requestDTO) {
+    final MinMaxValue minMaxMetricFootprint = daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
+      requestDTO.getFootprintMetricId());
+    final MinMaxValue minMaxMetricHeight = daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
+      requestDTO.getHeightMetricId());
 
     int dependenciesCount = daoService.getDependencies(requestDTO.getRootSnapshotId()).size();
 
-    return new VisualizationAdditionalInfos(minMaxMetricFootprint, minMaxMetricHeight, dependenciesCount);
+    // TODO
+    final MinMaxValue minMaxMetricColor = new MinMaxValue(0.0, 100.0);
+
+    return new VisualizationAdditionalInfos(minMaxMetricFootprint, minMaxMetricHeight, minMaxMetricColor, dependenciesCount);
   }
 
   private void logStartOfCalc(final VisualizationRequest visualizationRequest) {
