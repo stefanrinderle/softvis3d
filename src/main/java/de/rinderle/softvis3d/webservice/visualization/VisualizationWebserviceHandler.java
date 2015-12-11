@@ -148,7 +148,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     int dependenciesCount = daoService.getDependencies(requestDTO.getRootSnapshotId()).size();
 
     // TODO
-    final MinMaxValue minMaxMetricColor = new MinMaxValue(0.0, 100.0);
+    final MinMaxValue minMaxMetricColor = null;
 
     return new VisualizationAdditionalInfos(minMaxMetricFootprint, minMaxMetricHeight, minMaxMetricColor, dependenciesCount);
   }
