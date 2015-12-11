@@ -26,6 +26,7 @@ import att.grappa.GrappaConstants;
 import att.grappa.GrappaLine;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
@@ -42,15 +43,15 @@ public class GrappaGraphTestFactory {
 
     final Node leaf1 = new Node(graphLeaf1());
     leaf1.setAttribute("id", "2");
-    leaf1.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
+    leaf1.setAttribute(LayoutConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
     leaf1.setAttribute("type", TreeNodeType.TREE.name());
-    leaf1.setAttribute(SoftVis3DConstants.SOFTVIZ_COLOR, "#ffffff");
+    leaf1.setAttribute(LayoutConstants.SOFTVIZ_COLOR, "#ffffff");
     graph.addNode(leaf1);
     final Node leaf2 = new Node(graphLeaf2());
     leaf2.setAttribute("id", "3");
-    leaf2.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
+    leaf2.setAttribute(LayoutConstants.GRAPH_ATTR_BUILDING_HEIGHT, "10");
     leaf2.setAttribute("type", TreeNodeType.TREE.name());
-    leaf2.setAttribute(SoftVis3DConstants.SOFTVIZ_COLOR, "#ffffff");
+    leaf2.setAttribute(LayoutConstants.SOFTVIZ_COLOR, "#ffffff");
     graph.addNode(leaf2);
 
     final Edge edge = new Edge(graph, leaf1, leaf2);
@@ -63,7 +64,7 @@ public class GrappaGraphTestFactory {
     edge.setAttribute(GrappaConstants.POS_ATTR, pos);
 
     final String radius = "x3.3";
-    edge.setAttribute(SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS, radius);
+    edge.setAttribute(LayoutConstants.GRAPH_ATTR_EDGE_RADIUS, radius);
 
     leaf1.addEdge(edge, false);
 

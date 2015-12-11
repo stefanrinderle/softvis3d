@@ -24,6 +24,7 @@ import att.grappa.GrappaBox;
 import att.grappa.GrappaConstants;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
@@ -86,10 +87,10 @@ public class VisualizationJsonWriterTest {
     node.setAttribute(GrappaConstants.WIDTH_ATTR, "300.4");
     node.setAttribute(GrappaConstants.HEIGHT_ATTR, "400.3");
 
-    node.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "x10.3");
+    node.setAttribute(LayoutConstants.GRAPH_ATTR_BUILDING_HEIGHT, "x10.3");
 
     final HexaColor color = new HexaColor(254, 140, 0);
-    node.setAttribute(SoftVis3DConstants.SOFTVIZ_COLOR, color.getHex());
+    node.setAttribute(LayoutConstants.SOFTVIZ_COLOR, color.getHex());
 
     final TreeNodeType type = TreeNodeType.PATH_GENERATED;
     node.setAttribute("type", type.name());
