@@ -23,7 +23,6 @@ import de.rinderle.softvis3d.domain.tree.Edge;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
-
 import java.util.Map;
 
 public final class LayeredLayoutElement {

@@ -28,12 +28,11 @@ import de.rinderle.softvis3d.domain.graph.ResultArrow;
 import de.rinderle.softvis3d.domain.graph.ResultBuilding;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PostProcessor {
 

@@ -24,11 +24,10 @@ import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BottomUpLayoutBean implements BottomUpLayout {
 

@@ -28,14 +28,12 @@ import java.util.TreeMap;
 public class TreeNode {
 
   private final Integer id;
-  private String name;
-
-  private TreeNode parent;
-  private int depth;
   private final TreeNodeType type;
-
   private final Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
   private final Map<String, Edge> edges = new HashMap<String, Edge>();
+  private String name;
+  private TreeNode parent;
+  private int depth;
 
   public TreeNode(final Integer id, final TreeNode parent, final int depth, final TreeNodeType type, final String name) {
     this.id = id;

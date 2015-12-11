@@ -25,7 +25,6 @@ import att.grappa.GrappaLine;
 import att.grappa.GrappaPoint;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
-
 import java.util.ArrayList;
 import java.util.List;
 

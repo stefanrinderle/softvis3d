@@ -22,7 +22,6 @@ package de.rinderle.softvis3d.domain.graph;
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
 import att.grappa.Node;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;

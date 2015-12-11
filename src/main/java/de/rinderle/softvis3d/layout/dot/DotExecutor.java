@@ -19,6 +19,12 @@
  */
 package de.rinderle.softvis3d.layout.dot;
 
+import att.grappa.Graph;
+import att.grappa.Parser;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.rinderle.softvis3d.domain.LayoutViewType;
+import de.rinderle.softvis3d.layout.helper.StringOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,17 +34,10 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import att.grappa.Graph;
-import att.grappa.Parser;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import de.rinderle.softvis3d.domain.LayoutViewType;
-import de.rinderle.softvis3d.layout.helper.StringOutputStream;
 
 /**
  * Use singleton because of the buggy dot version 2.38.0. The bug workaround (see
@@ -91,7 +90,7 @@ public class DotExecutor {
         }
 
         String normalizedTranslationFilePath =
-            normalizeFilePath(this.translationFile.getAbsolutePath(), SystemUtils.IS_OS_WINDOWS);
+          normalizeFilePath(this.translationFile.getAbsolutePath(), SystemUtils.IS_OS_WINDOWS);
 
         String translationCommand = path.getGvprExecutable() + " -c -f " + normalizedTranslationFilePath;
 

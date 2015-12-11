@@ -22,5 +22,5 @@ package de.rinderle.softvis3d.guice;
 public interface SnapshotVisitorFactory {
   // TODO reeneable inject
   // removed in the first place
-//  SnapshotVisitor create(@Assisted VisualizationSettings settings, @Assisted VisualizationRequest requestDTO);
+  // SnapshotVisitor create(@Assisted VisualizationSettings settings, @Assisted VisualizationRequest requestDTO);
 }

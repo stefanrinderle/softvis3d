@@ -20,14 +20,13 @@
 package de.rinderle.softvis3d.layout.dot;
 
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
-import org.apache.commons.lang.StringUtils;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import org.apache.commons.lang.StringUtils;
 
 import static att.grappa.GrappaConstants.HEIGHT_ATTR;
 import static att.grappa.GrappaConstants.WIDTH_ATTR;

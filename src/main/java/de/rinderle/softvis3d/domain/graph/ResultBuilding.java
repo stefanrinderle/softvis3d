@@ -21,7 +21,6 @@ package de.rinderle.softvis3d.domain.graph;
 
 import att.grappa.GrappaPoint;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
-
 import java.util.List;
 
 public class ResultBuilding extends BaseResultObject {
@@ -29,12 +28,10 @@ public class ResultBuilding extends BaseResultObject {
   private final List<ResultArrow> arrows;
   private final int id;
   private final double buildingHeight;
+  private final TreeNodeType type;
+  private final GrappaPoint position;
   private double width;
   private double height;
-
-  private final TreeNodeType type;
-
-  private final GrappaPoint position;
 
   public ResultBuilding(final ResultBuildingBuilder resultBuildingBuilder) {
     this.id = resultBuildingBuilder.id;

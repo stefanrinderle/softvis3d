@@ -38,8 +38,8 @@ import java.util.Map;
 
 public class LayoutProcessor {
 
-//  @Inject
-//  private SnapshotVisitorFactory visitorFactory;
+  // @Inject
+  // private SnapshotVisitorFactory visitorFactory;
 
   @Inject
   private LayerFormatter formatter;
@@ -51,12 +51,12 @@ public class LayoutProcessor {
   private GrappaEdgeFactory edgefactory;
 
   public Map<Integer, ResultPlatform> process(final VisualizationSettings settings, final LayoutViewType viewType,
-                                              final SnapshotTreeResult snapshotTreeResult, VisualizationAdditionalInfos additionalInfos) throws DotExecutorException {
+    final SnapshotTreeResult snapshotTreeResult, VisualizationAdditionalInfos additionalInfos) throws DotExecutorException {
 
-    //    final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO);
+    // final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO);
 
     final SnapshotVisitor visitor = new SnapshotVisitorBean(formatter, dotExcecutor, nodeFactory, edgefactory,
-            settings, viewType, additionalInfos);
+      settings, viewType, additionalInfos);
 
     final BottomUpLayout bottomUpLayout = new BottomUpLayoutBean(visitor);
     bottomUpLayout.accept(snapshotTreeResult);

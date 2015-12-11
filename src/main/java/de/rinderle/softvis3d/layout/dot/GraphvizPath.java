@@ -24,49 +24,49 @@ package de.rinderle.softvis3d.layout.dot;
  */
 public class GraphvizPath {
 
-    private final String dotPath;
-    private final String gvprExecutable;
+  private final String dotPath;
+  private final String gvprExecutable;
 
-    public GraphvizPath(final String settingsDotBinPath, final boolean isWindows) {
-        final String normalized = normalizeSlashes(settingsDotBinPath, isWindows);
-        final String basePath = getBasePath(normalized, isWindows);
+  public GraphvizPath(final String settingsDotBinPath, final boolean isWindows) {
+    final String normalized = normalizeSlashes(settingsDotBinPath, isWindows);
+    final String basePath = getBasePath(normalized, isWindows);
 
-        this.dotPath = checkEscapeCommand(basePath + "dot", isWindows);
-        this.gvprExecutable = checkEscapeCommand(basePath + "gvpr", isWindows);
+    this.dotPath = checkEscapeCommand(basePath + "dot", isWindows);
+    this.gvprExecutable = checkEscapeCommand(basePath + "gvpr", isWindows);
+  }
+
+  private String getBasePath(final String normalizedSource, final boolean isWindows) {
+    final int lastIndex;
+    if (isWindows) {
+      lastIndex = normalizedSource.lastIndexOf("\\");
+    } else {
+      lastIndex = normalizedSource.lastIndexOf("/");
     }
 
-    private String getBasePath(final String normalizedSource, final boolean isWindows) {
-        final int lastIndex;
-        if (isWindows) {
-            lastIndex = normalizedSource.lastIndexOf("\\");
-        } else {
-            lastIndex = normalizedSource.lastIndexOf("/");
-        }
+    return normalizedSource.substring(0, lastIndex + 1);
+  }
 
-        return normalizedSource.substring(0, lastIndex + 1);
+  private String checkEscapeCommand(final String source, final boolean isWindows) {
+    if (isWindows) {
+      return "\"" + source + "\"";
+    } else {
+      return source.replace(" ", "\\ ");
     }
+  }
 
-    private String checkEscapeCommand(final String source, final boolean isWindows) {
-        if (isWindows) {
-            return "\"" + source + "\"";
-        } else {
-            return source.replace(" ", "\\ ");
-        }
+  private String normalizeSlashes(final String settingsDotBinPath, final boolean isWindows) {
+    if (isWindows) {
+      return settingsDotBinPath.replace("/", "\\\\");
+    } else {
+      return settingsDotBinPath.replace("\\", "/");
     }
+  }
 
-    private String normalizeSlashes(final String settingsDotBinPath, final boolean isWindows) {
-        if (isWindows) {
-            return settingsDotBinPath.replace("/", "\\\\");
-        } else {
-            return settingsDotBinPath.replace("\\", "/");
-        }
-    }
+  public String getDotExecutable() {
+    return dotPath;
+  }
 
-    public String getDotExecutable() {
-        return dotPath;
-    }
-
-    public String getGvprExecutable() {
-        return gvprExecutable;
-    }
+  public String getGvprExecutable() {
+    return gvprExecutable;
+  }
 }

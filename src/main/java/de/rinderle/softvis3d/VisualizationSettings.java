@@ -24,17 +24,17 @@ package de.rinderle.softvis3d;
  */
 public class VisualizationSettings {
 
-    private String dotBinPath = "/usr/local/bin/dot";
+  private String dotBinPath = "/usr/local/bin/dot";
 
-    public VisualizationSettings() {
-    }
+  public VisualizationSettings() {
+  }
 
-    public VisualizationSettings(String dotBinPath) {
-        this.dotBinPath = dotBinPath;
-    }
+  public VisualizationSettings(String dotBinPath) {
+    this.dotBinPath = dotBinPath;
+  }
 
-    public String getDotBinPath() {
-        return dotBinPath;
-    }
+  public String getDotBinPath() {
+    return dotBinPath;
+  }
 
 }

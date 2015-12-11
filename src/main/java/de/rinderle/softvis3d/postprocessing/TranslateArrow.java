@@ -24,7 +24,6 @@ import att.grappa.GrappaPoint;
 import de.rinderle.softvis3d.domain.graph.Point3d;
 import de.rinderle.softvis3d.domain.graph.ResultArrow;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
-
 import java.util.ArrayList;
 import java.util.List;
 

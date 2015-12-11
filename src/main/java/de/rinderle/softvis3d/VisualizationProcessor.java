@@ -42,9 +42,9 @@ public class VisualizationProcessor {
   private PostProcessor calc;
 
   public Map<Integer, ResultPlatform> visualize(final LayoutViewType viewType,
-                                                final VisualizationSettings settings,
-                                                final SnapshotTreeResult snapshotTreeResult,
-                                                final VisualizationAdditionalInfos additionalInfos) throws DotExecutorException {
+    final VisualizationSettings settings,
+    final SnapshotTreeResult snapshotTreeResult,
+    final VisualizationAdditionalInfos additionalInfos) throws DotExecutorException {
 
     final StopWatch stopWatch = new StopWatch();
     stopWatch.start();
