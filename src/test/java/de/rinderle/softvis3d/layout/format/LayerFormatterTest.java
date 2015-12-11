@@ -19,9 +19,9 @@
  */
 package de.rinderle.softvis3d.layout.format;
 
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
 import java.awt.*;
@@ -80,7 +80,7 @@ public class LayerFormatterTest {
     final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
     // 2 is 1 percent of 200.
-    assertEquals(Double.valueOf(SoftVis3DConstants.MIN_BUILDING_HEIGHT), Double.valueOf(result));
+    assertEquals(Double.valueOf(LayoutConstants.MIN_BUILDING_HEIGHT), Double.valueOf(result));
   }
 
   @Test
@@ -102,7 +102,7 @@ public class LayerFormatterTest {
 
     final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
-    assertEquals(Double.valueOf(SoftVis3DConstants.MIN_BUILDING_HEIGHT), Double.valueOf(result));
+    assertEquals(Double.valueOf(LayoutConstants.MIN_BUILDING_HEIGHT), Double.valueOf(result));
   }
 
   @Test
@@ -112,7 +112,7 @@ public class LayerFormatterTest {
 
     final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
-    assertEquals(Double.valueOf(SoftVis3DConstants.MIN_BUILDING_HEIGHT), Double.valueOf(result));
+    assertEquals(Double.valueOf(LayoutConstants.MIN_BUILDING_HEIGHT), Double.valueOf(result));
   }
 
   @Test
@@ -122,7 +122,7 @@ public class LayerFormatterTest {
 
     final double result = this.underTest.calcBuildingHeight(value, minMaxMetricHeight);
 
-    assertEquals(Double.valueOf(SoftVis3DConstants.MIN_BUILDING_HEIGHT), Double.valueOf(result));
+    assertEquals(Double.valueOf(LayoutConstants.MIN_BUILDING_HEIGHT), Double.valueOf(result));
   }
 
   /**
@@ -159,7 +159,7 @@ public class LayerFormatterTest {
     final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
     // 0.5 is 0.25 percent of 200 which is below 0.5
-    assertEquals(Double.valueOf(SoftVis3DConstants.MIN_SIDE_LENGTH), Double.valueOf(result));
+    assertEquals(Double.valueOf(LayoutConstants.MIN_SIDE_LENGTH), Double.valueOf(result));
   }
 
   @Test
@@ -181,7 +181,7 @@ public class LayerFormatterTest {
 
     final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
-    assertEquals(Double.valueOf(SoftVis3DConstants.MIN_SIDE_LENGTH), Double.valueOf(result));
+    assertEquals(Double.valueOf(LayoutConstants.MIN_SIDE_LENGTH), Double.valueOf(result));
   }
 
   @Test
@@ -191,7 +191,7 @@ public class LayerFormatterTest {
 
     final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
-    assertEquals(Double.valueOf(SoftVis3DConstants.MIN_SIDE_LENGTH), Double.valueOf(result));
+    assertEquals(Double.valueOf(LayoutConstants.MIN_SIDE_LENGTH), Double.valueOf(result));
   }
 
   @Test
@@ -201,7 +201,7 @@ public class LayerFormatterTest {
 
     final double result = this.underTest.calcSideLength(value, minMaxMetricHeight);
 
-    assertEquals(Double.valueOf(SoftVis3DConstants.MIN_SIDE_LENGTH), Double.valueOf(result));
+    assertEquals(Double.valueOf(LayoutConstants.MIN_SIDE_LENGTH), Double.valueOf(result));
   }
 
   @Test

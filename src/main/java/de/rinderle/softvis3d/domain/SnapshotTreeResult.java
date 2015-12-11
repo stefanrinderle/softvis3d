@@ -25,8 +25,7 @@ public class SnapshotTreeResult {
 
   private final RootTreeNode tree;
 
-  public SnapshotTreeResult(
-    final RootTreeNode tree) {
+  public SnapshotTreeResult(final RootTreeNode tree) {
     this.tree = tree;
   }
 

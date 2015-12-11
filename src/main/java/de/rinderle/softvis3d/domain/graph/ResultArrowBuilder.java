@@ -23,7 +23,7 @@ import att.grappa.Edge;
 import att.grappa.GrappaConstants;
 import att.grappa.GrappaLine;
 import att.grappa.GrappaPoint;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +75,7 @@ public class ResultArrowBuilder {
   }
 
   private double transformEdgeRadius(final Edge edge) {
-    final String radiusString = edge.getAttributeValue(SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS).toString();
+    final String radiusString = edge.getAttributeValue(LayoutConstants.GRAPH_ATTR_EDGE_RADIUS).toString();
     return Double.valueOf(radiusString.substring(1));
   }
 

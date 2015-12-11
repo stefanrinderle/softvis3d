@@ -19,9 +19,9 @@
  */
 package de.rinderle.softvis3d.layout.format;
 
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultBuilding;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
@@ -41,7 +41,7 @@ public class LayerFormatter {
     Integer height3d = depth * 20;
 
     if (LayoutViewType.DEPENDENCY.equals(viewType)) {
-      height3d = -(depth * SoftVis3DConstants.LAYER_HEIGHT);
+      height3d = -(depth * LayoutConstants.LAYER_HEIGHT);
       opacity = 0.7;
     }
 
@@ -70,12 +70,12 @@ public class LayerFormatter {
   private void formatResultBuilding(final int depth, final Integer height3d, final ResultBuilding leaf) {
     double width = leaf.getWidth();
     // keep some distance to each other
-    width = width * SoftVis3DConstants.DPI_DOT_SCALE;
+    width = width * LayoutConstants.DPI_DOT_SCALE;
     leaf.setWidth(width);
 
     double height = leaf.getHeight();
     // keep some distance to each other
-    height = height * SoftVis3DConstants.DPI_DOT_SCALE;
+    height = height * LayoutConstants.DPI_DOT_SCALE;
     leaf.setHeight(height);
 
     if (leaf.getType().equals(TreeNodeType.DEPENDENCY_GENERATED)) {
@@ -95,8 +95,8 @@ public class LayerFormatter {
   public double calcBuildingHeight(final Double value, final MinMaxValue minMaxMetricHeight) {
     double buildingHeight = this.calcPercentage(value, minMaxMetricHeight);
 
-    if (buildingHeight < SoftVis3DConstants.MIN_BUILDING_HEIGHT) {
-      buildingHeight = SoftVis3DConstants.MIN_BUILDING_HEIGHT;
+    if (buildingHeight < LayoutConstants.MIN_BUILDING_HEIGHT) {
+      buildingHeight = LayoutConstants.MIN_BUILDING_HEIGHT;
     }
 
     return buildingHeight;
@@ -105,8 +105,8 @@ public class LayerFormatter {
   public double calcSideLength(final Double value, final MinMaxValue minMaxMetricFootprint) {
     double sideLength = this.calcPercentage(value, minMaxMetricFootprint);
 
-    if (sideLength < SoftVis3DConstants.MIN_SIDE_LENGTH) {
-      sideLength = SoftVis3DConstants.MIN_SIDE_LENGTH;
+    if (sideLength < LayoutConstants.MIN_SIDE_LENGTH) {
+      sideLength = LayoutConstants.MIN_SIDE_LENGTH;
     }
 
     return sideLength;
@@ -118,7 +118,7 @@ public class LayerFormatter {
 
   public HexaColor getMetricColorColor(final double nodeColorMetricValue, final MinMaxValue minMaxMetricColor) {
     if (minMaxMetricColor == null) {
-      return SoftVis3DConstants.BUILDING_COLOR;
+      return LayoutConstants.BUILDING_COLOR;
     } else {
       double percentage = this.calcPercentage(nodeColorMetricValue, minMaxMetricColor);
       return makeColor(percentage, 100);

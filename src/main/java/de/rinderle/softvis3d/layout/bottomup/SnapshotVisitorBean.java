@@ -26,9 +26,9 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import de.rinderle.softvis3d.VisualizationAdditionalInfos;
 import de.rinderle.softvis3d.VisualizationSettings;
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.MinMaxValue;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
 import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
@@ -62,15 +62,10 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
   private final GraphvizPath graphvizPath;
 
-  private final MinMaxValue minMaxMetricFootprint;
-  private final MinMaxValue minMaxMetricHeight;
-  private final MinMaxValue minMaxMetricColor;
-
-  private final int dependenciesCount;
-
   private final Map<Integer, ResultPlatform> resultingGraphList = new ConcurrentHashMap<Integer, ResultPlatform>();
 
   private final LayoutViewType viewType;
+  private final VisualizationAdditionalInfos additionalInfos;
 
   @Inject
   public SnapshotVisitorBean(final LayerFormatter formatter, final DotExecutor dotExecutor,
@@ -86,14 +81,9 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     this.nodeFactory = nodeFactory;
     this.edgeFactory = edgeFactory;
 
-    this.minMaxMetricFootprint = additionalInfos.getMinMaxMetricFootprint();
-    this.minMaxMetricHeight = additionalInfos.getMinMaxMetricHeight();
-    this.minMaxMetricColor = additionalInfos.getMinMaxMetricColor();
+    this.additionalInfos = additionalInfos;
 
-    this.dependenciesCount = additionalInfos.getDependenciesCount();
-
-    LOGGER.info("minMaxValues : " + minMaxMetricFootprint.toString()
-      + " " + minMaxMetricHeight.toString() + " Dependencies: " + this.dependenciesCount);
+    LOGGER.info("Layout infos : " + additionalInfos.toString());
 
     this.viewType = viewType;
   }
@@ -129,10 +119,10 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
      * The dot output of the bb is given in DPI. The actual width and height of the representing element has to be
      * scaled back to normal
      */
-    final Double width = bb.getWidth() / SoftVis3DConstants.DPI_DOT_SCALE;
-    final Double height = bb.getHeight() / SoftVis3DConstants.DPI_DOT_SCALE;
+    final Double width = bb.getWidth() / LayoutConstants.DPI_DOT_SCALE;
+    final Double height = bb.getHeight() / LayoutConstants.DPI_DOT_SCALE;
 
-    final double platformHeight = SoftVis3DConstants.PLATFORM_DEFAULT_HEIGHT;
+    final double platformHeight = LayoutConstants.PLATFORM_DEFAULT_HEIGHT;
 
     final HexaColor platformColor = this.formatter.getPlatformBaseColor(node.getDepth());
 
@@ -175,31 +165,31 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     if (isDependencyNode) {
       final DependencyTreeNode leafNode = (DependencyTreeNode) leaf;
       final MinMaxValue minMaxDependencies =
-        new MinMaxValue(0.0, Integer.valueOf(dependenciesCount).doubleValue());
+        new MinMaxValue(0, additionalInfos.getDependenciesCount());
       sideLength =
         this.formatter.calcSideLength(Integer.valueOf(leafNode.getCounter()).doubleValue(),
           minMaxDependencies);
 
-      buildingHeight = SoftVis3DConstants.LAYER_HEIGHT;
+      buildingHeight = LayoutConstants.LAYER_HEIGHT;
 
       // not used, will be overriden somewhere
       color = new HexaColor(255, 255, 255);
     } else {
       final ValueTreeNode leafNode = (ValueTreeNode) leaf;
-      sideLength = this.formatter.calcSideLength(leafNode.getFootprintMetricValue(), this.minMaxMetricFootprint);
+      sideLength = this.formatter.calcSideLength(leafNode.getFootprintMetricValue(), this.additionalInfos.getMinMaxMetricFootprint());
 
       buildingHeight =
-        this.formatter.calcBuildingHeight(leafNode.getHeightMetricValue(), this.minMaxMetricHeight);
+        this.formatter.calcBuildingHeight(leafNode.getHeightMetricValue(), this.additionalInfos.getMinMaxMetricHeight());
       /**
        * building height is in percent with min size. multiplier to get higher buildings in the view.
        */
-      buildingHeight = buildingHeight * SoftVis3DConstants.BUILDING_HEIGHT_MULTIPLIER;
+      buildingHeight = buildingHeight * LayoutConstants.BUILDING_HEIGHT_MULTIPLIER;
       buildingHeight = Math.round(buildingHeight);
 
-      color = this.formatter.getMetricColorColor(leafNode.getColorMetricValue(), this.minMaxMetricColor);
+      color = this.formatter.getMetricColorColor(leafNode.getColorMetricValue(), this.additionalInfos.getMinMaxMetricColor());
     }
 
-    sideLength = sideLength / SoftVis3DConstants.DPI_DOT_SCALE;
+    sideLength = sideLength / LayoutConstants.DPI_DOT_SCALE;
 
     return LayeredLayoutElement.createLayeredLayoutElement(leaf, sideLength, sideLength, buildingHeight, color);
   }

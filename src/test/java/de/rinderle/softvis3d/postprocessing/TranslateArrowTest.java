@@ -27,7 +27,7 @@ import att.grappa.GrappaLine;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
 import att.grappa.Subgraph;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import de.rinderle.softvis3d.domain.graph.ResultArrow;
 import de.rinderle.softvis3d.domain.graph.ResultArrowBuilder;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
@@ -92,7 +92,7 @@ public class TranslateArrowTest {
     edge.setAttribute(GrappaConstants.POS_ATTR, pos);
 
     final String radiusString = "x" + radius;
-    edge.setAttribute(SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS, radiusString);
+    edge.setAttribute(LayoutConstants.GRAPH_ATTR_EDGE_RADIUS, radiusString);
     return edge;
   }
 }

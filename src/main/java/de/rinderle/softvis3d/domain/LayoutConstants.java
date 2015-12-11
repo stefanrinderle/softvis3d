@@ -21,7 +21,7 @@ package de.rinderle.softvis3d.domain;
 
 import de.rinderle.softvis3d.layout.helper.HexaColor;
 
-public interface SoftVis3DConstants {
+public interface LayoutConstants {
 
   /**
    * Plugin key and name.

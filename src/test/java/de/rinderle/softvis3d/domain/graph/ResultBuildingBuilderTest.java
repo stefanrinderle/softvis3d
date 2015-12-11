@@ -26,7 +26,7 @@ import att.grappa.GrappaLine;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
 import att.grappa.Subgraph;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
 import org.junit.Test;
@@ -47,10 +47,10 @@ public class ResultBuildingBuilderTest {
     node.setAttribute(GrappaConstants.WIDTH_ATTR, "300.4");
     node.setAttribute(GrappaConstants.HEIGHT_ATTR, "400.3");
 
-    node.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "x10.3");
+    node.setAttribute(LayoutConstants.GRAPH_ATTR_BUILDING_HEIGHT, "x10.3");
 
     final HexaColor color = new HexaColor(254, 140, 0);
-    node.setAttribute(SoftVis3DConstants.SOFTVIZ_COLOR, color.getHex());
+    node.setAttribute(LayoutConstants.SOFTVIZ_COLOR, color.getHex());
 
     final TreeNodeType type = TreeNodeType.PATH_GENERATED;
     node.setAttribute("type", type.name());
@@ -78,8 +78,8 @@ public class ResultBuildingBuilderTest {
     final Node node = new Node(graph, "testNode");
 
     node.setAttribute("id", "123");
-    node.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, "x10.3");
-    node.setAttribute(SoftVis3DConstants.SOFTVIZ_COLOR, new HexaColor(254, 140, 0).getHex());
+    node.setAttribute(LayoutConstants.GRAPH_ATTR_BUILDING_HEIGHT, "x10.3");
+    node.setAttribute(LayoutConstants.SOFTVIZ_COLOR, new HexaColor(254, 140, 0).getHex());
     node.setAttribute("type", TreeNodeType.PATH_GENERATED.name());
 
     final Node secondNode = new Node(graph, "secondTestNode");
@@ -111,7 +111,7 @@ public class ResultBuildingBuilderTest {
     edge.setAttribute(GrappaConstants.POS_ATTR, pos);
 
     final String radius = "x3.3";
-    edge.setAttribute(SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS, radius);
+    edge.setAttribute(LayoutConstants.GRAPH_ATTR_EDGE_RADIUS, radius);
   }
 
 }

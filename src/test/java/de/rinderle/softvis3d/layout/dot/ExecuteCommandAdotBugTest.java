@@ -19,7 +19,7 @@
  */
 package de.rinderle.softvis3d.layout.dot;
 
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import org.junit.Test;
 
 import static att.grappa.GrappaConstants.HEIGHT_ATTR;
@@ -70,7 +70,7 @@ public class ExecuteCommandAdotBugTest {
 
     final String postFix = "idsuoisdufhoisufh";
 
-    final String check = SoftVis3DConstants.GRAPH_ATTR_PENWIDTH + "=" + value + "," + postFix;
+    final String check = LayoutConstants.GRAPH_ATTR_PENWIDTH + "=" + value + "," + postFix;
 
     final String result = ExecuteCommand.checkForAdotBug(check);
 

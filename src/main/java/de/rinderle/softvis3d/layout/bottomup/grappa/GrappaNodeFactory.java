@@ -21,7 +21,7 @@ package de.rinderle.softvis3d.layout.bottomup.grappa;
 
 import att.grappa.Graph;
 import att.grappa.Node;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
 
 import static att.grappa.GrappaConstants.HEIGHT_ATTR;
@@ -43,9 +43,9 @@ public class GrappaNodeFactory {
     elementNode.setAttribute(LABEL_ATTR, ".");
     elementNode.setAttribute(SHAPE_ATTR, "box");
 
-    elementNode.setAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT, element.getBuildingHeight());
+    elementNode.setAttribute(LayoutConstants.GRAPH_ATTR_BUILDING_HEIGHT, element.getBuildingHeight());
 
-    elementNode.setAttribute(SoftVis3DConstants.SOFTVIZ_COLOR, element.getColor().getHex());
+    elementNode.setAttribute(LayoutConstants.SOFTVIZ_COLOR, element.getColor().getHex());
 
     elementNode.setAttribute("displayName", element.getDisplayName());
     return elementNode;

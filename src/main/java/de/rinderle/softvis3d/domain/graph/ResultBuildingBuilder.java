@@ -23,7 +23,7 @@ import att.grappa.Edge;
 import att.grappa.GrappaConstants;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.layout.helper.HexaColor;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class ResultBuildingBuilder {
     this.width = (Double) node.getAttributeValue(GrappaConstants.WIDTH_ATTR);
     this.height = (Double) node.getAttributeValue(GrappaConstants.HEIGHT_ATTR);
 
-    this.color = transformToColor(node.getAttributeValue(SoftVis3DConstants.SOFTVIZ_COLOR));
+    this.color = transformToColor(node.getAttributeValue(LayoutConstants.SOFTVIZ_COLOR));
 
     this.buildingHeight = transformBuildingHeight(node);
 
@@ -97,7 +97,7 @@ public class ResultBuildingBuilder {
    * TODO: building height does not have to be set for layout calculation. Should be set in PostProcessing.
    */
   private double transformBuildingHeight(final Node node) {
-    final String buildingHeightString = (String) node.getAttributeValue(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT);
+    final String buildingHeightString = (String) node.getAttributeValue(LayoutConstants.GRAPH_ATTR_BUILDING_HEIGHT);
     return Double.valueOf(buildingHeightString.substring(1));
   }
 

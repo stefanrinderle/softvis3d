@@ -19,7 +19,7 @@
  */
 package de.rinderle.softvis3d.layout.dot;
 
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class ExecuteCommand {
     String result = line;
     if (result.contains(HEIGHT_ATTR)) {
       result = addQuotationMarks(result, HEIGHT_ATTR);
-    } else if (result.contains(WIDTH_ATTR) && !result.contains(SoftVis3DConstants.GRAPH_ATTR_PENWIDTH)) {
+    } else if (result.contains(WIDTH_ATTR) && !result.contains(LayoutConstants.GRAPH_ATTR_PENWIDTH)) {
       result = result.replace(WIDTH_ATTR + "=", WIDTH_ATTR + "=\"");
       if (result.indexOf(']') >= 0) {
         result = result.replace("]", "\"]");

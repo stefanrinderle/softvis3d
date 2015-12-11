@@ -45,7 +45,7 @@ public class SnapshotVisitorBeanTest {
   @Ignore
   public void testVisitFile() throws Exception {
     final VisualizationSettings settings = new VisualizationSettings();
-//    settings.setProperty(SoftVis3DConstants.DOT_BIN_KEY, "/usr/bin/dot");
+//    settings.setProperty(LayoutConstants.DOT_BIN_KEY, "/usr/bin/dot");
     final SnapshotVisitorBean visitorBean =
       new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, LayoutViewType.CITY, null);
 
@@ -59,7 +59,7 @@ public class SnapshotVisitorBeanTest {
     final int id = 1;
 
     final VisualizationSettings settings = new VisualizationSettings();
-//    settings.setProperty(SoftVis3DConstants.DOT_BIN_KEY, "/usr/bin/dot");
+//    settings.setProperty(LayoutConstants.DOT_BIN_KEY, "/usr/bin/dot");
     final SnapshotVisitorBean visitorBean =
       new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, LayoutViewType.CITY, null);
 

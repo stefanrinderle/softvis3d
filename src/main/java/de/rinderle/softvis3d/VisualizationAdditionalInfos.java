@@ -34,4 +34,14 @@ public class VisualizationAdditionalInfos {
   public MinMaxValue getMinMaxMetricColor() {
     return minMaxMetricColor;
   }
+
+  @Override
+  public String toString() {
+    return "VisualizationAdditionalInfos{" +
+            "minMaxMetricFootprint=" + minMaxMetricFootprint +
+            ", minMaxMetricHeight=" + minMaxMetricHeight +
+            ", dependenciesCount=" + dependenciesCount +
+            ", minMaxMetricColor=" + minMaxMetricColor +
+            '}';
+  }
 }

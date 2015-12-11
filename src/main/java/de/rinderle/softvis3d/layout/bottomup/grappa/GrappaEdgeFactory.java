@@ -22,7 +22,7 @@ package de.rinderle.softvis3d.layout.bottomup.grappa;
 import att.grappa.Graph;
 import att.grappa.Node;
 import com.google.inject.Inject;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import de.rinderle.softvis3d.domain.tree.Edge;
 import de.rinderle.softvis3d.layout.format.LayerFormatter;
 
@@ -40,8 +40,8 @@ public class GrappaEdgeFactory {
     } else {
       final att.grappa.Edge result = new att.grappa.Edge(inputGraph, sourceNode, destNode);
       final double edgeRadius = this.formatter.calcEdgeRadius(edge.getIncludingDependenciesSize());
-      result.setAttribute(SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS, "x" + edgeRadius);
-      result.setAttribute(SoftVis3DConstants.GRAPH_ATTR_PENWIDTH,
+      result.setAttribute(LayoutConstants.GRAPH_ATTR_EDGE_RADIUS, "x" + edgeRadius);
+      result.setAttribute(LayoutConstants.GRAPH_ATTR_PENWIDTH,
         String.valueOf(edge.getIncludingDependenciesSize()));
 
       return result;

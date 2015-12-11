@@ -22,7 +22,7 @@ package de.rinderle.softvis3d.layout.bottomup.grappa;
 import att.grappa.Graph;
 import att.grappa.GrappaConstants;
 import att.grappa.Node;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import de.rinderle.softvis3d.domain.layout.LayeredLayoutElement;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNodeType;
@@ -63,8 +63,8 @@ public class GrappaNodeFactoryTest {
     assertEquals("box", result.getAttribute(GrappaConstants.SHAPE_ATTR).getStringValue());
 
     assertEquals("x" + buildingHeight,
-      result.getAttribute(SoftVis3DConstants.GRAPH_ATTR_BUILDING_HEIGHT).getStringValue());
-    assertEquals(color.getHex(), result.getAttribute(SoftVis3DConstants.SOFTVIZ_COLOR).getStringValue());
+      result.getAttribute(LayoutConstants.GRAPH_ATTR_BUILDING_HEIGHT).getStringValue());
+    assertEquals(color.getHex(), result.getAttribute(LayoutConstants.SOFTVIZ_COLOR).getStringValue());
     assertEquals(element.getDisplayName(), result.getAttribute("displayName").getStringValue());
   }
 

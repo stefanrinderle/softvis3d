@@ -26,7 +26,7 @@ import att.grappa.GrappaLine;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
 import att.grappa.Subgraph;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
+import de.rinderle.softvis3d.domain.LayoutConstants;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -105,7 +105,7 @@ public class ResultArrowBuilderTest {
     edge.setAttribute(GrappaConstants.POS_ATTR, pos);
 
     final String radius = "x" + RADIUS.toString();
-    edge.setAttribute(SoftVis3DConstants.GRAPH_ATTR_EDGE_RADIUS, radius);
+    edge.setAttribute(LayoutConstants.GRAPH_ATTR_EDGE_RADIUS, radius);
     return edge;
   }
 
