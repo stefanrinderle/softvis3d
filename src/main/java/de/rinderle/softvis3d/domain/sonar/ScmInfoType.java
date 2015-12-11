@@ -28,26 +28,26 @@ import de.rinderle.softvis3d.dao.scm.ScmCommitCountCalculationService;
  */
 public enum ScmInfoType {
 
-    /**
-     * ! enum names used in view !
-     */
-    NONE("None", null),
-    AUTHOR_COUNT("Author count", new ScmAuthorCountCalculationService()),
-    COMMIT_COUNT("Commit count", new ScmCommitCountCalculationService());
+  /**
+   * ! enum names used in view !
+   */
+  NONE("None", null),
+  AUTHOR_COUNT("Author count", new ScmAuthorCountCalculationService()),
+  COMMIT_COUNT("Commit count", new ScmCommitCountCalculationService());
 
-    private final ScmCalculationService scmCalculationService;
-    private final String description;
+  private final ScmCalculationService scmCalculationService;
+  private final String description;
 
-    ScmInfoType(String description, ScmCalculationService scmCalculationService) {
-        this.description = description;
-        this.scmCalculationService = scmCalculationService;
-    }
+  ScmInfoType(String description, ScmCalculationService scmCalculationService) {
+    this.description = description;
+    this.scmCalculationService = scmCalculationService;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public ScmCalculationService getScmCalculationService() {
-        return this.scmCalculationService;
-    }
+  public ScmCalculationService getScmCalculationService() {
+    return this.scmCalculationService;
+  }
 }

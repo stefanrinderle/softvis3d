@@ -25,10 +25,9 @@ import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
 import de.rinderle.softvis3d.domain.tree.Edge;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 public class DependencyExpander {
 

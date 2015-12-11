@@ -65,23 +65,28 @@ public class VisualizationRequest {
   @Override
   public String toString() {
     return "VisualizationRequest{" +
-            "rootSnapshotId=" + rootSnapshotId +
-            ", viewType=" + viewType +
-            ", footprintMetricId=" + footprintMetricId +
-            ", heightMetricId=" + heightMetricId +
-            '}';
+      "rootSnapshotId=" + rootSnapshotId +
+      ", viewType=" + viewType +
+      ", footprintMetricId=" + footprintMetricId +
+      ", heightMetricId=" + heightMetricId +
+      '}';
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
 
     VisualizationRequest that = (VisualizationRequest) o;
 
-    if (rootSnapshotId != that.rootSnapshotId) return false;
-    if (footprintMetricId != that.footprintMetricId) return false;
-    if (heightMetricId != that.heightMetricId) return false;
+    if (rootSnapshotId != that.rootSnapshotId)
+      return false;
+    if (footprintMetricId != that.footprintMetricId)
+      return false;
+    if (heightMetricId != that.heightMetricId)
+      return false;
     return viewType != that.viewType;
 
   }

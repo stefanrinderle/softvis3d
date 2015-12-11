@@ -21,11 +21,11 @@ package de.rinderle.softvis3d.domain.sonar;
 
 public class SonarSnapshotBuilder {
 
+  public int scmMetricValue = 0;
   int id;
   String path;
   double footprintMetricValue = 0.0;
   double heightMetricValue = 0.0;
-  public int scmMetricValue = 0;
 
   public SonarSnapshotBuilder(final int id) {
     this.id = id;

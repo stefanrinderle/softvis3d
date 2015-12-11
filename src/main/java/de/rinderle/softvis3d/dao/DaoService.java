@@ -21,10 +21,8 @@ package de.rinderle.softvis3d.dao;
 
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
-//import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
 import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
 import de.rinderle.softvis3d.domain.MinMaxValue;
-//import de.rinderle.softvis3d.domain.ScmInfoType;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
@@ -38,11 +36,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
 
+//import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
+//import de.rinderle.softvis3d.domain.ScmInfoType;
+
 public class DaoService {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(DaoService.class);
-
   static final String SCM_AUTHOR_NAME = "authors_by_line";
+  private static final Logger LOGGER = LoggerFactory.getLogger(DaoService.class);
   private static final String SCM_DATE_NAME = "last_commit_datetimes_by_line";
 
   @Inject
@@ -143,7 +143,7 @@ public class DaoService {
     stopWatch.start();
 
     final List<MetricResultDTO<Integer>> snapshots = sonarDao.getAllSnapshotIdsWithRescourceId(
-            requestDTO.getRootSnapshotId());
+      requestDTO.getRootSnapshotId());
 
     for (final MetricResultDTO<Integer> snapshot : snapshots) {
       final Integer snapshotId = snapshot.getId();

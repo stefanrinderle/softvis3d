@@ -21,7 +21,6 @@ package de.rinderle.softvis3d.preprocessing.tree;
 
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.tree.TreeNode;
-
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -53,9 +52,9 @@ public class OptimizeTreeStructure {
 
   private void removeUnnecessaryNode(final TreeNode node) {
     final TreeMap<String, TreeNode> children =
-            (TreeMap<String, TreeNode>) node.getChildren();
+      (TreeMap<String, TreeNode>) node.getChildren();
     final TreeMap<String, TreeNode> copyOfChildren =
-            (TreeMap<String, TreeNode>) children.clone();
+      (TreeMap<String, TreeNode>) children.clone();
 
     if (children.size() == 1) {
       this.removeNodeFromStructure(node);
@@ -70,7 +69,7 @@ public class OptimizeTreeStructure {
     if (node.getParent() != null) {
       // set new parent for child
       final SortedMap<String, TreeNode> children =
-              (TreeMap<String, TreeNode>) node.getChildren();
+        (TreeMap<String, TreeNode>) node.getChildren();
       final TreeNode child = (TreeNode) children.values().toArray()[0];
 
       child.setParent(node.getParent());
@@ -81,7 +80,7 @@ public class OptimizeTreeStructure {
       // update children of parent
       // check for root node
       final Map<String, TreeNode> parentChildren =
-              node.getParent().getChildren();
+        node.getParent().getChildren();
 
       parentChildren.remove(node.getName());
       parentChildren.put(child.getName(), child);

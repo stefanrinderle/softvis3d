@@ -32,7 +32,6 @@ import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpander;
 import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructure;
 import de.rinderle.softvis3d.preprocessing.tree.TreeBuilder;
-
 import java.util.List;
 
 public class PreProcessor {

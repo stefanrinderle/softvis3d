@@ -19,18 +19,15 @@
  */
 package de.rinderle.softvis3d.cache;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 public class Cache<K, V> {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Cache.class);
-
   static final long MAX_SIZE = 5;
-
+  private static final Logger LOGGER = LoggerFactory.getLogger(Cache.class);
   private final LinkedHashMap<K, V> map;
 
   public Cache() {

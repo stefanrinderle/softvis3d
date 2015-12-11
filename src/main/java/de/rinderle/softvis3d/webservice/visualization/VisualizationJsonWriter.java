@@ -24,11 +24,10 @@ import de.rinderle.softvis3d.domain.graph.Point3d;
 import de.rinderle.softvis3d.domain.graph.ResultArrow;
 import de.rinderle.softvis3d.domain.graph.ResultBuilding;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
-import org.sonar.api.utils.text.JsonWriter;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import org.sonar.api.utils.text.JsonWriter;
 
 public class VisualizationJsonWriter {
 

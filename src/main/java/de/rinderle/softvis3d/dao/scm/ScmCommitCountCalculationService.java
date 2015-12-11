@@ -26,19 +26,18 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ScmCommitCountCalculationService extends ScmCalculationService {
 
-
-    /**
-     * TODO: This is not the commit count but the line count!!!
-     * FIX!
-     */
-    @Override
-    public int getNodeValue(String scmCommitterString, String scmTimeString) {
-        if (StringUtils.isBlank(scmCommitterString)) {
-            return 0;
-        } else {
-            final String[] resultCommitter = splitPlainScmInfo(scmCommitterString);
-            return resultCommitter.length;
-        }
+  /**
+   * TODO: This is not the commit count but the line count!!!
+   * FIX!
+   */
+  @Override
+  public int getNodeValue(String scmCommitterString, String scmTimeString) {
+    if (StringUtils.isBlank(scmCommitterString)) {
+      return 0;
+    } else {
+      final String[] resultCommitter = splitPlainScmInfo(scmCommitterString);
+      return resultCommitter.length;
     }
+  }
 
 }

@@ -22,13 +22,11 @@ package de.rinderle.softvis3d.dao;
 import com.google.inject.Singleton;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
 import de.rinderle.softvis3d.domain.sonar.SonarDependencyBuilder;
-import org.sonar.api.database.DatabaseSession;
-import org.sonar.api.design.DependencyDto;
-
-import javax.persistence.Query;
-
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Query;
+import org.sonar.api.database.DatabaseSession;
+import org.sonar.api.design.DependencyDto;
 
 /**
  * Use singleton to set the database session once on startup and to be sure that it is set on any other injection.
