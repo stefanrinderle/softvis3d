@@ -30,6 +30,12 @@ public class MinMaxValue {
     this.maxValue = maxValue;
   }
 
+  public MinMaxValue(final int minValue, final int maxValue) {
+    super();
+    this.minValue = (double) minValue;
+    this.maxValue = (double) maxValue;
+  }
+
   public Double getMinValue() {
     return this.minValue;
   }
