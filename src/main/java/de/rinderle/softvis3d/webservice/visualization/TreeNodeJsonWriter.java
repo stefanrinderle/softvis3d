@@ -19,11 +19,11 @@
  */
 package de.rinderle.softvis3d.webservice.visualization;
 
-import de.rinderle.softvis3d.domain.tree.Dependency;
-import de.rinderle.softvis3d.domain.tree.Edge;
-import de.rinderle.softvis3d.domain.tree.RootTreeNode;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
-import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
+import de.rinderle.softvis3d.base.domain.tree.Dependency;
+import de.rinderle.softvis3d.base.domain.tree.Edge;
+import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.base.domain.tree.TreeNode;
+import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
 import java.util.List;
 import java.util.Map;
 import org.sonar.api.utils.text.JsonWriter;

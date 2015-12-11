@@ -19,12 +19,12 @@
  */
 package de.rinderle.softvis3d.preprocessing.dependencies;
 
+import de.rinderle.softvis3d.base.domain.tree.Dependency;
+import de.rinderle.softvis3d.base.domain.tree.DependencyTreeNode;
+import de.rinderle.softvis3d.base.domain.tree.Edge;
+import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.base.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
-import de.rinderle.softvis3d.domain.tree.Dependency;
-import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
-import de.rinderle.softvis3d.domain.tree.Edge;
-import de.rinderle.softvis3d.domain.tree.RootTreeNode;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

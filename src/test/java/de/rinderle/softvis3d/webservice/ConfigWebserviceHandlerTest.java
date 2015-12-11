@@ -19,8 +19,8 @@
  */
 package de.rinderle.softvis3d.webservice;
 
+import de.rinderle.softvis3d.base.domain.Metric;
 import de.rinderle.softvis3d.dao.DaoService;
-import de.rinderle.softvis3d.domain.Metric;
 import de.rinderle.softvis3d.webservice.config.ConfigWebserviceHandler;
 import java.io.StringWriter;
 import java.util.ArrayList;

@@ -19,11 +19,11 @@
  */
 package de.rinderle.softvis3d.webservice.visualization;
 
-import de.rinderle.softvis3d.domain.graph.BaseResultObject;
-import de.rinderle.softvis3d.domain.graph.Point3d;
-import de.rinderle.softvis3d.domain.graph.ResultArrow;
-import de.rinderle.softvis3d.domain.graph.ResultBuilding;
-import de.rinderle.softvis3d.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.base.domain.graph.BaseResultObject;
+import de.rinderle.softvis3d.base.domain.graph.Point3d;
+import de.rinderle.softvis3d.base.domain.graph.ResultArrow;
+import de.rinderle.softvis3d.base.domain.graph.ResultBuilding;
+import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

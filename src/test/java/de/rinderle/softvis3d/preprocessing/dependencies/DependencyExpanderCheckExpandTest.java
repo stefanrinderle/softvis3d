@@ -20,18 +20,17 @@
 package de.rinderle.softvis3d.preprocessing.dependencies;
 
 import de.rinderle.softvis3d.TestTreeBuilder;
+import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.base.domain.tree.TreeNode;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
-import de.rinderle.softvis3d.domain.tree.RootTreeNode;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 

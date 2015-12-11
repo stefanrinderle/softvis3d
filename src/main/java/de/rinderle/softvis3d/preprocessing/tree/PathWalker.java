@@ -19,11 +19,11 @@
  */
 package de.rinderle.softvis3d.preprocessing.tree;
 
+import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.base.domain.tree.TreeNode;
+import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
 import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
-import de.rinderle.softvis3d.domain.tree.RootTreeNode;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
-import de.rinderle.softvis3d.domain.tree.TreeNodeType;
-import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
 import java.util.Map;
 import java.util.regex.Pattern;
 

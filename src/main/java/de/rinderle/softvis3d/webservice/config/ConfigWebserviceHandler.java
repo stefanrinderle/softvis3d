@@ -20,8 +20,8 @@
 package de.rinderle.softvis3d.webservice.config;
 
 import com.google.inject.Inject;
+import de.rinderle.softvis3d.base.domain.Metric;
 import de.rinderle.softvis3d.dao.DaoService;
-import de.rinderle.softvis3d.domain.Metric;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
 import java.util.List;

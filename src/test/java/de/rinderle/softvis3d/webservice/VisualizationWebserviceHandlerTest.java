@@ -19,18 +19,18 @@
  */
 package de.rinderle.softvis3d.webservice;
 
-import de.rinderle.softvis3d.VisualizationAdditionalInfos;
-import de.rinderle.softvis3d.VisualizationProcessor;
-import de.rinderle.softvis3d.VisualizationSettings;
+import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
+import de.rinderle.softvis3d.base.VisualizationProcessor;
+import de.rinderle.softvis3d.base.VisualizationSettings;
+import de.rinderle.softvis3d.base.domain.LayoutViewType;
+import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
+import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.base.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.cache.LayoutCacheService;
-import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
-import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
-import de.rinderle.softvis3d.domain.tree.RootTreeNode;
-import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import de.rinderle.softvis3d.webservice.visualization.TreeNodeJsonWriter;
 import de.rinderle.softvis3d.webservice.visualization.VisualizationJsonWriter;
@@ -53,7 +53,6 @@ import org.sonar.api.utils.text.XmlWriter;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;

@@ -19,6 +19,7 @@
  */
 package de.rinderle.softvis3d.domain;
 
+import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import org.junit.Test;
 

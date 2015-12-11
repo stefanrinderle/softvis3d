@@ -19,12 +19,12 @@
  */
 package de.rinderle.softvis3d;
 
+import de.rinderle.softvis3d.base.domain.tree.DependencyTreeNode;
+import de.rinderle.softvis3d.base.domain.tree.TreeNode;
+import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
 import de.rinderle.softvis3d.domain.sonar.SonarDependencyBuilder;
-import de.rinderle.softvis3d.domain.tree.DependencyTreeNode;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
-import de.rinderle.softvis3d.domain.tree.TreeNodeType;
-import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
 import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpander;
 
 public class TestTreeBuilder {

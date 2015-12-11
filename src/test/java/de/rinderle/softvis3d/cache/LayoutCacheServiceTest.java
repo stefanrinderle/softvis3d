@@ -20,10 +20,10 @@
 package de.rinderle.softvis3d.cache;
 
 import att.grappa.Graph;
-import de.rinderle.softvis3d.domain.LayoutViewType;
+import de.rinderle.softvis3d.base.domain.LayoutViewType;
+import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import java.util.HashMap;
 import java.util.Map;

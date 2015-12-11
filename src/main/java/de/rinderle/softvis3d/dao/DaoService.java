@@ -20,9 +20,9 @@
 package de.rinderle.softvis3d.dao;
 
 import com.google.inject.Inject;
+import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
 import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
-import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
@@ -67,7 +67,7 @@ public class DaoService {
    *            Root snapshot ID
    * @return defined metrics on the file level scope
    */
-  public List<de.rinderle.softvis3d.domain.Metric> getDefinedMetricsForSnapshot(final Integer snapshotId) {
+  public List<de.rinderle.softvis3d.base.domain.Metric> getDefinedMetricsForSnapshot(final Integer snapshotId) {
     LOGGER.debug("getDefinedMetricsForSnapshot " + snapshotId);
     return this.sonarDao.getDistinctMetricsBySnapshotId(snapshotId);
   }

@@ -24,18 +24,16 @@ import att.grappa.GrappaBox;
 import att.grappa.GrappaConstants;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
-import de.rinderle.softvis3d.domain.LayoutConstants;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
-import de.rinderle.softvis3d.domain.graph.ResultPlatform;
-import de.rinderle.softvis3d.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.base.domain.LayoutConstants;
+import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.base.layout.helper.HexaColor;
 import de.rinderle.softvis3d.layout.format.GrappaGraphTestFactory;
-import de.rinderle.softvis3d.layout.helper.HexaColor;
-import org.junit.Test;
-import org.sonar.api.utils.text.JsonWriter;
-
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.Test;
+import org.sonar.api.utils.text.JsonWriter;
 
 import static org.junit.Assert.assertEquals;
 

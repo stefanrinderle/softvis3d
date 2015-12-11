@@ -20,9 +20,9 @@
 package de.rinderle.softvis3d.dao;
 
 import com.google.inject.Singleton;
+import de.rinderle.softvis3d.base.domain.Metric;
+import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
-import de.rinderle.softvis3d.domain.Metric;
-import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import java.util.ArrayList;
 import java.util.List;

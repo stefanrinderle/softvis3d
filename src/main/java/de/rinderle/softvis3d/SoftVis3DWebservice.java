@@ -21,10 +21,11 @@ package de.rinderle.softvis3d;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import de.rinderle.softvis3d.base.VisualizationSettings;
+import de.rinderle.softvis3d.base.guice.SoftVis3DModule;
 import de.rinderle.softvis3d.dao.DependencyDao;
 import de.rinderle.softvis3d.dao.SonarDao;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
-import de.rinderle.softvis3d.guice.SoftVis3DModule;
 import de.rinderle.softvis3d.webservice.config.ConfigWebserviceHandler;
 import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHandler;
 import org.sonar.api.config.Settings;

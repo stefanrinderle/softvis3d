@@ -26,10 +26,9 @@ import att.grappa.GrappaConstants;
 import att.grappa.GrappaLine;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
-import de.rinderle.softvis3d.domain.LayoutConstants;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
-import de.rinderle.softvis3d.domain.graph.ResultPlatform;
-import de.rinderle.softvis3d.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.base.domain.LayoutConstants;
+import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
 
 public class GrappaGraphTestFactory {
 

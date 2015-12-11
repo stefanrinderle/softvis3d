@@ -19,11 +19,10 @@
  */
 package de.rinderle.softvis3d.preprocessing.tree;
 
+import de.rinderle.softvis3d.base.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.sonar.SonarSnapshotBuilder;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
-import org.junit.Test;
-
 import java.util.Map;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
