@@ -63,7 +63,7 @@
 
         <!-- !!! softvis3d base !!! -->
         <dependency>
-            <groupId>de.rinderle</groupId>
+            <groupId>de.rinderle.softvis3d</groupId>
             <artifactId>softvis3d-base</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
