@@ -23,6 +23,7 @@ import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
+import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import org.junit.Test;
 
@@ -57,7 +58,7 @@ public class SnapshotCacheServiceTest {
   }
 
   private SnapshotStorageKey getSnapshotStorageKey(final int id) {
-    final VisualizationRequest requestDto = new VisualizationRequest(id, LayoutViewType.CITY, 1, 1);
+    final VisualizationRequest requestDto = new VisualizationRequest(id, LayoutViewType.CITY, 1, 1, ScmInfoType.NONE);
     return new SnapshotStorageKey(requestDto);
   }
 }

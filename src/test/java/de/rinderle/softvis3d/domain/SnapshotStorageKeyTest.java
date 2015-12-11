@@ -19,6 +19,7 @@
  */
 package de.rinderle.softvis3d.domain;
 
+import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import junit.framework.TestCase;
 
 /**
@@ -27,7 +28,7 @@ import junit.framework.TestCase;
 public class SnapshotStorageKeyTest extends TestCase {
 
     public void testEqualsTrue() throws Exception {
-        final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+        final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
 
         final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO);
         final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO);
@@ -36,8 +37,8 @@ public class SnapshotStorageKeyTest extends TestCase {
     }
 
     public void testEqualsFalse() throws Exception {
-        final VisualizationRequest requestDTO1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
-        final VisualizationRequest requestDTO2 = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20);
+        final VisualizationRequest requestDTO1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
+        final VisualizationRequest requestDTO2 = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20, ScmInfoType.NONE);
 
         final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO1);
         final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO2);
@@ -46,7 +47,7 @@ public class SnapshotStorageKeyTest extends TestCase {
     }
 
     public void testHashCodeTrue() throws Exception {
-        final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+        final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
 
         final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO);
         final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO);
@@ -55,8 +56,8 @@ public class SnapshotStorageKeyTest extends TestCase {
     }
 
     public void testHashCodeFalse() throws Exception {
-        final VisualizationRequest requestDTO1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
-        final VisualizationRequest requestDTO2 = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20);
+        final VisualizationRequest requestDTO1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
+        final VisualizationRequest requestDTO2 = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20, ScmInfoType.NONE);
 
         final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO1);
         final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO2);

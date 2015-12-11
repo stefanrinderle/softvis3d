@@ -26,6 +26,7 @@ import de.rinderle.softvis3d.domain.Metric;
 import de.rinderle.softvis3d.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
+import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import de.rinderle.softvis3d.domain.sonar.SonarDependency;
 import de.rinderle.softvis3d.domain.sonar.SonarDependencyBuilder;
 import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
@@ -174,7 +175,7 @@ public class DaoServiceTest {
   @Test
   public void testGetFlatChildrenWithMetricsEmpty() throws Exception {
     final int snapshotId = 12;
-    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
 
     final List<MetricResultDTO<Integer>> snapshots = new ArrayList<>();
 
@@ -187,7 +188,7 @@ public class DaoServiceTest {
   @Test
   public void testGetFlatChildrenWithMetrics() throws Exception {
     final int snapshotId = 12;
-    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(snapshotId, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
 
     final List<MetricResultDTO<Integer>> snapshots = new ArrayList<>();
     final MetricResultDTO<Integer> metricResultDTO = new MetricResultDTO<>(1, 20);
@@ -201,7 +202,7 @@ public class DaoServiceTest {
   @Test
   @Ignore
   public void testGetMaxScmInfo() throws Exception {
-    final VisualizationRequest requestDTO = new VisualizationRequest(12, LayoutViewType.CITY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(12, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
 
     final Integer authorMetricId = 14;
     when(sonarDao.getMetricIdByKey(eq(DaoService.SCM_AUTHOR_NAME))).thenReturn(authorMetricId);

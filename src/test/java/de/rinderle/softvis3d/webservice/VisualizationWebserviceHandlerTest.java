@@ -28,6 +28,7 @@ import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
@@ -99,7 +100,7 @@ public class VisualizationWebserviceHandlerTest {
     final Response response = this.createResponse();
 
     final VisualizationRequest requestDTO = new VisualizationRequest(
-      this.snapshotId, LayoutViewType.CITY, this.footprintMetricId, this.heightMetricId);
+      this.snapshotId, LayoutViewType.CITY, this.footprintMetricId, this.heightMetricId, ScmInfoType.NONE);
 
     final SnapshotTreeResult treeResult = mockPreProcessing(requestDTO);
 

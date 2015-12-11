@@ -32,6 +32,7 @@ import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import de.rinderle.softvis3d.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
@@ -74,10 +75,9 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
     final LayoutViewType layoutViewType = LayoutViewType.valueOfRequest(request.param("viewType"));
 
-//     final ScmInfoType scmInfoType = ScmInfoType.valueOf(request.param("scmMetricType"));
-    final VisualizationRequest requestDTO = new VisualizationRequest(id, layoutViewType, footprintMetricId, heightMetricId);
-    // final VisualizationRequest requestDTO =
-    // new VisualizationRequest(id, layoutViewType, footprintMetricId, heightMetricId, scmInfoType);
+    final ScmInfoType scmInfoType = ScmInfoType.valueOf(request.param("scmMetricType"));
+    final VisualizationRequest requestDTO =
+      new VisualizationRequest(id, layoutViewType, footprintMetricId, heightMetricId, scmInfoType);
 
     LOGGER.info("VisualizationWebserviceHandler " + requestDTO.toString());
 
@@ -148,7 +148,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     int dependenciesCount = daoService.getDependencies(requestDTO.getRootSnapshotId()).size();
 
     // TODO
-    final MinMaxValue minMaxMetricColor = null;
+    final MinMaxValue minMaxMetricColor = daoService.getMaxScmInfo(requestDTO);
 
     return new VisualizationAdditionalInfos(minMaxMetricFootprint, minMaxMetricHeight, minMaxMetricColor, dependenciesCount);
   }

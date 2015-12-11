@@ -19,6 +19,8 @@
  */
 package de.rinderle.softvis3d.domain;
 
+import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
+
 public class VisualizationRequest {
 
   private final int rootSnapshotId;
@@ -27,14 +29,17 @@ public class VisualizationRequest {
 
   private final int footprintMetricId;
   private final int heightMetricId;
+  private final ScmInfoType scmInfoType;
 
-  public VisualizationRequest(final int rootSnapshotId, final LayoutViewType viewType, final int footprintMetricId, final int heightMetricId) {
+  public VisualizationRequest(final int rootSnapshotId, final LayoutViewType viewType, final int footprintMetricId, final int heightMetricId, final ScmInfoType scmInfoType) {
     this.rootSnapshotId = rootSnapshotId;
 
     this.viewType = viewType;
 
     this.footprintMetricId = footprintMetricId;
     this.heightMetricId = heightMetricId;
+
+    this.scmInfoType = scmInfoType;
   }
 
   public int getRootSnapshotId() {
@@ -51,6 +56,10 @@ public class VisualizationRequest {
 
   public int getHeightMetricId() {
     return this.heightMetricId;
+  }
+
+  public ScmInfoType getScmInfoType() {
+    return scmInfoType;
   }
 
   @Override
@@ -85,4 +94,5 @@ public class VisualizationRequest {
     result = 31 * result + heightMetricId;
     return result;
   }
+
 }

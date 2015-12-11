@@ -89,33 +89,35 @@ public class DaoService {
     return this.sonarDao.getDirectModuleChildrenIds(snapshotId);
   }
 
-//  public int getMaxScmInfo(final VisualizationRequest requestDTO) {
-//    int maxScmMetricValue = 0;
-//
-//    if (!ScmInfoType.NONE.equals(requestDTO.getScmInfoType())) {
-//      final ScmCalculationService scmCalculationService = getCalculationService(requestDTO.getScmInfoType());
-//
-//      final List<MetricResultDTO<String>> scmCommitter = getScmAuthors(requestDTO.getRootSnapshotId());
-//      for (final MetricResultDTO<String> aScmCommitter : scmCommitter) {
-//        final int nodeScmMetricValue = scmCalculationService.getNodeValue(aScmCommitter.getValue(), "");
-//
-//        if (nodeScmMetricValue > maxScmMetricValue) {
-//          maxScmMetricValue = nodeScmMetricValue;
-//        }
-//      }
-//    }
-//
-//    LOGGER.info("Max scm metric value " + maxScmMetricValue);
-//
-//    return maxScmMetricValue;
-//  }
+  public MinMaxValue getMaxScmInfo(final VisualizationRequest requestDTO) {
+    int maxScmMetricValue = 0;
+
+    if (!ScmInfoType.NONE.equals(requestDTO.getScmInfoType())) {
+      final ScmCalculationService scmCalculationService = getCalculationService(requestDTO.getScmInfoType());
+
+      final List<MetricResultDTO<String>> scmCommitter = getScmAuthors(requestDTO.getRootSnapshotId());
+      for (final MetricResultDTO<String> aScmCommitter : scmCommitter) {
+        final int nodeScmMetricValue = scmCalculationService.getNodeValue(aScmCommitter.getValue(), "");
+
+        if (nodeScmMetricValue > maxScmMetricValue) {
+          maxScmMetricValue = nodeScmMetricValue;
+        }
+      }
+    } else {
+      return null;
+    }
+
+    LOGGER.info("Max scm metric value " + maxScmMetricValue);
+
+    return new MinMaxValue(0, maxScmMetricValue);
+  }
 
   /**
    * provide mocking of calc service.
    */
-//  protected ScmCalculationService getCalculationService(final ScmInfoType scmInfoType) {
-//    return scmInfoType.getScmCalculationService();
-//  }
+  protected ScmCalculationService getCalculationService(final ScmInfoType scmInfoType) {
+    return scmInfoType.getScmCalculationService();
+  }
 
   public List<SonarDependency> getDependencies(final Integer snapshotId) {
     LOGGER.debug("getDependencies " + snapshotId);
@@ -151,10 +153,10 @@ public class DaoService {
       builder.withFootprintMeasure(sonarDao.getMetricDouble(requestDTO.getFootprintMetricId(), snapshotId));
       builder.withHeightMeasure(sonarDao.getMetricDouble(requestDTO.getHeightMetricId(), snapshotId));
 
-//      if (!ScmInfoType.NONE.equals(requestDTO.getScmInfoType())) {
-//        int scmMetric = getScmMetric(snapshotId, requestDTO.getScmInfoType());
-//        builder.withScmMetric(scmMetric);
-//      }
+      if (!ScmInfoType.NONE.equals(requestDTO.getScmInfoType())) {
+        int scmMetric = getScmMetric(snapshotId, requestDTO.getScmInfoType());
+        builder.withScmMetric(scmMetric);
+      }
 
       final SonarSnapshot snapshotResult = builder.build();
 
@@ -176,13 +178,13 @@ public class DaoService {
     return true;
   }
 
-//  private int getScmMetric(final Integer snapshotId, final ScmInfoType scmInfoType) {
-//    final Integer authorDateMetricId = this.sonarDao.getMetricIdByKey(SCM_DATE_NAME);
-//    final String authorDateMetric = this.sonarDao.getMetricText(authorDateMetricId, snapshotId);
-//
-//    final String authors = getAuthors(snapshotId);
-//    return getCalculationService(scmInfoType).getNodeValue(authors, authorDateMetric);
-//  }
+  private int getScmMetric(final Integer snapshotId, final ScmInfoType scmInfoType) {
+    final Integer authorDateMetricId = this.sonarDao.getMetricIdByKey(SCM_DATE_NAME);
+    final String authorDateMetric = this.sonarDao.getMetricText(authorDateMetricId, snapshotId);
+
+    final String authors = getAuthors(snapshotId);
+    return getCalculationService(scmInfoType).getNodeValue(authors, authorDateMetric);
+  }
 
   private String getAuthors(final Integer snapshotId) {
     final Integer authorMetricId = this.sonarDao.getMetricIdByKey(SCM_AUTHOR_NAME);

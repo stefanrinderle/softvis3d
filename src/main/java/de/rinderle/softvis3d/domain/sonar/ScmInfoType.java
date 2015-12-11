@@ -19,10 +19,35 @@
  */
 package de.rinderle.softvis3d.domain.sonar;
 
+import de.rinderle.softvis3d.dao.scm.ScmAuthorCountCalculationService;
+import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
+import de.rinderle.softvis3d.dao.scm.ScmCommitCountCalculationService;
+
 /**
  * Created by stefanrinderle on 07.12.15.
  */
 public enum ScmInfoType {
 
-    NONE
+    /**
+     * ! enum names used in view !
+     */
+    NONE("None", null),
+    AUTHOR_COUNT("Author count", new ScmAuthorCountCalculationService()),
+    COMMIT_COUNT("Commit count", new ScmCommitCountCalculationService());
+
+    private final ScmCalculationService scmCalculationService;
+    private final String description;
+
+    ScmInfoType(String description, ScmCalculationService scmCalculationService) {
+        this.description = description;
+        this.scmCalculationService = scmCalculationService;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public ScmCalculationService getScmCalculationService() {
+        return this.scmCalculationService;
+    }
 }

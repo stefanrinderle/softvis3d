@@ -24,6 +24,7 @@ import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Test;
@@ -59,7 +60,7 @@ public class LayoutCacheServiceTest {
   }
 
   private SnapshotStorageKey getSnapshotStorageKey(final int id) {
-    final VisualizationRequest requestDto = new VisualizationRequest(id, LayoutViewType.CITY, 1, 1);
+    final VisualizationRequest requestDto = new VisualizationRequest(id, LayoutViewType.CITY, 1, 1, ScmInfoType.NONE);
     return new SnapshotStorageKey(requestDto);
   }
 }

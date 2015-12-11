@@ -49,10 +49,8 @@ public class TreeBuilder {
     if (!modules.isEmpty()) {
       for (final ModuleInfo module : modules) {
         final VisualizationRequest moduleTemp =
-          new VisualizationRequest(module.getId(), requestDTO.getViewType(),
-            requestDTO.getFootprintMetricId(), requestDTO.getHeightMetricId());
-//        new VisualizationRequest(module.getId(), requestDTO.getViewType(),
-//                requestDTO.getFootprintMetricId(), requestDTO.getHeightMetricId(), requestDTO.getScmInfoType());
+        new VisualizationRequest(module.getId(), requestDTO.getViewType(),
+                requestDTO.getFootprintMetricId(), requestDTO.getHeightMetricId(), requestDTO.getScmInfoType());
 
         final SonarSnapshotBuilder builder = new SonarSnapshotBuilder(module.getId()).withPath(module.getName());
 

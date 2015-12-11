@@ -25,6 +25,7 @@ import de.rinderle.softvis3d.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
+import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpander;
 import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructure;
 import de.rinderle.softvis3d.preprocessing.tree.TreeBuilder;
@@ -64,7 +65,7 @@ public class PreProcessorTest {
 
   @Test
   public void testProcessCached() throws Exception {
-    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20);
+    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
     final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
     when(snapshotCacheService.containsKey(eq(mapKey))).thenReturn(true);
