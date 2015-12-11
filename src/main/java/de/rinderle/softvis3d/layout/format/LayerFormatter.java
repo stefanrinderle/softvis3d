@@ -117,8 +117,12 @@ public class LayerFormatter {
   }
 
   public HexaColor getMetricColorColor(final double nodeColorMetricValue, final MinMaxValue minMaxMetricColor) {
+    if (minMaxMetricColor == null) {
+      return SoftVis3DConstants.BUILDING_COLOR;
+    } else {
       double percentage = this.calcPercentage(nodeColorMetricValue, minMaxMetricColor);
       return makeColor(percentage, 100);
+    }
   }
 
   /**
