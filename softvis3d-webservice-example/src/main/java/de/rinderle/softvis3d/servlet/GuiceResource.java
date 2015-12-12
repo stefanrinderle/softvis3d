@@ -3,7 +3,7 @@ package de.rinderle.softvis3d.servlet;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
-import de.rinderle.softvis3d.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.preprocessing.SoftVis3DService;
 import java.util.Map;
 import javax.ws.rs.GET;

@@ -1,18 +1,18 @@
 package de.rinderle.softvis3d.preprocessing;
 
 import com.google.inject.Inject;
-import de.rinderle.softvis3d.VisualizationAdditionalInfos;
-import de.rinderle.softvis3d.VisualizationProcessor;
-import de.rinderle.softvis3d.VisualizationSettings;
-import de.rinderle.softvis3d.domain.LayoutViewType;
-import de.rinderle.softvis3d.domain.MinMaxValue;
-import de.rinderle.softvis3d.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.domain.graph.ResultPlatform;
-import de.rinderle.softvis3d.domain.tree.RootTreeNode;
-import de.rinderle.softvis3d.domain.tree.TreeNode;
-import de.rinderle.softvis3d.domain.tree.TreeNodeType;
-import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
-import de.rinderle.softvis3d.layout.dot.DotExecutorException;
+import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
+import de.rinderle.softvis3d.base.VisualizationProcessor;
+import de.rinderle.softvis3d.base.VisualizationSettings;
+import de.rinderle.softvis3d.base.domain.LayoutViewType;
+import de.rinderle.softvis3d.base.domain.MinMaxValue;
+import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
+import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.base.domain.tree.TreeNode;
+import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
+import de.rinderle.softvis3d.base.layout.dot.DotExecutorException;
 import java.util.Map;
 
 /**
