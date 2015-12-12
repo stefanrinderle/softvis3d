@@ -1,0 +1,76 @@
+---
+- name: prepare docker container for tasks
+  hosts: localhost
+  user: jenkins
+  vars:
+      - ansible_python_interpreter: python
+      - container_name: testContainer
+      - docker_host: "{{ lookup('env','DOCKER_HOST') }}"
+
+  tasks:
+    - name: ensure local private key file is protected
+      file:
+        path: "{{ ansible_env.PWD }}/docker_ansible_client/keys/id_rsa"
+        mode: 0600
+
+    - name: create client container new
+      docker:
+        name: sonarContainer{{ sonar_version }}
+        docker_api_version: 1.18
+        tls_hostname: localhost
+        docker_url: "{{ docker_host }}"
+        image: sonarqube-rinderle:1.0
+        detach: False
+        hostname: sonarContainer{{ sonar_version }}
+        expose: "22,9000"
+        ports: "22,9000"
+        volumes: "/tmp/screenshotTempFolder:/tmp/screenshotTempFolder"
+        memory_limit: 0
+        state: reloaded
+
+    - name: Register ssh port
+      shell: "docker ps | grep 'sonarContainer{{ sonar_version }}' | sed 's/->22.*//' | tail -c 6"
+      register: ssh_port
+
+    - debug: msg="Sonarqube running container {{ ssh_port }}"
+
+    - name: add container to the hosts inventory
+      add_host:
+        hostname: sonarContainer{{ sonar_version }}
+        groups: docker
+        # mac osx
+#        ansible_ssh_host: "192.168.99.100"
+        # server
+        ansible_ssh_host: "127.0.0.1"
+        ansible_ssh_port: "{{ ssh_port.stdout }}"
+
+- name: run the roles inside the client container
+  hosts: docker
+  remote_user: root
+
+  pre_tasks:
+
+      - name: Install list of packages
+        apt: pkg={{item}} state=present
+        with_items:
+        - unzip
+        - openjdk-7-jdk
+        - maven
+        - git
+        - python-pip
+        - xvfb
+        - firefox
+        - graphviz
+
+      - name: create dot symlink
+        file: path=/usr/local/bin/dot
+              src=/usr/bin/dot
+              state=link
+              force=yes
+
+  roles:
+    - { role: sonar }
+    - { role: softVis3dPlugin, sonar_plugin_path: '/opt/sonarqube/extensions/plugins/' }
+    - { role: restartSonar }
+    - { role: analyse }
+    - { role: test }

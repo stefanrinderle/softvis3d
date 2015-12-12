@@ -1,0 +1,28 @@
+---
+#
+# test plugin install
+#
+
+- name: install pyvirtualdisplay
+  command: pip install pyvirtualdisplay
+
+- name: install selenium
+  command: pip install selenium
+
+- name: Create screenshot directory
+  file: path=/tmp/screenshots state=directory
+
+- name: copy python test file
+  copy:
+      src=checkPlugin.py
+      dest=/tmp/checkPlugin.py
+      mode=0644
+
+- name: Run test
+  command: python checkPlugin.py {{ sonar_version }}
+  args:
+    chdir: /tmp/
+  ignore_errors: yes
+
+- name: ls /tmp/screenshotTempFolder/
+  command: ls /tmp/screenshotTempFolder/
