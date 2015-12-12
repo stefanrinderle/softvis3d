@@ -56,25 +56,11 @@
     <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
   </properties>
 
-  <!--<repositories>-->
-    <!--<repository>-->
-      <!--<id>lib</id>-->
-      <!--<name>In Project Repo</name>-->
-      <!--<url>file://${project.basedir}/libs</url>-->
-    <!--</repository>-->
-  <!--</repositories>-->
-
   <dependencies>
-    <!--<dependency>-->
-      <!--<groupId>att</groupId>-->
-      <!--<artifactId>grappa</artifactId>-->
-      <!--<version>3.0</version>-->
-    <!--</dependency>-->
-
     <dependency>
       <groupId>de.rinderle.softVis3D</groupId>
       <artifactId>softVis3D-base</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
