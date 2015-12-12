@@ -8,7 +8,7 @@
     <version>19</version>
   </parent>
 
-  <artifactId>sonar-softVis3D-plugin</artifactId>
+  <artifactId>sonar-softvis3d-plugin</artifactId>
   <version>0.4.0-SNAPSHOT</version>
 
   <packaging>sonar-plugin</packaging>
