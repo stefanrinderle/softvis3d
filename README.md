@@ -33,13 +33,13 @@ install python and pip
 
 eval "$(docker-machine env default)"
 
-docker build -t "rinderle:testversion" . (im order des docker files)
+docker build -t "sonarqube-rinderle:1.0" . (im order des docker files)
 
 ---
 
 Old rindernet setup
 
-docker build -t "rinderle:testversion" .
+docker build -t "sonarqube-rinderle:1.0" .
 
 apt-get install python-pip
 

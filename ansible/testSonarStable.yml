@@ -19,7 +19,7 @@
         docker_api_version: 1.18
         tls_hostname: localhost
         docker_url: "{{ docker_host }}"
-        image: rinderle:testversion
+        image: sonarqube-rinderle:1.0
         detach: False
         hostname: sonarContainer{{ sonar_version }}
         expose: "22,9000"
