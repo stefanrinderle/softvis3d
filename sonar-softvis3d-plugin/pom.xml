@@ -58,9 +58,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>de.rinderle.softVis3D</groupId>
-      <artifactId>softVis3D-base</artifactId>
-      <version>${project.version}</version>
+        <groupId>de.rinderle.softvis3d</groupId>
+        <artifactId>softvis3d-base</artifactId>
+        <version>${project.version}</version>
     </dependency>
 
     <dependency>
