@@ -10,4 +10,4 @@
   args:
     chdir: /opt/projects/softvis3d
 
-- command: cp /opt/projects/softvis3d/sonar-softvis3d-plugin/target/sonar-softVis3D-plugin-*.jar {{ sonar_plugin_path }}
+- command: cp /opt/projects/softvis3d/sonar-softvis3d-plugin/target/sonar-softvis3d-plugin-0.4.0-SNAPSHOT.jar {{ sonar_plugin_path }}
