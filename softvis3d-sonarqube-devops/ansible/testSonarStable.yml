@@ -54,7 +54,6 @@
         apt: pkg={{item}} state=present
         with_items:
         - unzip
-        - openjdk-7-jdk
         - maven
         - git
         - python-pip
@@ -69,6 +68,7 @@
               force=yes
 
   roles:
+    - { role: jdk, java_version: 8, java_subversion: 65 }
     - { role: sonar }
     - { role: softVis3dPlugin, sonar_plugin_path: '/opt/sonarqube/extensions/plugins/' }
     - { role: restartSonar }
