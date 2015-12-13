@@ -6,5 +6,5 @@
 - name: Analyse softvisSonarPlugin
   command: mvn sonar:sonar -U -B
   args:
-    chdir: /opt/projects/sonar-softvis3d-plugin
+    chdir: /opt/projects/softvis3d
 
