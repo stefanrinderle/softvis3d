@@ -44,6 +44,8 @@
         ansible_ssh_host: "127.0.0.1"
         ansible_ssh_port: "{{ ssh_port.stdout }}"
 
+    - pause: seconds=15
+
 - name: run the roles inside the client container
   hosts: docker
   remote_user: root
