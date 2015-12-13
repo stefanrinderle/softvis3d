@@ -70,7 +70,7 @@
               force=yes
 
   roles:
-    - { role: jdk, java_version: 8, java_subversion: 65, java_download_path: /tmp, java_remove_download: true }
+    - { role: jdk8 }
     - { role: sonar }
     - { role: softVis3dPlugin, sonar_plugin_path: '/opt/sonarqube/extensions/plugins/' }
     - { role: restartSonar }
