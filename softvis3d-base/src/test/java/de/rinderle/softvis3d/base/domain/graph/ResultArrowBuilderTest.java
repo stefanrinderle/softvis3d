@@ -31,9 +31,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by stefan on 29.05.15.
- */
 public class ResultArrowBuilderTest {
 
   private static final String TAIL_NODE = "tailNode";

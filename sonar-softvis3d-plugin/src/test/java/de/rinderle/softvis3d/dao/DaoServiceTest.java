@@ -211,13 +211,13 @@ public class DaoServiceTest {
     metricResults.add(metricResultDTO);
     when(sonarDao.getMetricTextForAllProjectElementsWithMetric(eq(requestDTO.getRootSnapshotId()), eq(authorMetricId))).thenReturn(metricResults);
 
-//    when(daoService.getCalculationService(ScmInfoType.AUTHOR_COUNT)).thenReturn(scmCalculationService);
+    when(daoService.getCalculationService(ScmInfoType.AUTHOR_COUNT)).thenReturn(scmCalculationService);
 
     final int expectedResult = 4;
     when(scmCalculationService.getNodeValue(anyString(), anyString())).thenReturn(expectedResult);
 
-//    final int result = daoService.getMaxScmInfo(requestDTO);
+    final MinMaxValue result = daoService.getMaxScmInfo(requestDTO);
 
-//    assertEquals(expectedResult, result);
+    assertEquals(new MinMaxValue(0, 4), result);
   }
 }

@@ -70,6 +70,7 @@ public class VisualizationRequest {
       ", viewType=" + viewType +
       ", footprintMetricId=" + footprintMetricId +
       ", heightMetricId=" + heightMetricId +
+      ", scmInfoType=" + scmInfoType +
       '}';
   }
 
@@ -88,8 +89,9 @@ public class VisualizationRequest {
       return false;
     if (heightMetricId != that.heightMetricId)
       return false;
-    return viewType != that.viewType;
-
+    if (viewType != that.viewType)
+      return false;
+    return scmInfoType == that.scmInfoType;
   }
 
   @Override
@@ -98,7 +100,7 @@ public class VisualizationRequest {
     result = 31 * result + viewType.hashCode();
     result = 31 * result + footprintMetricId;
     result = 31 * result + heightMetricId;
+    result = 31 * result + scmInfoType.hashCode();
     return result;
   }
-
 }

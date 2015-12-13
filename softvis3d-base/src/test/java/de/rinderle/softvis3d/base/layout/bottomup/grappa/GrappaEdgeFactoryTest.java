@@ -33,9 +33,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by stefan on 06.06.15.
- */
 public class GrappaEdgeFactoryTest {
 
   private static final Integer SOURCE_ID = 1;

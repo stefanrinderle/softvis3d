@@ -23,9 +23,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by stefan on 12.07.15.
- */
 public class LayoutViewTypeTest {
 
   @Test

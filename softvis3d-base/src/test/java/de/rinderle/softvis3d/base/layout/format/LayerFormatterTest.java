@@ -25,7 +25,6 @@ import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.layout.helper.HexaColor;
 import java.awt.*;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -205,7 +204,6 @@ public class LayerFormatterTest {
   }
 
   @Test
-  @Ignore
   public void testCalcScmInfoColorMin() {
     int nodeScmValue = 0;
     MinMaxValue minMaxScmValue = new MinMaxValue(0.0, 100.0);
@@ -217,10 +215,9 @@ public class LayerFormatterTest {
   }
 
   @Test
-  @Ignore
   public void testCalcScmInfoColorMax() {
     int nodeScmValue = 300;
-    MinMaxValue minMaxScmValue = new MinMaxValue(0.0, 100.0);
+    MinMaxValue minMaxScmValue = new MinMaxValue(0.0, 300.0);
 
     final HexaColor result = this.underTest.getMetricColorColor(nodeScmValue, minMaxScmValue);
 
@@ -229,22 +226,20 @@ public class LayerFormatterTest {
   }
 
   @Test
-  @Ignore
   public void testCalcScmInfoColorMiddle() {
     int nodeScmValue = 300;
-    MinMaxValue minMaxScmValue = new MinMaxValue(0.0, 100.0);
+    MinMaxValue minMaxScmValue = new MinMaxValue(0.0, 600.0);
 
     final HexaColor result = this.underTest.getMetricColorColor(nodeScmValue, minMaxScmValue);
 
     assertNotNull(result);
-    assertEquals("Should be full something in between", "#C6FF00", result.getHex());
+    assertEquals("Should be full something in between", "#FFFF00", result.getHex());
   }
 
   @Test
-  @Ignore
   public void testCalcScmInfoColorNoneType() {
     int nodeScmValue = 0;
-    MinMaxValue minMaxScmValue = new MinMaxValue(0.0, 100.0);
+    MinMaxValue minMaxScmValue = null;
 
     final HexaColor result = this.underTest.getMetricColorColor(nodeScmValue, minMaxScmValue);
 

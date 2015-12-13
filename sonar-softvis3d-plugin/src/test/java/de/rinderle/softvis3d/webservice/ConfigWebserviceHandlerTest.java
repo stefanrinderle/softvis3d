@@ -25,7 +25,6 @@ import de.rinderle.softvis3d.webservice.config.ConfigWebserviceHandler;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -68,7 +67,6 @@ public class ConfigWebserviceHandlerTest {
   }
 
   @Test
-  @Ignore
   public void testConfigHandler() throws Exception {
     final Request request = this.createRequest();
     final Response response = this.createResponse();

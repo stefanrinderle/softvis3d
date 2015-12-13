@@ -19,8 +19,10 @@
  */
 package de.rinderle.softvis3d.base.layout.bottomup;
 
+import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
 import de.rinderle.softvis3d.base.VisualizationSettings;
 import de.rinderle.softvis3d.base.domain.LayoutViewType;
+import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.tree.DependencyTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
@@ -28,11 +30,10 @@ import de.rinderle.softvis3d.base.layout.bottomup.grappa.GrappaEdgeFactory;
 import de.rinderle.softvis3d.base.layout.bottomup.grappa.GrappaNodeFactory;
 import de.rinderle.softvis3d.base.layout.dot.DotExecutor;
 import de.rinderle.softvis3d.base.layout.format.LayerFormatter;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Created by stefan on 12.07.15.
+ * TODO: no asserts
  */
 public class SnapshotVisitorBeanTest {
 
@@ -42,28 +43,37 @@ public class SnapshotVisitorBeanTest {
   private GrappaEdgeFactory edgeFactory = new GrappaEdgeFactory();
 
   @Test
-  @Ignore
   public void testVisitFile() throws Exception {
     final VisualizationSettings settings = new VisualizationSettings();
-//    settings.setProperty(LayoutConstants.DOT_BIN_KEY, "/usr/bin/dot");
+
+    final VisualizationAdditionalInfos additionalInfos = createAdditionalInfos();
+
     final SnapshotVisitorBean visitorBean =
-      new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, LayoutViewType.CITY, null);
+      new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, LayoutViewType.CITY, additionalInfos);
 
     final ValueTreeNode leaf = new ValueTreeNode(1, null, 0, TreeNodeType.TREE, "leaf1", 0.0, 10.0, 4);
     visitorBean.visitFile(leaf);
   }
 
   @Test
-  @Ignore
   public void testVisitFileDependency() throws Exception {
     final int id = 1;
 
     final VisualizationSettings settings = new VisualizationSettings();
-//    settings.setProperty(LayoutConstants.DOT_BIN_KEY, "/usr/bin/dot");
+    final VisualizationAdditionalInfos additionalInfos = createAdditionalInfos();
     final SnapshotVisitorBean visitorBean =
-      new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, LayoutViewType.CITY, null);
+      new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, LayoutViewType.DEPENDENCY, additionalInfos);
 
-    final DependencyTreeNode leaf = new DependencyTreeNode(1, null, 0);
+    final DependencyTreeNode leaf = new DependencyTreeNode(id, null, 0);
     visitorBean.visitFile(leaf);
+  }
+
+  private VisualizationAdditionalInfos createAdditionalInfos() {
+    final MinMaxValue minMaxFootprint = new MinMaxValue(0, 3);
+    final MinMaxValue minMaxHeight = new MinMaxValue(0, 3);
+    final MinMaxValue minMaxColor = new MinMaxValue(0, 3);
+    final int dependencyCount = 0;
+
+    return new VisualizationAdditionalInfos(minMaxFootprint, minMaxHeight, minMaxColor, dependencyCount);
   }
 }
