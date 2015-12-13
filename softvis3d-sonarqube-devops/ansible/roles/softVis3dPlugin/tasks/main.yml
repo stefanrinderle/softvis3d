@@ -8,6 +8,6 @@
 
 - command: mvn clean install -PsecureRelease
   args:
-    chdir: /opt/projects/sonar-softvis3d-plugin
+    chdir: /opt/projects/softvis3d
 
 - command: cp /opt/projects/softvis3d/sonar-softvis3d-plugin/target/sonar-softVis3D-plugin-*.jar {{ sonar_plugin_path }}
