@@ -6,7 +6,7 @@
 - name: update plugin repo
   git: repo=https://github.com/stefanrinderle/softvis3d.git dest=/opt/projects/softvis3d update=yes
 
-- command: mvn clean install -PsecureRelease
+- command: mvn clean install -PsecureRelease -U -B
   args:
     chdir: /opt/projects/softvis3d
 
