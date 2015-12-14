@@ -68,11 +68,11 @@
       <h3>
         <img ng-hide="toolbar.displayEdges" ng-click="toolbar.triggerDisplayEdges();"
              style="vertical-align: top;"
-             ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_plus.gif"
+             ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_plus.gif"
              alt="Extend tree"/>
         <img ng-show="toolbar.displayEdges" ng-click="toolbar.triggerDisplayEdges();"
              style="vertical-align: top;"
-             ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_minus.gif"
+             ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_minus.gif"
              alt="Collapse tree"/>
         Dependencies ({{toolbar.inEdges.length + toolbar.outEdges.length}})
       </h3>
@@ -81,11 +81,11 @@
         <li ng-repeat="edge in toolbar.inEdges">
           <img ng-hide="edge.displayDetails" ng-click="toolbar.triggerDisplayEdgeDetails(edge);"
                style="vertical-align: top;"
-               ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_plus.gif"
+               ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_plus.gif"
                alt="Extend tree"/>
           <img ng-show="edge.displayDetails" ng-click="toolbar.triggerDisplayEdgeDetails(edge);"
                style="vertical-align: top;"
-               ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_minus.gif"
+               ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_minus.gif"
                alt="Collapse tree"/>
           <a href='#' ng-click="toolbar.selectAllDependentDependencies(edge);">
             {{edge.sourceName}} -> ({{edge.includingDependencies.length}})
@@ -102,11 +102,11 @@
         <li ng-repeat="edge in toolbar.outEdges">
           <img ng-hide="edge.displayDetails" ng-click="toolbar.triggerDisplayEdgeDetails(edge);"
                style="vertical-align: top;"
-               ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_plus.gif"
+               ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_plus.gif"
                alt="Extend tree"/>
           <img ng-show="edge.displayDetails" ng-click="toolbar.triggerDisplayEdgeDetails(edge);"
                style="vertical-align: top;"
-               ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_minus.gif"
+               ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_minus.gif"
                alt="Collapse tree"/>
           <a href='#' ng-click="toolbar.selectAllDependentDependencies(edge);">
             -> {{edge.destinationName}} ({{edge.includingDependencies.length}})
@@ -127,11 +127,11 @@
       <h3>
         <img ng-hide="toolbar.displayEdgeIncludingEdges" ng-click="toolbar.triggerDisplayEdgeIncludingEdges();"
              style="vertical-align: top;"
-             ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_plus.gif"
+             ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_plus.gif"
              alt="Extend tree"/>
         <img ng-show="toolbar.displayEdgeIncludingEdges" ng-click="toolbar.triggerDisplayEdgeIncludingEdges();"
              style="vertical-align: top;"
-             ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_minus.gif"
+             ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_minus.gif"
              alt="Collapse tree"/>
         Including dependencies
       </h3>
@@ -164,21 +164,21 @@
       <h3>
         <img ng-hide="toolbar.displayChildren" ng-click="toolbar.triggerDisplayChildren();"
              style="vertical-align: text-top;"
-             ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_plus.gif"
+             ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_plus.gif"
              alt="Extend tree"/>
         <img ng-show="toolbar.displayChildren" ng-click="toolbar.triggerDisplayChildren();"
              style="vertical-align: text-top;"
-             ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/tree_minus.gif"
+             ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_minus.gif"
              alt="Collapse tree"/>
         Children ({{toolbar.node.children.length}})
       </h3>
       <ul ng-show="toolbar.displayChildren" style="list-style: none;">
         <li ng-repeat="child in toolbar.node.children">
           <img ng-hide="child.isNode" style="vertical-align: text-top;"
-               ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/file.gif"
+               ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/file.gif"
                alt="File"/>
           <img ng-show="child.isNode" style="vertical-align: text-top;"
-               ng-src="{{toolbar.BASE_PATH}}/static/softVis3D/images/folder.gif"
+               ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/folder.gif"
                alt="Folder"/>
           <a href='#' ng-click="toolbar.selectSceneObjectFromDetails(child.id, child.type);">
             {{ child.name | limitTo:21 }}{{child.name.length > 21 ? '...' : ''}}
