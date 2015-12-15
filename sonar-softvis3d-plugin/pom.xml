@@ -54,6 +54,9 @@
 
     <coverage.reports.dir>${basedir}/target/coverage-reports</coverage.reports.dir>
     <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
+
+    <guice.version>3.0</guice.version>
+
   </properties>
 
   <dependencies>
@@ -85,12 +88,12 @@
     <dependency>
       <groupId>com.google.inject</groupId>
       <artifactId>guice</artifactId>
-      <version>3.0</version>
+      <version>${guice.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.inject.extensions</groupId>
       <artifactId>guice-assistedinject</artifactId>
-      <version>3.0</version>
+      <version>${guice.version}</version>
     </dependency>
 
     <!-- unit tests -->
@@ -222,7 +225,7 @@
                 <configuration>
                   <charset>UTF-8</charset>
                   <webappSourceDir>${project.basedir}/src/main/resources</webappSourceDir>
-                  <webappTargetDir>target/classes</webappTargetDir>
+                  <webappTargetDir>${project.basedir}/target/classes</webappTargetDir>
                   <jsSourceDir>static/threeViewer/</jsSourceDir>
                   <jsSourceFiles>
                     <jsSourceFile>lib/threejs/three.69.js</jsSourceFile>
@@ -248,7 +251,7 @@
                 <configuration>
                   <charset>UTF-8</charset>
                   <webappSourceDir>${project.basedir}/src/main/resources</webappSourceDir>
-                  <webappTargetDir>target/classes</webappTargetDir>
+                  <webappTargetDir>${project.basedir}/target/classes</webappTargetDir>
                   <jsSourceDir>static/threeViewer/</jsSourceDir>
                   <jsSourceFiles>
                     <jsSourceFile>lib/base.js</jsSourceFile>
