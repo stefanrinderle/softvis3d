@@ -49,7 +49,7 @@ public final class SoftVis3DPlugin extends SonarPlugin {
 
   @Override
   public List<Class<? extends Extension>> getExtensions() {
-    final List<Class<? extends Extension>> extensions = new ArrayList<Class<? extends Extension>>();
+    final List<Class<? extends Extension>> extensions = new ArrayList<>();
 
     extensions.add(SoftVis3DPage.class);
     extensions.add(SoftVis3DExtension.class);

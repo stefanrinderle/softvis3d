@@ -62,7 +62,7 @@ public class ResultPlatform extends BaseResultObject {
   }
 
   private Map<String, ResultBuilding> transformNodes(final Node[] inputNodes) {
-    final Map<String, ResultBuilding> result = new HashMap<String, ResultBuilding>();
+    final Map<String, ResultBuilding> result = new HashMap<>();
 
     for (final Node inputNode : inputNodes) {
       result.put(inputNode.getName(), transformNode(inputNode));

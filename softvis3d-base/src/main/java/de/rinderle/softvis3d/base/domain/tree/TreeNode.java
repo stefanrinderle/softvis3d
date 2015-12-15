@@ -29,8 +29,8 @@ public class TreeNode {
 
   private final Integer id;
   private final TreeNodeType type;
-  private final Map<String, TreeNode> children = new TreeMap<String, TreeNode>();
-  private final Map<String, Edge> edges = new HashMap<String, Edge>();
+  private final Map<String, TreeNode> children = new TreeMap<>();
+  private final Map<String, Edge> edges = new HashMap<>();
   private String name;
   private TreeNode parent;
   private int depth;
@@ -155,7 +155,7 @@ public class TreeNode {
   }
 
   public List<TreeNode> getChildrenNodes() {
-    final List<TreeNode> result = new ArrayList<TreeNode>();
+    final List<TreeNode> result = new ArrayList<>();
 
     for (final TreeNode child : children.values()) {
       if (!child.getChildren().isEmpty()) {
@@ -167,7 +167,7 @@ public class TreeNode {
   }
 
   public List<TreeNode> getChildrenLeaves() {
-    final List<TreeNode> result = new ArrayList<TreeNode>();
+    final List<TreeNode> result = new ArrayList<>();
 
     for (final TreeNode child : children.values()) {
       if (child.getChildren().isEmpty()) {

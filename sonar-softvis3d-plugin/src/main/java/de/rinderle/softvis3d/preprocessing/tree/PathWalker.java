@@ -53,7 +53,7 @@ public class PathWalker {
 
     boolean isLastIndex;
     for (int i = 0; i < names.length; i = i + 1) {
-      isLastIndex = (i == (names.length - 1));
+      isLastIndex = i == (names.length - 1);
       if (isLastIndex) {
         currentNode =
           this.getOrCreateChild(currentNode, element.getId(), names[i], TreeNodeType.TREE,

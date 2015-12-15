@@ -54,7 +54,7 @@ public class DependencyExpanderTest {
    */
   @Test
   public void testDependenciesFlatEdges() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<>();
 
     final SonarDependency fromBtoC = TestTreeBuilder.createDependency("1000", 2, 3);
     dependencies.add(fromBtoC);
@@ -80,7 +80,7 @@ public class DependencyExpanderTest {
    */
   @Test
   public void testDependenciesSameFlatEdge() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<>();
 
     final SonarDependency fromBtoC1 = TestTreeBuilder.createDependency("1002", 2, 3);
     final SonarDependency fromBtoC2 = TestTreeBuilder.createDependency("1003", 2, 3);
@@ -112,7 +112,7 @@ public class DependencyExpanderTest {
    */
   @Test
   public void testDependencyEdge() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<>();
 
     final SonarDependency fromCtoE = TestTreeBuilder.createDependency("1000", 3, 5);
     dependencies.add(fromCtoE);

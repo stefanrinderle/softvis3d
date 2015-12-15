@@ -67,7 +67,7 @@ public class ResultArrowBuilder {
 
     final GrappaPoint[] points = line.getGrappaPoints();
 
-    linePoints = new ArrayList<Point3d>();
+    linePoints = new ArrayList<>();
     for (int i = 0; i < points.length - 1; i++) {
       final Point3d point = new Point3d(points[i].x, 0, points[i].y);
       linePoints.add(point);

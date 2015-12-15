@@ -35,7 +35,7 @@ public enum ScmInfoType {
   AUTHOR_COUNT("Author count", new ScmAuthorCountCalculationService()),
   COMMIT_COUNT("Commit count", new ScmCommitCountCalculationService());
 
-  private final ScmCalculationService scmCalculationService;
+  private final transient ScmCalculationService scmCalculationService;
   private final String description;
 
   ScmInfoType(String description, ScmCalculationService scmCalculationService) {

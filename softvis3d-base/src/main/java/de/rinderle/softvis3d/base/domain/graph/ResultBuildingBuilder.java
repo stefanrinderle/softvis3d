@@ -74,7 +74,7 @@ public class ResultBuildingBuilder {
    * for the head and one for the tail.
    */
   private List<ResultArrow> transformEdges(final Edge[] inputEdges) {
-    final List<ResultArrow> result = new ArrayList<ResultArrow>();
+    final List<ResultArrow> result = new ArrayList<>();
 
     for (final Edge inputEdge : inputEdges) {
       final boolean isTailEnd = inputEdge.getTail().getId() == this.grappaId;

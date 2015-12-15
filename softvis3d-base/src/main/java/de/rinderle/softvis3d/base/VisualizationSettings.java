@@ -27,9 +27,10 @@ public class VisualizationSettings {
   private String dotBinPath = "/usr/local/bin/dot";
 
   public VisualizationSettings() {
+    // Use default path.
   }
 
-  public VisualizationSettings(String dotBinPath) {
+  public VisualizationSettings(final String dotBinPath) {
     this.dotBinPath = dotBinPath;
   }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -61,9 +62,9 @@
 
   <dependencies>
     <dependency>
-        <groupId>de.rinderle.softvis3d</groupId>
-        <artifactId>softvis3d-base</artifactId>
-        <version>${project.version}</version>
+      <groupId>de.rinderle.softvis3d</groupId>
+      <artifactId>softvis3d-base</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
@@ -310,39 +311,39 @@
                 <configuration>
                   <target>
                     <!-- lib files -->
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/threejs/three.69.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/threejs/OrbitControls.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/threejs/NURBSCurve.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/threejs/NURBSUtils.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/hammer/hammer.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/hammer/jquery.hammer.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/angular/angular.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/angular/angular-route.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/angular/ngHammer.js" />
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/threejs/three.69.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/threejs/OrbitControls.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/threejs/NURBSCurve.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/threejs/NURBSUtils.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/hammer/hammer.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/hammer/jquery.hammer.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/angular/angular.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/angular/angular-route.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/angular/ngHammer.js"/>
 
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/libAll.js" />
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/libAll.js"/>
 
                     <!-- softviz3d files -->
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/app-config.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/app-controller.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/toolbar-controller.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/file-loader-controller.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/directives.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/filters.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/viewer-service.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/tree-service.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/backend-service.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/message-bus.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/app.js" />
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/app-config.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/app-controller.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/toolbar-controller.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/file-loader-controller.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/directives.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/filters.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/viewer-service.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/tree-service.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/backend-service.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/message-bus.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/app.js"/>
 
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/scene.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/setup.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/util.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/camera.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/wrangler.js" />
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/objectFactory.js" />
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/scene.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/setup.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/util.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/camera.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/wrangler.js"/>
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/objectFactory.js"/>
 
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/softVis3dAll.js" />
+                    <delete file="${project.basedir}/target/classes/static/threeViewer/softVis3dAll.js"/>
                   </target>
                 </configuration>
               </execution>

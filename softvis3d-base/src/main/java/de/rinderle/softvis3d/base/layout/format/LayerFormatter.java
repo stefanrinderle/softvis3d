@@ -141,7 +141,6 @@ public class LayerFormatter {
       newRedValue = 255;
       valueBetween0And510 = valueBetween0And510 - 255;
       newGreenValue = 255 - (valueBetween0And510 * valueBetween0And510 / 255);
-      newGreenValue = Math.round(newGreenValue);
     }
 
     return new HexaColor(newRedValue, newGreenValue, 0);

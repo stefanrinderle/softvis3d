@@ -54,7 +54,7 @@ public class SonarDao {
   public List<Metric> getDistinctMetricsBySnapshotId(final Integer snapshotId) {
     // TODO: check if the metric is defined for that snapshot id.
 
-    final List<Metric> metrics = new ArrayList<Metric>();
+    final List<Metric> metrics = new ArrayList<>();
 
     final List<org.sonar.api.measures.Metric> metricsTest = session.getResults(org.sonar.api.measures.Metric.class);
     for (final org.sonar.api.measures.Metric metrict : metricsTest) {
@@ -68,7 +68,7 @@ public class SonarDao {
 
   @SuppressWarnings("unchecked")
   public List<ModuleInfo> getDirectModuleChildrenIds(final Integer snapshotId) {
-    final List<ModuleInfo> result = new ArrayList<ModuleInfo>();
+    final List<ModuleInfo> result = new ArrayList<>();
 
     final List<Snapshot> snapshots = session.getResults(Snapshot.class,
       "parentId", snapshotId, "qualifier", Qualifiers.MODULE);
@@ -124,9 +124,9 @@ public class SonarDao {
 
     final List<Object[]> sqlResult = query.getResultList();
 
-    final List<MetricResultDTO<Integer>> result = new ArrayList<MetricResultDTO<Integer>>();
+    final List<MetricResultDTO<Integer>> result = new ArrayList<>();
     for (final Object[] aSqlResult : sqlResult) {
-      result.add(new MetricResultDTO<Integer>((Integer) aSqlResult[0], (Integer) aSqlResult[1]));
+      result.add(new MetricResultDTO<>((Integer) aSqlResult[0], (Integer) aSqlResult[1]));
     }
 
     return result;
@@ -153,9 +153,9 @@ public class SonarDao {
 
     final List<Object[]> sqlResult = jpaQuery.getResultList();
 
-    final List<MetricResultDTO<String>> result = new ArrayList<MetricResultDTO<String>>();
+    final List<MetricResultDTO<String>> result = new ArrayList<>();
     for (final Object[] aSqlResult : sqlResult) {
-      result.add(new MetricResultDTO<String>((Integer) aSqlResult[0], (String) aSqlResult[1]));
+      result.add(new MetricResultDTO<>((Integer) aSqlResult[0], (String) aSqlResult[1]));
     }
 
     return result;
@@ -203,7 +203,7 @@ public class SonarDao {
     try {
       return (String) query.getSingleResult();
     } catch (final NoResultException e) {
-      LOGGER.info("getMetricText for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage());
+      LOGGER.info("getMetricText for metricId " + metricId + " and snapshotId " + snapshotId + ": " + e.getMessage(), e);
       return null;
     }
   }

@@ -62,7 +62,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
   private final GraphvizPath graphvizPath;
 
-  private final Map<Integer, ResultPlatform> resultingGraphList = new ConcurrentHashMap<Integer, ResultPlatform>();
+  private final Map<Integer, ResultPlatform> resultingGraphList = new ConcurrentHashMap<>();
 
   private final LayoutViewType viewType;
   private final VisualizationAdditionalInfos additionalInfos;

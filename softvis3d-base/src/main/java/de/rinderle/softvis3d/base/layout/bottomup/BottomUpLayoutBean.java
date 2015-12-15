@@ -70,7 +70,7 @@ public class BottomUpLayoutBean implements BottomUpLayout {
     final List<LayeredLayoutElement> nodeElements = this.processChildrenNodes(rootNode);
     final List<LayeredLayoutElement> leafElements = this.processChildrenLeaves(rootNode);
 
-    final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
+    final List<LayeredLayoutElement> layerElements = new ArrayList<>();
     layerElements.addAll(nodeElements);
     layerElements.addAll(leafElements);
 
@@ -84,7 +84,7 @@ public class BottomUpLayoutBean implements BottomUpLayout {
 
     final List<TreeNode> childrenTreeNodes = node.getChildrenNodes();
 
-    final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
+    final List<LayeredLayoutElement> layerElements = new ArrayList<>();
 
     for (final TreeNode child : childrenTreeNodes) {
       layerElements.add(this.accept(child));
@@ -99,7 +99,7 @@ public class BottomUpLayoutBean implements BottomUpLayout {
   List<LayeredLayoutElement> processChildrenLeaves(final TreeNode node) {
     final List<TreeNode> childrenLeaves = node.getChildrenLeaves();
 
-    final List<LayeredLayoutElement> layerElements = new ArrayList<LayeredLayoutElement>();
+    final List<LayeredLayoutElement> layerElements = new ArrayList<>();
     for (final TreeNode leaf : childrenLeaves) {
       layerElements.add(visitor.visitFile(leaf));
     }

@@ -33,9 +33,7 @@ public class ScmInfo {
   }
 
   public ScmInfo(final int line, final String committer) {
-    this.line = line;
-    this.committer = committer;
-    this.timestamp = new Date();
+    this(line, committer, new Date());
   }
 
   public int getLine() {

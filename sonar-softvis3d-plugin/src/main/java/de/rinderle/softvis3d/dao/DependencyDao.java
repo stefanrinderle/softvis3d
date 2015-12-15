@@ -55,7 +55,7 @@ public class DependencyDao {
   }
 
   private List<SonarDependency> castToSonarDependency(final List<Object[]> queryResult) {
-    final List<SonarDependency> result = new ArrayList<SonarDependency>(queryResult.size());
+    final List<SonarDependency> result = new ArrayList<>(queryResult.size());
 
     for (final Object[] object : queryResult) {
       final SonarDependencyBuilder dependency = new SonarDependencyBuilder();

@@ -30,7 +30,7 @@ public class Edge {
   private final Integer destinationId;
   private final String destinationName;
 
-  private final List<Long> includingDependencies = new ArrayList<Long>();
+  private final List<Long> includingDependencies = new ArrayList<>();
 
   public Edge(final String depEdgeLabel, final Integer sourceId,
     final String sourceName, final Integer destinationId,

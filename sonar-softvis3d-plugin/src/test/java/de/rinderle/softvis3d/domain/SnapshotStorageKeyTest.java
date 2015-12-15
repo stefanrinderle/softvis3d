@@ -21,48 +21,57 @@ package de.rinderle.softvis3d.domain;
 
 import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by stefanrinderle on 06.11.15.
  */
-public class SnapshotStorageKeyTest extends TestCase {
+public class SnapshotStorageKeyTest {
 
-    public void testEqualsTrue() throws Exception {
-        final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
+  @Test
+  public void testEqualsTrue() throws Exception {
+    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
 
-        final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO);
-        final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO);
+    final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO);
+    final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO);
 
-        assertTrue(key1.equals(key2));
-    }
+    assertTrue(key1.equals(key2));
+  }
 
-    public void testEqualsFalse() throws Exception {
-        final VisualizationRequest requestDTO1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
-        final VisualizationRequest requestDTO2 = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20, ScmInfoType.NONE);
+  @Test
+  public void testEqualsFalse() throws Exception {
+    final VisualizationRequest requestDTO1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
+    final VisualizationRequest requestDTO2 = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20, ScmInfoType.NONE);
 
-        final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO1);
-        final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO2);
+    final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO1);
+    final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO2);
 
-        assertFalse(key1.equals(key2));
-    }
+    assertFalse(key1.equals(key2));
+  }
 
-    public void testHashCodeTrue() throws Exception {
-        final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
+  @Test
+  public void testHashCodeTrue() throws Exception {
+    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
 
-        final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO);
-        final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO);
+    final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO);
+    final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO);
 
-        assertEquals(key1.hashCode(), key2.hashCode());
-    }
+    assertEquals(key1.hashCode(), key2.hashCode());
+  }
 
-    public void testHashCodeFalse() throws Exception {
-        final VisualizationRequest requestDTO1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
-        final VisualizationRequest requestDTO2 = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20, ScmInfoType.NONE);
+  @Test
+  public void testHashCodeFalse() throws Exception {
+    final VisualizationRequest requestDTO1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
+    final VisualizationRequest requestDTO2 = new VisualizationRequest(1, LayoutViewType.DEPENDENCY, 1, 20, ScmInfoType.NONE);
 
-        final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO1);
-        final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO2);
+    final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO1);
+    final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO2);
 
-        assertNotSame(key1.hashCode(), key2.hashCode());
-    }
+    assertNotSame(key1.hashCode(), key2.hashCode());
+  }
 }

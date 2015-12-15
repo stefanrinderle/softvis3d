@@ -52,7 +52,7 @@ public class DependencyExpanderCheckExpandTest {
 
   @Test
   public void testDependenciesEmpty() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<>();
 
     this.underTest.execute(new RootTreeNode(1), dependencies);
 
@@ -67,7 +67,7 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesFlatEdge() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<>();
 
     final SonarDependency fromAtoB = TestTreeBuilder.createDependency(2, 3);
     dependencies.add(fromAtoB);
@@ -98,7 +98,7 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesFlatEdgeOtherWayAround() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<>();
 
     final SonarDependency fromAtoB = TestTreeBuilder.createDependency(3, 2);
     dependencies.add(fromAtoB);
@@ -131,7 +131,7 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesHierarchicalEdge() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<>();
 
     final SonarDependency fromCtoE = TestTreeBuilder.createDependency(3, 5);
     dependencies.add(fromCtoE);
@@ -184,7 +184,7 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesHierarchicalEdgeOtherWayAround() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<>();
 
     final SonarDependency fromEtoC = TestTreeBuilder.createDependency(5, 3);
     dependencies.add(fromEtoC);
@@ -237,7 +237,7 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testDependenciesHierarchicalEdgesBoth() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<>();
 
     final SonarDependency fromCtoE = TestTreeBuilder.createDependency(3, 5);
     dependencies.add(fromCtoE);
@@ -316,7 +316,7 @@ public class DependencyExpanderCheckExpandTest {
    **/
   @Test
   public void testUnevenDependencyEdge() {
-    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
+    final List<SonarDependency> dependencies = new ArrayList<>();
 
     final SonarDependency fromCtoE = TestTreeBuilder.createDependency(3, 4);
     dependencies.add(fromCtoE);

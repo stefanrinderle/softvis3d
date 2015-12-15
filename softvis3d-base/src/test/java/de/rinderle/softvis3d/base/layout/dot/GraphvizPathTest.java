@@ -21,14 +21,17 @@ package de.rinderle.softvis3d.base.layout.dot;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import junit.framework.TestCase;
 import org.apache.commons.lang.StringUtils;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Windows: "\"C:\\Program Files (x86)\\graphviz\\bin\\dot\"";
  */
-public class GraphvizPathTest extends TestCase {
+public class GraphvizPathTest {
 
     private static final String INPUT_TEST_1 = "D:/x_sri/graphviz/bin/dot";
     private static final String INPUT_TEST_2 = "D:\\x_sri\\graphviz\\bin\\dot";
@@ -46,6 +49,7 @@ public class GraphvizPathTest extends TestCase {
     /**
      * Unix: forward slashes
      */
+    @Test
     public void testGetDotExecutableUnix() throws Exception {
         final boolean isWindows = false;
 
@@ -64,6 +68,7 @@ public class GraphvizPathTest extends TestCase {
     /**
      * Windows: backslashes
      */
+    @Test
     public void testGetDotExecutableWindows() throws Exception {
         final boolean isWindows = true;
 
@@ -82,6 +87,7 @@ public class GraphvizPathTest extends TestCase {
     /**
      * Windows: escaping
      */
+    @Test
     public void testGetDotExecutableWindowsEscape() throws Exception {
         final boolean isWindows = true;
 
@@ -96,6 +102,7 @@ public class GraphvizPathTest extends TestCase {
     /**
      * Windows: escaping
      */
+    @Test
     public void testGetDotExecutableWindowsEscape2() throws Exception {
         final boolean isWindows = true;
 
@@ -110,6 +117,7 @@ public class GraphvizPathTest extends TestCase {
     /**
      * Windows: escaping
      */
+    @Test
     public void testGetGvprExecutableWindowsEscape() throws Exception {
         final boolean isWindows = true;
 
@@ -124,6 +132,7 @@ public class GraphvizPathTest extends TestCase {
     /**
      * Windows: escaping
      */
+    @Test
     public void testGetGvprExecutableWindowsEscape2() throws Exception {
         final boolean isWindows = true;
 
@@ -138,6 +147,7 @@ public class GraphvizPathTest extends TestCase {
     /**
      * Unix: do t --> do\ t
      */
+    @Test
     public void testGetDotExecutableUnixWhitespace() throws Exception {
         final boolean isWindows = false;
 
