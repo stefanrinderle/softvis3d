@@ -1,0 +1,151 @@
+<!--
+
+    SoftVis3D Sonar plugin
+    Copyright (C) 2014 Stefan Rinderle
+    stefan@rinderle.info
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3 of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+
+-->
+<div id="file-loader" class="closeLoader" ng-controller="FileLoaderController as loader" ng-cloak>
+  <div id="loader-buttons">
+    <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.city}"
+         ng-click="loader.showTab('city');">City
+    </div>
+    <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.dependency}"
+         ng-click="loader.showTab('dependency');">Dependency
+    </div>
+    <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.custom}"
+         ng-click="loader.showTab('custom');">Custom
+    </div>
+    <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.info}"
+         ng-click="loader.showTab('info');" ng-show="loader.infoInnerState != 'idle'">Info
+    </div>
+
+    <div href="#" class="close closeLoader" ng-click="viewer.toggleLoader()">X</div>
+  </div>
+  <div class="loader-options">
+    <div id="city-loader" class="loader-options" ng-show="loader.state.city" ng-cloak>
+      <p>
+        The code city view is focused on the structure
+        and file metrics of the project.<br/>
+        Folders or packages are shown as districts, files as buildings. The building footprint and height are
+        dependent on two arbitrary sonar metrics.
+      </p>
+      <br/>
+      <select ng-model="loader.cityInnerState">
+        <option value="complexity" label="Complexity and lines">Complexity
+          and lines
+        </option>
+        <option value="issues" label="Issues and lines">Issues
+          and lines
+        </option>
+        <option value="functions" label="Functions and lines">Functions
+          and lines
+        </option>
+      </select>
+      <br/><br/>
+
+      <div ng-show="loader.cityInnerState === 'complexity'">
+        The calculated complexity for each file is the base for the building footprint. The lines of
+        code metric is used for the building height.
+        Search for skyscraper buildings and especially for ones with a big footprint. Also building
+        small buildings (height) with a big footprint (like warehouses) should be interesting.
+      </div>
+      <div ng-show="loader.cityInnerState === 'issues'">
+        The calculated issue count for each file is the base for the building footprint. The lines of
+        code metric is used for the building height.
+        Search for skyscraper buildings and especially for ones with a big footprint. Also building
+        small buildings (height) with a big footprint (like warehouses) should be interesting.
+      </div>
+      <div ng-show="loader.cityInnerState === 'functions'">
+        The function count per file is the base for the building footprint. The lines of
+        code metric is used for the building height.
+        Search for skyscraper buildings and especially for ones with a small footprint.
+      </div>
+      <br/>
+      <button ng-click="loader.submitCityForm()" ng-disabled="!loader.configLoaded">Show</button>
+    </div>
+    <div id="dependency-loader" class="loader-options" ng-show="loader.state.dependency" ng-cloak>
+      <div ng-hide="loader.hasDependencies">
+        Your project has either no dependencies or the dependencies have not been analysed.
+      </div>
+      <div ng-show="loader.hasDependencies">
+        <p>
+          The dependency view is focused on the
+          dependencies within that structure.The basic 3D layout for the structure is build downwards. The
+          dependencies have been aggregated and can be explored easily without overloading the visualisation.
+        </p>
+        <br/>
+        <button ng-click="loader.loadDependencyView()" ng-disabled="!loader.configLoaded">Show</button>
+      </div>
+    </div>
+    <div id="custom-loader" class="loader-options" ng-show="loader.state.custom" ng-cloak>
+      <select ng-model="loader.customViewType">
+        <option value="city" label="Code city view">Code city view
+        </option>
+        <option ng-show="loader.hasDependencies" value="dependency" label="Dependency view">
+          Dependency view
+        </option>
+      </select>
+
+      <br/><br/>
+      Building footprint metric:<br/>
+      <select name="metric1" ng-options="item.id as item.name for item in loader.availableMetrics"
+              ng-model="loader.settings.metric1" style="width: 200px;"></select>
+
+      <br/><br/>
+      Building height metric:<br/>
+      <select name="metric2" ng-options="item.id as item.name for item in loader.availableMetrics"
+              ng-model="loader.settings.metric2" style="width: 200px;"></select>
+
+      <br/><br/>
+      Scm info metric (beta):<br/>
+      <select name="scmMetricType" ng-options="item.name as item.description for item in loader.availableScmMetrics"
+              ng-model="loader.scmMetricType" style="width: 200px;"></select>
+
+      <br/><br/>
+      <button ng-click="loader.loadCustomView()" ng-disabled="!loader.configLoaded">Show</button>
+    </div>
+    <div class="loader-options" ng-show="loader.state.info" ng-cloak>
+      <div ng-show="loader.infoInnerState === 'idle'">
+        Idle
+      </div>
+      <div ng-show="loader.infoInnerState === 'loading'" style="text-align: center;">
+        <br/><br/><br/>
+        <img ng-src="{{loader.BASE_PATH}}/static/softvis3d/images/ajax-loader.gif" alt="Loader"/>
+        <br/><br/>
+
+        <p>Please wait...</p>
+      </div>
+      <div ng-show="loader.infoInnerState === 'error'" style="text-align: center;">
+        <h1>Ups. An error occurred:</h1>
+
+        <p>
+          <br/>
+          {{loader.exceptionMessage}}
+        </p>
+      </div>
+    </div>
+    <div style="position: absolute; bottom: 0; text-align: center;">
+      <br/>
+
+      <p>Please also take a look at the <a href="http://softvis3d.com/" target="_blank">project web page</a> and
+        the <a
+            href="http://softvis3d.com/#/details/usage" target="_blank">usage guide</a>.</p>
+      <br/>
+    </div>
+  </div>
+</div>
