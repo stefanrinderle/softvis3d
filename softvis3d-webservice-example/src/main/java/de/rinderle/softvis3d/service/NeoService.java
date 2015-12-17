@@ -33,15 +33,19 @@ public class NeoService {
   @Inject
   private PathWalkerDataTransformer pathWalkerDataTransformer;
 
-  public Map<Integer, ResultPlatform> getNeoResult() throws Exception {
+  public SnapshotTreeResult getNeoTree() throws Exception {
     final String jsonResult = neo4jClient.test();
     final Neo4jAnswer neoAnswer = neo4jParser.parseNeoJson(jsonResult);
 
     RootTreeNode tree = transformLayoutInput(neoAnswer);
 
+    return new SnapshotTreeResult(tree);
+  }
+
+  public Map<Integer, ResultPlatform> getNeoResult(SnapshotTreeResult snapshotTreeResult) throws Exception {
+
     final VisualizationSettings settings = new VisualizationSettings();
-    final SnapshotTreeResult snapshotTreeResult = new SnapshotTreeResult(tree);
-    final VisualizationAdditionalInfos additionalInfos = createAdditionalInfos(tree);
+    final VisualizationAdditionalInfos additionalInfos = createAdditionalInfos(snapshotTreeResult.getTree());
     try {
       return visualizationProcessor
           .visualize(LayoutViewType.CITY, settings, snapshotTreeResult, additionalInfos);
@@ -52,7 +56,7 @@ public class NeoService {
 
   // TODO
   private VisualizationAdditionalInfos createAdditionalInfos(RootTreeNode tree) {
-    MinMaxValue minMaxMetricFootprint = new MinMaxValue(0, 100);
+    MinMaxValue minMaxMetricFootprint = new MinMaxValue(0, 21);
     MinMaxValue minMaxMetricHeight = new MinMaxValue(0, 100);
     MinMaxValue minMaxMetricColor = new MinMaxValue(0, 100);
     int dependenciesCount = 0;

@@ -3,9 +3,14 @@ package de.rinderle.softvis3d.servlet;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
+import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.base.webservice.TreeNodeJsonWriter;
+import de.rinderle.softvis3d.base.webservice.VisualizationJsonWriter;
+import de.rinderle.softvis3d.service.JsonWriter;
 import de.rinderle.softvis3d.service.LayoutExampleService;
 import de.rinderle.softvis3d.service.NeoService;
+import java.io.StringWriter;
 import java.util.Map;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
@@ -13,7 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path("/")
+@Path("/api")
 @RequestScoped
 public class GuiceResource {
 
@@ -21,6 +26,10 @@ public class GuiceResource {
   private NeoService neoService;
   @Inject
   private LayoutExampleService layoutExampleService;
+  @Inject
+  private VisualizationJsonWriter visualizationJsonWriter;
+  @Inject
+  private TreeNodeJsonWriter treeNodeJsonWriter;
 
   @GET
   @Path("/example")
@@ -34,7 +43,6 @@ public class GuiceResource {
     } catch (Exception e) {
       return new Gson().toJson(e);
     }
-
   }
 
   @GET
@@ -43,12 +51,36 @@ public class GuiceResource {
   public String getNeo() {
     final Map<Integer, ResultPlatform> result;
     try {
-      result = neoService.getNeoResult();
-      return new Gson().toJson(result);
+      SnapshotTreeResult resultTree = neoService.getNeoTree();
+      result = neoService.getNeoResult(resultTree);
+
+      StringWriter writer = new StringWriter();
+      JsonWriter jsonWriter = new JsonWriter(writer);
+
+      writeResultsToResponse(jsonWriter, resultTree, result);
+      return writer.toString();
+//      return new Gson().toJson(result);
     } catch (Exception e) {
       return new Gson().toJson(e);
     }
+  }
 
+  private void writeResultsToResponse(final JsonWriter jsonWriter, final SnapshotTreeResult snapshotTreeResult,
+                                      final Map<Integer, ResultPlatform> visualizationResult) {
+
+    jsonWriter.beginObject();
+    jsonWriter.name("resultObject");
+
+    jsonWriter.beginArray();
+
+    this.treeNodeJsonWriter.transformRootTreeToJson(jsonWriter, snapshotTreeResult.getTree());
+    this.visualizationJsonWriter.transformResponseToJson(jsonWriter, visualizationResult);
+
+    jsonWriter.endArray();
+
+    jsonWriter.endObject();
+
+    jsonWriter.close();
   }
 
   @OPTIONS

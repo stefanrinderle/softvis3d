@@ -10,11 +10,12 @@
 
   <artifactId>softvis3d-webservice-example</artifactId>
 
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
 
   <properties>
     <jersey.version>1.9.1</jersey.version>
     <jetty.plugin.version>9.2.11.v20150529</jetty.plugin.version>
+    <jetty.version>9.2.3.v20140905</jetty.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jdk.version>1.8</jdk.version>
   </properties>
@@ -24,12 +25,12 @@
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-server</artifactId>
-      <version>9.2.3.v20140905</version>
+      <version>${jetty.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-servlet</artifactId>
-      <version>9.2.3.v20140905</version>
+      <version>${jetty.version}</version>
     </dependency>
 
     <!-- JERSEY AND GUICE -->

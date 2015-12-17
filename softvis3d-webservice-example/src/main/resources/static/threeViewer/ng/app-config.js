@@ -35,7 +35,7 @@ ThreeViewer.ConfigLocation = function ($locationProvider) {
  */
 ThreeViewer.ConfigRouters = function ($routeProvider) {
   $routeProvider.when('/', {
-    templateUrl: RESOURCES_BASE_PATH + '/static/softvis3d/threeViewer/partials/viewer.html'
+    templateUrl: RESOURCES_BASE_PATH + './static/threeViewer/partials/viewer.html'
   }).otherwise({
     redirectTo: '/'
   });

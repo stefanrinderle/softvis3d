@@ -5,14 +5,16 @@
     <title>Test example webservice</title>
 </head>
 <body>
-<link rel="stylesheet" type="text/css" href="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/css/main.css">
+<link rel="stylesheet" type="text/css" href="./static/css/main.css">
+
+<script src="./static/threeViewer/lib/jquery/jquery-1.11.3.min.js"></script>
 
 <!-- Three Viewer -->
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/config.js"></script>
+<script src="./static/threeViewer/config.js"></script>
 
 <!-- Closure -->
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/lib/base.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/lib/deps.js"></script>
+<script src="./static/threeViewer/lib/base.js"></script>
+<script src="./static/threeViewer/lib/deps.js"></script>
 
 <script>
 var Viewer = {
@@ -20,90 +22,43 @@ var Viewer = {
 };
 
 var ThreeViewer = {};
-ThreeViewer.SNAPSHOT_ID = <%= @snapshot.id %>;
+ThreeViewer.SNAPSHOT_ID = 1;
 
-var RESOURCES_BASE_PATH = "<%= "#{ApplicationController.root_context}" -%>";
+var RESOURCES_BASE_PATH = ".";
 </script>
 
-<%
-# get extension class and start layout
-softVis3D = Api::Utils.java_facade.getComponentByClassname('softvis3d', 'de.rinderle.softvis3d.SoftVis3DExtension');
-%>
-<!-- ANGULAR JS FILES -->
-<% if (softVis3D.isProd()) %>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/libAll.min.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/softVis3dAll.min.js"></script>
-<% else %>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/lib/threejs/three.69.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/lib/threejs/Detector.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/lib/threejs/OrbitControls.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/lib/threejs/NURBSCurve.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/lib/threejs/NURBSUtils.js"></script>
+<script src="./static/threeViewer/lib/threejs/three.69.js"></script>
+<script src="./static/threeViewer/lib/threejs/Detector.js"></script>
+<script src="./static/threeViewer/lib/threejs/OrbitControls.js"></script>
+<script src="./static/threeViewer/lib/threejs/NURBSCurve.js"></script>
+<script src="./static/threeViewer/lib/threejs/NURBSUtils.js"></script>
 
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/lib/angular/angular.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/lib/angular/angular-route.js"></script>
+<script src="./static/threeViewer/lib/angular/angular.js"></script>
+<script src="./static/threeViewer/lib/angular/angular-route.js"></script>
 
 <!-- MY JS FILES -->
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/three/setup.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/three/util.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/three/camera.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/three/wrangler.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/three/objectFactory.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/three/scene.js"></script>
+<script src="./static/threeViewer/three/setup.js"></script>
+<script src="./static/threeViewer/three/util.js"></script>
+<script src="./static/threeViewer/three/camera.js"></script>
+<script src="./static/threeViewer/three/wrangler.js"></script>
+<script src="./static/threeViewer/three/objectFactory.js"></script>
+<script src="./static/threeViewer/three/scene.js"></script>
 
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/ng/app-config.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/ng/app-controller.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/ng/toolbar-controller.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/ng/file-loader-controller.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/ng/directives.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/ng/filters.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/ng/viewer-service.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/ng/tree-service.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/ng/backend-service.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/ng/message-bus.js"></script>
-<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/app.js"></script>
-<% end %>
+<script src="./static/threeViewer/ng/app-config.js"></script>
+<script src="./static/threeViewer/ng/app-controller.js"></script>
+<script src="./static/threeViewer/ng/toolbar-controller.js"></script>
+<script src="./static/threeViewer/ng/file-loader-controller.js"></script>
+<script src="./static/threeViewer/ng/directives.js"></script>
+<script src="./static/threeViewer/ng/filters.js"></script>
+<script src="./static/threeViewer/ng/viewer-service.js"></script>
+<script src="./static/threeViewer/ng/tree-service.js"></script>
+<script src="./static/threeViewer/ng/backend-service.js"></script>
+<script src="./static/threeViewer/ng/message-bus.js"></script>
+<script src="./static/threeViewer/app.js"></script>
 
 <div ng-app="ThreeViewerApp">
     <div ng-view></div>
 </div>
-
-<script type="text/javascript">
-    function waitFor(msec, count, callback) {
-        // Check if condition met. If not, re-check later (msec).
-        while (jQuery('#file-loader').length <= 0) {
-            count++;
-            setTimeout(function () {
-                waitFor(msec, count, callback);
-            }, msec);
-            return;
-        }
-        // Condition finally met. callback() can be executed.
-        callback();
-    }
-
-    window.onload = function () {
-        ThreeViewer.SNAPSHOT_ID = <%= @snapshot.id %>;
-
-    <%
-        if !@snapshot.id.blank? && !params[:viewType].blank? &&
-        !params[:metric1].blank? && !params[:metric2].blank?
-        %>
-
-        // Wait until idle (busy must be false)
-        waitFor(500, 0, function () {
-            console.log('Load direct link metrics!');
-            // Direct link to visualization. Load and display.
-            angular.element(document.getElementById('file-loader')).controller().loadDirectLink(
-            <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
-            );
-        });
-
-    <%
-        end
-        %>
-        }
-</script>
 
 </body>
 </html>

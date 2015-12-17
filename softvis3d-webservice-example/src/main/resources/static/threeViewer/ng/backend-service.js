@@ -23,6 +23,10 @@ ThreeViewer.BackendService = function ($http) {
   this.http = $http;
 };
 
+ThreeViewer.BackendService.prototype.getStaticVisualization = function () {
+    return this.http.get("http://localhost:9999/neo");
+};
+
 ThreeViewer.BackendService.prototype.getVisualization = function (snapshotId, footprintMetricId, heightMetricId, viewType, scmMetricType) {
   if (!scmMetricType) {
     scmMetricType = "NONE";

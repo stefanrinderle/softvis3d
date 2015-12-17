@@ -39,44 +39,9 @@
   <div class="loader-options">
     <div id="city-loader" class="loader-options" ng-show="loader.state.city" ng-cloak>
       <p>
-        The code city view is focused on the structure
-        and file metrics of the project.<br/>
-        Folders or packages are shown as districts, files as buildings. The building footprint and height are
-        dependent on two arbitrary sonar metrics.
+          Test with static webservice layout
       </p>
-      <br/>
-      <select ng-model="loader.cityInnerState">
-        <option value="complexity" label="Complexity and lines">Complexity
-          and lines
-        </option>
-        <option value="issues" label="Issues and lines">Issues
-          and lines
-        </option>
-        <option value="functions" label="Functions and lines">Functions
-          and lines
-        </option>
-      </select>
-      <br/><br/>
-
-      <div ng-show="loader.cityInnerState === 'complexity'">
-        The calculated complexity for each file is the base for the building footprint. The lines of
-        code metric is used for the building height.
-        Search for skyscraper buildings and especially for ones with a big footprint. Also building
-        small buildings (height) with a big footprint (like warehouses) should be interesting.
-      </div>
-      <div ng-show="loader.cityInnerState === 'issues'">
-        The calculated issue count for each file is the base for the building footprint. The lines of
-        code metric is used for the building height.
-        Search for skyscraper buildings and especially for ones with a big footprint. Also building
-        small buildings (height) with a big footprint (like warehouses) should be interesting.
-      </div>
-      <div ng-show="loader.cityInnerState === 'functions'">
-        The function count per file is the base for the building footprint. The lines of
-        code metric is used for the building height.
-        Search for skyscraper buildings and especially for ones with a small footprint.
-      </div>
-      <br/>
-      <button ng-click="loader.submitCityForm()" ng-disabled="!loader.configLoaded">Show</button>
+      <button ng-click="loader.submitCityForm()">Run!</button>
     </div>
     <div id="dependency-loader" class="loader-options" ng-show="loader.state.dependency" ng-cloak>
       <div ng-hide="loader.hasDependencies">
@@ -125,7 +90,7 @@
       </div>
       <div ng-show="loader.infoInnerState === 'loading'" style="text-align: center;">
         <br/><br/><br/>
-        <img ng-src="{{loader.BASE_PATH}}/static/softvis3d/images/ajax-loader.gif" alt="Loader"/>
+        <img ng-src="{{loader.BASE_PATH}}./static/images/ajax-loader.gif" alt="Loader"/>
         <br/><br/>
 
         <p>Please wait...</p>
