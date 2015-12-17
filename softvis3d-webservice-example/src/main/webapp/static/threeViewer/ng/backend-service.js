@@ -24,7 +24,7 @@ ThreeViewer.BackendService = function ($http) {
 };
 
 ThreeViewer.BackendService.prototype.getStaticVisualization = function () {
-    return this.http.get("http://localhost:9999/neo");
+    return this.http.get("http://localhost:9999/api/neo");
 };
 
 ThreeViewer.BackendService.prototype.getVisualization = function (snapshotId, footprintMetricId, heightMetricId, viewType, scmMetricType) {
