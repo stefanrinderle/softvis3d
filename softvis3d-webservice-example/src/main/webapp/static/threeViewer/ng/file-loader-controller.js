@@ -132,24 +132,11 @@ ThreeViewer.FileLoaderController.prototype.showTab = function (tab) {
 };
 
 ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
-  var cityType = "city";
-
-  //var linesId = this.getMetricIdForName("Lines");
-  //var complexityId = this.getMetricIdForName("Complexity");
-  //var issuesId = this.getMetricIdForName("Issues");
-  //var functionsId = this.getMetricIdForName("Functions");
-  //
-  //if (this.cityInnerState === "complexity") {
-  //  this.loadVisualisation(complexityId, linesId, cityType, null);
-  //} else if (this.cityInnerState === "issues") {
-  //  this.loadVisualisation(issuesId, linesId, cityType, null);
-  //} else if (this.cityInnerState === "functions") {
-  //  this.loadVisualisation(functionsId, linesId, cityType, null);
-  //} else {
-  //  console.log("invalid option selected.");
-  //}
-
     this.loadStaticVisualization();
+};
+
+ThreeViewer.FileLoaderController.prototype.submitCityForm2 = function () {
+    this.loadDynamicVisualization();
 };
 
 /**
@@ -201,6 +188,39 @@ ThreeViewer.FileLoaderController.prototype.loadStaticVisualization = function ()
         me.showTab("info");
     });
 };
+
+ThreeViewer.FileLoaderController.prototype.loadDynamicVisualization = function () {
+    var me = this;
+
+    this.infoInnerState = "loading";
+    this.showTab("info");
+    this.BackendService.getDynamicVisualization().then(function (response) {
+        var treeResult = response.data.resultObject[0].treeResult;
+        var visualizationResult = response.data.resultObject[1].visualizationResult;
+
+        me.ViewerService.loadSoftVis3d(visualizationResult);
+        me.TreeService.setTree(treeResult);
+
+        var eventObject = {};
+        eventObject.softVis3dId = 1;
+        eventObject.metric1Name = "bla";
+        eventObject.metric2Name = "bla2";
+        eventObject.scmMetricName = "bla3";
+
+        me.MessageBus.trigger('visualizationReady', eventObject);
+
+        me.infoInnerState = "idle";
+        me.showTab("city");
+
+        me.MessageBus.trigger('hideLoader');
+    }, function (response) {
+        me.infoInnerState = "error";
+        me.exceptionMessage = response.data.errors[0].msg;
+        me.showTab("info");
+    });
+};
+
+
 
 ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, viewType, scmMetricType) {
   var me = this;

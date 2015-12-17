@@ -24,6 +24,10 @@ ThreeViewer.BackendService = function ($http) {
 };
 
 ThreeViewer.BackendService.prototype.getStaticVisualization = function () {
+    return this.http.get("http://localhost:9999/api/neostatic");
+};
+
+ThreeViewer.BackendService.prototype.getDynamicVisualization = function () {
     return this.http.get("http://localhost:9999/api/neo");
 };
 

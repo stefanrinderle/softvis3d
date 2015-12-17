@@ -46,6 +46,25 @@ public class GuiceResource {
   }
 
   @GET
+  @Path("/neostatic")
+  @Produces(MediaType.APPLICATION_JSON)
+  public String getNeoStatic() {
+    final Map<Integer, ResultPlatform> result;
+    try {
+      SnapshotTreeResult resultTree = neoService.getNeoTreeStatic();
+      result = neoService.getNeoResult(resultTree);
+
+      StringWriter writer = new StringWriter();
+      JsonWriter jsonWriter = new JsonWriter(writer);
+
+      writeResultsToResponse(jsonWriter, resultTree, result);
+      return writer.toString();
+    } catch (Exception e) {
+      return new Gson().toJson(e);
+    }
+  }
+
+  @GET
   @Path("/neo")
   @Produces(MediaType.APPLICATION_JSON)
   public String getNeo() {
@@ -59,7 +78,6 @@ public class GuiceResource {
 
       writeResultsToResponse(jsonWriter, resultTree, result);
       return writer.toString();
-//      return new Gson().toJson(result);
     } catch (Exception e) {
       return new Gson().toJson(e);
     }

@@ -38,9 +38,6 @@ public class Neo4jClient {
     return "MATCH" +
       "  (t:Type)-[:DECLARES]->(m:Method)" +
       " RETURN" +
-      "  t.fqn AS Type, count(t) AS DeclaredMethods" +
-      " ORDER BY" +
-      "  DeclaredMethods DESC" +
-      " LIMIT 200";
+      "  t.fqn AS Type, count(t) AS DeclaredMethods";
   }
 }
