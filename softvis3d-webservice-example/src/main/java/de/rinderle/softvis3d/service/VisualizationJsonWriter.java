@@ -1,6 +1,6 @@
 /*
- * SoftVis3D Sonar plugin
- * Copyright (C) 2014 Stefan Rinderle
+ * softvis3d-webservice-example
+ * Copyright (C) 2015 Stefan Rinderle
  * stefan@rinderle.info
  *
  * This program is free software; you can redistribute it and/or

@@ -4,6 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>org.codehaus.sonar-plugins</groupId>
+    <artifactId>parent</artifactId>
+    <version>19</version>
+  </parent>
+  
   <groupId>de.rinderle.softvis3d</groupId>
   <artifactId>softvis3d</artifactId>
   <version>0.4.0-SNAPSHOT</version>
@@ -12,6 +18,11 @@
 
   <properties>
     <guice.version>3.0</guice.version>
+    <license.mailto>stefan@rinderle.info</license.mailto>
+    <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
+
+    <coverage.reports.dir>${basedir}/target/coverage-reports</coverage.reports.dir>
+    <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
   </properties>
 
   <modules>
@@ -19,5 +30,34 @@
     <module>softvis3d-webservice-example</module>
     <module>sonar-softvis3d-plugin</module>
   </modules>
+
+  <url>http://softvis3d.com</url>
+
+  <inceptionYear>2015</inceptionYear>
+
+  <organization>
+    <name>Stefan Rinderle</name>
+  </organization>
+
+  <developers>
+    <developer>
+      <id>srinderle</id>
+      <name>Stefan Rinderle</name>
+      <url>https://github.com/stefanrinderle</url>
+      <email>stefan@rinderle.info</email>
+    </developer>
+  </developers>
+
+  <issueManagement>
+    <url>https://github.com/stefanrinderle/softvis3d/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+
+  <scm>
+    <url>scm:git:git@github.com:stefanrinderle/softvis3d.git</url>
+    <connection>scm:git:git@github.com:stefanrinderle/softvis3d.git</connection>
+    <developerConnection>scm:git:git@github.com:stefanrinderle/softvis3d.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
 
 </project>

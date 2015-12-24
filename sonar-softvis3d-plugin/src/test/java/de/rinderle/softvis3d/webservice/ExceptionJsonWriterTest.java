@@ -1,6 +1,6 @@
 /*
  * SoftVis3D Sonar plugin
- * Copyright (C) 2014 Stefan Rinderle
+ * Copyright (C) 2015 Stefan Rinderle
  * stefan@rinderle.info
  *
  * This program is free software; you can redistribute it and/or
@@ -19,13 +19,12 @@
  */
 package de.rinderle.softvis3d.webservice;
 
+import java.io.OutputStream;
+import java.io.StringWriter;
 import org.junit.Test;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
 import org.sonar.api.utils.text.XmlWriter;
-
-import java.io.OutputStream;
-import java.io.StringWriter;
 
 import static org.junit.Assert.assertEquals;
 

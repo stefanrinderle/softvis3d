@@ -16,30 +16,7 @@
 
   <name>softvis3d-base</name>
 
-  <url>http://softvis3d.com</url>
-
-  <inceptionYear>2015</inceptionYear>
-
-  <organization>
-    <name>Stefan Rinderle</name>
-  </organization>
-
-  <developers>
-    <developer>
-      <id>srinderle</id>
-      <name>Stefan Rinderle</name>
-      <url>https://github.com/stefanrinderle</url>
-      <email>stefan@rinderle.info</email>
-    </developer>
-  </developers>
-
   <properties>
-    <license.mailto>stefan@rinderle.info</license.mailto>
-
-    <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
-
-    <coverage.reports.dir>${basedir}/target/coverage-reports</coverage.reports.dir>
-    <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
   </properties>
 
   <repositories>

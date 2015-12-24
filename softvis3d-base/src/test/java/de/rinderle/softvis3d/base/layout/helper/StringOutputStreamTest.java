@@ -1,6 +1,6 @@
 /*
- * SoftVis3D Sonar plugin
- * Copyright (C) 2014 Stefan Rinderle
+ * softvis3d-base
+ * Copyright (C) 2015 Stefan Rinderle
  * stefan@rinderle.info
  *
  * This program is free software; you can redistribute it and/or
@@ -19,9 +19,8 @@
  */
 package de.rinderle.softvis3d.base.layout.helper;
 
-import org.junit.Test;
-
 import java.io.IOException;
+import org.junit.Test;
 
 /**
  * Created by stefan on 12.07.15.

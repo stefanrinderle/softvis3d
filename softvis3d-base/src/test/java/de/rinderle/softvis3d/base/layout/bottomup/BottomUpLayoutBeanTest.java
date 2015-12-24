@@ -1,6 +1,6 @@
 /*
- * SoftVis3D Sonar plugin
- * Copyright (C) 2014 Stefan Rinderle
+ * softvis3d-base
+ * Copyright (C) 2015 Stefan Rinderle
  * stefan@rinderle.info
  *
  * This program is free software; you can redistribute it and/or
@@ -20,7 +20,6 @@
 package de.rinderle.softvis3d.base.layout.bottomup;
 
 import de.rinderle.softvis3d.base.TestTreeBuilder;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.layout.LayeredLayoutElement;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;

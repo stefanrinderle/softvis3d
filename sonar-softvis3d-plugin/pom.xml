@@ -4,9 +4,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.codehaus.sonar-plugins</groupId>
-    <artifactId>parent</artifactId>
-    <version>19</version>
+    <groupId>de.rinderle.softvis3d</groupId>
+    <artifactId>softvis3d</artifactId>
+    <version>0.4.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>sonar-softvis3d-plugin</artifactId>
@@ -16,35 +16,7 @@
 
   <name>SoftVis3D Sonar plugin</name>
 
-  <url>http://softvis3d.com</url>
   <description>Creates a 3d view of the project structure</description>
-
-  <inceptionYear>2014</inceptionYear>
-
-  <organization>
-    <name>Stefan Rinderle</name>
-  </organization>
-
-  <developers>
-    <developer>
-      <id>srinderle</id>
-      <name>Stefan Rinderle</name>
-      <url>https://github.com/stefanrinderle</url>
-      <email>stefan@rinderle.info</email>
-    </developer>
-  </developers>
-
-  <issueManagement>
-    <url>https://github.com/stefanrinderle/sonar-softvis3d-plugin/issues</url>
-    <system>GitHub Issues</system>
-  </issueManagement>
-
-  <scm>
-    <url>scm:git:git@github.com:stefanrinderle/sonar-softvis3d-plugin.git</url>
-    <connection>scm:git:git@github.com:stefanrinderle/sonar-softvis3d-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:stefanrinderle/sonar-softvis3d-plugin.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
 
   <properties>
     <sonar.version>4.2</sonar.version>
@@ -55,9 +27,6 @@
 
     <coverage.reports.dir>${basedir}/target/coverage-reports</coverage.reports.dir>
     <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
-
-    <guice.version>3.0</guice.version>
-
   </properties>
 
   <dependencies>

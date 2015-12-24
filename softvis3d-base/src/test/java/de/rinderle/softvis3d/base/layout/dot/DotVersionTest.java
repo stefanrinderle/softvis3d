@@ -1,6 +1,6 @@
 /*
- * SoftVis3D Sonar plugin
- * Copyright (C) 2014 Stefan Rinderle
+ * softvis3d-base
+ * Copyright (C) 2015 Stefan Rinderle
  * stefan@rinderle.info
  *
  * This program is free software; you can redistribute it and/or
@@ -19,15 +19,15 @@
  */
 package de.rinderle.softvis3d.base.layout.dot;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class DotVersionTest {
 
