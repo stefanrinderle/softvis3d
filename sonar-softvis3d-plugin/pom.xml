@@ -10,23 +10,14 @@
   </parent>
 
   <artifactId>sonar-softvis3d-plugin</artifactId>
-  <version>0.4.0-SNAPSHOT</version>
-
   <packaging>sonar-plugin</packaging>
 
   <name>SoftVis3D Sonar plugin</name>
-
   <description>Creates a 3d view of the project structure</description>
+  <url>http://softvis3d.com</url>
 
   <properties>
     <sonar.version>4.2</sonar.version>
-
-    <license.mailto>stefan@rinderle.info</license.mailto>
-
-    <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
-
-    <coverage.reports.dir>${basedir}/target/coverage-reports</coverage.reports.dir>
-    <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
   </properties>
 
   <dependencies>
@@ -42,28 +33,45 @@
       <version>${sonar.version}</version>
       <scope>provided</scope>
     </dependency>
-
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-dev-maven-plugin</artifactId>
       <version>1.7</version>
+      <scope>provided</scope>
     </dependency>
 
+    <!--
+      [INFO] - sonar-packaging-maven-plugin:1.12.1:check-dependencies (default-check-dependencies) @ sonar-softvis3d-plugin
+      [WARNING] Dependencies on the following log libraries should be excluded or declared with scope 'provided': commons-logging:commons-logging:jar
+    -->
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
-      <version>2.6</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>com.google.inject</groupId>
       <artifactId>guice</artifactId>
-      <version>${guice.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.inject.extensions</groupId>
       <artifactId>guice-assistedinject</artifactId>
-      <version>${guice.version}</version>
     </dependency>
 
     <!-- unit tests -->
@@ -76,14 +84,11 @@
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
-      <version>2.2.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
@@ -92,21 +97,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>xml-apis</groupId>
-      <artifactId>xml-apis</artifactId>
-      <version>1.3.03</version>
-    </dependency>
-    <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-module-junit4</artifactId>
-      <version>1.5.5</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-api-mockito</artifactId>
-      <version>1.5.5</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -137,26 +129,6 @@
       </plugins>
     </pluginManagement>
     <plugins>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.1.201405082137</version>
-        <executions>
-          <execution>
-            <id>jacoco-initialize</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>jacoco-site</id>
-            <phase>package</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>com.mycila.maven-license-plugin</groupId>
         <artifactId>maven-license-plugin</artifactId>

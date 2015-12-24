@@ -9,7 +9,7 @@
     <artifactId>parent</artifactId>
     <version>19</version>
   </parent>
-  
+
   <groupId>de.rinderle.softvis3d</groupId>
   <artifactId>softvis3d</artifactId>
   <version>0.4.0-SNAPSHOT</version>
@@ -17,13 +17,71 @@
   <packaging>pom</packaging>
 
   <properties>
-    <guice.version>3.0</guice.version>
     <license.mailto>stefan@rinderle.info</license.mailto>
-    <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
 
+    <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
     <coverage.reports.dir>${basedir}/target/coverage-reports</coverage.reports.dir>
     <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
+
+    <guice.version>3.0</guice.version>
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.2.4</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.6</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.4</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.0.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.12</version>
+      </dependency>
+
+      <!-- DI -->
+      <dependency>
+        <groupId>com.google.inject</groupId>
+        <artifactId>guice</artifactId>
+        <version>${guice.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.inject.extensions</groupId>
+        <artifactId>guice-assistedinject</artifactId>
+        <version>${guice.version}</version>
+      </dependency>
+
+      <!-- TESTS -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.11</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.powermock</groupId>
+        <artifactId>powermock-api-mockito</artifactId>
+        <version>1.5.5</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <modules>
     <module>softvis3d-base</module>
@@ -59,5 +117,30 @@
     <developerConnection>scm:git:git@github.com:stefanrinderle/softvis3d.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.1.201405082137</version>
+        <executions>
+          <execution>
+            <id>jacoco-initialize</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jacoco-site</id>
+            <phase>package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
