@@ -99,4 +99,18 @@ public final class LayeredLayoutElement {
     return color;
   }
 
+  @Override
+  public String toString() {
+    return "LayeredLayoutElement{" +
+        "type=" + type +
+        ", id=" + id +
+        ", name='" + name + '\'' +
+        ", width=" + width +
+        ", height=" + height +
+        ", buildingHeight=" + buildingHeight +
+        ", displayName='" + displayName + '\'' +
+        ", edges=" + edges +
+        ", color=" + color +
+        '}';
+  }
 }

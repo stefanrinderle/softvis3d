@@ -89,10 +89,10 @@ public class DotExecutor {
           IOUtils.copy(file, out);
         }
 
-        String normalizedTranslationFilePath =
+        final String normalizedTranslationFilePath =
           normalizeFilePath(this.translationFile.getAbsolutePath(), SystemUtils.IS_OS_WINDOWS);
 
-        String translationCommand = path.getGvprExecutable() + " -c -f " + normalizedTranslationFilePath;
+        final String translationCommand = path.getGvprExecutable() + " -c -f " + normalizedTranslationFilePath;
 
         adot = this.executeCommand.executeCommandReadAdot(translationCommand, adot, currentVersion);
       } catch (final IOException e) {

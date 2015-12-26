@@ -34,9 +34,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-/**
- * Created by stefan on 12.07.15.
- */
 public class PostProcessorTest {
 
   @InjectMocks
@@ -61,7 +58,6 @@ public class PostProcessorTest {
     final SnapshotTreeResult treeResult = new SnapshotTreeResult(new RootTreeNode(id));
 
     underTest.process(LayoutViewType.CITY, resultGraphs, treeResult);
-
   }
 
   @Test
@@ -76,6 +72,6 @@ public class PostProcessorTest {
     final SnapshotTreeResult treeResult = new SnapshotTreeResult(new RootTreeNode(id));
 
     underTest.process(LayoutViewType.CITY, resultGraphs, treeResult);
-
   }
+
 }

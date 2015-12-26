@@ -84,7 +84,7 @@ public class ConfigWebserviceHandler extends AbstractWebserviceHandler implement
     this.session.commit();
   }
 
-  private void transformScmMetricTypes(JsonWriter jsonWriter) {
+  private void transformScmMetricTypes(final JsonWriter jsonWriter) {
     jsonWriter.name("scmMetricTypes");
     jsonWriter.beginArray();
 

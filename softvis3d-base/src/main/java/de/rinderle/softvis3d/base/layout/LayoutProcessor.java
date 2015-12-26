@@ -51,7 +51,7 @@ public class LayoutProcessor {
   private GrappaEdgeFactory edgefactory;
 
   public Map<Integer, ResultPlatform> process(final VisualizationSettings settings, final LayoutViewType viewType,
-    final SnapshotTreeResult snapshotTreeResult, VisualizationAdditionalInfos additionalInfos) throws DotExecutorException {
+                                              final SnapshotTreeResult snapshotTreeResult, final VisualizationAdditionalInfos additionalInfos) throws DotExecutorException {
 
     // final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO);
 

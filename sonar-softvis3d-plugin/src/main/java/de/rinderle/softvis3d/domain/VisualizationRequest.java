@@ -75,13 +75,13 @@ public class VisualizationRequest {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (this == o)
       return true;
     if (o == null || getClass() != o.getClass())
       return false;
 
-    VisualizationRequest that = (VisualizationRequest) o;
+    final VisualizationRequest that = (VisualizationRequest) o;
 
     if (rootSnapshotId != that.rootSnapshotId)
       return false;

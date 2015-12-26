@@ -28,7 +28,7 @@ import de.rinderle.softvis3d.neoresult.Neo4jAnswer;
 public class Neo4jParser {
 
   public Neo4jAnswer parseNeoJson(final String neoJson) {
-    Gson gson = new Gson();
+    final Gson gson = new Gson();
     return gson.fromJson(neoJson, Neo4jAnswer.class);
   }
 }

@@ -53,7 +53,7 @@ public class LayerFormatterTest {
     assertNotNull(platform.getColor());
 
     final Color color = platform.getColor();
-    assertTrue(color.getRed() == 254);
+    assertEquals(color.getRed(), 254);
   }
 
   /**
@@ -205,8 +205,8 @@ public class LayerFormatterTest {
 
   @Test
   public void testCalcScmInfoColorMin() {
-    int nodeScmValue = 0;
-    MinMaxValue minMaxScmValue = new MinMaxValue(0.0, 100.0);
+    final int nodeScmValue = 0;
+    final MinMaxValue minMaxScmValue = new MinMaxValue(0.0, 100.0);
 
     final HexaColor result = this.underTest.getMetricColorColor(nodeScmValue, minMaxScmValue);
 
@@ -216,8 +216,8 @@ public class LayerFormatterTest {
 
   @Test
   public void testCalcScmInfoColorMax() {
-    int nodeScmValue = 300;
-    MinMaxValue minMaxScmValue = new MinMaxValue(0.0, 300.0);
+    final int nodeScmValue = 300;
+    final MinMaxValue minMaxScmValue = new MinMaxValue(0.0, 300.0);
 
     final HexaColor result = this.underTest.getMetricColorColor(nodeScmValue, minMaxScmValue);
 
@@ -227,8 +227,8 @@ public class LayerFormatterTest {
 
   @Test
   public void testCalcScmInfoColorMiddle() {
-    int nodeScmValue = 300;
-    MinMaxValue minMaxScmValue = new MinMaxValue(0.0, 600.0);
+    final int nodeScmValue = 300;
+    final MinMaxValue minMaxScmValue = new MinMaxValue(0.0, 600.0);
 
     final HexaColor result = this.underTest.getMetricColorColor(nodeScmValue, minMaxScmValue);
 
@@ -238,8 +238,8 @@ public class LayerFormatterTest {
 
   @Test
   public void testCalcScmInfoColorNoneType() {
-    int nodeScmValue = 0;
-    MinMaxValue minMaxScmValue = null;
+    final int nodeScmValue = 0;
+    final MinMaxValue minMaxScmValue = null;
 
     final HexaColor result = this.underTest.getMetricColorColor(nodeScmValue, minMaxScmValue);
 

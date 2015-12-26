@@ -37,16 +37,16 @@ public class Neo4jClient {
 
   private String sendCypher(final String query) {
     final String txUri = SERVER_ROOT_URI + "db/data/transaction/commit";
-    WebResource resource = Client.create().resource(txUri);
+    final WebResource resource = Client.create().resource(txUri);
 
-    String payload = "{\"statements\" : [ {\"statement\" : \"" + query + "\"} ]}";
-    ClientResponse response = resource
+    final String payload = "{\"statements\" : [ {\"statement\" : \"" + query + "\"} ]}";
+    final ClientResponse response = resource
       .accept(MediaType.APPLICATION_JSON)
       .type(MediaType.APPLICATION_JSON)
       .entity(payload)
       .post(ClientResponse.class);
 
-    String result = response.getEntity(String.class);
+    final String result = response.getEntity(String.class);
 
     response.close();
 

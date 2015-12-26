@@ -31,7 +31,7 @@ public class ScmCommitCountCalculationService extends ScmCalculationService {
    * FIX!
    */
   @Override
-  public int getNodeValue(String scmCommitterString, String scmTimeString) {
+  public int getNodeValue(final String scmCommitterString, final String scmTimeString) {
     if (StringUtils.isBlank(scmCommitterString)) {
       return 0;
     } else {

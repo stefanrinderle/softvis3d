@@ -29,11 +29,11 @@ import org.apache.commons.lang.StringUtils;
 public class PathWalkerDataTransformer {
   public PathWalkerInputElement transform(final Data data) {
 
-    List<String> row = data.getRow();
-    String path = row.get(0);
-    double footprintMetricValue = getDoubleValue(row, 1);
-    double heightMetricValue = getDoubleValue(row, 2);
-    int colorMetricValue = getIntValue(row, 3);
+    final List<String> row = data.getRow();
+    final String path = row.get(0);
+    final double footprintMetricValue = getDoubleValue(row, 1);
+    final double heightMetricValue = getDoubleValue(row, 2);
+    final int colorMetricValue = getIntValue(row, 3);
 
     return new PathWalkerInputElement(footprintMetricValue, heightMetricValue, colorMetricValue, path);
   }
@@ -42,7 +42,7 @@ public class PathWalkerDataTransformer {
     if (indexExists(input, index) && StringUtils.isNotBlank(input.get(index))) {
       try {
         return Double.valueOf(input.get(index));
-      } catch (NumberFormatException exception) {
+      } catch (final NumberFormatException exception) {
         return 0;
       }
     }
@@ -53,7 +53,7 @@ public class PathWalkerDataTransformer {
     if (indexExists(input, index) && StringUtils.isNotBlank(input.get(index))) {
       try {
         return Integer.valueOf(input.get(index));
-      } catch (NumberFormatException exception) {
+      } catch (final NumberFormatException exception) {
         return 0;
       }
     }

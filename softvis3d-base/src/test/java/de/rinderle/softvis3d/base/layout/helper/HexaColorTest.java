@@ -23,9 +23,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by stefan on 31.05.15.
- */
 public class HexaColorTest {
 
   @Test

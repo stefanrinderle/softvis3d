@@ -22,20 +22,20 @@ package de.rinderle.softvis3d.base.layout.helper;
 import java.io.IOException;
 import org.junit.Test;
 
-/**
- * Created by stefan on 12.07.15.
- */
+import static org.junit.Assert.assertEquals;
+
 public class StringOutputStreamTest {
 
   @Test
   public void test() throws IOException {
     final StringOutputStream stream = new StringOutputStream();
 
-    stream.write(1);
-    stream.write(2);
-    stream.write(3);
+    stream.write('1');
+    stream.write('2');
+    stream.write('3');
 
     final String result = stream.toString();
+    assertEquals("123", result);
   }
 
 }

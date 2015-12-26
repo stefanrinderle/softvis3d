@@ -139,13 +139,13 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     return result;
   }
 
-  private VisualizationAdditionalInfos createAdditionalInfos(VisualizationRequest requestDTO) {
+  private VisualizationAdditionalInfos createAdditionalInfos(final VisualizationRequest requestDTO) {
     final MinMaxValue minMaxMetricFootprint = daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
       requestDTO.getFootprintMetricId());
     final MinMaxValue minMaxMetricHeight = daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
       requestDTO.getHeightMetricId());
 
-    int dependenciesCount = daoService.getDependencies(requestDTO.getRootSnapshotId()).size();
+    final int dependenciesCount = daoService.getDependencies(requestDTO.getRootSnapshotId()).size();
 
     // TODO
     final MinMaxValue minMaxMetricColor = daoService.getMaxScmInfo(requestDTO);

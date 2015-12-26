@@ -33,7 +33,7 @@ public class PathWalkerInputElement {
   private final int colorMetricValue;
   private final String path;
 
-  public PathWalkerInputElement(double footprintMetricValue, double heightMetricValue, int colorMetricValue, String path) {
+  public PathWalkerInputElement(final double footprintMetricValue, final double heightMetricValue, final int colorMetricValue, final String path) {
     this.footprintMetricValue = footprintMetricValue;
     this.heightMetricValue = heightMetricValue;
     this.colorMetricValue = colorMetricValue;

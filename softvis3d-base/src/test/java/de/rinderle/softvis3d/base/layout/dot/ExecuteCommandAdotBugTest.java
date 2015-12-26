@@ -67,9 +67,7 @@ public class ExecuteCommandAdotBugTest {
   @Test
   public void checkForAdotBugPenWidth() throws Exception {
     final String value = "123";
-
     final String postFix = "idsuoisdufhoisufh";
-
     final String check = LayoutConstants.GRAPH_ATTR_PENWIDTH + "=" + value + "," + postFix;
 
     final String result = ExecuteCommand.checkForAdotBug(check);

@@ -26,21 +26,16 @@ import java.io.Writer;
  */
 public class JsonWriter {
 
-  public static JsonWriter of(Writer writer) {
+  public static JsonWriter of(final Writer writer) {
     return new JsonWriter(writer);
   }
 
   private final com.google.gson.stream.JsonWriter stream;
 
-  public JsonWriter(Writer writer) {
+  public JsonWriter(final Writer writer) {
     this.stream = new com.google.gson.stream.JsonWriter(writer);
     this.stream.setSerializeNulls(false);
     this.stream.setLenient(false);
-  }
-
-  // for unit testing
-  JsonWriter(com.google.gson.stream.JsonWriter stream) {
-    this.stream = stream;
   }
 
   /**
@@ -52,7 +47,7 @@ public class JsonWriter {
     try {
       stream.beginArray();
       return this;
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw rethrow(e);
     }
   }
@@ -64,7 +59,7 @@ public class JsonWriter {
     try {
       stream.endArray();
       return this;
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw rethrow(e);
     }
   }
@@ -77,7 +72,7 @@ public class JsonWriter {
     try {
       stream.beginObject();
       return this;
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw rethrow(e);
     }
   }
@@ -89,7 +84,7 @@ public class JsonWriter {
     try {
       stream.endObject();
       return this;
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw rethrow(e);
     }
   }
@@ -97,11 +92,11 @@ public class JsonWriter {
   /**
    * Encodes the property name. Output is <code>"theName":</code>.
    */
-  public JsonWriter name(String name) {
+  public JsonWriter name(final String name) {
     try {
       stream.name(name);
       return this;
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw rethrow(e);
     }
   }
@@ -109,33 +104,33 @@ public class JsonWriter {
   /**
    * Encodes {@code value}. Output is <code>true</code> or <code>false</code>.
    */
-  public JsonWriter value(boolean value) {
+  public JsonWriter value(final boolean value) {
     try {
       stream.value(value);
       return this;
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw rethrow(e);
     }
   }
 
   /**
    */
-  public JsonWriter value(double value) {
+  public JsonWriter value(final double value) {
     try {
       stream.value(value);
       return this;
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw rethrow(e);
     }
   }
 
   /**
    */
-  public JsonWriter value(String value) {
+  public JsonWriter value(final String value) {
     try {
       stream.value(value);
       return this;
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw rethrow(e);
     }
   }
@@ -162,22 +157,22 @@ public class JsonWriter {
 
   /**
    */
-  public JsonWriter value(long value) {
+  public JsonWriter value(final long value) {
     try {
       stream.value(value);
       return this;
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw rethrow(e);
     }
   }
 
   /**
    */
-  public JsonWriter value(Number value) {
+  public JsonWriter value(final Number value) {
     try {
       stream.value(value);
       return this;
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw rethrow(e);
     }
   }
@@ -185,7 +180,7 @@ public class JsonWriter {
   /**
    * Encodes the property name and value. Output is for example <code>"theName":123</code>.
    */
-  public JsonWriter prop(String name, Number value) {
+  public JsonWriter prop(final String name, final Number value) {
     return name(name).value(value);
   }
 
@@ -207,25 +202,25 @@ public class JsonWriter {
 
   /**
    */
-  public JsonWriter prop(String name, String value) {
+  public JsonWriter prop(final String name, final String value) {
     return name(name).value(value);
   }
 
   /**
    */
-  public JsonWriter prop(String name, boolean value) {
+  public JsonWriter prop(final String name, final boolean value) {
     return name(name).value(value);
   }
 
   /**
    */
-  public JsonWriter prop(String name, long value) {
+  public JsonWriter prop(final String name, final long value) {
     return name(name).value(value);
   }
 
   /**
    */
-  public JsonWriter prop(String name, double value) {
+  public JsonWriter prop(final String name, final double value) {
     return name(name).value(value);
   }
 
@@ -234,12 +229,12 @@ public class JsonWriter {
   public void close() {
     try {
       stream.close();
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw rethrow(e);
     }
   }
 
-  private IllegalStateException rethrow(Exception e) {
+  private IllegalStateException rethrow(final Exception e) {
     // stacktrace is not helpful
     e.printStackTrace();
 

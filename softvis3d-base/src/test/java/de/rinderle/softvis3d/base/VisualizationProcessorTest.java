@@ -38,9 +38,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by stefan on 12.07.15.
- */
 public class VisualizationProcessorTest {
 
   @Mock

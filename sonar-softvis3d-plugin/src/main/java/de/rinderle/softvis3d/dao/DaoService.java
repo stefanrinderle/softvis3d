@@ -154,7 +154,7 @@ public class DaoService {
       builder.withHeightMeasure(sonarDao.getMetricDouble(requestDTO.getHeightMetricId(), snapshotId));
 
       if (!ScmInfoType.NONE.equals(requestDTO.getScmInfoType())) {
-        int scmMetric = getScmMetric(snapshotId, requestDTO.getScmInfoType());
+        final int scmMetric = getScmMetric(snapshotId, requestDTO.getScmInfoType());
         builder.withScmMetric(scmMetric);
       }
 
@@ -174,7 +174,7 @@ public class DaoService {
    * Get the first children and check if the metric is available or create
    * dedicated sql statement --> webservice call in the future.
    */
-  public boolean hasScmInfos(Integer rootSnapshotId) {
+  public boolean hasScmInfos(final Integer rootSnapshotId) {
     return true;
   }
 

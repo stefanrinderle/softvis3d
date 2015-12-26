@@ -23,7 +23,7 @@ public class SonarDependency {
 
   private final Integer fromSnapshotId;
   private final Integer toSnapshotId;
-  private Long id;
+  private final Long id;
 
   public SonarDependency(final SonarDependencyBuilder sonarDependencyBuilder) {
     this.id = sonarDependencyBuilder.id;

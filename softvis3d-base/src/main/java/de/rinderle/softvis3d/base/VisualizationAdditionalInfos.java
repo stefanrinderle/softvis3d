@@ -30,8 +30,8 @@ public class VisualizationAdditionalInfos {
   private final int dependenciesCount;
   private final MinMaxValue minMaxMetricColor;
 
-  public VisualizationAdditionalInfos(MinMaxValue minMaxMetricFootprint, MinMaxValue minMaxMetricHeight,
-    MinMaxValue minMaxMetricColor, int dependenciesCount) {
+  public VisualizationAdditionalInfos(final MinMaxValue minMaxMetricFootprint, final MinMaxValue minMaxMetricHeight,
+                                      final MinMaxValue minMaxMetricColor, final int dependenciesCount) {
     this.minMaxMetricFootprint = minMaxMetricFootprint;
     this.minMaxMetricHeight = minMaxMetricHeight;
     this.dependenciesCount = dependenciesCount;

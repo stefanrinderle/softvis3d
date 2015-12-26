@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class StringOutputStream extends OutputStream {
+
   private final StringBuilder string = new StringBuilder();
 
   @Override

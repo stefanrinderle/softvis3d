@@ -37,7 +37,7 @@ public class ScmAuthorCountCalculationService extends ScmCalculationService {
   private final SimpleDateFormat SCM_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
   @Override
-  public int getNodeValue(String scmCommitterString, String scmTimeString) {
+  public int getNodeValue(final String scmCommitterString, final String scmTimeString) {
     final int authorCount;
 
     if (StringUtils.isBlank(scmCommitterString)) {

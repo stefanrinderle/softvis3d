@@ -38,7 +38,7 @@ public enum ScmInfoType {
   private final transient ScmCalculationService scmCalculationService;
   private final String description;
 
-  ScmInfoType(String description, ScmCalculationService scmCalculationService) {
+  ScmInfoType(final String description, final ScmCalculationService scmCalculationService) {
     this.description = description;
     this.scmCalculationService = scmCalculationService;
   }

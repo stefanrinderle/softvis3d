@@ -26,8 +26,7 @@ public class TestTreeBuilder {
 
   public static TreeNode createTreeNode(final int id, final TreeNode parent,
     final int depth) {
-    final TreeNode result = new TreeNode(id, parent, depth,
-      TreeNodeType.TREE, id + "");
+    final TreeNode result = new TreeNode(id, parent, depth, TreeNodeType.TREE, id + "");
 
     parent.addChildrenNode(id + "", result);
 

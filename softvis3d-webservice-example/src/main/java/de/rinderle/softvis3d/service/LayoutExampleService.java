@@ -49,7 +49,7 @@ public class LayoutExampleService {
     try {
       return visualizationProcessor
           .visualize(LayoutViewType.CITY, settings, snapshotTreeResult, additionalInfos);
-    } catch (DotExecutorException e) {
+    } catch (final DotExecutorException e) {
       throw new Exception(e.getMessage(), e);
     }
   }
@@ -57,8 +57,8 @@ public class LayoutExampleService {
   private SnapshotTreeResult createExampleSnapshotTreeResult(final int rootId) {
     final RootTreeNode result = new RootTreeNode(rootId);
 
-    TreeNode node2 = new ValueTreeNode(2, result, 1, TreeNodeType.TREE, "2", 1.3, 1.5, 2);
-    TreeNode node3 = new ValueTreeNode(3, result, 1, TreeNodeType.TREE, "3", 1.7, 1.8, 1);
+    final TreeNode node2 = new ValueTreeNode(2, result, 1, TreeNodeType.TREE, "2", 1.3, 1.5, 2);
+    final TreeNode node3 = new ValueTreeNode(3, result, 1, TreeNodeType.TREE, "3", 1.7, 1.8, 1);
     result.addChildrenNode("2", node2);
     result.addChildrenNode("3", node3);
 
@@ -66,10 +66,10 @@ public class LayoutExampleService {
   }
 
   private VisualizationAdditionalInfos createExampleAdditionalInfos() {
-    MinMaxValue minMaxFootprint = new MinMaxValue(0, 3);
-    MinMaxValue minMaxHeight = new MinMaxValue(0, 3);
-    MinMaxValue minMaxColor = new MinMaxValue(0, 3);
-    int dependencyCount = 0;
+    final MinMaxValue minMaxFootprint = new MinMaxValue(0, 3);
+    final MinMaxValue minMaxHeight = new MinMaxValue(0, 3);
+    final MinMaxValue minMaxColor = new MinMaxValue(0, 3);
+    final int dependencyCount = 0;
 
     return new VisualizationAdditionalInfos(minMaxFootprint, minMaxHeight, minMaxColor, dependencyCount);
   }
