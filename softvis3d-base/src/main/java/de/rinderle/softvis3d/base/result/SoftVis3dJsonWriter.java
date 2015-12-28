@@ -1,5 +1,5 @@
 /*
- * softvis3d-webservice-example
+ * softvis3d-base
  * Copyright (C) 2015 Stefan Rinderle
  * stefan@rinderle.info
  *
@@ -17,23 +17,17 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.service;
+package de.rinderle.softvis3d.base.result;
 
-import java.io.Writer;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
-/**
- * TODO: just a copy
- */
-public class JsonWriter {
-
-  public static JsonWriter of(final Writer writer) {
-    return new JsonWriter(writer);
-  }
+public class SoftVis3dJsonWriter {
 
   private final com.google.gson.stream.JsonWriter stream;
 
-  public JsonWriter(final Writer writer) {
-    this.stream = new com.google.gson.stream.JsonWriter(writer);
+  public SoftVis3dJsonWriter(final OutputStream output) {
+    this.stream = new com.google.gson.stream.JsonWriter(new OutputStreamWriter(output));
     this.stream.setSerializeNulls(false);
     this.stream.setLenient(false);
   }
@@ -43,7 +37,7 @@ public class JsonWriter {
    * a call to {@link #endArray}. Output is <code>[</code>.
    *
    */
-  public JsonWriter beginArray() {
+  public SoftVis3dJsonWriter beginArray() {
     try {
       stream.beginArray();
       return this;
@@ -55,7 +49,7 @@ public class JsonWriter {
   /**
    * Ends encoding the current array. Output is <code>]</code>.
    */
-  public JsonWriter endArray() {
+  public SoftVis3dJsonWriter endArray() {
     try {
       stream.endArray();
       return this;
@@ -68,7 +62,7 @@ public class JsonWriter {
    * Begins encoding a new object. Each call to this method must be paired
    * with a call to {@link #endObject}. Output is <code>{</code>.
    */
-  public JsonWriter beginObject() {
+  public SoftVis3dJsonWriter beginObject() {
     try {
       stream.beginObject();
       return this;
@@ -80,7 +74,7 @@ public class JsonWriter {
   /**
    * Ends encoding the current object. Output is <code>}</code>.
    */
-  public JsonWriter endObject() {
+  public SoftVis3dJsonWriter endObject() {
     try {
       stream.endObject();
       return this;
@@ -92,7 +86,7 @@ public class JsonWriter {
   /**
    * Encodes the property name. Output is <code>"theName":</code>.
    */
-  public JsonWriter name(final String name) {
+  public SoftVis3dJsonWriter name(final String name) {
     try {
       stream.name(name);
       return this;
@@ -104,7 +98,7 @@ public class JsonWriter {
   /**
    * Encodes {@code value}. Output is <code>true</code> or <code>false</code>.
    */
-  public JsonWriter value(final boolean value) {
+  public SoftVis3dJsonWriter value(final boolean value) {
     try {
       stream.value(value);
       return this;
@@ -115,7 +109,7 @@ public class JsonWriter {
 
   /**
    */
-  public JsonWriter value(final double value) {
+  public SoftVis3dJsonWriter value(final double value) {
     try {
       stream.value(value);
       return this;
@@ -126,7 +120,7 @@ public class JsonWriter {
 
   /**
    */
-  public JsonWriter value(final String value) {
+  public SoftVis3dJsonWriter value(final String value) {
     try {
       stream.value(value);
       return this;
@@ -137,27 +131,7 @@ public class JsonWriter {
 
   /**
    */
-  // public JsonWriter valueDate(Date value) {
-  // try {
-  // stream.value(value==null ? null : DateUtils.formatDate(value));
-  // return this;
-  // } catch (Exception e) {
-  // throw rethrow(e);
-  // }
-  // }
-
-  // public JsonWriter valueDateTime(Date value) {
-  // try {
-  // stream.value(value==null ? null : DateUtils.formatDateTime(value));
-  // return this;
-  // } catch (Exception e) {
-  // throw rethrow(e);
-  // }
-  // }
-
-  /**
-   */
-  public JsonWriter value(final long value) {
+  public SoftVis3dJsonWriter value(final long value) {
     try {
       stream.value(value);
       return this;
@@ -168,7 +142,7 @@ public class JsonWriter {
 
   /**
    */
-  public JsonWriter value(final Number value) {
+  public SoftVis3dJsonWriter value(final Number value) {
     try {
       stream.value(value);
       return this;
@@ -180,47 +154,31 @@ public class JsonWriter {
   /**
    * Encodes the property name and value. Output is for example <code>"theName":123</code>.
    */
-  public JsonWriter prop(final String name, final Number value) {
-    return name(name).value(value);
-  }
-
-  /**
-   * Encodes the property name and date value (ISO format).
-   * Output is for example <code>"theDate":"2013-01-24"</code>.
-   */
-  // public JsonWriter propDate(String name, Date value) {
-  // return name(name).valueDate(value);
-  // }
-
-  /**
-   * Encodes the property name and datetime value (ISO format).
-   * Output is for example <code>"theDate":"2013-01-24T13:12:45+01"</code>.
-   */
-  // public JsonWriter propDateTime(String name, Date value) {
-  // return name(name).valueDateTime(value);
-  // }
-
-  /**
-   */
-  public JsonWriter prop(final String name, final String value) {
+  public SoftVis3dJsonWriter prop(final String name, final Number value) {
     return name(name).value(value);
   }
 
   /**
    */
-  public JsonWriter prop(final String name, final boolean value) {
+  public SoftVis3dJsonWriter prop(final String name, final String value) {
     return name(name).value(value);
   }
 
   /**
    */
-  public JsonWriter prop(final String name, final long value) {
+  public SoftVis3dJsonWriter prop(final String name, final boolean value) {
     return name(name).value(value);
   }
 
   /**
    */
-  public JsonWriter prop(final String name, final double value) {
+  public SoftVis3dJsonWriter prop(final String name, final long value) {
+    return name(name).value(value);
+  }
+
+  /**
+   */
+  public SoftVis3dJsonWriter prop(final String name, final double value) {
     return name(name).value(value);
   }
 

@@ -1,5 +1,5 @@
 /*
- * SoftVis3D Sonar plugin
+ * softvis3d-base
  * Copyright (C) 2015 Stefan Rinderle
  * stefan@rinderle.info
  *
@@ -17,16 +17,15 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.webservice.visualization;
+package de.rinderle.softvis3d.base.result;
 
-import de.rinderle.softvis3d.TestTreeBuilder;
+import de.rinderle.softvis3d.base.TestTreeBuilder;
 import de.rinderle.softvis3d.base.domain.tree.Dependency;
 import de.rinderle.softvis3d.base.domain.tree.Edge;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNode;
-import java.io.StringWriter;
+import de.rinderle.softvis3d.base.layout.helper.StringOutputStream;
 import org.junit.Test;
-import org.sonar.api.utils.text.JsonWriter;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,23 +33,25 @@ public class TreeNodeJsonWriterTest {
 
   @Test
   public void testTransformTreeToJsonEmpty() throws Exception {
-    final StringWriter stringWriter = new StringWriter();
-    final JsonWriter jsonWriter = JsonWriter.of(stringWriter);
+    final StringOutputStream stringOutputStream = new StringOutputStream();
+    final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
 
     final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
     final RootTreeNode tree = new RootTreeNode(1);
     underTest.transformRootTreeToJson(jsonWriter, tree);
 
+    jsonWriter.close();
+
     final String expectedStringResult = "{\"treeResult\":{\"id\":1,\"name\":\"root\",\"isNode\":false,\"children\":[],\"edges\":[],\"dependencies\":[]}}";
 
-    assertEquals(expectedStringResult, stringWriter.toString());
+    assertEquals(expectedStringResult, stringOutputStream.toString());
   }
 
   @Test
   public void testTransformWithChildrenNodes() {
-    final StringWriter stringWriter = new StringWriter();
-    final JsonWriter jsonWriter = JsonWriter.of(stringWriter);
+    final StringOutputStream stringOutputStream = new StringOutputStream();
+    final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
 
     final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
@@ -60,15 +61,17 @@ public class TreeNodeJsonWriterTest {
 
     underTest.transformRootTreeToJson(jsonWriter, treeNode1);
 
+    jsonWriter.close();
+
     final String expectedResult = "{\"treeResult\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"children\":[{\"id\":2,\"name\":\"2\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0,\"parentInfo\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0},\"children\":[],\"edges\":[]},{\"id\":3,\"name\":\"3\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0,\"parentInfo\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0},\"children\":[],\"edges\":[]}],\"edges\":[],\"dependencies\":[]}}";
 
-    assertEquals(expectedResult, stringWriter.toString());
+    assertEquals(expectedResult, stringOutputStream.toString());
   }
 
   @Test
   public void testTransformWithDependencies() {
-    final StringWriter stringWriter = new StringWriter();
-    final JsonWriter jsonWriter = JsonWriter.of(stringWriter);
+    final StringOutputStream stringOutputStream = new StringOutputStream();
+    final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
 
     final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
@@ -82,15 +85,17 @@ public class TreeNodeJsonWriterTest {
 
     underTest.transformRootTreeToJson(jsonWriter, treeNode1);
 
+    jsonWriter.close();
+
     final String expectedResult = "{\"treeResult\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"children\":[{\"id\":2,\"name\":\"2\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0,\"parentInfo\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0},\"children\":[],\"edges\":[{\"id\":\"2 -> 3\",\"sourceId\":2,\"sourceName\":\"2\",\"destinationId\":3,\"destinationName\":\"3\",\"includingDependencies\":[{\"id\":123}]}]},{\"id\":3,\"name\":\"3\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0,\"parentInfo\":{\"id\":1,\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0},\"children\":[],\"edges\":[]}],\"edges\":[],\"dependencies\":[]}}";
 
-    assertEquals(expectedResult, stringWriter.toString());
+    assertEquals(expectedResult, stringOutputStream.toString());
   }
 
   @Test
   public void testTransformWithRootDependencies() {
-    final StringWriter stringWriter = new StringWriter();
-    final JsonWriter jsonWriter = JsonWriter.of(stringWriter);
+    final StringOutputStream stringOutputStream = new StringOutputStream();
+    final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
 
     final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
@@ -100,9 +105,11 @@ public class TreeNodeJsonWriterTest {
 
     underTest.transformRootTreeToJson(jsonWriter, treeNode1);
 
+    jsonWriter.close();
+
     final String expectedResult = "{\"treeResult\":{\"id\":1,\"name\":\"root\",\"isNode\":false,\"children\":[],\"edges\":[],\"dependencies\":[{\"id\":1,\"sourceId\":2,\"sourceName\":\"2\",\"destinationId\":3,\"destinationName\":\"3\"}]}}";
 
-    assertEquals(expectedResult, stringWriter.toString());
+    assertEquals(expectedResult, stringOutputStream.toString());
   }
 
 }

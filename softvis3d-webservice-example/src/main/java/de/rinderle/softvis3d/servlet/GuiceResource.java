@@ -24,12 +24,12 @@ import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
-import de.rinderle.softvis3d.service.JsonWriter;
+import de.rinderle.softvis3d.base.layout.helper.StringOutputStream;
+import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
+import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
+import de.rinderle.softvis3d.base.result.VisualizationJsonWriter;
 import de.rinderle.softvis3d.service.LayoutExampleService;
 import de.rinderle.softvis3d.service.NeoService;
-import de.rinderle.softvis3d.service.TreeNodeJsonWriter;
-import de.rinderle.softvis3d.service.VisualizationJsonWriter;
-import java.io.StringWriter;
 import java.util.Map;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
@@ -73,11 +73,11 @@ public class GuiceResource {
       final SnapshotTreeResult resultTree = neoService.getNeoTreeStatic();
       result = neoService.getNeoResult(resultTree);
 
-      final StringWriter writer = new StringWriter();
-      final JsonWriter jsonWriter = new JsonWriter(writer);
+      final StringOutputStream stringOutputStream = new StringOutputStream();
+      final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
 
       writeResultsToResponse(jsonWriter, resultTree, result);
-      return writer.toString();
+      return stringOutputStream.toString();
     } catch (final Exception e) {
       return new Gson().toJson(e);
     }
@@ -92,17 +92,17 @@ public class GuiceResource {
       final SnapshotTreeResult resultTree = neoService.getNeoTree();
       result = neoService.getNeoResult(resultTree);
 
-      final StringWriter writer = new StringWriter();
-      final JsonWriter jsonWriter = new JsonWriter(writer);
+      final StringOutputStream stringOutputStream = new StringOutputStream();
+      final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
 
       writeResultsToResponse(jsonWriter, resultTree, result);
-      return writer.toString();
+      return stringOutputStream.toString();
     } catch (final Exception e) {
       return new Gson().toJson(e);
     }
   }
 
-  private void writeResultsToResponse(final JsonWriter jsonWriter, final SnapshotTreeResult snapshotTreeResult,
+  private void writeResultsToResponse(final SoftVis3dJsonWriter jsonWriter, final SnapshotTreeResult snapshotTreeResult,
                                       final Map<Integer, ResultPlatform> visualizationResult) {
 
     jsonWriter.beginObject();

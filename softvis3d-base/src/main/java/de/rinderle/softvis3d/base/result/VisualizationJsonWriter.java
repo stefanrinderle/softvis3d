@@ -1,5 +1,5 @@
 /*
- * SoftVis3D Sonar plugin
+ * softvis3d-base
  * Copyright (C) 2015 Stefan Rinderle
  * stefan@rinderle.info
  *
@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.webservice.visualization;
+package de.rinderle.softvis3d.base.result;
 
 import de.rinderle.softvis3d.base.domain.graph.BaseResultObject;
 import de.rinderle.softvis3d.base.domain.graph.Point3d;
@@ -27,11 +27,10 @@ import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import org.sonar.api.utils.text.JsonWriter;
 
 public class VisualizationJsonWriter {
 
-  public void transformResponseToJson(final JsonWriter jsonWriter, final Map<Integer, ResultPlatform> results) {
+  public void transformResponseToJson(final SoftVis3dJsonWriter jsonWriter, final Map<Integer, ResultPlatform> results) {
     jsonWriter.beginObject();
 
     jsonWriter.name("visualizationResult");
@@ -45,7 +44,7 @@ public class VisualizationJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void transformPlatform(final JsonWriter jsonWriter, final Integer id, final ResultPlatform platform) {
+  private void transformPlatform(final SoftVis3dJsonWriter jsonWriter, final Integer id, final ResultPlatform platform) {
     jsonWriter.beginObject();
 
     jsonWriter.prop("platformId", id);
@@ -64,7 +63,7 @@ public class VisualizationJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void transformBaseObjectProperties(final JsonWriter jsonWriter, final BaseResultObject baseResultObject) {
+  private void transformBaseObjectProperties(final SoftVis3dJsonWriter jsonWriter, final BaseResultObject baseResultObject) {
     jsonWriter.prop("opacity", baseResultObject.getOpacity());
 
     if (baseResultObject.getColor() != null) {
@@ -74,7 +73,7 @@ public class VisualizationJsonWriter {
     jsonWriter.prop("height3d", baseResultObject.getHeight3d());
   }
 
-  private void transformNodes(final JsonWriter jsonWriter, final Collection<ResultBuilding> nodes) {
+  private void transformNodes(final SoftVis3dJsonWriter jsonWriter, final Collection<ResultBuilding> nodes) {
     jsonWriter.name("nodes");
     jsonWriter.beginArray();
 
@@ -85,7 +84,7 @@ public class VisualizationJsonWriter {
     jsonWriter.endArray();
   }
 
-  private void transformNode(final JsonWriter jsonWriter, final ResultBuilding node) {
+  private void transformNode(final SoftVis3dJsonWriter jsonWriter, final ResultBuilding node) {
     jsonWriter.beginObject();
 
     jsonWriter.prop("id", node.getId());
@@ -105,7 +104,7 @@ public class VisualizationJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void transformArrows(final JsonWriter jsonWriter, final List<ResultArrow> arrows) {
+  private void transformArrows(final SoftVis3dJsonWriter jsonWriter, final List<ResultArrow> arrows) {
     jsonWriter.name("arrows");
     jsonWriter.beginArray();
 
@@ -116,7 +115,7 @@ public class VisualizationJsonWriter {
     jsonWriter.endArray();
   }
 
-  private void transformArrow(final JsonWriter jsonWriter, final ResultArrow arrow) {
+  private void transformArrow(final SoftVis3dJsonWriter jsonWriter, final ResultArrow arrow) {
     jsonWriter.beginObject();
 
     jsonWriter.prop("id", arrow.getId());
@@ -133,7 +132,7 @@ public class VisualizationJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void transformArrowPoints(final JsonWriter jsonWriter, final List<Point3d> translatedPoints) {
+  private void transformArrowPoints(final SoftVis3dJsonWriter jsonWriter, final List<Point3d> translatedPoints) {
     jsonWriter.name("translatedPoints");
     jsonWriter.beginArray();
 
@@ -144,7 +143,7 @@ public class VisualizationJsonWriter {
     jsonWriter.endArray();
   }
 
-  private void transformPoint(final JsonWriter jsonWriter, final Point3d point) {
+  private void transformPoint(final SoftVis3dJsonWriter jsonWriter, final Point3d point) {
     jsonWriter.beginObject();
 
     jsonWriter.prop("x", point.getX());

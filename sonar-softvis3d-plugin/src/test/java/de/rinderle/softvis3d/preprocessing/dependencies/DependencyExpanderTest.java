@@ -19,6 +19,7 @@
  */
 package de.rinderle.softvis3d.preprocessing.dependencies;
 
+import de.rinderle.softvis3d.TestDependencyBuilder;
 import de.rinderle.softvis3d.TestTreeBuilder;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNode;
@@ -50,13 +51,13 @@ public class DependencyExpanderTest {
    * A(1)exa
    * /    \
    * B(2)-->C(3)
-   * <--
+   *     <--
    */
   @Test
   public void testDependenciesFlatEdges() {
     final List<SonarDependency> dependencies = new ArrayList<>();
 
-    final SonarDependency fromBtoC = TestTreeBuilder.createDependency("1000", 2, 3);
+    final SonarDependency fromBtoC = TestDependencyBuilder.createDependency("1000", 2, 3);
     dependencies.add(fromBtoC);
 
     final RootTreeNode rootTreeNode = new RootTreeNode(1);
@@ -82,8 +83,8 @@ public class DependencyExpanderTest {
   public void testDependenciesSameFlatEdge() {
     final List<SonarDependency> dependencies = new ArrayList<>();
 
-    final SonarDependency fromBtoC1 = TestTreeBuilder.createDependency("1002", 2, 3);
-    final SonarDependency fromBtoC2 = TestTreeBuilder.createDependency("1003", 2, 3);
+    final SonarDependency fromBtoC1 = TestDependencyBuilder.createDependency("1002", 2, 3);
+    final SonarDependency fromBtoC2 = TestDependencyBuilder.createDependency("1003", 2, 3);
     dependencies.add(fromBtoC1);
     dependencies.add(fromBtoC2);
 
@@ -114,7 +115,7 @@ public class DependencyExpanderTest {
   public void testDependencyEdge() {
     final List<SonarDependency> dependencies = new ArrayList<>();
 
-    final SonarDependency fromCtoE = TestTreeBuilder.createDependency("1000", 3, 5);
+    final SonarDependency fromCtoE = TestDependencyBuilder.createDependency("1000", 3, 5);
     dependencies.add(fromCtoE);
 
     final RootTreeNode rootTreeNode = new RootTreeNode(1);
@@ -131,25 +132,5 @@ public class DependencyExpanderTest {
     assertTrue(treeNode2.getEdges().size() == 1);
     assertTrue(treeNode5.getEdges().isEmpty());
   }
-
-  // private TreeNode createTreeNode(final int id, final TreeNode parent,
-  // final int depth) {
-  //
-  // TreeNode node = new ValueTreeNode(id, parent, depth,
-  // TreeNodeType.TREE, id + "", 0, 0, 0);
-  // parent.getChildren().put(node.getName(), node);
-  //
-  // return node;
-  // }
-  //
-  // private SonarDependency createDependency(final String dependencyId, final int from, final int to) {
-  // final SonarDependencyBuilder result = new SonarDependencyBuilder();
-  //
-  // result.withId(new Long(dependencyId));
-  // result.withFromSnapshotId(from);
-  // result.withToSnapshotId(to);
-  //
-  // return result.createSonarDependency();
-  // }
 
 }

@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.webservice.visualization;
+package de.rinderle.softvis3d.webservice;
 
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.SoftVis3DPlugin;
@@ -29,13 +29,15 @@ import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.layout.dot.DotExecutorException;
+import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
+import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
+import de.rinderle.softvis3d.base.result.VisualizationJsonWriter;
 import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
-import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +45,6 @@ import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
-import org.sonar.api.utils.text.JsonWriter;
 
 public class VisualizationWebserviceHandler extends AbstractWebserviceHandler implements RequestHandler {
 
@@ -105,7 +106,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
   private void writeResultsToResponse(final Response response, final SnapshotTreeResult snapshotTreeResult,
     final Map<Integer, ResultPlatform> visualizationResult) {
 
-    final JsonWriter jsonWriter = response.newJsonWriter();
+    final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(response.stream().output());
 
     jsonWriter.beginObject();
     jsonWriter.name("resultObject");

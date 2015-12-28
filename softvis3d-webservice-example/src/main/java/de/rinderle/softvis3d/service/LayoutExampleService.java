@@ -34,9 +34,6 @@ import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
 import de.rinderle.softvis3d.base.layout.dot.DotExecutorException;
 import java.util.Map;
 
-/**
- * Created by stefanrinderle on 15.12.15.
- */
 public class LayoutExampleService {
 
   @Inject

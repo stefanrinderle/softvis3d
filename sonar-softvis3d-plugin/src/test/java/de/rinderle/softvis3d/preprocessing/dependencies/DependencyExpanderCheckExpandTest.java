@@ -19,6 +19,7 @@
  */
 package de.rinderle.softvis3d.preprocessing.dependencies;
 
+import de.rinderle.softvis3d.TestDependencyBuilder;
 import de.rinderle.softvis3d.TestTreeBuilder;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNode;
@@ -69,7 +70,7 @@ public class DependencyExpanderCheckExpandTest {
   public void testDependenciesFlatEdge() {
     final List<SonarDependency> dependencies = new ArrayList<>();
 
-    final SonarDependency fromAtoB = TestTreeBuilder.createDependency(2, 3);
+    final SonarDependency fromAtoB = TestDependencyBuilder.createDependency(2, 3);
     dependencies.add(fromAtoB);
 
     final RootTreeNode treeNode1 = new RootTreeNode(1);
@@ -100,7 +101,7 @@ public class DependencyExpanderCheckExpandTest {
   public void testDependenciesFlatEdgeOtherWayAround() {
     final List<SonarDependency> dependencies = new ArrayList<>();
 
-    final SonarDependency fromAtoB = TestTreeBuilder.createDependency(3, 2);
+    final SonarDependency fromAtoB = TestDependencyBuilder.createDependency(3, 2);
     dependencies.add(fromAtoB);
 
     final RootTreeNode treeNode1 = new RootTreeNode(1);
@@ -133,7 +134,7 @@ public class DependencyExpanderCheckExpandTest {
   public void testDependenciesHierarchicalEdge() {
     final List<SonarDependency> dependencies = new ArrayList<>();
 
-    final SonarDependency fromCtoE = TestTreeBuilder.createDependency(3, 5);
+    final SonarDependency fromCtoE = TestDependencyBuilder.createDependency(3, 5);
     dependencies.add(fromCtoE);
 
     final RootTreeNode treeNode1 = new RootTreeNode(1);
@@ -186,7 +187,7 @@ public class DependencyExpanderCheckExpandTest {
   public void testDependenciesHierarchicalEdgeOtherWayAround() {
     final List<SonarDependency> dependencies = new ArrayList<>();
 
-    final SonarDependency fromEtoC = TestTreeBuilder.createDependency(5, 3);
+    final SonarDependency fromEtoC = TestDependencyBuilder.createDependency(5, 3);
     dependencies.add(fromEtoC);
 
     final RootTreeNode treeNode1 = new RootTreeNode(1);
@@ -239,9 +240,9 @@ public class DependencyExpanderCheckExpandTest {
   public void testDependenciesHierarchicalEdgesBoth() {
     final List<SonarDependency> dependencies = new ArrayList<>();
 
-    final SonarDependency fromCtoE = TestTreeBuilder.createDependency(3, 5);
+    final SonarDependency fromCtoE = TestDependencyBuilder.createDependency(3, 5);
     dependencies.add(fromCtoE);
-    final SonarDependency fromEtoC = TestTreeBuilder.createDependency(5, 3);
+    final SonarDependency fromEtoC = TestDependencyBuilder.createDependency(5, 3);
     dependencies.add(fromEtoC);
 
     final RootTreeNode treeNode1 = new RootTreeNode(1);
@@ -318,7 +319,7 @@ public class DependencyExpanderCheckExpandTest {
   public void testUnevenDependencyEdge() {
     final List<SonarDependency> dependencies = new ArrayList<>();
 
-    final SonarDependency fromCtoE = TestTreeBuilder.createDependency(3, 4);
+    final SonarDependency fromCtoE = TestDependencyBuilder.createDependency(3, 4);
     dependencies.add(fromCtoE);
 
     final RootTreeNode treeNode1 = new RootTreeNode(1);

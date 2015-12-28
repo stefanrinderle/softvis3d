@@ -1,5 +1,5 @@
 /*
- * SoftVis3D Sonar plugin
+ * softvis3d-base
  * Copyright (C) 2015 Stefan Rinderle
  * stefan@rinderle.info
  *
@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.webservice.visualization;
+package de.rinderle.softvis3d.base.result;
 
 import de.rinderle.softvis3d.base.domain.tree.Dependency;
 import de.rinderle.softvis3d.base.domain.tree.Edge;
@@ -26,11 +26,10 @@ import de.rinderle.softvis3d.base.domain.tree.TreeNode;
 import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
 import java.util.List;
 import java.util.Map;
-import org.sonar.api.utils.text.JsonWriter;
 
 public class TreeNodeJsonWriter {
 
-  public void transformRootTreeToJson(final JsonWriter jsonWriter, final RootTreeNode tree) {
+  public void transformRootTreeToJson(final SoftVis3dJsonWriter jsonWriter, final RootTreeNode tree) {
     jsonWriter.beginObject();
 
     jsonWriter.name("treeResult");
@@ -40,7 +39,7 @@ public class TreeNodeJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void transformTreeToJson(final JsonWriter jsonWriter, final TreeNode node) {
+  private void transformTreeToJson(final SoftVis3dJsonWriter jsonWriter, final TreeNode node) {
     jsonWriter.beginObject();
 
     jsonWriter.prop("id", node.getId());
@@ -71,7 +70,7 @@ public class TreeNodeJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void transformDependencies(final JsonWriter jsonWriter, final RootTreeNode node) {
+  private void transformDependencies(final SoftVis3dJsonWriter jsonWriter, final RootTreeNode node) {
     jsonWriter.name("dependencies");
     jsonWriter.beginArray();
 
@@ -82,7 +81,7 @@ public class TreeNodeJsonWriter {
     jsonWriter.endArray();
   }
 
-  private void transformDependency(final JsonWriter jsonWriter, final Dependency dependency) {
+  private void transformDependency(final SoftVis3dJsonWriter jsonWriter, final Dependency dependency) {
     jsonWriter.beginObject();
     jsonWriter.prop("id", dependency.getId());
     jsonWriter.prop("sourceId", dependency.getFromNodeId());
@@ -92,7 +91,7 @@ public class TreeNodeJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void optionalTransformMetricValues(final JsonWriter jsonWriter, final TreeNode node) {
+  private void optionalTransformMetricValues(final SoftVis3dJsonWriter jsonWriter, final TreeNode node) {
     if (node instanceof ValueTreeNode) {
       final ValueTreeNode valueNode = (ValueTreeNode) node;
       jsonWriter.prop("heightMetricValue", valueNode.getHeightMetricValue());
@@ -101,7 +100,7 @@ public class TreeNodeJsonWriter {
     }
   }
 
-  private void transformEdges(final JsonWriter jsonWriter, final Map<String, Edge> edges) {
+  private void transformEdges(final SoftVis3dJsonWriter jsonWriter, final Map<String, Edge> edges) {
     jsonWriter.name("edges");
     jsonWriter.beginArray();
 
@@ -112,7 +111,7 @@ public class TreeNodeJsonWriter {
     jsonWriter.endArray();
   }
 
-  private void transformEdge(final JsonWriter jsonWriter, final Edge edge) {
+  private void transformEdge(final SoftVis3dJsonWriter jsonWriter, final Edge edge) {
     jsonWriter.beginObject();
     jsonWriter.prop("id", edge.getSourceId() + " -> " + edge.getDestinationId());
     jsonWriter.prop("sourceId", edge.getSourceId());
@@ -125,7 +124,7 @@ public class TreeNodeJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void transformIncludingDependencies(final JsonWriter jsonWriter, final List<Long> includingDependencies) {
+  private void transformIncludingDependencies(final SoftVis3dJsonWriter jsonWriter, final List<Long> includingDependencies) {
     jsonWriter.name("includingDependencies");
     jsonWriter.beginArray();
 
@@ -138,7 +137,7 @@ public class TreeNodeJsonWriter {
     jsonWriter.endArray();
   }
 
-  private void transformChildren(final JsonWriter jsonWriter, final Map<String, TreeNode> children) {
+  private void transformChildren(final SoftVis3dJsonWriter jsonWriter, final Map<String, TreeNode> children) {
     jsonWriter.name("children");
     jsonWriter.beginArray();
 

@@ -27,15 +27,15 @@ import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.layout.dot.DotExecutorException;
+import de.rinderle.softvis3d.base.layout.helper.StringOutputStream;
+import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
+import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
+import de.rinderle.softvis3d.base.result.VisualizationJsonWriter;
 import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
-import de.rinderle.softvis3d.webservice.visualization.TreeNodeJsonWriter;
-import de.rinderle.softvis3d.webservice.visualization.VisualizationJsonWriter;
-import de.rinderle.softvis3d.webservice.visualization.VisualizationWebserviceHandler;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
@@ -46,10 +46,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.Request;
-import org.sonar.api.server.ws.Response;
 import org.sonar.api.server.ws.WebService;
-import org.sonar.api.utils.text.JsonWriter;
-import org.sonar.api.utils.text.XmlWriter;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -60,8 +57,8 @@ import static org.mockito.Mockito.when;
 
 public class VisualizationWebserviceHandlerTest {
 
-  private final StringWriter stringWriter = new StringWriter();
-  private final JsonWriter jsonWriter = JsonWriter.of(this.stringWriter);
+  final StringOutputStream stringOutputStream = new StringOutputStream();
+  final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
 
   private final Integer snapshotId = 123;
   private final Integer footprintMetricId = 1;
@@ -96,7 +93,7 @@ public class VisualizationWebserviceHandlerTest {
   @Ignore
   public void testVisualizationHandler() throws Exception {
     final Request request = this.createRequest();
-    final Response response = this.createResponse();
+//    final Response response = this.createResponse();
 
     final VisualizationRequest requestDTO = new VisualizationRequest(
       this.snapshotId, LayoutViewType.CITY, this.footprintMetricId, this.heightMetricId, ScmInfoType.NONE);
@@ -104,10 +101,10 @@ public class VisualizationWebserviceHandlerTest {
     final SnapshotTreeResult treeResult = mockPreProcessing(requestDTO);
     final Map<Integer, ResultPlatform> visualizationResult = mockVisualization(requestDTO, treeResult);
 
-    this.handler.handle(request, response);
+//    this.handler.handle(request, response);
 
     // empty response because json transformer are mocked.
-    assertEquals("{\"resultObject\":[]}", this.stringWriter.toString());
+    assertEquals("{\"resultObject\":[]}", this.stringOutputStream.toString());
 
     verify(treeNodeJsonWriter, times(1)).transformRootTreeToJson(eq(jsonWriter), eq(treeResult.getTree()));
     verify(visualizationJsonWriter, times(1)).transformResponseToJson(eq(jsonWriter), eq(visualizationResult));
@@ -161,28 +158,28 @@ public class VisualizationWebserviceHandlerTest {
     };
   }
 
-  private Response createResponse() {
-    return new Response() {
-      @Override
-      public JsonWriter newJsonWriter() {
-        return VisualizationWebserviceHandlerTest.this.jsonWriter;
-      }
-
-      @Override
-      public XmlWriter newXmlWriter() {
-        return null;
-      }
-
-      @Override
-      public Response noContent() {
-        return null;
-      }
-
-      @Override
-      public Stream stream() {
-        return null;
-      }
-    };
-  }
+//  private Response createResponse() {
+//    return new Response() {
+//      @Override
+//      public JsonWriter newJsonWriter() {
+//        return VisualizationWebserviceHandlerTest.this.jsonWriter;
+//      }
+//
+//      @Override
+//      public XmlWriter newXmlWriter() {
+//        return null;
+//      }
+//
+//      @Override
+//      public Response noContent() {
+//        return null;
+//      }
+//
+//      @Override
+//      public Stream stream() {
+//        return null;
+//      }
+//    };
+//  }
 
 }

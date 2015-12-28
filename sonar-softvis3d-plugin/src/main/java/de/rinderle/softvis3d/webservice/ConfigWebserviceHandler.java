@@ -17,13 +17,13 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.webservice.config;
+package de.rinderle.softvis3d.webservice;
 
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.base.domain.Metric;
+import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
-import de.rinderle.softvis3d.webservice.AbstractWebserviceHandler;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,6 @@ import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
-import org.sonar.api.utils.text.JsonWriter;
 
 public class ConfigWebserviceHandler extends AbstractWebserviceHandler implements RequestHandler {
 
@@ -68,7 +67,8 @@ public class ConfigWebserviceHandler extends AbstractWebserviceHandler implement
     final boolean hasDependencies = this.daoService.hasDependencies(id);
     final boolean hasScmInfos = this.daoService.hasScmInfos(id);
 
-    final JsonWriter jsonWriter = response.newJsonWriter();
+    final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(response.stream().output());
+
     jsonWriter.beginObject();
     jsonWriter.prop("hasDependencies", hasDependencies);
     jsonWriter.prop("hasScmInfos", hasScmInfos);
@@ -84,7 +84,7 @@ public class ConfigWebserviceHandler extends AbstractWebserviceHandler implement
     this.session.commit();
   }
 
-  private void transformScmMetricTypes(final JsonWriter jsonWriter) {
+  private void transformScmMetricTypes(final SoftVis3dJsonWriter jsonWriter) {
     jsonWriter.name("scmMetricTypes");
     jsonWriter.beginArray();
 
@@ -98,7 +98,7 @@ public class ConfigWebserviceHandler extends AbstractWebserviceHandler implement
     jsonWriter.endArray();
   }
 
-  private void transformMetricSettings(final JsonWriter jsonWriter, final Integer metric1, final Integer metric2) {
+  private void transformMetricSettings(final SoftVis3dJsonWriter jsonWriter, final Integer metric1, final Integer metric2) {
     jsonWriter.name("settings");
     jsonWriter.beginObject();
     jsonWriter.prop("metric1", metric1);
@@ -106,7 +106,7 @@ public class ConfigWebserviceHandler extends AbstractWebserviceHandler implement
     jsonWriter.endObject();
   }
 
-  private void transformMetrics(final JsonWriter jsonWriter, final List<Metric> metrics) {
+  private void transformMetrics(final SoftVis3dJsonWriter jsonWriter, final List<Metric> metrics) {
     jsonWriter.name("metricsForSnapshot");
     jsonWriter.beginArray();
 
