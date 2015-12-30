@@ -1,0 +1,67 @@
+<!--
+
+    SoftVis3D Sonar plugin
+    Copyright (C) 2014 Stefan Rinderle
+    stefan@rinderle.info
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3 of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+
+-->
+<div id="file-loader" class="closeLoader" ng-controller="FileLoaderController as loader" ng-cloak>
+  <div id="loader-buttons">
+    <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.city}"
+         ng-click="loader.showTab('city');">City
+    </div>
+    <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.info}"
+         ng-click="loader.showTab('info');" ng-show="loader.infoInnerState != 'idle'">Info
+    </div>
+
+    <div href="#" class="close closeLoader" ng-click="viewer.toggleLoader()">X</div>
+  </div>
+  <div class="loader-options">
+    <div id="city-loader" class="loader-options" ng-show="loader.state.city" ng-cloak>
+      <p>
+          Test with static webservice layout (based on neo result - /api/neostatic)
+      </p>
+      <button ng-click="loader.submitCityForm()">Run!</button>
+        <p>
+            Test with dynamic webservice layout (neo server should run at http://localhost:7474/)
+        </p>
+        <button ng-click="loader.submitCityForm2()">Run!</button>
+    </div>
+    <div class="loader-options" ng-show="loader.state.info" ng-cloak>
+      <div ng-show="loader.infoInnerState === 'idle'">
+        Idle
+      </div>
+      <div ng-show="loader.infoInnerState === 'loading'" style="text-align: center;">
+        <br/><br/><br/>
+        <img ng-src="{{loader.BASE_PATH}}./images/ajax-loader.gif" alt="Loader"/>
+        <br/><br/>
+
+        <p>Please wait...</p>
+      </div>
+      <div ng-show="loader.infoInnerState === 'error'" style="text-align: center;">
+        <h1>Ups. An error occurred:</h1>
+
+        <p>
+          <br/>
+          {{loader.exceptionMessage}}
+        </p>
+      </div>
+    </div>
+    <div style="position: absolute; bottom: 0; text-align: center;">
+    </div>
+  </div>
+</div>

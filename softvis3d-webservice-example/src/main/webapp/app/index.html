@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Webpack & Angular</title>
+    </head>
+    <body>
+        <script>
+            var Viewer = {
+                'Scene': null
+            };
+
+            var ThreeViewer = {};
+            ThreeViewer.SNAPSHOT_ID = 1;
+
+            var RESOURCES_BASE_PATH = "./app";
+        </script>
+
+        <script src="bundle.js"></script>
+
+        <div ng-app="ThreeViewerApp">
+            <div ng-view></div>
+        </div>
+    </body>
+
+</html>
