@@ -41,7 +41,3 @@ ThreeViewer.BackendService.prototype.getVisualization = function (snapshotId, fo
   + "&viewType=" + viewType
   + "&scmMetricType=" + scmMetricType);
 };
-
-ThreeViewer.BackendService.prototype.getConfig = function (snapshotId) {
-  return this.http.get("../../api/softVis3D/getConfig?snapshotId=" + snapshotId);
-};

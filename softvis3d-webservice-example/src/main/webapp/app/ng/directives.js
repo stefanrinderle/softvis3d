@@ -89,7 +89,7 @@ ThreeViewer.SelectDirective.prototype.link = function (scope, elem, attrs) {
 ThreeViewer.FileLoaderDirective = function () {
   return {
     restrict: 'A',
-    templateUrl: RESOURCES_BASE_PATH + './partials/file-loader.html'
+    templateUrl: RESOURCES_BASE_PATH + '/partials/file-loader.html'
   };
 };
 
@@ -99,7 +99,7 @@ ThreeViewer.FileLoaderDirective = function () {
 ThreeViewer.ToolbarDirective = function () {
   return {
     restrict: 'A',
-    templateUrl: RESOURCES_BASE_PATH + './partials/toolbar.html'
+    templateUrl: RESOURCES_BASE_PATH + '/partials/toolbar.html'
   };
 };
 
@@ -109,7 +109,7 @@ ThreeViewer.ToolbarDirective = function () {
 ThreeViewer.HelpDirective = function () {
   return {
     restrict: 'A',
-    templateUrl: RESOURCES_BASE_PATH + './partials/help.html'
+    templateUrl: RESOURCES_BASE_PATH + '/partials/help.html'
   };
 };
 

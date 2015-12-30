@@ -19,6 +19,7 @@
  */
 
 var THREE = require("three");
+var jQuery = require("jquery");
 var SETUP = require("../threeSoftvis3d/config.js");
 
 /**

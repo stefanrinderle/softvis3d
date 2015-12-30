@@ -34,7 +34,7 @@ ThreeViewer.ConfigLocation = function ($locationProvider) {
  */
 ThreeViewer.ConfigRouters = function ($routeProvider) {
   $routeProvider.when('/', {
-    templateUrl: RESOURCES_BASE_PATH + './partials/viewer.html'
+    templateUrl: RESOURCES_BASE_PATH + '/partials/viewer.html'
   }).otherwise({
     redirectTo: '/'
   });

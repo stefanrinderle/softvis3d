@@ -18,6 +18,8 @@
     <jetty.version>9.2.3.v20140905</jetty.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jdk.version>1.7</jdk.version>
+
+    <sonar.exclusions>src/main/webapp/node/**,src/main/webapp/node_modules/**,src/main/webapp/app/bundle.js</sonar.exclusions>
   </properties>
 
   <dependencies>
@@ -94,6 +96,44 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <!-- https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+        <version>0.0.26</version>
+
+        <configuration>
+          <workingDirectory>src/main/webapp</workingDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>install node and npm</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+            <configuration>
+              <nodeVersion>v0.12.7</nodeVersion>
+              <npmVersion>2.12.1</npmVersion>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>webpack build</id>
+            <goals>
+              <goal>webpack</goal>
+            </goals>
+
+            <!--<configuration>-->
+              <!--<arguments>-p</arguments>-->
+            <!--</configuration>-->
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
