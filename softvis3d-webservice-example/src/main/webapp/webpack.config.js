@@ -24,9 +24,18 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                loader: 'jshint',
-                exclude: /node_modules|bower_components/
+                //loader: 'jshint!babel',
+                loader: 'babel-loader',
+                exclude: /node_modules/,
+                query: {
+                    presets: ['es2015']
+                }
             },
+            //{
+            //    test: /\.js$/,
+            //    loader: 'ng-annotate!jshint',
+            //    exclude: /node_modules/,
+            //},
             {
                 test: /\.(png|jpg|gif)$/,
                 loader: "file-loader?name=img/img-[hash:6].[ext]"

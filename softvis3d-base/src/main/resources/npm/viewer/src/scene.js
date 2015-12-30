@@ -18,10 +18,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-var jQuery = require('jquery');
+var jQuery = require("jquery");
 var THREE = require("three");
 
-require('../lib/OrbitControls.js');
+require('./lib/OrbitControls.js');
 
 require('./util.js');
 require('./wrangler.js');

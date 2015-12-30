@@ -20,7 +20,7 @@
 
 var THREE = require("three");
 var jQuery = require("jquery");
-var SETUP = require("../threeSoftvis3d/config.js");
+require("softvis3d-viewer");
 
 /**
  * Service which initiates the THREE.js scene and
@@ -44,10 +44,11 @@ ThreeViewer.ViewerService = function ($timeout, MessageBus) {
  * @param {!object} params
  */
 ThreeViewer.ViewerService.prototype.init = function (params) {
+  var loadDelay = 1500;
   this.home = new Viewer.Scene(params);
   this.timeout(function () {
     this.MessageBus.trigger('appReady');
-  }.bind(this), SETUP.LOAD_DELAY);
+  }.bind(this), loadDelay);
 
   this.animate();
 };

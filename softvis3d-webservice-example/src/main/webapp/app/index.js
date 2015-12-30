@@ -4,7 +4,6 @@ function requireAll(r) {
 
 requireAll(require.context('./lib/', true, /\.js$/));
 requireAll(require.context('./ng/', true, /\.js$/));
-requireAll(require.context('./threeSoftvis3d/', true, /\.js$/));
 
 module.exports = angular.module('ThreeViewerApp', ['ngRoute'])
     .config(ThreeViewer.ConfigLocation)

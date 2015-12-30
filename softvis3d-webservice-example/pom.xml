@@ -123,14 +123,19 @@
             </goals>
           </execution>
           <execution>
+            <id>npm install softvis3d-viewer from base</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>install ../../../../softvis3d-base/src/main/resources/npm/viewer/softvis3d-viewer-0.0.4-SNAPSHOT.tgz</arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>webpack build</id>
             <goals>
               <goal>webpack</goal>
             </goals>
-
-            <!--<configuration>-->
-              <!--<arguments>-p</arguments>-->
-            <!--</configuration>-->
           </execution>
         </executions>
       </plugin>
@@ -138,6 +143,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>2.2</version>
+        <configuration>
+          <warSourceExcludes>node/**,node_modules/**</warSourceExcludes>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
