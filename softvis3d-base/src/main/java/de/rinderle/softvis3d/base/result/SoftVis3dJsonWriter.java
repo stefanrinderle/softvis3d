@@ -193,9 +193,6 @@ public class SoftVis3dJsonWriter {
   }
 
   private IllegalStateException rethrow(final Exception e) {
-    // stacktrace is not helpful
-    e.printStackTrace();
-
     return new IllegalStateException(e.getMessage());
   }
 }

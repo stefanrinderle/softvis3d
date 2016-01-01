@@ -17,22 +17,17 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-ThreeViewer.BackendService = function ($http) {
-  this.http = $http;
-};
+function requireAll(r) {
+    r.keys().forEach(r);
+}
 
-ThreeViewer.BackendService.prototype.getVisualization = function (snapshotId, footprintMetricId, heightMetricId, viewType, scmMetricType) {
-  if (!scmMetricType) {
-    scmMetricType = "NONE";
-  }
-
-  return this.http.get("../../api/softVis3D/getVisualization?snapshotId=" + snapshotId
-  + "&footprintMetricId=" + footprintMetricId
-  + "&heightMetricId=" + heightMetricId
-  + "&viewType=" + viewType
-  + "&scmMetricType=" + scmMetricType);
-};
-
-ThreeViewer.BackendService.prototype.getConfig = function (snapshotId) {
-  return this.http.get("../../api/softVis3D/getConfig?snapshotId=" + snapshotId);
+module.exports = function () {
+    /* Styles */
+    //require('../index.css');
+    /* JS */
+    require('jquery');
+    require('angular');
+    require('angular-route');
+    require('three');
+    require('three-orbit-controls');
 };

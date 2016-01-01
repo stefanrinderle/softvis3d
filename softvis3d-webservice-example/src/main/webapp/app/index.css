@@ -30,7 +30,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    display: flex
+    display: flex;
 }
 
 #file-loader {
@@ -57,7 +57,7 @@
     float: left;
     line-height: 50px;
     font-size: 20px;
-    text-align: center
+    text-align: center;
 }
 
 .load-button:active {
@@ -82,7 +82,7 @@
     display: inline-block;
     line-height: 0;
     padding: 8px;
-    text-decoration: none
+    text-decoration: none;
 }
 
 .closeLoader {
@@ -101,7 +101,7 @@
 
 .loader-options span {
     font-size: 8px;
-    line-height: 8px
+    line-height: 8px;
 }
 
 .loader-options label a {
@@ -109,7 +109,7 @@
     color: #FF8C00;
     font-size: 20px;
     font-weight: bolder;
-    display: block
+    display: block;
 }
 
 .loader-options input {
@@ -117,11 +117,11 @@
     width: 200px;
     padding: 2px;
     margin: 10px;
-    font-size: 12px
+    font-size: 12px;
 }
 
 .loader-options option {
-    padding-left: 10px
+    padding-left: 10px;
 }
 
 .sidebarThreeJs {
@@ -130,7 +130,7 @@
     right: 10px;
     z-index: 15;
     background-color: #cae3f2;
-    text-align: center
+    text-align: center;
 }
 
 .sidebarThreeJs button {
@@ -182,7 +182,7 @@
 }
 
 .toolbar button {
-    margin: 10px
+    margin: 10px;
 }
 
 #help {
@@ -193,7 +193,7 @@
     height: 300px;
     z-index: 15;
     border: 1px solid #ACF0F2;
-    margin: auto
+    margin: auto;
 }
 
 #info {
@@ -204,5 +204,5 @@
     height: 300px;
     z-index: 15;
     border: 1px solid #ACF0F2;
-    margin: auto
+    margin: auto;
 }

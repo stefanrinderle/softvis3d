@@ -22,6 +22,8 @@ var jQuery = require("jquery");
 var THREE = require("three");
 
 require('./lib/OrbitControls.js');
+require('./lib/NURBSCurve.js');
+require('./lib/NURBSUtils.js');
 
 require('./util.js');
 require('./wrangler.js');

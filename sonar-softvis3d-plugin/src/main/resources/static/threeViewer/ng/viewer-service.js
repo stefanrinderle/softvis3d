@@ -17,7 +17,10 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-goog.provide('ThreeViewer.ViewerService');
+
+var THREE = require("three");
+var jQuery = require("jquery");
+require("softvis3d-viewer");
 
 /**
  * Service which initiates the THREE.js scene and
@@ -41,10 +44,11 @@ ThreeViewer.ViewerService = function ($timeout, MessageBus) {
  * @param {!object} params
  */
 ThreeViewer.ViewerService.prototype.init = function (params) {
+  var loadDelay = 1500;
   this.home = new Viewer.Scene(params);
   this.timeout(function () {
     this.MessageBus.trigger('appReady');
-  }.bind(this), SETUP.LOAD_DELAY);
+  }.bind(this), loadDelay);
 
   this.animate();
 };

@@ -18,17 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 'use strict';
-goog.require('ThreeViewer.ViewerService');
-goog.require('ThreeViewer.AppController');
-goog.require('ThreeViewer.ToolbarController');
-goog.require('ThreeViewer.FileLoaderController');
-goog.require('ThreeViewer.Directives');
-goog.require('ThreeViewer.Filters');
-goog.require('ThreeViewer.MessageBus');
-goog.require('ThreeViewer.BackendService');
-goog.require('ThreeViewer.TreeService');
-goog.require('ThreeViewer.Config');
-goog.require('Viewer.Scene');
+
+function requireAll(r) {
+    r.keys().forEach(r);
+}
+
+requireAll(require.context('./lib/', true, /\.js$/));
+requireAll(require.context('./ng/', true, /\.js$/));
 
 angular.module('ThreeViewerApp', ['ngRoute'])
     .config(ThreeViewer.ConfigLocation)

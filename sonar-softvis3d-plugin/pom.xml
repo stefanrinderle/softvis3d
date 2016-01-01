@@ -18,6 +18,8 @@
 
   <properties>
     <sonar.version>4.2</sonar.version>
+
+    <sonar.exclusions>src/main/webapp/node/**,src/main/webapp/node_modules/**,src/main/webapp/app/bundle.js</sonar.exclusions>
   </properties>
 
   <dependencies>
@@ -128,7 +130,60 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>**/node_tmp/**</exclude>
+          <exclude>**/node/**</exclude>
+          <exclude>**/node_modules/**</exclude>
+        </excludes>
+      </resource>
+    </resources>
     <plugins>
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <!-- https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+        <version>0.0.26</version>
+
+        <configuration>
+          <workingDirectory>src/main/resources</workingDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>install node and npm</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+            <configuration>
+              <nodeVersion>v0.12.7</nodeVersion>
+              <npmVersion>2.12.1</npmVersion>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>npm install softvis3d-viewer from base</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>install ../../../../softvis3d-base/src/main/resources/npm/viewer/softvis3d-viewer-0.0.4-SNAPSHOT.tgz</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>webpack build</id>
+            <goals>
+              <goal>webpack</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>com.mycila.maven-license-plugin</groupId>
         <artifactId>maven-license-plugin</artifactId>
@@ -136,10 +191,10 @@
           <includes>
             <include>src/main/java/**</include>
             <include>src/test/java/**</include>
-            <include>src/main/resources/**</include>
+            <include>src/main/resources/static/**</include>
           </includes>
           <excludes>
-            <exclude>src/main/resources/static/threeViewer/lib/**</exclude>
+            <exclude>src/main/resources/static/threeViewer/bundle.js</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -150,149 +205,5 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>secureRelease</id>
-      <build>
-        <plugins>
-          <plugin>
-            <!-- http://samaxes.github.io/minify-maven-plugin/minify-mojo.html#closureExterns -->
-            <groupId>com.samaxes.maven</groupId>
-            <artifactId>minify-maven-plugin</artifactId>
-            <version>1.7.4</version>
-            <executions>
-              <execution>
-                <id>minify lib files</id>
-                <configuration>
-                  <charset>UTF-8</charset>
-                  <webappSourceDir>${project.basedir}/src/main/resources</webappSourceDir>
-                  <webappTargetDir>${project.basedir}/target/classes</webappTargetDir>
-                  <jsSourceDir>static/threeViewer/</jsSourceDir>
-                  <jsSourceFiles>
-                    <jsSourceFile>lib/threejs/three.69.js</jsSourceFile>
-                    <jsSourceFile>lib/threejs/Detector.js</jsSourceFile>
-                    <jsSourceFile>lib/threejs/OrbitControls.js</jsSourceFile>
-                    <jsSourceFile>lib/threejs/NURBSCurve.js</jsSourceFile>
-                    <jsSourceFile>lib/threejs/NURBSUtils.js</jsSourceFile>
-
-                    <jsSourceFile>lib/angular/angular.js</jsSourceFile>
-                    <jsSourceFile>lib/angular/angular-route.js</jsSourceFile>
-                  </jsSourceFiles>
-                  <jsFinalFile>libAll.js</jsFinalFile>
-                  <jsEngine>CLOSURE</jsEngine>
-                  <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
-                  <closureLanguage>ECMASCRIPT5</closureLanguage>
-                </configuration>
-                <goals>
-                  <goal>minify</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>minify softvis3d files</id>
-                <configuration>
-                  <charset>UTF-8</charset>
-                  <webappSourceDir>${project.basedir}/src/main/resources</webappSourceDir>
-                  <webappTargetDir>${project.basedir}/target/classes</webappTargetDir>
-                  <jsSourceDir>static/threeViewer/</jsSourceDir>
-                  <jsSourceFiles>
-                    <jsSourceFile>lib/base.js</jsSourceFile>
-
-                    <jsSourceFile>ng/app-config.js</jsSourceFile>
-                    <jsSourceFile>ng/app-controller.js</jsSourceFile>
-                    <jsSourceFile>ng/toolbar-controller.js</jsSourceFile>
-                    <jsSourceFile>ng/file-loader-controller.js</jsSourceFile>
-                    <jsSourceFile>ng/directives.js</jsSourceFile>
-                    <jsSourceFile>ng/filters.js</jsSourceFile>
-                    <jsSourceFile>ng/viewer-service.js</jsSourceFile>
-                    <jsSourceFile>ng/tree-service.js</jsSourceFile>
-                    <jsSourceFile>ng/backend-service.js</jsSourceFile>
-                    <jsSourceFile>ng/message-bus.js</jsSourceFile>
-
-                    <jsSourceFile>three/setup.js</jsSourceFile>
-                    <jsSourceFile>three/util.js</jsSourceFile>
-                    <jsSourceFile>three/camera.js</jsSourceFile>
-                    <jsSourceFile>three/wrangler.js</jsSourceFile>
-                    <jsSourceFile>three/objectFactory.js</jsSourceFile>
-                    <jsSourceFile>three/scene.js</jsSourceFile>
-
-                    <jsSourceFile>app.js</jsSourceFile>
-                  </jsSourceFiles>
-                  <jsFinalFile>softVis3dAll.js</jsFinalFile>
-                  <jsEngine>CLOSURE</jsEngine>
-                  <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
-                  <closureAngularPass>true</closureAngularPass>
-                  <closureSortDependencies>true</closureSortDependencies>
-                  <closureLanguage>ECMASCRIPT5</closureLanguage>
-                  <closureExterns>
-                    <closureExtern>static/threeViewer/lib/threejs/three.69.js</closureExtern>
-                    <closureExtern>static/threeViewer/lib/threejs/OrbitControls.js</closureExtern>
-                    <closureExtern>static/threeViewer/lib/threejs/NURBSCurve.js</closureExtern>
-                    <closureExtern>static/threeViewer/lib/threejs/NURBSUtils.js</closureExtern>
-                    <closureExtern>static/threeViewer/lib/angular/angular.js</closureExtern>
-                    <closureExtern>static/threeViewer/lib/angular/angular-route.js</closureExtern>
-                  </closureExterns>
-                </configuration>
-                <goals>
-                  <goal>minify</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <version>1.7</version>
-            <executions>
-              <execution>
-                <phase>process-resources</phase>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <configuration>
-                  <target>
-                    <!-- lib files -->
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/threejs/three.69.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/threejs/OrbitControls.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/threejs/NURBSCurve.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/threejs/NURBSUtils.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/hammer/hammer.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/hammer/jquery.hammer.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/angular/angular.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/angular/angular-route.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/lib/angular/ngHammer.js"/>
-
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/libAll.js"/>
-
-                    <!-- softviz3d files -->
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/app-config.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/app-controller.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/toolbar-controller.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/file-loader-controller.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/directives.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/filters.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/viewer-service.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/tree-service.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/backend-service.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/ng/message-bus.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/app.js"/>
-
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/scene.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/setup.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/util.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/camera.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/wrangler.js"/>
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/three/objectFactory.js"/>
-
-                    <delete file="${project.basedir}/target/classes/static/threeViewer/softVis3dAll.js"/>
-                  </target>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 
 </project>

@@ -17,28 +17,16 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
+/*jshint browser:true */
 'use strict';
 
-var SETUP = {
-  CAM: {
-    ORTH_NEAR_PLANE: -1000,
-    ORTH_FAR_PLANE: 1000,
-    PERP_NEAR_PLANE: 1,
-    PERP_FAR_PLANE: 10000,
-    FOV: 70,
-    ORTHO: false,
-    VIEWSIZE: 1000
-  },
-  SCENE: {
-    AXIS_LENGTH: 50,
-    GRID: false,
-    GROUND: false
-  },
-  LIGHTS: {
-    DIRECTIONAL: true,
-    SPOT: true,
-    AMBIENT: true
-  },
-  DEBUG_MODE: true,
-  'LOAD_DELAY': 1500
-};
+require('./vendor')();
+
+// run an empty function
+var appModule = require('../app');
+// replaces ng-app="appName"
+angular.element(document).ready(function () {
+    angular.bootstrap(document, [appModule.name], {
+        //strictDi: true
+    });
+});
