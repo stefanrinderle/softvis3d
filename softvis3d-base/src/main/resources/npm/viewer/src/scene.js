@@ -33,7 +33,6 @@ require('./objectFactory.js');
 
 Viewer.Scene = function (params) {
 
-  this.parentContainer = jQuery('#' + params.containerId);
   this.container = document.getElementById(params.canvasId);
   this.jqContainer = jQuery('#' + params.canvasId);
 

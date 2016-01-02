@@ -137,15 +137,15 @@ Viewer.Wrangler.prototype = {
 
   removeObject: function (objectSoftVis3dId, type) {
     for (var index = 0; index < this.resultObjects.length; index++) {
-      if (objectSoftVis3dId === this.resultObjects[index].softVis3dId
-          && type === this.resultObjects[index].softVis3dType) {
+      if (objectSoftVis3dId === this.resultObjects[index].softVis3dId &&
+          type === this.resultObjects[index].softVis3dType) {
         this.context.scene.remove(this.resultObjects[index]);
       }
     }
 
     for (var k = 0; k < this.objectsInView.length; k++) {
-      if (objectSoftVis3dId === this.objectsInView[k].softVis3dId
-          && type === this.objectsInView[k].softVis3dType) {
+      if (objectSoftVis3dId === this.objectsInView[k].softVis3dId &&
+          type === this.objectsInView[k].softVis3dType) {
         this.objectsInView.splice(k, 1);
       }
     }

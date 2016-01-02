@@ -19,7 +19,6 @@
  */
 
 var THREE = require("three");
-var SETUP = require("./config.js");
 
 /**
  * @namespace  Camera initialization.  Contains setup for both Perspective and Orthographic cameras.
@@ -30,7 +29,7 @@ Viewer.Cameras = function (params) {
   this.context = params.context;
 
   this.liveCam = null;
-  this.FOV = SETUP.CAM.FOV || 70;
+  this.FOV = 70;
 
   this.WIDTH = this.context.container.clientWidth;
   this.HEIGHT = this.context.container.clientHeight;
@@ -38,19 +37,19 @@ Viewer.Cameras = function (params) {
   // VIEWSIZE is the virtual distance across internally to the orthographic display.
   //   How many "3D world units" across the ration will represent.
   //   Setting this variable ensures you will have a regular distance across even if your windows resizes.
-  this.VIEWSIZE = SETUP.CAM.VIEWSIZE || 1000;
+  this.VIEWSIZE = 1000;
   this.ASPECT_RATIO = this.WIDTH / this.HEIGHT;
 
-  this.ORTHO_CAMERA = (SETUP.CAM.ORTHO) ? true : false;
+  this.ORTHO_CAMERA = false;
 
   /** Perspective camera setup **/
   this.perpCam = null;
-  this.PERP_NEAR_PLANE = SETUP.CAM.PERP_NEAR_PLANE || 1;
-  this.PERP_FAR_PLANE = SETUP.CAM.PERP_FAR_PLANE || 10000;
+  this.PERP_NEAR_PLANE = 1;
+  this.PERP_FAR_PLANE = 10000;
 
   this.orthCam = null;
-  this.ORTH_NEAR_PLANE = SETUP.CAM.ORTH_NEAR_PLANE || -1000;
-  this.ORTH_FAR_PLANE = SETUP.CAM.ORTH_FAR_PLANE || 1000;
+  this.ORTH_NEAR_PLANE = -1000;
+  this.ORTH_FAR_PLANE = 1000;
 
   this.controls = null;
 

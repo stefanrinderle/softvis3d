@@ -1,4 +1,5 @@
 'use strict';
+
 var webpack = require('webpack');
 var AutoInstallPlugin = require("auto-install-webpack-plugin");
 
@@ -18,7 +19,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.js$/,
-                loader: 'babel',
+                loader: 'babel!jshint',
                 exclude: /node_modules/,
             }
         ]
