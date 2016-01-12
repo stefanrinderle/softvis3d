@@ -21,7 +21,8 @@
     "ng-annotate-loader": "0.0.10",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0"
+    "webpack-dev-server": "^1.14.0",
+    "softvis3d-viewer": "0.0.4-SNAPSHOT"
   },
   "dependencies": {
     "angular": "^1.4.8",

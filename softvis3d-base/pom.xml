@@ -92,6 +92,7 @@
 
         <configuration>
           <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
+          <installDirectory>../node</installDirectory>
         </configuration>
         <executions>
           <execution>
@@ -122,7 +123,7 @@
               <goal>npm</goal>
             </goals>
             <configuration>
-              <arguments>pack</arguments>
+              <arguments>link</arguments>
             </configuration>
           </execution>
         </executions>

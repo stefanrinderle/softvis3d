@@ -1,7 +1,9 @@
+node
+
 # Build files #
 ###############
 *.class
-/target
+**/target
 
 # IDE files #
 #############

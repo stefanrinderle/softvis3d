@@ -149,6 +149,7 @@
 
         <configuration>
           <workingDirectory>src/main/resources</workingDirectory>
+          <installDirectory>../node</installDirectory>
         </configuration>
         <executions>
           <execution>
@@ -162,19 +163,20 @@
             </configuration>
           </execution>
           <execution>
-            <id>npm install</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-          </execution>
-          <execution>
             <id>npm install softvis3d-viewer from base</id>
             <goals>
               <goal>npm</goal>
             </goals>
             <configuration>
-              <arguments>install ../../../../softvis3d-base/src/main/resources/npm/viewer/softvis3d-viewer-0.0.4-SNAPSHOT.tgz</arguments>
+              <arguments>link softvis3d-viewer
+              </arguments>
             </configuration>
+          </execution>
+          <execution>
+            <id>npm install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
           </execution>
           <execution>
             <id>webpack build</id>
