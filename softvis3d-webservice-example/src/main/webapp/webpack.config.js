@@ -25,11 +25,11 @@ module.exports = {
             {
                 test: /\.js$/,
                 //loader: 'jshint!babel',
-                loader: 'babel-loader',
+                loader: 'babel',
                 exclude: /node_modules/,
-                query: {
-                    presets: ['es2015']
-                }
+                //query: {
+                //    presets: ['es2015']
+                //}
             },
             //{
             //    test: /\.js$/,
