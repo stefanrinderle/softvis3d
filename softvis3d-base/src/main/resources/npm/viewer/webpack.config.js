@@ -30,5 +30,10 @@ module.exports = {
         filename: "softvis3d-base.[name].js",
         library: ["softvis3d-base", "[name]"],
         libraryTarget: "umd"
+    },
+    externals: {
+        // require("jquery") is external and available on the global var jQuery
+        "jquery": "jQuery",
+        "three": "THREE"
     }
 };
