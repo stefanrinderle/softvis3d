@@ -20,6 +20,7 @@
 'use strict';
 
 var THREE = require("three");
+var Viewer = require('./viewer.js');
 
 /**
  * @class Scene setup.  Most initialization of geometry and managers happen here.

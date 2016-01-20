@@ -1,6 +1,7 @@
 'use strict';
 
 var webpack = require('webpack');
+var path = require("path");
 var AutoInstallPlugin = require("auto-install-webpack-plugin");
 
 var APP = __dirname;
@@ -8,7 +9,7 @@ var APP = __dirname;
 module.exports = {
     context: APP,
     entry: {
-        app: ['webpack/hot/dev-server', './src/scene.js']
+        app: ['webpack/hot/dev-server', './src/index.js']
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
@@ -25,8 +26,9 @@ module.exports = {
         ]
     },
     output: {
-        path: APP,
-        filename: './dist/bundle.js',
-        publicPath: "/"
+        path: path.join(__dirname, "dist"),
+        filename: "softvis3d-base.[name].js",
+        library: ["softvis3d-base", "[name]"],
+        libraryTarget: "umd"
     }
 };

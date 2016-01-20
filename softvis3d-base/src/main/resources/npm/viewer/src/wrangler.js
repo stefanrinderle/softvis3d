@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
+var Viewer = require('./viewer.js');
+
 /**
  * @class This is a resource manager and loads individual models.
  *

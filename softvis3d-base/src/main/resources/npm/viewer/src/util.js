@@ -19,6 +19,7 @@
  */
 
 var THREE = require("three");
+var Viewer = require('./viewer.js');
 
 /**
  * @namespace  General untility functions.

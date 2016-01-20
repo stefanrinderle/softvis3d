@@ -19,6 +19,7 @@
  */
 
 var THREE = require("three");
+var Viewer = require('./viewer.js');
 
 Viewer.ObjectFactory = function (params) {
   this.context = params.context;

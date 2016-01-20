@@ -20,7 +20,7 @@
 
 var THREE = require("three");
 var jQuery = require("jquery");
-require("softvis3d-viewer");
+var Viewer = require("softvis3d-viewer");
 
 /**
  * Service which initiates the THREE.js scene and
