@@ -17,6 +17,10 @@
   <name>softvis3d-base</name>
 
   <properties>
+    <sonar.exclusions>
+      src/main/resources/npm/viewer/dist/**,
+      src/main/resources/npm/viewer/node_modules/**
+    </sonar.exclusions>
   </properties>
 
   <repositories>

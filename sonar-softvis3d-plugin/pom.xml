@@ -19,7 +19,12 @@
   <properties>
     <sonar.version>4.2</sonar.version>
 
-    <sonar.exclusions>src/main/webapp/node/**,src/main/webapp/node_modules/**,src/main/webapp/app/bundle.js</sonar.exclusions>
+    <sonar.exclusions>
+      src/main/webapp/node/**,
+      src/main/webapp/node_modules/**,
+      src/main/webapp/app/bundle.js,
+      src/main/webapp/app/vendor.js
+    </sonar.exclusions>
   </properties>
 
   <dependencies>

@@ -19,7 +19,11 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jdk.version>1.7</jdk.version>
 
-    <sonar.exclusions>src/main/webapp/node/**,src/main/webapp/node_modules/**,src/main/webapp/app/bundle.js</sonar.exclusions>
+    <sonar.exclusions>
+      src/main/resources/node_modules/**,
+      src/main/resources/static/threeViewer/bundle.js,
+      src/main/resources/static/threeViewer/vendor.js
+    </sonar.exclusions>
   </properties>
 
   <dependencies>
