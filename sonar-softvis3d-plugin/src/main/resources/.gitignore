@@ -1,6 +1,7 @@
 node_modules
 node_tmp
 static/threeViewer/bundle.js
+static/threeViewer/vendor.js
 
 npm-debug.log
 

@@ -1,10 +1,6 @@
 <link rel="stylesheet" type="text/css" href="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/css/main.css">
 
 <script>
-  var Viewer = {
-    'Scene': null
-  };
-
   var ThreeViewer = {};
   ThreeViewer.SNAPSHOT_ID = <%= @snapshot.id %>;
 
@@ -17,8 +13,10 @@
 %>
 <!-- ANGULAR JS FILES -->
 <% if (softVis3D.isProd()) %>
+  <script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/vendor.js"></script>
   <script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/bundle.js"></script>
 <% else %>
+  <script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/vendor.js"></script>
   <script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/bundle.js"></script>
 <% end %>
 

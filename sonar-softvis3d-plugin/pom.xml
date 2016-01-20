@@ -196,6 +196,7 @@
             <include>src/main/resources/static/**</include>
           </includes>
           <excludes>
+            <exclude>src/main/resources/static/threeViewer/vendor.js</exclude>
             <exclude>src/main/resources/static/threeViewer/bundle.js</exclude>
           </excludes>
         </configuration>

@@ -2,7 +2,7 @@
   "name": "softvis3d-viewer",
   "version": "0.0.4-SNAPSHOT",
   "description": "",
-  "main": "dist/softvis3d-base.app.js",
+  "main": "dist/softvis3d-base.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

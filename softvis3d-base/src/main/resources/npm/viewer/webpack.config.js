@@ -27,8 +27,8 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, "dist"),
-        filename: "softvis3d-base.[name].js",
-        library: ["softvis3d-base", "[name]"],
+        filename: "softvis3d-base.js",
+        library: ["softvis3d-base"],
         libraryTarget: "umd"
     },
     externals: {

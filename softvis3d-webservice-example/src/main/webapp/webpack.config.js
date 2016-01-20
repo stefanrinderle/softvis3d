@@ -10,7 +10,7 @@ module.exports = {
     context: APP,
     entry: {
         app: ['webpack/hot/dev-server', './core/bootstrap.js'],
-        vendor: ["jquery", "three", "angular"]
+        vendor: ["jquery", "three"]
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
