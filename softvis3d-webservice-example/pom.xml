@@ -21,6 +21,7 @@
 
     <sonar.exclusions>
       src/main/webapp/node_modules/**,
+      src/main/webapp/node/**,
       src/main/webapp/app/vendor.js,
       src/main/webapp/app/bundle.js
     </sonar.exclusions>
