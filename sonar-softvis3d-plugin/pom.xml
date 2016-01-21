@@ -20,10 +20,10 @@
     <sonar.version>4.2</sonar.version>
 
     <sonar.exclusions>
-      src/main/webapp/node/**,
-      src/main/webapp/node_modules/**,
-      src/main/webapp/app/bundle.js,
-      src/main/webapp/app/vendor.js
+      src/main/resources/static/threeViewer/node/**,
+      src/main/resources/static/threeViewer/node_modules/**,
+      src/main/resources/static/threeViewer/bundle.js,
+      src/main/resources/static/threeViewer/vendor.js
     </sonar.exclusions>
   </properties>
 

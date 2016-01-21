@@ -20,9 +20,9 @@
     <jdk.version>1.7</jdk.version>
 
     <sonar.exclusions>
-      src/main/resources/node_modules/**,
-      src/main/resources/static/threeViewer/bundle.js,
-      src/main/resources/static/threeViewer/vendor.js
+      src/main/webapp/node_modules/**,
+      src/main/webapp/app/vendor.js,
+      src/main/webapp/app/bundle.js
     </sonar.exclusions>
   </properties>
 
