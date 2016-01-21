@@ -20,8 +20,7 @@
     <sonar.version>4.2</sonar.version>
 
     <sonar.exclusions>
-      src/main/resources/static/threeViewer/node/**,
-      src/main/resources/static/threeViewer/node_modules/**,
+      src/main/resources/node_modules/**,
       src/main/resources/static/threeViewer/bundle.js,
       src/main/resources/static/threeViewer/vendor.js
     </sonar.exclusions>

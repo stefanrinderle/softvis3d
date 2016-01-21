@@ -21,8 +21,6 @@
 var webpack = require('webpack');
 var path = require('path');
 
-var AutoInstallPlugin = require("auto-install-webpack-plugin");
-
 var APP = __dirname + '/static/threeViewer';
 
 module.exports = {
@@ -33,10 +31,8 @@ module.exports = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        new AutoInstallPlugin({save: true}),
         new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js')
     ],
-    /* context, entry, output */
     module: {
         loaders: [
             {
@@ -45,18 +41,9 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                //loader: 'jshint!babel',
-                loader: 'babel',
-                exclude: /node_modules/,
-                //query: {
-                //    presets: ['es2015']
-                //}
+                loader: 'jshint',
+                exclude: ["static/threeViewer/bundle.js", "static/threeViewer/vendor.js", /node_modules/, /dist/]
             },
-            //{
-            //    test: /\.js$/,
-            //    loader: 'ng-annotate!jshint',
-            //    exclude: /node_modules/,
-            //},
             {
                 test: /\.(png|jpg|gif)$/,
                 loader: "file-loader?name=img/img-[hash:6].[ext]"

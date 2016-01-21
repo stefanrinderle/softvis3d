@@ -2,7 +2,6 @@
 
 var webpack = require('webpack');
 var path = require("path");
-var AutoInstallPlugin = require("auto-install-webpack-plugin");
 
 var APP = __dirname;
 
@@ -12,16 +11,14 @@ module.exports = {
         app: ['webpack/hot/dev-server', './src/index.js']
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new AutoInstallPlugin({save: true})
+        new webpack.HotModuleReplacementPlugin()
     ],
-    /* context, entry, output */
     module: {
         loaders: [
             {
                 test: /\.js$/,
-                loader: 'babel!jshint',
-                exclude: /node_modules/,
+                loader: 'jshint',
+                exclude: [/dist/, /node_modules/]
             }
         ]
     },

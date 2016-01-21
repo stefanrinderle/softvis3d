@@ -20,6 +20,7 @@
 
 var jQuery = require("jquery");
 var THREE = require("three");
+var OrbitControls = require('three-orbit-controls')(THREE);
 var Viewer = require('./viewer.js');
 
 Viewer.Scene = function (params) {
@@ -59,7 +60,7 @@ Viewer.Scene.prototype = {
     this.wrangler = new Viewer.Wrangler(params);
     this.setup = new Viewer.Setup(params);
     this.cameras = new Viewer.Cameras(params);
-    this.controls = new THREE.OrbitControls(this.cameras.liveCam, this.container);
+    this.controls = new OrbitControls(this.cameras.liveCam, this.container);
     this.raycaster = new THREE.Raycaster();
     this.wrangler.init();
 

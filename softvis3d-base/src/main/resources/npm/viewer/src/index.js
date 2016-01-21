@@ -1,4 +1,3 @@
-require('./lib/OrbitControls.js');
 require('./lib/NURBSCurve.js');
 require('./lib/NURBSUtils.js');
 
