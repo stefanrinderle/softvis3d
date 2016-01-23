@@ -24,7 +24,7 @@ Returns a static example layout structure with 2 nodes.
 
 Returns a static example layout based on a results from neo4j api.
 
-### /api/neo
+### /api/neoDynamic
 
 Returns a layout based on a query against a neo4j api endpoint.
 
@@ -34,7 +34,7 @@ Steps to reproduce (like i did it:
 * mvn clean install on that project
 * mvn jqassistant:server --> neo4j server runs at http://localhost:7474/
 
-The following cypher query is used:
+The following cypher query is used as example and can be changed using the text box:
 
 MATCH (t:Type)-[:DECLARES]->(m:Method) RETURN t.fqn AS Type, count(t) AS DeclaredMethods
 
@@ -53,6 +53,6 @@ They have to be rewritten - best would be to use google gson for that instead of
    
 ### Frontent code
    
-The code is just a copy from the softvis-sonarqube-plugin module with some little changes regarding static file paths and backend endpoints.
+The view code is just a copy from the softvis-sonarqube-plugin module with some little changes regarding static file paths and backend endpoints.
 
-* Move the frontend code out of the softvis-sonarqube-plugin module and add it to the modules via maven resources plugin.
+* Move more frontend code out of the softvis-sonarqube-plugin module and add it to the modules via maven resources plugin.

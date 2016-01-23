@@ -1,8 +1,7 @@
+import sys
+import time
 from pyvirtualdisplay import Display
 from selenium import webdriver
-
-import time
-import sys
 
 HOST_BASE="http://localhost:9000"
 
@@ -40,7 +39,7 @@ time.sleep(10)
 browser.save_screenshot('/tmp/screenshotTempFolder/' + sys.argv[1] + 'startScreen.png')
 
 # show city view
-browser.find_element_by_xpath("//*[@id='city-loader']/button").click()
+browser.find_element_by_xpath("//*[@id='example-loader']/button").click()
 time.sleep(20)
 browser.save_screenshot('/tmp/screenshotTempFolder/' + sys.argv[1] + 'cityModel.png')
 

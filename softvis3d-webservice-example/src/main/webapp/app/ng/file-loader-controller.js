@@ -44,13 +44,14 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
    * @type {{city: boolean, dependency: boolean, custom: boolean, info: boolean}}
    */
   this.state = {
-    'city': true, 'dependency': false, 'custom': false, 'info': false
+    'examples': true, 'neo': false, 'info': false
   };
 
-  this.cityInnerState = "complexity";
-  this.infoInnerState = "idle";
-  this.customViewType = "city";
-  this.scmMetricType = "NONE";
+    this.dynamicNeoQuery = "MATCH "
+        + "(t:Type)-[:DECLARES]->(m:Method) "
+        + "  RETURN "
+        + "t.fqn AS Type, count(t) AS DeclaredMethods";
+    this.infoInnerState = "idle";
 
   this.exceptionMessage;
 
@@ -81,38 +82,9 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
     });
   } else {
     this.listeners();
-
-    //this.waitFor(500, 0, function () {
-    //  me.BackendService.getConfig(ThreeViewer.SNAPSHOT_ID).then(function (response) {
-    //    me.settings = response.data.settings;
-    //    me.availableMetrics = response.data.metricsForSnapshot;
-    //    me.hasDependencies = response.data.hasDependencies;
-    //    me.hasScmInfos = response.data.hasScmInfos;
-    //    me.availableScmMetrics = response.data.scmMetricTypes;
-    //    me.configLoaded = true;
-    //  }, function (response) {
-    //    me.infoInnerState = "error";
-    //    me.exceptionMessage = response.data.errors[0].msg;
-    //    me.showTab("info");
-    //  });
-    //});
   }
 };
 
-ThreeViewer.FileLoaderController.prototype.waitFor = function(msec, count, callback) {
-  var me = this;
-  // Check if condition met. If not, re-check later (msec).
-  if (ThreeViewer.SNAPSHOT_ID === undefined) {
-    count++;
-    setTimeout(function () {
-      me.waitFor(msec, count, callback);
-    }, msec);
-    return;
-  } else {
-    // Condition finally met. callback() can be executed.
-    callback();
-  }
-};
 ThreeViewer.FileLoaderController.prototype.listeners = function () {
   this.scope.$on('appReady', function () {
     console.log("app ready");
@@ -125,38 +97,22 @@ ThreeViewer.FileLoaderController.prototype.listeners = function () {
  * @param {!string} tab
  */
 ThreeViewer.FileLoaderController.prototype.showTab = function (tab) {
-  this.state.city = false;
-  this.state.dependency = false;
-  this.state.custom = false;
+  this.state.examples = false;
+  this.state.neo = false;
   this.state.info = false;
   this.state[tab] = true;
 };
 
-ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
-    this.loadStaticVisualization();
-};
+ThreeViewer.FileLoaderController.prototype.loadExampleVisualization = function () {
+    var me = this;
 
-ThreeViewer.FileLoaderController.prototype.submitCityForm2 = function () {
-    this.loadDynamicVisualization();
-};
-
-/**
- * @export
- *
- */
-ThreeViewer.FileLoaderController.prototype.loadDependencyView = function () {
-  var linesId = this.getMetricIdForName("Lines");
-  var complexityId = this.getMetricIdForName("Complexity");
-
-  this.loadVisualisation(complexityId, linesId, "dependency", null);
-};
-
-ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
-  this.loadVisualisation(this.settings.metric1, this.settings.metric2, this.customViewType, this.scmMetricType);
-};
-
-ThreeViewer.FileLoaderController.prototype.loadDirectLink = function (metric1Id, metric2Id, viewType) {
-  this.loadVisualisation(metric1Id, metric2Id, viewType, null);
+    this.infoInnerState = "loading";
+    this.showTab("info");
+    this.BackendService.getExamleVisualization().then(function (response) {
+        me.processSuccessResponse(response);
+    }, function (response) {
+        me.processErrorResponse(response);
+    });
 };
 
 ThreeViewer.FileLoaderController.prototype.loadStaticVisualization = function () {
@@ -165,28 +121,9 @@ ThreeViewer.FileLoaderController.prototype.loadStaticVisualization = function ()
     this.infoInnerState = "loading";
     this.showTab("info");
     this.BackendService.getStaticVisualization().then(function (response) {
-        var treeResult = response.data.resultObject[0].treeResult;
-        var visualizationResult = response.data.resultObject[1].visualizationResult;
-
-        me.ViewerService.loadSoftVis3d(visualizationResult);
-        me.TreeService.setTree(treeResult);
-
-        var eventObject = {};
-        eventObject.softVis3dId = 1;
-        eventObject.metric1Name = "bla";
-        eventObject.metric2Name = "bla2";
-        eventObject.scmMetricName = "bla3";
-
-        me.MessageBus.trigger('visualizationReady', eventObject);
-
-        me.infoInnerState = "idle";
-        me.showTab("city");
-
-        me.MessageBus.trigger('hideLoader');
+        me.processSuccessResponse(response);
     }, function (response) {
-        me.infoInnerState = "error";
-        me.exceptionMessage = response.data.errors[0].msg;
-        me.showTab("info");
+        me.processErrorResponse(response);
     });
 };
 
@@ -195,40 +132,21 @@ ThreeViewer.FileLoaderController.prototype.loadDynamicVisualization = function (
 
     this.infoInnerState = "loading";
     this.showTab("info");
-    this.BackendService.getDynamicVisualization().then(function (response) {
-        var treeResult = response.data.resultObject[0].treeResult;
-        var visualizationResult = response.data.resultObject[1].visualizationResult;
-
-        me.ViewerService.loadSoftVis3d(visualizationResult);
-        me.TreeService.setTree(treeResult);
-
-        var eventObject = {};
-        eventObject.softVis3dId = 1;
-        eventObject.metric1Name = "bla";
-        eventObject.metric2Name = "bla2";
-        eventObject.scmMetricName = "bla3";
-
-        me.MessageBus.trigger('visualizationReady', eventObject);
-
-        me.infoInnerState = "idle";
-        me.showTab("city");
-
-        me.MessageBus.trigger('hideLoader');
+    this.BackendService.getDynamicVisualization(this.dynamicNeoQuery).then(function (response) {
+        me.processSuccessResponse(response);
     }, function (response) {
-        me.infoInnerState = "error";
-        me.exceptionMessage = response.data.errors[0].msg;
-        me.showTab("info");
+        me.processErrorResponse(response);
     });
 };
 
+ThreeViewer.FileLoaderController.prototype.processErrorResponse = function (response) {
+    this.infoInnerState = "error";
+    this.exceptionMessage = response.data.errors[0].msg;
+    this.showTab("info");
+};
 
-
-ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, viewType, scmMetricType) {
-  var me = this;
-
-  this.infoInnerState = "loading";
-  this.showTab("info");
-  this.BackendService.getVisualization(ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType, scmMetricType).then(function (response) {
+ThreeViewer.FileLoaderController.prototype.processSuccessResponse = function (response) {
+    var me = this;
     var treeResult = response.data.resultObject[0].treeResult;
     var visualizationResult = response.data.resultObject[1].visualizationResult;
 
@@ -236,50 +154,15 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
     me.TreeService.setTree(treeResult);
 
     var eventObject = {};
-    eventObject.softVis3dId = ThreeViewer.SNAPSHOT_ID;
-    eventObject.metric1Name = me.getNameForMetricId(metric1);
-    eventObject.metric2Name = me.getNameForMetricId(metric2);
-    eventObject.scmMetricName = me.getNameScmMetricType(scmMetricType);
+    eventObject.softVis3dId = 1;
+    eventObject.metric1Name = "bla";
+    eventObject.metric2Name = "bla2";
+    eventObject.scmMetricName = "bla3";
 
     me.MessageBus.trigger('visualizationReady', eventObject);
 
     me.infoInnerState = "idle";
-    me.showTab("city");
+    me.showTab("example");
 
     me.MessageBus.trigger('hideLoader');
-  }, function (response) {
-    me.infoInnerState = "error";
-    me.exceptionMessage = response.data.errors[0].msg;
-    me.showTab("info");
-  });
-};
-
-ThreeViewer.FileLoaderController.prototype.getNameScmMetricType = function (scmMetricTypeName) {
-  for (var index = 0; index < this.availableScmMetrics.length; index++) {
-    if (this.availableScmMetrics[index].name === scmMetricTypeName) {
-      return this.availableScmMetrics[index].description;
-    }
-  }
-
-  return "No name found";
-};
-
-ThreeViewer.FileLoaderController.prototype.getNameForMetricId = function (metricId) {
-  for (var index = 0; index < this.availableMetrics.length; index++) {
-    if (this.availableMetrics[index].id === metricId) {
-      return this.availableMetrics[index].name;
-    }
-  }
-
-  return "No name found";
-};
-
-ThreeViewer.FileLoaderController.prototype.getMetricIdForName = function (nameToSearch) {
-  for (var index = 0; index < this.availableMetrics.length; index++) {
-    if (this.availableMetrics[index].name === nameToSearch) {
-      return this.availableMetrics[index].id;
-    }
-  }
-
-  return "no name found";
 };

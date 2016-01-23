@@ -35,6 +35,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 @Path("/api")
@@ -58,7 +59,13 @@ public class GuiceResource {
     final Map<Integer, ResultPlatform> result;
     try {
       result = layoutExampleService.getExampleResult();
-      return new Gson().toJson(result);
+      SnapshotTreeResult resultTree = layoutExampleService.getExampleResultTree();
+
+      final StringOutputStream stringOutputStream = new StringOutputStream();
+      final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
+
+      writeResultsToResponse(jsonWriter, resultTree, result);
+      return stringOutputStream.toString();
     } catch (final Exception e) {
       return new Gson().toJson(e);
     }
@@ -84,12 +91,13 @@ public class GuiceResource {
   }
 
   @GET
-  @Path("/neo")
+  @Path("/neoDynamic")
   @Produces(MediaType.APPLICATION_JSON)
-  public String getNeo() {
+  public String getNeoDynamic(@QueryParam("cypher") String cypher) {
     final Map<Integer, ResultPlatform> result;
     try {
-      final SnapshotTreeResult resultTree = neoService.getNeoTree();
+      final SnapshotTreeResult resultTree = neoService.getNeoTree(cypher);
+
       result = neoService.getNeoResult(resultTree);
 
       final StringOutputStream stringOutputStream = new StringOutputStream();

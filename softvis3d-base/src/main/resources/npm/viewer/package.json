@@ -9,9 +9,6 @@
   "author": "Stefan Rinderle",
   "license": "LGPL-3.0",
   "devDependencies": {
-    "auto-install-webpack-plugin": "^1.2.3",
-    "babel-core": "^6.3.26",
-    "babel-loader": "^6.2.0",
     "jshint": "^2.8.0",
     "jshint-loader": "^0.8.3",
     "webpack": "^1.12.9"

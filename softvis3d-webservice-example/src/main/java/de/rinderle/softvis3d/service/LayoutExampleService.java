@@ -72,4 +72,7 @@ public class LayoutExampleService {
   }
 
 
+  public SnapshotTreeResult getExampleResultTree() {
+    return createExampleSnapshotTreeResult(1);
+  }
 }

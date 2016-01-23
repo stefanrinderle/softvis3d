@@ -22,12 +22,20 @@ ThreeViewer.BackendService = function ($http) {
   this.http = $http;
 };
 
+ThreeViewer.BackendService.prototype.getExamleVisualization = function () {
+    return this.http.get("http://localhost:9999/api/example");
+};
+
 ThreeViewer.BackendService.prototype.getStaticVisualization = function () {
     return this.http.get("http://localhost:9999/api/neostatic");
 };
 
-ThreeViewer.BackendService.prototype.getDynamicVisualization = function () {
-    return this.http.get("http://localhost:9999/api/neo");
+ThreeViewer.BackendService.prototype.getDynamicVisualization = function (cypher) {
+    return this.http.get("http://localhost:9999/api/neoDynamic",
+        {
+            params: { cypher: cypher }
+        }
+    );
 };
 
 ThreeViewer.BackendService.prototype.getVisualization = function (snapshotId, footprintMetricId, heightMetricId, viewType, scmMetricType) {

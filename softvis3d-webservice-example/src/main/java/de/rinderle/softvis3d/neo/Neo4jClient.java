@@ -31,8 +31,8 @@ public class Neo4jClient {
 
   private static final String SERVER_ROOT_URI = "http://localhost:7474/";
 
-  public String test() {
-    return sendCypher(getExampleCypher());
+  public String dynamic(String cypher) {
+    return sendCypher(cypher);
   }
 
   private String sendCypher(final String query) {
@@ -53,10 +53,4 @@ public class Neo4jClient {
     return result;
   }
 
-  public String getExampleCypher() {
-    return "MATCH" +
-      "  (t:Type)-[:DECLARES]->(m:Method)" +
-      " RETURN" +
-      "  t.fqn AS Type, count(t) AS DeclaredMethods";
-  }
 }

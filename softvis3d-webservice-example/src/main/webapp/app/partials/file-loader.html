@@ -20,48 +20,61 @@
 
 -->
 <div id="file-loader" class="closeLoader" ng-controller="FileLoaderController as loader" ng-cloak>
-  <div id="loader-buttons">
-    <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.city}"
-         ng-click="loader.showTab('city');">City
-    </div>
-    <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.info}"
-         ng-click="loader.showTab('info');" ng-show="loader.infoInnerState != 'idle'">Info
-    </div>
+    <div id="loader-buttons">
+        <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.examples}"
+             ng-click="loader.showTab('examples');">Examples
+        </div>
+        <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.neo}"
+             ng-click="loader.showTab('neo');">Neo
+        </div>
+        <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.info}"
+             ng-click="loader.showTab('info');" ng-show="loader.infoInnerState != 'idle'">Info
+        </div>
 
-    <div href="#" class="close closeLoader" ng-click="viewer.toggleLoader()">X</div>
-  </div>
-  <div class="loader-options">
-    <div id="city-loader" class="loader-options" ng-show="loader.state.city" ng-cloak>
-      <p>
-          Test with static webservice layout (based on neo result - /api/neostatic)
-      </p>
-      <button ng-click="loader.submitCityForm()">Run!</button>
-        <p>
-            Test with dynamic webservice layout (neo server should run at http://localhost:7474/)
-        </p>
-        <button ng-click="loader.submitCityForm2()">Run!</button>
+        <div href="#" class="close closeLoader" ng-click="viewer.toggleLoader()">X</div>
     </div>
-    <div class="loader-options" ng-show="loader.state.info" ng-cloak>
-      <div ng-show="loader.infoInnerState === 'idle'">
-        Idle
-      </div>
-      <div ng-show="loader.infoInnerState === 'loading'" style="text-align: center;">
-        <br/><br/><br/>
-        <img ng-src="{{loader.BASE_PATH}}/images/ajax-loader.gif" alt="Loader"/>
-        <br/><br/>
+    <div class="loader-options">
+        <div id="example-loader" class="loader-options" ng-show="loader.state.examples" ng-cloak>
+            <p>
+                Test example layout (based on example endpoint - /api/example)
+            </p>
+            <button ng-click="loader.loadExampleVisualization()">Run!</button>
+        </div>
+        <div class="loader-options" ng-show="loader.state.neo" ng-cloak>
+            <p>
+                Test with static webservice layout (based on neo result - /api/neostatic)
+            </p>
+            <button ng-click="loader.loadStaticVisualization()">Run!</button>
+            <p>
+                Test with dynamic webservice layout (neo server should run at http://localhost:7474/)
+            </p>
+            <p>
+                <textarea rows="10" cols="50" ng-model="loader.dynamicNeoQuery">
+                </textarea>
+            </p>
+            <button ng-click="loader.loadDynamicVisualization()">Run!</button>
+        </div>
+        <div class="loader-options" ng-show="loader.state.info" ng-cloak>
+            <div ng-show="loader.infoInnerState === 'idle'">
+                Idle
+            </div>
+            <div ng-show="loader.infoInnerState === 'loading'" style="text-align: center;">
+                <br/><br/><br/>
+                <img ng-src="{{loader.BASE_PATH}}/images/ajax-loader.gif" alt="Loader"/>
+                <br/><br/>
 
-        <p>Please wait...</p>
-      </div>
-      <div ng-show="loader.infoInnerState === 'error'" style="text-align: center;">
-        <h1>Ups. An error occurred:</h1>
+                <p>Please wait...</p>
+            </div>
+            <div ng-show="loader.infoInnerState === 'error'" style="text-align: center;">
+                <h1>Ups. An error occurred:</h1>
 
-        <p>
-          <br/>
-          {{loader.exceptionMessage}}
-        </p>
-      </div>
+                <p>
+                    <br/>
+                    {{loader.exceptionMessage}}
+                </p>
+            </div>
+        </div>
+        <div style="position: absolute; bottom: 0; text-align: center;">
+        </div>
     </div>
-    <div style="position: absolute; bottom: 0; text-align: center;">
-    </div>
-  </div>
 </div>
