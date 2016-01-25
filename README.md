@@ -2,7 +2,7 @@
 
 Software visualization for your project. Project page [http://softvis3d.com](http://softvis3d.com).
 
-Currently, the main project is the SoftVis3D-SonarQube-Plugin - see the corresponding module and project page http://softvis3d.com for further details.
+Currently, the main project is the SoftVis3D-SonarQube-Plugin - see the corresponding module for further details.
 
 # Modules
 
