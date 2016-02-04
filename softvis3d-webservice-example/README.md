@@ -5,7 +5,7 @@ This is a example project to show the use of the softvis3d visualization with ot
 ## Install graphviz and set path
 
 In order to calculate the layout, a graphviz installation is required. Please set the path in 
-/src/main/java/de/rinderle/softvis3d/servlet/SoftVis3DConfig.java 
+softvis3d-base/src/main/java/de/rinderle/softvis3d/base/VisualizationSettings.java
 
 The default path is /usr/local/bin/dot.
 
