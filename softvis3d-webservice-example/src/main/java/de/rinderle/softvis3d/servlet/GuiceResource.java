@@ -67,7 +67,7 @@ public class GuiceResource {
       writeResultsToResponse(jsonWriter, resultTree, result);
       return stringOutputStream.toString();
     } catch (final Exception e) {
-      return new Gson().toJson(e);
+      return new Gson().toJson(e.getMessage());
     }
   }
 
@@ -86,7 +86,7 @@ public class GuiceResource {
       writeResultsToResponse(jsonWriter, resultTree, result);
       return stringOutputStream.toString();
     } catch (final Exception e) {
-      return new Gson().toJson(e);
+      return new Gson().toJson(e.getMessage());
     }
   }
 
@@ -106,7 +106,7 @@ public class GuiceResource {
       writeResultsToResponse(jsonWriter, resultTree, result);
       return stringOutputStream.toString();
     } catch (final Exception e) {
-      return new Gson().toJson(e);
+      return new Gson().toJson(e.getMessage());
     }
   }
 

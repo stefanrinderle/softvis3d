@@ -2,6 +2,15 @@
 
 This is a example project to show the use of the softvis3d visualization with other tools than SonarQube.
 
+## Install graphviz and set path
+
+In order to calculate the layout, a graphviz installation is required. Please set the path in 
+/src/main/java/de/rinderle/softvis3d/servlet/SoftVis3DConfig.java 
+
+The default path is /usr/local/bin/dot.
+
+This will be a configuration param in the future.
+
 ## Build and run
 
 Run with embedded jetty: mvn jetty:run
