@@ -29,5 +29,4 @@ module.exports = function () {
     require('angular');
     require('angular-route');
     require('three');
-    require('three-orbit-controls');
 };
