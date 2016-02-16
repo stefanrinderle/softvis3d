@@ -30,7 +30,11 @@ This view is focused on the dependencies within the given structure. The basic 3
 
 ## Requirenments
 
+### graphviz
+
 SoftVis3DPlugin requires the graphviz software to be installed. It should be easily available for your linux or windows server instance. Please take a look at graphviz install page (http://www.graphviz.org/Download.php) for details.
+
+### Java 7 runtime required
 
 ## Install
 

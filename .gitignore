@@ -1,5 +1,7 @@
 node
 
+**/node_modules
+
 # Build files #
 ###############
 *.class
