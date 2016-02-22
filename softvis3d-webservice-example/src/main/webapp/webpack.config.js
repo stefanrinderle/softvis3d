@@ -3,7 +3,7 @@
 var webpack = require('webpack');
 var path = require('path');
 
-var APP = __dirname + '/app';
+var APP = path.resolve(__dirname, "app");
 
 module.exports = {
     context: APP,
