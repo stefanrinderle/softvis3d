@@ -37,7 +37,7 @@ Returns a static example layout based on a results from neo4j api.
 
 Returns a layout based on a query against a neo4j api endpoint.
 
-Steps to reproduce (like i did it: 
+Steps to reproduce (like i did it):
 
 * Clone https://github.com/buschmais/spring-petclinic.git (jqassistant example project)
 * mvn clean install on that project
@@ -48,6 +48,14 @@ The following cypher query is used as example and can be changed using the text 
 MATCH (t:Type)-[:DECLARES]->(m:Method) RETURN t.fqn AS Type, count(t) AS DeclaredMethods
 
 But it should work for any other neo4j server / project as long as the given cypher query returns any results.
+
+A row of the query result must contain the following columns:
+
+1. Building: The name of the building (e.g. a class name)
+2. Hierarchy (optional): Array of names representing the path to the building (e.g. package hierarchy containing the class)
+3. Height: Integer value representing the height of the building (e.g. the count of declared methods of the class)
+
+"MATCH ... RETURN ... as Building, ... as Hierarchy, ... as Height"
 
 ## TODOs
 
