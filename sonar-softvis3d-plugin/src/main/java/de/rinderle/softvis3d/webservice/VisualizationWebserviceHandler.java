@@ -41,7 +41,6 @@ import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
@@ -51,7 +50,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
   private static final Logger LOGGER = LoggerFactory.getLogger(VisualizationWebserviceHandler.class);
 
   private VisualizationSettings visualizationSettings;
-  private DatabaseSession session;
+//  private DatabaseSession session;
 
   @Inject
   private VisualizationProcessor visualizationProcessor;
@@ -69,7 +68,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
   @Override
   public void handleRequest(final Request request, final Response response) throws Exception {
-    this.session.start();
+//    this.session.start();
 
     final Integer id = Integer.valueOf(request.param("snapshotId"));
     final Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
@@ -100,7 +99,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
     this.writeResultsToResponse(response, snapshotTreeResult, visualizationResult);
 
-    this.session.commit();
+//    this.session.commit();
   }
 
   private void writeResultsToResponse(final Response response, final SnapshotTreeResult snapshotTreeResult,
@@ -164,7 +163,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     this.visualizationSettings = settings;
   }
 
-  public void setDatabaseSession(final DatabaseSession session) {
-    this.session = session;
-  }
+//  public void setDatabaseSession(final DatabaseSession session) {
+//    this.session = session;
+//  }
 }

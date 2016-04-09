@@ -59,7 +59,7 @@ public class ScmAuthorCountCalculationService extends ScmCalculationService {
       resultScmTime = splitPlainScmInfo(scmTimeString);
     }
 
-    final List<ScmInfo> resultList = new ArrayList<>();
+    final List<ScmInfo> resultList = new ArrayList<ScmInfo>();
 
     for (int i = 0; i < resultCommitter.length; i++) {
       final String[] committerSplit = resultCommitter[i].split("=");
@@ -95,7 +95,7 @@ public class ScmAuthorCountCalculationService extends ScmCalculationService {
   }
 
   private Map<String, Integer> getUsersWithLineCount(final List<ScmInfo> resultList) {
-    final Map<String, Integer> usersResultList = new HashMap<>();
+    final Map<String, Integer> usersResultList = new HashMap<String, Integer>();
 
     for (final ScmInfo current : resultList) {
       if (!usersResultList.containsKey(current.getCommitter())) {

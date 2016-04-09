@@ -21,6 +21,7 @@ package de.rinderle.softvis3d.webservice;
 
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.util.Collection;
 import org.junit.Test;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
@@ -51,35 +52,47 @@ public class ExceptionJsonWriterTest {
 
   private Response createResponse() {
     return new Response() {
-      @Override
+//      @Override
       public JsonWriter newJsonWriter() {
         return ExceptionJsonWriterTest.this.jsonWriter;
       }
 
-      @Override
+//      @Override
       public XmlWriter newXmlWriter() {
         return null;
       }
 
-      @Override
+//      @Override
       public Response noContent() {
         return null;
       }
 
-      @Override
+      public Response setHeader(String name, String value) {
+        return null;
+      }
+
+      public Collection<String> getHeaderNames() {
+        return null;
+      }
+
+      public String getHeader(String name) {
+        return null;
+      }
+
+//      @Override
       public Stream stream() {
         return new Stream() {
-          @Override
+//          @Override
           public Stream setMediaType(final String s) {
             return null;
           }
 
-          @Override
+//          @Override
           public Stream setStatus(final int httpStatus) {
             return this;
           }
 
-          @Override
+//          @Override
           public OutputStream output() {
             return null;
           }

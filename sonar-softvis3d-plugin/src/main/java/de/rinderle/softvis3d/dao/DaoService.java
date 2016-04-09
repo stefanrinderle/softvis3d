@@ -124,7 +124,7 @@ public class DaoService {
 
     final List<ModuleInfo> modules = getDirectModuleChildrenIds(snapshotId);
 
-    List<SonarDependency> result = new ArrayList<>();
+    List<SonarDependency> result = new ArrayList<SonarDependency>();
     if (modules == null || modules.isEmpty()) {
       result = this.dependencyDao.getDependencies(snapshotId);
     } else {
@@ -137,7 +137,7 @@ public class DaoService {
   }
 
   public List<SonarSnapshot> getFlatChildrenWithMetrics(final VisualizationRequest requestDTO) {
-    final List<SonarSnapshot> result = new ArrayList<>();
+    final List<SonarSnapshot> result = new ArrayList<SonarSnapshot>();
 
     final StopWatch stopWatch = new StopWatch();
     stopWatch.start();

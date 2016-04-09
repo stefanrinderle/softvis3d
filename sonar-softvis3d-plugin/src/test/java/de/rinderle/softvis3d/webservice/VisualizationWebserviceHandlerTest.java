@@ -36,6 +36,7 @@ import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
@@ -44,7 +45,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.sonar.api.database.DatabaseSession;
+import org.sonar.api.server.ws.LocalConnector;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.WebService;
 
@@ -78,14 +79,14 @@ public class VisualizationWebserviceHandlerTest {
   private VisualizationJsonWriter visualizationJsonWriter;
   @Mock
   private LayoutCacheService layoutCacheService;
-  @Mock
-  private DatabaseSession session;
+//  @Mock
+//  private DatabaseSession session;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    this.handler.setDatabaseSession(session);
+//    this.handler.setDatabaseSession(session);
     when(layoutCacheService.containsKey(any(SnapshotStorageKey.class))).thenReturn(false);
   }
 
@@ -111,7 +112,7 @@ public class VisualizationWebserviceHandlerTest {
   }
 
   private Map<Integer, ResultPlatform> mockVisualization(final VisualizationRequest requestDTO, final SnapshotTreeResult treeResult) throws DotExecutorException {
-    final Map<Integer, ResultPlatform> visualizationResult = new HashMap<>();
+    final Map<Integer, ResultPlatform> visualizationResult = new HashMap<Integer, ResultPlatform>();
     when(visualizationProcessor.visualize(eq(requestDTO.getViewType()), any(VisualizationSettings.class), eq(treeResult), any(VisualizationAdditionalInfos.class)))
       .thenReturn(visualizationResult);
 
@@ -129,7 +130,7 @@ public class VisualizationWebserviceHandlerTest {
 
   private Request createRequest() {
     return new Request() {
-      @Override
+//      @Override
       public WebService.Action action() {
         return null;
       }
@@ -137,6 +138,16 @@ public class VisualizationWebserviceHandlerTest {
       @Override
       public String method() {
         return null;
+      }
+
+      @Override
+      public String getMediaType() {
+        return null;
+      }
+
+      @Override
+      public boolean hasParam(String key) {
+        return false;
       }
 
       @Override
@@ -154,6 +165,16 @@ public class VisualizationWebserviceHandlerTest {
         } else {
           return "";
         }
+      }
+
+      @Override
+      public InputStream paramAsInputStream(String key) {
+        return null;
+      }
+
+      @Override
+      public LocalConnector getLocalConnector() {
+        return null;
       }
     };
   }

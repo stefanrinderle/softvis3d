@@ -57,7 +57,7 @@ public class DependencyExpanderCheckCounterTest {
    **/
   @Test
   public void testDependenciesFlatEdges() {
-    final List<SonarDependency> dependencies = new ArrayList<>();
+    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
     final SonarDependency fromBtoC = TestDependencyBuilder.createDependency(2, 3);
     dependencies.add(fromBtoC);
@@ -84,7 +84,7 @@ public class DependencyExpanderCheckCounterTest {
    **/
   @Test
   public void testDependenciesSameFlatEdge() {
-    final List<SonarDependency> dependencies = new ArrayList<>();
+    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
     final SonarDependency fromBtoC = TestDependencyBuilder.createDependency(2, 3);
     dependencies.add(fromBtoC);
@@ -109,7 +109,7 @@ public class DependencyExpanderCheckCounterTest {
    **/
   @Test
   public void testMultipleDependencyEdges() {
-    final List<SonarDependency> dependencies = new ArrayList<>();
+    final List<SonarDependency> dependencies = new ArrayList<SonarDependency>();
 
     final SonarDependency fromCtoD = TestDependencyBuilder.createDependency(3, 4);
     dependencies.add(fromCtoD);

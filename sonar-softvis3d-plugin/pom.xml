@@ -17,7 +17,7 @@
   <url>http://softvis3d.com</url>
 
   <properties>
-    <sonar.version>4.2</sonar.version>
+    <sonar.version>5.5-RC2-SNAPSHOT</sonar.version>
 
     <sonar.exclusions>
       src/main/resources/node_modules/**,
@@ -34,7 +34,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.codehaus.sonar</groupId>
+      <groupId>org.sonarsource.sonarqube</groupId>
       <artifactId>sonar-plugin-api</artifactId>
       <version>${sonar.version}</version>
       <scope>provided</scope>
@@ -81,12 +81,12 @@
     </dependency>
 
     <!-- unit tests -->
-    <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-testing-harness</artifactId>
-      <version>${sonar.version}</version>
-      <scope>test</scope>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.codehaus.sonar</groupId>-->
+      <!--<artifactId>sonar-testing-harness</artifactId>-->
+      <!--<version>${sonar.version}</version>-->
+      <!--<scope>test</scope>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
@@ -111,27 +111,19 @@
   <build>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>org.codehaus.sonar</groupId>
-          <artifactId>sonar-packaging-maven-plugin</artifactId>
-          <configuration>
-            <pluginClass>de.rinderle.softvis3d.SoftVis3DPlugin</pluginClass>
-            <pluginName>SoftVis3D</pluginName>
-          </configuration>
-        </plugin>
-        <plugin>
-          <!-- UTF-8 bundles are not supported by Java, so they must be converted
-              during build -->
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>native2ascii-maven-plugin</artifactId>
-          <executions>
-            <execution>
-              <goals>
-                <goal>native2ascii</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
+        <!--<plugin>-->
+          <!--&lt;!&ndash; UTF-8 bundles are not supported by Java, so they must be converted-->
+              <!--during build &ndash;&gt;-->
+          <!--<groupId>org.codehaus.mojo</groupId>-->
+          <!--<artifactId>native2ascii-maven-plugin</artifactId>-->
+          <!--<executions>-->
+            <!--<execution>-->
+              <!--<goals>-->
+                <!--<goal>native2ascii</goal>-->
+              <!--</goals>-->
+            <!--</execution>-->
+          <!--</executions>-->
+        <!--</plugin>-->
       </plugins>
     </pluginManagement>
     <resources>
@@ -145,6 +137,16 @@
       </resource>
     </resources>
     <plugins>
+      <plugin>
+        <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
+        <artifactId>sonar-packaging-maven-plugin</artifactId>
+        <version>1.15</version>
+        <extensions>true</extensions>
+        <configuration>
+          <pluginClass>de.rinderle.softvis3d.SoftVis3DPlugin</pluginClass>
+          <pluginName>SoftVis3D</pluginName>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
@@ -190,21 +192,21 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>com.mycila.maven-license-plugin</groupId>
-        <artifactId>maven-license-plugin</artifactId>
-        <configuration>
-          <includes>
-            <include>src/main/java/**</include>
-            <include>src/test/java/**</include>
-            <include>src/main/resources/static/**</include>
-          </includes>
-          <excludes>
-            <exclude>src/main/resources/static/threeViewer/vendor.js</exclude>
-            <exclude>src/main/resources/static/threeViewer/bundle.js</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
+      <!--<plugin>-->
+        <!--<groupId>com.mycila.maven-license-plugin</groupId>-->
+        <!--<artifactId>maven-license-plugin</artifactId>-->
+        <!--<configuration>-->
+          <!--<includes>-->
+            <!--<include>src/main/java/**</include>-->
+            <!--<include>src/test/java/**</include>-->
+            <!--<include>src/main/resources/static/**</include>-->
+          <!--</includes>-->
+          <!--<excludes>-->
+            <!--<exclude>src/main/resources/static/threeViewer/vendor.js</exclude>-->
+            <!--<exclude>src/main/resources/static/threeViewer/bundle.js</exclude>-->
+          <!--</excludes>-->
+        <!--</configuration>-->
+      <!--</plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>

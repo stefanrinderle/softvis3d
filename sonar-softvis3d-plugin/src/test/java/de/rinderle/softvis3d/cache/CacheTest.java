@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 public class CacheTest {
 
-  private final Cache<String, String> underTest = new Cache<>();
+  private final Cache<String, String> underTest = new Cache<String, String>();
 
   @Test
   public void testSave() {

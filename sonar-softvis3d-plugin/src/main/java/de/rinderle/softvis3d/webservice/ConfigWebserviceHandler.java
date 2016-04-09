@@ -28,7 +28,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
-import org.sonar.api.database.DatabaseSession;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
@@ -41,19 +40,19 @@ public class ConfigWebserviceHandler extends AbstractWebserviceHandler implement
   private DaoService daoService;
 
   private Settings settings;
-  private DatabaseSession session;
+//  private DatabaseSession session;
 
   public void setSettings(final Settings settings) {
     this.settings = settings;
   }
 
-  public void setDatabaseSession(final DatabaseSession session) {
-    this.session = session;
-  }
+//  public void setDatabaseSession(final DatabaseSession session) {
+//    this.session = session;
+//  }
 
   @Override
   public void handleRequest(final Request request, final Response response) throws Exception {
-    this.session.start();
+//    this.session.start();
 
     final Integer id = Integer.valueOf(request.param("snapshotId"));
 
@@ -81,7 +80,7 @@ public class ConfigWebserviceHandler extends AbstractWebserviceHandler implement
     jsonWriter.endObject();
     jsonWriter.close();
 
-    this.session.commit();
+//    this.session.commit();
   }
 
   private void transformScmMetricTypes(final SoftVis3dJsonWriter jsonWriter) {

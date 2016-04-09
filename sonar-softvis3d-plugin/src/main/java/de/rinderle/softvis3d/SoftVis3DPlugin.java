@@ -23,6 +23,7 @@ import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import java.util.ArrayList;
 import java.util.List;
 import org.sonar.api.Extension;
+import org.sonar.api.ExtensionPoint;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
@@ -38,6 +39,7 @@ import org.sonar.api.SonarPlugin;
     description = "This metric will be used for the building footprint"),
   @Property(key = "metric2", defaultValue = "lines", type = PropertyType.METRIC, name = "Metric type 2",
     description = "This metric will be used for the building height")})
+@ExtensionPoint
 public final class SoftVis3DPlugin extends SonarPlugin {
 
   public static final boolean IS_PROD = true;
@@ -48,8 +50,8 @@ public final class SoftVis3DPlugin extends SonarPlugin {
   }
 
   @Override
-  public List<Class<? extends Extension>> getExtensions() {
-    final List<Class<? extends Extension>> extensions = new ArrayList<>();
+  public List getExtensions() {
+    final List extensions = new ArrayList<Extension>();
 
     extensions.add(SoftVis3DPage.class);
     extensions.add(SoftVis3DExtension.class);

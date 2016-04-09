@@ -30,7 +30,7 @@ public class LayoutCacheService {
   private final Cache<SnapshotStorageKey, Map<Integer, ResultPlatform>> storage;
 
   public LayoutCacheService() {
-    storage = new Cache<>();
+    storage = new Cache<SnapshotStorageKey, Map<Integer, ResultPlatform>>();
   }
 
   public void printCacheContents() {

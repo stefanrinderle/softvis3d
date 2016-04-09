@@ -21,8 +21,10 @@ package de.rinderle.softvis3d.webservice;
 
 import de.rinderle.softvis3d.base.domain.Metric;
 import de.rinderle.softvis3d.dao.DaoService;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -30,7 +32,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.sonar.api.config.Settings;
-import org.sonar.api.database.DatabaseSession;
+import org.sonar.api.server.ws.LocalConnector;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.server.ws.WebService;
@@ -53,14 +55,14 @@ public class ConfigWebserviceHandlerTest {
   private final ConfigWebserviceHandler handler = new ConfigWebserviceHandler();
   @Mock
   private DaoService daoService;
-  @Mock
-  private DatabaseSession session;
+//  @Mock
+//  private DatabaseSession session;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    this.handler.setDatabaseSession(session);
+//    this.handler.setDatabaseSession(session);
     final Settings settings = new Settings();
     settings.setProperty("cacheEnabled", false);
     this.handler.setSettings(settings);
@@ -86,7 +88,7 @@ public class ConfigWebserviceHandlerTest {
 
   private Request createRequest() {
     return new Request() {
-      @Override
+//      @Override
       public WebService.Action action() {
         return null;
       }
@@ -97,6 +99,16 @@ public class ConfigWebserviceHandlerTest {
       }
 
       @Override
+      public String getMediaType() {
+        return null;
+      }
+
+      @Override
+      public boolean hasParam(String key) {
+        return false;
+      }
+
+      @Override
       public String param(final String key) {
         if ("snapshotId".equals(key)) {
           return ConfigWebserviceHandlerTest.this.snapshotId.toString();
@@ -104,27 +116,49 @@ public class ConfigWebserviceHandlerTest {
           return "";
         }
       }
+
+      @Override
+      public InputStream paramAsInputStream(String key) {
+        return null;
+      }
+
+      @Override
+      public LocalConnector getLocalConnector() {
+        return null;
+      }
     };
   }
 
   private Response createResponse() {
     return new Response() {
-      @Override
+//      @Override
       public JsonWriter newJsonWriter() {
         return ConfigWebserviceHandlerTest.this.jsonWriter;
       }
 
-      @Override
+//      @Override
       public XmlWriter newXmlWriter() {
         return null;
       }
 
-      @Override
+//      @Override
       public Response noContent() {
         return null;
       }
 
-      @Override
+      public Response setHeader(String name, String value) {
+        return null;
+      }
+
+      public Collection<String> getHeaderNames() {
+        return null;
+      }
+
+      public String getHeader(String name) {
+        return null;
+      }
+
+//      @Override
       public Stream stream() {
         return null;
       }

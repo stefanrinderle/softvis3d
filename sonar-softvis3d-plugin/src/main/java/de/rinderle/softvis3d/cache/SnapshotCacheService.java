@@ -29,7 +29,7 @@ public class SnapshotCacheService {
   private final Cache<SnapshotStorageKey, SnapshotTreeResult> storage;
 
   public SnapshotCacheService() {
-    storage = new Cache<>();
+    storage = new Cache<SnapshotStorageKey, SnapshotTreeResult>();
   }
 
   public void printCacheContents() {

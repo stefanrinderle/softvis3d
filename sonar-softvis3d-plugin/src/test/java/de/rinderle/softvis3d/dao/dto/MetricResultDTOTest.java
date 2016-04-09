@@ -30,7 +30,7 @@ public class MetricResultDTOTest {
     final int id = 111;
     final String value = "valueOf111";
 
-    final MetricResultDTO<String> underTest = new MetricResultDTO<>(id, value);
+    final MetricResultDTO<String> underTest = new MetricResultDTO<String>(id, value);
 
     assertEquals(id, underTest.getId());
     assertEquals(value, underTest.getValue());
@@ -41,7 +41,7 @@ public class MetricResultDTOTest {
     final int id = 111;
     final Double value = 1.23;
 
-    final MetricResultDTO<Double> underTest = new MetricResultDTO<>(id, value);
+    final MetricResultDTO<Double> underTest = new MetricResultDTO<Double>(id, value);
 
     assertEquals(id, underTest.getId());
     assertEquals(value, underTest.getValue());

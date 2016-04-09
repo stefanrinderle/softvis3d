@@ -43,7 +43,7 @@ public class LayoutCacheServiceTest {
 
     for (int i = 0; i < lastEntryKeyNumber + 1; i++) {
       final SnapshotStorageKey key = getSnapshotStorageKey(i);
-      final Map<Integer, ResultPlatform> value = new HashMap<>();
+      final Map<Integer, ResultPlatform> value = new HashMap<Integer, ResultPlatform>();
       value.put(i, new ResultPlatform(new Graph("" + i)));
       underTest.save(key, value);
     }

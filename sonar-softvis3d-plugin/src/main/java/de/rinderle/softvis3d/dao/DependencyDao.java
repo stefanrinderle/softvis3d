@@ -24,9 +24,6 @@ import de.rinderle.softvis3d.domain.sonar.SonarDependency;
 import de.rinderle.softvis3d.domain.sonar.SonarDependencyBuilder;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Query;
-import org.sonar.api.database.DatabaseSession;
-import org.sonar.api.design.DependencyDto;
 
 /**
  * Use singleton to set the database session once on startup and to be sure that it is set on any other injection.
@@ -34,28 +31,29 @@ import org.sonar.api.design.DependencyDto;
 @Singleton
 public class DependencyDao {
 
-  private DatabaseSession session;
-
-  public void setDatabaseSession(final DatabaseSession session) {
-    this.session = session;
-  }
+//  private DatabaseSession session;
+//
+//  public void setDatabaseSession(final DatabaseSession session) {
+//    this.session = session;
+//  }
 
   public List<SonarDependency> getDependencies(final Integer projectSnapshotId) {
-    final String sqlQuery =
-      "SELECT d.id, d.fromSnapshotId, d.toSnapshotId FROM " + DependencyDto.class.getSimpleName() + " d "
-        + "WHERE d.projectSnapshotId = :projectSnapshotId AND fromScope = 'FIL' AND toScope = 'FIL' ";
-
-    final Query query = this.session.createQuery(sqlQuery);
-
-    query.setParameter("projectSnapshotId", projectSnapshotId);
-
-    final List<Object[]> queryResult = (List<Object[]>) query.getResultList();
-
-    return this.castToSonarDependency(queryResult);
+//    final String sqlQuery =
+//      "SELECT d.id, d.fromSnapshotId, d.toSnapshotId FROM " + DependencyDto.class.getSimpleName() + " d "
+//        + "WHERE d.projectSnapshotId = :projectSnapshotId AND fromScope = 'FIL' AND toScope = 'FIL' ";
+//
+//    final Query query = this.session.createQuery(sqlQuery);
+//
+//    query.setParameter("projectSnapshotId", projectSnapshotId);
+//
+//    final List<Object[]> queryResult = (List<Object[]>) query.getResultList();
+//
+//    return this.castToSonarDependency(queryResult);
+    return new ArrayList<SonarDependency>();
   }
 
   private List<SonarDependency> castToSonarDependency(final List<Object[]> queryResult) {
-    final List<SonarDependency> result = new ArrayList<>(queryResult.size());
+    final List<SonarDependency> result = new ArrayList<SonarDependency>(queryResult.size());
 
     for (final Object[] object : queryResult) {
       final SonarDependencyBuilder dependency = new SonarDependencyBuilder();
