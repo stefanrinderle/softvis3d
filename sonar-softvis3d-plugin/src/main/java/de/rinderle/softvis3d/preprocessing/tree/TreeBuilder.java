@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.server.ws.LocalConnector;
 
 public class TreeBuilder {
 
@@ -38,7 +39,7 @@ public class TreeBuilder {
   @Inject
   private DaoService daoService;
 
-  public RootTreeNode createTreeStructure(final VisualizationRequest requestDTO) {
+  public RootTreeNode createTreeStructure(LocalConnector localConnector, final VisualizationRequest requestDTO) {
     LOGGER.info("Create tree structure for id " + requestDTO.getRootSnapshotId());
     final PathWalker pathWalker = new PathWalker(requestDTO.getRootSnapshotId());
 
@@ -49,7 +50,7 @@ public class TreeBuilder {
     if (!modules.isEmpty()) {
       for (final ModuleInfo module : modules) {
         final VisualizationRequest moduleTemp =
-          new VisualizationRequest(module.getId(), requestDTO.getViewType(),
+          new VisualizationRequest(module.getId(),
             requestDTO.getFootprintMetricId(), requestDTO.getHeightMetricId(), requestDTO.getScmInfoType());
 
         final SonarSnapshotBuilder builder = new SonarSnapshotBuilder(module.getId()).withPath(module.getName());
@@ -58,18 +59,18 @@ public class TreeBuilder {
         LOGGER.info(moduleElement.toString());
         pathWalker.addPath(moduleElement);
 
-        addModuleToTreeWalker(pathWalker, moduleTemp, module.getName());
+        addModuleToTreeWalker(pathWalker, moduleTemp, module.getName(), localConnector);
       }
     } else {
-      addModuleToTreeWalker(pathWalker, requestDTO, "");
+      addModuleToTreeWalker(pathWalker, requestDTO, "", localConnector);
     }
 
     return pathWalker.getTree();
   }
 
   private void addModuleToTreeWalker(final PathWalker pathWalker, final VisualizationRequest requestDTO,
-    final String moduleName) {
-    final List<SonarSnapshot> flatChildren = this.daoService.getFlatChildrenWithMetrics(requestDTO);
+                                     final String moduleName, LocalConnector localConnector) {
+    final List<SonarSnapshot> flatChildren = this.daoService.getFlatChildrenWithMetrics(localConnector, requestDTO);
 
     for (final SonarSnapshot flatChild : flatChildren) {
       if (moduleName.length() > 0) {

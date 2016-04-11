@@ -21,18 +21,17 @@ ThreeViewer.BackendService = function ($http) {
   this.http = $http;
 };
 
-ThreeViewer.BackendService.prototype.getVisualization = function (snapshotId, footprintMetricId, heightMetricId, viewType, scmMetricType) {
+ThreeViewer.BackendService.prototype.getVisualization = function (projectKey, footprintMetricKey, heightMetricKey, scmMetricType) {
   if (!scmMetricType) {
     scmMetricType = "NONE";
   }
 
-  return this.http.get("../../api/softVis3D/getVisualization?snapshotId=" + snapshotId
-  + "&footprintMetricId=" + footprintMetricId
-  + "&heightMetricId=" + heightMetricId
-  + "&viewType=" + viewType
+  return this.http.get("../../api/softVis3D/getVisualization?projectKey=" + projectKey
+  + "&footprintMetricKey=" + footprintMetricKey
+  + "&heightMetricKey=" + heightMetricKey
   + "&scmMetricType=" + scmMetricType);
 };
 
-ThreeViewer.BackendService.prototype.getConfig = function (snapshotId) {
-  return this.http.get("../../api/softVis3D/getConfig?snapshotId=" + snapshotId);
+ThreeViewer.BackendService.prototype.getMetrics = function () {
+    return this.http.get("../../api/metrics/search");
 };

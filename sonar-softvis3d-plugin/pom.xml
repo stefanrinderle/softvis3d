@@ -39,32 +39,31 @@
       <version>${sonar.version}</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-dev-maven-plugin</artifactId>
-      <version>1.7</version>
-      <scope>provided</scope>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.codehaus.sonar</groupId>-->
+      <!--<artifactId>sonar-dev-maven-plugin</artifactId>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
 
     <!--
       [INFO] - sonar-packaging-maven-plugin:1.12.1:check-dependencies (default-check-dependencies) @ sonar-softvis3d-plugin
       [WARNING] Dependencies on the following log libraries should be excluded or declared with scope 'provided': commons-logging:commons-logging:jar
     -->
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <scope>provided</scope>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>commons-logging</groupId>-->
+      <!--<artifactId>commons-logging</artifactId>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>commons-lang</groupId>-->
+      <!--<artifactId>commons-lang</artifactId>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>commons-io</groupId>-->
+      <!--<artifactId>commons-io</artifactId>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -105,6 +104,11 @@
     <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-api-mockito</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.sonarqube</groupId>
+      <artifactId>sonar-ws</artifactId>
+      <version>5.5-RC2-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

@@ -34,6 +34,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.sonar.api.server.ws.LocalConnector;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.eq;
@@ -73,7 +74,8 @@ public class PreProcessorTest {
     when(snapshotCacheService.getSnapshotTreeResult(eq(mapKey))).thenReturn(expectedResult);
     expectedResult = snapshotCacheService.getSnapshotTreeResult(mapKey);
 
-    final SnapshotTreeResult result = preProcessor.process(requestDTO);
+    LocalConnector localConnector = null;
+    final SnapshotTreeResult result = preProcessor.process(localConnector, requestDTO);
 
     assertEquals(expectedResult, result);
   }

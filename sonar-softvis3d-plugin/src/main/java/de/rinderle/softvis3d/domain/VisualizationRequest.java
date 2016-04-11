@@ -32,10 +32,10 @@ public class VisualizationRequest {
   private final int heightMetricId;
   private final ScmInfoType scmInfoType;
 
-  public VisualizationRequest(final int rootSnapshotId, final LayoutViewType viewType, final int footprintMetricId, final int heightMetricId, final ScmInfoType scmInfoType) {
+  public VisualizationRequest(final int rootSnapshotId, final int footprintMetricId, final int heightMetricId, final ScmInfoType scmInfoType) {
     this.rootSnapshotId = rootSnapshotId;
 
-    this.viewType = viewType;
+    this.viewType = LayoutViewType.CITY;
 
     this.footprintMetricId = footprintMetricId;
     this.heightMetricId = heightMetricId;

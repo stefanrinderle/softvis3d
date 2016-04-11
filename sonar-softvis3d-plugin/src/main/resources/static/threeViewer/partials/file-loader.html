@@ -24,9 +24,6 @@
     <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.city}"
          ng-click="loader.showTab('city');">City
     </div>
-    <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.dependency}"
-         ng-click="loader.showTab('dependency');">Dependency
-    </div>
     <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.custom}"
          ng-click="loader.showTab('custom');">Custom
     </div>
@@ -78,43 +75,15 @@
       <br/>
       <button ng-click="loader.submitCityForm()" ng-disabled="!loader.configLoaded">Show</button>
     </div>
-    <div id="dependency-loader" class="loader-options" ng-show="loader.state.dependency" ng-cloak>
-      <div ng-hide="loader.hasDependencies">
-        Your project has either no dependencies or the dependencies have not been analysed.
-      </div>
-      <div ng-show="loader.hasDependencies">
-        <p>
-          The dependency view is focused on the
-          dependencies within that structure.The basic 3D layout for the structure is build downwards. The
-          dependencies have been aggregated and can be explored easily without overloading the visualisation.
-        </p>
-        <br/>
-        <button ng-click="loader.loadDependencyView()" ng-disabled="!loader.configLoaded">Show</button>
-      </div>
-    </div>
     <div id="custom-loader" class="loader-options" ng-show="loader.state.custom" ng-cloak>
-      <select ng-model="loader.customViewType">
-        <option value="city" label="Code city view">Code city view
-        </option>
-        <option ng-show="loader.hasDependencies" value="dependency" label="Dependency view">
-          Dependency view
-        </option>
-      </select>
-
-      <br/><br/>
       Building footprint metric:<br/>
-      <select name="metric1" ng-options="item.id as item.name for item in loader.availableMetrics"
-              ng-model="loader.settings.metric1" style="width: 200px;"></select>
+      <select name="metric1" ng-options="item.key as item.name for item in loader.availableMetrics"
+              ng-model="loader.customSelectMetrics.metric1" style="width: 200px;"></select>
 
       <br/><br/>
       Building height metric:<br/>
-      <select name="metric2" ng-options="item.id as item.name for item in loader.availableMetrics"
-              ng-model="loader.settings.metric2" style="width: 200px;"></select>
-
-      <br/><br/>
-      Scm info metric (beta):<br/>
-      <select name="scmMetricType" ng-options="item.name as item.description for item in loader.availableScmMetrics"
-              ng-model="loader.scmMetricType" style="width: 200px;"></select>
+      <select name="metric2" ng-options="item.key as item.name for item in loader.availableMetrics"
+              ng-model="loader.customSelectMetrics.metric2" style="width: 200px;"></select>
 
       <br/><br/>
       <button ng-click="loader.loadCustomView()" ng-disabled="!loader.configLoaded">Show</button>

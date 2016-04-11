@@ -20,7 +20,6 @@
 package de.rinderle.softvis3d.dao;
 
 import de.rinderle.softvis3d.base.domain.LayoutViewType;
-import de.rinderle.softvis3d.base.domain.Metric;
 import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
 import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
@@ -41,10 +40,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.sonar.api.config.Settings;
+import org.sonar.api.server.ws.LocalConnector;
+import org.sonarqube.ws.Common;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
@@ -77,9 +79,9 @@ public class DaoServiceTest {
     final Integer metricId = 12;
     settings.setProperty("metric1", metricKey);
 
-    when(sonarDao.getMetricIdByKey(eq(metricKey))).thenReturn(metricId);
+    when(sonarDao.getMetricIdByKey(any(LocalConnector.class), eq(metricKey))).thenReturn(metricId);
 
-    final Integer result = daoService.getMetric1FromSettings(settings);
+    final Integer result = daoService.getMetric1FromSettings(null, settings);
 
     assertEquals(metricId, result);
   }
@@ -91,9 +93,9 @@ public class DaoServiceTest {
     final Integer metricId = 12;
     settings.setProperty("metric2", metricKey);
 
-    when(sonarDao.getMetricIdByKey(eq(metricKey))).thenReturn(metricId);
+    when(sonarDao.getMetricIdByKey(any(LocalConnector.class), eq(metricKey))).thenReturn(metricId);
 
-    final Integer result = daoService.getMetric2FromSettings(settings);
+    final Integer result = daoService.getMetric2FromSettings(null, settings);
 
     assertEquals(metricId, result);
   }
@@ -102,10 +104,10 @@ public class DaoServiceTest {
   public void testGetDefinedMetricsForSnapshot() throws Exception {
     final int snapshotId = 12;
 
-    final List<Metric> expectedResult = new ArrayList<Metric>();
-    when(sonarDao.getDistinctMetricsBySnapshotId(eq(snapshotId))).thenReturn(expectedResult);
+    final List<Common.Metric> expectedResult = new ArrayList<Common.Metric>();
+    when(sonarDao.getDistinctMetricsBySnapshotId(any(LocalConnector.class), eq(snapshotId))).thenReturn(expectedResult);
 
-    final List<Metric> result = daoService.getDefinedMetricsForSnapshot(snapshotId);
+    final List<Common.Metric> result = daoService.getDefinedMetricsForSnapshot(null, snapshotId);
 
     assertEquals(expectedResult, result);
   }
@@ -181,7 +183,7 @@ public class DaoServiceTest {
 
     when(sonarDao.getAllSnapshotIdsWithRescourceId(eq(snapshotId))).thenReturn(snapshots);
 
-    final List<SonarSnapshot> result = daoService.getFlatChildrenWithMetrics(requestDTO);
+    final List<SonarSnapshot> result = daoService.getFlatChildrenWithMetrics(null, requestDTO);
     assertEquals(0, result.size());
   }
 
@@ -195,7 +197,7 @@ public class DaoServiceTest {
     snapshots.add(metricResultDTO);
     when(sonarDao.getAllSnapshotIdsWithRescourceId(eq(snapshotId))).thenReturn(snapshots);
 
-    final List<SonarSnapshot> result = daoService.getFlatChildrenWithMetrics(requestDTO);
+    final List<SonarSnapshot> result = daoService.getFlatChildrenWithMetrics(null, requestDTO);
     assertEquals(1, result.size());
   }
 
@@ -205,7 +207,7 @@ public class DaoServiceTest {
     final VisualizationRequest requestDTO = new VisualizationRequest(12, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
 
     final Integer authorMetricId = 14;
-    when(sonarDao.getMetricIdByKey(eq(DaoService.SCM_AUTHOR_NAME))).thenReturn(authorMetricId);
+    when(sonarDao.getMetricIdByKey(any(LocalConnector.class), eq(DaoService.SCM_AUTHOR_NAME))).thenReturn(authorMetricId);
     final List<MetricResultDTO<String>> metricResults = new ArrayList<MetricResultDTO<String>>();
     final MetricResultDTO<String> metricResultDTO = new MetricResultDTO<String>(1, "stefan@inderle.info");
     metricResults.add(metricResultDTO);
@@ -216,7 +218,7 @@ public class DaoServiceTest {
     final int expectedResult = 4;
     when(scmCalculationService.getNodeValue(anyString(), anyString())).thenReturn(expectedResult);
 
-    final MinMaxValue result = daoService.getMaxScmInfo(requestDTO);
+    final MinMaxValue result = daoService.getMaxScmInfo(null, requestDTO);
 
     assertEquals(new MinMaxValue(0, 4), result);
   }

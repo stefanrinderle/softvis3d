@@ -35,6 +35,8 @@ import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
+import org.sonar.api.server.ws.LocalConnector;
+import org.sonarqube.ws.Common;
 
 //import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
 //import de.rinderle.softvis3d.domain.ScmInfoType;
@@ -50,14 +52,14 @@ public class DaoService {
   @Inject
   private DependencyDao dependencyDao;
 
-  public Integer getMetric1FromSettings(final Settings settings) {
+  public Integer getMetric1FromSettings(final LocalConnector localConnector, final Settings settings) {
     LOGGER.debug("getMetric1FromSettings");
-    return this.sonarDao.getMetricIdByKey(settings.getString("metric1"));
+    return this.sonarDao.getMetricIdByKey(localConnector, settings.getString("metric1"));
   }
 
-  public Integer getMetric2FromSettings(final Settings settings) {
+  public Integer getMetric2FromSettings(final LocalConnector localConnector, final Settings settings) {
     LOGGER.debug("getMetric2FromSettings");
-    return this.sonarDao.getMetricIdByKey(settings.getString("metric2"));
+    return this.sonarDao.getMetricIdByKey(localConnector, settings.getString("metric2"));
   }
 
   /**
@@ -67,9 +69,9 @@ public class DaoService {
    *            Root snapshot ID
    * @return defined metrics on the file level scope
    */
-  public List<de.rinderle.softvis3d.base.domain.Metric> getDefinedMetricsForSnapshot(final Integer snapshotId) {
+  public List<Common.Metric> getDefinedMetricsForSnapshot(final LocalConnector localConnector, final Integer snapshotId) {
     LOGGER.debug("getDefinedMetricsForSnapshot " + snapshotId);
-    return this.sonarDao.getDistinctMetricsBySnapshotId(snapshotId);
+    return this.sonarDao.getDistinctMetricsBySnapshotId(localConnector, snapshotId);
   }
 
   public MinMaxValue getMinMaxMetricValuesByRootSnapshotId(final int rootSnapshotId, final int metricId) {
@@ -89,13 +91,13 @@ public class DaoService {
     return this.sonarDao.getDirectModuleChildrenIds(snapshotId);
   }
 
-  public MinMaxValue getMaxScmInfo(final VisualizationRequest requestDTO) {
+  public MinMaxValue getMaxScmInfo(final LocalConnector localConnector, final VisualizationRequest requestDTO) {
     int maxScmMetricValue = 0;
 
     if (!ScmInfoType.NONE.equals(requestDTO.getScmInfoType())) {
       final ScmCalculationService scmCalculationService = getCalculationService(requestDTO.getScmInfoType());
 
-      final List<MetricResultDTO<String>> scmCommitter = getScmAuthors(requestDTO.getRootSnapshotId());
+      final List<MetricResultDTO<String>> scmCommitter = getScmAuthors(localConnector, requestDTO.getRootSnapshotId());
       for (final MetricResultDTO<String> aScmCommitter : scmCommitter) {
         final int nodeScmMetricValue = scmCalculationService.getNodeValue(aScmCommitter.getValue(), "");
 
@@ -136,7 +138,7 @@ public class DaoService {
     return result;
   }
 
-  public List<SonarSnapshot> getFlatChildrenWithMetrics(final VisualizationRequest requestDTO) {
+  public List<SonarSnapshot> getFlatChildrenWithMetrics(final LocalConnector localConnector, final VisualizationRequest requestDTO) {
     final List<SonarSnapshot> result = new ArrayList<SonarSnapshot>();
 
     final StopWatch stopWatch = new StopWatch();
@@ -154,7 +156,7 @@ public class DaoService {
       builder.withHeightMeasure(sonarDao.getMetricDouble(requestDTO.getHeightMetricId(), snapshotId));
 
       if (!ScmInfoType.NONE.equals(requestDTO.getScmInfoType())) {
-        final int scmMetric = getScmMetric(snapshotId, requestDTO.getScmInfoType());
+        final int scmMetric = getScmMetric(localConnector, snapshotId, requestDTO.getScmInfoType());
         builder.withScmMetric(scmMetric);
       }
 
@@ -178,21 +180,21 @@ public class DaoService {
     return true;
   }
 
-  private int getScmMetric(final Integer snapshotId, final ScmInfoType scmInfoType) {
-    final Integer authorDateMetricId = this.sonarDao.getMetricIdByKey(SCM_DATE_NAME);
+  private int getScmMetric(final LocalConnector localConnector, final Integer snapshotId, final ScmInfoType scmInfoType) {
+    final Integer authorDateMetricId = this.sonarDao.getMetricIdByKey(localConnector, SCM_DATE_NAME);
     final String authorDateMetric = this.sonarDao.getMetricText(authorDateMetricId, snapshotId);
 
-    final String authors = getAuthors(snapshotId);
+    final String authors = getAuthors(localConnector, snapshotId);
     return getCalculationService(scmInfoType).getNodeValue(authors, authorDateMetric);
   }
 
-  private String getAuthors(final Integer snapshotId) {
-    final Integer authorMetricId = this.sonarDao.getMetricIdByKey(SCM_AUTHOR_NAME);
+  private String getAuthors(final LocalConnector localConnector, final Integer snapshotId) {
+    final Integer authorMetricId = this.sonarDao.getMetricIdByKey(localConnector, SCM_AUTHOR_NAME);
     return this.sonarDao.getMetricText(authorMetricId, snapshotId);
   }
 
-  private List<MetricResultDTO<String>> getScmAuthors(final int rootSnapshotId) {
-    final Integer authorMetricId = this.sonarDao.getMetricIdByKey(SCM_AUTHOR_NAME);
+  private List<MetricResultDTO<String>> getScmAuthors(final LocalConnector localConnector, final int rootSnapshotId) {
+    final Integer authorMetricId = this.sonarDao.getMetricIdByKey(localConnector, SCM_AUTHOR_NAME);
 
     return this.sonarDao.getMetricTextForAllProjectElementsWithMetric(rootSnapshotId, authorMetricId);
   }

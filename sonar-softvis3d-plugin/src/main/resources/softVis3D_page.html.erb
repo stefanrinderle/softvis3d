@@ -2,7 +2,7 @@
 
 <script>
   var ThreeViewer = {};
-  ThreeViewer.SNAPSHOT_ID = <%= @snapshot.id %>;
+  ThreeViewer.PROJECT_KEY = "<%= @resource.key %>";
 
   var RESOURCES_BASE_PATH = "<%= "#{ApplicationController.root_context}" -%>";
 </script>
@@ -11,52 +11,10 @@
    # get extension class and start layout
    softVis3D = Api::Utils.java_facade.getComponentByClassname('softvis3d', 'de.rinderle.softvis3d.SoftVis3DExtension');
 %>
-<!-- ANGULAR JS FILES -->
-<% if (softVis3D.isProd()) %>
-  <script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/vendor.js"></script>
-  <script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/bundle.js"></script>
-<% else %>
-  <script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/vendor.js"></script>
-  <script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/bundle.js"></script>
-<% end %>
+
+<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/vendor.js"></script>
+<script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/bundle.js"></script>
 
 <div ng-app="ThreeViewerApp">
   <div ng-view></div>
 </div>
-
-<script type="text/javascript">
-  function waitFor(msec, count, callback) {
-    // Check if condition met. If not, re-check later (msec).
-    while (jQuery('#file-loader').length <= 0) {
-      count++;
-      setTimeout(function () {
-        waitFor(msec, count, callback);
-      }, msec);
-      return;
-    }
-    // Condition finally met. callback() can be executed.
-    callback();
-  }
-
-  window.onload = function () {
-    ThreeViewer.SNAPSHOT_ID = <%= @snapshot.id %>;
-
-    <%
-    if !@snapshot.id.blank? && !params[:viewType].blank? &&
-        !params[:metric1].blank? && !params[:metric2].blank?
-    %>
-
-    // Wait until idle (busy must be false)
-    waitFor(500, 0, function () {
-      console.log('Load direct link metrics!');
-      // Direct link to visualization. Load and display.
-      angular.element(document.getElementById('file-loader')).controller().loadDirectLink(
-          <%= params[:metric1] %>, <%= params[:metric2] %>, "<%= params[:viewType] %>"
-      );
-    });
-
-    <%
-    end
-    %>
-  }
-</script>

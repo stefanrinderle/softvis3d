@@ -123,7 +123,8 @@ public class VisualizationWebserviceHandlerTest {
     final RootTreeNode rootTreeNode = new RootTreeNode(1);
     final SnapshotTreeResult treeResult = new SnapshotTreeResult(rootTreeNode);
 
-    when(preProcessor.process(any(VisualizationRequest.class))).thenReturn(treeResult);
+    LocalConnector localConnector = null;
+    when(preProcessor.process(localConnector, any(VisualizationRequest.class))).thenReturn(treeResult);
 
     return treeResult;
   }

@@ -39,11 +39,8 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
   this.BackendService = BackendService;
   this.TreeService = TreeService;
 
-  /**
-   * @type {{city: boolean, dependency: boolean, custom: boolean, info: boolean}}
-   */
   this.state = {
-    'city': true, 'dependency': false, 'custom': false, 'info': false
+    'city': true, 'custom': false, 'info': false
   };
 
   this.cityInnerState = "complexity";
@@ -53,8 +50,8 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
 
   this.exceptionMessage;
 
-  this.settings = {
-    'metric1': null, 'metric2': null
+  this.customSelectMetrics = {
+    'metric1': 'accessors', 'metric2': 'classes'
   };
 
   this.availableMetrics = [];
@@ -82,18 +79,21 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
     this.listeners();
 
     this.waitFor(500, 0, function () {
-      me.BackendService.getConfig(ThreeViewer.SNAPSHOT_ID).then(function (response) {
-        me.settings = response.data.settings;
-        me.availableMetrics = response.data.metricsForSnapshot;
-        me.hasDependencies = response.data.hasDependencies;
-        me.hasScmInfos = response.data.hasScmInfos;
-        me.availableScmMetrics = response.data.scmMetricTypes;
-        me.configLoaded = true;
-      }, function (response) {
-        me.infoInnerState = "error";
-        me.exceptionMessage = response.data.errors[0].msg;
-        me.showTab("info");
-      });
+        me.BackendService.getMetrics().then(function (response) {
+            me.availableMetrics = response.data.metrics;
+            me.hasDependencies = false;
+            me.hasScmInfos = false;
+            me.availableScmMetrics = [];
+            me.configLoaded = true;
+            me.customSelectMetrics = {
+                'metric1': 'accessors', 'metric2': 'classes'
+            };
+
+        }, function (response) {
+            me.infoInnerState = "error";
+            me.exceptionMessage = response.data.errors[0].msg;
+            me.showTab("info");
+        });
     });
   }
 };
@@ -101,7 +101,7 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
 ThreeViewer.FileLoaderController.prototype.waitFor = function(msec, count, callback) {
   var me = this;
   // Check if condition met. If not, re-check later (msec).
-  if (ThreeViewer.SNAPSHOT_ID === undefined) {
+  if (ThreeViewer.PROJECT_KEY === undefined) {
     count++;
     setTimeout(function () {
       me.waitFor(msec, count, callback);
@@ -125,56 +125,38 @@ ThreeViewer.FileLoaderController.prototype.listeners = function () {
  */
 ThreeViewer.FileLoaderController.prototype.showTab = function (tab) {
   this.state.city = false;
-  this.state.dependency = false;
   this.state.custom = false;
   this.state.info = false;
   this.state[tab] = true;
 };
 
 ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
-  var cityType = "city";
-
-  var linesId = this.getMetricIdForName("Lines");
-  var complexityId = this.getMetricIdForName("Complexity");
-  var issuesId = this.getMetricIdForName("Issues");
-  var functionsId = this.getMetricIdForName("Functions");
+  var linesKey = "ncloc";
+  var complexityKey = "complexity";
+  var issuesKey = "violations";
+  var functionsKey = "functions";
 
   if (this.cityInnerState === "complexity") {
-    this.loadVisualisation(complexityId, linesId, cityType, null);
+    this.loadVisualisation(complexityKey, linesKey, null);
   } else if (this.cityInnerState === "issues") {
-    this.loadVisualisation(issuesId, linesId, cityType, null);
+    this.loadVisualisation(issuesKey, linesKey, null);
   } else if (this.cityInnerState === "functions") {
-    this.loadVisualisation(functionsId, linesId, cityType, null);
+    this.loadVisualisation(functionsKey, linesKey, null);
   } else {
     console.log("invalid option selected.");
   }
 };
 
-/**
- * @export
- *
- */
-ThreeViewer.FileLoaderController.prototype.loadDependencyView = function () {
-  var linesId = this.getMetricIdForName("Lines");
-  var complexityId = this.getMetricIdForName("Complexity");
-
-  this.loadVisualisation(complexityId, linesId, "dependency", null);
-};
-
 ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
-  this.loadVisualisation(this.settings.metric1, this.settings.metric2, this.customViewType, this.scmMetricType);
+  this.loadVisualisation(this.customSelectMetrics.metric1, this.customSelectMetrics.metric2, this.scmMetricType);
 };
 
-ThreeViewer.FileLoaderController.prototype.loadDirectLink = function (metric1Id, metric2Id, viewType) {
-  this.loadVisualisation(metric1Id, metric2Id, viewType, null);
-};
-
-ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, viewType, scmMetricType) {
+ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, scmMetricType) {
   var me = this;
 
   this.infoInnerState = "loading";
   this.showTab("info");
-  this.BackendService.getVisualization(ThreeViewer.SNAPSHOT_ID, metric1, metric2, viewType, scmMetricType).then(function (response) {
+  this.BackendService.getVisualization(ThreeViewer.PROJECT_KEY, metric1, metric2, scmMetricType).then(function (response) {
     var treeResult = response.data.resultObject[0].treeResult;
     var visualizationResult = response.data.resultObject[1].visualizationResult;
 
@@ -182,7 +164,7 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
     me.TreeService.setTree(treeResult);
 
     var eventObject = {};
-    eventObject.softVis3dId = ThreeViewer.SNAPSHOT_ID;
+    eventObject.softVis3dId = ThreeViewer.PROJECT_KEY;
     eventObject.metric1Name = me.getNameForMetricId(metric1);
     eventObject.metric2Name = me.getNameForMetricId(metric2);
     eventObject.scmMetricName = me.getNameScmMetricType(scmMetricType);
@@ -218,14 +200,4 @@ ThreeViewer.FileLoaderController.prototype.getNameForMetricId = function (metric
   }
 
   return "No name found";
-};
-
-ThreeViewer.FileLoaderController.prototype.getMetricIdForName = function (nameToSearch) {
-  for (var index = 0; index < this.availableMetrics.length; index++) {
-    if (this.availableMetrics[index].name === nameToSearch) {
-      return this.availableMetrics[index].id;
-    }
-  }
-
-  return "no name found";
 };

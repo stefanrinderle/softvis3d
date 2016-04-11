@@ -20,14 +20,18 @@
 package de.rinderle.softvis3d.dao;
 
 import com.google.inject.Singleton;
-import de.rinderle.softvis3d.base.domain.Metric;
 import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
+import de.rinderle.softvis3d.dao.metrics.MetricsService;
 import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.server.ws.LocalConnector;
+import org.sonarqube.ws.Common;
+import org.sonarqube.ws.client.WsClient;
+import org.sonarqube.ws.client.WsClientFactories;
 
 /**
  * Use singleton to set the database session once on startup and to be sure that it is set on any other injection.
@@ -37,17 +41,14 @@ public class SonarDao {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SonarDao.class);
 
-//  private DatabaseSession session;
-
-//  public void setDatabaseSession(final DatabaseSession session) {
-//    this.session = session;
-//  }
-
   @SuppressWarnings("unchecked")
-  public List<Metric> getDistinctMetricsBySnapshotId(final Integer snapshotId) {
-    // TODO: check if the metric is defined for that snapshot id.
+  public List<Common.Metric> getDistinctMetricsBySnapshotId(final LocalConnector localConnector, final Integer snapshotId) {
+    final List<Common.Metric> metrics = new ArrayList<Common.Metric>();
 
-    final List<Metric> metrics = new ArrayList<Metric>();
+    final WsClient wsClient = WsClientFactories.getLocal().newClient(localConnector);
+    final String metricsWsResult = new MetricsService(wsClient.wsConnector()).search();
+
+    System.out.println(metricsWsResult);
 
 //    final List<org.sonar.api.measures.Metric> metricsTest = session.getResults(org.sonar.api.measures.Metric.class);
 //    for (final org.sonar.api.measures.Metric metrict : metricsTest) {
@@ -76,7 +77,12 @@ public class SonarDao {
     return result;
   }
 
-  public Integer getMetricIdByKey(final String key) {
+  public Integer getMetricIdByKey(final LocalConnector localConnector, final String key) {
+    final WsClient wsClient = WsClientFactories.getLocal().newClient(localConnector);
+//    final Issues.SearchWsResponse issues = wsClient.issues().search(new SearchWsRequest());
+
+//    System.out.println(issues.toString());
+
 //    final org.sonar.api.measures.Metric result =
 //      this.session.getSingleResult(org.sonar.api.measures.Metric.class, "key", key);
 

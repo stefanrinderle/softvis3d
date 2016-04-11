@@ -20,7 +20,6 @@
 package de.rinderle.softvis3d.webservice;
 
 import com.google.inject.Inject;
-import de.rinderle.softvis3d.SoftVis3DPlugin;
 import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
 import de.rinderle.softvis3d.base.VisualizationProcessor;
 import de.rinderle.softvis3d.base.VisualizationSettings;
@@ -28,34 +27,36 @@ import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.layout.dot.DotExecutorException;
-import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
-import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
-import de.rinderle.softvis3d.base.result.VisualizationJsonWriter;
 import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
-import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
+import de.rinderle.softvis3d.webservice.jsonwriter.SonarTreeNodeJsonWriter;
+import de.rinderle.softvis3d.webservice.jsonwriter.SonarVisualizationJsonWriter;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.server.ws.LocalConnector;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
+import org.sonar.api.utils.text.JsonWriter;
 
 public class VisualizationWebserviceHandler extends AbstractWebserviceHandler implements RequestHandler {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(VisualizationWebserviceHandler.class);
 
   private VisualizationSettings visualizationSettings;
-//  private DatabaseSession session;
 
   @Inject
   private VisualizationProcessor visualizationProcessor;
   @Inject
-  private VisualizationJsonWriter visualizationJsonWriter;
+  private SonarVisualizationJsonWriter visualizationJsonWriter;
   @Inject
   private LayoutCacheService layoutCacheService;
   @Inject
@@ -64,48 +65,48 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
   private DaoService daoService;
 
   @Inject
-  private TreeNodeJsonWriter treeNodeJsonWriter;
+  private SonarTreeNodeJsonWriter treeNodeJsonWriter;
 
   @Override
   public void handleRequest(final Request request, final Response response) throws Exception {
-//    this.session.start();
+    final String projectKey = String.valueOf(request.param("projectKey"));
 
-    final Integer id = Integer.valueOf(request.param("snapshotId"));
-    final Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricId"));
-    final Integer heightMetricId = Integer.valueOf(request.param("heightMetricId"));
-    final LayoutViewType layoutViewType = LayoutViewType.valueOfRequest(request.param("viewType"));
+//    final Integer footprintMetricId = Integer.valueOf(request.param("footprintMetricKey"));
+//    final Integer heightMetricId = Integer.valueOf(request.param("heightMetricKey"));
+//
+//    final ScmInfoType scmInfoType = ScmInfoType.valueOf(request.param("scmMetricType"));
+//    final VisualizationRequest requestDTO =
+//      new VisualizationRequest(projectKey, footprintMetricId, heightMetricId, scmInfoType);
+//
+//    LOGGER.info("VisualizationWebserviceHandler " + requestDTO.toString());
+//
+//    final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
+//
+//    final SnapshotTreeResult snapshotTreeResult = preProcessor.process(request.getLocalConnector(), requestDTO);
+//
+//    final Map<Integer, ResultPlatform> visualizationResult;
+//    if (SoftVis3DPlugin.CACHE_ENABLED && layoutCacheService.containsKey(key)) {
+//      LOGGER.info("Layout out of cache for " + key.toString());
+//      visualizationResult = layoutCacheService.getLayoutResult(key);
+//    } else {
+//      LOGGER.info("Create layout for " + key.toString());
+//      visualizationResult = createLayout(request.getLocalConnector(), requestDTO, snapshotTreeResult);
+//      if (SoftVis3DPlugin.CACHE_ENABLED) {
+//        layoutCacheService.save(key, visualizationResult);
+//      }
+//    }
 
-    final ScmInfoType scmInfoType = ScmInfoType.valueOf(request.param("scmMetricType"));
-    final VisualizationRequest requestDTO =
-      new VisualizationRequest(id, layoutViewType, footprintMetricId, heightMetricId, scmInfoType);
-
-    LOGGER.info("VisualizationWebserviceHandler " + requestDTO.toString());
-
-    final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
-
-    final SnapshotTreeResult snapshotTreeResult = preProcessor.process(requestDTO);
-
-    final Map<Integer, ResultPlatform> visualizationResult;
-    if (SoftVis3DPlugin.CACHE_ENABLED && layoutCacheService.containsKey(key)) {
-      LOGGER.info("Layout out of cache for " + key.toString());
-      visualizationResult = layoutCacheService.getLayoutResult(key);
-    } else {
-      LOGGER.info("Create layout for " + key.toString());
-      visualizationResult = createLayout(requestDTO, snapshotTreeResult);
-      if (SoftVis3DPlugin.CACHE_ENABLED) {
-        layoutCacheService.save(key, visualizationResult);
-      }
-    }
-
+    SnapshotTreeResult snapshotTreeResult = new SnapshotTreeResult(new RootTreeNode(3));
+    Map<Integer, ResultPlatform> visualizationResult = new HashMap<Integer, ResultPlatform>();
     this.writeResultsToResponse(response, snapshotTreeResult, visualizationResult);
-
-//    this.session.commit();
   }
 
   private void writeResultsToResponse(final Response response, final SnapshotTreeResult snapshotTreeResult,
     final Map<Integer, ResultPlatform> visualizationResult) {
 
-    final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(response.stream().output());
+//    final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(response.stream().output());
+
+    JsonWriter jsonWriter = JsonWriter.of(new OutputStreamWriter(response.stream().output(), StandardCharsets.UTF_8));
 
     jsonWriter.beginObject();
     jsonWriter.name("resultObject");
@@ -122,12 +123,12 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     jsonWriter.close();
   }
 
-  private Map<Integer, ResultPlatform> createLayout(final VisualizationRequest requestDTO,
+  private Map<Integer, ResultPlatform> createLayout(final LocalConnector localConnector, final VisualizationRequest requestDTO,
     final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
     logStartOfCalc(requestDTO);
 
     final Map<Integer, ResultPlatform> result = visualizationProcessor.visualize(requestDTO.getViewType(), this.visualizationSettings, snapshotTreeResult,
-      createAdditionalInfos(requestDTO));
+      createAdditionalInfos(localConnector, requestDTO));
 
     /**
      * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
@@ -139,7 +140,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     return result;
   }
 
-  private VisualizationAdditionalInfos createAdditionalInfos(final VisualizationRequest requestDTO) {
+  private VisualizationAdditionalInfos createAdditionalInfos(final LocalConnector localConnector, final VisualizationRequest requestDTO) {
     final MinMaxValue minMaxMetricFootprint = daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
       requestDTO.getFootprintMetricId());
     final MinMaxValue minMaxMetricHeight = daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotId(),
@@ -148,7 +149,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     final int dependenciesCount = daoService.getDependencies(requestDTO.getRootSnapshotId()).size();
 
     // TODO
-    final MinMaxValue minMaxMetricColor = daoService.getMaxScmInfo(requestDTO);
+    final MinMaxValue minMaxMetricColor = daoService.getMaxScmInfo(localConnector, requestDTO);
 
     return new VisualizationAdditionalInfos(minMaxMetricFootprint, minMaxMetricHeight, minMaxMetricColor, dependenciesCount);
   }
@@ -163,7 +164,4 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     this.visualizationSettings = settings;
   }
 
-//  public void setDatabaseSession(final DatabaseSession session) {
-//    this.session = session;
-//  }
 }

@@ -19,7 +19,6 @@
  */
 package de.rinderle.softvis3d.webservice;
 
-import de.rinderle.softvis3d.base.domain.Metric;
 import de.rinderle.softvis3d.dao.DaoService;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -38,6 +37,7 @@ import org.sonar.api.server.ws.Response;
 import org.sonar.api.server.ws.WebService;
 import org.sonar.api.utils.text.JsonWriter;
 import org.sonar.api.utils.text.XmlWriter;
+import org.sonarqube.ws.Common;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -74,9 +74,9 @@ public class ConfigWebserviceHandlerTest {
     final Request request = this.createRequest();
     final Response response = this.createResponse();
 
-    when(daoService.getMetric1FromSettings(any(Settings.class))).thenReturn(1);
-    when(daoService.getMetric2FromSettings(any(Settings.class))).thenReturn(2);
-    when(daoService.getDefinedMetricsForSnapshot(eq(snapshotId))).thenReturn(new ArrayList<Metric>());
+    when(daoService.getMetric1FromSettings(any(LocalConnector.class), any(Settings.class))).thenReturn(1);
+    when(daoService.getMetric2FromSettings(any(LocalConnector.class), any(Settings.class))).thenReturn(2);
+    when(daoService.getDefinedMetricsForSnapshot(any(LocalConnector.class), eq(snapshotId))).thenReturn(new ArrayList<Common.Metric>());
     when(daoService.hasDependencies(eq(snapshotId))).thenReturn(false);
 
     this.handler.handle(request, response);
