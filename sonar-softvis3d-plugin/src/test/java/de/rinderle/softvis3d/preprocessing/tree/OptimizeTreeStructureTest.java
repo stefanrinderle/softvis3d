@@ -35,12 +35,12 @@ public class OptimizeTreeStructureTest {
 
   @Test
   public void testEmptyTree() {
-    final int id = 1;
+    final String id = "1";
 
-    final RootTreeNode tree = new RootTreeNode(1);
+    final RootTreeNode tree = new RootTreeNode("1");
     normalizer.removeUnnecessaryNodes(tree);
 
-    assertEquals(id, tree.getId().intValue());
+    assertEquals(id, tree.getId());
 
     assertSame(0, tree.getDepth());
   }
@@ -54,20 +54,20 @@ public class OptimizeTreeStructureTest {
    */
   @Test
   public void testValidTreeDoNotOptimize() {
-    final RootTreeNode root = new RootTreeNode(1);
-    final TreeNode nodeB = new TreeNode(2, root, 1, TreeNodeType.TREE, "B");
+    final RootTreeNode root = new RootTreeNode("1");
+    final TreeNode nodeB = new TreeNode("2", root, 1, TreeNodeType.TREE, "B");
     root.addChildrenNode("B", nodeB);
-    final TreeNode nodeC = new TreeNode(3, root, 1, TreeNodeType.TREE, "C");
+    final TreeNode nodeC = new TreeNode("3", root, 1, TreeNodeType.TREE, "C");
     root.addChildrenNode("C", nodeC);
 
-    final TreeNode nodeD = new TreeNode(4, nodeB, 2, TreeNodeType.TREE, "D");
+    final TreeNode nodeD = new TreeNode("4", nodeB, 2, TreeNodeType.TREE, "D");
     nodeB.addChildrenNode("D", nodeD);
-    final TreeNode nodeE = new TreeNode(5, nodeB, 2, TreeNodeType.TREE, "E");
+    final TreeNode nodeE = new TreeNode("5", nodeB, 2, TreeNodeType.TREE, "E");
     nodeB.addChildrenNode("E", nodeE);
 
-    final TreeNode nodeF = new TreeNode(6, nodeC, 2, TreeNodeType.TREE, "F");
+    final TreeNode nodeF = new TreeNode("6", nodeC, 2, TreeNodeType.TREE, "F");
     nodeC.addChildrenNode("F", nodeF);
-    final TreeNode nodeG = new TreeNode(7, nodeC, 2, TreeNodeType.TREE, "G");
+    final TreeNode nodeG = new TreeNode("7", nodeC, 2, TreeNodeType.TREE, "G");
     nodeC.addChildrenNode("G", nodeG);
 
     normalizer.removeUnnecessaryNodes(root);
@@ -95,18 +95,18 @@ public class OptimizeTreeStructureTest {
    */
   @Test
   public void testValidTreeOptimizeLeft() {
-    final RootTreeNode root = new RootTreeNode(1);
-    final TreeNode nodeB = new TreeNode(2, root, 1, TreeNodeType.TREE, "B");
+    final RootTreeNode root = new RootTreeNode("1");
+    final TreeNode nodeB = new TreeNode("2", root, 1, TreeNodeType.TREE, "B");
     root.addChildrenNode("B", nodeB);
-    final TreeNode nodeC = new TreeNode(3, root, 1, TreeNodeType.TREE, "C");
+    final TreeNode nodeC = new TreeNode("3", root, 1, TreeNodeType.TREE, "C");
     root.addChildrenNode("C", nodeC);
 
-    final TreeNode nodeD = new TreeNode(4, nodeB, 2, TreeNodeType.TREE, "D");
+    final TreeNode nodeD = new TreeNode("4", nodeB, 2, TreeNodeType.TREE, "D");
     nodeB.addChildrenNode("D", nodeD);
 
-    final TreeNode nodeF = new TreeNode(6, nodeC, 2, TreeNodeType.TREE, "F");
+    final TreeNode nodeF = new TreeNode("6", nodeC, 2, TreeNodeType.TREE, "F");
     nodeC.addChildrenNode("F", nodeF);
-    final TreeNode nodeG = new TreeNode(7, nodeC, 2, TreeNodeType.TREE, "G");
+    final TreeNode nodeG = new TreeNode("7", nodeC, 2, TreeNodeType.TREE, "G");
     nodeC.addChildrenNode("G", nodeG);
 
     normalizer.removeUnnecessaryNodes(root);
@@ -135,18 +135,18 @@ public class OptimizeTreeStructureTest {
    */
   @Test
   public void testValidTreeOptimizeRight() {
-    final RootTreeNode root = new RootTreeNode(1);
-    final TreeNode nodeB = new TreeNode(2, root, 1, TreeNodeType.TREE, "B");
+    final RootTreeNode root = new RootTreeNode("1");
+    final TreeNode nodeB = new TreeNode("2", root, 1, TreeNodeType.TREE, "B");
     root.addChildrenNode("B", nodeB);
-    final TreeNode nodeC = new TreeNode(3, root, 1, TreeNodeType.TREE, "C");
+    final TreeNode nodeC = new TreeNode("3", root, 1, TreeNodeType.TREE, "C");
     root.addChildrenNode("C", nodeC);
 
-    final TreeNode nodeD = new TreeNode(4, nodeB, 2, TreeNodeType.TREE, "D");
+    final TreeNode nodeD = new TreeNode("4", nodeB, 2, TreeNodeType.TREE, "D");
     nodeB.addChildrenNode("D", nodeD);
-    final TreeNode nodeE = new TreeNode(5, nodeB, 2, TreeNodeType.TREE, "E");
+    final TreeNode nodeE = new TreeNode("5", nodeB, 2, TreeNodeType.TREE, "E");
     nodeB.addChildrenNode("E", nodeE);
 
-    final TreeNode nodeF = new TreeNode(6, nodeC, 2, TreeNodeType.TREE, "F");
+    final TreeNode nodeF = new TreeNode("6", nodeC, 2, TreeNodeType.TREE, "F");
     nodeC.addChildrenNode("F", nodeF);
 
     normalizer.removeUnnecessaryNodes(root);
@@ -178,16 +178,16 @@ public class OptimizeTreeStructureTest {
    */
   @Test
   public void testValidTreeOptimizeMore() {
-    final RootTreeNode root = new RootTreeNode(1);
-    final TreeNode nodeB = new TreeNode(2, root, 1, TreeNodeType.TREE, "B");
+    final RootTreeNode root = new RootTreeNode("1");
+    final TreeNode nodeB = new TreeNode("2", root, 1, TreeNodeType.TREE, "B");
     root.addChildrenNode("B", nodeB);
-    final TreeNode nodeC = new TreeNode(3, root, 1, TreeNodeType.TREE, "C");
+    final TreeNode nodeC = new TreeNode("3", root, 1, TreeNodeType.TREE, "C");
     root.addChildrenNode("C", nodeC);
 
-    final TreeNode nodeD = new TreeNode(4, nodeB, 2, TreeNodeType.TREE, "D");
+    final TreeNode nodeD = new TreeNode("4", nodeB, 2, TreeNodeType.TREE, "D");
     nodeB.addChildrenNode("D", nodeD);
 
-    final TreeNode nodeE = new TreeNode(5, nodeD, 3, TreeNodeType.TREE, "E");
+    final TreeNode nodeE = new TreeNode("5", nodeD, 3, TreeNodeType.TREE, "E");
     nodeD.addChildrenNode("E", nodeE);
 
     normalizer.removeUnnecessaryNodes(root);

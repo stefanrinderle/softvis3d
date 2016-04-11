@@ -26,7 +26,7 @@ import java.util.List;
 public class ResultBuilding extends BaseResultObject {
 
   private final List<ResultArrow> arrows;
-  private final int id;
+  private final String id;
   private final double buildingHeight;
   private final TreeNodeType type;
   private final GrappaPoint position;
@@ -48,7 +48,7 @@ public class ResultBuilding extends BaseResultObject {
     this.position = resultBuildingBuilder.position;
   }
 
-  public int getId() {
+  public String getId() {
     return id;
   }
 

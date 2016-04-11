@@ -56,7 +56,7 @@ public class GuiceResource {
   @Produces(MediaType.APPLICATION_JSON)
   public String getExample() {
 
-    final Map<Integer, ResultPlatform> result;
+    final Map<String, ResultPlatform> result;
     try {
       result = layoutExampleService.getExampleResult();
       SnapshotTreeResult resultTree = layoutExampleService.getExampleResultTree();
@@ -75,7 +75,7 @@ public class GuiceResource {
   @Path("/neostatic")
   @Produces(MediaType.APPLICATION_JSON)
   public String getNeoStatic() {
-    final Map<Integer, ResultPlatform> result;
+    final Map<String, ResultPlatform> result;
     try {
       final SnapshotTreeResult resultTree = neoService.getNeoTreeStatic();
       result = neoService.getNeoResult(resultTree);
@@ -94,7 +94,7 @@ public class GuiceResource {
   @Path("/neoDynamic")
   @Produces(MediaType.APPLICATION_JSON)
   public String getNeoDynamic(@QueryParam("cypher") String cypher) {
-    final Map<Integer, ResultPlatform> result;
+    final Map<String, ResultPlatform> result;
     try {
       final SnapshotTreeResult resultTree = neoService.getNeoTree(cypher);
 
@@ -111,7 +111,7 @@ public class GuiceResource {
   }
 
   private void writeResultsToResponse(final SoftVis3dJsonWriter jsonWriter, final SnapshotTreeResult snapshotTreeResult,
-                                      final Map<Integer, ResultPlatform> visualizationResult) {
+                                      final Map<String, ResultPlatform> visualizationResult) {
 
     jsonWriter.beginObject();
     jsonWriter.name("resultObject");

@@ -33,7 +33,7 @@ public class PathWalker {
   private final RootTreeNode root;
   private int generatedIdSequence = Integer.MAX_VALUE - 500000;
 
-  public PathWalker(final int id) {
+  public PathWalker(final String id) {
     this.root = new RootTreeNode(id);
   }
 
@@ -42,7 +42,7 @@ public class PathWalker {
   }
 
   public void addPath(final PathWalkerInputElement element) {
-    final int id = getNextSequence();
+    final String id = getNextSequence();
     final String[] names = element.getSplittedPath();
 
     TreeNode currentNode = this.root;
@@ -61,12 +61,12 @@ public class PathWalker {
     }
   }
 
-  private int getNextSequence() {
+  private String getNextSequence() {
     this.generatedIdSequence = this.generatedIdSequence + 1;
-    return this.generatedIdSequence;
+    return this.generatedIdSequence + "";
   }
 
-  private TreeNode getOrCreateChild(final TreeNode node, final Integer id, final String name, final TreeNodeType type,
+  private TreeNode getOrCreateChild(final TreeNode node, final String id, final String name, final TreeNodeType type,
     final double footprintMetricValue, final double heightMetricValue, final int scmMetricValue) {
     final Map<String, TreeNode> children = node.getChildren();
     if (children.containsKey(name)) {

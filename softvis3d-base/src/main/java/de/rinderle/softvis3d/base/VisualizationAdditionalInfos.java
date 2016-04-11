@@ -27,14 +27,21 @@ import de.rinderle.softvis3d.base.domain.MinMaxValue;
 public class VisualizationAdditionalInfos {
   private final MinMaxValue minMaxMetricFootprint;
   private final MinMaxValue minMaxMetricHeight;
-  private final int dependenciesCount;
   private final MinMaxValue minMaxMetricColor;
+  private int dependenciesCount;
 
   public VisualizationAdditionalInfos(final MinMaxValue minMaxMetricFootprint, final MinMaxValue minMaxMetricHeight,
                                       final MinMaxValue minMaxMetricColor, final int dependenciesCount) {
     this.minMaxMetricFootprint = minMaxMetricFootprint;
     this.minMaxMetricHeight = minMaxMetricHeight;
     this.dependenciesCount = dependenciesCount;
+    this.minMaxMetricColor = minMaxMetricColor;
+  }
+
+  public VisualizationAdditionalInfos(final MinMaxValue minMaxMetricFootprint, final MinMaxValue minMaxMetricHeight,
+                                      final MinMaxValue minMaxMetricColor) {
+    this.minMaxMetricFootprint = minMaxMetricFootprint;
+    this.minMaxMetricHeight = minMaxMetricHeight;
     this.minMaxMetricColor = minMaxMetricColor;
   }
 

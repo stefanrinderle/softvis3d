@@ -62,7 +62,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
   private final GraphvizPath graphvizPath;
 
-  private final Map<Integer, ResultPlatform> resultingGraphList = new ConcurrentHashMap<>();
+  private final Map<String, ResultPlatform> resultingGraphList = new ConcurrentHashMap<>();
 
   private final LayoutViewType viewType;
   private final VisualizationAdditionalInfos additionalInfos;
@@ -89,7 +89,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
   }
 
   @Override
-  public Map<Integer, ResultPlatform> getResultingGraphList() {
+  public Map<String, ResultPlatform> getResultingGraphList() {
     return this.resultingGraphList;
   }
 
@@ -134,7 +134,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
   }
 
   private Graph createGrappaInputGraph(final TreeNode node, final List<LayeredLayoutElement> elements) {
-    final Graph inputGraph = new Graph(node.getId().toString());
+    final Graph inputGraph = new Graph(node.getId());
 
     for (final LayeredLayoutElement element : elements) {
       final Node elementNode = this.nodeFactory.transformToGrappaNode(inputGraph, element);

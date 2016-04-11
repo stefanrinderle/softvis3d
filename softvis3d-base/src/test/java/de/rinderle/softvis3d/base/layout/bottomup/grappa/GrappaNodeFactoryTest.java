@@ -38,7 +38,7 @@ public class GrappaNodeFactoryTest {
     final Graph inputGraph = new Graph("graphName");
 
     final TreeNodeType type = TreeNodeType.TREE;
-    final Integer id = 3;
+    final String id = "3";
     final String name = "elementName";
     final Double width = 42.4;
     final Double height = 23.4;

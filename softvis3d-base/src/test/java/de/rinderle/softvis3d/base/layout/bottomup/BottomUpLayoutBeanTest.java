@@ -53,7 +53,7 @@ public class BottomUpLayoutBeanTest {
 
   @Test
   public void testAccept() throws Exception {
-    final int snapshotId = 1;
+    final String snapshotId = "1";
 
     final RootTreeNode tree = new RootTreeNode(snapshotId);
     final SnapshotTreeResult snapshotTreeResult = new SnapshotTreeResult(tree);
@@ -62,12 +62,12 @@ public class BottomUpLayoutBeanTest {
     when(visitor.visitNode(eq(tree), anyListOf(LayeredLayoutElement.class))).thenReturn(resultElement);
 
     final LayeredLayoutElement result = underTest.accept(snapshotTreeResult);
-    assertEquals(snapshotId, result.getId().intValue());
+    assertEquals(snapshotId, result.getId());
   }
 
   @Test
   public void testAcceptTree() throws Exception {
-    final int snapshotId = 1;
+    final String snapshotId = "1";
 
     final RootTreeNode tree = new RootTreeNode(snapshotId);
 
@@ -75,7 +75,7 @@ public class BottomUpLayoutBeanTest {
     when(visitor.visitNode(eq(tree), anyListOf(LayeredLayoutElement.class))).thenReturn(resultElement);
 
     final LayeredLayoutElement result = underTest.accept(tree);
-    assertEquals(snapshotId, result.getId().intValue());
+    assertEquals(snapshotId, result.getId());
   }
 
   /**
@@ -88,13 +88,13 @@ public class BottomUpLayoutBeanTest {
    **/
   @Test
   public void testProcessChildrenNodes() throws DotExecutorException {
-    final Long nodeId = 1L;
+    final String nodeId = "1";
 
-    final RootTreeNode treeNode1 = new RootTreeNode(1);
-    final TreeNode treeNode2 = TestTreeBuilder.createTreeNode(nodeId.intValue(), treeNode1, 1);
-    TestTreeBuilder.createTreeNode(3, treeNode2, 2);
-    TestTreeBuilder.createTreeNode(4, treeNode2, 1);
-    TestTreeBuilder.createTreeNode(5, treeNode1, 2);
+    final RootTreeNode treeNode1 = new RootTreeNode("1");
+    final TreeNode treeNode2 = TestTreeBuilder.createTreeNode(nodeId, treeNode1, 1);
+    TestTreeBuilder.createTreeNode("3", treeNode2, 2);
+    TestTreeBuilder.createTreeNode("4", treeNode2, 1);
+    TestTreeBuilder.createTreeNode("5", treeNode1, 2);
 
     final LayeredLayoutElement resultElement = LayeredLayoutElement.createLayeredLayoutElement(treeNode2, null, null, null, null);
     when(visitor.visitNode(eq(treeNode2), anyListOf(LayeredLayoutElement.class))).thenReturn(resultElement);
@@ -102,7 +102,7 @@ public class BottomUpLayoutBeanTest {
     final List<LayeredLayoutElement> result = underTest.processChildrenNodes(treeNode1);
 
     assertEquals(1, result.size());
-    assertSame(nodeId.intValue(), result.get(0).getId());
+    assertSame(nodeId, result.get(0).getId());
   }
 
   /**
@@ -115,13 +115,13 @@ public class BottomUpLayoutBeanTest {
    **/
   @Test
   public void testProcessChildrenLeaves() throws DotExecutorException {
-    final Long nodeId = 5L;
+    final String nodeId = "5";
 
-    final RootTreeNode treeNode1 = new RootTreeNode(1);
-    final TreeNode treeNode2 = TestTreeBuilder.createTreeNode(2, treeNode1, 1);
-    TestTreeBuilder.createTreeNode(3, treeNode2, 2);
-    TestTreeBuilder.createTreeNode(4, treeNode2, 1);
-    final TreeNode treeNode5 = TestTreeBuilder.createTreeNode(nodeId.intValue(), treeNode1, 2);
+    final RootTreeNode treeNode1 = new RootTreeNode("1");
+    final TreeNode treeNode2 = TestTreeBuilder.createTreeNode("2", treeNode1, 1);
+    TestTreeBuilder.createTreeNode("3", treeNode2, 2);
+    TestTreeBuilder.createTreeNode("4", treeNode2, 1);
+    final TreeNode treeNode5 = TestTreeBuilder.createTreeNode(nodeId, treeNode1, 2);
 
     final LayeredLayoutElement leafResultElement =
       LayeredLayoutElement.createLayeredLayoutElement(treeNode5, null, null, null, null);
@@ -130,7 +130,7 @@ public class BottomUpLayoutBeanTest {
     final List<LayeredLayoutElement> result = underTest.processChildrenLeaves(treeNode1);
 
     assertEquals(1, result.size());
-    assertSame(nodeId.intValue(), result.get(0).getId());
+    assertSame(nodeId, result.get(0).getId());
   }
 
 }

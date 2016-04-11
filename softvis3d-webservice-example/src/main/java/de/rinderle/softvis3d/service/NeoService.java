@@ -70,7 +70,7 @@ public class NeoService {
     return new SnapshotTreeResult(tree);
   }
 
-  public Map<Integer, ResultPlatform> getNeoResult(final SnapshotTreeResult snapshotTreeResult) throws Exception {
+  public Map<String, ResultPlatform> getNeoResult(final SnapshotTreeResult snapshotTreeResult) throws Exception {
 
     final VisualizationSettings settings = new VisualizationSettings();
     final VisualizationAdditionalInfos additionalInfos = createAdditionalInfos(snapshotTreeResult.getTree());
@@ -93,7 +93,7 @@ public class NeoService {
   }
 
   private RootTreeNode transformLayoutInput(final Neo4jAnswer neoAnswer) {
-    final PathWalker pathWalker = new PathWalker(1);
+    final PathWalker pathWalker = new PathWalker("1");
 
     for (final Data data : neoAnswer.getResults().get(0).getData()) {
       pathWalker.addPath(pathWalkerDataTransformer.transform(data));

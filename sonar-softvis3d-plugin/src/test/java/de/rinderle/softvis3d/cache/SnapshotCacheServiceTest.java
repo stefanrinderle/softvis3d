@@ -19,9 +19,7 @@
  */
 package de.rinderle.softvis3d.cache;
 
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
@@ -38,27 +36,27 @@ public class SnapshotCacheServiceTest {
 
   @Test
   public void test() throws Exception {
-    final int lastEntryKeyNumber = 100;
+    final String lastEntryKey = "100";
 
-    for (int i = 0; i < lastEntryKeyNumber + 1; i++) {
-      final SnapshotStorageKey key = getSnapshotStorageKey(i);
-      final SnapshotTreeResult value = new SnapshotTreeResult(new RootTreeNode(i));
-      underTest.save(key, value);
-    }
+//    for (int i = 0; i < lastEntryKey + 1; i++) {
+//      final SnapshotStorageKey key = getSnapshotStorageKey(i);
+//      final SnapshotTreeResult value = new SnapshotTreeResult(new RootTreeNode(i));
+//      underTest.save(key, value);
+//    }
 
     underTest.printCacheContents();
     // check limits
-    assertFalse(underTest.containsKey(getSnapshotStorageKey(0)));
-    assertTrue(underTest.containsKey(getSnapshotStorageKey(lastEntryKeyNumber)));
+    assertFalse(underTest.containsKey(getSnapshotStorageKey("0")));
+    assertTrue(underTest.containsKey(getSnapshotStorageKey(lastEntryKey)));
 
-    assertNull(underTest.getSnapshotTreeResult(getSnapshotStorageKey(0)));
+    assertNull(underTest.getSnapshotTreeResult(getSnapshotStorageKey("0")));
 
-    final SnapshotTreeResult cachedValue = underTest.getSnapshotTreeResult(getSnapshotStorageKey(lastEntryKeyNumber));
-    assertEquals(lastEntryKeyNumber, cachedValue.getTree().getId().intValue());
+    final SnapshotTreeResult cachedValue = underTest.getSnapshotTreeResult(getSnapshotStorageKey(lastEntryKey));
+    assertEquals(lastEntryKey, cachedValue.getTree().getId());
   }
 
-  private SnapshotStorageKey getSnapshotStorageKey(final int id) {
-    final VisualizationRequest requestDto = new VisualizationRequest(id, LayoutViewType.CITY, 1, 1, ScmInfoType.NONE);
+  private SnapshotStorageKey getSnapshotStorageKey(final String id) {
+    final VisualizationRequest requestDto = new VisualizationRequest(id, "1", "1", ScmInfoType.NONE);
     return new SnapshotStorageKey(requestDto);
   }
 }

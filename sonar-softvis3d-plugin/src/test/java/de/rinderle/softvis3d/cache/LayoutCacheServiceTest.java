@@ -20,7 +20,6 @@
 package de.rinderle.softvis3d.cache;
 
 import att.grappa.Graph;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
@@ -42,25 +41,25 @@ public class LayoutCacheServiceTest {
     final int lastEntryKeyNumber = 100;
 
     for (int i = 0; i < lastEntryKeyNumber + 1; i++) {
-      final SnapshotStorageKey key = getSnapshotStorageKey(i);
-      final Map<Integer, ResultPlatform> value = new HashMap<Integer, ResultPlatform>();
-      value.put(i, new ResultPlatform(new Graph("" + i)));
+      final SnapshotStorageKey key = getSnapshotStorageKey(i + "");
+      final Map<String, ResultPlatform> value = new HashMap<>();
+      value.put(i + "", new ResultPlatform(new Graph("" + i)));
       underTest.save(key, value);
     }
 
     underTest.printCacheContents();
     // check limits
-    assertFalse(underTest.containsKey(getSnapshotStorageKey(0)));
-    assertTrue(underTest.containsKey(getSnapshotStorageKey(lastEntryKeyNumber)));
+    assertFalse(underTest.containsKey(getSnapshotStorageKey("0")));
+    assertTrue(underTest.containsKey(getSnapshotStorageKey(lastEntryKeyNumber + "")));
 
-    assertNull(underTest.getLayoutResult(getSnapshotStorageKey(0)));
+    assertNull(underTest.getLayoutResult(getSnapshotStorageKey("0")));
 
-    final Map<Integer, ResultPlatform> cachedValue = underTest.getLayoutResult(getSnapshotStorageKey(lastEntryKeyNumber));
+    final Map<String, ResultPlatform> cachedValue = underTest.getLayoutResult(getSnapshotStorageKey(lastEntryKeyNumber + ""));
     assertTrue(cachedValue.containsKey(lastEntryKeyNumber));
   }
 
-  private SnapshotStorageKey getSnapshotStorageKey(final int id) {
-    final VisualizationRequest requestDto = new VisualizationRequest(id, LayoutViewType.CITY, 1, 1, ScmInfoType.NONE);
+  private SnapshotStorageKey getSnapshotStorageKey(final String id) {
+    final VisualizationRequest requestDto = new VisualizationRequest(id, "1", "1", ScmInfoType.NONE);
     return new SnapshotStorageKey(requestDto);
   }
 }

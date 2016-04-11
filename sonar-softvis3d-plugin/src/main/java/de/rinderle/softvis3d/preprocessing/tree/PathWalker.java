@@ -23,7 +23,7 @@ import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
-import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
+import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -34,11 +34,9 @@ public class PathWalker {
 
   private final RootTreeNode root;
   private final Pattern pathSeparator = Pattern.compile("/");
-  // TODO: different generated id sequence in DependencyExpander and
-  // PathWalker.
   private int generatedIdSequence = Integer.MAX_VALUE - 100000;
 
-  public PathWalker(final int id) {
+  public PathWalker(final String id) {
     this.root = new RootTreeNode(id);
   }
 
@@ -46,7 +44,7 @@ public class PathWalker {
     return this.root;
   }
 
-  public void addPath(final SonarSnapshot element) {
+  public void addPath(final SonarMeasure element) {
     final String[] names = this.pathSeparator.split(element.getPath());
 
     TreeNode currentNode = this.root;
@@ -65,13 +63,13 @@ public class PathWalker {
     }
   }
 
-  private int getNextSequence() {
+  private String getNextSequence() {
     this.generatedIdSequence = this.generatedIdSequence + 1;
-    return this.generatedIdSequence;
+    return String.valueOf(this.generatedIdSequence);
   }
 
-  private TreeNode getOrCreateChild(final TreeNode node, final Integer id, final String name, final TreeNodeType type,
-    final double footprintMetricValue, final double heightMetricValue, final int scmMetricValue) {
+  private TreeNode getOrCreateChild(final TreeNode node, final String id, final String name, final TreeNodeType type,
+    final double footprintMetricValue, final double heightMetricValue, final double scmMetricValue) {
     final Map<String, TreeNode> children = node.getChildren();
     if (children.containsKey(name)) {
       return children.get(name);

@@ -22,7 +22,6 @@ package de.rinderle.softvis3d.webservice;
 import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
 import de.rinderle.softvis3d.base.VisualizationProcessor;
 import de.rinderle.softvis3d.base.VisualizationSettings;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
@@ -61,9 +60,9 @@ public class VisualizationWebserviceHandlerTest {
   final StringOutputStream stringOutputStream = new StringOutputStream();
   final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
 
-  private final Integer snapshotId = 123;
-  private final Integer footprintMetricId = 1;
-  private final Integer heightMetricId = 21;
+  private final String snapshotKey = "123";
+  private final String footprintMetricKey = "1";
+  private final String heightMetricKey = "21";
   private final String viewType = "city";
   private final ScmInfoType scmMetricType = ScmInfoType.AUTHOR_COUNT;
 
@@ -97,10 +96,10 @@ public class VisualizationWebserviceHandlerTest {
 //    final Response response = this.createResponse();
 
     final VisualizationRequest requestDTO = new VisualizationRequest(
-      this.snapshotId, LayoutViewType.CITY, this.footprintMetricId, this.heightMetricId, ScmInfoType.NONE);
+      this.snapshotKey, this.footprintMetricKey, this.heightMetricKey, ScmInfoType.NONE);
 
     final SnapshotTreeResult treeResult = mockPreProcessing(requestDTO);
-    final Map<Integer, ResultPlatform> visualizationResult = mockVisualization(requestDTO, treeResult);
+    final Map<String, ResultPlatform> visualizationResult = mockVisualization(requestDTO, treeResult);
 
 //    this.handler.handle(request, response);
 
@@ -111,8 +110,8 @@ public class VisualizationWebserviceHandlerTest {
     verify(visualizationJsonWriter, times(1)).transformResponseToJson(eq(jsonWriter), eq(visualizationResult));
   }
 
-  private Map<Integer, ResultPlatform> mockVisualization(final VisualizationRequest requestDTO, final SnapshotTreeResult treeResult) throws DotExecutorException {
-    final Map<Integer, ResultPlatform> visualizationResult = new HashMap<Integer, ResultPlatform>();
+  private Map<String, ResultPlatform> mockVisualization(final VisualizationRequest requestDTO, final SnapshotTreeResult treeResult) throws DotExecutorException {
+    final Map<String, ResultPlatform> visualizationResult = new HashMap<>();
     when(visualizationProcessor.visualize(eq(requestDTO.getViewType()), any(VisualizationSettings.class), eq(treeResult), any(VisualizationAdditionalInfos.class)))
       .thenReturn(visualizationResult);
 
@@ -120,7 +119,7 @@ public class VisualizationWebserviceHandlerTest {
   }
 
   private SnapshotTreeResult mockPreProcessing(final VisualizationRequest requestDTO) {
-    final RootTreeNode rootTreeNode = new RootTreeNode(1);
+    final RootTreeNode rootTreeNode = new RootTreeNode("1");
     final SnapshotTreeResult treeResult = new SnapshotTreeResult(rootTreeNode);
 
     LocalConnector localConnector = null;
@@ -153,12 +152,12 @@ public class VisualizationWebserviceHandlerTest {
 
       @Override
       public String param(final String key) {
-        if ("snapshotId".equals(key)) {
-          return VisualizationWebserviceHandlerTest.this.snapshotId.toString();
-        } else if ("footprintMetricId".equals(key)) {
-          return VisualizationWebserviceHandlerTest.this.footprintMetricId.toString();
-        } else if ("heightMetricId".equals(key)) {
-          return VisualizationWebserviceHandlerTest.this.heightMetricId.toString();
+        if ("snapshotKey".equals(key)) {
+          return VisualizationWebserviceHandlerTest.this.snapshotKey.toString();
+        } else if ("footprintMetricKey".equals(key)) {
+          return VisualizationWebserviceHandlerTest.this.footprintMetricKey.toString();
+        } else if ("heightMetricKey".equals(key)) {
+          return VisualizationWebserviceHandlerTest.this.heightMetricKey.toString();
         } else if ("viewType".equals(key)) {
           return VisualizationWebserviceHandlerTest.this.viewType;
         } else if ("scmMetricType".equals(key)) {

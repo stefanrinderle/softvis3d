@@ -30,13 +30,13 @@ import java.util.Map;
 
 public class VisualizationJsonWriter {
 
-  public void transformResponseToJson(final SoftVis3dJsonWriter jsonWriter, final Map<Integer, ResultPlatform> results) {
+  public void transformResponseToJson(final SoftVis3dJsonWriter jsonWriter, final Map<String, ResultPlatform> results) {
     jsonWriter.beginObject();
 
     jsonWriter.name("visualizationResult");
     jsonWriter.beginArray();
 
-    for (final Map.Entry<Integer, ResultPlatform> entry : results.entrySet()) {
+    for (final Map.Entry<String, ResultPlatform> entry : results.entrySet()) {
       transformPlatform(jsonWriter, entry.getKey(), entry.getValue());
     }
 
@@ -44,7 +44,7 @@ public class VisualizationJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void transformPlatform(final SoftVis3dJsonWriter jsonWriter, final Integer id, final ResultPlatform platform) {
+  private void transformPlatform(final SoftVis3dJsonWriter jsonWriter, final String id, final ResultPlatform platform) {
     jsonWriter.beginObject();
 
     jsonWriter.prop("platformId", id);

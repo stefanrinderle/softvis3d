@@ -25,7 +25,7 @@ public class ValueTreeNode extends TreeNode {
   private final double footprintMetricValue;
   private final double colorMetricValue;
 
-  public ValueTreeNode(final Integer id, final TreeNode parent, final int depth, final TreeNodeType type,
+  public ValueTreeNode(final String id, final TreeNode parent, final int depth, final TreeNodeType type,
     final String name, final double footprintMetricValue, final double heightMetricValue, final double colorMetricValue) {
     super(id, parent, depth, type, name);
 

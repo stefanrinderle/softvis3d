@@ -38,15 +38,15 @@ public class PostProcessor {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PostProcessor.class);
 
-  private Map<Integer, ResultPlatform> resultGraphs;
-  private Map<Integer, GrappaPoint> innerGraphTranslation;
+  private Map<String, ResultPlatform> resultGraphs;
+  private Map<String, GrappaPoint> innerGraphTranslation;
   private int leafElements;
 
   @Inject
   private TranslateArrow translateArrow;
 
   public int process(final LayoutViewType viewType,
-    final Map<Integer, ResultPlatform> resultGraphs, final SnapshotTreeResult treeResult) {
+    final Map<String, ResultPlatform> resultGraphs, final SnapshotTreeResult treeResult) {
     this.leafElements = 0;
 
     this.innerGraphTranslation = new HashMap<>();
@@ -92,7 +92,7 @@ public class PostProcessor {
 
   private void removeRepresentationNode(final ResultPlatform graph, final LayoutViewType layoutViewType, final TreeNode child) {
     if (LayoutViewType.CITY.equals(layoutViewType)) {
-      graph.removeNode(child.getId().toString());
+      graph.removeNode(child.getId());
     }
   }
 

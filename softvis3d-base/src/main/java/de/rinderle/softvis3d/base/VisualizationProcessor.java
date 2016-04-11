@@ -41,7 +41,7 @@ public class VisualizationProcessor {
   @Inject
   private PostProcessor calc;
 
-  public Map<Integer, ResultPlatform> visualize(final LayoutViewType viewType,
+  public Map<String, ResultPlatform> visualize(final LayoutViewType viewType,
     final VisualizationSettings settings,
     final SnapshotTreeResult snapshotTreeResult,
     final VisualizationAdditionalInfos additionalInfos) throws DotExecutorException {
@@ -49,7 +49,7 @@ public class VisualizationProcessor {
     final StopWatch stopWatch = new StopWatch();
     stopWatch.start();
 
-    final Map<Integer, ResultPlatform> resultGraphs =
+    final Map<String, ResultPlatform> resultGraphs =
       layoutProcessor.process(settings, viewType, snapshotTreeResult, additionalInfos);
 
     LOGGER.info("Created " + resultGraphs.size() + " result graphs in " + stopWatch.getTime() + " ms");
@@ -64,7 +64,7 @@ public class VisualizationProcessor {
      * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
      */
     if (viewType.equals(LayoutViewType.DEPENDENCY)) {
-      final int rootSnapshotId = snapshotTreeResult.getTree().getId();
+      final String rootSnapshotId = snapshotTreeResult.getTree().getId();
       resultGraphs.remove(rootSnapshotId);
     }
 

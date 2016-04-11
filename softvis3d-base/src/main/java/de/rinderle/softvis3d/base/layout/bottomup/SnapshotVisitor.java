@@ -28,7 +28,7 @@ import java.util.Map;
 
 public interface SnapshotVisitor {
 
-  Map<Integer, ResultPlatform> getResultingGraphList();
+  Map<String, ResultPlatform> getResultingGraphList();
 
   LayeredLayoutElement visitNode(TreeNode node,
     List<LayeredLayoutElement> elements) throws DotExecutorException;

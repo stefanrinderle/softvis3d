@@ -39,9 +39,9 @@ public class LayoutExampleService {
   @Inject
   private VisualizationProcessor visualizationProcessor;
 
-  public Map<Integer, ResultPlatform> getExampleResult() throws Exception {
+  public Map<String, ResultPlatform> getExampleResult() throws Exception {
     final VisualizationSettings settings = new VisualizationSettings();
-    final SnapshotTreeResult snapshotTreeResult = createExampleSnapshotTreeResult(1);
+    final SnapshotTreeResult snapshotTreeResult = createExampleSnapshotTreeResult("1");
     final VisualizationAdditionalInfos additionalInfos = createExampleAdditionalInfos();
     try {
       return visualizationProcessor
@@ -51,11 +51,11 @@ public class LayoutExampleService {
     }
   }
 
-  private SnapshotTreeResult createExampleSnapshotTreeResult(final int rootId) {
+  private SnapshotTreeResult createExampleSnapshotTreeResult(final String rootId) {
     final RootTreeNode result = new RootTreeNode(rootId);
 
-    final TreeNode node2 = new ValueTreeNode(2, result, 1, TreeNodeType.TREE, "2", 1.3, 1.5, 2);
-    final TreeNode node3 = new ValueTreeNode(3, result, 1, TreeNodeType.TREE, "3", 1.7, 1.8, 1);
+    final TreeNode node2 = new ValueTreeNode("2", result, 1, TreeNodeType.TREE, "2", 1.3, 1.5, 2);
+    final TreeNode node3 = new ValueTreeNode("3", result, 1, TreeNodeType.TREE, "3", 1.7, 1.8, 1);
     result.addChildrenNode("2", node2);
     result.addChildrenNode("3", node3);
 
@@ -73,6 +73,6 @@ public class LayoutExampleService {
 
 
   public SnapshotTreeResult getExampleResultTree() {
-    return createExampleSnapshotTreeResult(1);
+    return createExampleSnapshotTreeResult("1");
   }
 }

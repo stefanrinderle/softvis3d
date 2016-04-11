@@ -52,18 +52,18 @@ public class SnapshotVisitorBeanTest {
       new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, LayoutViewType.CITY, additionalInfos);
 
     final String displayName = "leaf1";
-    final int id = 1;
+    final String id = "1";
     final ValueTreeNode leaf = new ValueTreeNode(id, null, 0, TreeNodeType.TREE, displayName, 0.0, 10.0, 4);
     final LayeredLayoutElement result = visitorBean.visitFile(leaf);
 
     assertEquals(displayName, result.getDisplayName());
-    assertEquals(id, result.getId().intValue());
+    assertEquals(id, result.getId());
     assertEquals(TreeNodeType.TREE, result.getElementType());
   }
 
   @Test
   public void testVisitFileDependency() throws Exception {
-    final int id = 1;
+    final String id = "1";
 
     final VisualizationSettings settings = new VisualizationSettings();
     final VisualizationAdditionalInfos additionalInfos = createAdditionalInfos();
@@ -73,7 +73,7 @@ public class SnapshotVisitorBeanTest {
     final DependencyTreeNode leaf = new DependencyTreeNode(id, null, 0);
     final LayeredLayoutElement result = visitorBean.visitFile(leaf);
 
-    assertEquals(id, result.getId().intValue());
+    assertEquals(id, result.getId());
     assertEquals(TreeNodeType.DEPENDENCY_GENERATED, result.getElementType());
   }
 

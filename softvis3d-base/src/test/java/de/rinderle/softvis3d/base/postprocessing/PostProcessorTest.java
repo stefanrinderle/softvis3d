@@ -49,8 +49,8 @@ public class PostProcessorTest {
 
   @Test
   public void testProcessMinimal() throws Exception {
-    final int id = 1;
-    final Map<Integer, ResultPlatform> resultGraphs = new HashMap<>();
+    final String id = "1";
+    final Map<String, ResultPlatform> resultGraphs = new HashMap<>();
     final ResultPlatform platform = new ResultPlatform(new Graph("root"));
     platform.setBoundingBox(new GrappaBox(0, 0, 100, 200));
     resultGraphs.put(id, platform);
@@ -62,8 +62,8 @@ public class PostProcessorTest {
 
   @Test
   public void testProcessWithChildren() throws Exception {
-    final int id = 1;
-    final Map<Integer, ResultPlatform> resultGraphs = new HashMap<>();
+    final String id = "1";
+    final Map<String, ResultPlatform> resultGraphs = new HashMap<>();
 
     final ResultPlatform platform = GrappaGraphTestFactory.createPlatform();
     platform.setBoundingBox(new GrappaBox(0, 0, 100, 200));

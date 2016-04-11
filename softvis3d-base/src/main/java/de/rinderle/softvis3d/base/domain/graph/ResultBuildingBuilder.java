@@ -31,7 +31,7 @@ import java.util.List;
 
 public class ResultBuildingBuilder {
 
-  int id;
+  String id;
   int grappaId;
 
   List<ResultArrow> arrows;
@@ -46,7 +46,7 @@ public class ResultBuildingBuilder {
 
   public ResultBuildingBuilder withNode(final Node node) {
     // TODO why is node.getId() not set right?
-    this.id = Integer.valueOf(node.getAttributeValue("id").toString());
+    this.id = node.getAttributeValue("id").toString();
     this.grappaId = node.getId();
 
     this.arrows = transformEdges(node.edgeElementsAsArray());

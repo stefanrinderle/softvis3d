@@ -27,7 +27,7 @@ import java.util.TreeMap;
 
 public class TreeNode {
 
-  private final Integer id;
+  private final String id;
   private final TreeNodeType type;
   private final Map<String, TreeNode> children = new TreeMap<>();
   private final Map<String, Edge> edges = new HashMap<>();
@@ -35,7 +35,7 @@ public class TreeNode {
   private TreeNode parent;
   private int depth;
 
-  public TreeNode(final Integer id, final TreeNode parent, final int depth, final TreeNodeType type, final String name) {
+  public TreeNode(final String id, final TreeNode parent, final int depth, final TreeNodeType type, final String name) {
     this.id = id;
     this.parent = parent;
     this.depth = depth;
@@ -51,7 +51,7 @@ public class TreeNode {
     return !this.children.isEmpty();
   }
 
-  public Integer getId() {
+  public String getId() {
     return this.id;
   }
 
@@ -99,7 +99,7 @@ public class TreeNode {
     return this.edges;
   }
 
-  public TreeNode findNode(final Integer id) {
+  public TreeNode findNode(final String id) {
     return this.recursiveSearch(id, this);
   }
 
@@ -125,7 +125,7 @@ public class TreeNode {
   /**
    * TODO: Could be placed somewhere else
    */
-  private TreeNode recursiveSearch(final Integer id, final TreeNode treeNode) {
+  private TreeNode recursiveSearch(final String id, final TreeNode treeNode) {
     if (treeNode.getId().equals(id)) {
       /**
        * check if there is a child treeNode with the same id. This is to parse long paths and get the last

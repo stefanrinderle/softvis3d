@@ -26,10 +26,10 @@ public class SnapshotStorageKey {
   private final String key;
 
   public SnapshotStorageKey(final VisualizationRequest requestDTO) {
-    this.key = requestDTO.getRootSnapshotId() + "_"
+    this.key = requestDTO.getRootSnapshotKey() + "_"
       + requestDTO.getViewType().name() + "_"
-      + requestDTO.getFootprintMetricId() + "_"
-      + requestDTO.getHeightMetricId();
+      + requestDTO.getFootprintMetricKey() + "_"
+      + requestDTO.getHeightMetricKey();
   }
 
   @Override

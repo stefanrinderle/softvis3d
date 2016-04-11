@@ -25,21 +25,21 @@ import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
 
 public class TestTreeBuilder {
 
-  public static TreeNode createTreeNode(final int id, final TreeNode parent,
+  public static TreeNode createTreeNode(final String id, final TreeNode parent,
     final int depth) {
-    final TreeNode result = new TreeNode(id, parent, depth, TreeNodeType.TREE, id + "");
+    final TreeNode result = new TreeNode(id, parent, depth, TreeNodeType.TREE, id);
 
-    parent.addChildrenNode(id + "", result);
+    parent.addChildrenNode(id, result);
 
     return result;
   }
 
-  public static TreeNode createValueTreeNode(final int id, final TreeNode parent,
+  public static TreeNode createValueTreeNode(final String id, final TreeNode parent,
                                              final int depth) {
     final ValueTreeNode result = new ValueTreeNode(id, parent, depth,
-        TreeNodeType.TREE, id + "", 2.0, 2.0, 2);
+        TreeNodeType.TREE, id, 2.0, 2.0, 2);
 
-    parent.addChildrenNode(id + "", result);
+    parent.addChildrenNode(id, result);
 
     return result;
   }

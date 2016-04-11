@@ -19,28 +19,16 @@
  */
 package de.rinderle.softvis3d;
 
-import de.rinderle.softvis3d.base.domain.tree.DependencyTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
-import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpander;
 
 public class TestTreeBuilder {
 
-  public static TreeNode createTreeNode(final int id, final TreeNode parent,
+  public static TreeNode createTreeNode(final String id, final TreeNode parent,
     final int depth) {
     final TreeNode result = new TreeNode(id, parent, depth, TreeNodeType.TREE, id + "");
 
     parent.addChildrenNode(id + "", result);
-
-    return result;
-  }
-
-  public static TreeNode createInterfaceLeafNode(final int id, final TreeNode parent) {
-    final TreeNode result = new DependencyTreeNode(id, parent, parent.getDepth() + 1);
-
-    final String intLeafLabel = DependencyExpander.INTERFACE_PREFIX + "_" + parent.getId();
-
-    parent.addChildrenNode(intLeafLabel, result);
 
     return result;
   }

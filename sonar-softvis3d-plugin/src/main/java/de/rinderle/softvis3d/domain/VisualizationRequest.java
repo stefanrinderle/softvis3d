@@ -21,42 +21,43 @@ package de.rinderle.softvis3d.domain;
 
 import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
+import java.util.Objects;
 
 public class VisualizationRequest {
 
-  private final int rootSnapshotId;
+  private final String rootSnapshotKey;
 
   private final LayoutViewType viewType;
 
-  private final int footprintMetricId;
-  private final int heightMetricId;
+  private final String footprintMetricKey;
+  private final String heightMetricKey;
   private final ScmInfoType scmInfoType;
 
-  public VisualizationRequest(final int rootSnapshotId, final int footprintMetricId, final int heightMetricId, final ScmInfoType scmInfoType) {
-    this.rootSnapshotId = rootSnapshotId;
+  public VisualizationRequest(final String rootSnapshotKey, final String footprintMetricKey, final String heightMetricKey, final ScmInfoType scmInfoType) {
+    this.rootSnapshotKey = rootSnapshotKey;
 
     this.viewType = LayoutViewType.CITY;
 
-    this.footprintMetricId = footprintMetricId;
-    this.heightMetricId = heightMetricId;
+    this.footprintMetricKey = footprintMetricKey;
+    this.heightMetricKey = heightMetricKey;
 
     this.scmInfoType = scmInfoType;
   }
 
-  public int getRootSnapshotId() {
-    return this.rootSnapshotId;
+  public String getRootSnapshotKey() {
+    return this.rootSnapshotKey;
   }
 
   public LayoutViewType getViewType() {
     return this.viewType;
   }
 
-  public int getFootprintMetricId() {
-    return this.footprintMetricId;
+  public String getFootprintMetricKey() {
+    return this.footprintMetricKey;
   }
 
-  public int getHeightMetricId() {
-    return this.heightMetricId;
+  public String getHeightMetricKey() {
+    return this.heightMetricKey;
   }
 
   public ScmInfoType getScmInfoType() {
@@ -66,41 +67,28 @@ public class VisualizationRequest {
   @Override
   public String toString() {
     return "VisualizationRequest{" +
-      "rootSnapshotId=" + rootSnapshotId +
-      ", viewType=" + viewType +
-      ", footprintMetricId=" + footprintMetricId +
-      ", heightMetricId=" + heightMetricId +
-      ", scmInfoType=" + scmInfoType +
-      '}';
+        "rootSnapshotKey='" + rootSnapshotKey + '\'' +
+        ", viewType=" + viewType +
+        ", footprintMetricKey='" + footprintMetricKey + '\'' +
+        ", heightMetricKey='" + heightMetricKey + '\'' +
+        ", scmInfoType=" + scmInfoType +
+        '}';
   }
 
   @Override
-  public boolean equals(final Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
-
-    final VisualizationRequest that = (VisualizationRequest) o;
-
-    if (rootSnapshotId != that.rootSnapshotId)
-      return false;
-    if (footprintMetricId != that.footprintMetricId)
-      return false;
-    if (heightMetricId != that.heightMetricId)
-      return false;
-    if (viewType != that.viewType)
-      return false;
-    return scmInfoType == that.scmInfoType;
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    VisualizationRequest that = (VisualizationRequest) o;
+    return Objects.equals(rootSnapshotKey, that.rootSnapshotKey) &&
+        viewType == that.viewType &&
+        Objects.equals(footprintMetricKey, that.footprintMetricKey) &&
+        Objects.equals(heightMetricKey, that.heightMetricKey) &&
+        scmInfoType == that.scmInfoType;
   }
 
   @Override
   public int hashCode() {
-    int result = rootSnapshotId;
-    result = 31 * result + viewType.hashCode();
-    result = 31 * result + footprintMetricId;
-    result = 31 * result + heightMetricId;
-    result = 31 * result + scmInfoType.hashCode();
-    return result;
+    return Objects.hash(rootSnapshotKey, viewType, footprintMetricKey, heightMetricKey, scmInfoType);
   }
 }

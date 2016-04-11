@@ -21,15 +21,15 @@ ThreeViewer.BackendService = function ($http) {
   this.http = $http;
 };
 
-ThreeViewer.BackendService.prototype.getVisualization = function (projectKey, footprintMetricKey, heightMetricKey, scmMetricType) {
-  if (!scmMetricType) {
-    scmMetricType = "NONE";
+ThreeViewer.BackendService.prototype.getVisualization = function (projectKey, footprintMetricKey, heightMetricKey, colorMetricKey) {
+  if (!colorMetricKey) {
+      colorMetricKey = "NONE";
   }
 
   return this.http.get("../../api/softVis3D/getVisualization?projectKey=" + projectKey
   + "&footprintMetricKey=" + footprintMetricKey
   + "&heightMetricKey=" + heightMetricKey
-  + "&scmMetricType=" + scmMetricType);
+  + "&colorMetricKey=" + colorMetricKey);
 };
 
 ThreeViewer.BackendService.prototype.getMetrics = function () {

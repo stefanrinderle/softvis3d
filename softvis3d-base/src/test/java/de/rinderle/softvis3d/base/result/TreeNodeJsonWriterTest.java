@@ -38,7 +38,7 @@ public class TreeNodeJsonWriterTest {
 
     final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
-    final RootTreeNode tree = new RootTreeNode(1);
+    final RootTreeNode tree = new RootTreeNode("1");
     underTest.transformRootTreeToJson(jsonWriter, tree);
 
     jsonWriter.close();
@@ -55,9 +55,9 @@ public class TreeNodeJsonWriterTest {
 
     final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
-    final RootTreeNode treeNode1 = new RootTreeNode(1);
-    TestTreeBuilder.createValueTreeNode(2, treeNode1, 1);
-    TestTreeBuilder.createValueTreeNode(3, treeNode1, 2);
+    final RootTreeNode treeNode1 = new RootTreeNode("1");
+    TestTreeBuilder.createValueTreeNode("2", treeNode1, 1);
+    TestTreeBuilder.createValueTreeNode("3", treeNode1, 2);
 
     underTest.transformRootTreeToJson(jsonWriter, treeNode1);
 
@@ -75,9 +75,9 @@ public class TreeNodeJsonWriterTest {
 
     final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
-    final RootTreeNode treeNode1 = new RootTreeNode(1);
-    final TreeNode node2 = TestTreeBuilder.createValueTreeNode(2, treeNode1, 1);
-    TestTreeBuilder.createValueTreeNode(3, treeNode1, 2);
+    final RootTreeNode treeNode1 = new RootTreeNode("1");
+    final TreeNode node2 = TestTreeBuilder.createValueTreeNode("2", treeNode1, 1);
+    TestTreeBuilder.createValueTreeNode("3", treeNode1, 2);
 
     final Edge edge = new Edge("edgeLabel", 2, "2", 3, "3");
     edge.addIncludingDependency(123L);
@@ -99,7 +99,7 @@ public class TreeNodeJsonWriterTest {
 
     final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
-    final RootTreeNode treeNode1 = new RootTreeNode(1);
+    final RootTreeNode treeNode1 = new RootTreeNode("1");
     final Dependency dependency = new Dependency(1L, 2, "2", 3, "3");
     treeNode1.addDependency(dependency);
 

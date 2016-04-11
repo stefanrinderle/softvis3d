@@ -46,9 +46,9 @@ public class VisualizationJsonWriterTest {
 
     final VisualizationJsonWriter underTest = new VisualizationJsonWriter();
 
-    final Map<Integer, ResultPlatform> results = new HashMap<>();
+    final Map<String, ResultPlatform> results = new HashMap<>();
     final ResultPlatform platform = createExamplePlatform();
-    results.put(1, platform);
+    results.put("1", platform);
 
     underTest.transformResponseToJson(jsonWriter, results);
 
@@ -66,9 +66,9 @@ public class VisualizationJsonWriterTest {
 
     final VisualizationJsonWriter underTest = new VisualizationJsonWriter();
 
-    final Map<Integer, ResultPlatform> results = new HashMap<>();
+    final Map<String, ResultPlatform> results = new HashMap<>();
     final ResultPlatform platform = GrappaGraphTestFactory.createPlatform();
-    results.put(1, platform);
+    results.put("1", platform);
 
     underTest.transformResponseToJson(jsonWriter, results);
 

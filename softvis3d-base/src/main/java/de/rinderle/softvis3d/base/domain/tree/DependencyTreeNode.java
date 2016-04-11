@@ -23,7 +23,7 @@ public class DependencyTreeNode extends TreeNode {
 
   private int counter = 1;
 
-  public DependencyTreeNode(final Integer id, final TreeNode parent,
+  public DependencyTreeNode(final String id, final TreeNode parent,
     final int depth) {
     super(id, parent, depth, TreeNodeType.DEPENDENCY_GENERATED,
       "elevatorNode_" + id);

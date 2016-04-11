@@ -19,7 +19,6 @@
  */
 package de.rinderle.softvis3d.domain;
 
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import org.junit.Test;
 
@@ -33,13 +32,13 @@ public class VisualizationRequestTest {
 
   @Test
   public void testHashCode() throws Exception {
-    VisualizationRequest request1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
-    VisualizationRequest request2 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
+    VisualizationRequest request1 = new VisualizationRequest("1", "1", "20", ScmInfoType.NONE);
+    VisualizationRequest request2 = new VisualizationRequest("1", "1", "20", ScmInfoType.NONE);
 
     assertEquals(request1.hashCode(), request2.hashCode());
 
-    request1 = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
-    request2 = new VisualizationRequest(2, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
+    request1 = new VisualizationRequest("1", "1", "20", ScmInfoType.NONE);
+    request2 = new VisualizationRequest("2", "1", "20", ScmInfoType.NONE);
 
     assertNotEquals(request1.hashCode(), request2.hashCode());
   }

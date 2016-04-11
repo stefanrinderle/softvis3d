@@ -27,10 +27,10 @@ import java.util.Map;
 @Singleton
 public class LayoutCacheService {
 
-  private final Cache<SnapshotStorageKey, Map<Integer, ResultPlatform>> storage;
+  private final Cache<SnapshotStorageKey, Map<String, ResultPlatform>> storage;
 
   public LayoutCacheService() {
-    storage = new Cache<SnapshotStorageKey, Map<Integer, ResultPlatform>>();
+    storage = new Cache<SnapshotStorageKey, Map<String, ResultPlatform>>();
   }
 
   public void printCacheContents() {
@@ -41,11 +41,11 @@ public class LayoutCacheService {
     return storage.containsKey(key);
   }
 
-  public Map<Integer, ResultPlatform> getLayoutResult(final SnapshotStorageKey key) {
+  public Map<String, ResultPlatform> getLayoutResult(final SnapshotStorageKey key) {
     return storage.get(key);
   }
 
-  public void save(final SnapshotStorageKey key, final Map<Integer, ResultPlatform> value) {
+  public void save(final SnapshotStorageKey key, final Map<String, ResultPlatform> value) {
     storage.put(key, value);
   }
 

@@ -19,32 +19,30 @@
  */
 package de.rinderle.softvis3d.domain.sonar;
 
-public class SonarSnapshot {
+public class SonarMeasure {
 
-  private final int id;
+  private final String id;
+  private final String name;
   private final double footprintMetricValue;
   private final double heightMetricValue;
-  private final int scmMetricValue;
+  private final double scmMetricValue;
   private String path;
 
-  public SonarSnapshot(final SonarSnapshotBuilder snapshotBuilder) {
-    this.id = snapshotBuilder.id;
-    this.path = snapshotBuilder.path;
-    this.footprintMetricValue = snapshotBuilder.footprintMetricValue;
-    this.heightMetricValue = snapshotBuilder.heightMetricValue;
-    this.scmMetricValue = snapshotBuilder.scmMetricValue;
+  public SonarMeasure(String id, String name, String path, double footprintMetricValue, double heightMetricValue, double scmMetricValue) {
+    this.id = id;
+    this.name = name;
+    this.path = path;
+    this.footprintMetricValue = footprintMetricValue;
+    this.heightMetricValue = heightMetricValue;
+    this.scmMetricValue = scmMetricValue;
   }
 
-  public int getId() {
+  public String getId() {
     return id;
   }
 
-  public String getPath() {
-    return path;
-  }
-
-  public void setPath(final String path) {
-    this.path = path;
+  public String getName() {
+    return name;
   }
 
   public double getFootprintMetricValue() {
@@ -55,18 +53,27 @@ public class SonarSnapshot {
     return heightMetricValue;
   }
 
-  public int getScmMetricValue() {
+  public double getScmMetricValue() {
     return scmMetricValue;
+  }
+
+  public String getPath() {
+    return path;
+  }
+
+  public void setPath(String path) {
+    this.path = path;
   }
 
   @Override
   public String toString() {
-    return "SonarSnapshot{" +
-      "id=" + id +
-      ", footprintMetricValue=" + footprintMetricValue +
-      ", heightMetricValue=" + heightMetricValue +
-      ", scmMetricValue=" + scmMetricValue +
-      ", path='" + path + '\'' +
-      '}';
+    return "SonarMeasure{" +
+        "id='" + id + '\'' +
+        ", footprintMetricValue=" + footprintMetricValue +
+        ", heightMetricValue=" + heightMetricValue +
+        ", scmMetricValue=" + scmMetricValue +
+        ", path='" + path + '\'' +
+        '}';
   }
+
 }

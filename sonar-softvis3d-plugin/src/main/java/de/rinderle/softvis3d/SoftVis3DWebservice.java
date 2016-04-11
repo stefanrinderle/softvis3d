@@ -40,7 +40,7 @@ public class SoftVis3DWebservice implements WebService {
     this.visualizationHandler.setSettings(visualizationSettings);
   }
 
-//  @Override
+  @Override
   public void define(final Context context) {
     final WebService.NewController controller = context.createController("api/softVis3D");
     controller.setDescription("SoftVis3D webservice");
@@ -50,10 +50,11 @@ public class SoftVis3DWebservice implements WebService {
         .createAction("getVisualization")
         .setDescription("Get getVisualization structure")
         .setHandler(this.visualizationHandler);
+
     action.createParam("projectKey");
     action.createParam("footprintMetricKey");
     action.createParam("heightMetricKey");
-    action.createParam("scmMetricType");
+    action.createParam("colorMetricKey");
 
     // important to apply changes
     controller.done();

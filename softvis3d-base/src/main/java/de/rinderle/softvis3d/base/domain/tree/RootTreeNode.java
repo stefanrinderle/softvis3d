@@ -26,7 +26,7 @@ public class RootTreeNode extends TreeNode {
 
   private final Map<Integer, Dependency> sourceDependencies = new HashMap<>();
 
-  public RootTreeNode(final Integer id) {
+  public RootTreeNode(final String id) {
     super(id, null, 0, TreeNodeType.TREE, "root");
   }
 

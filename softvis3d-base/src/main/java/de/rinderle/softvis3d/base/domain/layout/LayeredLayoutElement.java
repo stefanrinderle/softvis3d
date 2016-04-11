@@ -29,7 +29,7 @@ public final class LayeredLayoutElement {
 
   private final TreeNodeType type;
 
-  private final Integer id;
+  private final String id;
 
   private final String name;
 
@@ -42,7 +42,7 @@ public final class LayeredLayoutElement {
   private final Map<String, Edge> edges;
   private final HexaColor color;
 
-  private LayeredLayoutElement(final TreeNodeType type, final Integer id, final String name, final Double width,
+  private LayeredLayoutElement(final TreeNodeType type, final String id, final String name, final Double width,
     final Double height, final Double buildingHeight, final String displayName, final Map<String, Edge> edges,
     final HexaColor color) {
     super();
@@ -67,7 +67,7 @@ public final class LayeredLayoutElement {
     return this.type;
   }
 
-  public Integer getId() {
+  public String getId() {
     return this.id;
   }
 

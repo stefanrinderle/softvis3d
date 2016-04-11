@@ -21,182 +21,67 @@ package de.rinderle.softvis3d.dao;
 
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.base.domain.MinMaxValue;
-import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
-import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
-import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
-import de.rinderle.softvis3d.domain.sonar.SonarDependency;
-import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
-import de.rinderle.softvis3d.domain.sonar.SonarSnapshotBuilder;
+import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
 import org.sonar.api.server.ws.LocalConnector;
-import org.sonarqube.ws.Common;
-
-//import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
-//import de.rinderle.softvis3d.domain.ScmInfoType;
+import org.sonarqube.ws.WsComponents;
+import org.sonarqube.ws.WsMeasures;
 
 public class DaoService {
 
-  static final String SCM_AUTHOR_NAME = "authors_by_line";
   private static final Logger LOGGER = LoggerFactory.getLogger(DaoService.class);
-  private static final String SCM_DATE_NAME = "last_commit_datetimes_by_line";
 
   @Inject
   private SonarDao sonarDao;
-  @Inject
-  private DependencyDao dependencyDao;
 
-  public Integer getMetric1FromSettings(final LocalConnector localConnector, final Settings settings) {
-    LOGGER.debug("getMetric1FromSettings");
-    return this.sonarDao.getMetricIdByKey(localConnector, settings.getString("metric1"));
+  public String getProjectId(final LocalConnector localConnector, String projectKey) {
+    return this.sonarDao.getProjectId(localConnector, projectKey);
   }
 
-  public Integer getMetric2FromSettings(final LocalConnector localConnector, final Settings settings) {
-    LOGGER.debug("getMetric2FromSettings");
-    return this.sonarDao.getMetricIdByKey(localConnector, settings.getString("metric2"));
-  }
-
-  /**
-   * Request all metrics which are set on the file level (Scope) for the requested root snapshot.
-   *
-   * @param snapshotId
-   *            Root snapshot ID
-   * @return defined metrics on the file level scope
-   */
-  public List<Common.Metric> getDefinedMetricsForSnapshot(final LocalConnector localConnector, final Integer snapshotId) {
-    LOGGER.debug("getDefinedMetricsForSnapshot " + snapshotId);
-    return this.sonarDao.getDistinctMetricsBySnapshotId(localConnector, snapshotId);
-  }
-
-  public MinMaxValue getMinMaxMetricValuesByRootSnapshotId(final int rootSnapshotId, final int metricId) {
+  public MinMaxValue getMinMaxMetricValuesByRootSnapshotId(final String rootSnapshotId, final String metricKey) {
     LOGGER.debug("getMinMaxMetricValuesByRootSnapshotId " + rootSnapshotId);
-    return this.sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId, metricId);
+    return this.sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId, metricKey);
   }
 
-  public boolean hasDependencies(final Integer snapshotId) {
-    LOGGER.debug("hasDependencies" + snapshotId);
+  public List<SonarMeasure> getSubprojects(final LocalConnector localConnector, final String projectId) {
+    final List<WsComponents.Component> resultComponents = this.sonarDao.getDirectModuleChildrenIds(localConnector, projectId);
 
-    final List<SonarDependency> result = getDependencies(snapshotId);
+    final List<SonarMeasure> result = new ArrayList<>();
 
-    return !result.isEmpty();
-  }
-
-  public List<ModuleInfo> getDirectModuleChildrenIds(final Integer snapshotId) {
-    return this.sonarDao.getDirectModuleChildrenIds(snapshotId);
-  }
-
-  public MinMaxValue getMaxScmInfo(final LocalConnector localConnector, final VisualizationRequest requestDTO) {
-    int maxScmMetricValue = 0;
-
-    if (!ScmInfoType.NONE.equals(requestDTO.getScmInfoType())) {
-      final ScmCalculationService scmCalculationService = getCalculationService(requestDTO.getScmInfoType());
-
-      final List<MetricResultDTO<String>> scmCommitter = getScmAuthors(localConnector, requestDTO.getRootSnapshotId());
-      for (final MetricResultDTO<String> aScmCommitter : scmCommitter) {
-        final int nodeScmMetricValue = scmCalculationService.getNodeValue(aScmCommitter.getValue(), "");
-
-        if (nodeScmMetricValue > maxScmMetricValue) {
-          maxScmMetricValue = nodeScmMetricValue;
-        }
-      }
-    } else {
-      return null;
-    }
-
-    LOGGER.info("Max scm metric value " + maxScmMetricValue);
-
-    return new MinMaxValue(0, maxScmMetricValue);
-  }
-
-  /**
-   * provide mocking of calc service.
-   */
-  protected ScmCalculationService getCalculationService(final ScmInfoType scmInfoType) {
-    return scmInfoType.getScmCalculationService();
-  }
-
-  public List<SonarDependency> getDependencies(final Integer snapshotId) {
-    LOGGER.debug("getDependencies " + snapshotId);
-
-    final List<ModuleInfo> modules = getDirectModuleChildrenIds(snapshotId);
-
-    List<SonarDependency> result = new ArrayList<SonarDependency>();
-    if (modules == null || modules.isEmpty()) {
-      result = this.dependencyDao.getDependencies(snapshotId);
-    } else {
-      for (final ModuleInfo module : modules) {
-        result.addAll(this.dependencyDao.getDependencies(module.getId()));
-      }
+    for (final WsComponents.Component component : resultComponents) {
+      result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(), 0.0, 0.0, 0.0));
     }
 
     return result;
   }
 
-  public List<SonarSnapshot> getFlatChildrenWithMetrics(final LocalConnector localConnector, final VisualizationRequest requestDTO) {
-    final List<SonarSnapshot> result = new ArrayList<SonarSnapshot>();
-
+  public List<SonarMeasure> getFlatChildrenWithMetrics(final LocalConnector localConnector, final VisualizationRequest requestDTO) {
     final StopWatch stopWatch = new StopWatch();
     stopWatch.start();
 
-    final List<MetricResultDTO<Integer>> snapshots = sonarDao.getAllSnapshotIdsWithRescourceId(
-      requestDTO.getRootSnapshotId());
+    final List<String> metrics = new ArrayList<>();
+    metrics.add(requestDTO.getFootprintMetricKey());
+    metrics.add(requestDTO.getHeightMetricKey());
 
-    for (final MetricResultDTO<Integer> snapshot : snapshots) {
-      final Integer snapshotId = snapshot.getId();
-      final SonarSnapshotBuilder builder = new SonarSnapshotBuilder(snapshotId);
+    final List<WsMeasures.Component> resultComponents = sonarDao.getAllSnapshotIdsWithRescourceId(localConnector,
+      requestDTO.getRootSnapshotKey(), metrics);
 
-      builder.withPath(sonarDao.getResourcePath(snapshot.getValue()));
-      builder.withFootprintMeasure(sonarDao.getMetricDouble(requestDTO.getFootprintMetricId(), snapshotId));
-      builder.withHeightMeasure(sonarDao.getMetricDouble(requestDTO.getHeightMetricId(), snapshotId));
+    final List<SonarMeasure> result = new ArrayList<>();
 
-      if (!ScmInfoType.NONE.equals(requestDTO.getScmInfoType())) {
-        final int scmMetric = getScmMetric(localConnector, snapshotId, requestDTO.getScmInfoType());
-        builder.withScmMetric(scmMetric);
-      }
-
-      final SonarSnapshot snapshotResult = builder.build();
-
-      result.add(snapshotResult);
+    for (final WsMeasures.Component component : resultComponents) {
+      result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(),
+          Double.valueOf(component.getMeasures(0).getValue()), Double.valueOf(component.getMeasures(1).getValue()), 0.0));
     }
 
     stopWatch.stop();
     LOGGER.info("Time for getting snapshots " + stopWatch.getTime() + " ms");
 
     return result;
-  }
-
-  /**
-   * TODO does not yet work.
-   * Get the first children and check if the metric is available or create
-   * dedicated sql statement --> webservice call in the future.
-   */
-  public boolean hasScmInfos(final Integer rootSnapshotId) {
-    return true;
-  }
-
-  private int getScmMetric(final LocalConnector localConnector, final Integer snapshotId, final ScmInfoType scmInfoType) {
-    final Integer authorDateMetricId = this.sonarDao.getMetricIdByKey(localConnector, SCM_DATE_NAME);
-    final String authorDateMetric = this.sonarDao.getMetricText(authorDateMetricId, snapshotId);
-
-    final String authors = getAuthors(localConnector, snapshotId);
-    return getCalculationService(scmInfoType).getNodeValue(authors, authorDateMetric);
-  }
-
-  private String getAuthors(final LocalConnector localConnector, final Integer snapshotId) {
-    final Integer authorMetricId = this.sonarDao.getMetricIdByKey(localConnector, SCM_AUTHOR_NAME);
-    return this.sonarDao.getMetricText(authorMetricId, snapshotId);
-  }
-
-  private List<MetricResultDTO<String>> getScmAuthors(final LocalConnector localConnector, final int rootSnapshotId) {
-    final Integer authorMetricId = this.sonarDao.getMetricIdByKey(localConnector, SCM_AUTHOR_NAME);
-
-    return this.sonarDao.getMetricTextForAllProjectElementsWithMetric(rootSnapshotId, authorMetricId);
   }
 
 }

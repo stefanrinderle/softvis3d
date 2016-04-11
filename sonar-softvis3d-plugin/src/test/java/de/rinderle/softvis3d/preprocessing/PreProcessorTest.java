@@ -19,14 +19,12 @@
  */
 package de.rinderle.softvis3d.preprocessing;
 
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
-import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpander;
 import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructure;
 import de.rinderle.softvis3d.preprocessing.tree.TreeBuilder;
 import org.junit.Before;
@@ -53,8 +51,6 @@ public class PreProcessorTest {
   private SnapshotCacheService snapshotCacheService;
   @Mock
   private DaoService daoService;
-  @Mock
-  private DependencyExpander dependencyExpander;
 
   @InjectMocks
   private PreProcessor preProcessor;
@@ -66,7 +62,7 @@ public class PreProcessorTest {
 
   @Test
   public void testProcessCached() throws Exception {
-    final VisualizationRequest requestDTO = new VisualizationRequest(1, LayoutViewType.CITY, 1, 20, ScmInfoType.NONE);
+    final VisualizationRequest requestDTO = new VisualizationRequest("1", "1", "20", ScmInfoType.NONE);
     final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
     when(snapshotCacheService.containsKey(eq(mapKey))).thenReturn(true);

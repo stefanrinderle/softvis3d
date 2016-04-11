@@ -58,13 +58,13 @@ public class VisualizationProcessorTest {
   public void testVisualize() throws Exception {
     final VisualizationSettings settings = new VisualizationSettings();
 
-    final RootTreeNode tree = new RootTreeNode(1);
+    final RootTreeNode tree = new RootTreeNode("1");
     final SnapshotTreeResult snapShotTreeResult = new SnapshotTreeResult(tree);
-    final Map<Integer, ResultPlatform> resultGraphs = new HashMap<>();
+    final Map<String, ResultPlatform> resultGraphs = new HashMap<>();
 
     when(layoutProcessor.process(eq(settings), eq(LayoutViewType.CITY), eq(snapShotTreeResult), any(VisualizationAdditionalInfos.class))).thenReturn(resultGraphs);
 
-    final Map<Integer, ResultPlatform> result = underTest.visualize(LayoutViewType.CITY, settings, snapShotTreeResult, null);
+    final Map<String, ResultPlatform> result = underTest.visualize(LayoutViewType.CITY, settings, snapShotTreeResult, null);
 
     assertEquals(resultGraphs, result);
   }

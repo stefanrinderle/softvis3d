@@ -30,7 +30,7 @@ public class RootTreeNodeTest {
 
   @Test
   public void testGetSourceDependenciesEmpty() throws Exception {
-    final RootTreeNode underTest = new RootTreeNode(1);
+    final RootTreeNode underTest = new RootTreeNode("1");
 
     assertNotNull(underTest.getSourceDependencies());
     assertTrue(underTest.getSourceDependencies().isEmpty());
@@ -38,7 +38,7 @@ public class RootTreeNodeTest {
 
   @Test
   public void testAddDependency() throws Exception {
-    final RootTreeNode underTest = new RootTreeNode(1);
+    final RootTreeNode underTest = new RootTreeNode("1");
 
     final long dependencyId = 2L;
     final Dependency treeDependency = new Dependency(dependencyId, 1, "1", 2, "2");

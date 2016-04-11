@@ -21,18 +21,14 @@ package de.rinderle.softvis3d.preprocessing;
 
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.SoftVis3DPlugin;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.SonarDependency;
-import de.rinderle.softvis3d.preprocessing.dependencies.DependencyExpander;
 import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructure;
 import de.rinderle.softvis3d.preprocessing.tree.TreeBuilder;
-import java.util.List;
 import org.sonar.api.server.ws.LocalConnector;
 
 public class PreProcessor {
@@ -45,8 +41,6 @@ public class PreProcessor {
   private SnapshotCacheService snapshotCacheService;
   @Inject
   private DaoService daoService;
-  @Inject
-  private DependencyExpander dependencyExpander;
 
   public SnapshotTreeResult process(LocalConnector localConnector, final VisualizationRequest requestDTO) {
     snapshotCacheService.printCacheContents();
@@ -59,12 +53,6 @@ public class PreProcessor {
     } else {
       final RootTreeNode tree = treeBuilder.createTreeStructure(localConnector, requestDTO);
       this.optimizeTreeStructure.removeUnnecessaryNodes(tree);
-
-      if (LayoutViewType.DEPENDENCY.equals(requestDTO.getViewType())) {
-        final List<SonarDependency> dependencies =
-          this.daoService.getDependencies(requestDTO.getRootSnapshotId());
-        this.dependencyExpander.execute(tree, dependencies);
-      }
 
       result = new SnapshotTreeResult(tree);
       if (SoftVis3DPlugin.CACHE_ENABLED) {

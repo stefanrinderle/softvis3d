@@ -23,9 +23,7 @@ import com.google.inject.Inject;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ModuleInfo;
-import de.rinderle.softvis3d.domain.sonar.SonarSnapshot;
-import de.rinderle.softvis3d.domain.sonar.SonarSnapshotBuilder;
+import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -40,29 +38,23 @@ public class TreeBuilder {
   private DaoService daoService;
 
   public RootTreeNode createTreeStructure(LocalConnector localConnector, final VisualizationRequest requestDTO) {
-    LOGGER.info("Create tree structure for id " + requestDTO.getRootSnapshotId());
-    final PathWalker pathWalker = new PathWalker(requestDTO.getRootSnapshotId());
+    LOGGER.info("Create tree structure for id " + requestDTO.getRootSnapshotKey());
+    final PathWalker pathWalker = new PathWalker(requestDTO.getRootSnapshotKey());
 
-    final List<ModuleInfo> modules = getModules(requestDTO.getRootSnapshotId());
+    final List<SonarMeasure> modules = getModules(localConnector, requestDTO.getRootSnapshotKey());
 
     LOGGER.info("Number of modules: " + modules.size());
 
-    if (!modules.isEmpty()) {
-      for (final ModuleInfo module : modules) {
+    if (modules.isEmpty()) {
+      addModuleToTreeWalker(pathWalker, requestDTO, "", localConnector);
+    } else {
+      for (final SonarMeasure module : modules) {
         final VisualizationRequest moduleTemp =
-          new VisualizationRequest(module.getId(),
-            requestDTO.getFootprintMetricId(), requestDTO.getHeightMetricId(), requestDTO.getScmInfoType());
-
-        final SonarSnapshotBuilder builder = new SonarSnapshotBuilder(module.getId()).withPath(module.getName());
-
-        final SonarSnapshot moduleElement = builder.build();
-        LOGGER.info(moduleElement.toString());
-        pathWalker.addPath(moduleElement);
+            new VisualizationRequest(module.getId(),
+                requestDTO.getFootprintMetricKey(), requestDTO.getHeightMetricKey(), requestDTO.getScmInfoType());
 
         addModuleToTreeWalker(pathWalker, moduleTemp, module.getName(), localConnector);
       }
-    } else {
-      addModuleToTreeWalker(pathWalker, requestDTO, "", localConnector);
     }
 
     return pathWalker.getTree();
@@ -70,10 +62,10 @@ public class TreeBuilder {
 
   private void addModuleToTreeWalker(final PathWalker pathWalker, final VisualizationRequest requestDTO,
                                      final String moduleName, LocalConnector localConnector) {
-    final List<SonarSnapshot> flatChildren = this.daoService.getFlatChildrenWithMetrics(localConnector, requestDTO);
+    final List<SonarMeasure> flatChildren = this.daoService.getFlatChildrenWithMetrics(localConnector, requestDTO);
 
-    for (final SonarSnapshot flatChild : flatChildren) {
-      if (moduleName.length() > 0) {
+    for (final SonarMeasure flatChild : flatChildren) {
+      if (!moduleName.isEmpty()) {
         flatChild.setPath(moduleName + "/" + flatChild.getPath());
       }
 
@@ -81,11 +73,11 @@ public class TreeBuilder {
     }
   }
 
-  private List<ModuleInfo> getModules(final int rootSnapshotId) {
-    List<ModuleInfo> result = this.daoService.getDirectModuleChildrenIds(rootSnapshotId);
+  private List<SonarMeasure> getModules(LocalConnector localConnector, final String rootSnapshotId) {
+    List<SonarMeasure> result = this.daoService.getSubprojects(localConnector, rootSnapshotId);
 
     if (result == null || result.isEmpty()) {
-      result = new ArrayList<ModuleInfo>();
+      result = new ArrayList<SonarMeasure>();
     }
 
     return result;
