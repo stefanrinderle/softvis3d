@@ -24,7 +24,6 @@ import de.rinderle.softvis3d.SoftVis3DPlugin;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
-import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.preprocessing.tree.OptimizeTreeStructure;
@@ -39,8 +38,6 @@ public class PreProcessor {
   private OptimizeTreeStructure optimizeTreeStructure;
   @Inject
   private SnapshotCacheService snapshotCacheService;
-  @Inject
-  private DaoService daoService;
 
   public SnapshotTreeResult process(LocalConnector localConnector, final VisualizationRequest requestDTO) {
     snapshotCacheService.printCacheContents();

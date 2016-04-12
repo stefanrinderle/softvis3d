@@ -19,7 +19,6 @@
  */
 package de.rinderle.softvis3d.dao;
 
-import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.dao.dto.MetricResultDTO;
 import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
@@ -34,6 +33,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.sonar.api.server.ws.LocalConnector;
 import org.sonarqube.ws.WsComponents;
 import org.sonarqube.ws.WsMeasures;
 
@@ -52,6 +52,9 @@ public class DaoServiceTest {
   @Mock
   private ScmCalculationService scmCalculationService;
 
+  @Mock
+  private LocalConnector localConnector;
+
   @InjectMocks
   @Spy
   private DaoService daoService;
@@ -62,26 +65,13 @@ public class DaoServiceTest {
   }
 
   @Test
-  public void testGetMinMaxMetricValuesByRootSnapshotId() throws Exception {
-    final String snapshotId = "12";
-    final String metricId = "12";
-
-    final MinMaxValue expectedMinMaxValue = new MinMaxValue(1.0, 20.0);
-    when(sonarDao.getMinMaxMetricValuesByRootSnapshotId(eq(snapshotId), eq(metricId))).thenReturn(expectedMinMaxValue);
-
-    final MinMaxValue minMaxValue = daoService.getMinMaxMetricValuesByRootSnapshotId(snapshotId, metricId);
-
-    assertEquals(expectedMinMaxValue, minMaxValue);
-  }
-
-  @Test
   public void testGetDirectModuleChildrenIds() throws Exception {
     final String projectId = "12";
 
     final List<WsComponents.Component> moduleList = new ArrayList<>();
-    when(sonarDao.getDirectModuleChildrenIds(null, eq(projectId))).thenReturn(moduleList);
+    when(sonarDao.getDirectModuleChildrenIds(eq(localConnector), eq(projectId))).thenReturn(moduleList);
 
-    final List<SonarMeasure> result = daoService.getSubprojects(null, projectId);
+    final List<SonarMeasure> result = daoService.getSubProjects(localConnector, projectId);
 
     assertEquals(moduleList, result);
   }

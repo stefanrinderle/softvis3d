@@ -20,11 +20,8 @@
 package de.rinderle.softvis3d.dao;
 
 import com.google.inject.Singleton;
-import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.server.ws.LocalConnector;
 import org.sonarqube.ws.WsComponents;
@@ -40,8 +37,6 @@ import org.sonarqube.ws.client.measure.ComponentTreeWsRequest;
  */
 @Singleton
 public class SonarDao {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(SonarDao.class);
 
   public String getProjectId(LocalConnector localConnector, String projectKey) {
     final WsClient wsClient = WsClientFactories.getLocal().newClient(localConnector);
@@ -63,10 +58,6 @@ public class SonarDao {
     treeWsRequest.setQualifiers(qualifiers);
 
     return wsClient.components().tree(treeWsRequest).getComponentsList();
-  }
-
-  public MinMaxValue getMinMaxMetricValuesByRootSnapshotId(final String rootSnapshotId, final String metricId) {
-    return new MinMaxValue(0.0, 100.0);
   }
 
   public List<WsMeasures.Component> getAllSnapshotIdsWithRescourceId(final LocalConnector localConnector, final String projectId, List<String> metrics) {

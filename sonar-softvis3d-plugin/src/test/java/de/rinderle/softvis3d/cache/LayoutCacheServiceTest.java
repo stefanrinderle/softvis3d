@@ -41,21 +41,21 @@ public class LayoutCacheServiceTest {
     final int lastEntryKeyNumber = 100;
 
     for (int i = 0; i < lastEntryKeyNumber + 1; i++) {
-      final SnapshotStorageKey key = getSnapshotStorageKey(i + "");
+      final SnapshotStorageKey key = getSnapshotStorageKey(String.valueOf(i));
       final Map<String, ResultPlatform> value = new HashMap<>();
-      value.put(i + "", new ResultPlatform(new Graph("" + i)));
+      value.put(String.valueOf(i), new ResultPlatform(new Graph(String.valueOf(i))));
       underTest.save(key, value);
     }
 
     underTest.printCacheContents();
     // check limits
     assertFalse(underTest.containsKey(getSnapshotStorageKey("0")));
-    assertTrue(underTest.containsKey(getSnapshotStorageKey(lastEntryKeyNumber + "")));
+    assertTrue(underTest.containsKey(getSnapshotStorageKey(String.valueOf(lastEntryKeyNumber))));
 
     assertNull(underTest.getLayoutResult(getSnapshotStorageKey("0")));
 
-    final Map<String, ResultPlatform> cachedValue = underTest.getLayoutResult(getSnapshotStorageKey(lastEntryKeyNumber + ""));
-    assertTrue(cachedValue.containsKey(lastEntryKeyNumber));
+    final Map<String, ResultPlatform> cachedValue = underTest.getLayoutResult(getSnapshotStorageKey(String.valueOf(lastEntryKeyNumber)));
+    assertTrue(cachedValue.containsKey(String.valueOf(lastEntryKeyNumber)));
   }
 
   private SnapshotStorageKey getSnapshotStorageKey(final String id) {

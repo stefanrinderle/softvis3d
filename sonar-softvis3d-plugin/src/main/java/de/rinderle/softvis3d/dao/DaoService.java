@@ -20,7 +20,6 @@
 package de.rinderle.softvis3d.dao;
 
 import com.google.inject.Inject;
-import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
 import java.util.ArrayList;
@@ -43,12 +42,7 @@ public class DaoService {
     return this.sonarDao.getProjectId(localConnector, projectKey);
   }
 
-  public MinMaxValue getMinMaxMetricValuesByRootSnapshotId(final String rootSnapshotId, final String metricKey) {
-    LOGGER.debug("getMinMaxMetricValuesByRootSnapshotId " + rootSnapshotId);
-    return this.sonarDao.getMinMaxMetricValuesByRootSnapshotId(rootSnapshotId, metricKey);
-  }
-
-  public List<SonarMeasure> getSubprojects(final LocalConnector localConnector, final String projectId) {
+  public List<SonarMeasure> getSubProjects(final LocalConnector localConnector, final String projectId) {
     final List<WsComponents.Component> resultComponents = this.sonarDao.getDirectModuleChildrenIds(localConnector, projectId);
 
     final List<SonarMeasure> result = new ArrayList<>();
@@ -74,8 +68,20 @@ public class DaoService {
     final List<SonarMeasure> result = new ArrayList<>();
 
     for (final WsMeasures.Component component : resultComponents) {
+
+      double footprintMetricValue = 0;
+      double heightMetricValue = 0;
+      for (final WsMeasures.Measure measure : component.getMeasuresList()) {
+        if (measure.getMetric().equals(requestDTO.getFootprintMetricKey())) {
+          footprintMetricValue = Double.valueOf(measure.getValue());
+        }
+        if (measure.getMetric().equals(requestDTO.getHeightMetricKey())) {
+          heightMetricValue = Double.valueOf(measure.getValue());
+        }
+      }
+
       result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(),
-          Double.valueOf(component.getMeasures(0).getValue()), Double.valueOf(component.getMeasures(1).getValue()), 0.0));
+          footprintMetricValue, heightMetricValue, 0.0));
     }
 
     stopWatch.stop();

@@ -74,7 +74,7 @@ public class TreeBuilder {
   }
 
   private List<SonarMeasure> getModules(LocalConnector localConnector, final String rootSnapshotId) {
-    List<SonarMeasure> result = this.daoService.getSubprojects(localConnector, rootSnapshotId);
+    List<SonarMeasure> result = this.daoService.getSubProjects(localConnector, rootSnapshotId);
 
     if (result == null || result.isEmpty()) {
       result = new ArrayList<SonarMeasure>();

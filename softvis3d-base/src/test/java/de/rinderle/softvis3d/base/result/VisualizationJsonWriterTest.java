@@ -54,7 +54,7 @@ public class VisualizationJsonWriterTest {
 
     jsonWriter.close();
 
-    final String expectedResult = "{\"visualizationResult\":[{\"platformId\":1,\"opacity\":0.0,\"height3d\":0,\"positionX\":0.0,\"positionY\":0.0,\"width\":100.0,\"platformHeight\":5.0,\"height\":200.0,\"nodes\":[{\"id\":123,\"buildingHeight\":10.3,\"height\":400.3,\"width\":300.4,\"positionX\":1.0,\"positionY\":2.0,\"type\":\"PATH_GENERATED\",\"opacity\":0.0,\"color\":\"#FE8C00\",\"height3d\":0,\"arrows\":[]}]}]}";
+    final String expectedResult = "{\"visualizationResult\":[{\"platformId\":\"1\",\"opacity\":0.0,\"height3d\":0,\"positionX\":0.0,\"positionY\":0.0,\"width\":100.0,\"platformHeight\":5.0,\"height\":200.0,\"nodes\":[{\"id\":\"123\",\"buildingHeight\":10.3,\"height\":400.3,\"width\":300.4,\"positionX\":1.0,\"positionY\":2.0,\"type\":\"PATH_GENERATED\",\"opacity\":0.0,\"color\":\"#FE8C00\",\"height3d\":0,\"arrows\":[]}]}]}";
     assertEquals(expectedResult, stringOutputStream.toString());
   }
 

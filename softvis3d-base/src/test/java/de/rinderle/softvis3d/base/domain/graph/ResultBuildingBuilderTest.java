@@ -56,7 +56,7 @@ public class ResultBuildingBuilderTest {
 
     final ResultBuilding result = new ResultBuildingBuilder().withNode(node).createResultBuilding();
 
-    assertEquals(123, result.getId());
+    assertEquals("123", result.getId());
 
     assertEquals(300.4, result.getWidth(), 0.001);
     assertEquals(400.3, result.getHeight(), 0.001);

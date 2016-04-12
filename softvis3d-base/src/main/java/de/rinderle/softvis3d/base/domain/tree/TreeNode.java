@@ -122,6 +122,22 @@ public class TreeNode {
     return result;
   }
 
+  public List<ValueTreeNode> getAllChildrenValueLeaves() {
+    final List<ValueTreeNode> result = new ArrayList<>();
+
+    for (final TreeNode leaf : this.getChildrenLeaves()) {
+      if (leaf instanceof ValueTreeNode) {
+        result.add((ValueTreeNode) leaf);
+      }
+    }
+
+    for (final TreeNode node : this.getChildrenNodes()) {
+      result.addAll(node.getAllChildrenValueLeaves());
+    }
+
+    return result;
+  }
+
   /**
    * TODO: Could be placed somewhere else
    */

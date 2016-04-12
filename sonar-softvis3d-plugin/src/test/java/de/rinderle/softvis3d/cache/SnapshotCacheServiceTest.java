@@ -20,6 +20,7 @@
 package de.rinderle.softvis3d.cache;
 
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
+import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
@@ -36,23 +37,23 @@ public class SnapshotCacheServiceTest {
 
   @Test
   public void test() throws Exception {
-    final String lastEntryKey = "100";
+    final int lastEntryKey = 100;
 
-//    for (int i = 0; i < lastEntryKey + 1; i++) {
-//      final SnapshotStorageKey key = getSnapshotStorageKey(i);
-//      final SnapshotTreeResult value = new SnapshotTreeResult(new RootTreeNode(i));
-//      underTest.save(key, value);
-//    }
+    for (int i = 0; i < lastEntryKey + 1; i++) {
+      final SnapshotStorageKey key = getSnapshotStorageKey(String.valueOf(i));
+      final SnapshotTreeResult value = new SnapshotTreeResult(new RootTreeNode(String.valueOf(i)));
+      underTest.save(key, value);
+    }
 
     underTest.printCacheContents();
     // check limits
     assertFalse(underTest.containsKey(getSnapshotStorageKey("0")));
-    assertTrue(underTest.containsKey(getSnapshotStorageKey(lastEntryKey)));
+    assertTrue(underTest.containsKey(getSnapshotStorageKey(String.valueOf(lastEntryKey))));
 
     assertNull(underTest.getSnapshotTreeResult(getSnapshotStorageKey("0")));
 
-    final SnapshotTreeResult cachedValue = underTest.getSnapshotTreeResult(getSnapshotStorageKey(lastEntryKey));
-    assertEquals(lastEntryKey, cachedValue.getTree().getId());
+    final SnapshotTreeResult cachedValue = underTest.getSnapshotTreeResult(getSnapshotStorageKey(String.valueOf(lastEntryKey)));
+    assertEquals(String.valueOf(lastEntryKey), cachedValue.getTree().getId());
   }
 
   private SnapshotStorageKey getSnapshotStorageKey(final String id) {

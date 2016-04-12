@@ -28,25 +28,23 @@ import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
+import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.layout.dot.DotExecutorException;
+import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
+import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
+import de.rinderle.softvis3d.base.result.VisualizationJsonWriter;
 import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
-import de.rinderle.softvis3d.webservice.jsonwriter.SonarTreeNodeJsonWriter;
-import de.rinderle.softvis3d.webservice.jsonwriter.SonarVisualizationJsonWriter;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.server.ws.LocalConnector;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
-import org.sonar.api.utils.text.JsonWriter;
 
 public class VisualizationWebserviceHandler extends AbstractWebserviceHandler implements RequestHandler {
 
@@ -57,8 +55,6 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
   @Inject
   private VisualizationProcessor visualizationProcessor;
   @Inject
-  private SonarVisualizationJsonWriter visualizationJsonWriter;
-  @Inject
   private LayoutCacheService layoutCacheService;
   @Inject
   private PreProcessor preProcessor;
@@ -66,7 +62,10 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
   private DaoService daoService;
 
   @Inject
-  private SonarTreeNodeJsonWriter treeNodeJsonWriter;
+  private TreeNodeJsonWriter treeNodeJsonWriter;
+  @Inject
+  private VisualizationJsonWriter visualizationJsonWriter;
+
 
   @Override
   public void handleRequest(final Request request, final Response response) throws Exception {
@@ -97,7 +96,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
       visualizationResult = layoutCacheService.getLayoutResult(key);
     } else {
       LOGGER.info("Create layout for " + key.toString());
-      visualizationResult = createLayout(request.getLocalConnector(), requestDTO, snapshotTreeResult);
+      visualizationResult = createLayout(requestDTO, snapshotTreeResult);
       if (SoftVis3DPlugin.CACHE_ENABLED) {
         layoutCacheService.save(key, visualizationResult);
       }
@@ -109,9 +108,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
   private void writeResultsToResponse(final Response response, final SnapshotTreeResult snapshotTreeResult,
     final Map<String, ResultPlatform> visualizationResult) {
 
-//    final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(response.stream().output());
-
-    JsonWriter jsonWriter = JsonWriter.of(new OutputStreamWriter(response.stream().output(), StandardCharsets.UTF_8));
+    final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(response.stream().output());
 
     jsonWriter.beginObject();
     jsonWriter.name("resultObject");
@@ -128,12 +125,12 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     jsonWriter.close();
   }
 
-  private Map<String, ResultPlatform> createLayout(final LocalConnector localConnector, final VisualizationRequest requestDTO,
+  private Map<String, ResultPlatform> createLayout(final VisualizationRequest requestDTO,
     final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
     logStartOfCalc(requestDTO);
 
     final Map<String, ResultPlatform> result = visualizationProcessor.visualize(requestDTO.getViewType(), this.visualizationSettings, snapshotTreeResult,
-      createAdditionalInfos(localConnector, requestDTO));
+      createAdditionalInfos(snapshotTreeResult.getTree()));
 
     /**
      * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
@@ -145,11 +142,11 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     return result;
   }
 
-  private VisualizationAdditionalInfos createAdditionalInfos(final LocalConnector localConnector, final VisualizationRequest requestDTO) {
-    final MinMaxValue minMaxMetricFootprint = daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotKey(),
-      requestDTO.getFootprintMetricKey());
-    final MinMaxValue minMaxMetricHeight = daoService.getMinMaxMetricValuesByRootSnapshotId(requestDTO.getRootSnapshotKey(),
-      requestDTO.getHeightMetricKey());
+  private VisualizationAdditionalInfos createAdditionalInfos(RootTreeNode tree) {
+    final MinMaxCalculator minMaxCalculator = new MinMaxCalculator(tree);
+
+    final MinMaxValue minMaxMetricFootprint = minMaxCalculator.getMinMaxForFootprintMetric();
+    final MinMaxValue minMaxMetricHeight = minMaxCalculator.getMinMaxForHeightMetric();
 
 //     TODO
 //    final MinMaxValue minMaxMetricColor = daoService.getMaxScmInfo(localConnector, requestDTO);

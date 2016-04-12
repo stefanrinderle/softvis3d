@@ -117,7 +117,7 @@ public class OptimizeTreeStructureTest {
     assertNull(root.getChildren().get("B"));
     assertNotNull(root.getChildren().get("B/D"));
 
-    assertSame(4, root.getChildren().get("B/D").getId());
+    assertSame("4", root.getChildren().get("B/D").getId());
 
     assertSame(0, root.getDepth());
     assertSame(1, nodeC.getDepth());
@@ -157,7 +157,7 @@ public class OptimizeTreeStructureTest {
     assertNull(root.getChildren().get("C"));
     assertNotNull(root.getChildren().get("C/F"));
 
-    assertSame(6, root.getChildren().get("C/F").getId());
+    assertSame("6", root.getChildren().get("C/F").getId());
 
     assertSame(0, root.getDepth());
     assertSame(1, nodeB.getDepth());
@@ -200,7 +200,7 @@ public class OptimizeTreeStructureTest {
 
     assertNotNull(root.getChildren().get("B/D/E"));
 
-    assertSame(5, root.getChildren().get("B/D/E").getId());
+    assertSame("5", root.getChildren().get("B/D/E").getId());
 
     assertSame(0, root.getDepth());
     assertSame(1, nodeC.getDepth());
