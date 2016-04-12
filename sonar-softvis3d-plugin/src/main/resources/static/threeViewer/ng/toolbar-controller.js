@@ -90,7 +90,7 @@ ThreeViewer.ToolbarController.prototype.showDetails = function (softVis3dId, typ
     this.outEdges = [];
   } else {
     this.node = this.TreeService.searchTreeNode(softVis3dId);
-    this.privateShowNodeEdgeDetails(this.node);
+    //this.privateShowNodeEdgeDetails(this.node);
     this.edge = null;
     this.edgeIncludingEdges = null;
     this.displayEdgeIncludingEdges = false;

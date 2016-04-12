@@ -23,7 +23,7 @@ import att.grappa.Graph;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
+import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Test;
@@ -59,7 +59,7 @@ public class LayoutCacheServiceTest {
   }
 
   private SnapshotStorageKey getSnapshotStorageKey(final String id) {
-    final VisualizationRequest requestDto = new VisualizationRequest(id, "1", "1", ScmInfoType.NONE);
+    final VisualizationRequest requestDto = new VisualizationRequest(id, "1", "1", ColorMetricType.NONE);
     return new SnapshotStorageKey(requestDto);
   }
 }

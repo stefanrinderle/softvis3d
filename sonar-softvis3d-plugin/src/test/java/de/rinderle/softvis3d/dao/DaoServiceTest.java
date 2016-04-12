@@ -20,7 +20,7 @@
 package de.rinderle.softvis3d.dao;
 
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
+import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +86,7 @@ public class DaoServiceTest {
   @Test
   public void testGetFlatChildrenWithMetrics() throws Exception {
     final String projectId = "12";
-    final VisualizationRequest requestDTO = new VisualizationRequest(projectId, "1", "20", ScmInfoType.NONE);
+    final VisualizationRequest requestDTO = new VisualizationRequest(projectId, "1", "20", ColorMetricType.NONE);
 
     final List<WsMeasures.Component> snapshots = new ArrayList<>();
     final List<String> expectedMetricList = new ArrayList<>();

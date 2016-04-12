@@ -37,7 +37,7 @@ import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
+import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -76,13 +76,11 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     final String footprintMetricKey = request.param("footprintMetricKey");
     final String heightMetricKey = request.param("heightMetricKey");
 
-    // TODO: get metric key and check if its a special spftvis3d key. If not, just use the
-    // metric key.
     final String colorMetricKey = request.param("colorMetricKey");
-    final ScmInfoType scmInfoType = ScmInfoType.NONE;
+    final ColorMetricType colorMetricType = getColorMetricType(colorMetricKey);
 
     final VisualizationRequest requestDTO =
-      new VisualizationRequest(projectId, footprintMetricKey, heightMetricKey, scmInfoType);
+      new VisualizationRequest(projectId, footprintMetricKey, heightMetricKey, colorMetricType);
 
     LOGGER.info("VisualizationWebserviceHandler " + requestDTO.toString());
 
@@ -103,6 +101,26 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     }
 
     this.writeResultsToResponse(response, snapshotTreeResult, visualizationResult);
+  }
+
+  private ColorMetricType getColorMetricType(String colorMetricKey) {
+    final ColorMetricType result;
+    switch (colorMetricKey) {
+      case "NONE":
+        result = ColorMetricType.NONE;
+        break;
+      case "AUTHOR_COUNT":
+        result = ColorMetricType.AUTHOR_COUNT;
+        break;
+      case "COMMIT_COUNT":
+        result = ColorMetricType.COMMIT_COUNT;
+        break;
+      default:
+        result = ColorMetricType.DEFAULT_METRIC;
+        result.setDefaultMetricName(colorMetricKey);
+    }
+
+    return result;
   }
 
   private void writeResultsToResponse(final Response response, final SnapshotTreeResult snapshotTreeResult,
@@ -147,10 +165,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
     final MinMaxValue minMaxMetricFootprint = minMaxCalculator.getMinMaxForFootprintMetric();
     final MinMaxValue minMaxMetricHeight = minMaxCalculator.getMinMaxForHeightMetric();
-
-//     TODO
-//    final MinMaxValue minMaxMetricColor = daoService.getMaxScmInfo(localConnector, requestDTO);
-    final MinMaxValue minMaxMetricColor = new MinMaxValue(0, 100);
+    final MinMaxValue minMaxMetricColor = minMaxCalculator.getMinMaxForColorMetric();
 
     return new VisualizationAdditionalInfos(minMaxMetricFootprint, minMaxMetricHeight, minMaxMetricColor);
   }

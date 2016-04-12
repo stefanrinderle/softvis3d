@@ -20,7 +20,7 @@
 package de.rinderle.softvis3d.domain;
 
 import de.rinderle.softvis3d.base.domain.LayoutViewType;
-import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
+import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import java.util.Objects;
 
 public class VisualizationRequest {
@@ -31,9 +31,9 @@ public class VisualizationRequest {
 
   private final String footprintMetricKey;
   private final String heightMetricKey;
-  private final ScmInfoType scmInfoType;
+  private final ColorMetricType colorMetricType;
 
-  public VisualizationRequest(final String rootSnapshotKey, final String footprintMetricKey, final String heightMetricKey, final ScmInfoType scmInfoType) {
+  public VisualizationRequest(final String rootSnapshotKey, final String footprintMetricKey, final String heightMetricKey, final ColorMetricType colorMetricType) {
     this.rootSnapshotKey = rootSnapshotKey;
 
     this.viewType = LayoutViewType.CITY;
@@ -41,7 +41,7 @@ public class VisualizationRequest {
     this.footprintMetricKey = footprintMetricKey;
     this.heightMetricKey = heightMetricKey;
 
-    this.scmInfoType = scmInfoType;
+    this.colorMetricType = colorMetricType;
   }
 
   public String getRootSnapshotKey() {
@@ -60,8 +60,8 @@ public class VisualizationRequest {
     return this.heightMetricKey;
   }
 
-  public ScmInfoType getScmInfoType() {
-    return scmInfoType;
+  public ColorMetricType getColorMetricType() {
+    return colorMetricType;
   }
 
   @Override
@@ -71,7 +71,7 @@ public class VisualizationRequest {
         ", viewType=" + viewType +
         ", footprintMetricKey='" + footprintMetricKey + '\'' +
         ", heightMetricKey='" + heightMetricKey + '\'' +
-        ", scmInfoType=" + scmInfoType +
+        ", colorMetricType=" + colorMetricType +
         '}';
   }
 
@@ -84,11 +84,11 @@ public class VisualizationRequest {
         viewType == that.viewType &&
         Objects.equals(footprintMetricKey, that.footprintMetricKey) &&
         Objects.equals(heightMetricKey, that.heightMetricKey) &&
-        scmInfoType == that.scmInfoType;
+        colorMetricType == that.colorMetricType;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(rootSnapshotKey, viewType, footprintMetricKey, heightMetricKey, scmInfoType);
+    return Objects.hash(rootSnapshotKey, viewType, footprintMetricKey, heightMetricKey, colorMetricType);
   }
 }

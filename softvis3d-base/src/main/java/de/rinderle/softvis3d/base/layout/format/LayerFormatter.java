@@ -117,7 +117,7 @@ public class LayerFormatter {
   }
 
   public HexaColor getMetricColorColor(final double nodeColorMetricValue, final MinMaxValue minMaxMetricColor) {
-    if (minMaxMetricColor == null) {
+    if (minMaxMetricColor == null || minMaxMetricColor.equals(new MinMaxValue(0.0, 0.0))) {
       return LayoutConstants.BUILDING_COLOR;
     } else {
       final double percentage = this.calcPercentage(nodeColorMetricValue, minMaxMetricColor);

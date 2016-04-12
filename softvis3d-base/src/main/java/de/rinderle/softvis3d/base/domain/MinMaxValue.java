@@ -19,6 +19,8 @@
  */
 package de.rinderle.softvis3d.base.domain;
 
+import java.util.Objects;
+
 public class MinMaxValue {
 
   private final Double minValue;
@@ -42,6 +44,20 @@ public class MinMaxValue {
 
   public Double getMaxValue() {
     return this.maxValue;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    if (this == object) return true;
+    if (object == null || getClass() != object.getClass()) return false;
+    final MinMaxValue that = (MinMaxValue) object;
+    return Objects.equals(minValue, that.minValue) &&
+        Objects.equals(maxValue, that.maxValue);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(minValue, maxValue);
   }
 
   @Override

@@ -45,17 +45,26 @@ public class DaoServiceTransformer {
 
       double footprintMetricValue = 0;
       double heightMetricValue = 0;
+      double colorMetricValue = 0;
+
       for (final WsMeasures.Measure measure : component.getMeasuresList()) {
+
         if (measure.getMetric().equals(requestDTO.getFootprintMetricKey())) {
           footprintMetricValue = Double.valueOf(measure.getValue());
         }
+
         if (measure.getMetric().equals(requestDTO.getHeightMetricKey())) {
           heightMetricValue = Double.valueOf(measure.getValue());
         }
+
+        if (measure.getMetric().equals(requestDTO.getColorMetricType().getDefaultMetricName())) {
+          colorMetricValue = Double.valueOf(measure.getValue());
+        }
+
       }
 
       result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(),
-          footprintMetricValue, heightMetricValue, 0.0));
+          footprintMetricValue, heightMetricValue, colorMetricValue));
     }
 
     return result;

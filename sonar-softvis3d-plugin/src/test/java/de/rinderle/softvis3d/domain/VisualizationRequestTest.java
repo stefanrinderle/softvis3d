@@ -19,7 +19,7 @@
  */
 package de.rinderle.softvis3d.domain;
 
-import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
+import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -32,13 +32,13 @@ public class VisualizationRequestTest {
 
   @Test
   public void testHashCode() throws Exception {
-    VisualizationRequest request1 = new VisualizationRequest("1", "1", "20", ScmInfoType.NONE);
-    VisualizationRequest request2 = new VisualizationRequest("1", "1", "20", ScmInfoType.NONE);
+    VisualizationRequest request1 = new VisualizationRequest("1", "1", "20", ColorMetricType.NONE);
+    VisualizationRequest request2 = new VisualizationRequest("1", "1", "20", ColorMetricType.NONE);
 
     assertEquals(request1.hashCode(), request2.hashCode());
 
-    request1 = new VisualizationRequest("1", "1", "20", ScmInfoType.NONE);
-    request2 = new VisualizationRequest("2", "1", "20", ScmInfoType.NONE);
+    request1 = new VisualizationRequest("1", "1", "20", ColorMetricType.NONE);
+    request2 = new VisualizationRequest("2", "1", "20", ColorMetricType.NONE);
 
     assertNotEquals(request1.hashCode(), request2.hashCode());
   }

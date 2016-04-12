@@ -26,21 +26,32 @@ import de.rinderle.softvis3d.dao.scm.ScmCommitCountCalculationService;
 /**
  * Created by stefanrinderle on 07.12.15.
  */
-public enum ScmInfoType {
+public enum ColorMetricType {
 
   /**
    * ! enum names used in view !
    */
   NONE("None", null),
+  DEFAULT_METRIC("Default metric", null),
   AUTHOR_COUNT("Author count", new ScmAuthorCountCalculationService()),
   COMMIT_COUNT("Commit count", new ScmCommitCountCalculationService());
 
   private final transient ScmCalculationService scmCalculationService;
   private final String description;
 
-  ScmInfoType(final String description, final ScmCalculationService scmCalculationService) {
+  private String defaultMetricName;
+
+  ColorMetricType(final String description, final ScmCalculationService scmCalculationService) {
     this.description = description;
     this.scmCalculationService = scmCalculationService;
+  }
+
+  public String getDefaultMetricName() {
+    return defaultMetricName;
+  }
+
+  public void setDefaultMetricName(String defaultMetricName) {
+    this.defaultMetricName = defaultMetricName;
   }
 
   public String getDescription() {
@@ -50,4 +61,5 @@ public enum ScmInfoType {
   public ScmCalculationService getScmCalculationService() {
     return this.scmCalculationService;
   }
+
 }

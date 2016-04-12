@@ -1,7 +1,7 @@
 package de.rinderle.softvis3d.dao;
 
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
+import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,7 @@ public class DaoServiceTransformerTest {
 
     inputList.add(wsComponent.build());
 
-    final VisualizationRequest requestDTO = new VisualizationRequest(expectedId, "1", "20", ScmInfoType.NONE);
+    final VisualizationRequest requestDTO = new VisualizationRequest(expectedId, "1", "20", ColorMetricType.NONE);
 
     final List<SonarMeasure> result = daoServiceTransformer.transformComponentToMeasure(inputList, requestDTO);
 

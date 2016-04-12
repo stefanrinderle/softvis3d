@@ -51,7 +51,7 @@ public class TreeBuilder {
       for (final SonarMeasure module : modules) {
         final VisualizationRequest moduleTemp =
             new VisualizationRequest(module.getId(),
-                requestDTO.getFootprintMetricKey(), requestDTO.getHeightMetricKey(), requestDTO.getScmInfoType());
+                requestDTO.getFootprintMetricKey(), requestDTO.getHeightMetricKey(), requestDTO.getColorMetricType());
 
         addModuleToTreeWalker(pathWalker, moduleTemp, module.getName(), localConnector);
       }

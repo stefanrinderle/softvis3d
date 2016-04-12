@@ -45,15 +45,17 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
 
   this.cityInnerState = "complexity";
   this.infoInnerState = "idle";
-  this.colorMetricKey = "NONE";
 
-  this.exceptionMessage;
+  this.exceptionMessage = null;
 
   this.customSelectMetrics = {
-    'metric1': 'accessors', 'metric2': 'classes'
+    'metric1': 'complexity',
+    'metric2': 'ncloc',
+    'metric3': 'NONE'
   };
 
   this.availableMetrics = [];
+  this.availableColorMetrics = [];
 
   this.configLoaded = false;
 
@@ -79,13 +81,25 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
 
     this.waitFor(500, 0, function () {
         me.BackendService.getMetrics().then(function (response) {
-            me.availableMetrics = response.data.metrics;
+            me.availableMetrics = me.filterMetrics(response.data.metrics);
+
+            me.availableColorMetrics = [];
+            me.availableColorMetrics.push({
+                key: "NONE",
+                name: "Not used"
+            });
+            for (var index = 0; index < me.availableMetrics.length; index++) {
+                me.availableColorMetrics.push(me.availableMetrics[index]);
+            }
+
             me.hasDependencies = false;
             me.hasScmInfos = false;
             me.availableScmMetrics = [];
             me.configLoaded = true;
             me.customSelectMetrics = {
-                'metric1': 'accessors', 'metric2': 'classes'
+                'metric1': 'complexity',
+                'metric2': 'ncloc',
+                'metric3': 'NONE'
             };
 
         }, function (response) {
@@ -97,6 +111,20 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
   }
 };
 
+ThreeViewer.FileLoaderController.prototype.filterMetrics = function (metrics) {
+    var result = [];
+
+    for (var index = 0; index < metrics.length; index++) {
+        // check if numeric!
+        if (metrics[index].type === 'INT' || metrics[index].type === 'PERCENT'
+            || metrics[index].type === 'FLOAT' || metrics[index].type === 'RATING' ) {
+            result.push(metrics[index]);
+        }
+    }
+
+    return result;
+};
+
 ThreeViewer.FileLoaderController.prototype.waitFor = function(msec, count, callback) {
   var me = this;
   // Check if condition met. If not, re-check later (msec).
@@ -105,12 +133,15 @@ ThreeViewer.FileLoaderController.prototype.waitFor = function(msec, count, callb
     setTimeout(function () {
       me.waitFor(msec, count, callback);
     }, msec);
-    return;
+
+      return;
+
   } else {
     // Condition finally met. callback() can be executed.
     callback();
   }
 };
+
 ThreeViewer.FileLoaderController.prototype.listeners = function () {
   this.scope.$on('appReady', function () {
     console.log("app ready");
@@ -134,20 +165,21 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
   var complexityKey = "complexity";
   var issuesKey = "violations";
   var functionsKey = "functions";
+  var noMetric = "NONE";
 
   if (this.cityInnerState === "complexity") {
-    this.loadVisualisation(complexityKey, linesKey, null);
+    this.loadVisualisation(complexityKey, linesKey, noMetric);
   } else if (this.cityInnerState === "issues") {
-    this.loadVisualisation(issuesKey, linesKey, null);
+    this.loadVisualisation(issuesKey, linesKey, noMetric);
   } else if (this.cityInnerState === "functions") {
-    this.loadVisualisation(functionsKey, linesKey, null);
+    this.loadVisualisation(functionsKey, linesKey, noMetric);
   } else {
     console.log("invalid option selected.");
   }
 };
 
 ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
-  this.loadVisualisation(this.customSelectMetrics.metric1, this.customSelectMetrics.metric2, this.colorMetricKey);
+  this.loadVisualisation(this.customSelectMetrics.metric1, this.customSelectMetrics.metric2, this.customSelectMetrics.metric3);
 };
 
 ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, colorMetricKey) {
@@ -180,16 +212,6 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
     me.showTab("info");
   });
 };
-
-//ThreeViewer.FileLoaderController.prototype.getNameScmMetricType = function (scmMetricTypeName) {
-//  for (var index = 0; index < this.availableScmMetrics.length; index++) {
-//    if (this.availableScmMetrics[index].name === scmMetricTypeName) {
-//      return this.availableScmMetrics[index].description;
-//    }
-//  }
-//
-//  return "No name found";
-//};
 
 ThreeViewer.FileLoaderController.prototype.getNameForMetricKey = function (metricKey) {
   for (var index = 0; index < this.availableMetrics.length; index++) {

@@ -45,4 +45,20 @@ public class MinMaxCalculatorTest {
     assertTrue(-14.0 == result.getMinValue());
     assertTrue(28.0 == result.getMaxValue());
   }
+
+  @Test
+  public void testGetMinMaxForColorMetric() throws Exception {
+    final RootTreeNode tree = new RootTreeNode("1");
+    final TreeNode leafTwo = new ValueTreeNode("2", tree, 1, TreeNodeType.TREE, "2", 0, 0, 3);
+    tree.addChildrenNode("2", leafTwo);
+    final TreeNode leafThree = new ValueTreeNode("2", tree, 1, TreeNodeType.TREE, "2", 0, 0, -17);
+    tree.addChildrenNode("3", leafThree);
+    final TreeNode leafFour = new ValueTreeNode("4", tree, 1, TreeNodeType.TREE, "2", 0, 0, 846);
+    tree.addChildrenNode("4", leafFour);
+
+    final MinMaxValue result = new MinMaxCalculator(tree).getMinMaxForColorMetric();
+
+    assertTrue(-17.0 == result.getMinValue());
+    assertTrue(846.0 == result.getMaxValue());
+  }
 }

@@ -21,6 +21,7 @@ package de.rinderle.softvis3d.dao;
 
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
+import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,10 @@ public class DaoService {
     final List<String> metrics = new ArrayList<>();
     metrics.add(requestDTO.getFootprintMetricKey());
     metrics.add(requestDTO.getHeightMetricKey());
+
+    if (ColorMetricType.DEFAULT_METRIC.equals(requestDTO.getColorMetricType())) {
+      metrics.add(requestDTO.getColorMetricType().getDefaultMetricName());
+    }
 
     final List<WsMeasures.Component> resultComponents = sonarDao.getAllSnapshotIdsWithRescourceId(localConnector,
       requestDTO.getRootSnapshotKey(), metrics);

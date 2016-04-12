@@ -22,10 +22,6 @@ ThreeViewer.BackendService = function ($http) {
 };
 
 ThreeViewer.BackendService.prototype.getVisualization = function (projectKey, footprintMetricKey, heightMetricKey, colorMetricKey) {
-  if (!colorMetricKey) {
-      colorMetricKey = "NONE";
-  }
-
   return this.http.get("../../api/softVis3D/getVisualization?projectKey=" + projectKey
   + "&footprintMetricKey=" + footprintMetricKey
   + "&heightMetricKey=" + heightMetricKey

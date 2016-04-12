@@ -34,7 +34,7 @@ import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
+import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import java.io.InputStream;
 import java.util.Collection;
@@ -68,7 +68,7 @@ public class VisualizationWebserviceHandlerTest {
   private final String footprintMetricKey = "1";
   private final String heightMetricKey = "21";
   private final String viewType = "city";
-  private final ScmInfoType scmMetricType = ScmInfoType.AUTHOR_COUNT;
+  private final ColorMetricType scmMetricType = ColorMetricType.AUTHOR_COUNT;
 
   @InjectMocks
   private VisualizationWebserviceHandler handler;
@@ -105,7 +105,7 @@ public class VisualizationWebserviceHandlerTest {
     final Response response = this.createResponse();
 
     final VisualizationRequest requestDTO = new VisualizationRequest(
-      this.snapshotKey, this.footprintMetricKey, this.heightMetricKey, ScmInfoType.NONE);
+      this.snapshotKey, this.footprintMetricKey, this.heightMetricKey, ColorMetricType.NONE);
 
     final SnapshotTreeResult treeResult = mockPreProcessing(requestDTO);
     final Map<String, ResultPlatform> visualizationResult = mockVisualization(requestDTO, treeResult);
