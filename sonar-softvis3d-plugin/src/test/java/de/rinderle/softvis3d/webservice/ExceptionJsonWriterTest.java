@@ -52,17 +52,17 @@ public class ExceptionJsonWriterTest {
 
   private Response createResponse() {
     return new Response() {
-//      @Override
+      @Override
       public JsonWriter newJsonWriter() {
         return ExceptionJsonWriterTest.this.jsonWriter;
       }
 
-//      @Override
+      @Override
       public XmlWriter newXmlWriter() {
         return null;
       }
 
-//      @Override
+      @Override
       public Response noContent() {
         return null;
       }
@@ -79,20 +79,20 @@ public class ExceptionJsonWriterTest {
         return null;
       }
 
-//      @Override
+      @Override
       public Stream stream() {
         return new Stream() {
-//          @Override
+          @Override
           public Stream setMediaType(final String s) {
             return null;
           }
 
-//          @Override
+          @Override
           public Stream setStatus(final int httpStatus) {
             return this;
           }
 
-//          @Override
+          @Override
           public OutputStream output() {
             return null;
           }

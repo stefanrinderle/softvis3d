@@ -33,7 +33,7 @@ public abstract class AbstractWebserviceHandler implements RequestHandler {
   @Inject
   private ExceptionJsonWriter exceptionJsonWriter;
 
-//  @Override
+  @Override
   public void handle(final Request request, final Response response) {
     try {
       this.handleRequest(request, response);
@@ -43,6 +43,6 @@ public abstract class AbstractWebserviceHandler implements RequestHandler {
     }
   }
 
-  public abstract void handleRequest(final Request request, final Response response) throws Exception;
+  public abstract void handleRequest(Request request, Response response) throws Exception;
 
 }

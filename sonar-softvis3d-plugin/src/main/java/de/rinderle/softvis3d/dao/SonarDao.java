@@ -19,7 +19,6 @@
  */
 package de.rinderle.softvis3d.dao;
 
-import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import org.sonar.api.resources.Qualifiers;
@@ -32,10 +31,6 @@ import org.sonarqube.ws.client.component.ShowWsRequest;
 import org.sonarqube.ws.client.component.TreeWsRequest;
 import org.sonarqube.ws.client.measure.ComponentTreeWsRequest;
 
-/**
- * Use singleton to set the database session once on startup and to be sure that it is set on any other injection.
- */
-@Singleton
 public class SonarDao {
 
   public String getProjectId(LocalConnector localConnector, String projectKey) {

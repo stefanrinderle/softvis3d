@@ -37,6 +37,9 @@ public class DaoService {
 
   @Inject
   private SonarDao sonarDao;
+  @Inject
+  private DaoServiceTransformer daoServiceTransformer;
+
 
   public String getProjectId(final LocalConnector localConnector, String projectKey) {
     return this.sonarDao.getProjectId(localConnector, projectKey);
@@ -45,13 +48,7 @@ public class DaoService {
   public List<SonarMeasure> getSubProjects(final LocalConnector localConnector, final String projectId) {
     final List<WsComponents.Component> resultComponents = this.sonarDao.getDirectModuleChildrenIds(localConnector, projectId);
 
-    final List<SonarMeasure> result = new ArrayList<>();
-
-    for (final WsComponents.Component component : resultComponents) {
-      result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(), 0.0, 0.0, 0.0));
-    }
-
-    return result;
+    return daoServiceTransformer.transformComponentToModules(resultComponents);
   }
 
   public List<SonarMeasure> getFlatChildrenWithMetrics(final LocalConnector localConnector, final VisualizationRequest requestDTO) {
@@ -65,29 +62,7 @@ public class DaoService {
     final List<WsMeasures.Component> resultComponents = sonarDao.getAllSnapshotIdsWithRescourceId(localConnector,
       requestDTO.getRootSnapshotKey(), metrics);
 
-    final List<SonarMeasure> result = new ArrayList<>();
-
-    for (final WsMeasures.Component component : resultComponents) {
-
-      double footprintMetricValue = 0;
-      double heightMetricValue = 0;
-      for (final WsMeasures.Measure measure : component.getMeasuresList()) {
-        if (measure.getMetric().equals(requestDTO.getFootprintMetricKey())) {
-          footprintMetricValue = Double.valueOf(measure.getValue());
-        }
-        if (measure.getMetric().equals(requestDTO.getHeightMetricKey())) {
-          heightMetricValue = Double.valueOf(measure.getValue());
-        }
-      }
-
-      result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(),
-          footprintMetricValue, heightMetricValue, 0.0));
-    }
-
-    stopWatch.stop();
-    LOGGER.info("Time for getting snapshots " + stopWatch.getTime() + " ms");
-
-    return result;
+    return daoServiceTransformer.transformComponentToMeasure(resultComponents, requestDTO);
   }
 
 }

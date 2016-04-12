@@ -31,11 +31,13 @@ import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
 import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
 import de.rinderle.softvis3d.base.result.VisualizationJsonWriter;
 import de.rinderle.softvis3d.cache.LayoutCacheService;
+import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ScmInfoType;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
@@ -46,7 +48,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.sonar.api.server.ws.LocalConnector;
 import org.sonar.api.server.ws.Request;
-import org.sonar.api.server.ws.WebService;
+import org.sonar.api.server.ws.Response;
+import org.sonar.api.utils.text.JsonWriter;
+import org.sonar.api.utils.text.XmlWriter;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -78,14 +82,19 @@ public class VisualizationWebserviceHandlerTest {
   private VisualizationJsonWriter visualizationJsonWriter;
   @Mock
   private LayoutCacheService layoutCacheService;
-//  @Mock
-//  private DatabaseSession session;
+  @Mock
+  private JsonWriter jsonWriterTest;
+
+  @Mock
+  private DaoService daoService;
+
+  @Mock
+  private LocalConnector localConnector;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-//    this.handler.setDatabaseSession(session);
     when(layoutCacheService.containsKey(any(SnapshotStorageKey.class))).thenReturn(false);
   }
 
@@ -93,7 +102,7 @@ public class VisualizationWebserviceHandlerTest {
   @Ignore
   public void testVisualizationHandler() throws Exception {
     final Request request = this.createRequest();
-//    final Response response = this.createResponse();
+    final Response response = this.createResponse();
 
     final VisualizationRequest requestDTO = new VisualizationRequest(
       this.snapshotKey, this.footprintMetricKey, this.heightMetricKey, ScmInfoType.NONE);
@@ -101,7 +110,9 @@ public class VisualizationWebserviceHandlerTest {
     final SnapshotTreeResult treeResult = mockPreProcessing(requestDTO);
     final Map<String, ResultPlatform> visualizationResult = mockVisualization(requestDTO, treeResult);
 
-//    this.handler.handle(request, response);
+    when(daoService.getProjectId(eq(localConnector), eq(this.snapshotKey))).thenReturn("projectId");
+
+    this.handler.handle(request, response);
 
     // empty response because json transformer are mocked.
     assertEquals("{\"resultObject\":[]}", this.stringOutputStream.toString());
@@ -122,18 +133,13 @@ public class VisualizationWebserviceHandlerTest {
     final RootTreeNode rootTreeNode = new RootTreeNode("1");
     final SnapshotTreeResult treeResult = new SnapshotTreeResult(rootTreeNode);
 
-    LocalConnector localConnector = null;
-    when(preProcessor.process(localConnector, any(VisualizationRequest.class))).thenReturn(treeResult);
+    when(preProcessor.process(eq(localConnector), any(VisualizationRequest.class))).thenReturn(treeResult);
 
     return treeResult;
   }
 
   private Request createRequest() {
     return new Request() {
-//      @Override
-      public WebService.Action action() {
-        return null;
-      }
 
       @Override
       public String method() {
@@ -152,15 +158,13 @@ public class VisualizationWebserviceHandlerTest {
 
       @Override
       public String param(final String key) {
-        if ("snapshotKey".equals(key)) {
-          return VisualizationWebserviceHandlerTest.this.snapshotKey.toString();
+        if ("projectKey".equals(key)) {
+          return VisualizationWebserviceHandlerTest.this.snapshotKey;
         } else if ("footprintMetricKey".equals(key)) {
-          return VisualizationWebserviceHandlerTest.this.footprintMetricKey.toString();
+          return VisualizationWebserviceHandlerTest.this.footprintMetricKey;
         } else if ("heightMetricKey".equals(key)) {
-          return VisualizationWebserviceHandlerTest.this.heightMetricKey.toString();
-        } else if ("viewType".equals(key)) {
-          return VisualizationWebserviceHandlerTest.this.viewType;
-        } else if ("scmMetricType".equals(key)) {
+          return VisualizationWebserviceHandlerTest.this.heightMetricKey;
+        } else if ("colorMetricKey".equals(key)) {
           return VisualizationWebserviceHandlerTest.this.scmMetricType.name();
         } else {
           return "";
@@ -179,28 +183,43 @@ public class VisualizationWebserviceHandlerTest {
     };
   }
 
-//  private Response createResponse() {
-//    return new Response() {
-//      @Override
-//      public JsonWriter newJsonWriter() {
-//        return VisualizationWebserviceHandlerTest.this.jsonWriter;
-//      }
-//
-//      @Override
-//      public XmlWriter newXmlWriter() {
-//        return null;
-//      }
-//
-//      @Override
-//      public Response noContent() {
-//        return null;
-//      }
-//
-//      @Override
-//      public Stream stream() {
-//        return null;
-//      }
-//    };
-//  }
+  private Response createResponse() {
+    return new Response() {
+      @Override
+      public JsonWriter newJsonWriter() {
+        return VisualizationWebserviceHandlerTest.this.jsonWriterTest;
+      }
+
+      @Override
+      public XmlWriter newXmlWriter() {
+        return null;
+      }
+
+      @Override
+      public Response noContent() {
+        return null;
+      }
+
+      @Override
+      public Response setHeader(String name, String value) {
+        return null;
+      }
+
+      @Override
+      public Collection<String> getHeaderNames() {
+        return null;
+      }
+
+      @Override
+      public String getHeader(String name) {
+        return null;
+      }
+
+      @Override
+      public Stream stream() {
+        return null;
+      }
+    };
+  }
 
 }

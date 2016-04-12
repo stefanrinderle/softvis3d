@@ -39,31 +39,6 @@
       <version>${sonar.version}</version>
       <scope>provided</scope>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.codehaus.sonar</groupId>-->
-      <!--<artifactId>sonar-dev-maven-plugin</artifactId>-->
-      <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-
-    <!--
-      [INFO] - sonar-packaging-maven-plugin:1.12.1:check-dependencies (default-check-dependencies) @ sonar-softvis3d-plugin
-      [WARNING] Dependencies on the following log libraries should be excluded or declared with scope 'provided': commons-logging:commons-logging:jar
-    -->
-    <!--<dependency>-->
-      <!--<groupId>commons-logging</groupId>-->
-      <!--<artifactId>commons-logging</artifactId>-->
-      <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>commons-lang</groupId>-->
-      <!--<artifactId>commons-lang</artifactId>-->
-      <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>commons-io</groupId>-->
-      <!--<artifactId>commons-io</artifactId>-->
-      <!--<scope>provided</scope>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -78,14 +53,6 @@
       <groupId>com.google.inject.extensions</groupId>
       <artifactId>guice-assistedinject</artifactId>
     </dependency>
-
-    <!-- unit tests -->
-    <!--<dependency>-->
-      <!--<groupId>org.codehaus.sonar</groupId>-->
-      <!--<artifactId>sonar-testing-harness</artifactId>-->
-      <!--<version>${sonar.version}</version>-->
-      <!--<scope>test</scope>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
@@ -112,23 +79,6 @@
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <!--<plugin>-->
-          <!--&lt;!&ndash; UTF-8 bundles are not supported by Java, so they must be converted-->
-              <!--during build &ndash;&gt;-->
-          <!--<groupId>org.codehaus.mojo</groupId>-->
-          <!--<artifactId>native2ascii-maven-plugin</artifactId>-->
-          <!--<executions>-->
-            <!--<execution>-->
-              <!--<goals>-->
-                <!--<goal>native2ascii</goal>-->
-              <!--</goals>-->
-            <!--</execution>-->
-          <!--</executions>-->
-        <!--</plugin>-->
-      </plugins>
-    </pluginManagement>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
