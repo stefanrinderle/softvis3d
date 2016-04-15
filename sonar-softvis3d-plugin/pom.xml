@@ -17,7 +17,7 @@
   <url>http://softvis3d.com</url>
 
   <properties>
-    <sonar.version>5.5-RC2-SNAPSHOT</sonar.version>
+    <sonar.version>5.5-RC1</sonar.version>
 
     <sonar.exclusions>
       src/main/resources/node_modules/**,
@@ -38,6 +38,11 @@
       <artifactId>sonar-plugin-api</artifactId>
       <version>${sonar.version}</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.sonarqube</groupId>
+      <artifactId>sonar-ws</artifactId>
+      <version>${sonar.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -70,11 +75,6 @@
     <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-api-mockito</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.sonarsource.sonarqube</groupId>
-      <artifactId>sonar-ws</artifactId>
-      <version>5.5-RC2-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
