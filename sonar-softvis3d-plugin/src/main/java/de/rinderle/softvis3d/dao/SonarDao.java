@@ -33,8 +33,10 @@ import org.sonarqube.ws.client.measure.ComponentTreeWsRequest;
 
 public class SonarDao {
 
+  private static final int PAGE_SIZE = 500;
+
   public String getProjectId(LocalConnector localConnector, String projectKey) {
-    final WsClient wsClient = WsClientFactories.getLocal().newClient(localConnector);
+    final WsClient wsClient = getWsClient(localConnector);
 
     final ShowWsRequest showComponentRequest = new ShowWsRequest();
     showComponentRequest.setKey(projectKey);
@@ -44,7 +46,7 @@ public class SonarDao {
   }
 
   public List<WsComponents.Component> getDirectModuleChildrenIds(LocalConnector localConnector, final String projectId) {
-    final WsClient wsClient = WsClientFactories.getLocal().newClient(localConnector);
+    final WsClient wsClient = getWsClient(localConnector);
 
     final TreeWsRequest treeWsRequest = new TreeWsRequest();
     treeWsRequest.setBaseComponentId(projectId);
@@ -52,11 +54,31 @@ public class SonarDao {
     qualifiers.add(Qualifiers.MODULE);
     treeWsRequest.setQualifiers(qualifiers);
 
+    treeWsRequest.setPageSize(PAGE_SIZE);
+
     return wsClient.components().tree(treeWsRequest).getComponentsList();
   }
 
   public List<WsMeasures.Component> getAllSnapshotIdsWithRescourceId(final LocalConnector localConnector, final String projectId, List<String> metrics) {
-    final WsClient wsClient = WsClientFactories.getLocal().newClient(localConnector);
+    final List<WsMeasures.Component> result = new ArrayList<>();
+
+    final WsClient wsClient = getWsClient(localConnector);
+
+    int pageNumber = 1;
+    WsMeasures.ComponentTreeWsResponse wsResult = this.getChildrenByBaseProjectId(wsClient, projectId, metrics, pageNumber);
+    result.addAll(wsResult.getComponentsList());
+
+    while (wsResult.getPaging().getPageIndex() * wsResult.getPaging().getPageSize() < wsResult.getPaging().getTotal()) {
+      pageNumber++;
+      wsResult = this.getChildrenByBaseProjectId(wsClient, projectId, metrics, pageNumber);
+      result.addAll(wsResult.getComponentsList());
+    }
+
+    return result;
+  }
+
+  private WsMeasures.ComponentTreeWsResponse getChildrenByBaseProjectId(final WsClient wsClient,
+    final String projectId, List<String> metrics, final int page) {
 
     final ComponentTreeWsRequest request = new ComponentTreeWsRequest();
     request.setBaseComponentId(projectId);
@@ -65,11 +87,14 @@ public class SonarDao {
     qualifiers.add(Qualifiers.FILE);
     request.setQualifiers(qualifiers);
 
-    request.setPageSize(500);
+    request.setPageSize(PAGE_SIZE);
+    request.setPage(page);
 
-    // TODO more pages...
+    return wsClient.measures().componentTree(request);
+  }
 
-    return wsClient.measures().componentTree(request).getComponentsList();
+  private WsClient getWsClient(LocalConnector localConnector) {
+    return WsClientFactories.getLocal().newClient(localConnector);
   }
 
 }
