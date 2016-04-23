@@ -19,7 +19,7 @@
   <properties>
     <jdk.min.version>1.7</jdk.min.version>
 
-    <sonar.version>5.5-SNAPSHOT</sonar.version>
+    <sonar.version>5.5-RC1</sonar.version>
 
     <sonar.exclusions>
       src/main/resources/node_modules/**,

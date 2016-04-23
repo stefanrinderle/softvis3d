@@ -183,7 +183,7 @@ public class VisualizationWebserviceHandlerTest {
       }
 
       @Override
-      public LocalConnector localConnector() {
+      public LocalConnector getLocalConnector() {
         return localConnector;
       }
     };
