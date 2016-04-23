@@ -101,12 +101,12 @@
     <system>GitHub Issues</system>
   </issueManagement>
 
-  <!--<scm>-->
-    <!--<url>scm:git:git@github.com:stefanrinderle/softvis3d.git</url>-->
-    <!--<connection>scm:git:git@github.com:stefanrinderle/softvis3d.git</connection>-->
-    <!--<developerConnection>scm:git:git@github.com:stefanrinderle/softvis3d.git</developerConnection>-->
-    <!--<tag>HEAD</tag>-->
-  <!--</scm>-->
+  <scm>
+    <connection>scm:git:git@github.com:stefanrinderle/softvis3d.git</connection>
+    <developerConnection>scm:git:git@github.com:stefanrinderle/softvis3d.git</developerConnection>
+    <url>https://github.com/stefanrinderle/softvis3d</url>
+    <tag>HEAD</tag>
+  </scm>
 
   <build>
     <plugins>
