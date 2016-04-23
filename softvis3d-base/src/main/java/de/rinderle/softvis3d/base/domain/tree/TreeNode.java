@@ -87,28 +87,8 @@ public class TreeNode {
     this.edges.put(edge.getDepEdgeLabel(), edge);
   }
 
-  public boolean hasEdge(final String edgeLabel) {
-    return this.edges.containsKey(edgeLabel);
-  }
-
-  public Edge getEdge(final String depEdgeLabel) {
-    return this.edges.get(depEdgeLabel);
-  }
-
   public Map<String, Edge> getEdges() {
     return this.edges;
-  }
-
-  public TreeNode findNode(final String id) {
-    return this.recursiveSearch(id, this);
-  }
-
-  public DependencyTreeNode findInterfaceLeafNode(final String label) {
-    if (children.containsKey(label)) {
-      return (DependencyTreeNode) children.get(label);
-    } else {
-      return null;
-    }
   }
 
   public int getAllChildrenNodesSize() {
@@ -136,38 +116,6 @@ public class TreeNode {
     }
 
     return result;
-  }
-
-  /**
-   * TODO: Could be placed somewhere else
-   */
-  private TreeNode recursiveSearch(final String id, final TreeNode treeNode) {
-    if (treeNode.getId().equals(id)) {
-      /**
-       * check if there is a child treeNode with the same id. This is to parse long paths and get the last
-       * treeNode of the chain with the same id.
-       */
-      for (final TreeNode child : treeNode.getChildren().values()) {
-        if (child.getId().equals(id)) {
-          return this.recursiveSearch(id, child);
-        }
-      }
-
-      return treeNode;
-    }
-
-    final Map<String, TreeNode> nodeChildren = treeNode.getChildren();
-    TreeNode temp;
-    if (!nodeChildren.isEmpty()) {
-      for (final TreeNode child : nodeChildren.values()) {
-        temp = this.recursiveSearch(id, child);
-        if (temp != null) {
-          return temp;
-        }
-      }
-    }
-
-    return null;
   }
 
   public List<TreeNode> getChildrenNodes() {

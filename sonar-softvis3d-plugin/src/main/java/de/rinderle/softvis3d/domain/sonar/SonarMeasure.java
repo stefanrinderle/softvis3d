@@ -25,16 +25,16 @@ public class SonarMeasure {
   private final String name;
   private final double footprintMetricValue;
   private final double heightMetricValue;
-  private final double scmMetricValue;
+  private final double colorMetricValue;
   private String path;
 
-  public SonarMeasure(String id, String name, String path, double footprintMetricValue, double heightMetricValue, double scmMetricValue) {
+  public SonarMeasure(String id, String name, String path, double footprintMetricValue, double heightMetricValue, double colorMetricValue) {
     this.id = id;
     this.name = name;
     this.path = path;
     this.footprintMetricValue = footprintMetricValue;
     this.heightMetricValue = heightMetricValue;
-    this.scmMetricValue = scmMetricValue;
+    this.colorMetricValue = colorMetricValue;
   }
 
   public String getId() {
@@ -53,8 +53,8 @@ public class SonarMeasure {
     return heightMetricValue;
   }
 
-  public double getScmMetricValue() {
-    return scmMetricValue;
+  public double getColorMetricValue() {
+    return colorMetricValue;
   }
 
   public String getPath() {
@@ -71,7 +71,7 @@ public class SonarMeasure {
         "id='" + id + '\'' +
         ", footprintMetricValue=" + footprintMetricValue +
         ", heightMetricValue=" + heightMetricValue +
-        ", scmMetricValue=" + scmMetricValue +
+        ", colorMetricValue=" + colorMetricValue +
         ", path='" + path + '\'' +
         '}';
   }

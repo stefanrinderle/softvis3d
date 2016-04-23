@@ -44,6 +44,7 @@ public enum ColorMetricType {
   ColorMetricType(final String description, final ScmCalculationService scmCalculationService) {
     this.description = description;
     this.scmCalculationService = scmCalculationService;
+    this.defaultMetricName = this.name();
   }
 
   public String getDefaultMetricName() {

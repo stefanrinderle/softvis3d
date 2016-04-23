@@ -29,7 +29,8 @@ public class SnapshotStorageKey {
     this.key = requestDTO.getRootSnapshotKey() + "_"
       + requestDTO.getViewType().name() + "_"
       + requestDTO.getFootprintMetricKey() + "_"
-      + requestDTO.getHeightMetricKey();
+      + requestDTO.getHeightMetricKey() + "_"
+      + requestDTO.getColorMetricType().getDefaultMetricName() + "_";
   }
 
   @Override

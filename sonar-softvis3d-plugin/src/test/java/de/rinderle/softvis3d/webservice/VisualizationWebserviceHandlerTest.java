@@ -25,6 +25,8 @@ import de.rinderle.softvis3d.base.VisualizationSettings;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
 import de.rinderle.softvis3d.base.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.base.layout.helper.StringOutputStream;
 import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
@@ -36,12 +38,13 @@ import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
+import java.io.BufferedOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -99,7 +102,6 @@ public class VisualizationWebserviceHandlerTest {
   }
 
   @Test
-  @Ignore
   public void testVisualizationHandler() throws Exception {
     final Request request = this.createRequest();
     final Response response = this.createResponse();
@@ -117,13 +119,15 @@ public class VisualizationWebserviceHandlerTest {
     // empty response because json transformer are mocked.
     assertEquals("{\"resultObject\":[]}", this.stringOutputStream.toString());
 
-    verify(treeNodeJsonWriter, times(1)).transformRootTreeToJson(eq(jsonWriter), eq(treeResult.getTree()));
-    verify(visualizationJsonWriter, times(1)).transformResponseToJson(eq(jsonWriter), eq(visualizationResult));
+    verify(treeNodeJsonWriter, times(1)).transformRootTreeToJson(any(SoftVis3dJsonWriter.class), eq(treeResult.getTree()));
+    verify(visualizationJsonWriter, times(1)).transformResponseToJson(any(SoftVis3dJsonWriter.class), eq(visualizationResult));
   }
 
-  private Map<String, ResultPlatform> mockVisualization(final VisualizationRequest requestDTO, final SnapshotTreeResult treeResult) throws DotExecutorException {
+  private Map<String, ResultPlatform> mockVisualization(final VisualizationRequest requestDTO, final SnapshotTreeResult treeResult)
+      throws DotExecutorException {
     final Map<String, ResultPlatform> visualizationResult = new HashMap<>();
-    when(visualizationProcessor.visualize(eq(requestDTO.getViewType()), any(VisualizationSettings.class), eq(treeResult), any(VisualizationAdditionalInfos.class)))
+    when(visualizationProcessor.visualize(eq(requestDTO.getViewType()), any(VisualizationSettings.class), eq(treeResult),
+        any(VisualizationAdditionalInfos.class)))
       .thenReturn(visualizationResult);
 
     return visualizationResult;
@@ -131,9 +135,11 @@ public class VisualizationWebserviceHandlerTest {
 
   private SnapshotTreeResult mockPreProcessing(final VisualizationRequest requestDTO) {
     final RootTreeNode rootTreeNode = new RootTreeNode("1");
+    rootTreeNode.getChildren().put("2", new ValueTreeNode("2", rootTreeNode, 1, TreeNodeType.TREE, "2", 3, 3, 3));
+    rootTreeNode.getChildren().put("3", new ValueTreeNode("3", rootTreeNode, 1, TreeNodeType.TREE, "3", 9, 9, 9));
     final SnapshotTreeResult treeResult = new SnapshotTreeResult(rootTreeNode);
 
-    when(preProcessor.process(eq(localConnector), any(VisualizationRequest.class))).thenReturn(treeResult);
+    when(preProcessor.process(any(LocalConnector.class), any(VisualizationRequest.class))).thenReturn(treeResult);
 
     return treeResult;
   }
@@ -177,8 +183,8 @@ public class VisualizationWebserviceHandlerTest {
       }
 
       @Override
-      public LocalConnector getLocalConnector() {
-        return null;
+      public LocalConnector localConnector() {
+        return localConnector;
       }
     };
   }
@@ -217,7 +223,22 @@ public class VisualizationWebserviceHandlerTest {
 
       @Override
       public Stream stream() {
-        return null;
+        return new Stream() {
+          @Override
+          public Stream setMediaType(String s) {
+            return null;
+          }
+
+          @Override
+          public Stream setStatus(int httpStatus) {
+            return null;
+          }
+
+          @Override
+          public OutputStream output() {
+            return new BufferedOutputStream(stringOutputStream);
+          }
+        };
       }
     };
   }

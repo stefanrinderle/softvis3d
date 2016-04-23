@@ -17,7 +17,9 @@
   <url>http://softvis3d.com</url>
 
   <properties>
-    <sonar.version>5.5-RC1</sonar.version>
+    <jdk.min.version>1.7</jdk.min.version>
+
+    <sonar.version>5.5-SNAPSHOT</sonar.version>
 
     <sonar.exclusions>
       src/main/resources/node_modules/**,
@@ -90,6 +92,14 @@
       </resource>
     </resources>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${jdk.min.version}</source>
+          <target>${jdk.min.version}</target>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
         <artifactId>sonar-packaging-maven-plugin</artifactId>

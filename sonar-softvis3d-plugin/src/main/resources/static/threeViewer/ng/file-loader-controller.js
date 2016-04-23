@@ -188,6 +188,9 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
   this.infoInnerState = "loading";
   this.showTab("info");
   this.BackendService.getVisualization(ThreeViewer.PROJECT_KEY, metric1, metric2, colorMetricKey).then(function (response) {
+
+      console.log("response from getvisualization " + colorMetricKey);
+
     var treeResult = response.data.resultObject[0].treeResult;
     var visualizationResult = response.data.resultObject[1].visualizationResult;
 

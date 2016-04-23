@@ -96,17 +96,7 @@ Viewer.Scene.prototype = {
   onWindowResize: function () {
     var paddingTop = jQuery("#hd").height() + jQuery("#crumbs").height() + jQuery("#footer").height();
 
-    var sidebar = jQuery("#sidebar");
     var paddingLeft = 0;
-    if (sidebar) {
-      paddingLeft += sidebar.width();
-
-      if (sidebar.position()) {
-        paddingLeft += sidebar.position().left;
-      }
-    }
-
-    paddingLeft += 25;
     paddingTop += 50;
 
     this.WIDTH = window.innerWidth - paddingLeft;
