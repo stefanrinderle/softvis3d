@@ -5,8 +5,8 @@ Visualize your project in SonarQube. Please take a look at http://softvis3d.com 
 ## SonarQube version matrix
 
 | 4.2  | 4.3 | 4.4 | 4.5 | 4.5.1 and follow <br> minor versions | 5.0 | 5.1 | 5.1.1 and follow <br> minor versions | 5.2 - 5.4| 5.5 | 
-| ---- | --- | --- | --- | ------------------------------- | --- | --- | ------------------------------- | --- | 
-| [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin)   | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin)  | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin)  | Not working<br>([SONAR-5699](https://jira.codehaus.org/browse/SONAR-5699)) | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin)  | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin) | Not working<br>[SONAR-6425](https://jira.codehaus.org/browse/SONAR-6425) | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin) | Not working<br>[See my blog <br> for details](http://softvis3d.com/#/blog)| OK
+| ---- | --- | --- | --- | ------------------------------- | --- | --- | ------------------------------- | --- | --- |
+| [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin)   | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin)  | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin)  | Not working<br>([SONAR-5699](https://jira.codehaus.org/browse/SONAR-5699)) | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin)  | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin) | Not working<br>[SONAR-6425](https://jira.codehaus.org/browse/SONAR-6425) | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin) | Not working<br>[See my blog <br> for details](http://softvis3d.com/#/blog)| OK |
 
 ##License
 
