@@ -43,3 +43,6 @@ for jenkins:
 chmod 600 ./docker_ansible_client/keys/id_rsa
 mkdir -p /tmp/ansibletemp
 chmod 777 /tmp/ansibletemp
+
+--------------
+ansible-playbook testSonarStable.yml -i inventory -e="screenshot_base_path='/tmp/screenshots' sonar_version='4.5.6'"

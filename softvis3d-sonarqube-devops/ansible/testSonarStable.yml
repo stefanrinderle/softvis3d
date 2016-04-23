@@ -39,9 +39,9 @@
         hostname: sonarContainer{{ sonar_version }}
         groups: docker
         # mac osx
-#        ansible_ssh_host: "192.168.99.100"
+        ansible_ssh_host: "192.168.99.100"
         # server
-        ansible_ssh_host: "127.0.0.1"
+#        ansible_ssh_host: "127.0.0.1"
         ansible_ssh_port: "{{ ssh_port.stdout }}"
 
     - pause: seconds=5
@@ -55,12 +55,6 @@
       - name: Install list of packages
         apt: pkg={{item}} state=present
         with_items:
-        - unzip
-        - maven
-        - git
-        - python-pip
-        - xvfb
-        - firefox
         - graphviz
 
       - name: create dot symlink
@@ -70,7 +64,7 @@
               force=yes
 
   roles:
-    - { role: jdk8 }
+#    - { role: jdk8 }
     - { role: sonar }
     - { role: softVis3dPlugin, sonar_plugin_path: '/opt/sonarqube/extensions/plugins/' }
     - { role: restartSonar }
