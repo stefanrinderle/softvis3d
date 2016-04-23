@@ -4,9 +4,9 @@ Visualize your project in SonarQube. Please take a look at http://softvis3d.com 
 
 ## SonarQube version matrix
 
-| 4.2  | 4.3 | 4.4 | 4.5 | 4.5.1 and follow <br> minor versions | 5.0 | 5.1 | 5.1.1 and follow <br> minor versions | 5.2 | 
+| 4.2  | 4.3 | 4.4 | 4.5 | 4.5.1 and follow <br> minor versions | 5.0 | 5.1 | 5.1.1 and follow <br> minor versions | 5.2 - 5.4| 5.5 | 
 | ---- | --- | --- | --- | ------------------------------- | --- | --- | ------------------------------- | --- | 
-| OK   | OK  | OK  | Not working<br>([SONAR-5699](https://jira.codehaus.org/browse/SONAR-5699)) | OK  | OK | Not working<br>[SONAR-6425](https://jira.codehaus.org/browse/SONAR-6425) | OK | Not working<br>[See my blog <br> for details](http://softvis3d.com/#/blog)|  
+| [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin)   | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin)  | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin)  | Not working<br>([SONAR-5699](https://jira.codehaus.org/browse/SONAR-5699)) | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin)  | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin) | Not working<br>[SONAR-6425](https://jira.codehaus.org/browse/SONAR-6425) | [SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin) | Not working<br>[See my blog <br> for details](http://softvis3d.com/#/blog)| OK
 
 ##License
 
@@ -14,7 +14,6 @@ Licensed under the GNU Lesser General Public License, Version 3.0: http://www.gn
 
 ## Benefits
 
-- Two different views: city and dependency
 - Any metric from SonarSource can be used
 - Easily navigate through the 3D visualisation
 - WebGL technology to support all browsers
@@ -24,11 +23,9 @@ Licensed under the GNU Lesser General Public License, Version 3.0: http://www.gn
 
 The "code city" view provides a visualization for the hierarchical structure of the project. Folders or packages are shown as districts, files as buildings. The building footprint and height are dependent on two arbitrary sonar metrics.
 
-## Dependency view
-
-This view is focused on the dependencies within the given structure. The basic 3D layout for the structure is build downwards. The dependencies have been aggregated and can be explored easily without overloading the visualisation.
-
 ## Requirenments
+
+### SonarQube 5.5
 
 ### graphviz
 
@@ -42,7 +39,7 @@ SoftVis3DPlugin requires the graphviz software to be installed. It should be eas
 2. Download plugin jar file (http://softvis3d.com/#/download)
 3. Copy to [your SonarQube base path]/extensions/downloads
 4. Restart your sonar server
-5. Go to SonarQube "Settings" -> "System" -> "General settings" -> "Softviz3d" and define the path to your graphviz installation.
+5. Go to SonarQube "Settings" -> "System" -> "General settings" -> "SoftVis3d" and define the path to your graphviz installation.
 6. On any project in your SonarQube instance, click on "SoftVis3D Viewer" in the navigation section on the left.
 
-Explore your project in 3D city and dependency view!
+Explore your project in 3D city  view!
