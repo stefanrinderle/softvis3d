@@ -23,7 +23,6 @@ import de.rinderle.softvis3d.base.domain.LayoutConstants;
 import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.graph.ResultBuilding;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
-import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.base.layout.helper.HexaColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,10 +71,6 @@ public class LayerFormatter {
     height = height * LayoutConstants.DPI_DOT_SCALE;
     leaf.setHeight(height);
 
-    if (leaf.getType().equals(TreeNodeType.DEPENDENCY_GENERATED)) {
-      leaf.setColor(getPlatformBaseColor(depth));
-    }
-
     leaf.setHeight3d(height3d);
   }
 
@@ -104,10 +99,6 @@ public class LayerFormatter {
     }
 
     return sideLength;
-  }
-
-  public double calcEdgeRadius(final int counter) {
-    return counter;
   }
 
   public HexaColor getMetricColorColor(final double nodeColorMetricValue, final MinMaxValue minMaxMetricColor) {

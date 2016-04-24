@@ -25,7 +25,6 @@ import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.layout.LayeredLayoutElement;
 import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
-import de.rinderle.softvis3d.base.layout.bottomup.grappa.GrappaEdgeFactory;
 import de.rinderle.softvis3d.base.layout.bottomup.grappa.GrappaNodeFactory;
 import de.rinderle.softvis3d.base.layout.dot.DotExecutor;
 import de.rinderle.softvis3d.base.layout.format.LayerFormatter;
@@ -38,7 +37,6 @@ public class SnapshotVisitorBeanTest {
   private final DotExecutor dotExecutor = new DotExecutor();
   private final LayerFormatter formatter = new LayerFormatter();
   private final GrappaNodeFactory nodeFactory = new GrappaNodeFactory();
-  private final GrappaEdgeFactory edgeFactory = new GrappaEdgeFactory();
 
   @Test
   public void testVisitFile() throws Exception {
@@ -47,7 +45,7 @@ public class SnapshotVisitorBeanTest {
     final VisualizationAdditionalInfos additionalInfos = createAdditionalInfos();
 
     final SnapshotVisitorBean visitorBean =
-      new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, additionalInfos);
+      new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, settings, additionalInfos);
 
     final String displayName = "leaf1";
     final String id = "1";
@@ -63,8 +61,7 @@ public class SnapshotVisitorBeanTest {
     final MinMaxValue minMaxFootprint = new MinMaxValue(0, 3);
     final MinMaxValue minMaxHeight = new MinMaxValue(0, 3);
     final MinMaxValue minMaxColor = new MinMaxValue(0, 3);
-    final int dependencyCount = 0;
 
-    return new VisualizationAdditionalInfos(minMaxFootprint, minMaxHeight, minMaxColor, dependencyCount);
+    return new VisualizationAdditionalInfos(minMaxFootprint, minMaxHeight, minMaxColor);
   }
 }

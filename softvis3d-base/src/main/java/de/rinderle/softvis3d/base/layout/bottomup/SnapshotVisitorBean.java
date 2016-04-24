@@ -29,10 +29,8 @@ import de.rinderle.softvis3d.base.VisualizationSettings;
 import de.rinderle.softvis3d.base.domain.LayoutConstants;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.domain.layout.LayeredLayoutElement;
-import de.rinderle.softvis3d.base.domain.tree.Edge;
 import de.rinderle.softvis3d.base.domain.tree.TreeNode;
 import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
-import de.rinderle.softvis3d.base.layout.bottomup.grappa.GrappaEdgeFactory;
 import de.rinderle.softvis3d.base.layout.bottomup.grappa.GrappaNodeFactory;
 import de.rinderle.softvis3d.base.layout.dot.DotExecutor;
 import de.rinderle.softvis3d.base.layout.dot.DotExecutorException;
@@ -54,7 +52,6 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
   private final DotExecutor dotExecutor;
   private final LayerFormatter formatter;
   private final GrappaNodeFactory nodeFactory;
-  private final GrappaEdgeFactory edgeFactory;
 
   private final GraphvizPath graphvizPath;
 
@@ -64,7 +61,7 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
   @Inject
   public SnapshotVisitorBean(final LayerFormatter formatter, final DotExecutor dotExecutor,
-    final GrappaNodeFactory nodeFactory, final GrappaEdgeFactory edgeFactory,
+    final GrappaNodeFactory nodeFactory,
     @Assisted final VisualizationSettings settings,
     @Assisted final VisualizationAdditionalInfos additionalInfos) {
 
@@ -73,7 +70,6 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     this.dotExecutor = dotExecutor;
     this.formatter = formatter;
     this.nodeFactory = nodeFactory;
-    this.edgeFactory = edgeFactory;
 
     this.additionalInfos = additionalInfos;
 
@@ -133,11 +129,6 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
       inputGraph.addNode(elementNode);
     }
 
-    for (final LayeredLayoutElement element : elements) {
-      for (final Edge edge : element.getEdges().values()) {
-        inputGraph.addEdge(this.edgeFactory.createGrappaEdge(inputGraph, edge));
-      }
-    }
     return inputGraph;
   }
 

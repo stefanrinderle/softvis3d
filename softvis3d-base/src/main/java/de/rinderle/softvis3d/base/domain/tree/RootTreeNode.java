@@ -19,23 +19,10 @@
  */
 package de.rinderle.softvis3d.base.domain.tree;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class RootTreeNode extends TreeNode {
-
-  private final Map<Integer, Dependency> sourceDependencies = new HashMap<>();
 
   public RootTreeNode(final String id) {
     super(id, null, 0, TreeNodeType.TREE, "root");
   }
 
-  public Map<Integer, Dependency> getSourceDependencies() {
-    return sourceDependencies;
-  }
-
-  public void addDependency(final Dependency treeDependency) {
-    sourceDependencies.put(treeDependency.getId().intValue(),
-      treeDependency);
-  }
 }

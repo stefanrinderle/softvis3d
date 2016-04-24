@@ -86,9 +86,8 @@ public class NeoService {
     final MinMaxValue minMaxMetricFootprint = new MinMaxValue(0, 21);
     final MinMaxValue minMaxMetricHeight = new MinMaxValue(0, 100);
     final MinMaxValue minMaxMetricColor = new MinMaxValue(0, 100);
-    final int dependenciesCount = 0;
 
-    return new VisualizationAdditionalInfos(minMaxMetricFootprint, minMaxMetricHeight, minMaxMetricColor, dependenciesCount);
+    return new VisualizationAdditionalInfos(minMaxMetricFootprint, minMaxMetricHeight, minMaxMetricColor);
   }
 
   private RootTreeNode transformLayoutInput(final Neo4jAnswer neoAnswer) {

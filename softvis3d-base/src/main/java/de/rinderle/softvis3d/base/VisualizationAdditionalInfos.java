@@ -28,15 +28,6 @@ public class VisualizationAdditionalInfos {
   private final MinMaxValue minMaxMetricFootprint;
   private final MinMaxValue minMaxMetricHeight;
   private final MinMaxValue minMaxMetricColor;
-  private int dependenciesCount;
-
-  public VisualizationAdditionalInfos(final MinMaxValue minMaxMetricFootprint, final MinMaxValue minMaxMetricHeight,
-                                      final MinMaxValue minMaxMetricColor, final int dependenciesCount) {
-    this.minMaxMetricFootprint = minMaxMetricFootprint;
-    this.minMaxMetricHeight = minMaxMetricHeight;
-    this.dependenciesCount = dependenciesCount;
-    this.minMaxMetricColor = minMaxMetricColor;
-  }
 
   public VisualizationAdditionalInfos(final MinMaxValue minMaxMetricFootprint, final MinMaxValue minMaxMetricHeight,
                                       final MinMaxValue minMaxMetricColor) {
@@ -53,10 +44,6 @@ public class VisualizationAdditionalInfos {
     return minMaxMetricHeight;
   }
 
-  public int getDependenciesCount() {
-    return dependenciesCount;
-  }
-
   public MinMaxValue getMinMaxMetricColor() {
     return minMaxMetricColor;
   }
@@ -66,7 +53,6 @@ public class VisualizationAdditionalInfos {
     return "VisualizationAdditionalInfos{" +
             "minMaxMetricFootprint=" + minMaxMetricFootprint +
             ", minMaxMetricHeight=" + minMaxMetricHeight +
-            ", dependenciesCount=" + dependenciesCount +
             ", minMaxMetricColor=" + minMaxMetricColor +
             '}';
   }

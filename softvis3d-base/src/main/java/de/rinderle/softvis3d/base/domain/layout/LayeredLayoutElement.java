@@ -19,11 +19,9 @@
  */
 package de.rinderle.softvis3d.base.domain.layout;
 
-import de.rinderle.softvis3d.base.domain.tree.Edge;
 import de.rinderle.softvis3d.base.domain.tree.TreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.base.layout.helper.HexaColor;
-import java.util.Map;
 
 public final class LayeredLayoutElement {
 
@@ -39,11 +37,10 @@ public final class LayeredLayoutElement {
 
   private final String displayName;
 
-  private final Map<String, Edge> edges;
   private final HexaColor color;
 
   private LayeredLayoutElement(final TreeNodeType type, final String id, final String name, final Double width,
-    final Double height, final Double buildingHeight, final String displayName, final Map<String, Edge> edges,
+    final Double height, final Double buildingHeight, final String displayName,
     final HexaColor color) {
     super();
     this.type = type;
@@ -53,14 +50,13 @@ public final class LayeredLayoutElement {
     this.height = height;
     this.buildingHeight = buildingHeight;
     this.displayName = displayName;
-    this.edges = edges;
     this.color = color;
   }
 
   public static LayeredLayoutElement createLayeredLayoutElement(final TreeNode node, final Double width,
     final Double height, final Double buildingHeight, final HexaColor color) {
-    return new LayeredLayoutElement(node.getType(), node.getId(), node.getId().toString(), width, height,
-      buildingHeight, node.getName(), node.getEdges(), color);
+    return new LayeredLayoutElement(node.getType(), node.getId(), node.getId(), width, height,
+      buildingHeight, node.getName(), color);
   }
 
   public TreeNodeType getElementType() {
@@ -91,10 +87,6 @@ public final class LayeredLayoutElement {
     return this.displayName;
   }
 
-  public Map<String, Edge> getEdges() {
-    return this.edges;
-  }
-
   public HexaColor getColor() {
     return color;
   }
@@ -109,7 +101,6 @@ public final class LayeredLayoutElement {
         ", height=" + height +
         ", buildingHeight=" + buildingHeight +
         ", displayName='" + displayName + '\'' +
-        ", edges=" + edges +
         ", color=" + color +
         '}';
   }

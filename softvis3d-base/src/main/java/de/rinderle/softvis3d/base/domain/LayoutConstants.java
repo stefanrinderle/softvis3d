@@ -62,13 +62,11 @@ public interface LayoutConstants {
 
   double DPI_DOT_SCALE = 72.0;
 
-  int LAYER_HEIGHT = 250;
   int PLATFORM_DEFAULT_HEIGHT = 3;
   int BUILDING_HEIGHT_MULTIPLIER = 2;
 
   HexaColor BUILDING_COLOR = new HexaColor(254, 140, 0);
 
-  String GRAPH_ATTR_EDGE_RADIUS = "edgeRadius";
   String SOFTVIZ_COLOR = "SOFTVIZ_COLOR";
 
 }

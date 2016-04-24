@@ -20,7 +20,6 @@
 package de.rinderle.softvis3d.base.domain.tree;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -30,7 +29,6 @@ public class TreeNode {
   private final String id;
   private final TreeNodeType type;
   private final Map<String, TreeNode> children = new TreeMap<>();
-  private final Map<String, Edge> edges = new HashMap<>();
   private String name;
   private TreeNode parent;
   private int depth;
@@ -81,14 +79,6 @@ public class TreeNode {
 
   public void setName(final String name) {
     this.name = name;
-  }
-
-  public void setEdge(final Edge edge) {
-    this.edges.put(edge.getDepEdgeLabel(), edge);
-  }
-
-  public Map<String, Edge> getEdges() {
-    return this.edges;
   }
 
   public int getAllChildrenNodesSize() {

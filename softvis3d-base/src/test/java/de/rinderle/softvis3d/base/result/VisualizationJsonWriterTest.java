@@ -27,12 +27,10 @@ import att.grappa.Node;
 import de.rinderle.softvis3d.base.domain.LayoutConstants;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
-import de.rinderle.softvis3d.base.layout.format.GrappaGraphTestFactory;
 import de.rinderle.softvis3d.base.layout.helper.HexaColor;
 import de.rinderle.softvis3d.base.layout.helper.StringOutputStream;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -54,30 +52,8 @@ public class VisualizationJsonWriterTest {
 
     jsonWriter.close();
 
-    final String expectedResult = "{\"visualizationResult\":[{\"platformId\":\"1\",\"opacity\":0.0,\"height3d\":0,\"positionX\":0.0,\"positionY\":0.0,\"width\":100.0,\"platformHeight\":5.0,\"height\":200.0,\"nodes\":[{\"id\":\"123\",\"buildingHeight\":10.3,\"height\":400.3,\"width\":300.4,\"positionX\":1.0,\"positionY\":2.0,\"type\":\"PATH_GENERATED\",\"opacity\":0.0,\"color\":\"#FE8C00\",\"height3d\":0,\"arrows\":[]}]}]}";
+    final String expectedResult = "{\"visualizationResult\":[{\"platformId\":\"1\",\"opacity\":0.0,\"height3d\":0,\"positionX\":0.0,\"positionY\":0.0,\"width\":100.0,\"platformHeight\":5.0,\"height\":200.0,\"nodes\":[{\"id\":\"123\",\"buildingHeight\":10.3,\"height\":400.3,\"width\":300.4,\"positionX\":1.0,\"positionY\":2.0,\"type\":\"PATH_GENERATED\",\"opacity\":0.0,\"color\":\"#FE8C00\",\"height3d\":0}]}]}";
     assertEquals(expectedResult, stringOutputStream.toString());
-  }
-
-  @Test
-  @Ignore
-  public void testTransformResponseToJsonWithArrows() throws Exception {
-    final StringOutputStream stringOutputStream = new StringOutputStream();
-    final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
-
-    final VisualizationJsonWriter underTest = new VisualizationJsonWriter();
-
-    final Map<String, ResultPlatform> results = new HashMap<>();
-    final ResultPlatform platform = GrappaGraphTestFactory.createPlatform();
-    results.put("1", platform);
-
-    underTest.transformResponseToJson(jsonWriter, results);
-
-    jsonWriter.close();
-
-    // TODO: somehow this does not match
-    // String expectedResult =
-    // "{\"visualizationResult\":[{\"platformId\":1,\"opacity\":0.0,\"height3d\":0,\"positionX\":0.0,\"positionY\":0.0,\"width\":50.0,\"platformHeight\":5.0,\"height\":50.0,\"nodes\":[{\"id\":2,\"buildingHeight\":0.0,\"height\":0.5,\"width\":0.75,\"positionX\":0.0,\"positionY\":-0.0,\"type\":\"TREE\",\"opacity\":0.0,\"color\":\"#FFFFFF\",\"height3d\":0,\"arrows\":[{\"id\":\"N0_1436699293540 -> N0_1436699293543\",\"headId\":\"N0_1436699293543\",\"tailId\":\"N0_1436699293540\",\"radius\":3.3,\"opacity\":0.0,\"color\":\"#0000FF\",\"height3d\":0,\"translatedPoints\":[{\"x\":0.0,\"y\":0.0,\"z\":1.0},{\"x\":2.0,\"y\":0.0,\"z\":3.0}]},{\"id\":\"N0_1436699293540 -> N0_1436699293543\",\"headId\":\"N0_1436699293543\",\"tailId\":\"N0_1436699293540\",\"radius\":3.3,\"opacity\":0.0,\"color\":\"#0000FF\",\"height3d\":0,\"translatedPoints\":[{\"x\":0.0,\"y\":0.0,\"z\":1.0},{\"x\":2.0,\"y\":0.0,\"z\":3.0}]}]},{\"id\":3,\"buildingHeight\":0.0,\"height\":0.5,\"width\":0.75,\"positionX\":0.0,\"positionY\":-0.0,\"type\":\"TREE\",\"opacity\":0.0,\"color\":\"#FFFFFF\",\"height3d\":0,\"arrows\":[{\"id\":\"N0_1436699293540 -> N0_1436699293543\",\"headId\":\"N0_1436699293543\",\"tailId\":\"N0_1436699293540\",\"radius\":3.3,\"opacity\":0.0,\"color\":\"#0000FF\",\"height3d\":0,\"translatedPoints\":[{\"x\":0.0,\"y\":0.0,\"z\":1.0},{\"x\":2.0,\"y\":0.0,\"z\":3.0}]}]}]}]}";
-    // assertEquals(expectedResult, stringWriter.toString());
   }
 
   private ResultPlatform createExamplePlatform() {

@@ -20,12 +20,9 @@
 package de.rinderle.softvis3d.base.result;
 
 import de.rinderle.softvis3d.base.domain.graph.BaseResultObject;
-import de.rinderle.softvis3d.base.domain.graph.Point3d;
-import de.rinderle.softvis3d.base.domain.graph.ResultArrow;
 import de.rinderle.softvis3d.base.domain.graph.ResultBuilding;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 public class VisualizationJsonWriter {
@@ -98,57 +95,6 @@ public class VisualizationJsonWriter {
     jsonWriter.prop("type", node.getType().name());
 
     transformBaseObjectProperties(jsonWriter, node);
-
-    transformArrows(jsonWriter, node.getArrows());
-
-    jsonWriter.endObject();
-  }
-
-  private void transformArrows(final SoftVis3dJsonWriter jsonWriter, final List<ResultArrow> arrows) {
-    jsonWriter.name("arrows");
-    jsonWriter.beginArray();
-
-    for (final ResultArrow arrow : arrows) {
-      transformArrow(jsonWriter, arrow);
-    }
-
-    jsonWriter.endArray();
-  }
-
-  private void transformArrow(final SoftVis3dJsonWriter jsonWriter, final ResultArrow arrow) {
-    jsonWriter.beginObject();
-
-    jsonWriter.prop("id", arrow.getId());
-
-    jsonWriter.prop("headId", arrow.getHeadId());
-    jsonWriter.prop("tailId", arrow.getTailId());
-
-    jsonWriter.prop("radius", arrow.getRadius());
-
-    transformBaseObjectProperties(jsonWriter, arrow);
-
-    transformArrowPoints(jsonWriter, arrow.getLinePoints());
-
-    jsonWriter.endObject();
-  }
-
-  private void transformArrowPoints(final SoftVis3dJsonWriter jsonWriter, final List<Point3d> translatedPoints) {
-    jsonWriter.name("translatedPoints");
-    jsonWriter.beginArray();
-
-    for (final Point3d point : translatedPoints) {
-      transformPoint(jsonWriter, point);
-    }
-
-    jsonWriter.endArray();
-  }
-
-  private void transformPoint(final SoftVis3dJsonWriter jsonWriter, final Point3d point) {
-    jsonWriter.beginObject();
-
-    jsonWriter.prop("x", point.getX());
-    jsonWriter.prop("y", point.getY());
-    jsonWriter.prop("z", point.getZ());
 
     jsonWriter.endObject();
   }

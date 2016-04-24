@@ -65,9 +65,8 @@ public class LayoutExampleService {
     final MinMaxValue minMaxFootprint = new MinMaxValue(0, 3);
     final MinMaxValue minMaxHeight = new MinMaxValue(0, 3);
     final MinMaxValue minMaxColor = new MinMaxValue(0, 3);
-    final int dependencyCount = 0;
 
-    return new VisualizationAdditionalInfos(minMaxFootprint, minMaxHeight, minMaxColor, dependencyCount);
+    return new VisualizationAdditionalInfos(minMaxFootprint, minMaxHeight, minMaxColor);
   }
 
 

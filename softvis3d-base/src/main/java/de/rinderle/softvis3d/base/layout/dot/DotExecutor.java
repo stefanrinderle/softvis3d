@@ -67,7 +67,7 @@ public class DotExecutor {
     final boolean noNeato = currentVersion.compareTo(firstNeatoVersion) < 1;
 
     String command = path.getDotExecutable();
-    if (!noNeato && inputGraph.edgeElementsAsArray().length == 0) {
+    if (!noNeato) {
       command = command + " -K neato";
     }
 

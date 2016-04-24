@@ -21,9 +21,7 @@ package de.rinderle.softvis3d.base.postprocessing;
 
 import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
-import com.google.inject.Inject;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.base.domain.graph.ResultArrow;
 import de.rinderle.softvis3d.base.domain.graph.ResultBuilding;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.domain.tree.TreeNode;
@@ -40,9 +38,6 @@ public class PostProcessor {
   private Map<String, ResultPlatform> resultGraphs;
   private Map<String, GrappaPoint> innerGraphTranslation;
   private int leafElements;
-
-  @Inject
-  private TranslateArrow translateArrow;
 
   public int process(final Map<String, ResultPlatform> resultGraphs, final SnapshotTreeResult treeResult) {
     this.leafElements = 0;
@@ -96,8 +91,6 @@ public class PostProcessor {
     double nodeLocationX;
     double nodeLocationY;
 
-    int height3d;
-
     for (final ResultBuilding leaf : graph.getNodes()) {
       pos = leaf.getPosition();
 
@@ -109,12 +102,6 @@ public class PostProcessor {
       pos.setLocation(nodeLocationX, nodeLocationY);
 
       this.leafElements = this.leafElements + 1;
-
-      height3d = leaf.getHeight3d();
-
-      for (final ResultArrow arrow : leaf.getArrows()) {
-        translateArrow.translate(arrow, posTranslation, translatedBb, height3d);
-      }
     }
 
   }

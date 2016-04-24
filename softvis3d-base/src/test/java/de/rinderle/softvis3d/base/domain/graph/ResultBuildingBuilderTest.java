@@ -19,10 +19,8 @@
  */
 package de.rinderle.softvis3d.base.domain.graph;
 
-import att.grappa.Edge;
 import att.grappa.Graph;
 import att.grappa.GrappaConstants;
-import att.grappa.GrappaLine;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
 import att.grappa.Subgraph;
@@ -67,48 +65,6 @@ public class ResultBuildingBuilderTest {
 
     assertEquals(1, result.getPosition().getX(), 0.001);
     assertEquals(2, result.getPosition().getY(), 0.001);
-  }
-
-  @Test
-  public void testNodeEdgesAttributes() {
-    final Subgraph graph = new Graph("rootNode");
-    final Node node = new Node(graph, "testNode");
-
-    node.setAttribute("id", "123");
-    node.setAttribute(LayoutConstants.GRAPH_ATTR_BUILDING_HEIGHT, "x10.3");
-    node.setAttribute(LayoutConstants.SOFTVIZ_COLOR, new HexaColor(254, 140, 0).getHex());
-    node.setAttribute("type", TreeNodeType.PATH_GENERATED.name());
-
-    final Node secondNode = new Node(graph, "secondTestNode");
-
-    final Edge out = new Edge(graph, node, secondNode);
-    setEdgeAttributes(out);
-    final Edge in = new Edge(graph, secondNode, node);
-    setEdgeAttributes(in);
-
-    node.addEdge(out, false);
-    node.addEdge(in, true);
-
-    final ResultBuilding result = new ResultBuildingBuilder().withNode(node).createResultBuilding();
-
-    // TODO: Seems that there is a bug in the addEdge method. Returns 2 same edges.
-    // But addEdge is never used in this application. Jst used for test cases.
-    assertEquals(2, result.getArrows().size());
-    assertEquals("secondTestNode", result.getArrows().get(0).getHeadId());
-    assertEquals("testNode", result.getArrows().get(0).getTailId());
-  }
-
-  private void setEdgeAttributes(final Edge edge) {
-    final GrappaPoint[] points = new GrappaPoint[3];
-    points[0] = new GrappaPoint(0, 1);
-    points[1] = new GrappaPoint(2, 3);
-    points[2] = new GrappaPoint(100, 100);
-
-    final GrappaLine pos = new GrappaLine(points, 0);
-    edge.setAttribute(GrappaConstants.POS_ATTR, pos);
-
-    final String radius = "x3.3";
-    edge.setAttribute(LayoutConstants.GRAPH_ATTR_EDGE_RADIUS, radius);
   }
 
 }

@@ -19,22 +19,18 @@
  */
 package de.rinderle.softvis3d.base.domain.graph;
 
-import att.grappa.Edge;
 import att.grappa.GrappaConstants;
 import att.grappa.GrappaPoint;
 import att.grappa.Node;
 import de.rinderle.softvis3d.base.domain.LayoutConstants;
 import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.base.layout.helper.HexaColor;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ResultBuildingBuilder {
 
   String id;
   int grappaId;
 
-  List<ResultArrow> arrows;
   double buildingHeight;
   double width;
   double height;
@@ -48,8 +44,6 @@ public class ResultBuildingBuilder {
     // TODO why is node.getId() not set right?
     this.id = node.getAttributeValue("id").toString();
     this.grappaId = node.getId();
-
-    this.arrows = transformEdges(node.edgeElementsAsArray());
 
     this.width = (Double) node.getAttributeValue(GrappaConstants.WIDTH_ATTR);
     this.height = (Double) node.getAttributeValue(GrappaConstants.HEIGHT_ATTR);
@@ -67,27 +61,6 @@ public class ResultBuildingBuilder {
 
   private HexaColor transformToColor(final Object attributeValue) {
     return HexaColor.createHexaColorFromHex((String) attributeValue);
-  }
-
-  /**
-   * Only process the edges which are on the start of the node, otherwise each edge will be processed two times. One
-   * for the head and one for the tail.
-   */
-  private List<ResultArrow> transformEdges(final Edge[] inputEdges) {
-    final List<ResultArrow> result = new ArrayList<>();
-
-    for (final Edge inputEdge : inputEdges) {
-      final boolean isTailEnd = inputEdge.getTail().getId() == this.grappaId;
-      if (isTailEnd) {
-        result.add(transformEdge(inputEdge));
-      }
-    }
-
-    return result;
-  }
-
-  private ResultArrow transformEdge(final Edge edge) {
-    return new ResultArrowBuilder().withEdge(edge).createResultArrow();
   }
 
   /**
