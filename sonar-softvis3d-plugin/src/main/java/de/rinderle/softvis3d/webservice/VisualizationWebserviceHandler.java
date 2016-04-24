@@ -24,7 +24,6 @@ import de.rinderle.softvis3d.SoftVis3DPlugin;
 import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
 import de.rinderle.softvis3d.base.VisualizationProcessor;
 import de.rinderle.softvis3d.base.VisualizationSettings;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
@@ -147,17 +146,8 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     final SnapshotTreeResult snapshotTreeResult) throws DotExecutorException {
     logStartOfCalc(requestDTO);
 
-    final Map<String, ResultPlatform> result = visualizationProcessor.visualize(requestDTO.getViewType(), this.visualizationSettings, snapshotTreeResult,
+    return visualizationProcessor.visualize(this.visualizationSettings, snapshotTreeResult,
       createAdditionalInfos(snapshotTreeResult.getTree()));
-
-    /**
-     * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
-     */
-    if (requestDTO.getViewType().equals(LayoutViewType.DEPENDENCY)) {
-      result.remove(requestDTO.getRootSnapshotKey());
-    }
-
-    return result;
   }
 
   private VisualizationAdditionalInfos createAdditionalInfos(RootTreeNode tree) {

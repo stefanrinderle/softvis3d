@@ -20,7 +20,6 @@
 package de.rinderle.softvis3d.base.layout.dot;
 
 import att.grappa.Graph;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -67,22 +66,7 @@ public class DotExecutorTest {
         Mockito.any(Version.class))).thenReturn(this.createADot());
 
     final Graph inputGraph = new Graph("not used in test");
-    final Graph result = this.underTest.run(inputGraph, PATH, LayoutViewType.CITY);
-
-    assertNotNull(result);
-    assertTrue("777".equals(result.getName()));
-  }
-
-  @Test
-  public void testHappyDependency() throws DotExecutorException {
-    Mockito.when(this.dotVersion.getVersion(Mockito.any(GraphvizPath.class))).thenReturn(new Version("2.36.0"));
-
-    Mockito.when(
-      this.executeCommand.executeCommandReadAdot(Mockito.any(String.class), Mockito.any(String.class),
-        Mockito.any(Version.class))).thenReturn(this.createADot());
-
-    final Graph inputGraph = new Graph("not used in test");
-    final Graph result = this.underTest.run(inputGraph, PATH, LayoutViewType.DEPENDENCY);
+    final Graph result = this.underTest.run(inputGraph, PATH);
 
     assertNotNull(result);
     assertTrue("777".equals(result.getName()));
@@ -97,7 +81,7 @@ public class DotExecutorTest {
         Mockito.any(Version.class))).thenReturn(this.createADot());
 
     final Graph inputGraph = new Graph("not used in test");
-    this.underTest.run(inputGraph, PATH, LayoutViewType.CITY);
+    this.underTest.run(inputGraph, PATH);
 
     Mockito.verify(this.executeCommand, Mockito.times(1)).executeCommandReadAdot(Mockito.any(String.class), Mockito.any(
         String.class), Mockito.any(Version.class));
@@ -112,7 +96,7 @@ public class DotExecutorTest {
         Mockito.any(Version.class))).thenReturn(this.createADot());
 
     final Graph inputGraph = new Graph("not used in test");
-    this.underTest.run(inputGraph, PATH, LayoutViewType.CITY);
+    this.underTest.run(inputGraph, PATH);
 
     Mockito.verify(this.executeCommand, Mockito.times(2)).executeCommandReadAdot(Mockito.any(String.class), Mockito.any(
         String.class), Mockito.any(Version.class));
@@ -123,7 +107,7 @@ public class DotExecutorTest {
     Mockito.when(this.dotVersion.getVersion(Mockito.any(GraphvizPath.class))).thenThrow(DotExecutorException.class);
 
     final Graph inputGraph = new Graph("not used in test");
-    this.underTest.run(inputGraph, PATH, LayoutViewType.CITY);
+    this.underTest.run(inputGraph, PATH);
   }
 
   @Test(expected = DotExecutorException.class)
@@ -134,7 +118,7 @@ public class DotExecutorTest {
         Mockito.any(Version.class))).thenThrow(DotExecutorException.class);
 
     final Graph inputGraph = new Graph("not used in test");
-    this.underTest.run(inputGraph, PATH, LayoutViewType.CITY);
+    this.underTest.run(inputGraph, PATH);
   }
 
   public String createADot() {

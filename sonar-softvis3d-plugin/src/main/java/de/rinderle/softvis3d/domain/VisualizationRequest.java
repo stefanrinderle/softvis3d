@@ -19,7 +19,6 @@
  */
 package de.rinderle.softvis3d.domain;
 
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import java.util.Objects;
 
@@ -27,16 +26,12 @@ public class VisualizationRequest {
 
   private final String rootSnapshotKey;
 
-  private final LayoutViewType viewType;
-
   private final String footprintMetricKey;
   private final String heightMetricKey;
   private final ColorMetricType colorMetricType;
 
   public VisualizationRequest(final String rootSnapshotKey, final String footprintMetricKey, final String heightMetricKey, final ColorMetricType colorMetricType) {
     this.rootSnapshotKey = rootSnapshotKey;
-
-    this.viewType = LayoutViewType.CITY;
 
     this.footprintMetricKey = footprintMetricKey;
     this.heightMetricKey = heightMetricKey;
@@ -46,10 +41,6 @@ public class VisualizationRequest {
 
   public String getRootSnapshotKey() {
     return this.rootSnapshotKey;
-  }
-
-  public LayoutViewType getViewType() {
-    return this.viewType;
   }
 
   public String getFootprintMetricKey() {
@@ -68,7 +59,6 @@ public class VisualizationRequest {
   public String toString() {
     return "VisualizationRequest{" +
         "rootSnapshotKey='" + rootSnapshotKey + '\'' +
-        ", viewType=" + viewType +
         ", footprintMetricKey='" + footprintMetricKey + '\'' +
         ", heightMetricKey='" + heightMetricKey + '\'' +
         ", colorMetricType=" + colorMetricType +
@@ -81,7 +71,6 @@ public class VisualizationRequest {
     if (o == null || getClass() != o.getClass()) return false;
     VisualizationRequest that = (VisualizationRequest) o;
     return Objects.equals(rootSnapshotKey, that.rootSnapshotKey) &&
-        viewType == that.viewType &&
         Objects.equals(footprintMetricKey, that.footprintMetricKey) &&
         Objects.equals(heightMetricKey, that.heightMetricKey) &&
         colorMetricType == that.colorMetricType;
@@ -89,6 +78,6 @@ public class VisualizationRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(rootSnapshotKey, viewType, footprintMetricKey, heightMetricKey, colorMetricType);
+    return Objects.hash(rootSnapshotKey, footprintMetricKey, heightMetricKey, colorMetricType);
   }
 }

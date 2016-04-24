@@ -27,14 +27,10 @@ import com.google.inject.assistedinject.Assisted;
 import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
 import de.rinderle.softvis3d.base.VisualizationSettings;
 import de.rinderle.softvis3d.base.domain.LayoutConstants;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
-import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.domain.layout.LayeredLayoutElement;
-import de.rinderle.softvis3d.base.domain.tree.DependencyTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.Edge;
 import de.rinderle.softvis3d.base.domain.tree.TreeNode;
-import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
 import de.rinderle.softvis3d.base.layout.bottomup.grappa.GrappaEdgeFactory;
 import de.rinderle.softvis3d.base.layout.bottomup.grappa.GrappaNodeFactory;
@@ -64,14 +60,12 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
 
   private final Map<String, ResultPlatform> resultingGraphList = new ConcurrentHashMap<>();
 
-  private final LayoutViewType viewType;
   private final VisualizationAdditionalInfos additionalInfos;
 
   @Inject
   public SnapshotVisitorBean(final LayerFormatter formatter, final DotExecutor dotExecutor,
     final GrappaNodeFactory nodeFactory, final GrappaEdgeFactory edgeFactory,
     @Assisted final VisualizationSettings settings,
-    @Assisted final LayoutViewType viewType,
     @Assisted final VisualizationAdditionalInfos additionalInfos) {
 
     this.graphvizPath = new GraphvizPath(settings.getDotBinPath(), SystemUtils.IS_OS_WINDOWS);
@@ -84,8 +78,6 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     this.additionalInfos = additionalInfos;
 
     LOGGER.info("Layout infos : " + additionalInfos.toString());
-
-    this.viewType = viewType;
   }
 
   @Override
@@ -103,12 +95,12 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
     final Graph inputGraph = createGrappaInputGraph(node, elements);
 
     // run dot layout for this layer
-    final Graph outputGraph = this.dotExecutor.run(inputGraph, this.graphvizPath, this.viewType);
+    final Graph outputGraph = this.dotExecutor.run(inputGraph, this.graphvizPath);
 
     final ResultPlatform resultPlatform = new ResultPlatform(outputGraph);
 
     // adjust graph
-    this.formatter.format(resultPlatform, node.getDepth(), this.viewType);
+    this.formatter.format(resultPlatform, node.getDepth());
 
     this.resultingGraphList.put(node.getId(), resultPlatform);
 
@@ -153,41 +145,23 @@ public class SnapshotVisitorBean implements SnapshotVisitor {
   public LayeredLayoutElement visitFile(final TreeNode leaf) {
     LOGGER.debug("Leaf : " + leaf.getId() + " " + leaf.getName());
 
-    final boolean isDependencyNode =
-      TreeNodeType.DEPENDENCY_GENERATED.equals(leaf.getType())
-        && LayoutViewType.DEPENDENCY.equals(this.viewType);
-
     double sideLength;
     double buildingHeight;
 
     final HexaColor color;
 
-    if (isDependencyNode) {
-      final DependencyTreeNode leafNode = (DependencyTreeNode) leaf;
-      final MinMaxValue minMaxDependencies =
-        new MinMaxValue(0, additionalInfos.getDependenciesCount());
-      sideLength =
-        this.formatter.calcSideLength(Integer.valueOf(leafNode.getCounter()).doubleValue(),
-          minMaxDependencies);
+    final ValueTreeNode leafNode = (ValueTreeNode) leaf;
+    sideLength = this.formatter.calcSideLength(leafNode.getFootprintMetricValue(), this.additionalInfos.getMinMaxMetricFootprint());
 
-      buildingHeight = LayoutConstants.LAYER_HEIGHT;
+    buildingHeight =
+      this.formatter.calcBuildingHeight(leafNode.getHeightMetricValue(), this.additionalInfos.getMinMaxMetricHeight());
+    /**
+     * building height is in percent with min size. multiplier to get higher buildings in the view.
+     */
+    buildingHeight = buildingHeight * LayoutConstants.BUILDING_HEIGHT_MULTIPLIER;
+    buildingHeight = Math.round(buildingHeight);
 
-      // not used, will be overriden somewhere
-      color = new HexaColor(255, 255, 255);
-    } else {
-      final ValueTreeNode leafNode = (ValueTreeNode) leaf;
-      sideLength = this.formatter.calcSideLength(leafNode.getFootprintMetricValue(), this.additionalInfos.getMinMaxMetricFootprint());
-
-      buildingHeight =
-        this.formatter.calcBuildingHeight(leafNode.getHeightMetricValue(), this.additionalInfos.getMinMaxMetricHeight());
-      /**
-       * building height is in percent with min size. multiplier to get higher buildings in the view.
-       */
-      buildingHeight = buildingHeight * LayoutConstants.BUILDING_HEIGHT_MULTIPLIER;
-      buildingHeight = Math.round(buildingHeight);
-
-      color = this.formatter.getMetricColorColor(leafNode.getColorMetricValue(), this.additionalInfos.getMinMaxMetricColor());
-    }
+    color = this.formatter.getMetricColorColor(leafNode.getColorMetricValue(), this.additionalInfos.getMinMaxMetricColor());
 
     sideLength = sideLength / LayoutConstants.DPI_DOT_SCALE;
 

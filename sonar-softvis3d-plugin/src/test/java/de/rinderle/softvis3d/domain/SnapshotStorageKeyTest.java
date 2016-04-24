@@ -27,13 +27,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by stefanrinderle on 06.11.15.
- */
 public class SnapshotStorageKeyTest {
 
   @Test
-  public void testEqualsTrue() throws Exception {
+  public void testEqualsTrue() {
     final VisualizationRequest requestDTO = new VisualizationRequest("1", "1", "20", ColorMetricType.NONE);
 
     final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO);
@@ -43,7 +40,7 @@ public class SnapshotStorageKeyTest {
   }
 
   @Test
-  public void testEqualsFalse() throws Exception {
+  public void testEqualsFalse() {
     final VisualizationRequest requestDTO1 = new VisualizationRequest("1", "1", "20", ColorMetricType.NONE);
     final VisualizationRequest requestDTO2 = new VisualizationRequest("1", "2", "20", ColorMetricType.NONE);
 
@@ -54,7 +51,7 @@ public class SnapshotStorageKeyTest {
   }
 
   @Test
-  public void testHashCodeTrue() throws Exception {
+  public void testHashCodeTrue() {
     final VisualizationRequest requestDTO = new VisualizationRequest("1", "1", "20", ColorMetricType.NONE);
 
     final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO);
@@ -64,7 +61,7 @@ public class SnapshotStorageKeyTest {
   }
 
   @Test
-  public void testHashCodeFalse() throws Exception {
+  public void testHashCodeFalse() {
     final VisualizationRequest requestDTO1 = new VisualizationRequest("1", "1", "20", ColorMetricType.NONE);
     final VisualizationRequest requestDTO2 = new VisualizationRequest("1", "1", "20", ColorMetricType.NONE);
 

@@ -20,7 +20,6 @@
 package de.rinderle.softvis3d.base;
 
 import com.google.inject.Inject;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.layout.LayoutProcessor;
@@ -41,7 +40,7 @@ public class VisualizationProcessor {
   @Inject
   private PostProcessor calc;
 
-  public Map<String, ResultPlatform> visualize(final LayoutViewType viewType,
+  public Map<String, ResultPlatform> visualize(
     final VisualizationSettings settings,
     final SnapshotTreeResult snapshotTreeResult,
     final VisualizationAdditionalInfos additionalInfos) throws DotExecutorException {
@@ -50,23 +49,15 @@ public class VisualizationProcessor {
     stopWatch.start();
 
     final Map<String, ResultPlatform> resultGraphs =
-      layoutProcessor.process(settings, viewType, snapshotTreeResult, additionalInfos);
+      layoutProcessor.process(settings, snapshotTreeResult, additionalInfos);
 
     LOGGER.info("Created " + resultGraphs.size() + " result graphs in " + stopWatch.getTime() + " ms");
 
     final int leavesCounter =
-      this.calc.process(viewType, resultGraphs, snapshotTreeResult);
+      this.calc.process(resultGraphs, snapshotTreeResult);
 
     stopWatch.stop();
     LOGGER.info("Calculation finished after " + stopWatch.getTime() + " ms with " + leavesCounter + " leaves");
-
-    /**
-     * Remove root layer in dependency view TODO: I don't know how to do this anywhere else.
-     */
-    if (viewType.equals(LayoutViewType.DEPENDENCY)) {
-      final String rootSnapshotId = snapshotTreeResult.getTree().getId();
-      resultGraphs.remove(rootSnapshotId);
-    }
 
     return resultGraphs;
   }

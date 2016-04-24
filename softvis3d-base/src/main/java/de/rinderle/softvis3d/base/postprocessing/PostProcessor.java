@@ -22,7 +22,6 @@ package de.rinderle.softvis3d.base.postprocessing;
 import att.grappa.GrappaBox;
 import att.grappa.GrappaPoint;
 import com.google.inject.Inject;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultArrow;
 import de.rinderle.softvis3d.base.domain.graph.ResultBuilding;
@@ -45,20 +44,18 @@ public class PostProcessor {
   @Inject
   private TranslateArrow translateArrow;
 
-  public int process(final LayoutViewType viewType,
-    final Map<String, ResultPlatform> resultGraphs, final SnapshotTreeResult treeResult) {
+  public int process(final Map<String, ResultPlatform> resultGraphs, final SnapshotTreeResult treeResult) {
     this.leafElements = 0;
 
     this.innerGraphTranslation = new HashMap<>();
     this.resultGraphs = resultGraphs;
 
-    this.addTranslationToLayer(treeResult.getTree(), new GrappaPoint(0, 0), viewType);
+    this.addTranslationToLayer(treeResult.getTree(), new GrappaPoint(0, 0));
 
     return this.leafElements;
   }
 
-  private void addTranslationToLayer(final TreeNode currentNode, final GrappaPoint posTranslation,
-    final LayoutViewType layoutViewType) {
+  private void addTranslationToLayer(final TreeNode currentNode, final GrappaPoint posTranslation) {
 
     LOGGER.debug("addTranslationToLayer" + currentNode.getId() + " " + posTranslation.toString());
 
@@ -74,26 +71,23 @@ public class PostProcessor {
 
     // Step 4 - for all dirs, call this method (recursive) with the parent +
     // the self changes
-    this.translateNodes(currentNode, platform, layoutViewType);
+    this.translateNodes(currentNode, platform);
   }
 
-  private void translateNodes(final TreeNode currentNode, final ResultPlatform graph,
-    final LayoutViewType layoutViewType) {
+  private void translateNodes(final TreeNode currentNode, final ResultPlatform graph) {
     final List<TreeNode> children = currentNode.getChildrenNodes();
 
     for (final TreeNode child : children) {
       final GrappaPoint pos = this.innerGraphTranslation.get(child.getId());
 
-      this.addTranslationToLayer(child, pos, layoutViewType);
+      this.addTranslationToLayer(child, pos);
 
-      removeRepresentationNode(graph, layoutViewType, child);
+      removeRepresentationNode(graph, child);
     }
   }
 
-  private void removeRepresentationNode(final ResultPlatform graph, final LayoutViewType layoutViewType, final TreeNode child) {
-    if (LayoutViewType.CITY.equals(layoutViewType)) {
-      graph.removeNode(child.getId());
-    }
+  private void removeRepresentationNode(final ResultPlatform graph, final TreeNode child) {
+     graph.removeNode(child.getId());
   }
 
   private void translateLeaves(final GrappaPoint posTranslation, final ResultPlatform graph,

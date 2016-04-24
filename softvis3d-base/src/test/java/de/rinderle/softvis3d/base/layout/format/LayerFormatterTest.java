@@ -20,7 +20,6 @@
 package de.rinderle.softvis3d.base.layout.format;
 
 import de.rinderle.softvis3d.base.domain.LayoutConstants;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.layout.helper.HexaColor;
@@ -39,7 +38,7 @@ public class LayerFormatterTest {
   public void testFormat() {
     final Integer depth = 0;
     final ResultPlatform platform = GrappaGraphTestFactory.createPlatform();
-    this.underTest.format(platform, depth, LayoutViewType.CITY);
+    this.underTest.format(platform, depth);
 
     assertNotNull(platform.getColor());
   }
@@ -48,7 +47,7 @@ public class LayerFormatterTest {
   public void testMaxDepth() {
     final Integer depth = Integer.MAX_VALUE;
     final ResultPlatform platform = GrappaGraphTestFactory.createPlatform();
-    this.underTest.format(platform, depth, LayoutViewType.CITY);
+    this.underTest.format(platform, depth);
 
     assertNotNull(platform.getColor());
 

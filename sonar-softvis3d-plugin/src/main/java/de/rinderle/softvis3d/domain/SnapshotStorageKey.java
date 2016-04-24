@@ -27,7 +27,6 @@ public class SnapshotStorageKey {
 
   public SnapshotStorageKey(final VisualizationRequest requestDTO) {
     this.key = requestDTO.getRootSnapshotKey() + "_"
-      + requestDTO.getViewType().name() + "_"
       + requestDTO.getFootprintMetricKey() + "_"
       + requestDTO.getHeightMetricKey() + "_"
       + requestDTO.getColorMetricType().getDefaultMetricName() + "_";

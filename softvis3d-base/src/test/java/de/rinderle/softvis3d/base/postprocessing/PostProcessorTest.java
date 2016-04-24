@@ -21,7 +21,6 @@ package de.rinderle.softvis3d.base.postprocessing;
 
 import att.grappa.Graph;
 import att.grappa.GrappaBox;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
@@ -57,7 +56,7 @@ public class PostProcessorTest {
 
     final SnapshotTreeResult treeResult = new SnapshotTreeResult(new RootTreeNode(id));
 
-    underTest.process(LayoutViewType.CITY, resultGraphs, treeResult);
+    underTest.process(resultGraphs, treeResult);
   }
 
   @Test
@@ -71,7 +70,7 @@ public class PostProcessorTest {
 
     final SnapshotTreeResult treeResult = new SnapshotTreeResult(new RootTreeNode(id));
 
-    underTest.process(LayoutViewType.CITY, resultGraphs, treeResult);
+    underTest.process(resultGraphs, treeResult);
   }
 
 }

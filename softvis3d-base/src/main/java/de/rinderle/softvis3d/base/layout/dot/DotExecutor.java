@@ -23,7 +23,6 @@ import att.grappa.Graph;
 import att.grappa.Parser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.layout.helper.StringOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -58,7 +57,7 @@ public class DotExecutor {
   @Inject
   private ExecuteCommand executeCommand;
 
-  public Graph run(final Graph inputGraph, final GraphvizPath path, final LayoutViewType viewType)
+  public Graph run(final Graph inputGraph, final GraphvizPath path)
     throws DotExecutorException {
 
     final Version currentVersion = this.dotVersion.getVersion(path);
@@ -68,7 +67,7 @@ public class DotExecutor {
     final boolean noNeato = currentVersion.compareTo(firstNeatoVersion) < 1;
 
     String command = path.getDotExecutable();
-    if (!noNeato && (LayoutViewType.CITY.equals(viewType) || inputGraph.edgeElementsAsArray().length == 0)) {
+    if (!noNeato && inputGraph.edgeElementsAsArray().length == 0) {
       command = command + " -K neato";
     }
 

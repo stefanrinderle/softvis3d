@@ -20,7 +20,6 @@
 package de.rinderle.softvis3d.base.layout.format;
 
 import de.rinderle.softvis3d.base.domain.LayoutConstants;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.graph.ResultBuilding;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
@@ -36,14 +35,9 @@ public class LayerFormatter {
   private static final int BASE_PLATFORM_BRIGHTNESS = 50;
   private static final int MAX_COLOR_VALUE = 254;
 
-  public void format(final ResultPlatform platform, final Integer depth, final LayoutViewType viewType) {
-    double opacity = 1.0;
-    Integer height3d = depth * 20;
-
-    if (LayoutViewType.DEPENDENCY.equals(viewType)) {
-      height3d = -(depth * LayoutConstants.LAYER_HEIGHT);
-      opacity = 0.7;
-    }
+  public void format(final ResultPlatform platform, final Integer depth) {
+    final double opacity = 1.0;
+    final Integer height3d = depth * 20;
 
     platform.setOpacity(opacity);
 

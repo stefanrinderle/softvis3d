@@ -23,7 +23,6 @@ import com.google.inject.Inject;
 import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
 import de.rinderle.softvis3d.base.VisualizationProcessor;
 import de.rinderle.softvis3d.base.VisualizationSettings;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
@@ -76,7 +75,7 @@ public class NeoService {
     final VisualizationAdditionalInfos additionalInfos = createAdditionalInfos(snapshotTreeResult.getTree());
     try {
       return visualizationProcessor
-          .visualize(LayoutViewType.CITY, settings, snapshotTreeResult, additionalInfos);
+          .visualize(settings, snapshotTreeResult, additionalInfos);
     } catch (final DotExecutorException e) {
       throw new Exception(e.getMessage(), e);
     }

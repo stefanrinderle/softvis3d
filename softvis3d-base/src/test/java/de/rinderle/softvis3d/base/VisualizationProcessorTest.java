@@ -19,7 +19,6 @@
  */
 package de.rinderle.softvis3d.base;
 
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
@@ -62,9 +61,9 @@ public class VisualizationProcessorTest {
     final SnapshotTreeResult snapShotTreeResult = new SnapshotTreeResult(tree);
     final Map<String, ResultPlatform> resultGraphs = new HashMap<>();
 
-    when(layoutProcessor.process(eq(settings), eq(LayoutViewType.CITY), eq(snapShotTreeResult), any(VisualizationAdditionalInfos.class))).thenReturn(resultGraphs);
+    when(layoutProcessor.process(eq(settings), eq(snapShotTreeResult), any(VisualizationAdditionalInfos.class))).thenReturn(resultGraphs);
 
-    final Map<String, ResultPlatform> result = underTest.visualize(LayoutViewType.CITY, settings, snapShotTreeResult, null);
+    final Map<String, ResultPlatform> result = underTest.visualize(settings, snapShotTreeResult, null);
 
     assertEquals(resultGraphs, result);
   }

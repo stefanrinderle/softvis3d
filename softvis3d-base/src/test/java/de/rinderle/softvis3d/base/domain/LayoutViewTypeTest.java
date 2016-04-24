@@ -21,25 +21,26 @@ package de.rinderle.softvis3d.base.domain;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-
 public class LayoutViewTypeTest {
 
   @Test
-  public void testValueOfRequestCity() throws Exception {
+  public void testValueOfRequestCity() {
     final LayoutViewType result = LayoutViewType.valueOfRequest("city");
     assertEquals(result, LayoutViewType.CITY);
   }
 
-  @Test
-  public void testValueOfRequestDependency() throws Exception {
-    final LayoutViewType result = LayoutViewType.valueOfRequest("dependency");
-    assertEquals(result, LayoutViewType.DEPENDENCY);
+  @Test(expected = IllegalArgumentException.class)
+  public void testValueOfRequestAnything() {
+    LayoutViewType.valueOfRequest("anything");
   }
 
-  @Test
-  public void testValueOfRequestAnythingElse() throws Exception {
-    final LayoutViewType result = LayoutViewType.valueOfRequest("ksudhgfifdgsuh");
-    assertEquals(result, LayoutViewType.DEPENDENCY);
+  @Test(expected = IllegalArgumentException.class)
+  public void testValueOfRequestNull() {
+    LayoutViewType.valueOfRequest(null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testValueOfRequestEmpty() {
+    LayoutViewType.valueOfRequest(null);
   }
 }

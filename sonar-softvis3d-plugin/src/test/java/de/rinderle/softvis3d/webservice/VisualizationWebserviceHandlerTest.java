@@ -126,7 +126,7 @@ public class VisualizationWebserviceHandlerTest {
   private Map<String, ResultPlatform> mockVisualization(final VisualizationRequest requestDTO, final SnapshotTreeResult treeResult)
       throws DotExecutorException {
     final Map<String, ResultPlatform> visualizationResult = new HashMap<>();
-    when(visualizationProcessor.visualize(eq(requestDTO.getViewType()), any(VisualizationSettings.class), eq(treeResult),
+    when(visualizationProcessor.visualize(any(VisualizationSettings.class), eq(treeResult),
         any(VisualizationAdditionalInfos.class)))
       .thenReturn(visualizationResult);
 

@@ -21,10 +21,8 @@ package de.rinderle.softvis3d.base.layout.bottomup;
 
 import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
 import de.rinderle.softvis3d.base.VisualizationSettings;
-import de.rinderle.softvis3d.base.domain.LayoutViewType;
 import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.layout.LayeredLayoutElement;
-import de.rinderle.softvis3d.base.domain.tree.DependencyTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
 import de.rinderle.softvis3d.base.layout.bottomup.grappa.GrappaEdgeFactory;
@@ -49,7 +47,7 @@ public class SnapshotVisitorBeanTest {
     final VisualizationAdditionalInfos additionalInfos = createAdditionalInfos();
 
     final SnapshotVisitorBean visitorBean =
-      new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, LayoutViewType.CITY, additionalInfos);
+      new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, additionalInfos);
 
     final String displayName = "leaf1";
     final String id = "1";
@@ -59,22 +57,6 @@ public class SnapshotVisitorBeanTest {
     assertEquals(displayName, result.getDisplayName());
     assertEquals(id, result.getId());
     assertEquals(TreeNodeType.TREE, result.getElementType());
-  }
-
-  @Test
-  public void testVisitFileDependency() throws Exception {
-    final String id = "1";
-
-    final VisualizationSettings settings = new VisualizationSettings();
-    final VisualizationAdditionalInfos additionalInfos = createAdditionalInfos();
-    final SnapshotVisitorBean visitorBean =
-      new SnapshotVisitorBean(formatter, dotExecutor, nodeFactory, edgeFactory, settings, LayoutViewType.DEPENDENCY, additionalInfos);
-
-    final DependencyTreeNode leaf = new DependencyTreeNode(id, null, 0);
-    final LayeredLayoutElement result = visitorBean.visitFile(leaf);
-
-    assertEquals(id, result.getId());
-    assertEquals(TreeNodeType.DEPENDENCY_GENERATED, result.getElementType());
   }
 
   private VisualizationAdditionalInfos createAdditionalInfos() {
