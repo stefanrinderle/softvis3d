@@ -23,7 +23,9 @@ import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -89,7 +91,7 @@ public class DaoServiceTest {
     final VisualizationRequest requestDTO = new VisualizationRequest(projectId, "1", "20", ColorMetricType.NONE);
 
     final List<WsMeasures.Component> snapshots = new ArrayList<>();
-    final List<String> expectedMetricList = new ArrayList<>();
+    final Set<String> expectedMetricList = new HashSet<>();
     expectedMetricList.add("1");
     expectedMetricList.add("20");
     when(sonarDao.getAllSnapshotIdsWithRescourceId(eq(localConnector), eq(projectId), eq(expectedMetricList))).thenReturn(snapshots);

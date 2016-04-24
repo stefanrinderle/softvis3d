@@ -23,18 +23,15 @@ import com.google.inject.Inject;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.apache.commons.lang.time.StopWatch;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ws.LocalConnector;
 import org.sonarqube.ws.WsComponents;
 import org.sonarqube.ws.WsMeasures;
 
 public class DaoService {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(DaoService.class);
 
   @Inject
   private SonarDao sonarDao;
@@ -56,7 +53,7 @@ public class DaoService {
     final StopWatch stopWatch = new StopWatch();
     stopWatch.start();
 
-    final List<String> metrics = new ArrayList<>();
+    final Set<String> metrics = new HashSet<>();
     metrics.add(requestDTO.getFootprintMetricKey());
     metrics.add(requestDTO.getHeightMetricKey());
 

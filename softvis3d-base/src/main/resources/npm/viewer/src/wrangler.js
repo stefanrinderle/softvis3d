@@ -36,7 +36,6 @@ Viewer.Wrangler = function (params) {
   this.objectsInView = [];
 
   this.selectedTreeObjects = [];
-  this.selectedEdgeObjects = [];
 
   this.name = null;
 };
@@ -115,26 +114,6 @@ Viewer.Wrangler.prototype = {
     }
 
     this.objectsInView = [];
-  },
-
-  selectSceneEdgeObjects: function (ids) {
-    // reset former selected objects
-    for (var index = 0; index < this.selectedEdgeObjects.length; index++) {
-      this.selectedEdgeObjects[index].object.material.color.setHex(this.selectedEdgeObjects[index].color);
-    }
-
-    this.selectedEdgeObjects = [];
-
-    for (var resultObjectIndex = 0; resultObjectIndex < this.resultObjects.length; resultObjectIndex++) {
-      if (this.contains(ids, this.resultObjects[resultObjectIndex].softVis3dId)) {
-        var selectedObjectInformation = {
-          "object": this.resultObjects[resultObjectIndex],
-          "color": this.resultObjects[resultObjectIndex].material.color.getHex()
-        };
-        this.selectedEdgeObjects.push(selectedObjectInformation);
-        this.resultObjects[resultObjectIndex].material.color.setHex(0xFF0000);
-      }
-    }
   },
 
   removeObject: function (objectSoftVis3dId, type) {

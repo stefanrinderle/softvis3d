@@ -58,49 +58,9 @@ ThreeViewer.TreeService.prototype.searchIdInElement = function (element, id) {
   return null;
 };
 
-ThreeViewer.TreeService.prototype.searchEdge = function (id) {
-  return this.searchEdgeInElement(this.treeServiceTree, id);
-};
-
-ThreeViewer.TreeService.prototype.searchEdgeInElement = function (element, id) {
-  var result = null;
-
-  for (var i = 0; result == null && i < element.edges.length; i++) {
-    if (element.edges[i].id === id) {
-      result = element.edges[i];
-    }
-  }
-
-  for (var childrenIndex = 0; result == null && childrenIndex < element.children.length; childrenIndex++) {
-    result = this.searchEdgeInElement(element.children[childrenIndex], id);
-  }
-
-  return result;
-};
-
-ThreeViewer.TreeService.prototype.getDependencyNameForId = function (id) {
-  var dependencies = this.treeServiceTree.dependencies;
-  for (var i = 0; i < dependencies.length; i++) {
-    if (id === dependencies[i].id) {
-      return dependencies[i].sourceName + " -> "
-          + dependencies[i].destinationName;
-    }
-  }
-};
-
 ThreeViewer.TreeService.prototype.getAllSceneElementsRecursive = function (id) {
   var node = this.searchTreeNode(id);
   var showIds = this.privateGetAllSceneElementsRecursive(node);
-
-  /**
-   * Remove inbound edges from node and showIds.
-   */
-  for (var index = 0; index < node.edges.length; index++) {
-    var indexInArray = showIds.indexOf(node.edges[index].id);
-    if (indexInArray > -1) {
-      showIds.splice(indexInArray, 1);
-    }
-  }
 
   return showIds;
 };
@@ -124,72 +84,5 @@ ThreeViewer.TreeService.prototype.privateGetAllSceneElementsRecursive = function
     showIds = showIds.concat(result);
   }
 
-  // edges
-  for (var j = 0; j < node.edges.length; j++) {
-    showIds.push(node.edges[j].id);
-  }
-
   return showIds;
-};
-
-ThreeViewer.TreeService.prototype.getInboundEdges = function (node) {
-  var result = [];
-  if (node.parentInfo) {
-    var parent = this.searchTreeNode(node.parentInfo.id);
-
-    for (var i = 0; i < parent.children.length; i++) {
-      var child = parent.children[i];
-      for (var j = 0; j < child.edges.length; j++) {
-        var edge = child.edges[j];
-        if (edge.destinationId === node.id) {
-          result.push(edge);
-        }
-      }
-    }
-  }
-
-  return result;
-};
-
-ThreeViewer.TreeService.prototype.getAllDependentEdgeIds = function (includingDependencyIds) {
-  var edgeIds = this.privateGetAllDependentEdgeIds(this.treeServiceTree, includingDependencyIds);
-
-  // remove duplicates
-  edgeIds.sort();
-  var lastId = "";
-
-  for (var index = 0; index < edgeIds.length; index++) {
-    if (lastId === edgeIds[index]) {
-      edgeIds.splice(index, 1);
-      index--;
-    } else {
-      lastId = edgeIds[index];
-    }
-  }
-
-  return edgeIds;
-};
-
-ThreeViewer.TreeService.prototype.privateGetAllDependentEdgeIds = function (node, includingDependencies) {
-  var edgeIds = [];
-
-  // children nodes
-  for (var i = 0; i < node.children.length; i++) {
-    var result = this.privateGetAllDependentEdgeIds(node.children[i], includingDependencies);
-    edgeIds = edgeIds.concat(result);
-  }
-
-  // edges
-  for (var j = 0; j < node.edges.length; j++) {
-    var edge = node.edges[j];
-
-    for (var k = 0; k < edge.includingDependencies.length; k++) {
-      if (this.contains(includingDependencies, edge.includingDependencies[k].id)) {
-        edgeIds.push(edge.id);
-        break;
-      }
-    }
-  }
-
-  return edgeIds;
 };

@@ -21,6 +21,9 @@ package de.rinderle.softvis3d.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.server.ws.LocalConnector;
 import org.sonarqube.ws.WsComponents;
@@ -32,6 +35,8 @@ import org.sonarqube.ws.client.component.TreeWsRequest;
 import org.sonarqube.ws.client.measure.ComponentTreeWsRequest;
 
 public class SonarDao {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(SonarDao.class);
 
   private static final int PAGE_SIZE = 500;
 
@@ -59,7 +64,8 @@ public class SonarDao {
     return wsClient.components().tree(treeWsRequest).getComponentsList();
   }
 
-  public List<WsMeasures.Component> getAllSnapshotIdsWithRescourceId(final LocalConnector localConnector, final String projectId, List<String> metrics) {
+  public List<WsMeasures.Component> getAllSnapshotIdsWithRescourceId(
+      final LocalConnector localConnector, final String projectId, Set<String> metrics) {
     final List<WsMeasures.Component> result = new ArrayList<>();
 
     final WsClient wsClient = getWsClient(localConnector);
@@ -78,11 +84,15 @@ public class SonarDao {
   }
 
   private WsMeasures.ComponentTreeWsResponse getChildrenByBaseProjectId(final WsClient wsClient,
-    final String projectId, List<String> metrics, final int page) {
+    final String projectId, Set<String> metrics, final int page) {
 
     final ComponentTreeWsRequest request = new ComponentTreeWsRequest();
     request.setBaseComponentId(projectId);
-    request.setMetricKeys(metrics);
+
+    final List<String> metricList = new ArrayList<String>();
+    metricList.addAll(metrics);
+    request.setMetricKeys(metricList);
+
     final List<String> qualifiers = new ArrayList<>();
     qualifiers.add(Qualifiers.FILE);
     request.setQualifiers(qualifiers);

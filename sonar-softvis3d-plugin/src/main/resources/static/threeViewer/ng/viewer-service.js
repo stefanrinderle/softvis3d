@@ -89,14 +89,6 @@ ThreeViewer.ViewerService.prototype.removeObject = function (objectSoftVis3dId, 
 };
 
 /**
- * from details
- */
-ThreeViewer.ViewerService.prototype.selectSceneEdgeObjects = function (objectSoftVis3dId) {
-  this.home.wrangler.selectSceneEdgeObjects(objectSoftVis3dId);
-};
-
-
-/**
  * See if a mouse click intersects an object.
  * @param {!{x:number, y:number}} mouse
  */
