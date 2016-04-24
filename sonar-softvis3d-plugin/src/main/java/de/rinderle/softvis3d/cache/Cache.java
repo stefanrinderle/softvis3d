@@ -31,7 +31,7 @@ public class Cache<K, V> {
   private final LinkedHashMap<K, V> map;
 
   public Cache() {
-    map = new LinkedHashMap<K, V>();
+    map = new LinkedHashMap<>();
   }
 
   public boolean containsKey(final K key) {

@@ -51,10 +51,6 @@ public enum ColorMetricType {
     return defaultMetricName;
   }
 
-  public void setDefaultMetricName(String defaultMetricName) {
-    this.defaultMetricName = defaultMetricName;
-  }
-
   public String getDescription() {
     return description;
   }
@@ -63,4 +59,23 @@ public enum ColorMetricType {
     return this.scmCalculationService;
   }
 
+  public static ColorMetricType getColorMetricType(String colorMetricKey) {
+    final ColorMetricType result;
+    switch (colorMetricKey) {
+      case "NONE":
+        result = ColorMetricType.NONE;
+        break;
+      case "AUTHOR_COUNT":
+        result = ColorMetricType.AUTHOR_COUNT;
+        break;
+      case "COMMIT_COUNT":
+        result = ColorMetricType.COMMIT_COUNT;
+        break;
+      default:
+        result = ColorMetricType.DEFAULT_METRIC;
+        result.defaultMetricName = colorMetricKey;
+    }
+
+    return result;
+  }
 }

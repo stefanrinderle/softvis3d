@@ -48,8 +48,13 @@ public class MinMaxValue {
 
   @Override
   public boolean equals(Object object) {
-    if (this == object) return true;
-    if (object == null || getClass() != object.getClass()) return false;
+    if (this == object) {
+      return true;
+    }
+    if (object == null || getClass() != object.getClass()) {
+      return false;
+    }
+
     final MinMaxValue that = (MinMaxValue) object;
     return Objects.equals(minValue, that.minValue) &&
         Objects.equals(maxValue, that.maxValue);

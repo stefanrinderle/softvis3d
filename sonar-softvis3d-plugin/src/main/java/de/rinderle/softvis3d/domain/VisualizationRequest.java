@@ -67,9 +67,13 @@ public class VisualizationRequest {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    VisualizationRequest that = (VisualizationRequest) o;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final VisualizationRequest that = (VisualizationRequest) o;
     return Objects.equals(rootSnapshotKey, that.rootSnapshotKey) &&
         Objects.equals(footprintMetricKey, that.footprintMetricKey) &&
         Objects.equals(heightMetricKey, that.heightMetricKey) &&

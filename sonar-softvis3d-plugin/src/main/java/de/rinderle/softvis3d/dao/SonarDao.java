@@ -55,7 +55,7 @@ public class SonarDao {
 
     final TreeWsRequest treeWsRequest = new TreeWsRequest();
     treeWsRequest.setBaseComponentId(projectId);
-    final ArrayList<String> qualifiers = new ArrayList<String>();
+    final ArrayList<String> qualifiers = new ArrayList<>();
     qualifiers.add(Qualifiers.MODULE);
     treeWsRequest.setQualifiers(qualifiers);
 
@@ -89,7 +89,7 @@ public class SonarDao {
     final ComponentTreeWsRequest request = new ComponentTreeWsRequest();
     request.setBaseComponentId(projectId);
 
-    final List<String> metricList = new ArrayList<String>();
+    final List<String> metricList = new ArrayList<>();
     metricList.addAll(metrics);
     request.setMetricKeys(metricList);
 

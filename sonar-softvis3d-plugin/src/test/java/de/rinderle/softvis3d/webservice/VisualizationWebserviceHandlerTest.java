@@ -70,7 +70,6 @@ public class VisualizationWebserviceHandlerTest {
   private final String snapshotKey = "123";
   private final String footprintMetricKey = "1";
   private final String heightMetricKey = "21";
-  private final String viewType = "city";
   private final ColorMetricType scmMetricType = ColorMetricType.AUTHOR_COUNT;
 
   @InjectMocks

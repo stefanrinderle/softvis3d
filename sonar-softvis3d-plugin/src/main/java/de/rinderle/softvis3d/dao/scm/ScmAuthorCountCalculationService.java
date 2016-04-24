@@ -59,7 +59,7 @@ public class ScmAuthorCountCalculationService extends ScmCalculationService {
       resultScmTime = splitPlainScmInfo(scmTimeString);
     }
 
-    final List<ScmInfo> resultList = new ArrayList<ScmInfo>();
+    final List<ScmInfo> resultList = new ArrayList<>();
 
     for (int i = 0; i < resultCommitter.length; i++) {
       final String[] committerSplit = resultCommitter[i].split("=");

@@ -44,7 +44,6 @@ var Detector = {
         return 'Your browser does not seem to support WebGL. Find out how to get it on http://get.webgl.org/.';
       }
     } else {
-      console.log("Works!")
       return "";
     }
   }

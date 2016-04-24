@@ -76,7 +76,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     final String heightMetricKey = request.param("heightMetricKey");
 
     final String colorMetricKey = request.param("colorMetricKey");
-    final ColorMetricType colorMetricType = getColorMetricType(colorMetricKey);
+    final ColorMetricType colorMetricType = ColorMetricType.getColorMetricType(colorMetricKey);
 
     final VisualizationRequest requestDTO =
       new VisualizationRequest(projectId, footprintMetricKey, heightMetricKey, colorMetricType);
@@ -100,26 +100,6 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     }
 
     this.writeResultsToResponse(response, snapshotTreeResult, visualizationResult);
-  }
-
-  private ColorMetricType getColorMetricType(String colorMetricKey) {
-    final ColorMetricType result;
-    switch (colorMetricKey) {
-      case "NONE":
-        result = ColorMetricType.NONE;
-        break;
-      case "AUTHOR_COUNT":
-        result = ColorMetricType.AUTHOR_COUNT;
-        break;
-      case "COMMIT_COUNT":
-        result = ColorMetricType.COMMIT_COUNT;
-        break;
-      default:
-        result = ColorMetricType.DEFAULT_METRIC;
-        result.setDefaultMetricName(colorMetricKey);
-    }
-
-    return result;
   }
 
   private void writeResultsToResponse(final Response response, final SnapshotTreeResult snapshotTreeResult,
