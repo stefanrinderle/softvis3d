@@ -22,7 +22,6 @@ package de.rinderle.softvis3d;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.rinderle.softvis3d.base.VisualizationSettings;
-import de.rinderle.softvis3d.base.guice.SoftVis3DModule;
 import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.webservice.VisualizationWebserviceHandler;
 import org.sonar.api.config.Settings;
@@ -33,7 +32,7 @@ public class SoftVis3DWebservice implements WebService {
   private final VisualizationWebserviceHandler visualizationHandler;
 
   public SoftVis3DWebservice(final Settings settings) {
-    final Injector softVis3DInjector = Guice.createInjector(new SoftVis3DModule());
+    final Injector softVis3DInjector = Guice.createInjector();
 
     this.visualizationHandler = softVis3DInjector.getInstance(VisualizationWebserviceHandler.class);
     final VisualizationSettings visualizationSettings = new VisualizationSettings(settings.getString(SoftVis3DConstants.DOT_BIN_KEY));

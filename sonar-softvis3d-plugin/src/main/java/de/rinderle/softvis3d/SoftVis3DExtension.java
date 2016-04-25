@@ -26,7 +26,7 @@ public class SoftVis3DExtension implements ServerExtension {
   /**
    * Used in ruby view.
    */
-  public boolean isProd() {
+  boolean isProd() {
     return SoftVis3DPlugin.IS_PROD;
   }
 

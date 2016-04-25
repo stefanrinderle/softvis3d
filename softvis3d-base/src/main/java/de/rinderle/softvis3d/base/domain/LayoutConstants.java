@@ -24,29 +24,6 @@ import de.rinderle.softvis3d.base.layout.helper.HexaColor;
 public interface LayoutConstants {
 
   /**
-   * Plugin key and name.
-   */
-
-  String PLUGIN_KEY = "SoftVis3D";
-
-  String PLUGIN_NAME = "SoftVis3D Viewer";
-
-  String PLUGIN_TEMPLATE_PATH = "/softVis3D_page.html.erb";
-
-  /**
-   * Sonar properties.
-   */
-
-  String DOT_BIN_KEY = "dotBinDirectory";
-
-  String DOT_BIN_NAME = "Dot executable file path";
-
-  String DOT_BIN_DESCRIPTION = "This plugin requires Graphviz in order to create the layout. "
-    + "See http://www.graphviz.org/ for installation instructions.";
-
-  String DOT_BIN_DEFAULT = "/usr/bin/dot";
-
-  /**
    * Visualization
    */
 

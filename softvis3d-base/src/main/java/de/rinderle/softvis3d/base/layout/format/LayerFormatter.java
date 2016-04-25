@@ -45,7 +45,7 @@ public class LayerFormatter {
     platform.setColor(getPlatformBaseColor(depth));
 
     for (final ResultBuilding leaf : platform.getNodes()) {
-      formatResultBuilding(depth, height3d, leaf);
+      formatResultBuilding(height3d, leaf);
     }
   }
 
@@ -60,7 +60,7 @@ public class LayerFormatter {
     return new HexaColor(colorValue, colorValue, colorValue);
   }
 
-  private void formatResultBuilding(final int depth, final Integer height3d, final ResultBuilding leaf) {
+  private void formatResultBuilding(final Integer height3d, final ResultBuilding leaf) {
     double width = leaf.getWidth();
     // keep some distance to each other
     width = width * LayoutConstants.DPI_DOT_SCALE;

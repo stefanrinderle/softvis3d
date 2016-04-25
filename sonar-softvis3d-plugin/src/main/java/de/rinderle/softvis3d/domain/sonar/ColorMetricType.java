@@ -23,13 +23,10 @@ import de.rinderle.softvis3d.dao.scm.ScmAuthorCountCalculationService;
 import de.rinderle.softvis3d.dao.scm.ScmCalculationService;
 import de.rinderle.softvis3d.dao.scm.ScmCommitCountCalculationService;
 
-/**
- * Created by stefanrinderle on 07.12.15.
- */
 public enum ColorMetricType {
 
   /**
-   * ! enum names used in view !
+   * This are the enum names used in view.
    */
   NONE("None", null),
   DEFAULT_METRIC("Default metric", null),

@@ -55,7 +55,7 @@ public class ExecuteCommand {
     return result;
   }
 
-  public String executeCommandReadErrorStream(final String command) throws DotExecutorException {
+  String executeCommandReadErrorStream(final String command) throws DotExecutorException {
     final StringBuilder output = new StringBuilder();
 
     final Process p;
@@ -78,7 +78,7 @@ public class ExecuteCommand {
     return output.toString();
   }
 
-  public String executeCommandReadAdot(final String command, final String inputGraph, final Version currentVersion)
+  String executeCommandReadAdot(final String command, final String inputGraph, final Version currentVersion)
     throws DotExecutorException {
     final Process process;
     try {
@@ -93,9 +93,7 @@ public class ExecuteCommand {
 
       return readAdotStream(currentVersion, process);
 
-    } catch (final IOException e) {
-      throw new DotExecutorException(e.getMessage(), e);
-    } catch (final InterruptedException e) {
+    } catch (final IOException | InterruptedException e) {
       throw new DotExecutorException(e.getMessage(), e);
     }
   }

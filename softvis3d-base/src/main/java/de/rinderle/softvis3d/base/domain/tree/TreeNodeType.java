@@ -20,5 +20,5 @@
 package de.rinderle.softvis3d.base.domain.tree;
 
 public enum TreeNodeType {
-  TREE, PATH_GENERATED;
+  TREE, PATH_GENERATED
 }

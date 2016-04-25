@@ -29,11 +29,11 @@ public class LayoutCacheService {
 
   private final Cache<SnapshotStorageKey, Map<String, ResultPlatform>> storage;
 
-  public LayoutCacheService() {
+  LayoutCacheService() {
     storage = new Cache<>();
   }
 
-  public void printCacheContents() {
+  void printCacheContents() {
     storage.logKeys();
   }
 

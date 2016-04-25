@@ -28,7 +28,7 @@ public class SnapshotCacheService {
 
   private final Cache<SnapshotStorageKey, SnapshotTreeResult> storage;
 
-  public SnapshotCacheService() {
+  SnapshotCacheService() {
     storage = new Cache<>();
   }
 

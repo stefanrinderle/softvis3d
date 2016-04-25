@@ -23,13 +23,14 @@ import java.util.Objects;
 
 public class SnapshotStorageKey {
 
+  private static final String UNDERSCORE = "_";
   private final String key;
 
   public SnapshotStorageKey(final VisualizationRequest requestDTO) {
-    this.key = requestDTO.getRootSnapshotKey() + "_"
-      + requestDTO.getFootprintMetricKey() + "_"
-      + requestDTO.getHeightMetricKey() + "_"
-      + requestDTO.getColorMetricType().getDefaultMetricName() + "_";
+    this.key = requestDTO.getRootSnapshotKey() + UNDERSCORE
+      + requestDTO.getFootprintMetricKey() + UNDERSCORE
+      + requestDTO.getHeightMetricKey() + UNDERSCORE
+      + requestDTO.getColorMetricType().getDefaultMetricName() + UNDERSCORE;
   }
 
   @Override

@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 public class ScmAuthorCountCalculationService extends ScmCalculationService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ScmAuthorCountCalculationService.class);
-  private final SimpleDateFormat SCM_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+  private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
   @Override
   public int getNodeValue(final String scmCommitterString, final String scmTimeString) {
@@ -61,12 +61,12 @@ public class ScmAuthorCountCalculationService extends ScmCalculationService {
 
     final List<ScmInfo> resultList = new ArrayList<>();
 
-    for (int i = 0; i < resultCommitter.length; i++) {
-      final String[] committerSplit = resultCommitter[i].split("=");
+    for (int index = 0; index < resultCommitter.length; index++) {
+      final String[] committerSplit = resultCommitter[index].split("=");
 
       final ScmInfo currentScmInfo;
       if (isTimeGiven) {
-        final String[] scmTimeSplit = resultScmTime[i].split("=");
+        final String[] scmTimeSplit = resultScmTime[index].split("=");
         final Date date = getDate(scmTimeSplit[1]);
 
         currentScmInfo = new ScmInfo(Integer.valueOf(committerSplit[0]), committerSplit[1], date);
@@ -81,7 +81,7 @@ public class ScmAuthorCountCalculationService extends ScmCalculationService {
 
   private Date getDate(final String source) {
     try {
-      return SCM_DATE_FORMAT.parse(source);
+      return simpleDateFormat.parse(source);
     } catch (final ParseException e) {
       LOGGER.error("Could not parse date " + source, e);
       return new Date();
@@ -98,10 +98,10 @@ public class ScmAuthorCountCalculationService extends ScmCalculationService {
     final Map<String, Integer> usersResultList = new HashMap<>();
 
     for (final ScmInfo current : resultList) {
-      if (!usersResultList.containsKey(current.getCommitter())) {
-        usersResultList.put(current.getCommitter(), 1);
-      } else {
+      if (usersResultList.containsKey(current.getCommitter())) {
         usersResultList.put(current.getCommitter(), usersResultList.get(current.getCommitter()) + 1);
+      } else {
+        usersResultList.put(current.getCommitter(), 1);
       }
     }
     return usersResultList;

@@ -36,7 +36,7 @@ public class PathWalker {
   private final Pattern pathSeparator = Pattern.compile("/");
   private int generatedIdSequence = Integer.MAX_VALUE - 100000;
 
-  public PathWalker(final String id) {
+  PathWalker(final String id) {
     this.root = new RootTreeNode(id);
   }
 
@@ -44,7 +44,7 @@ public class PathWalker {
     return this.root;
   }
 
-  public void addPath(final SonarMeasure element) {
+  void addPath(final SonarMeasure element) {
     final String[] names = this.pathSeparator.split(element.getPath());
 
     TreeNode currentNode = this.root;

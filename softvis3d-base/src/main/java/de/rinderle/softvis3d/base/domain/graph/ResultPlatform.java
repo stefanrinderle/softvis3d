@@ -28,8 +28,7 @@ import java.util.Map;
 
 public class ResultPlatform extends BaseResultObject {
 
-  // TODO could be moved to a formatter.
-  public static final double PLATFORM_HEIGHT = 5;
+  private static final double PLATFORM_HEIGHT = 5;
   private final Map<String, ResultBuilding> nodes;
   private GrappaBox boundingBox;
 

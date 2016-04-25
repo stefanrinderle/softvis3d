@@ -36,7 +36,7 @@ public class ScmInfo {
     this(line, committer, new Date());
   }
 
-  public int getLine() {
+  int getLine() {
     return line;
   }
 
@@ -44,7 +44,7 @@ public class ScmInfo {
     return committer;
   }
 
-  public Date getTimestamp() {
+  Date getTimestamp() {
     return timestamp;
   }
 

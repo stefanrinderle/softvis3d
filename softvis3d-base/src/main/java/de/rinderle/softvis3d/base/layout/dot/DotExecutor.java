@@ -115,10 +115,6 @@ public class DotExecutor {
   private Graph parseDot(final String adot) throws DotExecutorException {
     final String graphName = "LayoutLayer";
 
-    LOGGER.debug("----------------adot--------------------------");
-    LOGGER.debug(adot);
-    LOGGER.debug("----------------------------------------------");
-
     final Graph newGraph = new Graph("new" + graphName, true, false);
 
     final OutputStream output = new StringOutputStream();

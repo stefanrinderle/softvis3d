@@ -62,11 +62,11 @@ public class GraphvizPath {
     }
   }
 
-  public String getDotExecutable() {
+  String getDotExecutable() {
     return dotPath;
   }
 
-  public String getGvprExecutable() {
+  String getGvprExecutable() {
     return gvprExecutable;
   }
 }

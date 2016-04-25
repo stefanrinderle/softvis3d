@@ -42,12 +42,8 @@ import org.sonar.api.SonarPlugin;
 @ExtensionPoint
 public final class SoftVis3DPlugin extends SonarPlugin {
 
-  public static final boolean IS_PROD = true;
+  static final boolean IS_PROD = true;
   public static final boolean CACHE_ENABLED = true;
-
-  public SoftVis3DPlugin() {
-    super();
-  }
 
   @Override
   public List getExtensions() {

@@ -36,9 +36,6 @@ import java.util.Map;
 
 public class LayoutProcessor {
 
-  // @Inject
-  // private SnapshotVisitorFactory visitorFactory;
-
   @Inject
   private LayerFormatter formatter;
   @Inject
@@ -48,8 +45,6 @@ public class LayoutProcessor {
 
   public Map<String, ResultPlatform> process(final VisualizationSettings settings,
                                               final SnapshotTreeResult snapshotTreeResult, final VisualizationAdditionalInfos additionalInfos) throws DotExecutorException {
-
-    // final SnapshotVisitor visitor = this.visitorFactory.create(settings, requestDTO);
 
     final SnapshotVisitor visitor = new SnapshotVisitorBean(formatter, dotExcecutor, nodeFactory,
       settings, additionalInfos);

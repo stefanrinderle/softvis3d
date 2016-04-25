@@ -21,9 +21,9 @@ package de.rinderle.softvis3d.dao.scm;
 
 public abstract class ScmCalculationService {
 
-  public abstract int getNodeValue(final String scmCommitterString, final String scmTimeString);
+  public abstract int getNodeValue(String scmCommitterString, String scmTimeString);
 
-  protected String[] splitPlainScmInfo(final String plainScmInfo) {
+  String[] splitPlainScmInfo(final String plainScmInfo) {
     return plainScmInfo.split(";");
   }
 

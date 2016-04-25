@@ -38,7 +38,6 @@ public class DaoService {
   @Inject
   private DaoServiceTransformer daoServiceTransformer;
 
-
   public String getProjectId(final LocalConnector localConnector, String projectKey) {
     return this.sonarDao.getProjectId(localConnector, projectKey);
   }

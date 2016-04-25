@@ -33,7 +33,7 @@ public class GrappaNodeFactory {
 
   public Node transformToGrappaNode(final Graph inputGraph, final LayeredLayoutElement element) {
     final Node elementNode = new Node(inputGraph, element.getName());
-    elementNode.setAttribute("id", element.getId().toString());
+    elementNode.setAttribute("id", element.getId());
     elementNode.setAttribute("type", element.getElementType().name());
     elementNode.setAttribute(WIDTH_ATTR, this.roundTo2Decimals(element.getWidth()));
     elementNode.setAttribute(HEIGHT_ATTR, this.roundTo2Decimals(element.getHeight()));

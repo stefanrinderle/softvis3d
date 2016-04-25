@@ -5,15 +5,15 @@ import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
 import java.util.List;
 
-public class MinMaxCalculator {
+class MinMaxCalculator {
 
   private final List<ValueTreeNode> valueLeaves;
 
-  public MinMaxCalculator(RootTreeNode tree) {
+  MinMaxCalculator(RootTreeNode tree) {
     this.valueLeaves = tree.getAllChildrenValueLeaves();
   }
 
-  public MinMaxValue getMinMaxForFootprintMetric() {
+  MinMaxValue getMinMaxForFootprintMetric() {
     double minResult = valueLeaves.get(0).getFootprintMetricValue();
     double maxResult = valueLeaves.get(0).getFootprintMetricValue();
     for (final ValueTreeNode valueNode : valueLeaves) {
@@ -29,7 +29,7 @@ public class MinMaxCalculator {
     return new MinMaxValue(minResult, maxResult);
   }
 
-  public MinMaxValue getMinMaxForHeightMetric() {
+  MinMaxValue getMinMaxForHeightMetric() {
 
     double minResult = valueLeaves.get(0).getHeightMetricValue();
     double maxResult = valueLeaves.get(0).getHeightMetricValue();
@@ -47,7 +47,7 @@ public class MinMaxCalculator {
     return new MinMaxValue(minResult, maxResult);
   }
 
-  public MinMaxValue getMinMaxForColorMetric() {
+  MinMaxValue getMinMaxForColorMetric() {
 
     double minResult = valueLeaves.get(0).getColorMetricValue();
     double maxResult = valueLeaves.get(0).getColorMetricValue();

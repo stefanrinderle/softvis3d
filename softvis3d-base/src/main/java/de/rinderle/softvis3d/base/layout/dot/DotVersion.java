@@ -32,7 +32,7 @@ public class DotVersion {
   @Inject
   private ExecuteCommand executeCommand;
 
-  public Version getVersion(final GraphvizPath path) throws DotExecutorException {
+  Version getVersion(final GraphvizPath path) throws DotExecutorException {
     if (this.version == null) {
 
       String commandResult = this.executeCommand.executeCommandReadErrorStream(path.getDotExecutable() + " -V");

@@ -19,15 +19,16 @@
  */
 package de.rinderle.softvis3d.base.result;
 
+import com.google.gson.stream.JsonWriter;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 public class SoftVis3dJsonWriter {
 
-  private final com.google.gson.stream.JsonWriter stream;
+  private final JsonWriter stream;
 
   public SoftVis3dJsonWriter(final OutputStream output) {
-    this.stream = new com.google.gson.stream.JsonWriter(new OutputStreamWriter(output));
+    this.stream = new JsonWriter(new OutputStreamWriter(output));
     this.stream.setSerializeNulls(false);
     this.stream.setLenient(false);
   }

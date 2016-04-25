@@ -67,7 +67,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
 
   @Override
-  public void handleRequest(final Request request, final Response response) throws Exception {
+  public void handleRequest(final Request request, final Response response) throws DotExecutorException {
     final String projectKey = request.param("projectKey");
 
     final String projectId = daoService.getProjectId(request.getLocalConnector(), projectKey);

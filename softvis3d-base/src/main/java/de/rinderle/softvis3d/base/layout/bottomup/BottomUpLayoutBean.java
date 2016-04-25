@@ -35,7 +35,7 @@ public class BottomUpLayoutBean implements BottomUpLayout {
 
   private final SnapshotVisitor visitor;
   private int maxNodesCount;
-  private int currentProcessCount = 0;
+  private int currentProcessCount;
 
   public BottomUpLayoutBean(final SnapshotVisitor visitor) {
     this.visitor = visitor;

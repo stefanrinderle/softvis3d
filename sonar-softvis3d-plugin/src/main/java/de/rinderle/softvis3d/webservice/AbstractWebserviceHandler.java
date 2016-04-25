@@ -20,13 +20,14 @@
 package de.rinderle.softvis3d.webservice;
 
 import com.google.inject.Inject;
+import de.rinderle.softvis3d.base.layout.dot.DotExecutorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
 
-public abstract class AbstractWebserviceHandler implements RequestHandler {
+abstract class AbstractWebserviceHandler implements RequestHandler {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AbstractWebserviceHandler.class);
 
@@ -43,6 +44,6 @@ public abstract class AbstractWebserviceHandler implements RequestHandler {
     }
   }
 
-  public abstract void handleRequest(Request request, Response response) throws Exception;
+  public abstract void handleRequest(Request request, Response response) throws DotExecutorException;
 
 }

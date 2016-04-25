@@ -26,9 +26,9 @@ import java.util.List;
 import org.sonarqube.ws.WsComponents;
 import org.sonarqube.ws.WsMeasures;
 
-public class DaoServiceTransformer {
+class DaoServiceTransformer {
 
-  public List<SonarMeasure> transformComponentToModules(List<WsComponents.Component> input) {
+  List<SonarMeasure> transformComponentToModules(List<WsComponents.Component> input) {
     final List<SonarMeasure> result = new ArrayList<>();
 
     for (final WsComponents.Component component : input) {
@@ -38,7 +38,7 @@ public class DaoServiceTransformer {
     return result;
   }
 
-  public List<SonarMeasure> transformComponentToMeasure(List<WsMeasures.Component> input, VisualizationRequest requestDTO) {
+  List<SonarMeasure> transformComponentToMeasure(List<WsMeasures.Component> input, VisualizationRequest requestDTO) {
     final List<SonarMeasure> result = new ArrayList<>();
 
     for (final WsMeasures.Component component : input) {

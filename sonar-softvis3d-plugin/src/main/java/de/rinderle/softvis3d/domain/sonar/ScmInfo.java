@@ -26,27 +26,27 @@ public class ScmInfo {
   private final String committer;
   private final Date timestamp;
 
-  public ScmInfo(final int line, final String committer, final Date timestamp) {
+  ScmInfo(final int line, final String committer, final Date timestamp) {
     this.line = line;
     this.committer = committer;
     this.timestamp = timestamp;
   }
 
-  public ScmInfo(final int line, final String committer) {
+  ScmInfo(final int line, final String committer) {
     this.line = line;
     this.committer = committer;
     this.timestamp = new Date();
   }
 
-  public int getLine() {
+  int getLine() {
     return line;
   }
 
-  public String getCommitter() {
+  String getCommitter() {
     return committer;
   }
 
-  public Date getTimestamp() {
+  Date getTimestamp() {
     return timestamp;
   }
 

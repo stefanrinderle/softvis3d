@@ -30,7 +30,7 @@ public class Cache<K, V> {
   private static final Logger LOGGER = LoggerFactory.getLogger(Cache.class);
   private final LinkedHashMap<K, V> map;
 
-  public Cache() {
+  Cache() {
     map = new LinkedHashMap<>();
   }
 

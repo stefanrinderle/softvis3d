@@ -22,10 +22,10 @@ package de.rinderle.softvis3d.webservice;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
 
-public class ExceptionJsonWriter {
+class ExceptionJsonWriter {
 
-  public void transformExceptionToJson(final Response response, final Exception
-    exception) {
+  void transformExceptionToJson(final Response response, final Exception
+      exception) {
     response.stream().setStatus(500);
 
     final JsonWriter jsonWriter = response.newJsonWriter();
