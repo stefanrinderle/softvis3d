@@ -177,6 +177,21 @@
         </configuration>
       </plugin>
 
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>src/main/java/**</include>
+            <include>src/test/java/**</include>
+            <include>src/main/webapp/app/**</include>
+          </includes>
+          <excludes>
+            <exclude>src/main/webapp/app/vendor.js</exclude>
+            <exclude>src/main/webapp/app/bundle.js</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
     </plugins>
 
   </build>

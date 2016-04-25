@@ -1,6 +1,6 @@
 /*
  * SoftVis3D Sonar plugin
- * Copyright (C) 2015 Stefan Rinderle
+ * Copyright (C) 2016 Stefan Rinderle
  * stefan@rinderle.info
  *
  * This program is free software; you can redistribute it and/or
@@ -17,7 +17,6 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-
 /**
  * This is a messaging service.  It broadcasts from $rootScope allowing all Angular components to digest changes.
  * @param {angular.Scope} $rootScope

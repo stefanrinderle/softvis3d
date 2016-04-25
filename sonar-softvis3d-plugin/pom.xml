@@ -94,6 +94,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5.1</version>
         <configuration>
           <source>${jdk.min.version}</source>
           <target>${jdk.min.version}</target>
@@ -154,21 +155,21 @@
           </execution>
         </executions>
       </plugin>
-      <!--<plugin>-->
-        <!--<groupId>com.mycila.maven-license-plugin</groupId>-->
-        <!--<artifactId>maven-license-plugin</artifactId>-->
-        <!--<configuration>-->
-          <!--<includes>-->
-            <!--<include>src/main/java/**</include>-->
-            <!--<include>src/test/java/**</include>-->
-            <!--<include>src/main/resources/static/**</include>-->
-          <!--</includes>-->
-          <!--<excludes>-->
-            <!--<exclude>src/main/resources/static/threeViewer/vendor.js</exclude>-->
-            <!--<exclude>src/main/resources/static/threeViewer/bundle.js</exclude>-->
-          <!--</excludes>-->
-        <!--</configuration>-->
-      <!--</plugin>-->
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>src/main/java/**</include>
+            <include>src/test/java/**</include>
+            <include>src/main/resources/static/**</include>
+          </includes>
+          <excludes>
+            <exclude>src/main/resources/static/threeViewer/vendor.js</exclude>
+            <exclude>src/main/resources/static/threeViewer/bundle.js</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
