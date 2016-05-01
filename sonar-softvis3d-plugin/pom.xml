@@ -5,7 +5,7 @@
   <parent>
     <groupId>de.rinderle.softvis3d</groupId>
     <artifactId>softvis3d</artifactId>
-    <version>0.4.2-SNAPSHOT</version>
+    <version>0.5.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>sonar-softvis3d-plugin</artifactId>
@@ -18,7 +18,7 @@
   <properties>
     <jdk.min.version>1.7</jdk.min.version>
 
-    <sonar.version>5.5-RC1</sonar.version>
+    <sonar.version>5.5-SNAPSHOT</sonar.version>
 
     <sonar.exclusions>
       src/main/resources/node_modules/**,
