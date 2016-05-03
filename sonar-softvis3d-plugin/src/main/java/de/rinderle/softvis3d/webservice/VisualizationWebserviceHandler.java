@@ -70,7 +70,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
   public void handleRequest(final Request request, final Response response) throws DotExecutorException {
     final String projectKey = request.param("projectKey");
 
-    final String projectId = daoService.getProjectId(request.getLocalConnector(), projectKey);
+    final String projectId = daoService.getProjectId(request.localConnector(), projectKey);
 
     final String footprintMetricKey = request.param("footprintMetricKey");
     final String heightMetricKey = request.param("heightMetricKey");
@@ -85,7 +85,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
     final SnapshotStorageKey key = new SnapshotStorageKey(requestDTO);
 
-    final SnapshotTreeResult snapshotTreeResult = preProcessor.process(request.getLocalConnector(), requestDTO);
+    final SnapshotTreeResult snapshotTreeResult = preProcessor.process(request.localConnector(), requestDTO);
 
     final Map<String, ResultPlatform> visualizationResult;
     if (SoftVis3DPlugin.CACHE_ENABLED && layoutCacheService.containsKey(key)) {
