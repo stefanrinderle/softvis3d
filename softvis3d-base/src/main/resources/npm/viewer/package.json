@@ -1,6 +1,6 @@
 {
   "name": "softvis3d-viewer",
-  "version": "0.0.4-SNAPSHOT",
+  "version": "0.5.0-SNAPSHOT",
   "description": "",
   "main": "dist/softvis3d-base.js",
   "scripts": {

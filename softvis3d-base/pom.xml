@@ -22,21 +22,7 @@
     </sonar.exclusions>
   </properties>
 
-  <repositories>
-    <repository>
-      <id>lib</id>
-      <name>In Project Repo</name>
-      <url>file://${project.basedir}/libs</url>
-    </repository>
-  </repositories>
-
   <dependencies>
-    <dependency>
-      <groupId>att</groupId>
-      <artifactId>grappa</artifactId>
-      <version>3.0</version>
-    </dependency>
-
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
