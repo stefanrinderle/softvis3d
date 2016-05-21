@@ -18,8 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 var Detector = require('../lib/Detector.js');
-
-var dagre = require("dagre");
+var Softvis3dModel = require("softvis3d-model");
 
 /**
  * Service which initiates the THREE.js scene and
@@ -191,11 +190,9 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
   this.BackendService.getVisualization(ThreeViewer.PROJECT_KEY, metric1, metric2, colorMetricKey).then(function (response) {
 
     var treeResult = response.data.resultObject[0].treeResult;
-    // var visualizationResult = response.data.resultObject[1].visualizationResult;
 
-    // me.ViewerService.loadSoftVis3d(visualizationResult);
-    // me.TreeService.setTree(treeResult);
-    me.createSampleViewLayout(treeResult);
+    var illustration = me.createModel(treeResult);
+    me.ViewerService.loadSoftVis3d(illustration);
 
     var eventObject = {};
     eventObject.softVis3dId = ThreeViewer.PROJECT_KEY;
@@ -216,140 +213,12 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
   });
 };
 
-ThreeViewer.FileLoaderController.prototype.createSampleViewLayout = function (treeResult) {
-    this.TreeService.setTree(treeResult);
+ThreeViewer.FileLoaderController.prototype.createModel = function (treeResult) {
+  this.TreeService.setTree(treeResult);
 
-    var g = new dagre.graphlib.Graph({ compound: true });
-
-// Set an object for the graph label
-    g.setGraph({});
-
-// Default to assigning a new object as a label for each new edge.
-    g.setDefaultEdgeLabel(function() { return {}; });
-
-    g.setNode("root", { label: "root",  width: 1, height: 1 });
-
-    this.createGraphNodes(treeResult, g, undefined, 0);
-
-    var me = this;
-    g.nodes().forEach(function(v) {
-
-        var children = g.children(v);
-        if (children.length > 0) {
-            me.addEdgesForLayout(g, children);
-        }
-
-    });
-
-    dagre.layout(g);
-
-    var visualizationResult = [
-        {
-            "platformId": "1",
-            "opacity": 1.0,
-            "color": "#323232",
-            "height3d": 0,
-            "positionX": 0.0,
-            "positionY": 0.0,
-            "width": g.graph().width,
-            "platformHeight": 10,
-            "height": g.graph().height,
-            "nodes": []
-        }
-    ];
-
-
-    g.nodes().forEach(function(v) {
-        var sourceNode = g.node(v);
-
-        sourceNode.x = sourceNode.x - (g.graph().width / 2);
-        sourceNode.y = sourceNode.y - (g.graph().height / 2);
-
-        var buildingHeight = sourceNode.buildingHeight;
-
-        var color = "#0000FF";
-        if (g.children(v).length > 0) {
-            buildingHeight = 10.0;
-            color = "#FFE300";
-        }
-
-        if (v === "root") {
-            buildingHeight = 1.0;
-        }
-
-        var node = {
-            "id": v,
-            "buildingHeight": buildingHeight,
-            "height": sourceNode.height,
-            "width": sourceNode.width,
-            "positionX": sourceNode.x,
-            "positionY": sourceNode.y,
-            "type": "TREE",
-            "opacity": 0.0,
-            "color": color,
-            "height3d": sourceNode.depth * 10
-        };
-
-        visualizationResult[0].nodes.push(node);
-    });
-
-    this.ViewerService.loadSoftVis3d(visualizationResult);
-
-    var eventObject = {};
-    eventObject.softVis3dId = 1;
-    eventObject.metric1Name = "bla";
-    eventObject.metric2Name = "bla2";
-    eventObject.scmMetricName = "bla3";
-
-    this.MessageBus.trigger('visualizationReady', eventObject);
-
-    this.infoInnerState = "idle";
-    this.showTab("example");
-
-    this.MessageBus.trigger('hideLoader');
-    // me.processSuccessResponse(response);
-};
-
-ThreeViewer.FileLoaderController.prototype.createGraphNodes = function (node, g, parent, depth) {
-    g.setNode(node.id, {
-        label: node.name,
-        width: node.footprintMetricValue,
-        height: node.footprintMetricValue,
-        buildingHeight: node.heightMetricValue,
-        color: node.colorMetricValue,
-        depth: depth
-    });
-
-    if (parent !== undefined) {
-        g.setParent(node.id, parent);
-    }
-
-    for (var i = 0; i < node.children.length; i++) {
-        this.createGraphNodes(node.children[i], g, node.id, depth++);
-    }
-};
-
-ThreeViewer.FileLoaderController.prototype.addEdgesForLayout = function (g, children) {
-    var nodesNamesArray = children;
-    var lineAndRowNumber = Math.ceil(Math.sqrt(nodesNamesArray.length));
-    var allNodesLength = nodesNamesArray.length;
-
-    for (var index = 0; index < allNodesLength; index++) {
-
-        var nextNodeDestinationIndex = index + lineAndRowNumber;
-        var isEdgeNeededAndPossible = nextNodeDestinationIndex < allNodesLength;
-        if (isEdgeNeededAndPossible) {
-
-            var sourceNodeName = nodesNamesArray[index];
-            var destinationNodeName = nodesNamesArray[nextNodeDestinationIndex];
-
-            if (g.children(sourceNodeName).length === 0 && g.children(destinationNodeName).length === 0) {
-                g.setEdge(sourceNodeName, destinationNodeName);
-            }
-
-        }
-
-    }
+  var model = new Softvis3dModel(treeResult);
+  
+  return model.getIllustration();
 };
 
 ThreeViewer.FileLoaderController.prototype.getNameForMetricKey = function (metricKey) {

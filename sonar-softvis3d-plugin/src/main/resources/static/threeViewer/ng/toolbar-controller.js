@@ -72,7 +72,7 @@ ThreeViewer.ToolbarController.prototype.listeners = function () {
 
 };
 
-ThreeViewer.ToolbarController.prototype.showDetails = function (softVis3dId, type) {
+ThreeViewer.ToolbarController.prototype.showDetails = function (softVis3dId) {
   this.node = this.TreeService.searchTreeNode(softVis3dId);
 };
 

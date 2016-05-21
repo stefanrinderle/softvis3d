@@ -28,6 +28,9 @@ var Detector = require('../lib/Detector.js');
  * @export
  * @ngInject
  */
+
+var Detector = require('../lib/Detector.js');
+
 ThreeViewer.AppController = function ($scope, ViewerService) {
 
   this.scope = $scope;
@@ -56,7 +59,6 @@ ThreeViewer.AppController.prototype.init = function () {
     });
     this.listeners();
   }
-
 };
 
 ThreeViewer.AppController.prototype.listeners = function () {
