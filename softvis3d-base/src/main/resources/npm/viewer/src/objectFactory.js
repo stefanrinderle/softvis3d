@@ -26,6 +26,59 @@ Viewer.ObjectFactory = function (params) {
 };
 
 Viewer.ObjectFactory.prototype = {
+
+  getSceneObjects(illu) {
+    var result = [];
+
+    for (var shape of illu.shapes) {
+      result.push(this._getShape(shape));
+    }
+
+    return result;
+  },
+
+  _getShape (element) {
+    var defaults = {
+      position: {x: 0, y: 0, z: 0},
+      dimensions: {length: 1, width: 1, height: 1},
+      color: 0x000000,
+      opacity: 1
+    };
+
+    for (var attr in element) {
+      defaults[attr] = element[attr];
+    }
+    var z = defaults.position.z + Math.floor(defaults.dimensions.height / 2);
+
+    var geometry = new THREE.BoxGeometry(defaults.dimensions.length, defaults.dimensions.width, defaults.dimensions.height, 0, 0, 0);
+    // var material = new THREE.MeshPhongMaterial({
+    //     color: 0xffffff,
+    //     emissive: defaults.color,
+    //     side: THREE.DoubleSide,
+    //     shading: THREE.FlatShading,
+    //     transparent: true,
+    //     opacity: defaults.opacity
+    // });
+    var material = new THREE.MeshLambertMaterial({
+      color: defaults.color,
+      transparent: true,
+      opacity: defaults.opacity
+    });
+
+    var cube = new THREE.Mesh(geometry, material);
+    cube.position.setX(defaults.position.x);
+    cube.position.setY(defaults.position.y);
+
+    cube.position.setZ(z);
+
+    cube.softVis3dId = element.key._key;
+    return cube;
+  },
+
+  /**
+   * OLD STUFF
+   */
+
   createObjects: function (platformArray) {
     var result = [];
 

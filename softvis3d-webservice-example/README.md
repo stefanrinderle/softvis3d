@@ -2,16 +2,9 @@
 
 This is a example project to show the use of the softvis3d visualization with other tools than SonarQube.
 
-## Install graphviz and set path
-
-In order to calculate the layout, a graphviz installation is required. Please set the path in 
-softvis3d-base/src/main/java/de/rinderle/softvis3d/base/VisualizationSettings.java
-
-The default path is /usr/local/bin/dot.
-
-This will be a configuration param in the future.
-
 ## Build and run
+
+mvn clean install -pl softvis3d-webservice-example/ -am
 
 Run with embedded jetty: mvn jetty:run
 
@@ -56,20 +49,3 @@ A row of the query result must contain the following columns:
 3. Height: Integer value representing the height of the building (e.g. the count of declared methods of the class)
 
 "MATCH ... RETURN ... as Building, ... as Hierarchy, ... as Height"
-
-## TODOs
-
-### Java code
-
-* VisualizationAdditionalInfos created in NeoService are static. They should be based on the result tree.
-* Refactor package struture
-* PathWalker is nearly a duplicate from the one in the softvis-sonarqube-plugin module - generalize and move to base
-* TreeNodeJsonWriter and VisualizationJsonWriter are copies of the one in the softvis-sonarqube-plugin module because of the sonar 
-JsonWriter class. This cannot be reused currently because all other modules should not be dependent on any sonarqube package. 
-They have to be rewritten - best would be to use google gson for that instead of the JsonWriter from sonar.
-   
-### Frontent code
-   
-The view code is just a copy from the softvis-sonarqube-plugin module with some little changes regarding static file paths and backend endpoints.
-
-* Move more frontend code out of the softvis-sonarqube-plugin module and add it to the modules via maven resources plugin.

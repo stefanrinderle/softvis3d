@@ -125,17 +125,18 @@ ThreeViewer.ViewerService.prototype.makeSelection = function (event) {
   mouseDown.x = (x / width) * 2 - 1;
   mouseDown.y = -(y / height) * 2 + 1;
 
-  var vector = new THREE.Vector3(mouseDown.x, mouseDown.y, 1).unproject(this.home.cameras.liveCam);
+  // var vector = new THREE.Vector3(mouseDown.x, mouseDown.y, 1).unproject();
+
+  var vector = this.home.wrangler.getVectorProjection(mouseDown, this.home.cameras.liveCam);
+
   this.home.raycaster.set(this.home.cameras.liveCam.position, vector.sub(this.home.cameras.liveCam.position).normalize());
   var intersected = this.home.raycaster.intersectObjects(this.home.wrangler.objectsInView, true);
 
   if (intersected.length > 0) {
     var objectSoftVis3dId = intersected[0].object.softVis3dId;
-    var objectSoftVis3dType = intersected[0].object.softVis3dType;
 
     var eventObject = {};
     eventObject.softVis3dId = objectSoftVis3dId;
-    eventObject.softVis3dType = objectSoftVis3dType;
 
     this.selectSceneTreeObject(objectSoftVis3dId);
     this.MessageBus.trigger('objectSelected', eventObject);
@@ -143,5 +144,6 @@ ThreeViewer.ViewerService.prototype.makeSelection = function (event) {
     intersected = null;
     console.info('No intersection detected');
   }
+
   return intersected;
 };

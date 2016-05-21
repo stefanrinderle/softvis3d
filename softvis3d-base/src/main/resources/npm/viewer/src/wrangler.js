@@ -19,6 +19,7 @@
  */
 
 var Viewer = require('./viewer.js');
+var THREE = require("three");
 
 /**
  * @class This is a resource manager and loads individual models.
@@ -40,9 +41,6 @@ Viewer.Wrangler = function (params) {
   this.name = null;
 };
 
-/**
- *
- */
 Viewer.Wrangler.prototype = {
 
   init: function () {
@@ -53,9 +51,13 @@ Viewer.Wrangler.prototype = {
   },
 
   loadSoftVis3d: function (data) {
+    this.loadObjects(this.context.objectFactory.getSceneObjects(data));
+  },
+
+  loadObjects: function (objects) {
     this.removeAllFromScene();
 
-    this.resultObjects = this.context.objectFactory.createObjects(data);
+    this.resultObjects = objects;
 
     for (var index = 0; index < this.resultObjects.length; index++) {
       var object = this.resultObjects[index];
@@ -119,14 +121,14 @@ Viewer.Wrangler.prototype = {
   removeObject: function (objectSoftVis3dId, type) {
     for (var index = 0; index < this.resultObjects.length; index++) {
       if (objectSoftVis3dId === this.resultObjects[index].softVis3dId &&
-          type === this.resultObjects[index].softVis3dType) {
+        type === this.resultObjects[index].softVis3dType) {
         this.context.scene.remove(this.resultObjects[index]);
       }
     }
 
     for (var k = 0; k < this.objectsInView.length; k++) {
       if (objectSoftVis3dId === this.objectsInView[k].softVis3dId &&
-          type === this.objectsInView[k].softVis3dType) {
+        type === this.objectsInView[k].softVis3dType) {
         this.objectsInView.splice(k, 1);
       }
     }
@@ -149,5 +151,9 @@ Viewer.Wrangler.prototype = {
       var object = this.objectsInView[index];
       this.context.scene.remove(object);
     }
+  },
+
+  getVectorProjection: function(mouseDown, camera) {
+    return new THREE.Vector3(mouseDown.x, mouseDown.y, 1).unproject(camera);
   }
 };

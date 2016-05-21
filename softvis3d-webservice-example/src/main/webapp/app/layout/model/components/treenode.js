@@ -32,6 +32,7 @@ class TreeNode {
 
         child.parent = this;
         this._children.push(child);
+        return child;
     };
 
     /**
