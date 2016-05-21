@@ -79,40 +79,99 @@
         <!-- https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
         <version>0.0.26</version>
 
-        <configuration>
-          <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
-          <installDirectory>../node</installDirectory>
-        </configuration>
         <executions>
+
+          <!--MODEL-->
+
           <execution>
-            <id>install node and npm</id>
+            <id>install node and npm for model</id>
             <goals>
               <goal>install-node-and-npm</goal>
             </goals>
             <configuration>
               <nodeVersion>v0.12.7</nodeVersion>
               <npmVersion>2.12.1</npmVersion>
+              <workingDirectory>src/main/resources/npm/model</workingDirectory>
+              <installDirectory>../node</installDirectory>
             </configuration>
           </execution>
           <execution>
-            <id>npm install</id>
+            <id>npm install model</id>
             <goals>
               <goal>npm</goal>
             </goals>
+            <configuration>
+              <workingDirectory>src/main/resources/npm/model</workingDirectory>
+              <installDirectory>../node</installDirectory>
+            </configuration>
           </execution>
           <execution>
-            <id>webpack build</id>
+            <id>webpack build model</id>
             <goals>
               <goal>webpack</goal>
             </goals>
+            <configuration>
+              <arguments>link</arguments>
+              <workingDirectory>src/main/resources/npm/model</workingDirectory>
+              <installDirectory>../node</installDirectory>
+            </configuration>
           </execution>
           <execution>
-            <id>npm pack</id>
+            <id>npm pack model</id>
             <goals>
               <goal>npm</goal>
             </goals>
             <configuration>
               <arguments>link</arguments>
+              <workingDirectory>src/main/resources/npm/model</workingDirectory>
+              <installDirectory>../node</installDirectory>
+            </configuration>
+          </execution>
+
+          <!--VIEWER-->
+
+          <execution>
+            <id>install node and npm for viewer</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+            <configuration>
+              <nodeVersion>v0.12.7</nodeVersion>
+              <npmVersion>2.12.1</npmVersion>
+              <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
+              <installDirectory>../node</installDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm install viewer</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
+              <installDirectory>../node</installDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>webpack build viewer</id>
+            <goals>
+              <goal>webpack</goal>
+            </goals>
+            <configuration>
+              <arguments>link</arguments>
+              <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
+              <installDirectory>../node</installDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm pack viewer</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>link</arguments>
+              <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
+              <installDirectory>../node</installDirectory>
             </configuration>
           </execution>
         </executions>

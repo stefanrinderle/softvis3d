@@ -122,6 +122,15 @@
             </configuration>
           </execution>
           <execution>
+            <id>npm link softvis3d-model</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>link softvis3d-model</arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>npm link softvis3d-viewer</id>
             <goals>
               <goal>npm</goal>
