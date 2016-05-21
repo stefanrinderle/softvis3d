@@ -94,10 +94,10 @@ Viewer.Scene.prototype = {
    * Resizes the camera when document is resized.
    */
   onWindowResize: function () {
-    var paddingTop = jQuery("#hd").height() + jQuery("#crumbs").height() + jQuery("#footer").height();
+    var paddingTop = jQuery("#global-navigation").height() + jQuery("#context-navigation").height() + jQuery("#footer").height();
 
-    var paddingLeft = 0;
-    paddingTop += 50;
+    var paddingLeft = 20;
+    paddingTop += 30;
 
     this.WIDTH = window.innerWidth - paddingLeft;
     this.HEIGHT = window.innerHeight - paddingTop;

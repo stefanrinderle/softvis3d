@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 var Detector = require('../lib/Detector.js');
-var Softvis3dModel = require("softvis3d-model");
+var Model = require("softvis3d-model");
 
 /**
  * Service which initiates the THREE.js scene and
@@ -2889,12 +2889,8 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
 ThreeViewer.FileLoaderController.prototype.createModel = function (treeResult) {
   this.TreeService.setTree(treeResult);
 
-  /* Step 1: Create the Model
-   *  - Get Data from DataSource
-   *  - Create a Model with the collected Data
-   */
-  var model = new Softvis3dModel(treeResult);
-  return model.getIllustration();
+  var model = new Model.Softvis3dModel(treeResult);
+  return new Model.LayoutProcessor().getIllustration(model, model._version);
 };
 
 ThreeViewer.FileLoaderController.prototype.createSampleViewLayout = function (illustration) {
@@ -2977,5 +2973,6 @@ ThreeViewer.FileLoaderController.prototype.processErrorResponse = function (resp
 ThreeViewer.FileLoaderController.prototype.processSuccessResponse = function (response) {
   var treeResult = response.data.resultObject[0].treeResult;
 
-  this.createSampleViewLayout(treeResult);
+  var illustration = this.createModel(treeResult);
+  this.createSampleViewLayout(illustration);
 };

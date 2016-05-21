@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 var Detector = require('../lib/Detector.js');
-var Softvis3dModel = require("softvis3d-model");
+var Model = require("softvis3d-model");
 
 /**
  * Service which initiates the THREE.js scene and
@@ -216,9 +216,8 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
 ThreeViewer.FileLoaderController.prototype.createModel = function (treeResult) {
   this.TreeService.setTree(treeResult);
 
-  var model = new Softvis3dModel(treeResult);
-  
-  return model.getIllustration();
+  var model = new Model.Softvis3dModel(treeResult);
+  return new Model.LayoutProcessor().getIllustration(model, model._version);
 };
 
 ThreeViewer.FileLoaderController.prototype.getNameForMetricKey = function (metricKey) {

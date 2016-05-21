@@ -9,7 +9,7 @@ var APP = __dirname;
 module.exports = {
     context: APP,
     entry: {
-        app: ['webpack/hot/dev-server', './src/softvis3dModel.js']
+        app: ['webpack/hot/dev-server', './src/index.js']
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()

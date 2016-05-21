@@ -77,6 +77,8 @@ ThreeViewer.ToolbarController.prototype.showDetails = function (softVis3dId) {
 };
 
 ThreeViewer.ToolbarController.prototype.selectSceneObjectFromDetails = function (objectId, type) {
+  this.ViewerService.selectSceneTreeObject(objectId);
+  
   this.showDetails(objectId, type);
 };
 

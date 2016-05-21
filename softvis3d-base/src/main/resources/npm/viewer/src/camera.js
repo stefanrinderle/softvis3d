@@ -105,7 +105,7 @@ Viewer.Cameras.prototype = {
     // this.perpCam.position.y = 800;
     // this.perpCam.position.z = 800;
     // this.perpCam.lookAt(this.context.scene.position);
-    this.perpCam.position.set( 200, 200, 550 );
+    this.perpCam.position.set( 200, -200, 550 );
 
     this.perpCam.name = 'perp';
 
