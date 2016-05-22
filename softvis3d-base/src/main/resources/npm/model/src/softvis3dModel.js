@@ -12,16 +12,13 @@ class Softvis3dModel extends BaseModel {
         this._attributes = {};
         this._version = new Version('v1.0',  'Only one version test', 0);
         this._versions = [ this._version ];
-        this._tree = new TreeNode('root');
-        this._createTree(this._tree, treeResult);
-
+        this._tree = this._createTree(treeResult);
         this._graph = [];
     };
 
-    _createTree(parent, treeNode) {
+    _createTree(treeNode) {
         var t = String(treeNode.id);
         var v = String(this._version);
-        var node = parent.add(t);
 
         if (!this._attributes[v]) {
             this._attributes[String(v)] = {};
@@ -33,9 +30,12 @@ class Softvis3dModel extends BaseModel {
             'editors' : treeNode.footprintMetricValue
         };
 
+        var node = new TreeNode(t);
         for (var child of treeNode.children) {
-            this._createTree(node, child);
+            node.add(this._createTree(child));
         }
+        
+        return node;
     }
 
     /**
