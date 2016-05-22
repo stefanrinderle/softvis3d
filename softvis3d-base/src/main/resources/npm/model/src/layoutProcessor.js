@@ -1,4 +1,6 @@
-var Illustrator = require("./layout/illustrator/evostreet.js");
+var CodeCityVis = require('codecity-visualizer');
+
+var Illustrator = CodeCityVis.illustrators.evostreet;
 
 class LayoutProcessor {
 
@@ -14,24 +16,24 @@ class LayoutProcessor {
       var options = {
         'highway.color': 0x186f9a,
         'street.color': 0x156289,
-        'house.margin': 2,
+        'house.margin': 4,
         'evostreet.options': {
           'spacer.initial': 20,
           'spacer.conclusive': 0,
           'spacer.branches': 20,
-          'house.container': require("./layout/illustrator/container/lightmap.js"),
-          'house.distribution': 'left',
-          'house.segmentation': 'versions.first'
+          'house.container': CodeCityVis.containers.lightmap,
+          'house.distribution': 'left'
         }
       };
 
       var illustrator = new Illustrator(model, options);
-
-      illustrator.addRule(require('./layout/illustrator/rules/loc-to-height.js')());
-      illustrator.addRule(require('./layout/illustrator/rules/editor-to-width.js')());
-      illustrator.addRule(require('./layout/illustrator/rules/package-to-color.js')());
-      illustrator.addRule(require('./layout/illustrator/rules/save-first-version.js')());
-      illustrator.addRule(require('./layout/illustrator/rules/opacity-if-not-in-version.js')());
+      
+      illustrator.addRule(CodeCityVis.rules['editor-to-width']());
+      illustrator.addRule(CodeCityVis.rules['lighten-platform-with-level']());
+      illustrator.addRule(CodeCityVis.rules['loc-to-height']({'logsbase': 2.4}));
+      illustrator.addRule(CodeCityVis.rules['opacity-if-not-in-version']());
+      illustrator.addRule(CodeCityVis.rules['package-to-color']());
+      illustrator.addRule(CodeCityVis.rules['save-first-version']());
 
       return illustrator.draw(version);
     }
