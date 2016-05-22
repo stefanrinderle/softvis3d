@@ -1,7 +1,8 @@
-var BaseModel  = require("./layout/model/base.js");
-var TreeNode   = require("./layout/model/components/treenode.js");
-var Version    = require("./layout/model/components/version.js");
-var LayoutProcessor = require("./layoutProcessor");
+var CodeCityVis = require('codecity-visualizer');
+
+var BaseModel  = CodeCityVis.models.base;
+var TreeNode   = CodeCityVis.components.node;
+var Version    = CodeCityVis.components.version;
 
 class Softvis3dModel extends BaseModel {
 
@@ -11,31 +12,34 @@ class Softvis3dModel extends BaseModel {
         this._attributes = {};
         this._version = new Version('v1.0',  'Only one version test', 0);
         this._versions = [ this._version ];
-        this._tree = new TreeNode('root');
-        this._createTree(this._tree, treeResult);
-
+        this._tree = this._createTree(treeResult);
         this._graph = [];
     };
 
-    _createTree(parent, treeNode) {
-        var node = parent.add(treeNode.id);
-
-        var t = String(node);
+    _createTree(treeNode) {
+        var t = String(treeNode.id);
         var v = String(this._version);
-        this._attributes[String(v)] = {};
+
+        if (!this._attributes[v]) {
+            this._attributes[String(v)] = {};
+        }
+        
         this._attributes[v][t] = {
             'name': t,
-            'loc' : treeNode.footprintMetricValue,
-            'editors' : treeNode.heightMetricValue
+            'loc' : treeNode.heightMetricValue,
+            'editors' : treeNode.footprintMetricValue
         };
 
+        var node = new TreeNode(t);
         for (var child of treeNode.children) {
-            this._createTree(node, child);
+            node.add(this._createTree(child));
         }
+        
+        return node;
     }
 
     /**
-     * Get all observed animal interactions
+     * Get all Class/Object interactions
      * @return {object}
      */
     get graph() {
@@ -43,7 +47,7 @@ class Softvis3dModel extends BaseModel {
     };
 
     /**
-     * Get the Structure of the zoo
+     * Get the Structure of the Software
      * @return {TreeNode}
      */
     get tree() {
@@ -51,13 +55,17 @@ class Softvis3dModel extends BaseModel {
     };
 
     /**
-     * Get the observed Zoo Snapshots
+     * Get the Software Snapshots
      * @return {array}
      */
     get versions() {
         return this._versions;
     };
 
+    /**
+     * Does the node exist in Verion?
+     * @return {boolean}
+     */
     exists(node, version) {
         return true;
     };
@@ -72,9 +80,8 @@ class Softvis3dModel extends BaseModel {
         var n = String(node);
         var v = String(version);
 
-        if (!this._attributes[v]
-            || !this._attributes[v][n]) {
-            return {};
+        if (!this._attributes[v] || !this._attributes[v][n]) {
+            return null;
         }
 
         return this._attributes[v][n];
