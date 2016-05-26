@@ -132,22 +132,12 @@
             </configuration>
           </execution>
           <execution>
-            <id>npm link softvis3d-model</id>
+            <id>npm link softvis3d-frontend</id>
             <goals>
               <goal>npm</goal>
             </goals>
             <configuration>
-              <arguments>link softvis3d-model</arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm install softvis3d-viewer from base</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>link softvis3d-viewer
-              </arguments>
+              <arguments>link softvis3d-frontend</arguments>
             </configuration>
           </execution>
           <execution>

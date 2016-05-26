@@ -17,8 +17,8 @@
 
   <properties>
     <sonar.exclusions>
-      src/main/resources/npm/viewer/dist/**,
-      src/main/resources/npm/viewer/node_modules/**
+      src/main/resources/npm/frontend/dist/**,
+      src/main/resources/npm/frontend/node_modules/**
     </sonar.exclusions>
   </properties>
 
@@ -80,97 +80,47 @@
         <version>0.0.26</version>
 
         <executions>
-
-          <!--MODEL-->
-
           <execution>
-            <id>install node and npm for model</id>
+            <id>install node and npm for frontend</id>
             <goals>
               <goal>install-node-and-npm</goal>
             </goals>
             <configuration>
               <nodeVersion>v0.12.7</nodeVersion>
               <npmVersion>2.12.1</npmVersion>
-              <workingDirectory>src/main/resources/npm/model</workingDirectory>
+              <workingDirectory>src/main/resources/frontend</workingDirectory>
               <installDirectory>../node</installDirectory>
             </configuration>
           </execution>
           <execution>
-            <id>npm install model</id>
+            <id>npm install frontend</id>
             <goals>
               <goal>npm</goal>
             </goals>
             <configuration>
-              <workingDirectory>src/main/resources/npm/model</workingDirectory>
+              <workingDirectory>src/main/resources/frontend</workingDirectory>
               <installDirectory>../node</installDirectory>
             </configuration>
           </execution>
           <execution>
-            <id>webpack build model</id>
+            <id>webpack build frontend</id>
             <goals>
               <goal>webpack</goal>
             </goals>
             <configuration>
               <arguments>link</arguments>
-              <workingDirectory>src/main/resources/npm/model</workingDirectory>
+              <workingDirectory>src/main/resources/frontend</workingDirectory>
               <installDirectory>../node</installDirectory>
             </configuration>
           </execution>
           <execution>
-            <id>npm pack model</id>
+            <id>npm pack frontend</id>
             <goals>
               <goal>npm</goal>
             </goals>
             <configuration>
               <arguments>link</arguments>
-              <workingDirectory>src/main/resources/npm/model</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-
-          <!--VIEWER-->
-
-          <execution>
-            <id>install node and npm for viewer</id>
-            <goals>
-              <goal>install-node-and-npm</goal>
-            </goals>
-            <configuration>
-              <nodeVersion>v0.12.7</nodeVersion>
-              <npmVersion>2.12.1</npmVersion>
-              <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm install viewer</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>webpack build viewer</id>
-            <goals>
-              <goal>webpack</goal>
-            </goals>
-            <configuration>
-              <arguments>link</arguments>
-              <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm pack viewer</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>link</arguments>
-              <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
+              <workingDirectory>src/main/resources/frontend</workingDirectory>
               <installDirectory>../node</installDirectory>
             </configuration>
           </execution>
@@ -207,8 +157,8 @@
             <configuration>
               <filesets>
                 <fileset>
-                  <directory>src/main/resources/npm/viewer/node_modules</directory>
-                  <directory>src/main/resources/npm/viewer/dist</directory>
+                  <directory>src/main/resources/frontend/node_modules</directory>
+                  <directory>src/main/resources/frontend/dist</directory>
                 </fileset>
               </filesets>
             </configuration>

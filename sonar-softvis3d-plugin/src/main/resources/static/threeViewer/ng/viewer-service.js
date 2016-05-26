@@ -17,9 +17,11 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
+
 var THREE = require("three");
 var jQuery = require("jquery");
-var Viewer = require("softvis3d-viewer");
+var Frontend = require('softvis3d-frontend');
+var Viewer = Frontend.viewer;
 
 /**
  * Service which initiates the THREE.js scene and
