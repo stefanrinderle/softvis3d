@@ -20,7 +20,10 @@
 /*jshint browser:true */
 'use strict';
 
-require('./vendor')();
+require('jquery');
+require('angular');
+require('angular-route');
+require('three');
 
 // run an empty function
 var appModule = require('../app');

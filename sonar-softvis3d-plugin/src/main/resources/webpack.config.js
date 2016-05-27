@@ -26,11 +26,10 @@ var APP = __dirname + '/static/threeViewer';
 module.exports = {
     context: APP,
     entry: {
-        app: ['webpack/hot/dev-server', './core/bootstrap.js'],
+        app: './core/bootstrap.js',
         vendor: ["jquery", "three", "three-orbit-controls", "angular"]
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
         new webpack.optimize.CommonsChunkPlugin({name: "vendor", filename:"vendor.js", minChunks: Infinity})
     ],
     module: {

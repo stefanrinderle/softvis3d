@@ -29,6 +29,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'dist'),
         filename: '[name].js',
+        library: ['softvis3d-frontend'],
         libraryTarget: "umd"
     },
     plugins: plugins,
@@ -39,14 +40,6 @@ module.exports = {
                 exclude: [/dist/, /node_modules/],
                 loader: 'jshint'
             }
-            /* TODO: REFACTORING_IN_PROGRESS
-            {
-                test: /\.js$/,
-                exclude: [/dist/, /node_modules/],
-                loader: 'babel',
-                query: { presets: ['es2015'] }
-            }
-            */
         ]
     },
     externals: {
