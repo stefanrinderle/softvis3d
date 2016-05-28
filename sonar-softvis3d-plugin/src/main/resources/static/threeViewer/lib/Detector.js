@@ -50,9 +50,4 @@ var Detector = {
 
 };
 
-// browserify support
-if (typeof module === 'object') {
-
-  module.exports = Detector;
-
-}
+module.exports = Detector;

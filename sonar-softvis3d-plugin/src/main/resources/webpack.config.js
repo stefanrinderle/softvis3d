@@ -44,6 +44,12 @@ module.exports = {
                 exclude: ["static/threeViewer/bundle.js", "static/threeViewer/vendor.js", /node_modules/, /dist/]
             },
             {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel',
+                query: { presets: ['es2015'], compact: false }
+            },
+            {
                 test: /\.(png|jpg|gif)$/,
                 loader: "file-loader?name=img/img-[hash:6].[ext]"
             }

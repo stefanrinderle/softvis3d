@@ -39,7 +39,13 @@ module.exports = {
                 test: /\.js$/,
                 exclude: [/dist/, /node_modules/],
                 loader: 'jshint'
-            }
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel',
+                query: { presets: ['es2015'], compact: false }
+            },
         ]
     },
     externals: {
