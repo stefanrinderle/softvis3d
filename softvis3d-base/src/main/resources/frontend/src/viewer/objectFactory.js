@@ -1,158 +1,157 @@
-/*
- * SoftVis3D Sonar plugin
- * Copyright (C) 2014 Stefan Rinderle
- * stefan@rinderle.info
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
- */
+    /*
+     * SoftVis3D Sonar plugin
+     * Copyright (C) 2014 Stefan Rinderle
+     * stefan@rinderle.info
+     *
+     * This program is free software; you can redistribute it and/or
+     * modify it under the terms of the GNU Lesser General Public
+     * License as published by the Free Software Foundation; either
+     * version 3 of the License, or (at your option) any later version.
+     *
+     * This program is distributed in the hope that it will be useful,
+     * but WITHOUT ANY WARRANTY; without even the implied warranty of
+     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     * Lesser General Public License for more details.
+     *
+     * You should have received a copy of the GNU Lesser General Public
+     * License along with this program; if not, write to the Free Software
+     * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+     */
 
-var THREE = require("three");
-var Viewer = require('./viewer.js');
+    var THREE = require("three");
+    var Viewer = require('./viewer.js');
 
-Viewer.ObjectFactory = function (params) {
-  this.context = params.context;
-};
-
-Viewer.ObjectFactory.prototype = {
-
-  getSceneObjects(illu) {
-    var result = [];
-
-    for (var shape of illu.shapes) {
-      result.push(this._getShape(shape));
-    }
-
-    return result;
-  },
-
-  _getShape (element) {
-    var defaults = {
-      position: {x: 0, y: 0, z: 0},
-      dimensions: {length: 1, width: 1, height: 1},
-      color: 0x000000,
-      opacity: 1
+    Viewer.ObjectFactory = function (params) {
+      this.context = params.context;
     };
 
-    for (var attr in element) {
-      defaults[attr] = element[attr];
-    }
-    var z = defaults.position.z + Math.floor(defaults.dimensions.height / 2);
+    Viewer.ObjectFactory.prototype = {
 
-    var geometry = new THREE.BoxGeometry(defaults.dimensions.length, defaults.dimensions.width, defaults.dimensions.height, 0, 0, 0);
-    // var material = new THREE.MeshPhongMaterial({
-    //     color: 0xffffff,
-    //     emissive: defaults.color,
-    //     side: THREE.DoubleSide,
-    //     shading: THREE.FlatShading,
-    //     transparent: true,
-    //     opacity: defaults.opacity
-    // });
-    var material = new THREE.MeshLambertMaterial({
-      color: defaults.color,
-      transparent: true,
-      opacity: defaults.opacity
-    });
+      getSceneObjects(illu) {
+        var result = [];
 
-    var cube = new THREE.Mesh(geometry, material);
-    cube.position.setX(defaults.position.x);
-    cube.position.setY(defaults.position.y);
+        for (var shape of illu.shapes) {
+          result.push(this._getShape(shape));
+        }
 
-    cube.position.setZ(z);
+        return result;
+      },
 
-    cube.softVis3dId = element.key._key;
-    return cube;
-  },
+      _getShape (element) {
+        var defaults = {
+          position: {x: 0, y: 0, z: 0},
+          dimensions: {length: 1, width: 1, height: 1},
+          color: 0x000000,
+          opacity: 1
+        };
 
-  /**
-   * OLD STUFF
-   */
+        for (var attr in element) {
+          defaults[attr] = element[attr];
+        }
+        var z = defaults.position.z + Math.floor(defaults.dimensions.height / 2);
 
-  createObjects: function (platformArray) {
-    var result = [];
+        var geometry = new THREE.BoxGeometry(
+            defaults.dimensions.length,
+            defaults.dimensions.width,
+            defaults.dimensions.height,
+            0,
+            0,
+            0
+        );
 
-    for (var i = 0; i < platformArray.length; i++) {
-      var platformResult = this.createPlatform(platformArray[i]);
-      result = result.concat(platformResult);
-    }
+        var material = new THREE.MeshLambertMaterial({
+          color: defaults.color,
+          transparent: true,
+          opacity: defaults.opacity
+        });
 
-    return result;
-  },
+        var cube = new THREE.Mesh(geometry, material);
+        cube.position.setX(defaults.position.x);
+        cube.position.setY(defaults.position.y);
+        cube.position.setZ(z);
 
-  createPlatform: function (platform) {
-    var result = [];
+        cube.softVis3dId = element.key._key;
+        return cube;
+      },
 
-    var position = [];
-    position.x = platform.positionX;
-    position.y = platform.height3d;
-    position.z = platform.positionY;
+      /**
+       * OLD STUFF
+       */
 
-    var geometryLayer = new THREE.BoxGeometry(
-        platform.width, platform.platformHeight, platform.height);
+      createObjects: function (platformArray) {
+        var result = [];
 
-    var layerMaterial = new THREE.MeshLambertMaterial({
-      color: platform.color,
-      transparent: true,
-      opacity: platform.opacity
-    });
+        for (var i = 0; i < platformArray.length; i++) {
+          var platformResult = this.createPlatform(platformArray[i]);
+          result = result.concat(platformResult);
+        }
 
-    result.push(this.createBox(geometryLayer, layerMaterial, position, platform.platformId, "node"));
+        return result;
+      },
 
-    for (var i = 0; i < platform.nodes.length; i++) {
-      var buildingResult = this.createBuilding(platform.nodes[i]);
-      result = result.concat(buildingResult);
-    }
+      createPlatform: function (platform) {
+        var result = [];
 
-    return result;
-  },
+        var position = [];
+        position.x = platform.positionX;
+        position.y = platform.height3d;
+        position.z = platform.positionY;
 
-  createBuilding: function (building) {
-    var result = [];
+        var geometryLayer = new THREE.BoxGeometry(
+            platform.width, platform.platformHeight, platform.height);
 
-    var nodeMaterial = new THREE.MeshLambertMaterial({
-      color: building.color,
-      transparent: true,
-      opacity: 1
-    });
+        var layerMaterial = new THREE.MeshLambertMaterial({
+          color: platform.color,
+          transparent: true,
+          opacity: platform.opacity
+        });
 
-    var nodeGeometry = new THREE.BoxGeometry(
-        building.width, building.buildingHeight, building.height);
+        result.push(this.createBox(geometryLayer, layerMaterial, position, platform.platformId, "node"));
 
-    var position = [];
-    position.x = building.positionX;
-    position.y = building.height3d + building.buildingHeight / 2;
-    position.z = building.positionY;
+        for (var i = 0; i < platform.nodes.length; i++) {
+          var buildingResult = this.createBuilding(platform.nodes[i]);
+          result = result.concat(buildingResult);
+        }
 
-    result.push(this.createBox(nodeGeometry, nodeMaterial, position, building.id, "leaf"));
+        return result;
+      },
 
-    return result;
-  },
+      createBuilding: function (building) {
+        var result = [];
 
-  createBox: function (geometry, material, position, id, type) {
-    var object = new THREE.Mesh(geometry, material);
+        var nodeMaterial = new THREE.MeshLambertMaterial({
+          color: building.color,
+          transparent: true,
+          opacity: 1
+        });
 
-    object.position.x = position.x;
-    object.position.y = position.y;
-    object.position.z = position.z;
+        var nodeGeometry = new THREE.BoxGeometry(
+            building.width, building.buildingHeight, building.height);
 
-    object.softVis3dId = id;
-    object.softVis3dType = type;
+        var position = [];
+        position.x = building.positionX;
+        position.y = building.height3d + building.buildingHeight / 2;
+        position.z = building.positionY;
 
-    return object;
-  },
+        result.push(this.createBox(nodeGeometry, nodeMaterial, position, building.id, "leaf"));
 
-  createVectorFromPoint: function (point) {
-    return new THREE.Vector3(point.x, point.y, point.z);
-  }
-};
+        return result;
+      },
+
+      createBox: function (geometry, material, position, id, type) {
+        var object = new THREE.Mesh(geometry, material);
+
+        object.position.x = position.x;
+        object.position.y = position.y;
+        object.position.z = position.z;
+
+        object.softVis3dId = id;
+        object.softVis3dType = type;
+
+        return object;
+      },
+
+      createVectorFromPoint: function (point) {
+        return new THREE.Vector3(point.x, point.y, point.z);
+      }
+    };

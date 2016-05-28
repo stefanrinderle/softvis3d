@@ -25,11 +25,4 @@ require('angular');
 require('angular-route');
 require('three');
 
-// run an empty function
-var appModule = require('../app');
-// replaces ng-app="appName"
-angular.element(document).ready(function () {
-    angular.bootstrap(document, [appModule.name], {
-        //strictDi: true
-    });
-});
+require('../app');
