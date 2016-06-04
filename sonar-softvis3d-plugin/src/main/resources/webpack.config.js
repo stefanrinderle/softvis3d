@@ -30,7 +30,8 @@ module.exports = {
         vendor: ["jquery", "three", "three-orbit-controls", "angular"]
     },
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin({name: "vendor", filename:"vendor.js", minChunks: Infinity})
+        new webpack.optimize.CommonsChunkPlugin({name: "vendor", filename:"vendor.js", minChunks: Infinity}),
+        new webpack.optimize.UglifyJsPlugin({minimize: true})
     ],
     module: {
         loaders: [

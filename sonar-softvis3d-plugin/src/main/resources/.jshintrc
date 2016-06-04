@@ -1,8 +1,8 @@
 {
-  "esnext": true,
-  "node": true,
-  "globals": {
-    "angular": true,
-    "console": true
-  }
+    "esversion": 6,
+    "node": true,
+    "globals": {
+        "angular": true,
+        "console": true
+    }
 }

@@ -18,8 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 var Detector = require('../lib/Detector.js');
-var Frontend = require('softvis3d-frontend');
-var Model = Frontend.model;
+var Model = require('../base-frontend/model/index');
 
 /**
  * Service which initiates the THREE.js scene and

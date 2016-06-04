@@ -16,10 +16,7 @@
   <name>softvis3d-base</name>
 
   <properties>
-    <sonar.exclusions>
-      src/main/resources/npm/frontend/dist/**,
-      src/main/resources/npm/frontend/node_modules/**
-    </sonar.exclusions>
+    <sonar.exclusions></sonar.exclusions>
   </properties>
 
   <dependencies>
@@ -63,69 +60,7 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <excludes>
-          <exclude>**/node/**</exclude>
-          <exclude>**/node_modules/**</exclude>
-        </excludes>
-      </resource>
-    </resources>
     <plugins>
-      <plugin>
-        <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId>
-        <!-- https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
-        <version>0.0.26</version>
-
-        <executions>
-          <execution>
-            <id>install node and npm for frontend</id>
-            <goals>
-              <goal>install-node-and-npm</goal>
-            </goals>
-            <configuration>
-              <nodeVersion>v0.12.7</nodeVersion>
-              <npmVersion>2.12.1</npmVersion>
-              <workingDirectory>src/main/resources/frontend</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm install frontend</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <workingDirectory>src/main/resources/frontend</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>webpack build frontend</id>
-            <goals>
-              <goal>webpack</goal>
-            </goals>
-            <configuration>
-              <arguments>link</arguments>
-              <workingDirectory>src/main/resources/frontend</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm pack frontend</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>link</arguments>
-              <workingDirectory>src/main/resources/frontend</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -155,12 +90,6 @@
               </execution>
             </executions>
             <configuration>
-              <filesets>
-                <fileset>
-                  <directory>src/main/resources/frontend/node_modules</directory>
-                  <directory>src/main/resources/frontend/dist</directory>
-                </fileset>
-              </filesets>
             </configuration>
           </plugin>
         </plugins>
