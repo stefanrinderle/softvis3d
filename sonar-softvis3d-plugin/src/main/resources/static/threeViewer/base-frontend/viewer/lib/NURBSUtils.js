@@ -136,15 +136,15 @@ THREE.NURBSUtils = {
     calcBasisFunctionDerivatives: function (span, u, p, n, U) {
 
         var zeroArr = [];
-        for (var i = 0; i <= p; ++i)
+        for (let i = 0; i <= p; ++i)
             zeroArr[i] = 0.0;
 
         var ders = [];
-        for (var i = 0; i <= n; ++i)
+        for (let i = 0; i <= n; ++i)
             ders[i] = zeroArr.slice(0);
 
         var ndu = [];
-        for (var i = 0; i <= p; ++i)
+        for (let i = 0; i <= p; ++i)
             ndu[i] = zeroArr.slice(0);
 
         ndu[0][0] = 1.0;
@@ -152,15 +152,15 @@ THREE.NURBSUtils = {
         var left = zeroArr.slice(0);
         var right = zeroArr.slice(0);
 
-        for (var j = 1; j <= p; ++j) {
+        for (let j = 1; j <= p; ++j) {
             left[j] = u - U[span + 1 - j];
             right[j] = U[span + j] - u;
 
             var saved = 0.0;
 
-            for (var r = 0; r < j; ++r) {
-                var rv = right[r + 1];
-                var lv = left[j - r];
+            for (let r = 0; r < j; ++r) {
+                let rv = right[r + 1];
+                let lv = left[j - r];
                 ndu[j][r] = rv + lv;
 
                 var temp = ndu[r][j - 1] / ndu[j][r];
@@ -171,24 +171,24 @@ THREE.NURBSUtils = {
             ndu[j][j] = saved;
         }
 
-        for (var j = 0; j <= p; ++j) {
+        for (let j = 0; j <= p; ++j) {
             ders[0][j] = ndu[j][p];
         }
 
-        for (var r = 0; r <= p; ++r) {
-            var s1 = 0;
-            var s2 = 1;
+        for (let r = 0; r <= p; ++r) {
+            let s1 = 0;
+            let s2 = 1;
 
             var a = [];
-            for (var i = 0; i <= p; ++i) {
+            for (let i = 0; i <= p; ++i) {
                 a[i] = zeroArr.slice(0);
             }
             a[0][0] = 1.0;
 
-            for (var k = 1; k <= n; ++k) {
-                var d = 0.0;
-                var rk = r - k;
-                var pk = p - k;
+            for (let k = 1; k <= n; ++k) {
+                let d = 0.0;
+                let rk = r - k;
+                let pk = p - k;
 
                 if (r >= k) {
                     a[s2][0] = a[s1][0] / ndu[pk + 1][rk];
@@ -198,7 +198,7 @@ THREE.NURBSUtils = {
                 var j1 = (rk >= -1) ? 1 : -rk;
                 var j2 = (r - 1 <= pk) ? k - 1 : p - r;
 
-                for (var j = j1; j <= j2; ++j) {
+                for (let j = j1; j <= j2; ++j) {
                     a[s2][j] = (a[s1][j] - a[s1][j - 1]) / ndu[pk + 1][rk + j];
                     d += a[s2][j] * ndu[rk + j][pk];
                 }
@@ -210,16 +210,16 @@ THREE.NURBSUtils = {
 
                 ders[k][r] = d;
 
-                var j = s1;
+                let temp = s1;
                 s1 = s2;
-                s2 = j;
+                s2 = temp;
             }
         }
 
         var r = p;
 
-        for (var k = 1; k <= n; ++k) {
-            for (var j = 0; j <= p; ++j) {
+        for (let k = 1; k <= n; ++k) {
+            for (let j = 0; j <= p; ++j) {
                 ders[k][j] *= r;
             }
             r *= p - k;
@@ -247,8 +247,8 @@ THREE.NURBSUtils = {
         var nders = this.calcBasisFunctionDerivatives(span, u, p, du, U);
         var Pw = [];
 
-        for (var i = 0; i < P.length; ++i) {
-            var point = P[i].clone();
+        for (let i = 0; i < P.length; ++i) {
+            let point = P[i].clone();
             var w = point.w;
 
             point.x *= w;
@@ -257,8 +257,8 @@ THREE.NURBSUtils = {
 
             Pw[i] = point;
         }
-        for (var k = 0; k <= du; ++k) {
-            var point = Pw[span - p].clone().multiplyScalar(nders[k][0]);
+        for (let k = 0; k <= du; ++k) {
+            let point = Pw[span - p].clone().multiplyScalar(nders[k][0]);
 
             for (var j = 1; j <= p; ++j) {
                 point.add(Pw[span - p + j].clone().multiplyScalar(nders[k][j]));
@@ -267,7 +267,7 @@ THREE.NURBSUtils = {
             CK[k] = point;
         }
 
-        for (var k = du + 1; k <= nd + 1; ++k) {
+        for (let k = du + 1; k <= nd + 1; ++k) {
             CK[k] = new THREE.Vector4(0, 0, 0);
         }
 
@@ -283,17 +283,17 @@ THREE.NURBSUtils = {
     calcKoverI: function (k, i) {
         var nom = 1;
 
-        for (var j = 2; j <= k; ++j) {
+        for (let j = 2; j <= k; ++j) {
             nom *= j;
         }
 
         var denom = 1;
 
-        for (var j = 2; j <= i; ++j) {
+        for (let j = 2; j <= i; ++j) {
             denom *= j;
         }
 
-        for (var j = 2; j <= k - i; ++j) {
+        for (let j = 2; j <= k - i; ++j) {
             denom *= j;
         }
 
@@ -313,7 +313,7 @@ THREE.NURBSUtils = {
         var Aders = [];
         var wders = [];
 
-        for (var i = 0; i < nd; ++i) {
+        for (let i = 0; i < nd; ++i) {
             var point = Pders[i];
             Aders[i] = new THREE.Vector3(point.x, point.y, point.z);
             wders[i] = point.w;
@@ -324,7 +324,7 @@ THREE.NURBSUtils = {
         for (var k = 0; k < nd; ++k) {
             var v = Aders[k].clone();
 
-            for (var i = 1; i <= k; ++i) {
+            for (let i = 1; i <= k; ++i) {
                 v.sub(CK[k - i].clone().multiplyScalar(this.calcKoverI(k, i) * wders[i]));
             }
 
@@ -369,7 +369,7 @@ THREE.NURBSUtils = {
         var Nv = this.calcBasisFunctions(vspan, v, q, V);
         var temp = [];
 
-        for (var l = 0; l <= q; ++l) {
+        for (let l = 0; l <= q; ++l) {
             temp[l] = new THREE.Vector4(0, 0, 0, 0);
             for (var k = 0; k <= p; ++k) {
                 var point = P[uspan - p + k][vspan - q + l].clone();
@@ -382,7 +382,7 @@ THREE.NURBSUtils = {
         }
 
         var Sw = new THREE.Vector4(0, 0, 0, 0);
-        for (var l = 0; l <= q; ++l) {
+        for (let l = 0; l <= q; ++l) {
             Sw.add(temp[l].multiplyScalar(Nv[l]));
         }
 

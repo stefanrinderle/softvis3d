@@ -4,6 +4,8 @@
   "description": "",
   "main": "static/threeViewer/app.js",
   "scripts": {
+    "build": "webpack --colors",
+    "deploy": "webpack -p --colors",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Stefan Rinderle",
