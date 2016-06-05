@@ -14,7 +14,7 @@ class Softvis3dModel extends BaseModel {
         this._versions = [ this._version ];
         this._tree = this._createTree(treeResult);
         this._graph = [];
-    };
+    }
 
     _createTree(treeNode) {
         var t = String(treeNode.id);
@@ -44,7 +44,7 @@ class Softvis3dModel extends BaseModel {
      */
     get graph() {
         return this._graph;
-    };
+    }
 
     /**
      * Get the Structure of the Software
@@ -52,15 +52,15 @@ class Softvis3dModel extends BaseModel {
      */
     get tree() {
         return this._tree;
-    };
+    }
 
     /**
      * Get the Software Snapshots
-     * @return {array}
+     * @return {Array}
      */
     get versions() {
         return this._versions;
-    };
+    }
 
     /**
      * Does the node exist in Verion?
@@ -68,7 +68,7 @@ class Softvis3dModel extends BaseModel {
      */
     exists(node, version) {
         return true;
-    };
+    }
 
     /**
      * Property function
@@ -85,7 +85,7 @@ class Softvis3dModel extends BaseModel {
         }
 
         return this._attributes[v][n];
-    };
+    }
 }
 
 module.exports = Softvis3dModel;

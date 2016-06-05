@@ -26,12 +26,11 @@ var APP = __dirname + '/static/threeViewer';
 module.exports = {
     context: APP,
     entry: {
-        app: ['webpack/hot/dev-server', './core/bootstrap.js'],
-        vendor: ["jquery", "three", "angular"]
+        app: './core/bootstrap.js',
+        vendor: ["jquery", "three", "three-orbit-controls", "angular"]
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js')
+        new webpack.optimize.CommonsChunkPlugin({name: "vendor", filename:"vendor.js", minChunks: Infinity})
     ],
     module: {
         loaders: [
@@ -43,6 +42,12 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'jshint',
                 exclude: ["static/threeViewer/bundle.js", "static/threeViewer/vendor.js", /node_modules/, /dist/]
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel',
+                query: { presets: ['es2015'], compact: false }
             },
             {
                 test: /\.(png|jpg|gif)$/,

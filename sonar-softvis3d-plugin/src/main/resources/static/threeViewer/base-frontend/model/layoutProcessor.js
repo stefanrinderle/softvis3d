@@ -5,7 +5,7 @@ var Illustrator = CodeCityVis.illustrators.evostreet;
 class LayoutProcessor {
 
     constructor() {
-    };
+    }
 
     getIllustration(model, version) {
       /* Step 2: Generate a CodeCity from Model

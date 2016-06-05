@@ -16,10 +16,7 @@
   <name>softvis3d-base</name>
 
   <properties>
-    <sonar.exclusions>
-      src/main/resources/npm/viewer/dist/**,
-      src/main/resources/npm/viewer/node_modules/**
-    </sonar.exclusions>
+    <sonar.exclusions></sonar.exclusions>
   </properties>
 
   <dependencies>
@@ -63,119 +60,7 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <excludes>
-          <exclude>**/node/**</exclude>
-          <exclude>**/node_modules/**</exclude>
-        </excludes>
-      </resource>
-    </resources>
     <plugins>
-      <plugin>
-        <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId>
-        <!-- https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
-        <version>0.0.26</version>
-
-        <executions>
-
-          <!--MODEL-->
-
-          <execution>
-            <id>install node and npm for model</id>
-            <goals>
-              <goal>install-node-and-npm</goal>
-            </goals>
-            <configuration>
-              <nodeVersion>v0.12.7</nodeVersion>
-              <npmVersion>2.12.1</npmVersion>
-              <workingDirectory>src/main/resources/npm/model</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm install model</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <workingDirectory>src/main/resources/npm/model</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>webpack build model</id>
-            <goals>
-              <goal>webpack</goal>
-            </goals>
-            <configuration>
-              <arguments>link</arguments>
-              <workingDirectory>src/main/resources/npm/model</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm pack model</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>link</arguments>
-              <workingDirectory>src/main/resources/npm/model</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-
-          <!--VIEWER-->
-
-          <execution>
-            <id>install node and npm for viewer</id>
-            <goals>
-              <goal>install-node-and-npm</goal>
-            </goals>
-            <configuration>
-              <nodeVersion>v0.12.7</nodeVersion>
-              <npmVersion>2.12.1</npmVersion>
-              <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm install viewer</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>webpack build viewer</id>
-            <goals>
-              <goal>webpack</goal>
-            </goals>
-            <configuration>
-              <arguments>link</arguments>
-              <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm pack viewer</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>link</arguments>
-              <workingDirectory>src/main/resources/npm/viewer</workingDirectory>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -205,12 +90,6 @@
               </execution>
             </executions>
             <configuration>
-              <filesets>
-                <fileset>
-                  <directory>src/main/resources/npm/viewer/node_modules</directory>
-                  <directory>src/main/resources/npm/viewer/dist</directory>
-                </fileset>
-              </filesets>
             </configuration>
           </plugin>
         </plugins>

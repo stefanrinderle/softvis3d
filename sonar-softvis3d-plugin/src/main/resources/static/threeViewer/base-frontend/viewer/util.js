@@ -18,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-var THREE = require("three");
 var Viewer = require('./viewer.js');
 
 /**

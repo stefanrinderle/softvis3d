@@ -37,7 +37,7 @@ ThreeViewer.TreeService.prototype.setTree = function (tree) {
 };
 
 ThreeViewer.TreeService.prototype.searchTreeNode = function (id) {
-  if (this.treeServiceTree != null) {
+  if (this.treeServiceTree !== null) {
     return this.searchIdInElement(this.treeServiceTree, id);
   } else {
     console.warn("search for id " + id + " without initialized the tree.");
@@ -47,9 +47,9 @@ ThreeViewer.TreeService.prototype.searchTreeNode = function (id) {
 ThreeViewer.TreeService.prototype.searchIdInElement = function (element, id) {
   if (element.id === id) {
     return element;
-  } else if (element.children != null) {
+  } else if (element.children !== null) {
     var result = null;
-    for (var i = 0; result == null && i < element.children.length; i++) {
+    for (var i = 0; result === null && i < element.children.length; i++) {
       result = this.searchIdInElement(element.children[i], id);
     }
     return result;

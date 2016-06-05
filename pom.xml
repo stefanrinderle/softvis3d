@@ -73,7 +73,7 @@
 
   <modules>
     <module>softvis3d-base</module>
-    <module>softvis3d-webservice-example</module>
+    <!--<module>softvis3d-webservice-example</module>-->
     <module>sonar-softvis3d-plugin</module>
   </modules>
 

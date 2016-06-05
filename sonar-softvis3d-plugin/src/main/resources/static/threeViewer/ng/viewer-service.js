@@ -17,9 +17,10 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
+
 var THREE = require("three");
 var jQuery = require("jquery");
-var Viewer = require("softvis3d-viewer");
+var Viewer = require('../base-frontend/viewer/index')
 
 /**
  * Service which initiates the THREE.js scene and
@@ -33,9 +34,9 @@ var Viewer = require("softvis3d-viewer");
  * @ngInject
  */
 ThreeViewer.ViewerService = function ($timeout, MessageBus) {
-  this.timeout = $timeout;
-  this.MessageBus = MessageBus;
-  this.home = null;
+    this.timeout = $timeout;
+    this.MessageBus = MessageBus;
+    this.home = null;
 };
 
 /**
@@ -43,48 +44,48 @@ ThreeViewer.ViewerService = function ($timeout, MessageBus) {
  * @param {!object} params
  */
 ThreeViewer.ViewerService.prototype.init = function (params) {
-  var loadDelay = 1500;
-  this.home = new Viewer.Scene(params);
-  this.timeout(function () {
-    this.MessageBus.trigger('appReady');
-  }.bind(this), loadDelay);
+    var loadDelay = 1500;
+    this.home = new Viewer.Scene(params);
+    this.timeout(function () {
+        this.MessageBus.trigger('appReady');
+    }.bind(this), loadDelay);
 
-  this.animate();
+    this.animate();
 };
 
 /**
  * @export
  */
 ThreeViewer.ViewerService.prototype.animate = function () {
-  requestAnimationFrame(this.animate.bind(this));
-  this.render();
+    requestAnimationFrame(this.animate.bind(this));
+    this.render();
 };
 
 /**
  * @export
  */
 ThreeViewer.ViewerService.prototype.render = function () {
-  this.home.renderer.render(this.home.scene, this.home.cameras.liveCam);
+    this.home.renderer.render(this.home.scene, this.home.cameras.liveCam);
 };
 
 ThreeViewer.ViewerService.prototype.loadSoftVis3d = function (data) {
-  this.home.wrangler.loadSoftVis3d(data);
+    this.home.wrangler.loadSoftVis3d(data);
 };
 
 ThreeViewer.ViewerService.prototype.selectSceneTreeObject = function (objectSoftVis3dId) {
-  this.home.wrangler.selectSceneTreeObject(objectSoftVis3dId);
+    this.home.wrangler.selectSceneTreeObject(objectSoftVis3dId);
 };
 
 ThreeViewer.ViewerService.prototype.showAllSceneElements = function () {
-  this.home.wrangler.showAllSceneElements();
+    this.home.wrangler.showAllSceneElements();
 };
 
 ThreeViewer.ViewerService.prototype.hideAllSceneElementsExceptIds = function (showIds) {
-  this.home.wrangler.hideAllSceneElementsExceptIds(showIds);
+    this.home.wrangler.hideAllSceneElementsExceptIds(showIds);
 };
 
 ThreeViewer.ViewerService.prototype.removeObject = function (objectSoftVis3dId, type) {
-  this.home.wrangler.removeObject(objectSoftVis3dId, type);
+    this.home.wrangler.removeObject(objectSoftVis3dId, type);
 };
 
 /**
@@ -92,50 +93,50 @@ ThreeViewer.ViewerService.prototype.removeObject = function (objectSoftVis3dId, 
  * @param {!{x:number, y:number}} mouse
  */
 ThreeViewer.ViewerService.prototype.makeSelection = function (event) {
-  var canvas = jQuery("#content");
+    var canvas = jQuery("#content");
 
-  var x, y;
-  if (event.offsetX !== undefined && event.offsetY !== undefined) {
-    x = event.offsetX;
-    y = event.offsetY;
-  } else // Firefox method to get the position
-  {
-    x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-    y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-    x -= canvas.offset().left;
-    y -= canvas.offset().top;
+    var x, y;
+    if (event.offsetX !== undefined && event.offsetY !== undefined) {
+        x = event.offsetX;
+        y = event.offsetY;
+    } else // Firefox method to get the position
+    {
+        x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+        y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+        x -= canvas.offset().left;
+        y -= canvas.offset().top;
 
-    x -= canvas.css("padding-left").replace("px", "");
-    y -= canvas.css("padding-top").replace("px", "");
-  }
+        x -= canvas.css("padding-left").replace("px", "");
+        y -= canvas.css("padding-top").replace("px", "");
+    }
 
-  var width = this.home.WIDTH;
-  var height = this.home.HEIGHT;
+    var width = this.home.WIDTH;
+    var height = this.home.HEIGHT;
 
-  // creating NDC coordinates for ray intersection.
-  var mouseDown = {};
-  mouseDown.x = (x / width) * 2 - 1;
-  mouseDown.y = -(y / height) * 2 + 1;
+    // creating NDC coordinates for ray intersection.
+    var mouseDown = {};
+    mouseDown.x = (x / width) * 2 - 1;
+    mouseDown.y = -(y / height) * 2 + 1;
 
-  // var vector = new THREE.Vector3(mouseDown.x, mouseDown.y, 1).unproject();
+    // var vector = new THREE.Vector3(mouseDown.x, mouseDown.y, 1).unproject();
 
-  var vector = this.home.wrangler.getVectorProjection(mouseDown, this.home.cameras.liveCam);
+    var vector = this.home.wrangler.getVectorProjection(mouseDown, this.home.cameras.liveCam);
 
-  this.home.raycaster.set(this.home.cameras.liveCam.position, vector.sub(this.home.cameras.liveCam.position).normalize());
-  var intersected = this.home.raycaster.intersectObjects(this.home.wrangler.objectsInView, true);
+    this.home.raycaster.set(this.home.cameras.liveCam.position, vector.sub(this.home.cameras.liveCam.position).normalize());
+    var intersected = this.home.raycaster.intersectObjects(this.home.wrangler.objectsInView, true);
 
-  if (intersected.length > 0) {
-    var objectSoftVis3dId = intersected[0].object.softVis3dId;
+    if (intersected.length > 0) {
+        var objectSoftVis3dId = intersected[0].object.softVis3dId;
 
-    var eventObject = {};
-    eventObject.softVis3dId = objectSoftVis3dId;
+        var eventObject = {};
+        eventObject.softVis3dId = objectSoftVis3dId;
 
-    this.selectSceneTreeObject(objectSoftVis3dId);
-    this.MessageBus.trigger('objectSelected', eventObject);
-  } else {
-    intersected = null;
-    console.info('No intersection detected');
-  }
+        this.selectSceneTreeObject(objectSoftVis3dId);
+        this.MessageBus.trigger('objectSelected', eventObject);
+    } else {
+        intersected = null;
+        console.info('No intersection detected');
+    }
 
-  return intersected;
+    return intersected;
 };
