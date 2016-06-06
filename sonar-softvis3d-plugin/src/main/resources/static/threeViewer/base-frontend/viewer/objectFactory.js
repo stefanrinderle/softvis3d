@@ -52,8 +52,8 @@
 
         var geometry = new THREE.BoxGeometry(
             defaults.dimensions.length,
-            defaults.dimensions.width,
             defaults.dimensions.height,
+            defaults.dimensions.width,
             0,
             0,
             0
@@ -67,91 +67,10 @@
 
         var cube = new THREE.Mesh(geometry, material);
         cube.position.setX(defaults.position.x);
-        cube.position.setY(defaults.position.y);
-        cube.position.setZ(z);
+        cube.position.setY(z);
+        cube.position.setZ(defaults.position.y);
 
         cube.softVis3dId = element.key._key;
         return cube;
-      },
-
-      /**
-       * OLD STUFF
-       */
-
-      createObjects: function (platformArray) {
-        var result = [];
-
-        for (var i = 0; i < platformArray.length; i++) {
-          var platformResult = this.createPlatform(platformArray[i]);
-          result = result.concat(platformResult);
-        }
-
-        return result;
-      },
-
-      createPlatform: function (platform) {
-        var result = [];
-
-        var position = [];
-        position.x = platform.positionX;
-        position.y = platform.height3d;
-        position.z = platform.positionY;
-
-        var geometryLayer = new THREE.BoxGeometry(
-            platform.width, platform.platformHeight, platform.height);
-
-        var layerMaterial = new THREE.MeshLambertMaterial({
-          color: platform.color,
-          transparent: true,
-          opacity: platform.opacity
-        });
-
-        result.push(this.createBox(geometryLayer, layerMaterial, position, platform.platformId, "node"));
-
-        for (var i = 0; i < platform.nodes.length; i++) {
-          var buildingResult = this.createBuilding(platform.nodes[i]);
-          result = result.concat(buildingResult);
-        }
-
-        return result;
-      },
-
-      createBuilding: function (building) {
-        var result = [];
-
-        var nodeMaterial = new THREE.MeshLambertMaterial({
-          color: building.color,
-          transparent: true,
-          opacity: 1
-        });
-
-        var nodeGeometry = new THREE.BoxGeometry(
-            building.width, building.buildingHeight, building.height);
-
-        var position = [];
-        position.x = building.positionX;
-        position.y = building.height3d + building.buildingHeight / 2;
-        position.z = building.positionY;
-
-        result.push(this.createBox(nodeGeometry, nodeMaterial, position, building.id, "leaf"));
-
-        return result;
-      },
-
-      createBox: function (geometry, material, position, id, type) {
-        var object = new THREE.Mesh(geometry, material);
-
-        object.position.x = position.x;
-        object.position.y = position.y;
-        object.position.z = position.z;
-
-        object.softVis3dId = id;
-        object.softVis3dType = type;
-
-        return object;
-      },
-
-      createVectorFromPoint: function (point) {
-        return new THREE.Vector3(point.x, point.y, point.z);
       }
     };
