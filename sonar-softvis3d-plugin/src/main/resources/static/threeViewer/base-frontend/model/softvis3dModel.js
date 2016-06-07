@@ -45,8 +45,8 @@ class Softvis3dModel extends BaseModel {
         
         this._attributes[v][t] = {
             'name': t,
-            'loc' : treeNode.heightMetricValue,
-            'editors' : treeNode.footprintMetricValue
+            'metricHeight' : treeNode.heightMetricValue,
+            'metricFootprint' : treeNode.footprintMetricValue
         };
 
         var node = new TreeNode(t);
