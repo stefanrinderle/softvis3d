@@ -60,6 +60,7 @@ Viewer.Scene.prototype = {
     this.setup = new Viewer.Setup(params);
     this.cameras = new Viewer.Cameras(params);
     this.controls = new OrbitControls(this.cameras.liveCam, this.container);
+    this.controls.zoomSpeed = 1.5;
     this.raycaster = new THREE.Raycaster();
     this.wrangler.init();
 
