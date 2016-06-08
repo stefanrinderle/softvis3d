@@ -19,7 +19,7 @@
  */
 var CodeCityVis = require('codecity-visualizer');
 var Illustrator = CodeCityVis.illustrators.evostreet;
-var attributeHelper = CodeCityVis.helper['attribute-extractor'];
+var attributeHelper = CodeCityVis.helper.attributes;
 
 class LayoutProcessor {
 
@@ -72,8 +72,8 @@ class LayoutProcessor {
             'attributes': 'dimensions.height',
             'min': 10,
             'max': 260,
-            'logexp': 2.75,
-            'logbase': 2.75
+            'logbase': 3.40,
+            'logexp': 3.25
         });
     }
 
@@ -92,10 +92,10 @@ class LayoutProcessor {
                 return ('metricFootprint' in attr) ? attr.metricFootprint : 0;
             },
             'attributes': ['dimensions.length', 'dimensions.width'],
-            'min': 10,
-            'max': 100,
-            'logexp': 3.1,
-            'logbase': 4.5
+            'min': 12,
+            'max': 150,
+            'logbase': 3.65,
+            'logexp': 3.1
         });
     }
 
