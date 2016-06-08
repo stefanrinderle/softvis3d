@@ -138,6 +138,15 @@
             </goals>
           </execution>
           <execution>
+            <id>npm update</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>update</arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>npm build</id>
             <goals>
               <goal>npm</goal>
