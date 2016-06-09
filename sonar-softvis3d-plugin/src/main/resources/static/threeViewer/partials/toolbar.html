@@ -23,7 +23,6 @@
   <h2>Toolbar</h2><a href="#" class="close" ng-click="viewer.toggleToolbar()">X</a>
 
   <div ng-show="(toolbar.node)" class="toolbar-content">
-    <br/>
 
     <p ng-show="toolbar.metric1Name || toolbar.metric2Name || toolbar.scmMetricName">
         ({{toolbar.metric1Name}} / {{toolbar.metric2Name}} / {{toolbar.scmMetricName}})
@@ -31,36 +30,27 @@
     <!-- NODE MAIN INFO -->
 
     <button type='button' ng-click='toolbar.showAllSceneElements();'>Show all objects (reset)</button>
-    <br/>
-    <hr/>
 
     <div ng-show="toolbar.node">
       <h2>{{toolbar.node.name}}
         <span ng-show="!toolbar.node.isNode">({{toolbar.node.footprintMetricValue}} / {{toolbar.node.heightMetricValue}} / {{toolbar.node.colorMetricValue}})</span>
+        <div class="clearfix"></div>
       </h2>
-      <br/>
       <button ng-show="toolbar.node.isNode" type='button'
               ng-click='toolbar.hideAllSceneElementsExceptIdTree(toolbar.node.id);'>Focus this
       </button>
     </div>
 
     <!-- NODE NAVIGATION -->
-    <div ng-show="toolbar.node.parentInfo">
-      <br/>
-
-      <h3>Parent</h3>
-
-      <p>
-        <a href='#'
-           ng-click="toolbar.selectSceneObjectFromDetails(toolbar.node.parentInfo.id, toolbar.node.parentInfo.type);">
-          {{toolbar.node.parentInfo.name}}
-        </a>
-      </p>
+    <div ng-show="toolbar.node.parentInfo" class="toolbar-parentInfo">
+      <span class="key">Parent</span>
+      <a href='#'
+         ng-click="toolbar.selectSceneObjectFromDetails(toolbar.node.parentInfo.id, toolbar.node.parentInfo.type);">
+        {{toolbar.node.parentInfo.name}}
+      </a>
     </div>
 
     <div ng-if="toolbar.node.children.length > 0">
-      <br/>
-
       <h3>
         <img ng-hide="toolbar.displayChildren" ng-click="toolbar.triggerDisplayChildren();"
              style="vertical-align: text-top;"
@@ -87,5 +77,5 @@
         </li>
       </ul>
     </div>
-
+  </div>
 </div>

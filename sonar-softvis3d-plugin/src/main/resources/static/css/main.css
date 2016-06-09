@@ -17,20 +17,22 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
+
+.softvis3d a {
+    border: 0;
+}
+
 #viewer {
     position: relative;
     width: 100%;
     height: 100%;
     z-index: 1;
     display: flex;
-    border: 2px solid black;
 }
 
 .infoContainer {
     position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex
+    /*margin-right: 220px;*/
 }
 
 #file-loader {
@@ -75,8 +77,8 @@
 .close {
     background-color: #FF8C00;
     float: right;
-    margin-top: -18px;
-    margin-right: 2px;
+    margin-top: -20px;
+    margin-right: 4px;
     cursor: pointer;
     font-weight: 700;
     display: inline-block;
@@ -143,13 +145,19 @@
 
 .toolbar {
     position: fixed;
-    right: 10px;
+    right: 0;
     z-index: 10;
     background-color: #cae3f2;
     border: 1px solid #ACF0F2;
-    width: 200px;
+    border-right-width: 0;
+    width: 220px;
     text-align: center;
+
     overflow: auto;
+}
+
+.toolbar-content {
+    padding: 3px 0;
 }
 
 .toolbar .listEven {
@@ -161,8 +169,16 @@
     text-align: left;
 }
 
-#toolbar-content {
-    padding-left: 4px;
+.toolbar h3,
+.toolbar h2 {
+    padding: 0 4px;
+    clear: both;
+    word-wrap: break-word;
+}
+
+.toolbar h2 span {
+    display: inline-block;
+    float: right;
 }
 
 .toolbar h2 {
@@ -170,19 +186,35 @@
     color: #ffffff;
 }
 
-#help h2 {
-    background-color: #4b9fd5;
-    color: #ffffff;
+.clearfix {
+    visibility: hidden;
+    height: 0;
+    clear: both;
 }
 
 .toolbar h3 {
     text-transform: uppercase;
     font-size: 93%;
-    font-weight: 700;
+    font-weight: bolder;
 }
 
+
 .toolbar button {
-    margin: 10px
+    margin: 8px auto;
+    display: blocK;
+}
+
+.toolbar-parentInfo {
+    padding: 5px 0;
+    word-wrap: break-word;
+}
+
+.toolbar-parentInfo span {
+    font-weight: bold;
+}
+
+.toolbar-parentInfo span::after {
+    content: ":";
 }
 
 #help {
@@ -193,7 +225,12 @@
     height: 300px;
     z-index: 15;
     border: 1px solid #ACF0F2;
-    margin: auto
+    margin: auto;
+}
+
+#help h2 {
+    background-color: #4b9fd5;
+    color: #ffffff;
 }
 
 #info {
