@@ -67,7 +67,22 @@ ThreeViewer.ToolbarController.prototype.listeners = function () {
 
     me.showDetails(eventObject.softVis3dId, "node");
 
-    window.dispatchEvent(new Event('resize'));
+
+    (function() {
+      // Trigger Window-Resize
+      var evt;
+      try {
+        evt = new UIEvent('resize');
+      } catch (error) {
+        // IE Fallback
+        evt = document.createEvent('UIEvents');
+        evt.initUIEvent('resize', true, false, window, 0);
+      }
+
+      window.dispatchEvent(evt);
+    })();
+
+
   }.bind(this));
 
 };
