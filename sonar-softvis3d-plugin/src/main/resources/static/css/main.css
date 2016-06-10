@@ -32,7 +32,6 @@
 
 .infoContainer {
     position: relative;
-    /*margin-right: 220px;*/
 }
 
 #file-loader {
@@ -128,19 +127,23 @@
 
 .sidebarThreeJs {
     position: absolute;
-    bottom: 0px;
-    right: 10px;
+    bottom: -33px;
+    right: 1px;
     z-index: 15;
-    background-color: #cae3f2;
-    text-align: center
+    text-align: center;
+
+    border: 1px solid #e6e6e6;
+    border-top-width: 0;
+    border-radius: 0 0 4px 4px;
 }
 
 .sidebarThreeJs button {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     font-size: 10px;
-    margin: 3px;
+    margin: 4px;
     padding: 0;
+    line-height: 0;
 }
 
 .toolbar {
@@ -150,7 +153,7 @@
     background-color: #cae3f2;
     border: 1px solid #ACF0F2;
     border-right-width: 0;
-    width: 220px;
+    width: 250px;
     text-align: center;
 
     overflow: auto;
@@ -200,12 +203,13 @@
 
 
 .toolbar button {
-    margin: 8px auto;
+    margin: 6px auto;
     display: blocK;
 }
 
+.toolbar-nodeInfo,
 .toolbar-parentInfo {
-    padding: 5px 0;
+    padding: 6px 0;
     word-wrap: break-word;
 }
 

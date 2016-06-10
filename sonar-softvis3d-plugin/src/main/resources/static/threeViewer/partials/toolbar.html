@@ -31,7 +31,7 @@
 
     <button type='button' ng-click='toolbar.showAllSceneElements();'>Show all objects (reset)</button>
 
-    <div ng-show="toolbar.node">
+    <div ng-show="toolbar.node" class="toolbar-nodeInfo">
       <h2>{{toolbar.node.name}}
         <span ng-show="!toolbar.node.isNode">({{toolbar.node.footprintMetricValue}} / {{toolbar.node.heightMetricValue}} / {{toolbar.node.colorMetricValue}})</span>
         <div class="clearfix"></div>
