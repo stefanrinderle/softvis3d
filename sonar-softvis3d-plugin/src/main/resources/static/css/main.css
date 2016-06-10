@@ -94,6 +94,11 @@
     border: 0;
 }
 
+.close:hover,
+.close:focus {
+    color: #4b9fd5;
+}
+
 .closeToolbar {
     color: #ffffff;
 }
@@ -101,8 +106,7 @@
 .loader-options {
     background-color: #ffffff;
     min-height: 220px;
-    padding: 6px;
-    margin-bottom: 25px;
+    padding: 6px 6px 22px 6px;
 }
 
 .loader-options span {
@@ -133,22 +137,23 @@
 .sidebarThreeJs {
     position: absolute;
     bottom: -33px;
-    right: 1px;
+    right: 2px;
     z-index: 15;
     text-align: center;
+    padding: 0 4px;
 
-    border: 1px solid #e6e6e6;
+    border: 1px solid #dddddd;
     border-top-width: 0;
     border-radius: 0 0 4px 4px;
 }
 
 .sidebarThreeJs button {
-    width: 20px;
+    width: 24px;
     height: 20px;
     font-size: 10px;
-    margin: 4px;
-    padding: 0;
+    margin: 4px 2px;
     line-height: 0;
+    padding: 0;
 }
 
 .toolbar {
@@ -156,9 +161,8 @@
     right: 0;
     z-index: 10;
     background-color: #FFFFFF;
-    border-left: 1px solid #e6e6e6;
-    border-bottom: 1px solid #e6e6e6;
-    box-shadow: 0px 0px 16px #e6e6e6;
+    border-left: 1px solid #dddddd;
+    box-shadow: 0 0 16px #e6e6e6;
     border-right-width: 0;
     width: 250px;
     text-align: center;
@@ -275,7 +279,7 @@
     text-align: center;
 
     font-size: 9pt;
-    line-height: 12px;
+    line-height: 11px;
 
     width: 98%;
     border-top: 1px solid #e6e6e6;

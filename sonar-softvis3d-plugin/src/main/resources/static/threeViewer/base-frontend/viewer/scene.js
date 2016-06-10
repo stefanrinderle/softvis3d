@@ -94,13 +94,11 @@ Viewer.Scene.prototype = {
    * Resizes the camera when document is resized.
    */
   onWindowResize: function () {
-    var paddingTop = jQuery("#global-navigation").height() + jQuery("#context-navigation").height() + jQuery("#footer").height();
-
     var paddingLeft = 20;
-    paddingTop += 30;
 
     this.WIDTH = window.innerWidth - paddingLeft;
-    this.HEIGHT = window.innerHeight - paddingTop;
+    this.HEIGHT = window.innerHeight - jQuery('#content').position().top - jQuery("#footer").outerHeight();
+
 
     this.cameras.liveCam.aspect = this.WIDTH / this.HEIGHT;
     this.cameras.liveCam.updateProjectionMatrix();
