@@ -37,8 +37,8 @@
 #file-loader,
 #help {
     margin: auto;
-    top: 140px;
-    right: 50%;
+    top: 130px;
+    left: 20%;
     z-index: 15;
     flex-flow: column;
     position: fixed;
@@ -106,7 +106,7 @@
 .loader-options {
     background-color: #ffffff;
     min-height: 220px;
-    padding: 6px 6px 22px 6px;
+    padding: 6px 6px 28px 6px;
 }
 
 .loader-options span {
@@ -233,7 +233,7 @@
 
 .toolbar-nodeInfo,
 .toolbar-parentInfo {
-    padding: 8px 0px;
+    padding: 8px 0;
     word-wrap: break-word;
     border-bottom: 1px solid #e6e6e6;
 }
