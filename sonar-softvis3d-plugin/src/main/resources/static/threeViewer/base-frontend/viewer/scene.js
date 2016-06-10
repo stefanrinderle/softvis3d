@@ -82,7 +82,7 @@ Viewer.Scene.prototype = {
       }
       to = setTimeout(function () {
         this.onWindowResize();
-      }.bind(this), 100);
+      }.bind(this), 150);
     }.bind(this), false);
 
     jQuery(document).on('mediaready', function (e) {
@@ -109,7 +109,7 @@ Viewer.Scene.prototype = {
 
     var toolbarContainer = document.getElementById("toolbar");
     if (toolbarContainer) {
-      document.getElementById("toolbar").style.maxHeight = this.HEIGHT + "px";
+      jQuery('#toolbar').css('height', this.HEIGHT);
     }
   }
 };

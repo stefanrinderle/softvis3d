@@ -34,60 +34,64 @@
     position: relative;
 }
 
-#file-loader {
+#file-loader,
+#help {
     margin: auto;
-    top: 100px;
-    left: 300px;
-    width: 600px;
-    z-index: 10;
+    top: 140px;
+    right: 50%;
+    z-index: 15;
     flex-flow: column;
-    border: 1px solid #ACF0F2;
     position: fixed;
+    border: 1px solid #dddddd;
+}
+
+#file-loader {
+    width: 600px;
 }
 
 #loader-buttons {
     width: 100%;
     flex-flow: row;
-    height: 50px;
-    background-color: #4b9fd5;
-    color: #ffffff;
+    height: 37px;
+    background-color: #f3f3f3;
+    color: #e6e6e6;
 }
 
 .load-button {
-    width: 23%;
+    font-size: 18px;
+    font-weight: 400;
+    color: #444444;
+
+    padding: 6px 10px;
+    margin-right: 2px;
+    border-bottom: 3px solid transparent;
+
     float: left;
-    line-height: 50px;
-    font-size: 20px;
-    text-align: center
+    text-align: center;
+
+    cursor: pointer;
 }
 
-.load-button:active {
-    font-size: 25px;
-    color: #FFFFFF;
-    background-color: #4b9fd5;
-}
-
-.loadButtonStayActive {
-    font-size: 25px;
-    color: #FFFFFF;
-    background-color: #4b9fd5;
+.loadButtonStayActive,
+.load-button:active,
+.load-button:hover {
+    border-bottom-color: #4b9fd5;
 }
 
 .close {
-    background-color: #FF8C00;
-    float: right;
-    margin-top: -20px;
-    margin-right: 4px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 14px;
     cursor: pointer;
-    font-weight: 700;
-    display: inline-block;
+    font-weight: 600;
     line-height: 0;
-    padding: 8px;
-    text-decoration: none
-}
+    text-decoration: none;
+    text-transform: lowercase;
 
-.closeLoader {
-    margin-top: 0;
+    color: #236a97;
+    outline: none;
+    border: 0;
 }
 
 .closeToolbar {
@@ -95,9 +99,10 @@
 }
 
 .loader-options {
-    background-color: #cae3f2;
-    min-height: 238px;
-    padding: 10px;
+    background-color: #ffffff;
+    min-height: 220px;
+    padding: 6px;
+    margin-bottom: 25px;
 }
 
 .loader-options span {
@@ -150,8 +155,10 @@
     position: fixed;
     right: 0;
     z-index: 10;
-    background-color: #cae3f2;
-    border: 1px solid #ACF0F2;
+    background-color: #FFFFFF;
+    border-left: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+    box-shadow: 0px 0px 16px #e6e6e6;
     border-right-width: 0;
     width: 250px;
     text-align: center;
@@ -161,6 +168,12 @@
 
 .toolbar-content {
     padding: 3px 0;
+}
+
+.toolbar ul,
+.toolbar-content p,
+.toolbar-parentInfo span.key {
+    padding-left: 3px;
 }
 
 .toolbar .listEven {
@@ -179,14 +192,20 @@
     word-wrap: break-word;
 }
 
-.toolbar h2 span {
-    display: inline-block;
-    float: right;
+.toolbar h2 {
+    background-color: #f3f3f3;
+    color: #444444;
+    border-bottom: 1px solid #e6e6e6;
+
+    padding: 6px 8px;
+
+    font-size: 18px;
+    font-weight: 400;
 }
 
-.toolbar h2 {
-    background-color: #4b9fd5;
-    color: #ffffff;
+.toolbar h3 span {
+    display: inline-block;
+    float: right;
 }
 
 .clearfix {
@@ -196,9 +215,10 @@
 }
 
 .toolbar h3 {
-    text-transform: uppercase;
     font-size: 93%;
     font-weight: bolder;
+
+    border-bottom: 3px solid #4b9fd5
 }
 
 
@@ -209,32 +229,32 @@
 
 .toolbar-nodeInfo,
 .toolbar-parentInfo {
-    padding: 6px 0;
+    padding: 8px 0px;
     word-wrap: break-word;
+    border-bottom: 1px solid #e6e6e6;
 }
 
 .toolbar-parentInfo span {
     font-weight: bold;
 }
 
-.toolbar-parentInfo span::after {
+
+.toolbar-parentInfo span.key {
+    text-transform: uppercase;
+}
+.toolbar-parentInfo span.key::after {
     content: ":";
 }
 
 #help {
-    position: fixed;
-    top: 100px;
-    left: 300px;
     width: 500px;
-    height: 300px;
-    z-index: 15;
-    border: 1px solid #ACF0F2;
-    margin: auto;
 }
 
 #help h2 {
+    padding: 3px 10px;
     background-color: #4b9fd5;
     color: #ffffff;
+    font-weight: 600;
 }
 
 #info {
@@ -246,4 +266,17 @@
     z-index: 15;
     border: 1px solid #ACF0F2;
     margin: auto
+}
+
+.visit-project {
+    padding: 5px 0;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+
+    font-size: 9pt;
+    line-height: 12px;
+
+    width: 98%;
+    border-top: 1px solid #e6e6e6;
 }
