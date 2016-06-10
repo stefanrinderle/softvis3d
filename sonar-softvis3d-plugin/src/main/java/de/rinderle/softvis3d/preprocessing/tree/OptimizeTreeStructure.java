@@ -57,7 +57,10 @@ public class OptimizeTreeStructure {
       (TreeMap<String, TreeNode>) children.clone();
 
     if (children.size() == 1) {
-      this.removeNodeFromStructure(node);
+      final boolean isLeaf = children.firstEntry().getValue().getChildren().isEmpty();
+      if (!isLeaf) {
+        this.removeNodeFromStructure(node);
+      }
     }
 
     for (final TreeNode child : copyOfChildren.values()) {
