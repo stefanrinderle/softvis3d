@@ -114,14 +114,6 @@
     line-height: 8px
 }
 
-.loader-options label a {
-    text-decoration: none;
-    color: #FF8C00;
-    font-size: 20px;
-    font-weight: bolder;
-    display: block
-}
-
 .loader-options input {
     display: block;
     width: 200px;
