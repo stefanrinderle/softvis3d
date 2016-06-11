@@ -49,12 +49,14 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
 
   this.exceptionMessage = null;
 
+  this.layoutAlgorithm = "district";
   this.customSelectMetrics = {
     'metric1': 'complexity',
     'metric2': 'ncloc',
     'metric3': 'NONE'
   };
 
+  this.availableLayouts = [];
   this.availableMetrics = [];
   this.availableColorMetrics = [];
 
@@ -79,6 +81,11 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
     });
   } else {
     this.listeners();
+
+    this.availableLayouts = [
+        {key: "district", name: "District"},
+        {key: "evostreet", name: "Evostreet"}
+    ];
 
     this.waitFor(500, 0, function () {
         me.BackendService.getMetrics().then(function (response) {
@@ -179,10 +186,10 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
 };
 
 ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
-  this.loadVisualisation(this.customSelectMetrics.metric1, this.customSelectMetrics.metric2, this.customSelectMetrics.metric3);
+  this.loadVisualisation(this.customSelectMetrics.metric1, this.customSelectMetrics.metric2, this.customSelectMetrics.metric3, this.layoutAlgorithm);
 };
 
-ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, colorMetricKey) {
+ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, colorMetricKey, layout) {
   var me = this;
 
   this.infoInnerState = "loading";
@@ -190,8 +197,7 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
   this.BackendService.getVisualization(ThreeViewer.PROJECT_KEY, metric1, metric2, colorMetricKey).then(function (response) {
 
     var treeResult = response.data.resultObject[0].treeResult;
-
-    var illustration = me.createModel(treeResult);
+    var illustration = me.createModel(treeResult, layout);
     me.ViewerService.loadSoftVis3d(illustration);
 
     var eventObject = {};
@@ -213,11 +219,11 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
   });
 };
 
-ThreeViewer.FileLoaderController.prototype.createModel = function (treeResult) {
+ThreeViewer.FileLoaderController.prototype.createModel = function (treeResult, layout) {
   this.TreeService.setTree(treeResult);
 
   var model = new Model.Softvis3dModel(treeResult);
-  return new Model.LayoutProcessor().getIllustration(model, model._version);
+  return new Model.LayoutProcessor(layout).getIllustration(model, model._version);
 };
 
 ThreeViewer.FileLoaderController.prototype.getNameForMetricKey = function (metricKey) {

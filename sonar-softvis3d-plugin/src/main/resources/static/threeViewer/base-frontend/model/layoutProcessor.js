@@ -18,26 +18,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 var CodeCityVis = require('codecity-visualizer');
-var Illustrator = CodeCityVis.illustrators.evostreet;
+var IllustratorEvostreet = CodeCityVis.illustrators.evostreet;
+var IllustratorDistrict = CodeCityVis.illustrators.district;
 var attributeHelper = CodeCityVis.helper.attributes;
 
 class LayoutProcessor {
 
-    constructor() {
+    constructor(layout) {
+        switch (layout) {
+            case 'evostreet':
+                this.setLayoutEvostreet();
+                break;
+            default:
+                this.setLayoutDistrict();
+                break;
+        };
     }
 
-    getIllustration(model, version) {
-        /* Step 2: Generate a CodeCity from Model
-         * - Configure Illustrator Layout (Options)
-         * - Decide on Metrics to use (Rules)
-         * - Draw a specific Version of the City
-         */
-        var options = {
+    setLayoutEvostreet() {
+        this._illustrator = IllustratorEvostreet;
+
+        this._options = {
             'highway.color': 0x157f89,
             'street.color': 0x156289,
-            'house.margin': 5,
+            'house.margin': 6,
             'evostreet.options': {
-                'spacer.initial': 30,
+                'spacer.initial': 40,
                 'spacer.conclusive': 0,
                 'spacer.branches': 25,
                 'house.container': CodeCityVis.containers.lightmap,
@@ -45,14 +51,38 @@ class LayoutProcessor {
             }
         };
 
-          var illustrator = new Illustrator(model, options);
+        this._rules = [];
+        this._rules.push(this._Rule1());
+        this._rules.push(this._Rule2());
+        this._rules.push(this._Rule3());
+        this._rules.push(this._Rule4());
+    }
 
-          illustrator.addRule(this._Rule1());
-          illustrator.addRule(this._Rule2());
-          illustrator.addRule(this._Rule3());
-          illustrator.addRule(this._Rule4());
+    setLayoutDistrict() {
+        this._illustrator = IllustratorDistrict;
 
-          return illustrator.draw(version);
+        this._options = {
+            // 'layout.tower': false,
+            'house.margin': 6,
+            'spacer.margin': 25,
+            'spacer.padding': 15
+        };
+
+        this._rules = [];
+        this._rules.push(this._Rule1());
+        this._rules.push(this._Rule2());
+        this._rules.push(this._Rule3());
+        this._rules.push(this._Rule5());
+    }
+
+    getIllustration(model, version) {
+        const illustrator = new this._illustrator(model, this._options);
+
+        for (const rule of this._rules) {
+            illustrator.addRule(rule);
+        }
+
+        return illustrator.draw(version);
     }
 
     /**
@@ -140,6 +170,29 @@ class LayoutProcessor {
         });
     }
 
+    /**
+     * Package-Depth --> Street Color (Grey)
+     * @private
+     * @returns {BaseRule}
+     */
+    _Rule5() {
+        return new CodeCityVis.rules.color.gradient({
+            'condition': function(model, node, version) {
+                return node.children.length !== 0;
+            },
+            'metric': function(model, node, version) {
+                let level = 0;
+                while(node = node.parent) {
+                    level++;
+                }
+                return Math.min(level, 8);
+            },
+            'attributes': 'color',
+            'max': 8,
+            'minColor': 0x333333,
+            'maxColor': 0xEEEEEE
+        });
+    }
 }
 
 module.exports = LayoutProcessor;

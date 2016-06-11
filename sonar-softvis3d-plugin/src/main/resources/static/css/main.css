@@ -126,24 +126,35 @@
     padding-left: 10px
 }
 
+.sidebarThreeJs,
+.toolbar {
+    width: 250px;
+}
+
+.loader-options .layout-options {
+    float: right;
+}
+
 .sidebarThreeJs {
     position: absolute;
-    bottom: -33px;
-    right: 2px;
+    bottom: -36px;
+    height: 34px;
+    right: 0;
     z-index: 15;
     text-align: center;
-    padding: 0 4px;
+    padding: 0;
 
-    border: 1px solid #dddddd;
-    border-top-width: 0;
-    border-radius: 0 0 4px 4px;
+    border-width: 0 0 1px 1px;
+    border-style: solid;
+    border-color: #dddddd;
+    border-radius: 0 0 0 8px;
 }
 
 .sidebarThreeJs button {
-    width: 24px;
-    height: 20px;
+    width: 26px;
+    height: 24px;
     font-size: 10px;
-    margin: 4px 2px;
+    margin: 5px 3px;
     line-height: 0;
     padding: 0;
 }
@@ -156,7 +167,6 @@
     border-left: 1px solid #dddddd;
     box-shadow: 0 0 16px #e6e6e6;
     border-right-width: 0;
-    width: 250px;
     text-align: center;
 
     overflow: auto;
@@ -166,10 +176,14 @@
     padding: 3px 0;
 }
 
-.toolbar ul,
+.toolbar h4,
 .toolbar-content p,
 .toolbar-parentInfo span.key {
     padding-left: 3px;
+}
+
+.toolbar ul {
+    padding-left: 8px;
 }
 
 .toolbar .listEven {
