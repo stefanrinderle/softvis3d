@@ -96,11 +96,11 @@ ThreeViewer.ViewerService.prototype.makeSelection = function (event) {
     var canvas = jQuery("#content");
 
     var x, y;
-    if (event.offsetX !== undefined && event.offsetY !== undefined) {
+    if ('offsetX' in event && 'offsetY' in event) {
         x = event.offsetX;
         y = event.offsetY;
-    } else // Firefox method to get the position
-    {
+    } else {
+        // Firefox method to get the position
         x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
         y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
         x -= canvas.offset().left;

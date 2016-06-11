@@ -94,11 +94,17 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
             me.availableColorMetrics = [];
             me.availableColorMetrics.push({
                 key: "NONE",
+                name: "Package Name"
+            });
+            /* TODO: Color Metrics not used atm...
+            me.availableColorMetrics.push({
+                key: "NONE",
                 name: "Not used"
             });
             for (var index = 0; index < me.availableMetrics.length; index++) {
                 me.availableColorMetrics.push(me.availableMetrics[index]);
             }
+            */
 
             me.hasScmInfos = false;
             me.availableScmMetrics = [];

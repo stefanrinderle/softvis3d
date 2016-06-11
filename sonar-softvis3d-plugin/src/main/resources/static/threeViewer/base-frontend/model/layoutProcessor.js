@@ -39,9 +39,9 @@ class LayoutProcessor {
         this._illustrator = IllustratorEvostreet;
 
         this._options = {
-            'highway.color': 0x157f89,
-            'street.color': 0x156289,
+            'layout.snail': false,
             'house.margin': 6,
+            'highway.length': 50,
             'evostreet.options': {
                 'spacer.initial': 40,
                 'spacer.conclusive': 0,
@@ -62,7 +62,7 @@ class LayoutProcessor {
         this._illustrator = IllustratorDistrict;
 
         this._options = {
-            // 'layout.tower': false,
+            'layout.tower': false,
             'house.margin': 6,
             'spacer.margin': 25,
             'spacer.padding': 15
@@ -100,7 +100,7 @@ class LayoutProcessor {
                 return ('metricHeight' in attr) ? attr.metricHeight : 0;
             },
             'attributes': 'dimensions.height',
-            'min': 10,
+            'min': 12,
             'max': 260,
             'logbase': 3.40,
             'logexp': 3.25
@@ -122,10 +122,10 @@ class LayoutProcessor {
                 return ('metricFootprint' in attr) ? attr.metricFootprint : 0;
             },
             'attributes': ['dimensions.length', 'dimensions.width'],
-            'min': 12,
+            'min': 14,
             'max': 150,
-            'logbase': 3.65,
-            'logexp': 3.1
+            'logbase': 3.60,
+            'logexp': 3.15
         });
     }
 
@@ -185,11 +185,11 @@ class LayoutProcessor {
                 while(node = node.parent) {
                     level++;
                 }
-                return Math.min(level, 8);
+                return Math.min(level, 9);
             },
             'attributes': 'color',
-            'max': 8,
-            'minColor': 0x333333,
+            'max': 9,
+            'minColor': 0x252525,
             'maxColor': 0xEEEEEE
         });
     }
