@@ -86,11 +86,7 @@ Viewer.Wrangler.prototype = {
   },
 
   showAllSceneElements: function () {
-    for (var index = 0; index < this.objectsInView.length; index++) {
-      this.context.scene.remove(this.objectsInView[index]);
-    }
-
-    this.objectsInView = [];
+    this.removeAllFromScene();
 
     for (var resultObjectIndex = 0; resultObjectIndex < this.resultObjects.length; resultObjectIndex++) {
       this.objectsInView.push(this.resultObjects[resultObjectIndex]);
@@ -147,9 +143,10 @@ Viewer.Wrangler.prototype = {
    */
   removeAllFromScene: function () {
     for (var index = 0; index < this.objectsInView.length; index++) {
-      var object = this.objectsInView[index];
-      this.context.scene.remove(object);
+      this.context.scene.remove(this.objectsInView[index]);
     }
+
+    this.objectsInView = [];
   },
 
   getVectorProjection: function(mouseDown, camera) {

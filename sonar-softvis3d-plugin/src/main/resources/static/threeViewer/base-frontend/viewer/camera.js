@@ -45,7 +45,7 @@ Viewer.Cameras = function (params) {
   /** Perspective camera setup **/
   this.perpCam = null;
   this.PERP_NEAR_PLANE = 1;
-  this.PERP_FAR_PLANE = 1000000;
+  this.PERP_FAR_PLANE = 100000;
 
   this.orthCam = null;
   this.ORTH_NEAR_PLANE = -1000;

@@ -18,26 +18,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 var CodeCityVis = require('codecity-visualizer');
-var Illustrator = CodeCityVis.illustrators.evostreet;
+var IllustratorEvostreet = CodeCityVis.illustrators.evostreet;
+var IllustratorDistrict = CodeCityVis.illustrators.district;
 var attributeHelper = CodeCityVis.helper.attributes;
 
 class LayoutProcessor {
 
-    constructor() {
+    constructor(layout) {
+        switch (layout) {
+            case 'evostreet':
+                this.setLayoutEvostreet();
+                break;
+            default:
+                this.setLayoutDistrict();
+                break;
+        };
     }
 
-    getIllustration(model, version) {
-        /* Step 2: Generate a CodeCity from Model
-         * - Configure Illustrator Layout (Options)
-         * - Decide on Metrics to use (Rules)
-         * - Draw a specific Version of the City
-         */
-        var options = {
-            'highway.color': 0x157f89,
-            'street.color': 0x156289,
-            'house.margin': 5,
+    setLayoutEvostreet() {
+        this._illustrator = IllustratorEvostreet;
+
+        this._options = {
+            'layout.snail': false,
+            'house.margin': 6,
+            'highway.length': 50,
             'evostreet.options': {
-                'spacer.initial': 30,
+                'spacer.initial': 40,
                 'spacer.conclusive': 0,
                 'spacer.branches': 25,
                 'house.container': CodeCityVis.containers.lightmap,
@@ -45,14 +51,38 @@ class LayoutProcessor {
             }
         };
 
-          var illustrator = new Illustrator(model, options);
+        this._rules = [];
+        this._rules.push(this._Rule1());
+        this._rules.push(this._Rule2());
+        this._rules.push(this._Rule3());
+        this._rules.push(this._Rule4());
+    }
 
-          illustrator.addRule(this._Rule1());
-          illustrator.addRule(this._Rule2());
-          illustrator.addRule(this._Rule3());
-          illustrator.addRule(this._Rule4());
+    setLayoutDistrict() {
+        this._illustrator = IllustratorDistrict;
 
-          return illustrator.draw(version);
+        this._options = {
+            'layout.tower': false,
+            'house.margin': 6,
+            'spacer.margin': 25,
+            'spacer.padding': 15
+        };
+
+        this._rules = [];
+        this._rules.push(this._Rule1());
+        this._rules.push(this._Rule2());
+        this._rules.push(this._Rule3());
+        this._rules.push(this._Rule5());
+    }
+
+    getIllustration(model, version) {
+        const illustrator = new this._illustrator(model, this._options);
+
+        for (const rule of this._rules) {
+            illustrator.addRule(rule);
+        }
+
+        return illustrator.draw(version);
     }
 
     /**
@@ -70,7 +100,7 @@ class LayoutProcessor {
                 return ('metricHeight' in attr) ? attr.metricHeight : 0;
             },
             'attributes': 'dimensions.height',
-            'min': 10,
+            'min': 12,
             'max': 260,
             'logbase': 3.40,
             'logexp': 3.25
@@ -92,10 +122,10 @@ class LayoutProcessor {
                 return ('metricFootprint' in attr) ? attr.metricFootprint : 0;
             },
             'attributes': ['dimensions.length', 'dimensions.width'],
-            'min': 12,
+            'min': 14,
             'max': 150,
-            'logbase': 3.65,
-            'logexp': 3.1
+            'logbase': 3.60,
+            'logexp': 3.15
         });
     }
 
@@ -140,6 +170,29 @@ class LayoutProcessor {
         });
     }
 
+    /**
+     * Package-Depth --> Street Color (Grey)
+     * @private
+     * @returns {BaseRule}
+     */
+    _Rule5() {
+        return new CodeCityVis.rules.color.gradient({
+            'condition': function(model, node, version) {
+                return node.children.length !== 0;
+            },
+            'metric': function(model, node, version) {
+                let level = 0;
+                while(node = node.parent) {
+                    level++;
+                }
+                return Math.min(level, 9);
+            },
+            'attributes': 'color',
+            'max': 9,
+            'minColor': 0x252525,
+            'maxColor': 0xEEEEEE
+        });
+    }
 }
 
 module.exports = LayoutProcessor;
