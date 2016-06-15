@@ -2,9 +2,24 @@
 
 Visualize your project in SonarQube. Please take a look at http://softvis3d.com for further details, screenshots and live demo.
 
-## SonarQube version info
+## Version overview
 
-This version of the plugin works with SonarQube version >= 5.5. If you're lookking for the old LTS version plugin for SonarQube 4.2 - 5.1.x, please visit the old git repo [here - SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin).
+### Plugin version 0.3.x
+
+* Github repository [here - SoftVis3D 0.3.x](https://github.com/stefanrinderle/sonar-softvis3d-plugin)
+* Needs graphviz to be installed on the server
+* Works with SonarQube <= 5.2
+
+### Plugin version 0.4.x
+
+* Needs graphviz to be installed on the server
+* Works with SonarQube >= 5.5
+
+### Plugin version 0.5.x (current development)
+
+* Does NOT need graphviz to be installed on the server
+* New frontend layout
+* Works with SonarQube >= 5.5
 
 ##License
 
@@ -17,27 +32,24 @@ Licensed under the GNU Lesser General Public License, Version 3.0: http://www.gn
 - WebGL technology to support all browsers
 - Helps you analyze your software quality easily
 
-## Code city
+## Code city layout
 
 The "code city" view provides a visualization for the hierarchical structure of the project. Folders or packages are shown as districts, files as buildings. The building footprint and height are dependent on two arbitrary sonar metrics.
 
+## Evostreets layout
+
+Layout is a stable layout for visualizing evolving software systems using the city metaphor.
+
 ## Requirenments
 
-### SonarQube 5.5
-
-### graphviz
-
-SoftVis3DPlugin requires the graphviz software to be installed. It should be easily available for your linux or windows server instance. Please take a look at graphviz install page (http://www.graphviz.org/Download.php) for details.
-
-### Java 7 runtime required
+* SonarQube >= 5.5
+* Java 7 runtime required
 
 ## Install
 
-1. Install Graphiz (http://www.graphviz.org/Download.php)
-2. Download plugin jar file (http://softvis3d.com/#/download)
-3. Copy to [your SonarQube base path]/extensions/downloads
-4. Restart your sonar server
-5. Go to SonarQube "Settings" -> "System" -> "General settings" -> "SoftVis3d" and define the path to your graphviz installation.
-6. On any project in your SonarQube instance, click on "SoftVis3D Viewer" in the navigation section on the left.
+1. Download plugin jar file (http://softvis3d.com/#/download)
+2. Copy to [your SonarQube base path]/extensions/downloads
+3. Restart your sonar server
+4. On any project in your SonarQube instance, click on "SoftVis3D Viewer" in the navigation section on the left.
 
-Explore your project in 3D city  view!
+Explore your project in 3D!

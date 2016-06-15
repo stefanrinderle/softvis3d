@@ -2,6 +2,10 @@
 
 This is a example project to show the use of the softvis3d visualization with other tools than SonarQube.
 
+### ! Currently not maintained and does not work !
+
+Will be reactivated and refactored to the new structure with [https://github.com/stefanrinderle/softvis3d/issues/15](github issue #15)
+
 ## Build and run
 
 mvn clean install -pl softvis3d-webservice-example/ -am
