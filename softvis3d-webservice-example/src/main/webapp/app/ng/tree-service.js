@@ -57,10 +57,6 @@ ThreeViewer.TreeService.prototype.searchIdInElement = function (element, id) {
   return null;
 };
 
-ThreeViewer.TreeService.prototype.searchEdge = function (id) {
-  return this.searchEdgeInElement(this.treeServiceTree, id);
-};
-
 ThreeViewer.TreeService.prototype.getAllSceneElementsRecursive = function (id) {
   var node = this.searchTreeNode(id);
   var showIds = this.privateGetAllSceneElementsRecursive(node);

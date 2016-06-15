@@ -16,6 +16,7 @@ node
 .iml
 .pmd
 .classpath
+**/nbproject
 
 # OS generated files #
 ######################

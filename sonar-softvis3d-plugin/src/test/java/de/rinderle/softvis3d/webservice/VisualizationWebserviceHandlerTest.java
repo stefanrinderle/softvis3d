@@ -19,22 +19,14 @@
  */
 package de.rinderle.softvis3d.webservice;
 
-import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
-import de.rinderle.softvis3d.base.VisualizationProcessor;
-import de.rinderle.softvis3d.base.VisualizationSettings;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
-import de.rinderle.softvis3d.base.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.base.layout.helper.StringOutputStream;
 import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
 import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
-import de.rinderle.softvis3d.base.result.VisualizationJsonWriter;
-import de.rinderle.softvis3d.cache.LayoutCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
-import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
@@ -42,8 +34,6 @@ import java.io.BufferedOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -79,12 +69,6 @@ public class VisualizationWebserviceHandlerTest {
   @Mock
   private PreProcessor preProcessor;
   @Mock
-  private VisualizationProcessor visualizationProcessor;
-  @Mock
-  private VisualizationJsonWriter visualizationJsonWriter;
-  @Mock
-  private LayoutCacheService layoutCacheService;
-  @Mock
   private JsonWriter jsonWriterTest;
 
   @Mock
@@ -96,8 +80,6 @@ public class VisualizationWebserviceHandlerTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-
-    when(layoutCacheService.containsKey(any(SnapshotStorageKey.class))).thenReturn(false);
   }
 
   @Test
@@ -109,7 +91,6 @@ public class VisualizationWebserviceHandlerTest {
       this.snapshotKey, this.footprintMetricKey, this.heightMetricKey, ColorMetricType.NONE);
 
     final SnapshotTreeResult treeResult = mockPreProcessing(requestDTO);
-    final Map<String, ResultPlatform> visualizationResult = mockVisualization(requestDTO, treeResult);
 
     when(daoService.getProjectId(eq(localConnector), eq(this.snapshotKey))).thenReturn("projectId");
 
@@ -119,17 +100,6 @@ public class VisualizationWebserviceHandlerTest {
     assertEquals("{\"resultObject\":[]}", this.stringOutputStream.toString());
 
     verify(treeNodeJsonWriter, times(1)).transformRootTreeToJson(any(SoftVis3dJsonWriter.class), eq(treeResult.getTree()));
-    verify(visualizationJsonWriter, times(1)).transformResponseToJson(any(SoftVis3dJsonWriter.class), eq(visualizationResult));
-  }
-
-  private Map<String, ResultPlatform> mockVisualization(final VisualizationRequest requestDTO, final SnapshotTreeResult treeResult)
-      throws DotExecutorException {
-    final Map<String, ResultPlatform> visualizationResult = new HashMap<>();
-    when(visualizationProcessor.visualize(any(VisualizationSettings.class), eq(treeResult),
-        any(VisualizationAdditionalInfos.class)))
-      .thenReturn(visualizationResult);
-
-    return visualizationResult;
   }
 
   private SnapshotTreeResult mockPreProcessing(final VisualizationRequest requestDTO) {

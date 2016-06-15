@@ -23,14 +23,11 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.layout.helper.StringOutputStream;
 import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
 import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
-import de.rinderle.softvis3d.base.result.VisualizationJsonWriter;
 import de.rinderle.softvis3d.service.LayoutExampleService;
 import de.rinderle.softvis3d.service.NeoService;
-import java.util.Map;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
@@ -47,8 +44,6 @@ public class GuiceResource {
   @Inject
   private LayoutExampleService layoutExampleService;
   @Inject
-  private VisualizationJsonWriter visualizationJsonWriter;
-  @Inject
   private TreeNodeJsonWriter treeNodeJsonWriter;
 
   @GET
@@ -56,7 +51,7 @@ public class GuiceResource {
   @Produces(MediaType.APPLICATION_JSON)
   public String getExample() {
 
-    final Map<String, ResultPlatform> result;
+    final SnapshotTreeResult result;
     try {
       result = layoutExampleService.getExampleResult();
       SnapshotTreeResult resultTree = layoutExampleService.getExampleResultTree();
@@ -64,7 +59,7 @@ public class GuiceResource {
       final StringOutputStream stringOutputStream = new StringOutputStream();
       final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
 
-      writeResultsToResponse(jsonWriter, resultTree, result);
+      writeResultsToResponse(jsonWriter, resultTree);
       return stringOutputStream.toString();
     } catch (final Exception e) {
       return new Gson().toJson(e.getMessage());
@@ -75,15 +70,13 @@ public class GuiceResource {
   @Path("/neostatic")
   @Produces(MediaType.APPLICATION_JSON)
   public String getNeoStatic() {
-    final Map<String, ResultPlatform> result;
     try {
       final SnapshotTreeResult resultTree = neoService.getNeoTreeStatic();
-      result = neoService.getNeoResult(resultTree);
 
       final StringOutputStream stringOutputStream = new StringOutputStream();
       final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
 
-      writeResultsToResponse(jsonWriter, resultTree, result);
+      writeResultsToResponse(jsonWriter, resultTree);
       return stringOutputStream.toString();
     } catch (final Exception e) {
       return new Gson().toJson(e.getMessage());
@@ -94,24 +87,20 @@ public class GuiceResource {
   @Path("/neoDynamic")
   @Produces(MediaType.APPLICATION_JSON)
   public String getNeoDynamic(@QueryParam("cypher") String cypher) {
-    final Map<String, ResultPlatform> result;
     try {
       final SnapshotTreeResult resultTree = neoService.getNeoTree(cypher);
-
-      result = neoService.getNeoResult(resultTree);
 
       final StringOutputStream stringOutputStream = new StringOutputStream();
       final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
 
-      writeResultsToResponse(jsonWriter, resultTree, result);
+      writeResultsToResponse(jsonWriter, resultTree);
       return stringOutputStream.toString();
     } catch (final Exception e) {
       return new Gson().toJson(e.getMessage());
     }
   }
 
-  private void writeResultsToResponse(final SoftVis3dJsonWriter jsonWriter, final SnapshotTreeResult snapshotTreeResult,
-                                      final Map<String, ResultPlatform> visualizationResult) {
+  private void writeResultsToResponse(final SoftVis3dJsonWriter jsonWriter, final SnapshotTreeResult snapshotTreeResult) {
 
     jsonWriter.beginObject();
     jsonWriter.name("resultObject");
@@ -119,7 +108,6 @@ public class GuiceResource {
     jsonWriter.beginArray();
 
     this.treeNodeJsonWriter.transformRootTreeToJson(jsonWriter, snapshotTreeResult.getTree());
-    this.visualizationJsonWriter.transformResponseToJson(jsonWriter, visualizationResult);
 
     jsonWriter.endArray();
 

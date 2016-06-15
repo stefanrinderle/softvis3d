@@ -18,6 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 var Detector = require('../lib/Detector.js');
+var Model = require('../base-frontend/model/index');
 
 /**
  * Service which initiates the THREE.js scene and
@@ -48,12 +49,14 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
 
   this.exceptionMessage = null;
 
+  this.layoutAlgorithm = "district";
   this.customSelectMetrics = {
     'metric1': 'complexity',
     'metric2': 'ncloc',
     'metric3': 'NONE'
   };
 
+  this.availableLayouts = [];
   this.availableMetrics = [];
   this.availableColorMetrics = [];
 
@@ -79,6 +82,11 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
   } else {
     this.listeners();
 
+    this.availableLayouts = [
+        {key: "district", name: "District"},
+        {key: "evostreet", name: "Evostreet"}
+    ];
+
     this.waitFor(500, 0, function () {
         me.BackendService.getMetrics().then(function (response) {
             me.availableMetrics = me.filterMetrics(response.data.metrics);
@@ -86,11 +94,17 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
             me.availableColorMetrics = [];
             me.availableColorMetrics.push({
                 key: "NONE",
+                name: "Package Name"
+            });
+            /* TODO: Color Metrics not used atm...
+            me.availableColorMetrics.push({
+                key: "NONE",
                 name: "Not used"
             });
             for (var index = 0; index < me.availableMetrics.length; index++) {
                 me.availableColorMetrics.push(me.availableMetrics[index]);
             }
+            */
 
             me.hasScmInfos = false;
             me.availableScmMetrics = [];
@@ -178,10 +192,10 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
 };
 
 ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
-  this.loadVisualisation(this.customSelectMetrics.metric1, this.customSelectMetrics.metric2, this.customSelectMetrics.metric3);
+  this.loadVisualisation(this.customSelectMetrics.metric1, this.customSelectMetrics.metric2, this.customSelectMetrics.metric3, this.layoutAlgorithm);
 };
 
-ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, colorMetricKey) {
+ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, colorMetricKey, layout) {
   var me = this;
 
   this.infoInnerState = "loading";
@@ -189,10 +203,8 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
   this.BackendService.getVisualization(ThreeViewer.PROJECT_KEY, metric1, metric2, colorMetricKey).then(function (response) {
 
     var treeResult = response.data.resultObject[0].treeResult;
-    var visualizationResult = response.data.resultObject[1].visualizationResult;
-
-    me.ViewerService.loadSoftVis3d(visualizationResult);
-    me.TreeService.setTree(treeResult);
+    var illustration = me.createModel(treeResult, layout);
+    me.ViewerService.loadSoftVis3d(illustration);
 
     var eventObject = {};
     eventObject.softVis3dId = ThreeViewer.PROJECT_KEY;
@@ -211,6 +223,13 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
     me.exceptionMessage = response.data.errors[0].msg;
     me.showTab("info");
   });
+};
+
+ThreeViewer.FileLoaderController.prototype.createModel = function (treeResult, layout) {
+  this.TreeService.setTree(treeResult);
+
+  var model = new Model.Softvis3dModel(treeResult);
+  return new Model.LayoutProcessor(layout).getIllustration(model, model._version);
 };
 
 ThreeViewer.FileLoaderController.prototype.getNameForMetricKey = function (metricKey) {

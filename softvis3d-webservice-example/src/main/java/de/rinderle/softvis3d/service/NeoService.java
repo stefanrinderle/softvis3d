@@ -20,29 +20,19 @@
 package de.rinderle.softvis3d.service;
 
 import com.google.inject.Inject;
-import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
-import de.rinderle.softvis3d.base.VisualizationProcessor;
-import de.rinderle.softvis3d.base.VisualizationSettings;
-import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
-import de.rinderle.softvis3d.base.layout.dot.DotExecutorException;
 import de.rinderle.softvis3d.neo.Neo4jClient;
 import de.rinderle.softvis3d.neo.Neo4jParser;
 import de.rinderle.softvis3d.neoresult.Data;
 import de.rinderle.softvis3d.neoresult.Neo4jAnswer;
 import de.rinderle.softvis3d.preprocessing.PathWalker;
 import de.rinderle.softvis3d.preprocessing.PathWalkerDataTransformer;
-import java.util.Map;
 
 /**
  * Created by stefanrinderle on 05.12.15.
  */
 public class NeoService {
-
-  @Inject
-  private VisualizationProcessor visualizationProcessor;
 
   @Inject
   private Neo4jClient neo4jClient;
@@ -67,27 +57,6 @@ public class NeoService {
     final RootTreeNode tree = transformLayoutInput(neoAnswer);
 
     return new SnapshotTreeResult(tree);
-  }
-
-  public Map<String, ResultPlatform> getNeoResult(final SnapshotTreeResult snapshotTreeResult) throws Exception {
-
-    final VisualizationSettings settings = new VisualizationSettings();
-    final VisualizationAdditionalInfos additionalInfos = createAdditionalInfos(snapshotTreeResult.getTree());
-    try {
-      return visualizationProcessor
-          .visualize(settings, snapshotTreeResult, additionalInfos);
-    } catch (final DotExecutorException e) {
-      throw new Exception(e.getMessage(), e);
-    }
-  }
-
-  // TODO
-  private VisualizationAdditionalInfos createAdditionalInfos(final RootTreeNode tree) {
-    final MinMaxValue minMaxMetricFootprint = new MinMaxValue(0, 21);
-    final MinMaxValue minMaxMetricHeight = new MinMaxValue(0, 100);
-    final MinMaxValue minMaxMetricColor = new MinMaxValue(0, 100);
-
-    return new VisualizationAdditionalInfos(minMaxMetricFootprint, minMaxMetricHeight, minMaxMetricColor);
   }
 
   private RootTreeNode transformLayoutInput(final Neo4jAnswer neoAnswer) {

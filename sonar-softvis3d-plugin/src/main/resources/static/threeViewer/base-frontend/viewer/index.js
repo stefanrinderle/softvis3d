@@ -17,11 +17,16 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-'use strict';
+require('./lib/NURBSCurve.js');
+require('./lib/NURBSUtils.js');
 
-require('jquery');
-require('angular');
-require('angular-route');
-require('three');
+var Viewer = require('./viewer.js');
 
-require('../app');
+require('./util.js');
+require('./wrangler.js');
+require('./setup.js');
+require('./camera.js');
+require('./objectFactory.js');
+require('./scene.js');
+
+module.exports = Viewer;

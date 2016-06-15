@@ -19,35 +19,20 @@
  */
 package de.rinderle.softvis3d.service;
 
-import com.google.inject.Inject;
 import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
-import de.rinderle.softvis3d.base.VisualizationProcessor;
 import de.rinderle.softvis3d.base.VisualizationSettings;
 import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.base.domain.graph.ResultPlatform;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
-import de.rinderle.softvis3d.base.layout.dot.DotExecutorException;
-import java.util.Map;
 
 public class LayoutExampleService {
 
-  @Inject
-  private VisualizationProcessor visualizationProcessor;
-
-  public Map<String, ResultPlatform> getExampleResult() throws Exception {
+  public SnapshotTreeResult getExampleResult() throws Exception {
     final VisualizationSettings settings = new VisualizationSettings();
-    final SnapshotTreeResult snapshotTreeResult = createExampleSnapshotTreeResult("1");
-    final VisualizationAdditionalInfos additionalInfos = createExampleAdditionalInfos();
-    try {
-      return visualizationProcessor
-          .visualize(settings, snapshotTreeResult, additionalInfos);
-    } catch (final DotExecutorException e) {
-      throw new Exception(e.getMessage(), e);
-    }
+    return createExampleSnapshotTreeResult("1");
   }
 
   private SnapshotTreeResult createExampleSnapshotTreeResult(final String rootId) {
@@ -68,7 +53,6 @@ public class LayoutExampleService {
 
     return new VisualizationAdditionalInfos(minMaxFootprint, minMaxHeight, minMaxColor);
   }
-
 
   public SnapshotTreeResult getExampleResultTree() {
     return createExampleSnapshotTreeResult("1");

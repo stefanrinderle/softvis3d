@@ -26,7 +26,7 @@ function requireAll(r) {
 requireAll(require.context('./lib/', true, /\.js$/));
 requireAll(require.context('./ng/', true, /\.js$/));
 
-angular.module('ThreeViewerApp', ['ngRoute'])
+var appModule = angular.module('ThreeViewerApp', ['ngRoute'])
     .config(ThreeViewer.ConfigLocation)
     .config(ThreeViewer.ConfigRouters)
     .directive('select', ['ViewerService', ThreeViewer.SelectDirective.factory])
@@ -46,3 +46,10 @@ angular.module('ThreeViewerApp', ['ngRoute'])
     .controller('ToolbarController', ['$scope', 'ViewerService', 'TreeService', 'MessageBus', ThreeViewer.ToolbarController])
     .controller('FileLoaderController', ['$scope', 'MessageBus', 'ViewerService', 'BackendService', 'TreeService',
       ThreeViewer.FileLoaderController]);
+
+
+angular.element(document).ready(function () {
+    angular.bootstrap(document, [appModule.name], {
+        //strictDi: true
+    });
+});

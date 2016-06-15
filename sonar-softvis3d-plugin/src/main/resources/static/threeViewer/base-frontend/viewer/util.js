@@ -17,37 +17,47 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
+var Viewer = require('./viewer.js');
+
 /**
- * @author alteredq / http://alteredqualia.com/
- * @author mr.doob / http://mrdoob.com/
+ * @namespace  General untility functions.
  */
+Viewer.Util = {
 
-var Detector = {
+  /**
+   *  Create a random color
+   */
+  randomHex: function () {
+    return ('000000' + Math.floor(Math.random() * 16777215).toString(16)).slice(-6);
+  },
 
-  canvas: !!window.CanvasRenderingContext2D,
-  webgl: (function () {
+  /**
+   *   Change a group of meshes to random colors.
+   *   @param {THREE.Mesh} mesh Cube mesh.
+   */
+  changeColor: function (mesh) {
+
+    var rand = parseInt('0x' + this.randomHex(), 16);
+    mesh.object.material.color.setHex(rand);
+
+  },
+
+  randomColor: function () {
+    return parseInt('0x' + this.randomHex(), 16);
+  },
+
+  randomInt: function (max, min) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  },
+
+  supportsWebGL: function () {
     try {
-      var canvas = document.createElement('canvas');
-      return !!( window.WebGLRenderingContext && ( canvas.getContext('webgl') || canvas.getContext('experimental-webgl') ) );
+      return !!window.WebGLRenderingContext && !!document.createElement('canvas').getContext('experimental-webgl');
     } catch (e) {
       return false;
     }
-  })(),
-  workers: !!window.Worker,
-  fileapi: window.File && window.FileReader && window.FileList && window.Blob,
-
-  getWebGLErrorMessage: function () {
-    if (!this.webgl) {
-      if (window.WebGLRenderingContext) {
-        return 'Your graphics card does not seem to support WebGL. Find out how to get it on http://get.webgl.org/';
-      } else {
-        return 'Your browser does not seem to support WebGL. Find out how to get it on http://get.webgl.org/.';
-      }
-    } else {
-      return "";
-    }
   }
+
 
 };
 
-module.exports = Detector;

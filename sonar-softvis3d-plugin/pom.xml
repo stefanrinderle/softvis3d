@@ -5,7 +5,7 @@
   <parent>
     <groupId>de.rinderle.softvis3d</groupId>
     <artifactId>softvis3d</artifactId>
-    <version>0.4.3-SNAPSHOT</version>
+    <version>0.5.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>sonar-softvis3d-plugin</artifactId>
@@ -132,26 +132,28 @@
             </configuration>
           </execution>
           <execution>
-            <id>npm install softvis3d-viewer from base</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>link softvis3d-viewer
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
             <id>npm install</id>
             <goals>
               <goal>npm</goal>
             </goals>
           </execution>
           <execution>
-            <id>webpack build</id>
+            <id>npm update</id>
             <goals>
-              <goal>webpack</goal>
+              <goal>npm</goal>
             </goals>
+            <configuration>
+              <arguments>update</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm build</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>run build</arguments>
+            </configuration>
           </execution>
         </executions>
       </plugin>

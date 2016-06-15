@@ -76,6 +76,13 @@
             <button ng-click="loader.submitCityForm()" ng-disabled="!loader.configLoaded">Show</button>
         </div>
         <div id="custom-loader" class="loader-options" ng-show="loader.state.custom" ng-cloak>
+            <div id="costum-layout" class="layout-options">
+                City Layout:<br />
+                <select name="layout" ng-options="item.key as item.name for item in loader.availableLayouts"
+                        ng-model="loader.layoutAlgorithm" style="width: 200px;"></select>
+            </div>
+
+
             Building footprint metric:<br/>
             <select name="metric1" ng-options="item.key as item.name for item in loader.availableMetrics"
                     ng-model="loader.customSelectMetrics.metric1" style="width: 200px;"></select>
@@ -88,7 +95,7 @@
             <br/><br/>
             Building color metric:<br/>
             <select name="metric3" ng-options="item.key as item.name for item in loader.availableColorMetrics"
-                    ng-model="loader.customSelectMetrics.metric3" style="width: 200px;"></select>
+                    ng-model="loader.customSelectMetrics.metric3" style="width: 200px;" disabled></select>
 
             <br/><br/>
             <button ng-click="loader.loadCustomView()" ng-disabled="!loader.configLoaded">Show</button>
@@ -113,13 +120,11 @@
                 </p>
             </div>
         </div>
-        <div style="position: absolute; bottom: 0; text-align: center;">
-            <br/>
-
-            <p>Please also take a look at the <a href="http://softvis3d.com/" target="_blank">project web page</a> and
-                the <a
-                        href="http://softvis3d.com/#/details/usage" target="_blank">usage guide</a>.</p>
-            <br/>
+        <div class="visit-project">
+            <p>
+                Please also take a look at the <a href="http://softvis3d.com/" target="_blank">project web page</a> and
+                the <a  href="http://softvis3d.com/#/details/usage" target="_blank">usage guide</a>.
+            </p>
         </div>
     </div>
 </div>

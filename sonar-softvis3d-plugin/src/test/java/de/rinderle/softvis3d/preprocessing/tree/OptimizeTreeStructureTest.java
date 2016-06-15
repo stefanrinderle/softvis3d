@@ -113,15 +113,15 @@ public class OptimizeTreeStructureTest {
 
     assertEquals(2, root.getChildren().size());
 
-    // B removed
-    assertNull(root.getChildren().get("B"));
-    assertNotNull(root.getChildren().get("B/D"));
+    // B not removed
+    assertNotNull(root.getChildren().get("B"));
+    assertNull(root.getChildren().get("B/D"));
 
-    assertSame("4", root.getChildren().get("B/D").getId());
+    assertSame("2", root.getChildren().get("B").getId());
 
     assertSame(0, root.getDepth());
     assertSame(1, nodeC.getDepth());
-    assertSame(1, nodeD.getDepth());
+    assertSame(2, nodeD.getDepth());
     assertSame(2, nodeF.getDepth());
     assertSame(2, nodeG.getDepth());
   }
@@ -154,16 +154,16 @@ public class OptimizeTreeStructureTest {
     assertEquals(2, root.getChildren().size());
 
     // C removed
-    assertNull(root.getChildren().get("C"));
-    assertNotNull(root.getChildren().get("C/F"));
+    assertNotNull(root.getChildren().get("C"));
+    assertNull(root.getChildren().get("C/F"));
 
-    assertSame("6", root.getChildren().get("C/F").getId());
+    assertSame("3", root.getChildren().get("C").getId());
 
     assertSame(0, root.getDepth());
     assertSame(1, nodeB.getDepth());
     assertSame(2, nodeD.getDepth());
     assertSame(2, nodeE.getDepth());
-    assertSame(1, nodeF.getDepth());
+    assertSame(2, nodeF.getDepth());
   }
 
   /**
@@ -198,13 +198,13 @@ public class OptimizeTreeStructureTest {
     assertNull(root.getChildren().get("B"));
     assertNull(root.getChildren().get("D"));
 
-    assertNotNull(root.getChildren().get("B/D/E"));
+    assertNotNull(root.getChildren().get("B/D"));
 
-    assertSame("5", root.getChildren().get("B/D/E").getId());
+    assertSame("4", root.getChildren().get("B/D").getId());
 
     assertSame(0, root.getDepth());
     assertSame(1, nodeC.getDepth());
-    assertSame(1, nodeE.getDepth());
+    assertSame(2, nodeE.getDepth());
   }
 
 }

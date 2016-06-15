@@ -17,7 +17,6 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-var Detector = require('../lib/Detector.js');
 
 /**
  *
@@ -28,6 +27,9 @@ var Detector = require('../lib/Detector.js');
  * @export
  * @ngInject
  */
+
+var Detector = require('../lib/Detector.js');
+
 ThreeViewer.AppController = function ($scope, ViewerService) {
 
   this.scope = $scope;
@@ -56,7 +58,6 @@ ThreeViewer.AppController.prototype.init = function () {
     });
     this.listeners();
   }
-
 };
 
 ThreeViewer.AppController.prototype.listeners = function () {

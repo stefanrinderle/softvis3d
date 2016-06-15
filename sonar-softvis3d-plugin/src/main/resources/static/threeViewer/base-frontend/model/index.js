@@ -17,11 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-'use strict';
-
-require('jquery');
-require('angular');
-require('angular-route');
-require('three');
-
-require('../app');
+module.exports = {
+  'LayoutProcessor': require("./layoutProcessor.js"),
+  'Softvis3dModel': require("./softvis3dModel.js")
+};
