@@ -25,44 +25,38 @@ import org.junit.Test;
 import org.sonar.api.config.Settings;
 import org.sonar.api.server.ws.WebService;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 public class SoftVis3DWebserviceTest {
 
-  private WebService.Controller controller;
+  final WebService.Context context = new WebService.Context();
 
   @Before
   public void setUp() {
     final Settings settings = new Settings();
     settings.setProperty(SoftVis3DConstants.DOT_BIN_KEY, "/usr/local/bin/dot");
-    final WebService ws = new SoftVis3DWebservice(settings);
+    final WebService webservice = new SoftVis3DWebservice();
 
-    // WsTester is available in the Maven artifact
-    // org.codehaus.sonar:sonar-plugin-api
-    // with type "test-jar"
-//    final WsTester tester = new WsTester(ws);
-//    controller = tester.controller("api/softVis3D");
+    webservice.define(context);
   }
 
   @Test
   public void testController() throws Exception {
-//    assertThat(controller).isNotNull();
-//    assertThat(controller.path()).isEqualTo("api/softVis3D");
-//    assertThat(controller.description()).isNotEmpty();
-//    assertThat(controller.actions()).hasSize(2);
+    assertEquals(1, context.controllers().size());
+
+    final WebService.Controller softVis3dController = context.controller("api/softVis3D");
+    assertNotNull(softVis3dController);
+    assertEquals(1, softVis3dController.actions().size());
   }
 
   @Test
   public void testVisualizationWebservice() throws Exception {
-//    final WebService.Action getTree = controller.action("getVisualization");
-//    assertThat(getTree).isNotNull();
-//    assertThat(getTree.key()).isEqualTo("getVisualization");
-//    assertThat(getTree.params()).hasSize(5);
+    final WebService.Controller softVis3dController = context.controller("api/softVis3D");
+
+    final WebService.Action visualizationAction = softVis3dController.action("getVisualization");
+    assertNotNull(visualizationAction);
+    assertEquals(4, visualizationAction.params().size());
   }
 
-  @Test
-  public void testConfigWebservice() throws Exception {
-//    final WebService.Action getTree = controller.action("getConfig");
-//    assertThat(getTree).isNotNull();
-//    assertThat(getTree.key()).isEqualTo("getConfig");
-//    assertThat(getTree.params()).hasSize(1);
-  }
 }

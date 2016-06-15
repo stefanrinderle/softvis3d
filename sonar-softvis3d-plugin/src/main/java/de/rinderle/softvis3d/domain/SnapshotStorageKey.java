@@ -40,10 +40,12 @@ public class SnapshotStorageKey {
 
   @Override
   public boolean equals(final Object o) {
-    if (this == o)
+    if (this == o) {
       return true;
-    if (o == null || getClass() != o.getClass())
+    }
+    if (o == null || getClass() != o.getClass()) {
       return false;
+    }
     final SnapshotStorageKey that = (SnapshotStorageKey) o;
     return Objects.equals(key, that.key);
   }

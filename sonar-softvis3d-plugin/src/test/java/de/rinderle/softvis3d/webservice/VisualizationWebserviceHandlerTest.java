@@ -55,7 +55,6 @@ import static org.mockito.Mockito.when;
 public class VisualizationWebserviceHandlerTest {
 
   final StringOutputStream stringOutputStream = new StringOutputStream();
-  final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(stringOutputStream);
 
   private final String snapshotKey = "123";
   private final String footprintMetricKey = "1";
@@ -87,10 +86,7 @@ public class VisualizationWebserviceHandlerTest {
     final Request request = this.createRequest();
     final Response response = this.createResponse();
 
-    final VisualizationRequest requestDTO = new VisualizationRequest(
-      this.snapshotKey, this.footprintMetricKey, this.heightMetricKey, ColorMetricType.NONE);
-
-    final SnapshotTreeResult treeResult = mockPreProcessing(requestDTO);
+    final SnapshotTreeResult treeResult = mockPreProcessing();
 
     when(daoService.getProjectId(eq(localConnector), eq(this.snapshotKey))).thenReturn("projectId");
 
@@ -102,7 +98,7 @@ public class VisualizationWebserviceHandlerTest {
     verify(treeNodeJsonWriter, times(1)).transformRootTreeToJson(any(SoftVis3dJsonWriter.class), eq(treeResult.getTree()));
   }
 
-  private SnapshotTreeResult mockPreProcessing(final VisualizationRequest requestDTO) {
+  private SnapshotTreeResult mockPreProcessing() {
     final RootTreeNode rootTreeNode = new RootTreeNode("1");
     rootTreeNode.getChildren().put("2", new ValueTreeNode("2", rootTreeNode, 1, TreeNodeType.TREE, "2", 3, 3, 3));
     rootTreeNode.getChildren().put("3", new ValueTreeNode("3", rootTreeNode, 1, TreeNodeType.TREE, "3", 9, 9, 9));

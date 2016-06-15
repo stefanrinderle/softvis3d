@@ -19,9 +19,6 @@
  */
 package de.rinderle.softvis3d.service;
 
-import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
-import de.rinderle.softvis3d.base.VisualizationSettings;
-import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNode;
@@ -31,7 +28,6 @@ import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
 public class LayoutExampleService {
 
   public SnapshotTreeResult getExampleResult() throws Exception {
-    final VisualizationSettings settings = new VisualizationSettings();
     return createExampleSnapshotTreeResult("1");
   }
 
@@ -46,15 +42,4 @@ public class LayoutExampleService {
     return new SnapshotTreeResult(result);
   }
 
-  private VisualizationAdditionalInfos createExampleAdditionalInfos() {
-    final MinMaxValue minMaxFootprint = new MinMaxValue(0, 3);
-    final MinMaxValue minMaxHeight = new MinMaxValue(0, 3);
-    final MinMaxValue minMaxColor = new MinMaxValue(0, 3);
-
-    return new VisualizationAdditionalInfos(minMaxFootprint, minMaxHeight, minMaxColor);
-  }
-
-  public SnapshotTreeResult getExampleResultTree() {
-    return createExampleSnapshotTreeResult("1");
-  }
 }

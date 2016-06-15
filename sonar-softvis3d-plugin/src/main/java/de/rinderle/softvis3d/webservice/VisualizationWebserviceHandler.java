@@ -20,11 +20,7 @@
 package de.rinderle.softvis3d.webservice;
 
 import com.google.inject.Inject;
-import de.rinderle.softvis3d.base.VisualizationAdditionalInfos;
-import de.rinderle.softvis3d.base.VisualizationSettings;
-import de.rinderle.softvis3d.base.domain.MinMaxValue;
 import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
-import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
 import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
 import de.rinderle.softvis3d.dao.DaoService;
@@ -40,8 +36,6 @@ import org.sonar.api.server.ws.Response;
 public class VisualizationWebserviceHandler extends AbstractWebserviceHandler implements RequestHandler {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(VisualizationWebserviceHandler.class);
-
-  private VisualizationSettings visualizationSettings;
 
   @Inject
   private PreProcessor preProcessor;
@@ -90,20 +84,6 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     jsonWriter.endObject();
 
     jsonWriter.close();
-  }
-
-  private VisualizationAdditionalInfos createAdditionalInfos(RootTreeNode tree) {
-    final MinMaxCalculator minMaxCalculator = new MinMaxCalculator(tree);
-
-    final MinMaxValue minMaxMetricFootprint = minMaxCalculator.getMinMaxForFootprintMetric();
-    final MinMaxValue minMaxMetricHeight = minMaxCalculator.getMinMaxForHeightMetric();
-    final MinMaxValue minMaxMetricColor = minMaxCalculator.getMinMaxForColorMetric();
-
-    return new VisualizationAdditionalInfos(minMaxMetricFootprint, minMaxMetricHeight, minMaxMetricColor);
-  }
-
-  public void setSettings(final VisualizationSettings settings) {
-    this.visualizationSettings = settings;
   }
 
 }

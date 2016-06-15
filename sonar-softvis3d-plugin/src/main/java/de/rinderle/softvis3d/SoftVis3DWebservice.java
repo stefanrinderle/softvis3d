@@ -21,22 +21,17 @@ package de.rinderle.softvis3d;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import de.rinderle.softvis3d.base.VisualizationSettings;
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import de.rinderle.softvis3d.webservice.VisualizationWebserviceHandler;
-import org.sonar.api.config.Settings;
 import org.sonar.api.server.ws.WebService;
 
 public class SoftVis3DWebservice implements WebService {
 
   private final VisualizationWebserviceHandler visualizationHandler;
 
-  public SoftVis3DWebservice(final Settings settings) {
+  public SoftVis3DWebservice() {
     final Injector softVis3DInjector = Guice.createInjector();
 
     this.visualizationHandler = softVis3DInjector.getInstance(VisualizationWebserviceHandler.class);
-    final VisualizationSettings visualizationSettings = new VisualizationSettings(settings.getString(SoftVis3DConstants.DOT_BIN_KEY));
-    this.visualizationHandler.setSettings(visualizationSettings);
   }
 
   @Override
@@ -54,6 +49,8 @@ public class SoftVis3DWebservice implements WebService {
     action.createParam("footprintMetricKey");
     action.createParam("heightMetricKey");
     action.createParam("colorMetricKey");
+
+    controller.setSince("5.5");
 
     // important to apply changes
     controller.done();
