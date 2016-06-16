@@ -7,14 +7,43 @@
   var RESOURCES_BASE_PATH = "<%= "#{ApplicationController.root_context}" -%>";
 </script>
 
-<%
-   # get extension class and start layout
-   softVis3D = Api::Utils.java_facade.getComponentByClassname('softvis3d', 'de.rinderle.softvis3d.SoftVis3DExtension');
-%>
-
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/vendor.js"></script>
 <script src="<%= "#{ApplicationController.root_context}" -%>/static/softvis3d/threeViewer/bundle.js"></script>
 
 <div ng-app="ThreeViewerApp" class="softvis3d">
   <div ng-view></div>
 </div>
+
+<script type="text/javascript">
+  function waitFor(msec, count, callback) {
+    // Check if condition met. If not, re-check later (msec).
+    while (jQuery('#file-loader').length <= 0) {
+      count++;
+      setTimeout(function () {
+        waitFor(msec, count, callback);
+      }, msec);
+      return;
+    }
+    // Condition finally met. callback() can be executed.
+    callback();
+  }
+
+  window.onload = function () {
+    <%
+    if !params[:layout].blank? && !params[:colorMetricKey].blank? &&
+        !params[:metric1].blank? && !params[:metric2].blank?
+    %>
+
+    // Wait until idle (busy must be false)
+    waitFor(500, 0, function () {
+      // Direct link to visualization. Load and display.
+      angular.element(document.getElementById('file-loader')).controller().loadVisualisation(
+          "<%= params[:metric1] %>", "<%= params[:metric2] %>", "<%= params[:colorMetricKey] %>", "<%= params[:layout] %>"
+      );
+    });
+
+    <%
+    end
+    %>
+  }
+</script>

@@ -38,7 +38,7 @@ The "code city" view provides a visualization for the hierarchical structure of 
 
 ## Evostreets layout
 
-Layout is a stable layout for visualizing evolving software systems using the city metaphor.
+Evostreet is a stable layout for visualizing evolving software systems using the city metaphor.
 
 ## Requirenments
 
