@@ -32,7 +32,7 @@ class LayoutProcessor {
             default:
                 this.setLayoutDistrict();
                 break;
-        };
+        }
     }
 
     setLayoutEvostreet() {
