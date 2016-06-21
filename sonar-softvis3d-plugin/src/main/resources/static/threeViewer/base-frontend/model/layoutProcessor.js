@@ -27,21 +27,21 @@ class LayoutProcessor {
     constructor(options = {}) {
         this._rules = [];
         this._options = Object.assign(
-            { layout: 'district', colorMetric: 'NONE' },
+            { layout: 'district', layoutOptions: {}, colorMetric: 'NONE' },
             options
         );
 
-        if (options.layout === 'evostreet') {
-            this.setLayoutEvostreet(options.colorMetric);
+        if (this._options.layout === 'evostreet') {
+            this.setLayoutEvostreet();
         } else {
-            this.setLayoutDistrict(options.colorMetric);
+            this.setLayoutDistrict();
         }
     }
 
-    setLayoutEvostreet(houseColorChoice) {
+    setLayoutEvostreet() {
         this._illustrator = IllustratorEvostreet;
 
-        this._options = {
+        this._options.layoutOptions = {
             'layout.snail': false,
             'house.margin': 6,
             'highway.length': 50,
@@ -57,14 +57,14 @@ class LayoutProcessor {
 
         this._rules.push(this._RuleHouseHeight());
         this._rules.push(this._RuleHouseBase());
-        this._rules.push(this._getHouseColorRule(houseColorChoice));
+        this._rules.push(this._getHouseColorRule());
         this._rules.push(this._RulePackageColorBlue());
     }
 
-    setLayoutDistrict(houseColorChoice) {
+    setLayoutDistrict() {
         this._illustrator = IllustratorDistrict;
 
-        this._options = {
+        this._options.layoutOptions = {
             'layout.tower': false,
             'house.margin': 6,
             'spacer.margin': 25,
@@ -73,29 +73,25 @@ class LayoutProcessor {
 
         this._rules.push(this._RuleHouseHeight());
         this._rules.push(this._RuleHouseBase());
-        this._rules.push(this._getHouseColorRule(houseColorChoice));
+        this._rules.push(this._getHouseColorRule());
         this._rules.push(this._RulePackageColorGrey());
     }
 
-    _getHouseColorRule(choice = 'NONE') {
-        switch (choice) {
+    _getHouseColorRule() {
+        switch (this._options.colorMetric) {
             case 'ncloc':
                 return this._RuleHouseColorByLinesOfCode();
-                break;
             case 'complexity':
                 return this._RuleHouseColorByComplexity();
-                break;
             case 'PACKAGE':
                 return this._RuleHouseColorByPackageName();
-                break;
             default:
                 return this._RuleHouseColorInitial();
-                break;
         }
     }
 
     getIllustration(model, version) {
-        const illustrator = new this._illustrator(model, this._options);
+        const illustrator = new this._illustrator(model, this._options.layoutOptions);
 
         for (const rule of this._rules) {
             illustrator.addRule(rule);
