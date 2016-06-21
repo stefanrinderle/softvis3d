@@ -60,6 +60,7 @@ public enum ColorMetricType {
     final ColorMetricType result;
     switch (colorMetricKey) {
       case "NONE":
+      case "PACKAGE":
         result = ColorMetricType.NONE;
         break;
       case "AUTHOR_COUNT":

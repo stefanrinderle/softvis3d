@@ -83,28 +83,20 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
     this.listeners();
 
     this.availableLayouts = [
-        {key: "district", name: "District"},
-        {key: "evostreet", name: "Evostreet"}
+        {key: 'district', name: 'District'},
+        {key: 'evostreet', name: 'Evostreet'}
     ];
 
     this.waitFor(500, 0, function () {
         me.BackendService.getMetrics().then(function (response) {
             me.availableMetrics = me.filterMetrics(response.data.metrics);
 
-            me.availableColorMetrics = [];
-            me.availableColorMetrics.push({
-                key: "NONE",
-                name: "Package Name"
-            });
-            /* TODO: Color Metrics not used atm...
-            me.availableColorMetrics.push({
-                key: "NONE",
-                name: "Not used"
-            });
-            for (var index = 0; index < me.availableMetrics.length; index++) {
-                me.availableColorMetrics.push(me.availableMetrics[index]);
-            }
-            */
+            me.availableColorMetrics = [
+                { key: 'NONE', name: 'None' },
+                { key: 'ncloc', name: 'Lines of Code' },
+                { key: 'complexity', name: 'Complexity' },
+                { key: 'PACKAGE', name: 'Package Name' }
+            ];
 
             me.hasScmInfos = false;
             me.availableScmMetrics = [];
@@ -140,17 +132,9 @@ ThreeViewer.FileLoaderController.prototype.filterMetrics = function (metrics) {
 
 ThreeViewer.FileLoaderController.prototype.waitFor = function(msec, count, callback) {
   var me = this;
-  // Check if condition met. If not, re-check later (msec).
   if (ThreeViewer.PROJECT_KEY === undefined) {
-    count++;
-    setTimeout(function () {
-      me.waitFor(msec, count, callback);
-    }, msec);
-
-      return;
-
+    setTimeout(function () { me.waitFor(msec, count+1, callback); }, msec);
   } else {
-    // Condition finally met. callback() can be executed.
     callback();
   }
 };
@@ -178,14 +162,13 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
   var complexityKey = "complexity";
   var issuesKey = "violations";
   var functionsKey = "functions";
-  var noMetric = "NONE";
 
   if (this.cityInnerState === "complexity") {
-    this.loadVisualisation(complexityKey, linesKey, noMetric);
+    this.loadVisualisation(complexityKey, linesKey);
   } else if (this.cityInnerState === "issues") {
-    this.loadVisualisation(issuesKey, linesKey, noMetric);
+    this.loadVisualisation(issuesKey, linesKey);
   } else if (this.cityInnerState === "functions") {
-    this.loadVisualisation(functionsKey, linesKey, noMetric);
+    this.loadVisualisation(functionsKey, linesKey);
   } else {
     console.log("invalid option selected.");
   }
@@ -195,15 +178,18 @@ ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
   this.loadVisualisation(this.customSelectMetrics.metric1, this.customSelectMetrics.metric2, this.customSelectMetrics.metric3, this.layoutAlgorithm);
 };
 
-ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, colorMetricKey, layout) {
+ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, colorMetricKey = 'NONE', layout = 'district') {
   var me = this;
 
   this.infoInnerState = "loading";
   this.showTab("info");
   this.BackendService.getVisualization(ThreeViewer.PROJECT_KEY, metric1, metric2, colorMetricKey).then(function (response) {
-
+    var options = {
+        layout: layout,
+        colorMetric: colorMetricKey
+    }
     var treeResult = response.data.resultObject[0].treeResult;
-    var illustration = me.createModel(treeResult, layout);
+    var illustration = me.createModel(treeResult, options);
     me.ViewerService.loadSoftVis3d(illustration);
 
     var eventObject = {};
@@ -225,11 +211,11 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
   });
 };
 
-ThreeViewer.FileLoaderController.prototype.createModel = function (treeResult, layout) {
+ThreeViewer.FileLoaderController.prototype.createModel = function (treeResult, options = {}) {
   this.TreeService.setTree(treeResult);
 
   var model = new Model.Softvis3dModel(treeResult);
-  return new Model.LayoutProcessor(layout).getIllustration(model, model._version);
+  return new Model.LayoutProcessor(options).getIllustration(model, model._version);
 };
 
 ThreeViewer.FileLoaderController.prototype.getNameForMetricKey = function (metricKey) {
