@@ -20,18 +20,27 @@
 
 -->
 <div ng-controller="AppController as viewer" style="position: relative;">
-  <div class="sidebarThreeJs">
-    <button ng-click="viewer.toggleLoader()">VW</button>
-    <button ng-click="viewer.toggleToolbar()">TB</button>
-    <button ng-click="viewer.toggleHelp()">?</button>
-  </div>
+    <div class="sidebarThreeJs">
+        <button ng-click="viewer.toggleLoader()" class="sidebar-loader">
+            <div class="block"></div>
+        </button>
+        <button ng-click="viewer.toggleToolbar()" class="sidebar-toggle">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </button>
+        <button ng-click="viewer.toggleHelp()" class="sidebar-help">
+            <div>?</div>
+        </button>
+    </div>
 
-  <div class="toolbar" ng-show="viewer.tb.toolbar" stop-event toolbar></div>
+    <div class="toolbar" ng-show="viewer.tb.toolbar" stop-event toolbar></div>
 
-  <div class="infoContainer" ng-show="viewer.tb.help" stop-event help></div>
+    <div class="infoContainer" ng-show="viewer.tb.help" stop-event help></div>
 
-  <div id="infoContainer" class="infoContainer">
-    <canvas id="viewer" select></canvas>
-  </div>
-  <div class="infoContainer" ng-show="viewer.tb.loader" file-loader></div>
+    <div id="infoContainer" class="infoContainer">
+        <canvas id="viewer" select></canvas>
+    </div>
+    <div class="infoContainer" ng-show="viewer.tb.loader" file-loader></div>
 </div>
