@@ -24,21 +24,24 @@ var attributeHelper = CodeCityVis.helper.attributes;
 
 class LayoutProcessor {
 
-    constructor(layout) {
-        switch (layout) {
-            case 'evostreet':
-                this.setLayoutEvostreet();
-                break;
-            default:
-                this.setLayoutDistrict();
-                break;
-        };
+    constructor(options = {}) {
+        this._rules = [];
+        this._options = Object.assign(
+            { layout: 'district', layoutOptions: {}, colorMetric: 'NONE' },
+            options
+        );
+
+        if (this._options.layout === 'evostreet') {
+            this.setLayoutEvostreet();
+        } else {
+            this.setLayoutDistrict();
+        }
     }
 
     setLayoutEvostreet() {
         this._illustrator = IllustratorEvostreet;
 
-        this._options = {
+        this._options.layoutOptions = {
             'layout.snail': false,
             'house.margin': 6,
             'highway.length': 50,
@@ -51,32 +54,44 @@ class LayoutProcessor {
             }
         };
 
-        this._rules = [];
-        this._rules.push(this._Rule1());
-        this._rules.push(this._Rule2());
-        this._rules.push(this._Rule3());
-        this._rules.push(this._Rule4());
+
+        this._rules.push(this._RuleHouseHeight());
+        this._rules.push(this._RuleHouseBase());
+        this._rules.push(this._getHouseColorRule());
+        this._rules.push(this._RulePackageColorBlue());
     }
 
     setLayoutDistrict() {
         this._illustrator = IllustratorDistrict;
 
-        this._options = {
+        this._options.layoutOptions = {
             'layout.tower': false,
             'house.margin': 6,
             'spacer.margin': 25,
             'spacer.padding': 15
         };
 
-        this._rules = [];
-        this._rules.push(this._Rule1());
-        this._rules.push(this._Rule2());
-        this._rules.push(this._Rule3());
-        this._rules.push(this._Rule5());
+        this._rules.push(this._RuleHouseHeight());
+        this._rules.push(this._RuleHouseBase());
+        this._rules.push(this._getHouseColorRule());
+        this._rules.push(this._RulePackageColorGrey());
+    }
+
+    _getHouseColorRule() {
+        switch (this._options.colorMetric) {
+            case 'ncloc':
+                return this._RuleHouseColorByLinesOfCode();
+            case 'complexity':
+                return this._RuleHouseColorByComplexity();
+            case 'PACKAGE':
+                return this._RuleHouseColorByPackageName();
+            default:
+                return this._RuleHouseColorInitial();
+        }
     }
 
     getIllustration(model, version) {
-        const illustrator = new this._illustrator(model, this._options);
+        const illustrator = new this._illustrator(model, this._options.layoutOptions);
 
         for (const rule of this._rules) {
             illustrator.addRule(rule);
@@ -90,7 +105,7 @@ class LayoutProcessor {
      * @private
      * @returns {BaseRule}
      */
-    _Rule1() {
+    _RuleHouseHeight() {
         return new CodeCityVis.rules.math.logarithmic({
             'condition': function(model, node) {
                 return node.children.length === 0;
@@ -101,7 +116,7 @@ class LayoutProcessor {
             },
             'attributes': 'dimensions.height',
             'min': 12,
-            'max': 260,
+            'max': 350,
             'logbase': 3.40,
             'logexp': 3.25
         });
@@ -112,9 +127,9 @@ class LayoutProcessor {
      * @private
      * @returns {BaseRule}
      */
-    _Rule2() {
+    _RuleHouseBase() {
         return new CodeCityVis.rules.math.logarithmic({
-            'condition': function(model, node, version) {
+            'condition': function(model, node) {
                 return node.children.length === 0;
             },
             'metric': function(model, node, version) {
@@ -123,26 +138,9 @@ class LayoutProcessor {
             },
             'attributes': ['dimensions.length', 'dimensions.width'],
             'min': 14,
-            'max': 150,
+            'max': 250,
             'logbase': 3.60,
-            'logexp': 3.15
-        });
-    }
-
-    /**
-     * Package-Name --> Building Color
-     * @private
-     * @returns {BaseRule}
-     */
-    _Rule3() {
-        return new CodeCityVis.rules.color.assigned({
-            'condition': function(model, node, version) {
-                return node.children.length === 0 && node.parent;
-            },
-            'metric': function(model, node, version) {
-                return String(node.parent);
-            },
-            'attributes': 'color'
+            'logexp': 3.2
         });
     }
 
@@ -151,20 +149,20 @@ class LayoutProcessor {
      * @private
      * @returns {BaseRule}
      */
-    _Rule4() {
+    _RulePackageColorBlue() {
         return new CodeCityVis.rules.color.gradient({
-            'condition': function(model, node, version) {
+            'condition': function(model, node) {
                 return node.children.length !== 0;
             },
-            'metric': function(model, node, version) {
+            'metric': function(model, node) {
                 let level = 0;
                 while(node = node.parent) {
                     level++;
                 }
-                return Math.min(level, 10);
+                return level;
             },
             'attributes': 'color',
-            'max': 10,
+            'max': 9,
             'minColor': 0x157f89,
             'maxColor': 0x0b2d5c
         });
@@ -175,22 +173,105 @@ class LayoutProcessor {
      * @private
      * @returns {BaseRule}
      */
-    _Rule5() {
+    _RulePackageColorGrey() {
         return new CodeCityVis.rules.color.gradient({
-            'condition': function(model, node, version) {
+            'condition': function(model, node) {
                 return node.children.length !== 0;
             },
-            'metric': function(model, node, version) {
+            'metric': function(model, node) {
                 let level = 0;
                 while(node = node.parent) {
                     level++;
                 }
-                return Math.min(level, 9);
+                return level;
             },
             'attributes': 'color',
             'max': 9,
             'minColor': 0x252525,
             'maxColor': 0xEEEEEE
+        });
+    }
+
+
+    /* ####################################################### *
+     * ################ HOUSE COLORS ######################### *
+     * ####################################################### */
+
+    /**
+     * Package-Name --> Building Color
+     * @private
+     * @returns {BaseRule}
+     */
+    _RuleHouseColorInitial() {
+        return new CodeCityVis.rules.universal({
+            'condition': function(model, node) {
+                return node.children.length === 0 && node.parent;
+            },
+            'metric': function() {
+                return 0xFD8B01;
+            },
+            'attributes': 'color'
+        });
+    }
+    
+    /**
+     * Package-Name --> Building Color
+     * @private
+     * @returns {BaseRule}
+     */
+    _RuleHouseColorByPackageName() {
+        return new CodeCityVis.rules.color.assigned({
+            'condition': function(model, node) {
+                return node.children.length === 0 && node.parent;
+            },
+            'metric': function(model, node) {
+                return String(node.parent);
+            },
+            'attributes': 'color'
+        });
+    }
+
+    /**
+     * Lines of Code --> Building Color
+     * @private
+     * @returns {BaseRule}
+     */
+    _RuleHouseColorByLinesOfCode() {
+        return new CodeCityVis.rules.color.gradient({
+            'condition': function(model, node) {
+                return node.children.length === 0;
+            },
+            'metric': function(model, node, version) {
+                const attr = attributeHelper.attrFallbackSweep(model, node, version);
+                return ('metricColor' in attr) ? attr.metricColor : 0;
+            },
+            'attributes': 'color',
+            'min': 25,
+            'max': 750,
+            'minColor': 0x00CC00,
+            'maxColor': 0xFF0000
+        });
+    }
+
+    /**
+     * Complexity --> Building Color
+     * @private
+     * @returns {BaseRule}
+     */
+    _RuleHouseColorByComplexity() {
+        return new CodeCityVis.rules.color.gradient({
+            'condition': function(model, node) {
+                return node.children.length === 0;
+            },
+            'metric': function(model, node, version) {
+                const attr = attributeHelper.attrFallbackSweep(model, node, version);
+                return ('metricColor' in attr) ? attr.metricColor : 0;
+            },
+            'attributes': 'color',
+            'min': 25,
+            'max': 350,
+            'minColor': 0x00CC00,
+            'maxColor': 0xFF0000
         });
     }
 }

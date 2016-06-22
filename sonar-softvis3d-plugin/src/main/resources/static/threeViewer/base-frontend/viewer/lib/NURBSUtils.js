@@ -178,8 +178,8 @@ THREE.NURBSUtils = {
             var saved = 0.0;
 
             for (let r = 0; r < j; ++r) {
-                let rv = right[r + 1];
-                let lv = left[j - r];
+                const rv = right[r + 1];
+                const lv = left[j - r];
                 ndu[j][r] = rv + lv;
 
                 var temp = ndu[r][j - 1] / ndu[j][r];
@@ -206,16 +206,16 @@ THREE.NURBSUtils = {
 
             for (let k = 1; k <= n; ++k) {
                 let d = 0.0;
-                let rk = r - k;
-                let pk = p - k;
+                const rk = r - k;
+                const pk = p - k;
 
                 if (r >= k) {
                     a[s2][0] = a[s1][0] / ndu[pk + 1][rk];
                     d = a[s2][0] * ndu[rk][pk];
                 }
 
-                var j1 = (rk >= -1) ? 1 : -rk;
-                var j2 = (r - 1 <= pk) ? k - 1 : p - r;
+                const j1 = (rk >= -1) ? 1 : -rk;
+                const j2 = (r - 1 <= pk) ? k - 1 : p - r;
 
                 for (let j = j1; j <= j2; ++j) {
                     a[s2][j] = (a[s1][j] - a[s1][j - 1]) / ndu[pk + 1][rk + j];
@@ -229,7 +229,7 @@ THREE.NURBSUtils = {
 
                 ders[k][r] = d;
 
-                let temp = s1;
+                const temp = s1;
                 s1 = s2;
                 s2 = temp;
             }
@@ -267,7 +267,7 @@ THREE.NURBSUtils = {
         var Pw = [];
 
         for (let i = 0; i < P.length; ++i) {
-            let point = P[i].clone();
+            const point = P[i].clone();
             var w = point.w;
 
             point.x *= w;
@@ -277,7 +277,7 @@ THREE.NURBSUtils = {
             Pw[i] = point;
         }
         for (let k = 0; k <= du; ++k) {
-            let point = Pw[span - p].clone().multiplyScalar(nders[k][0]);
+            const point = Pw[span - p].clone().multiplyScalar(nders[k][0]);
 
             for (var j = 1; j <= p; ++j) {
                 point.add(Pw[span - p + j].clone().multiplyScalar(nders[k][j]));
