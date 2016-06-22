@@ -35,6 +35,15 @@ public class ColorMetricTypeTest {
   }
 
   @Test
+  public void testColorMetricTypePackage() {
+    final String metricName = "PACKAGE";
+    final ColorMetricType result = ColorMetricType.getColorMetricType(metricName);
+
+    assertEquals(ColorMetricType.NONE.name(), result.getDefaultMetricName());
+    assertNull(result.getScmCalculationService());
+  }
+
+  @Test
   public void testColorMetricTypeAuthorCount() {
     final ColorMetricType result = ColorMetricType.getColorMetricType(ColorMetricType.AUTHOR_COUNT.name());
 
