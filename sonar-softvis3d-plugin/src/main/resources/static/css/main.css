@@ -86,12 +86,13 @@
     position: absolute;
     right: 0;
     top: 0;
-    padding: 14px;
+    padding: 13px;
     cursor: pointer;
     font-weight: 600;
     line-height: 0;
     text-decoration: none;
     text-transform: lowercase;
+    font-size: 14px;
 
     color: #236a97;
     outline: none;
@@ -154,10 +155,10 @@
 }
 
 .sidebarThreeJs button {
-    width: 35px;
-    height: 35px;
-    font-size: 18px;
-    margin: 15px 3px 0 3px;
+    width: 26px;
+    height: 26px;
+    font-size: 16px;
+    margin: 14px 3px 0 3px;
     line-height: 0;
     padding: 0;
 }
@@ -167,34 +168,31 @@
 }
 
 .sidebarThreeJs button.sidebar-loader div {
-    height: 25px;
-    overflow-y:hidden;
+    height: 20px;
     background:transparent;
     font-size:10px;
+    overflow: hidden;
+    margin-bottom: 1px;
 }
 
 .sidebarThreeJs button.sidebar-loader div:before{
     content: "";
     display: block;
     width: 0;
-    height: 25px;
+    height: 20px;
     transition: 0.2s;
 
-    /* Verschiebe nach Rechts
-       Verschiebe nach unten
-       Höhe
-       Breite */
-    box-shadow: 8px 15px 0 3px #236a97,
-                17px 20px 0 5px #236a97,
-                26px 8px  0 3px #236a97;
+    box-shadow: 5px 12px 0 3px #236a97,
+                13px 16px 0 4px #236a97,
+                20px 8px  0 2px #236a97;
 
 }
 
 .sidebarThreeJs button.sidebar-loader:hover div:before,
 .sidebarThreeJs button.sidebar-loader:focus div:before {
-    box-shadow: 8px 13px 0 5px #ffffff,
-                17px 8px 0 3px #ffffff,
-                24px 20px  0 3px #ffffff;
+    box-shadow: 6px 14px 0 5px #ffffff,
+                14px 10px 0 2px #ffffff,
+                20px 7px  0 3px #ffffff;
 }
 
 .sidebarThreeJs button.sidebar-loader div:after{
@@ -202,7 +200,7 @@
     display: block;
     position: relative;
     margin-top: -1px;
-    width: 33px;
+    width: 24px;
     height: 1px;
     background: #236a97;
 }
@@ -212,10 +210,10 @@
 }
 
 .sidebarThreeJs button.sidebar-toggle div {
-    width: 25px;
+    width: 18px;
     height: 2px;
     background-color: #236a97;
-    margin: 4px auto;
+    margin: 3px auto;
     transition: 0.2s;
 }
 
@@ -237,8 +235,8 @@
 
 
 .sidebarThreeJs button.sidebar-help:hover div {
-    font-size: 20px;
-    transform: rotate(20deg) translate(0px, -2px);
+    font-size: 18px;
+    transform: rotate(20deg) translate(1px, 0px);
 }
 
 

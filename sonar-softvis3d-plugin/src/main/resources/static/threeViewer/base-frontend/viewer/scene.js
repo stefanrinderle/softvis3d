@@ -82,7 +82,7 @@ Viewer.Scene.prototype = {
       }
       to = setTimeout(function () {
         this.onWindowResize();
-      }.bind(this), 150);
+      }.bind(this), 100);
     }.bind(this), false);
 
     jQuery(document).on('mediaready', function (e) {
