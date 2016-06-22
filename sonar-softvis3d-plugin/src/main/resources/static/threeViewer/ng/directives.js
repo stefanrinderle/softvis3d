@@ -62,22 +62,26 @@ ThreeViewer.SelectDirective.prototype.link = function (scope, elem, attrs) {
   this.elem = elem;
   this.attrs = attrs;
   this.clickOrDragFlag = false;
+  this.clickStartPos = {x:0, y:0};
 
   var me = this;
   this.elem.on('mousedown', function (e) {
-    me.clickOrDragFlag = false;
+    me.clickOrDragFlag = true;
+    me.clickStartPos.x = e.clientX;
+    me.clickStartPos.y = e.clientY;
   });
 
   this.elem.on('mousemove', function (e) {
-    me.clickOrDragFlag = true;
+    if (me.clickOrDragFlag) {
+      var diff = Math.abs(me.clickStartPos.x - e.clientX) + Math.abs(me.clickStartPos.y - e.clientY);
+      me.clickOrDragFlag = diff <= 3;
+    }
   });
 
   this.elem.on('mouseup', function (event) {
     if(me.clickOrDragFlag){
-      // drag
-      me.clickOrDragFlag = false;
-    } else {
       me.ViewerService.makeSelection(event);
+      me.clickOrDragFlag = false;
     }
   });
 };
