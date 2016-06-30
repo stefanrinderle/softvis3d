@@ -34,6 +34,10 @@ For details, see README file of the module.
 
 See module for details.
 
+## License
+
+GNU LESSER GENERAL PUBLIC LICENSE Version 3
+
 # TravisCI status
 
 [![Build Status](https://travis-ci.org/stefanrinderle/softvis3d.svg?branch=master)](https://travis-ci.org/stefanrinderle/softvis3d)
