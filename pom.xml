@@ -20,6 +20,43 @@
     <jdk.min.version>1.7</jdk.min.version>
   </properties>
 
+  <url>http://softvis3d.com</url>
+
+  <inceptionYear>2015</inceptionYear>
+
+  <organization>
+    <name>Stefan Rinderle</name>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>GNU LGPL 3</name>
+      <url>http://www.gnu.org/licenses/lgpl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>srinderle</id>
+      <name>Stefan Rinderle</name>
+      <url>https://github.com/stefanrinderle</url>
+      <email>stefan@rinderle.info</email>
+    </developer>
+  </developers>
+
+  <issueManagement>
+    <url>https://github.com/stefanrinderle/softvis3d/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+
+  <scm>
+    <connection>scm:git:ssh://git@github.com/stefanrinderle/softvis3d.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/stefanrinderle/softvis3d.git</developerConnection>
+    <url>https://github.com/stefanrinderle/softvis3d</url>
+    <tag>HEAD</tag>
+  </scm>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -76,35 +113,6 @@
     <!--<module>softvis3d-webservice-example</module>-->
     <module>sonar-softvis3d-plugin</module>
   </modules>
-
-  <url>http://softvis3d.com</url>
-
-  <inceptionYear>2015</inceptionYear>
-
-  <organization>
-    <name>Stefan Rinderle</name>
-  </organization>
-
-  <developers>
-    <developer>
-      <id>srinderle</id>
-      <name>Stefan Rinderle</name>
-      <url>https://github.com/stefanrinderle</url>
-      <email>stefan@rinderle.info</email>
-    </developer>
-  </developers>
-
-  <issueManagement>
-    <url>https://github.com/stefanrinderle/softvis3d/issues</url>
-    <system>GitHub Issues</system>
-  </issueManagement>
-
-  <scm>
-    <connection>scm:git:ssh://git@github.com/stefanrinderle/softvis3d.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/stefanrinderle/softvis3d.git</developerConnection>
-    <url>https://github.com/stefanrinderle/softvis3d</url>
-    <tag>HEAD</tag>
-  </scm>
 
   <build>
     <plugins>
