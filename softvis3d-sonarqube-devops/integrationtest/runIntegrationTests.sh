@@ -43,7 +43,7 @@ echo "Run integration tests"
 docker stop ${CONTAINER_NAME}_protractorTestRun
 docker rm ${CONTAINER_NAME}_protractorTestRun
 
-docker run --name ${CONTAINER_NAME}_protractorTestRun -it --privileged --rm --net=host  -v /dev/shm:/dev/shm -v $(pwd)/protractor:/protractor webnicer/protractor-headless  ./protractor.conf.js --baseUrl="http://localhost:${SONARQUBE_LOCAL_PORT}/"
+docker run --name ${CONTAINER_NAME}_protractorTestRun -i --privileged --rm --net=host  -v /dev/shm:/dev/shm -v $(pwd)/protractor:/protractor webnicer/protractor-headless  ./protractor.conf.js --baseUrl="http://localhost:${SONARQUBE_LOCAL_PORT}/"
 
 echo "Stop and cleanup container"
 docker stop ${dockerid}
