@@ -34,7 +34,7 @@ echo "Run integration test container $CONTAINER_NAME with id $dockerid and wait 
 echo "Wait for sonarqube instance to start"
 sleep 60
 echo "Analyse project"
-mvn -f ../../pom.xml sonar:sonar -Dsonar.host.url=http://localhost:${SONARQUBE_LOCAL_PORT}
+mvn -f ../../pom.xml -U -B sonar:sonar -Dsonar.host.url=http://localhost:${SONARQUBE_LOCAL_PORT}
 
 sleep 5
 
