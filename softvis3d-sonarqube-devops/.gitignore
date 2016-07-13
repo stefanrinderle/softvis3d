@@ -1,2 +1,1 @@
-/vagrant/.vagrant
-/ansible/provisioning/screenshots
+integrationtest/protractor/results

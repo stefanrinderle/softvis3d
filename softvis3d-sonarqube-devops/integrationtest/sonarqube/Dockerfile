@@ -1,0 +1,3 @@
+FROM sonarqube:XX_SONARQUBE_VERSION_XX
+
+ADD ./XX_PLUGIN_FILENAME_XX /opt/sonarqube/extensions/downloads/XX_PLUGIN_FILENAME_XX
