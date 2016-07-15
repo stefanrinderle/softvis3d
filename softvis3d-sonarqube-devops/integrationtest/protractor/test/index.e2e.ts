@@ -10,7 +10,7 @@ function waitFor(selector) {
 describe('Index', () => {
 
     beforeEach(() => {
-        browser.get('/sonar');
+        browser.get('/');
 
         element(by.linkText('softvis3d')).click();
         browser.sleep(2000);
