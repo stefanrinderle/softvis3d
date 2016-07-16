@@ -13,7 +13,7 @@ var reporter = new HtmlScreenshotReporter({
 });
 
 exports.config = {
-  baseUrl: 'http://localhost:9000',
+  // baseUrl: 'http://localhost:9000',
 
   // use `npm run e2e`
   specs: [
@@ -35,11 +35,11 @@ exports.config = {
   directConnect: true,
 
   capabilities: {
-    'browserName': 'chrome',
-    'chromeOptions': {
-      'args': ['show-fps-counter=true', '–ignore-gpu-blacklist', '--enable-webgl']
-    }
-    // 'browserName': 'firefox'
+    // 'browserName': 'chrome',
+    // 'chromeOptions': {
+    //   'args': ['show-fps-counter=true', '–ignore-gpu-blacklist', '--enable-webgl']
+    // }
+    'browserName': 'firefox'
   },
 
     onPrepare: function () {
