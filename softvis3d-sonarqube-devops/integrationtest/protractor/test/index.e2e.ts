@@ -21,21 +21,58 @@ describe('Index', () => {
     });
 
     it('shoud show the menu', () => {
-
-        var showbutton = element(by.buttonText('Show'));
+        var showbutton = element(by.id('cityButtonShow'));
 
         expect(showbutton.isEnabled()).toBe(true);
         expect(element(by.id('file-loader')).isDisplayed()).toBe(true);
         browser.sleep(2000);
     });
 
-    it('shoud show the visualization', () => {
-
-        var showbutton = element(by.buttonText('Show'));
+    it('shoud show the default visualization', () => {
+        var showbutton = element(by.id('cityButtonShow'));
         showbutton.click();
 
-        expect(element(by.id('file-loader')).isDisplayed()).toBe(false);
         browser.sleep(2000);
     });
+
+    it('shoud show the custom menu', () => {
+        var customButton = element(by.id('navigationButtonCustom'));
+        customButton.click();
+    });
+
+    it('shoud show the custom default visualization', () => {
+        var customButton = element(by.id('navigationButtonCustom'));
+        customButton.click();
+
+        var showbutton = element(by.id('customButtonShow'));
+        showbutton.click();
+
+        browser.sleep(2000);
+    });
+
+    it('shoud show the custom evostreet visualization', () => {
+        var custombutton = element(by.id('navigationButtonCustom'));
+        custombutton.click();
+
+        element(by.cssContainingText('option', 'Evostreet')).click();
+
+        var showbutton = element(by.id('customButtonShow'));
+        showbutton.click();
+
+        browser.sleep(2000);
+    });
+
+    it('shoud show custom visualization with colors', () => {
+        var custombutton = element(by.id('navigationButtonCustom'));
+        custombutton.click();
+
+        element(by.cssContainingText('option', 'Package Name')).click();
+
+        var showbutton = element(by.id('customButtonShow'));
+        showbutton.click();
+
+        browser.sleep(2000);
+    });
+
 
 });

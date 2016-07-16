@@ -22,13 +22,14 @@
 <div id="file-loader" class="closeLoader" ng-controller="FileLoaderController as loader" ng-cloak>
     <div id="loader-buttons">
         <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.city}"
-             ng-click="loader.showTab('city');">City
+             ng-click="loader.showTab('city');" id="navigationButtonCity">City
         </div>
         <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.custom}"
-             ng-click="loader.showTab('custom');">Custom
+             ng-click="loader.showTab('custom');" id="navigationButtonCustom">Custom
         </div>
         <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.info}"
-             ng-click="loader.showTab('info');" ng-show="loader.infoInnerState != 'idle'">Info
+             ng-click="loader.showTab('info');" ng-show="loader.infoInnerState != 'idle'"
+             id="navigationButtonInfo">Info
         </div>
 
         <div href="#" class="close closeLoader" ng-click="viewer.toggleLoader()">X</div>
@@ -73,10 +74,10 @@
                 Search for skyscraper buildings and especially for ones with a small footprint.
             </div>
             <br/>
-            <button ng-click="loader.submitCityForm()" ng-disabled="!loader.configLoaded">Show</button>
+            <button ng-click="loader.submitCityForm()" ng-disabled="!loader.configLoaded" id="cityButtonShow">Show</button>
         </div>
         <div id="custom-loader" class="loader-options" ng-show="loader.state.custom" ng-cloak>
-            <div id="costum-layout" class="layout-options">
+            <div id="custom-layout" class="layout-options">
                 City Layout:<br />
                 <select name="layout" ng-options="item.key as item.name for item in loader.availableLayouts"
                         ng-model="loader.layoutAlgorithm" style="width: 200px;"></select>
@@ -98,7 +99,7 @@
                     ng-model="loader.customSelectMetrics.metric3" style="width: 200px;"></select>
 
             <br/><br/>
-            <button ng-click="loader.loadCustomView()" ng-disabled="!loader.configLoaded">Show</button>
+            <button ng-click="loader.loadCustomView()" ng-disabled="!loader.configLoaded" id="customButtonShow">Show</button>
         </div>
         <div class="loader-options" ng-show="loader.state.info" ng-cloak>
             <div ng-show="loader.infoInnerState === 'idle'">
