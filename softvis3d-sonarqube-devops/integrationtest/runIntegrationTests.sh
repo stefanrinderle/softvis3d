@@ -47,6 +47,18 @@ echo "build"
 docker build -t softvis3d_protractor_runner ./protractor
 docker run --name ${CONTAINER_NAME}_protractorTestRun -i --privileged --rm --net=host  -v /dev/shm:/dev/shm -v $(pwd)/protractor:/protractor softvis3d_protractor_runner  ./protractor.conf.js --baseUrl="http://localhost:${SONARQUBE_LOCAL_PORT}/"
 
-echo "Stop and cleanup container"
+echo "Stop and cleanup of containers and images"
+
+docker stop ${CONTAINER_NAME}_protractorTestRun
+docker rm ${CONTAINER_NAME}_protractorTestRun
+
 docker stop ${dockerid}
 docker rm ${dockerid}
+
+if docker images -f "dangling=true" -q
+then
+    echo "nothing to do"
+else
+    docker rmi $(docker images -f "dangling=true" -q)
+    echo "removed"
+fi
