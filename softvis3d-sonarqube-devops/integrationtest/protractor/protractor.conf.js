@@ -33,10 +33,7 @@ exports.config = {
   directConnect: true,
 
   capabilities: {
-    'browserName': 'chrome',
-    'chromeOptions': {
-      'args': ['show-fps-counter=true']
-    }
+    'browserName': 'firefox'
   },
 
     onPrepare: function () {

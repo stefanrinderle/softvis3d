@@ -40,10 +40,12 @@ sleep 5
 
 echo "Run integration tests"
 
-docker stop ${CONTAINER_NAME}_protractorTestRun
-docker rm ${CONTAINER_NAME}_protractorTestRun
+docker stop softvis3d_protractor_runner
+docker rm softvis3d_protractor_runner
 
-docker run --name ${CONTAINER_NAME}_protractorTestRun -i --privileged --rm --net=host  -v /dev/shm:/dev/shm -v $(pwd)/protractor:/protractor webnicer/protractor-headless  ./protractor.conf.js --baseUrl="http://localhost:${SONARQUBE_LOCAL_PORT}/"
+echo "build"
+docker build -t softvis3d_protractor_runner ./protractor
+docker run --name ${CONTAINER_NAME}_protractorTestRun -i --privileged --rm --net=host  -v /dev/shm:/dev/shm -v $(pwd)/protractor:/protractor softvis3d_protractor_runner  ./protractor.conf.js --baseUrl="http://localhost:${SONARQUBE_LOCAL_PORT}/"
 
 echo "Stop and cleanup container"
 docker stop ${dockerid}
