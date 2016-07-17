@@ -1,8 +1,8 @@
 node_modules
 node_tmp
-static/threeViewer/bundle.*
-static/threeViewer/vendor.*
-static/threeViewer/react.*
+static/bundle.*
+static/vendor.*
+static/react.*
 
 npm-debug.log
 

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { TestTypescriptService } from '../react/TestTypescriptService';
+import { TestTypescriptService } from './TestTypescriptService';
 
 describe('TestTypescriptService', () => {
 

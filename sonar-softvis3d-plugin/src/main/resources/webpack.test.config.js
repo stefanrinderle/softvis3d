@@ -1,7 +1,7 @@
 module.exports = {
-  entry: './static/react/index.tsx',
+  entry: './react/index.tsx',
   output: {
-    filename: 'dist/bundle.js'
+    filename: 'static/bundle.js'
   },
   resolve: {
     extensions: ['.ts', '.js', '.tsx', '.jsx', '']
@@ -15,4 +15,4 @@ module.exports = {
       }
     ]
   }
-}
+};

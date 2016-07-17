@@ -1,0 +1,81 @@
+<!--
+
+    SoftVis3D Sonar plugin
+    Copyright (C) 2016 Stefan Rinderle
+    stefan@rinderle.info
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3 of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+
+-->
+<div id="toolbar" ng-controller="ToolbarController as toolbar" ng-cloak>
+  <h2>Toolbar</h2><a href="#" class="close" ng-click="viewer.toggleToolbar()">X</a>
+
+  <div ng-show="(toolbar.node)" class="toolbar-content">
+
+    <p ng-show="toolbar.metric1Name || toolbar.metric2Name || toolbar.scmMetricName">
+        ({{toolbar.metric1Name}} / {{toolbar.metric2Name}} / {{toolbar.scmMetricName}})
+    </p>
+    <!-- NODE MAIN INFO -->
+
+    <button type='button' ng-click='toolbar.showAllSceneElements();'>Show all objects (reset)</button>
+
+    <div ng-show="toolbar.node" class="toolbar-nodeInfo">
+      <h3>{{toolbar.node.name}}
+        <span ng-show="!toolbar.node.isNode">({{toolbar.node.footprintMetricValue}} / {{toolbar.node.heightMetricValue}} / {{toolbar.node.colorMetricValue}})</span>
+        <div class="clearfix"></div>
+      </h3>
+      <button ng-show="toolbar.node.isNode" type='button'
+              ng-click='toolbar.hideAllSceneElementsExceptIdTree(toolbar.node.id);'>Focus this
+      </button>
+    </div>
+
+    <!-- NODE NAVIGATION -->
+    <div ng-show="toolbar.node.parentInfo" class="toolbar-parentInfo">
+      <span class="key">Parent</span>
+      <a href='#'
+         ng-click="toolbar.selectSceneObjectFromDetails(toolbar.node.parentInfo.id, toolbar.node.parentInfo.type);">
+        {{toolbar.node.parentInfo.name}}
+      </a>
+    </div>
+
+    <div ng-if="toolbar.node.children.length > 0">
+      <h4>
+        <img ng-hide="toolbar.displayChildren" ng-click="toolbar.triggerDisplayChildren();"
+             style="vertical-align: text-top;"
+             ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_plus.gif"
+             alt="Extend tree"/>
+        <img ng-show="toolbar.displayChildren" ng-click="toolbar.triggerDisplayChildren();"
+             style="vertical-align: text-top;"
+             ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_minus.gif"
+             alt="Collapse tree"/>
+        Children ({{toolbar.node.children.length}})
+      </h4>
+      <ul ng-show="toolbar.displayChildren" style="list-style: none;">
+        <li ng-repeat="child in toolbar.node.children">
+          <img ng-hide="child.isNode" style="vertical-align: text-top;"
+               ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/file.gif"
+               alt="File"/>
+          <img ng-show="child.isNode" style="vertical-align: text-top;"
+               ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/folder.gif"
+               alt="Folder"/>
+          <a href='#' ng-click="toolbar.selectSceneObjectFromDetails(child.id, child.type);">
+            {{ child.name | limitTo:21 }}{{child.name.length > 21 ? '...' : ''}}
+            <span ng-show="!child.isNode">({{child.footprintMetricValue}}/{{child.heightMetricValue}})</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

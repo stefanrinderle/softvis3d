@@ -20,16 +20,14 @@
 'use strict';
 var webpack = require('webpack');
 var path = require('path');
-
-var APP = __dirname + '/static/threeViewer';
-var STATIC = __dirname + '/static';
+var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 
 module.exports = {
-    context: STATIC,
+    context: __dirname,
     entry: {
-        bundle: './threeViewer/core/bootstrap.js',
-        vendor: ["jquery", "three", "three-orbit-controls", "angular"],
-        react: './react/index.tsx'
+        bundle: './src/threeViewer/core/bootstrap.js',
+        react: './src/react/index.tsx',
+        vendor: ["jquery", "three", "three-orbit-controls", "angular"]
     },
 
     // Enable sourcemaps for debugging webpack's output.
@@ -49,7 +47,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'jshint',
-                exclude: ["static/threeViewer/bundle.js", "static/threeViewer/vendor.js", /node_modules/, /dist/, /react/]
+                exclude: [/node_modules/, /static/, /react/]
             },
             {
                 test: /\.js$/,
@@ -76,7 +74,7 @@ module.exports = {
         ]
     },
     output: {
-      path: APP,
+      path: __dirname + '/static/',
       filename: "[name].js",
       publicPath: "/app/"
     }
