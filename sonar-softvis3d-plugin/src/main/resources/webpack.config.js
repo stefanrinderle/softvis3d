@@ -22,16 +22,27 @@ var webpack = require('webpack');
 var path = require('path');
 
 var APP = __dirname + '/static/threeViewer';
+var STATIC = __dirname + '/static';
 
 module.exports = {
-    context: APP,
+    context: STATIC,
     entry: {
-        app: './core/bootstrap.js',
-        vendor: ["jquery", "three", "three-orbit-controls", "angular"]
+        bundle: './threeViewer/core/bootstrap.js',
+        vendor: ["jquery", "three", "three-orbit-controls", "angular"],
+        react: './react/index.tsx'
     },
-    plugins: [
-        new webpack.optimize.CommonsChunkPlugin({name: "vendor", filename:"vendor.js", minChunks: Infinity})
-    ],
+    // plugins: [
+    //     new webpack.optimize.CommonsChunkPlugin({name: "vendor", filename:"vendor.js", minChunks: Infinity})
+    // ],
+
+    // Enable sourcemaps for debugging webpack's output.
+    devtool: "source-map",
+
+    resolve: {
+      // Add '.ts' and '.tsx' as resolvable extensions.
+      extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js", "css", "png", "jpg", "gif"]
+    },
+
     module: {
         loaders: [
             {
@@ -41,7 +52,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'jshint',
-                exclude: ["static/threeViewer/bundle.js", "static/threeViewer/vendor.js", /node_modules/, /dist/]
+                exclude: ["static/threeViewer/bundle.js", "static/threeViewer/vendor.js", /node_modules/, /dist/, /react/]
             },
             {
                 test: /\.js$/,
@@ -49,15 +60,27 @@ module.exports = {
                 loader: 'babel',
                 query: { presets: ['es2015'], compact: false }
             },
+            // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
+            {
+                test: /\.tsx?$/,
+                loader: "ts-loader"
+            },
             {
                 test: /\.(png|jpg|gif)$/,
                 loader: "file-loader?name=img/img-[hash:6].[ext]"
             }
+        ],
+        preLoaders: [
+            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+            {
+                test: /\.js$/,
+                loader: "source-map-loader"
+            }
         ]
     },
     output: {
-        path: APP,
-        filename: 'bundle.js',
-        publicPath: "/app/"
+      path: APP,
+      filename: "[name].js",
+      publicPath: "/app/"
     }
 };
