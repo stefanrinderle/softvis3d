@@ -31,9 +31,6 @@ module.exports = {
         vendor: ["jquery", "three", "three-orbit-controls", "angular"],
         react: './react/index.tsx'
     },
-    // plugins: [
-    //     new webpack.optimize.CommonsChunkPlugin({name: "vendor", filename:"vendor.js", minChunks: Infinity})
-    // ],
 
     // Enable sourcemaps for debugging webpack's output.
     devtool: "source-map",

@@ -20,6 +20,8 @@
 var Detector = require('../lib/Detector.js');
 var Model = require('../base-frontend/model/index');
 
+import {TestTypescriptService} from '../../react/TestTypescriptService';
+
 /**
  * Service which initiates the THREE.js scene and
  *  provides methods to interact with that scene
@@ -71,6 +73,7 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
  * Executes anything after construction.
  */
 ThreeViewer.FileLoaderController.prototype.init = function () {
+  console.log(new TestTypescriptService().get());
   var me = this;
 
   if (!Detector.webgl) {
