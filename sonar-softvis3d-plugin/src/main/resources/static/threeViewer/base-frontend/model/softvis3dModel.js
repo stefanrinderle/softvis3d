@@ -62,7 +62,7 @@ class Softvis3dModel extends BaseModel {
      * Get all Class/Object interactions
      * @return {object}
      */
-    get graph() {
+    getGraph() {
         return this._graph;
     }
 
@@ -70,7 +70,7 @@ class Softvis3dModel extends BaseModel {
      * Get the Structure of the Software
      * @return {TreeNode}
      */
-    get tree() {
+    getTree() {
         return this._tree;
     }
 
@@ -78,7 +78,7 @@ class Softvis3dModel extends BaseModel {
      * Get the Software Snapshots
      * @return {Array}
      */
-    get versions() {
+    getVersions() {
         return this._versions;
     }
 
@@ -96,7 +96,7 @@ class Softvis3dModel extends BaseModel {
      * @param  {string} version Version
      * @return {null|object}
      */
-    attributes(node, version) {
+    getAttributes(node, version) {
         var n = String(node);
         var v = String(version);
 
