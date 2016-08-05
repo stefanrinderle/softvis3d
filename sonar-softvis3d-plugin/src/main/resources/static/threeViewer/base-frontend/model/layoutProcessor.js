@@ -25,17 +25,35 @@ var attributeHelper = CodeCityVis.helper.attributes;
 class LayoutProcessor {
 
     constructor(options = {}) {
-        this._rules = [];
+        this._illustrator = null;
         this._options = Object.assign(
             { layout: 'district', layoutOptions: {}, colorMetric: 'NONE' },
             options
         );
+        this._rules = [];
+        this._metricScale = {};
+    }
 
+    getIllustration(model, version) {
+        // Step 1: Load Metrics Scale
+        this._metricScale = model.getMetricScale();
+
+        // Step 2: Prepare the layout
         if (this._options.layout === 'evostreet') {
             this.setLayoutEvostreet();
         } else {
             this.setLayoutDistrict();
         }
+
+        // Step 3: Create the Layout
+        const illustrator = new this._illustrator(model, this._options.layoutOptions);
+
+        // Step 4:
+        for (const rule of this._rules) {
+            illustrator.addRule(rule);
+        }
+
+        return illustrator.draw(version);
     }
 
     setLayoutEvostreet() {
@@ -61,7 +79,7 @@ class LayoutProcessor {
             }
         );
 
-
+        this._rules = [];
         this._rules.push(this._RuleHouseHeight());
         this._rules.push(this._RuleHouseBase());
         this._rules.push(this._getHouseColorRule());
@@ -81,6 +99,7 @@ class LayoutProcessor {
             }
         );
 
+        this._rules = [];
         this._rules.push(this._RuleHouseHeight());
         this._rules.push(this._RuleHouseBase());
         this._rules.push(this._getHouseColorRule());
@@ -123,16 +142,6 @@ class LayoutProcessor {
             default:
                 return this._RuleHouseColorInitial();
         }
-    }
-
-    getIllustration(model, version) {
-        const illustrator = new this._illustrator(model, this._options.layoutOptions);
-
-        for (const rule of this._rules) {
-            illustrator.addRule(rule);
-        }
-
-        return illustrator.draw(version);
     }
 
     /**
@@ -273,6 +282,11 @@ class LayoutProcessor {
      * @returns {BaseRule}
      */
     _RuleHouseColorByLinesOfCode() {
+        var minVal = 25;
+        var maxVal = this._metricScale.metricColor.max;
+        maxVal = Math.max(350, maxVal);
+        maxVal = Math.min(900, maxVal);
+
         return new CodeCityVis.rules.color.gradient({
             'condition': function(model, node) {
                 return node.children.length === 0;
@@ -282,10 +296,10 @@ class LayoutProcessor {
                 return ('metricColor' in attr) ? attr.metricColor : 0;
             },
             'attributes': 'color',
-            'min': 25,
-            'max': 750,
+            'min': minVal,
+            'max': maxVal,
             'minColor': 0x00CC00,
-            'maxColor': 0xFF0000
+            'maxColor': 0xEE0000
         });
     }
 
@@ -295,6 +309,11 @@ class LayoutProcessor {
      * @returns {BaseRule}
      */
     _RuleHouseColorByComplexity() {
+        var minVal = 25;
+        var maxVal = this._metricScale.metricColor.max;
+        maxVal = Math.max(200, maxVal);
+        maxVal = Math.min(400, maxVal);
+
         return new CodeCityVis.rules.color.gradient({
             'condition': function(model, node) {
                 return node.children.length === 0;
@@ -304,10 +323,10 @@ class LayoutProcessor {
                 return ('metricColor' in attr) ? attr.metricColor : 0;
             },
             'attributes': 'color',
-            'min': 25,
-            'max': 350,
+            'min': minVal,
+            'max': maxVal,
             'minColor': 0x00CC00,
-            'maxColor': 0xFF0000
+            'maxColor': 0xEE0000
         });
     }
 }
