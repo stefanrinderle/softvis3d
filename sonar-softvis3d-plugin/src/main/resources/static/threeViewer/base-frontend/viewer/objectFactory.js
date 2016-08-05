@@ -89,7 +89,7 @@
         cube.position.setY(z);
         cube.position.setZ(defaults.position.y);
 
-        cube.softVis3dId = element.key._key;
+        cube.softVis3dId = element.key;
         return cube;
       }
     };

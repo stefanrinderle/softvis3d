@@ -74,7 +74,7 @@ ThreeViewer.SelectDirective.prototype.link = function (scope, elem, attrs) {
   this.elem.on('mousemove', function (e) {
     if (me.clickOrDragFlag) {
       var diff = Math.abs(me.clickStartPos.x - e.clientX) + Math.abs(me.clickStartPos.y - e.clientY);
-      me.clickOrDragFlag = diff <= 3;
+      me.clickOrDragFlag = diff <= 2;
     }
   });
 
