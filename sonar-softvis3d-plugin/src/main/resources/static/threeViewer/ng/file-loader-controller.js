@@ -186,8 +186,9 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
   this.BackendService.getVisualization(ThreeViewer.PROJECT_KEY, metric1, metric2, colorMetricKey).then(function (response) {
     var options = {
         layout: layout,
+        layoutOptions: {},
         colorMetric: colorMetricKey
-    }
+    };
     var treeResult = response.data.resultObject[0].treeResult;
     var illustration = me.createModel(treeResult, options);
     me.ViewerService.loadSoftVis3d(illustration);
