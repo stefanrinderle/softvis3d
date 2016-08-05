@@ -46,11 +46,15 @@ class LayoutProcessor {
             'house.margin': 6,
             'highway.length': 50,
             'evostreet.options': {
-                'spacer.initial': 40,
+                'spacer.initial': 30,
+                "spacer.terranullius": 40,
                 'spacer.conclusive': 0,
-                'spacer.branches': 25,
+                'spacer.branches': 50,
                 'house.container': CodeCityVis.containers.lightmap,
-                'house.distribution': 'left'
+                'house.distribution': 'default',
+                'house.platforms': {
+                    color: 0xD5D5D5
+                }
             }
         };
 
@@ -115,7 +119,7 @@ class LayoutProcessor {
                 return ('metricHeight' in attr) ? attr.metricHeight : 0;
             },
             'attributes': 'dimensions.height',
-            'min': 12,
+            'min': 4,
             'max': 350,
             'logbase': 3.40,
             'logexp': 3.25
@@ -208,6 +212,7 @@ class LayoutProcessor {
                 return node.children.length === 0 && node.parent;
             },
             'metric': function() {
+                // return 0x666666;
                 return 0xFD8B01;
             },
             'attributes': 'color'
