@@ -36,8 +36,6 @@ class LayoutProcessor {
         } else {
             this.setLayoutDistrict();
         }
-
-        console.log(this._options.layoutOptions);
     }
 
     setLayoutEvostreet() {
