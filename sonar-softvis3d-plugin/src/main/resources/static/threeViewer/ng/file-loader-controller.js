@@ -93,8 +93,10 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
 
             me.availableColorMetrics = [
                 { key: 'NONE', name: 'None' },
-                { key: 'ncloc', name: 'Lines of Code' },
                 { key: 'complexity', name: 'Complexity' },
+                { key: 'violations', name: 'Issues' },
+                { key: 'open_issues', name: 'Open Issues' },
+                { key: 'ncloc', name: 'Lines of Code' },
                 { key: 'PACKAGE', name: 'Package Name' }
             ];
 
@@ -161,6 +163,7 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
   var linesKey = "ncloc";
   var complexityKey = "complexity";
   var issuesKey = "violations";
+  var openIssuesKey = "open_issues";
   var functionsKey = "functions";
 
   if (this.cityInnerState === "complexity") {
@@ -169,6 +172,8 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
     this.loadVisualisation(issuesKey, linesKey);
   } else if (this.cityInnerState === "functions") {
     this.loadVisualisation(functionsKey, linesKey);
+  } else if (this.cityInnerState === "quality") {
+      this.loadVisualisation(linesKey, complexityKey, openIssuesKey, 'evostreet');
   } else {
     console.log("invalid option selected.");
   }
