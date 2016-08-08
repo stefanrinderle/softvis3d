@@ -183,12 +183,12 @@ ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
   this.loadVisualisation(this.customSelectMetrics.metric1, this.customSelectMetrics.metric2, this.customSelectMetrics.metric3, this.layoutAlgorithm);
 };
 
-ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, colorMetricKey = 'NONE', layout = 'district') {
+ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metricFootprint, metricHeight, colorMetricKey = 'NONE', layout = 'district') {
   var me = this;
 
   this.infoInnerState = "loading";
   this.showTab("info");
-  this.BackendService.getVisualization(ThreeViewer.PROJECT_KEY, metric1, metric2, colorMetricKey).then(function (response) {
+  this.BackendService.getVisualization(ThreeViewer.PROJECT_KEY, metricFootprint, metricHeight, colorMetricKey).then(function (response) {
     var options = {
         layout: layout,
         layoutOptions: {},
@@ -200,8 +200,8 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
 
     var eventObject = {};
     eventObject.softVis3dId = ThreeViewer.PROJECT_KEY;
-    eventObject.metric1Name = me.getNameForMetricKey(metric1);
-    eventObject.metric2Name = me.getNameForMetricKey(metric2);
+    eventObject.metric1Name = me.getNameForMetricKey(metricFootprint);
+    eventObject.metric2Name = me.getNameForMetricKey(metricHeight);
     eventObject.colorMetricKey = me.getNameForMetricKey(colorMetricKey);
 
     me.MessageBus.trigger('visualizationReady', eventObject);
