@@ -50,6 +50,7 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
   this.exceptionMessage = null;
 
   this.layoutAlgorithm = "district";
+  this.scalingMethod = "logarithmic";
   this.customSelectMetrics = {
     'metric1': 'complexity',
     'metric2': 'ncloc',
@@ -57,6 +58,7 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
   };
 
   this.availableLayouts = [];
+  this.availableScalings = [];
   this.availableMetrics = [];
   this.availableColorMetrics = [];
 
@@ -87,6 +89,12 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
         {key: 'evostreet', name: 'Evostreet'}
     ];
 
+    this.availableScalings = [
+        {key: 'logarithmic', name: 'Logarithmic'},
+        {key: 'exponential', name: 'Exponential'},
+        {key: 'linear', name: 'Linear'}
+    ];
+
     this.waitFor(500, 0, function () {
         me.BackendService.getMetrics().then(function (response) {
             me.availableMetrics = me.filterMetrics(response.data.metrics);
@@ -94,9 +102,10 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
             me.availableColorMetrics = [
                 { key: 'NONE', name: 'None' },
                 { key: 'complexity', name: 'Complexity' },
+                { key: 'coverage', name: 'Coverage' },
                 { key: 'violations', name: 'Issues' },
-                { key: 'open_issues', name: 'Open Issues' },
                 { key: 'ncloc', name: 'Lines of Code' },
+                { key: 'open_issues', name: 'Open Issues' },
                 { key: 'PACKAGE', name: 'Package Name' }
             ];
 
@@ -180,10 +189,10 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
 };
 
 ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
-  this.loadVisualisation(this.customSelectMetrics.metric1, this.customSelectMetrics.metric2, this.customSelectMetrics.metric3, this.layoutAlgorithm);
+  this.loadVisualisation(this.customSelectMetrics.metric1, this.customSelectMetrics.metric2, this.customSelectMetrics.metric3, this.layoutAlgorithm, this.scalingMethod);
 };
 
-ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metricFootprint, metricHeight, colorMetricKey = 'NONE', layout = 'district') {
+ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metricFootprint, metricHeight, colorMetricKey = 'NONE', layout = 'district', scaling = 'logarithmic') {
   var me = this;
 
   this.infoInnerState = "loading";
@@ -192,7 +201,8 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metricF
     var options = {
         layout: layout,
         layoutOptions: {},
-        colorMetric: colorMetricKey
+        colorMetric: colorMetricKey,
+        scalingMethod: scaling
     };
     var treeResult = response.data.resultObject[0].treeResult;
     var illustration = me.createModel(treeResult, options);

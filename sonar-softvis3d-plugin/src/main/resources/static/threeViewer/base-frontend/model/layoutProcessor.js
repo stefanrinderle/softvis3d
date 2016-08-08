@@ -27,7 +27,7 @@ class LayoutProcessor {
     constructor(options = {}) {
         this._illustrator = null;
         this._options = Object.assign(
-            { layout: 'district', layoutOptions: {}, colorMetric: 'NONE' },
+            { layout: 'district', layoutOptions: {}, colorMetric: 'NONE', scalingMethod: 'linear' },
             options
         );
         this._rules = [];
@@ -137,6 +137,8 @@ class LayoutProcessor {
                 return this._RuleHouseColorByLinesOfCode();
             case 'complexity':
                 return this._RuleHouseColorByComplexity();
+            case 'coverage':
+                return this._RuleHouseColorByCoverage();
             case 'violations':
                 return this._RuleHouseColorByIssues();
             case 'open_issues':
@@ -154,20 +156,63 @@ class LayoutProcessor {
      * @returns {BaseRule}
      */
     _RuleHouseHeight() {
-        return new CodeCityVis.rules.math.logarithmic({
-            'condition': function(model, node) {
-                return node.children.length === 0;
-            },
-            'metric': function(model, node, version) {
-                const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                return ('metricHeight' in attr) ? attr.metricHeight : 0;
-            },
-            'attributes': 'dimensions.height',
-            'min': 4,
-            'max': 350,
-            'logbase': 3.40,
-            'logexp': 3.25
-        });
+        var max = 450;
+        var factor, power;
+
+        if (this._options.scalingMethod == "logarithmic") {
+            // Logarithmic Max: ~2000 ==> 450
+            return new CodeCityVis.rules.math.logarithmic({
+                'condition': function (model, node) {
+                    return node.children.length === 0;
+                },
+                'metric': function (model, node, version) {
+                    const attr = attributeHelper.attrFallbackSweep(model, node, version);
+                    return ('metricHeight' in attr) ? attr.metricHeight : 0;
+                },
+                'attributes': 'dimensions.height',
+                'min': 6,
+                'max': 450,
+                'logbase': 3.45,
+                'logexp': 3.33
+            });
+        } else if (this._options.scalingMethod == "exponential") {
+            factor = 0.5;
+            power = Math.log(max / factor) / Math.log(this._metricScale.metricHeight.max);
+
+            return new CodeCityVis.rules.math.exponential({
+                'condition': function(model, node) {
+                    return node.children.length === 0;
+                },
+                'metric': function(model, node, version) {
+                    const attr = attributeHelper.attrFallbackSweep(model, node, version);
+                    return ('metricHeight' in attr) ? attr.metricHeight : 0;
+                },
+                'attributes': 'dimensions.height',
+                'min': 6,
+                'max': max,
+                'power': power,
+                'factor': factor
+            });
+        } else { // Linear
+            factor = 1;
+            if (this._metricScale.metricHeight.max > max) {
+                factor = max / this._metricScale.metricHeight.max;
+            }
+
+            return new CodeCityVis.rules.math.linear({
+                'condition': function(model, node) {
+                    return node.children.length === 0;
+                },
+                'metric': function(model, node, version) {
+                    const attr = attributeHelper.attrFallbackSweep(model, node, version);
+                    return ('metricHeight' in attr) ? attr.metricHeight : 0;
+                },
+                'attributes': 'dimensions.height',
+                'min': 6,
+                'max': max,
+                'factor': factor
+            });
+        }
     }
 
     /**
@@ -176,20 +221,64 @@ class LayoutProcessor {
      * @returns {BaseRule}
      */
     _RuleHouseBase() {
-        return new CodeCityVis.rules.math.logarithmic({
-            'condition': function(model, node) {
-                return node.children.length === 0;
-            },
-            'metric': function(model, node, version) {
-                const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                return ('metricFootprint' in attr) ? attr.metricFootprint : 0;
-            },
-            'attributes': ['dimensions.length', 'dimensions.width'],
-            'min': 14,
-            'max': 250,
-            'logbase': 3.60,
-            'logexp': 3.2
-        });
+        var max = 450;
+        var factor, power;
+
+        if (this._options.scalingMethod == "logarithmic") {
+            // Logarithmic Max: ~2250 ==> 450
+            return new CodeCityVis.rules.math.logarithmic({
+                'condition': function(model, node) {
+                    return node.children.length === 0;
+                },
+                'metric': function(model, node, version) {
+                    const attr = attributeHelper.attrFallbackSweep(model, node, version);
+                    return ('metricFootprint' in attr) ? attr.metricFootprint : 0;
+                },
+                'attributes': ['dimensions.length', 'dimensions.width'],
+                'min': 10,
+                'max': max,
+                'logbase': 3.60,
+                'logexp': 3.2
+            });
+        } else if (this._options.scalingMethod == "exponential") {
+            factor = 0.5;
+            power = Math.log(max / factor) / Math.log(this._metricScale.metricFootprint.max);
+
+            return new CodeCityVis.rules.math.exponential({
+                'condition': function(model, node) {
+                    return node.children.length === 0;
+                },
+                'metric': function(model, node, version) {
+                    const attr = attributeHelper.attrFallbackSweep(model, node, version);
+                    return ('metricFootprint' in attr) ? attr.metricFootprint : 0;
+                },
+                'attributes': ['dimensions.length', 'dimensions.width'],
+                'min': 10,
+                'max': max,
+                'power': power,
+                'factor': factor
+            });
+        } else { // Linear
+            factor = 1;
+            if (this._metricScale.metricFootprint.max > max) {
+                factor = max / this._metricScale.metricFootprint.max;
+            }
+
+            return new CodeCityVis.rules.math.linear({
+                'condition': function(model, node) {
+                    return node.children.length === 0;
+                },
+                'metric': function(model, node, version) {
+                    const attr = attributeHelper.attrFallbackSweep(model, node, version);
+                    return ('metricFootprint' in attr) ? attr.metricFootprint : 0;
+                },
+                'attributes': ['dimensions.length', 'dimensions.width'],
+                'min': 6,
+                'max': max,
+                'factor': factor
+            });
+        }
+
     }
 
     /**
@@ -358,6 +447,31 @@ class LayoutProcessor {
             'max': maxVal,
             'minColor': 0x00CC00,
             'maxColor': 0xEE0000
+        });
+    }
+
+    /**
+     * Issues --> Building Color
+     * @private
+     * @returns {BaseRule}
+     */
+    _RuleHouseColorByCoverage() {
+        var minVal = 0;
+        var maxVal = 95;
+
+        return new CodeCityVis.rules.color.gradient({
+            'condition': function(model, node) {
+                return node.children.length === 0;
+            },
+            'metric': function(model, node, version) {
+                const attr = attributeHelper.attrFallbackSweep(model, node, version);
+                return ('metricColor' in attr) ? attr.metricColor : 0;
+            },
+            'attributes': 'color',
+            'min': minVal,
+            'max': maxVal,
+            'minColor': 0xEE0000,
+            'maxColor': 0x00CC00
         });
     }
 
