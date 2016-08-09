@@ -41,18 +41,25 @@ class LayoutProcessor {
     setLayoutEvostreet() {
         this._illustrator = IllustratorEvostreet;
 
-        this._options.layoutOptions = {
-            'layout.snail': false,
-            'house.margin': 6,
-            'highway.length': 50,
-            'evostreet.options': {
-                'spacer.initial': 40,
-                'spacer.conclusive': 0,
-                'spacer.branches': 25,
-                'house.container': CodeCityVis.containers.lightmap,
-                'house.distribution': 'left'
+        this._options.layoutOptions = this._mergeDeep(
+            this._options.layoutOptions,
+            {
+                'layout.snail': false,
+                'house.margin': 4,
+                'highway.length': 50,
+                'evostreet.options': {
+                    'spacer.initial': 30,
+                    "spacer.terranullius": 40,
+                    'spacer.conclusive': 0,
+                    'spacer.branches': 50,
+                    'house.container': CodeCityVis.containers.lightmap,
+                    'house.distribution': 'left',
+                    'house.platforms': {
+                        color: 0xD5D5D5
+                    }
+                }
             }
-        };
+        );
 
 
         this._rules.push(this._RuleHouseHeight());
@@ -64,17 +71,45 @@ class LayoutProcessor {
     setLayoutDistrict() {
         this._illustrator = IllustratorDistrict;
 
-        this._options.layoutOptions = {
-            'layout.tower': false,
-            'house.margin': 6,
-            'spacer.margin': 25,
-            'spacer.padding': 15
-        };
+        this._options.layoutOptions = this._mergeDeep(
+            this._options.layoutOptions,
+            {
+                'layout.tower': false,
+                'house.margin': 6,
+                'spacer.margin': 25,
+                'spacer.padding': 15
+            }
+        );
 
         this._rules.push(this._RuleHouseHeight());
         this._rules.push(this._RuleHouseBase());
         this._rules.push(this._getHouseColorRule());
         this._rules.push(this._RulePackageColorGrey());
+    }
+
+    _mergeDeep(opt, newOpt) {
+        if (typeof newOpt !== "object") {
+            throw "Cannot merge non-objects.";
+        }
+
+        var merged = {};
+
+        for (var key in newOpt) {
+            if (!newOpt.hasOwnProperty(key)) {
+                continue;
+            }
+
+            if (typeof newOpt[key] === "object") {
+                if (typeof opt[key] !== "object") {
+                    opt[key] = {};
+                }
+
+                merged[key] = this._mergeDeep(opt[key], newOpt[key])
+            } else {
+                merged[key] = newOpt[key];
+            }
+        }
+        return merged;
     }
 
     _getHouseColorRule() {
@@ -115,7 +150,7 @@ class LayoutProcessor {
                 return ('metricHeight' in attr) ? attr.metricHeight : 0;
             },
             'attributes': 'dimensions.height',
-            'min': 12,
+            'min': 4,
             'max': 350,
             'logbase': 3.40,
             'logexp': 3.25
@@ -208,6 +243,7 @@ class LayoutProcessor {
                 return node.children.length === 0 && node.parent;
             },
             'metric': function() {
+                // return 0x666666;
                 return 0xFD8B01;
             },
             'attributes': 'color'

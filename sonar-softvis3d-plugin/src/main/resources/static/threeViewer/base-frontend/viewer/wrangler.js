@@ -80,7 +80,7 @@ Viewer.Wrangler.prototype = {
           "color": this.resultObjects[objectIndex].material.color.getHex()
         };
         this.selectedTreeObjects.push(selectedObjectInformation);
-        this.resultObjects[objectIndex].material.color.setHex(0xFFBF00);
+        this.resultObjects[objectIndex].material.color.setHex(0xFFC519);
       }
     }
   },
