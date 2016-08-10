@@ -157,9 +157,19 @@ class LayoutProcessor {
      */
     _RuleHouseHeight() {
         var max = 450;
-        var factor, power;
+        var factor, power, base;
 
         if (this._options.scalingMethod == "logarithmic") {
+            if (this._metricScale.metricHeight.max > 1400) {
+                // Logarithmic Max: ~2300 ==> 450
+                base = 5;
+                power = 3.89;
+            } else {
+                // Logarithmic Max: ~1400 ==> 450
+                base = 3.5;
+                power = 3.5;
+            }
+
             // Logarithmic Max: ~2000 ==> 450
             return new CodeCityVis.rules.math.logarithmic({
                 'condition': function (model, node) {
@@ -172,8 +182,8 @@ class LayoutProcessor {
                 'attributes': 'dimensions.height',
                 'min': 6,
                 'max': 450,
-                'logbase': 3.45,
-                'logexp': 3.33
+                'logbase': base,
+                'logexp': power
             });
         } else if (this._options.scalingMethod == "exponential") {
             factor = 0.5;
@@ -195,6 +205,12 @@ class LayoutProcessor {
             });
         } else { // Linear
             factor = 1;
+
+            if (this._options.scalingMethod == "linear") {
+                // Do not Scale Height
+                max = Infinity;
+            }
+
             if (this._metricScale.metricHeight.max > max) {
                 factor = max / this._metricScale.metricHeight.max;
             }
@@ -222,10 +238,19 @@ class LayoutProcessor {
      */
     _RuleHouseBase() {
         var max = 450;
-        var factor, power;
+        var factor, power, base;
 
         if (this._options.scalingMethod == "logarithmic") {
-            // Logarithmic Max: ~2250 ==> 450
+            if (this._metricScale.metricFootprint.max > 1400) {
+                // Logarithmic Max: ~2300 ==> 450
+                base = 5;
+                power = 3.89;
+            } else {
+                // Logarithmic Max: ~1400 ==> 450
+                base = 3.5;
+                power = 3.5;
+            }
+
             return new CodeCityVis.rules.math.logarithmic({
                 'condition': function(model, node) {
                     return node.children.length === 0;
@@ -237,8 +262,8 @@ class LayoutProcessor {
                 'attributes': ['dimensions.length', 'dimensions.width'],
                 'min': 10,
                 'max': max,
-                'logbase': 3.60,
-                'logexp': 3.2
+                'logbase': base,
+                'logexp': power
             });
         } else if (this._options.scalingMethod == "exponential") {
             factor = 0.5;
@@ -260,6 +285,12 @@ class LayoutProcessor {
             });
         } else { // Linear
             factor = 1;
+
+            if (this._options.scalingMethod == "linear") {
+                // Do not Scale Base
+                max = Infinity;
+            }
+
             if (this._metricScale.metricFootprint.max > max) {
                 factor = max / this._metricScale.metricFootprint.max;
             }

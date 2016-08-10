@@ -48,6 +48,8 @@
                 <option value="issues" label="Issues and lines">Issues and lines</option>
                 <option value="functions" label="Functions and lines">Functions and lines</option>
                 <option value="quality" label="Code Quality">Code-Quality</option>
+                <!--<option value="quality1" label="Code Quality (M1)">Code-Quality (M1)</option>-->
+                <!--<option value="quality2" label="Code Quality (M2)">Code-Quality (M2)</option>-->
             </select>
             <br/><br/>
 
@@ -81,11 +83,9 @@
                 City Layout:<br />
                 <select name="layout" ng-options="item.key as item.name for item in loader.availableLayouts"
                         ng-model="loader.layoutAlgorithm" style="width: 200px;"></select>
-
                 <br />
                 <br />
-
-                City Layout:<br />
+                Metric Scaling:<br />
                 <select name="scaling" ng-options="item.key as item.name for item in loader.availableScalings"
                         ng-model="loader.scalingMethod" style="width: 200px;"></select>
             </div>

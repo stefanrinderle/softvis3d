@@ -92,6 +92,7 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
     this.availableScalings = [
         {key: 'logarithmic', name: 'Logarithmic'},
         {key: 'exponential', name: 'Exponential'},
+        {key: 'linear_s', name: 'Linear (scaled)'},
         {key: 'linear', name: 'Linear'}
     ];
 
@@ -171,6 +172,7 @@ ThreeViewer.FileLoaderController.prototype.showTab = function (tab) {
 ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
   var linesKey = "ncloc";
   var complexityKey = "complexity";
+  var duplicateLinesKey = "duplicated_lines";
   var issuesKey = "violations";
   var openIssuesKey = "open_issues";
   var functionsKey = "functions";
@@ -182,7 +184,11 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
   } else if (this.cityInnerState === "functions") {
     this.loadVisualisation(functionsKey, linesKey);
   } else if (this.cityInnerState === "quality") {
-      this.loadVisualisation(linesKey, complexityKey, openIssuesKey, 'evostreet');
+      this.loadVisualisation(complexityKey, duplicateLinesKey, openIssuesKey, 'district', 'linear_s');
+  } else if (this.cityInnerState === "quality1") {
+      this.loadVisualisation(complexityKey, duplicateLinesKey, 'NONE', 'district', 'linear_s');
+  } else if (this.cityInnerState === "quality2") {
+      this.loadVisualisation(complexityKey, duplicateLinesKey, 'NONE', 'district', 'linear_s');
   } else {
     console.log("invalid option selected.");
   }
