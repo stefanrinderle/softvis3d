@@ -33,6 +33,9 @@ describe('Index', () => {
         showbutton.click();
 
         browser.sleep(2000);
+
+        element(by.id('extendTreeImage')).click();
+        element(by.linkText('softvis3d-base')).click();
     });
 
     it('shoud show the custom menu', () => {

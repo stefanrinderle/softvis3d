@@ -66,7 +66,7 @@ ThreeViewer.ToolbarController.prototype.listeners = function () {
     me.scmMetricName = eventObject.scmMetricName;
 
     me.showDetails(eventObject.softVis3dId, "node");
-
+    this.ViewerService.selectSceneTreeObject(eventObject.softVis3dId);
 
     (function() {
       // Trigger Window-Resize

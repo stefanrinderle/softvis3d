@@ -211,7 +211,7 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metricF
     me.ViewerService.loadSoftVis3d(illustration);
 
     var eventObject = {};
-    eventObject.softVis3dId = ThreeViewer.PROJECT_KEY;
+    eventObject.softVis3dId = treeResult.id;
     eventObject.metric1Name = me.getNameForMetricKey(metricFootprint);
     eventObject.metric2Name = me.getNameForMetricKey(metricHeight);
     eventObject.colorMetricKey = me.getNameForMetricKey(colorMetricKey);
