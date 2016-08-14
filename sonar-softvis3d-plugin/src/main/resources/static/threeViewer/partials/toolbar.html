@@ -55,11 +55,13 @@
         <img ng-hide="toolbar.displayChildren" ng-click="toolbar.triggerDisplayChildren();"
              style="vertical-align: text-top;"
              ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_plus.gif"
-             alt="Extend tree"/>
+             alt="Extend tree"
+             id="extendTreeImage"/>
         <img ng-show="toolbar.displayChildren" ng-click="toolbar.triggerDisplayChildren();"
              style="vertical-align: text-top;"
              ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/tree_minus.gif"
-             alt="Collapse tree"/>
+             alt="Collapse tree"
+             id="collapseTreeImage"/>
         Children ({{toolbar.node.children.length}})
       </h4>
       <ul ng-show="toolbar.displayChildren" style="list-style: none;">
