@@ -29,7 +29,7 @@ class Softvis3dModel extends BaseModel {
         super();
 
         this._attributes = {};
-        this._version = new Version('v1.0',  'Only one version test', 0);
+        this._version = new Version('v1.0',  'Current', 0);
         this._versions = [ this._version ];
         this._graph = [];
         this._metricScale = {

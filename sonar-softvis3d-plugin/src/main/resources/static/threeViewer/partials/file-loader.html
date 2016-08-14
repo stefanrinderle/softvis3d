@@ -48,8 +48,6 @@
                 <option value="issues" label="Issues and lines">Issues and lines</option>
                 <option value="functions" label="Functions and lines">Functions and lines</option>
                 <option value="quality" label="Code Quality">Code-Quality</option>
-                <!--<option value="quality1" label="Code Quality (M1)">Code-Quality (M1)</option>-->
-                <!--<option value="quality2" label="Code Quality (M2)">Code-Quality (M2)</option>-->
             </select>
             <br/><br/>
 
@@ -71,8 +69,8 @@
                 Search for skyscraper buildings and especially for ones with a small footprint.
             </div>
             <div ng-show="loader.cityInnerState === 'quality'">
-                This property mapping is created for software quality analysis. A file's Lines of Code
-                shape the base of every building. Meanwhile it's height will increase with complexity.
+                This property mapping is created for software quality analysis. A file's complexity
+                shape the base of every building. Meanwhile it's height will increase with duplicated lines.
                 Finally open SonarQube-Issues will change the color of every building from green to red.
             </div>
             <br/>

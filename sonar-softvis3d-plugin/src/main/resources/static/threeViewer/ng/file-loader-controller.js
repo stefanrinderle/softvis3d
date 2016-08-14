@@ -185,10 +185,6 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
     this.loadVisualisation(functionsKey, linesKey);
   } else if (this.cityInnerState === "quality") {
       this.loadVisualisation(complexityKey, duplicateLinesKey, openIssuesKey, 'district', 'linear_s');
-  } else if (this.cityInnerState === "quality1") {
-      this.loadVisualisation(complexityKey, duplicateLinesKey, 'NONE', 'district', 'linear_s');
-  } else if (this.cityInnerState === "quality2") {
-      this.loadVisualisation(complexityKey, duplicateLinesKey, 'NONE', 'district', 'linear_s');
   } else {
     console.log("invalid option selected.");
   }

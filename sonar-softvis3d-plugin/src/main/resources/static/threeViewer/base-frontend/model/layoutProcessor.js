@@ -25,11 +25,11 @@ var attributeHelper = CodeCityVis.helper.attributes;
 class LayoutProcessor {
 
     constructor(options = {}) {
-        this._illustrator = null;
         this._options = Object.assign(
             { layout: 'district', layoutOptions: {}, colorMetric: 'NONE', scalingMethod: 'linear' },
             options
         );
+        this._illustrator = null;
         this._rules = [];
         this._metricScale = {};
     }
@@ -355,8 +355,8 @@ class LayoutProcessor {
             },
             'attributes': 'color',
             'max': 9,
-            'minColor': 0x151515,
-            'maxColor': 0xDDDDDD
+            'minColor': 0x202020,
+            'maxColor': 0xCCCCCC
         });
     }
 
@@ -459,33 +459,6 @@ class LayoutProcessor {
      * @private
      * @returns {BaseRule}
      */
-    _RuleHouseColorByIssues() {
-        var minVal = 0;
-        var maxVal = this._metricScale.metricColor.max;
-        maxVal = Math.max(20, maxVal);
-        maxVal = Math.min(150, maxVal);
-
-        return new CodeCityVis.rules.color.gradient({
-            'condition': function(model, node) {
-                return node.children.length === 0;
-            },
-            'metric': function(model, node, version) {
-                const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                return ('metricColor' in attr) ? attr.metricColor : 0;
-            },
-            'attributes': 'color',
-            'min': minVal,
-            'max': maxVal,
-            'minColor': 0x00CC00,
-            'maxColor': 0xEE0000
-        });
-    }
-
-    /**
-     * Issues --> Building Color
-     * @private
-     * @returns {BaseRule}
-     */
     _RuleHouseColorByCoverage() {
         var minVal = 0;
         var maxVal = 95;
@@ -511,11 +484,38 @@ class LayoutProcessor {
      * @private
      * @returns {BaseRule}
      */
+    _RuleHouseColorByIssues() {
+        var minVal = 0;
+        var maxVal = this._metricScale.metricColor.max;
+        maxVal = Math.max(20, maxVal);
+        maxVal = Math.min(180, maxVal);
+
+        return new CodeCityVis.rules.color.gradient({
+            'condition': function(model, node) {
+                return node.children.length === 0;
+            },
+            'metric': function(model, node, version) {
+                const attr = attributeHelper.attrFallbackSweep(model, node, version);
+                return ('metricColor' in attr) ? attr.metricColor : 0;
+            },
+            'attributes': 'color',
+            'min': minVal,
+            'max': maxVal,
+            'minColor': 0x00CC00,
+            'maxColor': 0xEE0000
+        });
+    }
+
+    /**
+     * Open Issues --> Building Color
+     * @private
+     * @returns {BaseRule}
+     */
     _RuleHouseColorByOpenIssues() {
         var minVal = 0;
         var maxVal = this._metricScale.metricColor.max;
         maxVal = Math.max(20, maxVal);
-        maxVal = Math.min(150, maxVal);
+        maxVal = Math.min(180, maxVal);
 
         return new CodeCityVis.rules.color.gradient({
             'condition': function(model, node) {
