@@ -44,15 +44,10 @@
             </p>
             <br/>
             <select ng-model="loader.cityInnerState">
-                <option value="complexity" label="Complexity and lines">Complexity
-                    and lines
-                </option>
-                <option value="issues" label="Issues and lines">Issues
-                    and lines
-                </option>
-                <option value="functions" label="Functions and lines">Functions
-                    and lines
-                </option>
+                <option value="complexity" label="Complexity and lines">Complexity and lines</option>
+                <option value="issues" label="Issues and lines">Issues and lines</option>
+                <option value="functions" label="Functions and lines">Functions and lines</option>
+                <option value="quality" label="Code Quality">Code-Quality</option>
             </select>
             <br/><br/>
 
@@ -73,6 +68,11 @@
                 code metric is used for the building height.
                 Search for skyscraper buildings and especially for ones with a small footprint.
             </div>
+            <div ng-show="loader.cityInnerState === 'quality'">
+                This property mapping is created for software quality analysis. A file's complexity
+                shape the base of every building. Meanwhile it's height will increase with duplicated lines.
+                Finally open SonarQube-Issues will change the color of every building from green to red.
+            </div>
             <br/>
             <button ng-click="loader.submitCityForm()" ng-disabled="!loader.configLoaded" id="cityButtonShow">Show</button>
         </div>
@@ -81,6 +81,11 @@
                 City Layout:<br />
                 <select name="layout" ng-options="item.key as item.name for item in loader.availableLayouts"
                         ng-model="loader.layoutAlgorithm" style="width: 200px;"></select>
+                <br />
+                <br />
+                Metric Scaling:<br />
+                <select name="scaling" ng-options="item.key as item.name for item in loader.availableScalings"
+                        ng-model="loader.scalingMethod" style="width: 200px;"></select>
             </div>
 
 

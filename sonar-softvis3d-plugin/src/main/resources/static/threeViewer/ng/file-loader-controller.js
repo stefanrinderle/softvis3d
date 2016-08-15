@@ -50,6 +50,7 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
   this.exceptionMessage = null;
 
   this.layoutAlgorithm = "district";
+  this.scalingMethod = "logarithmic";
   this.customSelectMetrics = {
     'metric1': 'complexity',
     'metric2': 'ncloc',
@@ -57,6 +58,7 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
   };
 
   this.availableLayouts = [];
+  this.availableScalings = [];
   this.availableMetrics = [];
   this.availableColorMetrics = [];
 
@@ -87,14 +89,24 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
         {key: 'evostreet', name: 'Evostreet'}
     ];
 
+    this.availableScalings = [
+        {key: 'logarithmic', name: 'Logarithmic'},
+        {key: 'exponential', name: 'Exponential'},
+        {key: 'linear_s', name: 'Linear (scaled)'},
+        {key: 'linear', name: 'Linear'}
+    ];
+
     this.waitFor(500, 0, function () {
         me.BackendService.getMetrics().then(function (response) {
             me.availableMetrics = me.filterMetrics(response.data.metrics);
 
             me.availableColorMetrics = [
                 { key: 'NONE', name: 'None' },
-                { key: 'ncloc', name: 'Lines of Code' },
                 { key: 'complexity', name: 'Complexity' },
+                { key: 'coverage', name: 'Coverage' },
+                { key: 'violations', name: 'Issues' },
+                { key: 'ncloc', name: 'Lines of Code' },
+                { key: 'open_issues', name: 'Open Issues' },
                 { key: 'PACKAGE', name: 'Package Name' }
             ];
 
@@ -160,7 +172,9 @@ ThreeViewer.FileLoaderController.prototype.showTab = function (tab) {
 ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
   var linesKey = "ncloc";
   var complexityKey = "complexity";
+  var duplicateLinesKey = "duplicated_lines";
   var issuesKey = "violations";
+  var openIssuesKey = "open_issues";
   var functionsKey = "functions";
 
   if (this.cityInnerState === "complexity") {
@@ -169,25 +183,28 @@ ThreeViewer.FileLoaderController.prototype.submitCityForm = function () {
     this.loadVisualisation(issuesKey, linesKey);
   } else if (this.cityInnerState === "functions") {
     this.loadVisualisation(functionsKey, linesKey);
+  } else if (this.cityInnerState === "quality") {
+      this.loadVisualisation(complexityKey, duplicateLinesKey, openIssuesKey, 'district', 'linear_s');
   } else {
     console.log("invalid option selected.");
   }
 };
 
 ThreeViewer.FileLoaderController.prototype.loadCustomView = function () {
-  this.loadVisualisation(this.customSelectMetrics.metric1, this.customSelectMetrics.metric2, this.customSelectMetrics.metric3, this.layoutAlgorithm);
+  this.loadVisualisation(this.customSelectMetrics.metric1, this.customSelectMetrics.metric2, this.customSelectMetrics.metric3, this.layoutAlgorithm, this.scalingMethod);
 };
 
-ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1, metric2, colorMetricKey = 'NONE', layout = 'district') {
+ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metricFootprint, metricHeight, colorMetricKey = 'NONE', layout = 'district', scaling = 'logarithmic') {
   var me = this;
 
   this.infoInnerState = "loading";
   this.showTab("info");
-  this.BackendService.getVisualization(ThreeViewer.PROJECT_KEY, metric1, metric2, colorMetricKey).then(function (response) {
+  this.BackendService.getVisualization(ThreeViewer.PROJECT_KEY, metricFootprint, metricHeight, colorMetricKey).then(function (response) {
     var options = {
         layout: layout,
         layoutOptions: {},
-        colorMetric: colorMetricKey
+        colorMetric: colorMetricKey,
+        scalingMethod: scaling
     };
     var treeResult = response.data.resultObject[0].treeResult;
     var illustration = me.createModel(treeResult, options);
@@ -195,8 +212,8 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
 
     var eventObject = {};
     eventObject.softVis3dId = treeResult.id;
-    eventObject.metric1Name = me.getNameForMetricKey(metric1);
-    eventObject.metric2Name = me.getNameForMetricKey(metric2);
+    eventObject.metric1Name = me.getNameForMetricKey(metricFootprint);
+    eventObject.metric2Name = me.getNameForMetricKey(metricHeight);
     eventObject.colorMetricKey = me.getNameForMetricKey(colorMetricKey);
 
     me.MessageBus.trigger('visualizationReady', eventObject);

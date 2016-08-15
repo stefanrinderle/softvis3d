@@ -29,10 +29,16 @@ class Softvis3dModel extends BaseModel {
         super();
 
         this._attributes = {};
-        this._version = new Version('v1.0',  'Only one version test', 0);
+        this._version = new Version('v1.0',  'Current', 0);
         this._versions = [ this._version ];
-        this._tree = this._createTree(treeResult);
         this._graph = [];
+        this._metricScale = {
+            metricHeight: {min: Infinity, max: 0},
+            metricFootprint: {min: Infinity, max: 0},
+            metricColor: {min: Infinity, max: 0}
+        };
+
+        this._tree = this._createTree(treeResult);
     }
 
     _createTree(treeNode) {
@@ -49,6 +55,21 @@ class Softvis3dModel extends BaseModel {
             'metricFootprint' : treeNode.footprintMetricValue,
             'metricColor' : treeNode.colorMetricValue
         };
+
+        if ("heightMetricValue" in treeNode && !isNaN(parseFloat(treeNode.heightMetricValue)) && isFinite(treeNode.heightMetricValue)) {
+            this._metricScale.metricHeight.min = Math.min(treeNode.heightMetricValue, this._metricScale.metricHeight.min);
+            this._metricScale.metricHeight.max = Math.max(treeNode.heightMetricValue, this._metricScale.metricHeight.max);
+        }
+
+        if ("footprintMetricValue" in treeNode && !isNaN(parseFloat(treeNode.footprintMetricValue)) && isFinite(treeNode.footprintMetricValue)) {
+            this._metricScale.metricFootprint.min = Math.min(treeNode.footprintMetricValue, this._metricScale.metricFootprint.min);
+            this._metricScale.metricFootprint.max = Math.max(treeNode.footprintMetricValue, this._metricScale.metricFootprint.max);
+        }
+
+        if ("colorMetricValue" in treeNode && !isNaN(parseFloat(treeNode.colorMetricValue)) && isFinite(treeNode.colorMetricValue)) {
+            this._metricScale.metricColor.min = Math.min(treeNode.colorMetricValue, this._metricScale.metricColor.min);
+            this._metricScale.metricColor.max = Math.max(treeNode.colorMetricValue, this._metricScale.metricColor.max);
+        }
 
         var node = new TreeNode(t);
         for (var child of treeNode.children) {
@@ -105,6 +126,10 @@ class Softvis3dModel extends BaseModel {
         }
 
         return this._attributes[v][n];
+    }
+
+    getMetricScale() {
+        return this._metricScale;
     }
 }
 
