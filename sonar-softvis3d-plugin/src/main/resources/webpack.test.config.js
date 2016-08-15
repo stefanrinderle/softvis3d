@@ -1,7 +1,7 @@
 module.exports = {
-  entry: './react/index.tsx',
+  entry: './react/TestTypescriptService.ts',
   output: {
-    filename: 'static/bundle.js'
+    filename: 'static/threeViewer/bundle.js'
   },
   resolve: {
     extensions: ['.ts', '.js', '.tsx', '.jsx', '']

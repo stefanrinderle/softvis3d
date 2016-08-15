@@ -4,15 +4,12 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "commonjs",
-    "target": "es5",
-    "jsx": "react"
+    "target": "es5"
   },
   "exclude": [
     "node_modules"
   ],
   "files": [
-    "./typings/index.d.ts",
-    "./src/react/Hello.tsx",
-    "./src/react/index.tsx"
+    "./typings/index.d.ts"
   ]
 }

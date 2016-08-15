@@ -1,7 +1,5 @@
 {
   "globalDependencies": {
-    "react": "registry:dt/react#0.14.0+20160630100702",
-    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
     "mocha": "github:DefinitelyTyped/DefinitelyTyped/mocha/mocha.d.ts#5d0f2126c8dac8fce0ff020218aea06607213b0d",
     "assertion-error": "github:DefinitelyTyped/DefinitelyTyped/assertion-error/assertion-error.d.ts#5d0f2126c8dac8fce0ff020218aea06607213b0d",
     "chai": "github:DefinitelyTyped/DefinitelyTyped/chai/chai.d.ts#5d0f2126c8dac8fce0ff020218aea06607213b0d",

@@ -26,7 +26,6 @@ module.exports = {
     context: __dirname,
     entry: {
         bundle: './src/threeViewer/core/bootstrap.js',
-        react: './src/react/index.tsx',
         vendor: ["jquery", "three", "three-orbit-controls", "angular"]
     },
 
@@ -47,7 +46,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'jshint',
-                exclude: [/node_modules/, /static/, /react/]
+                exclude: [/node_modules/, /static/]
             },
             {
                 test: /\.js$/,
@@ -74,7 +73,7 @@ module.exports = {
         ]
     },
     output: {
-      path: __dirname + '/static/',
+      path: __dirname + '/static/threeViewer',
       filename: "[name].js",
       publicPath: "/app/"
     }

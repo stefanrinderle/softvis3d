@@ -20,7 +20,7 @@
 
 var THREE = require("three");
 var jQuery = require("jquery");
-var Viewer = require('../base-frontend/viewer/index')
+var Viewer = require('../base-frontend/viewer/index');
 
 /**
  * Service which initiates the THREE.js scene and
