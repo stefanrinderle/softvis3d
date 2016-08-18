@@ -6,7 +6,9 @@
   "scripts": {
     "typings": "typings",
     "webpack": "webpack",
-    "build": "webpack --colors",
+    "tslint": "tslint",
+    "lint": "npm run tslint \"src/**/*.ts\"",
+    "build": "webpack --colors --bail",
     "deploy": "webpack -p --colors",
     "postinstall": "typings install --overwrite --save",
     "test": "node --max-old-space-size=4096 node_modules/karma/bin/karma start ./karma.conf.js"
@@ -39,6 +41,8 @@
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.0",
     "ts-loader": "^0.8.2",
+    "tslint": "^3.14.0",
+    "tslint-loader": "^2.1.5",
     "typescript": "^1.8.10",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1"

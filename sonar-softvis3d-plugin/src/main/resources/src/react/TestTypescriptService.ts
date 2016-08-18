@@ -1,9 +1,6 @@
 export class TestTypescriptService {
 
-    constructor() {
-    }
-
-    get() {
+    public get() {
         return "Yeah typescipt used";
     }
 

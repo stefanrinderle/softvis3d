@@ -57,7 +57,7 @@ module.exports = {
             // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
             {
                 test: /\.tsx?$/,
-                loader: "ts-loader"
+                loader: "ts-loader!tslint"
             },
             {
                 test: /\.(png|jpg|gif)$/,
@@ -71,6 +71,11 @@ module.exports = {
                 loader: "source-map-loader"
             }
         ]
+    },
+    tslint: {
+      emitErrors: true,
+      failOnHint: true,
+      resourcePath: 'src/react'
     },
     output: {
       path: __dirname + '/static/threeViewer',
