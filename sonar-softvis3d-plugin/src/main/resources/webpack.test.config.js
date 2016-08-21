@@ -1,6 +1,6 @@
 /*
  * SoftVis3D Sonar plugin
- * Copyright (C) 2016 Stefan Rinderle
+ * Copyright (C) 2015 Stefan Rinderle
  * stefan@rinderle.info
  *
  * This program is free software; you can redistribute it and/or
@@ -17,24 +17,32 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-/**
- * @param {angular.$locationProvider} $locationProvider
- * @constructor
- * @ngInject
- */
-ThreeViewer.ConfigLocation = function ($locationProvider) {
-  $locationProvider.html5Mode = true;
-};
 
-/**
- * @param {angular.$routeProvider} $routeProvider
- * @constructor
- * @ngInject
- */
-ThreeViewer.ConfigRouters = function ($routeProvider) {
-  $routeProvider.when('/', {
-    templateUrl: RESOURCES_BASE_PATH + '/static/softvis3d/threeViewer/partials/viewer.html'
-  }).otherwise({
-    redirectTo: '/'
-  });
+'use strict';
+var webpack = require('webpack');
+var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
+
+module.exports = {
+  context: __dirname,
+  entry: {
+    bundle: './src/threeViewer/core/bootstrap.js',
+    vendor: ["jquery", "three", "three-orbit-controls", "angular"]
+  },
+  output: {
+    path: __dirname + '/static/threeViewer',
+    filename: "[name].js",
+    publicPath: "/app/"
+  },
+  resolve: {
+    extensions: ['.ts', '.js', '.tsx', '.jsx', '']
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        loader: 'ts-loader'
+      }
+    ]
+  }
 };

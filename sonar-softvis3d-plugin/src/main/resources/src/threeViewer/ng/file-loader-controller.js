@@ -20,6 +20,8 @@
 var Detector = require('../lib/Detector.js');
 var Model = require('../base-frontend/model/index');
 
+import {TreeService} from '../../react/TreeService';
+
 /**
  * Service which initiates the THREE.js scene and
  *  provides methods to interact with that scene
@@ -33,12 +35,11 @@ var Model = require('../base-frontend/model/index');
  * @export
  * @ngInject
  */
-ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, BackendService, TreeService) {
+ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, BackendService) {
   this.scope = $scope;
   this.MessageBus = MessageBus;
   this.ViewerService = ViewerService;
   this.BackendService = BackendService;
-  this.TreeService = TreeService;
 
   this.state = {
     'city': true, 'custom': false, 'info': false
@@ -201,10 +202,10 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metricF
   this.showTab("info");
   this.BackendService.getVisualization(ThreeViewer.PROJECT_KEY, metricFootprint, metricHeight, colorMetricKey).then(function (response) {
     var options = {
-        layout: layout,
-        layoutOptions: {},
-        colorMetric: colorMetricKey,
-        scalingMethod: scaling
+      layout: layout,
+      layoutOptions: {},
+      colorMetric: colorMetricKey,
+      scalingMethod: scaling
     };
     var treeResult = response.data.resultObject[0].treeResult;
     var illustration = me.createModel(treeResult, options);
@@ -230,7 +231,7 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metricF
 };
 
 ThreeViewer.FileLoaderController.prototype.createModel = function (treeResult, options = {}) {
-  this.TreeService.setTree(treeResult);
+  TreeService.Instance.setTree(treeResult);
 
   var model = new Model.Softvis3dModel(treeResult);
   return new Model.LayoutProcessor(options).getIllustration(model, model._version);

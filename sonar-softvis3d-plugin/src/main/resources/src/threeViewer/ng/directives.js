@@ -92,7 +92,7 @@ ThreeViewer.SelectDirective.prototype.link = function (scope, elem, attrs) {
 ThreeViewer.FileLoaderDirective = function () {
   return {
     restrict: 'A',
-    templateUrl: RESOURCES_BASE_PATH + '/static/softvis3d/threeViewer/partials/file-loader.html'
+    templateUrl: RESOURCES_BASE_PATH + '/static/softvis3d/templates/file-loader.html'
   };
 };
 
@@ -102,7 +102,7 @@ ThreeViewer.FileLoaderDirective = function () {
 ThreeViewer.ToolbarDirective = function () {
   return {
     restrict: 'A',
-    templateUrl: RESOURCES_BASE_PATH + '/static/softvis3d/threeViewer/partials/toolbar.html'
+    templateUrl: RESOURCES_BASE_PATH + '/static/softvis3d/templates/toolbar.html'
   };
 };
 
@@ -112,7 +112,7 @@ ThreeViewer.ToolbarDirective = function () {
 ThreeViewer.HelpDirective = function () {
   return {
     restrict: 'A',
-    templateUrl: RESOURCES_BASE_PATH + '/static/softvis3d/threeViewer/partials/help.html'
+    templateUrl: RESOURCES_BASE_PATH + '/static/softvis3d/templates/help.html'
   };
 };
 

@@ -147,12 +147,30 @@
             </configuration>
           </execution>
           <execution>
+            <id>npm link typescript</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>link typescript</arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>npm build</id>
             <goals>
               <goal>npm</goal>
             </goals>
             <configuration>
               <arguments>run build</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm test</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>test</arguments>
             </configuration>
           </execution>
         </executions>

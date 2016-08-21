@@ -20,18 +20,22 @@
 'use strict';
 var webpack = require('webpack');
 var path = require('path');
-
-var APP = __dirname + '/static/threeViewer';
+var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 
 module.exports = {
-    context: APP,
+    context: __dirname,
     entry: {
-        app: './core/bootstrap.js',
-        vendor: ["jquery", "three", "three-orbit-controls", "angular"]
+        bundle: './src/threeViewer/core/bootstrap.js'
     },
-    plugins: [
-        new webpack.optimize.CommonsChunkPlugin({name: "vendor", filename:"vendor.js", minChunks: Infinity})
-    ],
+
+    // Enable sourcemaps for debugging webpack's output.
+    devtool: "source-map",
+
+    resolve: {
+      // Add '.ts' and '.tsx' as resolvable extensions.
+      extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js", "css", "png", "jpg", "gif"]
+    },
+
     module: {
         loaders: [
             {
@@ -41,7 +45,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'jshint',
-                exclude: ["static/threeViewer/bundle.js", "static/threeViewer/vendor.js", /node_modules/, /dist/]
+                exclude: [/node_modules/, /static/]
             },
             {
                 test: /\.js$/,
@@ -49,15 +53,32 @@ module.exports = {
                 loader: 'babel',
                 query: { presets: ['es2015'], compact: false }
             },
+            // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
+            {
+                test: /\.tsx?$/,
+                loader: "ts-loader!tslint"
+            },
             {
                 test: /\.(png|jpg|gif)$/,
                 loader: "file-loader?name=img/img-[hash:6].[ext]"
             }
+        ],
+        preLoaders: [
+            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+            {
+                test: /\.js$/,
+                loader: "source-map-loader"
+            }
         ]
     },
+    tslint: {
+      emitErrors: true,
+      failOnHint: true,
+      resourcePath: 'src/react'
+    },
     output: {
-        path: APP,
-        filename: 'bundle.js',
-        publicPath: "/app/"
+      path: __dirname + '/static/threeViewer',
+      filename: "[name].js",
+      publicPath: "/app/"
     }
 };
