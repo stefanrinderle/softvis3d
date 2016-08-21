@@ -1,6 +1,6 @@
 {
   "name": "sonar-softvis3d-plugin",
-  "version": "0.5.0-SNAPSHOT",
+  "version": "0.6.0-SNAPSHOT",
   "description": "",
   "main": "src/threeViewer/app.js",
   "scripts": {
