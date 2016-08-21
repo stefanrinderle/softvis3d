@@ -20,7 +20,7 @@
 var Detector = require('../lib/Detector.js');
 var Model = require('../base-frontend/model/index');
 
-import {TestTypescriptService} from '../../react/TestTypescriptService';
+import {TreeService} from '../../react/TreeService';
 
 /**
  * Service which initiates the THREE.js scene and
@@ -35,12 +35,11 @@ import {TestTypescriptService} from '../../react/TestTypescriptService';
  * @export
  * @ngInject
  */
-ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, BackendService, TreeService) {
+ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, BackendService) {
   this.scope = $scope;
   this.MessageBus = MessageBus;
   this.ViewerService = ViewerService;
   this.BackendService = BackendService;
-  this.TreeService = TreeService;
 
   this.state = {
     'city': true, 'custom': false, 'info': false
@@ -73,7 +72,6 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
  * Executes anything after construction.
  */
 ThreeViewer.FileLoaderController.prototype.init = function () {
-  console.log(new TestTypescriptService().get());
   var me = this;
 
   if (!Detector.webgl) {
@@ -190,7 +188,7 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
     var options = {
         layout: layout,
         colorMetric: colorMetricKey
-    }
+    };
     var treeResult = response.data.resultObject[0].treeResult;
     var illustration = me.createModel(treeResult, options);
     me.ViewerService.loadSoftVis3d(illustration);
@@ -215,7 +213,7 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metric1
 };
 
 ThreeViewer.FileLoaderController.prototype.createModel = function (treeResult, options = {}) {
-  this.TreeService.setTree(treeResult);
+  TreeService.Instance.setTree(treeResult);
 
   var model = new Model.Softvis3dModel(treeResult);
   return new Model.LayoutProcessor(options).getIllustration(model, model._version);

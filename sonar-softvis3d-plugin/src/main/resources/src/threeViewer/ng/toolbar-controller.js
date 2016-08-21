@@ -17,20 +17,21 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
+
+import {TreeService} from '../../react/TreeService';
+
 /**
  *
  * @param {angular.Scope} $scope
  * @param {ThreeViewer.ViewerService} ViewerService
- * @param {ThreeViewer.TreeService} TreeService
  * @constructor
  * @export
  * @ngInject
  */
-ThreeViewer.ToolbarController = function ($scope, ViewerService, TreeService, MessageBus) {
+ThreeViewer.ToolbarController = function ($scope, ViewerService, MessageBus) {
 
   this.scope = $scope;
   this.ViewerService = ViewerService;
-  this.TreeService = TreeService;
   this.MessageBus = MessageBus;
 
   this.node = null;
@@ -88,7 +89,7 @@ ThreeViewer.ToolbarController.prototype.listeners = function () {
 };
 
 ThreeViewer.ToolbarController.prototype.showDetails = function (softVis3dId) {
-  this.node = this.TreeService.searchTreeNode(softVis3dId);
+  this.node = TreeService.Instance.searchTreeNode(softVis3dId);
 };
 
 ThreeViewer.ToolbarController.prototype.selectSceneObjectFromDetails = function (objectId, type) {
@@ -102,7 +103,7 @@ ThreeViewer.ToolbarController.prototype.showAllSceneElements = function () {
 };
 
 ThreeViewer.ToolbarController.prototype.hideAllSceneElementsExceptIdTree = function (id) {
-  var showIds = this.TreeService.getAllSceneElementsRecursive(id);
+  var showIds = TreeService.Instance.getAllSceneElementsRecursive(id);
   this.ViewerService.hideAllSceneElementsExceptIds(showIds);
   this.ViewerService.removeObject(id, "leaf");
 };

@@ -10,7 +10,7 @@ module.exports = function (config) {
     exclude: [
     ],
     preprocessors: {
-      'src/react/**/*.spec.ts': ['webpack']
+      'src/react/**/*.ts': ['webpack']
     },
     webpack: {
       module: webpackConfig.module,

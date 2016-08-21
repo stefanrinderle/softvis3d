@@ -25,8 +25,7 @@ var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 module.exports = {
     context: __dirname,
     entry: {
-        bundle: './src/threeViewer/core/bootstrap.js',
-        vendor: ["jquery", "three", "three-orbit-controls", "angular"]
+        bundle: './src/threeViewer/core/bootstrap.js'
     },
 
     // Enable sourcemaps for debugging webpack's output.

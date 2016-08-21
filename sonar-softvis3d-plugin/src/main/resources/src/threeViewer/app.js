@@ -41,11 +41,9 @@ var appModule = angular.module('ThreeViewerApp', ['ngRoute'])
     .service('MessageBus', ['$rootScope', ThreeViewer.MessageBus])
     .service('ViewerService', ['$timeout', 'MessageBus', ThreeViewer.ViewerService])
     .service('BackendService', ['$http', ThreeViewer.BackendService])
-    .service('TreeService', ['$http', ThreeViewer.TreeService])
     .controller('AppController', ['$scope', 'ViewerService', ThreeViewer.AppController])
-    .controller('ToolbarController', ['$scope', 'ViewerService', 'TreeService', 'MessageBus', ThreeViewer.ToolbarController])
-    .controller('FileLoaderController', ['$scope', 'MessageBus', 'ViewerService', 'BackendService', 'TreeService',
-      ThreeViewer.FileLoaderController]);
+    .controller('ToolbarController', ['$scope', 'ViewerService', 'MessageBus', ThreeViewer.ToolbarController])
+    .controller('FileLoaderController', ['$scope', 'MessageBus', 'ViewerService', 'BackendService', ThreeViewer.FileLoaderController]);
 
 
 angular.element(document).ready(function () {
