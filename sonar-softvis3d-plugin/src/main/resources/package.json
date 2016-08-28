@@ -46,7 +46,8 @@
     "tslint-loader": "^2.1.5",
     "typescript": "^1.8.10",
     "webpack": "^1.13.0",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+	"typings": "latest"
   },
   "dependencies": {
     "angular": "^1.4.8",
