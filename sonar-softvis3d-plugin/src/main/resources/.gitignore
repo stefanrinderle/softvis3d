@@ -1,9 +1,13 @@
 node_modules
+npm-debug.log
 node_tmp
+
 static/bundle.*
 static/vendor.*
 static/react.*
 
-npm-debug.log
+static/threeViewer/bundle*
+typings
+coverage
 
 node
