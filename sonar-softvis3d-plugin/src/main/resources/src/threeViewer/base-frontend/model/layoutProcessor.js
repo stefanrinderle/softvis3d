@@ -70,9 +70,10 @@ class LayoutProcessor {
                     "spacer.terranullius": 40,
                     'spacer.conclusive': 0,
                     'spacer.branches': 50,
-                    'house.container': CodeCityVis.containers.lightmap,
+                    'house.container': function(key, mirror) { return new CodeCityVis.containers.lightmap(key, mirror); },
                     'house.distribution': 'left',
                     'house.platforms': {
+                        "dimensions.height": 1,
                         color: 0xD5D5D5
                     }
                 }
