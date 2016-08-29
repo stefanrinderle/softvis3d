@@ -8,6 +8,6 @@ static/react.*
 
 static/threeViewer/bundle*
 typings
-coverage
+coverage.*
 
 node

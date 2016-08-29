@@ -22,8 +22,7 @@
 
     <sonar.exclusions>
       src/main/resources/node_modules/**,
-      src/main/resources/static/threeViewer/bundle.js,
-      src/main/resources/static/threeViewer/vendor.js
+      src/main/resources/static/threeViewer/bundle.js
     </sonar.exclusions>
   </properties>
 
@@ -137,24 +136,24 @@
               <goal>npm</goal>
             </goals>
           </execution>
-          <execution>
-            <id>npm update</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>update</arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm link typescript</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>link typescript</arguments>
-            </configuration>
-          </execution>
+          <!--<execution>-->
+            <!--<id>npm update</id>-->
+            <!--<goals>-->
+              <!--<goal>npm</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+              <!--<arguments>update</arguments>-->
+            <!--</configuration>-->
+          <!--</execution>-->
+          <!--<execution>-->
+            <!--<id>npm link typescript</id>-->
+            <!--<goals>-->
+              <!--<goal>npm</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+              <!--<arguments>link typescript</arguments>-->
+            <!--</configuration>-->
+          <!--</execution>-->
           <execution>
             <id>npm build</id>
             <goals>

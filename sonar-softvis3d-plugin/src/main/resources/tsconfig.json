@@ -4,12 +4,17 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "commonjs",
-    "target": "es5"
+    "target": "es5",
+    "types": [
+      "mocha",
+      "chai",
+      "sinon",
+      "assertion-error",
+      "source-map",
+      "webpack"
+    ]
   },
   "exclude": [
     "node_modules"
-  ],
-  "files": [
-    "./typings/index.d.ts"
   ]
 }
