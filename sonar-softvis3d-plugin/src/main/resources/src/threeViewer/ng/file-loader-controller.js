@@ -21,6 +21,7 @@ var Model = require('../base-frontend/model/index');
 
 import {TreeService} from '../../react/TreeService';
 import {WebGLDetector} from '../../react/WebGLDetector';
+import {MetricSearch} from '../../react/MetricSearch';
 
 /**
  * Service which initiates the THREE.js scene and
@@ -99,7 +100,7 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
 
     this.waitFor(500, 0, function () {
         me.BackendService.getMetrics().then(function (response) {
-            me.availableMetrics = me.filterMetrics(response.data.metrics);
+            me.availableMetrics = MetricSearch.filterMetrics(response.data.metrics);
 
             me.availableColorMetrics = [
                 { key: 'NONE', name: 'None' },
@@ -127,20 +128,6 @@ ThreeViewer.FileLoaderController.prototype.init = function () {
         });
     });
   }
-};
-
-ThreeViewer.FileLoaderController.prototype.filterMetrics = function (metrics) {
-    var result = [];
-
-    for (var index = 0; index < metrics.length; index++) {
-        // check if numeric!
-        if (metrics[index].type === 'INT' || metrics[index].type === 'PERCENT'
-            || metrics[index].type === 'FLOAT' || metrics[index].type === 'RATING' ) {
-            result.push(metrics[index]);
-        }
-    }
-
-    return result;
 };
 
 ThreeViewer.FileLoaderController.prototype.waitFor = function(msec, count, callback) {
@@ -213,9 +200,9 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metricF
 
     var eventObject = {};
     eventObject.softVis3dId = treeResult.id;
-    eventObject.metric1Name = me.getNameForMetricKey(metricFootprint);
-    eventObject.metric2Name = me.getNameForMetricKey(metricHeight);
-    eventObject.colorMetricKey = me.getNameForMetricKey(colorMetricKey);
+    eventObject.metric1Name = MetricSearch.getNameForMetricKey(metricFootprint);
+    eventObject.metric2Name = MetricSearch.getNameForMetricKey(metricHeight);
+    eventObject.colorMetricKey = MetricSearch.getNameForMetricKey(colorMetricKey);
 
     me.MessageBus.trigger('visualizationReady', eventObject);
 
@@ -235,14 +222,4 @@ ThreeViewer.FileLoaderController.prototype.createModel = function (treeResult, o
 
   var model = new Model.Softvis3dModel(treeResult);
   return new Model.LayoutProcessor(options).getIllustration(model, model._version);
-};
-
-ThreeViewer.FileLoaderController.prototype.getNameForMetricKey = function (metricKey) {
-  for (var index = 0; index < this.availableMetrics.length; index++) {
-    if (this.availableMetrics[index].key === metricKey) {
-      return this.availableMetrics[index].name;
-    }
-  }
-
-  return "No name found";
 };
