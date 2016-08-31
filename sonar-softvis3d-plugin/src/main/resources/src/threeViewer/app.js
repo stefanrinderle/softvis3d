@@ -23,7 +23,6 @@ function requireAll(r) {
     r.keys().forEach(r);
 }
 
-requireAll(require.context('./lib/', true, /\.js$/));
 requireAll(require.context('./ng/', true, /\.js$/));
 
 var appModule = angular.module('ThreeViewerApp', ['ngRoute'])
