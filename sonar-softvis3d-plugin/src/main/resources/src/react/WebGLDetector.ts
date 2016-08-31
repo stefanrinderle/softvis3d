@@ -17,37 +17,29 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-/**
- * @author alteredq / http://alteredqualia.com/
- * @author mr.doob / http://mrdoob.com/
- */
 
-var Detector = {
+export class WebGLDetector {
 
-  canvas: !!window.CanvasRenderingContext2D,
-  webgl: (function () {
+  public static isWebGLSupported(): boolean {
     try {
-      var canvas = document.createElement('canvas');
-      return !!( window.WebGLRenderingContext && ( canvas.getContext('webgl') || canvas.getContext('experimental-webgl') ) );
+      let canvas = document.createElement("canvas");
+      return !!( (<any> window).WebGLRenderingContext
+        && ( canvas.getContext("webgl") || canvas.getContext("experimental-webgl") ) );
     } catch (e) {
       return false;
     }
-  })(),
-  workers: !!window.Worker,
-  fileapi: window.File && window.FileReader && window.FileList && window.Blob,
+  }
 
-  getWebGLErrorMessage: function () {
-    if (!this.webgl) {
-      if (window.WebGLRenderingContext) {
-        return 'Your graphics card does not seem to support WebGL. Find out how to get it on http://get.webgl.org/';
+  public static getWebGLErrorMessage() {
+    if (!this.isWebGLSupported()) {
+      if ((<any> window).WebGLRenderingContext) {
+        return "Your graphics card does not seem to support WebGL. Find out how to get it on http://get.webgl.org/";
       } else {
-        return 'Your browser does not seem to support WebGL. Find out how to get it on http://get.webgl.org/.';
+        return "Your browser does not seem to support WebGL. Find out how to get it on http://get.webgl.org/.";
       }
     } else {
       return "";
     }
   }
 
-};
-
-module.exports = Detector;
+}

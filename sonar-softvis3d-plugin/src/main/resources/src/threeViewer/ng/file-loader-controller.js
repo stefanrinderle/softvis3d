@@ -17,10 +17,10 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-var Detector = require('../lib/Detector.js');
 var Model = require('../base-frontend/model/index');
 
 import {TreeService} from '../../react/TreeService';
+import {WebGLDetector} from '../../react/WebGLDetector';
 
 /**
  * Service which initiates the THREE.js scene and
@@ -76,10 +76,10 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
 ThreeViewer.FileLoaderController.prototype.init = function () {
   var me = this;
 
-  if (!Detector.webgl) {
+  if (!WebGLDetector.isWebGLSupported()) {
     this.waitFor(500, 0, function () {
       me.infoInnerState = "error";
-      me.exceptionMessage = Detector.getWebGLErrorMessage();
+      me.exceptionMessage = WebGLDetector.getWebGLErrorMessage();
       me.showTab("info");
     });
   } else {

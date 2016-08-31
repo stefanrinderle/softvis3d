@@ -28,7 +28,7 @@
  * @ngInject
  */
 
-var Detector = require('../lib/Detector.js');
+import {WebGLDetector} from '../../react/WebGLDetector';
 
 ThreeViewer.AppController = function ($scope, ViewerService) {
 
@@ -49,7 +49,7 @@ ThreeViewer.AppController = function ($scope, ViewerService) {
 };
 
 ThreeViewer.AppController.prototype.init = function () {
-  if (!Detector.webgl) {
+  if (!WebGLDetector.isWebGLSupported()) {
     console.error("No webgl support detected.");
   } else {
     this.ViewerService.init({
