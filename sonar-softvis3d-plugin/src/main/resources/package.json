@@ -19,6 +19,7 @@
     "@types/mocha": "^2.2.31",
     "@types/sinon": "^1.16.29",
     "@types/source-map": "^0.1.26",
+    "@types/three": "0.0.21",
     "@types/webpack": "^1.12.33",
     "babel-core": "^6.7.7",
     "babel-loader": "^6.2.4",

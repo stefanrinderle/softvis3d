@@ -24,7 +24,6 @@ require('./util.js');
 require('./wrangler.js');
 require('./setup.js');
 require('./camera.js');
-require('./objectFactory.js');
 require('./scene.js');
 
 module.exports = Viewer;

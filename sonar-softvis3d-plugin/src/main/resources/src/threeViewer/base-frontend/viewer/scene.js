@@ -41,8 +41,6 @@ Viewer.Scene = function (params) {
   this.controls = null;
   this.raycaster = null;
 
-  this.objectFactory = null;
-
   this.init();
 
 };
@@ -63,8 +61,6 @@ Viewer.Scene.prototype = {
     this.controls.zoomSpeed = 1.5;
     this.raycaster = new THREE.Raycaster();
     this.wrangler.init();
-
-    this.objectFactory = new Viewer.ObjectFactory(params);
 
     this.listeners();
     this.onWindowResize();

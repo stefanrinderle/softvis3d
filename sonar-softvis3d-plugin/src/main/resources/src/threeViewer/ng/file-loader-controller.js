@@ -196,7 +196,7 @@ ThreeViewer.FileLoaderController.prototype.loadVisualisation = function (metricF
     };
     var treeResult = response.data.resultObject[0].treeResult;
     var illustration = me.createModel(treeResult, options);
-    me.ViewerService.loadSoftVis3d(illustration);
+    me.ViewerService.loadSoftVis3d(illustration.shapes);
 
     var eventObject = {};
     eventObject.softVis3dId = treeResult.id;

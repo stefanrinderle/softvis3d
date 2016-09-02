@@ -17,6 +17,9 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
+
+import {ObjectFactory} from '../../../react/visualization/ObjectFactory';
+
 var Viewer = require('./viewer.js');
 var THREE = require("three");
 
@@ -50,7 +53,7 @@ Viewer.Wrangler.prototype = {
   },
 
   loadSoftVis3d: function (data) {
-    this.loadObjects(this.context.objectFactory.getSceneObjects(data));
+    this.loadObjects(ObjectFactory.getSceneObjects(data));
   },
 
   loadObjects: function (objects) {
