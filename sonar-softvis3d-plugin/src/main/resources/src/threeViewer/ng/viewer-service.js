@@ -84,8 +84,8 @@ ThreeViewer.ViewerService.prototype.hideAllSceneElementsExceptIds = function (sh
     this.home.wrangler.hideAllSceneElementsExceptIds(showIds);
 };
 
-ThreeViewer.ViewerService.prototype.removeObject = function (objectSoftVis3dId, type) {
-    this.home.wrangler.removeObject(objectSoftVis3dId, type);
+ThreeViewer.ViewerService.prototype.removeObject = function (objectSoftVis3dId) {
+    this.home.wrangler.removeObject(objectSoftVis3dId);
 };
 
 /**

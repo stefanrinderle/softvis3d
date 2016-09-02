@@ -105,7 +105,7 @@ ThreeViewer.ToolbarController.prototype.showAllSceneElements = function () {
 ThreeViewer.ToolbarController.prototype.hideAllSceneElementsExceptIdTree = function (id) {
   var showIds = TreeService.Instance.getAllSceneElementsRecursive(id);
   this.ViewerService.hideAllSceneElementsExceptIds(showIds);
-  this.ViewerService.removeObject(id, "leaf");
+  this.ViewerService.removeObject(id);
 };
 
 ThreeViewer.ToolbarController.prototype.triggerDisplayChildren = function () {

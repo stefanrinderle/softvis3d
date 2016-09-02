@@ -23,6 +23,7 @@ var OrbitControls = require('three-orbit-controls')(THREE);
 var Viewer = require('./viewer.js');
 import {Setup} from '../../../react/visualization/Setup';
 import {Camera} from '../../../react/visualization/Camera';
+import {Wrangler} from '../../../react/visualization/Wrangler';
 
 Viewer.Scene = function (params) {
 
@@ -55,7 +56,7 @@ Viewer.Scene.prototype = {
     this.scene = new THREE.Scene();
     this.projector = new THREE.Projector();
     this.renderer = new THREE.WebGLRenderer({canvas: this.container, antialias: true, alpha: true});
-    this.wrangler = new Viewer.Wrangler(params);
+    this.wrangler = new Wrangler(params);
 
     Setup.initRenderer(params);
 
@@ -63,7 +64,6 @@ Viewer.Scene.prototype = {
     this.controls = new OrbitControls(this.camera.getCamera(), this.container);
     this.controls.zoomSpeed = 1.5;
     this.raycaster = new THREE.Raycaster();
-    this.wrangler.init();
 
     this.listeners();
     this.onWindowResize();
