@@ -65,7 +65,7 @@ ThreeViewer.ViewerService.prototype.animate = function () {
  * @export
  */
 ThreeViewer.ViewerService.prototype.render = function () {
-    this.home.renderer.render(this.home.scene, this.home.cameras.liveCam);
+    this.home.renderer.render(this.home.scene, this.home.camera.getCamera());
 };
 
 ThreeViewer.ViewerService.prototype.loadSoftVis3d = function (data) {
@@ -120,9 +120,10 @@ ThreeViewer.ViewerService.prototype.makeSelection = function (event) {
 
     // var vector = new THREE.Vector3(mouseDown.x, mouseDown.y, 1).unproject();
 
-    var vector = this.home.wrangler.getVectorProjection(mouseDown, this.home.cameras.liveCam);
+    var vector = this.home.wrangler.getVectorProjection(mouseDown, this.home.camera.getCamera());
 
-    this.home.raycaster.set(this.home.cameras.liveCam.position, vector.sub(this.home.cameras.liveCam.position).normalize());
+    var cameraPosition = this.home.camera.getCameraPosition();
+    this.home.raycaster.set(cameraPosition, vector.sub(cameraPosition).normalize());
     var intersected = this.home.raycaster.intersectObjects(this.home.wrangler.objectsInView, true);
 
     if (intersected.length > 0) {

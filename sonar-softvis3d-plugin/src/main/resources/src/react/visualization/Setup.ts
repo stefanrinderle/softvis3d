@@ -33,7 +33,7 @@ export class Setup {
         Setup.setupRenderer(params.context, width, height);
         Setup.lights(params.context);
 
-        context.renderer.setClearColor(0x000000, 1);
+        context.renderer.setClearColor(0xffffff, 1);
     }
 
     /**

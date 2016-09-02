@@ -22,6 +22,7 @@ var THREE = require("three");
 var OrbitControls = require('three-orbit-controls')(THREE);
 var Viewer = require('./viewer.js');
 import {Setup} from '../../../react/visualization/Setup';
+import {Camera} from '../../../react/visualization/Camera';
 
 Viewer.Scene = function (params) {
 
@@ -37,7 +38,7 @@ Viewer.Scene = function (params) {
   this.scene = null;
   this.projector = null;
   this.renderer = null;
-  this.cameras = null;
+  this.camera = null;
   this.controls = null;
   this.raycaster = null;
 
@@ -58,8 +59,8 @@ Viewer.Scene.prototype = {
 
     Setup.initRenderer(params);
 
-    this.cameras = new Viewer.Cameras(params);
-    this.controls = new OrbitControls(this.cameras.liveCam, this.container);
+    this.camera = new Camera(params);
+    this.controls = new OrbitControls(this.camera.getCamera(), this.container);
     this.controls.zoomSpeed = 1.5;
     this.raycaster = new THREE.Raycaster();
     this.wrangler.init();
@@ -97,9 +98,8 @@ Viewer.Scene.prototype = {
     this.WIDTH = window.innerWidth - paddingLeft;
     this.HEIGHT = window.innerHeight - jQuery('#content').position().top - jQuery("#footer").outerHeight();
 
+    this.camera.setAspect(this.WIDTH, this.HEIGHT);
 
-    this.cameras.liveCam.aspect = this.WIDTH / this.HEIGHT;
-    this.cameras.liveCam.updateProjectionMatrix();
     this.renderer.setSize(this.WIDTH, this.HEIGHT);
     this.renderer.setViewport(0, 0, this.WIDTH, this.HEIGHT);
 
