@@ -21,7 +21,6 @@
 var Viewer = require('./viewer.js');
 
 require('./wrangler.js');
-require('./setup.js');
 require('./camera.js');
 require('./scene.js');
 

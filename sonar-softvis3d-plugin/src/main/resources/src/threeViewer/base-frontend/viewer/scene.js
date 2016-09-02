@@ -21,6 +21,7 @@ var jQuery = require("jquery");
 var THREE = require("three");
 var OrbitControls = require('three-orbit-controls')(THREE);
 var Viewer = require('./viewer.js');
+import {Setup} from '../../../react/visualization/Setup';
 
 Viewer.Scene = function (params) {
 
@@ -36,7 +37,6 @@ Viewer.Scene = function (params) {
   this.scene = null;
   this.projector = null;
   this.renderer = null;
-  this.setup = null;
   this.cameras = null;
   this.controls = null;
   this.raycaster = null;
@@ -55,7 +55,9 @@ Viewer.Scene.prototype = {
     this.projector = new THREE.Projector();
     this.renderer = new THREE.WebGLRenderer({canvas: this.container, antialias: true, alpha: true});
     this.wrangler = new Viewer.Wrangler(params);
-    this.setup = new Viewer.Setup(params);
+
+    Setup.initRenderer(params);
+
     this.cameras = new Viewer.Cameras(params);
     this.controls = new OrbitControls(this.cameras.liveCam, this.container);
     this.controls.zoomSpeed = 1.5;
