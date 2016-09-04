@@ -86,7 +86,7 @@ export class Wrangler {
         }
     }
 
-    public hideAllSceneElementsExceptIds(showIds) {
+    public hideAllSceneElementsExceptIds(showIds: string[]) {
         this.hideAllSceneElements();
 
         for (let index = 0; index < this.resultObjects.length; index++) {
@@ -123,7 +123,7 @@ export class Wrangler {
         this.objectsInView = [];
     }
 
-    private contains(a, obj): boolean {
+    private contains(a: string[], obj: string): boolean {
         for (let i = 0; i < a.length; i++) {
             if (a[i] === obj) {
                 return true;

@@ -20,16 +20,18 @@
 
 import * as jQuery from "jquery";
 
-import {Scene, Projector, WebGLRenderer, Raycaster, Vector3, PerspectiveCamera} from "three";
+import {Scene, Projector, WebGLRenderer, Raycaster, Vector3, PerspectiveCamera, Intersection} from "three";
 
 import {Setup} from "./Setup";
 import {Camera} from "./Camera";
 import {Wrangler} from "./Wrangler";
+import {SoftVis3dShape} from "./domain/SoftVis3dShape";
+import {SoftVis3dMesh} from "./domain/SoftVis3dMesh";
 
 export class SoftVis3dScene {
 
-    private container: any;
-    private jqContainer: any;
+    private container: HTMLCanvasElement;
+    private jqContainer: JQuery;
 
     private width: number;
     private height: number;
@@ -42,7 +44,7 @@ export class SoftVis3dScene {
     private raycaster: Raycaster;
 
     constructor(canvasId: string) {
-        this.container = document.getElementById(canvasId);
+        this.container = <HTMLCanvasElement> document.getElementById(canvasId);
         this.jqContainer = jQuery("#" + canvasId);
 
         this.width = this.container.width;
@@ -61,7 +63,7 @@ export class SoftVis3dScene {
         this.onWindowResize();
     }
 
-    public loadSoftVis3d(data) {
+    public loadSoftVis3d(data: SoftVis3dShape[]) {
         this.wrangler.loadSoftVis3d(data);
     }
 
@@ -69,7 +71,7 @@ export class SoftVis3dScene {
         this.renderer.render(this.scene, this.camera.getCamera());
     }
 
-    public selectSceneTreeObject(objectSoftVis3dId) {
+    public selectSceneTreeObject(objectSoftVis3dId: string) {
         this.wrangler.selectSceneTreeObject(objectSoftVis3dId);
     }
 
@@ -77,11 +79,11 @@ export class SoftVis3dScene {
         this.wrangler.showAllSceneElements();
     }
 
-    public hideAllSceneElementsExceptIds(showIds) {
+    public hideAllSceneElementsExceptIds(showIds: string[]) {
         this.wrangler.hideAllSceneElementsExceptIds(showIds);
     }
 
-    public removeObject(objectSoftVis3dId) {
+    public removeObject(objectSoftVis3dId: string) {
         this.wrangler.removeObject(objectSoftVis3dId);
     }
 
@@ -93,12 +95,8 @@ export class SoftVis3dScene {
         return this.camera.getCamera();
     }
 
-    /**
-     * See if a mouse click intersects an object.
-     * @param {!{x:number, y:number}} mouse
-     */
-    public makeSelection(event: any): string {
-        let canvas: any = jQuery("#content");
+    public makeSelection(event: MouseEvent): string {
+        let canvas: JQuery = jQuery("#content");
 
         let x: number;
         let y: number;
@@ -113,27 +111,26 @@ export class SoftVis3dScene {
             x -= canvas.offset().left;
             y -= canvas.offset().top;
 
-            x -= canvas.css("padding-left").replace("px", "");
-            y -= canvas.css("padding-top").replace("px", "");
+            let paddingLeft: string = canvas.css("padding-left").replace("px", "");
+            let paddingTop: string = canvas.css("padding-top").replace("px", "");
+            x -= Number(paddingLeft);
+            y -= Number(paddingTop);
         }
 
-        let width = this.width;
-        let height = this.height;
-
         // creating NDC coordinates for ray intersection.
-        let mouseDown: any = {};
-        mouseDown.x = (x / width) * 2 - 1;
-        mouseDown.y = -(y / height) * 2 + 1;
+        let mouseDownX: number = (x / this.width) * 2 - 1;
+        let mouseDownY: number = -(y / this.height) * 2 + 1;
 
-        let vector = new Vector3(mouseDown.x, mouseDown.y, 1).unproject(this.camera.getCamera());
+        let vector = new Vector3(mouseDownX, mouseDownY, 1).unproject(this.camera.getCamera());
 
         let cameraPosition = this.camera.getCameraPosition();
         this.raycaster.set(cameraPosition, vector.sub(cameraPosition).normalize());
-        let intersected: any = this.raycaster.intersectObjects(this.wrangler.getObjectsInView(), true);
+        let intersected: Intersection[] = this.raycaster.intersectObjects(this.wrangler.getObjectsInView(), true);
 
         let result: string = null;
         if (intersected.length > 0) {
-            let objectSoftVis3dId: string = intersected[0].object.softVis3dId;
+            let object: SoftVis3dMesh = <SoftVis3dMesh> intersected[0].object;
+            let objectSoftVis3dId: string = object.getSoftVis3dId();
 
             this.selectSceneTreeObject(objectSoftVis3dId);
             result = objectSoftVis3dId;

@@ -36,7 +36,7 @@ export class Camera {
     private perpNearPane: number = 1;
     private perpFarPane: number = 100000;
 
-    constructor(container: any, scene: Scene) {
+    constructor(container: HTMLCanvasElement, scene: Scene) {
         this.aspectRatio = container.clientWidth / container.clientHeight;
 
         this.initPerspective(scene);

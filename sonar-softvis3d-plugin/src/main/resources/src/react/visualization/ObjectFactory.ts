@@ -44,6 +44,10 @@ export class ObjectFactory {
 
         for (let attr in element) {
             if (element.hasOwnProperty(attr)) {
+                /**
+                 * TODO: error TS7017: Index signature of object type implicitly has an 'any' type.
+                 * set "noImplicitAny": true after fix
+                 */
                 defaults[attr] = element[attr];
             }
         }

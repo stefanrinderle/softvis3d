@@ -25,7 +25,7 @@ import {WebGLRenderer, DirectionalLight, Scene} from "three";
  */
 export class Setup {
 
-    public static initRenderer(renderer: WebGLRenderer, scene: Scene, container: any, jqContainer: any) {
+    public static initRenderer(renderer: WebGLRenderer, scene: Scene, container: HTMLCanvasElement, jqContainer: JQuery) {
         let width: number = container.clientWidth;
         let height: number = container.clientHeight;
 
@@ -38,7 +38,7 @@ export class Setup {
     /**
      * Setup the render information.
      */
-    private static setupRenderer(renderer: WebGLRenderer, jqContainer: any, width: number, height: number) {
+    private static setupRenderer(renderer: WebGLRenderer, jqContainer: JQuery, width: number, height: number) {
         renderer.setSize(width, height);
         renderer.setViewport(0, 0, width, height);
         jqContainer.fadeIn();
