@@ -52,10 +52,7 @@ ThreeViewer.AppController.prototype.init = function () {
   if (!WebGLDetector.isWebGLSupported()) {
     console.error("No webgl support detected.");
   } else {
-    this.ViewerService.init({
-      canvasId: 'viewer',
-      containerId: 'infoContainer'
-    });
+    this.ViewerService.init('viewer');
     this.listeners();
   }
 };

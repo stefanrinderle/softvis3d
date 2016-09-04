@@ -18,9 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
+import {SoftVis3dScene} from '../../react/visualization/SoftVis3dScene';
+import {SoftVis3dMesh} from '../../react/visualization/domain/SoftVis3dMesh';
+
 var THREE = require("three");
-var jQuery = require("jquery");
-var Viewer = require('../base-frontend/viewer/index');
+var OrbitControls = require('three-orbit-controls')(THREE);
 
 /**
  * Service which initiates the THREE.js scene and
@@ -34,58 +36,73 @@ var Viewer = require('../base-frontend/viewer/index');
  * @ngInject
  */
 ThreeViewer.ViewerService = function ($timeout, MessageBus) {
-    this.timeout = $timeout;
-    this.MessageBus = MessageBus;
-    this.home = null;
+  this.timeout = $timeout;
+  this.MessageBus = MessageBus;
+  this.softvis3dScene = null;
 };
 
 /**
  * Initialize the 3D scene
  * @param {!object} params
  */
-ThreeViewer.ViewerService.prototype.init = function (params) {
-    var loadDelay = 1500;
-    this.home = new Viewer.Scene(params);
-    this.timeout(function () {
-        this.MessageBus.trigger('appReady');
-    }.bind(this), loadDelay);
+ThreeViewer.ViewerService.prototype.init = function (canvasId) {
+  var loadDelay = 1500;
+  this.softvis3dScene = new SoftVis3dScene(canvasId);
 
-    this.animate();
+  /**
+   * TODO: Move to typescript. Tried, but had an import issue.
+   */
+  var controls = new OrbitControls(this.softvis3dScene.getCamera(), this.softvis3dScene.getContainer());
+  controls.zoomSpeed = 1.5;
+
+  this.timeout(function () {
+    this.MessageBus.trigger('appReady');
+  }.bind(this), loadDelay);
+
+  this.animate();
+  this.listeners();
+};
+
+ThreeViewer.ViewerService.prototype.listeners = function () {
+  var me = this;
+  window.addEventListener("resize", function () {
+    me.softvis3dScene.onWindowResize();
+  }, true);
 };
 
 /**
  * @export
  */
 ThreeViewer.ViewerService.prototype.animate = function () {
-    requestAnimationFrame(this.animate.bind(this));
-    this.render();
+  requestAnimationFrame(this.animate.bind(this));
+  this.render();
 };
 
 /**
  * @export
  */
 ThreeViewer.ViewerService.prototype.render = function () {
-    this.home.renderer.render(this.home.scene, this.home.camera.getCamera());
+  this.softvis3dScene.render();
 };
 
 ThreeViewer.ViewerService.prototype.loadSoftVis3d = function (data) {
-    this.home.wrangler.loadSoftVis3d(data);
+  this.softvis3dScene.loadSoftVis3d(data);
 };
 
 ThreeViewer.ViewerService.prototype.selectSceneTreeObject = function (objectSoftVis3dId) {
-    this.home.wrangler.selectSceneTreeObject(objectSoftVis3dId);
+  this.softvis3dScene.selectSceneTreeObject(objectSoftVis3dId);
 };
 
 ThreeViewer.ViewerService.prototype.showAllSceneElements = function () {
-    this.home.wrangler.showAllSceneElements();
+  this.softvis3dScene.showAllSceneElements();
 };
 
 ThreeViewer.ViewerService.prototype.hideAllSceneElementsExceptIds = function (showIds) {
-    this.home.wrangler.hideAllSceneElementsExceptIds(showIds);
+  this.softvis3dScene.hideAllSceneElementsExceptIds(showIds);
 };
 
 ThreeViewer.ViewerService.prototype.removeObject = function (objectSoftVis3dId) {
-    this.home.wrangler.removeObject(objectSoftVis3dId);
+  this.softvis3dScene.removeObject(objectSoftVis3dId);
 };
 
 /**
@@ -93,51 +110,11 @@ ThreeViewer.ViewerService.prototype.removeObject = function (objectSoftVis3dId) 
  * @param {!{x:number, y:number}} mouse
  */
 ThreeViewer.ViewerService.prototype.makeSelection = function (event) {
-    var canvas = jQuery("#content");
+  var intersectedSoftVis3dId = this.softvis3dScene.makeSelection(event);
 
-    var x, y;
-    if ('offsetX' in event && 'offsetY' in event) {
-        x = event.offsetX;
-        y = event.offsetY;
-    } else {
-        // Firefox method to get the position
-        x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-        y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-        x -= canvas.offset().left;
-        y -= canvas.offset().top;
+  if (intersectedSoftVis3dId != null) {
+    let eventObject = new SoftVis3dMesh(intersectedSoftVis3dId);
+    this.MessageBus.trigger("objectSelected", eventObject);
+  }
 
-        x -= canvas.css("padding-left").replace("px", "");
-        y -= canvas.css("padding-top").replace("px", "");
-    }
-
-    var width = this.home.WIDTH;
-    var height = this.home.HEIGHT;
-
-    // creating NDC coordinates for ray intersection.
-    var mouseDown = {};
-    mouseDown.x = (x / width) * 2 - 1;
-    mouseDown.y = -(y / height) * 2 + 1;
-
-    // var vector = new THREE.Vector3(mouseDown.x, mouseDown.y, 1).unproject();
-
-    var vector = this.home.wrangler.getVectorProjection(mouseDown, this.home.camera.getCamera());
-
-    var cameraPosition = this.home.camera.getCameraPosition();
-    this.home.raycaster.set(cameraPosition, vector.sub(cameraPosition).normalize());
-    var intersected = this.home.raycaster.intersectObjects(this.home.wrangler.objectsInView, true);
-
-    if (intersected.length > 0) {
-        var objectSoftVis3dId = intersected[0].object.softVis3dId;
-
-        var eventObject = {};
-        eventObject.softVis3dId = objectSoftVis3dId;
-
-        this.selectSceneTreeObject(objectSoftVis3dId);
-        this.MessageBus.trigger('objectSelected', eventObject);
-    } else {
-        intersected = null;
-        console.info('No intersection detected');
-    }
-
-    return intersected;
 };

@@ -18,56 +18,55 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-import {WebGLRenderer, DirectionalLight} from "three";
+import {WebGLRenderer, DirectionalLight, Scene} from "three";
 
 /**
  * TODO: Write tests with sinon mocks.
  */
 export class Setup {
 
-    public static initRenderer(params: WebGLRenderer) {
-        let context: any = params.context;
-        let width: number = context.container.clientWidth;
-        let height: number = context.container.clientHeight;
+    public static initRenderer(renderer: WebGLRenderer, scene: Scene, container: any, jqContainer: any) {
+        let width: number = container.clientWidth;
+        let height: number = container.clientHeight;
 
-        Setup.setupRenderer(params.context, width, height);
-        Setup.lights(params.context);
+        Setup.setupRenderer(renderer, jqContainer, width, height);
+        Setup.lights(scene);
 
-        context.renderer.setClearColor(0xffffff, 1);
+        renderer.setClearColor(0xffffff, 1);
     }
 
     /**
      * Setup the render information.
      */
-    private static setupRenderer(context: any, width: number, height: number) {
-        context.renderer.setSize(width, height);
-        context.renderer.setViewport(0, 0, width, height);
-        context.jqContainer.fadeIn();
+    private static setupRenderer(renderer: WebGLRenderer, jqContainer: any, width: number, height: number) {
+        renderer.setSize(width, height);
+        renderer.setViewport(0, 0, width, height);
+        jqContainer.fadeIn();
     }
 
     /**
      * Add light(s) to the scene
      */
-    private static lights(context: any) {
+    private static lights(scene: Scene) {
         let light = new DirectionalLight(0xaaaaaa);
         light.position.set(1, 0, 0).normalize();
-        context.scene.add(light);
+        scene.add(light);
 
         light = new DirectionalLight(0xcccccc);
         light.position.set(-1, 0, 0).normalize();
-        context.scene.add(light);
+        scene.add(light);
 
         light = new DirectionalLight(0xddddddd);
         light.position.set(0, 0, 1).normalize();
-        context.scene.add(light);
+        scene.add(light);
 
         light = new DirectionalLight(0xeeeeee);
         light.position.set(0, 0, -1).normalize();
-        context.scene.add(light);
+        scene.add(light);
 
         light = new DirectionalLight(0xffffff);
         light.position.set(0, 1, 0);
-        context.scene.add(light);
+        scene.add(light);
     }
 
 }

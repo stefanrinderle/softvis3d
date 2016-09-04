@@ -18,14 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-import {WebGLRenderer, PerspectiveCamera, Vector3} from "three";
+import {PerspectiveCamera, Vector3, Scene} from "three";
 
 /**
  * @class Creates the camera for the scene.
  */
 export class Camera {
 
-    private context: any;
     private fov: number = 70;
 
     private aspectRatio: number;
@@ -37,12 +36,10 @@ export class Camera {
     private perpNearPane: number = 1;
     private perpFarPane: number = 100000;
 
-    constructor(params: WebGLRenderer) {
-        this.context = params.context;
+    constructor(container: any, scene: Scene) {
+        this.aspectRatio = container.clientWidth / container.clientHeight;
 
-        this.aspectRatio = this.context.container.clientWidth / this.context.container.clientHeight;
-
-        this.initPerspective();
+        this.initPerspective(scene);
     }
 
     public getCamera(): PerspectiveCamera {
@@ -61,7 +58,7 @@ export class Camera {
     /**
      * Initialize the perspective camera.
      */
-    private initPerspective() {
+    private initPerspective(scene: Scene) {
         this.perpCam = new PerspectiveCamera
         (
             this.fov,
@@ -72,7 +69,7 @@ export class Camera {
 
         this.perpCam.position.y = 800;
         this.perpCam.position.z = 1400;
-        this.perpCam.lookAt(this.context.scene.position);
+        this.perpCam.lookAt(scene.position);
         this.perpCam.name = "perp";
     }
 

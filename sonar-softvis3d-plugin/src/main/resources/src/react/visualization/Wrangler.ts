@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-import {WebGLRenderer, Vector3, MeshLambertMaterial} from "three";
+import {MeshLambertMaterial, Scene} from "three";
 import {ObjectFactory} from "./ObjectFactory";
 import {SoftVis3dMesh} from "./domain/SoftVis3dMesh";
 import {SoftVis3dShape} from "./domain/SoftVis3dShape";
@@ -31,15 +31,15 @@ import {SoftVis3dShape} from "./domain/SoftVis3dShape";
  */
 export class Wrangler {
 
-    private context: any;
+    private scene: Scene;
 
     private resultObjects: SoftVis3dMesh[] = [];
     private objectsInView: SoftVis3dMesh[] = [];
 
-    private selectedTreeObjects = [];
+    private selectedTreeObjects: SoftVis3dSelectedObject[] = [];
 
-    constructor(params: WebGLRenderer) {
-        this.context = params.context;
+    constructor(scene: Scene) {
+        this.scene = scene;
     }
 
     public loadSoftVis3d(data: SoftVis3dShape[]) {
@@ -50,7 +50,7 @@ export class Wrangler {
         for (let index = 0; index < this.resultObjects.length; index++) {
             let object: SoftVis3dMesh = this.resultObjects[index];
             this.objectsInView.push(object);
-            this.context.scene.add(object);
+            this.scene.add(object);
         }
     }
 
@@ -66,7 +66,7 @@ export class Wrangler {
             if (objectSoftVis3dId === this.resultObjects[objectIndex].getSoftVis3dId()) {
 
                 let selectedObjectMaterial: MeshLambertMaterial = this.resultObjects[objectIndex].material;
-                let selectedObjectInformation = {
+                let selectedObjectInformation: SoftVis3dSelectedObject = {
                     object: this.resultObjects[objectIndex],
                     color: selectedObjectMaterial.color.getHex()
                 };
@@ -82,7 +82,7 @@ export class Wrangler {
 
         for (let resultObjectIndex = 0; resultObjectIndex < this.resultObjects.length; resultObjectIndex++) {
             this.objectsInView.push(this.resultObjects[resultObjectIndex]);
-            this.context.scene.add(this.resultObjects[resultObjectIndex]);
+            this.scene.add(this.resultObjects[resultObjectIndex]);
         }
     }
 
@@ -92,7 +92,7 @@ export class Wrangler {
         for (let index = 0; index < this.resultObjects.length; index++) {
             if (this.contains(showIds, this.resultObjects[index].getSoftVis3dId())) {
                 this.objectsInView.push(this.resultObjects[index]);
-                this.context.scene.add(this.resultObjects[index]);
+                this.scene.add(this.resultObjects[index]);
             }
         }
     }
@@ -100,7 +100,7 @@ export class Wrangler {
     public removeObject(objectSoftVis3dId: string) {
         for (let index = 0; index < this.resultObjects.length; index++) {
             if (objectSoftVis3dId === this.resultObjects[index].getSoftVis3dId()) {
-                this.context.scene.remove(this.resultObjects[index]);
+                this.scene.remove(this.resultObjects[index]);
             }
         }
 
@@ -111,19 +111,19 @@ export class Wrangler {
         }
     }
 
-    public getVectorProjection(mouseDown, camera) {
-        return new Vector3(mouseDown.x, mouseDown.y, 1).unproject(camera);
+    public getObjectsInView(): SoftVis3dMesh[] {
+        return this.objectsInView;
     }
 
     private hideAllSceneElements() {
         for (let index = 0; index < this.objectsInView.length; index++) {
-            this.context.scene.remove(this.objectsInView[index]);
+            this.scene.remove(this.objectsInView[index]);
         }
 
         this.objectsInView = [];
     }
 
-    private contains(a, obj) {
+    private contains(a, obj): boolean {
         for (let i = 0; i < a.length; i++) {
             if (a[i] === obj) {
                 return true;
@@ -137,10 +137,15 @@ export class Wrangler {
      */
     private removeAllFromScene() {
         for (let index = 0; index < this.objectsInView.length; index++) {
-            this.context.scene.remove(this.objectsInView[index]);
+            this.scene.remove(this.objectsInView[index]);
         }
 
         this.objectsInView = [];
     }
 
 }
+
+export interface SoftVis3dSelectedObject {
+    object: SoftVis3dMesh;
+    color: number;
+};

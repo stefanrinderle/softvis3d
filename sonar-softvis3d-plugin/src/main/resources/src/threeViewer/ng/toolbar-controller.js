@@ -55,7 +55,7 @@ ThreeViewer.ToolbarController.prototype.listeners = function () {
   this.scope.$on('objectSelected', function () {
     var eventObject = me.MessageBus.getMessage('objectSelected');
 
-    me.showDetails(eventObject.softVis3dId, eventObject.softVis3dType);
+    me.showDetails(eventObject.softVis3dId);
     me.scope.$apply();
   }.bind(this));
 
@@ -109,9 +109,5 @@ ThreeViewer.ToolbarController.prototype.hideAllSceneElementsExceptIdTree = funct
 };
 
 ThreeViewer.ToolbarController.prototype.triggerDisplayChildren = function () {
-  if (this.displayChildren) {
-    this.displayChildren = false;
-  } else {
-    this.displayChildren = true;
-  }
+  this.displayChildren = !this.displayChildren;
 };
