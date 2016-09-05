@@ -45,7 +45,7 @@
     <div ng-show="toolbar.node.parentInfo" class="toolbar-parentInfo">
       <span class="key">Parent</span>
       <a href='#'
-         ng-click="toolbar.selectSceneObjectFromDetails(toolbar.node.parentInfo.id, toolbar.node.parentInfo.type);">
+         ng-click="toolbar.selectSceneObjectFromDetails(toolbar.node.parentInfo.id);">
         {{toolbar.node.parentInfo.name}}
       </a>
     </div>
@@ -72,7 +72,7 @@
           <img ng-show="child.isNode" style="vertical-align: text-top;"
                ng-src="{{toolbar.BASE_PATH}}/static/softvis3d/images/folder.gif"
                alt="Folder"/>
-          <a href='#' ng-click="toolbar.selectSceneObjectFromDetails(child.id, child.type);">
+          <a href='#' ng-click="toolbar.selectSceneObjectFromDetails(child.id);">
             {{ child.name | limitTo:21 }}{{child.name.length > 21 ? '...' : ''}}
             <span ng-show="!child.isNode">({{child.footprintMetricValue}}/{{child.heightMetricValue}})</span>
           </a>
