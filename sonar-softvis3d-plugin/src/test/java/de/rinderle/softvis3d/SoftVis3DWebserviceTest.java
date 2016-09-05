@@ -34,8 +34,6 @@ public class SoftVis3DWebserviceTest {
 
   @Before
   public void setUp() {
-    final Settings settings = new Settings();
-    settings.setProperty(SoftVis3DConstants.DOT_BIN_KEY, "/usr/local/bin/dot");
     final WebService webservice = new SoftVis3DWebservice();
 
     webservice.define(context);

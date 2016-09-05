@@ -19,26 +19,15 @@
  */
 package de.rinderle.softvis3d;
 
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import java.util.ArrayList;
 import java.util.List;
 import org.sonar.api.Extension;
 import org.sonar.api.ExtensionPoint;
-import org.sonar.api.Properties;
-import org.sonar.api.Property;
-import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 
 /**
  * This class is the entry point for all extensions.
  */
-@Properties({
-  @Property(key = SoftVis3DConstants.DOT_BIN_KEY, defaultValue = SoftVis3DConstants.DOT_BIN_DEFAULT,
-    name = SoftVis3DConstants.DOT_BIN_NAME, description = SoftVis3DConstants.DOT_BIN_DESCRIPTION),
-  @Property(key = "metric1", defaultValue = "complexity", type = PropertyType.METRIC, name = "Metric type 1",
-    description = "This metric will be used for the building footprint"),
-  @Property(key = "metric2", defaultValue = "lines", type = PropertyType.METRIC, name = "Metric type 2",
-    description = "This metric will be used for the building height")})
 @ExtensionPoint
 public final class SoftVis3DPlugin extends SonarPlugin {
 
