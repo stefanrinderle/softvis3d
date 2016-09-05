@@ -20,28 +20,33 @@
 'use strict';
 
 function requireAll(r) {
-    r.keys().forEach(r);
+  r.keys().forEach(r);
 }
 
 requireAll(require.context('./ng/', true, /\.js$/));
 
 var appModule = angular.module('ThreeViewerApp', ['ngRoute'])
-    .config(ThreeViewer.ConfigLocation)
-    .config(ThreeViewer.ConfigRouters)
-    .directive('select', ['ViewerService', ThreeViewer.SelectDirective.factory])
-    .directive('fileLoader', ThreeViewer.FileLoaderDirective)
-    .directive('toolbar', ThreeViewer.ToolbarDirective)
-    .directive('help', ThreeViewer.HelpDirective)
-    .service('MessageBus', ['$rootScope', ThreeViewer.MessageBus])
-    .service('ViewerService', ['$timeout', 'MessageBus', ThreeViewer.ViewerService])
-    .service('BackendService', ['$http', ThreeViewer.BackendService])
-    .controller('AppController', ['$scope', 'ViewerService', ThreeViewer.AppController])
-    .controller('ToolbarController', ['$scope', 'ViewerService', 'MessageBus', ThreeViewer.ToolbarController])
-    .controller('FileLoaderController', ['$scope', 'MessageBus', 'ViewerService', 'BackendService', ThreeViewer.FileLoaderController]);
+  .config(ThreeViewer.ConfigLocation)
+  .config(ThreeViewer.ConfigRouters)
+  .directive('select', ['ViewerService', ThreeViewer.SelectDirective.factory])
+  .directive('stopEvent', ThreeViewer.StopEventDirective.factory)
+  .directive('fileLoader', ThreeViewer.FileLoaderDirective)
+  .directive('toolbar', ThreeViewer.ToolbarDirective)
+  .directive('help', ThreeViewer.HelpDirective)
+  .filter('forceInt', ThreeViewer.ForceInt.factory)
+  .filter('forceFloat', ThreeViewer.ForceFloat.factory)
+  .filter('inDisplay', ThreeViewer.ToolbarInDisplay.factory)
+  .filter('outDisplay', ThreeViewer.ToolbarOutDisplay.factory)
+  .service('MessageBus', ['$rootScope', ThreeViewer.MessageBus])
+  .service('ViewerService', ['$timeout', 'MessageBus', ThreeViewer.ViewerService])
+  .service('BackendService', ['$http', ThreeViewer.BackendService])
+  .controller('AppController', ['$scope', 'ViewerService', ThreeViewer.AppController])
+  .controller('ToolbarController', ['$scope', 'ViewerService', 'MessageBus', ThreeViewer.ToolbarController])
+  .controller('FileLoaderController', ['$scope', 'MessageBus', 'ViewerService', 'BackendService', ThreeViewer.FileLoaderController]);
 
 
 angular.element(document).ready(function () {
-    angular.bootstrap(document, [appModule.name], {
-        //strictDi: true
-    });
+  angular.bootstrap(document, [appModule.name], {
+    //strictDi: true
+  });
 });

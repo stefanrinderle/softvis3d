@@ -115,3 +115,41 @@ ThreeViewer.HelpDirective = function () {
     templateUrl: RESOURCES_BASE_PATH + '/static/softvis3d/templates/help.html'
   };
 };
+
+/**
+ * @constructor
+ */
+ThreeViewer.StopEventDirective = function () {
+  /** @type {angular.Scope} */
+  this.scope;
+  /** @type {angular.JQLite} */
+  this.elem;
+  /** @type {angular.Attributes} */
+  this.attrs;
+
+  this.link = this.link.bind(this);
+};
+
+ThreeViewer.StopEventDirective.factory = function () {
+  var d = new ThreeViewer.StopEventDirective();
+
+  return {
+    restrict: 'A',
+    link: d.link
+  };
+};
+/**
+ * Linking function
+ * @param {angular.Scope} scope
+ * @param {angular.JQLite} elem
+ * @param {angular.Attributes} attrs
+ */
+ThreeViewer.StopEventDirective.prototype.link = function (scope, elem, attrs) {
+  this.scope = scope;
+  this.elem = elem;
+  this.attrs = attrs;
+  this.elem.on('click', function (e) {
+    e.stopImmediatePropagation();
+    e.preventDefault();
+  });
+};
