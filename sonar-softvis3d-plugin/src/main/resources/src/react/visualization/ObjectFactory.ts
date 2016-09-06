@@ -35,44 +35,29 @@ export class ObjectFactory {
     }
 
     private static _getShape(element: SoftVis3dShape): SoftVis3dMesh {
-        let defaults: any = {
-            position: {x: 0, y: 0, z: 0},
-            dimensions: {length: 1, width: 1, height: 1},
-            color: 0x000000,
-            opacity: 1
-        };
+        element.opacity = 1;
 
-        for (let attr in element) {
-            if (element.hasOwnProperty(attr)) {
-                /**
-                 * TODO: error TS7017: Index signature of object type implicitly has an 'any' type.
-                 * set "noImplicitAny": true after fix
-                 */
-                defaults[attr] = element[attr];
-            }
-        }
-
-        let z = defaults.position.z + Math.floor(defaults.dimensions.height / 2);
+        let z = element.position.z + Math.floor(element.dimensions.height / 2);
 
         let geometry = new BoxGeometry(
-            defaults.dimensions.length,
-            defaults.dimensions.height,
-            defaults.dimensions.width,
+            element.dimensions.length,
+            element.dimensions.height,
+            element.dimensions.width,
             0,
             0,
             0
         );
 
         let material = new MeshLambertMaterial({
-            color: defaults.color,
+            color: element.color,
             transparent: true,
-            opacity: defaults.opacity
+            opacity: element.opacity
         });
 
         let cube: SoftVis3dMesh = new SoftVis3dMesh(element.key, geometry, material);
-        cube.position.setX(defaults.position.x);
+        cube.position.setX(element.position.x);
         cube.position.setY(z);
-        cube.position.setZ(defaults.position.y);
+        cube.position.setZ(element.position.y);
 
         return cube;
     }

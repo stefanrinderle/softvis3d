@@ -46,8 +46,7 @@ describe("ObjectFactory", () => {
 function createExampleShape(key: string): SoftVis3dShape {
     let vectors: Vector2[] = [];
     vectors.push(new Vector2(1, 2));
-    let shape: SoftVis3dShape = new SoftVis3dShape(vectors);
-    shape.key = key;
+    let shape: SoftVis3dShape = new SoftVis3dShape(vectors, key);
 
     return shape;
 }
