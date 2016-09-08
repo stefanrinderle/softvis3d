@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-import {PerspectiveCamera, Vector3, Scene} from "three";
+import {PerspectiveCamera, Vector3} from "three";
 
 /**
  * @class Creates the camera for the scene.
@@ -36,10 +36,17 @@ export class Camera {
     private perpNearPane: number = 1;
     private perpFarPane: number = 100000;
 
-    constructor(container: HTMLCanvasElement, scene: Scene) {
+    constructor(container: HTMLCanvasElement) {
         this.aspectRatio = container.clientWidth / container.clientHeight;
 
-        this.initPerspective(scene);
+        this.initPerspective();
+    }
+
+    public setCameraPosition(positionX: number, positionY: number, positionZ: number) {
+        this.perpCam.position.x = positionX;
+        this.perpCam.position.y = positionY;
+        this.perpCam.position.z = positionZ;
+        this.perpCam.lookAt(new Vector3(0, 0, 0));
     }
 
     public getCamera(): PerspectiveCamera {
@@ -58,7 +65,7 @@ export class Camera {
     /**
      * Initialize the perspective camera.
      */
-    private initPerspective(scene: Scene) {
+    private initPerspective() {
         this.perpCam = new PerspectiveCamera
         (
             this.fov,
@@ -67,16 +74,7 @@ export class Camera {
             this.perpFarPane
         );
 
-        this.perpCam.position.y = 800;
-        this.perpCam.position.z = 1400;
-        this.perpCam.lookAt(scene.position);
         this.perpCam.name = "perp";
     }
 
-    // private setCameraPosition(positionX, positionY, positionZ) {
-    //     this.perpCam.position.x = positionX;
-    //     this.perpCam.position.y = positionY;
-    //     this.perpCam.position.z = positionZ;
-    //     this.perpCam.lookAt(this.context.scene.position);
-    // }
 }

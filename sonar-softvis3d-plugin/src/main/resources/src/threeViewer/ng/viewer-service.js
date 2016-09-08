@@ -105,6 +105,10 @@ ThreeViewer.ViewerService.prototype.removeObject = function (objectSoftVis3dId) 
   this.softvis3dScene.removeObject(objectSoftVis3dId);
 };
 
+ThreeViewer.ViewerService.prototype.setCameraTo = function (x, y, z) {
+  this.softvis3dScene.setCameraTo(x, y, z);
+};
+
 /**
  * See if a mouse click intersects an object.
  * @param {!{x:number, y:number}} mouse

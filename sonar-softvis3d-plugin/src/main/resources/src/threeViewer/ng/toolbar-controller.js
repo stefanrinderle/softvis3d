@@ -87,6 +87,10 @@ ThreeViewer.ToolbarController.prototype.listeners = function () {
 
 };
 
+ThreeViewer.ToolbarController.prototype.setCameraTo = function (x, y, z) {
+  this.ViewerService.setCameraTo(x, y, z);
+};
+
 ThreeViewer.ToolbarController.prototype.showDetails = function (softVis3dId) {
   this.node = TreeService.Instance.searchTreeNode(softVis3dId);
 };

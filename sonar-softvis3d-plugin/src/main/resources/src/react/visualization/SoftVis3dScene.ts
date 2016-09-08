@@ -57,18 +57,24 @@ export class SoftVis3dScene {
 
         Setup.initRenderer(this.renderer, this.scene, this.container, this.jqContainer);
 
-        this.camera = new Camera(this.container, this.scene);
+        this.camera = new Camera(this.container);
         this.raycaster = new Raycaster();
 
         this.onWindowResize();
     }
 
-    public loadSoftVis3d(data: SoftVis3dShape[]) {
-        this.wrangler.loadSoftVis3d(data);
+    public loadSoftVis3d(shapes: SoftVis3dShape[]) {
+        this.wrangler.loadSoftVis3d(shapes);
+        let platformDimension: Dimension = this.findMaxDimension(shapes);
+        this.camera.setCameraPosition(0, platformDimension.length, platformDimension.width);
     }
 
     public render() {
         this.renderer.render(this.scene, this.camera.getCamera());
+    }
+
+    public setCameraTo(x: number, y: number, z: number) {
+        this.camera.setCameraPosition(x, y, z);
     }
 
     public selectSceneTreeObject(objectSoftVis3dId: string) {
@@ -134,6 +140,27 @@ export class SoftVis3dScene {
 
             this.selectSceneTreeObject(objectSoftVis3dId);
             result = objectSoftVis3dId;
+        }
+
+        return result;
+    }
+
+    private findMaxDimension(shapes: SoftVis3dShape[]): Dimension {
+        let result: Dimension = {
+            length: 0,
+            width: 0,
+            height: 0
+        };
+        for (let shape of shapes) {
+            if (shape.dimensions.length > result.length) {
+                result.length = shape.dimensions.length;
+            }
+            if (shape.dimensions.width > result.width) {
+                result.width = shape.dimensions.width;
+            }
+            if (shape.dimensions.height > result.height) {
+                result.height = shape.dimensions.height;
+            }
         }
 
         return result;
