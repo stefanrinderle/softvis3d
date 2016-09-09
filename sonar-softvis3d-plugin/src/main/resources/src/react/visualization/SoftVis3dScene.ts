@@ -27,6 +27,7 @@ import {Camera} from "./Camera";
 import {Wrangler} from "./Wrangler";
 import {SoftVis3dShape} from "./domain/SoftVis3dShape";
 import {SoftVis3dMesh} from "./domain/SoftVis3dMesh";
+import {Dimension} from "./domain/Dimension";
 
 export class SoftVis3dScene {
 
@@ -66,7 +67,7 @@ export class SoftVis3dScene {
     public loadSoftVis3d(shapes: SoftVis3dShape[]) {
         this.wrangler.loadSoftVis3d(shapes);
         let platformDimension: Dimension = this.findMaxDimension(shapes);
-        this.camera.setCameraPosition(0, platformDimension.length, platformDimension.width);
+        this.camera.setCameraPosition(0, platformDimension.length * 0.7, platformDimension.width * 0.7);
     }
 
     public render() {

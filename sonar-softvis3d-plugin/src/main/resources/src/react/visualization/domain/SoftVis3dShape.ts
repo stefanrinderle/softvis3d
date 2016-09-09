@@ -1,4 +1,6 @@
 import {Shape, Vector2} from "three";
+import {Dimension} from "./Dimension";
+import {Position} from "./Position";
 
 export class SoftVis3dShape extends Shape {
 
@@ -24,16 +26,4 @@ export class SoftVis3dShape extends Shape {
             height: 0
         };
     }
-}
-
-interface Position {
-    x: number;
-    y: number;
-    z: number;
-}
-
-interface Dimension {
-    length: number;
-    width: number;
-    height: number;
 }
