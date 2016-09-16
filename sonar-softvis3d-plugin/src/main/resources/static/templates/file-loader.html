@@ -32,6 +32,9 @@
              id="navigationButtonInfo">Info
         </div>
 
+        <div class="load-button" ng-class="{'loadButtonStayActive' : loader.state.feedback}"
+             ng-click="loader.showTab('feedback');" id="navigationButtonFeedback">Feedback
+        </div>
         <div href="#" class="close closeLoader" ng-click="viewer.toggleLoader()">X</div>
     </div>
     <div class="loader-options">
@@ -105,6 +108,19 @@
 
             <br/><br/>
             <button ng-click="loader.loadCustomView()" ng-disabled="!loader.configLoaded" id="customButtonShow">Show</button>
+        </div>
+        <div id="feedback" class="loader-options" ng-show="loader.state.feedback" ng-cloak>
+            <h1>We need your feedback!</h1>
+            <h2>Upcoming version 0.7 with new user interface</h2>
+            <br />
+            <p>
+                Within the next weeks or months, we plan to recreate the plugin user interface. Your feedback is
+                very important for us to be able to focus on the most relevant features.
+            </p>
+            <br />
+            <p>
+                <a href="http://softvis3d.com/#/feedback" target="_blank" style="font-size: 130%">Visit our website</a>
+            </p>
         </div>
         <div class="loader-options" ng-show="loader.state.info" ng-cloak>
             <div ng-show="loader.infoInnerState === 'idle'">

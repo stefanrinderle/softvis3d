@@ -19,9 +19,9 @@
  */
 var Model = require('../base-frontend/model/index');
 
-import {TreeService} from '../../react/TreeService';
-import {WebGLDetector} from '../../react/WebGLDetector';
-import {MetricSearch} from '../../react/MetricSearch';
+import {TreeService} from "../../react/TreeService";
+import {WebGLDetector} from "../../react/WebGLDetector";
+import {MetricSearch} from "../../react/MetricSearch";
 
 /**
  * Service which initiates the THREE.js scene and
@@ -43,7 +43,7 @@ ThreeViewer.FileLoaderController = function ($scope, MessageBus, ViewerService, 
   this.BackendService = BackendService;
 
   this.state = {
-    'city': true, 'custom': false, 'info': false
+    'city': true, 'custom': false, 'info': false, 'feedback': false
   };
 
   this.cityInnerState = "complexity";
@@ -154,6 +154,7 @@ ThreeViewer.FileLoaderController.prototype.showTab = function (tab) {
   this.state.city = false;
   this.state.custom = false;
   this.state.info = false;
+  this.state.feedback = false;
   this.state[tab] = true;
 };
 
