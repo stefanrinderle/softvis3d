@@ -43,6 +43,12 @@
       <url>https://github.com/stefanrinderle</url>
       <email>stefan@rinderle.info</email>
     </developer>
+    <developer>
+      <id>yniedrich</id>
+      <name>Yvo Niedrich</name>
+      <url>https://github.com/Ungolianth</url>
+      <email>yvo.niedrich@gmail.com</email>
+    </developer>
   </developers>
 
   <issueManagement>
@@ -119,6 +125,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5.1</version>
         <configuration>
           <source>${jdk.min.version}</source>
           <target>${jdk.min.version}</target>
