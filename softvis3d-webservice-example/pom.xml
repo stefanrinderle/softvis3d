@@ -4,7 +4,7 @@
   <parent>
     <groupId>de.rinderle.softvis3d</groupId>
     <artifactId>softvis3d</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>0.7.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>softvis3d-webservice-example</artifactId>
