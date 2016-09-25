@@ -60,7 +60,7 @@
     <connection>scm:git:ssh://git@github.com/stefanrinderle/softvis3d.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/stefanrinderle/softvis3d.git</developerConnection>
     <url>https://github.com/stefanrinderle/softvis3d</url>
-    <tag>softvis3d_0.6</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <dependencyManagement>
