@@ -1,7 +1,7 @@
 /*
- * SoftVis3D Sonar plugin
- * Copyright (C) 2016 Stefan Rinderle
- * stefan@rinderle.info
+ * softvis3d-frontend
+ * Copyright (C) 2016 Stefan Rinderle and Yvo Niedrich
+ * stefan@rinderle.info / yvo.niedrich@gmail.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,7 +17,6 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-
 import {SoftVis3dScene} from "../../react/visualization/SoftVis3dScene";
 import {SoftVis3dMesh} from "../../react/visualization/domain/SoftVis3dMesh";
 
