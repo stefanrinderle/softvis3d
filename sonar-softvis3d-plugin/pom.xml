@@ -123,7 +123,6 @@
           <resourceBundles>
             <resourceBundle>de.rinderle.softvis3d:softvis3d-frontend:${project.version}</resourceBundle>
           </resourceBundles>
-          <attached>false</attached>
           <outputDirectory>${project.build.directory}/shared-resources</outputDirectory>
         </configuration>
         <executions>
@@ -148,21 +147,21 @@
             </goals>
             <phase>generate-resources</phase>
             <configuration>
-              <file>${project.build.directory}/shared-resources/build/index.html</file>
+              <file>${project.build.directory}/shared-resources/app/index.html</file>
               <regex>false</regex>
               <unescape>true</unescape>
               <replacements>
                 <replacement>
-                  <token>%ROOT_REPLACER%</token>
-                  <value>&lt;%= "#{ApplicationController.root_context}" -%&gt;/static/softvis3d</value>
+                  <token>href="static</token>
+                  <value>href="&lt;%= "#{ApplicationController.root_context}" -%&gt;/static/softvis3d</value>
+                </replacement>
+                <replacement>
+                  <token>src="static</token>
+                  <value>src="&lt;%= "#{ApplicationController.root_context}" -%&gt;/static/softvis3d</value>
                 </replacement>
                 <replacement>
                   <token>%PROJECT_KEY%</token>
                   <value>&lt;%= @resource.key %&gt;</value>
-                </replacement>
-                <replacement>
-                  <token>/softvis3d/static/</token>
-                  <value>/softvis3d/</value>
                 </replacement>
               </replacements>
             </configuration>
@@ -174,21 +173,17 @@
             </goals>
             <phase>generate-resources</phase>
             <configuration>
-              <basedir>${project.build.directory}/shared-resources/build/static/</basedir>
+              <basedir>${project.build.directory}/shared-resources/app/static/</basedir>
               <includes>
-                <include>js/*.js</include>
+                <include>bundle.js</include>
               </includes>
-              <file>${project.build.directory}/shared-resources/build/static/js/*.js</file>
+              <file>${project.build.directory}/shared-resources/app/static/bundle.js</file>
               <regex>false</regex>
               <unescape>true</unescape>
               <replacements>
                 <replacement>
-                  <token>%ROOT_REPLACER%</token>
-                  <value>../../static/softvis3d</value>
-                </replacement>
-                <replacement>
-                  <token>static/media/</token>
-                  <value>media/</value>
+                  <token>static/resources/</token>
+                  <value>../../static/softvis3d/resources/</value>
                 </replacement>
               </replacements>
             </configuration>
@@ -209,8 +204,8 @@
               <goal>rename</goal>
             </goals>
             <configuration>
-              <sourceFile>${project.build.directory}/shared-resources/build/index.html</sourceFile>
-              <destinationFile>${project.build.directory}/shared-resources/build/softVis3D_page.html.erb</destinationFile>
+              <sourceFile>${project.build.directory}/shared-resources/app/index.html</sourceFile>
+              <destinationFile>${project.build.directory}/shared-resources/app/softVis3D_page.html.erb</destinationFile>
             </configuration>
           </execution>
         </executions>
@@ -218,7 +213,7 @@
     </plugins>
     <resources>
       <resource>
-        <directory>${project.build.directory}/shared-resources/build</directory>
+        <directory>${project.build.directory}/shared-resources/app</directory>
         <includes>
           <include>**/*.*</include>
         </includes>

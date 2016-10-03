@@ -12,8 +12,7 @@
   <properties>
     <sonar.exclusions>
       src/main/resources/node_modules/**,
-      src/main/resources/build/**,
-      src/main/resources/coverage/**
+      src/main/resources/app/**
     </sonar.exclusions>
   </properties>
 
@@ -22,7 +21,7 @@
       <resource>
         <directory>src/main/resources</directory>
         <includes>
-          <include>build/**</include>
+          <include>app/**</include>
         </includes>
       </resource>
     </resources>
@@ -58,18 +57,15 @@
               <arguments>install</arguments>
             </configuration>
           </execution>
-          <execution>
-            <id>npm test</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <environmentVariables>
-                <CI>true</CI>
-              </environmentVariables>
-              <arguments>test -- --coverage</arguments>
-            </configuration>
-          </execution>
+          <!--<execution>-->
+            <!--<id>npm test</id>-->
+            <!--<goals>-->
+              <!--<goal>npm</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+              <!--<arguments>run test</arguments>-->
+            <!--</configuration>-->
+          <!--</execution>-->
           <execution>
             <id>npm build</id>
             <goals>
@@ -90,8 +86,7 @@
           </includes>
           <excludes>
             <exclude>src/main/resources/node_modules/**</exclude>
-            <exclude>src/main/resources/build/**</exclude>
-            <exclude>src/main/resources/coverage/**</exclude>
+            <exclude>src/main/resources/app/**</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -107,7 +102,7 @@
         </executions>
         <configuration>
           <includes>
-            <include>build/**/*.*</include>
+            <include>app/**/*.*</include>
           </includes>
         </configuration>
       </plugin>
@@ -140,7 +135,7 @@
                   <directory>src/main/resources/node_modules</directory>
                 </fileset>
                 <fileset>
-                  <directory>src/main/resources/build</directory>
+                  <directory>src/main/resources/app</directory>
                 </fileset>
               </filesets>
             </configuration>

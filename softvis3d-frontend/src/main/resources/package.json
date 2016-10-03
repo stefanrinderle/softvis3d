@@ -1,19 +1,30 @@
 {
-  "name": "resources",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "%ROOT_REPLACER%",
-  "devDependencies": {
-    "react-scripts": "0.6.1"
-  },
-  "dependencies": {
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2"
-  },
+  "name": "react-test",
+  "version": "1.0.0",
+  "description": "None given",
+  "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "postinstall": "shx cp node_modules/react/dist/react.js node_modules/react-dom/dist/react-dom.js app/static/",
+    "start": "webpack-dev-server",
+    "build": "webpack --progress --colors",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yn",
+  "license": "ISC",
+  "dependencies": {
+    "css-loader": "^0.25.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "node-sass": "^3.10.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "sass-loader": "^4.0.2",
+    "shx": "^0.1.4",
+    "typescript": "^2.0.2",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.1"
+  },
+  "devDependencies": {
+    "source-map-loader": "^0.1.5",
+    "ts-loader": "^0.8.2"
   }
 }

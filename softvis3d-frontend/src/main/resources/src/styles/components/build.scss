@@ -1,0 +1,61 @@
+.layout-component {
+    $height: 250px;
+    $thumbWidth: 60%;
+
+    width: 100%;
+    height: ($height - 4px);
+    padding: 0;
+
+    .list {
+        float: left;
+        margin: ($height / 4) 0;
+        width: (99% - $thumbWidth);
+
+        .option {
+            padding: 6px 2px;
+            margin: 12px 0 12px 5px;
+            cursor: pointer;
+
+            input {
+                float: left;
+                margin: 2px;
+            }
+
+            label {
+                padding-left: 5px;
+                display: inline-block;
+            }
+        }
+    }
+
+    .preview {
+        float: right;
+        width: $thumbWidth;
+        min-width: 155px;
+        height: 100%;
+
+        background: #FFF center no-repeat;
+        background-size: contain;
+    }
+}
+
+.city-builder {
+    @include clearfix;
+
+    margin: 0 auto;
+    width: 85%;
+    max-width: 1200px;
+    min-width: 600px;
+    border: 1px solid $border-color-foreground;
+    padding: 2px 6px 6px 6px;
+
+    .building {
+        float: left;
+        width: 54%;
+    }
+
+    .layout {
+        float: right;
+        width: 45%;
+    }
+}

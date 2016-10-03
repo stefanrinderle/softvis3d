@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "outDir": "./app/",
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "strictNullChecks": true,
+        "module": "commonJS",
+        "target": "es6",
+        "jsx": "react"
+    },
+    "files": [
+        "./typings/index.d.ts"
+    ],
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ],
+    "filesGlob": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "!node_modules/**"
+    ]
+}
