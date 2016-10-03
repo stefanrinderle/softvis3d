@@ -12,6 +12,8 @@
   "author": "yn",
   "license": "ISC",
   "dependencies": {
+    "@types/react": "0.14.37",
+    "@types/react-dom": "0.14.17",
     "css-loader": "^0.25.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "node-sass": "^3.10.1",

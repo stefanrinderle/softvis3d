@@ -6,11 +6,12 @@
         "strictNullChecks": true,
         "module": "commonJS",
         "target": "es6",
-        "jsx": "react"
+        "jsx": "react",
+        "types": [
+          "react",
+          "react-dom"
+        ]
     },
-    "files": [
-        "./typings/index.d.ts"
-    ],
     "include": [
         "src/**/*"
     ],
