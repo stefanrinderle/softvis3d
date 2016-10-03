@@ -20,10 +20,7 @@
 
     <sonar.version>5.5</sonar.version>
 
-    <sonar.exclusions>
-      src/main/resources/node_modules/**,
-      src/main/resources/static/threeViewer/bundle.js
-    </sonar.exclusions>
+    <sonar.exclusions/>
   </properties>
 
   <dependencies>
