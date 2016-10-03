@@ -4,7 +4,7 @@ Module used for automated integration tests for the softvis3d-sonarqube-plugin u
 
 ## cheat sheet
 
-
+protractor ./protractor.conf.js --baseUrl="http://localhost:8787/"
 
 ## cheat sheet
 
