@@ -148,4 +148,4 @@ export class Wrangler {
 export interface SoftVis3dSelectedObject {
     object: SoftVis3dMesh;
     color: number;
-};
+}

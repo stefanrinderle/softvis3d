@@ -19,9 +19,9 @@
 ///
 
 export interface Metric {
-    type?: string;
-    key?: string;
-    name?: string;
+    type: string;
+    key: string;
+    name: string;
 }
 
 export class MetricSearch {

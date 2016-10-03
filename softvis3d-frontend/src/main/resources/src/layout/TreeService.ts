@@ -34,29 +34,37 @@ export class TreeService {
         this.treeServiceTree = tree;
     };
 
-    public searchTreeNode(id: string): TreeElement {
+    public searchTreeNode(id: string): TreeElement | null{
         if (this.treeServiceTree !== null) {
-            return this.searchIdInElement(this.treeServiceTree, id);
+            return this.searchIdInElement(id, this.treeServiceTree);
         } else {
             console.warn("search for id " + id + " without initialized the tree.");
+            return null;
         }
     };
 
     public getAllSceneElementsRecursive(id: string): string[] {
         let node = this.searchTreeNode(id);
-        return this.privateGetAllSceneElementsRecursive(node);
+        if (node === null) {
+            return [];
+        } else {
+            return this.privateGetAllSceneElementsRecursive(node);
+        }
     };
 
-    private searchIdInElement(element: TreeElement, id: string): TreeElement {
-        if (element.id === id) {
-            return element;
-        } else if (element.children !== null) {
-            let result: TreeElement = null;
-            for (let i = 0; result === null && i < element.children.length; i++) {
-                result = this.searchIdInElement(element.children[i], id);
+    private searchIdInElement(id: string, element?: TreeElement): TreeElement | null {
+        if (element !== undefined) {
+            if (element.id === id) {
+                return element;
+            } else if (element.children !== null) {
+                let result: TreeElement | null = null;
+                for (let i = 0; result === null && i < element.children.length; i++) {
+                    result = this.searchIdInElement(id, element.children[i]);
+                }
+                return result;
             }
-            return result;
         }
+
         return null;
     };
 

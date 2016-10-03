@@ -100,7 +100,7 @@ export class SoftVis3dScene {
         return this.camera.getCamera();
     }
 
-    public makeSelection(event: MouseEvent): string {
+    public makeSelection(event: MouseEvent): string | null {
         let canvas: JQuery = jQuery("#content");
 
         let x: number;
@@ -132,7 +132,7 @@ export class SoftVis3dScene {
         this.raycaster.set(cameraPosition, vector.sub(cameraPosition).normalize());
         let intersected: Intersection[] = this.raycaster.intersectObjects(this.wrangler.getObjectsInView(), true);
 
-        let result: string = null;
+        let result: string | null = null;
         if (intersected.length > 0) {
             let object: SoftVis3dMesh = <SoftVis3dMesh> intersected[0].object;
             let objectSoftVis3dId: string = object.getSoftVis3dId();

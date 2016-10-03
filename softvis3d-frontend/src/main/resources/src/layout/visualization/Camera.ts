@@ -32,7 +32,7 @@ export class Camera {
     /**
      * Perspective camera setup
      */
-    private perpCam: PerspectiveCamera = null;
+    private perpCam: PerspectiveCamera;
     private perpNearPane: number = 1;
     private perpFarPane: number = 100000;
 

@@ -27,7 +27,7 @@
  * @ngInject
  */
 
-import {WebGLDetector} from "../../react/WebGLDetector";
+import {WebGLDetector} from "../../../../src/react/WebGLDetector";
 
 ThreeViewer.AppController = function ($scope, ViewerService) {
 

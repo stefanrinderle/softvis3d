@@ -1,6 +1,7 @@
 import * as React from "react";
 import LayoutPicker, {LayoutPickerProps} from "./LayoutPicker";
 import Dropdown, {DropdownProps} from "./PropertyPicker";
+import {TreeService} from "../layout/TreeService";
 
 const test: DropdownProps = {
     defaultOption: "Choose!!!",
@@ -26,6 +27,8 @@ const test: DropdownProps = {
 export default class CityBuilder extends React.Component<LayoutPickerProps, any> {
 
     public render() {
+        console.log(TreeService.Instance);
+        console.log(TreeService.Instance.searchTreeNode("123"));
         return (
             <div className="city-builder">
                 <div className="building">

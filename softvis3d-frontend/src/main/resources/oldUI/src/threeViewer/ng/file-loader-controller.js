@@ -19,9 +19,9 @@
  */
 var Model = require('../base-frontend/model/index');
 
-import {TreeService} from "../../react/TreeService";
-import {WebGLDetector} from "../../react/WebGLDetector";
-import {MetricSearch} from "../../react/MetricSearch";
+import {TreeService} from "../../../../src/react/TreeService";
+import {WebGLDetector} from "../../../../src/react/WebGLDetector";
+import {MetricSearch} from "../../../../src/react/MetricSearch";
 
 /**
  * Service which initiates the THREE.js scene and

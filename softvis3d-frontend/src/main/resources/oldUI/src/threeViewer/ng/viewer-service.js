@@ -17,8 +17,8 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-import {SoftVis3dScene} from "../../react/visualization/SoftVis3dScene";
-import {SoftVis3dMesh} from "../../react/visualization/domain/SoftVis3dMesh";
+import {SoftVis3dScene} from "../../../../src/react/visualization/SoftVis3dScene";
+import {SoftVis3dMesh} from "../../../../src/react/visualization/domain/SoftVis3dMesh";
 
 var THREE = require("three");
 var OrbitControls = require('three-orbit-controls')(THREE);
