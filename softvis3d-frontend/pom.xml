@@ -134,9 +134,6 @@
                 <fileset>
                   <directory>src/main/resources/node_modules</directory>
                 </fileset>
-                <fileset>
-                  <directory>src/main/resources/app</directory>
-                </fileset>
               </filesets>
             </configuration>
           </plugin>
