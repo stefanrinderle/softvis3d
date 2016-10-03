@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import {expect} from "chai";
 import {WebGLDetector} from "./WebGLDetector";
 
 describe("WebGLDetector", () => {

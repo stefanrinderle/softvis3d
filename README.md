@@ -6,12 +6,6 @@ Currently, the main project is the SoftVis3D-SonarQube-Plugin - see the correspo
 
 # Modules
 
-We are currently workong on a refactoring of the whole visualization project with two main goals:
-* Get rid of the graphviz backend dependency and create the layout in the frontend
-* Refactor the frontend code structure
-
-Please take a look at the github issues page for details.
-
 ## Base
 
 Base java classes used by the visualization - independent from SonarQube.
@@ -32,6 +26,11 @@ For details, see README file of the module.
 
 ## SoftVis3d SonarQube plugin
 
+Frontend code.
+
+## SoftVis3d SonarQube plugin
+
+SonarQube dependent java classes and sonarqube deployment details.
 See module for details.
 
 ## License

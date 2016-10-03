@@ -1,6 +1,6 @@
-import { expect } from "chai";
-import { TreeElement } from "./TreeElement";
-import { TreeService } from "./TreeService";
+import {expect} from "chai";
+import {TreeElement} from "./TreeElement";
+import {TreeService} from "./TreeService";
 
 describe("TreeService", () => {
 

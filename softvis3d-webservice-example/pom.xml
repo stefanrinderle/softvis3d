@@ -117,8 +117,8 @@
               <goal>install-node-and-npm</goal>
             </goals>
             <configuration>
-              <nodeVersion>v0.12.7</nodeVersion>
-              <npmVersion>2.12.1</npmVersion>
+              <nodeVersion>${node.version}</nodeVersion>
+              <npmVersion>${npm.version}</npmVersion>
             </configuration>
           </execution>
           <execution>
@@ -198,7 +198,7 @@
 
   <profiles>
     <profile>
-      <id>cleanNodeModules</id>
+      <id>cleanAll</id>
       <build>
         <plugins>
           <plugin>
@@ -215,7 +215,7 @@
             <configuration>
               <filesets>
                 <fileset>
-                  <directory>node_modules</directory>
+                  <directory>src/main/java/webapp/node_modules</directory>
                 </fileset>
               </filesets>
             </configuration>

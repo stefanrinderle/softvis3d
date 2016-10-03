@@ -18,6 +18,9 @@
     <guice.version>3.0</guice.version>
 
     <jdk.min.version>1.7</jdk.min.version>
+
+    <node.version>v5.4.1</node.version>
+    <npm.version>3.10.8</npm.version>
   </properties>
 
   <url>http://softvis3d.com</url>
@@ -116,6 +119,7 @@
 
   <modules>
     <module>softvis3d-base</module>
+    <module>softvis3d-frontend</module>
     <!--<module>softvis3d-webservice-example</module>-->
     <module>sonar-softvis3d-plugin</module>
   </modules>
@@ -172,7 +176,7 @@
 
   <profiles>
     <profile>
-      <id>cleanNodeModules</id>
+      <id>cleanAll</id>
       <build>
         <plugins>
           <plugin>

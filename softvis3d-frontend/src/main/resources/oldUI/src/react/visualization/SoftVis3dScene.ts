@@ -19,9 +19,7 @@
  */
 
 import * as jQuery from "jquery";
-
 import {Scene, Projector, WebGLRenderer, Raycaster, Vector3, PerspectiveCamera, Intersection} from "three";
-
 import {Setup} from "./Setup";
 import {Camera} from "./Camera";
 import {Wrangler} from "./Wrangler";

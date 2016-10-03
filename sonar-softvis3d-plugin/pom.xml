@@ -32,6 +32,11 @@
       <artifactId>softvis3d-base</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>softvis3d-frontend</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.sonarsource.sonarqube</groupId>
@@ -79,17 +84,8 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <excludes>
-          <exclude>**/node_tmp/**</exclude>
-          <exclude>**/node/**</exclude>
-          <exclude>**/node_modules/**</exclude>
-        </excludes>
-      </resource>
-    </resources>
     <plugins>
+      <!-- Java and SonarQube -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -110,115 +106,127 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId>
-        <!-- https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
-        <version>0.0.26</version>
-
-        <configuration>
-          <workingDirectory>src/main/resources</workingDirectory>
-          <installDirectory>../node</installDirectory>
-        </configuration>
-        <executions>
-          <execution>
-            <id>install node and npm</id>
-            <goals>
-              <goal>install-node-and-npm</goal>
-            </goals>
-            <configuration>
-              <nodeVersion>v0.12.7</nodeVersion>
-              <npmVersion>2.12.1</npmVersion>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm install</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-          </execution>
-          <!--<execution>-->
-            <!--<id>npm update</id>-->
-            <!--<goals>-->
-              <!--<goal>npm</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-              <!--<arguments>update</arguments>-->
-            <!--</configuration>-->
-          <!--</execution>-->
-          <!--<execution>-->
-            <!--<id>npm link typescript</id>-->
-            <!--<goals>-->
-              <!--<goal>npm</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-              <!--<arguments>link typescript</arguments>-->
-            <!--</configuration>-->
-          <!--</execution>-->
-          <execution>
-            <id>npm build</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>run build</arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm test</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>test</arguments>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
         <configuration>
           <includes>
             <include>src/main/java/**</include>
             <include>src/test/java/**</include>
-            <include>src/main/resources/static/**</include>
           </includes>
-          <excludes>
-            <exclude>src/main/resources/static/threeViewer/vendor.js</exclude>
-            <exclude>src/main/resources/static/threeViewer/bundle.js</exclude>
-          </excludes>
         </configuration>
       </plugin>
-    </plugins>
-  </build>
 
-  <profiles>
-    <profile>
-      <id>cleanNodeModules</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-clean-plugin</artifactId>
-            <version>3.0.0</version>
-            <executions>
-              <execution>
-                <phase>clean</phase>
-                <goals>
-                  <goal>clean</goal>
-                </goals>
-              </execution>
-            </executions>
+      <!-- FRONTEND -->
+      <!-- get the frontend production build files -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <version>1.5</version>
+        <configuration>
+          <resourceBundles>
+            <resourceBundle>de.rinderle.softvis3d:softvis3d-frontend:${project.version}</resourceBundle>
+          </resourceBundles>
+          <attached>false</attached>
+          <outputDirectory>${project.build.directory}/shared-resources</outputDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <phase>generate-resources</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- replace the base path -->
+      <plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>replacer</artifactId>
+        <version>1.5.2</version>
+        <executions>
+          <execution>
+            <id>base html file</id>
+            <goals>
+              <goal>replace</goal>
+            </goals>
+            <phase>generate-resources</phase>
             <configuration>
-              <filesets>
-                <fileset>
-                  <directory>src/main/resources/node_modules</directory>
-                </fileset>
-              </filesets>
+              <file>${project.build.directory}/shared-resources/build/index.html</file>
+              <regex>false</regex>
+              <unescape>true</unescape>
+              <replacements>
+                <replacement>
+                  <token>%ROOT_REPLACER%</token>
+                  <value>&lt;%= "#{ApplicationController.root_context}" -%&gt;/static/softvis3d</value>
+                </replacement>
+                <replacement>
+                  <token>%PROJECT_KEY%</token>
+                  <value>&lt;%= @resource.key %&gt;</value>
+                </replacement>
+                <replacement>
+                  <token>/softvis3d/static/</token>
+                  <value>/softvis3d/</value>
+                </replacement>
+              </replacements>
             </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
+          </execution>
+          <execution>
+            <id>Javascript files</id>
+            <goals>
+              <goal>replace</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <basedir>${project.build.directory}/shared-resources/build/static/</basedir>
+              <includes>
+                <include>js/*.js</include>
+              </includes>
+              <file>${project.build.directory}/shared-resources/build/static/js/*.js</file>
+              <regex>false</regex>
+              <unescape>true</unescape>
+              <replacements>
+                <replacement>
+                  <token>%ROOT_REPLACER%</token>
+                  <value>../../static/softvis3d</value>
+                </replacement>
+                <replacement>
+                  <token>static/media/</token>
+                  <value>media/</value>
+                </replacement>
+              </replacements>
+            </configuration>
+          </execution>
+        </executions>
+
+      </plugin>
+      <!-- rename file to ruby -->
+      <plugin>
+        <groupId>com.coderplus.maven.plugins</groupId>
+        <artifactId>copy-rename-maven-plugin</artifactId>
+        <version>1.0.1</version>
+        <executions>
+          <execution>
+            <id>rename-file</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>rename</goal>
+            </goals>
+            <configuration>
+              <sourceFile>${project.build.directory}/shared-resources/build/index.html</sourceFile>
+              <destinationFile>${project.build.directory}/shared-resources/build/softVis3D_page.html.erb</destinationFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <resources>
+      <resource>
+        <directory>${project.build.directory}/shared-resources/build</directory>
+        <includes>
+          <include>**/*.*</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
 
 </project>
