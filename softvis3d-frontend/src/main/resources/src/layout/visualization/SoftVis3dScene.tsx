@@ -20,7 +20,6 @@
 
 import * as jQuery from "jquery";
 import {Scene, Projector, WebGLRenderer, Raycaster, Vector3, PerspectiveCamera, Intersection} from "three";
-import {Setup} from "./Setup";
 import {Camera} from "./Camera";
 import {Wrangler} from "./Wrangler";
 import {SoftVis3dShape} from "./domain/SoftVis3dShape";
@@ -60,7 +59,7 @@ export class SoftVis3dScene {
         this.raycaster = new Raycaster();
 
         this.onWindowResize();
-    }
+    };
 
     public loadSoftVis3d(shapes: SoftVis3dShape[]) {
         this.wrangler.loadSoftVis3d(shapes);
@@ -139,7 +138,7 @@ export class SoftVis3dScene {
 
             this.selectSceneTreeObject(objectSoftVis3dId);
             result = objectSoftVis3dId;
-        }
+        };
 
         return result;
     }
