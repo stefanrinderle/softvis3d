@@ -4,7 +4,7 @@
 function waitFor(selector) {
     return browser.wait(function() {
         return browser.isElementPresent(selector);
-    }, 5000);
+    }, 10000);
 }
 
 describe("Index", () => {
@@ -13,7 +13,7 @@ describe("Index", () => {
         browser.get("/");
 
         element(by.linkText("softvis3d")).click();
-        browser.sleep(2000);
+        browser.sleep(3000);
         element.all(by.partialLinkText("More")).get(1).click();
         element.all(by.partialLinkText("SoftVis3D Viewer")).click();
 

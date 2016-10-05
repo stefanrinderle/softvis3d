@@ -36,7 +36,7 @@ sleep 60
 echo "Analyse project"
 mvn -f ../../pom.xml -U -B sonar:sonar -Dsonar.host.url=http://localhost:${SONARQUBE_LOCAL_PORT}
 
-sleep 5
+sleep 15
 
 echo "Run integration tests"
 
