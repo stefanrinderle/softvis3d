@@ -1,7 +1,7 @@
 import * as React from "react";
 import LayoutPicker, {LayoutPickerProps} from "./LayoutPicker";
 import Dropdown, {DropdownProps} from "./PropertyPicker";
-import {TreeService} from "../layout/TreeService";
+import {MetricSearch} from "../layout/MetricSearch";
 
 const test: DropdownProps = {
     defaultOption: "Choose!!!",
@@ -26,9 +26,25 @@ const test: DropdownProps = {
 
 export default class CityBuilder extends React.Component<LayoutPickerProps, any> {
 
+    public serverRequest: any;
+
+    constructor() {
+        super();
+        this.state = {availableMetrics: []};
+    }
+
+    public componentDidMount() {
+        this.serverRequest = $.get("http://localhost:9000/api/metrics/search", function (result) {
+            let availableMetrics = MetricSearch.filterMetrics(result.metrics);
+            this.setState({availableMetrics});
+        }.bind(this));
+    }
+
+    public componentWillUnmount() {
+        this.serverRequest.abort();
+    }
+    
     public render() {
-        console.log(TreeService.Instance);
-        console.log(TreeService.Instance.searchTreeNode("123"));
         return (
             <div className="city-builder">
                 <div className="building">

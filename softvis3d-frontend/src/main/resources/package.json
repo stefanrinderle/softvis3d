@@ -4,7 +4,7 @@
   "description": "None given",
   "main": "index.js",
   "scripts": {
-    "postinstall": "shx cp node_modules/react/dist/react.js node_modules/react-dom/dist/react-dom.js app/static/",
+    "postinstall": "shx cp node_modules/react/dist/react.js node_modules/react-dom/dist/react-dom.js node_modules/jquery/dist/jquery.js app/static/",
     "start": "webpack-dev-server",
     "build": "webpack --progress --colors",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,6 +16,7 @@
     "@types/react": "0.14.37",
     "@types/react-dom": "0.14.17",
     "@types/three": "0.0.23",
+    "codecity-visualizer": "^0.4.0",
     "css-loader": "^0.25.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "jquery": "^3.1.1",
