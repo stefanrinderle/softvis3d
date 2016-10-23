@@ -27,6 +27,8 @@ import {SoftVis3dShape} from "../domain/SoftVis3dShape";
 import {SoftVis3dMesh} from "../domain/SoftVis3dMesh";
 import {Dimension} from "../domain/Dimension";
 
+declare var OrbitControls: any;
+
 export class SoftVis3dScene {
 
     private container: HTMLCanvasElement;
@@ -41,6 +43,7 @@ export class SoftVis3dScene {
     private renderer: WebGLRenderer;
     private camera: Camera;
     private raycaster: Raycaster;
+    private controls: any;
 
     constructor(canvasId: string) {
         this.container = <HTMLCanvasElement> document.getElementById(canvasId);
@@ -58,6 +61,9 @@ export class SoftVis3dScene {
 
         this.camera = new Camera(this.container);
         this.raycaster = new Raycaster();
+
+        this.controls = new OrbitControls(this.camera.getCamera(), this.container);
+        this.controls.zoomSpeed = 1.5;
 
         this.onWindowResize();
     }
