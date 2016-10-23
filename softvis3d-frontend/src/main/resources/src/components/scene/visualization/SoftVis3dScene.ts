@@ -23,9 +23,9 @@ import {Scene, Projector, WebGLRenderer, Raycaster, Vector3, PerspectiveCamera, 
 import {Camera} from "./Camera";
 import {Wrangler} from "./Wrangler";
 import {Setup} from "./Setup";
-import {SoftVis3dShape} from "./domain/SoftVis3dShape";
-import {SoftVis3dMesh} from "./domain/SoftVis3dMesh";
-import {Dimension} from "./domain/Dimension";
+import {SoftVis3dShape} from "../domain/SoftVis3dShape";
+import {SoftVis3dMesh} from "../domain/SoftVis3dMesh";
+import {Dimension} from "../domain/Dimension";
 
 export class SoftVis3dScene {
 
@@ -65,7 +65,7 @@ export class SoftVis3dScene {
     public loadSoftVis3d(shapes: SoftVis3dShape[]) {
         this.wrangler.loadSoftVis3d(shapes);
         let platformDimension: Dimension = this.findMaxDimension(shapes);
-        this.camera.setCameraPosition(0, platformDimension.length * 0.7, platformDimension.width * 0.7);
+        this.camera.setCameraPosition(0, platformDimension._length * 0.7, platformDimension._width * 0.7);
     }
 
     public render() {
@@ -100,8 +100,8 @@ export class SoftVis3dScene {
         return this.camera.getCamera();
     }
 
-    public makeSelection(event: MouseEvent): string | null {
-        let canvas: JQuery = jQuery("#content");
+    public makeSelection(event: MouseEvent, sceneDivId): string | null {
+        let canvas: JQuery = jQuery(sceneDivId);
 
         let x: number;
         let y: number;
@@ -146,19 +146,19 @@ export class SoftVis3dScene {
 
     private findMaxDimension(shapes: SoftVis3dShape[]): Dimension {
         let result: Dimension = {
-            length: 0,
-            width: 0,
-            height: 0
+            _length: 0,
+            _width: 0,
+            _height: 0
         };
         for (let shape of shapes) {
-            if (shape.dimensions.length > result.length) {
-                result.length = shape.dimensions.length;
+            if (shape.dimensions._length > result._length) {
+                result._length = shape.dimensions._length;
             }
-            if (shape.dimensions.width > result.width) {
-                result.width = shape.dimensions.width;
+            if (shape.dimensions._width > result._width) {
+                result._width = shape.dimensions._width;
             }
-            if (shape.dimensions.height > result.height) {
-                result.height = shape.dimensions.height;
+            if (shape.dimensions._height > result._height) {
+                result._height = shape.dimensions._height;
             }
         }
 
@@ -169,11 +169,17 @@ export class SoftVis3dScene {
      * Resizes the camera when document is resized.
      */
     private onWindowResize() {
-        let paddingLeft = 20;
+        //let paddingLeft = 20;
 
-        this.width = window.innerWidth - paddingLeft;
-        this.height = window.innerHeight - jQuery("#content").position().top - jQuery("#footer").outerHeight();
+        // TODO set width and heoght to maximum
+        //this.width = window.innerWidth;// - paddingLeft;
+        //this.height = window.innerHeight;// - jQuery("#softvis3dscene").position().top - jQuery("#footer").outerHeight();
 
+        this.width = 800;
+        this.height = 400;
+        //if (jQuery("#content").position() !== undefined) {
+        //    this.height = window.innerHeight - jQuery("#content").position().top - jQuery("#footer").outerHeight();
+        //}
         this.camera.setAspect(this.width, this.height);
 
         this.renderer.setSize(this.width, this.height);

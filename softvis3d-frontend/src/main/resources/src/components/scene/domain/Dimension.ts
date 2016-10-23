@@ -19,7 +19,7 @@
 ///
 
 export interface Dimension {
-    length: number;
-    width: number;
-    height: number;
+    _length: number;
+    _width: number;
+    _height: number;
 }

@@ -2,6 +2,7 @@ import * as React from "react";
 import LayoutPicker, {LayoutPickerProps} from "./LayoutPicker";
 import Dropdown, {DropdownProps} from "./PropertyPicker";
 import {MetricSearch} from "../layout/MetricSearch";
+import * as JQuery from "jquery";
 
 const test: DropdownProps = {
     defaultOption: "Choose!!!",
@@ -34,7 +35,7 @@ export default class CityBuilder extends React.Component<LayoutPickerProps, any>
     }
 
     public componentDidMount() {
-        this.serverRequest = $.get("http://localhost:9000/api/metrics/search", function (result) {
+        this.serverRequest = JQuery.get("http://localhost:9000/api/metrics/search", function (result) {
             let availableMetrics = MetricSearch.filterMetrics(result.metrics);
             this.setState({availableMetrics});
         }.bind(this));
