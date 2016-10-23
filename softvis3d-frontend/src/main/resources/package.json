@@ -22,7 +22,6 @@
     "sass-loader": "^4.0.2",
     "shx": "^0.1.4",
     "three": "^0.80.1",
-    "three-orbit-controls": "^72.0.0",
     "typescript": "^2.0.2",
     "webpack": "^1.13.2"
   },

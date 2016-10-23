@@ -26,8 +26,7 @@ import {Setup} from "./Setup";
 import {SoftVis3dShape} from "../domain/SoftVis3dShape";
 import {SoftVis3dMesh} from "../domain/SoftVis3dMesh";
 import {Dimension} from "../domain/Dimension";
-
-declare var OrbitControls: any;
+import {OrbitControls} from "./controls/OrbitControls";
 
 export class SoftVis3dScene {
 
