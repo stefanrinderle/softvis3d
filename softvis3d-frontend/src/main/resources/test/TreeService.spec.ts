@@ -19,7 +19,6 @@
 ///
 
 import {expect} from "chai";
-import {TreeElement} from "../src/layout/TreeElement";
 import {TreeService} from "../src/layout/TreeService";
 
 describe("TreeService", () => {
@@ -30,9 +29,10 @@ describe("TreeService", () => {
 
         TreeService.Instance.setTree(tree);
 
-        let result: TreeElement = TreeService.Instance.searchTreeNode(id);
+        let result = TreeService.Instance.searchTreeNode(id);
 
-        expect(result.id).to.be.equal(tree.id);
+        expect(result).not.to.be.null;
+        expect((result as TreeElement).id).to.be.equal(tree.id);
     });
 
     it("should find tree node by id direct child", () => {
@@ -43,9 +43,10 @@ describe("TreeService", () => {
 
         TreeService.Instance.setTree(tree);
 
-        let result: TreeElement = TreeService.Instance.searchTreeNode(id);
+        let result = TreeService.Instance.searchTreeNode(id);
 
-        expect(result.id).to.be.equal(id);
+        expect(result).not.to.be.null;
+        expect((result as TreeElement).id).to.be.equal(id);
     });
 
     it("should find tree node by id direct child of child", () => {
@@ -59,9 +60,10 @@ describe("TreeService", () => {
 
         TreeService.Instance.setTree(tree);
 
-        let result: TreeElement = TreeService.Instance.searchTreeNode(id);
+        let result = TreeService.Instance.searchTreeNode(id);
 
-        expect(result.id).to.be.equal(id);
+        expect(result).not.to.be.null;
+        expect((result as TreeElement).id).to.be.equal(id);
     });
 
     it("should find all ids node by id direct", () => {
@@ -126,7 +128,7 @@ describe("TreeService", () => {
 
 function createTestTreeElement(id: string): TreeElement {
     return {
-        id: id,
+        id,
         name: "",
         isNode: false,
 

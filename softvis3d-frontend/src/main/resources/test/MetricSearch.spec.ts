@@ -22,6 +22,12 @@ import {expect} from "chai";
 import {MetricSearch} from "../src/layout/MetricSearch";
 
 describe("MetricSearch", () => {
+    const genericMetric: Metric = {
+        id: "1",
+        key: "generic",
+        type: "INT",
+        name: "Generic Metric"
+    };
 
     it("should filter empty list", () => {
         let metrics: Metric[] = [];
@@ -32,9 +38,7 @@ describe("MetricSearch", () => {
 
     it("should not filter integer", () => {
         let metrics: Metric[] = [];
-        metrics.push({
-            type: "INT"
-        });
+        metrics.push(Object.assign({}, genericMetric, {type: "INT"}));
         let result: Metric[] = MetricSearch.filterMetrics(metrics);
 
         expect(result.length).to.be.equal(1);
@@ -42,9 +46,7 @@ describe("MetricSearch", () => {
 
     it("should filter wrong value", () => {
         let metrics: Metric[] = [];
-        metrics.push({
-            type: "XXX"
-        });
+        metrics.push(Object.assign({}, genericMetric, {type: "XXX"}));
         let result: Metric[] = MetricSearch.filterMetrics(metrics);
 
         expect(result.length).to.be.equal(0);
@@ -52,12 +54,8 @@ describe("MetricSearch", () => {
 
     it("should filter multiple values", () => {
         let metrics: Metric[] = [];
-        metrics.push({
-            type: "XXX"
-        });
-        metrics.push({
-            type: "FLOAT"
-        });
+        metrics.push(Object.assign({}, genericMetric, {type: "XXX"}));
+        metrics.push(Object.assign({}, genericMetric, {type: "FLOAT"}));
         let result: Metric[] = MetricSearch.filterMetrics(metrics);
 
         expect(result.length).to.be.equal(1);
@@ -68,10 +66,7 @@ describe("MetricSearch", () => {
         let expectedName: string = "expectedName" ;
 
         let availableMetrics: Metric[] = [];
-        availableMetrics.push({
-            key: "XXX",
-            name: expectedName
-        });
+        availableMetrics.push(Object.assign({}, genericMetric, {type: "XXX", name: expectedName}));
         let result: string = MetricSearch.getNameForMetricKey(availableMetrics, key);
 
         expect(result).to.be.equal("No name found");
@@ -82,10 +77,7 @@ describe("MetricSearch", () => {
         let expectedName: string = "expectedName" ;
 
         let availableMetrics: Metric[] = [];
-        availableMetrics.push({
-            key: keyValue,
-            name: expectedName
-        });
+        availableMetrics.push(Object.assign({}, genericMetric, {key: keyValue, name: expectedName}));
         let result: string = MetricSearch.getNameForMetricKey(availableMetrics, keyValue);
 
         expect(result).to.be.equal(expectedName);

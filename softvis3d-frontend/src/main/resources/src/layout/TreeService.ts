@@ -18,8 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {TreeElement} from "./TreeElement";
-
 export class TreeService {
 
     private static _instance: TreeService;

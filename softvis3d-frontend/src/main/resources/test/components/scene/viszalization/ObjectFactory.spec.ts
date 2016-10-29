@@ -20,8 +20,8 @@
 
 import {expect} from "chai";
 import {ObjectFactory} from "../../../../src/components/scene/visualization/ObjectFactory";
-import {SoftVis3dShape} from "../../components/scene/domain/SoftVis3dShape";
-import {SoftVis3dMesh} from "../../components/scene/domain/SoftVis3dMesh";
+import {SoftVis3dShape} from "../../../../src/components/scene/domain/SoftVis3dShape";
+import {SoftVis3dMesh} from "../../../../src/components/scene/domain/SoftVis3dMesh";
 import {Vector2} from "three";
 
 describe("ObjectFactory", () => {
