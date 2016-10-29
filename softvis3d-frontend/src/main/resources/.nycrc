@@ -1,0 +1,30 @@
+{
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx"
+    ],
+    "exclude": [
+        "node_modules/",
+        "app/",
+        "typings/"
+    ],
+    "extension": [
+        ".ts",
+        ".tsx"
+    ],
+    "require": [
+        "ts-node/register"
+    ],
+    "reporter": [
+        "text-summary",
+        "html"
+    ],
+    "cache": true,
+    "sourceMap": true,
+    "instrument": true,
+    "all": false,
+    "check-coverage": true,
+    "lines": 85,
+    "functions": 95,
+    "branches": 85
+}
