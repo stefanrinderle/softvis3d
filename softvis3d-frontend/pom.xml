@@ -63,7 +63,7 @@
               <goal>npm</goal>
             </goals>
             <configuration>
-              <arguments>run test:coverage</arguments>
+              <arguments>run test</arguments>
             </configuration>
           </execution>
           <execution>

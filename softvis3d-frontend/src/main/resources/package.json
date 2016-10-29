@@ -14,7 +14,7 @@
     "build:force": "webpack --progress --colors --prod",
     "lint": "tslint \"src/**/*.ts?(x)\" && shx echo \"[tslint] Lint successful\"",
     "test": "mocha",
-    "test:coverage": "./node_modules/.bin/nyc npm test",
+    "test:coverage": "nyc npm test",
     "posttest:coverage": "shx rm -r .nyc_output"
   },
   "author": "Yvo Niedrich <yvo.niedrich@gmail.com>",
