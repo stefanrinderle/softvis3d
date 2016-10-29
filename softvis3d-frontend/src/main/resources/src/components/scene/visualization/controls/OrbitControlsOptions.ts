@@ -1,5 +1,3 @@
-import {MOUSE, Quaternion, Spherical, Vector3, Vector2, PerspectiveCamera, OrthographicCamera} from "three";
-
 export class OrbitControlsOptions {
     // Set to false to disable this control
     public enabled: boolean = true;

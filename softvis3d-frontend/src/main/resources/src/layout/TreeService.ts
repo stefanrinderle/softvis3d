@@ -34,7 +34,7 @@ export class TreeService {
         this.treeServiceTree = tree;
     };
 
-    public searchTreeNode(id: string): TreeElement | null{
+    public searchTreeNode(id: string): TreeElement | null {
         if (this.treeServiceTree !== null) {
             return this.searchIdInElement(id, this.treeServiceTree);
         } else {

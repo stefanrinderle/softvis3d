@@ -2,7 +2,7 @@
     "compilerOptions": {
         "outDir": "./app/",
         "sourceMap": true,
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "strictNullChecks": true,
         "experimentalDecorators": true,
         "module": "commonJS",

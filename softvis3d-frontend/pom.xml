@@ -72,7 +72,7 @@
               <goal>npm</goal>
             </goals>
             <configuration>
-              <arguments>run build:force</arguments>
+              <arguments>run build</arguments>
             </configuration>
           </execution>
         </executions>

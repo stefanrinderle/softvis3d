@@ -1,5 +1,6 @@
-import {MOUSE, Quaternion, Spherical, Vector3, Vector2, PerspectiveCamera, OrthographicCamera} from "three";
+import {MOUSE, Quaternion, Spherical, Matrix4, Vector3, Vector2, PerspectiveCamera, OrthographicCamera} from "three";
 import {OrbitControlsOptions} from "./OrbitControlsOptions";
+// import Matrix4 = THREE.Matrix4;
 
 /**
  * Typescript version of the Orbitscontrols.js.
@@ -15,7 +16,7 @@ const STATE = { NONE: -1, ROTATE: 0, DOLLY: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_DO
 const EPS = 0.000001;
 const MOUSE_BUTTONS = { ORBIT: MOUSE.LEFT, ZOOM: MOUSE.MIDDLE, PAN: MOUSE.RIGHT };
 const KEYS = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };
-const EVENTS = { START: 'start', END: 'end', CHANGE: 'change' };
+// const EVENTS = { START: "start", END: "end", CHANGE: "change" };
 
 class TransitionStatus {
     public start: Vector2 = new Vector2();
@@ -33,7 +34,7 @@ class TransitionStatus {
 //
 export class OrbitControls {
     private camera: any;
-    private domElement;
+    private domElement: HTMLCanvasElement | Document;
 
     // "target" sets the location of focus, where the object orbits around
     private target: Vector3 = new Vector3();
@@ -61,19 +62,6 @@ export class OrbitControls {
         this.initializeListeners();
     }
 
-    private initializeListeners() {
-        this.domElement.addEventListener('contextmenu', this.onContextMenu.bind(this), false);
-
-        this.domElement.addEventListener('mousedown', this.onMouseDown.bind(this), false);
-        this.domElement.addEventListener('wheel', this.onMouseWheel.bind(this), false);
-
-        this.domElement.addEventListener('touchstart', this.onTouchStart.bind(this), false);
-        this.domElement.addEventListener('touchend', this.onTouchEnd.bind(this), false);
-        this.domElement.addEventListener('touchmove', this.onTouchMove.bind(this), false);
-
-        window.addEventListener('keydown', this.onKeyDown.bind(this), false);
-    }
-
     public getPolarAngle() {
         return this.spherical.phi;
     };
@@ -82,22 +70,18 @@ export class OrbitControls {
         return this.spherical.theta;
     };
 
-    private dispatchEvent(event) {
-
-    }
-
     // this method is exposed, but perhaps it would be better if we can make it private...
     public update() {
-        var offset = new Vector3();
+        let offset = new Vector3();
 
         // so camera.up is the orbit axis
-        var quat = new Quaternion().setFromUnitVectors(this.camera.up, new Vector3(0, 1, 0));
-        var quatInverse = quat.clone().inverse();
+        let quat = new Quaternion().setFromUnitVectors(this.camera.up, new Vector3(0, 1, 0));
+        let quatInverse = quat.clone().inverse();
 
-        var lastPosition = new Vector3();
-        var lastQuaternion = new Quaternion();
+        let lastPosition = new Vector3();
+        let lastQuaternion = new Quaternion();
 
-        var position = this.camera.position;
+        let position = this.camera.position;
 
         offset.copy(position).sub(this.target);
 
@@ -165,7 +149,7 @@ export class OrbitControls {
         if (this.zoomChanged || lastPosition.distanceToSquared(this.camera.position) > EPS || 8 * ( 1
             - lastQuaternion.dot(this.camera.quaternion) ) > EPS) {
 
-            this.dispatchEvent(EVENTS.CHANGE);
+            // this.dispatchEvent(EVENTS.CHANGE);
 
             lastPosition.copy(this.camera.position);
             lastQuaternion.copy(this.camera.quaternion);
@@ -179,19 +163,35 @@ export class OrbitControls {
     }
 
     public dispose() {
-        this.domElement.removeEventListener('contextmenu', this.onContextMenu, false);
-        this.domElement.removeEventListener('mousedown', this.onMouseDown, false);
-        this.domElement.removeEventListener('wheel', this.onMouseWheel, false);
+        this.domElement.removeEventListener("contextmenu", this.onContextMenu, false);
+        this.domElement.removeEventListener("mousedown", this.onMouseDown, false);
+        this.domElement.removeEventListener("wheel", this.onMouseWheel, false);
 
-        this.domElement.removeEventListener('touchstart', this.onTouchStart, false);
-        this.domElement.removeEventListener('touchend', this.onTouchEnd, false);
-        this.domElement.removeEventListener('touchmove', this.onTouchMove, false);
+        this.domElement.removeEventListener("touchstart", this.onTouchStart, false);
+        this.domElement.removeEventListener("touchend", this.onTouchEnd, false);
+        this.domElement.removeEventListener("touchmove", this.onTouchMove, false);
 
-        document.removeEventListener('mousemove', this.onMouseMove, false);
-        document.removeEventListener('mouseup', this.onMouseUp, false);
+        document.removeEventListener("mousemove", this.onMouseMove, false);
+        document.removeEventListener("mouseup", this.onMouseUp, false);
 
-        window.removeEventListener('keydown', this.onKeyDown, false);
+        window.removeEventListener("keydown", this.onKeyDown, false);
     };
+
+    private initializeListeners() {
+        this.domElement.addEventListener("contextmenu", this.onContextMenu.bind(this), false);
+
+        this.domElement.addEventListener("mousedown", this.onMouseDown.bind(this), false);
+        this.domElement.addEventListener("wheel", this.onMouseWheel.bind(this), false);
+
+        this.domElement.addEventListener("touchstart", this.onTouchStart.bind(this), false);
+        this.domElement.addEventListener("touchend", this.onTouchEnd.bind(this), false);
+        this.domElement.addEventListener("touchmove", this.onTouchMove.bind(this), false);
+
+        window.addEventListener("keydown", this.onKeyDown.bind(this), false);
+    }
+
+    // private dispatchEvent(event: string) {
+    // }
 
     private getAutoRotationAngle() {
         return 2 * Math.PI / 60 / 60 * this.options.autoRotateSpeed;
@@ -201,15 +201,15 @@ export class OrbitControls {
         return Math.pow(0.95, this.options.zoomSpeed);
     }
 
-    private rotateLeft(angle) {
+    private rotateLeft(angle: number) {
         this.sphericalDelta.theta -= angle;
     }
 
-    private rotateUp(angle) {
+    private rotateUp(angle: number) {
         this.sphericalDelta.phi -= angle;
     }
 
-    private panLeft(distance, objectMatrix) {
+    private panLeft(distance: number, objectMatrix: Matrix4) {
         let v = new Vector3();
         v.setFromMatrixColumn(objectMatrix, 0); // get X column of objectMatrix
         v.multiplyScalar(-distance);
@@ -217,8 +217,8 @@ export class OrbitControls {
         this.panOffset.add(v);
     };
 
-    private panUp = function(distance, objectMatrix) {
-        var v = new Vector3();
+    private panUp(distance: number, objectMatrix: Matrix4) {
+        let v = new Vector3();
         v.setFromMatrixColumn(objectMatrix, 1); // get Y column of objectMatrix
         v.multiplyScalar(distance);
 
@@ -227,14 +227,14 @@ export class OrbitControls {
     };
 
     // deltaX and deltaY are in pixels; right and down are positive
-    private pan(deltaX, deltaY) {
-        var offset = new Vector3();
-        var element = this.domElement === document ? this.domElement.body : this.domElement;
+    private pan(deltaX: number, deltaY: number) {
+        let offset = new Vector3();
+        let element: any = this.domElement === document ? this.domElement.body : this.domElement;
 
         // perspective
-        var position = this.camera.position;
+        let position = this.camera.position;
         offset.copy(position).sub(this.target);
-        var targetDistance = offset.length();
+        let targetDistance = offset.length();
 
         // half of the fov is center to top of screen
         targetDistance *= Math.tan(( this.camera.fov / 2 ) * Math.PI / 180.0);
@@ -244,7 +244,7 @@ export class OrbitControls {
         this.panUp(2 * deltaY * targetDistance / element.clientHeight, this.camera.matrix);
     }
 
-    private dollyIn(dollyScale) {
+    private dollyIn(dollyScale: number) {
         if (this.camera instanceof PerspectiveCamera) {
 
             this.scale /= dollyScale;
@@ -257,12 +257,12 @@ export class OrbitControls {
             this.zoomChanged = true;
 
         } else {
-            console.warn('WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.');
+            console.warn("WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.");
             this.options.enableZoom = false;
         }
     }
 
-    private dollyOut(dollyScale) {
+    private dollyOut(dollyScale: number) {
         this.scale *= dollyScale;
     }
 
@@ -270,23 +270,23 @@ export class OrbitControls {
     // event callbacks - update the object state
     //
 
-    private handleMouseDownRotate(event) {
+    private handleMouseDownRotate(event: MouseEvent) {
         this.rotateStatus.start.set(event.clientX, event.clientY);
     }
 
-    private handleMouseDownDolly(event) {
+    private handleMouseDownDolly(event: MouseEvent) {
         this.dollyStatus.start.set(event.clientX, event.clientY);
     }
 
-    private handleMouseDownPan(event) {
+    private handleMouseDownPan(event: MouseEvent) {
         this.panStatus.start.set(event.clientX, event.clientY);
     }
 
-    private handleMouseMoveRotate(event) {
+    private handleMouseMoveRotate(event: MouseEvent) {
         this.rotateStatus.end.set(event.clientX, event.clientY);
         this.rotateStatus.delta.subVectors(this.rotateStatus.end, this.rotateStatus.start);
 
-        var element = this.domElement === document ? this.domElement.body : this.domElement;
+        let element: any = this.domElement === document ? this.domElement.body : this.domElement;
 
         // rotating across whole screen goes 360 degrees around
         this.rotateLeft(2 * Math.PI * this.rotateStatus.delta.x / element.clientWidth * this.options.rotateSpeed);
@@ -299,7 +299,7 @@ export class OrbitControls {
         this.update();
     }
 
-    private handleMouseMoveDolly(event) {
+    private handleMouseMoveDolly(event: MouseEvent) {
         this.dollyStatus.end.set(event.clientX, event.clientY);
         this.dollyStatus.delta.subVectors(this.dollyStatus.end, this.dollyStatus.start);
 
@@ -313,7 +313,7 @@ export class OrbitControls {
         this.update();
     }
 
-    private handleMouseMovePan(event) {
+    private handleMouseMovePan(event: MouseEvent) {
         this.panStatus.end.set(event.clientX, event.clientY);
         this.panStatus.delta.subVectors(this.panStatus.end, this.panStatus.start);
 
@@ -324,10 +324,10 @@ export class OrbitControls {
         this.update();
     }
 
-    private handleMouseUp(event) {
-    }
+    // private handleMouseUp(event: MouseEvent) {
+    // }
 
-    private handleMouseWheel(event) {
+    private handleMouseWheel(event: MouseWheelEvent) {
         if (event.deltaY < 0) {
             this.dollyOut(this.getZoomScale());
         } else if (event.deltaY > 0) {
@@ -337,7 +337,7 @@ export class OrbitControls {
         this.update();
     }
 
-    private handleKeyDown(event) {
+    private handleKeyDown(event: KeyboardEvent) {
         switch (event.keyCode) {
             case KEYS.UP:
                 this.pan(0, this.options.keyPanSpeed);
@@ -358,31 +358,34 @@ export class OrbitControls {
                 this.pan(-this.options.keyPanSpeed, 0);
                 this.update();
                 break;
+
+            default:
+                break;
         }
     }
 
-    private handleTouchStartRotate(event) {
+    private handleTouchStartRotate(event: TouchEvent) {
         this.rotateStatus.start.set(event.touches[0].pageX, event.touches[0].pageY);
     }
 
-    private handleTouchStartDolly(event) {
-        var dx = event.touches[0].pageX - event.touches[1].pageX;
-        var dy = event.touches[0].pageY - event.touches[1].pageY;
+    private handleTouchStartDolly(event: TouchEvent) {
+        let dx = event.touches[0].pageX - event.touches[1].pageX;
+        let dy = event.touches[0].pageY - event.touches[1].pageY;
 
-        var distance = Math.sqrt(dx * dx + dy * dy);
+        let distance = Math.sqrt(dx * dx + dy * dy);
 
         this.dollyStatus.start.set(0, distance);
     }
 
-    private handleTouchStartPan(event) {
+    private handleTouchStartPan(event: TouchEvent) {
         this.panStatus.start.set(event.touches[0].pageX, event.touches[0].pageY);
     }
 
-    private handleTouchMoveRotate(event) {
+    private handleTouchMoveRotate(event: TouchEvent) {
         this.rotateStatus.end.set(event.touches[0].pageX, event.touches[0].pageY);
         this.rotateStatus.delta.subVectors(this.rotateStatus.end, this.rotateStatus.start);
 
-        var element = this.domElement === document ? this.domElement.body : this.domElement;
+        let element: any = this.domElement === document ? this.domElement.body : this.domElement;
 
         // rotating across whole screen goes 360 degrees around
         this.rotateLeft(2 * Math.PI * this.rotateStatus.delta.x / element.clientWidth * this.options.rotateSpeed);
@@ -395,11 +398,11 @@ export class OrbitControls {
         this.update();
     }
 
-    private handleTouchMoveDolly(event) {
-        var dx = event.touches[0].pageX - event.touches[1].pageX;
-        var dy = event.touches[0].pageY - event.touches[1].pageY;
+    private handleTouchMoveDolly(event: TouchEvent) {
+        let dx = event.touches[0].pageX - event.touches[1].pageX;
+        let dy = event.touches[0].pageY - event.touches[1].pageY;
 
-        var distance = Math.sqrt(dx * dx + dy * dy);
+        let distance = Math.sqrt(dx * dx + dy * dy);
 
         this.dollyStatus.end.set(0, distance);
 
@@ -416,7 +419,7 @@ export class OrbitControls {
         this.update();
     }
 
-    private handleTouchMovePan(event) {
+    private handleTouchMovePan(event: TouchEvent) {
         this.panStatus.end.set(event.touches[0].pageX, event.touches[0].pageY);
         this.panStatus.delta.subVectors(this.panStatus.end, this.panStatus.start);
 
@@ -427,14 +430,14 @@ export class OrbitControls {
         this.update();
     }
 
-    private handleTouchEnd(event) {
-    }
+    // private handleTouchEnd(event: MouseEvent) {
+    // }
 
     //
     // event handlers - FSM: listen for events and reset state
     //
 
-    private onMouseDown(event) {
+    private onMouseDown(event: MouseEvent) {
         if (this.options.enabled === false) {
             return;
         }
@@ -471,14 +474,14 @@ export class OrbitControls {
         }
 
         if (this.state !== STATE.NONE) {
-            document.addEventListener('mousemove', this.onMouseMove.bind(this), false);
-            document.addEventListener('mouseup', this.onMouseUp.bind(this), false);
+            document.addEventListener("mousemove", this.onMouseMove.bind(this), false);
+            document.addEventListener("mouseup", this.onMouseUp.bind(this), false);
 
-            this.dispatchEvent(EVENTS.START);
+            // this.dispatchEvent(EVENTS.START);
         }
     }
 
-    private onMouseMove(event) {
+    private onMouseMove(event: MouseEvent) {
         if (this.options.enabled === false) {
             return;
         }
@@ -512,22 +515,22 @@ export class OrbitControls {
 
     }
 
-    private onMouseUp(event) {
+    private onMouseUp(event: MouseEvent) {
         if (this.options.enabled === false) {
             return;
         }
 
-        this.handleMouseUp(event);
+        // this.handleMouseUp(event);
 
-        document.removeEventListener('mousemove', this.onMouseMove, false);
-        document.removeEventListener('mouseup', this.onMouseUp, false);
+        document.removeEventListener("mousemove", this.onMouseMove, false);
+        document.removeEventListener("mouseup", this.onMouseUp, false);
 
-        this.dispatchEvent(EVENTS.END);
+        // this.dispatchEvent(EVENTS.END);
 
         this.state = STATE.NONE;
     }
 
-    private onMouseWheel(event) {
+    private onMouseWheel(event: MouseWheelEvent) {
         if (this.options.enabled === false || this.options.enableZoom === false || ( this.state !== STATE.NONE
             && this.state !== STATE.ROTATE )) {
             return;
@@ -538,11 +541,11 @@ export class OrbitControls {
 
         this.handleMouseWheel(event);
 
-        this.dispatchEvent(EVENTS.START); // not sure why these are here...
-        this.dispatchEvent(EVENTS.END);
+        // this.dispatchEvent(EVENTS.START); // not sure why these are here...
+        // this.dispatchEvent(EVENTS.END);
     }
 
-    private onKeyDown(event) {
+    private onKeyDown(event: KeyboardEvent) {
         if (this.options.enabled === false || this.options.enableKeys === false || this.options.enablePan === false) {
             return;
         }
@@ -550,7 +553,7 @@ export class OrbitControls {
         this.handleKeyDown(event);
     }
 
-    private onTouchStart(event) {
+    private onTouchStart(event: TouchEvent) {
         if (this.options.enabled === false) {
             return;
         }
@@ -598,11 +601,11 @@ export class OrbitControls {
         }
 
         if (this.state !== STATE.NONE) {
-            this.dispatchEvent(EVENTS.START);
+            // this.dispatchEvent(EVENTS.START);
         }
     }
 
-    private onTouchMove(event) {
+    private onTouchMove(event: TouchEvent) {
         if (this.options.enabled === false) {
             return;
         }
@@ -658,19 +661,19 @@ export class OrbitControls {
         }
     }
 
-    private onTouchEnd(event) {
+    private onTouchEnd(event: MouseEvent) {
         if (this.options.enabled === false) {
             return;
         }
 
-        this.handleTouchEnd(event);
+        // this.handleTouchEnd(event);
 
-        this.dispatchEvent(EVENTS.END);
+        // this.dispatchEvent(EVENTS.END);
 
         this.state = STATE.NONE;
     }
 
-    private onContextMenu(event) {
+    private onContextMenu(event: MouseEvent) {
         event.preventDefault();
     }
 

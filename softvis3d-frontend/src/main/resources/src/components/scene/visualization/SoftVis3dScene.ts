@@ -103,7 +103,7 @@ export class SoftVis3dScene {
         return this.camera.getCamera();
     }
 
-    public makeSelection(event: MouseEvent, sceneDivId): string | null {
+    public makeSelection(event: MouseEvent, sceneDivId: string): string | null {
         let canvas: JQuery = jQuery(sceneDivId);
 
         let x: number;
@@ -172,17 +172,18 @@ export class SoftVis3dScene {
      * Resizes the camera when document is resized.
      */
     private onWindowResize() {
-        //let paddingLeft = 20;
+        // let paddingLeft = 20;
 
         // TODO set width and heoght to maximum
-        //this.width = window.innerWidth;// - paddingLeft;
-        //this.height = window.innerHeight;// - jQuery("#softvis3dscene").position().top - jQuery("#footer").outerHeight();
+        // this.width = window.innerWidth;// - paddingLeft;
+        // this.height = window.innerHeight;// - jQuery("#softvis3dscene").position().top -
+        // jQuery("#footer").outerHeight();
 
         this.width = 800;
         this.height = 400;
-        //if (jQuery("#content").position() !== undefined) {
+        // if (jQuery("#content").position() !== undefined) {
         //    this.height = window.innerHeight - jQuery("#content").position().top - jQuery("#footer").outerHeight();
-        //}
+        // }
         this.camera.setAspect(this.width, this.height);
 
         this.renderer.setSize(this.width, this.height);
