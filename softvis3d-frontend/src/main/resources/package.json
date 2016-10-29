@@ -42,7 +42,11 @@
     "three": "^0.80.1"
   },
   "devDependencies": {
+    "babel-core": "^6.18.0",
+    "babel-loader": "^6.2.7",
+    "babel-preset-es2015": "^6.18.0",
     "chai": "^3.5.0",
+    "core-js": "^2.4.1",
     "css-loader": "^0.25.0",
     "enzyme": "^2.4.1",
     "extract-text-webpack-plugin": "^1.0.1",

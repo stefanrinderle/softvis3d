@@ -39,7 +39,17 @@ module.exports = [
     // ##################################
     {
         name: "js",
-        entry: [ "./src/index.ts" ],
+        entry: [
+            "core-js/fn/set",
+            "core-js/fn/array/index-of",
+            "core-js/fn/array/is-array",
+            "core-js/fn/object/get-own-property-descriptor",
+            "core-js/fn/object/get-own-property-descriptors",
+            "core-js/fn/object/get-own-property-names",
+            "core-js/fn/object/get-own-property-symbols",
+            "core-js/fn/promise",
+            "./src/index.ts"
+        ],
         output: {
             path: "app/",
             filename: targetFolder + "bundle.js"
@@ -56,7 +66,8 @@ module.exports = [
 
         module: {
             loaders: [
-                { test: /\.tsx?$/, loader: "ts-loader" }
+                { test: /\.tsx?$/, exclude: /(node_modules)/, loader: "babel-loader?presets[]=es2015!ts-loader"  },
+                { test: /\.js$/, exclude: /(node_modules)/, loader: "babel-loader?presets[]=es2015" }
             ],
 
             preLoaders: isProd ? [] : [

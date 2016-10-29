@@ -88,7 +88,7 @@ describe("TreeService", () => {
 
         let result: string[] = TreeService.Instance.getAllSceneElementsRecursive(id);
 
-        expect(result.length).to.be.equal(1);
+        expect(result).to.be.length(1);
         expect(result[0]).to.be.equal(id);
     });
 
@@ -103,7 +103,7 @@ describe("TreeService", () => {
 
         let result: string[] = TreeService.Instance.getAllSceneElementsRecursive(rootId);
 
-        expect(result.length).to.be.equal(2);
+        expect(result).to.be.length(2);
         expect(result[0]).to.be.equal(rootId);
     });
 
@@ -121,8 +121,30 @@ describe("TreeService", () => {
 
         let result: string[] = TreeService.Instance.getAllSceneElementsRecursive(rootId);
 
-        expect(result.length).to.be.equal(3);
+        expect(result).to.be.length(3);
         expect(result[0]).to.be.equal(rootId);
+    });
+
+    it("should find not fail if the child node does not exist", () => {
+        let id: string = "testId123";
+        let tree: TreeElement = createTestTreeElement(id);
+
+        TreeService.Instance.setTree(tree);
+
+        let result = TreeService.Instance.searchTreeNode("noId");
+
+        expect(result).to.be.null;
+    });
+
+    it("should find not fail if the node does not exist in tree", () => {
+        let id: string = "testId123";
+        let tree: TreeElement = createTestTreeElement(id);
+
+        TreeService.Instance.setTree(tree);
+
+        let result = TreeService.Instance.getAllSceneElementsRecursive("noId");
+
+        expect(result).to.be.length(0);
     });
 });
 
