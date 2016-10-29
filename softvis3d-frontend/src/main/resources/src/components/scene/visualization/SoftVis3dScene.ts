@@ -19,7 +19,7 @@
 ///
 
 import * as jQuery from "jquery";
-import {Scene, Projector, WebGLRenderer, Raycaster, Vector3, PerspectiveCamera, Intersection} from "three";
+import {Scene, WebGLRenderer, Raycaster, Vector3, PerspectiveCamera, Intersection} from "three";
 import {Camera} from "./Camera";
 import {Wrangler} from "./Wrangler";
 import {Setup} from "./Setup";
@@ -38,7 +38,6 @@ export class SoftVis3dScene {
 
     private wrangler: Wrangler;
     private scene: Scene;
-    private projector: Projector;
     private renderer: WebGLRenderer;
     private camera: Camera;
     private raycaster: Raycaster;
@@ -52,7 +51,6 @@ export class SoftVis3dScene {
         this.height = this.container.height;
 
         this.scene = new Scene();
-        this.projector = new Projector();
         this.renderer = new WebGLRenderer({canvas: this.container, antialias: true, alpha: true});
         this.wrangler = new Wrangler(this.scene);
 

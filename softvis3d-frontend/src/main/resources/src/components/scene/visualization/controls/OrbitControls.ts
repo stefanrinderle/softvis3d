@@ -1,4 +1,4 @@
-import {MOUSE, Projector, Quaternion, Spherical, Vector3, Vector2, PerspectiveCamera, OrthographicCamera} from "three";
+import {MOUSE, Quaternion, Spherical, Vector3, Vector2, PerspectiveCamera, OrthographicCamera} from "three";
 import {OrbitControlsOptions} from "./OrbitControlsOptions";
 
 /**

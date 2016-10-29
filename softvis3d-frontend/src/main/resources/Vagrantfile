@@ -1,0 +1,4 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ungolianth/sonar"
+  config.vm.network "forwarded_port", guest: 9000, host: 9001
+end

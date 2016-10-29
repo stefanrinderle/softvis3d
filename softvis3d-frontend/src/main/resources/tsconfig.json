@@ -4,24 +4,26 @@
         "sourceMap": true,
         "noImplicitAny": false,
         "strictNullChecks": true,
+        "experimentalDecorators": true,
         "module": "commonJS",
-        "target": "es6",
-        "jsx": "react",
-        "types": [
-          "react",
-          "react-dom"
-        ]
+        "target": "es5",
+        "jsx": "react"
     },
+    "files": [
+        "./typings/index.d.ts"
+    ],
     "include": [
-        "src/**/*"
+        "src/**/*",
+        "test/**/*"
     ],
     "exclude": [
         "node_modules",
-        "**/*.spec.ts"
+        "test/**/*.ts"
     ],
     "filesGlob": [
         "src/**/*.ts",
         "src/**/*.tsx",
+        "test/**/*.tsx",
         "!node_modules/**"
     ]
 }

@@ -1,0 +1,16 @@
+{
+  "globalDependencies": {
+    "i18next": "registry:dt/i18next#2.3.4+20160803175212",
+    "jquery": "registry:dt/jquery#1.10.0+20160929162922",
+    "mocha": "registry:dt/mocha#2.2.5+20160720003353",
+    "react": "registry:dt/react#0.14.0+20161008064207",
+    "react-addons-test-utils": "registry:dt/react-addons-test-utils#0.14.0+20160427035638",
+    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
+    "three": "registry:dt/three#0.0.0+20161004170959"
+  },
+  "dependencies": {
+    "chai": "registry:npm/chai#3.5.0+20160723033700",
+    "enzyme": "registry:npm/enzyme#2.2.0+20160322031343",
+    "sinon": "registry:npm/sinon#1.16.0+20160723033700"
+  }
+}

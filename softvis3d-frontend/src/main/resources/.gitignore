@@ -1,2 +1,8 @@
-node_modules
-.idea
+.nyc_output/
+.idea/
+.vagrant/
+coverage/
+node_modules/
+typings/
+
+config/dev.ts
