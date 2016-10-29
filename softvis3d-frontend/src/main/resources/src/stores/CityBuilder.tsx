@@ -1,6 +1,5 @@
 import { observable } from "mobx";
 import Layout, {district} from "../classes/Layout";
-import {Metric} from "../interfaces/Metric";
 
 class CityBuilderConfig {
     @observable public layoutType: Layout;

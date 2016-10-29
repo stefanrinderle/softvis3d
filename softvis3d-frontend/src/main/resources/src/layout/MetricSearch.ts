@@ -18,12 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-export interface Metric {
-    type: string;
-    key: string;
-    name: string;
-}
-
 export class MetricSearch {
 
     public static filterMetrics(metrics: Metric[]): Metric[] {

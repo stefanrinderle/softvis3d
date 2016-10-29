@@ -24,7 +24,6 @@ import axios, {AxiosPromise, AxiosRequestConfig} from "axios";
 import config from "config";
 import cityBuilderConfig, {CityBuilderConfig} from "../stores/CityBuilder";
 import * as softvisActions from "../actions/softvisActions";
-import {Metric} from "../interfaces/Metric";
 
 interface SEvent {
     type: string;

@@ -28,3 +28,27 @@ declare const config: {
 declare module "config" {
     export default config;
 }
+
+declare type MetricType = "INT" | "FLOAT" | "PERCENT" | "BOOL" |
+    "STRING" | "MILLISEC" | "DATA" | "LEVEL" |
+    "DISTRIB" | "RATING" | "WORK_DUR";
+
+declare interface Metric {
+    id: string | number;
+    key: string;
+    type: MetricType;
+    name: string;
+}
+
+declare interface TreeElement {
+    id: string;
+    name: string;
+    isNode: boolean;
+
+    children: Array<TreeElement>;
+
+    colorMetricValue: number;
+    footprintMetricValue: number;
+    heightMetricValue: number;
+    parentInfo: TreeElement | null;
+}
