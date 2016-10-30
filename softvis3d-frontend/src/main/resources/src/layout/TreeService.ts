@@ -33,7 +33,7 @@ export class TreeService {
     };
 
     public searchTreeNode(id: string): TreeElement | null {
-        if (this.treeServiceTree !== null) {
+        if (this.treeServiceTree) {
             return this.searchIdInElement(id, this.treeServiceTree);
         } else {
             console.warn("search for id " + id + " without initialized the tree.");
@@ -50,21 +50,21 @@ export class TreeService {
         }
     };
 
-    private searchIdInElement(id: string, element?: TreeElement): TreeElement | null {
-        if (element !== undefined) {
-            if (element.id === id) {
-                return element;
-            } else if (element.children !== null) {
-                let result: TreeElement | null = null;
-                for (let i = 0; result === null && i < element.children.length; i++) {
-                    result = this.searchIdInElement(id, element.children[i]);
-                }
+    private searchIdInElement(id: string, element: TreeElement): TreeElement | null {
+        if (element.id === id) {
+            return element;
+        }
+
+        for (let i = 0; i < element.children.length; i++) {
+            const child: TreeElement = element.children[i];
+            let result = this.searchIdInElement(id, child);
+            if (result) {
                 return result;
             }
         }
 
         return null;
-    };
+    }
 
     private privateGetAllSceneElementsRecursive(node: TreeElement): string[] {
         let showIds: string[] = [];

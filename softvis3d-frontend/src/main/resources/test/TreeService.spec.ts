@@ -23,6 +23,12 @@ import {TreeService} from "../src/layout/TreeService";
 
 describe("TreeService", () => {
 
+    it("should not find anything, if the TreeService was not initialized 'correctly'", () => {
+        let id: string = "testId123";
+        let result = TreeService.Instance.searchTreeNode(id);
+        expect(result).to.be.null;
+    });
+
     it("should find tree node by id direct", () => {
         let id: string = "testId123";
         let tree: TreeElement = createTestTreeElement(id);
@@ -139,6 +145,8 @@ describe("TreeService", () => {
     it("should find not fail if the node does not exist in tree", () => {
         let id: string = "testId123";
         let tree: TreeElement = createTestTreeElement(id);
+
+        tree.children.push(createTestTreeElement(id + "_1"));
 
         TreeService.Instance.setTree(tree);
 
