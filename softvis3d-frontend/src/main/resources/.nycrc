@@ -24,7 +24,7 @@
     "instrument": true,
     "all": false,
     "check-coverage": true,
-    "lines": 85,
+    "lines": 80,
     "functions": 95,
-    "branches": 85
+    "branches": 80
 }
