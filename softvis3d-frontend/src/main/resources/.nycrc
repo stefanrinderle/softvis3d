@@ -17,7 +17,8 @@
     ],
     "reporter": [
         "text-summary",
-        "html"
+        "html",
+        "lcov"
     ],
     "cache": true,
     "sourceMap": true,
