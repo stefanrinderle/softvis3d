@@ -15,10 +15,6 @@
 
   <name>softvis3d-base</name>
 
-  <properties>
-    <sonar.exclusions />
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>commons-lang</groupId>

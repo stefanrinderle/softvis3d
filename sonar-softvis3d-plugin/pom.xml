@@ -19,8 +19,6 @@
     <jdk.min.version>1.7</jdk.min.version>
 
     <sonar.version>5.5</sonar.version>
-
-    <sonar.exclusions/>
   </properties>
 
   <dependencies>

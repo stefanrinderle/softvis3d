@@ -10,10 +10,18 @@
   <artifactId>softvis3d-frontend</artifactId>
 
   <properties>
+    <sonar.sources>
+      src/main/resources
+    </sonar.sources>
     <sonar.exclusions>
       src/main/resources/node_modules/**,
-      src/main/resources/app/**
+      src/main/resources/app/**,
+      src/main/resources/coverage/**,
+      src/main/resources/typings/**
     </sonar.exclusions>
+    <sonar.ts.tslintconfigpath>
+      src/main/resources/tslint.json
+    </sonar.ts.tslintconfigpath>
   </properties>
 
   <build>
