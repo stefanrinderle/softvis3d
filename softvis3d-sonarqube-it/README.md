@@ -1,12 +1,24 @@
-# softvis3d-sonarqube-devops
+# softvis3d-sonarqube-it
 
 Module used for automated integration tests for the softvis3d-sonarqube-plugin using docker and co.
 
-## cheat sheet
+## Process
+
+* Create sonarqube container with plugin version deployed
+* Analyse the current plugin source code
+* Create protractor container and run tests
+* Stop and close everything
+
+## run integration tests
+./runIntegrationTests.sh [SQ_VERSION] [PLUGIN_VERSION]
+./runIntegrationTests.sh 6.1 sonar-softvis3d-plugin-0.7.0-SNAPSHOT.jar
+
+
+## run local
 
 protractor ./protractor.conf.js --baseUrl="http://localhost:8787/"
 
-## cheat sheet
+## cheat sheet docker
 
 - show all containers
 

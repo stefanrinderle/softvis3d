@@ -20,7 +20,7 @@ rm -rf ${TMP_DOCKERFILE_DIR}
 
 # create new sonarqube image with plugin installed
 mkdir ${TMP_DOCKERFILE_DIR}
-cp ../../sonar-softvis3d-plugin/target/${PLUGIN_FILENAME} ${TMP_DOCKERFILE_DIR}
+cp ../sonar-softvis3d-plugin/target/${PLUGIN_FILENAME} ${TMP_DOCKERFILE_DIR}
 cp ./sonarqube/Dockerfile ${TMP_DOCKERFILE_DIR}/Dockerfile
 sed -i -e "s/XX_SONARQUBE_VERSION_XX/${SONARQUBE_VERSION}/g" ${TMP_DOCKERFILE_DIR}/Dockerfile
 sed -i -e "s/XX_PLUGIN_FILENAME_XX/${PLUGIN_FILENAME}/g" ${TMP_DOCKERFILE_DIR}/Dockerfile
@@ -34,7 +34,7 @@ echo "Run integration test container $CONTAINER_NAME with id $dockerid and wait 
 echo "Wait for sonarqube instance to start"
 sleep 60
 echo "Analyse project"
-mvn -f ../../pom.xml -U -B sonar:sonar -Dsonar.host.url=http://localhost:${SONARQUBE_LOCAL_PORT}
+mvn -f ../pom.xml -U -B sonar:sonar -Dsonar.host.url=http://localhost:${SONARQUBE_LOCAL_PORT}
 
 sleep 15
 
@@ -44,6 +44,10 @@ docker stop softvis3d_protractor_runner
 docker rm softvis3d_protractor_runner
 
 echo "build"
+cd protractor
+npm install
+cd ..
+
 docker build -t softvis3d_protractor_runner ./protractor
 docker run --name ${CONTAINER_NAME}_protractorTestRun -i --privileged --rm --net=host  -v /dev/shm:/dev/shm -v $(pwd)/protractor:/protractor softvis3d_protractor_runner  ./protractor.conf.js --baseUrl="http://localhost:${SONARQUBE_LOCAL_PORT}/"
 

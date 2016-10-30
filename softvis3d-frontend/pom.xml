@@ -86,6 +86,7 @@
           </includes>
           <excludes>
             <exclude>src/main/resources/node_modules/**</exclude>
+            <exclude>src/main/resources/typings/**</exclude>
             <exclude>src/main/resources/app/**</exclude>
           </excludes>
         </configuration>
@@ -133,6 +134,16 @@
                 </fileset>
                 <fileset>
                   <directory>src/main/resources/node_modules</directory>
+                </fileset>
+                <fileset>
+                  <directory>src/main/resources/typings</directory>
+                </fileset>
+                <fileset>
+                  <directory>src/main/resources/app/static</directory>
+                  <includes>
+                    <include>*.css</include>
+                    <include>*.js</include>
+                  </includes>
                 </fileset>
               </filesets>
             </configuration>

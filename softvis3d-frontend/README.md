@@ -1,30 +1,24 @@
 # SoftVis3D - Frontend module
 
-## Available Scripts
+# Installation
+1. `npm install`
 
-In the src/main/resources directory, you can run:
+# Development
+1. Start SonarQube-Server
+   * `vagrant up` will register an instance of SonarQube to `http://localhost:9001`
+2. Configure Dev-Environment (`config/dev.ts`)
+   * update `proxy` to point to the SonarQube-Server
+   * update `project` for development on a specific Project _(use projectKey)_
+4. `npm start` will start the dev-server on `http://localhost:8080`
 
-### `npm start`
+# Production Build
+`npm run build` will execute all available tests before building the project, which can be found in `/app`.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Unit tests
+ * `npm test` will run mocha.
+ * `npm test:coverage` will also generate a coverage report (for files required by the tests)
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.  
-See the section about [running tests](#running-tests) for more information.
-
-### `npm test -- --coverage`
-
-Jest has an integrated coverage reporter that works well with ES6 and requires no configuration.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+# TODOS
+ * If ts-node transpilation fails webpack will carry on and the build will still succeed.
+ * ES6-Code requires polyfills
+ * A second set integration tests on the transpiled code should be implemented (regression tests)

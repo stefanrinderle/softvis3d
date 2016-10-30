@@ -10,28 +10,18 @@ Currently, the main project is the SoftVis3D-SonarQube-Plugin - see the correspo
 
 Base java classes used by the visualization - independent from SonarQube.
 
-## Layout webservice example
+## Frontend
 
-### ! Currently not maintained and does not work !
-
-Will be reactivated and refactored to the new structure with [https://github.com/stefanrinderle/softvis3d/issues/15](github issue #15)
-
-### Description / Goal
-
-This is a example project to show the use of the softvis3d visualization with other tools than SonarQube.
-
-Implemented example is based on dynamic neo4j requests.
-
-For details, see README file of the module. 
-
-## SoftVis3d SonarQube plugin
-
-Frontend code.
+Frontend code in /src/main/resources. 
 
 ## SoftVis3d SonarQube plugin
 
 SonarQube dependent java classes and sonarqube deployment details.
 See module for details.
+
+## Integration tests
+
+E2E integration test setup with docker to be able to check the plugin against multiple SonarQube versions.
 
 ## License
 

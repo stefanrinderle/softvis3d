@@ -1,7 +1,0 @@
-node_modules
-app/bundle.js
-app/vendor.js
-
-npm-debug.log
-
-node
