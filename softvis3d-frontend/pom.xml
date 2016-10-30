@@ -16,6 +16,9 @@
     <sonar.tests>
       src/main/resources/test
     </sonar.tests>
+    <sonar.ts.tslintpath>
+      src/main/resources/node_modules/.bin/tslint
+    </sonar.ts.tslintpath>
     <sonar.ts.tslintconfigpath>
       src/main/resources/tslint.json
     </sonar.ts.tslintconfigpath>
