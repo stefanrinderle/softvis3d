@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "npm run install:config -s && npm run install:dist -s && npm run install:typings -s",
     "install:config": "shx cp -n config/dev.example.ts config/dev.ts",
-    "install:dist": "shx cp node_modules/react/dist/react.min.js node_modules/react-dom/dist/react-dom.min.js app/static/",
+    "install:dist": "shx cp node_modules/react/dist/react.min.js node_modules/react-dom/dist/react-dom.min.js node_modules/three/build/three.min.js app/static/",
     "install:typings": "typings install",
     "start": "webpack-dev-server",
     "prebuild": "npm run lint -s && npm run test -s",
