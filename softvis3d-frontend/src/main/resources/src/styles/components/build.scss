@@ -1,8 +1,7 @@
 $height: 335px;
+$layoutButtonWidth: 180px;
 
 .layout-component {
-    $buttonWidth: 180px;
-
     width: 100%;
     height: ($height - 12px);
     padding: 0;
@@ -10,7 +9,7 @@ $height: 335px;
     .list {
         float: left;
         margin: ($height / 4) 0;
-        width: $buttonWidth;
+        width: $layoutButtonWidth;
 
         label {
             display: block;
@@ -25,12 +24,59 @@ $height: 335px;
     }
 
     .preview {
-        margin-left: ($buttonWidth + 2px);
+        margin-left: ($layoutButtonWidth + 2px);
         min-width: 155px;
         height: 100%;
 
         background: #FFF center no-repeat;
         background-size: contain;
+    }
+}
+
+.property-component {
+    padding: 2px;
+
+    .profiles {
+        margin-top: 8px;
+
+        span {
+            padding: 0 2px;
+            &:after {
+                content: ': '
+            }
+        }
+
+        select {
+            max-width: 255px;
+        }
+    }
+
+    .metrics {
+        border-top: 1px solid $border-color-background;
+
+        margin-top: 15px;
+        padding: 8px 0 0 15px;
+
+        .selectbox {
+            padding-bottom: 4px;
+            span {
+                display: block;
+                padding: 1px;
+                &:before {
+                    content: '\00bb '
+                }
+            }
+
+            select {
+                max-width: 285px;
+            }
+        }
+    }
+
+    .profile-description {
+        border-top: 1px solid $border-color-background;
+        margin-top: 15px;
+        padding: 8px 6px;
     }
 }
 

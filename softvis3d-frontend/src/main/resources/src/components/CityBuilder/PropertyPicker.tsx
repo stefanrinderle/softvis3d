@@ -21,28 +21,39 @@ declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
 
     public render() {
         return (
-            <div>
-                <p>
-                    Profile<br />
-                    <SelectBox
-                        onChange={this.handelProfileChange.bind(this)}
-                        value={this.props.store.profile}
-                    >
-                        {this.createOptionsFromProfiles()}
-                    </SelectBox>
-                </p>
+            <div className="property-component">
+                <div className="profiles">
+                    {
+                        this.renderSelectBoxWithLabel(
+                            "Profile",
+                            <SelectBox
+                                onChange={this.handelProfileChange.bind(this)}
+                                value={this.props.store.profile}
+                            >
+                                {this.createOptionsFromProfiles()}
+                            </SelectBox>
+                        )
+                    }
+                </div>
 
-                <p>
+                <div className="metrics">
                     {this.renderMetricDropdown("Metric - Height", "metricHeight")}
-                    <br />
                     {this.renderMetricDropdown("Metric - Base / Width", "metricWidth")}
-                    <br />
                     {this.renderMetricDropdown("Metric - Color", "metricColor")}
-                </p>
+                </div>
 
-                <p>
+                <p className="profile-description">
                     {this.props.store.profile.description}
                 </p>
+            </div>
+        );
+    }
+
+    private renderSelectBoxWithLabel(label: string, selectbox: JSX.Element) {
+        return (
+            <div className="selectbox">
+                <span>{label}</span>
+                {selectbox}
             </div>
         );
     }
@@ -56,6 +67,18 @@ declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
             />);
     }
 
+    private renderMetricDropdown(label: string, type: metricType) {
+        return this.renderSelectBoxWithLabel(
+            label,
+            <SelectBox
+                onChange={this.handelChange.bind(this, type)}
+                value={(this.props.store as any)[type] as string}
+            >
+                {this.createOptionsFromLoadedMetrics()}
+            </SelectBox>
+        );
+    }
+
     private createOptionsFromLoadedMetrics() {
         return this.props.store.availableMetrics
             .map(metric => <SelectOption
@@ -64,19 +87,5 @@ declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
                 label={metric.name}
                 disabled={!this.props.store.profile.editable}
             />);
-    }
-
-    private renderMetricDropdown(label: string, type: metricType) {
-        return (
-            <div>
-                <div>{label}</div>
-                <SelectBox
-                    onChange={this.handelChange.bind(this, type)}
-                    value={(this.props.store as any)[type] as string}
-                >
-                    {this.createOptionsFromLoadedMetrics()}
-                </SelectBox>
-            </div>
-        );
     }
 }
