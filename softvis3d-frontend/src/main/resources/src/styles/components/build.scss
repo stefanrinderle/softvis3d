@@ -1,16 +1,16 @@
-$height: 325px;
+$height: 335px;
 
 .layout-component {
-    $thumbWidth: 200px;
+    $buttonWidth: 180px;
 
     width: 100%;
-    height: ($height - 14px);
+    height: ($height - 12px);
     padding: 0;
 
     .list {
         float: left;
         margin: ($height / 4) 0;
-        width: $thumbWidth;
+        width: $buttonWidth;
 
         label {
             display: block;
@@ -25,7 +25,7 @@ $height: 325px;
     }
 
     .preview {
-        margin-left: ($thumbWidth + 2px);
+        margin-left: ($buttonWidth + 2px);
         min-width: 155px;
         height: 100%;
 
@@ -39,9 +39,9 @@ $height: 325px;
     $propertyWidth: 350px;
 
     margin: 0 auto;
-    width: 85%;
+    width: 90%;
     max-width: 1200px;
-    min-width: 680px;
+    min-width: 740px;
     // border: 1px solid $border-color-foreground;
     padding: 2px 6px 6px 6px;
 
