@@ -1,8 +1,7 @@
 $height: 325px;
-$propertyWidth: 350px;
 
 .layout-component {
-    $thumbWidth: 60%;
+    $thumbWidth: 200px;
 
     width: 100%;
     height: ($height - 14px);
@@ -11,7 +10,7 @@ $propertyWidth: 350px;
     .list {
         float: left;
         margin: ($height / 4) 0;
-        width: (99% - $thumbWidth);
+        width: $thumbWidth;
 
         label {
             display: block;
@@ -26,8 +25,7 @@ $propertyWidth: 350px;
     }
 
     .preview {
-        float: right;
-        width: $thumbWidth;
+        margin-left: ($thumbWidth + 2px);
         min-width: 155px;
         height: 100%;
 
@@ -38,6 +36,7 @@ $propertyWidth: 350px;
 
 .city-builder {
     @include clearfix;
+    $propertyWidth: 350px;
 
     margin: 0 auto;
     width: 85%;
