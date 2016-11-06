@@ -9,6 +9,7 @@
         "target": "es6",
         "jsx": "react"
     },
+    "compileOnSave": false,
     "files": [
         "./typings/index.d.ts"
     ],
