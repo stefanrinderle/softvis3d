@@ -11,6 +11,8 @@
     "start": "webpack-dev-server",
     "prebuild": "npm run lint -s && npm run test -s",
     "build": "npm run build:force -s",
+    "prebuild:ci": "npm run lint -s && npm run test:coverage -s",
+    "build:ci": "npm run build:force -s",
     "build:force": "webpack --progress --colors --prod",
     "lint": "tslint \"src/**/*.ts?(x)\" && shx echo \"[tslint] Lint successful\"",
     "test": "mocha",
