@@ -2,7 +2,6 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {SelectBox, SelectOption} from "../ui/SelectBox";
 import {CityBuilderConfig} from "../../stores/CityBuilder";
-import Profile from "../../classes/Profile";
 
 export interface PropertyPickerProps {
     profiles: Array<Profile>;

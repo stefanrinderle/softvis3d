@@ -1,8 +1,7 @@
 import * as React from "react";
-import Layout from "../../classes/Layout";
+import {observer} from "mobx-react";
 import { RadioButton, RadioGroup } from "../ui/RadioButton";
 import {CityBuilderConfig} from "../../stores/CityBuilder";
-import {observer} from "mobx-react";
 import PreviewPicture from "./PreviewPicture";
 
 export interface LayoutPickerProps {

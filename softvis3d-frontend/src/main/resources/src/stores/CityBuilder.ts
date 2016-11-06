@@ -1,6 +1,6 @@
 import { observable } from "mobx";
-import Layout, {district} from "../classes/Layout";
-import Profile, {demo} from "../classes/Profile";
+import {district} from "../dtos/Layouts";
+import {demo} from "../dtos/Profiles";
 
 class CityBuilderConfig {
     @observable public layoutType: Layout;

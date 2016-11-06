@@ -52,3 +52,19 @@ declare interface TreeElement {
     heightMetricValue: number;
     parentInfo: TreeElement | null;
 }
+
+declare interface Profile {
+    id: string;
+    name: string;
+    metricColor: string;
+    metricHeight: string;
+    metricWidth: string;
+    description: string;
+    editable?: boolean;
+}
+
+declare interface Layout {
+    id: string;
+    name: string;
+    preview: string;
+}

@@ -1,6 +1,4 @@
 import * as React from "react";
-import Profile from "../../classes/Profile";
-import Layout from "../../classes/Layout";
 
 export interface PreviewPictureProps {
     profile: Profile;
