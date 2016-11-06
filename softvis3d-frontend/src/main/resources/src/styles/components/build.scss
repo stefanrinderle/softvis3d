@@ -1,9 +1,11 @@
+$height: 325px;
+$propertyWidth: 350px;
+
 .layout-component {
-    $height: 250px;
     $thumbWidth: 60%;
 
     width: 100%;
-    height: ($height - 4px);
+    height: ($height - 14px);
     padding: 0;
 
     .list {
@@ -40,17 +42,20 @@
     margin: 0 auto;
     width: 85%;
     max-width: 1200px;
-    min-width: 600px;
+    min-width: 680px;
     // border: 1px solid $border-color-foreground;
     padding: 2px 6px 6px 6px;
 
     .building {
         float: left;
-        width: 54%;
+        width: $propertyWidth;
     }
 
     .layout {
-        float: right;
-        width: 45%;
+        margin-left: ($propertyWidth + 8px);
+    }
+
+    >div>fieldset {
+        height: $height;
     }
 }

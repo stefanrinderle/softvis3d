@@ -31,7 +31,7 @@ declare module "config" {
 
 declare type MetricType = "INT" | "FLOAT" | "PERCENT" | "BOOL" |
     "STRING" | "MILLISEC" | "DATA" | "LEVEL" |
-    "DISTRIB" | "RATING" | "WORK_DUR";
+    "DISTRIB" | "RATING" | "WORK_DUR" | "NONE";
 
 declare interface Metric {
     id: string | number;
