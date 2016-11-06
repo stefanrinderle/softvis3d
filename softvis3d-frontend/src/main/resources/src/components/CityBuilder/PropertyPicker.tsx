@@ -5,7 +5,7 @@ import {CityBuilderConfig} from "../../stores/CityBuilder";
 import Profile from "../../classes/Profile";
 
 export interface PropertyPickerProps {
-    profiles: Array<Profile>
+    profiles: Array<Profile>;
     store: CityBuilderConfig;
 }
 

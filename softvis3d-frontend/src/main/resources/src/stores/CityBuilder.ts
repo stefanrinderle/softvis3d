@@ -27,7 +27,6 @@ class CityBuilderConfig {
     }
 
     public setProfile(p: Profile) {
-        console.log("New Profile:", p.name);
         this.profile = p;
         this.metricColor = p.metricColor || this.metricColor;
         this.metricHeight = p.metricHeight || this.metricHeight;
@@ -44,9 +43,6 @@ class CityBuilderConfig {
 }
 
 const cityBuilderConfig = new CityBuilderConfig();
-
-interface MyWindow extends Window { store: any; }
-(window as MyWindow).store = cityBuilderConfig;
 
 export default cityBuilderConfig;
 export { CityBuilderConfig };
