@@ -125,12 +125,6 @@
         </profile>
         <profile>
             <id>ci</id>
-            <activation>
-                <property>
-                    <name>BUILD_ENVIRONMENT</name>
-                    <value>ci</value>
-                </property>
-            </activation>
             <properties>
                 <build.env>:ci</build.env>
             </properties>

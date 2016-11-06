@@ -1,5 +1,4 @@
 language: java
 jdk:
   - oraclejdk8
-env:
-  - BUILD_ENVIRONMENT="ci"
+script: mvn clean install -Pci
