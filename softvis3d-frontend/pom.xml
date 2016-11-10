@@ -76,13 +76,9 @@
                 <artifactId>license-maven-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <include>**</include>
+                        <include>src</include>
+                        <include>test</include>
                     </includes>
-                    <excludes>
-                        <exclude>node_modules/**</exclude>
-                        <exclude>typings/**</exclude>
-                        <exclude>app/**</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
