@@ -11,20 +11,18 @@
     <artifactId>softvis3d-frontend</artifactId>
 
     <properties>
-        <sonar.sources>src/main/resources/src</sonar.sources>
-        <sonar.tests>src/main/resources/test</sonar.tests>
-        <sonar.genericcoverage.unitTestReportPaths>
-            src/main/resources/results/TEST-all.xml
-        </sonar.genericcoverage.unitTestReportPaths>
-        <sonar.ts.tslintpath>src/main/resources/node_modules/.bin/tslint</sonar.ts.tslintpath>
-        <sonar.ts.tslintconfigpath>src/main/resources/tslint.json</sonar.ts.tslintconfigpath>
-        <sonar.ts.lcov.reportpath>src/main/resources/results/coverage/lcov.info</sonar.ts.lcov.reportpath>
+        <sonar.sources>src</sonar.sources>
+        <sonar.tests>test</sonar.tests>
+        <sonar.genericcoverage.unitTestReportPaths>results/TEST-all.xml</sonar.genericcoverage.unitTestReportPaths>
+        <sonar.ts.tslintpath>node_modules/.bin/tslint</sonar.ts.tslintpath>
+        <sonar.ts.tslintconfigpath>tslint.json</sonar.ts.tslintconfigpath>
+        <sonar.ts.lcov.reportpath>results/coverage/lcov.info</sonar.ts.lcov.reportpath>
     </properties>
 
     <build>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>${project.basedir}</directory>
                 <includes>
                     <include>app/**</include>
                 </includes>
@@ -39,7 +37,7 @@
                 <version>1.0</version>
 
                 <configuration>
-                    <workingDirectory>src/main/resources</workingDirectory>
+                    <workingDirectory>src</workingDirectory>
                     <installDirectory>../node</installDirectory>
                 </configuration>
                 <executions>
@@ -78,12 +76,12 @@
                 <artifactId>license-maven-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <include>src/main/resources/**</include>
+                        <include>**</include>
                     </includes>
                     <excludes>
-                        <exclude>src/main/resources/node_modules/**</exclude>
-                        <exclude>src/main/resources/typings/**</exclude>
-                        <exclude>src/main/resources/app/**</exclude>
+                        <exclude>node_modules/**</exclude>
+                        <exclude>typings/**</exclude>
+                        <exclude>app/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -98,6 +96,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <resourcesDirectory>${project.basedir}</resourcesDirectory>
                     <includes>
                         <include>app/**/*.*</include>
                     </includes>
@@ -140,16 +139,16 @@
                         <configuration>
                             <filesets>
                                 <fileset>
-                                    <directory>src/main/resources/coverage</directory>
+                                    <directory>coverage</directory>
                                 </fileset>
                                 <fileset>
-                                    <directory>src/main/resources/node_modules</directory>
+                                    <directory>node_modules</directory>
                                 </fileset>
                                 <fileset>
-                                    <directory>src/main/resources/typings</directory>
+                                    <directory>typings</directory>
                                 </fileset>
                                 <fileset>
-                                    <directory>src/main/resources/app/static</directory>
+                                    <directory>app/static</directory>
                                     <includes>
                                         <include>*.css</include>
                                         <include>*.js</include>
