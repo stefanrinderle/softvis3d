@@ -11,21 +11,14 @@
     <artifactId>softvis3d-frontend</artifactId>
 
     <properties>
-        <sonar.sources>
-            src/main/resources/src
-        </sonar.sources>
-        <sonar.tests>
-            src/main/resources/test
-        </sonar.tests>
-        <sonar.ts.tslintpath>
-            src/main/resources/node_modules/.bin/tslint
-        </sonar.ts.tslintpath>
-        <sonar.ts.tslintconfigpath>
-            src/main/resources/tslint.json
-        </sonar.ts.tslintconfigpath>
-        <sonar.ts.lcov.reportpath>
-            src/main/resources/coverage/lcov.info
-        </sonar.ts.lcov.reportpath>
+        <sonar.sources>src/main/resources/src</sonar.sources>
+        <sonar.tests>src/main/resources/test</sonar.tests>
+        <sonar.genericcoverage.unitTestReportPaths>
+            src/main/resources/results/TEST-all.xml
+        </sonar.genericcoverage.unitTestReportPaths>
+        <sonar.ts.tslintpath>src/main/resources/node_modules/.bin/tslint</sonar.ts.tslintpath>
+        <sonar.ts.tslintconfigpath>src/main/resources/tslint.json</sonar.ts.tslintconfigpath>
+        <sonar.ts.lcov.reportpath>src/main/resources/results/coverage/lcov.info</sonar.ts.lcov.reportpath>
     </properties>
 
     <build>
