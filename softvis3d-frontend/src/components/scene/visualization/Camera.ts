@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {PerspectiveCamera, Vector3} from "three";
+import { PerspectiveCamera, Vector3 } from "three";
 
 /**
  * @class Creates the camera for the scene.

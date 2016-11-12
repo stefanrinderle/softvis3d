@@ -2,8 +2,7 @@ import * as React from "react";
 import * as Sinon from "sinon";
 import { expect } from "chai";
 import { shallow } from "enzyme";
-
-import {RadioButton, RadioGroup} from "../../src/components/ui/RadioButton";
+import { RadioButton, RadioGroup } from "../../src/components/ui/RadioButton";
 
 describe("<RadioButton/>", () => {
     it("should draw one input and one label", () => {

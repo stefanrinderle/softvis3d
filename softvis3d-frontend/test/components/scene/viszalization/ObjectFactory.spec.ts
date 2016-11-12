@@ -18,11 +18,11 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {ObjectFactory} from "../../../../src/components/scene/visualization/ObjectFactory";
-import {SoftVis3dShape} from "../../../../src/components/scene/domain/SoftVis3dShape";
-import {SoftVis3dMesh} from "../../../../src/components/scene/domain/SoftVis3dMesh";
-import {Vector2} from "three";
+import { expect } from "chai";
+import { ObjectFactory } from "../../../../src/components/scene/visualization/ObjectFactory";
+import { SoftVis3dShape } from "../../../../src/components/scene/domain/SoftVis3dShape";
+import { SoftVis3dMesh } from "../../../../src/components/scene/domain/SoftVis3dMesh";
+import { Vector2 } from "three";
 
 describe("ObjectFactory", () => {
 

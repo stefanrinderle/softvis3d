@@ -1,5 +1,5 @@
 import * as React from "react";
-import {SoftVis3dScene} from "./visualization/SoftVis3dScene";
+import { SoftVis3dScene } from "./visualization/SoftVis3dScene";
 
 export default class SceneComponent extends React.Component<any, any> {
 

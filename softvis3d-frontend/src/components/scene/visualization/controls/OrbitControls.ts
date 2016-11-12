@@ -18,8 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {MOUSE, Quaternion, Spherical, Matrix4, Vector3, Vector2, PerspectiveCamera, OrthographicCamera} from "three";
-import {OrbitControlsOptions} from "./OrbitControlsOptions";
+import { MOUSE, Quaternion, Spherical, Matrix4, Vector3, Vector2, PerspectiveCamera, OrthographicCamera } from "three";
+import { OrbitControlsOptions } from "./OrbitControlsOptions";
 // import Matrix4 = THREE.Matrix4;
 
 /**

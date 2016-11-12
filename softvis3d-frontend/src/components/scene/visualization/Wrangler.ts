@@ -18,10 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {MeshLambertMaterial, Scene} from "three";
-import {ObjectFactory} from "./ObjectFactory";
-import {SoftVis3dMesh} from "../domain/SoftVis3dMesh";
-import {SoftVis3dShape} from "../domain/SoftVis3dShape";
+import { MeshLambertMaterial, Scene } from "three";
+import { ObjectFactory } from "./ObjectFactory";
+import { SoftVis3dMesh } from "../domain/SoftVis3dMesh";
+import { SoftVis3dShape } from "../domain/SoftVis3dShape";
 
 /**
  * @class This is a resource manager and loads individual models.

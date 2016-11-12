@@ -20,9 +20,9 @@
 
 /* tslint:disable */
 import * as Actions from "../constants/ActionConstants";
-import axios, {AxiosPromise, AxiosRequestConfig} from "axios";
+import axios, { AxiosPromise, AxiosRequestConfig } from "axios";
 import config from "config";
-import cityBuilderConfig, {CityBuilderConfig} from "../stores/CityBuilder";
+import cityBuilderConfig, { CityBuilderConfig } from "../stores/CityBuilder";
 import * as softvisActions from "../actions/softvisActions";
 
 interface SEvent {

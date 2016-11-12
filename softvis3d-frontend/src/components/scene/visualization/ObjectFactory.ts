@@ -18,9 +18,9 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {MeshLambertMaterial, BoxGeometry} from "three";
-import {SoftVis3dMesh} from "../domain/SoftVis3dMesh";
-import {SoftVis3dShape} from "../domain/SoftVis3dShape";
+import { MeshLambertMaterial, BoxGeometry } from "three";
+import { SoftVis3dMesh } from "../domain/SoftVis3dMesh";
+import { SoftVis3dShape } from "../domain/SoftVis3dShape";
 
 export class ObjectFactory {
 

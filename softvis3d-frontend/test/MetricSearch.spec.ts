@@ -18,8 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {MetricSearch} from "../src/layout/MetricSearch";
+import { expect } from "chai";
+import { MetricSearch } from "../src/layout/MetricSearch";
 
 describe("MetricSearch", () => {
     const genericMetric: Metric = {

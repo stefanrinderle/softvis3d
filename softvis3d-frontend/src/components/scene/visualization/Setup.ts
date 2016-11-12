@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {WebGLRenderer, DirectionalLight, Scene} from "three";
+import { WebGLRenderer, DirectionalLight, Scene } from "three";
 
 /**
  * TODO: Write tests with sinon mocks.

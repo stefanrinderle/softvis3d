@@ -20,6 +20,7 @@
         "html",
         "lcov"
     ],
+    "report-dir": "./results/coverage",
     "cache": true,
     "sourceMap": true,
     "instrument": true,

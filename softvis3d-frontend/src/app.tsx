@@ -1,11 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-
 import CityBuilder from "./components/CityBuilder";
 import cityBuilderConfig from "./stores/CityBuilder";
 import * as Actions from "./actions/softvisActions";
 import dispatcher from "./dispatcher";
-import {SonarQubeStore} from "./events/sonarqube";
+import { SonarQubeStore } from "./events/sonarqube";
 import SceneComponent from "./components/scene/SceneComponent";
 
 export default class App {

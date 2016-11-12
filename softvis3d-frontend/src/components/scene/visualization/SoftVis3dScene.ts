@@ -19,14 +19,14 @@
 ///
 
 import * as jQuery from "jquery";
-import {Scene, WebGLRenderer, Raycaster, Vector3, PerspectiveCamera, Intersection} from "three";
-import {Camera} from "./Camera";
-import {Wrangler} from "./Wrangler";
-import {Setup} from "./Setup";
-import {SoftVis3dShape} from "../domain/SoftVis3dShape";
-import {SoftVis3dMesh} from "../domain/SoftVis3dMesh";
-import {Dimension} from "../domain/Dimension";
-import {OrbitControls} from "./controls/OrbitControls";
+import { Scene, WebGLRenderer, Raycaster, Vector3, PerspectiveCamera, Intersection } from "three";
+import { Camera } from "./Camera";
+import { Wrangler } from "./Wrangler";
+import { Setup } from "./Setup";
+import { SoftVis3dShape } from "../domain/SoftVis3dShape";
+import { SoftVis3dMesh } from "../domain/SoftVis3dMesh";
+import { Dimension } from "../domain/Dimension";
+import { OrbitControls } from "./controls/OrbitControls";
 
 export class SoftVis3dScene {
 

@@ -18,9 +18,9 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {Shape, Vector2} from "three";
-import {Dimension} from "./Dimension";
-import {Position} from "./Position";
+import { Shape, Vector2 } from "three";
+import { Dimension } from "./Dimension";
+import { Position } from "./Position";
 
 export class SoftVis3dShape extends Shape {
 

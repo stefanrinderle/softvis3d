@@ -18,8 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {WebGLDetector} from "../../../../src/components/scene/webgl/WebGLDetector";
+import { expect } from "chai";
+import { WebGLDetector } from "../../../../src/components/scene/webgl/WebGLDetector";
 
 describe("WebGLDetector", () => {
 
