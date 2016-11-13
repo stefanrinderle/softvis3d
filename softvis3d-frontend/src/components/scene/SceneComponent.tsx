@@ -26,7 +26,7 @@ export default class SceneComponent extends React.Component<any, any> {
             // initial load - all other updates via the render method.
             this.scene.loadSoftVis3d(sceneStore.shapes);
         } else {
-            // console.log(WebGLDetector.getWebGLErrorMessage());
+            console.warn(WebGLDetector.getWebGLErrorMessage());
         }
     }
 
@@ -37,7 +37,8 @@ export default class SceneComponent extends React.Component<any, any> {
             this.scene.loadSoftVis3d(sceneStore.shapes);
         }
 
-        return <canvas id={SceneComponent.CANVAS_ID} onClick={this.makeSelection.bind(this)} />;
+        return <canvas id={SceneComponent.CANVAS_ID}
+                       onClick={this.makeSelection.bind(this)} />;
     }
 
     private makeSelection(event: any) {

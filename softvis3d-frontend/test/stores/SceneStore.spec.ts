@@ -19,8 +19,8 @@
 ///
 
 import { expect } from "chai";
-import { SceneStore, default as sceneStore } from "../../src/stores/SceneStore";
 import { INITIAL_SHAPES } from "../../src/stores/InitialSceneShapes";
+import sceneStore from "../../src/stores/SceneStore";
 
 describe("SceneStore", () => {
 
@@ -29,8 +29,6 @@ describe("SceneStore", () => {
     });
 
     it("should contain initial test shapes", () => {
-        expect(sceneStore.shapes).not.to.be.undefined;
-        expect(sceneStore.shapes).not.to.be.null;
         expect(sceneStore.shapes).not.to.be.equal(INITIAL_SHAPES);
     });
 
@@ -41,15 +39,14 @@ describe("SceneStore", () => {
         expect(sceneStore.selectedObjectId).to.be.equal(expected);
     });
 
-    /**
-     * TODO: This does not work yet. How to get a clean sceneStore for each test?
-     */
-    // it("should not set selectedObjectId on null", () => {
-    //     let input: string | null = null;
-    //
-    //     sceneStore.setSelectedObjectId(input);
-    //
-    //     expect(sceneStore.selectedObjectId).to.be.undefined;
-    // });
+    it("should not set selectedObjectId on null", () => {
+        let expected: string = "sdufhisufh";
+        sceneStore.setSelectedObjectId(expected);
+
+        let input: string | null = null;
+        sceneStore.setSelectedObjectId(input);
+
+        expect(sceneStore.selectedObjectId).to.be.equal(expected);
+    });
 
 });
