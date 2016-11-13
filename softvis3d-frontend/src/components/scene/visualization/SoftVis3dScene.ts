@@ -18,7 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import * as jQuery from "jquery";
 import { Scene, WebGLRenderer, Raycaster, Vector3, PerspectiveCamera, Intersection } from "three";
 import { Camera } from "./Camera";
 import { Wrangler } from "./Wrangler";
@@ -31,7 +30,6 @@ import { OrbitControls } from "./controls/OrbitControls";
 export class SoftVis3dScene {
 
     private container: HTMLCanvasElement;
-    private jqContainer: JQuery;
 
     private width: number;
     private height: number;
@@ -45,7 +43,6 @@ export class SoftVis3dScene {
 
     constructor(canvasId: string) {
         this.container = <HTMLCanvasElement> document.getElementById(canvasId);
-        this.jqContainer = jQuery("#" + canvasId);
 
         this.width = this.container.width;
         this.height = this.container.height;
@@ -54,7 +51,7 @@ export class SoftVis3dScene {
         this.renderer = new WebGLRenderer({canvas: this.container, antialias: true, alpha: true});
         this.wrangler = new Wrangler(this.scene);
 
-        Setup.initRenderer(this.renderer, this.scene, this.container, this.jqContainer);
+        Setup.initRenderer(this.renderer, this.scene, this.container);
 
         this.camera = new Camera(this.container);
         this.raycaster = new Raycaster();
@@ -103,9 +100,7 @@ export class SoftVis3dScene {
         return this.camera.getCamera();
     }
 
-    public makeSelection(event: MouseEvent, sceneDivId: string): string | null {
-        let canvas: JQuery = jQuery(sceneDivId);
-
+    public makeSelection(event: MouseEvent): string | null {
         let x: number;
         let y: number;
 
@@ -116,13 +111,17 @@ export class SoftVis3dScene {
             // Firefox method to get the position
             x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
             y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-            x -= canvas.offset().left;
-            y -= canvas.offset().top;
+            x -= this.container.offsetLeft;
+            y -= this.container.offsetTop;
 
-            let paddingLeft: string = canvas.css("padding-left").replace("px", "");
-            let paddingTop: string = canvas.css("padding-top").replace("px", "");
-            x -= Number(paddingLeft);
-            y -= Number(paddingTop);
+            let paddingLeft: string | null = this.container.style.paddingLeft;
+            let paddingTop: string | null = this.container.style.paddingTop;
+            if (paddingLeft !== null) {
+                x -= Number(paddingLeft.replace("px", ""));
+            }
+            if (paddingTop !== null) {
+                y -= Number(paddingTop.replace("px", ""));
+            }
         }
 
         // creating NDC coordinates for ray intersection.
@@ -191,7 +190,7 @@ export class SoftVis3dScene {
 
         let toolbarContainer = document.getElementById("toolbar");
         if (toolbarContainer) {
-            jQuery("#toolbar").css("height", this.height);
+            toolbarContainer.style.height = this.height + "";
         }
     }
 

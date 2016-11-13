@@ -2,6 +2,7 @@ import * as React from "react";
 import { SoftVis3dScene } from "./visualization/SoftVis3dScene";
 import { observer } from "mobx-react";
 import sceneStore from "../../stores/SceneStore";
+import { WebGLDetector } from "./webgl/WebGLDetector";
 
 /**
  * Responsible for the 3D visualization.
@@ -20,9 +21,13 @@ export default class SceneComponent extends React.Component<any, any> {
     }
 
     public componentDidMount() {
-        this.loadScene();
-        // initial load - all other updates via the render method.
-        this.scene.loadSoftVis3d(sceneStore.shapes);
+        if (WebGLDetector.isWebGLSupported()) {
+            this.loadScene();
+            // initial load - all other updates via the render method.
+            this.scene.loadSoftVis3d(sceneStore.shapes);
+        } else {
+            // console.log(WebGLDetector.getWebGLErrorMessage());
+        }
     }
 
     public render() {
@@ -36,7 +41,7 @@ export default class SceneComponent extends React.Component<any, any> {
     }
 
     private makeSelection(event: any) {
-        let selectedId: string | null = this.scene.makeSelection(event, "#" + SceneComponent.CANVAS_ID);
+        let selectedId: string | null = this.scene.makeSelection(event);
         sceneStore.setSelectedObjectId(selectedId);
     }
 

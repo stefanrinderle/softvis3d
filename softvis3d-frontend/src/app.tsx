@@ -7,7 +7,6 @@ import dispatcher from "./dispatcher";
 import { SonarQubeStore } from "./events/sonarqube";
 import SceneComponent from "./components/scene/SceneComponent";
 import TopBar from "./components/TopBar";
-import sceneStore from "./stores/SceneStore";
 
 export default class App {
 
@@ -28,7 +27,7 @@ export default class App {
         ReactDOM.render(
             <div>
                 <CityBuilder store={cityBuilderConfig} />
-                <SceneComponent store={sceneStore}/>
+                <SceneComponent/>
                 <TopBar />
             </div>,
             document.getElementById(target)!
