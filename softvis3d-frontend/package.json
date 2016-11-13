@@ -1,8 +1,8 @@
 {
-  "name": "react-test",
+  "name": "softvis3d-frontend",
   "version": "1.0.0",
-  "description": "None given",
-  "main": "index.js",
+  "description": "Frontend for the SonarQube-Plugin Softvis3D",
+  "main": "src/app.tsx",
   "scripts": {
     "postinstall": "npm run install:config -s && npm run install:dist -s && npm run install:typings -s",
     "install:config": "shx cp -n config/dev.example.ts config/dev.ts",
@@ -20,11 +20,23 @@
     "test:sonarqube": "mocha --reporter mocha-sonar-generic-test-coverage > results/TEST-all.xml",
     "posttest:coverage": "shx rm -r .nyc_output"
   },
-  "author": "Yvo Niedrich <yvo.niedrich@gmail.com>",
-  "license": "ISC",
+  "author": "Stefan Rinderle & Yvo Niedrich",
+  "contributors": [
+    {
+      "name": "Stefan Rinderle",
+      "email": "stefan@rinderle.info",
+      "url": "https://github.com/stefanrinderle"
+    },
+    {
+      "name": "Yvo Niedrich",
+      "email": "yvo.niedrich@gmail.com",
+      "url": "https://github.com/Ungolianth"
+    }
+  ],
+  "license": "LGPL-3.0",
   "repository": {
     "type": "http",
-    "url": "git+http://git.ungolianth.de:ungolianth/react-test.git"
+    "url": "https://github.com/stefanrinderle/softvis3d.git"
   },
   "dependencies": {
     "axios": "^0.15.2",
