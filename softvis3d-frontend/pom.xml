@@ -135,7 +135,7 @@
                         <configuration>
                             <filesets>
                                 <fileset>
-                                    <directory>coverage</directory>
+                                    <directory>results</directory>
                                 </fileset>
                                 <fileset>
                                     <directory>node_modules</directory>

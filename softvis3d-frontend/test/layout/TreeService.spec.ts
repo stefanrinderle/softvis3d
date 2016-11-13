@@ -19,7 +19,7 @@
 ///
 
 import { expect } from "chai";
-import { TreeService } from "../src/layout/TreeService";
+import { TreeService } from "../../src/layout/TreeService";
 
 describe("TreeService", () => {
 
