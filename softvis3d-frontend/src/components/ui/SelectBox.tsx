@@ -24,21 +24,24 @@ export class SelectBox extends React.Component<SelectBoxProps, any> {
     }
 
     public renderChildren(): Array<React.Component<any, any>> {
-        return React.Children.map<any>(this.props.children, (child: React.ReactElement<any>) => {
-            if (child.type === SelectOption) {
-                return React.cloneElement(child, {
-                    checked: child.props.value === this.props.value,
-                    disabled: this.props.disabled || child.props.disabled
-                });
-            } else if (child.type === SelectGroup) {
-                return React.cloneElement(child, {
-                    selectedValue: this.props.value,
-                    disabled: this.props.disabled || child.props.disabled
-                });
-            } else {
-                return child;
+        return React.Children.map<any>(
+            (this.props.children as Array<SelectOption|SelectGroup>),
+            (child: React.ReactElement<any>) => {
+                if (child.type === SelectOption) {
+                    return React.cloneElement(child, {
+                        checked: child.props.value === this.props.value,
+                        disabled: this.props.disabled || child.props.disabled
+                    });
+                } else if (child.type === SelectGroup) {
+                    return React.cloneElement(child, {
+                        selectedValue: this.props.value,
+                        disabled: this.props.disabled || child.props.disabled
+                    });
+                } else {
+                    return child;
+                }
             }
-        });
+        );
     }
 
     public render() {
@@ -95,16 +98,19 @@ export class SelectGroup extends React.Component<SelectGroupProps, any> {
     };
 
     public renderChildren(): Array<React.Component<any, any>> {
-        return React.Children.map<any>(this.props.children, (child: React.ReactElement<any>) => {
-            if (child.type === SelectOption) {
-                return React.cloneElement(child, {
-                    checked: child.props.value === this.props.selectedValue,
-                    disabled: this.props.disabled || child.props.disabled
-                });
-            } else {
-                return child;
+        return React.Children.map<any>(
+            (this.props.children as Array<SelectOption>),
+            (child: React.ReactElement<any>) => {
+                if (child.type === SelectOption) {
+                    return React.cloneElement(child, {
+                        checked: child.props.value === this.props.selectedValue,
+                        disabled: this.props.disabled || child.props.disabled
+                    });
+                } else {
+                    return child;
+                }
             }
-        });
+        );
     }
 
     public render() {

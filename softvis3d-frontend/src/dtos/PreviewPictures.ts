@@ -19,12 +19,6 @@ const placeholder: PreviewPicture = {
     contents: null
 };
 
-const availablePreviewPictures = [
-    customDistrict,
-    customEvostreet,
-    placeholder
-];
-
 export {
     customDistrict,
     customEvostreet,
