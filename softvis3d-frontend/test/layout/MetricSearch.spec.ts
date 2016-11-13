@@ -19,7 +19,7 @@
 ///
 
 import { expect } from "chai";
-import { MetricSearch } from "../src/layout/MetricSearch";
+import { MetricSearch } from "../../src/layout/MetricSearch";
 
 describe("MetricSearch", () => {
     const genericMetric: Metric = {

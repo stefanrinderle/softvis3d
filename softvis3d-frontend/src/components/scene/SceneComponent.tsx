@@ -1,11 +1,19 @@
 import * as React from "react";
 import { SoftVis3dScene } from "./visualization/SoftVis3dScene";
+import { observer } from "mobx-react";
+import sceneStore from "../../stores/SceneStore";
 
+/**
+ * Responsible for the 3D visualization.
+ *
+ * TODO: would like to listen on the store change event within a method to be able to
+ * call "select object" on the scene.
+ */
+@observer
 export default class SceneComponent extends React.Component<any, any> {
 
-    private canvasId: string = "softvis3dscene";
+    private static CANVAS_ID: string = "softvis3dscene";
     private scene: SoftVis3dScene;
-    private softvis3dSceneElement: HTMLCanvasElement;
 
     constructor() {
         super();
@@ -14,31 +22,27 @@ export default class SceneComponent extends React.Component<any, any> {
     public componentDidMount() {
         this.loadScene();
         // initial load - all other updates via the render method.
-        this.scene.loadSoftVis3d(this.props.shapes);
+        this.scene.loadSoftVis3d(sceneStore.shapes);
     }
 
     public render() {
         // needed because the scene object is not available on the first render.
         // but needed to use the "render" method if the shapes change.
         if (this.scene !== undefined) {
-            this.scene.loadSoftVis3d(this.props.shapes);
+            this.scene.loadSoftVis3d(sceneStore.shapes);
         }
 
-        return <canvas id={this.canvasId}
-                       ref={(softvis3dScene) => this.softvis3dSceneElement = softvis3dScene}
-                       onClick={this.makeSelection.bind(this)} />;
-    }
-
-    private loadScene() {
-        this.scene = new SoftVis3dScene(this.canvasId);
-        this.animate();
+        return <canvas id={SceneComponent.CANVAS_ID} onClick={this.makeSelection.bind(this)} />;
     }
 
     private makeSelection(event: any) {
-        // let selectedId: string | null =
-        this.scene.makeSelection(event, "#" + this.canvasId);
+        let selectedId: string | null = this.scene.makeSelection(event, "#" + SceneComponent.CANVAS_ID);
+        sceneStore.setSelectedObjectId(selectedId);
+    }
 
-        // console.log("selectedId: " + selectedId);
+    private loadScene() {
+        this.scene = new SoftVis3dScene(SceneComponent.CANVAS_ID);
+        this.animate();
     }
 
     private animate() {
