@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "axios": "^0.15.2",
-    "i18next": "^4.0.0",
+    "i18next": "^3.4.4",
     "mobx": "^2.6.1",
     "mobx-react": "^3.5.8",
     "node-sass": "^3.11.2",
@@ -68,7 +68,7 @@
     "mocha-sonar-generic-test-coverage": "0.0.1",
     "nyc": "^8.4.0",
     "react-addons-test-utils": "^15.3.2",
-    "shx": "^0.2.0",
+    "shx": "^0.1.4",
     "sinon": "^1.17.6",
     "source-map-loader": "^0.1.5",
     "ts-loader": "^1.0.0",
