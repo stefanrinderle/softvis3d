@@ -31,7 +31,7 @@ declare module "config" {
 
 declare type MetricType = "INT" | "FLOAT" | "PERCENT" | "BOOL" |
     "STRING" | "MILLISEC" | "DATA" | "LEVEL" |
-    "DISTRIB" | "RATING" | "WORK_DUR";
+    "DISTRIB" | "RATING" | "WORK_DUR" | "NONE";
 
 declare interface Metric {
     id: string | number;
@@ -51,4 +51,20 @@ declare interface TreeElement {
     footprintMetricValue: number;
     heightMetricValue: number;
     parentInfo: TreeElement | null;
+}
+
+declare interface Profile {
+    id: string;
+    name: string;
+    metricColor: string;
+    metricHeight: string;
+    metricWidth: string;
+    description: string;
+    editable?: boolean;
+}
+
+declare interface Layout {
+    id: string;
+    name: string;
+    preview: string;
 }

@@ -19,9 +19,8 @@ export class SelectBox extends React.Component<SelectBoxProps, any> {
     };
 
     public handleChange(event: React.SyntheticEvent) {
-        const newValue = (event.target as React.HTMLAttributes).value;
+        const newValue = JSON.parse((event.target as HTMLOptionElement).value);
         this.props.onChange(newValue, event, this);
-
     }
 
     public renderChildren(): Array<React.Component<any, any>> {
@@ -47,7 +46,7 @@ export class SelectBox extends React.Component<SelectBoxProps, any> {
             <select
                 disabled={this.props.disabled}
                 className={this.props.className}
-                value={this.props.value}
+                value={JSON.stringify(this.props.value)}
                 onChange={this.handleChange.bind(this)}
             >
                 {this.renderChildren()}
@@ -72,7 +71,7 @@ export class SelectOption extends React.Component<SelectOptionProps, any> {
     public render() {
         return (
             <option
-                value={this.props.value}
+                value={JSON.stringify(this.props.value)}
                 checked={this.props.checked}
                 disabled={this.props.disabled}
             >

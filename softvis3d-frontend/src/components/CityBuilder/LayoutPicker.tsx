@@ -1,8 +1,8 @@
 import * as React from "react";
-import Layout from "../../classes/Layout";
+import {observer} from "mobx-react";
 import { RadioButton, RadioGroup } from "../ui/RadioButton";
-import { CityBuilderConfig } from "../../stores/CityBuilder";
-import { observer } from "mobx-react";
+import {CityBuilderConfig} from "../../stores/CityBuilder";
+import PreviewPicture from "./PreviewPicture";
 
 export interface LayoutPickerProps {
     layouts: Array<Layout>;
@@ -12,13 +12,8 @@ export interface LayoutPickerProps {
 @observer export default class LayoutPicker extends React.Component<LayoutPickerProps, any> {
 
     public render() {
-        let previewStyle = {
-            backgroundImage: "url(" + this.props.store.layoutType.preview + ")"
-        };
-
         return (
             <div className="layout-component">
-                <div className={"preview"} style={previewStyle} />
                 <RadioGroup
                     onChange={this.props.store.setLayout.bind(this.props.store)}
                     value={this.props.store.layoutType}
@@ -34,6 +29,10 @@ export interface LayoutPickerProps {
                         )
                     }
                 </RadioGroup>
+                <PreviewPicture
+                    profile={this.props.store.profile}
+                    layout={this.props.store.layoutType}
+                />
             </div>
         );
     }
