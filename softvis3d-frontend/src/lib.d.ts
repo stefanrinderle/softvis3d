@@ -18,6 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
+import ReactElement = __React.ReactElement;
 declare const config: {
     api: string;
     env: string;
@@ -66,5 +67,11 @@ declare interface Profile {
 declare interface Layout {
     id: string;
     name: string;
-    preview: string;
+}
+
+declare interface PreviewPicture {
+    forLayout: (l: Layout) => boolean;
+    forProfile: (p: Profile) => boolean;
+    bgPicture: string;
+    contents: string|null|ReactElement<any>;
 }

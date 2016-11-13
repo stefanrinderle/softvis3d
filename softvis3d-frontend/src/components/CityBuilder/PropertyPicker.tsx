@@ -1,11 +1,11 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {SelectBox, SelectOption} from "../ui/SelectBox";
-import {CityBuilderConfig} from "../../stores/CityBuilder";
+import {CityBuilderStore} from "../../stores/CityBuilderStore";
 
 export interface PropertyPickerProps {
     profiles: Array<Profile>;
-    store: CityBuilderConfig;
+    store: CityBuilderStore;
 }
 
 declare type metricType = "metricHeight" | "metricColor" | "metricWidth";

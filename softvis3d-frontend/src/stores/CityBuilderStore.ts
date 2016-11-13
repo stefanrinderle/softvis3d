@@ -2,7 +2,7 @@ import { observable } from "mobx";
 import {district} from "../dtos/Layouts";
 import {demo} from "../dtos/Profiles";
 
-class CityBuilderConfig {
+class CityBuilderStore {
     @observable public layoutType: Layout;
     @observable public profile: Profile;
     @observable public metricColor: string;
@@ -42,7 +42,7 @@ class CityBuilderConfig {
     }
 }
 
-const cityBuilderConfig = new CityBuilderConfig();
+const cityBuilderStore = new CityBuilderStore();
 
-export default cityBuilderConfig;
-export { CityBuilderConfig };
+export default cityBuilderStore;
+export { CityBuilderStore };

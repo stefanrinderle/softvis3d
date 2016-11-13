@@ -1,12 +1,10 @@
 const district: Layout = {
     id: "district",
-    name: "District",
-    preview: "static/resources/preview-district.png"
+    name: "District"
 };
 const evostreet: Layout = {
     id: "evostreet",
-    name: "Evostreet",
-    preview: "static/resources/preview-evostreet.png"
+    name: "Evostreet"
 };
 
 export {

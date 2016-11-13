@@ -1,12 +1,12 @@
 import * as React from "react";
-import LayoutPicker from "./CityBuilder/LayoutPicker";
-import PropertyPicker from "./CityBuilder/PropertyPicker";
-import {district, evostreet} from "../dtos/Layouts";
-import {CityBuilderConfig} from "../stores/CityBuilder";
-import Category from "./ui/Category";
-import {demo, custom} from "../dtos/Profiles";
+import LayoutPicker from "./LayoutPicker";
+import PropertyPicker from "./PropertyPicker";
+import {district, evostreet} from "../../dtos/Layouts";
+import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import Category from "../ui/Category";
+import {demo, custom} from "../../dtos/Profiles";
 
-export default class CityBuilder extends React.Component<{ store: CityBuilderConfig; }, any> {
+export default class CityBuilder extends React.Component<{ store: CityBuilderStore; }, any> {
 
     public render() {
         return (

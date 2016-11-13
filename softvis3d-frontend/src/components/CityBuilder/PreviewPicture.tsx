@@ -1,24 +1,45 @@
 import * as React from "react";
+import {customDistrict, customEvostreet, placeholder} from "../../dtos/PreviewPictures";
 
 export interface PreviewPictureProps {
     profile: Profile;
     layout: Layout;
 }
 
-export default class PreviewPicture extends React.Component<PreviewPictureProps, any> {
+export default class PreviewPictureComponent extends React.Component<PreviewPictureProps, any> {
+    private availablePreviewPictures: Array<PreviewPicture>;
+
+    constructor(props: PreviewPictureProps) {
+        super(props);
+        this.availablePreviewPictures = [
+            customDistrict,
+            customEvostreet,
+            placeholder
+        ];
+    }
 
     public render() {
+        const preview: PreviewPicture = this.getPreviewBackground();
+
         let previewStyle = {
-            backgroundImage: "url(" + this.getPreviewBackground() + ")"
+            backgroundImage: "url(" + preview.bgPicture + ")"
         };
 
         return (
-            <div className={"preview"} style={previewStyle} />
+            <div className={"preview"} style={previewStyle}>
+                {preview.contents}
+            </div>
         );
     }
 
-    private getPreviewBackground() {
-        const {layout} = this.props;
-        return layout.preview;
+    private getPreviewBackground(): PreviewPicture {
+        const {layout, profile} = this.props;
+        for (let preview of this.availablePreviewPictures) {
+            if (preview.forLayout(layout) && preview.forProfile(profile)) {
+                return preview;
+            }
+        }
+
+        return placeholder;
     }
 }

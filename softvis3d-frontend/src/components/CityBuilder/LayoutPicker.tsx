@@ -1,12 +1,12 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import { RadioButton, RadioGroup } from "../ui/RadioButton";
-import {CityBuilderConfig} from "../../stores/CityBuilder";
-import PreviewPicture from "./PreviewPicture";
+import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import PreviewPictureComponent from "./PreviewPicture";
 
 export interface LayoutPickerProps {
     layouts: Array<Layout>;
-    store: CityBuilderConfig;
+    store: CityBuilderStore;
 }
 
 @observer export default class LayoutPicker extends React.Component<LayoutPickerProps, any> {
@@ -29,7 +29,7 @@ export interface LayoutPickerProps {
                         )
                     }
                 </RadioGroup>
-                <PreviewPicture
+                <PreviewPictureComponent
                     profile={this.props.store.profile}
                     layout={this.props.store.layoutType}
                 />
