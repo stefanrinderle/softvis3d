@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "axios": "^0.15.2",
-    "i18next": "^3.4.4",
+    "i18next": "^4.0.0",
     "mobx": "^2.6.1",
     "mobx-react": "^3.5.8",
     "node-sass": "^3.11.2",
@@ -52,7 +52,7 @@
     "ts-node": "^1.6.1",
     "tslint": "^3.15.1",
     "typescript": "^2.0.7",
-    "typings": "^1.5.0",
+    "typings": "^2.0.0",
     "webpack": "^1.13.3"
   },
   "devDependencies": {
