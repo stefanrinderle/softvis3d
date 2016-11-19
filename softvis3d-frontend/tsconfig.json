@@ -3,6 +3,8 @@
         "outDir": "./app/",
         "sourceMap": true,
         "noImplicitAny": true,
+        "noUnusedParameters": true,
+        "noUnusedLocals": true,
         "strictNullChecks": true,
         "experimentalDecorators": true,
         "module": "commonJS",

@@ -23,11 +23,17 @@ export class MetricSearch {
     public static filterMetrics(metrics: Metric[]): Metric[] {
         let result: Metric[] = [];
 
-        for (let index: number = 0; index < metrics.length; index++) {
-            // check if numeric!
-            if (metrics[index].type === "INT" || metrics[index].type === "PERCENT"
-                || metrics[index].type === "FLOAT" || metrics[index].type === "RATING" ) {
-                result.push(metrics[index]);
+        for (let metric of metrics) {
+            switch (metric.type) {
+                case "INT":
+                case "PERCENT":
+                case "FLOAT":
+                case "RATING":
+                    result.push(metric);
+                    break;
+                default:
+                    // No Action!
+                    break;
             }
         }
 
@@ -35,9 +41,9 @@ export class MetricSearch {
     }
 
     public static getNameForMetricKey(availableMetrics: Metric[], metricKey: string): string {
-        for (let index: number = 0; index < availableMetrics.length; index++) {
-            if (availableMetrics[index].key === metricKey) {
-                return availableMetrics[index].name;
+        for (let metric of availableMetrics) {
+            if (metric.key === metricKey) {
+                return metric.name;
             }
         }
 

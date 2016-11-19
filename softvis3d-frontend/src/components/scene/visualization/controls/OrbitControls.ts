@@ -535,7 +535,7 @@ export class OrbitControls {
 
     }
 
-    private onMouseUp(event: MouseEvent) {
+    private onMouseUp() {
         if (this.options.enabled === false) {
             return;
         }
@@ -681,14 +681,10 @@ export class OrbitControls {
         }
     }
 
-    private onTouchEnd(event: MouseEvent) {
+    private onTouchEnd() {
         if (this.options.enabled === false) {
             return;
         }
-
-        // this.handleTouchEnd(event);
-
-        // this.dispatchEvent(EVENTS.END);
 
         this.state = STATE.NONE;
     }

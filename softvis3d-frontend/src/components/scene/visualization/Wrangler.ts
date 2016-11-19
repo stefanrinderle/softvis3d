@@ -23,6 +23,11 @@ import { ObjectFactory } from "./ObjectFactory";
 import { SoftVis3dMesh } from "../domain/SoftVis3dMesh";
 import { SoftVis3dShape } from "../domain/SoftVis3dShape";
 
+interface SoftVis3dSelectedObject {
+    object: SoftVis3dMesh;
+    color: number;
+}
+
 /**
  * @class This is a resource manager and loads individual models.
  *
@@ -47,8 +52,7 @@ export class Wrangler {
 
         this.resultObjects = ObjectFactory.getSceneObjects(data);
 
-        for (let index = 0; index < this.resultObjects.length; index++) {
-            let object: SoftVis3dMesh = this.resultObjects[index];
+        for (let object of this.resultObjects) {
             this.objectsInView.push(object);
             this.scene.add(object);
         }
@@ -56,18 +60,19 @@ export class Wrangler {
 
     public selectSceneTreeObject(objectSoftVis3dId: string) {
         // reset former selected objects
-        for (let index = 0; index < this.selectedTreeObjects.length; index++) {
-            this.selectedTreeObjects[index].object.material.color.setHex(this.selectedTreeObjects[index].color);
+
+        for (let previousSelection of this.selectedTreeObjects) {
+            previousSelection.object.material.color.setHex(previousSelection.color);
         }
 
         this.selectedTreeObjects = [];
 
-        for (let objectIndex = 0; objectIndex < this.resultObjects.length; objectIndex++) {
-            if (objectSoftVis3dId === this.resultObjects[objectIndex].getSoftVis3dId()) {
+        for (let obj of this.resultObjects) {
+            if (objectSoftVis3dId === obj.getSoftVis3dId()) {
 
-                let selectedObjectMaterial: MeshLambertMaterial = this.resultObjects[objectIndex].material;
+                let selectedObjectMaterial: MeshLambertMaterial = obj.material;
                 let selectedObjectInformation: SoftVis3dSelectedObject = {
-                    object: this.resultObjects[objectIndex],
+                    object: obj,
                     color: selectedObjectMaterial.color.getHex()
                 };
 
@@ -80,27 +85,27 @@ export class Wrangler {
     public showAllSceneElements() {
         this.removeAllFromScene();
 
-        for (let resultObjectIndex = 0; resultObjectIndex < this.resultObjects.length; resultObjectIndex++) {
-            this.objectsInView.push(this.resultObjects[resultObjectIndex]);
-            this.scene.add(this.resultObjects[resultObjectIndex]);
+        for (let element of this.resultObjects) {
+            this.objectsInView.push(element);
+            this.scene.add(element);
         }
     }
 
     public hideAllSceneElementsExceptIds(showIds: string[]) {
         this.hideAllSceneElements();
 
-        for (let index = 0; index < this.resultObjects.length; index++) {
-            if (this.contains(showIds, this.resultObjects[index].getSoftVis3dId())) {
-                this.objectsInView.push(this.resultObjects[index]);
-                this.scene.add(this.resultObjects[index]);
+        for (let element of this.resultObjects) {
+            if (showIds.indexOf(element.getSoftVis3dId()) > 0) {
+                this.objectsInView.push(element);
+                this.scene.add(element);
             }
         }
     }
 
     public removeObject(objectSoftVis3dId: string) {
-        for (let index = 0; index < this.resultObjects.length; index++) {
-            if (objectSoftVis3dId === this.resultObjects[index].getSoftVis3dId()) {
-                this.scene.remove(this.resultObjects[index]);
+        for (let object of this.resultObjects) {
+            if (objectSoftVis3dId === object.getSoftVis3dId()) {
+                this.scene.remove(object);
             }
         }
 
@@ -116,36 +121,18 @@ export class Wrangler {
     }
 
     private hideAllSceneElements() {
-        for (let index = 0; index < this.objectsInView.length; index++) {
-            this.scene.remove(this.objectsInView[index]);
+        for (let objectInView of this.objectsInView) {
+            this.scene.remove(objectInView);
         }
 
         this.objectsInView = [];
     }
 
-    private contains(a: string[], obj: string): boolean {
-        for (let i = 0; i < a.length; i++) {
-            if (a[i] === obj) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Removes the old object from the scene
-     */
     private removeAllFromScene() {
-        for (let index = 0; index < this.objectsInView.length; index++) {
-            this.scene.remove(this.objectsInView[index]);
+        for (let object of this.objectsInView) {
+            this.scene.remove(object);
         }
 
         this.objectsInView = [];
     }
-
-}
-
-export interface SoftVis3dSelectedObject {
-    object: SoftVis3dMesh;
-    color: number;
 }

@@ -55,8 +55,7 @@ export class TreeService {
             return element;
         }
 
-        for (let i = 0; i < element.children.length; i++) {
-            const child: TreeElement = element.children[i];
+        for (const child of element.children) {
             let result = this.searchIdInElement(id, child);
             if (result) {
                 return result;
@@ -71,8 +70,8 @@ export class TreeService {
         showIds.push(node.id);
 
         // children nodes
-        for (let i = 0; i < node.children.length; i++) {
-            let result = this.privateGetAllSceneElementsRecursive(node.children[i]);
+        for (const child of node.children) {
+            let result = this.privateGetAllSceneElementsRecursive(child);
             showIds = showIds.concat(result);
         }
 
