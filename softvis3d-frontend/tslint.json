@@ -10,6 +10,8 @@
         "no-bitwise": false,
         "quotemark": [true, "double"],
         "eofline": false,
-        "no-constructor-vars": true
+        "no-parameter-properties": true,
+        "no-unused-variable": false,
+        "max-classes-per-file": [true, 5]
     }
 }
