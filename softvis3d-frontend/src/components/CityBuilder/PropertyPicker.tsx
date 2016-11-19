@@ -4,7 +4,7 @@ import {SelectBox, SelectOption} from "../ui/SelectBox";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 
 export interface PropertyPickerProps {
-    profiles: Array<Profile>;
+    profiles: Profile[];
     store: CityBuilderStore;
 }
 
@@ -60,7 +60,7 @@ declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
 
     private createOptionsFromProfiles() {
         return this.props.profiles
-            .map(p => <SelectOption
+            .map((p) => <SelectOption
                 key={p.id}
                 value={p}
                 label={p.name}
@@ -81,7 +81,7 @@ declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
 
     private createOptionsFromLoadedMetrics() {
         return this.props.store.availableMetrics
-            .map(metric => <SelectOption
+            .map((metric) => <SelectOption
                 key={metric.id}
                 value={metric.key}
                 label={metric.name}

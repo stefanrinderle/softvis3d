@@ -7,7 +7,7 @@ export interface PreviewPictureProps {
 }
 
 export default class PreviewPictureComponent extends React.Component<PreviewPictureProps, any> {
-    private availablePreviewPictures: Array<PreviewPicture>;
+    private availablePreviewPictures: PreviewPicture[];
 
     constructor(props: PreviewPictureProps) {
         super(props);

@@ -8,7 +8,7 @@ class CityBuilderStore {
     @observable public metricColor: string;
     @observable public metricHeight: string;
     @observable public metricWidth: string;
-    @observable public availableMetrics: Array<Metric>;
+    @observable public availableMetrics: Metric[];
 
     public constructor() {
         this.layoutType = district;
@@ -37,7 +37,7 @@ class CityBuilderStore {
         this.layoutType = l;
     }
 
-    public addAvailableMetrics(metrics: Array<Metric>) {
+    public addAvailableMetrics(metrics: Metric[]) {
         this.availableMetrics = this.availableMetrics.concat(metrics);
     }
 }

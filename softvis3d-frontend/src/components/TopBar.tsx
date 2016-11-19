@@ -27,6 +27,6 @@ export default class TopBar extends React.Component<any, any> {
     private createOptionsFromShapes() {
         let shapes: any[] = sceneStore.shapes;
         return shapes
-            .map(shape => <SelectOption key={shape.key} value={shape.key} label={shape.key} />);
+            .map((shape) => <SelectOption key={shape.key} value={shape.key} label={shape.key} />);
     }
 }

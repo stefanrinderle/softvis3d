@@ -46,7 +46,7 @@ declare interface TreeElement {
     name: string;
     isNode: boolean;
 
-    children: Array<TreeElement>;
+    children: TreeElement[];
 
     colorMetricValue: number;
     footprintMetricValue: number;

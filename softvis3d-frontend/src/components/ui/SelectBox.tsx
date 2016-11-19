@@ -86,7 +86,7 @@ export class SelectOption extends React.Component<SelectOptionProps, any> {
 
 interface SelectGroupProps {
     selectedValue?: any;
-    children?: Array<SelectOption>;
+    children?: SelectOption[];
     disabled?: boolean;
     label: string;
 }
@@ -99,7 +99,7 @@ export class SelectGroup extends React.Component<SelectGroupProps, any> {
 
     public renderChildren(): Array<React.Component<any, any>> {
         return React.Children.map<any>(
-            (this.props.children as Array<SelectOption>),
+            (this.props.children as SelectOption[]),
             (child: React.ReactElement<any>) => {
                 if (child.type === SelectOption) {
                     return React.cloneElement(child, {

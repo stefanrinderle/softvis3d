@@ -4,7 +4,7 @@ type BoundChangeEvent = (event: React.SyntheticEvent, src: React.Component<any, 
 type ChangeEvent = (value: any, event: React.SyntheticEvent, src: React.Component<any, any>) => void;
 
 interface RadioGroupProps {
-    children?: Array<RadioButton>;
+    children?: RadioButton[];
     key?: string | number;
     ref?: string | ((component: RadioGroup) => any);
 
@@ -28,7 +28,7 @@ export class RadioGroup extends React.Component<RadioGroupProps, any> {
 
     public renderChildren(): Array<React.Component<any, any>> {
         return React.Children.map<any>(
-            (this.props.children as Array<RadioButton>),
+            (this.props.children as RadioButton[]),
             (child: React.ReactElement<any>) => {
                 if (child.type === RadioButton) {
                     return React.cloneElement(child, {

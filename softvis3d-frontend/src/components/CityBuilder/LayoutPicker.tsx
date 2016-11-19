@@ -5,7 +5,7 @@ import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import PreviewPictureComponent from "./PreviewPicture";
 
 export interface LayoutPickerProps {
-    layouts: Array<Layout>;
+    layouts: Layout[];
     store: CityBuilderStore;
 }
 
