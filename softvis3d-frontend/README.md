@@ -20,5 +20,4 @@
 
 # TODOS
  * If ts-node transpilation fails webpack will carry on and the build will still succeed.
- * ES6-Code requires polyfills
  * A second set integration tests on the transpiled code should be implemented (regression tests)
