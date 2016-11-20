@@ -7,3 +7,17 @@
         height: 0;
     }
 }
+
+@mixin softvis-dialog {
+    position: absolute;
+    z-index: 5;
+    width: 90%;
+    max-width: 1450px;
+    min-width: 740px;
+    border: 1px solid $border-color-background;
+    margin: 40px auto;
+    padding: 5px 10px 10px 10px;
+    background-color: $white;
+
+    left: 0; right: 0;
+}

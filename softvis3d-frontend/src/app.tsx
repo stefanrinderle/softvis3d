@@ -1,15 +1,12 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import CityBuilder from "./components/CityBuilder/CityBuilder";
-import cityBuilderStore from "./stores/CityBuilderStore";
 import * as Actions from "./actions/softvisActions";
 import dispatcher from "./dispatcher";
 import { SonarQubeCommunicator } from "./events/sonarqube";
-import SceneComponent from "./components/scene/SceneComponent";
-import TopBar from "./components/TopBar";
+import Softvis3D from "./components/Softvis3D";
+import windowStateStore from "./stores/WindowStateStore";
 
 export default class App {
-
     public constructor() {
         this.bootstrap();
     }
@@ -17,6 +14,7 @@ export default class App {
     public bootstrap() {
         const sonar = new SonarQubeCommunicator();
         dispatcher.register(sonar.handleEvents.bind(sonar));
+        dispatcher.register(windowStateStore.handleEvents.bind(windowStateStore));
     }
 
     public init() {
@@ -25,11 +23,7 @@ export default class App {
 
     public run(target: string) {
         ReactDOM.render(
-            <div>
-                <CityBuilder store={cityBuilderStore} />
-                <SceneComponent/>
-                <TopBar />
-            </div>,
+           <Softvis3D />,
             document.getElementById(target)!
         );
     }

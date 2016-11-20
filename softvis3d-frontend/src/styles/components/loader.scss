@@ -1,0 +1,135 @@
+.loader-component {
+    @include clearfix;
+    @include softvis-dialog;
+    text-align: center;
+
+    h3.softvis-logo {
+        font-size: 3em;
+        text-shadow: 2px 2px 3px $gray-bright;
+
+        .p1 {
+            color: $black;
+        }
+        .p2 {
+            color: $softvis-orange;
+        }
+    }
+}
+
+$loader-shadow-color: rgba(204,204,204,0.3);
+$loader-color-left: $gray-dark;
+$loader-color-right: $blue-dark;
+
+.cssload-label {
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.cssload-container {
+    height: 142px;
+    width: 101px;
+    margin: -85px auto 0 auto;
+    text-align:center;
+
+    .cssload-cord{
+        padding-top:95px;
+        width:14px;
+        transform: rotate(0deg);
+        transform-origin:50% 50%;
+        float:left;
+    }
+
+    .cssload-ball{
+        background:rgb(51,51,51);
+        width:14px;
+        height:14px;
+        float:left;
+        border-radius:50%;
+    }
+
+    .cssload-shadows{
+        clear:left;
+        padding-top:19px;
+        margin-left:-2px;
+    }
+
+    .cssload-shadows div{
+        float:left;
+        margin-left: 2px;
+        width:12px;
+        height:3px;
+        border-radius:50%;
+        background: $loader-shadow-color;
+        box-shadow: 0 0 3px $loader-shadow-color;
+    }
+
+    .cssload-leftMove{
+        animation: leftcssload-ball 0.58s ease-in-out 0s infinite alternate;
+    }
+    .cssload-rightMove{
+        animation: rightcssload-ball 0.58s ease-in-out 0s infinite alternate;
+    }
+
+    .cssload-leftShadow{
+        animation: cssload-leftShadowN 0.58s ease-in-out 0s infinite alternate;
+    }
+    .cssload-rightShadow{
+        animation: cssload-rightShadowN 0.58s ease-in-out 0s infinite alternate;
+    }
+
+
+
+
+
+    /*colors*/
+
+    .cssload-cord:nth-of-type(1) .cssload-ball{
+        background: $loader-color-left;
+    }
+    .cssload-cord:nth-of-type(2) .cssload-ball{
+        background: mix($loader-color-left, $loader-color-right, 90%);
+    }
+    .cssload-cord:nth-of-type(3) .cssload-ball{
+        background: mix($loader-color-left, $loader-color-right, 70%);
+    }
+    .cssload-cord:nth-of-type(4) .cssload-ball{
+        background: mix($loader-color-left, $loader-color-right, 50%);
+    }
+    .cssload-cord:nth-of-type(5) .cssload-ball{
+        background: mix($loader-color-left, $loader-color-right, 30%);
+    }
+    .cssload-cord:nth-of-type(6) .cssload-ball{
+        background: mix($loader-color-left, $loader-color-right, 10%);
+    }
+    .cssload-cord:nth-of-type(7) .cssload-ball{
+        background: $loader-color-right;
+    }
+
+    @keyframes leftcssload-ball
+    {
+        0% { transform: rotate(0deg) translateY(0px); }
+        50% { transform: rotate(0deg) translateY(0px); }
+        100% { transform: rotate(50deg) translateY(-19px); }
+    }
+
+    @keyframes rightcssload-ball
+    {
+        0% { transform: rotate(-50deg) translateY(-19px); }
+        50% { transform: rotate(0deg) translateY(0px); }
+        100% { transform: rotate(0deg) translateY(0px); }
+    }
+
+    @keyframes cssload-leftShadowN
+    {
+        0% { transform: translateX(0px); }
+        50% { transform: translateX(0px); }
+        100% { transform: translateX(-24px); }
+    }
+
+    @keyframes cssload-rightShadowN
+    {
+        0% { transform: translateX(24px); }
+        50% { transform: translateY(0px); }
+        100% { transform: translateY(0px); }
+    }
+}

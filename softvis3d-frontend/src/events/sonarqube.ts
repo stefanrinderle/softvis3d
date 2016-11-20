@@ -25,11 +25,6 @@ import config from "config";
 import cityBuilderStore, { CityBuilderStore } from "../stores/CityBuilderStore";
 import * as softvisActions from "../actions/softvisActions";
 
-interface SEvent {
-    type: string;
-    payload?: any;
-}
-
 export class SonarQubeCommunicator {
     private store: CityBuilderStore;
 
@@ -53,10 +48,15 @@ export class SonarQubeCommunicator {
     }
 
     private loadAvailableMetrics(page = 1) {
+        if (page === 1) {
+            softvisActions.loadAvailableMetrics();
+        }
+
         this.callApi("/metrics/search?f=name&p=" + page).then(response => {
             this.store.addAvailableMetrics((response.data.metrics as Array<Metric>).filter(c => c.type === "INT"));
 
             const metricsCount = response.data.p * response.data.ps;
+
             if (metricsCount < response.data.total) {
                 this.loadAvailableMetrics(page + 1);
             } else {

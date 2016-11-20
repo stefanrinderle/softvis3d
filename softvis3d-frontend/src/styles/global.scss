@@ -39,5 +39,8 @@ label {
 
 select {
     @include ui-border;
+}
 
+body, #app {
+    background-color: $background-app;
 }

@@ -7,3 +7,4 @@ typings/
 ts-node/
 
 config/dev.ts
+npm-debug.log*

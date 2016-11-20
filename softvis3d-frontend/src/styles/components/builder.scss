@@ -82,14 +82,16 @@ $layoutButtonWidth: 180px;
 
 .city-builder {
     @include clearfix;
+    @include softvis-dialog;
+
     $propertyWidth: 350px;
 
-    margin: 0 auto;
-    width: 90%;
-    max-width: 1200px;
-    min-width: 740px;
-    // border: 1px solid $border-color-foreground;
-    padding: 2px 6px 6px 6px;
+    //margin: 0 auto;
+    //width: 90%;
+    //max-width: 1200px;
+    //min-width: 740px;
+    //// border: 1px solid $border-color-foreground;
+    //padding: 2px 6px 6px 6px;
 
     .building {
         float: left;

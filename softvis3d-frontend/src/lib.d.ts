@@ -75,3 +75,8 @@ declare interface PreviewPicture {
     bgPicture: string;
     contents: string|null|ReactElement<any>;
 }
+
+declare interface SEvent {
+    type: string;
+    payload?: any;
+}

@@ -19,4 +19,7 @@
 ///
 
 export const INIT_APP = "INIT_APP";
+export const LOAD_ACTION = "LOAD_ACTION";
 export const METRICS_LOADED = "METRICS_LOADED";
+export const SCENE_CREATE = "SCENE_CREATE";
+export const SCENE_CREATED = "SCENE_CREATED";

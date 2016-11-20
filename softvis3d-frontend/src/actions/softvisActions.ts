@@ -28,9 +28,35 @@ export function initApp() {
     });
 }
 
+export function loadAvailableMetrics() {
+    dispatcher.dispatch({
+        type: Actions.LOAD_ACTION,
+        payload: Actions.METRICS_LOADED
+    });
+}
+
 export function availableMetricsLoaded() {
     dispatcher.dispatch({
         type: Actions.METRICS_LOADED,
+        payload: {}
+    });
+}
+
+export function createScene() {
+    dispatcher.dispatch({
+        type: Actions.SCENE_CREATE,
+        payload: {}
+    });
+
+    dispatcher.dispatch({
+        type: Actions.LOAD_ACTION,
+        payload: Actions.SCENE_CREATED
+    });
+}
+
+export function sceneSuccessfullyCreated() {
+    dispatcher.dispatch({
+        type: Actions.SCENE_CREATED,
         payload: {}
     });
 }

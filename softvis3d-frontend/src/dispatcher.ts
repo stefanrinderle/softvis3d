@@ -18,11 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-interface Event {
-    type: string;
-    payload: any;
-}
-
 class EventDispatcher<TPayload> {
     private listeners: Array<(payload: TPayload) => void>;
 
@@ -49,5 +44,5 @@ class EventDispatcher<TPayload> {
     }
 }
 
-const dispatcher = new EventDispatcher<Event>();
+const dispatcher = new EventDispatcher<SEvent>();
 export default dispatcher;
