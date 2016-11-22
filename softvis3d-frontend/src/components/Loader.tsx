@@ -71,7 +71,7 @@ export default class Loader extends React.Component<LoaderProps, any> {
             return null;
         }
 
-        let elements = [];
+        let elements: Array<React.ReactElement<any>> = [];
         for (let i = 0; i < this.props.queue.length; i++) {
             elements.push(
                 <li key={this.props.queue[i] + "_" + i}>{this.props.queue[i]}</li>
