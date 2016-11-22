@@ -5,24 +5,30 @@ interface LoaderProps {
     queue: string[];
 }
 
-export default class Loader extends React.Component<LoaderProps, any> {
+export default class Status extends React.Component<LoaderProps, any> {
     public render() {
         return (
-            <div className="loader-component">
+            <div className="status-component">
+                <h3 className="softvis-logo">
+                    <span className="p1">SoftVis</span>
+                    <span className="p2">3D</span>
+                </h3>
 
-                {this.renderSoftvisLogo()}
-                {this.renderLoadingImage()}
-                {this.renderLoadingQueue()}
+                {this.renderLoader()}
             </div>
         );
     }
 
-    private renderSoftvisLogo() {
+    private renderLoader() {
+        if (!this.props.queue.length) {
+            return null;
+        }
+
         return (
-            <h3 className="softvis-logo">
-                <span className="p1">SoftVis</span>
-                <span className="p2">3D</span>
-            </h3>
+            <div>
+                {this.renderLoadingImage()}
+                {this.renderLoadingQueue()}
+            </div>
         );
     }
 
@@ -71,18 +77,17 @@ export default class Loader extends React.Component<LoaderProps, any> {
             return null;
         }
 
+        const {queue} = this.props;
         let elements: Array<React.ReactElement<any>> = [];
-        for (let i = 0; i < this.props.queue.length; i++) {
+        for (let i = 0; i < queue.length; i++) {
             elements.push(
-                <li key={this.props.queue[i] + "_" + i}>{this.props.queue[i]}</li>
+                <li key={queue[i] + "_" + i}>{queue[i]}</li>
             );
         }
         return (
-            <div>
-                <ul>
-                    {elements}
-                </ul>
-            </div>
+            <ul className="events">
+                {elements}
+            </ul>
         );
     }
 }

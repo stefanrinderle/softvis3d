@@ -1,6 +1,6 @@
 import * as React from "react";
 import CityBuilder from "./CityBuilder/CityBuilder";
-import Loader from "./Loader";
+import Status from "./Status";
 import SceneComponent from "./scene/SceneComponent";
 import cityBuilderStore from "../stores/CityBuilderStore";
 import TopBar from "./TopBar";
@@ -19,12 +19,12 @@ import {observer} from "mobx-react";
     }
 
     private renderLoader() {
-        if (!windowStateStore.showLoader) {
+        if (!windowStateStore.showStatus) {
             return null;
         }
 
         return (
-            <Loader queue={windowStateStore.loadingEvents.slice()}/>
+            <Status queue={windowStateStore.loadingQueue.slice()}/>
         );
     }
 

@@ -2,22 +2,22 @@ import {computed, observable} from "mobx";
 import * as Actions from "../constants/ActionConstants";
 
 class WindowStateStore {
-    @observable public loadingEvents: string[];
+    @observable public loadingQueue: string[];
     @observable private showBuilderAsap: boolean;
     @observable private sceneIsLoaded: boolean;
 
     public constructor() {
-        this.loadingEvents = [];
+        this.loadingQueue = [];
         this.showBuilderAsap = false;
         this.sceneIsLoaded = false;
     }
 
-    @computed get showLoader() {
-        return this.loadingEvents.length > 0;
+    @computed get showStatus() {
+        return this.loadingQueue.length > 0;
     }
 
     @computed get showBuilder() {
-        return this.loadingEvents.length === 0 && this.showBuilderAsap;
+        return this.loadingQueue.length === 0 && this.showBuilderAsap;
     }
 
     @computed get showScene() {
@@ -46,13 +46,13 @@ class WindowStateStore {
     }
 
     private pushLoadEvent(event: string) {
-        this.loadingEvents.push(event);
+        this.loadingQueue.push(event);
     }
 
     private removeLoadEvent(event: string) {
-        for (let i = 0; i < this.loadingEvents.length; i++) {
-            if (this.loadingEvents[i] === event) {
-                this.loadingEvents.splice(i, 1);
+        for (let i = 0; i < this.loadingQueue.length; i++) {
+            if (this.loadingQueue[i] === event) {
+                this.loadingQueue.splice(i, 1);
                 return;
             }
         }
