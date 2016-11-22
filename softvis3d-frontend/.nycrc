@@ -4,6 +4,7 @@
         "src/**/*.tsx"
     ],
     "exclude": [
+        "src/lib.d.ts",
         "node_modules/",
         "app/",
         "typings/"
@@ -20,12 +21,12 @@
         "html",
         "lcov"
     ],
-    "report-dir": "./results/coverage",
+    "report-dir": "coverage",
     "cache": true,
     "sourceMap": true,
     "instrument": true,
-    "all": false,
-    "check-coverage": true,
+    "all": true,
+    "check-coverage": false,
     "lines": 80,
     "functions": 95,
     "branches": 80
