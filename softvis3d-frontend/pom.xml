@@ -13,10 +13,10 @@
   <properties>
     <sonar.sources>src</sonar.sources>
     <sonar.tests>test</sonar.tests>
-    <sonar.genericcoverage.unitTestReportPaths>results/TEST-all.xml</sonar.genericcoverage.unitTestReportPaths>
+    <sonar.genericcoverage.unitTestReportPaths>sonar-coverage.xml</sonar.genericcoverage.unitTestReportPaths>
     <sonar.ts.tslintpath>node_modules/.bin/tslint</sonar.ts.tslintpath>
     <sonar.ts.tslintconfigpath>tslint.json</sonar.ts.tslintconfigpath>
-    <sonar.ts.lcov.reportpath>results/coverage/lcov.info</sonar.ts.lcov.reportpath>
+    <sonar.ts.lcov.reportpath>coverage/lcov.info</sonar.ts.lcov.reportpath>
   </properties>
 
   <build>
@@ -135,7 +135,7 @@
             <configuration>
               <filesets>
                 <fileset>
-                  <directory>results</directory>
+                  <directory>coverage</directory>
                 </fileset>
                 <fileset>
                   <directory>node_modules</directory>

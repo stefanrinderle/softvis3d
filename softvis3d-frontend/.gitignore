@@ -8,3 +8,4 @@ ts-node/
 
 config/dev.ts
 npm-debug.log*
+sonar-coverage.xml
