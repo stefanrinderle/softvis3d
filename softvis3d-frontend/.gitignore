@@ -5,7 +5,7 @@ coverage/
 node_modules/
 typings/
 ts-node/
+target/
 
 config/dev.ts
 npm-debug.log*
-sonar-coverage.xml

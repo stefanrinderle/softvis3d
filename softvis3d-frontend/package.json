@@ -17,7 +17,7 @@
     "lint": "tslint \"src/**/*.ts?(x)\" && shx echo \"[tslint] Lint successful\"",
     "test": "mocha",
     "test:coverage": "nyc mocha",
-    "test:sonarqube": "mocha --reporter mocha-sonar-generic-test-coverage > sonar-coverage.xml",
+    "test:sonarqube": "mocha --reporter mocha-sonar-generic-test-coverage > coverage/sonar-coverage.xml",
     "posttest:coverage": "shx rm -r .nyc_output"
   },
   "author": "Stefan Rinderle & Yvo Niedrich",
