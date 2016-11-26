@@ -4,7 +4,9 @@ import * as Actions from "./events/EventInitiator";
 import dispatcher from "./events/EventDispatcher";
 import { SonarQubeCommunicator } from "./events/sonarqube";
 import Softvis3D from "./components/Softvis3D";
-import windowStateStore from "./stores/WindowStateStore";
+import appStatusStore from "./stores/AppStatusStore";
+import cityBuilderStore from "./stores/CityBuilderStore";
+import sceneStore from "./stores/SceneStore";
 
 export default class App {
     public constructor() {
@@ -14,7 +16,9 @@ export default class App {
     public bootstrap() {
         const sonar = new SonarQubeCommunicator();
         dispatcher.register(sonar.handleEvents.bind(sonar));
-        dispatcher.register(windowStateStore.handleEvents.bind(windowStateStore));
+        dispatcher.register(appStatusStore.handleEvents.bind(appStatusStore));
+        dispatcher.register(cityBuilderStore.handleEvents.bind(cityBuilderStore));
+        dispatcher.register(sceneStore.handleEvents.bind(sceneStore));
     }
 
     public init() {

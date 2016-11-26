@@ -13,7 +13,8 @@
     },
     "compileOnSave": false,
     "files": [
-        "./typings/index.d.ts"
+        "./typings/index.d.ts",
+        "./src/lib.d.ts"
     ],
     "include": [
         "src/**/*",

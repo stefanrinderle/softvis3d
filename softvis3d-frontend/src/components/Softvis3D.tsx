@@ -1,11 +1,12 @@
 import * as React from "react";
+import {observer} from "mobx-react";
 import CityBuilder from "./CityBuilder/CityBuilder";
 import Status from "./Status";
-import SceneComponent from "./scene/SceneComponent";
-import cityBuilderStore from "../stores/CityBuilderStore";
 import TopBar from "./TopBar";
-import windowStateStore from "../stores/WindowStateStore";
-import {observer} from "mobx-react";
+import SceneComponent from "./scene/SceneComponent";
+import appStatusStore from "../stores/AppStatusStore";
+import cityBuilderStore from "../stores/CityBuilderStore";
+import sceneStore from "../stores/SceneStore";
 
 @observer export default class Softvis3D extends React.Component<{}, any> {
     public render() {
@@ -19,17 +20,17 @@ import {observer} from "mobx-react";
     }
 
     private renderLoader() {
-        if (!windowStateStore.showStatus) {
+        if (!appStatusStore.isVisible) {
             return null;
         }
 
         return (
-            <Status queue={windowStateStore.loadingQueue.slice()}/>
+            <Status queue={appStatusStore.loadingQueue.slice()}/>
         );
     }
 
     private renderBuilder() {
-        if (!windowStateStore.showBuilder) {
+        if (!cityBuilderStore.isVisible) {
             return null;
         }
 
@@ -39,7 +40,7 @@ import {observer} from "mobx-react";
     }
 
     private renderScene() {
-        if (!windowStateStore.showScene) {
+        if (!sceneStore.isVisible) {
             return null;
         }
 

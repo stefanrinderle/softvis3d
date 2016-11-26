@@ -60,3 +60,10 @@ export function sceneSuccessfullyCreated() {
         payload: {}
     });
 }
+
+export function errorOccurred(msg: string) {
+    dispatcher.dispatch({
+        type: Actions.ERROR_OCCURRED,
+        payload: msg
+    });
+}
