@@ -25,7 +25,7 @@ import sceneStore from "../stores/SceneStore";
         }
 
         return (
-            <Status queue={appStatusStore.loadingQueue.slice()}/>
+            <Status/>
         );
     }
 

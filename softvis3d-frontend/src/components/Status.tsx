@@ -1,11 +1,9 @@
 import * as React from "react";
+import {observer} from "mobx-react";
 import config from "config";
+import appStatusStore from "../stores/AppStatusStore";
 
-interface LoaderProps {
-    queue: string[];
-}
-
-export default class Status extends React.Component<LoaderProps, any> {
+@observer export default class Status extends React.Component<any, any> {
     public render() {
         return (
             <div className="status-component">
@@ -20,14 +18,11 @@ export default class Status extends React.Component<LoaderProps, any> {
     }
 
     private renderLoader() {
-        if (!this.props.queue.length) {
-            return null;
-        }
-
         return (
             <div>
                 {this.renderLoadingImage()}
                 {this.renderLoadingQueue()}
+                {this.renderErrorQueue()}
             </div>
         );
     }
@@ -77,7 +72,32 @@ export default class Status extends React.Component<LoaderProps, any> {
             return null;
         }
 
-        const {queue} = this.props;
+        const queue = appStatusStore.loadingQueue;
+
+        if (queue.length === 0) {
+            return null;
+        }
+
+        let elements: Array<React.ReactElement<any>> = [];
+        for (let i = 0; i < queue.length; i++) {
+            elements.push(
+                <li key={queue[i] + "_" + i}>{queue[i]}</li>
+            );
+        }
+        return (
+            <ul className="events">
+                {elements}
+            </ul>
+        );
+    }
+
+    private renderErrorQueue() {
+        const queue = appStatusStore.errors;
+
+        if (queue.length === 0) {
+            return null;
+        }
+
         let elements: Array<React.ReactElement<any>> = [];
         for (let i = 0; i < queue.length; i++) {
             elements.push(
