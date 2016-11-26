@@ -101,7 +101,7 @@ module.exports = [
     // ##################################
     {
         name: "css",
-        entry: [ "./src/styles/index.scss" ],
+        entry: [ "./src/style/index.scss" ],
         output: {
             path: "app/",
             filename: targetFolder + "style.css"
