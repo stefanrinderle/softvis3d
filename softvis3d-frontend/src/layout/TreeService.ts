@@ -39,7 +39,7 @@ export class TreeService {
             console.warn("search for id " + id + " without initialized the tree.");
             return null;
         }
-    };
+    }
 
     public getAllSceneElementsRecursive(id: string): string[] {
         let node = this.searchTreeNode(id);
@@ -48,7 +48,7 @@ export class TreeService {
         } else {
             return this.privateGetAllSceneElementsRecursive(node);
         }
-    };
+    }
 
     private searchIdInElement(id: string, element: TreeElement): TreeElement | null {
         if (element.id === id) {
@@ -76,5 +76,5 @@ export class TreeService {
         }
 
         return showIds;
-    };
+    }
 }

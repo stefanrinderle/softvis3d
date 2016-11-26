@@ -84,11 +84,11 @@ export class OrbitControls {
 
     public getPolarAngle() {
         return this.spherical.phi;
-    };
+    }
 
     public getAzimuthalAngle() {
         return this.spherical.theta;
-    };
+    }
 
     // this method is exposed, but perhaps it would be better if we can make it private...
     public update() {
@@ -195,7 +195,7 @@ export class OrbitControls {
         document.removeEventListener("mouseup", this.onMouseUp, false);
 
         window.removeEventListener("keydown", this.onKeyDown, false);
-    };
+    }
 
     private initializeListeners() {
         this.domElement.addEventListener("contextmenu", this.onContextMenu.bind(this), false);
@@ -235,7 +235,7 @@ export class OrbitControls {
         v.multiplyScalar(-distance);
 
         this.panOffset.add(v);
-    };
+    }
 
     private panUp(distance: number, objectMatrix: Matrix4) {
         let v = new Vector3();
@@ -244,7 +244,7 @@ export class OrbitControls {
 
         this.panOffset.add(v);
 
-    };
+    }
 
     // deltaX and deltaY are in pixels; right and down are positive
     private pan(deltaX: number, deltaY: number) {

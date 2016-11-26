@@ -54,7 +54,7 @@ export default class SceneComponent extends React.Component<any, any> {
     private animate() {
         requestAnimationFrame(this.animate.bind(this));
         this.renderScene();
-    };
+    }
 
     private renderScene() {
         this.scene.render();
