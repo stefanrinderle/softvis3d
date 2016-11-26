@@ -2,6 +2,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {SelectBox, SelectOption} from "../ui/SelectBox";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import {custom} from "../../dtos/Profiles";
 
 export interface PropertyPickerProps {
     profiles: Profile[];
@@ -71,6 +72,7 @@ declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
         return this.renderSelectBoxWithLabel(
             label,
             <SelectBox
+                onMouseDown={this.chooseEditableProfile.bind(this)}
                 onChange={this.handelChange.bind(this, type)}
                 value={(this.props.store as any)[type] as string}
             >
@@ -87,5 +89,9 @@ declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
                 label={metric.name}
                 disabled={!this.props.store.profile.editable}
             />);
+    }
+
+    private chooseEditableProfile() {
+        this.props.store.setProfile(custom);
     }
 }

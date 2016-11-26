@@ -1,6 +1,6 @@
 import * as React from "react";
 
-type ChangeEvent = (value: any, event: React.SyntheticEvent, src: React.Component<any, any>) => void;
+type ChangeEvent = (value: any, event: React.SyntheticEvent, src: React.Component<any, any>) => void|boolean;
 
 interface SelectBoxProps {
     children?: Array<SelectOption|SelectGroup>;
@@ -10,6 +10,8 @@ interface SelectBoxProps {
     value?: any;
 
     onChange: ChangeEvent;
+    onClick?: (event: React.SyntheticEvent) => void|boolean;
+    onMouseDown?: (event: React.SyntheticEvent) => void|boolean;
 }
 
 export class SelectBox extends React.Component<SelectBoxProps, any> {
@@ -45,12 +47,18 @@ export class SelectBox extends React.Component<SelectBoxProps, any> {
     }
 
     public render() {
+        const noEvent = () => true;
+        const clickEvent = this.props.onClick || noEvent;
+        const mouseDownEvent = this.props.onMouseDown || noEvent;
+
         return (
             <select
                 disabled={this.props.disabled}
                 className={this.props.className}
                 value={JSON.stringify(this.props.value)}
                 onChange={this.handleChange.bind(this)}
+                onClick={clickEvent}
+                onMouseDown={mouseDownEvent}
             >
                 {this.renderChildren()}
             </select>
