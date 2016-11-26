@@ -19,11 +19,11 @@
 ///
 
 /* tslint:disable */
-import * as Actions from "../constants/ActionConstants";
+import * as Actions from "./EventConstants";
 import axios, { AxiosPromise, AxiosRequestConfig } from "axios";
 import config from "config";
 import cityBuilderStore, { CityBuilderStore } from "../stores/CityBuilderStore";
-import * as softvisActions from "../actions/softvisActions";
+import * as softvisActions from "./EventInitiator";
 
 export class SonarQubeCommunicator {
     private store: CityBuilderStore;
@@ -33,7 +33,7 @@ export class SonarQubeCommunicator {
         // Stuff
     }
 
-    public handleEvents(event: SEvent): void {
+    public handleEvents(event: SoftvisEvent): void {
         switch (event.type) {
             case Actions.INIT_APP:
                 this.loadAvailableMetrics();

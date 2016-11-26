@@ -76,7 +76,7 @@ declare interface PreviewPicture {
     contents: string|null|ReactElement<any>;
 }
 
-declare interface SEvent {
+declare interface SoftvisEvent {
     type: string;
     payload?: any;
 }

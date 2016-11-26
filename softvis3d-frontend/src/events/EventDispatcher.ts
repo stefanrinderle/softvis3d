@@ -18,45 +18,31 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import dispatcher from "../dispatcher";
-import * as Actions from "../constants/ActionConstants";
+class EventDispatcher<TPayload> {
+    private listeners: Array<(payload: TPayload) => void>;
 
-export function initApp() {
-    dispatcher.dispatch({
-        type: Actions.INIT_APP,
-        payload: {}
-    });
+    public constructor() {
+        this.listeners = [];
+    }
+
+    public register(callback: (payload: TPayload) => void): number {
+        return this.listeners.push(callback);
+    }
+
+    public unregister(id: number): void {
+        this.listeners[id] = () => null;
+    }
+
+    public dispatch(payload: TPayload) {
+        for (let i = 0; i < this.listeners.length; i++) {
+            this.invokeCallback(i, payload);
+        }
+    }
+
+    private invokeCallback(id: number, payload: TPayload) {
+        this.listeners[id](payload);
+    }
 }
 
-export function loadAvailableMetrics() {
-    dispatcher.dispatch({
-        type: Actions.LOAD_ACTION,
-        payload: Actions.METRICS_LOADED
-    });
-}
-
-export function availableMetricsLoaded() {
-    dispatcher.dispatch({
-        type: Actions.METRICS_LOADED,
-        payload: {}
-    });
-}
-
-export function createScene() {
-    dispatcher.dispatch({
-        type: Actions.SCENE_CREATE,
-        payload: {}
-    });
-
-    dispatcher.dispatch({
-        type: Actions.LOAD_ACTION,
-        payload: Actions.SCENE_CREATED
-    });
-}
-
-export function sceneSuccessfullyCreated() {
-    dispatcher.dispatch({
-        type: Actions.SCENE_CREATED,
-        payload: {}
-    });
-}
+const dispatcher = new EventDispatcher<SoftvisEvent>();
+export default dispatcher;

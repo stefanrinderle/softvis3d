@@ -1,5 +1,5 @@
 import {computed, observable} from "mobx";
-import * as Actions from "../constants/ActionConstants";
+import * as Actions from "../events/EventConstants";
 
 class WindowStateStore {
     @observable public loadingQueue: string[];
@@ -24,15 +24,30 @@ class WindowStateStore {
         return this.sceneIsLoaded;
     }
 
-    public handleEvents(event: SEvent): void {
+    public handleEvents(event: SoftvisEvent): void {
+        this.handleLoadEvents(event);
+        this.handleWindowStateEvents(event);
+    }
+
+    private handleWindowStateEvents(event: SoftvisEvent) {
         switch (event.type) {
             case Actions.INIT_APP:
                 this.showBuilderAsap = true;
                 break;
             case Actions.SCENE_CREATE:
                 this.showBuilderAsap = false;
+                this.sceneIsLoaded = false;
+                break;
+            case Actions.SCENE_CREATED:
                 this.sceneIsLoaded = true;
                 break;
+            default:
+                break;
+        }
+    }
+
+    private handleLoadEvents(event: SoftvisEvent) {
+        switch (event.type) {
             case Actions.LOAD_ACTION:
                 this.pushLoadEvent(event.payload as string);
                 break;

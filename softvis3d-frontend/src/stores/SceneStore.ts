@@ -1,8 +1,7 @@
 import { observable } from "mobx";
-import { INITIAL_SHAPES } from "./InitialSceneShapes";
+import { INITIAL_SHAPES } from "../dtos/InitialSceneShapes";
 
 class SceneStore {
-
     @observable public shapes: any;
     @observable public selectedObjectId: string;
 
@@ -15,7 +14,6 @@ class SceneStore {
             this.selectedObjectId = objectId;
         }
     }
-
 }
 
 const sceneStore = new SceneStore();

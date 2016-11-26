@@ -19,7 +19,7 @@
 ///
 
 import { expect } from "chai";
-import { INITIAL_SHAPES } from "../../src/stores/InitialSceneShapes";
+import { INITIAL_SHAPES } from "../../src/dtos/InitialSceneShapes";
 import sceneStore from "../../src/stores/SceneStore";
 
 describe("SceneStore", () => {

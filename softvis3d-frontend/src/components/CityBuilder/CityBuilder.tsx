@@ -5,7 +5,7 @@ import {district, evostreet} from "../../dtos/Layouts";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
 import {demo, custom} from "../../dtos/Profiles";
-import * as softvisActions from "../../actions/softvisActions";
+import * as softvisActions from "../../events/EventInitiator";
 
 export default class CityBuilder extends React.Component<{ store: CityBuilderStore; }, any> {
 
