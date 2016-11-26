@@ -19,11 +19,11 @@
 ///
 
 /* tslint:disable */
-import * as Actions from "./EventConstants";
+import * as Actions from "./events/EventConstants";
 import axios, { AxiosPromise, AxiosRequestConfig } from "axios";
 import config from "config";
-import cityBuilderStore, { CityBuilderStore } from "../stores/CityBuilderStore";
-import * as softvisActions from "./EventInitiator";
+import cityBuilderStore, { CityBuilderStore } from "./stores/CityBuilderStore";
+import * as softvisActions from "./events/EventInitiator";
 
 export class SonarQubeCommunicator {
     private store: CityBuilderStore;

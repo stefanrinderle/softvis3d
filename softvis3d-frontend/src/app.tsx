@@ -2,7 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as Actions from "./events/EventInitiator";
 import dispatcher from "./events/EventDispatcher";
-import { SonarQubeCommunicator } from "./events/sonarqube";
+import { SonarQubeCommunicator } from "./sonarqube";
 import Softvis3D from "./components/Softvis3D";
 import appStatusStore from "./stores/AppStatusStore";
 import cityBuilderStore from "./stores/CityBuilderStore";
