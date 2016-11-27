@@ -1,5 +1,5 @@
 import {observable, computed} from "mobx";
-import { INITIAL_SHAPES } from "../dtos/InitialSceneShapes";
+import {INITIAL_SHAPES} from "../dtos/InitialSceneShapes";
 import * as Actions from "../events/EventConstants";
 
 class SceneStore {

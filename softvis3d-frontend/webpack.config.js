@@ -31,7 +31,17 @@ var configFile = path.resolve(!isProd && tsnode.fileExists("./config/dev.ts") ? 
     proxy = {};
 
 if (appConfig.proxy) {
-    proxy[appConfig.api] = { target: appConfig.proxy, secure: false };
+    proxy[appConfig.api] = {
+        target: appConfig.proxy,
+        secure: false,
+        bypass: function(req) {
+            if (req.url.includes('softVis3D/getVisualization')) {
+                return '/dev/getVisualization.json';
+            }
+
+            return false;
+        }
+    };
 }
 
 module.exports = [
@@ -87,7 +97,6 @@ module.exports = [
             "three": "THREE"
         },
         devServer: {
-
             port: 8080,
             open: true,
             colors: true,
