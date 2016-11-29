@@ -1,5 +1,4 @@
 import * as Actions from "../events/EventConstants";
-import {SonarQubeCommunicator} from "../sonarqube";
 import {loadLegacyBackend, sceneSuccessfullyCreated} from "../events/EventInitiator";
 import sceneStore from "../stores/SceneStore";
 import Softvis3dModel from "./softvis3dModel";
@@ -7,8 +6,6 @@ import cityBuilderStore from "../stores/CityBuilderStore";
 import LayoutProcessor from "./layoutProcessor";
 
 export default class LegacyConnector {
-    private sonarqube: SonarQubeCommunicator;
-
     /*
     private availableScalings = [
         {key: "logarithmic", name: "Logarithmic"},
@@ -27,10 +24,6 @@ export default class LegacyConnector {
          { key: 'PACKAGE', name: 'Package Name' }
      ];
      */
-
-    public constructor(sonarqube: SonarQubeCommunicator) {
-        this.sonarqube = sonarqube;
-    }
 
     public handleEvents(event: SoftvisEvent): void {
         switch (event.type) {
@@ -59,7 +52,7 @@ export default class LegacyConnector {
             scalingMethod: "linear_s"
         };
         const processor = new LayoutProcessor(options);
-        sceneStore.shapes = processor.getIllustration(model, model._version);
+        sceneStore.shapes = processor.getIllustration(model, model._version).shapes;
         sceneSuccessfullyCreated();
     }
 }

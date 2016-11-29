@@ -32,7 +32,7 @@ export default class CityBuilder extends React.Component<{ store: CityBuilderSto
                 <br />
                 <button onClick={this.fakeLoader}>Fake Loading</button>
                 &nbsp;
-                <button onClick={this.hideBuilder}>Hide Builder</button>
+                <button onClick={this.loadScene}>Load Scene</button>
             </div>
         );
     }
@@ -56,11 +56,7 @@ export default class CityBuilder extends React.Component<{ store: CityBuilderSto
         );
     }
 
-    private hideBuilder() {
+    private loadScene() {
         softvisActions.createScene();
-        window.setTimeout(
-            softvisActions.sceneSuccessfullyCreated,
-            500
-        );
     }
 }

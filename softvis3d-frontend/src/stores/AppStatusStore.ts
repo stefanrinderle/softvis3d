@@ -5,10 +5,12 @@ import {errorOccurred} from "../events/EventInitiator";
 class AppStatusStore {
     @observable public loadingQueue: string[];
     @observable public errors: string[];
+    private loadListeners: string[];
 
     public constructor() {
         this.loadingQueue = [];
         this.errors = [];
+        this.loadListeners = [];
     }
 
     @computed get isVisible() {
@@ -21,18 +23,19 @@ class AppStatusStore {
                 this.errors.push(event.payload as string);
                 break;
             case Actions.LOAD_ACTION:
-                this.loadingQueue.push(event.payload as string);
-                break;
-            case Actions.METRICS_LOADED:
-            case Actions.SCENE_CREATED:
-                this.removeLoadEvent(event.type);
+                this.addLoadEvent(event.payload as string);
                 break;
             default:
+                this.removeLoadEvent(event.type);
                 break;
         }
     }
 
-    private removeLoadEvent(event: string) {
+    private removeLoadEvent(event: string): void  {
+        if (this.loadListeners.indexOf(event) === -1) {
+            return;
+        }
+
         for (let i = 0; i < this.loadingQueue.length; i++) {
             if (this.loadingQueue[i] === event) {
                 this.loadingQueue.splice(i, 1);
@@ -41,6 +44,14 @@ class AppStatusStore {
         }
 
         errorOccurred(`Could not remove load event: '${event}'`);
+    }
+
+    private addLoadEvent(event: string): void {
+        if (this.loadListeners.indexOf(event) === -1) {
+            this.loadListeners.push(event);
+        }
+
+        this.loadingQueue.push(event);
     }
 }
 

@@ -24,6 +24,7 @@ import axios, { AxiosPromise, AxiosRequestConfig } from "axios";
 import config from "config";
 import cityBuilderStore, { CityBuilderStore } from "./stores/CityBuilderStore";
 import * as softvisActions from "./events/EventInitiator";
+import {legacyBackendLoaded} from "./events/EventInitiator";
 
 export class SonarQubeCommunicator {
     private store: CityBuilderStore;
@@ -37,6 +38,9 @@ export class SonarQubeCommunicator {
         switch (event.type) {
             case Actions.INIT_APP:
                 this.loadAvailableMetrics();
+                return;
+            case Actions.LEGACY_LOAD:
+                this.loadLegacyBackend();
                 return;
             default:
                 // no Action
@@ -62,8 +66,12 @@ export class SonarQubeCommunicator {
             } else {
                 softvisActions.availableMetricsLoaded();
             }
-        }).catch(err => {
-            console.log(err);
-        });
+        }).catch(console.log);
+    }
+
+    private loadLegacyBackend() {
+        this.callApi('softVis3D/getVisualization?projectKey=projectKey&footprintMetricKey=complexity&heightMetricKey=ncloc&colorMetricKey=NONE').then(response => {
+            legacyBackendLoaded(response.data.resultObject[0].treeResult);
+        }).catch(console.log);
     }
 }

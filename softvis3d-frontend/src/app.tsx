@@ -7,6 +7,7 @@ import Softvis3D from "./components/Softvis3D";
 import appStatusStore from "./stores/AppStatusStore";
 import cityBuilderStore from "./stores/CityBuilderStore";
 import sceneStore from "./stores/SceneStore";
+import LegacyConnector from "./legacy/LegacyConnector";
 
 export default class App {
     public constructor() {
@@ -15,7 +16,9 @@ export default class App {
 
     public bootstrap() {
         const sonar = new SonarQubeCommunicator();
+        const legacy = new LegacyConnector();
         dispatcher.register(sonar.handleEvents.bind(sonar));
+        dispatcher.register(legacy.handleEvents.bind(legacy));
         dispatcher.register(appStatusStore.handleEvents.bind(appStatusStore));
         dispatcher.register(cityBuilderStore.handleEvents.bind(cityBuilderStore));
         dispatcher.register(sceneStore.handleEvents.bind(sceneStore));
