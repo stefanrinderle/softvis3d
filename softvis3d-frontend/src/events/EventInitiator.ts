@@ -67,3 +67,22 @@ export function errorOccurred(msg: string) {
         payload: msg
     });
 }
+
+export function loadLegacyBackend() {
+    dispatcher.dispatch({
+        type: Actions.LOAD_ACTION,
+        payload: Actions.LEGACY_LOADED
+    });
+
+    dispatcher.dispatch({
+        type: Actions.LEGACY_LOAD,
+        payload: {}
+    });
+}
+
+export function legacyBackendLoaded(backend: any) {
+    dispatcher.dispatch({
+        type: Actions.LEGACY_LOADED,
+        payload: backend
+    });
+}

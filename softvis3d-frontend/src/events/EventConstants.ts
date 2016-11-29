@@ -25,3 +25,5 @@ export const METRICS_LOADED = "METRICS_LOADED";
 export const SCENE_CREATE = "SCENE_CREATE";
 export const SCENE_CREATED = "SCENE_CREATED";
 export const SHOW_BUILDER = "SHOW_BUILDER";
+export const LEGACY_LOAD = "LEGACY_LOAD";
+export const LEGACY_LOADED = "LEGACY_LOADED";
