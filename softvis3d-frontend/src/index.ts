@@ -19,7 +19,19 @@
 ///
 
 import App from "./app";
+import config from "config";
 
-const softvis3d = new App();
+if (config.project === null) {
+    interface MyWindow extends Window { PROJECT_KEY: string; }
+    config.project = (window as MyWindow).PROJECT_KEY;
+}
+
+const appConfiguration = {
+    api: config.api,
+    projectKey: config.project,
+    isDev: config.env === "development"
+};
+
+const softvis3d = new App(appConfiguration);
 softvis3d.init();
 softvis3d.run("app");

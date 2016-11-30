@@ -21,17 +21,17 @@
 /* tslint:disable */
 import * as Actions from "./events/EventConstants";
 import axios, { AxiosPromise, AxiosRequestConfig } from "axios";
-import config from "config";
-import cityBuilderStore, { CityBuilderStore } from "./stores/CityBuilderStore";
+import cityBuilderStore from "./stores/CityBuilderStore";
 import * as softvisActions from "./events/EventInitiator";
 import {legacyBackendLoaded} from "./events/EventInitiator";
 
 export class SonarQubeCommunicator {
-    private store: CityBuilderStore;
+    private projectKey: string;
+    private baseUrl: string;
 
-    constructor() {
-        this.store = cityBuilderStore;
-        // Stuff
+    constructor(apiUrl: string, projectKey: string) {
+        this.baseUrl = apiUrl;
+        this.projectKey = projectKey;
     }
 
     public handleEvents(event: SoftvisEvent): void {
@@ -48,7 +48,7 @@ export class SonarQubeCommunicator {
     }
 
     private callApi(route: string, options: AxiosRequestConfig = {}): AxiosPromise {
-        return axios.get(config.api + route, options);
+        return axios.get(this.baseUrl + route, options);
     }
 
     private loadAvailableMetrics(page = 1) {
@@ -56,11 +56,12 @@ export class SonarQubeCommunicator {
             softvisActions.loadAvailableMetrics();
         }
 
-        this.callApi("/metrics/search?f=name&p=" + page).then(response => {
-            this.store.addAvailableMetrics((response.data.metrics as Array<Metric>).filter(c => c.type === "INT"));
+        const params = {f: 'name', p: page};
+
+        this.callApi("/metrics/search", { params }).then(response => {
+            cityBuilderStore.addAvailableMetrics((response.data.metrics as Array<Metric>).filter(c => c.type === "INT"));
 
             const metricsCount = response.data.p * response.data.ps;
-
             if (metricsCount < response.data.total) {
                 this.loadAvailableMetrics(page + 1);
             } else {
@@ -70,8 +71,16 @@ export class SonarQubeCommunicator {
     }
 
     private loadLegacyBackend() {
-        this.callApi('softVis3D/getVisualization?projectKey=projectKey&footprintMetricKey=complexity&heightMetricKey=ncloc&colorMetricKey=NONE').then(response => {
-            legacyBackendLoaded(response.data.resultObject[0].treeResult);
+        const params = {
+            projectKey: this.projectKey,
+            footprintMetricKey: cityBuilderStore.metricWidth,
+            heightMetricKey: cityBuilderStore.metricHeight,
+            colorMetricKey: cityBuilderStore.metricColor
+        };
+
+        this.callApi("softVis3D/getVisualization", { params }).then(response => {
+            const relevantData = response.data.resultObject[0].treeResult;
+            legacyBackendLoaded(relevantData);
         }).catch(console.log);
     }
 }

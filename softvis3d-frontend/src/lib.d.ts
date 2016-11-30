@@ -24,6 +24,7 @@ declare const config: {
     env: string;
     project: string | null;
     proxy: string | null;
+    proxyLegacy: boolean;
 };
 
 declare module "config" {

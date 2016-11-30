@@ -3,6 +3,7 @@ import * as Actions from "../events/EventConstants";
 import {errorOccurred} from "../events/EventInitiator";
 
 class AppStatusStore {
+    @observable public showLoadingQueue: boolean;
     @observable public loadingQueue: string[];
     @observable public errors: string[];
     private loadListeners: string[];
@@ -11,6 +12,7 @@ class AppStatusStore {
         this.loadingQueue = [];
         this.errors = [];
         this.loadListeners = [];
+        this.showLoadingQueue = false;
     }
 
     @computed get isVisible() {

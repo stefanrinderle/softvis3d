@@ -9,19 +9,26 @@ import cityBuilderStore from "./stores/CityBuilderStore";
 import sceneStore from "./stores/SceneStore";
 import LegacyConnector from "./legacy/LegacyConnector";
 
+interface AppConfiguration {
+    api: string;
+    projectKey: string;
+    isDev: boolean;
+}
+
 export default class App {
-    public constructor() {
-        this.bootstrap();
+    public constructor(config: AppConfiguration) {
+        this.bootstrap(config);
     }
 
-    public bootstrap() {
-        const sonar = new SonarQubeCommunicator();
+    public bootstrap(config: AppConfiguration) {
+        const sonar = new SonarQubeCommunicator(config.api, config.projectKey);
         const legacy = new LegacyConnector();
         dispatcher.register(sonar.handleEvents.bind(sonar));
         dispatcher.register(legacy.handleEvents.bind(legacy));
         dispatcher.register(appStatusStore.handleEvents.bind(appStatusStore));
         dispatcher.register(cityBuilderStore.handleEvents.bind(cityBuilderStore));
         dispatcher.register(sceneStore.handleEvents.bind(sceneStore));
+        appStatusStore.showLoadingQueue = config.isDev;
     }
 
     public init() {

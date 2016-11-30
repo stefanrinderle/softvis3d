@@ -35,7 +35,7 @@ if (appConfig.proxy) {
         target: appConfig.proxy,
         secure: false,
         bypass: function(req) {
-            if (req.url.includes('softVis3D/getVisualization')) {
+            if (appConfig.proxyLegacy && req.url.includes('softVis3D/getVisualization')) {
                 return '/dev/getVisualization.json';
             }
 

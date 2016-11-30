@@ -22,5 +22,7 @@ import config from "./default";
 
 config.env = "development";
 config.proxy = "http://localhost:9001";
+config.proxyLegacy = true;
+config.project = "bowler:head";
 
 export default config;

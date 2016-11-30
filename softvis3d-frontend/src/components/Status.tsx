@@ -1,6 +1,5 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import config from "config";
 import appStatusStore from "../stores/AppStatusStore";
 
 @observer export default class Status extends React.Component<any, any> {
@@ -68,7 +67,7 @@ import appStatusStore from "../stores/AppStatusStore";
     }
 
     private renderLoadingQueue() {
-        if (config.env !== "development") {
+        if (!appStatusStore.showLoadingQueue) {
             return null;
         }
 

@@ -32,7 +32,8 @@ const config: any = {
     api: "/api",
     env: "production",
     project: null,
-    proxy: null
+    proxy: null,
+    proxyLegacy: false
 };
 
 export default config;
