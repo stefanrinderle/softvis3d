@@ -1,7 +1,7 @@
 const demo: Profile = {
     id: "demo",
     name: "Default",
-    metricColor: "none",
+    metricColor: "violations",
     metricHeight: "ncloc",
     metricWidth: "complexity",
     description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod " +

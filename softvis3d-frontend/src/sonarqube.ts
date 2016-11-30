@@ -78,7 +78,7 @@ export class SonarQubeCommunicator {
             colorMetricKey: cityBuilderStore.metricColor
         };
 
-        this.callApi("softVis3D/getVisualization", { params }).then(response => {
+        this.callApi("/softVis3D/getVisualization", { params }).then(response => {
             const relevantData = response.data.resultObject[0].treeResult;
             legacyBackendLoaded(relevantData);
         }).catch(console.log);

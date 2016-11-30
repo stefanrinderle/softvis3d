@@ -33,7 +33,9 @@ var configFile = path.resolve(!isProd && tsnode.fileExists("./config/dev.ts") ? 
 if (appConfig.proxy) {
     proxy[appConfig.api] = {
         target: appConfig.proxy,
+        pathRewrite: appConfig.pathRewrite,
         secure: false,
+        changeOrigin: true,
         bypass: function(req) {
             if (appConfig.proxyLegacy && req.url.includes('softVis3D/getVisualization')) {
                 return '/dev/getVisualization.json';
@@ -101,7 +103,8 @@ module.exports = [
             open: true,
             colors: true,
             contentBase: "app/",
-            proxy: proxy
+            proxy: proxy,
+            quiet: false
         }
     },
 

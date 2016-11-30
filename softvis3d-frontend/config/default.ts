@@ -33,6 +33,7 @@ const config: any = {
     env: "production",
     project: null,
     proxy: null,
+    pathRewrite: {},
     proxyLegacy: false
 };
 

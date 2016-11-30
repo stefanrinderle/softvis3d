@@ -1,5 +1,4 @@
 import {observable, computed} from "mobx";
-import {INITIAL_SHAPES} from "../dtos/InitialSceneShapes";
 import * as Actions from "../events/EventConstants";
 
 class SceneStore {
@@ -8,7 +7,6 @@ class SceneStore {
     @observable private rendered: boolean;
 
     public constructor() {
-        this.shapes = INITIAL_SHAPES;
         this.rendered = false;
     }
 
