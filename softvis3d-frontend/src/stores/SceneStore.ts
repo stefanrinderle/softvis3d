@@ -10,6 +10,7 @@ class SceneStore {
         this.rendered = false;
 
         reaction(
+            "Render the threeJS scene as soon as data is available",
             () => this.shapes,
             () => { this.rendered = true; }
         );

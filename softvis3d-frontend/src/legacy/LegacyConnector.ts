@@ -26,6 +26,7 @@ export default class LegacyConnector {
 
     public init(): void {
         reaction(
+            "Convert backend data to threeJS shapes",
             () => sceneStore.legacyData,
             () => { this.buildCity(sceneStore.legacyData); }
         );

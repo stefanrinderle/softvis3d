@@ -57,6 +57,7 @@ export default class CityBuilder extends React.Component<{ store: CityBuilderSto
     }
 
     private loadScene() {
+        this.props.store.show = false;
         this.props.store.renderButtonClicked = true;
     }
 }

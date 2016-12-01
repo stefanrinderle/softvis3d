@@ -1,4 +1,4 @@
-import {observable, computed, reaction} from "mobx";
+import {observable, computed} from "mobx";
 import {district} from "../dtos/Layouts";
 import {demo} from "../dtos/Profiles";
 import appStatusStore from "./AppStatusStore";
@@ -28,15 +28,6 @@ class CityBuilderStore {
             type: "NONE",
             name: " -- None -- "
         });
-
-        reaction(
-            () => this.renderButtonClicked,
-            () => {
-                if (this.renderButtonClicked) {
-                    this.show = false;
-                }
-            }
-        );
     }
 
     @computed public get isVisible() {
