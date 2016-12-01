@@ -1,17 +1,13 @@
 import {computed, observable} from "mobx";
-import * as Actions from "../events/EventConstants";
-import {errorOccurred} from "../events/EventInitiator";
 
 class AppStatusStore {
     @observable public showLoadingQueue: boolean;
     @observable public loadingQueue: string[];
     @observable public errors: string[];
-    private loadListeners: string[];
 
     public constructor() {
         this.loadingQueue = [];
         this.errors = [];
-        this.loadListeners = [];
         this.showLoadingQueue = false;
     }
 
@@ -19,25 +15,11 @@ class AppStatusStore {
         return this.loadingQueue.length > 0 || this.errors.length > 0;
     }
 
-    public handleEvents(event: SoftvisEvent) {
-        switch (event.type) {
-            case Actions.ERROR_OCCURRED:
-                this.errors.push(event.payload as string);
-                break;
-            case Actions.LOAD_ACTION:
-                this.addLoadEvent(event.payload as string);
-                break;
-            default:
-                this.removeLoadEvent(event.type);
-                break;
-        }
+    public load(event: string): void {
+        this.loadingQueue.push(event);
     }
 
-    private removeLoadEvent(event: string): void  {
-        if (this.loadListeners.indexOf(event) === -1) {
-            return;
-        }
-
+    public loadComplete(event: string): void  {
         for (let i = 0; i < this.loadingQueue.length; i++) {
             if (this.loadingQueue[i] === event) {
                 this.loadingQueue.splice(i, 1);
@@ -45,15 +27,11 @@ class AppStatusStore {
             }
         }
 
-        errorOccurred(`Could not remove load event: '${event}'`);
+        this.error(`Could not remove load event: '${event}'`);
     }
 
-    private addLoadEvent(event: string): void {
-        if (this.loadListeners.indexOf(event) === -1) {
-            this.loadListeners.push(event);
-        }
-
-        this.loadingQueue.push(event);
+    public error(msg: string): void {
+        this.errors.push(msg);
     }
 }
 

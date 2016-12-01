@@ -1,13 +1,18 @@
-import {observable, computed} from "mobx";
-import * as Actions from "../events/EventConstants";
+import {observable, computed, reaction} from "mobx";
 
 class SceneStore {
+    @observable public legacyData: any;
     @observable public shapes: any;
     @observable public selectedObjectId: string;
     @observable private rendered: boolean;
 
     public constructor() {
         this.rendered = false;
+
+        reaction(
+            () => this.shapes,
+            () => { this.rendered = true; }
+        );
     }
 
     public setSelectedObjectId(objectId: string | null) {
@@ -18,19 +23,6 @@ class SceneStore {
 
     @computed public get isVisible() {
         return this.rendered;
-    }
-
-    public handleEvents(event: SoftvisEvent) {
-        switch (event.type) {
-            case Actions.SCENE_CREATE:
-                // Initiate Creation process
-                break;
-            case Actions.SCENE_CREATED:
-                this.rendered = true;
-                break;
-            default:
-                break;
-        }
     }
 }
 

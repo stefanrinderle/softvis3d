@@ -19,13 +19,15 @@
 ///
 
 /* tslint:disable */
-import * as Actions from "./events/EventConstants";
 import axios, { AxiosPromise, AxiosRequestConfig } from "axios";
+import {reaction} from "mobx";
 import cityBuilderStore from "./stores/CityBuilderStore";
-import * as softvisActions from "./events/EventInitiator";
-import {legacyBackendLoaded} from "./events/EventInitiator";
+import appStatusStore from "./stores/AppStatusStore";
+import sceneStore from "./stores/SceneStore";
 
-export class SonarQubeCommunicator {
+export default class SonarQubeCommunicator {
+    public static LOAD_METRICS = 'SONAR_LOAD_METRICS';
+    public static LOAD_LEGACY = 'SONAR_LOAD_LEGACY_BACKEND';
     private projectKey: string;
     private baseUrl: string;
 
@@ -34,17 +36,13 @@ export class SonarQubeCommunicator {
         this.projectKey = projectKey;
     }
 
-    public handleEvents(event: SoftvisEvent): void {
-        switch (event.type) {
-            case Actions.INIT_APP:
-                this.loadAvailableMetrics();
-                return;
-            case Actions.LEGACY_LOAD:
-                this.loadLegacyBackend();
-                return;
-            default:
-                // no Action
-        }
+    public init() {
+        this.loadAvailableMetrics();
+
+        reaction(
+            () => cityBuilderStore.renderButtonClicked,
+            () => this.loadLegacyBackend().then(() => { cityBuilderStore.renderButtonClicked = false; })
+        );
     }
 
     private callApi(route: string, options: AxiosRequestConfig = {}): AxiosPromise {
@@ -53,7 +51,7 @@ export class SonarQubeCommunicator {
 
     private loadAvailableMetrics(page = 1) {
         if (page === 1) {
-            softvisActions.loadAvailableMetrics();
+            appStatusStore.load(SonarQubeCommunicator.LOAD_METRICS);
         }
 
         const params = {f: 'name', p: page};
@@ -65,12 +63,14 @@ export class SonarQubeCommunicator {
             if (metricsCount < response.data.total) {
                 this.loadAvailableMetrics(page + 1);
             } else {
-                softvisActions.availableMetricsLoaded();
+                appStatusStore.loadComplete(SonarQubeCommunicator.LOAD_METRICS);
             }
         }).catch(console.log);
     }
 
     private loadLegacyBackend() {
+        appStatusStore.load(SonarQubeCommunicator.LOAD_LEGACY);
+
         const params = {
             projectKey: this.projectKey,
             footprintMetricKey: cityBuilderStore.metricWidth,
@@ -78,9 +78,9 @@ export class SonarQubeCommunicator {
             colorMetricKey: cityBuilderStore.metricColor
         };
 
-        this.callApi("/softVis3D/getVisualization", { params }).then(response => {
-            const relevantData = response.data.resultObject[0].treeResult;
-            legacyBackendLoaded(relevantData);
+        return this.callApi("/softVis3D/getVisualization", { params }).then(response => {
+            appStatusStore.loadComplete(SonarQubeCommunicator.LOAD_LEGACY);
+            sceneStore.legacyData = response.data.resultObject[0].treeResult;
         }).catch(console.log);
     }
 }

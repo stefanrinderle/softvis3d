@@ -5,7 +5,7 @@ import {district, evostreet} from "../../dtos/Layouts";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
 import {demo, custom} from "../../dtos/Profiles";
-import * as softvisActions from "../../events/EventInitiator";
+import appStatusStore from "../../stores/AppStatusStore";
 
 export default class CityBuilder extends React.Component<{ store: CityBuilderStore; }, any> {
 
@@ -32,31 +32,31 @@ export default class CityBuilder extends React.Component<{ store: CityBuilderSto
                 <br />
                 <button onClick={this.fakeLoader}>Fake Loading</button>
                 &nbsp;
-                <button onClick={this.loadScene}>Load Scene</button>
+                <button onClick={this.loadScene.bind(this)}>Load Scene</button>
             </div>
         );
     }
 
     private fakeLoader() {
-        softvisActions.loadAvailableMetrics();
-        softvisActions.loadAvailableMetrics();
-        softvisActions.loadAvailableMetrics();
+        appStatusStore.load("DUMMY");
+        appStatusStore.load("DUMMY");
+        appStatusStore.load("DUMMY");
 
         window.setTimeout(
-            softvisActions.availableMetricsLoaded,
+            () => { appStatusStore.loadComplete("DUMMY"); },
             1000
         );
         window.setTimeout(
-            softvisActions.availableMetricsLoaded,
+            () => { appStatusStore.loadComplete("DUMMY"); },
             2000
         );
         window.setTimeout(
-            softvisActions.availableMetricsLoaded,
+            () => { appStatusStore.loadComplete("DUMMY"); },
             3500
         );
     }
 
     private loadScene() {
-        softvisActions.createScene();
+        this.props.store.renderButtonClicked = true;
     }
 }

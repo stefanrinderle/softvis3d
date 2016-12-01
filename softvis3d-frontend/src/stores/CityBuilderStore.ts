@@ -1,7 +1,6 @@
-import {observable, computed} from "mobx";
+import {observable, computed, reaction} from "mobx";
 import {district} from "../dtos/Layouts";
 import {demo} from "../dtos/Profiles";
-import * as Actions from "../events/EventConstants";
 import appStatusStore from "./AppStatusStore";
 
 class CityBuilderStore {
@@ -11,7 +10,8 @@ class CityBuilderStore {
     @observable public metricHeight: string;
     @observable public metricWidth: string;
     @observable public availableMetrics: Metric[];
-    private show: boolean;
+    @observable public renderButtonClicked: boolean = false;
+    @observable public show: boolean;
 
     public constructor() {
         this.show = false;
@@ -24,10 +24,19 @@ class CityBuilderStore {
         this.availableMetrics = observable([]);
         this.availableMetrics.push({
             id: "-1",
-            key: "none",
+            key: "NONE",
             type: "NONE",
             name: " -- None -- "
         });
+
+        reaction(
+            () => this.renderButtonClicked,
+            () => {
+                if (this.renderButtonClicked) {
+                    this.show = false;
+                }
+            }
+        );
     }
 
     @computed public get isVisible() {
@@ -47,20 +56,6 @@ class CityBuilderStore {
 
     public addAvailableMetrics(metrics: Metric[]) {
         this.availableMetrics = this.availableMetrics.concat(metrics);
-    }
-
-    public handleEvents(event: SoftvisEvent) {
-        switch (event.type) {
-            case Actions.INIT_APP:
-            case Actions.SHOW_BUILDER:
-                this.show = true;
-                break;
-            case Actions.SCENE_CREATE:
-                this.show = false;
-                break;
-            default:
-                break;
-        }
     }
 }
 

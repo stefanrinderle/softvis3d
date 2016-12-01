@@ -1,9 +1,8 @@
-import * as Actions from "../events/EventConstants";
-import {loadLegacyBackend, sceneSuccessfullyCreated} from "../events/EventInitiator";
 import sceneStore from "../stores/SceneStore";
 import Softvis3dModel from "./softvis3dModel";
 import cityBuilderStore from "../stores/CityBuilderStore";
 import LayoutProcessor from "./layoutProcessor";
+import {reaction} from "mobx";
 
 export default class LegacyConnector {
     /*
@@ -25,22 +24,11 @@ export default class LegacyConnector {
      ];
      */
 
-    public handleEvents(event: SoftvisEvent): void {
-        switch (event.type) {
-            case Actions.SCENE_CREATE:
-                this.loadBackend();
-                break;
-            case Actions.LEGACY_LOADED:
-                this.buildCity(event.payload);
-                break;
-            default:
-                // no Action
-                break;
-        }
-    }
-
-    private loadBackend() {
-        loadLegacyBackend();
+    public init(): void {
+        reaction(
+            () => sceneStore.legacyData,
+            () => { this.buildCity(sceneStore.legacyData); }
+        );
     }
 
     private buildCity(backend: any) {
@@ -53,6 +41,5 @@ export default class LegacyConnector {
         };
         const processor = new LayoutProcessor(options);
         sceneStore.shapes = processor.getIllustration(model, model._version).shapes;
-        sceneSuccessfullyCreated();
     }
 }
