@@ -13,6 +13,7 @@ interface AppConfiguration {
 }
 
 export default class App {
+    private isInitialized: boolean;
     private communicator: SonarQubeCommunicator;
     private legacy: LegacyConnector;
 
@@ -21,6 +22,7 @@ export default class App {
     }
 
     public bootstrap(config: AppConfiguration) {
+        this.isInitialized = false;
         this.communicator = new SonarQubeCommunicator(config.api, config.projectKey);
         this.legacy = new LegacyConnector();
         appStatusStore.showLoadingQueue = config.isDev;
@@ -29,13 +31,20 @@ export default class App {
     public init() {
         this.communicator.init();
         this.legacy.init();
+        this.isInitialized = true;
     }
 
     public run(target: string) {
+        if (!this.isInitialized) {
+            this.init();
+        }
+
+        cityBuilderStore.show = true;
+
         ReactDOM.render(
            <Softvis3D />,
             document.getElementById(target)!
         );
-        cityBuilderStore.show = true;
+
     }
 }

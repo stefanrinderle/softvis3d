@@ -40,7 +40,7 @@ export default class SonarQubeCommunicator {
         this.loadAvailableMetrics();
 
         reaction(
-            "Load Backend Data when Scene should be rendered",
+            "Load backend legacy data when the scene should be rendered",
             () => cityBuilderStore.renderButtonClicked,
             () => { this.loadLegacyBackend().then(() => { cityBuilderStore.renderButtonClicked = false; }) }
         );
