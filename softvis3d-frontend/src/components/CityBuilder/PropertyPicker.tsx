@@ -23,55 +23,19 @@ declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
     public render() {
         return (
             <div className="property-component">
-                <div className="profiles">
-                    {
-                        this.renderSelectBoxWithLabel(
-                            "Profile",
-                            <SelectBox
-                                onChange={this.handelProfileChange.bind(this)}
-                                value={this.props.store.profile}
-                            >
-                                {this.createOptionsFromProfiles()}
-                            </SelectBox>
-                        )
-                    }
-                </div>
-
                 <div className="metrics">
                     {this.renderMetricDropdown("Metric - Height", "metricHeight")}
                     {this.renderMetricDropdown("Metric - Base / Width", "metricWidth")}
                     {this.renderMetricDropdown("Metric - Color", "metricColor")}
                 </div>
-
-                <p className="profile-description">
-                    {this.props.store.profile.description}
-                </p>
             </div>
         );
-    }
-
-    private renderSelectBoxWithLabel(label: string, selectbox: JSX.Element) {
-        return (
-            <div className="selectbox">
-                <span>{label}</span>
-                {selectbox}
-            </div>
-        );
-    }
-
-    private createOptionsFromProfiles() {
-        return this.props.profiles
-            .map((p) => <SelectOption
-                key={p.id}
-                value={p}
-                label={p.name}
-            />);
     }
 
     private renderMetricDropdown(label: string, type: metricType) {
-        return this.renderSelectBoxWithLabel(
-            label,
+        return (
             <SelectBox
+                label={label}
                 onMouseDown={this.chooseEditableProfile.bind(this)}
                 onChange={this.handelChange.bind(this, type)}
                 value={(this.props.store as any)[type] as string}

@@ -2,7 +2,6 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import { RadioButton, RadioGroup } from "../ui/RadioButton";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
-import PreviewPictureComponent from "./PreviewPicture";
 
 export interface LayoutPickerProps {
     layouts: Layout[];
@@ -29,10 +28,6 @@ export interface LayoutPickerProps {
                         )
                     }
                 </RadioGroup>
-                <PreviewPictureComponent
-                    profile={this.props.store.profile}
-                    layout={this.props.store.layoutType}
-                />
             </div>
         );
     }

@@ -20,25 +20,36 @@ fieldset {
     }
 }
 
-label {
-    @include ui-border;
-    border-color: transparent;
-    border-radius: 2px;
-    padding: 3px 5px;
-    cursor: pointer;
+.radio-group {
+    label {
+        @include ui-border;
+        border-color: transparent;
+        border-radius: 2px;
+        padding: 3px 5px;
+        cursor: pointer;
 
-    &>input {
-        display: none;
-    }
+        &>input {
+            display: none;
+        }
 
-    &.active {
-        border: 1px solid $border-color-ui-element;
-        background: $background-ui-active;
+        &.active {
+            border: 1px solid $border-color-ui-element;
+            background: $background-ui-active;
+        }
     }
 }
 
-select {
-    @include ui-border;
+.selectbox {
+    select {
+        @include ui-border;
+    }
+
+    &>span {
+        padding: 0 2px;
+        &:after {
+            content: ': '
+        }
+    }
 }
 
 body, #app {
