@@ -8,6 +8,7 @@ interface SelectBoxProps {
     className?: string;
     disabled?: boolean;
     value?: any;
+    label?: string;
 
     onChange: ChangeEvent;
     onClick?: (event: React.SyntheticEvent) => void|boolean;
@@ -25,7 +26,40 @@ export class SelectBox extends React.Component<SelectBoxProps, any> {
         this.props.onChange(newValue, event, this);
     }
 
-    public renderChildren(): Array<React.Component<any, any>> {
+    public render() {
+        const noEvent = () => true;
+        const clickEvent = this.props.onClick || noEvent;
+        const mouseDownEvent = this.props.onMouseDown || noEvent;
+        const className = "selectbox " + (this.props.className || "");
+
+        return (
+            <div className={className.trim()}>
+                {this.renderLabel()}
+                <select
+                    disabled={this.props.disabled}
+                    className={this.props.className}
+                    value={JSON.stringify(this.props.value)}
+                    onChange={this.handleChange.bind(this)}
+                    onClick={clickEvent}
+                    onMouseDown={mouseDownEvent}
+                >
+                    {this.renderChildren()}
+                </select>
+            </div>
+        );
+    }
+
+    private renderLabel() {
+        if (!this.props.label) {
+            return null;
+        }
+
+        return (
+            <span>{this.props.label}</span>
+        );
+    }
+
+    private renderChildren(): Array<React.Component<any, any>> {
         return React.Children.map<any>(
             (this.props.children as Array<SelectOption|SelectGroup>),
             (child: React.ReactElement<any>) => {
@@ -43,25 +77,6 @@ export class SelectBox extends React.Component<SelectBoxProps, any> {
                     return child;
                 }
             }
-        );
-    }
-
-    public render() {
-        const noEvent = () => true;
-        const clickEvent = this.props.onClick || noEvent;
-        const mouseDownEvent = this.props.onMouseDown || noEvent;
-
-        return (
-            <select
-                disabled={this.props.disabled}
-                className={this.props.className}
-                value={JSON.stringify(this.props.value)}
-                onChange={this.handleChange.bind(this)}
-                onClick={clickEvent}
-                onMouseDown={mouseDownEvent}
-            >
-                {this.renderChildren()}
-            </select>
         );
     }
 }
@@ -105,7 +120,15 @@ export class SelectGroup extends React.Component<SelectGroupProps, any> {
         disabled: false
     };
 
-    public renderChildren(): Array<React.Component<any, any>> {
+    public render() {
+        return (
+            <optgroup disabled={this.props.disabled} label={this.props.label}>
+                {this.renderChildren()}
+            </optgroup>
+        );
+    }
+
+    private renderChildren(): Array<React.Component<any, any>> {
         return React.Children.map<any>(
             (this.props.children as SelectOption[]),
             (child: React.ReactElement<any>) => {
@@ -118,14 +141,6 @@ export class SelectGroup extends React.Component<SelectGroupProps, any> {
                     return child;
                 }
             }
-        );
-    }
-
-    public render() {
-        return (
-            <optgroup disabled={this.props.disabled} label={this.props.label}>
-                {this.renderChildren()}
-            </optgroup>
         );
     }
 }

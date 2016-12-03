@@ -1,21 +1,30 @@
 @mixin clearfix {
-    &:after {
-        content: ".";
-        clear: both;
-        display: block;
-        visibility: hidden;
-        height: 0;
+    zoom: 1;
+
+    &:before, &:after {
+        content: "";
+        display: table;
     }
+
+    &:after {
+        clear: both;
+    }
+
+    //&:after {
+    //    content: ".";
+    //    clear: both;
+    //    display: block;
+    //    visibility: hidden;
+    //    height: 0;
+    //}
 }
 
 @mixin softvis-dialog {
     position: absolute;
     z-index: 5;
-    width: 90%;
-    max-width: 1450px;
-    min-width: 740px;
+    width: $dialog-width;
     border: 1px solid $border-color-background;
-    margin: 40px auto;
+    margin: 20px auto;
     padding: 5px 10px 10px 10px;
     background-color: $white;
 

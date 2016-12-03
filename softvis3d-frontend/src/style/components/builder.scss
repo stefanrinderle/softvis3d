@@ -1,61 +1,62 @@
-$height: 340px;
-$layoutButtonWidth: 180px;
+$leftColumnWidth: 320px;
+$simpleCategoryHeight: 290px;
 
-.layout-component {
-    width: 100%;
-    height: ($height - 12px);
-    padding: 0;
+.city-builder {
+    @include softvis-dialog;
 
-    .list {
-        float: left;
-        margin: ($height / 4) 0;
-        width: $layoutButtonWidth;
+    .simple {
+        @include clearfix;
 
-        label {
-            display: block;
-            margin: 15px 0 15px 4px;
-            cursor: pointer;
+        position: relative;
+        min-height: $simpleCategoryHeight;
 
-            input {
-                float: left;
-                margin: 2px;
-            }
+        .left-column {
+            float: left;
+            width: $leftColumnWidth;
+        }
+
+        .right-column {
+            position: absolute;
+            width: ($dialog-width - $leftColumnWidth - 5px);
+            height: 100%;
+            right: 0;
         }
     }
 
-    .preview {
-        margin-left: ($layoutButtonWidth + 2px);
-        min-width: 155px;
-        height: ($height - 22);
 
-        background: #FFF center no-repeat;
-        background-size: contain;
+    .advanced {
+        // Advanced Props here
+    }
+
+    // Other City-Builder Stuff
+
+    .simple {
+        .preview {
+            min-width: 155px;
+            height: 100%;
+            background: #FFF center no-repeat;
+            background-size: contain;
+            border: 1px dashed $gray-bright;
+        }
+
+        .layout-component {
+            width: 100%;
+            padding: 5px 0;
+
+            .list>label {
+                display: block;
+                cursor: pointer;
+                margin: 6px 4px;
+            }
+        }
     }
 }
 
 .property-component {
     padding: 2px;
 
-    .profiles {
-        margin-top: 8px;
-
-        span {
-            padding: 0 2px;
-            &:after {
-                content: ': '
-            }
-        }
-
-        select {
-            max-width: 255px;
-        }
-    }
-
     .metrics {
-        border-top: 1px solid $border-color-background;
-
-        margin-top: 15px;
-        padding: 8px 0 0 15px;
+        padding: 4px 0 0 15px;
 
         .selectbox {
             padding-bottom: 5px;
@@ -80,22 +81,3 @@ $layoutButtonWidth: 180px;
     }
 }
 
-.city-builder {
-    @include clearfix;
-    @include softvis-dialog;
-
-    $propertyWidth: 350px;
-
-    .building {
-        float: left;
-        width: $propertyWidth;
-    }
-
-    .layout {
-        margin-left: ($propertyWidth + 8px);
-    }
-
-    >div>fieldset {
-        height: $height;
-    }
-}

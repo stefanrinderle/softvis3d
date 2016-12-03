@@ -44,8 +44,9 @@ export class RadioGroup extends React.Component<RadioGroupProps, any> {
     }
 
     public render() {
+        const className = "radio-group " + (this.props.className || "");
         return (
-            <div className={this.props.className}>
+            <div className={className}>
                 {this.renderChildren()}
             </div>
         );

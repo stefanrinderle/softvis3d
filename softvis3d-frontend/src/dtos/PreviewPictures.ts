@@ -15,7 +15,7 @@ const customEvostreet: PreviewPicture = {
 const placeholder: PreviewPicture = {
     forLayout: () => true,
     forProfile: () => true,
-    bgPicture: "http://placekitten.com/600/400",
+    bgPicture: "http://lorempixel.com/300/200/animals/PLACEHOLDER",
     contents: null
 };
 
