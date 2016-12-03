@@ -10,12 +10,12 @@ function waitFor(selector) {
 describe("Index", () => {
 
     beforeEach(() => {
-        browser.get("/");
+        browser.get("/plugins/resource/de.rinderle.softvis3d%3Asoftvis3d?page=SoftVis3D");
 
-        element(by.linkText("softvis3d")).click();
-        browser.sleep(3000);
-        element.all(by.partialLinkText("More")).get(1).click();
-        element.all(by.partialLinkText("SoftVis3D Viewer")).click();
+        // element(by.linkText("softvis3d")).click();
+        // browser.sleep(3000);
+        // element.all(by.partialLinkText("More")).get(1).click();
+        // element.all(by.partialLinkText("SoftVis3D Viewer")).click();
 
         waitFor(by.css(".city-builder"));
     });
