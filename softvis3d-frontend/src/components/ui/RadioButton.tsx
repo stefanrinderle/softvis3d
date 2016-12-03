@@ -80,9 +80,8 @@ export class RadioButton extends React.Component<RadioButtonProps, any> {
         let className = this.props.className;
         className += this.props.checked ? " " + this.props.activeClass : "";
         return (
-            <label className={className}>
+            <label className={className} id={"select-" + this.props.value.id}>
                 <input
-                    id={"select-" + this.props.value.id}
                     type={"radio"}
                     checked={this.props.checked}
                     onChange={this.handleClick.bind(this)}

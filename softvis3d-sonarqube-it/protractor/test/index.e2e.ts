@@ -32,9 +32,7 @@ describe("Index", () => {
     });
 
     it("shoud show the District option", () => {
-        element(by.id("select-district")).click();
         element(by.id("load-scene-button")).click();
-        browser.sleep(2000);
         browser.sleep(2000);
     });
 
