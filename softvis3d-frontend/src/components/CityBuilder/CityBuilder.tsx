@@ -1,14 +1,14 @@
 import * as React from "react";
 import LayoutPicker from "./LayoutPicker";
 import PropertyPicker from "./PropertyPicker";
-import {district, evostreet} from "../../dtos/Layouts";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import { district, evostreet } from "../../dtos/Layouts";
+import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
-import {demo, custom} from "../../dtos/Profiles";
+import { demo, custom } from "../../dtos/Profiles";
 import appStatusStore from "../../stores/AppStatusStore";
 import PreviewPictureComponent from "./PreviewPicture";
-import {observer} from "mobx-react";
-import {SelectBox, SelectOption} from "../ui/SelectBox";
+import { observer } from "mobx-react";
+import { SelectBox, SelectOption } from "../ui/SelectBox";
 // import PreviewPictureComponent from "./PreviewPicture";
 
 @observer export default class CityBuilder extends React.Component<{ store: CityBuilderStore; }, any> {
@@ -22,7 +22,7 @@ import {SelectBox, SelectOption} from "../ui/SelectBox";
                 <br /><hr /><br />
                 <button onClick={this.fakeLoader}>Fake Loading</button>
                 &nbsp;
-                <button onClick={this.loadScene.bind(this)}>Load Scene</button>
+                <button id="load-scene-button" onClick={this.loadScene.bind(this)}>Load Scene</button>
             </div>
         );
     }

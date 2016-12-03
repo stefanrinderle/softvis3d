@@ -32,7 +32,7 @@ dockerid=$(docker run -d --name ${CONTAINER_NAME} -p ${SONARQUBE_LOCAL_PORT}:900
 echo "Run integration test container $CONTAINER_NAME with id $dockerid and wait a minute"
 
 echo "Wait for sonarqube instance to start"
-sleep 60
+sleep 90
 echo "Analyse project"
 mvn -f ../pom.xml -U -B sonar:sonar -Dsonar.host.url=http://localhost:${SONARQUBE_LOCAL_PORT}
 
@@ -43,7 +43,7 @@ echo "Run integration tests"
 docker stop softvis3d_protractor_runner
 docker rm softvis3d_protractor_runner
 
-echo "build"
+echo "npm install & build integration test container"
 cd protractor
 npm install
 cd ..

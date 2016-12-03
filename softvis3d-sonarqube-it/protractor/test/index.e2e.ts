@@ -26,12 +26,15 @@ describe("Index", () => {
     });
 
     it("shoud show the evostreet option", () => {
-        element(by.cssContainingText(".option", "Evostreet")).click();
+        element(by.id("select-evostreet")).click();
+        element(by.id("load-scene-button")).click();
         browser.sleep(2000);
     });
 
     it("shoud show the District option", () => {
-        element(by.cssContainingText(".option", "District")).click();
+        element(by.id("select-district")).click();
+        element(by.id("load-scene-button")).click();
+        browser.sleep(2000);
         browser.sleep(2000);
     });
 
