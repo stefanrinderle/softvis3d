@@ -17,15 +17,14 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-
-import { Scene, WebGLRenderer, Raycaster, Vector3, PerspectiveCamera, Intersection } from "three";
-import { Camera } from "./Camera";
-import { Wrangler } from "./Wrangler";
-import { Setup } from "./Setup";
-import { SoftVis3dShape } from "../domain/SoftVis3dShape";
-import { SoftVis3dMesh } from "../domain/SoftVis3dMesh";
-import { Dimension } from "../domain/Dimension";
-import { OrbitControls } from "./controls/OrbitControls";
+import {Scene, WebGLRenderer, PerspectiveCamera} from "three";
+import {Camera} from "./Camera";
+import {Wrangler} from "./Wrangler";
+import {Setup} from "./Setup";
+import {SoftVis3dShape} from "../domain/SoftVis3dShape";
+import {Dimension} from "../domain/Dimension";
+import {OrbitControls} from "./controls/OrbitControls";
+import {SelectionService} from "./SelectionCalculator";
 
 export class SoftVis3dScene {
 
@@ -38,7 +37,6 @@ export class SoftVis3dScene {
     private scene: Scene;
     private renderer: WebGLRenderer;
     private camera: Camera;
-    private raycaster: Raycaster;
     private controls: any;
 
     constructor(canvasId: string) {
@@ -54,12 +52,15 @@ export class SoftVis3dScene {
         Setup.initRenderer(this.renderer, this.scene, this.container);
 
         this.camera = new Camera(this.container);
-        this.raycaster = new Raycaster();
 
         this.controls = new OrbitControls(this.camera.getCamera(), this.container);
         this.controls.zoomSpeed = 1.5;
 
         this.onWindowResize();
+
+        window.addEventListener("resize", () => {
+            this.onWindowResize();
+        });
     }
 
     public loadSoftVis3d(shapes: SoftVis3dShape[]) {
@@ -100,47 +101,34 @@ export class SoftVis3dScene {
         return this.camera.getCamera();
     }
 
+    /**
+     * Resizes the camera when document is resized.
+     */
+    public onWindowResize() {
+        let paddingLeft: number = 18;
+
+        // TODO set width and heoght to maximum
+        this.width = window.innerWidth - paddingLeft;
+        this.height = window.innerHeight; // - jQuery("#softvis3dscene").position().top -
+        // jQuery("#footer").outerHeight();
+
+        // this.width = 800;
+        // this.height = 400;
+        // if (jQuery("#content").position() !== undefined) {
+        //    this.height = window.innerHeight - jQuery("#content").position().top - jQuery("#footer").outerHeight();
+        // }
+        this.camera.setAspect(this.width, this.height);
+
+        this.renderer.setSize(this.width, this.height);
+        this.renderer.setViewport(0, 0, this.width, this.height);
+    }
+
     public makeSelection(event: MouseEvent): string | null {
-        let x: number;
-        let y: number;
+        let result: string | null = SelectionService.makeSelection(event, this.container, this.width, this.height,
+            this.camera, this.wrangler.getObjectsInView());
 
-        if ("offsetX" in event && "offsetY" in event) {
-            x = event.offsetX;
-            y = event.offsetY;
-        } else {
-            // Firefox method to get the position
-            x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-            y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-            x -= this.container.offsetLeft;
-            y -= this.container.offsetTop;
-
-            let paddingLeft: string | null = this.container.style.paddingLeft;
-            let paddingTop: string | null = this.container.style.paddingTop;
-            if (paddingLeft !== null) {
-                x -= Number(paddingLeft.replace("px", ""));
-            }
-            if (paddingTop !== null) {
-                y -= Number(paddingTop.replace("px", ""));
-            }
-        }
-
-        // creating NDC coordinates for ray intersection.
-        let mouseDownX: number = (x / this.width) * 2 - 1;
-        let mouseDownY: number = -(y / this.height) * 2 + 1;
-
-        let vector = new Vector3(mouseDownX, mouseDownY, 1).unproject(this.camera.getCamera());
-
-        let cameraPosition = this.camera.getCameraPosition();
-        this.raycaster.set(cameraPosition, vector.sub(cameraPosition).normalize());
-        let intersected: Intersection[] = this.raycaster.intersectObjects(this.wrangler.getObjectsInView(), true);
-
-        let result: string | null = null;
-        if (intersected.length > 0) {
-            let object: SoftVis3dMesh = <SoftVis3dMesh> intersected[0].object;
-            let objectSoftVis3dId: string = object.getSoftVis3dId();
-
-            this.selectSceneTreeObject(objectSoftVis3dId);
-            result = objectSoftVis3dId;
+        if (result !== null) {
+            this.selectSceneTreeObject(result);
         }
 
         return result;
@@ -165,33 +153,6 @@ export class SoftVis3dScene {
         }
 
         return result;
-    }
-
-    /**
-     * Resizes the camera when document is resized.
-     */
-    private onWindowResize() {
-        // let paddingLeft = 20;
-
-        // TODO set width and heoght to maximum
-        // this.width = window.innerWidth;// - paddingLeft;
-        // this.height = window.innerHeight;// - jQuery("#softvis3dscene").position().top -
-        // jQuery("#footer").outerHeight();
-
-        this.width = 800;
-        this.height = 400;
-        // if (jQuery("#content").position() !== undefined) {
-        //    this.height = window.innerHeight - jQuery("#content").position().top - jQuery("#footer").outerHeight();
-        // }
-        this.camera.setAspect(this.width, this.height);
-
-        this.renderer.setSize(this.width, this.height);
-        this.renderer.setViewport(0, 0, this.width, this.height);
-
-        let toolbarContainer = document.getElementById("toolbar");
-        if (toolbarContainer) {
-            toolbarContainer.style.height = this.height + "";
-        }
     }
 
 }

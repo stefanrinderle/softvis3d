@@ -2,11 +2,10 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import CityBuilder from "./CityBuilder/CityBuilder";
 import Status from "./Status";
-import TopBar from "./TopBar";
-import SceneComponent from "./scene/SceneComponent";
 import appStatusStore from "../stores/AppStatusStore";
 import cityBuilderStore from "../stores/CityBuilderStore";
 import sceneStore from "../stores/SceneStore";
+import VisualizationComponent from "./visualization/VisualizationComponent";
 
 @observer export default class Softvis3D extends React.Component<{}, any> {
     public render() {
@@ -46,8 +45,7 @@ import sceneStore from "../stores/SceneStore";
 
         return (
             <div>
-                <SceneComponent/>
-                <TopBar/>
+                <VisualizationComponent/>
             </div>
         );
     }

@@ -23,19 +23,11 @@ import { TreeService } from "../../src/layout/TreeService";
 
 describe("TreeService", () => {
 
-    it("should not find anything, if the TreeService was not initialized 'correctly'", () => {
-        let id: string = "testId123";
-        let result = TreeService.Instance.searchTreeNode(id);
-        expect(result).to.be.null;
-    });
-
     it("should find tree node by id direct", () => {
         let id: string = "testId123";
         let tree: TreeElement = createTestTreeElement(id);
 
-        TreeService.Instance.setTree(tree);
-
-        let result = TreeService.Instance.searchTreeNode(id);
+        let result = TreeService.searchTreeNode(tree, id);
 
         expect(result).not.to.be.null;
         expect((result as TreeElement).id).to.be.equal(tree.id);
@@ -47,9 +39,7 @@ describe("TreeService", () => {
 
         tree.children.push(createTestTreeElement(id));
 
-        TreeService.Instance.setTree(tree);
-
-        let result = TreeService.Instance.searchTreeNode(id);
+        let result = TreeService.searchTreeNode(tree, id);
 
         expect(result).not.to.be.null;
         expect((result as TreeElement).id).to.be.equal(id);
@@ -64,9 +54,7 @@ describe("TreeService", () => {
 
         tree.children.push(child);
 
-        TreeService.Instance.setTree(tree);
-
-        let result = TreeService.Instance.searchTreeNode(id);
+        let result = TreeService.searchTreeNode(tree, id);
 
         expect(result).not.to.be.null;
         expect((result as TreeElement).id).to.be.equal(id);
@@ -76,9 +64,7 @@ describe("TreeService", () => {
         let id: string = "testId123";
         let tree: TreeElement = createTestTreeElement(id);
 
-        TreeService.Instance.setTree(tree);
-
-        let result: string[] = TreeService.Instance.getAllSceneElementsRecursive(id);
+        let result: string[] = TreeService.getAllSceneElementsRecursive(tree, id);
 
         expect(result.length).to.be.equal(1);
         expect(result[0]).to.be.equal(id);
@@ -90,9 +76,7 @@ describe("TreeService", () => {
 
         tree.children.push(createTestTreeElement(id));
 
-        TreeService.Instance.setTree(tree);
-
-        let result: string[] = TreeService.Instance.getAllSceneElementsRecursive(id);
+        let result: string[] = TreeService.getAllSceneElementsRecursive(tree, id);
 
         expect(result).to.be.length(1);
         expect(result[0]).to.be.equal(id);
@@ -105,9 +89,7 @@ describe("TreeService", () => {
 
         tree.children.push(createTestTreeElement(id));
 
-        TreeService.Instance.setTree(tree);
-
-        let result: string[] = TreeService.Instance.getAllSceneElementsRecursive(rootId);
+        let result: string[] = TreeService.getAllSceneElementsRecursive(tree, rootId);
 
         expect(result).to.be.length(2);
         expect(result[0]).to.be.equal(rootId);
@@ -123,9 +105,7 @@ describe("TreeService", () => {
 
         tree.children.push(child);
 
-        TreeService.Instance.setTree(tree);
-
-        let result: string[] = TreeService.Instance.getAllSceneElementsRecursive(rootId);
+        let result: string[] = TreeService.getAllSceneElementsRecursive(tree, rootId);
 
         expect(result).to.be.length(3);
         expect(result[0]).to.be.equal(rootId);
@@ -135,9 +115,7 @@ describe("TreeService", () => {
         let id: string = "testId123";
         let tree: TreeElement = createTestTreeElement(id);
 
-        TreeService.Instance.setTree(tree);
-
-        let result = TreeService.Instance.searchTreeNode("noId");
+        let result = TreeService.searchTreeNode(tree, "noId");
 
         expect(result).to.be.null;
     });
@@ -148,9 +126,7 @@ describe("TreeService", () => {
 
         tree.children.push(createTestTreeElement(id + "_1"));
 
-        TreeService.Instance.setTree(tree);
-
-        let result = TreeService.Instance.getAllSceneElementsRecursive("noId");
+        let result = TreeService.getAllSceneElementsRecursive(tree, "noId");
 
         expect(result).to.be.length(0);
     });

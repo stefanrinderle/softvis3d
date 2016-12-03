@@ -1,0 +1,8 @@
+.scene {
+
+    @include clearfix;
+
+    border: 1px solid $border-color-background;
+    background-color: $white;
+
+}

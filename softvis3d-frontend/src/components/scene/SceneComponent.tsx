@@ -3,6 +3,7 @@ import { SoftVis3dScene } from "./visualization/SoftVis3dScene";
 import { observer } from "mobx-react";
 import sceneStore from "../../stores/SceneStore";
 import { WebGLDetector } from "./webgl/WebGLDetector";
+import {reaction} from "mobx";
 
 /**
  * Responsible for the 3D visualization.
@@ -25,6 +26,12 @@ export default class SceneComponent extends React.Component<any, any> {
             this.loadScene();
             // initial load - all other updates via the render method.
             this.scene.loadSoftVis3d(sceneStore.shapes);
+
+            reaction(
+                "Select object in scene",
+                () => sceneStore.selectedObjectId,
+                () => { this.scene.selectSceneTreeObject(sceneStore.selectedObjectId); }
+            );
         } else {
             console.warn(WebGLDetector.getWebGLErrorMessage());
         }
@@ -37,8 +44,10 @@ export default class SceneComponent extends React.Component<any, any> {
             this.scene.loadSoftVis3d(sceneStore.shapes);
         }
 
-        return <canvas id={SceneComponent.CANVAS_ID}
-                       onClick={this.makeSelection.bind(this)} />;
+        return <div className="scene">
+                    <canvas id={SceneComponent.CANVAS_ID}
+                            onClick={this.makeSelection.bind(this)} />
+               </div>;
     }
 
     private makeSelection(event: any) {

@@ -16,7 +16,7 @@
 
 # Unit tests
  * `npm test` will run mocha.
- * `npm test:coverage` will also generate a coverage report (for files required by the tests)
+ * `npm test:coverage` will also generate a coverage report
 
 # TODOS
  * If ts-node transpilation fails webpack will carry on and the build will still succeed.

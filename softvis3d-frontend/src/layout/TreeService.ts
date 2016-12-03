@@ -20,29 +20,16 @@
 
 export class TreeService {
 
-    private static _instance: TreeService;
-
-    private treeServiceTree: TreeElement;
-
-    public static get Instance(): TreeService {
-        return this._instance || (this._instance = new this());
-    }
-
-    public setTree(tree: TreeElement) {
-        this.treeServiceTree = tree;
-    };
-
-    public searchTreeNode(id: string): TreeElement | null {
-        if (this.treeServiceTree) {
-            return this.searchIdInElement(id, this.treeServiceTree);
+    public static searchTreeNode(tree: TreeElement, id: string): TreeElement | null {
+        if (tree) {
+            return this.searchIdInElement(id, tree);
         } else {
-            console.warn("search for id " + id + " without initialized the tree.");
             return null;
         }
     }
 
-    public getAllSceneElementsRecursive(id: string): string[] {
-        let node = this.searchTreeNode(id);
+    public static getAllSceneElementsRecursive(tree: TreeElement, id: string): string[] {
+        let node = this.searchTreeNode(tree, id);
         if (node === null) {
             return [];
         } else {
@@ -50,7 +37,7 @@ export class TreeService {
         }
     }
 
-    private searchIdInElement(id: string, element: TreeElement): TreeElement | null {
+    private static searchIdInElement(id: string, element: TreeElement): TreeElement | null {
         if (element.id === id) {
             return element;
         }
@@ -65,7 +52,7 @@ export class TreeService {
         return null;
     }
 
-    private privateGetAllSceneElementsRecursive(node: TreeElement): string[] {
+    private static privateGetAllSceneElementsRecursive(node: TreeElement): string[] {
         let showIds: string[] = [];
         showIds.push(node.id);
 
@@ -77,4 +64,5 @@ export class TreeService {
 
         return showIds;
     }
+
 }
