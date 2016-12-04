@@ -25,7 +25,7 @@ import cityBuilderStore from "./stores/CityBuilderStore";
 import appStatusStore from "./stores/AppStatusStore";
 import sceneStore from "./stores/SceneStore";
 
-interface SonarQubeMetric extends Metric {
+interface SonarQubeApiMetric extends Metric {
     id: number;
 }
 
@@ -62,10 +62,11 @@ export default class SonarQubeCommunicator {
         const params = {f: 'name', p: page};
 
         this.callApi("/metrics/search", { params }).then(response => {
-            const metrics = (response.data.metrics as Array<SonarQubeMetric>)
-                .filter((c) => c.type === "INT")
-                .map((c) => { delete c.id; return c; });
-            cityBuilderStore.addAvailableMetrics(metrics);
+            cityBuilderStore.addAvailableMetrics(
+                (response.data.metrics as Array<SonarQubeApiMetric>)
+                    .filter((c) => c.type === "INT")
+                    .map((c) => { delete c.id; return c; })
+            );
 
             const metricsCount = response.data.p * response.data.ps;
             if (metricsCount < response.data.total) {
