@@ -38,7 +38,7 @@ declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
                 label={label}
                 onMouseDown={this.chooseEditableProfile.bind(this)}
                 onChange={this.handelChange.bind(this, type)}
-                value={(this.props.store as any)[type] as string}
+                value={((this.props.store as any)[type] as Metric).key}
             >
                 {this.createOptionsFromLoadedMetrics()}
             </SelectBox>
