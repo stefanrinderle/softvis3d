@@ -58,7 +58,7 @@ export class Wrangler {
         }
     }
 
-    public selectSceneTreeObject(objectSoftVis3dId: string) {
+    public selectSceneTreeObject(objectSoftVis3dId: string | null) {
         // reset former selected objects
 
         for (let previousSelection of this.selectedTreeObjects) {
@@ -67,17 +67,19 @@ export class Wrangler {
 
         this.selectedTreeObjects = [];
 
-        for (let obj of this.resultObjects) {
-            if (objectSoftVis3dId === obj.getSoftVis3dId()) {
+        if (objectSoftVis3dId !== null) {
+            for (let obj of this.resultObjects) {
+                if (objectSoftVis3dId === obj.getSoftVis3dId()) {
 
-                let selectedObjectMaterial: MeshLambertMaterial = obj.material;
-                let selectedObjectInformation: SoftVis3dSelectedObject = {
-                    object: obj,
-                    color: selectedObjectMaterial.color.getHex()
-                };
+                    let selectedObjectMaterial: MeshLambertMaterial = obj.material;
+                    let selectedObjectInformation: SoftVis3dSelectedObject = {
+                        object: obj,
+                        color: selectedObjectMaterial.color.getHex()
+                    };
 
-                this.selectedTreeObjects.push(selectedObjectInformation);
-                selectedObjectMaterial.color.setHex(0xFFC519);
+                    this.selectedTreeObjects.push(selectedObjectInformation);
+                    selectedObjectMaterial.color.setHex(0xFFC519);
+                }
             }
         }
     }

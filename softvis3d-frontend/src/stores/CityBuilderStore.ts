@@ -6,9 +6,9 @@ import appStatusStore from "./AppStatusStore";
 class CityBuilderStore {
     @observable public layoutType: Layout;
     @observable public profile: Profile;
-    @observable public metricColor: string;
-    @observable public metricHeight: string;
-    @observable public metricWidth: string;
+    @observable public metricColor: Metric;
+    @observable public metricHeight: Metric;
+    @observable public metricWidth: Metric;
     @observable public availableMetrics: Metric[];
     @observable public renderButtonClicked: boolean = false;
     @observable public show: boolean;
@@ -16,14 +16,10 @@ class CityBuilderStore {
     public constructor() {
         this.show = false;
         this.layoutType = district;
-        this.metricColor = "none";
-        this.metricHeight = "none";
-        this.metricWidth = "none";
         this.setProfile(demo);
 
         this.availableMetrics = observable([]);
         this.availableMetrics.push({
-            id: "-1",
             key: "NONE",
             type: "NONE",
             name: " -- None -- "

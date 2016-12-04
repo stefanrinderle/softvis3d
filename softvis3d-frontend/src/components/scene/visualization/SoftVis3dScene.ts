@@ -37,7 +37,7 @@ export class SoftVis3dScene {
     private scene: Scene;
     private renderer: WebGLRenderer;
     private camera: Camera;
-    private controls: any;
+    private controls: OrbitControls;
 
     constructor(canvasId: string) {
         this.container = <HTMLCanvasElement> document.getElementById(canvasId);
@@ -54,7 +54,6 @@ export class SoftVis3dScene {
         this.camera = new Camera(this.container);
 
         this.controls = new OrbitControls(this.camera.getCamera(), this.container);
-        this.controls.zoomSpeed = 1.5;
 
         this.onWindowResize();
 
@@ -77,7 +76,7 @@ export class SoftVis3dScene {
         this.camera.setCameraPosition(x, y, z);
     }
 
-    public selectSceneTreeObject(objectSoftVis3dId: string) {
+    public selectSceneTreeObject(objectSoftVis3dId: string | null) {
         this.wrangler.selectSceneTreeObject(objectSoftVis3dId);
     }
 
@@ -106,10 +105,11 @@ export class SoftVis3dScene {
      */
     public onWindowResize() {
         let paddingLeft: number = 18;
+        let paddingTop: number = 22;
 
         // TODO set width and heoght to maximum
         this.width = window.innerWidth - paddingLeft;
-        this.height = window.innerHeight; // - jQuery("#softvis3dscene").position().top -
+        this.height = window.innerHeight - paddingTop;
         // jQuery("#footer").outerHeight();
 
         // this.width = 800;
@@ -124,12 +124,12 @@ export class SoftVis3dScene {
     }
 
     public makeSelection(event: MouseEvent): string | null {
+        // console.debug(this.controls.state);
+
         let result: string | null = SelectionService.makeSelection(event, this.container, this.width, this.height,
             this.camera, this.wrangler.getObjectsInView());
 
-        if (result !== null) {
-            this.selectSceneTreeObject(result);
-        }
+        this.selectSceneTreeObject(result);
 
         return result;
     }

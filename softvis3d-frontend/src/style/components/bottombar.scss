@@ -1,0 +1,19 @@
+.bottom-bar {
+
+    @include clearfix;
+
+    position: absolute;
+    width: 30%;
+    max-width: 1450px;
+    min-width: 740px;
+    border: 1px solid $border-color-background;
+    margin: auto;
+    padding: 10px 10px 10px 10px;
+    background-color: $white;
+
+    left: 0; right: 0;
+    bottom: 8px;
+
+    text-align: center;
+
+}

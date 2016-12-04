@@ -23,11 +23,11 @@ export class OrbitControlsOptions {
     public enabled: boolean = true;
 
     // How far you can dolly in and out ( PerspectiveCamera only )
-    public minDistance: number = 0;
+    public minDistance: number = -Infinity;
     public maxDistance: number = Infinity;
 
     // How far you can zoom in and out ( OrthographicCamera only )
-    public minZoom: number = 0;
+    public minZoom: number = -Infinity;
     public maxZoom: number = Infinity;
 
     // How far you can orbit vertically, upper and lower limits.
@@ -48,7 +48,7 @@ export class OrbitControlsOptions {
     // This option actually enables dollying in and out; left as "zoom" for backwards compatibility.
     // Set to false to disable zooming
     public enableZoom: boolean = true;
-    public zoomSpeed: number = 1.0;
+    public zoomSpeed: number = 1.5;
 
     // Set to false to disable rotating
     public enableRotate: boolean = true;

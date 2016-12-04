@@ -1,16 +1,16 @@
 import * as React from "react";
 import {expect} from "chai";
 import {shallow} from "enzyme";
-import TopBarComponent from "../../../src/components/topbar/TopBar";
+import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
 
-describe("<TopBarComponent/>", () => {
+describe("<SelectedElementInfo/>", () => {
 
-    it("should show nothing on start", () => {
-        const topbar = shallow(
-            <TopBarComponent/>
+    it("should show default text div on start", () => {
+        const selectedElementInfo = shallow(
+            <SelectedElementInfo/>
         );
 
-        expect(topbar.children().length).to.be.eq(0);
+        expect(selectedElementInfo.children().length).to.be.eq(1);
     });
 
     // TODO: Changes of the stores here have side effects on other tests.
@@ -23,7 +23,7 @@ describe("<TopBarComponent/>", () => {
     //     sceneStore.selectedObjectId = "AAA";
     //
     //     const topbar = shallow(
-    //         <TopBarComponent/>
+    //         <TopBar/>
     //     );
     //
     //     expect(topbar.children().length).to.be.eq(0);
@@ -37,7 +37,7 @@ describe("<TopBarComponent/>", () => {
     //     sceneStore.selectedObjectId = "XXX";
     //
     //     const topbar = shallow(
-    //         <TopBarComponent/>
+    //         <TopBar/>
     //     );
     //
     //     expect(topbar.children().length).to.be.eq(1);

@@ -23,7 +23,6 @@ import { MetricSearch } from "../../src/layout/MetricSearch";
 
 describe("MetricSearch", () => {
     const genericMetric: Metric = {
-        id: "1",
         key: "generic",
         type: "INT",
         name: "Generic Metric"

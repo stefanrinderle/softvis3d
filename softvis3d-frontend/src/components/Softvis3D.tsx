@@ -44,9 +44,7 @@ import VisualizationComponent from "./visualization/VisualizationComponent";
         }
 
         return (
-            <div>
-                <VisualizationComponent/>
-            </div>
+            <VisualizationComponent/>
         );
     }
 }

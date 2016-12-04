@@ -12,7 +12,7 @@ import {reaction} from "mobx";
  * call "select object" on the scene.
  */
 @observer
-export default class SceneComponent extends React.Component<any, any> {
+export default class Scene extends React.Component<any, any> {
 
     private static CANVAS_ID: string = "softvis3dscene";
     private scene: SoftVis3dScene;
@@ -45,7 +45,7 @@ export default class SceneComponent extends React.Component<any, any> {
         }
 
         return <div className="scene">
-                    <canvas id={SceneComponent.CANVAS_ID}
+                    <canvas id={Scene.CANVAS_ID}
                             onClick={this.makeSelection.bind(this)} />
                </div>;
     }
@@ -56,7 +56,7 @@ export default class SceneComponent extends React.Component<any, any> {
     }
 
     private loadScene() {
-        this.scene = new SoftVis3dScene(SceneComponent.CANVAS_ID);
+        this.scene = new SoftVis3dScene(Scene.CANVAS_ID);
         this.animate();
     }
 

@@ -36,7 +36,6 @@ declare type MetricType = "INT" | "FLOAT" | "PERCENT" | "BOOL" |
     "DISTRIB" | "RATING" | "WORK_DUR" | "NONE";
 
 declare interface Metric {
-    id: string | number;
     key: string;
     type: MetricType;
     name: string;
@@ -58,9 +57,9 @@ declare interface TreeElement {
 declare interface Profile {
     id: string;
     name: string;
-    metricColor: string;
-    metricHeight: string;
-    metricWidth: string;
+    metricColor: Metric;
+    metricHeight: Metric;
+    metricWidth: Metric;
     description: string;
     editable?: boolean;
 }
@@ -75,9 +74,4 @@ declare interface PreviewPicture {
     forProfile: (p: Profile) => boolean;
     bgPicture: string;
     contents: string|null|ReactElement<any>;
-}
-
-declare interface SoftvisEvent {
-    type: string;
-    payload?: any;
 }

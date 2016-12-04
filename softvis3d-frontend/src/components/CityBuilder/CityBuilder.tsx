@@ -4,12 +4,12 @@ import PropertyPicker from "./PropertyPicker";
 import { district, evostreet } from "../../dtos/Layouts";
 import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
-import { demo, custom } from "../../dtos/Profiles";
+import { demo, leakPeriod, custom } from "../../dtos/Profiles";
 import appStatusStore from "../../stores/AppStatusStore";
 import PreviewPictureComponent from "./PreviewPicture";
 import { observer } from "mobx-react";
 import { SelectBox, SelectOption } from "../ui/SelectBox";
-// import PreviewPictureComponent from "./PreviewPicture";
+import sceneStore from "../../stores/SceneStore";
 
 @observer export default class CityBuilder extends React.Component<{ store: CityBuilderStore; }, any> {
 
@@ -20,11 +20,19 @@ import { SelectBox, SelectOption } from "../ui/SelectBox";
                 { this.renderAdvancedOptions() }
 
                 <br /><hr /><br />
-                <button onClick={this.fakeLoader}>Fake Loading</button>
+                <button onClick={this.fakeLoader.bind(this)}>Fake Loading</button>
                 &nbsp;
                 <button id="load-scene-button" onClick={this.loadScene.bind(this)}>Load Scene</button>
+                &nbsp;
+                { this.renderCloseButton() }
             </div>
         );
+    }
+
+    private renderCloseButton() {
+        if (sceneStore.isVisible) {
+            return <button onClick={this.close.bind(this)}>Close</button>;
+        }
     }
 
     private renderSimpleOptions() {
@@ -64,7 +72,7 @@ import { SelectBox, SelectOption } from "../ui/SelectBox";
     }
 
     private renderProfiler() {
-        const profiles = [demo, custom].map((p) => <SelectOption key={p.id} value={p} label={p.name} />
+        const profiles = [demo, leakPeriod, custom].map((p) => <SelectOption key={p.id} value={p} label={p.name} />
         );
 
         return (
@@ -101,5 +109,9 @@ import { SelectBox, SelectOption } from "../ui/SelectBox";
     private loadScene() {
         this.props.store.show = false;
         this.props.store.renderButtonClicked = true;
+    }
+
+    private close() {
+        this.props.store.show = false;
     }
 }

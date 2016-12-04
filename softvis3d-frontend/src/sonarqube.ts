@@ -74,9 +74,9 @@ export default class SonarQubeCommunicator {
 
         const params = {
             projectKey: this.projectKey,
-            footprintMetricKey: cityBuilderStore.metricWidth,
-            heightMetricKey: cityBuilderStore.metricHeight,
-            colorMetricKey: cityBuilderStore.metricColor
+            footprintMetricKey: cityBuilderStore.metricWidth.key,
+            heightMetricKey: cityBuilderStore.metricHeight.key,
+            colorMetricKey: cityBuilderStore.metricColor.key
         };
 
         return this.callApi("/softVis3D/getVisualization", { params }).then(response => {

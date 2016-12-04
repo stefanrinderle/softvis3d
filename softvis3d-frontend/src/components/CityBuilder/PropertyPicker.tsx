@@ -48,7 +48,7 @@ declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
     private createOptionsFromLoadedMetrics() {
         return this.props.store.availableMetrics
             .map((metric) => <SelectOption
-                key={metric.id}
+                key={metric.key}
                 value={metric.key}
                 label={metric.name}
                 disabled={!this.props.store.profile.editable}
