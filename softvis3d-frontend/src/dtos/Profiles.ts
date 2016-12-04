@@ -1,29 +1,5 @@
-const violationMetric: Metric = {
-    key: "violations",
-    type: "INT",
-    name: "Issues"
-};
-const linesOfCodeMetric: Metric = {
-    key: "ncloc",
-    type: "INT",
-    name: "Lines of Code"
-};
-const newIssuesMetric: Metric = {
-    key: "new_violations",
-    type: "INT",
-    name: "New Issues"
-};
-const newLinesOfCodeMetric: Metric = {
-    key: "new_lines_to_cover",
-    type: "INT",
-    name: "Lines to Cover on New Code"
-};
-const complexityMetric: Metric = {
-    key: "complexity",
-    type: "INT",
-    name: "Complexity"
-};
 
+import {linesOfCodeMetric, complexityMetric, violationMetric, newLinesOfCodeMetric, newIssuesMetric} from "./Metrics";
 const demo: Profile = {
     id: "demo",
     name: "Default",
@@ -51,9 +27,9 @@ const leakPeriod: Profile = {
 const custom: Profile = {
     id: "custom",
     name: "Customize",
-    metricHeight: linesOfCodeMetric,
-    metricWidth: complexityMetric,
-    metricColor: violationMetric,
+    metricHeight: null,
+    metricWidth: null,
+    metricColor: null,
     description: "Choose wisely.",
     editable: true
 };

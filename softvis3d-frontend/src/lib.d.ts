@@ -57,9 +57,9 @@ declare interface TreeElement {
 declare interface Profile {
     id: string;
     name: string;
-    metricColor: Metric;
-    metricHeight: Metric;
-    metricWidth: Metric;
+    metricColor: Metric|null;
+    metricHeight: Metric|null;
+    metricWidth: Metric|null;
     description: string;
     editable?: boolean;
 }
@@ -73,5 +73,5 @@ declare interface PreviewPicture {
     forLayout: (l: Layout) => boolean;
     forProfile: (p: Profile) => boolean;
     bgPicture: string;
-    contents: string|null|ReactElement<any>;
+    contents: null|string|ReactElement<any>;
 }
