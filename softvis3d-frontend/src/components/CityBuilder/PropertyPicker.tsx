@@ -12,7 +12,7 @@ export interface PropertyPickerProps {
 declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
 
 @observer export default class PropertyPicker extends React.Component<PropertyPickerProps, any> {
-    public handelChange(metricKey: metricType, key: string) {
+    public handelChange(metricKey: metricType, key: Metric) {
         (this.props.store as any)[metricKey] = key;
     }
 
@@ -38,7 +38,7 @@ declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
                 label={label}
                 onMouseDown={this.chooseEditableProfile.bind(this)}
                 onChange={this.handelChange.bind(this, type)}
-                value={((this.props.store as any)[type] as Metric).key}
+                value={((this.props.store as any)[type] as Metric)}
             >
                 {this.createOptionsFromLoadedMetrics()}
             </SelectBox>
@@ -49,7 +49,7 @@ declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
         return this.props.store.availableMetrics
             .map((metric) => <SelectOption
                 key={metric.key}
-                value={metric.key}
+                value={metric}
                 label={metric.name}
                 disabled={!this.props.store.profile.editable}
             />);
