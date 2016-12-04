@@ -104,19 +104,18 @@ export class SoftVis3dScene {
      * Resizes the camera when document is resized.
      */
     public onWindowResize() {
-        let paddingLeft: number = 18;
-        let paddingTop: number = 22;
+        // TODO: Change for Sidebar
+        const sidebarWidth = 0;
+        const appOffset = this.getOffsetsById("app");
+        const sceneBoarderWidth = 1;
+        const sonarFooterPosition =  this.getOffsetsById("footer");
+        const sonarFooterHeight = sonarFooterPosition.top ? window.innerHeight - sonarFooterPosition.top : 11;
+        const appMaxHeight = window.innerHeight - sonarFooterHeight - appOffset.top - (2 * sceneBoarderWidth);
+        const appMaxWidth = window.innerWidth - (appOffset.left + sceneBoarderWidth) * 2;
 
-        // TODO set width and heoght to maximum
-        this.width = window.innerWidth - paddingLeft;
-        this.height = window.innerHeight - paddingTop;
-        // jQuery("#footer").outerHeight();
+        this.width = appMaxWidth - sidebarWidth;
+        this.height = appMaxHeight;
 
-        // this.width = 800;
-        // this.height = 400;
-        // if (jQuery("#content").position() !== undefined) {
-        //    this.height = window.innerHeight - jQuery("#content").position().top - jQuery("#footer").outerHeight();
-        // }
         this.camera.setAspect(this.width, this.height);
 
         this.renderer.setSize(this.width, this.height);
@@ -124,6 +123,7 @@ export class SoftVis3dScene {
     }
 
     public makeSelection(event: MouseEvent): string | null {
+        // TODO: Remove commented code
         // console.debug(this.controls.state);
 
         let result: string | null = SelectionService.makeSelection(event, this.container, this.width, this.height,
@@ -132,6 +132,27 @@ export class SoftVis3dScene {
         this.selectSceneTreeObject(result);
 
         return result;
+    }
+
+    private getOffsetsById(id: string): { top: number; left: number; } {
+        let node = document.getElementById(id);
+        let top = 0;
+        let left = 0;
+        let topScroll = 0;
+        let leftScroll = 0;
+        if (node && node.offsetParent) {
+            do {
+                top += node.offsetTop;
+                left += node.offsetLeft;
+                topScroll += node.offsetParent ? node.offsetParent.scrollTop : 0;
+                leftScroll += node.offsetParent ? node.offsetParent.scrollLeft : 0;
+            } while (node = node.offsetParent as HTMLElement);
+        }
+
+        return {
+            top: top - topScroll,
+            left: left - leftScroll
+        };
     }
 
     private findMaxDimension(shapes: SoftVis3dShape[]): Dimension {
