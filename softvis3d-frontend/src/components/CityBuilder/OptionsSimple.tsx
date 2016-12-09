@@ -5,10 +5,10 @@ import LayoutPicker from "./LayoutPicker";
 import {district, evostreet} from "../../dtos/Layouts";
 import * as Profiles from "../../dtos/Profiles";
 import PreviewPictureComponent from "./PreviewPicture";
-import {SelectBox, SelectOption} from "../ui/SelectBox";
-import PropertyPicker from "./PropertyPicker";
+import SelectBoxBuilder from "../ui/SelectBox/SelectBoxBuilder";
 
-const MetricPropertyPicker: new() => PropertyPicker<Metric> = PropertyPicker as any;
+const ProfileSelectBox: new() => SelectBoxBuilder<Profile> = SelectBoxBuilder as any;
+const MetricSelectBox: new() => SelectBoxBuilder<Metric> = SelectBoxBuilder as any;
 
 @observer export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {
     public render() {
@@ -22,19 +22,19 @@ const MetricPropertyPicker: new() => PropertyPicker<Metric> = PropertyPicker as 
         return (
             <div className="simple">
                 <div className="left-column">
-                    <SelectBox
+                    <ProfileSelectBox
                         label="Profile"
                         className="profiles"
-                        onChange={(p: Profile) => this.props.store.setProfile(p)}
                         value={this.props.store.profile}
-                    >
-                        {profiles.map((p) => <SelectOption key={p.id} value={p} label={p.name} />)}
-                    </SelectBox>
+                        options={profiles.map((p) => ({key: p.id, label: p.name, value: p}))}
+                        onChange={(p: Profile) => { this.props.store.setProfile(p); }}
+                    />
 
-                    <MetricPropertyPicker
+                    <MetricSelectBox
                         label="Building Color"
+                        className="metric color"
                         value={this.props.store.metricColor}
-                        options={this.props.store.availableMetrics}
+                        options={this.props.store.availableMetrics.map((m) => ({key: m.key, label: m.name, value: m}))}
                         onChange={(m: Metric) => { this.props.store.metricColor = m; }}
                         onMouseDown={() => { this.props.store.chooseEditableProfile(); }}
                         disabled={!this.props.store.profile.editable}
