@@ -6,6 +6,9 @@ import {district, evostreet} from "../../dtos/Layouts";
 import * as Profiles from "../../dtos/Profiles";
 import PreviewPictureComponent from "./PreviewPicture";
 import {SelectBox, SelectOption} from "../ui/SelectBox";
+import PropertyPicker from "./PropertyPicker";
+
+const MetricPropertyPicker: new() => PropertyPicker<Metric> = PropertyPicker as any;
 
 @observer export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {
     public render() {
@@ -21,12 +24,21 @@ import {SelectBox, SelectOption} from "../ui/SelectBox";
                 <div className="left-column">
                     <SelectBox
                         label="Profile"
-                        className={"profiles"}
+                        className="profiles"
                         onChange={(p: Profile) => this.props.store.setProfile(p)}
                         value={this.props.store.profile}
                     >
                         {profiles.map((p) => <SelectOption key={p.id} value={p} label={p.name} />)}
                     </SelectBox>
+
+                    <MetricPropertyPicker
+                        label="Building Color"
+                        value={this.props.store.metricColor}
+                        options={this.props.store.availableMetrics}
+                        onChange={(m: Metric) => { this.props.store.metricColor = m; }}
+                        onMouseDown={() => { this.props.store.chooseEditableProfile(); }}
+                        disabled={!this.props.store.profile.editable}
+                    />
 
                     <LayoutPicker
                         layouts={[district, evostreet]}

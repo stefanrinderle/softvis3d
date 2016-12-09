@@ -1,61 +1,43 @@
 import * as React from "react";
-import {observer} from "mobx-react";
 import {SelectBox, SelectOption} from "../ui/SelectBox";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
-import {custom} from "../../dtos/Profiles";
 
-export interface PropertyPickerProps {
-    profiles: Profile[];
-    store: CityBuilderStore;
+interface KeyLabelInterface {
+    key: string;
+    name: string;
 }
 
-declare type metricType = "metricHeight" | "metricColor" | "metricWidth";
+export interface PropertyPickerProps<T extends KeyLabelInterface> {
+    label: string;
+    value: T;
+    options: T[];
+    onChange: (value: T) => void|boolean;
+    onMouseDown: () => void|boolean;
+    disabled: boolean;
+}
 
-@observer export default class PropertyPicker extends React.Component<PropertyPickerProps, any> {
-    public handelChange(metricKey: metricType, key: Metric) {
-        (this.props.store as any)[metricKey] = key;
-    }
-
-    public handelProfileChange(p: Profile) {
-        this.props.store.setProfile(p);
-    }
-
+export default class PropertyPicker<T extends KeyLabelInterface> extends React.Component<PropertyPickerProps<T>, any> {
     public render() {
         return (
             <div className="property-component">
-                <div className="metrics">
-                    {this.renderMetricDropdown("Metric - Height", "metricHeight")}
-                    {this.renderMetricDropdown("Metric - Base / Width", "metricWidth")}
-                    {this.renderMetricDropdown("Metric - Color", "metricColor")}
-                </div>
+                <SelectBox
+                    label={this.props.label}
+                    onMouseDown={this.props.onMouseDown}
+                    onChange={this.props.onChange}
+                    value={this.props.value}
+                >
+                    {this.createOptionsFromLoadedMetrics()}
+                </SelectBox>
             </div>
         );
     }
 
-    private renderMetricDropdown(label: string, type: metricType) {
-        return (
-            <SelectBox
-                label={label}
-                onMouseDown={this.chooseEditableProfile.bind(this)}
-                onChange={this.handelChange.bind(this, type)}
-                value={((this.props.store as any)[type] as Metric)}
-            >
-                {this.createOptionsFromLoadedMetrics()}
-            </SelectBox>
-        );
-    }
-
     private createOptionsFromLoadedMetrics() {
-        return this.props.store.availableMetrics
+        return this.props.options
             .map((metric) => <SelectOption
                 key={metric.key}
                 value={metric}
                 label={metric.name}
-                disabled={!this.props.store.profile.editable}
+                disabled={this.props.disabled}
             />);
-    }
-
-    private chooseEditableProfile() {
-        this.props.store.setProfile(custom);
     }
 }
