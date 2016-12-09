@@ -5,6 +5,7 @@ import Softvis3D from "./components/Softvis3D";
 import LegacyConnector from "./legacy/LegacyConnector";
 import appStatusStore from "./stores/AppStatusStore";
 import cityBuilderStore from "./stores/CityBuilderStore";
+import sceneStore from "./stores/SceneStore";
 
 interface AppConfiguration {
     api: string;
@@ -42,7 +43,7 @@ export default class App {
         cityBuilderStore.show = true;
 
         ReactDOM.render(
-           <Softvis3D />,
+           <Softvis3D sceneStore={sceneStore} cityBuilderStore={cityBuilderStore} appStatusStore={appStatusStore}/>,
             document.getElementById(target)!
         );
 

@@ -2,12 +2,14 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import CityBuilder from "./CityBuilder/CityBuilder";
 import Status from "./Status";
-import appStatusStore from "../stores/AppStatusStore";
-import cityBuilderStore from "../stores/CityBuilderStore";
-import sceneStore from "../stores/SceneStore";
+import {AppStatusStore} from "../stores/AppStatusStore";
+import {CityBuilderStore} from "../stores/CityBuilderStore";
+import {SceneStore} from "../stores/SceneStore";
 import VisualizationComponent from "./visualization/VisualizationComponent";
 
-@observer export default class Softvis3D extends React.Component<{}, any> {
+@observer export default class Softvis3D extends React.Component
+            <{appStatusStore: AppStatusStore, sceneStore: SceneStore, cityBuilderStore: CityBuilderStore}, any> {
+
     public render() {
         return (
             <div>
@@ -19,7 +21,7 @@ import VisualizationComponent from "./visualization/VisualizationComponent";
     }
 
     private renderLoader() {
-        if (!appStatusStore.isVisible) {
+        if (!this.props.appStatusStore.isVisible) {
             return null;
         }
 
@@ -29,22 +31,22 @@ import VisualizationComponent from "./visualization/VisualizationComponent";
     }
 
     private renderBuilder() {
-        if (!cityBuilderStore.isVisible) {
+        if (!this.props.cityBuilderStore.isVisible) {
             return null;
         }
 
         return (
-            <CityBuilder store={cityBuilderStore}/>
+            <CityBuilder store={this.props.cityBuilderStore}/>
         );
     }
 
     private renderScene() {
-        if (!sceneStore.isVisible) {
+        if (!this.props.sceneStore.isVisible) {
             return null;
         }
 
         return (
-            <VisualizationComponent/>
+            <VisualizationComponent cityBuilderStore={this.props.cityBuilderStore} sceneStore={this.props.sceneStore}/>
         );
     }
 }

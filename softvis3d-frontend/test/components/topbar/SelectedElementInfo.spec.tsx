@@ -2,45 +2,70 @@ import * as React from "react";
 import {expect} from "chai";
 import {shallow} from "enzyme";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
+import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
+import {SceneStore} from "../../../src/stores/SceneStore";
+import SelectedElementNodeInfo from "../../../src/components/topbar/SelectedElementNodeInfo";
+import SelectedElementLeafInfo from "../../../src/components/topbar/SelectedElementLeafInfo";
 
 describe("<SelectedElementInfo/>", () => {
 
     it("should show default text div on start", () => {
+        let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let localSceneStore: SceneStore = new SceneStore();
+
         const selectedElementInfo = shallow(
-            <SelectedElementInfo/>
+            <SelectedElementInfo cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
-        expect(selectedElementInfo.children().length).to.be.eq(1);
+        expect(selectedElementInfo.html().includes("Select an object to see the details here")).to.be.true;
     });
 
-    // TODO: Changes of the stores here have side effects on other tests.
-    // We should find a way to solve this. How can the sores be mocked?
+    it("should node element if node details are requested", () => {
+        let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let localSceneStore: SceneStore = new SceneStore();
 
-    // it("should show nothing if element not found", () => {
-    //     sceneStore.legacyData = {
-    //         id: "XXX"
-    //     };
-    //     sceneStore.selectedObjectId = "AAA";
-    //
-    //     const topbar = shallow(
-    //         <TopBar/>
-    //     );
-    //
-    //     expect(topbar.children().length).to.be.eq(0);
-    // });
-    //
-    // it("should show something if element found", () => {
-    //
-    //     sceneStore.legacyData = {
-    //         id: "XXX"
-    //     };
-    //     sceneStore.selectedObjectId = "XXX";
-    //
-    //     const topbar = shallow(
-    //         <TopBar/>
-    //     );
-    //
-    //     expect(topbar.children().length).to.be.eq(1);
-    // });
+        let testId: string = "siudgffsiuhdsfiu2332";
+        localSceneStore.legacyData = createTestTreeElement(testId);
+        localSceneStore.selectedObjectId = testId;
+        localSceneStore.legacyData.isNode = true;
 
+        const selectedElementInfo = shallow(
+            <SelectedElementInfo cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
+        );
+
+        expect(selectedElementInfo.contains(<SelectedElementNodeInfo selectedElement={localSceneStore.legacyData}/>))
+            .to.be.true;
+    });
+
+    it("should leaf element if node details are requested", () => {
+        let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let localSceneStore: SceneStore = new SceneStore();
+
+        let testId: string = "siudgffsiuhdsfiu2332";
+        localSceneStore.legacyData = createTestTreeElement(testId);
+        localSceneStore.selectedObjectId = testId;
+
+        const selectedElementInfo = shallow(
+            <SelectedElementInfo cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
+        );
+
+        expect(selectedElementInfo.contains(<SelectedElementLeafInfo selectedElement={localSceneStore.legacyData}
+                                                                     cityBuilderStore={localCityBuilderStore}/>))
+            .to.be.true;
+    });
 });
+
+function createTestTreeElement(id: string): TreeElement {
+    return {
+        id,
+        name: "",
+        isNode: false,
+
+        children: [],
+
+        colorMetricValue: 0,
+        footprintMetricValue: 0,
+        heightMetricValue: 0,
+        parentInfo: null
+    };
+}

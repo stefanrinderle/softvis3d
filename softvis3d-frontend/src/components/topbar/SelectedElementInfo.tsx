@@ -1,19 +1,21 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import sceneStore from "../../stores/SceneStore";
 import {TreeService} from "../../layout/TreeService";
-import SeparatorComponent from "../ui/SeparatorComponent";
-import cityBuilderStore from "../../stores/CityBuilderStore";
+import SelectedElementNodeInfo from "./SelectedElementNodeInfo";
+import SelectedElementLeafInfo from "./SelectedElementLeafInfo";
+import {SceneStore} from "../../stores/SceneStore";
+import {CityBuilderStore} from "../../stores/CityBuilderStore";
 
 /**
  * Currently used for an example use of selected scene object store.
  */
 @observer
-export default class SelectedElementInfo extends React.Component<any, any> {
+export default class SelectedElementInfo
+        extends React.Component<{ sceneStore: SceneStore; cityBuilderStore: CityBuilderStore}, any> {
 
     public render() {
         let selectedElement: TreeElement | null =
-            TreeService.searchTreeNode(sceneStore.legacyData, sceneStore.selectedObjectId);
+            TreeService.searchTreeNode(this.props.sceneStore.legacyData, this.props.sceneStore.selectedObjectId);
 
         if (selectedElement !== null) {
             return (
@@ -28,23 +30,10 @@ export default class SelectedElementInfo extends React.Component<any, any> {
 
     private renderSelectedObject(selectedElement: TreeElement) {
         if (selectedElement.isNode) {
-            return <div>
-                Folder: <span className="top-bar-header">{selectedElement.name}</span>
-                <SeparatorComponent/>
-                <span>Children: {selectedElement.children.length}</span>
-            </div>;
+            return <SelectedElementNodeInfo selectedElement={selectedElement}/>;
         } else {
-            return <div>
-                <span className="top-bar-header">
-                    {selectedElement.name}
-                    <SeparatorComponent/>
-                </span>
-                Height ({cityBuilderStore.metricHeight.name}): {selectedElement.heightMetricValue}
-                <SeparatorComponent/>
-                Footprint ({cityBuilderStore.metricWidth.name}): {selectedElement.footprintMetricValue}
-                <SeparatorComponent/>
-                Color ({cityBuilderStore.metricColor.name}): {selectedElement.colorMetricValue}
-            </div>;
+            return <SelectedElementLeafInfo selectedElement={selectedElement}
+                                            cityBuilderStore={this.props.cityBuilderStore}/>;
         }
     }
 
