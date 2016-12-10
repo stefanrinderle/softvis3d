@@ -1,18 +1,17 @@
-.bottom-bar {
+.side-bar {
 
     @include clearfix;
 
     position: absolute;
-    width: 40%;
-    max-width: 1000px;
-    min-width: 500px;
+    width: 200px;
     border: 1px solid $border-color-background;
     margin: auto;
     padding: 10px 10px 10px 10px;
     background-color: $white;
 
-    left: 0; right: 0;
-    bottom: 8px;
+    height: 300px;
+    top: 100px;
+    right: 8px;
 
     text-align: center;
 

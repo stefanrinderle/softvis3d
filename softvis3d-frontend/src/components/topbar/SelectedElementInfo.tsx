@@ -1,9 +1,7 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import {TreeService} from "../../layout/TreeService";
 import SelectedElementNodeInfo from "./SelectedElementNodeInfo";
 import SelectedElementLeafInfo from "./SelectedElementLeafInfo";
-import {SceneStore} from "../../stores/SceneStore";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 
 /**
@@ -11,21 +9,18 @@ import {CityBuilderStore} from "../../stores/CityBuilderStore";
  */
 @observer
 export default class SelectedElementInfo
-        extends React.Component<{ sceneStore: SceneStore; cityBuilderStore: CityBuilderStore}, any> {
+        extends React.Component<{ cityBuilderStore: CityBuilderStore; selectedElement: TreeElement | null}, any> {
 
     public render() {
-        let selectedElement: TreeElement | null =
-            TreeService.searchTreeNode(this.props.sceneStore.legacyData, this.props.sceneStore.selectedObjectId);
-
-        if (selectedElement !== null) {
+        if (this.props.selectedElement !== null) {
             return (
                 <div className="selected-element-info">
-                    {this.renderSelectedObject(selectedElement)}
+                    {this.renderSelectedObject(this.props.selectedElement)}
                 </div>
             );
+        } else {
+            return <div className="selected-element-info">Select an object to see the details here</div>;
         }
-
-        return <div className="selected-element-info">Select an object to see the details here</div>;
     }
 
     private renderSelectedObject(selectedElement: TreeElement) {

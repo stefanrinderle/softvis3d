@@ -5,7 +5,7 @@ import Softvis3D from "../../src/components/Softvis3D";
 import Status from "../../src/components/Status";
 import cityBuilderStore, {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import CityBuilder from "../../src/components/CityBuilder/CityBuilder";
-import VisualizationComponent from "../../src/components/visualization/VisualizationComponent";
+import Visualization from "../../src/components/visualization/Visualization";
 import {AppStatusStore} from "../../src/stores/AppStatusStore";
 import sceneStore, {SceneStore} from "../../src/stores/SceneStore";
 
@@ -24,7 +24,7 @@ describe("<SoftVis3D/>", () => {
         expect(softvis3d.contains(<Status/>)).to.be.false;
         expect(softvis3d.contains(<CityBuilder store={cityBuilderStore}/>)).to.be.false;
         expect(softvis3d.contains(
-            <VisualizationComponent cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>)).to.be.false;
+            <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>)).to.be.false;
     });
 
     it("should show loader on state change", () => {
@@ -84,7 +84,7 @@ describe("<SoftVis3D/>", () => {
     //     );
     //
     //     expect(softvis3d.contains(
-    //         <VisualizationComponent cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>)).to.be.true;
+    //         <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>)).to.be.true;
     // });
 
 });

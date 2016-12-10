@@ -5,7 +5,7 @@ import Status from "./Status";
 import {AppStatusStore} from "../stores/AppStatusStore";
 import {CityBuilderStore} from "../stores/CityBuilderStore";
 import {SceneStore} from "../stores/SceneStore";
-import VisualizationComponent from "./visualization/VisualizationComponent";
+import Visualization from "./visualization/Visualization";
 
 @observer export default class Softvis3D extends React.Component
             <{appStatusStore: AppStatusStore, sceneStore: SceneStore, cityBuilderStore: CityBuilderStore}, any> {
@@ -46,7 +46,7 @@ import VisualizationComponent from "./visualization/VisualizationComponent";
         }
 
         return (
-            <VisualizationComponent cityBuilderStore={this.props.cityBuilderStore} sceneStore={this.props.sceneStore}/>
+            <Visualization cityBuilderStore={this.props.cityBuilderStore} sceneStore={this.props.sceneStore}/>
         );
     }
 }
