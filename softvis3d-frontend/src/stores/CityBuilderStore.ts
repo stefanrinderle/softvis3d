@@ -2,7 +2,7 @@ import {observable, computed} from "mobx";
 import {district} from "../dtos/Layouts";
 import {demo, custom} from "../dtos/Profiles";
 import appStatusStore from "./AppStatusStore";
-import {noMetric} from "../dtos/Metrics";
+import * as Metrics from "../dtos/Metrics";
 
 class CityBuilderStore {
     @observable public layoutType: Layout;
@@ -10,20 +10,32 @@ class CityBuilderStore {
     @observable public metricColor: Metric;
     @observable public metricHeight: Metric;
     @observable public metricWidth: Metric;
-    @observable public availableMetrics: Metric[];
+    @observable public availableGenericMetrics: Metric[];
+    @observable public availableColorMetrics: Metric[];
     @observable public renderButtonClicked: boolean = false;
     @observable public show: boolean;
 
     public constructor() {
         this.show = false;
         this.layoutType = district;
-        this.metricColor = noMetric;
-        this.metricHeight = noMetric;
-        this.metricWidth = noMetric;
+        this.metricColor = Metrics.noMetric;
+        this.metricHeight = Metrics.noMetric;
+        this.metricWidth = Metrics.noMetric;
         this.setProfile(demo);
 
-        this.availableMetrics = observable([]);
-        this.availableMetrics.push(noMetric);
+        this.availableGenericMetrics = observable([]);
+        this.availableGenericMetrics.push(Metrics.noMetric);
+
+        this.availableColorMetrics = observable([]);
+        this.availableColorMetrics.push(Metrics.noMetric);
+        this.addColorMetrics([
+            Metrics.complexityMetric,
+            Metrics.coverageMetric,
+            Metrics.violationMetric,
+            Metrics.linesOfCodeMetric,
+            Metrics.openIssuesMetric,
+            Metrics.packageNameMetric
+        ]);
     }
 
     @computed public get isVisible() {
@@ -45,8 +57,12 @@ class CityBuilderStore {
         this.layoutType = l;
     }
 
-    public addAvailableMetrics(metrics: Metric[]) {
-        this.availableMetrics = this.availableMetrics.concat(metrics);
+    public addGenericMetrics(metrics: Metric[]) {
+        this.availableGenericMetrics = this.availableGenericMetrics.concat(metrics);
+    }
+
+    public addColorMetrics(metrics: Metric[]) {
+        this.availableColorMetrics = this.availableColorMetrics.concat(metrics);
     }
 }
 

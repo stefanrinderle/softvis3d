@@ -62,7 +62,7 @@ export default class SonarQubeCommunicator {
         const params = {f: 'name', p: page};
 
         this.callApi("/metrics/search", { params }).then(response => {
-            cityBuilderStore.addAvailableMetrics(
+            cityBuilderStore.addGenericMetrics(
                 (response.data.metrics as Array<SonarQubeApiMetric>)
                     .filter((c) => c.type === "INT" || c.type === "FLOAT" || c.type === "PERCENT")
                     .map((c) => { delete c.id; return c; })
@@ -80,11 +80,13 @@ export default class SonarQubeCommunicator {
     private loadLegacyBackend() {
         appStatusStore.load(SonarQubeCommunicator.LOAD_LEGACY);
 
+        const legacyColorMapper = (m: Metric) => m.type === "NONE" ? m.key.toLocaleUpperCase() : m.key;
+
         const params = {
             projectKey: this.projectKey,
             footprintMetricKey: cityBuilderStore.metricWidth.key,
             heightMetricKey: cityBuilderStore.metricHeight.key,
-            colorMetricKey: cityBuilderStore.metricColor.key
+            colorMetricKey: legacyColorMapper(cityBuilderStore.metricColor)
         };
 
         return this.callApi("/softVis3D/getVisualization", { params }).then(response => {

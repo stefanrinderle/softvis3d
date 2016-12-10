@@ -34,7 +34,7 @@ const MetricSelectBox: new() => SelectBoxBuilder<Metric> = SelectBoxBuilder as a
                         label="Building Color"
                         className="metric color"
                         value={this.props.store.metricColor}
-                        options={this.props.store.availableMetrics.map((m) => ({key: m.key, label: m.name, value: m}))}
+                        options={this.props.store.availableColorMetrics.map((m) => ({key: m.key, label: m.name, value: m}))}
                         onChange={(m: Metric) => { this.props.store.metricColor = m; }}
                         onMouseDown={() => { this.props.store.chooseEditableProfile(); }}
                         disabled={!this.props.store.profile.editable}
