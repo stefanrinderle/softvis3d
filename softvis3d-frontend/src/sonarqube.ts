@@ -64,7 +64,7 @@ export default class SonarQubeCommunicator {
         this.callApi("/metrics/search", { params }).then(response => {
             cityBuilderStore.addAvailableMetrics(
                 (response.data.metrics as Array<SonarQubeApiMetric>)
-                    .filter((c) => c.type === "INT")
+                    .filter((c) => c.type === "INT" || c.type === "FLOAT" || c.type === "PERCENT")
                     .map((c) => { delete c.id; return c; })
             );
 

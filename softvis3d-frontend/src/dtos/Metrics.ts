@@ -1,8 +1,23 @@
+/* #################################### *
+ * ##         Custom Metrics         ## *
+ * #################################### */
+
 export const noMetric: Metric = {
     key: "none",
     type: "NONE",
     name: " -- None -- "
 };
+
+export const packageNameMetric: Metric = {
+    key: "package",
+    type: "NONE",
+    name: "Package Name"
+};
+
+/* #################################### *
+ * ## Metrics available in SonarQube ## *
+ * #################################### */
+
 export const violationMetric: Metric = {
     key: "violations",
     type: "INT",
@@ -27,4 +42,16 @@ export const complexityMetric: Metric = {
     key: "complexity",
     type: "INT",
     name: "Complexity"
+};
+
+export const coverageMetric: Metric = {
+    key: "coverage",
+    type: "PERCENT",
+    name: "Coverage"
+};
+
+export const openIssuesMetric: Metric = {
+    key: "open_issues",
+    type: "INT",
+    name: "Open Issues"
 };
