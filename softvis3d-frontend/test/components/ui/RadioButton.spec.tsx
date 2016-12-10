@@ -123,7 +123,7 @@ describe("<RadioGroup/>", () => {
 
         expect(radioGroup.find(RadioButton)).to.be.length(3);
 
-        const activeButtons = radioGroup.findWhere(n => n.prop("checked"));
+        const activeButtons = radioGroup.findWhere((n) => n.prop("checked"));
         expect(activeButtons).to.have.length(1);
         expect(activeButtons.prop("value")).to.be.equal("btn2");
     });
@@ -145,14 +145,14 @@ describe("<RadioGroup/>", () => {
 
         expect(radioGroup.find(RadioButton)).to.be.length(3);
 
-        let activeButtons = radioGroup.findWhere(n => n.prop("checked"));
+        let activeButtons = radioGroup.findWhere((n) => n.prop("checked"));
         expect(activeButtons).to.have.length(1);
         expect(activeButtons.prop("value")).to.be.equal("btn2");
         expect(spy.notCalled).to.be.equal(true, "callback should not have been invoked yet");
 
         radioGroup.find(RadioButton).first().shallow().find("input").simulate("change");
 
-        activeButtons = radioGroup.findWhere(n => n.prop("checked"));
+        activeButtons = radioGroup.findWhere((n) => n.prop("checked"));
         expect(activeButtons).to.have.length(1);
         expect(activeButtons.prop("value")).to.be.equal("btn1");
         expect(spy.calledOnce).to.be.equal(true, "callback should have been invoked by change event");
@@ -175,14 +175,14 @@ describe("<RadioGroup/>", () => {
 
         expect(radioGroup.find(RadioButton)).to.be.length(3);
 
-        let activeButtons = radioGroup.findWhere(n => n.prop("checked"));
+        let activeButtons = radioGroup.findWhere((n) => n.prop("checked"));
         expect(activeButtons).to.have.length(1);
         expect(activeButtons.prop("value")).to.be.equal("btn2");
 
         radioGroup.find(RadioButton).last().shallow().find("input").simulate("change");
         expect(spy.notCalled).to.be.equal(true, "callback should not have been invoked");
 
-        activeButtons = radioGroup.findWhere(n => n.prop("checked"));
+        activeButtons = radioGroup.findWhere((n) => n.prop("checked"));
         expect(activeButtons).to.have.length(1);
         expect(activeButtons.prop("value")).to.be.equal("btn2");
     });
@@ -205,19 +205,19 @@ describe("<RadioGroup/>", () => {
 
         expect(radioGroup.find(RadioButton)).to.be.length(3);
 
-        let activeButtons = radioGroup.findWhere(n => n.prop("checked"));
+        let activeButtons = radioGroup.findWhere((n) => n.prop("checked"));
         expect(activeButtons).to.have.length(1);
         expect(activeButtons.prop("value")).to.be.equal("btn2");
 
         radioGroup.find(RadioButton).last().shallow().find("input").simulate("change");
 
-        activeButtons = radioGroup.findWhere(n => n.prop("checked"));
+        activeButtons = radioGroup.findWhere((n) => n.prop("checked"));
         expect(activeButtons).to.have.length(1);
         expect(activeButtons.prop("value")).to.be.equal("btn2");
 
         radioGroup.find(RadioButton).first().shallow().find("input").simulate("change");
 
-        activeButtons = radioGroup.findWhere(n => n.prop("checked"));
+        activeButtons = radioGroup.findWhere((n) => n.prop("checked"));
         expect(activeButtons).to.have.length(1);
         expect(activeButtons.prop("value")).to.be.equal("btn2");
 

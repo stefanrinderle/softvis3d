@@ -1,23 +1,18 @@
 import * as React from "react";
-import LayoutPicker from "./LayoutPicker";
-import PropertyPicker from "./PropertyPicker";
-import { district, evostreet } from "../../dtos/Layouts";
-import { CityBuilderStore } from "../../stores/CityBuilderStore";
-import Category from "../ui/Category";
-import { demo, leakPeriod, custom } from "../../dtos/Profiles";
-import appStatusStore from "../../stores/AppStatusStore";
-import PreviewPictureComponent from "./PreviewPicture";
 import { observer } from "mobx-react";
-import { SelectBox, SelectOption } from "../ui/SelectBox";
+import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import appStatusStore from "../../stores/AppStatusStore";
 import sceneStore from "../../stores/SceneStore";
+import OptionsSimple from "./OptionsSimple";
+import OptionsAdvanced from "./OptionsAdvanced";
 
 @observer export default class CityBuilder extends React.Component<{ store: CityBuilderStore; }, any> {
 
     public render() {
         return (
             <div className="city-builder">
-                { this.renderSimpleOptions() }
-                { this.renderAdvancedOptions() }
+                <OptionsSimple store={this.props.store} />
+                <OptionsAdvanced store={this.props.store} />
 
                 <br /><hr /><br />
                 <button onClick={this.fakeLoader.bind(this)}>Fake Loading</button>
@@ -33,58 +28,6 @@ import sceneStore from "../../stores/SceneStore";
         if (sceneStore.isVisible) {
             return <button onClick={this.close.bind(this)}>Close</button>;
         }
-    }
-
-    private renderSimpleOptions() {
-        return (
-            <div className="simple">
-                <div className="left-column">
-                    {this.renderProfiler()}
-
-                    <LayoutPicker
-                        layouts={[district, evostreet]}
-                        store={this.props.store}
-                    />
-
-                    <p className="profile-description">
-                        {this.props.store.profile.description}
-                    </p>
-                </div>
-                <div className="right-column">
-                    <PreviewPictureComponent
-                        layout={this.props.store.layoutType}
-                        profile={this.props.store.profile}
-                    />
-                </div>
-            </div>
-        );
-    }
-
-    private renderAdvancedOptions() {
-        return (
-            <Category label={"Advanced Properties"} className="advanced">
-                <PropertyPicker
-                    profiles={[demo, custom]}
-                    store={this.props.store}
-                />
-            </Category>
-        );
-    }
-
-    private renderProfiler() {
-        const profiles = [demo, leakPeriod, custom].map((p) => <SelectOption key={p.id} value={p} label={p.name} />
-        );
-
-        return (
-            <SelectBox
-                label="Profile"
-                className={"profiles"}
-                onChange={(p: Profile) => this.props.store.setProfile(p)}
-                value={this.props.store.profile}
-            >
-                {profiles}
-            </SelectBox>
-        );
     }
 
     private fakeLoader() {

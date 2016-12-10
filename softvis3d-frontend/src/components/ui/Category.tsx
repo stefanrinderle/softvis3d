@@ -1,11 +1,16 @@
 import * as React from "react";
 
 interface CategoryProps {
-    className: string;
+    className?: string;
     label: string;
+    toggle?: boolean|null;
 }
 
 export default class Category extends React.Component<CategoryProps, any> {
+    public static defaultProps = {
+        className: "",
+        toggle: null
+    };
 
     public render() {
         return (

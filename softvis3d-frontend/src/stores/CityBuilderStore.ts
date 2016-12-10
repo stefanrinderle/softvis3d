@@ -1,6 +1,6 @@
 import {observable, computed} from "mobx";
 import {district} from "../dtos/Layouts";
-import {demo} from "../dtos/Profiles";
+import {demo, custom} from "../dtos/Profiles";
 import appStatusStore from "./AppStatusStore";
 import {noMetric} from "../dtos/Metrics";
 
@@ -28,6 +28,10 @@ class CityBuilderStore {
 
     @computed public get isVisible() {
         return this.show && !appStatusStore.isVisible;
+    }
+
+    public chooseEditableProfile() {
+        this.setProfile(custom);
     }
 
     public setProfile(p: Profile) {

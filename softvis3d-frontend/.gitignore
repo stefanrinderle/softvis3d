@@ -1,3 +1,4 @@
+.ignore/
 .nyc_output/
 .idea/
 .vagrant/

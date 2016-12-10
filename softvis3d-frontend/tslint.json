@@ -1,11 +1,11 @@
 {
-    "extends": "tslint:latest",
+    "extends": "tslint:recommended",
     "rules": {
         "max-line-length": [true, 125],
-        "ordered-imports": false,
+        "ordered-imports": [ false ],
         "object-literal-sort-keys": false,
         "interface-name": [true, "never-prefix"],
-        "variable-name": ["check-format", "allow-leading-underscore"],
+        "variable-name": ["check-format", "allow-pascal-case"],
         "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
         "no-bitwise": false,
         "quotemark": [true, "double"],
