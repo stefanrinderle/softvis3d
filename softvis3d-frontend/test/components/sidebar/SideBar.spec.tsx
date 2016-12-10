@@ -19,7 +19,7 @@ describe("<SideBar/>", () => {
         expect(selectedElementInfo.hasClass("side-bar")).to.be.false;
     });
 
-    it("should show something if selected", () => {
+    it("should show node info for nodes", () => {
         let selectedElement: TreeElement = createTestTreeElement();
         selectedElement.isNode = true;
 
@@ -35,7 +35,7 @@ describe("<SideBar/>", () => {
         expect(selectedElementInfo.contains(<SideBarNodeInfo selectedElement={selectedElement}/>)).to.be.true;
     });
 
-    it("should show something if selected", () => {
+    it("should show leaf info if leaf", () => {
         let selectedElement: TreeElement = createTestTreeElement();
         selectedElement.isNode = false;
 
