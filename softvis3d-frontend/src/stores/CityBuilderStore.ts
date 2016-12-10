@@ -32,6 +32,7 @@ class CityBuilderStore {
             Metrics.complexityMetric,
             Metrics.coverageMetric,
             Metrics.violationMetric,
+            Metrics.newIssuesMetric,
             Metrics.linesOfCodeMetric,
             Metrics.openIssuesMetric,
             Metrics.packageNameMetric
