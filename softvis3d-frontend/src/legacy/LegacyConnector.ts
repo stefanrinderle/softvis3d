@@ -12,16 +12,6 @@ export default class LegacyConnector {
         {key: "linear_s", name: "Linear (scaled)"},
         {key: "linear", name: "Linear"}
     ];
-
-     private availableColorMetrics = [
-         { key: 'NONE', name: 'None' },
-         { key: 'complexity', name: 'Complexity' },
-         { key: 'coverage', name: 'Coverage' },
-         { key: 'violations', name: 'Issues' },
-         { key: 'ncloc', name: 'Lines of Code' },
-         { key: 'open_issues', name: 'Open Issues' },
-         { key: 'PACKAGE', name: 'Package Name' }
-     ];
      */
 
     public init(): void {
@@ -37,7 +27,7 @@ export default class LegacyConnector {
         const options = {
             layout: cityBuilderStore.layoutType.id,
             layoutOptions: {},
-            colorMetric: "violations",
+            colorMetric: cityBuilderStore.metricColor.key,
             scalingMethod: "linear_s"
         };
         const processor = new LayoutProcessor(options);

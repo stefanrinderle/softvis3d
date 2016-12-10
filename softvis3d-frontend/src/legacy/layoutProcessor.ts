@@ -55,7 +55,7 @@ class LayoutProcessor {
 
     constructor(options = {}) {
         this._options = Object.assign(
-            { layout: "district", layoutOptions: {}, colorMetric: "NONE", scalingMethod: "linear" },
+            { layout: "district", layoutOptions: {}, colorMetric: "none", scalingMethod: "linear" },
             options
         );
         this._illustrator = null;
@@ -177,7 +177,7 @@ class LayoutProcessor {
                 return this._RuleHouseColorByIssues();
             case "open_issues":
                 return this._RuleHouseColorByOpenIssues();
-            case "PACKAGE":
+            case "package":
                 return this._RuleHouseColorByPackageName();
             default:
                 return this._RuleHouseColorInitial();
