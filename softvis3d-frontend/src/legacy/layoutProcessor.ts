@@ -43,6 +43,13 @@ interface MetricScale {
 }
 
 class LayoutProcessor {
+    public static SCALING_METHODS = [
+        {key: "logarithmic", label: "Logarithmic"},
+        {key: "exponential", label: "Exponential"},
+        {key: "linear_s", label: "Linear (scaled)"},
+        {key: "linear", label: "Linear"}
+    ];
+
     private _options: {
         layout: string;
         layoutOptions: {};

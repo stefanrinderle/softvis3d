@@ -10,6 +10,7 @@ class CityBuilderStore {
     @observable public metricColor: Metric;
     @observable public metricHeight: Metric;
     @observable public metricWidth: Metric;
+    @observable public scalingMethod: string;
     @observable public availableGenericMetrics: Metric[];
     @observable public availableColorMetrics: Metric[];
     @observable public renderButtonClicked: boolean = false;
@@ -18,6 +19,7 @@ class CityBuilderStore {
     public constructor() {
         this.show = false;
         this.layoutType = district;
+        this.scalingMethod = "linear_s";
         this.metricColor = Metrics.noMetric;
         this.metricHeight = Metrics.noMetric;
         this.metricWidth = Metrics.noMetric;
