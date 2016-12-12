@@ -13,15 +13,37 @@ export default class Visualization
         extends React.Component<{ sceneStore: SceneStore; cityBuilderStore: CityBuilderStore}, any> {
 
     public render() {
-        let selectedElement: TreeElement | null =
-            TreeService.searchTreeNode(this.props.sceneStore.legacyData, this.props.sceneStore.selectedObjectId);
+        let selectedElement: TreeElement | null = null;
+        let parentElement: TreeElement | null = null;
+
+        /**
+         * This logic could also be placed in the store. Not sure for now where to put it.
+         * But as the react components should be as dumb as possible i think the store is the better
+         * place.
+         */
+        // TODO: Move this logic in sceneStore.
+        if (this.props.sceneStore.legacyData !== null && this.props.sceneStore.selectedObjectId != null) {
+            selectedElement =
+                TreeService.searchTreeNode(this.props.sceneStore.legacyData, this.props.sceneStore.selectedObjectId);
+
+            if (selectedElement !== null && selectedElement.parentInfo !== null) {
+                parentElement =
+                    TreeService.searchTreeNode(this.props.sceneStore.legacyData, selectedElement.parentInfo.id);
+
+                // parent element is never not null in this case.
+                if (parentElement !== null) {
+                    console.warn(parentElement.id);
+                }
+            }
+        }
 
         return (
             <div>
                 <TopBar cityBuilderStore={this.props.cityBuilderStore} selectedElement={selectedElement}/>
                 <Scene/>
                 <BottomBar cityBuilderStore={this.props.cityBuilderStore}/>
-                <SideBar sceneStore={this.props.sceneStore} selectedElement={selectedElement}/>
+                <SideBar sceneStore={this.props.sceneStore}
+                         selectedElement={selectedElement} parentElement={parentElement}/>
             </div>
         );
     }

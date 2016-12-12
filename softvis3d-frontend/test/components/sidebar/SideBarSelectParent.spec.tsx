@@ -28,7 +28,7 @@ describe("<SideBarSelectParent/>", () => {
         expect(sideBarSelectParent.children().length).to.be.eq(0);
     });
 
-    it("should show children as list", () => {
+    it("should show parent if defined", () => {
         let selectedElement: TreeElement = createTestTreeElement("root");
         selectedElement.parentInfo = createTestTreeElement("parentElement234");
         let localSceneStore = new SceneStore();
@@ -40,11 +40,27 @@ describe("<SideBarSelectParent/>", () => {
         expect(sideBarSelectParent.html().includes("parentElement234")).to.be.true;
     });
 
+    it("should select parent on click", () => {
+        let expecedSelectedId: string = "parentElement234";
+
+        let selectedElement: TreeElement = createTestTreeElement("root");
+        selectedElement.parentInfo = createTestTreeElement(expecedSelectedId);
+        let localSceneStore = new SceneStore();
+
+        let sideBarSelectParent = shallow(
+            <SideBarSelectParent sceneStore={localSceneStore} selectedElement={selectedElement}/>
+        );
+
+        sideBarSelectParent.find("a").simulate("click");
+
+        expect(localSceneStore.selectedObjectId).to.be.eq(expecedSelectedId);
+    });
+
 });
 
 function createTestTreeElement(name: string): TreeElement {
     return {
-        id: "",
+        id: name,
         name,
         isNode: false,
 

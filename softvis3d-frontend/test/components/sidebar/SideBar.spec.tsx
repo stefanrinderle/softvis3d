@@ -11,9 +11,9 @@ describe("<SideBar/>", () => {
 
     it("should show nothing if nothing selected", () => {
         let localSceneStore = new SceneStore();
-
+        let parentElement: TreeElement = createTestTreeElement();
         const selectedElementInfo = shallow(
-            <SideBar selectedElement={null} sceneStore={localSceneStore}/>
+            <SideBar selectedElement={null} sceneStore={localSceneStore}  parentElement={parentElement}/>
         );
 
         expect(selectedElementInfo.hasClass("side-bar")).to.be.false;
@@ -23,39 +23,44 @@ describe("<SideBar/>", () => {
         let selectedElement: TreeElement = createTestTreeElement();
         selectedElement.isNode = true;
 
-        let localSceneStore = new SceneStore();
+        let localSceneStore: SceneStore = new SceneStore();
+        let parentElement: TreeElement = createTestTreeElement();
 
         const selectedElementInfo = shallow(
-            <SideBar selectedElement={selectedElement} sceneStore={localSceneStore}/>
+            <SideBar selectedElement={selectedElement} sceneStore={localSceneStore} parentElement={parentElement}/>
         );
 
         expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
         expect(selectedElementInfo.contains(<SideBarSelectParent selectedElement={selectedElement}
                                                                  sceneStore={localSceneStore}/>)).to.be.true;
-        expect(selectedElementInfo.contains(<SideBarNodeInfo selectedElement={selectedElement}/>)).to.be.true;
+        expect(selectedElementInfo.contains(<SideBarNodeInfo selectedElement={selectedElement}
+                                                             sceneStore={localSceneStore}/>)).to.be.true;
     });
 
     it("should show leaf info if leaf", () => {
         let selectedElement: TreeElement = createTestTreeElement();
         selectedElement.isNode = false;
 
-        let localSceneStore = new SceneStore();
+        let localSceneStore: SceneStore = new SceneStore();
+        let parentElement: TreeElement = createTestTreeElement();
 
         const selectedElementInfo = shallow(
-            <SideBar selectedElement={selectedElement} sceneStore={localSceneStore}/>
+            <SideBar selectedElement={selectedElement} sceneStore={localSceneStore} parentElement={parentElement}/>
         );
 
         expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
         expect(selectedElementInfo.contains(<SideBarSelectParent selectedElement={selectedElement}
                                                                  sceneStore={localSceneStore}/>)).to.be.true;
-        expect(selectedElementInfo.contains(<SideBarLeafInfo selectedElement={selectedElement}/>)).to.be.true;
+        expect(selectedElementInfo.contains(<SideBarLeafInfo selectedElement={selectedElement}
+                                                             parentElement={parentElement}
+                                                             sceneStore={localSceneStore}/>)).to.be.true;
     });
 
 });
 
 function createTestTreeElement(): TreeElement {
     return {
-        id: "",
+        id: Math.random() + "",
         name: "",
         isNode: false,
 

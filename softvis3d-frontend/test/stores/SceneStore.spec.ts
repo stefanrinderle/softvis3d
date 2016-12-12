@@ -25,7 +25,7 @@ import sceneStore from "../../src/stores/SceneStore";
 describe("SceneStore", () => {
 
     it("should contain no selected id on init", () => {
-        expect(sceneStore.selectedObjectId).to.be.undefined;
+        expect(sceneStore.selectedObjectId).to.be.null;
     });
 
     it("should contain initial test shapes", () => {

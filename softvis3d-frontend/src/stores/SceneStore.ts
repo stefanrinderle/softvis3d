@@ -1,10 +1,10 @@
 import {observable, computed, reaction} from "mobx";
 
 class SceneStore {
-    @observable public legacyData: any;
+    @observable public legacyData: TreeElement | null = null;
     @observable public shapes: any;
-    @observable public selectedObjectId: string;
-    @observable private rendered: boolean;
+    @observable public selectedObjectId: string | null = null;
+    @observable private rendered: boolean = false;
 
     public constructor() {
         this.rendered = false;

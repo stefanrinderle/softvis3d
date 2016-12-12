@@ -17,7 +17,7 @@ export default class BottomBar extends React.Component<{ cityBuilderStore: CityB
                 <SeparatorComponent/>
                 <BottomBarMetricInfo title="Height" metric={this.props.cityBuilderStore.metricHeight}/>
                 <SeparatorComponent/>
-                <BottomBarMetricInfo title="Color2" metric={this.props.cityBuilderStore.metricColor}/>
+                <BottomBarMetricInfo title="Color" metric={this.props.cityBuilderStore.metricColor}/>
             </div>
         );
     }
