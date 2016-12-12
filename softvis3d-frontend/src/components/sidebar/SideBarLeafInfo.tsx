@@ -13,13 +13,13 @@ export default class SideBarLeafInfo extends React.Component<
         if (this.props.parentElement !== null) {
             let parentChildren: TreeElement[] = this.props.parentElement.children;
 
-            for (let i = 0; i < parentChildren.length; i++) {
+            for (let child of parentChildren) {
                 let isCurrentSelectedElement: boolean = false;
-                if (parentChildren[i].id === this.props.selectedElement.id) {
+                if (child.id === this.props.selectedElement.id) {
                     isCurrentSelectedElement = true;
                 }
                 folderElements.push(
-                    <SideBarSingleElementInfo element={parentChildren[i]}
+                    <SideBarSingleElementInfo element={child}
                                               isCurrentSelectedElement={isCurrentSelectedElement}
                                               sceneStore={this.props.sceneStore}/>);
             }

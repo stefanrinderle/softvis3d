@@ -11,14 +11,14 @@ export default class SideBarNodeInfo extends
         let folderElements: JSX.Element[] = [];
 
         let children: TreeElement[] = this.props.selectedElement.children;
-        for (let i = 0; i < children.length; i++) {
+        for (let child of children) {
             folderElements.push(
-                <SideBarSingleElementInfo element={children[i]}
+                <SideBarSingleElementInfo element={child}
                                           isCurrentSelectedElement={false}
                                           sceneStore={this.props.sceneStore}/>);
         }
 
-        return <ul>{folderElements}</ul>
+        return <ul>{folderElements}</ul>;
     }
 
 }
