@@ -1,6 +1,6 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {SceneStore} from "../../stores/SceneStore";
+import { observer } from "mobx-react";
+import { SceneStore } from "../../stores/SceneStore";
 
 /**
  * Currently used for an example use of selected scene object store.
@@ -13,7 +13,7 @@ export default class SideBarSingleElementInfo extends React.Component<
         if (this.props.isCurrentSelectedElement) {
             return <li className="current-selected">{this.props.element.name}</li>;
         } else {
-            return <li onClick={this.selectElement.bind(this)}>
+            return <li onClick={this.selectElement.bind(this)} key={this.props.element.id}>
                 <a href="#">{this.props.element.name}</a>
             </li>;
         }

@@ -17,14 +17,14 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {Scene, WebGLRenderer, PerspectiveCamera} from "three";
-import {Camera} from "./Camera";
-import {Wrangler} from "./Wrangler";
-import {Setup} from "./Setup";
-import {SoftVis3dShape} from "../domain/SoftVis3dShape";
-import {Dimension} from "../domain/Dimension";
-import {OrbitControls} from "./controls/OrbitControls";
-import {SelectionService} from "./SelectionCalculator";
+import { Scene, WebGLRenderer, PerspectiveCamera } from "three";
+import { Camera } from "./Camera";
+import { Wrangler } from "./Wrangler";
+import { Setup } from "./Setup";
+import { SoftVis3dShape } from "../domain/SoftVis3dShape";
+import { Dimension } from "../domain/Dimension";
+import { OrbitControls } from "./controls/OrbitControls";
+import { SelectionService } from "./SelectionCalculator";
 
 export class SoftVis3dScene {
 
@@ -123,9 +123,6 @@ export class SoftVis3dScene {
     }
 
     public makeSelection(event: MouseEvent): string | null {
-        // TODO: Remove commented code
-        // console.debug(this.controls.state);
-
         let result: string | null = SelectionService.makeSelection(event, this.container, this.width, this.height,
             this.camera, this.wrangler.getObjectsInView());
 

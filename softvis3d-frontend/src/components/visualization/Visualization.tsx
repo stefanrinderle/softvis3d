@@ -1,12 +1,12 @@
 import * as React from "react";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import TopBar from "../topbar/TopBar";
 import Scene from "../scene/Scene";
 import BottomBar from "../bottombar/BottomBar";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
-import {SceneStore} from "../../stores/SceneStore";
+import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import { SceneStore } from "../../stores/SceneStore";
 import SideBar from "../sidebar/SideBar";
-import {TreeService} from "../../layout/TreeService";
+import { TreeService } from "../../layout/TreeService";
 
 @observer
 export default class Visualization
@@ -32,7 +32,7 @@ export default class Visualization
 
                 // parent element is never not null in this case.
                 if (parentElement !== null) {
-                    console.warn(parentElement.id);
+                    console.warn("Parent element is never not null in this case. " + parentElement.id);
                 }
             }
         }
@@ -40,7 +40,7 @@ export default class Visualization
         return (
             <div>
                 <TopBar cityBuilderStore={this.props.cityBuilderStore} selectedElement={selectedElement}/>
-                <Scene/>
+                <Scene sceneStore={this.props.sceneStore}/>
                 <BottomBar cityBuilderStore={this.props.cityBuilderStore}/>
                 <SideBar sceneStore={this.props.sceneStore}
                          selectedElement={selectedElement} parentElement={parentElement}/>
