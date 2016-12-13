@@ -40,7 +40,7 @@ public class TreeNodeJsonWriterTest {
 
     jsonWriter.close();
 
-    final String expectedStringResult = "{\"treeResult\":{\"id\":\"1\",\"name\":\"root\",\"isNode\":false,\"children\":[]}}";
+    final String expectedStringResult = "{\"id\":\"1\",\"name\":\"root\",\"isNode\":false,\"children\":[]}";
 
     assertEquals(expectedStringResult, stringOutputStream.toString());
   }
@@ -60,7 +60,7 @@ public class TreeNodeJsonWriterTest {
 
     jsonWriter.close();
 
-    final String expectedResult = "{\"treeResult\":{\"id\":\"1\",\"name\":\"root\",\"isNode\":true,\"children\":[{\"id\":\"2\",\"name\":\"2\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0,\"parentInfo\":{\"id\":\"1\",\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0},\"children\":[]},{\"id\":\"3\",\"name\":\"3\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0,\"parentInfo\":{\"id\":\"1\",\"name\":\"root\",\"isNode\":true,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0},\"children\":[]}]}}";
+    final String expectedResult = "{\"id\":\"1\",\"name\":\"root\",\"isNode\":true,\"children\":[{\"id\":\"2\",\"name\":\"2\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0,\"parentId\":\"1\",\"children\":[]},{\"id\":\"3\",\"name\":\"3\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0,\"parentId\":\"1\",\"children\":[]}]}";
 
     assertEquals(expectedResult, stringOutputStream.toString());
   }

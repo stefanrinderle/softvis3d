@@ -22,18 +22,13 @@ package de.rinderle.softvis3d.base.result;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNode;
 import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
+
 import java.util.Map;
 
 public class TreeNodeJsonWriter {
 
   public void transformRootTreeToJson(final SoftVis3dJsonWriter jsonWriter, final RootTreeNode tree) {
-    jsonWriter.beginObject();
-
-    jsonWriter.name("treeResult");
-
     this.transformTreeToJson(jsonWriter, tree);
-
-    jsonWriter.endObject();
   }
 
   private void transformTreeToJson(final SoftVis3dJsonWriter jsonWriter, final TreeNode node) {
@@ -46,14 +41,7 @@ public class TreeNodeJsonWriter {
 
     final TreeNode parent = node.getParent();
     if (parent != null) {
-      jsonWriter.name("parentInfo");
-
-      jsonWriter.beginObject();
-      jsonWriter.prop("id", parent.getId());
-      jsonWriter.prop("name", parent.getName());
-      jsonWriter.prop("isNode", parent.isNode());
-      optionalTransformMetricValues(jsonWriter, node);
-      jsonWriter.endObject();
+      jsonWriter.prop("parentId", parent.getId());
     }
 
     this.transformChildren(jsonWriter, node.getChildren());

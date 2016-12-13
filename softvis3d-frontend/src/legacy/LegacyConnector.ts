@@ -2,7 +2,7 @@ import sceneStore from "../stores/SceneStore";
 import Softvis3dModel from "./softvis3dModel";
 import cityBuilderStore from "../stores/CityBuilderStore";
 import LayoutProcessor from "./layoutProcessor";
-import {reaction} from "mobx";
+import { reaction } from "mobx";
 
 export default class LegacyConnector {
     public init(): void {
@@ -13,7 +13,7 @@ export default class LegacyConnector {
         );
     }
 
-    private buildCity(backend: any) {
+    private buildCity(backend: TreeElement | null) {
         const model = new Softvis3dModel(backend);
         const options = {
             layout: cityBuilderStore.layoutType.id,

@@ -21,8 +21,11 @@ package de.rinderle.softvis3d.dao;
 
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.sonarqube.ws.WsComponents;
 import org.sonarqube.ws.WsMeasures;
 
@@ -49,22 +52,25 @@ class DaoServiceTransformer {
 
       for (final WsMeasures.Measure measure : component.getMeasuresList()) {
 
-        if (measure.getMetric().equals(requestDTO.getFootprintMetricKey())) {
+        if (measure.getMetric().equals(requestDTO.getFootprintMetricKey())
+          && !StringUtils.isBlank(measure.getValue())) {
           footprintMetricValue = Double.valueOf(measure.getValue());
         }
 
-        if (measure.getMetric().equals(requestDTO.getHeightMetricKey())) {
+        if (measure.getMetric().equals(requestDTO.getHeightMetricKey())
+          && !StringUtils.isBlank(measure.getValue())) {
           heightMetricValue = Double.valueOf(measure.getValue());
         }
 
-        if (measure.getMetric().equals(requestDTO.getColorMetricType().getDefaultMetricName())) {
+        if (measure.getMetric().equals(requestDTO.getColorMetricType().getDefaultMetricName())
+          && !StringUtils.isBlank(measure.getValue())) {
           colorMetricValue = Double.valueOf(measure.getValue());
         }
 
       }
 
       result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(),
-          footprintMetricValue, heightMetricValue, colorMetricValue));
+        footprintMetricValue, heightMetricValue, colorMetricValue));
     }
 
     return result;

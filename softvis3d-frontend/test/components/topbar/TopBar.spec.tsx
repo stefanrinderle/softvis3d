@@ -1,8 +1,8 @@
 import * as React from "react";
 import TopBar from "../../../src/components/topbar/TopBar";
-import {expect} from "chai";
-import {shallow} from "enzyme";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
+import { expect } from "chai";
+import { shallow } from "enzyme";
+import { CityBuilderStore } from "../../../src/stores/CityBuilderStore";
 import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
 
@@ -35,6 +35,6 @@ function createTestTreeElement(): TreeElement {
         colorMetricValue: 0,
         footprintMetricValue: 0,
         heightMetricValue: 0,
-        parentInfo: null
+        parentId: null
     };
 }

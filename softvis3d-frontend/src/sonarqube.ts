@@ -17,10 +17,9 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-
 /* tslint:disable */
 import axios, { AxiosPromise, AxiosRequestConfig } from "axios";
-import {reaction} from "mobx";
+import { reaction } from "mobx";
 import cityBuilderStore from "./stores/CityBuilderStore";
 import appStatusStore from "./stores/AppStatusStore";
 import sceneStore from "./stores/SceneStore";
@@ -91,7 +90,7 @@ export default class SonarQubeCommunicator {
 
         return this.callApi("/softVis3D/getVisualization", { params }).then(response => {
             appStatusStore.loadComplete(SonarQubeCommunicator.LOAD_LEGACY);
-            sceneStore.legacyData = response.data.resultObject[0].treeResult;
+            sceneStore.legacyData = response.data;
         }).catch(console.log);
     }
 }

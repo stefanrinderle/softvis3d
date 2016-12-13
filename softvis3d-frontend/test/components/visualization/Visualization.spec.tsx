@@ -20,7 +20,7 @@ describe("<Visualization/>", () => {
 
         let testId: string = "siudgffsiuhdsfiu2332";
         let expectedSelectedElement: TreeElement = createTestTreeElement(testId);
-        expectedSelectedElement.parentInfo = expectedParentElement;
+        expectedSelectedElement.parentId = expectedParentElement.id;
 
         expectedParentElement.children.push(expectedSelectedElement);
 
@@ -96,6 +96,6 @@ function createTestTreeElement(id: string): TreeElement {
         colorMetricValue: 0,
         footprintMetricValue: 0,
         heightMetricValue: 0,
-        parentInfo: null
+        parentId: null
     };
 }

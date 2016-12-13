@@ -1,6 +1,6 @@
 import * as React from "react";
-import {expect} from "chai";
-import {shallow} from "enzyme";
+import { expect } from "chai";
+import { shallow } from "enzyme";
 import SelectedElementNodeInfo from "../../../src/components/topbar/SelectedElementNodeInfo";
 
 describe("<SelectedElementNodeInfo/>", () => {
@@ -32,6 +32,6 @@ function createTestTreeElement(name: string): TreeElement {
         colorMetricValue: 0,
         footprintMetricValue: 0,
         heightMetricValue: 0,
-        parentInfo: null
+        parentId: null
     };
 }

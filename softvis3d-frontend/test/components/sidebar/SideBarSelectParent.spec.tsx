@@ -1,40 +1,27 @@
 import * as React from "react";
-import {expect} from "chai";
-import {shallow} from "enzyme";
+import { expect } from "chai";
+import { shallow } from "enzyme";
 import SideBarSelectParent from "../../../src/components/sidebar/SideBarSelectParent";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import { SceneStore } from "../../../src/stores/SceneStore";
 
 describe("<SideBarSelectParent/>", () => {
 
     it("should show nothing if parent is null", () => {
-        let selectedElement: TreeElement = createTestTreeElement("root");
         let localSceneStore = new SceneStore();
 
         let sideBarSelectParent = shallow(
-            <SideBarSelectParent sceneStore={localSceneStore} selectedElement={selectedElement}/>
-        );
-
-        expect(sideBarSelectParent.children().length).to.be.eq(0);
-    });
-
-    it("should show nothing if parent is undefined", () => {
-        let selectedElement: TreeElement = createTestTreeElement("root");
-        let localSceneStore = new SceneStore();
-
-        let sideBarSelectParent = shallow(
-            <SideBarSelectParent sceneStore={localSceneStore} selectedElement={selectedElement}/>
+            <SideBarSelectParent sceneStore={localSceneStore} parentElement={null}/>
         );
 
         expect(sideBarSelectParent.children().length).to.be.eq(0);
     });
 
     it("should show parent if defined", () => {
-        let selectedElement: TreeElement = createTestTreeElement("root");
-        selectedElement.parentInfo = createTestTreeElement("parentElement234");
+        let parentElement: TreeElement = createTestTreeElement("parentElement234");
         let localSceneStore = new SceneStore();
 
         let sideBarSelectParent = shallow(
-            <SideBarSelectParent sceneStore={localSceneStore} selectedElement={selectedElement}/>
+            <SideBarSelectParent sceneStore={localSceneStore} parentElement={parentElement}/>
         );
 
         expect(sideBarSelectParent.html().includes("parentElement234")).to.be.true;
@@ -43,12 +30,11 @@ describe("<SideBarSelectParent/>", () => {
     it("should select parent on click", () => {
         let expecedSelectedId: string = "parentElement234";
 
-        let selectedElement: TreeElement = createTestTreeElement("root");
-        selectedElement.parentInfo = createTestTreeElement(expecedSelectedId);
+        let parentElement: TreeElement = createTestTreeElement(expecedSelectedId);
         let localSceneStore = new SceneStore();
 
         let sideBarSelectParent = shallow(
-            <SideBarSelectParent sceneStore={localSceneStore} selectedElement={selectedElement}/>
+            <SideBarSelectParent sceneStore={localSceneStore} parentElement={parentElement}/>
         );
 
         sideBarSelectParent.find("a").simulate("click");
@@ -69,6 +55,6 @@ function createTestTreeElement(name: string): TreeElement {
         colorMetricValue: 0,
         footprintMetricValue: 0,
         heightMetricValue: 0,
-        parentInfo: null
+        parentId: null
     };
 }

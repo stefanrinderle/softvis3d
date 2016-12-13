@@ -51,7 +51,7 @@ declare interface TreeElement {
     colorMetricValue: number;
     footprintMetricValue: number;
     heightMetricValue: number;
-    parentInfo: TreeElement | null;
+    parentId: string | null;
 }
 
 declare interface Profile {

@@ -72,16 +72,7 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
     final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(response.stream().output());
 
-    jsonWriter.beginObject();
-    jsonWriter.name("resultObject");
-
-    jsonWriter.beginArray();
-
     this.treeNodeJsonWriter.transformRootTreeToJson(jsonWriter, snapshotTreeResult.getTree());
-
-    jsonWriter.endArray();
-
-    jsonWriter.endObject();
 
     jsonWriter.close();
   }

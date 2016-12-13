@@ -17,7 +17,6 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-
 import { expect } from "chai";
 import { TreeService } from "../../src/layout/TreeService";
 
@@ -143,6 +142,6 @@ function createTestTreeElement(id: string): TreeElement {
         colorMetricValue: 0,
         footprintMetricValue: 0,
         heightMetricValue: 0,
-        parentInfo: null
+        parentId: null
     };
 }

@@ -1,11 +1,11 @@
 import * as React from "react";
-import {expect} from "chai";
-import {shallow} from "enzyme";
+import { expect } from "chai";
+import { shallow } from "enzyme";
 import SideBar from "../../../src/components/sidebar/SideBar";
 import SideBarNodeInfo from "../../../src/components/sidebar/SideBarNodeInfo";
 import SideBarLeafInfo from "../../../src/components/sidebar/SideBarLeafInfo";
 import SideBarSelectParent from "../../../src/components/sidebar/SideBarSelectParent";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import { SceneStore } from "../../../src/stores/SceneStore";
 
 describe("<SideBar/>", () => {
 
@@ -31,7 +31,7 @@ describe("<SideBar/>", () => {
         );
 
         expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
-        expect(selectedElementInfo.contains(<SideBarSelectParent selectedElement={selectedElement}
+        expect(selectedElementInfo.contains(<SideBarSelectParent parentElement={parentElement}
                                                                  sceneStore={localSceneStore}/>)).to.be.true;
         expect(selectedElementInfo.contains(<SideBarNodeInfo selectedElement={selectedElement}
                                                              sceneStore={localSceneStore}/>)).to.be.true;
@@ -49,7 +49,7 @@ describe("<SideBar/>", () => {
         );
 
         expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
-        expect(selectedElementInfo.contains(<SideBarSelectParent selectedElement={selectedElement}
+        expect(selectedElementInfo.contains(<SideBarSelectParent parentElement={parentElement}
                                                                  sceneStore={localSceneStore}/>)).to.be.true;
         expect(selectedElementInfo.contains(<SideBarLeafInfo selectedElement={selectedElement}
                                                              parentElement={parentElement}
@@ -69,6 +69,6 @@ function createTestTreeElement(): TreeElement {
         colorMetricValue: 0,
         footprintMetricValue: 0,
         heightMetricValue: 0,
-        parentInfo: null
+        parentId: null
     };
 }

@@ -1,8 +1,8 @@
 import * as React from "react";
-import {expect} from "chai";
-import {shallow} from "enzyme";
+import { expect } from "chai";
+import { shallow } from "enzyme";
 import SideBarNodeInfo from "../../../src/components/sidebar/SideBarNodeInfo";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import { SceneStore } from "../../../src/stores/SceneStore";
 import SideBarSingleElementInfo from "../../../src/components/sidebar/SideBarSingleElementInfo";
 
 describe("<SideBarNodeInfo/>", () => {
@@ -41,6 +41,6 @@ function createTestTreeElement(name: string): TreeElement {
         colorMetricValue: 0,
         footprintMetricValue: 0,
         heightMetricValue: 0,
-        parentInfo: null
+        parentId: null
     };
 }

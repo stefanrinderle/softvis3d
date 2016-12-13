@@ -1,8 +1,8 @@
 import * as React from "react";
-import {expect} from "chai";
-import {shallow} from "enzyme";
+import { expect } from "chai";
+import { shallow } from "enzyme";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
+import { CityBuilderStore } from "../../../src/stores/CityBuilderStore";
 import SelectedElementNodeInfo from "../../../src/components/topbar/SelectedElementNodeInfo";
 import SelectedElementLeafInfo from "../../../src/components/topbar/SelectedElementLeafInfo";
 
@@ -60,6 +60,6 @@ function createTestTreeElement(id: string): TreeElement {
         colorMetricValue: 0,
         footprintMetricValue: 0,
         heightMetricValue: 0,
-        parentInfo: null
+        parentId: null
     };
 }

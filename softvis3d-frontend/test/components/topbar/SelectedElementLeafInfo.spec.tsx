@@ -1,8 +1,8 @@
 import * as React from "react";
-import {expect} from "chai";
-import {shallow} from "enzyme";
+import { expect } from "chai";
+import { shallow } from "enzyme";
 import SelectedElementLeafInfo from "../../../src/components/topbar/SelectedElementLeafInfo";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
+import { CityBuilderStore } from "../../../src/stores/CityBuilderStore";
 
 describe("<SelectedElementLeafInfo/>", () => {
 
@@ -41,6 +41,6 @@ function createTestTreeElement(name: string, expectedHeightMetricValue: number,
         colorMetricValue: expectedColorMetricValue,
         footprintMetricValue: expectedFootprintMetricValue,
         heightMetricValue: expectedHeightMetricValue,
-        parentInfo: null
+        parentId: null
     };
 }
