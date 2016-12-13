@@ -29,11 +29,6 @@ export default class Visualization
             if (selectedElement !== null && selectedElement.parentId !== null) {
                 parentElement =
                     TreeService.searchTreeNode(this.props.sceneStore.legacyData, selectedElement.parentId);
-
-                // parent element is never not null in this case.
-                if (parentElement !== null) {
-                    console.warn("Parent element is never not null in this case. " + selectedElement.parentId);
-                }
             }
         }
 

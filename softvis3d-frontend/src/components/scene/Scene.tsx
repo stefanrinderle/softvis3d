@@ -15,7 +15,7 @@ import { reaction } from "mobx";
 export default class Scene extends React.Component<{sceneStore: SceneStore}, any> {
 
     private static CANVAS_ID: string = "softvis3dscene";
-    private scene: SoftVis3dScene;
+    private softVis3dScene: SoftVis3dScene;
 
     constructor() {
         super();
@@ -25,17 +25,17 @@ export default class Scene extends React.Component<{sceneStore: SceneStore}, any
         if (WebGLDetector.isWebGLSupported()) {
             this.loadScene();
             // initial load - all other updates via the render method.
-            this.scene.loadSoftVis3d(this.props.sceneStore.shapes);
+            this.softVis3dScene.loadSoftVis3d(this.props.sceneStore.shapes);
 
             reaction(
                 "Select object in scene",
                 () => this.props.sceneStore.selectedObjectId,
-                () => { this.scene.selectSceneTreeObject(this.props.sceneStore.selectedObjectId); }
+                () => { this.softVis3dScene.selectSceneTreeObject(this.props.sceneStore.selectedObjectId); }
             );
             reaction(
                 "Load new objects in scene",
                 () => this.props.sceneStore.shapes,
-                () => { this.scene.loadSoftVis3d(this.props.sceneStore.shapes); }
+                () => { this.softVis3dScene.loadSoftVis3d(this.props.sceneStore.shapes); }
             );
         } else {
             console.warn(WebGLDetector.getWebGLErrorMessage());
@@ -45,8 +45,8 @@ export default class Scene extends React.Component<{sceneStore: SceneStore}, any
     public render() {
         // needed because the scene object is not available on the first render.
         // but needed to use the "render" method if the shapes change.
-        if (this.scene !== undefined) {
-            this.scene.loadSoftVis3d(this.props.sceneStore.shapes);
+        if (this.softVis3dScene !== undefined) {
+            this.softVis3dScene.loadSoftVis3d(this.props.sceneStore.shapes);
         }
 
         return <div className="scene">
@@ -56,12 +56,12 @@ export default class Scene extends React.Component<{sceneStore: SceneStore}, any
     }
 
     private makeSelection(event: any) {
-        let selectedId: string | null = this.scene.makeSelection(event);
+        let selectedId: string | null = this.softVis3dScene.makeSelection(event);
         this.props.sceneStore.setSelectedObjectId(selectedId);
     }
 
     private loadScene() {
-        this.scene = new SoftVis3dScene(Scene.CANVAS_ID);
+        this.softVis3dScene = new SoftVis3dScene(Scene.CANVAS_ID);
         this.animate();
     }
 
@@ -71,7 +71,7 @@ export default class Scene extends React.Component<{sceneStore: SceneStore}, any
     }
 
     private renderScene() {
-        this.scene.render();
+        this.softVis3dScene.render();
     }
 
 }

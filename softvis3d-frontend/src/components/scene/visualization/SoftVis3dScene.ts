@@ -23,8 +23,8 @@ import { Wrangler } from "./Wrangler";
 import { Setup } from "./Setup";
 import { SoftVis3dShape } from "../domain/SoftVis3dShape";
 import { Dimension } from "../domain/Dimension";
-import { OrbitControls } from "./controls/OrbitControls";
 import { SelectionService } from "./SelectionCalculator";
+import OrbitControls = THREE.OrbitControls;
 
 export class SoftVis3dScene {
 
@@ -54,6 +54,16 @@ export class SoftVis3dScene {
         this.camera = new Camera(this.container);
 
         this.controls = new OrbitControls(this.camera.getCamera(), this.container);
+
+        // this.controls.addEventListener("start", () => {
+        //     console.warn("start");
+        // });
+        // this.controls.addEventListener("end", () => {
+        //     console.warn("end");
+        // });
+        // this.controls.addEventListener("change", () => {
+        //     console.warn("change");
+        // });
 
         this.onWindowResize();
 
