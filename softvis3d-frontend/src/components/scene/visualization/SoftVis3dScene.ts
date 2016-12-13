@@ -24,7 +24,6 @@ import { Setup } from "./Setup";
 import { SoftVis3dShape } from "../domain/SoftVis3dShape";
 import { Dimension } from "../domain/Dimension";
 import { SelectionService } from "./SelectionCalculator";
-import OrbitControls = THREE.OrbitControls;
 
 export class SoftVis3dScene {
 
@@ -37,7 +36,7 @@ export class SoftVis3dScene {
     private scene: Scene;
     private renderer: WebGLRenderer;
     private camera: Camera;
-    private controls: OrbitControls;
+    private controls: THREE.OrbitControls;
 
     constructor(canvasId: string) {
         this.container = <HTMLCanvasElement> document.getElementById(canvasId);
@@ -53,7 +52,7 @@ export class SoftVis3dScene {
 
         this.camera = new Camera(this.container);
 
-        this.controls = new OrbitControls(this.camera.getCamera(), this.container);
+        this.controls = new THREE.OrbitControls(this.camera.getCamera(), this.container);
 
         // this.controls.addEventListener("start", () => {
         //     console.warn("start");
