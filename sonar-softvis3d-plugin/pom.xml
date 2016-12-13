@@ -17,9 +17,9 @@
   <url>http://softvis3d.com</url>
 
   <properties>
-    <jdk.min.version>1.7</jdk.min.version>
+    <jdk.min.version>1.8</jdk.min.version>
 
-    <sonar.version>5.5</sonar.version>
+    <sonar.version>5.6</sonar.version>
   </properties>
 
   <dependencies>
@@ -94,7 +94,7 @@
       <plugin>
         <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
         <artifactId>sonar-packaging-maven-plugin</artifactId>
-        <version>1.15</version>
+        <version>1.16</version>
         <extensions>true</extensions>
         <configuration>
           <pluginClass>de.rinderle.softvis3d.SoftVis3DPlugin</pluginClass>

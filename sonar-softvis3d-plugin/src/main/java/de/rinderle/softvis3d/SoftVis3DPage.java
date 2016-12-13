@@ -19,7 +19,6 @@
  */
 package de.rinderle.softvis3d;
 
-import de.rinderle.softvis3d.domain.SoftVis3DConstants;
 import org.sonar.api.web.AbstractRubyTemplate;
 import org.sonar.api.web.NavigationSection;
 import org.sonar.api.web.RubyRailsPage;
@@ -28,12 +27,18 @@ import org.sonar.api.web.RubyRailsPage;
 public class SoftVis3DPage extends AbstractRubyTemplate implements
   RubyRailsPage {
 
+  static final String PLUGIN_KEY = "SoftVis3D";
+
+  static final String PLUGIN_NAME = "SoftVis3D Viewer";
+
+  static final String PLUGIN_TEMPLATE_PATH = "/softVis3D_page.html.erb";
+
   /**
    * @return the page id
    */
   @Override
   public String getId() {
-    return SoftVis3DConstants.PLUGIN_KEY;
+    return PLUGIN_KEY;
   }
 
   /**
@@ -41,7 +46,7 @@ public class SoftVis3DPage extends AbstractRubyTemplate implements
    */
   @Override
   public String getTitle() {
-    return SoftVis3DConstants.PLUGIN_NAME;
+    return PLUGIN_NAME;
   }
 
   /**
@@ -49,7 +54,7 @@ public class SoftVis3DPage extends AbstractRubyTemplate implements
    */
   @Override
   protected String getTemplatePath() {
-    return "/softVis3D_page.html.erb";
+    return PLUGIN_TEMPLATE_PATH;
   }
 
 }

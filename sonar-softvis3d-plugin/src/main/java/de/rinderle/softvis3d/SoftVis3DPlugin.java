@@ -19,30 +19,21 @@
  */
 package de.rinderle.softvis3d;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.sonar.api.Extension;
-import org.sonar.api.ExtensionPoint;
-import org.sonar.api.SonarPlugin;
+import org.sonar.api.Plugin;
 
 /**
  * This class is the entry point for all extensions.
  */
-@ExtensionPoint
-public final class SoftVis3DPlugin extends SonarPlugin {
+public final class SoftVis3DPlugin implements Plugin {
 
-  static final boolean IS_PROD = true;
   public static final boolean CACHE_ENABLED = true;
 
   @Override
-  public List getExtensions() {
-    final List extensions = new ArrayList<Extension>();
-
-    extensions.add(SoftVis3DPage.class);
-    extensions.add(SoftVis3DExtension.class);
-    extensions.add(SoftVis3DWebservice.class);
-
-    return extensions;
+  public void define(Context context) {
+    context.addExtensions(
+      SoftVis3DPage.class,
+      SoftVis3DWebservice.class
+      );
   }
 
 }
