@@ -11,7 +11,7 @@ export default class SideBarSingleElementInfo extends React.Component<
 
     public render() {
         if (this.props.isCurrentSelectedElement) {
-            return <li className="current-selected">{this.props.element.name}</li>;
+            return <li className="current-selected" key={this.props.element.id}>{this.props.element.name}</li>;
         } else {
             return <li onClick={this.selectElement.bind(this)} key={this.props.element.id}>
                 <a href="#">{this.props.element.name}</a>
