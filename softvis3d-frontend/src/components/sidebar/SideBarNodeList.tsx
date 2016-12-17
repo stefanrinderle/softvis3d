@@ -21,28 +21,30 @@ interface SideBarLeafInfoProps {
             </ul>;
         }
 
-        let folderElements: JSX.Element[] = [];
+        let folderElements: JSX.Element[] = [
+            <SideBarElementInfo
+                key={folder.id}
+                element={folder}
+                selected={folder.id === this.props.selectedElement.id}
+                origin={true}
+                sceneStore={this.props.sceneStore}
+            />
+        ];
         for (let child of folder.children) {
-            const elementId = folder.name + "/" + child.name;
-            const isSelected = child.id === this.props.selectedElement.id;
-
             folderElements.push(
                 <SideBarElementInfo
-                    key={elementId}
+                    key={child.id}
                     element={child}
-                    isSelected={isSelected}
+                    selected={child.id === this.props.selectedElement.id}
                     sceneStore={this.props.sceneStore}
                 />
             );
         }
 
         return (
-            <div>
-                <h3>{folder.name}</h3>
-                <ul className="node-list">
-                    {folderElements}
-                </ul>;
-            </div>
+            <ul className="node-list">
+                {folderElements}
+            </ul>
         );
     }
 

@@ -17,6 +17,7 @@ interface SideBarProps {
 
         return (
             <div className="side-bar">
+                <h3>{this.props.selectedElement.name}</h3>
                 <SideBarSelectParent sceneStore={this.props.sceneStore} selectedElement={this.props.selectedElement} />
                 <SideBarNodeList sceneStore={this.props.sceneStore} selectedElement={this.props.selectedElement} />
             </div>

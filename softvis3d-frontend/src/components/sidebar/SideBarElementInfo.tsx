@@ -3,7 +3,8 @@ import {SceneStore} from "../../stores/SceneStore";
 
 interface SideBarElementInfoProps {
     element: TreeElement;
-    isSelected: boolean;
+    selected?: boolean;
+    origin?: boolean;
     sceneStore: SceneStore;
 }
 
@@ -11,17 +12,26 @@ interface SideBarElementInfoProps {
  * Currently used for an example use of selected scene object store.
  */
 export default class SideBarElementInfo extends React.Component<SideBarElementInfoProps, any> {
+    public static defaultProps = {
+        selected: false,
+        origin: false
+    };
 
     public render() {
+        const {element, selected, origin} = this.props;
         let classes = [];
-        classes.push(this.props.element.isNode ? "node" : "leaf");
+        classes.push(element.isNode ? "node" : "leaf");
 
-        if (this.props.isSelected) {
+        if (origin) {
+            classes.push("origin");
+        }
+
+        if (selected) {
             classes.push("current-selected");
         }
 
         return (
-            <li className={classes.join(" ")} onClick={() => this.props.isSelected || this.selectElement()}>
+            <li key={element.id} className={classes.join(" ")} onClick={() => selected || this.selectElement()}>
                 {this.props.element.name}
             </li>
         );

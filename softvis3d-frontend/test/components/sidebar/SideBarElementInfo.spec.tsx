@@ -12,8 +12,7 @@ describe("<SideBarElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <SideBarElementInfo element={selectedElement} isSelected={false}
-                                      sceneStore={localSceneStore}/>
+            <SideBarElementInfo element={selectedElement} sceneStore={localSceneStore}/>
         );
 
         expect(selectedSingleFileInfo.html().includes(expectedName)).to.be.true;
@@ -25,8 +24,7 @@ describe("<SideBarElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <SideBarElementInfo element={selectedElement} isSelected={true}
-                                      sceneStore={localSceneStore}/>
+            <SideBarElementInfo element={selectedElement} selected={true} sceneStore={localSceneStore}/>
         );
 
         expect(selectedSingleFileInfo.html().includes(expectedName)).to.be.true;
@@ -39,8 +37,7 @@ describe("<SideBarElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <SideBarElementInfo element={selectedElement} isSelected={false}
-                                      sceneStore={localSceneStore}/>
+            <SideBarElementInfo element={selectedElement} sceneStore={localSceneStore}/>
         );
 
         selectedSingleFileInfo.find("li").simulate("click");
@@ -54,15 +51,10 @@ describe("<SideBarElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <SideBarElementInfo
-                element={selectedElement}
-                isSelected={true}
-                sceneStore={localSceneStore}
-            />
+            <SideBarElementInfo element={selectedElement} selected={true} sceneStore={localSceneStore} />
         );
 
         selectedSingleFileInfo.find("li").simulate("click");
-
         expect(localSceneStore.selectedObjectId).to.be.eq(null);
     });
 

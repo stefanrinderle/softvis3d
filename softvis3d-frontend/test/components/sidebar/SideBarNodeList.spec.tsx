@@ -31,7 +31,7 @@ describe("<SideBarNodeList/>", () => {
         expect(sideBarLeafInfo.contains(
             <SideBarElementInfo
                 element={child1}
-                isSelected={true}
+                selected={true}
                 sceneStore={localSceneStore}
             />
             )).to.be.true;
@@ -39,7 +39,6 @@ describe("<SideBarNodeList/>", () => {
         expect(sideBarLeafInfo.contains(
             <SideBarElementInfo
                 element={child2}
-                isSelected={false}
                 sceneStore={localSceneStore}
             />
             )).to.be.true;
@@ -69,14 +68,12 @@ describe("<SideBarNodeList/>", () => {
         expect(selectedElementInfo.contains(
             <SideBarElementInfo
                 element={child1}
-                isSelected={false}
                 sceneStore={localSceneStore}/>)
         ).to.be.true;
 
         expect(selectedElementInfo.contains(
             <SideBarElementInfo
                 element={child2}
-                isSelected={false}
                 sceneStore={localSceneStore}/>)
         ).to.be.true;
     });
