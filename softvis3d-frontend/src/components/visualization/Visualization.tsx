@@ -8,13 +8,14 @@ import { SceneStore } from "../../stores/SceneStore";
 import SideBar from "../sidebar/SideBar";
 import { TreeService } from "../../layout/TreeService";
 
-@observer
-export default class Visualization
-        extends React.Component<{ sceneStore: SceneStore; cityBuilderStore: CityBuilderStore}, any> {
+interface VisualizationProps {
+    sceneStore: SceneStore;
+    cityBuilderStore: CityBuilderStore;
+}
 
+@observer export default class Visualization extends React.Component<VisualizationProps, any> {
     public render() {
         let selectedElement: TreeElement | null = null;
-        let parentElement: TreeElement | null = null;
 
         /**
          * This logic could also be placed in the store. Not sure for now where to put it.
@@ -25,11 +26,6 @@ export default class Visualization
         if (this.props.sceneStore.legacyData !== null && this.props.sceneStore.selectedObjectId != null) {
             selectedElement =
                 TreeService.searchTreeNode(this.props.sceneStore.legacyData, this.props.sceneStore.selectedObjectId);
-
-            if (selectedElement !== null && selectedElement.parentId !== null) {
-                parentElement =
-                    TreeService.searchTreeNode(this.props.sceneStore.legacyData, selectedElement.parentId);
-            }
         }
 
         return (
@@ -40,7 +36,6 @@ export default class Visualization
                 <SideBar
                     sceneStore={this.props.sceneStore}
                     selectedElement={selectedElement}
-                    parentElement={parentElement}
                 />
             </div>
         );

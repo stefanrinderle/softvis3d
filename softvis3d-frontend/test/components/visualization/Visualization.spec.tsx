@@ -37,8 +37,7 @@ describe("<Visualization/>", () => {
         expect(visualization.contains(<Scene sceneStore={localSceneStore} />)).to.be.true;
         expect(visualization.contains(<BottomBar cityBuilderStore={localCityBuilderStore}/>)).to.be.true;
         expect(visualization.contains(
-            <SideBar sceneStore={localSceneStore} selectedElement={expectedSelectedElement}
-                     parentElement={expectedParentElement}/>)).to.be.true;
+            <SideBar sceneStore={localSceneStore} selectedElement={expectedSelectedElement}/>)).to.be.true;
     });
 
     it("should initialize all elements on start - no selected element give", () => {
@@ -55,8 +54,7 @@ describe("<Visualization/>", () => {
         expect(visualization.contains(<Scene sceneStore={localSceneStore} />)).to.be.true;
         expect(visualization.contains(<BottomBar cityBuilderStore={localCityBuilderStore}/>)).to.be.true;
         expect(visualization.contains(
-            <SideBar sceneStore={localSceneStore} selectedElement={null}
-                     parentElement={null}/>)).to.be.true;
+            <SideBar sceneStore={localSceneStore} selectedElement={null}/>)).to.be.true;
     });
 
     it("should initialize all elements on start - no parent element given", () => {
@@ -79,8 +77,7 @@ describe("<Visualization/>", () => {
         expect(visualization.contains(<Scene sceneStore={localSceneStore} />)).to.be.true;
         expect(visualization.contains(<BottomBar cityBuilderStore={localCityBuilderStore}/>)).to.be.true;
         expect(visualization.contains(
-            <SideBar sceneStore={localSceneStore} selectedElement={expectedSelectedElement}
-                     parentElement={null}/>)).to.be.true;
+            <SideBar sceneStore={localSceneStore} selectedElement={expectedSelectedElement}/>)).to.be.true;
     });
 
 });

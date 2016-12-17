@@ -7,7 +7,6 @@ import { SceneStore } from "../../stores/SceneStore";
 interface SideBarProps {
     sceneStore: SceneStore;
     selectedElement: TreeElement | null;
-    parentElement: TreeElement | null;
 }
 
 @observer export default class SideBar extends React.Component<SideBarProps, any> {
@@ -18,12 +17,8 @@ interface SideBarProps {
 
         return (
             <div className="side-bar">
-                <SideBarSelectParent sceneStore={this.props.sceneStore} parentElement={this.props.parentElement} />
-                <SideBarNodeList
-                    selectedElement={this.props.selectedElement}
-                    parentElement={this.props.parentElement}
-                    sceneStore={this.props.sceneStore}
-                />
+                <SideBarSelectParent sceneStore={this.props.sceneStore} selectedElement={this.props.selectedElement} />
+                <SideBarNodeList sceneStore={this.props.sceneStore} selectedElement={this.props.selectedElement} />
             </div>
         );
     }

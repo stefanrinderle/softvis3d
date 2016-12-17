@@ -2,16 +2,18 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import SideBarElementInfo from "./SideBarElementInfo";
 import {SceneStore} from "../../stores/SceneStore";
+import {TreeService} from "../../layout/TreeService";
 
 interface SideBarLeafInfoProps {
     selectedElement: TreeElement;
-    parentElement: TreeElement | null;
     sceneStore: SceneStore;
 }
 
 @observer export default class SideBarNodeList extends React.Component<SideBarLeafInfoProps, any> {
     public render() {
-        const folder = this.props.selectedElement.isNode ? this.props.selectedElement : this.props.parentElement;
+        const folder = this.props.selectedElement.isNode
+            ? this.props.selectedElement
+            : this.getParentElement(this.props.selectedElement);
 
         if (folder === null) {
             return <ul>
@@ -34,9 +36,21 @@ interface SideBarLeafInfoProps {
             );
         }
 
-        return <ul className="node-list">
-            {folderElements}
-        </ul>;
+        return (
+            <div>
+                <h3>{folder.name}</h3>
+                <ul className="node-list">
+                    {folderElements}
+                </ul>;
+            </div>
+        );
     }
 
+    private getParentElement(element: TreeElement) {
+        if (!this.props.sceneStore.legacyData) {
+            return null;
+        }
+
+        return TreeService.searchParentNode(this.props.sceneStore.legacyData, element);
+    }
 }

@@ -8,27 +8,29 @@ import {SceneStore} from "../../../src/stores/SceneStore";
 describe("<SideBarNodeList/>", () => {
 
     it("should show siblings of the selected element as list", () => {
+        let parent: TreeElement = createTestTreeElement("parent");
+        let child1: TreeElement = createTestTreeElement("child1");
+        let child2: TreeElement = createTestTreeElement("child2");
+
+        parent.isNode = true;
+        parent.children.push(child1);
+        parent.children.push(child2);
+        child1.parentId = parent.id;
+        child2.parentId = parent.id;
+
         let localSceneStore: SceneStore = new SceneStore();
-
-        let parentElement: TreeElement = createTestTreeElement("parent");
-        let firstElement: TreeElement = createTestTreeElement("child1");
-        let secondChildElement: TreeElement = createTestTreeElement("child2");
-
-        parentElement.isNode = true;
-        parentElement.children.push(firstElement);
-        parentElement.children.push(secondChildElement);
+        localSceneStore.legacyData = parent;
 
         const sideBarLeafInfo = shallow(
             <SideBarNodeList
-                selectedElement={firstElement}
-                parentElement={parentElement}
+                selectedElement={child1}
                 sceneStore={localSceneStore}
             />
         );
 
         expect(sideBarLeafInfo.contains(
             <SideBarElementInfo
-                element={firstElement}
+                element={child1}
                 isSelected={true}
                 sceneStore={localSceneStore}
             />
@@ -36,7 +38,7 @@ describe("<SideBarNodeList/>", () => {
 
         expect(sideBarLeafInfo.contains(
             <SideBarElementInfo
-                element={secondChildElement}
+                element={child2}
                 isSelected={false}
                 sceneStore={localSceneStore}
             />
@@ -44,20 +46,20 @@ describe("<SideBarNodeList/>", () => {
     });
 
     it("should show children of the selected element as list", () => {
+        let root: TreeElement = createTestTreeElement("root");
+        let child1: TreeElement = createTestTreeElement("child1");
+        let child2: TreeElement = createTestTreeElement("child2");
+
+        root.isNode = true;
+        root.children.push(child1);
+        root.children.push(child2);
+
         let localSceneStore: SceneStore = new SceneStore();
-
-        let parentElement: TreeElement = createTestTreeElement("root");
-        let firstChild: TreeElement = createTestTreeElement("child1");
-        let secondChild: TreeElement = createTestTreeElement("child2");
-
-        parentElement.isNode = true;
-        parentElement.children.push(firstChild);
-        parentElement.children.push(secondChild);
+        localSceneStore.legacyData = root;
 
         const selectedElementInfo = shallow(
             <SideBarNodeList
-                selectedElement={parentElement}
-                parentElement={null}
+                selectedElement={root}
                 sceneStore={localSceneStore}
             />
         );
@@ -66,14 +68,14 @@ describe("<SideBarNodeList/>", () => {
 
         expect(selectedElementInfo.contains(
             <SideBarElementInfo
-                element={firstChild}
+                element={child1}
                 isSelected={false}
                 sceneStore={localSceneStore}/>)
         ).to.be.true;
 
         expect(selectedElementInfo.contains(
             <SideBarElementInfo
-                element={secondChild}
+                element={child2}
                 isSelected={false}
                 sceneStore={localSceneStore}/>)
         ).to.be.true;

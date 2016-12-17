@@ -20,6 +20,14 @@
 
 export class TreeService {
 
+    public static searchParentNode(tree: TreeElement, node: TreeElement): TreeElement | null {
+        if (!node.parentId) {
+            return null;
+        }
+
+        return this.searchTreeNode(tree, node.parentId);
+    }
+
     public static searchTreeNode(tree: TreeElement, id: string): TreeElement | null {
         if (tree) {
             return this.searchIdInElement(id, tree);
