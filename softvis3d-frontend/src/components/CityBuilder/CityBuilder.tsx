@@ -9,6 +9,10 @@ import OptionsAdvanced from "./OptionsAdvanced";
 @observer export default class CityBuilder extends React.Component<{ store: CityBuilderStore; }, any> {
 
     public render() {
+        if (!this.props.store.isVisible) {
+            return <div />;
+        }
+
         return (
             <div className="city-builder">
                 <OptionsSimple store={this.props.store} />

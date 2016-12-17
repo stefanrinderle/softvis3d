@@ -15,26 +15,30 @@ interface VisualizationProps {
 
 @observer export default class Visualization extends React.Component<VisualizationProps, any> {
     public render() {
-        let selectedElement: TreeElement | null = null;
+        const {sceneStore} = this.props;
 
-        /**
+        if (!sceneStore.isVisible) {
+            return <div />;
+        }
+
+        /* TODO: Move this logic in sceneStore.
          * This logic could also be placed in the store. Not sure for now where to put it.
          * But as the react components should be as dumb as possible i think the store is the better
          * place.
          */
-        // TODO: Move this logic in sceneStore.
-        if (this.props.sceneStore.legacyData !== null && this.props.sceneStore.selectedObjectId != null) {
+        let selectedElement: TreeElement | null = null;
+        if (sceneStore.legacyData !== null && sceneStore.selectedObjectId != null) {
             selectedElement =
-                TreeService.searchTreeNode(this.props.sceneStore.legacyData, this.props.sceneStore.selectedObjectId);
+                TreeService.searchTreeNode(sceneStore.legacyData, sceneStore.selectedObjectId);
         }
 
         return (
             <div>
                 <TopBar cityBuilderStore={this.props.cityBuilderStore} selectedElement={selectedElement}/>
-                <Scene sceneStore={this.props.sceneStore}/>
+                <Scene sceneStore={sceneStore}/>
                 <BottomBar cityBuilderStore={this.props.cityBuilderStore}/>
                 <SideBar
-                    sceneStore={this.props.sceneStore}
+                    sceneStore={sceneStore}
                     selectedElement={selectedElement}
                 />
             </div>

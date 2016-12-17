@@ -4,6 +4,10 @@ import appStatusStore from "../stores/AppStatusStore";
 
 @observer export default class Status extends React.Component<any, any> {
     public render() {
+        if (!appStatusStore.isVisible) {
+            return <div />;
+        }
+
         return (
             <div className="status-component">
                 <h3 className="softvis-logo">
