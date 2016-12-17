@@ -28,9 +28,9 @@ describe("<SideBarSelectParent/>", () => {
     });
 
     it("should select parent on click", () => {
-        let expecedSelectedId: string = "parentElement234";
+        let expectedSelectedId: string = "parentElement234";
 
-        let parentElement: TreeElement = createTestTreeElement(expecedSelectedId);
+        let parentElement: TreeElement = createTestTreeElement(expectedSelectedId);
         let localSceneStore = new SceneStore();
 
         let sideBarSelectParent = shallow(
@@ -39,7 +39,7 @@ describe("<SideBarSelectParent/>", () => {
 
         sideBarSelectParent.find("a").simulate("click");
 
-        expect(localSceneStore.selectedObjectId).to.be.eq(expecedSelectedId);
+        expect(localSceneStore.selectedObjectId).to.be.eq(expectedSelectedId);
     });
 
 });
