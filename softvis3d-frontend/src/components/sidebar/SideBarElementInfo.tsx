@@ -1,25 +1,25 @@
 import * as React from "react";
 import {SceneStore} from "../../stores/SceneStore";
 
-interface SideBarSingleElementInfoProps {
+interface SideBarElementInfoProps {
     element: TreeElement;
-    isCurrentSelectedElement: boolean;
+    isSelected: boolean;
     sceneStore: SceneStore;
 }
 
 /**
  * Currently used for an example use of selected scene object store.
  */
-export default class SideBarSingleElementInfo extends React.Component<SideBarSingleElementInfoProps, any> {
+export default class SideBarElementInfo extends React.Component<SideBarElementInfoProps, any> {
 
     public render() {
         let classes = ["element-info"];
-        if (this.props.isCurrentSelectedElement) {
+        if (this.props.isSelected) {
             classes.push("current-selected");
         }
 
         return (
-            <li className={classes.join(" ")} onClick={() => this.props.isCurrentSelectedElement || this.selectElement()}>
+            <li className={classes.join(" ")} onClick={() => this.props.isSelected || this.selectElement()}>
                 {this.props.element.name}
             </li>
         );

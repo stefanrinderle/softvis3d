@@ -2,8 +2,8 @@ import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import SideBarNodeList from "../../../src/components/sidebar/SideBarNodeList";
-import SideBarSingleElementInfo from "../../../src/components/sidebar/SideBarSingleElementInfo";
-import { SceneStore } from "../../../src/stores/SceneStore";
+import SideBarElementInfo from "../../../src/components/sidebar/SideBarElementInfo";
+import {SceneStore} from "../../../src/stores/SceneStore";
 
 describe("<SideBarNodeList/>", () => {
 
@@ -26,12 +26,12 @@ describe("<SideBarNodeList/>", () => {
             />
         );
 
-        expect(sideBarLeafInfo.contains(<SideBarSingleElementInfo element={firstElement}
-                                                                      isCurrentSelectedElement={true}
-                                                                      sceneStore={localSceneStore}/>)).to.be.true;
-        expect(sideBarLeafInfo.contains(<SideBarSingleElementInfo element={secondChildElement}
-                                                                      isCurrentSelectedElement={false}
-                                                                      sceneStore={localSceneStore}/>)).to.be.true;
+        expect(sideBarLeafInfo.contains(<SideBarElementInfo element={firstElement}
+                                                                  isSelected={true}
+                                                                  sceneStore={localSceneStore}/>)).to.be.true;
+        expect(sideBarLeafInfo.contains(<SideBarElementInfo element={secondChildElement}
+                                                                  isSelected={false}
+                                                                  sceneStore={localSceneStore}/>)).to.be.true;
     });
 
     it("should show children of the selected element as list", () => {
@@ -56,16 +56,16 @@ describe("<SideBarNodeList/>", () => {
         expect(selectedElementInfo.html().includes("<ul>")).to.be.true;
 
         expect(selectedElementInfo.contains(
-            <SideBarSingleElementInfo
+            <SideBarElementInfo
                 element={firstChild}
-                isCurrentSelectedElement={false}
+                isSelected={false}
                 sceneStore={localSceneStore}/>)
         ).to.be.true;
 
         expect(selectedElementInfo.contains(
-            <SideBarSingleElementInfo
+            <SideBarElementInfo
                 element={secondChild}
-                isCurrentSelectedElement={false}
+                isSelected={false}
                 sceneStore={localSceneStore}/>)
         ).to.be.true;
     });

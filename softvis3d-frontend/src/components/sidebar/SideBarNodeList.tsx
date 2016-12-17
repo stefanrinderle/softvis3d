@@ -1,6 +1,6 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import SideBarSingleElementInfo from "./SideBarSingleElementInfo";
+import SideBarElementInfo from "./SideBarElementInfo";
 import {SceneStore} from "../../stores/SceneStore";
 
 interface SideBarLeafInfoProps {
@@ -21,14 +21,14 @@ interface SideBarLeafInfoProps {
 
         let folderElements: JSX.Element[] = [];
         for (let child of folder.children) {
-            const elementId = folder.name + "_" + child.name;
+            const elementId = folder.name + "/" + child.name;
             const isSelected = child.id === this.props.selectedElement.id;
 
             folderElements.push(
-                <SideBarSingleElementInfo
+                <SideBarElementInfo
                     key={elementId}
                     element={child}
-                    isCurrentSelectedElement={isSelected}
+                    isSelected={isSelected}
                     sceneStore={this.props.sceneStore}
                 />
             );

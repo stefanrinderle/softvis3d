@@ -1,10 +1,10 @@
 import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
-import SideBarSingleElementInfo from "../../../src/components/sidebar/SideBarSingleElementInfo";
+import SideBarElementInfo from "../../../src/components/sidebar/SideBarElementInfo";
 import { SceneStore } from "../../../src/stores/SceneStore";
 
-describe("<SideBarSingleElementInfo/>", () => {
+describe("<SideBarElementInfo/>", () => {
 
     it("should show element", () => {
         let expectedName = "element98szdfkjbsf";
@@ -12,7 +12,7 @@ describe("<SideBarSingleElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <SideBarSingleElementInfo element={selectedElement} isCurrentSelectedElement={false}
+            <SideBarElementInfo element={selectedElement} isSelected={false}
                                       sceneStore={localSceneStore}/>
         );
 
@@ -25,7 +25,7 @@ describe("<SideBarSingleElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <SideBarSingleElementInfo element={selectedElement} isCurrentSelectedElement={true}
+            <SideBarElementInfo element={selectedElement} isSelected={true}
                                       sceneStore={localSceneStore}/>
         );
 
@@ -39,7 +39,7 @@ describe("<SideBarSingleElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <SideBarSingleElementInfo element={selectedElement} isCurrentSelectedElement={false}
+            <SideBarElementInfo element={selectedElement} isSelected={false}
                                       sceneStore={localSceneStore}/>
         );
 
@@ -54,9 +54,9 @@ describe("<SideBarSingleElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <SideBarSingleElementInfo
+            <SideBarElementInfo
                 element={selectedElement}
-                isCurrentSelectedElement={true}
+                isSelected={true}
                 sceneStore={localSceneStore}
             />
         );
