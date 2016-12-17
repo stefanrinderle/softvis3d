@@ -37,8 +37,11 @@ export default class Visualization
                 <TopBar cityBuilderStore={this.props.cityBuilderStore} selectedElement={selectedElement}/>
                 <Scene sceneStore={this.props.sceneStore}/>
                 <BottomBar cityBuilderStore={this.props.cityBuilderStore}/>
-                <SideBar sceneStore={this.props.sceneStore}
-                         selectedElement={selectedElement} parentElement={parentElement}/>
+                <SideBar
+                    sceneStore={this.props.sceneStore}
+                    selectedElement={selectedElement}
+                    parentElement={parentElement}
+                />
             </div>
         );
     }
