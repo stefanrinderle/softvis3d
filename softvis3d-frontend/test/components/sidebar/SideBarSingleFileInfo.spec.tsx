@@ -54,8 +54,11 @@ describe("<SideBarSingleElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <SideBarSingleElementInfo element={selectedElement} isCurrentSelectedElement={true}
-                                      sceneStore={localSceneStore}/>
+            <SideBarSingleElementInfo
+                element={selectedElement}
+                isCurrentSelectedElement={true}
+                sceneStore={localSceneStore}
+            />
         );
 
         selectedSingleFileInfo.find("li").simulate("click");
