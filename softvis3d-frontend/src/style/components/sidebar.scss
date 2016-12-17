@@ -3,16 +3,52 @@
     top: 46px;
     right: 1px;
 
-    height: 85%;
-    width: 250px;
+    //height: 85%;
+    width: 280px;
     overflow-x: hidden;
     overflow-y: hidden;
     margin: auto;
     padding: 5px;
 
-    text-align: center;
-}
+    h3 {
+        text-align: center;
+    }
 
-.side-bar ul .current-selected {
-    font-weight: bold;
+    ul.node-list {
+        text-align: left;
+        font-weight: normal;
+        list-style: none;
+        margin: 5px 0;
+        padding: 0;
+
+        li {
+            background: no-repeat left center;
+            padding: 4px 0 4px 20px;
+            margin-left: 12px;
+            color: $font-color-link-default;
+            cursor: pointer;
+        }
+
+        li.current-selected{
+            color: $font-color-link-active;
+            font-weight: bold;
+        }
+
+        li.origin.node {
+            @include bg-img-open-folder;
+            margin-left: 0;
+        }
+
+        li.leaf {
+            @include bg-img-file;
+        }
+
+        li.node {
+            @include bg-img-folder;
+        }
+
+        li:hover {
+            color: $font-color-link-hover;
+        }
+    }
 }

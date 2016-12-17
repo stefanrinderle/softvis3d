@@ -15,3 +15,7 @@ $border-color-foreground: $gray-dark;
 $border-color-background: $gray-bright;
 $border-color-ui-element: $blue-dark;
 $border-color-ui-inactive: $gray-bright;
+
+$font-color-link-default: #236a97;
+$font-color-link-active: #236a97;
+$font-color-link-hover: mix($white, $font-color-link-default, 50%);
