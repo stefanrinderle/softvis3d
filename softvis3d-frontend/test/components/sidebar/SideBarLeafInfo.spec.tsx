@@ -26,12 +26,21 @@ describe("<SideBarNodeList/>", () => {
             />
         );
 
-        expect(sideBarLeafInfo.contains(<SideBarElementInfo element={firstElement}
-                                                                  isSelected={true}
-                                                                  sceneStore={localSceneStore}/>)).to.be.true;
-        expect(sideBarLeafInfo.contains(<SideBarElementInfo element={secondChildElement}
-                                                                  isSelected={false}
-                                                                  sceneStore={localSceneStore}/>)).to.be.true;
+        expect(sideBarLeafInfo.contains(
+            <SideBarElementInfo
+                element={firstElement}
+                isSelected={true}
+                sceneStore={localSceneStore}
+            />
+            )).to.be.true;
+
+        expect(sideBarLeafInfo.contains(
+            <SideBarElementInfo
+                element={secondChildElement}
+                isSelected={false}
+                sceneStore={localSceneStore}
+            />
+            )).to.be.true;
     });
 
     it("should show children of the selected element as list", () => {
@@ -53,7 +62,7 @@ describe("<SideBarNodeList/>", () => {
             />
         );
 
-        expect(selectedElementInfo.html().includes("<ul>")).to.be.true;
+        expect(selectedElementInfo.find("ul.node-list")).to.have.length(1);
 
         expect(selectedElementInfo.contains(
             <SideBarElementInfo

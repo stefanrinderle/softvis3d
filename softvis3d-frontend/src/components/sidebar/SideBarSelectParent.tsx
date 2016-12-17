@@ -4,7 +4,7 @@ import { SceneStore } from "../../stores/SceneStore";
 
 interface SideBarSelectParentProps {
     sceneStore: SceneStore;
-    parentElement: TreeElement;
+    parentElement: TreeElement | null;
 }
 
 /**
@@ -31,5 +31,4 @@ interface SideBarSelectParentProps {
     private setSelectedObjectId(id: string): any {
         this.props.sceneStore.setSelectedObjectId(id);
     }
-
 }
