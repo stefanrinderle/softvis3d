@@ -8,14 +8,15 @@ import { SceneStore } from "../../../src/stores/SceneStore";
 
 describe("<SideBar/>", () => {
 
-    it("should show nothing if nothing selected", () => {
+    it("should be empty, if no element is selected", () => {
         let localSceneStore = new SceneStore();
 
         const selectedElementInfo = shallow(
             <SideBar selectedElement={null} sceneStore={localSceneStore}/>
         );
 
-        expect(selectedElementInfo.hasClass("side-bar")).to.be.false;
+        expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
+        expect(selectedElementInfo.find("ul")).to.have.length(0);
     });
 
     it("should show node info for nodes", () => {

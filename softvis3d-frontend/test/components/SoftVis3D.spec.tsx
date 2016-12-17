@@ -11,7 +11,7 @@ import sceneStore, { SceneStore } from "../../src/stores/SceneStore";
 
 describe("<SoftVis3D/>", () => {
 
-    it("should show nothing on start", () => {
+    it("should draw all componenty on start", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
@@ -21,10 +21,11 @@ describe("<SoftVis3D/>", () => {
                        sceneStore={localSceneStore} appStatusStore={localAppStatusStore}/>
         );
 
-        expect(softvis3d.contains(<Status/>)).to.be.false;
-        expect(softvis3d.contains(<CityBuilder store={cityBuilderStore}/>)).to.be.false;
+        expect(softvis3d.contains(<Status/>)).to.be.true;
+        expect(softvis3d.contains(<CityBuilder store={cityBuilderStore}/>)).to.be.true;
         expect(softvis3d.contains(
-            <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>)).to.be.false;
+            <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
+        )).to.be.true;
     });
 
     it("should show loader on state change", () => {
@@ -43,8 +44,7 @@ describe("<SoftVis3D/>", () => {
         expect(softvis3d.contains(<Status/>)).to.be.true;
     });
 
-    /**
-     * TODO test does not work because CityBuilderStore.isVisible depends on the AppStatusStore within the
+    /* TODO test does not work because CityBuilderStore.isVisible depends on the AppStatusStore within the
      *      CityBuilderStore which i have no idea how to mock this without changing the overall
      *      AppStatus store and changing the AppStatusStore would have side effects
      *      on other tests.
@@ -65,8 +65,7 @@ describe("<SoftVis3D/>", () => {
     //     expect(softvis3d.contains(<CityBuilder store={cityBuilderStore}/>)).to.be.true;
     // });
 
-    /**
-     * TODO test does not work because CityBuilderStore.isVisible depends on the AppStatusStore within the
+    /* TODO test does not work because CityBuilderStore.isVisible depends on the AppStatusStore within the
      *      CityBuilderStore which i have no idea how to mock this without changing the overall
      *      AppStatus store and changing the AppStatusStore would have side effects
      *      on other tests.

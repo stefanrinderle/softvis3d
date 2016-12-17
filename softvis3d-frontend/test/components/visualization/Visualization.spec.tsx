@@ -24,6 +24,9 @@ describe("<Visualization/>", () => {
 
         expectedParentElement.children.push(expectedSelectedElement);
 
+        // Trigger change on "shapes"
+        localSceneStore.shapes = null;
+
         localSceneStore.legacyData = expectedParentElement;
         localSceneStore.selectedObjectId = testId;
 
@@ -44,6 +47,9 @@ describe("<Visualization/>", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
 
+        // Trigger change on "shapes"
+        localSceneStore.shapes = null;
+
         const visualization = shallow(
             <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
@@ -63,6 +69,9 @@ describe("<Visualization/>", () => {
 
         let testId: string = "siudgffsiuhdsfiu2332";
         let expectedSelectedElement: TreeElement = createTestTreeElement(testId);
+
+        // Trigger change on "shapes"
+        localSceneStore.shapes = null;
 
         localSceneStore.legacyData = expectedSelectedElement;
         localSceneStore.selectedObjectId = testId;
