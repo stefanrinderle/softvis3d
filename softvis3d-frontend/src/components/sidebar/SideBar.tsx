@@ -12,11 +12,11 @@ interface SideBarProps {
 @observer export default class SideBar extends React.Component<SideBarProps, any> {
     public render() {
         if (this.props.selectedElement === null) {
-            return <div></div>;
+            return <div id="app-sidebar" className="side-bar"></div>;
         }
 
         return (
-            <div className="side-bar">
+            <div classID="app-sidebar" className="side-bar">
                 <h3>{this.props.selectedElement.name}</h3>
                 <SideBarSelectParent sceneStore={this.props.sceneStore} selectedElement={this.props.selectedElement} />
                 <SideBarNodeList sceneStore={this.props.sceneStore} selectedElement={this.props.selectedElement} />

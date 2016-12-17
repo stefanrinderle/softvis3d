@@ -114,11 +114,12 @@ export class SoftVis3dScene {
      */
     public onWindowResize() {
         // TODO: Change for Sidebar
-        const sidebarWidth = 0;
+        const sidebar = document.getElementById("app-sidebar");
+        const sidebarWidth = sidebar ? sidebar.offsetWidth + 1 : 0;
         const appOffset = this.getOffsetsById("app");
         const sceneBoarderWidth = 1;
-        const sonarFooterPosition =  this.getOffsetsById("footer");
-        const sonarFooterHeight = sonarFooterPosition.top ? window.innerHeight - sonarFooterPosition.top : 11;
+        const sonarFooter = document.getElementById("footer");
+        const sonarFooterHeight =  sonarFooter ? sonarFooter.offsetHeight : 11;
         const appMaxHeight = window.innerHeight - sonarFooterHeight - appOffset.top - (2 * sceneBoarderWidth);
         const appMaxWidth = window.innerWidth - (appOffset.left + sceneBoarderWidth) * 2;
 
