@@ -8,7 +8,6 @@
     }
 }
 
-
 fieldset {
     padding: 5px;
     margin: 0;
@@ -54,4 +53,10 @@ fieldset {
 
 body, #app {
     background-color: $background-app;
+}
+
+#app {
+    @include clearfix;
+    background-color: $background-app;
+    position: relative;
 }

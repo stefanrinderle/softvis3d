@@ -33,14 +33,11 @@ interface VisualizationProps {
         }
 
         return (
-            <div>
+            <div className="visualisation">
                 <TopBar cityBuilderStore={this.props.cityBuilderStore} selectedElement={selectedElement}/>
                 <Scene sceneStore={sceneStore}/>
+                <SideBar sceneStore={sceneStore} selectedElement={selectedElement}/>
                 <BottomBar cityBuilderStore={this.props.cityBuilderStore}/>
-                <SideBar
-                    sceneStore={sceneStore}
-                    selectedElement={selectedElement}
-                />
             </div>
         );
     }

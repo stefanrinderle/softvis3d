@@ -1,7 +1,4 @@
 .bottom-bar {
-
-    @include clearfix;
-
     position: absolute;
     width: 40%;
     max-width: 1000px;
@@ -12,8 +9,7 @@
     background-color: $white;
 
     left: 0; right: 0;
-    bottom: 8px;
+    bottom: 0;
 
     text-align: center;
-
 }

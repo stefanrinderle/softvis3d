@@ -113,18 +113,21 @@ export class SoftVis3dScene {
      * Resizes the camera when document is resized.
      */
     public onWindowResize() {
-        // TODO: Change for Sidebar
         const sidebar = document.getElementById("app-sidebar");
         const sidebarWidth = sidebar ? sidebar.offsetWidth + 1 : 0;
+
+        const topbar = document.getElementById("app-topbar");
+        const topbarHeight = topbar ? topbar.offsetHeight : 0;
+
         const appOffset = this.getOffsetsById("app");
         const sceneBoarderWidth = 1;
         const sonarFooter = document.getElementById("footer");
         const sonarFooterHeight =  sonarFooter ? sonarFooter.offsetHeight : 11;
         const appMaxHeight = window.innerHeight - sonarFooterHeight - appOffset.top - (2 * sceneBoarderWidth);
-        const appMaxWidth = window.innerWidth - (appOffset.left + sceneBoarderWidth) * 2;
+        const appMaxWidth = window.innerWidth - 2 * (appOffset.left + sceneBoarderWidth);
 
-        this.width = appMaxWidth - sidebarWidth;
-        this.height = appMaxHeight;
+        this.width = appMaxWidth - sidebarWidth - 1;
+        this.height = appMaxHeight - topbarHeight;
 
         this.camera.setAspect(this.width, this.height);
 

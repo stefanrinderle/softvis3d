@@ -4,18 +4,17 @@ import SelectedElementInfo from "./SelectedElementInfo";
 import TopBarMenu from "./TopBarMenu";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 
-/**
- * Currently used for an example use of selected scene object store.
- */
-@observer
-export default class TopBar
-        extends React.Component<{ selectedElement: TreeElement | null; cityBuilderStore: CityBuilderStore}, any> {
+interface TopBarProbs {
+    selectedElement: TreeElement | null;
+    cityBuilderStore: CityBuilderStore;
+}
 
+@observer export default class TopBar extends React.Component<TopBarProbs, any> {
     public render() {
-        return <div className="top-bar">
-            <SelectedElementInfo cityBuilderStore={this.props.cityBuilderStore}
-                                 selectedElement={this.props.selectedElement}/>
-            <TopBarMenu cityBuilderStore={this.props.cityBuilderStore}/>
+        const {cityBuilderStore, selectedElement} = this.props;
+        return <div id="app-topbar" className="top-bar">
+            <SelectedElementInfo cityBuilderStore={cityBuilderStore} selectedElement={selectedElement}/>
+            <TopBarMenu cityBuilderStore={cityBuilderStore}/>
         </div>;
     }
 }

@@ -1,20 +1,16 @@
 .side-bar {
-
-    @include clearfix;
-
     position: absolute;
-    width: 200px;
-    border: 1px solid $border-color-background;
-    margin: auto;
-    padding: 10px 10px 10px 10px;
-    background-color: $white;
+    top: 46px;
+    right: 1px;
 
-    height: 300px;
-    top: 100px;
-    right: 8px;
+    height: 85%;
+    width: 250px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    margin: auto;
+    padding: 5px;
 
     text-align: center;
-
 }
 
 .side-bar ul .current-selected {

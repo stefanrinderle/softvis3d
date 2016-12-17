@@ -1,15 +1,11 @@
 .top-bar {
-
     @include clearfix;
+    border-bottom: 1px solid $border-color-background;
+    padding: 8px;
 
-    position: absolute;
-    border: 1px solid $border-color-background;
+    height: 26px;
+    overflow: hidden;
     margin: auto;
-    padding: 10px 10px 10px 10px;
-    background-color: $white;
-
-    left: 8px;
-    right: 8px;
 
     div {
         float: left;
