@@ -1,22 +1,28 @@
 import * as React from "react";
-import { observer } from "mobx-react";
-import { SceneStore } from "../../stores/SceneStore";
+import {SceneStore} from "../../stores/SceneStore";
+
+interface SideBarSingleElementInfoProps {
+    element: TreeElement;
+    isCurrentSelectedElement: boolean;
+    sceneStore: SceneStore;
+}
 
 /**
  * Currently used for an example use of selected scene object store.
  */
-@observer
-export default class SideBarSingleElementInfo extends React.Component<
-        { element: TreeElement; isCurrentSelectedElement: boolean; sceneStore: SceneStore}, any> {
+export default class SideBarSingleElementInfo extends React.Component<SideBarSingleElementInfoProps, any> {
 
     public render() {
+        let classes = ["element-info"];
         if (this.props.isCurrentSelectedElement) {
-            return <li className="current-selected" key={this.props.element.id}>{this.props.element.name}</li>;
-        } else {
-            return <li onClick={this.selectElement.bind(this)} key={this.props.element.id}>
-                <a href="#">{this.props.element.name}</a>
-            </li>;
+            classes.push("current-selected");
         }
+
+        return (
+            <li className={classes.join(" ")} onClick={() => this.props.isCurrentSelectedElement || this.selectElement()}>
+                {this.props.element.name}
+            </li>
+        );
     }
 
     private selectElement() {
