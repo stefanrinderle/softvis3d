@@ -34,7 +34,7 @@ interface SideBarLeafInfoProps {
             );
         }
 
-        return <ul>
+        return <ul className="node-list">
             {folderElements}
         </ul>;
     }

@@ -13,7 +13,9 @@ interface SideBarElementInfoProps {
 export default class SideBarElementInfo extends React.Component<SideBarElementInfoProps, any> {
 
     public render() {
-        let classes = ["element-info"];
+        let classes = [];
+        classes.push(this.props.element.isNode ? "node" : "leaf");
+
         if (this.props.isSelected) {
             classes.push("current-selected");
         }
