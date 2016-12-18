@@ -1,10 +1,10 @@
 import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
-import SideBarSelectParent from "../../../src/components/sidebar/SideBarSelectParent";
+import SideBarSelectParent from "../../../src/components/sidebar/SelectParent";
 import { SceneStore } from "../../../src/stores/SceneStore";
 
-describe("<SideBarSelectParent/>", () => {
+describe("<SelectParent/>", () => {
 
     it("should show nothing if selected Element has no parent", () => {
         const element = createTestTreeElement("root");

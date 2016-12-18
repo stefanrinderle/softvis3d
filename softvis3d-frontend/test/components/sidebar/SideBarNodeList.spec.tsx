@@ -1,11 +1,11 @@
 import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
-import SideBarNodeList from "../../../src/components/sidebar/SideBarNodeList";
-import SideBarElementInfo from "../../../src/components/sidebar/SideBarElementInfo";
+import SideBarNodeList from "../../../src/components/sidebar/NodeList";
+import SideBarElementInfo from "../../../src/components/sidebar/ElementInfo";
 import {SceneStore} from "../../../src/stores/SceneStore";
 
-describe("<SideBarNodeList/>", () => {
+describe("<NodeList/>", () => {
 
     it("should show siblings of the selected element as list", () => {
         let parent: TreeElement = createTestTreeElement("parent");

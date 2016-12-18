@@ -34,7 +34,7 @@ describe("<Visualization/>", () => {
             <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
-        expect(visualization.children().length).to.be.eq(4);
+        expect(visualization.children()).to.have.length(4);
         expect(visualization.contains(
             <TopBar cityBuilderStore={localCityBuilderStore} selectedElement={expectedSelectedElement}/>)).to.be.true;
         expect(visualization.contains(<Scene sceneStore={localSceneStore} />)).to.be.true;
@@ -54,7 +54,7 @@ describe("<Visualization/>", () => {
             <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
-        expect(visualization.children().length).to.be.eq(4);
+        expect(visualization.children()).to.have.length(4);
         expect(visualization.contains(
             <TopBar selectedElement={null} cityBuilderStore={localCityBuilderStore}/>)).to.be.true;
         expect(visualization.contains(<Scene sceneStore={localSceneStore} />)).to.be.true;
@@ -80,7 +80,7 @@ describe("<Visualization/>", () => {
             <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
-        expect(visualization.children().length).to.be.eq(4);
+        expect(visualization.children()).to.have.length(4);
         expect(visualization.contains(
             <TopBar cityBuilderStore={localCityBuilderStore} selectedElement={expectedSelectedElement}/>)).to.be.true;
         expect(visualization.contains(<Scene sceneStore={localSceneStore} />)).to.be.true;

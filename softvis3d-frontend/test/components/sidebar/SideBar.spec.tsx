@@ -2,8 +2,8 @@ import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import SideBar from "../../../src/components/sidebar/SideBar";
-import SideBarNodeList from "../../../src/components/sidebar/SideBarNodeList";
-import SideBarSelectParent from "../../../src/components/sidebar/SideBarSelectParent";
+import SideBarNodeList from "../../../src/components/sidebar/NodeList";
+import SideBarSelectParent from "../../../src/components/sidebar/SelectParent";
 import { SceneStore } from "../../../src/stores/SceneStore";
 
 describe("<SideBar/>", () => {

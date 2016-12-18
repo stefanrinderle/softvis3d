@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { SceneStore } from "../../stores/SceneStore";
 import { TreeService } from "../../layout/TreeService";
 
-interface SideBarSelectParentProps {
+interface SelectParentProps {
     sceneStore: SceneStore;
     selectedElement: TreeElement;
 }
@@ -11,7 +11,7 @@ interface SideBarSelectParentProps {
 /**
  * Currently used for an example use of selected scene object store.
  */
-@observer export default class SideBarSelectParent extends React.Component<SideBarSelectParentProps, any> {
+@observer export default class SelectParent extends React.Component<SelectParentProps, any> {
 
     public render() {
         let parent: TreeElement | null = this.getParentElement(this.props.selectedElement);

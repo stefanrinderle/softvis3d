@@ -1,7 +1,7 @@
 import * as React from "react";
 import {SceneStore} from "../../stores/SceneStore";
 
-interface SideBarElementInfoProps {
+interface ElementInfoProps {
     element: TreeElement;
     selected?: boolean;
     origin?: boolean;
@@ -11,7 +11,7 @@ interface SideBarElementInfoProps {
 /**
  * Currently used for an example use of selected scene object store.
  */
-export default class SideBarElementInfo extends React.Component<SideBarElementInfoProps, any> {
+export default class ElementInfo extends React.Component<ElementInfoProps, any> {
     public static defaultProps = {
         selected: false,
         origin: false

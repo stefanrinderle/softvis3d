@@ -1,15 +1,15 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import SideBarElementInfo from "./SideBarElementInfo";
+import ElementInfo from "./ElementInfo";
 import {SceneStore} from "../../stores/SceneStore";
 import {TreeService} from "../../layout/TreeService";
 
-interface SideBarLeafInfoProps {
+interface NodeListProps {
     selectedElement: TreeElement;
     sceneStore: SceneStore;
 }
 
-@observer export default class SideBarNodeList extends React.Component<SideBarLeafInfoProps, any> {
+@observer export default class NodeList extends React.Component<NodeListProps, any> {
     public render() {
         const folder = this.props.selectedElement.isNode
             ? this.props.selectedElement
@@ -22,7 +22,7 @@ interface SideBarLeafInfoProps {
         }
 
         let folderElements: JSX.Element[] = [
-            <SideBarElementInfo
+            <ElementInfo
                 key={folder.id}
                 element={folder}
                 selected={folder.id === this.props.selectedElement.id}
@@ -32,7 +32,7 @@ interface SideBarLeafInfoProps {
         ];
         for (let child of folder.children) {
             folderElements.push(
-                <SideBarElementInfo
+                <ElementInfo
                     key={child.id}
                     element={child}
                     selected={child.id === this.props.selectedElement.id}

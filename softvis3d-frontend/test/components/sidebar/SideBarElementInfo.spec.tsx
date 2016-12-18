@@ -1,10 +1,10 @@
 import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
-import SideBarElementInfo from "../../../src/components/sidebar/SideBarElementInfo";
+import SideBarElementInfo from "../../../src/components/sidebar/ElementInfo";
 import { SceneStore } from "../../../src/stores/SceneStore";
 
-describe("<SideBarElementInfo/>", () => {
+describe("<ElementInfo/>", () => {
 
     it("should show element", () => {
         let expectedName = "element98szdfkjbsf";
