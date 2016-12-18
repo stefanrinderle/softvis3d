@@ -16,6 +16,7 @@ interface NodeListProps {
             : this.getParentElement(this.props.selectedElement);
 
         if (folder === null) {
+            // TODO: "Error" is not the Way to go :-/
             return <ul>
                 <li>ERROR</li>
             </ul>;

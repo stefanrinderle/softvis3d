@@ -21,15 +21,15 @@ interface SelectParentProps {
         }
 
         if (parent === null || typeof parent === "undefined") {
-            return <div></div>;
+            return <div className="select-parent"></div>;
         }
 
         const myParent = parent;
         return (
-            <div>
-                <a href="#" onClick={() => this.setSelectedObjectId(myParent.id)}>
-                    Select parent folder: {myParent.name}
-                </a>
+            <div className="select-parent">
+                <span onClick={() => this.setSelectedObjectId(myParent.id)}>
+                    {myParent.name}
+                </span>
             </div>
         );
     }

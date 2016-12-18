@@ -55,7 +55,7 @@ describe("<SelectParent/>", () => {
             <SideBarSelectParent sceneStore={localSceneStore} selectedElement={parent0}/>
         );
 
-        sideBarSelectParent.find("a").simulate("click");
+        sideBarSelectParent.find(".select-parent span").simulate("click");
         expect(localSceneStore.selectedObjectId).to.be.eq("parent1");
     });
 
@@ -78,7 +78,7 @@ describe("<SelectParent/>", () => {
             <SideBarSelectParent sceneStore={localSceneStore} selectedElement={child}/>
         );
 
-        sideBarSelectParent.find("a").simulate("click");
+        sideBarSelectParent.find(".select-parent span").simulate("click");
         expect(localSceneStore.selectedObjectId).to.be.eq("parent1");
     });
 });

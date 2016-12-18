@@ -12,43 +12,65 @@
 
     h3 {
         text-align: center;
+        margin: 2px 8px 12px 8px;
+        padding: 2px 0;
+        border-bottom: 1px solid $blue-dark;
+    }
+
+    div.select-parent {
+        height: 22px;
+
+        span {
+            background: no-repeat left center;
+            @include bg-img-folder;
+            display: block;
+            cursor: pointer;
+
+            margin: 0;
+            padding: 3px 0 3px 20px;
+            color: $font-color-link-default;
+
+            &:hover {
+                color: $font-color-link-hover;
+            }
+        }
     }
 
     ul.node-list {
         text-align: left;
         font-weight: normal;
         list-style: none;
-        margin: 5px 0;
+        margin: 0 0 0 12px;
         padding: 0;
 
         li {
             background: no-repeat left center;
-            padding: 4px 0 4px 20px;
+            padding: 3px 0 3px 20px;
             margin-left: 12px;
             color: $font-color-link-default;
             cursor: pointer;
-        }
 
-        li.current-selected{
-            color: $font-color-link-active;
-            font-weight: bold;
-        }
+            &.current-selected{
+                color: $font-color-link-active;
+                font-weight: bold;
+            }
 
-        li.origin.node {
-            @include bg-img-open-folder;
-            margin-left: 0;
-        }
+            &.origin.node {
+                @include bg-img-open-folder;
+                margin-left: 0;
+            }
 
-        li.leaf {
-            @include bg-img-file;
-        }
+            &.leaf {
+                @include bg-img-file;
+            }
 
-        li.node {
-            @include bg-img-folder;
-        }
+            &.node {
+                @include bg-img-folder;
+            }
 
-        li:hover {
-            color: $font-color-link-hover;
+            &:hover {
+                color: $font-color-link-hover;
+            }
         }
     }
 }
