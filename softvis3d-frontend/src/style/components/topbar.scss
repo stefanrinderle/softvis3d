@@ -29,7 +29,7 @@ $content-height: 42px;
             font-size: 14pt;
         }
 
-        .node .metric-info {
+        &.node .metric-info {
             padding-top: ($content-height / 3);
         }
 
