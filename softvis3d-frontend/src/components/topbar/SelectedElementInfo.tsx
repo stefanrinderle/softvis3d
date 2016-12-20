@@ -16,7 +16,7 @@ interface SelectedElementInfoProps {
         if (selectedElement === null) {
             return (
                 <div className="selected-element-info">
-                    Select an object to see the details here
+                    <span className="no-info">Select an object to see the details here</span>
                 </div>
             );
         }

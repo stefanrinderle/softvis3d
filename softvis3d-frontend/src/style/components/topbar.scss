@@ -9,9 +9,16 @@ $content-height: 42px;
     overflow: hidden;
     margin: auto;
 
+    .no-info {
+        display: block;
+        padding: 12px;
+        color: $gray-dark;
+        font-style: italic;
+    }
+
     .selected-element-info {
         height: $content-height;
-        margin-right: 285px;
+        margin-right: 295px;
         background: no-repeat 8px 45%;
         background-size: 20px;
         &.leaf { @include bg-img-file; }
