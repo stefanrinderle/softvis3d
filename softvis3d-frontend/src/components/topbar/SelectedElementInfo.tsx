@@ -4,26 +4,28 @@ import SelectedElementNodeInfo from "./SelectedElementNodeInfo";
 import SelectedElementLeafInfo from "./SelectedElementLeafInfo";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 
-/**
- * Currently used for an example use of selected scene object store.
- */
+interface SelectedElementInfoProps {
+    cityBuilderStore: CityBuilderStore;
+    selectedElement: TreeElement | null;
+}
+
 @observer
 export default class SelectedElementInfo
-        extends React.Component<{ cityBuilderStore: CityBuilderStore; selectedElement: TreeElement | null}, any> {
+        extends React.Component<SelectedElementInfoProps, any> {
 
     public render() {
-        if (this.props.selectedElement !== null) {
-            return (
-                <div className="selected-element-info">
-                    {this.renderSelectedObject(this.props.selectedElement)}
-                </div>
-            );
-        } else {
-            return <div className="selected-element-info">Select an object to see the details here</div>;
-        }
+        return (
+            <div className="selected-element-info">
+                {this.renderSelectedObject(this.props.selectedElement)}
+            </div>
+        );
     }
 
-    private renderSelectedObject(selectedElement: TreeElement) {
+    private renderSelectedObject(selectedElement: TreeElement | null) {
+        if (selectedElement === null) {
+            return "Select an object to see the details here";
+        }
+
         if (selectedElement.isNode) {
             return <SelectedElementNodeInfo selectedElement={selectedElement}/>;
         } else {

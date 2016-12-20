@@ -3,7 +3,6 @@ import {shallow} from "enzyme";
 import BottomBar from "../../../src/components/bottombar/BottomBar";
 import {expect} from "chai";
 import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
-import SeparatorComponent from "../../../src/components/ui/SeparatorComponent";
 import BottomBarMetricInfo from "../../../src/components/bottombar/BottomBarMetricInfo";
 
 describe("<BottomBar/>", () => {
@@ -15,7 +14,6 @@ describe("<BottomBar/>", () => {
             <BottomBar cityBuilderStore={testCityBuilderStore}/>
         );
 
-        expect(bottomBar.contains(<SeparatorComponent/>)).to.be.true;
         expect(bottomBar
             .contains(<BottomBarMetricInfo title="Width" metric={testCityBuilderStore.metricWidth}/>))
             .to.be.true;
