@@ -1,26 +1,68 @@
+$content-height: 42px;
+
 .top-bar {
     @include clearfix;
     border-bottom: 1px solid $border-color-background;
-    padding: 8px;
+    padding: 0;
 
-    height: 26px;
+    height: $content-height;
     overflow: hidden;
     margin: auto;
 
-    div {
-        float: left;
-    }
-}
+    .selected-element-info {
+        height: $content-height;
+        margin-right: 285px;
+        background: no-repeat 8px 45%;
+        background-size: 20px;
+        &.leaf { @include bg-img-file; }
+        &.node { @include bg-img-folder; }
 
-.top-bar-menu {
-    right: 8px;
-    width: 20%;
+        .element-name {
+            margin: 8px 60px 0 34px;
+            height: ($content-height - 8px);
+            float: left;
+            min-width: 350px;
+            max-width: 600px;
+            overflow: hidden;
+
+            font-weight: 600;
+            font-size: 14pt;
+        }
+
+        .node .metric-info {
+            padding-top: ($content-height / 3);
+        }
+
+        .metric-info {
+            font-size: 13px;
+            line-height: 13px;
+            padding-bottom: 1px;
+
+            >.title {
+                color: $gray-dark;
+                &:after { content: " - " }
+            }
+
+            >.name {
+                &:after { content : ": "; }
+            }
+
+            >.value {
+                // Nothing special
+            }
+
+
+        }
+    }
+
+    .top-bar-menu {
+        float: right;
+        width: 291px;
+        text-align: center;
+        padding: 10px 0;
+    }
 }
 
 .top-bar-header {
     font-size: 1.5em;
-}
-
-.selected-element-info {
-    width: 80%;
 }

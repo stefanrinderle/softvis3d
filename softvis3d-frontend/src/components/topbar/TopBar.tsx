@@ -13,8 +13,8 @@ interface TopBarProbs {
     public render() {
         const {cityBuilderStore, selectedElement} = this.props;
         return <div id="app-topbar" className="top-bar">
-            <SelectedElementInfo cityBuilderStore={cityBuilderStore} selectedElement={selectedElement}/>
             <TopBarMenu cityBuilderStore={cityBuilderStore}/>
+            <SelectedElementInfo cityBuilderStore={cityBuilderStore} selectedElement={selectedElement}/>
         </div>;
     }
 }

@@ -57,6 +57,7 @@ body, #app {
 
 #app {
     @include clearfix;
+    min-width: 920px;
     background-color: $background-app;
     position: relative;
 }
