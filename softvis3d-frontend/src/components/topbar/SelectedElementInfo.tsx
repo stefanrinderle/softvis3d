@@ -40,16 +40,19 @@ interface SelectedElementInfoProps {
         } else {
             return [
                 <SelectedElementMetricInfo
+                    key="metric-height"
                     title="Height"
                     name={store.metricHeight.name}
                     value={element.heightMetricValue}
                 />,
                 <SelectedElementMetricInfo
+                    key="metric-footprint"
                     title="Footprint"
                     name={store.metricWidth.name}
                     value={element.footprintMetricValue}
                 />,
                 <SelectedElementMetricInfo
+                    key="metric-color"
                     title="Color"
                     name={store.metricColor.name}
                     value={element.colorMetricValue}
