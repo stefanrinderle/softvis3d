@@ -28,7 +28,7 @@ $content-height: 42px;
             margin: 8px 60px 0 34px;
             height: ($content-height - 8px);
             float: left;
-            min-width: 350px;
+            min-width: 400px;
             max-width: 600px;
             overflow: hidden;
 
@@ -57,8 +57,6 @@ $content-height: 42px;
             >.value {
                 // Nothing special
             }
-
-
         }
     }
 

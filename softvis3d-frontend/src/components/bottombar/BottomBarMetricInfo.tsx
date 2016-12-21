@@ -6,9 +6,10 @@ export default class BottomBarMetricInfo extends React.Component<{ title: string
 
     public render() {
         return (
-            <span>
-                {this.props.title}: {this.props.metric.name}
-            </span>
+            <div className="metric-info">
+                <span className="title">{this.props.title}</span>
+                <span className="name">{this.props.metric.name}</span>
+            </div>
         );
     }
 

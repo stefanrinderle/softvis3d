@@ -1,6 +1,5 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import SeparatorComponent from "../ui/SeparatorComponent";
 import BottomBarMetricInfo from "./BottomBarMetricInfo";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 
@@ -14,9 +13,7 @@ export default class BottomBar extends React.Component<{ cityBuilderStore: CityB
         return (
             <div className="bottom-bar">
                 <BottomBarMetricInfo title="Width" metric={this.props.cityBuilderStore.metricWidth}/>
-                <SeparatorComponent/>
                 <BottomBarMetricInfo title="Height" metric={this.props.cityBuilderStore.metricHeight}/>
-                <SeparatorComponent/>
                 <BottomBarMetricInfo title="Color" metric={this.props.cityBuilderStore.metricColor}/>
             </div>
         );
