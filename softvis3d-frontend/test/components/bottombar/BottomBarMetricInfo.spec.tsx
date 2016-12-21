@@ -7,7 +7,7 @@ describe("<BottomBarMetricInfo/>", () => {
 
     it("should show title and metric", () => {
         let title: string = "ExpectedTitle";
-        let expectedMetricName: string = "ExpectedMetircName";
+        let expectedMetricName: string = "ExpectedMetricName";
 
         let expectedMetric: Metric = {
             key: "123",
@@ -19,8 +19,8 @@ describe("<BottomBarMetricInfo/>", () => {
             <BottomBarMetricInfo title={title} metric={expectedMetric}/>
         );
 
-        expect(bottomBarMetricInfo.html().includes(expectedMetricName)).to.be.true;
-        expect(bottomBarMetricInfo.html().includes(title)).to.be.true;
+        expect(bottomBarMetricInfo.html()).to.include(expectedMetricName);
+        expect(bottomBarMetricInfo.html()).to.include(title);
     });
 
 });

@@ -18,7 +18,7 @@ describe("<BottomBar/>", () => {
             .contains(<BottomBarMetricInfo title="Width" metric={testCityBuilderStore.metricWidth}/>))
             .to.be.true;
 
-        expect(bottomBar.children().length).to.be.eq(5);
+        expect(bottomBar.children().length).to.be.eq(3);
     });
 
 });
