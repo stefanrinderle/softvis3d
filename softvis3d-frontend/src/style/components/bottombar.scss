@@ -5,14 +5,15 @@
 
     max-width: 1000px;
     min-width: 500px;
-    width: 40%;
+    width: 50%;
     text-align: center;
+    font-size: 9pt;
 
     border: 1px solid $border-color-background;
     background-color: $white;
 
     margin: auto;
-    padding: 6px;
+    padding: 5px;
 
     div.metric-info {
         color: $black;
