@@ -10,9 +10,8 @@ const MetricPropertyPicker: new() => SelectBoxBuilder<Metric> = SelectBoxBuilder
 
 @observer export default class OptionsAdvanced extends React.Component<{ store: CityBuilderStore; }, any> {
     public render() {
-        const toggle = this.props.store.advancedOptionsVisible;
         return (
-            <Category label="Advanced Options" className="advanced" toggle={toggle}>
+            <Category label="Advanced Options" className="advanced" toggle={true}>
                 <MetricPropertyPicker
                     label="Metric - Height"
                     value={this.props.store.metricHeight}
