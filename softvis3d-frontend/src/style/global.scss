@@ -17,6 +17,34 @@ fieldset {
     legend {
         margin-left: 8px;
     }
+
+    &.collapsable {
+        transition: .5s;
+
+        legend {
+            cursor: pointer;
+            &:hover {
+                color: $font-color-highlight;
+            }
+        }
+
+        &.collapsed {
+            padding-top: 0;
+            padding-bottom: 0;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            border-right-color: transparent;
+
+            .category-content {
+                //display: none;
+                margin: 0;
+                padding: 0;
+                border-width: 0;
+                height: 0;
+                overflow: hidden;
+            }
+        }
+    }
 }
 
 .radio-group {

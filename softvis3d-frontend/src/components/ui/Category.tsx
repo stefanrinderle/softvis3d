@@ -27,14 +27,12 @@ export default class Category extends React.Component<CategoryProps, CategorySta
 
     public render() {
         return (
-            <div className={this.getClassName()}>
-                <fieldset>
-                    <legend onClick={() => this.toggleVisibility()}>{this.props.label}</legend>
-                    <div className="category-content">
-                        {this.props.children}
-                    </div>
-                </fieldset>
-            </div>
+            <fieldset className={this.getClassName()}>
+                <legend onClick={() => this.toggleVisibility()}>{this.props.label}</legend>
+                <div className="category-content">
+                    {this.props.children}
+                </div>
+            </fieldset>
         );
     }
 
