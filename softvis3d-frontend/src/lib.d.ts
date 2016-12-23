@@ -57,7 +57,6 @@ declare interface TreeElement {
 declare interface Profile {
     id: string;
     name: string;
-    metricColor: Metric|null;
     metricHeight: Metric|null;
     metricWidth: Metric|null;
     description: string;

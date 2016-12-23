@@ -56,7 +56,6 @@ class CityBuilderStore {
 
     public setProfile(p: Profile) {
         this.profile = p;
-        this.metricColor = p.metricColor || this.metricColor;
         this.metricHeight = p.metricHeight || this.metricHeight;
         this.metricWidth = p.metricWidth || this.metricWidth;
     }
