@@ -5,6 +5,7 @@ $simpleCategoryHeight: 290px;
     @include softvis-dialog;
 
     .simple {
+        // Column Management
         @include clearfix;
 
         position: relative;
@@ -21,11 +22,6 @@ $simpleCategoryHeight: 290px;
             height: 100%;
             right: 0;
         }
-    }
-
-
-    .advanced {
-        // Advanced Props here
     }
 
     // Other City-Builder Stuff
@@ -47,6 +43,29 @@ $simpleCategoryHeight: 290px;
                 display: block;
                 cursor: pointer;
                 margin: 6px 4px;
+            }
+        }
+    }
+
+    .advanced {
+        margin: 5px 0;
+    }
+
+    .buttons {
+        text-align: right;
+        margin-top: 8px;
+
+        button {
+            margin: 0 4px;
+            border: 1px solid $font-color-link-default;
+            border-radius: 4px;
+            background: $white;
+            padding: 3px 5px;
+            cursor: pointer;
+
+            &:hover {
+                border-color: $font-color-link-hover;
+                color: $font-color-highlight;
             }
         }
     }
