@@ -19,11 +19,9 @@
  */
 package de.rinderle.softvis3d.webservice;
 
-import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
-import de.rinderle.softvis3d.base.layout.helper.StringOutputStream;
 import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
 import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
 import de.rinderle.softvis3d.dao.DaoService;
@@ -32,6 +30,7 @@ import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
 
 import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
@@ -90,7 +89,7 @@ public class VisualizationWebserviceHandlerTest {
     final Request request = this.createRequest();
     final Response response = this.createResponse();
 
-    final SnapshotTreeResult treeResult = mockPreProcessing();
+    final RootTreeNode treeResult = mockPreProcessing();
 
     when(daoService.getProjectId(eq(localConnector), eq(this.snapshotKey))).thenReturn("projectId");
 
@@ -99,18 +98,17 @@ public class VisualizationWebserviceHandlerTest {
     // empty response because json transformer are mocked.
     assertEquals("{}", this.stringOutputStream.toString());
 
-    verify(treeNodeJsonWriter, times(1)).transformRootTreeToJson(any(SoftVis3dJsonWriter.class), eq(treeResult.getTree()));
+    verify(treeNodeJsonWriter, times(1)).transformRootTreeToJson(any(SoftVis3dJsonWriter.class), eq(treeResult));
   }
 
-  private SnapshotTreeResult mockPreProcessing() {
+  private RootTreeNode mockPreProcessing() {
     final RootTreeNode rootTreeNode = new RootTreeNode("1");
     rootTreeNode.getChildren().put("2", new ValueTreeNode("2", rootTreeNode, 1, TreeNodeType.TREE, "2", 3, 3, 3));
     rootTreeNode.getChildren().put("3", new ValueTreeNode("3", rootTreeNode, 1, TreeNodeType.TREE, "3", 9, 9, 9));
-    final SnapshotTreeResult treeResult = new SnapshotTreeResult(rootTreeNode);
 
-    when(preProcessor.process(any(LocalConnector.class), any(VisualizationRequest.class))).thenReturn(treeResult);
+    when(preProcessor.process(any(LocalConnector.class), any(VisualizationRequest.class))).thenReturn(rootTreeNode);
 
-    return treeResult;
+    return rootTreeNode;
   }
 
   private Request createRequest() {
@@ -210,6 +208,21 @@ public class VisualizationWebserviceHandlerTest {
         };
       }
     };
+  }
+
+  private class StringOutputStream extends OutputStream {
+
+    private final StringBuilder string = new StringBuilder();
+
+    @Override
+    public void write(final int b) throws IOException {
+      this.string.append((char) b);
+    }
+
+    @Override
+    public String toString() {
+      return this.string.toString();
+    }
   }
 
 }

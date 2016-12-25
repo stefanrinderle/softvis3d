@@ -19,7 +19,6 @@
  */
 package de.rinderle.softvis3d.cache;
 
-import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
@@ -41,7 +40,7 @@ public class SnapshotCacheServiceTest {
 
     for (int i = 0; i < lastEntryKey + 1; i++) {
       final SnapshotStorageKey key = getSnapshotStorageKey(String.valueOf(i));
-      final SnapshotTreeResult value = new SnapshotTreeResult(new RootTreeNode(String.valueOf(i)));
+      final RootTreeNode value = new RootTreeNode(String.valueOf(i));
       underTest.save(key, value);
     }
 
@@ -52,8 +51,8 @@ public class SnapshotCacheServiceTest {
 
     assertNull(underTest.getSnapshotTreeResult(getSnapshotStorageKey("0")));
 
-    final SnapshotTreeResult cachedValue = underTest.getSnapshotTreeResult(getSnapshotStorageKey(String.valueOf(lastEntryKey)));
-    assertEquals(String.valueOf(lastEntryKey), cachedValue.getTree().getId());
+    final RootTreeNode cachedValue = underTest.getSnapshotTreeResult(getSnapshotStorageKey(String.valueOf(lastEntryKey)));
+    assertEquals(String.valueOf(lastEntryKey), cachedValue.getId());
   }
 
   private SnapshotStorageKey getSnapshotStorageKey(final String id) {

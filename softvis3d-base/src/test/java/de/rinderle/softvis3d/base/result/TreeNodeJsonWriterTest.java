@@ -21,7 +21,10 @@ package de.rinderle.softvis3d.base.result;
 
 import de.rinderle.softvis3d.base.TestTreeBuilder;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
-import de.rinderle.softvis3d.base.layout.helper.StringOutputStream;
+
+import java.io.IOException;
+import java.io.OutputStream;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -63,6 +66,21 @@ public class TreeNodeJsonWriterTest {
     final String expectedResult = "{\"id\":\"1\",\"name\":\"root\",\"isNode\":true,\"children\":[{\"id\":\"2\",\"name\":\"2\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0,\"parentId\":\"1\",\"children\":[]},{\"id\":\"3\",\"name\":\"3\",\"isNode\":false,\"heightMetricValue\":2.0,\"footprintMetricValue\":2.0,\"colorMetricValue\":2.0,\"parentId\":\"1\",\"children\":[]}]}";
 
     assertEquals(expectedResult, stringOutputStream.toString());
+  }
+
+  private class StringOutputStream extends OutputStream {
+
+    private final StringBuilder string = new StringBuilder();
+
+    @Override
+    public void write(final int b) throws IOException {
+      this.string.append((char) b);
+    }
+
+    @Override
+    public String toString() {
+      return this.string.toString();
+    }
   }
 
 }

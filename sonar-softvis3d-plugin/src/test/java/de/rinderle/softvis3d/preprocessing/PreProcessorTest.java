@@ -19,7 +19,7 @@
  */
 package de.rinderle.softvis3d.preprocessing;
 
-import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
+import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.cache.SnapshotCacheService;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
@@ -66,12 +66,12 @@ public class PreProcessorTest {
     final SnapshotStorageKey mapKey = new SnapshotStorageKey(requestDTO);
 
     when(snapshotCacheService.containsKey(eq(mapKey))).thenReturn(true);
-    SnapshotTreeResult expectedResult = new SnapshotTreeResult(null);
+    RootTreeNode expectedResult = null;
     when(snapshotCacheService.getSnapshotTreeResult(eq(mapKey))).thenReturn(expectedResult);
     expectedResult = snapshotCacheService.getSnapshotTreeResult(mapKey);
 
     LocalConnector localConnector = null;
-    final SnapshotTreeResult result = preProcessor.process(localConnector, requestDTO);
+    final RootTreeNode result = preProcessor.process(localConnector, requestDTO);
 
     assertEquals(expectedResult, result);
   }

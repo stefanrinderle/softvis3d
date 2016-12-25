@@ -20,13 +20,13 @@
 package de.rinderle.softvis3d.cache;
 
 import com.google.inject.Singleton;
-import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
+import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 
 @Singleton
 public class SnapshotCacheService {
 
-  private final Cache<SnapshotStorageKey, SnapshotTreeResult> storage;
+  private final Cache<SnapshotStorageKey, RootTreeNode> storage;
 
   SnapshotCacheService() {
     storage = new Cache<>();
@@ -40,11 +40,11 @@ public class SnapshotCacheService {
     return storage.containsKey(key);
   }
 
-  public void save(final SnapshotStorageKey key, final SnapshotTreeResult result) {
+  public void save(final SnapshotStorageKey key, final RootTreeNode result) {
     storage.put(key, result);
   }
 
-  public SnapshotTreeResult getSnapshotTreeResult(final SnapshotStorageKey key) {
+  public RootTreeNode getSnapshotTreeResult(final SnapshotStorageKey key) {
     return storage.get(key);
   }
 

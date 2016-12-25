@@ -19,8 +19,10 @@
  */
 package de.rinderle.softvis3d.base.result;
 
-import de.rinderle.softvis3d.base.layout.helper.StringOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -115,6 +117,22 @@ public class SoftVis3dJsonWriterTest {
   @Test(expected = IllegalStateException.class)
   public void fail_if_not_valid() {
     writer.beginObject().endArray().close();
+  }
+
+
+  private class StringOutputStream extends OutputStream {
+
+    private final StringBuilder string = new StringBuilder();
+
+    @Override
+    public void write(final int b) throws IOException {
+      this.string.append((char) b);
+    }
+
+    @Override
+    public String toString() {
+      return this.string.toString();
+    }
   }
 
 }

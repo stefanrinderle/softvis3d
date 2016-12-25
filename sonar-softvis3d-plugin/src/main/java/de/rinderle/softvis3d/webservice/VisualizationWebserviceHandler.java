@@ -20,7 +20,7 @@
 package de.rinderle.softvis3d.webservice;
 
 import com.google.inject.Inject;
-import de.rinderle.softvis3d.base.domain.SnapshotTreeResult;
+import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
 import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
 import de.rinderle.softvis3d.dao.DaoService;
@@ -41,10 +41,8 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
   private PreProcessor preProcessor;
   @Inject
   private DaoService daoService;
-
   @Inject
   private TreeNodeJsonWriter treeNodeJsonWriter;
-
 
   @Override
   public void handleRequest(final Request request, final Response response) {
@@ -63,16 +61,16 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
     LOGGER.info("VisualizationWebserviceHandler " + requestDTO.toString());
 
-    final SnapshotTreeResult snapshotTreeResult = preProcessor.process(request.localConnector(), requestDTO);
+    final RootTreeNode snapshotTreeResult = preProcessor.process(request.localConnector(), requestDTO);
 
     this.writeResultsToResponse(response, snapshotTreeResult);
   }
 
-  private void writeResultsToResponse(final Response response, final SnapshotTreeResult snapshotTreeResult) {
+  private void writeResultsToResponse(final Response response, final RootTreeNode snapshotTreeResult) {
 
     final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(response.stream().output());
 
-    this.treeNodeJsonWriter.transformRootTreeToJson(jsonWriter, snapshotTreeResult.getTree());
+    this.treeNodeJsonWriter.transformRootTreeToJson(jsonWriter, snapshotTreeResult);
 
     jsonWriter.close();
   }
