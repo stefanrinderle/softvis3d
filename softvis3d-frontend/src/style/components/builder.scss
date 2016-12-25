@@ -47,8 +47,12 @@ $simpleCategoryHeight: 290px;
         }
     }
 
-    .advanced {
-        margin: 5px 0;
+    fieldset.advanced {
+        margin: 8px 0;
+
+        &.collapsable:not(.collapsed) div.category-content {
+            max-height: 100px;
+        }
     }
 
     .buttons {
