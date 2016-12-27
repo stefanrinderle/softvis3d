@@ -18,30 +18,49 @@ fieldset {
         margin-left: 8px;
     }
 
-    &.collapsable {
-        transition: .5s;
+    &.collapsable, legend, .category-content {
+        transition: .25s ease-out;
+    }
 
+    &.collapsable {
         legend {
             cursor: pointer;
+            user-select: none;
+
             &:hover {
                 color: $font-color-highlight;
             }
+
+            &:after {
+                content: '\025BE';
+                padding: 0 5px;
+            }
+        }
+
+        .category-content {
+            max-height: 2048px;
+            margin: 0;
+            padding: 0;
+            border-width: 0;
+            overflow: hidden;
         }
 
         &.collapsed {
-            padding-top: 0;
-            padding-bottom: 0;
-            border-bottom-color: transparent;
-            border-left-color: transparent;
-            border-right-color: transparent;
+            padding: 0;
+            margin-left: 0;
+            margin-right: 0;
+            border-color: transparent;
 
             .category-content {
-                //display: none;
+                max-height: 0;
+            }
+
+            legend {
                 margin: 0;
                 padding: 0;
-                border-width: 0;
-                height: 0;
-                overflow: hidden;
+                &:after {
+                    content: '\025B9';
+                }
             }
         }
     }
