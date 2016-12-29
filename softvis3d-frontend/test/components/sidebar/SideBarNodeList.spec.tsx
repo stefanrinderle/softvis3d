@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { shallow } from "enzyme";
 import SideBarNodeList from "../../../src/components/sidebar/NodeList";
 import SideBarElementInfo from "../../../src/components/sidebar/ElementInfo";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import { SceneStore } from "../../../src/stores/SceneStore";
 
 describe("<NodeList/>", () => {
 
@@ -87,9 +87,7 @@ function createTestTreeElement(name: string): TreeElement {
 
         children: [],
 
-        colorMetricValue: 0,
-        footprintMetricValue: 0,
-        heightMetricValue: 0,
+        measures: {},
         parentId: null
     };
 }

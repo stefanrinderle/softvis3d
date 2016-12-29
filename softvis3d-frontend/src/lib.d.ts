@@ -48,10 +48,12 @@ declare interface TreeElement {
 
     children: TreeElement[];
 
-    colorMetricValue: number;
-    footprintMetricValue: number;
-    heightMetricValue: number;
+    measures: Measure;
     parentId: string | null;
+}
+
+interface Measure {
+    [propName: string]: number;
 }
 
 declare interface Profile {

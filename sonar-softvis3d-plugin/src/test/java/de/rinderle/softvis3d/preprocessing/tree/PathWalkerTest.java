@@ -21,7 +21,10 @@ package de.rinderle.softvis3d.preprocessing.tree;
 
 import de.rinderle.softvis3d.base.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
+
+import java.util.Collections;
 import java.util.Map;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -118,7 +121,7 @@ public class PathWalkerTest {
   }
 
   private void callWalker(final PathWalker walker, final String id, final String path) {
-    final SonarMeasure element = new SonarMeasure(id, id, path, 0, 0, 0);
+    final SonarMeasure element = new SonarMeasure(id, id, path, Collections.emptyMap());
     walker.addPath(element);
   }
 

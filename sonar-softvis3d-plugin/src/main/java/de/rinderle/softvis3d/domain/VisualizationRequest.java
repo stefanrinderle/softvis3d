@@ -19,50 +19,33 @@
  */
 package de.rinderle.softvis3d.domain;
 
-import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class VisualizationRequest {
 
   private final String rootSnapshotKey;
 
-  private final String footprintMetricKey;
-  private final String heightMetricKey;
-  private final ColorMetricType colorMetricType;
+  private final String[] metrics;
 
-  public VisualizationRequest(final String rootSnapshotKey, final String footprintMetricKey, final String heightMetricKey, final ColorMetricType colorMetricType) {
+  public VisualizationRequest(final String rootSnapshotKey, final String[] metrics) {
     this.rootSnapshotKey = rootSnapshotKey;
 
-    this.footprintMetricKey = footprintMetricKey;
-    this.heightMetricKey = heightMetricKey;
-
-    this.colorMetricType = colorMetricType;
+    this.metrics = metrics;
   }
 
   public String getRootSnapshotKey() {
     return this.rootSnapshotKey;
   }
 
-  public String getFootprintMetricKey() {
-    return this.footprintMetricKey;
-  }
-
-  public String getHeightMetricKey() {
-    return this.heightMetricKey;
-  }
-
-  public ColorMetricType getColorMetricType() {
-    return colorMetricType;
+  public String[] getMetrics() {
+    return metrics;
   }
 
   @Override
   public String toString() {
-    return "VisualizationRequest{" +
-        "rootSnapshotKey='" + rootSnapshotKey + '\'' +
-        ", footprintMetricKey='" + footprintMetricKey + '\'' +
-        ", heightMetricKey='" + heightMetricKey + '\'' +
-        ", colorMetricType=" + colorMetricType +
-        '}';
+    return "VisualizationRequest{" + "rootSnapshotKey='" + rootSnapshotKey + '\'' + ", metrics=" + Arrays.toString(
+        metrics) + '}';
   }
 
   @Override
@@ -74,14 +57,12 @@ public class VisualizationRequest {
       return false;
     }
     final VisualizationRequest that = (VisualizationRequest) o;
-    return Objects.equals(rootSnapshotKey, that.rootSnapshotKey) &&
-        Objects.equals(footprintMetricKey, that.footprintMetricKey) &&
-        Objects.equals(heightMetricKey, that.heightMetricKey) &&
-        colorMetricType == that.colorMetricType;
+    return Objects.equals(rootSnapshotKey, that.rootSnapshotKey) && Arrays.equals(metrics, that.metrics);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(rootSnapshotKey, footprintMetricKey, heightMetricKey, colorMetricType);
+    return Objects.hash(rootSnapshotKey, metrics);
   }
+
 }

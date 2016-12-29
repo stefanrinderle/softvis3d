@@ -19,11 +19,13 @@
  */
 package de.rinderle.softvis3d.dao;
 
-import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.sonarqube.ws.WsComponents;
@@ -35,45 +37,29 @@ class DaoServiceTransformer {
     final List<SonarMeasure> result = new ArrayList<>();
 
     for (final WsComponents.Component component : input) {
-      result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(), 0.0, 0.0, 0.0));
+      result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(), Collections.emptyMap()));
     }
 
     return result;
   }
 
-  List<SonarMeasure> transformComponentToMeasure(List<WsMeasures.Component> input, VisualizationRequest requestDTO) {
+  List<SonarMeasure> transformComponentToMeasure(List<WsMeasures.Component> input) {
     final List<SonarMeasure> result = new ArrayList<>();
 
     for (final WsMeasures.Component component : input) {
 
-      double footprintMetricValue = 0;
-      double heightMetricValue = 0;
-      double colorMetricValue = 0;
-
+      final Map<String, Double> measureResult = new HashMap<>();
       for (final WsMeasures.Measure measure : component.getMeasuresList()) {
 
-        if (measure.getMetric().equals(requestDTO.getFootprintMetricKey())
-          && !StringUtils.isBlank(measure.getValue())) {
-          footprintMetricValue = Double.valueOf(measure.getValue());
-        }
-
-        if (measure.getMetric().equals(requestDTO.getHeightMetricKey())
-          && !StringUtils.isBlank(measure.getValue())) {
-          heightMetricValue = Double.valueOf(measure.getValue());
-        }
-
-        if (measure.getMetric().equals(requestDTO.getColorMetricType().getDefaultMetricName())
-          && !StringUtils.isBlank(measure.getValue())) {
-          colorMetricValue = Double.valueOf(measure.getValue());
+        if (!StringUtils.isBlank(measure.getValue())) {
+          measureResult.put(measure.getMetric(), Double.valueOf(measure.getValue()));
         }
 
       }
 
-      result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(),
-        footprintMetricValue, heightMetricValue, colorMetricValue));
+      result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(), measureResult));
     }
 
     return result;
   }
-
 }

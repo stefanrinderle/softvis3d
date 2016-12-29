@@ -22,10 +22,12 @@ package de.rinderle.softvis3d.preprocessing.tree;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -44,8 +46,8 @@ import static org.mockito.Mockito.when;
 public class TreeBuilderTest {
 
   private final String snapshotKey = "123";
-  private final String footprintMetricKey = "1";
-  private final String heightMetricKey = "21";
+
+  private static final String[] METRICS = {"other", "complediy"};
 
   @InjectMocks
   private TreeBuilder underTest;
@@ -63,8 +65,7 @@ public class TreeBuilderTest {
 
   @Test
   public void createTreeStructure() throws Exception {
-    final VisualizationRequest requestDTO = new VisualizationRequest(
-        this.snapshotKey, this.footprintMetricKey, this.heightMetricKey, ColorMetricType.NONE);
+    final VisualizationRequest requestDTO = new VisualizationRequest(this.snapshotKey, METRICS);
 
     RootTreeNode result = underTest.createTreeStructure(localConnector, requestDTO);
 
@@ -74,11 +75,10 @@ public class TreeBuilderTest {
 
   @Test
   public void createTreeStructureWithChildren() throws Exception {
-    final VisualizationRequest requestDTO = new VisualizationRequest(
-        this.snapshotKey, this.footprintMetricKey, this.heightMetricKey, ColorMetricType.NONE);
+    final VisualizationRequest requestDTO = new VisualizationRequest(this.snapshotKey, METRICS);
 
     final List<SonarMeasure> measures = new ArrayList<>();
-    measures.add(new SonarMeasure("2", "2", "/src/main/2", 3, 4, 5));
+    measures.add(new SonarMeasure("2", "2", "/src/main/2", Collections.emptyMap()));
     when(this.daoService.getFlatChildrenWithMetrics(eq(localConnector), eq(requestDTO))).thenReturn(measures);
 
     final RootTreeNode result = underTest.createTreeStructure(localConnector, requestDTO);
@@ -90,16 +90,15 @@ public class TreeBuilderTest {
 
   @Test
   public void createTreeStructureWithChildrenAndModules() throws Exception {
-    final VisualizationRequest requestDTO = new VisualizationRequest(
-        this.snapshotKey, this.footprintMetricKey, this.heightMetricKey, ColorMetricType.NONE);
+    final VisualizationRequest requestDTO = new VisualizationRequest(this.snapshotKey, METRICS);
 
     final List<SonarMeasure> modules = new ArrayList<>();
-    modules.add(new SonarMeasure("1", "1", "module1", 3, 4, 5));
-    modules.add(new SonarMeasure("2", "2", "module1", 3, 4, 5));
+    modules.add(new SonarMeasure("1", "1", "module1", Collections.emptyMap()));
+    modules.add(new SonarMeasure("2", "2", "module1", Collections.emptyMap()));
     when(this.daoService.getSubProjects(any(LocalConnector.class), any(String.class))).thenReturn(modules);
 
     final List<SonarMeasure> measures = new ArrayList<>();
-    measures.add(new SonarMeasure("3", "3", "/src/main/2", 3, 4, 5));
+    measures.add(new SonarMeasure("3", "3", "/src/main/2", Collections.emptyMap()));
     when(this.daoService.getFlatChildrenWithMetrics(any(LocalConnector.class), any(VisualizationRequest.class))).thenReturn(measures);
 
     final RootTreeNode result = underTest.createTreeStructure(localConnector, requestDTO);

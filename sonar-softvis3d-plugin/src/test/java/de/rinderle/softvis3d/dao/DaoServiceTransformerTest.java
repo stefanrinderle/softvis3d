@@ -19,11 +19,11 @@
  */
 package de.rinderle.softvis3d.dao;
 
-import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Test;
 import org.sonarqube.ws.WsComponents;
 import org.sonarqube.ws.WsMeasures;
@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
 
 public class DaoServiceTransformerTest {
 
-  private DaoServiceTransformer daoServiceTransformer = new DaoServiceTransformer();
+  private final DaoServiceTransformer daoServiceTransformer = new DaoServiceTransformer();
 
   @Test
   public void testTransformComponentToModules() throws Exception {
@@ -80,15 +80,11 @@ public class DaoServiceTransformerTest {
 
     inputList.add(wsComponent.build());
 
-    final VisualizationRequest requestDTO = new VisualizationRequest(expectedId, "1", "20", ColorMetricType.NONE);
-
-    final List<SonarMeasure> result = daoServiceTransformer.transformComponentToMeasure(inputList, requestDTO);
+    final List<SonarMeasure> result = daoServiceTransformer.transformComponentToMeasure(inputList);
 
     assertEquals(1, result.size());
     assertEquals(expectedId, result.get(0).getId());
     assertEquals(expectedName, result.get(0).getName());
     assertEquals(expectedPath, result.get(0).getPath());
-    assertEquals(2.2, result.get(0).getFootprintMetricValue(), 0.0);
-    assertEquals(1.1, result.get(0).getHeightMetricValue(), 0.0);
   }
 }

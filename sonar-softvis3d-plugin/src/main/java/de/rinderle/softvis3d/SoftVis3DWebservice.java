@@ -46,9 +46,7 @@ public class SoftVis3DWebservice implements WebService {
         .setHandler(this.visualizationHandler);
 
     action.createParam("projectKey");
-    action.createParam("footprintMetricKey");
-    action.createParam("heightMetricKey");
-    action.createParam("colorMetricKey");
+    action.createParam("metrics");
 
     controller.setSince("5.5");
 

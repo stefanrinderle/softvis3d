@@ -27,10 +27,15 @@ public class SnapshotStorageKey {
   private final String key;
 
   public SnapshotStorageKey(final VisualizationRequest requestDTO) {
-    this.key = requestDTO.getRootSnapshotKey() + UNDERSCORE
-      + requestDTO.getFootprintMetricKey() + UNDERSCORE
-      + requestDTO.getHeightMetricKey() + UNDERSCORE
-      + requestDTO.getColorMetricType().getDefaultMetricName() + UNDERSCORE;
+    this.key = requestDTO.getRootSnapshotKey() + UNDERSCORE + getKeyFromMetrics(requestDTO.getMetrics()) + UNDERSCORE;
+  }
+
+  private String getKeyFromMetrics(String[] metrics) {
+    final StringBuilder result = new StringBuilder();
+    for (final String metric : metrics) {
+        result.append(metric);
+    }
+    return result.toString();
   }
 
   @Override

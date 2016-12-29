@@ -52,7 +52,7 @@ public class SoftVis3DWebserviceTest {
 
     final WebService.Action visualizationAction = softVis3dController.action("getVisualization");
     assertNotNull(visualizationAction);
-    assertEquals(4, visualizationAction.params().size());
+    assertEquals(2, visualizationAction.params().size());
   }
 
 }

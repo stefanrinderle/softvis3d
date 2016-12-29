@@ -1,6 +1,6 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import { observer } from "mobx-react";
+import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import SelectedElementMetricInfo from "./SelectedElementMetricInfo";
 
 interface SelectedElementInfoProps {
@@ -43,19 +43,19 @@ interface SelectedElementInfoProps {
                     key="metric-height"
                     title="Height"
                     name={store.metricHeight.name}
-                    value={element.heightMetricValue}
+                    value={element.measures[store.metricHeight.key]}
                 />,
                 <SelectedElementMetricInfo
                     key="metric-footprint"
                     title="Footprint"
                     name={store.metricWidth.name}
-                    value={element.footprintMetricValue}
+                    value={element.measures[store.metricWidth.key]}
                 />,
                 <SelectedElementMetricInfo
                     key="metric-color"
                     title="Color"
                     name={store.metricColor.name}
-                    value={element.colorMetricValue}
+                    value={element.measures[store.metricColor.key]}
                 />
             ];
         }

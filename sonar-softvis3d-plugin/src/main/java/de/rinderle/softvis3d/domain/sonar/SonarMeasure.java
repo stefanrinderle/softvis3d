@@ -19,22 +19,20 @@
  */
 package de.rinderle.softvis3d.domain.sonar;
 
+import java.util.Map;
+
 public class SonarMeasure {
 
   private final String id;
   private final String name;
-  private final double footprintMetricValue;
-  private final double heightMetricValue;
-  private final double colorMetricValue;
+  private final Map<String, Double> metrics;
   private String path;
 
-  public SonarMeasure(String id, String name, String path, double footprintMetricValue, double heightMetricValue, double colorMetricValue) {
+  public SonarMeasure(String id, String name, String path, Map<String, Double> metrics) {
     this.id = id;
     this.name = name;
     this.path = path;
-    this.footprintMetricValue = footprintMetricValue;
-    this.heightMetricValue = heightMetricValue;
-    this.colorMetricValue = colorMetricValue;
+    this.metrics = metrics;
   }
 
   public String getId() {
@@ -45,18 +43,6 @@ public class SonarMeasure {
     return name;
   }
 
-  public double getFootprintMetricValue() {
-    return footprintMetricValue;
-  }
-
-  public double getHeightMetricValue() {
-    return heightMetricValue;
-  }
-
-  public double getColorMetricValue() {
-    return colorMetricValue;
-  }
-
   public String getPath() {
     return path;
   }
@@ -65,15 +51,14 @@ public class SonarMeasure {
     this.path = path;
   }
 
+  public Map<String, Double> getMetrics() {
+    return metrics;
+  }
+
   @Override
   public String toString() {
-    return "SonarMeasure{" +
-        "id='" + id + '\'' +
-        ", footprintMetricValue=" + footprintMetricValue +
-        ", heightMetricValue=" + heightMetricValue +
-        ", colorMetricValue=" + colorMetricValue +
-        ", path='" + path + '\'' +
-        '}';
+    return "SonarMeasure{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", metrics=" + metrics + ", path='" + path
+        + '\'' + '}';
   }
 
 }

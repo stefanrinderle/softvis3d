@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -103,8 +104,10 @@ public class VisualizationWebserviceHandlerTest {
 
   private RootTreeNode mockPreProcessing() {
     final RootTreeNode rootTreeNode = new RootTreeNode("1");
-    rootTreeNode.getChildren().put("2", new ValueTreeNode("2", rootTreeNode, 1, TreeNodeType.TREE, "2", 3, 3, 3));
-    rootTreeNode.getChildren().put("3", new ValueTreeNode("3", rootTreeNode, 1, TreeNodeType.TREE, "3", 9, 9, 9));
+    rootTreeNode.getChildren().put("2", new ValueTreeNode("2", rootTreeNode, 1, TreeNodeType.TREE, "2",
+        Collections.emptyMap()));
+    rootTreeNode.getChildren().put("3", new ValueTreeNode("3", rootTreeNode, 1, TreeNodeType.TREE, "3",
+        Collections.emptyMap()));
 
     when(preProcessor.process(any(LocalConnector.class), any(VisualizationRequest.class))).thenReturn(rootTreeNode);
 

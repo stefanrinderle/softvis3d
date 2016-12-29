@@ -24,8 +24,10 @@ import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ws.LocalConnector;
@@ -49,9 +51,7 @@ public class TreeBuilder {
       addModuleToTreeWalker(pathWalker, requestDTO, "", localConnector);
     } else {
       for (final SonarMeasure module : modules) {
-        final VisualizationRequest moduleTemp =
-            new VisualizationRequest(module.getId(),
-                requestDTO.getFootprintMetricKey(), requestDTO.getHeightMetricKey(), requestDTO.getColorMetricType());
+        final VisualizationRequest moduleTemp = new VisualizationRequest(module.getId(), requestDTO.getMetrics());
 
         addModuleToTreeWalker(pathWalker, moduleTemp, module.getName(), localConnector);
       }

@@ -83,9 +83,11 @@ function createTestTreeElement(
 
         children: [],
 
-        colorMetricValue: expectedColorMetricValue,
-        footprintMetricValue: expectedFootprintMetricValue,
-        heightMetricValue: expectedHeightMetricValue,
+        measures: {
+            c: expectedColorMetricValue,
+            h: expectedHeightMetricValue,
+            f: expectedFootprintMetricValue
+        },
         parentId: null
     };
 }

@@ -24,6 +24,8 @@ import de.rinderle.softvis3d.base.domain.tree.TreeNode;
 import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
 import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
+
+import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -51,12 +53,11 @@ public class PathWalker {
 
     boolean isLastIndex;
     for (int i = 0; i < names.length; i = i + 1) {
-      isLastIndex = i == (names.length - 1);
+      isLastIndex = i == names.length - 1;
       if (isLastIndex) {
         currentNode =
           this.getOrCreateChild(currentNode, element.getId(), names[i], TreeNodeType.TREE,
-            element.getFootprintMetricValue(), element.getHeightMetricValue(),
-            element.getColorMetricValue());
+            element.getMetrics());
       } else {
         currentNode = this.getOrCreateGeneratedChild(currentNode, names[i]);
       }
@@ -69,14 +70,14 @@ public class PathWalker {
   }
 
   private TreeNode getOrCreateChild(final TreeNode node, final String id, final String name, final TreeNodeType type,
-    final double footprintMetricValue, final double heightMetricValue, final double colorMetricValue) {
+    final Map<String, Double> metrics) {
     final Map<String, TreeNode> children = node.getChildren();
     if (children.containsKey(name)) {
       return children.get(name);
     }
 
     final TreeNode result =
-      new ValueTreeNode(id, node, node.getDepth() + 1, type, name, footprintMetricValue, heightMetricValue, colorMetricValue);
+      new ValueTreeNode(id, node, node.getDepth() + 1, type, name, metrics);
 
     node.addChildrenNode(name, result);
 
@@ -84,7 +85,8 @@ public class PathWalker {
   }
 
   private TreeNode getOrCreateGeneratedChild(final TreeNode node, final String name) {
-    return this.getOrCreateChild(node, this.getNextSequence(), name, TreeNodeType.PATH_GENERATED, 0, 0, 0);
+    return this.getOrCreateChild(node, this.getNextSequence(), name, TreeNodeType.PATH_GENERATED,
+        Collections.emptyMap());
   }
 
 }

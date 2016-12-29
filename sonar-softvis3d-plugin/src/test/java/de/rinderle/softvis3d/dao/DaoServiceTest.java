@@ -20,12 +20,13 @@
 package de.rinderle.softvis3d.dao;
 
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -88,16 +89,17 @@ public class DaoServiceTest {
   @Test
   public void testGetFlatChildrenWithMetrics() throws Exception {
     final String projectId = "12";
-    final VisualizationRequest requestDTO = new VisualizationRequest(projectId, "1", "20", ColorMetricType.NONE);
+    final String[] metrics = {"ncolc", "complediy"};
+    final VisualizationRequest requestDTO = new VisualizationRequest(projectId, metrics);
 
     final List<WsMeasures.Component> snapshots = new ArrayList<>();
     final Set<String> expectedMetricList = new HashSet<>();
     expectedMetricList.add("1");
     expectedMetricList.add("20");
-    when(sonarDao.getAllSnapshotIdsWithRescourceId(eq(localConnector), eq(projectId), eq(expectedMetricList))).thenReturn(snapshots);
+    when(sonarDao.getAllSnapshotIdsWithRescourceId(eq(localConnector), eq(projectId), eq(metrics))).thenReturn(snapshots);
 
     final List<SonarMeasure> resultMeasures = new ArrayList<>();
-    when(daoServiceTransformer.transformComponentToMeasure(eq(snapshots), eq(requestDTO))).thenReturn(resultMeasures);
+    when(daoServiceTransformer.transformComponentToMeasure(eq(snapshots))).thenReturn(resultMeasures);
 
     final List<SonarMeasure> result = daoService.getFlatChildrenWithMetrics(localConnector, requestDTO);
     assertEquals(resultMeasures, result);

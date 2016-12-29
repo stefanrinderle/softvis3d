@@ -7,36 +7,34 @@
       "id": "2147383648",
       "name": "SoftVis3D Sonar plugin",
       "isNode": true,
-      "heightMetricValue": 0.0,
-      "footprintMetricValue": 0.0,
-      "colorMetricValue": 0.0,
+      "measures": {},
       "parentId": "0844b558-2051-45a6-9970-e3f53fc86f09",
       "children": [
         {
           "id": "2147383654",
           "name": "src/main/java/de/rinderle/softvis3d",
           "isNode": true,
-          "heightMetricValue": 0.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {},
           "parentId": "2147383648",
           "children": [
             {
               "id": "2147383663",
               "name": "cache",
               "isNode": true,
-              "heightMetricValue": 0.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {},
               "parentId": "2147383654",
               "children": [
                 {
                   "id": "42bfce34-a1f0-457f-9bbb-10a403d68361",
                   "name": "Cache.java",
                   "isNode": false,
-                  "heightMetricValue": 39.0,
-                  "footprintMetricValue": 9.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 100.0,
+                    "complexity": 9.0,
+                    "violations": 0.0,
+                    "ncloc": 39.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383663",
                   "children": []
                 },
@@ -44,9 +42,13 @@
                   "id": "71964e1b-dbd2-46d0-ac4f-3ebf2217cd8f",
                   "name": "SnapshotCacheService.java",
                   "isNode": false,
-                  "heightMetricValue": 23.0,
-                  "footprintMetricValue": 5.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 100.0,
+                    "complexity": 5.0,
+                    "violations": 0.0,
+                    "ncloc": 23.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383663",
                   "children": []
                 }
@@ -56,27 +58,27 @@
               "id": "2147383680",
               "name": "dao",
               "isNode": true,
-              "heightMetricValue": 0.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {},
               "parentId": "2147383654",
               "children": [
                 {
                   "id": "2147383740",
                   "name": "scm",
                   "isNode": true,
-                  "heightMetricValue": 0.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {},
                   "parentId": "2147383680",
                   "children": [
                     {
                       "id": "d0549eb9-0d3f-4c31-9618-2fe6bfa29246",
                       "name": "ScmAuthorCountCalculationService.java",
                       "isNode": false,
-                      "heightMetricValue": 72.0,
-                      "footprintMetricValue": 14.0,
-                      "colorMetricValue": 1.0,
+                      "measures": {
+                        "coverage": 82.4,
+                        "complexity": 14.0,
+                        "violations": 1.0,
+                        "ncloc": 72.0,
+                        "open_issues": 1.0
+                      },
                       "parentId": "2147383740",
                       "children": []
                     },
@@ -84,9 +86,13 @@
                       "id": "0b4e715e-abc8-4662-88df-ac4c2149d419",
                       "name": "ScmCalculationService.java",
                       "isNode": false,
-                      "heightMetricValue": 7.0,
-                      "footprintMetricValue": 1.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 100.0,
+                        "complexity": 1.0,
+                        "violations": 0.0,
+                        "ncloc": 7.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383740",
                       "children": []
                     },
@@ -94,9 +100,13 @@
                       "id": "43b85ffe-9043-49e4-8ca9-bcc9ae5b384c",
                       "name": "ScmCommitCountCalculationService.java",
                       "isNode": false,
-                      "heightMetricValue": 13.0,
-                      "footprintMetricValue": 4.0,
-                      "colorMetricValue": 1.0,
+                      "measures": {
+                        "coverage": 100.0,
+                        "complexity": 4.0,
+                        "violations": 1.0,
+                        "ncloc": 13.0,
+                        "open_issues": 1.0
+                      },
                       "parentId": "2147383740",
                       "children": []
                     }
@@ -106,9 +116,13 @@
                   "id": "ca7e418d-13a6-4862-a65c-fd0e3a7893ed",
                   "name": "DaoService.java",
                   "isNode": false,
-                  "heightMetricValue": 38.0,
-                  "footprintMetricValue": 4.0,
-                  "colorMetricValue": 1.0,
+                  "measures": {
+                    "coverage": 87.5,
+                    "complexity": 4.0,
+                    "violations": 1.0,
+                    "ncloc": 38.0,
+                    "open_issues": 1.0
+                  },
                   "parentId": "2147383680",
                   "children": []
                 },
@@ -116,9 +130,13 @@
                   "id": "AVSMwh9WHWoP2sXIKxPT",
                   "name": "DaoServiceTransformer.java",
                   "isNode": false,
-                  "heightMetricValue": 38.0,
-                  "footprintMetricValue": 8.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 94.1,
+                    "complexity": 8.0,
+                    "violations": 0.0,
+                    "ncloc": 38.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383680",
                   "children": []
                 },
@@ -126,9 +144,13 @@
                   "id": "aa39bc67-b8ae-4f4e-bf3f-6a7de78f4798",
                   "name": "SonarDao.java",
                   "isNode": false,
-                  "heightMetricValue": 64.0,
-                  "footprintMetricValue": 6.0,
-                  "colorMetricValue": 3.0,
+                  "measures": {
+                    "coverage": 2.6,
+                    "complexity": 6.0,
+                    "violations": 3.0,
+                    "ncloc": 64.0,
+                    "open_issues": 3.0
+                  },
                   "parentId": "2147383680",
                   "children": []
                 }
@@ -138,27 +160,27 @@
               "id": "2147383671",
               "name": "domain",
               "isNode": true,
-              "heightMetricValue": 0.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {},
               "parentId": "2147383654",
               "children": [
                 {
                   "id": "2147383672",
                   "name": "sonar",
                   "isNode": true,
-                  "heightMetricValue": 0.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {},
                   "parentId": "2147383671",
                   "children": [
                     {
                       "id": "AVSMwh9YHWoP2sXIKxPU",
                       "name": "ColorMetricType.java",
                       "isNode": false,
-                      "heightMetricValue": 46.0,
-                      "footprintMetricValue": 7.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 87.5,
+                        "complexity": 7.0,
+                        "violations": 0.0,
+                        "ncloc": 46.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383672",
                       "children": []
                     },
@@ -166,9 +188,13 @@
                       "id": "70fe8e4c-ce15-477b-9f7e-4bc428369977",
                       "name": "ScmInfo.java",
                       "isNode": false,
-                      "heightMetricValue": 30.0,
-                      "footprintMetricValue": 6.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 92.9,
+                        "complexity": 6.0,
+                        "violations": 0.0,
+                        "ncloc": 30.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383672",
                       "children": []
                     },
@@ -176,9 +202,13 @@
                       "id": "AVSMwh9YHWoP2sXIKxPV",
                       "name": "SonarMeasure.java",
                       "isNode": false,
-                      "heightMetricValue": 48.0,
-                      "footprintMetricValue": 2.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 94.1,
+                        "complexity": 2.0,
+                        "violations": 0.0,
+                        "ncloc": 48.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383672",
                       "children": []
                     }
@@ -188,9 +218,13 @@
                   "id": "edaac634-4e2c-4e05-987b-fb94d1120d2a",
                   "name": "ScmInfo.java",
                   "isNode": false,
-                  "heightMetricValue": 28.0,
-                  "footprintMetricValue": 5.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 90.9,
+                    "complexity": 5.0,
+                    "violations": 0.0,
+                    "ncloc": 28.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383671",
                   "children": []
                 },
@@ -198,9 +232,13 @@
                   "id": "c2523773-2b38-4197-bfa4-486fc5c0ae36",
                   "name": "SnapshotStorageKey.java",
                   "isNode": false,
-                  "heightMetricValue": 31.0,
-                  "footprintMetricValue": 9.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 85.0,
+                    "complexity": 9.0,
+                    "violations": 0.0,
+                    "ncloc": 31.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383671",
                   "children": []
                 },
@@ -208,9 +246,12 @@
                   "id": "9b1baf12-4395-4c33-b4b6-3d366f62c61f",
                   "name": "SoftVis3DConstants.java",
                   "isNode": false,
-                  "heightMetricValue": 6.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 1.0,
+                  "measures": {
+                    "complexity": 0.0,
+                    "violations": 1.0,
+                    "ncloc": 6.0,
+                    "open_issues": 1.0
+                  },
                   "parentId": "2147383671",
                   "children": []
                 },
@@ -218,9 +259,13 @@
                   "id": "a9bea44d-b95d-4232-9c10-b64db03575cf",
                   "name": "VisualizationRequest.java",
                   "isNode": false,
-                  "heightMetricValue": 54.0,
-                  "footprintMetricValue": 15.0,
-                  "colorMetricValue": 1.0,
+                  "measures": {
+                    "coverage": 44.1,
+                    "complexity": 15.0,
+                    "violations": 1.0,
+                    "ncloc": 54.0,
+                    "open_issues": 1.0
+                  },
                   "parentId": "2147383671",
                   "children": []
                 }
@@ -230,27 +275,27 @@
               "id": "2147383712",
               "name": "preprocessing",
               "isNode": true,
-              "heightMetricValue": 0.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {},
               "parentId": "2147383654",
               "children": [
                 {
                   "id": "2147383713",
                   "name": "tree",
                   "isNode": true,
-                  "heightMetricValue": 0.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {},
                   "parentId": "2147383712",
                   "children": [
                     {
                       "id": "ec471f72-e5c2-4ed2-a8ce-270a079a33f4",
                       "name": "OptimizeTreeStructure.java",
                       "isNode": false,
-                      "heightMetricValue": 46.0,
-                      "footprintMetricValue": 9.0,
-                      "colorMetricValue": 1.0,
+                      "measures": {
+                        "coverage": 97.6,
+                        "complexity": 9.0,
+                        "violations": 1.0,
+                        "ncloc": 46.0,
+                        "open_issues": 1.0
+                      },
                       "parentId": "2147383713",
                       "children": []
                     },
@@ -258,9 +303,13 @@
                       "id": "800f3402-9702-4297-898a-69c68196e0be",
                       "name": "PathWalker.java",
                       "isNode": false,
-                      "heightMetricValue": 53.0,
-                      "footprintMetricValue": 10.0,
-                      "colorMetricValue": 1.0,
+                      "measures": {
+                        "coverage": 100.0,
+                        "complexity": 10.0,
+                        "violations": 1.0,
+                        "ncloc": 53.0,
+                        "open_issues": 1.0
+                      },
                       "parentId": "2147383713",
                       "children": []
                     },
@@ -268,9 +317,13 @@
                       "id": "77e31f1a-835d-4604-b5c9-ab23ea05346b",
                       "name": "TreeBuilder.java",
                       "isNode": false,
-                      "heightMetricValue": 50.0,
-                      "footprintMetricValue": 9.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 97.4,
+                        "complexity": 9.0,
+                        "violations": 0.0,
+                        "ncloc": 50.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383713",
                       "children": []
                     }
@@ -280,9 +333,13 @@
                   "id": "df205cda-821b-474b-813f-8fc77cf05d5c",
                   "name": "PreProcessor.java",
                   "isNode": false,
-                  "heightMetricValue": 35.0,
-                  "footprintMetricValue": 4.0,
-                  "colorMetricValue": 1.0,
+                  "measures": {
+                    "coverage": 58.3,
+                    "complexity": 4.0,
+                    "violations": 1.0,
+                    "ncloc": 35.0,
+                    "open_issues": 1.0
+                  },
                   "parentId": "2147383712",
                   "children": []
                 }
@@ -292,18 +349,20 @@
               "id": "2147383655",
               "name": "webservice",
               "isNode": true,
-              "heightMetricValue": 0.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {},
               "parentId": "2147383654",
               "children": [
                 {
                   "id": "28a6d02d-c3f2-4bef-b9ec-4fe42a720b78",
                   "name": "AbstractWebserviceHandler.java",
                   "isNode": false,
-                  "heightMetricValue": 22.0,
-                  "footprintMetricValue": 2.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 62.5,
+                    "complexity": 2.0,
+                    "violations": 0.0,
+                    "ncloc": 22.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383655",
                   "children": []
                 },
@@ -311,9 +370,13 @@
                   "id": "a1e191e1-5ab4-4a95-9184-855fe47dedca",
                   "name": "ExceptionJsonWriter.java",
                   "isNode": false,
-                  "heightMetricValue": 19.0,
-                  "footprintMetricValue": 1.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 100.0,
+                    "complexity": 1.0,
+                    "violations": 0.0,
+                    "ncloc": 19.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383655",
                   "children": []
                 },
@@ -321,9 +384,13 @@
                   "id": "AVSMwh9ZHWoP2sXIKxPW",
                   "name": "MinMaxCalculator.java",
                   "isNode": false,
-                  "heightMetricValue": 50.0,
-                  "footprintMetricValue": 13.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 100.0,
+                    "complexity": 13.0,
+                    "violations": 0.0,
+                    "ncloc": 50.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383655",
                   "children": []
                 },
@@ -331,9 +398,13 @@
                   "id": "2d18fd06-cd92-4a1b-8a54-6870eaa2d270",
                   "name": "VisualizationWebserviceHandler.java",
                   "isNode": false,
-                  "heightMetricValue": 47.0,
-                  "footprintMetricValue": 2.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 100.0,
+                    "complexity": 2.0,
+                    "violations": 0.0,
+                    "ncloc": 47.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383655",
                   "children": []
                 }
@@ -343,9 +414,13 @@
               "id": "078bad2a-19ac-41f3-80dc-33309928f711",
               "name": "SoftVis3DExtension.java",
               "isNode": false,
-              "heightMetricValue": 7.0,
-              "footprintMetricValue": 1.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 100.0,
+                "complexity": 1.0,
+                "violations": 0.0,
+                "ncloc": 7.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147383654",
               "children": []
             },
@@ -353,9 +428,13 @@
               "id": "82f059d4-c9e5-436e-8428-9bee371089fd",
               "name": "SoftVis3DPage.java",
               "isNode": false,
-              "heightMetricValue": 21.0,
-              "footprintMetricValue": 3.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 100.0,
+                "complexity": 3.0,
+                "violations": 0.0,
+                "ncloc": 21.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147383654",
               "children": []
             },
@@ -363,9 +442,13 @@
               "id": "605db7b8-0af7-4ca1-bbf8-859b9aa9f958",
               "name": "SoftVis3DPlugin.java",
               "isNode": false,
-              "heightMetricValue": 19.0,
-              "footprintMetricValue": 1.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 100.0,
+                "complexity": 1.0,
+                "violations": 0.0,
+                "ncloc": 19.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147383654",
               "children": []
             },
@@ -373,9 +456,13 @@
               "id": "4dd75b19-855a-4e92-91d2-68e7c31b1c61",
               "name": "SoftVis3DWebservice.java",
               "isNode": false,
-              "heightMetricValue": 27.0,
-              "footprintMetricValue": 2.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 100.0,
+                "complexity": 2.0,
+                "violations": 0.0,
+                "ncloc": 27.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147383654",
               "children": []
             }
@@ -385,9 +472,11 @@
           "id": "256f7da4-96e9-480c-9c41-13eccaee014b",
           "name": "pom.xml",
           "isNode": false,
-          "heightMetricValue": 209.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {
+            "violations": 0.0,
+            "ncloc": 209.0,
+            "open_issues": 0.0
+          },
           "parentId": "2147383648",
           "children": []
         }
@@ -397,45 +486,41 @@
       "id": "2147383870",
       "name": "softvis3d-base",
       "isNode": true,
-      "heightMetricValue": 0.0,
-      "footprintMetricValue": 0.0,
-      "colorMetricValue": 0.0,
+      "measures": {},
       "parentId": "0844b558-2051-45a6-9970-e3f53fc86f09",
       "children": [
         {
           "id": "2147383877",
           "name": "src/main/java/de/rinderle/softvis3d/base",
           "isNode": true,
-          "heightMetricValue": 0.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {},
           "parentId": "2147383870",
           "children": [
             {
               "id": "2147383878",
               "name": "domain",
               "isNode": true,
-              "heightMetricValue": 0.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {},
               "parentId": "2147383877",
               "children": [
                 {
                   "id": "2147383898",
                   "name": "tree",
                   "isNode": true,
-                  "heightMetricValue": 0.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {},
                   "parentId": "2147383878",
                   "children": [
                     {
                       "id": "f5f6b084-f129-4cba-809d-b81703a21771",
                       "name": "RootTreeNode.java",
                       "isNode": false,
-                      "heightMetricValue": 6.0,
-                      "footprintMetricValue": 1.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 100.0,
+                        "complexity": 1.0,
+                        "violations": 0.0,
+                        "ncloc": 6.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383898",
                       "children": []
                     },
@@ -443,9 +528,13 @@
                       "id": "100eba5a-795a-464e-95b0-968b1e043245",
                       "name": "TreeNode.java",
                       "isNode": false,
-                      "heightMetricValue": 91.0,
-                      "footprintMetricValue": 21.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 88.2,
+                        "complexity": 21.0,
+                        "violations": 0.0,
+                        "ncloc": 91.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383898",
                       "children": []
                     },
@@ -453,9 +542,13 @@
                       "id": "9fe1b62b-b435-4559-85a5-2ed75a33b358",
                       "name": "TreeNodeType.java",
                       "isNode": false,
-                      "heightMetricValue": 4.0,
-                      "footprintMetricValue": 0.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 100.0,
+                        "complexity": 0.0,
+                        "violations": 0.0,
+                        "ncloc": 4.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383898",
                       "children": []
                     },
@@ -463,9 +556,13 @@
                       "id": "00d35535-addf-40db-9dd8-04705ad7c4e6",
                       "name": "ValueTreeNode.java",
                       "isNode": false,
-                      "heightMetricValue": 22.0,
-                      "footprintMetricValue": 3.0,
-                      "colorMetricValue": 1.0,
+                      "measures": {
+                        "coverage": 100.0,
+                        "complexity": 3.0,
+                        "violations": 1.0,
+                        "ncloc": 22.0,
+                        "open_issues": 1.0
+                      },
                       "parentId": "2147383898",
                       "children": []
                     }
@@ -475,9 +572,13 @@
                   "id": "9a754d3b-318c-4d95-8a30-0092353c7455",
                   "name": "Metric.java",
                   "isNode": false,
-                  "heightMetricValue": 18.0,
-                  "footprintMetricValue": 4.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 100.0,
+                    "complexity": 4.0,
+                    "violations": 0.0,
+                    "ncloc": 18.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383878",
                   "children": []
                 },
@@ -485,9 +586,13 @@
                   "id": "e9533108-9c0a-44dd-915f-f8af56b20772",
                   "name": "MinMaxValue.java",
                   "isNode": false,
-                  "heightMetricValue": 43.0,
-                  "footprintMetricValue": 13.0,
-                  "colorMetricValue": 1.0,
+                  "measures": {
+                    "coverage": 0.0,
+                    "complexity": 13.0,
+                    "violations": 1.0,
+                    "ncloc": 43.0,
+                    "open_issues": 1.0
+                  },
                   "parentId": "2147383878",
                   "children": []
                 },
@@ -495,9 +600,13 @@
                   "id": "e8170947-cb9d-45f3-b0f7-231bd909a4b1",
                   "name": "SnapshotTreeResult.java",
                   "isNode": false,
-                  "heightMetricValue": 11.0,
-                  "footprintMetricValue": 2.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 0.0,
+                    "complexity": 2.0,
+                    "violations": 0.0,
+                    "ncloc": 11.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383878",
                   "children": []
                 }
@@ -507,18 +616,20 @@
               "id": "2147383926",
               "name": "layout/helper",
               "isNode": true,
-              "heightMetricValue": 0.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {},
               "parentId": "2147383877",
               "children": [
                 {
                   "id": "d0050cfb-a49b-408f-ab49-81a3b83d861b",
                   "name": "StringOutputStream.java",
                   "isNode": false,
-                  "heightMetricValue": 14.0,
-                  "footprintMetricValue": 2.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 100.0,
+                    "complexity": 2.0,
+                    "violations": 0.0,
+                    "ncloc": 14.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383926",
                   "children": []
                 }
@@ -528,18 +639,20 @@
               "id": "2147383916",
               "name": "result",
               "isNode": true,
-              "heightMetricValue": 0.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {},
               "parentId": "2147383877",
               "children": [
                 {
                   "id": "4e7cf355-6d36-4e97-b002-c05771dab911",
                   "name": "SoftVis3dJsonWriter.java",
                   "isNode": false,
-                  "heightMetricValue": 117.0,
-                  "footprintMetricValue": 50.0,
-                  "colorMetricValue": 1.0,
+                  "measures": {
+                    "coverage": 67.9,
+                    "complexity": 50.0,
+                    "violations": 1.0,
+                    "ncloc": 117.0,
+                    "open_issues": 1.0
+                  },
                   "parentId": "2147383916",
                   "children": []
                 },
@@ -547,9 +660,13 @@
                   "id": "0c66a46f-5890-4d17-ae79-1bd73540bc0e",
                   "name": "TreeNodeJsonWriter.java",
                   "isNode": false,
-                  "heightMetricValue": 55.0,
-                  "footprintMetricValue": 10.0,
-                  "colorMetricValue": 1.0,
+                  "measures": {
+                    "coverage": 94.3,
+                    "complexity": 10.0,
+                    "violations": 1.0,
+                    "ncloc": 55.0,
+                    "open_issues": 1.0
+                  },
                   "parentId": "2147383916",
                   "children": []
                 }
@@ -561,9 +678,11 @@
           "id": "fde016e5-d615-426e-8831-7a6f242cacc7",
           "name": "pom.xml",
           "isNode": false,
-          "heightMetricValue": 60.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {
+            "violations": 0.0,
+            "ncloc": 60.0,
+            "open_issues": 0.0
+          },
           "parentId": "2147383870",
           "children": []
         }
@@ -573,27 +692,26 @@
       "id": "2147383967",
       "name": "softvis3d-frontend/src",
       "isNode": true,
-      "heightMetricValue": 0.0,
-      "footprintMetricValue": 0.0,
-      "colorMetricValue": 0.0,
+      "measures": {},
       "parentId": "0844b558-2051-45a6-9970-e3f53fc86f09",
       "children": [
         {
           "id": "2147384080",
           "name": "actions",
           "isNode": true,
-          "heightMetricValue": 0.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {},
           "parentId": "2147383967",
           "children": [
             {
               "id": "AVhQMjTKZ7rDKbM2yNzB",
               "name": "softvisActions.ts",
               "isNode": false,
-              "heightMetricValue": 14.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 0.0,
+                "violations": 0.0,
+                "ncloc": 14.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147384080",
               "children": []
             }
@@ -603,27 +721,26 @@
           "id": "2147383973",
           "name": "components",
           "isNode": true,
-          "heightMetricValue": 0.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {},
           "parentId": "2147383967",
           "children": [
             {
               "id": "2147384001",
               "name": "CityBuilder",
               "isNode": true,
-              "heightMetricValue": 0.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {},
               "parentId": "2147383973",
               "children": [
                 {
                   "id": "AVhQMjTOZ7rDKbM2yNzM",
                   "name": "LayoutPicker.tsx",
                   "isNode": false,
-                  "heightMetricValue": 36.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 0.0,
+                    "violations": 0.0,
+                    "ncloc": 36.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147384001",
                   "children": []
                 },
@@ -631,9 +748,12 @@
                   "id": "AVhegqnSkUeY5GgUboFP",
                   "name": "PreviewPicture.tsx",
                   "isNode": false,
-                  "heightMetricValue": 19.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 0.0,
+                    "violations": 0.0,
+                    "ncloc": 19.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147384001",
                   "children": []
                 },
@@ -641,9 +761,12 @@
                   "id": "AVhQMjTPZ7rDKbM2yNzN",
                   "name": "PropertyPicker.tsx",
                   "isNode": false,
-                  "heightMetricValue": 80.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 0.0,
+                    "violations": 0.0,
+                    "ncloc": 80.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147384001",
                   "children": []
                 }
@@ -653,27 +776,26 @@
               "id": "2147383974",
               "name": "scene",
               "isNode": true,
-              "heightMetricValue": 0.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {},
               "parentId": "2147383973",
               "children": [
                 {
                   "id": "2147383990",
                   "name": "domain",
                   "isNode": true,
-                  "heightMetricValue": 0.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {},
                   "parentId": "2147383974",
                   "children": [
                     {
                       "id": "AVhQMjTPZ7rDKbM2yNzR",
                       "name": "Dimension.ts",
                       "isNode": false,
-                      "heightMetricValue": 5.0,
-                      "footprintMetricValue": 0.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 0.0,
+                        "violations": 0.0,
+                        "ncloc": 5.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383990",
                       "children": []
                     },
@@ -681,9 +803,12 @@
                       "id": "AVhQMjTQZ7rDKbM2yNzS",
                       "name": "Position.ts",
                       "isNode": false,
-                      "heightMetricValue": 5.0,
-                      "footprintMetricValue": 0.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 0.0,
+                        "violations": 0.0,
+                        "ncloc": 5.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383990",
                       "children": []
                     },
@@ -691,9 +816,12 @@
                       "id": "AVhQMjTRZ7rDKbM2yNzT",
                       "name": "SoftVis3dMesh.ts",
                       "isNode": false,
-                      "heightMetricValue": 13.0,
-                      "footprintMetricValue": 0.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 100.0,
+                        "violations": 0.0,
+                        "ncloc": 13.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383990",
                       "children": []
                     },
@@ -701,9 +829,12 @@
                       "id": "AVhQMjTRZ7rDKbM2yNzU",
                       "name": "SoftVis3dShape.ts",
                       "isNode": false,
-                      "heightMetricValue": 30.0,
-                      "footprintMetricValue": 0.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 100.0,
+                        "violations": 0.0,
+                        "ncloc": 30.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383990",
                       "children": []
                     }
@@ -713,27 +844,26 @@
                   "id": "2147383975",
                   "name": "visualization",
                   "isNode": true,
-                  "heightMetricValue": 0.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {},
                   "parentId": "2147383974",
                   "children": [
                     {
                       "id": "2147384020",
                       "name": "controls",
                       "isNode": true,
-                      "heightMetricValue": 0.0,
-                      "footprintMetricValue": 0.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {},
                       "parentId": "2147383975",
                       "children": [
                         {
                           "id": "AVhQMjTTZ7rDKbM2yNzc",
                           "name": "OrbitControls.ts",
                           "isNode": false,
-                          "heightMetricValue": 413.0,
-                          "footprintMetricValue": 0.0,
-                          "colorMetricValue": 0.0,
+                          "measures": {
+                            "coverage": 0.0,
+                            "violations": 0.0,
+                            "ncloc": 413.0,
+                            "open_issues": 0.0
+                          },
                           "parentId": "2147384020",
                           "children": []
                         },
@@ -741,9 +871,12 @@
                           "id": "AVhQMjTTZ7rDKbM2yNzd",
                           "name": "OrbitControlsOptions.ts",
                           "isNode": false,
-                          "heightMetricValue": 22.0,
-                          "footprintMetricValue": 0.0,
-                          "colorMetricValue": 0.0,
+                          "measures": {
+                            "coverage": 0.0,
+                            "violations": 0.0,
+                            "ncloc": 22.0,
+                            "open_issues": 0.0
+                          },
                           "parentId": "2147384020",
                           "children": []
                         }
@@ -753,9 +886,12 @@
                       "id": "AVhQMjTSZ7rDKbM2yNzW",
                       "name": "Camera.ts",
                       "isNode": false,
-                      "heightMetricValue": 38.0,
-                      "footprintMetricValue": 0.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 0.0,
+                        "violations": 0.0,
+                        "ncloc": 38.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383975",
                       "children": []
                     },
@@ -763,9 +899,12 @@
                       "id": "AVhQMjTSZ7rDKbM2yNzX",
                       "name": "ObjectFactory.ts",
                       "isNode": false,
-                      "heightMetricValue": 34.0,
-                      "footprintMetricValue": 0.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 100.0,
+                        "violations": 0.0,
+                        "ncloc": 34.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383975",
                       "children": []
                     },
@@ -773,9 +912,12 @@
                       "id": "AVhQMjTSZ7rDKbM2yNzY",
                       "name": "Setup.ts",
                       "isNode": false,
-                      "heightMetricValue": 31.0,
-                      "footprintMetricValue": 0.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 0.0,
+                        "violations": 0.0,
+                        "ncloc": 31.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383975",
                       "children": []
                     },
@@ -783,9 +925,12 @@
                       "id": "AVhQMjTTZ7rDKbM2yNzZ",
                       "name": "SoftVis3dScene.ts",
                       "isNode": false,
-                      "heightMetricValue": 127.0,
-                      "footprintMetricValue": 0.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 0.0,
+                        "violations": 0.0,
+                        "ncloc": 127.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383975",
                       "children": []
                     },
@@ -793,9 +938,12 @@
                       "id": "AVhQMjTTZ7rDKbM2yNza",
                       "name": "Wrangler.ts",
                       "isNode": false,
-                      "heightMetricValue": 94.0,
-                      "footprintMetricValue": 0.0,
-                      "colorMetricValue": 0.0,
+                      "measures": {
+                        "coverage": 0.0,
+                        "violations": 0.0,
+                        "ncloc": 94.0,
+                        "open_issues": 0.0
+                      },
                       "parentId": "2147383975",
                       "children": []
                     }
@@ -805,18 +953,19 @@
                   "id": "2147384097",
                   "name": "webgl",
                   "isNode": true,
-                  "heightMetricValue": 0.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {},
                   "parentId": "2147383974",
                   "children": [
                     {
                       "id": "AVhQMjTUZ7rDKbM2yNzf",
                       "name": "WebGLDetector.ts",
                       "isNode": false,
-                      "heightMetricValue": 21.0,
-                      "footprintMetricValue": 0.0,
-                      "colorMetricValue": 1.0,
+                      "measures": {
+                        "coverage": 52.6,
+                        "violations": 1.0,
+                        "ncloc": 21.0,
+                        "open_issues": 1.0
+                      },
                       "parentId": "2147384097",
                       "children": []
                     }
@@ -826,9 +975,12 @@
                   "id": "AVhQMjTPZ7rDKbM2yNzP",
                   "name": "SceneComponent.tsx",
                   "isNode": false,
-                  "heightMetricValue": 43.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 0.0,
+                    "violations": 0.0,
+                    "ncloc": 43.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383974",
                   "children": []
                 }
@@ -838,18 +990,19 @@
               "id": "2147383979",
               "name": "ui",
               "isNode": true,
-              "heightMetricValue": 0.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {},
               "parentId": "2147383973",
               "children": [
                 {
                   "id": "AVhQMjTUZ7rDKbM2yNzh",
                   "name": "Category.tsx",
                   "isNode": false,
-                  "heightMetricValue": 17.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 0.0,
+                    "violations": 0.0,
+                    "ncloc": 17.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383979",
                   "children": []
                 },
@@ -857,9 +1010,12 @@
                   "id": "AVhQMjTUZ7rDKbM2yNzi",
                   "name": "RadioButton.tsx",
                   "isNode": false,
-                  "heightMetricValue": 76.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 100.0,
+                    "violations": 0.0,
+                    "ncloc": 76.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383979",
                   "children": []
                 },
@@ -867,9 +1023,12 @@
                   "id": "AVhQMjTUZ7rDKbM2yNzj",
                   "name": "SelectBox.tsx",
                   "isNode": false,
-                  "heightMetricValue": 102.0,
-                  "footprintMetricValue": 0.0,
-                  "colorMetricValue": 0.0,
+                  "measures": {
+                    "coverage": 0.0,
+                    "violations": 0.0,
+                    "ncloc": 102.0,
+                    "open_issues": 0.0
+                  },
                   "parentId": "2147383979",
                   "children": []
                 }
@@ -879,9 +1038,12 @@
               "id": "AVhQMjTOZ7rDKbM2yNzK",
               "name": "CityBuilder.tsx",
               "isNode": false,
-              "heightMetricValue": 27.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 0.0,
+                "violations": 0.0,
+                "ncloc": 27.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147383973",
               "children": []
             },
@@ -889,9 +1051,12 @@
               "id": "AVhegqnRkUeY5GgUboFO",
               "name": "TopBar.tsx",
               "isNode": false,
-              "heightMetricValue": 25.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 0.0,
+                "violations": 0.0,
+                "ncloc": 25.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147383973",
               "children": []
             }
@@ -901,18 +1066,19 @@
           "id": "2147383968",
           "name": "constants",
           "isNode": true,
-          "heightMetricValue": 0.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {},
           "parentId": "2147383967",
           "children": [
             {
               "id": "AVhQMjTUZ7rDKbM2yNzl",
               "name": "ActionConstants.ts",
               "isNode": false,
-              "heightMetricValue": 2.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 0.0,
+                "violations": 0.0,
+                "ncloc": 2.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147383968",
               "children": []
             }
@@ -922,18 +1088,19 @@
           "id": "2147384004",
           "name": "dtos",
           "isNode": true,
-          "heightMetricValue": 0.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {},
           "parentId": "2147383967",
           "children": [
             {
               "id": "AVhegqnVkUeY5GgUboFQ",
               "name": "Layouts.ts",
               "isNode": false,
-              "heightMetricValue": 14.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 0.0,
+                "violations": 0.0,
+                "ncloc": 14.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147384004",
               "children": []
             },
@@ -941,9 +1108,12 @@
               "id": "AVhegqnVkUeY5GgUboFR",
               "name": "Profiles.ts",
               "isNode": false,
-              "heightMetricValue": 24.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 0.0,
+                "violations": 0.0,
+                "ncloc": 24.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147384004",
               "children": []
             }
@@ -953,18 +1123,19 @@
           "id": "2147384083",
           "name": "events",
           "isNode": true,
-          "heightMetricValue": 0.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {},
           "parentId": "2147383967",
           "children": [
             {
               "id": "AVhQMjTVZ7rDKbM2yNzn",
               "name": "sonarqube.ts",
               "isNode": false,
-              "heightMetricValue": 39.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 0.0,
+                "violations": 0.0,
+                "ncloc": 39.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147384083",
               "children": []
             }
@@ -974,18 +1145,19 @@
           "id": "2147384009",
           "name": "layout",
           "isNode": true,
-          "heightMetricValue": 0.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {},
           "parentId": "2147383967",
           "children": [
             {
               "id": "AVhQMjTVZ7rDKbM2yNzp",
               "name": "MetricSearch.ts",
               "isNode": false,
-              "heightMetricValue": 20.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 100.0,
+                "violations": 0.0,
+                "ncloc": 20.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147384009",
               "children": []
             },
@@ -993,9 +1165,12 @@
               "id": "AVhQMjTVZ7rDKbM2yNzq",
               "name": "TreeService.ts",
               "isNode": false,
-              "heightMetricValue": 48.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 100.0,
+                "violations": 0.0,
+                "ncloc": 48.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147384009",
               "children": []
             }
@@ -1005,18 +1180,19 @@
           "id": "2147383982",
           "name": "stores",
           "isNode": true,
-          "heightMetricValue": 0.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {},
           "parentId": "2147383967",
           "children": [
             {
               "id": "AVhegqnXkUeY5GgUboFT",
               "name": "CityBuilder.ts",
               "isNode": false,
-              "heightMetricValue": 40.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 0.0,
+                "violations": 0.0,
+                "ncloc": 40.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147383982",
               "children": []
             },
@@ -1024,9 +1200,12 @@
               "id": "AVhegqnXkUeY5GgUboFU",
               "name": "InitialSceneShapes.ts",
               "isNode": false,
-              "heightMetricValue": 385.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 100.0,
+                "violations": 0.0,
+                "ncloc": 385.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147383982",
               "children": []
             },
@@ -1034,9 +1213,12 @@
               "id": "AVhegqnXkUeY5GgUboFV",
               "name": "SceneStore.ts",
               "isNode": false,
-              "heightMetricValue": 17.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 1.0,
+              "measures": {
+                "coverage": 91.7,
+                "violations": 1.0,
+                "ncloc": 17.0,
+                "open_issues": 1.0
+              },
               "parentId": "2147383982",
               "children": []
             }
@@ -1046,18 +1228,19 @@
           "id": "2147384089",
           "name": "translations",
           "isNode": true,
-          "heightMetricValue": 0.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {},
           "parentId": "2147383967",
           "children": [
             {
               "id": "AVhQMjTVZ7rDKbM2yNzu",
               "name": "translate.tsx",
               "isNode": false,
-              "heightMetricValue": 12.0,
-              "footprintMetricValue": 0.0,
-              "colorMetricValue": 0.0,
+              "measures": {
+                "coverage": 0.0,
+                "violations": 0.0,
+                "ncloc": 12.0,
+                "open_issues": 0.0
+              },
               "parentId": "2147384089",
               "children": []
             }
@@ -1067,9 +1250,12 @@
           "id": "AVhQMjTLZ7rDKbM2yNzD",
           "name": "app.tsx",
           "isNode": false,
-          "heightMetricValue": 31.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {
+            "coverage": 0.0,
+            "violations": 0.0,
+            "ncloc": 31.0,
+            "open_issues": 0.0
+          },
           "parentId": "2147383967",
           "children": []
         },
@@ -1077,9 +1263,12 @@
           "id": "AVhQMjTLZ7rDKbM2yNzE",
           "name": "dispatcher.ts",
           "isNode": false,
-          "heightMetricValue": 26.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {
+            "coverage": 0.0,
+            "violations": 0.0,
+            "ncloc": 26.0,
+            "open_issues": 0.0
+          },
           "parentId": "2147383967",
           "children": []
         },
@@ -1087,9 +1276,12 @@
           "id": "AVhQMjTMZ7rDKbM2yNzF",
           "name": "index.ts",
           "isNode": false,
-          "heightMetricValue": 4.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {
+            "coverage": 0.0,
+            "violations": 0.0,
+            "ncloc": 4.0,
+            "open_issues": 0.0
+          },
           "parentId": "2147383967",
           "children": []
         },
@@ -1097,9 +1289,12 @@
           "id": "AVhQMjTMZ7rDKbM2yNzG",
           "name": "lib.d.ts",
           "isNode": false,
-          "heightMetricValue": 42.0,
-          "footprintMetricValue": 0.0,
-          "colorMetricValue": 0.0,
+          "measures": {
+            "coverage": 0.0,
+            "violations": 0.0,
+            "ncloc": 42.0,
+            "open_issues": 0.0
+          },
           "parentId": "2147383967",
           "children": []
         }

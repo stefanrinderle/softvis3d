@@ -19,7 +19,6 @@
  */
 package de.rinderle.softvis3d.domain;
 
-import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -29,9 +28,11 @@ import static org.junit.Assert.assertTrue;
 
 public class SnapshotStorageKeyTest {
 
+  private static final String[] METRICS = {"ncolc", "complediy"};
+
   @Test
   public void testEqualsTrue() {
-    final VisualizationRequest requestDTO = new VisualizationRequest("1", "1", "20", ColorMetricType.NONE);
+    final VisualizationRequest requestDTO = new VisualizationRequest("1", METRICS);
 
     final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO);
     final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO);
@@ -41,8 +42,10 @@ public class SnapshotStorageKeyTest {
 
   @Test
   public void testEqualsFalse() {
-    final VisualizationRequest requestDTO1 = new VisualizationRequest("1", "1", "20", ColorMetricType.NONE);
-    final VisualizationRequest requestDTO2 = new VisualizationRequest("1", "2", "20", ColorMetricType.NONE);
+    final String[] otherMetrics = {"other", "complediy"};
+
+    final VisualizationRequest requestDTO1 = new VisualizationRequest("1", METRICS);
+    final VisualizationRequest requestDTO2 = new VisualizationRequest("1", otherMetrics);
 
     final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO1);
     final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO2);
@@ -52,7 +55,7 @@ public class SnapshotStorageKeyTest {
 
   @Test
   public void testHashCodeTrue() {
-    final VisualizationRequest requestDTO = new VisualizationRequest("1", "1", "20", ColorMetricType.NONE);
+    final VisualizationRequest requestDTO = new VisualizationRequest("1", METRICS);
 
     final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO);
     final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO);
@@ -62,8 +65,8 @@ public class SnapshotStorageKeyTest {
 
   @Test
   public void testHashCodeFalse() {
-    final VisualizationRequest requestDTO1 = new VisualizationRequest("1", "1", "20", ColorMetricType.NONE);
-    final VisualizationRequest requestDTO2 = new VisualizationRequest("1", "1", "20", ColorMetricType.NONE);
+    final VisualizationRequest requestDTO1 = new VisualizationRequest("1", METRICS);
+    final VisualizationRequest requestDTO2 = new VisualizationRequest("1", METRICS);
 
     final SnapshotStorageKey key1 = new SnapshotStorageKey(requestDTO1);
     final SnapshotStorageKey key2 = new SnapshotStorageKey(requestDTO2);

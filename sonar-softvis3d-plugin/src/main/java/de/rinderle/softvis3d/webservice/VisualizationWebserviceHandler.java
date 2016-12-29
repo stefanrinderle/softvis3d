@@ -25,8 +25,8 @@ import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
 import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ws.Request;
@@ -50,14 +50,13 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
     final String projectId = daoService.getProjectId(request.localConnector(), projectKey);
 
-    final String footprintMetricKey = request.param("footprintMetricKey");
-    final String heightMetricKey = request.param("heightMetricKey");
+    final String metricsValue = request.param("metrics");
+    String[] metrics = {};
+    if (!StringUtils.isBlank(metricsValue)) {
+      metrics = metricsValue.split(",");
+    }
 
-    final String colorMetricKey = request.param("colorMetricKey");
-    final ColorMetricType colorMetricType = ColorMetricType.getColorMetricType(colorMetricKey);
-
-    final VisualizationRequest requestDTO =
-      new VisualizationRequest(projectId, footprintMetricKey, heightMetricKey, colorMetricType);
+    final VisualizationRequest requestDTO = new VisualizationRequest(projectId, metrics);
 
     LOGGER.info("VisualizationWebserviceHandler " + requestDTO.toString());
 

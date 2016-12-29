@@ -20,8 +20,9 @@
 package de.rinderle.softvis3d.dao;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.server.ws.LocalConnector;
 import org.sonarqube.ws.WsComponents;
@@ -61,7 +62,7 @@ class SonarDao {
   }
 
   List<WsMeasures.Component> getAllSnapshotIdsWithRescourceId(
-      final LocalConnector localConnector, final String projectId, Set<String> metrics) {
+      final LocalConnector localConnector, final String projectId, String[] metrics) {
     final List<WsMeasures.Component> result = new ArrayList<>();
 
     final WsClient wsClient = getWsClient(localConnector);
@@ -80,13 +81,13 @@ class SonarDao {
   }
 
   private WsMeasures.ComponentTreeWsResponse getChildrenByBaseProjectId(final WsClient wsClient,
-    final String projectId, Set<String> metrics, final int page) {
+    final String projectId, String[] metrics, final int page) {
 
     final ComponentTreeWsRequest request = new ComponentTreeWsRequest();
     request.setBaseComponentId(projectId);
 
     final List<String> metricList = new ArrayList<>();
-    metricList.addAll(metrics);
+    metricList.addAll(Arrays.asList(metrics));
     request.setMetricKeys(metricList);
 
     final List<String> qualifiers = new ArrayList<>();

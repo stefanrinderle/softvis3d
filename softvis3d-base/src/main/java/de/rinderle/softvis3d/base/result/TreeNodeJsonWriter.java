@@ -52,9 +52,13 @@ public class TreeNodeJsonWriter {
   private void optionalTransformMetricValues(final SoftVis3dJsonWriter jsonWriter, final TreeNode node) {
     if (node instanceof ValueTreeNode) {
       final ValueTreeNode valueNode = (ValueTreeNode) node;
-      jsonWriter.prop("heightMetricValue", valueNode.getHeightMetricValue());
-      jsonWriter.prop("footprintMetricValue", valueNode.getFootprintMetricValue());
-      jsonWriter.prop("colorMetricValue", valueNode.getColorMetricValue());
+
+      jsonWriter.name("measures");
+      jsonWriter.beginObject();
+      for (final Map.Entry<String, Double> metric : valueNode.getMetrics().entrySet()) {
+        jsonWriter.prop(metric.getKey(), metric.getValue());
+      }
+      jsonWriter.endObject();
     }
   }
 

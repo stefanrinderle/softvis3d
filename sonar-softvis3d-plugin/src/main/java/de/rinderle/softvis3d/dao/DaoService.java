@@ -21,11 +21,10 @@ package de.rinderle.softvis3d.dao;
 
 import com.google.inject.Inject;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Set;
+
 import org.apache.commons.lang.time.StopWatch;
 import org.sonar.api.server.ws.LocalConnector;
 import org.sonarqube.ws.WsComponents;
@@ -52,18 +51,10 @@ public class DaoService {
     final StopWatch stopWatch = new StopWatch();
     stopWatch.start();
 
-    final Set<String> metrics = new HashSet<>();
-    metrics.add(requestDTO.getFootprintMetricKey());
-    metrics.add(requestDTO.getHeightMetricKey());
-
-    if (ColorMetricType.DEFAULT_METRIC.equals(requestDTO.getColorMetricType())) {
-      metrics.add(requestDTO.getColorMetricType().getDefaultMetricName());
-    }
-
     final List<WsMeasures.Component> resultComponents = sonarDao.getAllSnapshotIdsWithRescourceId(localConnector,
-      requestDTO.getRootSnapshotKey(), metrics);
+      requestDTO.getRootSnapshotKey(), requestDTO.getMetrics());
 
-    return daoServiceTransformer.transformComponentToMeasure(resultComponents, requestDTO);
+    return daoServiceTransformer.transformComponentToMeasure(resultComponents);
   }
 
 }

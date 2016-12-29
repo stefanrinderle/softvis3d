@@ -79,18 +79,48 @@ export default class SonarQubeCommunicator {
     private loadLegacyBackend() {
         appStatusStore.load(SonarQubeCommunicator.LOAD_LEGACY);
 
-        const legacyColorMapper = (m: Metric) => m.type === "NONE" ? m.key.toLocaleUpperCase() : m.key;
-
         const params = {
             projectKey: this.projectKey,
-            footprintMetricKey: cityBuilderStore.metricWidth.key,
-            heightMetricKey: cityBuilderStore.metricHeight.key,
-            colorMetricKey: legacyColorMapper(cityBuilderStore.metricColor)
+            metrics: this.getMetricRequestValues()
         };
 
         return this.callApi("/softVis3D/getVisualization", { params }).then(response => {
             appStatusStore.loadComplete(SonarQubeCommunicator.LOAD_LEGACY);
             sceneStore.legacyData = response.data;
         }).catch(console.log);
+    }
+
+    private getMetricRequestValues(): string {
+        let result: Set<string> = new Set;
+
+        result.add(cityBuilderStore.metricWidth.key);
+        result.add(cityBuilderStore.metricHeight.key);
+
+        const colorMetrics: string[] = cityBuilderStore.availableColorMetrics.map((m) => (m.key));
+
+        for (let i = 0; i < colorMetrics.length; i++) {
+
+            if (colorMetrics[i] !== 'none' && colorMetrics[i] !== 'package') {
+                result.add(colorMetrics[i]);
+            }
+        }
+
+        return this.getColorMetricsString(result);
+    }
+
+    private getColorMetricsString(colorMetrics: Set<string>): string {
+        let result: string = "";
+
+        let isFirst: boolean = true;
+        colorMetrics.forEach(function(metric){
+            if (!isFirst) {
+                result += ",";
+            }
+            result += metric;
+
+            isFirst = false;
+        });
+
+        return result;
     }
 }

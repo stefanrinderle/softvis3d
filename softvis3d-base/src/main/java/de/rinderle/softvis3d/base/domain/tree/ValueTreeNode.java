@@ -19,30 +19,21 @@
  */
 package de.rinderle.softvis3d.base.domain.tree;
 
+import java.util.Map;
+
 public class ValueTreeNode extends TreeNode {
 
-  private final double heightMetricValue;
-  private final double footprintMetricValue;
-  private final double colorMetricValue;
+  private final Map<String, Double> metrics;
 
   public ValueTreeNode(final String id, final TreeNode parent, final int depth, final TreeNodeType type,
-    final String name, final double footprintMetricValue, final double heightMetricValue, final double colorMetricValue) {
+    final String name, Map<String, Double> metrics) {
     super(id, parent, depth, type, name);
 
-    this.footprintMetricValue = footprintMetricValue;
-    this.heightMetricValue = heightMetricValue;
-    this.colorMetricValue = colorMetricValue;
+    this.metrics = metrics;
   }
 
-  public double getHeightMetricValue() {
-    return this.heightMetricValue;
+  public Map<String, Double> getMetrics() {
+    return metrics;
   }
 
-  public double getFootprintMetricValue() {
-    return this.footprintMetricValue;
-  }
-
-  public double getColorMetricValue() {
-    return colorMetricValue;
-  }
 }

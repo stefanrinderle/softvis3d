@@ -22,7 +22,6 @@ package de.rinderle.softvis3d.cache;
 import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -56,7 +55,8 @@ public class SnapshotCacheServiceTest {
   }
 
   private SnapshotStorageKey getSnapshotStorageKey(final String id) {
-    final VisualizationRequest requestDto = new VisualizationRequest(id, "1", "1", ColorMetricType.NONE);
+    final String[] metrics = {"other", "complediy"};
+    final VisualizationRequest requestDto = new VisualizationRequest(id, metrics);
     return new SnapshotStorageKey(requestDto);
   }
 }

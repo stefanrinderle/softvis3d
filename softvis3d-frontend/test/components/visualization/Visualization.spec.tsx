@@ -99,9 +99,7 @@ function createTestTreeElement(id: string): TreeElement {
 
         children: [],
 
-        colorMetricValue: 0,
-        footprintMetricValue: 0,
-        heightMetricValue: 0,
+        measures: {},
         parentId: null
     };
 }

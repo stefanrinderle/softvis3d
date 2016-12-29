@@ -721,8 +721,6 @@ THREE.OrbitControls = function ( object, domElement ) {
 
         scope.dispatchEvent( endEvent );
 
-        console.log("Louse up");
-
         state = STATE.NONE;
 
     }
