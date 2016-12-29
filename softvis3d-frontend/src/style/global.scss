@@ -98,6 +98,10 @@ fieldset {
     }
 }
 
+body {
+    margin: 0;
+}
+
 body, #app {
     background-color: $background-app;
 }
