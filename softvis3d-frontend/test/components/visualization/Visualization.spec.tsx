@@ -36,11 +36,11 @@ describe("<Visualization/>", () => {
 
         expect(visualization.children()).to.have.length(4);
         expect(visualization.contains(
-            <TopBar cityBuilderStore={localCityBuilderStore} selectedElement={expectedSelectedElement}/>)).to.be.true;
+            <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(<Scene sceneStore={localSceneStore} />)).to.be.true;
-        expect(visualization.contains(<BottomBar cityBuilderStore={localCityBuilderStore}/>)).to.be.true;
+        expect(visualization.contains(<BottomBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
-            <SideBar sceneStore={localSceneStore} selectedElement={expectedSelectedElement}/>)).to.be.true;
+            <SideBar sceneStore={localSceneStore}/>)).to.be.true;
     });
 
     it("should initialize all elements on start - no selected element give", () => {
@@ -56,11 +56,11 @@ describe("<Visualization/>", () => {
 
         expect(visualization.children()).to.have.length(4);
         expect(visualization.contains(
-            <TopBar selectedElement={null} cityBuilderStore={localCityBuilderStore}/>)).to.be.true;
+            <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(<Scene sceneStore={localSceneStore} />)).to.be.true;
-        expect(visualization.contains(<BottomBar cityBuilderStore={localCityBuilderStore}/>)).to.be.true;
+        expect(visualization.contains(<BottomBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
-            <SideBar sceneStore={localSceneStore} selectedElement={null}/>)).to.be.true;
+            <SideBar sceneStore={localSceneStore}/>)).to.be.true;
     });
 
     it("should initialize all elements on start - no parent element given", () => {
@@ -82,11 +82,11 @@ describe("<Visualization/>", () => {
 
         expect(visualization.children()).to.have.length(4);
         expect(visualization.contains(
-            <TopBar cityBuilderStore={localCityBuilderStore} selectedElement={expectedSelectedElement}/>)).to.be.true;
+            <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(<Scene sceneStore={localSceneStore} />)).to.be.true;
-        expect(visualization.contains(<BottomBar cityBuilderStore={localCityBuilderStore}/>)).to.be.true;
+        expect(visualization.contains(<BottomBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
-            <SideBar sceneStore={localSceneStore} selectedElement={expectedSelectedElement}/>)).to.be.true;
+            <SideBar sceneStore={localSceneStore}/>)).to.be.true;
     });
 
 });

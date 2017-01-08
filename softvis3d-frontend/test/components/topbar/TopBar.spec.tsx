@@ -5,20 +5,24 @@ import { shallow } from "enzyme";
 import { CityBuilderStore } from "../../../src/stores/CityBuilderStore";
 import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
+import {SceneStore} from "../../../src/stores/SceneStore";
 
 describe("<TopBar/>", () => {
 
     it("should show default text div on start", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let localSceneStore: SceneStore = new SceneStore();
         let selectedElement: TreeElement = createTestTreeElement();
+
+        localSceneStore.legacyData = selectedElement;
+        localSceneStore.selectedObjectId = selectedElement.id;
 
         const selectedElementInfo = shallow(
             <TopBar cityBuilderStore={localCityBuilderStore}
-                    selectedElement={selectedElement}/>
+                    sceneStore={localSceneStore}/>
         );
 
-        expect(selectedElementInfo.contains(<SelectedElementInfo cityBuilderStore={localCityBuilderStore}
-                                                                 selectedElement={selectedElement}/>)).to.be.true;
+        expect(selectedElementInfo.contains(<SelectedElementInfo sceneStore={localSceneStore}/>)).to.be.true;
         expect(selectedElementInfo.contains(<TopBarMenu cityBuilderStore={localCityBuilderStore}/>)).to.be.true;
     });
 
