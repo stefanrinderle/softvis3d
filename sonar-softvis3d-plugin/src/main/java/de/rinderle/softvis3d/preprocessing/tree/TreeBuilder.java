@@ -40,12 +40,12 @@ public class TreeBuilder {
   private DaoService daoService;
 
   public RootTreeNode createTreeStructure(LocalConnector localConnector, final VisualizationRequest requestDTO) {
-    LOGGER.info("Create tree structure for id " + requestDTO.getRootSnapshotKey());
+    LOGGER.info("Create tree structure for id {}", requestDTO.getRootSnapshotKey());
     final PathWalker pathWalker = new PathWalker(requestDTO.getRootSnapshotKey());
 
     final List<SonarMeasure> modules = getModules(localConnector, requestDTO.getRootSnapshotKey());
 
-    LOGGER.info("Number of modules: " + modules.size());
+    LOGGER.info("Number of modules: {}", modules.size());
 
     if (modules.isEmpty()) {
       addModuleToTreeWalker(pathWalker, requestDTO, "", localConnector);
@@ -66,7 +66,7 @@ public class TreeBuilder {
 
     for (final SonarMeasure flatChild : flatChildren) {
       if (!moduleName.isEmpty()) {
-        flatChild.setPath(moduleName + "/" + flatChild.getPath());
+        flatChild.setPath(moduleName + '/' + flatChild.getPath());
       }
 
       pathWalker.addPath(flatChild);

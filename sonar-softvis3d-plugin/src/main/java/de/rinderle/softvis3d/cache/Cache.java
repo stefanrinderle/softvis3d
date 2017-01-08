@@ -21,6 +21,7 @@ package de.rinderle.softvis3d.cache;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,11 +53,15 @@ public class Cache<K, V> {
   }
 
   void logKeys() {
-    LOGGER.info("Current Cache size " + map.size());
-    for (final Map.Entry<K, V> entry : map.entrySet()) {
-      LOGGER.info(entry.getKey().toString());
+    LOGGER.info("Current Cache size {}", map.size());
+
+    if (LOGGER.isDebugEnabled()) {
+      for (final Map.Entry<K, V> entry : map.entrySet()) {
+        LOGGER.info(entry.getKey().toString());
+      }
+
+      LOGGER.info("---");
     }
-    LOGGER.info("---");
   }
 
   private void removeOldestCacheEntryIfNecessary() {

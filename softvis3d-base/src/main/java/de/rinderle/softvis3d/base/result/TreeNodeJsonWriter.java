@@ -29,6 +29,8 @@ public class TreeNodeJsonWriter {
 
   public void transformRootTreeToJson(final SoftVis3dJsonWriter jsonWriter, final RootTreeNode tree) {
     this.transformTreeToJson(jsonWriter, tree);
+
+    jsonWriter.close();
   }
 
   private void transformTreeToJson(final SoftVis3dJsonWriter jsonWriter, final TreeNode node) {

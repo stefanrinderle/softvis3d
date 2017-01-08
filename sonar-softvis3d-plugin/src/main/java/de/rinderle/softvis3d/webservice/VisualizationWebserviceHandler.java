@@ -52,13 +52,15 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
 
     final String metricsValue = request.param("metrics");
     String[] metrics = {};
-    if (!StringUtils.isBlank(metricsValue)) {
+    if (metricsValue != null && !StringUtils.isBlank(metricsValue)) {
       metrics = metricsValue.split(",");
     }
 
     final VisualizationRequest requestDTO = new VisualizationRequest(projectId, metrics);
 
-    LOGGER.info("VisualizationWebserviceHandler " + requestDTO.toString());
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info("VisualizationWebserviceHandler {}", requestDTO.toString());
+    }
 
     final RootTreeNode snapshotTreeResult = preProcessor.process(request.localConnector(), requestDTO);
 
@@ -70,8 +72,6 @@ public class VisualizationWebserviceHandler extends AbstractWebserviceHandler im
     final SoftVis3dJsonWriter jsonWriter = new SoftVis3dJsonWriter(response.stream().output());
 
     this.treeNodeJsonWriter.transformRootTreeToJson(jsonWriter, snapshotTreeResult);
-
-    jsonWriter.close();
   }
 
 }

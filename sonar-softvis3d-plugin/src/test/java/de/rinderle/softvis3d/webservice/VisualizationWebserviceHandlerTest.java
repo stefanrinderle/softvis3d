@@ -26,7 +26,6 @@ import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
 import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
-import de.rinderle.softvis3d.domain.sonar.ColorMetricType;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
 
 import java.io.BufferedOutputStream;
@@ -37,7 +36,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -48,22 +46,18 @@ import org.sonar.api.server.ws.Response;
 import org.sonar.api.utils.text.JsonWriter;
 import org.sonar.api.utils.text.XmlWriter;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@Ignore
 public class VisualizationWebserviceHandlerTest {
 
-  final StringOutputStream stringOutputStream = new StringOutputStream();
+  private final StringOutputStream stringOutputStream = new StringOutputStream();
 
   private final String snapshotKey = "123";
-  private final String footprintMetricKey = "1";
-  private final String heightMetricKey = "21";
-  private final ColorMetricType scmMetricType = ColorMetricType.AUTHOR_COUNT;
+  private final String metrics = "complexity,ncloc";
 
   @InjectMocks
   private VisualizationWebserviceHandler handler;
@@ -93,13 +87,10 @@ public class VisualizationWebserviceHandlerTest {
     final RootTreeNode treeResult = mockPreProcessing();
 
     when(daoService.getProjectId(eq(localConnector), eq(this.snapshotKey))).thenReturn("projectId");
-
     this.handler.handle(request, response);
 
-    // empty response because json transformer are mocked.
-    assertEquals("{}", this.stringOutputStream.toString());
-
-    verify(treeNodeJsonWriter, times(1)).transformRootTreeToJson(any(SoftVis3dJsonWriter.class), eq(treeResult));
+    verify(treeNodeJsonWriter, times(1)).transformRootTreeToJson(any(SoftVis3dJsonWriter.class),
+        eq(treeResult));
   }
 
   private RootTreeNode mockPreProcessing() {
@@ -136,12 +127,8 @@ public class VisualizationWebserviceHandlerTest {
       public String param(final String key) {
         if ("projectKey".equals(key)) {
           return VisualizationWebserviceHandlerTest.this.snapshotKey;
-        } else if ("footprintMetricKey".equals(key)) {
-          return VisualizationWebserviceHandlerTest.this.footprintMetricKey;
-        } else if ("heightMetricKey".equals(key)) {
-          return VisualizationWebserviceHandlerTest.this.heightMetricKey;
-        } else if ("colorMetricKey".equals(key)) {
-          return VisualizationWebserviceHandlerTest.this.scmMetricType.name();
+        } else if ("metrics".equals(key)) {
+          return VisualizationWebserviceHandlerTest.this.metrics;
         } else {
           return "";
         }
