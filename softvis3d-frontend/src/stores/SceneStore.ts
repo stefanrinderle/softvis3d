@@ -1,12 +1,16 @@
 import {observable, computed, reaction} from "mobx";
+import {TreeService} from "../layout/TreeService";
 
 class SceneStore {
     @observable
     public legacyData: TreeElement | null = null;
+
     @observable
     public shapes: any;
+
     @observable
     public selectedObjectId: string | null = null;
+
     @observable
     private rendered: boolean = false;
 
@@ -29,6 +33,16 @@ class SceneStore {
     @computed
     public get isVisible() {
         return this.rendered;
+    }
+
+    @computed
+    public get selectedElement(): TreeElement | null {
+        let selectedElement: TreeElement | null = null;
+        if (this.legacyData !== null && this.selectedObjectId != null) {
+            selectedElement =
+                TreeService.searchTreeNode(this.legacyData, this.selectedObjectId);
+        }
+        return selectedElement;
     }
 }
 

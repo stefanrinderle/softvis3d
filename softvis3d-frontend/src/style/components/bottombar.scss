@@ -5,9 +5,9 @@
 
     max-width: 1000px;
     min-width: 500px;
-    width: 50%;
+    width: 60%;
     text-align: center;
-    font-size: 9pt;
+    font-size: 13px;
 
     border: 1px solid $border-color-background;
     background-color: $white;
@@ -20,8 +20,20 @@
         float: left;
         width: 33%;
 
+        &>span {
+            padding-top: 1px;
+        }
+
         .title:after {
             content: ": ";
+        }
+
+        .value {
+            padding-left: 4px;
+            color: $gray-dark;
+
+            &:before {content: "(";}
+            &:after {content: ")";}
         }
     }
 

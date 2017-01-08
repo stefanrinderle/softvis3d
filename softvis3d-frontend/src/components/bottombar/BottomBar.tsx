@@ -2,28 +2,37 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import BottomBarMetricInfo from "./BottomBarMetricInfo";
 import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import {SceneStore} from "../../stores/SceneStore";
 import SelectBoxBuilder from "../ui/SelectBox/SelectBoxBuilder";
+
+interface BottomBarProps {
+    cityBuilderStore: CityBuilderStore;
+    sceneStore: SceneStore;
+}
 
 const MetricSelectBox: new() => SelectBoxBuilder<Metric> = SelectBoxBuilder as any;
 
 /**
- * Bottom bar with infos about the current selected metrics.
+ * Bottom bar with information about the current selected metrics.
  */
 @observer
-export default class BottomBar extends React.Component<{ cityBuilderStore: CityBuilderStore; }, any> {
+export default class BottomBar extends React.Component<BottomBarProps, any> {
 
     public render() {
+        const {cityBuilderStore, sceneStore} = this.props;
+        const selectedElement = sceneStore.selectedElement;
+
         return (
             <div className="bottom-bar">
-                <BottomBarMetricInfo title="Width" metric={this.props.cityBuilderStore.metricWidth}/>
-                <BottomBarMetricInfo title="Height" metric={this.props.cityBuilderStore.metricHeight}/>
+                <BottomBarMetricInfo title="Width" metric={cityBuilderStore.metricWidth} selectedElement={selectedElement}/>
+                <BottomBarMetricInfo title="Height" metric={cityBuilderStore.metricHeight} selectedElement={selectedElement}/>
                 <MetricSelectBox
-                    label="Building Color"
-                    className="metric color"
-                    value={this.props.cityBuilderStore.metricColor}
-                    options={this.props.cityBuilderStore.availableColorMetrics
+                    label="Color"
+                    className="metric-info"
+                    value={cityBuilderStore.metricColor}
+                    options={cityBuilderStore.availableColorMetrics
                                 .map((m) => ({key: m.key, label: m.name, value: m}))}
-                    onChange={(m: Metric) => { this.props.cityBuilderStore.metricColor = m; }}
+                    onChange={(m: Metric) => { cityBuilderStore.metricColor = m; }}
                 />
             </div>
         );
