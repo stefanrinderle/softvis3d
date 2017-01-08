@@ -3,9 +3,10 @@ import {observer} from "mobx-react";
 import SelectedElementInfo from "./SelectedElementInfo";
 import TopBarMenu from "./TopBarMenu";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import {SceneStore} from "../../stores/SceneStore";
 
 interface TopBarProbs {
-    selectedElement: TreeElement | null;
+    sceneStore: SceneStore;
     cityBuilderStore: CityBuilderStore;
 }
 
@@ -13,11 +14,13 @@ interface TopBarProbs {
 export default class TopBar extends React.Component<TopBarProbs, any> {
 
     public render() {
-        const {cityBuilderStore, selectedElement} = this.props;
-        return <div id="app-topbar" className="top-bar">
-            <TopBarMenu cityBuilderStore={cityBuilderStore}/>
-            <SelectedElementInfo cityBuilderStore={cityBuilderStore} selectedElement={selectedElement}/>
-        </div>;
+        const {cityBuilderStore, sceneStore} = this.props;
+        return (
+            <div id="app-topbar" className="top-bar">
+                <TopBarMenu cityBuilderStore={cityBuilderStore}/>
+                <SelectedElementInfo sceneStore={sceneStore}/>
+            </div>
+        );
     }
 
 }

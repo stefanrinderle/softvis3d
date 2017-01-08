@@ -6,21 +6,22 @@ import { SceneStore } from "../../stores/SceneStore";
 
 interface SideBarProps {
     sceneStore: SceneStore;
-    selectedElement: TreeElement | null;
 }
 
 @observer
 export default class SideBar extends React.Component<SideBarProps, any> {
     public render() {
-        if (this.props.selectedElement === null) {
+        const {sceneStore} = this.props;
+
+        if (sceneStore.selectedElement === null) {
             return <div id="app-sidebar" className="side-bar"></div>;
         }
 
         return (
             <div id="app-sidebar" className="side-bar">
-                <h3>{this.props.selectedElement.name}</h3>
-                <SelectParent sceneStore={this.props.sceneStore} selectedElement={this.props.selectedElement} />
-                <NodeList sceneStore={this.props.sceneStore} selectedElement={this.props.selectedElement} />
+                <h3>{sceneStore.selectedElement.name}</h3>
+                <SelectParent sceneStore={sceneStore} selectedElement={sceneStore.selectedElement} />
+                <NodeList sceneStore={sceneStore} selectedElement={sceneStore.selectedElement} />
             </div>
         );
     }

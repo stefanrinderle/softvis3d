@@ -1,6 +1,5 @@
 {
   "globalDependencies": {
-    "i18next": "registry:dt/i18next#2.3.4+20161107200623",
     "mocha": "registry:dt/mocha#2.2.5+20161028141524",
     "react": "registry:dt/react#0.14.0+20161024223416",
     "react-addons-test-utils": "registry:dt/react-addons-test-utils#0.14.0+20160427035638",

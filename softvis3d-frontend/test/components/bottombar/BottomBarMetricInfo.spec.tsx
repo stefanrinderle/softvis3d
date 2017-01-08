@@ -16,7 +16,7 @@ describe("<BottomBarMetricInfo/>", () => {
         };
 
         const bottomBarMetricInfo = shallow(
-            <BottomBarMetricInfo title={title} metric={expectedMetric}/>
+            <BottomBarMetricInfo title={title} metric={expectedMetric} selectedElement={null}/>
         );
 
         expect(bottomBarMetricInfo.html()).to.include(expectedMetricName);

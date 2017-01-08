@@ -6,7 +6,6 @@ import BottomBar from "../bottombar/BottomBar";
 import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import { SceneStore } from "../../stores/SceneStore";
 import SideBar from "../sidebar/SideBar";
-import { TreeService } from "../../layout/TreeService";
 
 interface VisualizationProps {
     sceneStore: SceneStore;
@@ -22,23 +21,12 @@ export default class Visualization extends React.Component<VisualizationProps, a
             return <div />;
         }
 
-        /* TODO: Move this logic in sceneStore.
-         * This logic could also be placed in the store. Not sure for now where to put it.
-         * But as the react components should be as dumb as possible i think the store is the better
-         * place.
-         */
-        let selectedElement: TreeElement | null = null;
-        if (sceneStore.legacyData !== null && sceneStore.selectedObjectId != null) {
-            selectedElement =
-                TreeService.searchTreeNode(sceneStore.legacyData, sceneStore.selectedObjectId);
-        }
-
         return (
             <div className="visualisation">
-                <TopBar cityBuilderStore={this.props.cityBuilderStore} selectedElement={selectedElement}/>
+                <TopBar cityBuilderStore={this.props.cityBuilderStore} sceneStore={sceneStore}/>
                 <Scene sceneStore={sceneStore}/>
-                <SideBar sceneStore={sceneStore} selectedElement={selectedElement}/>
-                <BottomBar cityBuilderStore={this.props.cityBuilderStore}/>
+                <SideBar sceneStore={sceneStore}/>
+                <BottomBar cityBuilderStore={this.props.cityBuilderStore} sceneStore={sceneStore}/>
             </div>
         );
     }

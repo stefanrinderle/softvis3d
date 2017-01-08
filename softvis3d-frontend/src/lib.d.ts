@@ -41,6 +41,10 @@ declare interface Metric {
     name: string;
 }
 
+interface MeasureList {
+    [propName: string]: number;
+}
+
 declare interface TreeElement {
     id: string;
     name: string;
@@ -48,12 +52,8 @@ declare interface TreeElement {
 
     children: TreeElement[];
 
-    measures: Measure;
+    measures: MeasureList;
     parentId: string | null;
-}
-
-interface Measure {
-    [propName: string]: number;
 }
 
 declare interface Profile {

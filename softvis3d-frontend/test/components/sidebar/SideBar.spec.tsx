@@ -12,7 +12,7 @@ describe("<SideBar/>", () => {
         let localSceneStore = new SceneStore();
 
         const selectedElementInfo = shallow(
-            <SideBar selectedElement={null} sceneStore={localSceneStore}/>
+            <SideBar sceneStore={localSceneStore}/>
         );
 
         expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
@@ -33,9 +33,10 @@ describe("<SideBar/>", () => {
 
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.legacyData = parent1;
+        localSceneStore.selectedObjectId = parent0.id;
 
         const selectedElementInfo = shallow(
-            <SideBar selectedElement={parent0} sceneStore={localSceneStore}/>
+            <SideBar sceneStore={localSceneStore}/>
         );
 
         expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
@@ -71,9 +72,10 @@ describe("<SideBar/>", () => {
 
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.legacyData = parent1;
+        localSceneStore.selectedObjectId = child.id;
 
         const selectedElementInfo = shallow(
-            <SideBar selectedElement={child} sceneStore={localSceneStore}/>
+            <SideBar sceneStore={localSceneStore}/>
         );
 
         expect(selectedElementInfo.hasClass("side-bar")).to.be.true;

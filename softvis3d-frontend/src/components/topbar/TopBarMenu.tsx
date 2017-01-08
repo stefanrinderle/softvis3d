@@ -9,9 +9,11 @@ import {CityBuilderStore} from "../../stores/CityBuilderStore";
 export default class TopBarMenu extends React.Component<{ cityBuilderStore: CityBuilderStore}, any> {
 
     public render() {
-        return <div className="top-bar-menu">
-            <button onClick={this.showSettings.bind(this)}>Settings</button>
-        </div>;
+        return (
+            <div className="top-bar-menu">
+                <button onClick={this.showSettings.bind(this)}>Settings</button>
+            </div>
+        );
     }
 
     private showSettings() {
