@@ -9,7 +9,8 @@ interface SideBarProps {
     selectedElement: TreeElement | null;
 }
 
-@observer export default class SideBar extends React.Component<SideBarProps, any> {
+@observer
+export default class SideBar extends React.Component<SideBarProps, any> {
     public render() {
         if (this.props.selectedElement === null) {
             return <div id="app-sidebar" className="side-bar"></div>;

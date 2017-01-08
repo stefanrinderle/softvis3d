@@ -9,7 +9,8 @@ interface NodeListProps {
     sceneStore: SceneStore;
 }
 
-@observer export default class NodeList extends React.Component<NodeListProps, any> {
+@observer
+export default class NodeList extends React.Component<NodeListProps, any> {
     public render() {
         const folder = this.props.selectedElement.isNode
             ? this.props.selectedElement

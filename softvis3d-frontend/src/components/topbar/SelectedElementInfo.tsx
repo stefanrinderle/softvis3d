@@ -8,7 +8,8 @@ interface SelectedElementInfoProps {
     selectedElement: TreeElement | null;
 }
 
-@observer export default class SelectedElementInfo extends React.Component<SelectedElementInfoProps, any> {
+@observer
+export default class SelectedElementInfo extends React.Component<SelectedElementInfoProps, any> {
 
     public render() {
         const {selectedElement, cityBuilderStore} = this.props;

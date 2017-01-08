@@ -5,7 +5,8 @@ import sceneStore from "../../stores/SceneStore";
 import OptionsSimple from "./OptionsSimple";
 import OptionsAdvanced from "./OptionsAdvanced";
 
-@observer export default class CityBuilder extends React.Component<{ store: CityBuilderStore; }, any> {
+@observer
+export default class CityBuilder extends React.Component<{ store: CityBuilderStore; }, any> {
 
     public render() {
         if (!this.props.store.isVisible) {

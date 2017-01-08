@@ -1,10 +1,14 @@
 import {observable, computed, reaction} from "mobx";
 
 class SceneStore {
-    @observable public legacyData: TreeElement | null = null;
-    @observable public shapes: any;
-    @observable public selectedObjectId: string | null = null;
-    @observable private rendered: boolean = false;
+    @observable
+    public legacyData: TreeElement | null = null;
+    @observable
+    public shapes: any;
+    @observable
+    public selectedObjectId: string | null = null;
+    @observable
+    private rendered: boolean = false;
 
     public constructor() {
         this.rendered = false;
@@ -22,7 +26,8 @@ class SceneStore {
         }
     }
 
-    @computed public get isVisible() {
+    @computed
+    public get isVisible() {
         return this.rendered;
     }
 }

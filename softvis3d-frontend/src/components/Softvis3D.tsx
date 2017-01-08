@@ -13,7 +13,8 @@ interface Softvis3DProps {
     cityBuilderStore: CityBuilderStore;
 }
 
-@observer export default class Softvis3D extends React.Component<Softvis3DProps, any> {
+@observer
+export default class Softvis3D extends React.Component<Softvis3DProps, any> {
 
     public render() {
         return (

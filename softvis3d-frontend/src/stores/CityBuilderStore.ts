@@ -5,17 +5,27 @@ import appStatusStore from "./AppStatusStore";
 import * as Metrics from "../dtos/Metrics";
 
 class CityBuilderStore {
-    @observable public layoutType: Layout;
-    @observable public profile: Profile;
-    @observable public metricColor: Metric;
-    @observable public metricHeight: Metric;
-    @observable public metricWidth: Metric;
-    @observable public scalingMethod: string;
-    @observable public availableGenericMetrics: Metric[];
-    @observable public availableColorMetrics: Metric[];
+    @observable
+    public layoutType: Layout;
+    @observable
+    public profile: Profile;
+    @observable
+    public metricColor: Metric;
+    @observable
+    public metricHeight: Metric;
+    @observable
+    public metricWidth: Metric;
+    @observable
+    public scalingMethod: string;
+    @observable
+    public availableGenericMetrics: Metric[];
+    @observable
+    public availableColorMetrics: Metric[];
 
-    @observable public renderButtonClicked: boolean;
-    @observable public show: boolean;
+    @observable
+    public renderButtonClicked: boolean;
+    @observable
+    public show: boolean;
 
     public constructor() {
         this.show = false;
@@ -44,7 +54,8 @@ class CityBuilderStore {
         ]);
     }
 
-    @computed public get isVisible() {
+    @computed
+    public get isVisible() {
         return this.show && !appStatusStore.isVisible;
     }
 

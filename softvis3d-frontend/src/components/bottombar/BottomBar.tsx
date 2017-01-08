@@ -4,6 +4,8 @@ import BottomBarMetricInfo from "./BottomBarMetricInfo";
 import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import SelectBoxBuilder from "../ui/SelectBox/SelectBoxBuilder";
 
+const MetricSelectBox: new() => SelectBoxBuilder<Metric> = SelectBoxBuilder as any;
+
 /**
  * Bottom bar with infos about the current selected metrics.
  */
@@ -11,8 +13,6 @@ import SelectBoxBuilder from "../ui/SelectBox/SelectBoxBuilder";
 export default class BottomBar extends React.Component<{ cityBuilderStore: CityBuilderStore; }, any> {
 
     public render() {
-        const MetricSelectBox: new() => SelectBoxBuilder<Metric> = SelectBoxBuilder as any;
-
         return (
             <div className="bottom-bar">
                 <BottomBarMetricInfo title="Width" metric={this.props.cityBuilderStore.metricWidth}/>

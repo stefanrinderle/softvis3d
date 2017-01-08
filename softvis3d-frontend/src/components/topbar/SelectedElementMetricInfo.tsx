@@ -7,7 +7,8 @@ interface SelectedElementMetricInfoProp {
     value: number;
 }
 
-@observer export default class SelectedElementMetricInfo extends React.Component<SelectedElementMetricInfoProp, any> {
+@observer
+export default class SelectedElementMetricInfo extends React.Component<SelectedElementMetricInfoProp, any> {
     public render() {
         return (
             <div className="metric-info">

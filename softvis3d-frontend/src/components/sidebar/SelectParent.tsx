@@ -11,7 +11,8 @@ interface SelectParentProps {
 /**
  * Currently used for an example use of selected scene object store.
  */
-@observer export default class SelectParent extends React.Component<SelectParentProps, any> {
+@observer
+export default class SelectParent extends React.Component<SelectParentProps, any> {
 
     public render() {
         let parent: TreeElement | null = this.getParentElement(this.props.selectedElement);

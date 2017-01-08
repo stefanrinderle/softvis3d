@@ -13,7 +13,8 @@ interface VisualizationProps {
     cityBuilderStore: CityBuilderStore;
 }
 
-@observer export default class Visualization extends React.Component<VisualizationProps, any> {
+@observer
+export default class Visualization extends React.Component<VisualizationProps, any> {
     public render() {
         const {sceneStore} = this.props;
 

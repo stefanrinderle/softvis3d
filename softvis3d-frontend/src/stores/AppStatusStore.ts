@@ -1,9 +1,12 @@
 import {computed, observable} from "mobx";
 
 class AppStatusStore {
-    @observable public showLoadingQueue: boolean;
-    @observable public loadingQueue: string[];
-    @observable public errors: string[];
+    @observable
+    public showLoadingQueue: boolean;
+    @observable
+    public loadingQueue: string[];
+    @observable
+    public errors: string[];
 
     public constructor() {
         this.loadingQueue = [];
@@ -11,7 +14,8 @@ class AppStatusStore {
         this.showLoadingQueue = false;
     }
 
-    @computed get isVisible() {
+    @computed
+    get isVisible() {
         return this.loadingQueue.length > 0 || this.errors.length > 0;
     }
 

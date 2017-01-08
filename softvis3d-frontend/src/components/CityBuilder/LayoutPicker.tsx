@@ -8,7 +8,8 @@ export interface LayoutPickerProps {
     store: CityBuilderStore;
 }
 
-@observer export default class LayoutPicker extends React.Component<LayoutPickerProps, any> {
+@observer
+export default class LayoutPicker extends React.Component<LayoutPickerProps, any> {
 
     public render() {
         return (

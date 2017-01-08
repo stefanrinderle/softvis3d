@@ -10,7 +10,8 @@ import SelectBoxBuilder from "../ui/SelectBox/SelectBoxBuilder";
 const ProfileSelectBox: new() => SelectBoxBuilder<Profile> = SelectBoxBuilder as any;
 const MetricSelectBox: new() => SelectBoxBuilder<Metric> = SelectBoxBuilder as any;
 
-@observer export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {
+@observer
+export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {
     public render() {
 
         const profiles = [

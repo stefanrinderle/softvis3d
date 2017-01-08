@@ -2,7 +2,8 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import appStatusStore from "../stores/AppStatusStore";
 
-@observer export default class Status extends React.Component<any, any> {
+@observer
+export default class Status extends React.Component<undefined, any> {
     public render() {
         if (!appStatusStore.isVisible) {
             return <div />;

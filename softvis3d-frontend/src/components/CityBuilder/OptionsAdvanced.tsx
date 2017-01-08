@@ -8,7 +8,8 @@ import LayoutProcessor from "../../legacy/layoutProcessor";
 const StringValuePicker: new() => SelectBoxBuilder<string> = SelectBoxBuilder as any;
 const MetricPropertyPicker: new() => SelectBoxBuilder<Metric> = SelectBoxBuilder as any;
 
-@observer export default class OptionsAdvanced extends React.Component<{ store: CityBuilderStore; }, any> {
+@observer
+export default class OptionsAdvanced extends React.Component<{ store: CityBuilderStore; }, any> {
     public render() {
         return (
             <Category label="Advanced Options" className="advanced" toggle={true} initialVisibility={false}>

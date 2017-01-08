@@ -9,7 +9,9 @@ interface TopBarProbs {
     cityBuilderStore: CityBuilderStore;
 }
 
-@observer export default class TopBar extends React.Component<TopBarProbs, any> {
+@observer
+export default class TopBar extends React.Component<TopBarProbs, any> {
+
     public render() {
         const {cityBuilderStore, selectedElement} = this.props;
         return <div id="app-topbar" className="top-bar">
@@ -17,4 +19,5 @@ interface TopBarProbs {
             <SelectedElementInfo cityBuilderStore={cityBuilderStore} selectedElement={selectedElement}/>
         </div>;
     }
+
 }
