@@ -18,66 +18,41 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 /* tslint:disable */
-import axios, { AxiosPromise, AxiosRequestConfig } from "axios";
-import { reaction } from "mobx";
-import cityBuilderStore from "./stores/CityBuilderStore";
-import appStatusStore from "./stores/AppStatusStore";
-import sceneStore from "./stores/SceneStore";
+import {reaction} from "mobx";
+import cityBuilderStore from "../../stores/CityBuilderStore";
+import {BackendService} from "./BackendService";
+import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import {AppStatusStore} from "../../stores/AppStatusStore";
+import {SceneStore} from "../../stores/SceneStore";
 
-interface SonarQubeApiMetric extends Metric {
-    id: number;
-}
-
-export default class SonarQubeCommunicator {
-    public static LOAD_METRICS = 'SONAR_LOAD_METRICS';
+export default class SonarQubeLegacyService extends BackendService {
     public static LOAD_LEGACY = 'SONAR_LOAD_LEGACY_BACKEND';
+
     private projectKey: string;
-    private baseUrl: string;
+    private appStatusStore: AppStatusStore;
+    private cityBuilderStore: CityBuilderStore;
+    private sceneStore: SceneStore;
 
-    constructor(apiUrl: string, projectKey: string) {
-        this.baseUrl = apiUrl;
+    constructor(apiUrl: string, projectKey: string,
+                appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
+        super(apiUrl);
+
         this.projectKey = projectKey;
-    }
-
-    public init() {
-        this.loadAvailableMetrics();
+        this.appStatusStore = appStatusStore;
+        this.cityBuilderStore = cityBuilderStore;
+        this.sceneStore = sceneStore;
 
         reaction(
             "Load backend legacy data when the scene should be rendered",
             () => cityBuilderStore.renderButtonClicked,
-            () => cityBuilderStore.renderButtonClicked && this.loadLegacyBackend().then(() => { cityBuilderStore.renderButtonClicked = false; })
+            () => cityBuilderStore.renderButtonClicked && this.loadLegacyBackend().then(() => {
+                cityBuilderStore.renderButtonClicked = false;
+            })
         );
     }
 
-    private callApi(route: string, options: AxiosRequestConfig = {}): AxiosPromise {
-        return axios.get(this.baseUrl + route, options);
-    }
-
-    private loadAvailableMetrics(page = 1) {
-        if (page === 1) {
-            appStatusStore.load(SonarQubeCommunicator.LOAD_METRICS);
-        }
-
-        const params = {f: 'name', p: page};
-
-        this.callApi("/metrics/search", { params }).then(response => {
-            cityBuilderStore.addGenericMetrics(
-                (response.data.metrics as Array<SonarQubeApiMetric>)
-                    .filter((c) => c.type === "INT" || c.type === "FLOAT" || c.type === "PERCENT")
-                    .map((c) => { delete c.id; return c; })
-            );
-
-            const metricsCount = response.data.p * response.data.ps;
-            if (metricsCount < response.data.total) {
-                this.loadAvailableMetrics(page + 1);
-            } else {
-                appStatusStore.loadComplete(SonarQubeCommunicator.LOAD_METRICS);
-            }
-        }).catch(console.log);
-    }
-
     private loadLegacyBackend() {
-        appStatusStore.load(SonarQubeCommunicator.LOAD_LEGACY);
+        this.appStatusStore.load(SonarQubeLegacyService.LOAD_LEGACY);
 
         const params = {
             projectKey: this.projectKey,
@@ -85,8 +60,8 @@ export default class SonarQubeCommunicator {
         };
 
         return this.callApi("/softVis3D/getVisualization", { params }).then(response => {
-            appStatusStore.loadComplete(SonarQubeCommunicator.LOAD_LEGACY);
-            sceneStore.legacyData = response.data;
+            this.appStatusStore.loadComplete(SonarQubeLegacyService.LOAD_LEGACY);
+            this.sceneStore.legacyData = response.data;
         }).catch(console.log);
     }
 
