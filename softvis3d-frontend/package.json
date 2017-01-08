@@ -46,7 +46,6 @@
     "node-sass": "^4.1.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-i18next": "^1.11.0",
     "sass-loader": "^4.1.1",
     "three": "^0.83.0",
     "ts-node": "^2.0.0",
