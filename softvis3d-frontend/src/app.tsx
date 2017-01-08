@@ -17,6 +17,7 @@ interface AppConfiguration {
 export default class App {
     private isInitialized: boolean;
     private communicator: SonarQubeMetricsService;
+    private legacyService: SonarQubeLegacyService;
     private legacy: LegacyConnector;
 
     public constructor(config: AppConfiguration) {
@@ -26,7 +27,8 @@ export default class App {
     public bootstrap(config: AppConfiguration) {
         this.isInitialized = false;
         this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
-        new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
+        this.legacyService = new SonarQubeLegacyService(config.api, config.projectKey,
+            appStatusStore, cityBuilderStore, sceneStore);
         this.legacy = new LegacyConnector();
         appStatusStore.showLoadingQueue = config.isDev;
     }
