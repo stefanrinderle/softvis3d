@@ -22,7 +22,9 @@ package de.rinderle.softvis3d.domain;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Wrapper class for a visualization request.
@@ -30,7 +32,7 @@ import static org.junit.Assert.assertNotEquals;
 public class VisualizationRequestTest {
 
   @Test
-  public void testHashCode() throws Exception {
+  public void testHashCode() {
     final String[] metrics = {"ncolc", "complediy"};
     VisualizationRequest request1 = new VisualizationRequest("1", metrics);
     VisualizationRequest request2 = new VisualizationRequest("1", metrics);
@@ -41,5 +43,37 @@ public class VisualizationRequestTest {
     request2 = new VisualizationRequest("2", metrics);
 
     assertNotEquals(request1.hashCode(), request2.hashCode());
+  }
+
+  @Test
+  public void testEqualsCode() {
+    final String[] metrics = {"ncolc", "complediy"};
+    VisualizationRequest request1 = new VisualizationRequest("1", metrics);
+    VisualizationRequest request2 = new VisualizationRequest("1", metrics);
+
+    assertTrue(request1.equals(request2));
+
+    request1 = new VisualizationRequest("1", metrics);
+    request2 = new VisualizationRequest("2", metrics);
+
+    assertFalse(request1.equals(request2));
+
+    assertFalse(request1.equals(null));
+    assertFalse(request1.equals("123"));
+    assertTrue(request1.equals(request1));
+  }
+
+  @Test
+  public void testToString() {
+    final String rootSnapshotKey = "1";
+    final String metric1 = "ncolc";
+    final String metric2 = "complediy";
+
+    final String[] metrics = {metric1, metric2};
+    final VisualizationRequest request1 = new VisualizationRequest(rootSnapshotKey, metrics);
+
+    assertTrue(request1.toString().contains(rootSnapshotKey));
+    assertTrue(request1.toString().contains(metric1));
+    assertTrue(request1.toString().contains(metric2));
   }
 }

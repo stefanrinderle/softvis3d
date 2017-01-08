@@ -33,7 +33,7 @@ public final class SoftVis3DPlugin implements Plugin {
     context.addExtensions(
       SoftVis3DPage.class,
       SoftVis3DWebservice.class
-      );
+    );
   }
 
 }
