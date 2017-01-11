@@ -1,6 +1,6 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import CityBuilder from "./CityBuilder/CityBuilder";
+import CityBuilder from "./citybuilder/CityBuilder";
 import Status from "./Status";
 import {AppStatusStore} from "../stores/AppStatusStore";
 import {CityBuilderStore} from "../stores/CityBuilderStore";
@@ -20,7 +20,7 @@ export default class Softvis3D extends React.Component<Softvis3DProps, any> {
         return (
             <div>
                 <Status/>
-                <CityBuilder store={this.props.cityBuilderStore}/>
+                <CityBuilder store={this.props.cityBuilderStore} appStatusStore={this.props.appStatusStore}/>
                 <Visualization cityBuilderStore={this.props.cityBuilderStore} sceneStore={this.props.sceneStore}/>
             </div>
         );

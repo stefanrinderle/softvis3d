@@ -14,26 +14,26 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
         return (
             <Category label="Advanced Options" className="advanced" toggle={true} initialVisibility={false}>
                 <MetricPropertyPicker
-                    label="Metric - Height"
-                    value={this.props.store.metricHeight}
-                    options={this.props.store.availableGenericMetrics.map((m) => ({key: m.key, label: m.name, value: m}))}
-                    onChange={(m: Metric) => { this.props.store.metricHeight = m; }}
+                    label="Metric - Base"
+                    value={this.props.store.profile.metricWidth}
+                    options={this.props.store.getAvailableGenericMetrics()}
+                    onChange={(m: Metric) => { this.props.store.profile.metricWidth = m; }}
                     onMouseDown={() => { this.props.store.chooseEditableProfile(); }}
                     disabled={!this.props.store.profile.editable}
                 />
                 <MetricPropertyPicker
-                    label="Metric - Base"
-                    value={this.props.store.metricWidth}
-                    options={this.props.store.availableGenericMetrics.map((m) => ({key: m.key, label: m.name, value: m}))}
-                    onChange={(m: Metric) => { this.props.store.metricWidth = m; }}
+                    label="Metric - Height"
+                    value={this.props.store.profile.metricHeight}
+                    options={this.props.store.getAvailableGenericMetrics()}
+                    onChange={(m: Metric) => { this.props.store.profile.metricHeight = m; }}
                     onMouseDown={() => { this.props.store.chooseEditableProfile(); }}
                     disabled={!this.props.store.profile.editable}
                 />
                 <StringValuePicker
                     label="Scaling Method"
-                    value={this.props.store.scalingMethod}
+                    value={this.props.store.profile.scale.key}
                     options={LayoutProcessor.SCALING_METHODS.map((s) => Object.assign({value: s.key}, s))}
-                    onChange={(scaling: string) => { this.props.store.scalingMethod = scaling; }}
+                    onChange={(scaling: string) => { this.props.store.profile.scale.key = scaling; }}
                 />
             </Category>
         );

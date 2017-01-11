@@ -1,5 +1,5 @@
 import * as React from "react";
-import {customDistrict, customEvostreet, placeholder} from "../../dtos/PreviewPictures";
+import {customDistrict, customEvostreet, placeholder} from "../../constants/PreviewPictures";
 
 export interface PreviewPictureProps {
     profile: Profile;

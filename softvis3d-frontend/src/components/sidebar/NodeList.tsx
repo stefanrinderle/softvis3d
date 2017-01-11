@@ -2,7 +2,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import ElementInfo from "./ElementInfo";
 import {SceneStore} from "../../stores/SceneStore";
-import {TreeService} from "../../layout/TreeService";
+import {TreeService} from "../../services/TreeService";
 
 interface NodeListProps {
     selectedElement: TreeElement;

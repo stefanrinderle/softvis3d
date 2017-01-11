@@ -1,10 +1,10 @@
 import * as React from "react";
+import {SelectOptionElement} from "./SelectBoxBuilder";
 
 interface SelectOptionProps {
     checked?: boolean;
     disabled?: boolean;
-    value: any;
-    label: string;
+    selectOptionElement: SelectOptionElement<any>;
 }
 
 export default class SelectOption extends React.Component<SelectOptionProps, any> {
@@ -16,11 +16,11 @@ export default class SelectOption extends React.Component<SelectOptionProps, any
     public render() {
         return (
             <option
-                value={JSON.stringify(this.props.value)}
+                value={JSON.stringify(this.props.selectOptionElement.value)}
                 checked={this.props.checked}
                 disabled={this.props.disabled}
             >
-                {this.props.label}
+                {this.props.selectOptionElement.label}
             </option>
         );
     }

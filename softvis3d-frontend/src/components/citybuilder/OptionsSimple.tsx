@@ -2,8 +2,8 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import LayoutPicker from "./LayoutPicker";
-import {district, evostreet} from "../../dtos/Layouts";
-import * as Profiles from "../../dtos/Profiles";
+import {district, evostreet} from "../../constants/Layouts";
+import * as Profiles from "../../constants/Profiles";
 import PreviewPictureComponent from "./PreviewPicture";
 import SelectBoxBuilder from "../ui/SelectBox/SelectBoxBuilder";
 
@@ -15,8 +15,9 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
     public render() {
 
         const profiles = [
-            Profiles.demo,
+            Profiles.defaultProfile,
             Profiles.leakPeriod,
+            Profiles.duplicatedLinesOfCode,
             Profiles.custom
         ];
 
@@ -28,24 +29,30 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                         className="profiles"
                         value={this.props.store.profile}
                         options={profiles.map((p) => ({key: p.id, label: p.name, value: p}))}
-                        onChange={(p: Profile) => { this.props.store.setProfile(p); }}
+                        onChange={(p: Profile) => { this.props.store.profile = p; }}
                     />
+                    <p className="profile-description selection-description">
+                        {this.props.store.profile.description}
+                    </p>
 
                     <MetricSelectBox
                         label="Building Color"
                         className="metric color"
                         value={this.props.store.metricColor}
-                        options={this.props.store.availableColorMetrics.map((m) => ({key: m.key, label: m.name, value: m}))}
+                        options={this.props.store.getAvailableColorMetrics()}
                         onChange={(m: Metric) => { this.props.store.metricColor = m; }}
                     />
+                    <p className="selection-description">
+                        The building color can be changed dynamically in the view using the combo box in the bottom bar.
+                    </p>
 
+                    <span>Layout</span>
                     <LayoutPicker
                         layouts={[district, evostreet]}
                         store={this.props.store}
                     />
-
-                    <p className="profile-description">
-                        {this.props.store.profile.description}
+                    <p className="selection-description">
+                        {this.props.store.layoutType.description}
                     </p>
                 </div>
                 <div className="right-column">

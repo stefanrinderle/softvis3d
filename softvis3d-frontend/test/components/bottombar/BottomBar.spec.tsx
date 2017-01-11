@@ -19,7 +19,7 @@ describe("<BottomBar/>", () => {
         expect(bottomBar
             .contains(<BottomBarMetricInfo
                 title="Width"
-                metric={testCityBuilderStore.metricWidth}
+                metric={testCityBuilderStore.profile.metricWidth}
                 selectedElement={testSceneStore.selectedElement}
             />)).to.be.true;
 

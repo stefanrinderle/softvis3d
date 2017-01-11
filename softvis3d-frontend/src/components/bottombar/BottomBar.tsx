@@ -24,14 +24,13 @@ export default class BottomBar extends React.Component<BottomBarProps, any> {
 
         return (
             <div className="bottom-bar">
-                <BottomBarMetricInfo title="Width" metric={cityBuilderStore.metricWidth} selectedElement={selectedElement}/>
-                <BottomBarMetricInfo title="Height" metric={cityBuilderStore.metricHeight} selectedElement={selectedElement}/>
+                <BottomBarMetricInfo title="Width" metric={cityBuilderStore.profile.metricWidth} selectedElement={selectedElement}/>
+                <BottomBarMetricInfo title="Height" metric={cityBuilderStore.profile.metricHeight} selectedElement={selectedElement}/>
                 <MetricSelectBox
                     label="Color"
                     className="metric-info"
                     value={cityBuilderStore.metricColor}
-                    options={cityBuilderStore.availableColorMetrics
-                                .map((m) => ({key: m.key, label: m.name, value: m}))}
+                    options={cityBuilderStore.getAvailableColorMetrics()}
                     onChange={(m: Metric) => { cityBuilderStore.metricColor = m; }}
                 />
             </div>

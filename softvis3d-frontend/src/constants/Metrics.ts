@@ -55,3 +55,9 @@ export const openIssuesMetric: Metric = {
     type: "INT",
     name: "Open Issues"
 };
+
+export const duplicatedLinesOfCodeMetric: Metric = {
+    key: "duplicated_lines",
+    type: "INT",
+    name: "Duplicated Lines"
+};

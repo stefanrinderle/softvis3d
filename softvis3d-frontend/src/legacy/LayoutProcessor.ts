@@ -32,22 +32,41 @@ type VersionInterface = CodeCityVis.components.version;
 interface AttributeContainer {
     [index: string]: any;
 }
-interface Scale {
+
+interface MinMaxValue {
     min: number;
     max: number;
 }
-interface MetricScale {
-    metricHeight: Scale;
-    metricFootprint: Scale;
-    metricColor: Scale;
+
+export interface MetricScale {
+    metricHeight: MinMaxValue;
+    metricFootprint: MinMaxValue;
+    metricColor: MinMaxValue;
 }
 
+const LOGARITHMIC: Scale = {
+    key: "logarithmic",
+    label: "Logarithmic"
+};
+const EXPONENTIAL: Scale = {
+    key: "exponential", 
+    label: "Exponential"
+};
+const LINEAR_SCALED: Scale = {
+    key: "linear_s",
+    label: "Linear (scaled)"
+};
+const LINEAR: Scale = {
+    key: "linear",
+    label: "Linear"
+};
+
 class LayoutProcessor {
-    public static SCALING_METHODS = [
-        {key: "logarithmic", label: "Logarithmic"},
-        {key: "exponential", label: "Exponential"},
-        {key: "linear_s", label: "Linear (scaled)"},
-        {key: "linear", label: "Linear"}
+    public static SCALING_METHODS: Scale[] = [
+        LOGARITHMIC,
+        EXPONENTIAL,
+        LINEAR_SCALED,
+        LINEAR
     ];
 
     private _options: {

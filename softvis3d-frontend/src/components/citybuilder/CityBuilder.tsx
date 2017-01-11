@@ -4,12 +4,19 @@ import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import sceneStore from "../../stores/SceneStore";
 import OptionsSimple from "./OptionsSimple";
 import OptionsAdvanced from "./OptionsAdvanced";
+import {AppStatusStore} from "../../stores/AppStatusStore";
+
+export interface CityBuilderProps {
+    store: CityBuilderStore;
+    appStatusStore: AppStatusStore;
+}
+
 
 @observer
-export default class CityBuilder extends React.Component<{ store: CityBuilderStore; }, any> {
+export default class CityBuilder extends React.Component<CityBuilderProps, any> {
 
     public render() {
-        if (!this.props.store.isVisible) {
+        if (!(this.props.store.show && !this.props.appStatusStore.isVisible)) {
             return <div />;
         }
 

@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import { expect } from "chai";
-import { TreeService } from "../../src/layout/TreeService";
+import {TreeService} from "../../src/services/TreeService";
 
 describe("TreeService", () => {
 

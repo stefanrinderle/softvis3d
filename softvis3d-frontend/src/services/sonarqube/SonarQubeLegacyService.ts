@@ -19,7 +19,6 @@
 ///
 /* tslint:disable */
 import {reaction} from "mobx";
-import cityBuilderStore from "../../stores/CityBuilderStore";
 import {BackendService} from "./BackendService";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import {AppStatusStore} from "../../stores/AppStatusStore";
@@ -44,9 +43,9 @@ export default class SonarQubeLegacyService extends BackendService {
 
         reaction(
             "Load backend legacy data when the scene should be rendered",
-            () => cityBuilderStore.renderButtonClicked,
-            () => cityBuilderStore.renderButtonClicked && this.loadLegacyBackend().then(() => {
-                cityBuilderStore.renderButtonClicked = false;
+            () => this.cityBuilderStore.renderButtonClicked,
+            () => this.cityBuilderStore.renderButtonClicked && this.loadLegacyBackend().then(() => {
+                this.cityBuilderStore.renderButtonClicked = false;
             })
         );
     }
@@ -68,13 +67,12 @@ export default class SonarQubeLegacyService extends BackendService {
     private getMetricRequestValues(): string {
         let result: Set<string> = new Set;
 
-        result.add(cityBuilderStore.metricWidth.key);
-        result.add(cityBuilderStore.metricHeight.key);
+        result.add(this.cityBuilderStore.profile.metricWidth.key);
+        result.add(this.cityBuilderStore.profile.metricHeight.key);
 
-        const colorMetrics: string[] = cityBuilderStore.availableColorMetrics.map((m) => (m.key));
+        const colorMetrics: string[] = this.cityBuilderStore.availableColorMetrics.map((m) => (m.key));
 
         for (let i = 0; i < colorMetrics.length; i++) {
-
             if (colorMetrics[i] !== 'none' && colorMetrics[i] !== 'package') {
                 result.add(colorMetrics[i]);
             }
@@ -84,18 +82,6 @@ export default class SonarQubeLegacyService extends BackendService {
     }
 
     private getColorMetricsString(colorMetrics: Set<string>): string {
-        let result: string = "";
-
-        let isFirst: boolean = true;
-        colorMetrics.forEach(function(metric){
-            if (!isFirst) {
-                result += ",";
-            }
-            result += metric;
-
-            isFirst = false;
-        });
-
-        return result;
+        return Array.from(colorMetrics).join(",");
     }
 }

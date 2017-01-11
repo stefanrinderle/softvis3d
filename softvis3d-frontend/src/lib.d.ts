@@ -39,6 +39,8 @@ declare interface Metric {
     key: string;
     type: MetricType;
     name: string;
+    descriptionWidth?: string;
+    descriptionHeight?: string;
 }
 
 interface MeasureList {
@@ -56,11 +58,17 @@ declare interface TreeElement {
     parentId: string | null;
 }
 
+declare interface Scale {
+    key: string;
+    label: string;
+}
+
 declare interface Profile {
     id: string;
     name: string;
-    metricHeight: Metric|null;
-    metricWidth: Metric|null;
+    metricHeight: Metric;
+    metricWidth: Metric;
+    scale: Scale;
     description: string;
     editable?: boolean;
 }
@@ -68,6 +76,7 @@ declare interface Profile {
 declare interface Layout {
     id: string;
     name: string;
+    description: string;
 }
 
 declare interface PreviewPicture {

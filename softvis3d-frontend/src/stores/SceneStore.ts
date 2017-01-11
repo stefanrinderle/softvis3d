@@ -1,5 +1,5 @@
 import {observable, computed, reaction} from "mobx";
-import {TreeService} from "../layout/TreeService";
+import {TreeService} from "../services/TreeService";
 
 class SceneStore {
     @observable

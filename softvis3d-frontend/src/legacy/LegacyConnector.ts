@@ -22,14 +22,14 @@ export default class LegacyConnector {
         if (backend === null) {
             console.error("BuildCity called with null as value for treeElement.");
         } else {
-            const model = new Softvis3dModel(backend, cityBuilderStore.metricWidth.key,
-                cityBuilderStore.metricHeight.key, cityBuilderStore.metricColor.key);
+            const model = new Softvis3dModel(backend, cityBuilderStore.profile.metricWidth.key,
+                cityBuilderStore.profile.metricHeight.key, cityBuilderStore.metricColor.key);
 
             const options = {
                 layout: cityBuilderStore.layoutType.id,
                 layoutOptions: {},
                 colorMetric: cityBuilderStore.metricColor.key,
-                scalingMethod: cityBuilderStore.scalingMethod
+                scalingMethod: cityBuilderStore.profile.scale
             };
 
             const processor = new LayoutProcessor(options);

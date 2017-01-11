@@ -19,6 +19,7 @@
  */
 /* tslint:disable */
 import * as CodeCityVis from "codecity-visualizer";
+import {MetricScale} from "./layoutProcessor";
 
 const BaseModel  = CodeCityVis.models.base;
 const TreeNode   = CodeCityVis.components.node;
@@ -27,22 +28,13 @@ const Version    = CodeCityVis.components.version;
 type TreeNodeInterface = CodeCityVis.components.node;
 type VersionInterface = CodeCityVis.components.version;
 
-interface Scale {
-    min: number;
-    max: number;
-}
-
 export default class Softvis3dModel extends BaseModel {
     public _version: VersionInterface;
     private _versions: VersionInterface[];
     private _attributes: any;
     private _graph: any[];
     private _tree: TreeNodeInterface;
-    private _metricScale: {
-        metricHeight: Scale;
-        metricFootprint: Scale;
-        metricColor: Scale;
-    };
+    private _metricScale: MetricScale;
     private _metricWidthKey :string;
     private _metricHeightKey :string;
     private _metricColorKey :string;
@@ -171,7 +163,7 @@ export default class Softvis3dModel extends BaseModel {
         return this._attributes[v][n];
     }
 
-    getMetricScale() {
+    getMetricScale(): MetricScale {
         return this._metricScale;
     }
 }

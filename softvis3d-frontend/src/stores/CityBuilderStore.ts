@@ -1,49 +1,29 @@
-import {observable, computed} from "mobx";
-import {district} from "../dtos/Layouts";
-import {demo, custom} from "../dtos/Profiles";
-import appStatusStore from "./AppStatusStore";
-import * as Metrics from "../dtos/Metrics";
+import {observable} from "mobx";
+import {district} from "../constants/Layouts";
+import {defaultProfile, custom} from "../constants/Profiles";
+import * as Metrics from "../constants/Metrics";
+import {SelectOptionElement} from "../components/ui/SelectBox/SelectBoxBuilder";
 
 class CityBuilderStore {
     @observable
-    public layoutType: Layout;
+    public layoutType: Layout = district;
     @observable
-    public profile: Profile;
+    public profile: Profile = defaultProfile;
     @observable
-    public metricColor: Metric;
+    public metricColor: Metric = Metrics.noMetric;
     @observable
-    public metricHeight: Metric;
+    private availableGenericMetrics: Metric[] = observable([]);
     @observable
-    public metricWidth: Metric;
+    public availableColorMetrics: Metric[] = observable([]);
     @observable
-    public scalingMethod: string;
+    public renderButtonClicked: boolean = false;
     @observable
-    public availableGenericMetrics: Metric[];
-    @observable
-    public availableColorMetrics: Metric[];
-
-    @observable
-    public renderButtonClicked: boolean;
-    @observable
-    public show: boolean;
+    public show: boolean = false;
 
     public constructor() {
-        this.show = false;
-        this.renderButtonClicked = false;
-
-        this.layoutType = district;
-        this.scalingMethod = "linear_s";
-        this.metricColor = Metrics.noMetric;
-        this.metricHeight = Metrics.noMetric;
-        this.metricWidth = Metrics.noMetric;
-        this.setProfile(demo);
-
-        this.availableGenericMetrics = observable([]);
         this.availableGenericMetrics.push(Metrics.noMetric);
-
-        this.availableColorMetrics = observable([]);
-        this.availableColorMetrics.push(Metrics.noMetric);
-        this.addColorMetrics([
+        this.availableColorMetrics = this.availableColorMetrics.concat([
+            Metrics.noMetric,
             Metrics.complexityMetric,
             Metrics.coverageMetric,
             Metrics.violationMetric,
@@ -54,19 +34,8 @@ class CityBuilderStore {
         ]);
     }
 
-    @computed
-    public get isVisible() {
-        return this.show && !appStatusStore.isVisible;
-    }
-
     public chooseEditableProfile() {
-        this.setProfile(custom);
-    }
-
-    public setProfile(p: Profile) {
-        this.profile = p;
-        this.metricHeight = p.metricHeight || this.metricHeight;
-        this.metricWidth = p.metricWidth || this.metricWidth;
+        this.profile = custom;
     }
 
     public setLayout(l: Layout) {
@@ -77,8 +46,16 @@ class CityBuilderStore {
         this.availableGenericMetrics = this.availableGenericMetrics.concat(metrics);
     }
 
-    public addColorMetrics(metrics: Metric[]) {
-        this.availableColorMetrics = this.availableColorMetrics.concat(metrics);
+    public getAvailableGenericMetrics(): SelectOptionElement<Metric>[] {
+        return this.getSelectOptionMetric(this.availableGenericMetrics);
+    }
+
+    public getAvailableColorMetrics(): SelectOptionElement<Metric>[] {
+        return this.getSelectOptionMetric(this.availableColorMetrics);
+    }
+
+    private getSelectOptionMetric(metric: Metric[]) {
+        return metric.map((m) => ({key: m.key, label: m.name, value: m}));
     }
 }
 

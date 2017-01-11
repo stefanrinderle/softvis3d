@@ -97,10 +97,13 @@ $simpleCategoryHeight: 290px;
         }
     }
 
-    .profile-description {
+    .selection-description {
         border-top: 1px solid $border-color-background;
         margin-top: 15px;
         padding: 8px 6px;
     }
 }
 
+.profile-description {
+    min-height: 100px;
+}
