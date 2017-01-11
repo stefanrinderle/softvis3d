@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import BottomBarMetricInfo from "./BottomBarMetricInfo";
 import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import {SceneStore} from "../../stores/SceneStore";
-import SelectBoxBuilder from "../ui/SelectBox/SelectBoxBuilder";
+import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 
 interface BottomBarProps {
     cityBuilderStore: CityBuilderStore;

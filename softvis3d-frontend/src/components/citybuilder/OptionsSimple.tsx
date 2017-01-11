@@ -5,7 +5,7 @@ import LayoutPicker from "./LayoutPicker";
 import {district, evostreet} from "../../constants/Layouts";
 import * as Profiles from "../../constants/Profiles";
 import PreviewPictureComponent from "./PreviewPicture";
-import SelectBoxBuilder from "../ui/SelectBox/SelectBoxBuilder";
+import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 
 const ProfileSelectBox: new() => SelectBoxBuilder<Profile> = SelectBoxBuilder as any;
 const MetricSelectBox: new() => SelectBoxBuilder<Metric> = SelectBoxBuilder as any;

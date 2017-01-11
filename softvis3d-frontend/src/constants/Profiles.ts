@@ -1,5 +1,5 @@
 import {linesOfCodeMetric, complexityMetric, newLinesOfCodeMetric, duplicatedLinesOfCodeMetric} from "./Metrics";
-import LayoutProcessor from "../legacy/layoutProcessor";
+import LayoutProcessor from "../legacy/LayoutProcessor";
 
 const defaultProfile: Profile = {
     id: "default",

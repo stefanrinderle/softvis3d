@@ -1,7 +1,7 @@
 import sceneStore from "../stores/SceneStore";
-import Softvis3dModel from "./softvis3dModel";
+import Softvis3dModel from "./Softvis3dModel";
 import cityBuilderStore from "../stores/CityBuilderStore";
-import LayoutProcessor from "./layoutProcessor";
+import LayoutProcessor from "./LayoutProcessor";
 import { reaction } from "mobx";
 
 export default class LegacyConnector {

@@ -19,7 +19,7 @@
  */
 /* tslint:disable */
 import * as CodeCityVis from "codecity-visualizer";
-import {MetricScale} from "./layoutProcessor";
+import {MetricScale} from "./LayoutProcessor";
 
 const BaseModel  = CodeCityVis.models.base;
 const TreeNode   = CodeCityVis.components.node;

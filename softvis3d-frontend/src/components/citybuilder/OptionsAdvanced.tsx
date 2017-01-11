@@ -2,8 +2,8 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
-import SelectBoxBuilder from "../ui/SelectBox/SelectBoxBuilder";
-import LayoutProcessor from "../../legacy/layoutProcessor";
+import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
+import LayoutProcessor from "../../legacy/LayoutProcessor";
 
 const StringValuePicker: new() => SelectBoxBuilder<string> = SelectBoxBuilder as any;
 const MetricPropertyPicker: new() => SelectBoxBuilder<Metric> = SelectBoxBuilder as any;
@@ -32,7 +32,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                 <StringValuePicker
                     label="Scaling Method"
                     value={this.props.store.profile.scale.key}
-                    options={LayoutProcessor.SCALING_METHODS.map((s) => Object.assign({value: s.key}, s))}
+                    options={LayoutProcessor.SCALING_METHODS.map((s: Scale) => Object.assign({value: s.key}, s))}
                     onChange={(scaling: string) => { this.props.store.profile.scale.key = scaling; }}
                 />
             </Category>

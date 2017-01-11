@@ -2,7 +2,7 @@ import {observable} from "mobx";
 import {district} from "../constants/Layouts";
 import {defaultProfile, custom} from "../constants/Profiles";
 import * as Metrics from "../constants/Metrics";
-import {SelectOptionElement} from "../components/ui/SelectBox/SelectBoxBuilder";
+import {SelectOptionElement} from "../components/ui/selectbox/SelectBoxBuilder";
 
 class CityBuilderStore {
 
