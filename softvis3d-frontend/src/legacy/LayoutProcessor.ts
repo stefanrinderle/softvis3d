@@ -21,7 +21,7 @@
 /* tslint:disable */
 
 import * as CodeCityVis from "codecity-visualizer";
-import Softvis3dModel from "./softvis3dModel";
+import Softvis3dModel from "./Softvis3dModel";
 import {TreeNodeInterface} from "codecity-visualizer/types/interfaces";
 
 const illustratorEvostreet = CodeCityVis.illustrators.evostreet;
