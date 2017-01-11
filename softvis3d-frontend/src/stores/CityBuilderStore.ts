@@ -5,6 +5,7 @@ import * as Metrics from "../constants/Metrics";
 import {SelectOptionElement} from "../components/ui/SelectBox/SelectBoxBuilder";
 
 class CityBuilderStore {
+
     @observable
     public layoutType: Layout = district;
     @observable
@@ -12,13 +13,14 @@ class CityBuilderStore {
     @observable
     public metricColor: Metric = Metrics.noMetric;
     @observable
-    private availableGenericMetrics: Metric[] = observable([]);
-    @observable
     public availableColorMetrics: Metric[] = observable([]);
     @observable
     public renderButtonClicked: boolean = false;
     @observable
     public show: boolean = false;
+
+    @observable
+    private availableGenericMetrics: Metric[] = observable([]);
 
     public constructor() {
         this.availableGenericMetrics.push(Metrics.noMetric);
@@ -46,11 +48,11 @@ class CityBuilderStore {
         this.availableGenericMetrics = this.availableGenericMetrics.concat(metrics);
     }
 
-    public getAvailableGenericMetrics(): SelectOptionElement<Metric>[] {
+    public getAvailableGenericMetrics(): Array<SelectOptionElement<Metric>> {
         return this.getSelectOptionMetric(this.availableGenericMetrics);
     }
 
-    public getAvailableColorMetrics(): SelectOptionElement<Metric>[] {
+    public getAvailableColorMetrics(): Array<SelectOptionElement<Metric>> {
         return this.getSelectOptionMetric(this.availableColorMetrics);
     }
 

@@ -11,7 +11,6 @@ export interface CityBuilderProps {
     appStatusStore: AppStatusStore;
 }
 
-
 @observer
 export default class CityBuilder extends React.Component<CityBuilderProps, any> {
 
