@@ -37,7 +37,6 @@ $simpleCategoryHeight: 290px;
 
         .layout-component {
             width: 100%;
-            padding: 5px 0;
 
             .list>label {
                 display: block;
@@ -45,13 +44,65 @@ $simpleCategoryHeight: 290px;
                 margin: 6px 4px;
             }
         }
+
+        .selection-description {
+            margin: 5px 0 0 0;
+
+            &.profile-description {
+                min-height: 100px;
+            }
+        }
     }
 
     fieldset.advanced {
+        // Toggle Properties
         margin: 8px 0;
 
         &.collapsable:not(.collapsed) div.category-content {
-            max-height: 100px;
+            max-height: 110px;
+        }
+
+        // Column Management
+        @include clearfix;
+
+        position: relative;
+
+        .left-column {
+            float: left;
+            width: 48%;
+        }
+
+        .right-column {
+            //position: absolute;
+            float: right;
+            width: 48%;
+            height: 100%;
+            right: 0;
+        }
+    }
+
+    .builder-option {
+        margin: 0  0 6px 0;
+
+        span {
+            display: block;
+            color: $font-color-headline;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        select {
+            width: 97%;
+            height: 23px;
+            margin: 3px 0 3px 4px;
+
+            border-color: $blue-dark;
+            background-color: $white;
+            border-radius: 2px;
+
+            option {
+                background-color: $white;
+            }
         }
     }
 
@@ -73,37 +124,4 @@ $simpleCategoryHeight: 290px;
             }
         }
     }
-}
-
-.property-component {
-    padding: 2px;
-
-    .metrics {
-        padding: 4px 0 0 15px;
-
-        .selectbox {
-            padding-bottom: 5px;
-            span {
-                display: block;
-                padding: 1px;
-                &:before {
-                    content: '\00bb '
-                }
-            }
-
-            select {
-                max-width: 285px;
-            }
-        }
-    }
-
-    .selection-description {
-        border-top: 1px solid $border-color-background;
-        margin-top: 15px;
-        padding: 8px 6px;
-    }
-}
-
-.profile-description {
-    min-height: 100px;
 }

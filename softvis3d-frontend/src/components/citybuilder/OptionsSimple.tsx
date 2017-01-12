@@ -24,36 +24,41 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
         return (
             <div className="simple">
                 <div className="left-column">
-                    <ProfileSelectBox
-                        label="Profile"
-                        className="profiles"
-                        value={this.props.store.profile}
-                        options={profiles.map((p) => ({key: p.id, label: p.name, value: p}))}
-                        onChange={(p: Profile) => { this.props.store.profile = p; }}
-                    />
-                    <p className="profile-description selection-description">
-                        {this.props.store.profile.description}
-                    </p>
+                    <div className="builder-option">
+                        <ProfileSelectBox
+                            label="Profile"
+                            className="profiles"
+                            value={this.props.store.profile}
+                            options={profiles.map((p) => ({key: p.id, label: p.name, value: p}))}
+                            onChange={(p: Profile) => { this.props.store.profile = p; }}
+                        />
+                        <p className="profile-description selection-description">
+                            {this.props.store.profile.description}
+                        </p>
+                    </div>
+                    <div className="builder-option">
+                        <MetricSelectBox
+                            label="Building Color"
+                            className="metric color"
+                            value={this.props.store.metricColor}
+                            options={this.props.store.getAvailableColorMetrics()}
+                            onChange={(m: Metric) => { this.props.store.metricColor = m; }}
+                        />
+                        <p className="selection-description">
+                            The building color can be changed dynamically in the view using the combo box in the bottom bar.
+                        </p>
+                    </div>
 
-                    <MetricSelectBox
-                        label="Building Color"
-                        className="metric color"
-                        value={this.props.store.metricColor}
-                        options={this.props.store.getAvailableColorMetrics()}
-                        onChange={(m: Metric) => { this.props.store.metricColor = m; }}
-                    />
-                    <p className="selection-description">
-                        The building color can be changed dynamically in the view using the combo box in the bottom bar.
-                    </p>
-
-                    <span>Layout</span>
-                    <LayoutPicker
-                        layouts={[district, evostreet]}
-                        store={this.props.store}
-                    />
-                    <p className="selection-description">
-                        {this.props.store.layoutType.description}
-                    </p>
+                    <div className="builder-option">
+                        <span>Layout</span>
+                        <LayoutPicker
+                            layouts={[district, evostreet]}
+                            store={this.props.store}
+                        />
+                        <p className="selection-description">
+                            {this.props.store.layoutType.description}
+                        </p>
+                    </div>
                 </div>
                 <div className="right-column">
                     <PreviewPictureComponent
