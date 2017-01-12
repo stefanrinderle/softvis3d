@@ -13,28 +13,38 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
     public render() {
         return (
             <Category label="Advanced Options" className="advanced" toggle={true} initialVisibility={false}>
-                <MetricPropertyPicker
-                    label="Metric - Base"
-                    value={this.props.store.profile.metricWidth}
-                    options={this.props.store.getAvailableGenericMetrics()}
-                    onChange={(m: Metric) => { this.props.store.profile.metricWidth = m; }}
-                    onMouseDown={() => { this.props.store.chooseEditableProfile(); }}
-                    disabled={!this.props.store.profile.editable}
-                />
-                <MetricPropertyPicker
-                    label="Metric - Height"
-                    value={this.props.store.profile.metricHeight}
-                    options={this.props.store.getAvailableGenericMetrics()}
-                    onChange={(m: Metric) => { this.props.store.profile.metricHeight = m; }}
-                    onMouseDown={() => { this.props.store.chooseEditableProfile(); }}
-                    disabled={!this.props.store.profile.editable}
-                />
-                <StringValuePicker
-                    label="Scaling Method"
-                    value={this.props.store.profile.scale.key}
-                    options={LayoutProcessor.SCALING_METHODS.map((s: Scale) => Object.assign({value: s.key}, s))}
-                    onChange={(scaling: string) => { this.props.store.profile.scale.key = scaling; }}
-                />
+                <div className="left-column">
+                    <div className="builder-option">
+                        <MetricPropertyPicker
+                            label="Metric - Base"
+                            value={this.props.store.profile.metricWidth}
+                            options={this.props.store.getAvailableGenericMetrics()}
+                            onChange={(m: Metric) => { this.props.store.profile.metricWidth = m; }}
+                            onMouseDown={() => { this.props.store.chooseEditableProfile(); }}
+                            disabled={!this.props.store.profile.editable}
+                        />
+                    </div>
+                    <div className="builder-option">
+                    <MetricPropertyPicker
+                            label="Metric - Height"
+                            value={this.props.store.profile.metricHeight}
+                            options={this.props.store.getAvailableGenericMetrics()}
+                            onChange={(m: Metric) => { this.props.store.profile.metricHeight = m; }}
+                            onMouseDown={() => { this.props.store.chooseEditableProfile(); }}
+                            disabled={!this.props.store.profile.editable}
+                        />
+                    </div>
+                </div>
+                <div className="right-column">
+                    <div className="builder-option">
+                        <StringValuePicker
+                            label="Scaling Method"
+                            value={this.props.store.profile.scale.key}
+                            options={LayoutProcessor.SCALING_METHODS.map((s: Scale) => Object.assign({value: s.key}, s))}
+                            onChange={(scaling: string) => { this.props.store.profile.scale.key = scaling; }}
+                        />
+                    </div>
+                </div>
             </Category>
         );
     }

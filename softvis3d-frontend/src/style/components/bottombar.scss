@@ -10,10 +10,10 @@
     font-size: 13px;
 
     border: 1px solid $border-color-background;
-    background-color: $white;
+    background-color: transparentize($white, .2);
 
     margin: auto;
-    padding: 5px;
+    padding: 3px 4px;
 
     div.metric-info {
         color: $black;

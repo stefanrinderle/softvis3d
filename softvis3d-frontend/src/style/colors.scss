@@ -1,5 +1,6 @@
 $white: #FFFFFF;
 $black: #000000;
+$gray-darkest: #444444;
 $gray-dark: #888888;
 $gray-bright: #CDCDCD;
 $gray-brightest: #F3F3F3;
@@ -19,6 +20,7 @@ $border-color-ui-inactive: $gray-bright;
 
 $font-color-default: $black;
 $font-color-highlight: $gray-dark;
+$font-color-headline: $gray-darkest;
 $font-color-link-default: #236a97;
 $font-color-link-active: #236a97;
 $font-color-link-hover: mix($white, $font-color-link-default, 50%);
