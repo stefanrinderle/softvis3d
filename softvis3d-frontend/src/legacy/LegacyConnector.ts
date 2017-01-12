@@ -14,7 +14,11 @@ export default class LegacyConnector {
         reaction(
             "Change color buildings on demand",
             () => cityBuilderStore.metricColor,
-            () => { this.buildCity(sceneStore.legacyData); }
+            () => {
+                if (sceneStore.isVisible) {
+                    this.buildCity(sceneStore.legacyData);
+                }
+            }
         );
     }
 
