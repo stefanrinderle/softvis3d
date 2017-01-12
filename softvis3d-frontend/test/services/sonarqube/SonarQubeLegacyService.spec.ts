@@ -45,7 +45,7 @@ describe("SonarQubeLegacyService", () => {
             testData: "disuffsiug"
         };
 
-        let spyCallApi = Sinon.stub(underTest, "callApi", function () {
+        let spyCallApi = Sinon.stub(underTest, "callApi", () => {
             return Promise.resolve({
                 data: expectedData
             });
@@ -88,7 +88,7 @@ describe("SonarQubeLegacyService", () => {
         let underTest: SonarQubeLegacyService =
             new SonarQubeLegacyService(apiUrl, projectKey, testAppStatusStore, testCityBuilderStore, testSceneStore);
 
-        let spyCallApi = Sinon.stub(underTest, "callApi", function () {
+        let spyCallApi = Sinon.stub(underTest, "callApi", () => {
             return Promise.resolve({});
         });
 
@@ -120,7 +120,7 @@ describe("SonarQubeLegacyService", () => {
             testData: "disuffsiug"
         };
 
-        let spyCallApi = Sinon.stub(underTest, "callApi", function () {
+        let spyCallApi = Sinon.stub(underTest, "callApi", () => {
             return Promise.resolve({
                 data: expectedData
             });

@@ -20,8 +20,9 @@
 import {expect} from "chai";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import {district, evostreet} from "../../src/constants/Layouts";
-import {defaultProfile, custom} from "../../src/constants/Profiles";
+import {defaultProfile, custom, duplicatedLinesOfCode} from "../../src/constants/Profiles";
 import * as Metrics from "../../src/constants/Metrics";
+import {placeholder, customDistrict, customEvostreet} from "../../src/constants/PreviewPictures";
 
 describe("CityBuilderStore", () => {
 
@@ -63,4 +64,26 @@ describe("CityBuilderStore", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         expect(underTest.getAvailableColorMetrics().length).to.be.equal(8);
     });
+
+    it("should get preview picture custom district", () => {
+        let underTest: CityBuilderStore = new CityBuilderStore();
+        underTest.layoutType = district;
+        underTest.profile = custom;
+        expect(underTest.getPreviewBackground()).to.be.equal(customDistrict);
+    });
+
+    it("should get preview picture custom evostreets", () => {
+        let underTest: CityBuilderStore = new CityBuilderStore();
+        underTest.layoutType = evostreet;
+        underTest.profile = custom;
+        expect(underTest.getPreviewBackground()).to.be.equal(customEvostreet);
+    });
+
+    it("should get placeholder preview picture", () => {
+        let underTest: CityBuilderStore = new CityBuilderStore();
+        underTest.layoutType = district;
+        underTest.profile = duplicatedLinesOfCode;
+        expect(underTest.getPreviewBackground()).to.be.equal(placeholder);
+    });
+
 });

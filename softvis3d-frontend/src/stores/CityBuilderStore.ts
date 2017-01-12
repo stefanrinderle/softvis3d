@@ -3,6 +3,7 @@ import {district} from "../constants/Layouts";
 import {defaultProfile, custom} from "../constants/Profiles";
 import * as Metrics from "../constants/Metrics";
 import {SelectOptionElement} from "../components/ui/selectbox/SelectBoxBuilder";
+import {placeholder, customEvostreet, customDistrict} from "../constants/PreviewPictures";
 
 class CityBuilderStore {
 
@@ -19,6 +20,7 @@ class CityBuilderStore {
     @observable
     public show: boolean = false;
 
+    private previewPictures: PreviewPicture[] = [];
     @observable
     private availableGenericMetrics: Metric[] = observable([]);
 
@@ -34,6 +36,11 @@ class CityBuilderStore {
             Metrics.openIssuesMetric,
             Metrics.packageNameMetric
         ]);
+
+        this.previewPictures = [
+            customDistrict,
+            customEvostreet
+        ];
     }
 
     public chooseEditableProfile() {
@@ -48,6 +55,16 @@ class CityBuilderStore {
         this.availableGenericMetrics = this.availableGenericMetrics.concat(metrics);
     }
 
+    public getPreviewBackground(): PreviewPicture {
+        for (let preview of this.previewPictures) {
+            if (preview.forLayout(this.layoutType) && preview.forProfile(this.profile)) {
+                return preview;
+            }
+        }
+
+        return placeholder;
+    }
+
     public getAvailableGenericMetrics(): Array<SelectOptionElement<Metric>> {
         return this.getSelectOptionMetric(this.availableGenericMetrics);
     }
@@ -59,6 +76,7 @@ class CityBuilderStore {
     private getSelectOptionMetric(metric: Metric[]) {
         return metric.map((m) => ({key: m.key, label: m.name, value: m}));
     }
+
 }
 
 const cityBuilderStore = new CityBuilderStore();

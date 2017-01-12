@@ -44,7 +44,7 @@ describe("SonarQubeMetricsService", () => {
            name: "lines of code"
         });
 
-        Sinon.stub(underTest, "callApi", function () {
+        Sinon.stub(underTest, "callApi", () => {
             return Promise.resolve({
                 data: {
                     metrics: expectedMetrics
@@ -82,7 +82,7 @@ describe("SonarQubeMetricsService", () => {
             hidden: false
         });
 
-        Sinon.stub(underTest, "callApi", function () {
+        Sinon.stub(underTest, "callApi", () => {
             return Promise.resolve({
                 data: {
                     metrics: expectedMetrics
@@ -96,8 +96,8 @@ describe("SonarQubeMetricsService", () => {
         clock.tick(10);
         returnPromise.then(() => {
             Sinon.assert.calledWith(spyAdd, []);
-            // TODO: would expect not calld instead of called empty here.
-            //Sinon.assert.notCalled(spyAdd);
+            // TODO: would expect not called instead of called empty here.
+            // Sinon.assert.notCalled(spyAdd);
             done();
         }).catch((error) => done(error));
     });
@@ -121,7 +121,7 @@ describe("SonarQubeMetricsService", () => {
             name: "lines of code"
         });
 
-        Sinon.stub(underTest, "callApi", function () {
+        Sinon.stub(underTest, "callApi", () => {
             return Promise.resolve({
                 data: {
                     metrics: expectedMetrics
@@ -136,7 +136,7 @@ describe("SonarQubeMetricsService", () => {
         returnPromise.then(() => {
             Sinon.assert.calledWith(spyAdd, []);
             // TODO: would expect not calld instead of called empty here.
-            //Sinon.assert.notCalled(spyAdd);
+            // Sinon.assert.notCalled(spyAdd);
             done();
         }).catch((error) => done(error));
 
@@ -154,7 +154,7 @@ describe("SonarQubeMetricsService", () => {
         let underTest: SonarQubeMetricsService =
             new SonarQubeMetricsService("urlsihshoif", testAppStatusStore, testCityBuilderStore);
 
-        Sinon.stub(underTest, "callApi", function () {
+        Sinon.stub(underTest, "callApi", () => {
             return Promise.resolve({
                 data: {
                     metrics: []

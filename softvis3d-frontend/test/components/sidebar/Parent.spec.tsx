@@ -1,8 +1,8 @@
 import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
-import SideBarSelectParent from "../../../src/components/sidebar/SelectParent";
 import { SceneStore } from "../../../src/stores/SceneStore";
+import SelectParent from "../../../src/components/sidebar/SelectParent";
 
 describe("<SelectParent/>", () => {
 
@@ -12,7 +12,7 @@ describe("<SelectParent/>", () => {
         localSceneStore.legacyData = element;
 
         let sideBarSelectParent = shallow(
-            <SideBarSelectParent sceneStore={localSceneStore} selectedElement={element}/>
+            <SelectParent sceneStore={localSceneStore} selectedElement={element}/>
         );
 
         expect(sideBarSelectParent.children().length).to.be.eq(0);
@@ -30,7 +30,7 @@ describe("<SelectParent/>", () => {
         localSceneStore.legacyData = root;
 
         let sideBarSelectParent = shallow(
-            <SideBarSelectParent sceneStore={localSceneStore} selectedElement={root}/>
+            <SelectParent sceneStore={localSceneStore} selectedElement={root}/>
         );
 
         expect(sideBarSelectParent.children()).to.have.length(0);
@@ -52,7 +52,7 @@ describe("<SelectParent/>", () => {
         localSceneStore.legacyData = parent1;
 
         let sideBarSelectParent = shallow(
-            <SideBarSelectParent sceneStore={localSceneStore} selectedElement={parent0}/>
+            <SelectParent sceneStore={localSceneStore} selectedElement={parent0}/>
         );
 
         sideBarSelectParent.find(".select-parent span").simulate("click");
@@ -75,7 +75,7 @@ describe("<SelectParent/>", () => {
         localSceneStore.legacyData = parent1;
 
         let sideBarSelectParent = shallow(
-            <SideBarSelectParent sceneStore={localSceneStore} selectedElement={child}/>
+            <SelectParent sceneStore={localSceneStore} selectedElement={child}/>
         );
 
         sideBarSelectParent.find(".select-parent span").simulate("click");

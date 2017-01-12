@@ -2,17 +2,11 @@ import {computed, observable} from "mobx";
 
 class AppStatusStore {
     @observable
-    public showLoadingQueue: boolean;
+    public showLoadingQueue: boolean = false;
     @observable
-    public loadingQueue: string[];
+    public loadingQueue: string[] = [];
     @observable
-    public errors: string[];
-
-    public constructor() {
-        this.loadingQueue = [];
-        this.errors = [];
-        this.showLoadingQueue = false;
-    }
+    public errors: string[] = [];
 
     @computed
     get isVisible() {
@@ -31,7 +25,18 @@ class AppStatusStore {
             }
         }
 
-        this.error(`Could not remove load event: '${event}'`);
+        console.error(`Could not remove load event: '${event}'`);
+    }
+
+    public acknowledgeError(error: string): void  {
+        for (let i = 0; i < this.errors.length; i++) {
+            if (this.errors[i] === error) {
+                this.errors.splice(i, 1);
+                return;
+            }
+        }
+
+        console.error(`Could not remove load event: '${error}'`);
     }
 
     public error(msg: string): void {

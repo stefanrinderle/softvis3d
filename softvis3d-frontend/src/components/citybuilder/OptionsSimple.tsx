@@ -4,7 +4,7 @@ import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import LayoutPicker from "./LayoutPicker";
 import {district, evostreet} from "../../constants/Layouts";
 import * as Profiles from "../../constants/Profiles";
-import PreviewPictureComponent from "./PreviewPicture";
+import PreviewPictureComponent from "./PreviewPictureComponent";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 
 const ProfileSelectBox: new() => SelectBoxBuilder<Profile> = SelectBoxBuilder as any;
@@ -56,10 +56,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                     </p>
                 </div>
                 <div className="right-column">
-                    <PreviewPictureComponent
-                        layout={this.props.store.layoutType}
-                        profile={this.props.store.profile}
-                    />
+                    <PreviewPictureComponent store={this.props.store}/>
                 </div>
             </div>
         );

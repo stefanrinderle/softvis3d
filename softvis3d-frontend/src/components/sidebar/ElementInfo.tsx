@@ -3,9 +3,9 @@ import {SceneStore} from "../../stores/SceneStore";
 
 interface ElementInfoProps {
     element: TreeElement;
-    selected?: boolean;
-    origin?: boolean;
     sceneStore: SceneStore;
+    isSelected: boolean;
+    isOrigin?: boolean;
 }
 
 /**
@@ -13,25 +13,24 @@ interface ElementInfoProps {
  */
 export default class ElementInfo extends React.Component<ElementInfoProps, any> {
     public static defaultProps = {
-        selected: false,
         origin: false
     };
 
     public render() {
-        const {element, selected, origin} = this.props;
+        const {element, isSelected, isOrigin} = this.props;
         let classes = [];
         classes.push(element.isNode ? "node" : "leaf");
 
-        if (origin) {
+        if (isOrigin) {
             classes.push("origin");
         }
 
-        if (selected) {
+        if (isSelected) {
             classes.push("current-selected");
         }
 
         return (
-            <li key={element.id} className={classes.join(" ")} onClick={() => selected || this.selectElement()}>
+            <li key={element.id} className={classes.join(" ")} onClick={() => isSelected || this.selectElement()}>
                 {this.props.element.name}
             </li>
         );

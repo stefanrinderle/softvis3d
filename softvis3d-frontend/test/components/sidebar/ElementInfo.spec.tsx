@@ -1,8 +1,8 @@
 import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
-import SideBarElementInfo from "../../../src/components/sidebar/ElementInfo";
 import { SceneStore } from "../../../src/stores/SceneStore";
+import ElementInfo from "../../../src/components/sidebar/ElementInfo";
 
 describe("<ElementInfo/>", () => {
 
@@ -12,7 +12,7 @@ describe("<ElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <SideBarElementInfo element={selectedElement} sceneStore={localSceneStore}/>
+            <ElementInfo element={selectedElement} sceneStore={localSceneStore} isSelected={false}/>
         );
 
         expect(selectedSingleFileInfo.html().includes(expectedName)).to.be.true;
@@ -24,7 +24,7 @@ describe("<ElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <SideBarElementInfo element={selectedElement} selected={true} sceneStore={localSceneStore}/>
+            <ElementInfo element={selectedElement} sceneStore={localSceneStore} isSelected={true}/>
         );
 
         expect(selectedSingleFileInfo.html().includes(expectedName)).to.be.true;
@@ -37,7 +37,7 @@ describe("<ElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <SideBarElementInfo element={selectedElement} sceneStore={localSceneStore}/>
+            <ElementInfo element={selectedElement} sceneStore={localSceneStore} isSelected={false}/>
         );
 
         selectedSingleFileInfo.find("li").simulate("click");
@@ -51,7 +51,7 @@ describe("<ElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <SideBarElementInfo element={selectedElement} selected={true} sceneStore={localSceneStore} />
+            <ElementInfo element={selectedElement} isSelected={true} sceneStore={localSceneStore} />
         );
 
         selectedSingleFileInfo.find("li").simulate("click");

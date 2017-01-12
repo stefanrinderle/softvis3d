@@ -19,7 +19,7 @@ export default class NodeList extends React.Component<NodeListProps, any> {
         if (folder === null) {
             // TODO: "Error" is not the Way to go :-/
             return <ul>
-                <li>ERROR</li>
+                <li key="error">ERROR</li>
             </ul>;
         }
 
@@ -27,9 +27,9 @@ export default class NodeList extends React.Component<NodeListProps, any> {
             <ElementInfo
                 key={folder.id}
                 element={folder}
-                selected={folder.id === this.props.selectedElement.id}
-                origin={true}
                 sceneStore={this.props.sceneStore}
+                isSelected={folder.id === this.props.selectedElement.id}
+                isOrigin={true}
             />
         ];
         for (let child of folder.children) {
@@ -37,7 +37,7 @@ export default class NodeList extends React.Component<NodeListProps, any> {
                 <ElementInfo
                     key={child.id}
                     element={child}
-                    selected={child.id === this.props.selectedElement.id}
+                    isSelected={child.id === this.props.selectedElement.id}
                     sceneStore={this.props.sceneStore}
                 />
             );

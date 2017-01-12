@@ -13,8 +13,8 @@ const customEvostreet: PreviewPicture = {
 };
 
 const placeholder: PreviewPicture = {
-    forLayout: () => true,
-    forProfile: () => true,
+    forLayout: () => false,
+    forProfile: () => false,
     bgPicture: "http://lorempixel.com/300/200/animals/PLACEHOLDER",
     contents: null
 };
