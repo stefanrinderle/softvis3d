@@ -8,12 +8,13 @@
     width: 60%;
     text-align: center;
     font-size: 13px;
+    line-height: 18px;
 
     border: 1px solid $border-color-background;
     background-color: transparentize($white, .2);
 
     margin: auto;
-    padding: 3px 4px;
+    padding: 4px;
 
     div.metric-info {
         color: $black;

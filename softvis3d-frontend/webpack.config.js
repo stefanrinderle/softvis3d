@@ -55,6 +55,7 @@ module.exports = [
             "core-js/fn/set",
             "core-js/fn/array/index-of",
             "core-js/fn/array/is-array",
+            "core-js/fn/array/from",
             "core-js/fn/object/get-own-property-descriptor",
             "core-js/fn/object/get-own-property-descriptors",
             "core-js/fn/object/get-own-property-names",
