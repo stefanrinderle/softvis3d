@@ -32,7 +32,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                             options={profiles.map((p) => ({key: p.id, label: p.name, value: p}))}
                             onChange={(p: Profile) => { this.props.store.profile = p; }}
                         />
-                        <p className="profile-description selection-description">
+                        <p className="selection-description profile-description">
                             {this.props.store.profile.description}
                         </p>
                     </div>
@@ -44,7 +44,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                             options={this.props.store.getAvailableColorMetrics()}
                             onChange={(m: Metric) => { this.props.store.metricColor = m; }}
                         />
-                        <p className="selection-description">
+                        <p className="selection-description color-description">
                             The building color can be changed dynamically in the view using the combo box in the bottom bar.
                         </p>
                     </div>
@@ -55,7 +55,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                             layouts={[district, evostreet]}
                             store={this.props.store}
                         />
-                        <p className="selection-description">
+                        <p className="selection-description layout-description">
                             {this.props.store.layoutType.description}
                         </p>
                     </div>

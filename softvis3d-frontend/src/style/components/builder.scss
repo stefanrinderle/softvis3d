@@ -1,4 +1,4 @@
-$leftColumnWidth: 320px;
+$leftColumnWidth: 340px;
 $simpleCategoryHeight: 290px;
 
 .city-builder {
@@ -46,10 +46,18 @@ $simpleCategoryHeight: 290px;
         }
 
         .selection-description {
-            margin: 5px 0 0 0;
+            margin: 6px 0 0 0;
 
             &.profile-description {
                 min-height: 100px;
+            }
+
+            &.layout-description {
+                min-height: 64px;
+            }
+
+            &.color-description {
+                min-height: 40px;
             }
         }
     }
@@ -82,13 +90,14 @@ $simpleCategoryHeight: 290px;
     }
 
     .builder-option {
-        margin: 0  0 6px 0;
+        margin: 0  3px 6px 3px;
 
         span {
             display: block;
             color: $font-color-headline;
             font-size: 15px;
             font-weight: 600;
+            margin-bottom: 2px;
         }
 
         select {
