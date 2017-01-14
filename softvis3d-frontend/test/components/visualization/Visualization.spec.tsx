@@ -6,7 +6,6 @@ import Scene from "../../../src/components/scene/Scene";
 import { CityBuilderStore } from "../../../src/stores/CityBuilderStore";
 import { SceneStore } from "../../../src/stores/SceneStore";
 import TopBar from "../../../src/components/topbar/TopBar";
-import SceneInformation from "../../../src/components/scene/information/SceneInformation";
 import SideBar from "../../../src/components/sidebar/SideBar";
 
 describe("<Visualization/>", () => {
@@ -34,13 +33,11 @@ describe("<Visualization/>", () => {
             <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
-        expect(visualization.children()).to.have.length(4);
+        expect(visualization.children()).to.have.length(3);
         expect(visualization.contains(
             <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
             <Scene cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />)).to.be.true;
-        expect(visualization.contains(
-            <SceneInformation cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
             <SideBar sceneStore={localSceneStore}/>)).to.be.true;
     });
@@ -56,13 +53,11 @@ describe("<Visualization/>", () => {
             <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
-        expect(visualization.children()).to.have.length(4);
+        expect(visualization.children()).to.have.length(3);
         expect(visualization.contains(
             <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
             <Scene cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />)).to.be.true;
-        expect(visualization.contains(
-            <SceneInformation cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
             <SideBar sceneStore={localSceneStore}/>)).to.be.true;
     });
@@ -84,13 +79,11 @@ describe("<Visualization/>", () => {
             <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
-        expect(visualization.children()).to.have.length(4);
+        expect(visualization.children()).to.have.length(3);
         expect(visualization.contains(
             <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
             <Scene cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />)).to.be.true;
-        expect(visualization.contains(
-            <SceneInformation cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
             <SideBar sceneStore={localSceneStore}/>)).to.be.true;
     });
