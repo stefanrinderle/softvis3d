@@ -1,14 +1,14 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 
-interface BottomBarMetricInfoProps {
+interface MetricKeyProps {
     title: string;
     metric: Metric;
     selectedElement: TreeElement | null;
 }
 
 @observer
-export default class BottomBarMetricInfo extends React.Component<BottomBarMetricInfoProps, any> {
+export default class MetricKey extends React.Component<MetricKeyProps, any> {
 
     public render() {
         const {title, metric, selectedElement} = this.props;

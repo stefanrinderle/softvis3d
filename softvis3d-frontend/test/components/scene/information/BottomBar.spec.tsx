@@ -1,23 +1,23 @@
 import * as React from "react";
 import {shallow} from "enzyme";
-import BottomBar from "../../../src/components/bottombar/BottomBar";
 import {expect} from "chai";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
-import BottomBarMetricInfo from "../../../src/components/bottombar/BottomBarMetricInfo";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import SceneInformation from "../../../../src/components/scene/information/SceneInformation";
+import MetricKey from "../../../../src/components/scene/information/MetricKey";
+import {CityBuilderStore} from "../../../../src/stores/CityBuilderStore";
+import {SceneStore} from "../../../../src/stores/SceneStore";
 
-describe("<BottomBar/>", () => {
+describe("<SceneInformation/>", () => {
 
     it("should show default text div on start", () => {
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let testSceneStore: SceneStore = new SceneStore();
 
         const bottomBar = shallow(
-            <BottomBar cityBuilderStore={testCityBuilderStore} sceneStore={testSceneStore}/>
+            <SceneInformation cityBuilderStore={testCityBuilderStore} sceneStore={testSceneStore}/>
         );
 
         expect(bottomBar
-            .contains(<BottomBarMetricInfo
+            .contains(<MetricKey
                 title="Width"
                 metric={testCityBuilderStore.profile.metricWidth}
                 selectedElement={testSceneStore.selectedElement}

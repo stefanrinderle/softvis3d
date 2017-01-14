@@ -6,11 +6,53 @@
     padding: 0;
 
     .scene {
+        position: relative;
+
         border-right: 1px solid $border-color-background;
         float: left;
         margin: 0;
         padding: 0;
 
-        position: relative;
+        .scene-information {
+            position: absolute;
+            left: 0; right: 0;
+            bottom: 0;
+
+            max-width: 1000px;
+            min-width: 650px;
+            width: 75%;
+            text-align: center;
+            font-size: 13px;
+            line-height: 18px;
+
+            border: 1px solid $border-color-background;
+            border-bottom: none;
+            background-color: transparentize($white, .2);
+
+            margin: auto;
+            padding: 4px;
+
+            div.metric-info {
+                color: $black;
+                float: left;
+                width: 33%;
+
+                &>span {
+                    padding-top: 1px;
+                }
+
+                .title:after {
+                    content: ": ";
+                }
+
+                .value {
+                    padding-left: 4px;
+                    color: $gray-dark;
+
+                    &:before {content: "(";}
+                    &:after {content: ")";}
+                }
+            }
+        }
     }
 }

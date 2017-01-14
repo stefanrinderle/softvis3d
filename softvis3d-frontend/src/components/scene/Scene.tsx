@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import { SceneStore } from "../../stores/SceneStore";
 import { WebGLDetector } from "./webgl/WebGLDetector";
 import { reaction } from "mobx";
-import BottomBar from "../bottombar/BottomBar";
+import SceneInformation from "./information/SceneInformation";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 
 interface SceneProps {
@@ -61,7 +61,7 @@ export default class Scene extends React.Component<SceneProps, any> {
         return (
             <div className="scene">
                 <canvas id={Scene.CANVAS_ID} onClick={this.makeSelection.bind(this)}/>
-                <BottomBar cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
+                <SceneInformation cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
            </div>
         );
     }

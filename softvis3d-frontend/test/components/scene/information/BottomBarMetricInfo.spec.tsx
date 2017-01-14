@@ -1,9 +1,9 @@
 import * as React from "react";
 import {shallow} from "enzyme";
 import {expect} from "chai";
-import BottomBarMetricInfo from "../../../src/components/bottombar/BottomBarMetricInfo";
+import MetricKey from "../../../../src/components/scene/information/MetricKey";
 
-describe("<BottomBarMetricInfo/>", () => {
+describe("<MetricKey/>", () => {
 
     it("should show title and metric", () => {
         let title: string = "ExpectedTitle";
@@ -16,7 +16,7 @@ describe("<BottomBarMetricInfo/>", () => {
         };
 
         const bottomBarMetricInfo = shallow(
-            <BottomBarMetricInfo title={title} metric={expectedMetric} selectedElement={null}/>
+            <MetricKey title={title} metric={expectedMetric} selectedElement={null}/>
         );
 
         expect(bottomBarMetricInfo.html()).to.include(expectedMetricName);
