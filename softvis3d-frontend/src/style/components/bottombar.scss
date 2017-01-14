@@ -5,12 +5,13 @@
 
     max-width: 1000px;
     min-width: 500px;
-    width: 60%;
+    width: 75%;
     text-align: center;
     font-size: 13px;
     line-height: 18px;
 
     border: 1px solid $border-color-background;
+    border-bottom: none;
     background-color: transparentize($white, .2);
 
     margin: auto;

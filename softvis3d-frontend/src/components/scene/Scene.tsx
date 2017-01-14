@@ -4,6 +4,13 @@ import { observer } from "mobx-react";
 import { SceneStore } from "../../stores/SceneStore";
 import { WebGLDetector } from "./webgl/WebGLDetector";
 import { reaction } from "mobx";
+import BottomBar from "../bottombar/BottomBar";
+import {CityBuilderStore} from "../../stores/CityBuilderStore";
+
+interface SceneProps {
+    cityBuilderStore: CityBuilderStore;
+    sceneStore: SceneStore;
+}
 
 /**
  * Responsible for the 3D visualization.
@@ -12,7 +19,7 @@ import { reaction } from "mobx";
  * call "select object" on the scene.
  */
 @observer
-export default class Scene extends React.Component<{sceneStore: SceneStore}, any> {
+export default class Scene extends React.Component<SceneProps, any> {
 
     private static CANVAS_ID: string = "softvis3dscene";
     private softVis3dScene: SoftVis3dScene;
@@ -43,16 +50,20 @@ export default class Scene extends React.Component<{sceneStore: SceneStore}, any
     }
 
     public render() {
+        const {cityBuilderStore, sceneStore} = this.props;
+
         // needed because the scene object is not available on the first render.
         // but needed to use the "render" method if the shapes change.
         if (this.softVis3dScene !== undefined) {
-            this.softVis3dScene.loadSoftVis3d(this.props.sceneStore.shapes);
+            this.softVis3dScene.loadSoftVis3d(sceneStore.shapes);
         }
 
-        return <div className="scene">
-                    <canvas id={Scene.CANVAS_ID}
-                            onClick={this.makeSelection.bind(this)} />
-               </div>;
+        return (
+            <div className="scene">
+                <canvas id={Scene.CANVAS_ID} onClick={this.makeSelection.bind(this)}/>
+                <BottomBar cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
+           </div>
+        );
     }
 
     private makeSelection(event: any) {

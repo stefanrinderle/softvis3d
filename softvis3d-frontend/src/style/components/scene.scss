@@ -1,16 +1,16 @@
-.scene {
-    @include clearfix;
-
-    border-right: 1px solid $border-color-background;
-    float: left;
-    margin: 0;
-    padding: 0;
-}
-
 .visualisation {
     @include clearfix;
     border: 1px solid $border-color-background;
     background-color: $white;
     margin: 0;
     padding: 0;
+
+    .scene {
+        border-right: 1px solid $border-color-background;
+        float: left;
+        margin: 0;
+        padding: 0;
+
+        position: relative;
+    }
 }
