@@ -19,9 +19,10 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                             label="Metric - Base"
                             value={this.props.store.profile.metricWidth}
                             options={this.props.store.getAvailableGenericMetrics()}
-                            onChange={(m: Metric) => { this.props.store.profile.metricWidth = m; }}
-                            onMouseDown={() => { this.props.store.chooseEditableProfile(); }}
-                            disabled={!this.props.store.profile.editable}
+                            onChange={(m: Metric) => {
+                                this.props.store.chooseEditableProfile();
+                                this.props.store.profile.metricWidth = m;
+                            }}
                         />
                     </div>
                     <div className="builder-option">
@@ -29,9 +30,10 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                             label="Metric - Height"
                             value={this.props.store.profile.metricHeight}
                             options={this.props.store.getAvailableGenericMetrics()}
-                            onChange={(m: Metric) => { this.props.store.profile.metricHeight = m; }}
-                            onMouseDown={() => { this.props.store.chooseEditableProfile(); }}
-                            disabled={!this.props.store.profile.editable}
+                            onChange={(m: Metric) => {
+                                this.props.store.chooseEditableProfile();
+                                this.props.store.profile.metricHeight = m;
+                            }}
                         />
                     </div>
                 </div>
