@@ -5,7 +5,7 @@ import Category from "../ui/Category";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import LayoutProcessor from "../../legacy/LayoutProcessor";
 
-const StringValuePicker: new() => SelectBoxBuilder<string> = SelectBoxBuilder as any;
+const ScalePicker: new() => SelectBoxBuilder<Scale> = SelectBoxBuilder as any;
 const MetricPropertyPicker: new() => SelectBoxBuilder<Metric> = SelectBoxBuilder as any;
 
 @observer
@@ -39,11 +39,11 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                 </div>
                 <div className="right-column">
                     <div className="builder-option">
-                        <StringValuePicker
+                        <ScalePicker
                             label="Scaling Method"
-                            value={this.props.store.profile.scale.key}
-                            options={LayoutProcessor.SCALING_METHODS.map((s: Scale) => Object.assign({value: s.key}, s))}
-                            onChange={(scaling: string) => { this.props.store.profile.scale.key = scaling; }}
+                            value={this.props.store.profile.scale}
+                            options={LayoutProcessor.SCALING_METHODS.map((s: Scale) => Object.assign({value: s}, s))}
+                            onChange={(scale) => { this.props.store.profile.scale = scale; }}
                         />
                     </div>
                 </div>
