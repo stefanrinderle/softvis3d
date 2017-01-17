@@ -43,7 +43,10 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                             label="Scaling Method"
                             value={this.props.store.profile.scale}
                             options={LayoutProcessor.SCALING_METHODS.map((s: Scale) => Object.assign({value: s}, s))}
-                            onChange={(scale) => { this.props.store.profile.scale = scale; }}
+                            onChange={(scale) => {
+                                this.props.store.chooseEditableProfile();
+                                this.props.store.profile.scale = scale;
+                            }}
                         />
                     </div>
                 </div>
