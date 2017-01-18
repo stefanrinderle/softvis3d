@@ -15,8 +15,10 @@ describe("<TopBarMenu/>", () => {
             <TopBarMenu cityBuilderStore={localCityBuilderStore}/>
         );
 
-        topBarMenu.find("button").simulate("click");
+        const topBarButtons = topBarMenu.find("button");
+        expect(topBarButtons).to.be.lengthOf(2);
 
+        topBarButtons.first().simulate("click");
         expect(localCityBuilderStore.show).to.be.true;
     });
 
