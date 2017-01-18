@@ -98,3 +98,10 @@
 @mixin bg-img-open-folder {
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg' fill-rule='evenodd' clip-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='1.414'%3E%3Cpath d='M14.985 13.988L1 14.005 1.02 5h13.966v8.988zM1.998 5.995l.006 7.02L14.022 13 14 6.004l-12.002-.01zM3 4.5V4h9.996l.004.5h1l-.005-1.497-11.98.003L2 4.5zm1-2v-.504h8.002L12 2.5h1l-.004-1.495H3.003L3 2.5z' fill='%232D88C0' fill-rule='nonzero'/%3E%3C/svg%3E");
 }
+
+@mixin bg-img-arrow-down {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50px' height='50px'><polyline points='46.139,15.518 25.166,36.49 4.193,15.519'/></svg>");
+    background-repeat: no-repeat;
+    background-position: 98% 50%;
+    background-size: 9px;
+}

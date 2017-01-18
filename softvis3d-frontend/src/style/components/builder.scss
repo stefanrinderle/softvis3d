@@ -102,21 +102,6 @@ $simpleCategoryHeight: 290px;
 
         select {
             width: 97%;
-            height: 23px;
-            margin: 3px 0 3px 4px;
-            padding: 0 6px;
-
-            border-color: $blue-dark;
-            background-color: $white;
-            border-radius: 2px;
-
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-
-            option {
-                background-color: $white;
-            }
         }
     }
 
