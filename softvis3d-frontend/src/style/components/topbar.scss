@@ -41,6 +41,10 @@ $content-height: 32px;
         float: right;
         width: 291px;
         text-align: center;
-        padding: (($content-height - 22px)/2) 0;
+        padding: (($content-height - 26px)/2) 0;
+
+        button {
+            @include softvis-button;
+        }
     }
 }

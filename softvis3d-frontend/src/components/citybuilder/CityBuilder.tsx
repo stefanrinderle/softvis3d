@@ -24,18 +24,27 @@ export default class CityBuilder extends React.Component<CityBuilderProps, any> 
                 <OptionsSimple store={this.props.store} />
                 <OptionsAdvanced store={this.props.store} />
 
-                <div className="buttons">
-                    <button id="load-scene-button" onClick={() => this.loadScene()}>Load Scene</button>
-                    { this.renderCloseButton() }
-                </div>
+                { this.renderButtons() }
             </div>
         );
     }
 
-    private renderCloseButton() {
-        if (sceneStore.isVisible) {
-            return <button onClick={() => this.close()}>Close</button>;
+    private renderButtons() {
+        if (!sceneStore.isVisible) {
+            return (
+                <div className="buttons">
+                    <button onClick={() => this.loadScene()}>Load Scene</button>
+                </div>
+            );
         }
+
+        return (
+            <div className="buttons">
+                <button className="left" onClick={() => this.loadScene()}>Load Scene</button>
+                <button className="right" onClick={() => this.close()}>Close</button>
+            </div>
+        );
+
     }
 
     private loadScene() {

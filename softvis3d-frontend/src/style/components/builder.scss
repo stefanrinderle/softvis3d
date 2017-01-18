@@ -104,10 +104,15 @@ $simpleCategoryHeight: 290px;
             width: 97%;
             height: 23px;
             margin: 3px 0 3px 4px;
+            padding: 0 6px;
 
             border-color: $blue-dark;
             background-color: $white;
             border-radius: 2px;
+
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
 
             option {
                 background-color: $white;
@@ -120,17 +125,7 @@ $simpleCategoryHeight: 290px;
         margin-top: 8px;
 
         button {
-            margin: 0 4px;
-            border: 1px solid $font-color-link-default;
-            border-radius: 4px;
-            background: $white;
-            padding: 3px 5px;
-            cursor: pointer;
-
-            &:hover {
-                border-color: $font-color-link-hover;
-                color: $font-color-highlight;
-            }
+            @include softvis-button;
         }
     }
 }
