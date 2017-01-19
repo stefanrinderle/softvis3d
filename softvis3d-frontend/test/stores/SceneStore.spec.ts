@@ -20,19 +20,23 @@
 
 import { expect } from "chai";
 import { INITIAL_SHAPES } from "../../src/constants/InitialSceneShapes";
-import sceneStore from "../../src/stores/SceneStore";
+import {SceneStore} from "../../src/stores/SceneStore";
 
 describe("SceneStore", () => {
 
     it("should contain no selected id on init", () => {
+        let sceneStore = new SceneStore();
         expect(sceneStore.selectedObjectId).to.be.null;
     });
 
     it("should contain initial test shapes", () => {
+        let sceneStore = new SceneStore();
         expect(sceneStore.shapes).not.to.be.equal(INITIAL_SHAPES);
     });
 
     it("should set selectedObjectId", () => {
+        let sceneStore = new SceneStore();
+
         let expected: string = "sdufhisufh";
         sceneStore.setSelectedObjectId(expected);
 
@@ -40,6 +44,8 @@ describe("SceneStore", () => {
     });
 
     it("should not set selectedObjectId on null", () => {
+        let sceneStore = new SceneStore();
+
         let expected: string = "sdufhisufh";
         sceneStore.setSelectedObjectId(expected);
 
@@ -47,6 +53,31 @@ describe("SceneStore", () => {
         sceneStore.setSelectedObjectId(input);
 
         expect(sceneStore.selectedObjectId).to.be.equal(expected);
+    });
+
+    it("should not have mouse moved after initialization", () => {
+        let sceneStore = new SceneStore();
+        expect(sceneStore.hasMouseMoved()).to.be.false;
+    });
+
+    it("should have mouse moved after set it to move", () => {
+        let sceneStore = new SceneStore();
+        sceneStore.setMoved();
+
+        expect(sceneStore.hasMouseMoved()).to.be.true;
+    });
+
+    it("should have mouse moved after set it to move", () => {
+        let sceneStore = new SceneStore();
+        expect(sceneStore.hasMouseMoved()).to.be.false;
+
+        sceneStore.setMoved();
+
+        expect(sceneStore.hasMouseMoved()).to.be.true;
+
+        sceneStore.resetMoved();
+
+        expect(sceneStore.hasMouseMoved()).to.be.false;
     });
 
 });

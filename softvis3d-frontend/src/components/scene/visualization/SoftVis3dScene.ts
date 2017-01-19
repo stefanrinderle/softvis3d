@@ -54,21 +54,15 @@ export class SoftVis3dScene {
 
         this.controls = new THREE.OrbitControls(this.camera.getCamera(), this.container);
 
-        // this.controls.addEventListener("start", () => {
-        //     console.warn("start");
-        // });
-        // this.controls.addEventListener("end", () => {
-        //     console.warn("end");
-        // });
-        // this.controls.addEventListener("change", () => {
-        //     console.warn("change");
-        // });
-
         this.onWindowResize();
 
         window.addEventListener("resize", () => {
             this.onWindowResize();
         });
+    }
+
+    public getControls(): THREE.OrbitControls {
+        return this.controls;
     }
 
     public loadSoftVis3d(shapes: SoftVis3dShape[]) {
@@ -87,22 +81,6 @@ export class SoftVis3dScene {
 
     public selectSceneTreeObject(objectSoftVis3dId: string | null) {
         this.wrangler.selectSceneTreeObject(objectSoftVis3dId);
-    }
-
-    public showAllSceneElements() {
-        this.wrangler.showAllSceneElements();
-    }
-
-    public hideAllSceneElementsExceptIds(showIds: string[]) {
-        this.wrangler.hideAllSceneElementsExceptIds(showIds);
-    }
-
-    public removeObject(objectSoftVis3dId: string) {
-        this.wrangler.removeObject(objectSoftVis3dId);
-    }
-
-    public getContainer() {
-        return this.container;
     }
 
     public getCamera(): PerspectiveCamera {

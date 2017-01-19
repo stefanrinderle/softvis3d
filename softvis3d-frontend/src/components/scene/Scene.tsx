@@ -67,18 +67,31 @@ export default class Scene extends React.Component<SceneProps, any> {
     }
 
     private makeSelection(event: any) {
-        let selectedId: string | null = this.softVis3dScene.makeSelection(event);
-        this.props.sceneStore.setSelectedObjectId(selectedId);
+        if (!this.props.sceneStore.hasMouseMoved()) {
+            let selectedId: string | null = this.softVis3dScene.makeSelection(event);
+            this.props.sceneStore.setSelectedObjectId(selectedId);
+        }
+
+        this.props.sceneStore.resetMoved();
+        console.log("reset moved");
     }
 
     private loadScene() {
         this.softVis3dScene = new SoftVis3dScene(Scene.CANVAS_ID);
         this.animate();
+        this.addOrbitControlsListener();
     }
 
     private animate() {
         requestAnimationFrame(this.animate.bind(this));
         this.renderScene();
+    }
+
+    private addOrbitControlsListener() {
+        this.softVis3dScene.getControls().addEventListener("change", () => {
+            console.warn("change");
+            this.props.sceneStore.setMoved();
+        });
     }
 
     private renderScene() {

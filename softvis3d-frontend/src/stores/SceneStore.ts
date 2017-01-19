@@ -14,6 +14,8 @@ class SceneStore {
     @observable
     private rendered: boolean = false;
 
+    private mouseMoved: boolean = false;
+
     public constructor() {
         this.rendered = false;
 
@@ -43,6 +45,18 @@ class SceneStore {
                 TreeService.searchTreeNode(this.legacyData, this.selectedObjectId);
         }
         return selectedElement;
+    }
+    
+    public hasMouseMoved(): boolean {
+        return this.mouseMoved;
+    }
+
+    public setMoved() {
+        this.mouseMoved = true;
+    }
+
+    public resetMoved() {
+        this.mouseMoved = false;
     }
 }
 

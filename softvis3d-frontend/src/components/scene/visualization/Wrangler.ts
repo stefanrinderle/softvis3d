@@ -84,50 +84,8 @@ export class Wrangler {
         }
     }
 
-    public showAllSceneElements() {
-        this.removeAllFromScene();
-
-        for (let element of this.resultObjects) {
-            this.objectsInView.push(element);
-            this.scene.add(element);
-        }
-    }
-
-    public hideAllSceneElementsExceptIds(showIds: string[]) {
-        this.hideAllSceneElements();
-
-        for (let element of this.resultObjects) {
-            if (showIds.indexOf(element.getSoftVis3dId()) > 0) {
-                this.objectsInView.push(element);
-                this.scene.add(element);
-            }
-        }
-    }
-
-    public removeObject(objectSoftVis3dId: string) {
-        for (let object of this.resultObjects) {
-            if (objectSoftVis3dId === object.getSoftVis3dId()) {
-                this.scene.remove(object);
-            }
-        }
-
-        for (let k = 0; k < this.objectsInView.length; k++) {
-            if (objectSoftVis3dId === this.objectsInView[k].getSoftVis3dId()) {
-                this.objectsInView.splice(k, 1);
-            }
-        }
-    }
-
     public getObjectsInView(): SoftVis3dMesh[] {
         return this.objectsInView;
-    }
-
-    private hideAllSceneElements() {
-        for (let objectInView of this.objectsInView) {
-            this.scene.remove(objectInView);
-        }
-
-        this.objectsInView = [];
     }
 
     private removeAllFromScene() {
