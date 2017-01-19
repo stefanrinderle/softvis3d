@@ -19,10 +19,9 @@ class CityBuilderStore {
     public renderButtonClicked: boolean = false;
     @observable
     public show: boolean = false;
-
-    private previewPictures: PreviewPicture[] = [];
     @observable
     private availableGenericMetrics: Metric[] = observable([]);
+    private previewPictures: PreviewPicture[] = [];
 
     public constructor() {
         this.availableGenericMetrics.push(Metrics.noMetric);
@@ -44,11 +43,20 @@ class CityBuilderStore {
     }
 
     public chooseEditableProfile() {
-        this.profile = custom;
+        this.setProfile(custom);
     }
 
     public setLayout(l: Layout) {
         this.layoutType = l;
+    }
+
+    public setProfile(p: Profile) {
+        if (p.id === custom.id) {
+            p.metricHeight = this.profile.metricHeight;
+            p.metricWidth = this.profile.metricWidth;
+        }
+
+        this.profile = p;
     }
 
     public addGenericMetrics(metrics: Metric[]) {
@@ -76,7 +84,6 @@ class CityBuilderStore {
     private getSelectOptionMetric(metric: Metric[]) {
         return metric.map((m) => ({key: m.key, label: m.name, value: m}));
     }
-
 }
 
 const cityBuilderStore = new CityBuilderStore();

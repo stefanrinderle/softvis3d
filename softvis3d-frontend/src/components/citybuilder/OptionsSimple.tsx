@@ -30,7 +30,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                             className="profiles"
                             value={this.props.store.profile}
                             options={profiles.map((p) => ({key: p.id, label: p.name, value: p}))}
-                            onChange={(p: Profile) => { this.props.store.profile = p; }}
+                            onChange={(p: Profile) => { this.props.store.setProfile(p); }}
                         />
                         <p className="selection-description profile-description">
                             {this.props.store.profile.description}
