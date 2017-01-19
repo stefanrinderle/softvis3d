@@ -44,16 +44,16 @@ describe("SceneStore", () => {
         expect(sceneStore.selectedObjectId).to.be.equal(expected);
     });
 
-    it("should not set selectedObjectId on null", () => {
+    it("should accept the selectedObjectId null", () => {
         let sceneStore = new SceneStore();
 
         let expected: string = "sdufhisufh";
         sceneStore.setSelectedObjectId(expected);
+        expect(sceneStore.selectedObjectId).to.be.equal(expected);
 
         let input: string | null = null;
         sceneStore.setSelectedObjectId(input);
-
-        expect(sceneStore.selectedObjectId).to.be.equal(expected);
+        expect(sceneStore.selectedObjectId).to.be.equal(null);
     });
 
     it("should not have mouse moved after initialization", () => {
