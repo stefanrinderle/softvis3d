@@ -29,9 +29,7 @@ class SceneStore {
     }
 
     public setSelectedObjectId(objectId: string | null) {
-        if (objectId !== null) {
-            this.selectedObjectId = objectId;
-        }
+        this.selectedObjectId = objectId;
     }
 
     public setShapes(shapes: any) {
