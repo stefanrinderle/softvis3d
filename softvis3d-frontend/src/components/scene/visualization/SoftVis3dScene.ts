@@ -71,6 +71,10 @@ export class SoftVis3dScene {
         this.camera.setCameraPosition(0, platformDimension._length * 0.7, platformDimension._width * 0.7);
     }
 
+    public updateColorsWithUpdatedShapes(shapes: SoftVis3dShape[]) {
+        this.wrangler.updateColorsWithUpdatedShapes(shapes);
+    }
+
     public render() {
         this.renderer.render(this.scene, this.camera.getCamera());
     }

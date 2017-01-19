@@ -32,7 +32,7 @@ export default class Scene extends React.Component<SceneProps, any> {
         if (WebGLDetector.isWebGLSupported()) {
             this.loadScene();
             // initial load - all other updates via the render method.
-            this.softVis3dScene.loadSoftVis3d(this.props.sceneStore.shapes);
+            this.softVis3dScene.loadSoftVis3d(this.props.sceneStore.getShapes());
 
             reaction(
                 "Select object in scene",
@@ -41,8 +41,8 @@ export default class Scene extends React.Component<SceneProps, any> {
             );
             reaction(
                 "Load new objects in scene",
-                () => this.props.sceneStore.shapes,
-                () => { this.softVis3dScene.loadSoftVis3d(this.props.sceneStore.shapes); }
+                () => this.props.sceneStore.getShapes(),
+                () => { this.loadObjectsInScene(); }
             );
         } else {
             console.warn(WebGLDetector.getWebGLErrorMessage());
@@ -55,7 +55,7 @@ export default class Scene extends React.Component<SceneProps, any> {
         // needed because the scene object is not available on the first render.
         // but needed to use the "render" method if the shapes change.
         if (this.softVis3dScene !== undefined) {
-            this.softVis3dScene.loadSoftVis3d(sceneStore.shapes);
+            this.softVis3dScene.loadSoftVis3d(sceneStore.getShapes());
         }
 
         return (
@@ -66,6 +66,17 @@ export default class Scene extends React.Component<SceneProps, any> {
         );
     }
 
+    private loadObjectsInScene() {
+        let shapes: any = this.props.sceneStore.getShapes();
+        let isShapesUpdate: boolean = this.props.sceneStore.isShapesUpdate();
+
+        if (!isShapesUpdate) {
+            this.softVis3dScene.loadSoftVis3d(shapes);
+        } else {
+            this.softVis3dScene.updateColorsWithUpdatedShapes(shapes);
+        }
+    }
+
     private makeSelection(event: any) {
         if (!this.props.sceneStore.hasMouseMoved()) {
             let selectedId: string | null = this.softVis3dScene.makeSelection(event);
@@ -73,7 +84,6 @@ export default class Scene extends React.Component<SceneProps, any> {
         }
 
         this.props.sceneStore.resetMoved();
-        console.log("reset moved");
     }
 
     private loadScene() {
@@ -89,7 +99,6 @@ export default class Scene extends React.Component<SceneProps, any> {
 
     private addOrbitControlsListener() {
         this.softVis3dScene.getControls().addEventListener("change", () => {
-            console.warn("change");
             this.props.sceneStore.setMoved();
         });
     }

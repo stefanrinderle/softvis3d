@@ -38,10 +38,9 @@ export class Wrangler {
 
     private scene: Scene;
 
-    private resultObjects: SoftVis3dMesh[] = [];
     private objectsInView: SoftVis3dMesh[] = [];
 
-    private selectedTreeObjects: SoftVis3dSelectedObject[] = [];
+    private selectedTreeObject: SoftVis3dSelectedObject | null = null;
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -50,34 +49,47 @@ export class Wrangler {
     public loadSoftVis3d(data: SoftVis3dShape[]) {
         this.removeAllFromScene();
 
-        this.resultObjects = ObjectFactory.getSceneObjects(data);
+        this.objectsInView = ObjectFactory.getSceneObjects(data);
 
-        for (let object of this.resultObjects) {
-            this.objectsInView.push(object);
+        for (let object of this.objectsInView) {
             this.scene.add(object);
         }
     }
 
-    public selectSceneTreeObject(objectSoftVis3dId: string | null) {
-        // reset former selected objects
+    public updateColorsWithUpdatedShapes(shapes: SoftVis3dShape[]) {
+        let resultObjects: SoftVis3dMesh[] = ObjectFactory.getSceneObjects(shapes);
 
-        for (let previousSelection of this.selectedTreeObjects) {
-            previousSelection.object.material.color.setHex(previousSelection.color);
+        // update colors
+        for (let index = 0; index < resultObjects.length; index++) {
+            this.objectsInView[index].material.color = resultObjects[index].material.color;
         }
 
-        this.selectedTreeObjects = [];
+        // update selected object
+        if (this.selectedTreeObject !== null) {
+            let formerSelectedObjectId: string = this.selectedTreeObject.object.getSoftVis3dId();
+            this.selectedTreeObject = null;
+            this.selectSceneTreeObject(formerSelectedObjectId);
+        }
+    }
+
+    public selectSceneTreeObject(objectSoftVis3dId: string | null) {
+        if (this.selectedTreeObject !== null) {
+            this.selectedTreeObject.object.material.color.setHex(this.selectedTreeObject.color);
+        }
+
+        this.selectedTreeObject = null;
 
         if (objectSoftVis3dId !== null) {
-            for (let obj of this.resultObjects) {
+            for (let obj of this.objectsInView) {
                 if (objectSoftVis3dId === obj.getSoftVis3dId()) {
 
                     let selectedObjectMaterial: MeshLambertMaterial = obj.material;
-                    let selectedObjectInformation: SoftVis3dSelectedObject = {
+
+                    this.selectedTreeObject = {
                         object: obj,
                         color: selectedObjectMaterial.color.getHex()
                     };
 
-                    this.selectedTreeObjects.push(selectedObjectInformation);
                     selectedObjectMaterial.color.setHex(0xFFC519);
                 }
             }

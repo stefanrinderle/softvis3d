@@ -29,13 +29,12 @@ export default class App {
         this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
         this.legacyService = new SonarQubeLegacyService(config.api, config.projectKey,
             appStatusStore, cityBuilderStore, sceneStore);
-        this.legacy = new LegacyConnector();
+        this.legacy = new LegacyConnector(sceneStore, cityBuilderStore);
         appStatusStore.showLoadingQueue = config.isDev;
     }
 
     public init() {
         this.communicator.loadAvailableMetrics();
-        this.legacy.init();
         this.isInitialized = true;
     }
 

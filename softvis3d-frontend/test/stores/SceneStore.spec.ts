@@ -29,9 +29,10 @@ describe("SceneStore", () => {
         expect(sceneStore.selectedObjectId).to.be.null;
     });
 
-    it("should contain initial test shapes", () => {
+    it("should contain not initial test shapes", () => {
         let sceneStore = new SceneStore();
-        expect(sceneStore.shapes).not.to.be.equal(INITIAL_SHAPES);
+        expect(sceneStore.getShapes()).not.to.be.equal(INITIAL_SHAPES);
+        expect(sceneStore.isShapesUpdate()).to.be.false;
     });
 
     it("should set selectedObjectId", () => {
@@ -78,6 +79,32 @@ describe("SceneStore", () => {
         sceneStore.resetMoved();
 
         expect(sceneStore.hasMouseMoved()).to.be.false;
+    });
+
+    it("should set shapes if set", () => {
+        let sceneStore = new SceneStore();
+
+        let shapes: any = {
+            test: "bla"
+        };
+
+        sceneStore.setShapes(shapes);
+
+        expect(sceneStore.getShapes()).to.be.eq(shapes);
+        expect(sceneStore.isShapesUpdate()).to.be.false;
+    });
+
+    it("should update only if update", () => {
+        let sceneStore = new SceneStore();
+
+        let shapes: any = {
+            test: "bla"
+        };
+
+        sceneStore.updateShapes(shapes);
+
+        expect(sceneStore.getShapes()).to.be.eq(shapes);
+        expect(sceneStore.isShapesUpdate()).to.be.true;
     });
 
 });

@@ -6,10 +6,12 @@ class SceneStore {
     public legacyData: TreeElement | null = null;
 
     @observable
-    public shapes: any;
+    public selectedObjectId: string | null = null;
 
     @observable
-    public selectedObjectId: string | null = null;
+    private currentShapes: any;
+
+    private shapesUpdate: boolean = false;
 
     @observable
     private rendered: boolean = false;
@@ -21,7 +23,7 @@ class SceneStore {
 
         reaction(
             "Render the threeJS scene as soon as data is available",
-            () => this.shapes,
+            () => this.currentShapes,
             () => { this.rendered = true; }
         );
     }
@@ -30,6 +32,24 @@ class SceneStore {
         if (objectId !== null) {
             this.selectedObjectId = objectId;
         }
+    }
+
+    public setShapes(shapes: any) {
+        this.shapesUpdate = false;
+        this.currentShapes = shapes;
+    }
+
+    public updateShapes(shapes: any) {
+        this.shapesUpdate = true;
+        this.currentShapes = shapes;
+    }
+
+    public getShapes() {
+        return this.currentShapes;
+    }
+
+    public isShapesUpdate() {
+        return this.shapesUpdate;
     }
 
     @computed
@@ -46,7 +66,7 @@ class SceneStore {
         }
         return selectedElement;
     }
-    
+
     public hasMouseMoved(): boolean {
         return this.mouseMoved;
     }

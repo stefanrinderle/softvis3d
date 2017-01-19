@@ -1,43 +1,54 @@
-import sceneStore from "../stores/SceneStore";
+import {SceneStore} from "../stores/SceneStore";
 import Softvis3dModel from "./Softvis3dModel";
-import cityBuilderStore from "../stores/CityBuilderStore";
+import {CityBuilderStore} from "../stores/CityBuilderStore";
 import LayoutProcessor from "./LayoutProcessor";
-import { reaction } from "mobx";
+import {reaction} from "mobx";
 
 export default class LegacyConnector {
-    public init(): void {
+
+    private sceneStore: SceneStore;
+    private cityBuilderStore: CityBuilderStore;
+
+    public constructor(sceneStore: SceneStore, cityBuilderStore: CityBuilderStore) {
+        this.sceneStore = sceneStore;
+        this.cityBuilderStore = cityBuilderStore;
+
         reaction(
             "Convert backend data to threeJS shapes",
-            () => sceneStore.legacyData,
-            () => { this.buildCity(sceneStore.legacyData); }
+            () => this.sceneStore.legacyData,
+            () => {
+                this.buildCity(true);
+            }
         );
         reaction(
             "Change color buildings on demand",
-            () => cityBuilderStore.metricColor,
+            () => this.cityBuilderStore.metricColor,
             () => {
-                if (sceneStore.isVisible) {
-                    this.buildCity(sceneStore.legacyData);
-                }
+                this.buildCity(true);
             }
         );
     }
 
-    private buildCity(backend: TreeElement | null) {
-        if (backend === null) {
-            console.error("BuildCity called with null as value for treeElement.");
-        } else {
-            const model = new Softvis3dModel(backend, cityBuilderStore.profile.metricWidth.key,
-                cityBuilderStore.profile.metricHeight.key, cityBuilderStore.metricColor.key);
+    private buildCity(isColorUpdate: boolean) {
+        if (this.sceneStore.legacyData !== null) {
+            const model = new Softvis3dModel(this.sceneStore.legacyData, this.cityBuilderStore.profile.metricWidth.key,
+                this.cityBuilderStore.profile.metricHeight.key, this.cityBuilderStore.metricColor.key);
 
             const options = {
-                layout: cityBuilderStore.layoutType.id,
+                layout: this.cityBuilderStore.layoutType.id,
                 layoutOptions: {},
-                colorMetric: cityBuilderStore.metricColor.key,
-                scalingMethod: cityBuilderStore.profile.scale
+                colorMetric: this.cityBuilderStore.metricColor.key,
+                scalingMethod: this.cityBuilderStore.profile.scale
             };
 
             const processor = new LayoutProcessor(options);
-            sceneStore.shapes = processor.getIllustration(model, model._version).shapes;
+            let shapes: any = processor.getIllustration(model, model._version).shapes;
+
+            if (isColorUpdate) {
+                this.sceneStore.updateShapes(shapes);
+            } else {
+                this.sceneStore.setShapes(shapes);
+            }
         }
     }
 }
