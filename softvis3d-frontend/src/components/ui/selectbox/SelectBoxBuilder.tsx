@@ -16,6 +16,8 @@ export interface SelectBoxBuilderProps<T> {
     onClick?: (event: React.SyntheticEvent) => void|boolean;
     onMouseDown?: (event: React.SyntheticEvent) => void|boolean;
     disabled?: boolean;
+    prepend?: JSX.Element[];
+    append?: JSX.Element[];
 }
 
 export default class SelectBoxBuilder<T> extends React.Component<SelectBoxBuilderProps<T>, any> {
@@ -28,6 +30,8 @@ export default class SelectBoxBuilder<T> extends React.Component<SelectBoxBuilde
                 onClick={this.props.onClick}
                 onChange={this.props.onChange}
                 value={this.props.value}
+                prepend={this.props.prepend}
+                append={this.props.append}
             >
                 {this.getSelectOptions()}
             </SelectBox>

@@ -21,6 +21,15 @@ export default class SceneInformation extends React.Component<SceneInformationPr
     public render() {
         const {cityBuilderStore, sceneStore} = this.props;
         const selectedElement = sceneStore.selectedElement;
+        const colorValue = selectedElement && cityBuilderStore.metricColor.key in selectedElement.measures
+            ? selectedElement.measures[cityBuilderStore.metricColor.key]
+            : null;
+
+        let colorInformation: JSX.Element[] = [];
+
+        if (colorValue !== null) {
+            colorInformation.push(<span className="value">{colorValue}</span>);
+        }
 
         return (
             <div className="scene-information">
@@ -32,9 +41,9 @@ export default class SceneInformation extends React.Component<SceneInformationPr
                     value={cityBuilderStore.metricColor}
                     options={cityBuilderStore.getAvailableColorMetrics()}
                     onChange={(m: Metric) => { cityBuilderStore.metricColor = m; }}
+                    append={colorInformation}
                 />
             </div>
         );
     }
-
 }

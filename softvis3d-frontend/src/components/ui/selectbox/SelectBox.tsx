@@ -6,6 +6,8 @@ type ChangeEvent = (value: any, event: React.SyntheticEvent, src: React.Componen
 
 interface SelectBoxProps {
     children?: Array<SelectOption|SelectGroup>;
+    prepend?: JSX.Element[];
+    append?: JSX.Element[];
 
     className?: string;
     disabled?: boolean;
@@ -19,6 +21,8 @@ interface SelectBoxProps {
 
 export default class SelectBox extends React.Component<SelectBoxProps, any> {
     public static defaultProps = {
+        prepend: [],
+        append: [],
         className: "",
         disabled: false
     };
@@ -36,6 +40,7 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
 
         return (
             <div className={className.trim()}>
+                {this.props.prepend}
                 {this.renderLabel()}
                 <select
                     disabled={this.props.disabled}
@@ -47,6 +52,7 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
                 >
                     {this.renderChildren()}
                 </select>
+                {this.props.append}
             </div>
         );
     }
