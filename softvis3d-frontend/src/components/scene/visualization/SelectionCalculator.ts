@@ -25,29 +25,18 @@ export class SelectionService {
 
     public static RAYCASTER = new Raycaster();
 
-    public static makeSelection(event: MouseEvent, container: HTMLCanvasElement, width: number, height: number,
-                                camera: Camera, objectsInView: SoftVis3dMesh[]): string | null {
+    public static makeSelection(
+        event: MouseEvent,
+        width: number,
+        height: number,
+        camera: Camera, objectsInView: SoftVis3dMesh[]
+    ): string | null {
+        let x = event.clientX;
+        let y = event.clientY;
 
-        let x: number = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-        let y: number = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-
-        x -= container.offsetLeft;
-        y -= container.offsetTop;
-
-        let sonarQubeContainer: HTMLElement | null = document.getElementById("container");
-        if (sonarQubeContainer !== null) {
-            let propertyValue: string = window.getComputedStyle(sonarQubeContainer).getPropertyValue("padding-top");
-            y -= Number(propertyValue.replace("px", ""));
-        }
-
-        let paddingLeft: string | null = container.style.paddingLeft;
-        let paddingTop: string | null = container.style.paddingTop;
-
-        if (paddingLeft !== null) {
-            x -= Number(paddingLeft.replace("px", ""));
-        }
-        if (paddingTop !== null) {
-            y -= Number(paddingTop.replace("px", ""));
+        const topbar = document.getElementById("app-topbar");
+        if (topbar) {
+            y -= topbar.offsetHeight;
         }
 
         // creating NDC coordinates for ray intersection.
@@ -69,5 +58,4 @@ export class SelectionService {
 
         return result;
     }
-
 }
