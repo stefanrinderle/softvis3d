@@ -118,13 +118,8 @@ export class SoftVis3dScene {
     }
 
     public makeSelection(event: MouseEvent): string | null {
-        let result: string | null = SelectionService.makeSelection(
-            event,
-            this.width,
-            this.height,
-            this.camera,
-            this.wrangler.getObjectsInView()
-        );
+        let result: string | null = SelectionService.makeSelection(event, this.container, this.width, this.height,
+            this.camera, this.wrangler.getObjectsInView());
 
         this.selectSceneTreeObject(result);
 
