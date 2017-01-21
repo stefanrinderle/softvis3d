@@ -106,7 +106,7 @@ export class SoftVis3dScene {
         const sonarFooter = document.getElementById("footer");
         const sonarFooterHeight =  sonarFooter ? sonarFooter.offsetHeight : 11;
         const appMaxHeight = window.innerHeight - sonarFooterHeight - appOffset.top - (2 * sceneBoarderWidth);
-        const appMaxWidth = window.innerWidth - 2 * (appOffset.left + sceneBoarderWidth);
+        const appMaxWidth = document.body.clientWidth - 2 * (appOffset.left + sceneBoarderWidth);
 
         this.width = appMaxWidth - sidebarWidth - 1;
         this.height = appMaxHeight - topbarHeight;
@@ -118,12 +118,28 @@ export class SoftVis3dScene {
     }
 
     public makeSelection(event: MouseEvent): string | null {
-        let result: string | null = SelectionService.makeSelection(event, this.container, this.width, this.height,
-            this.camera, this.wrangler.getObjectsInView());
+        const selection = this.calculateSelectionPosition(event);
+
+        let result: string | null = SelectionService.makeSelection(
+            selection.x, selection.y,
+            this.width, this.height,
+            this.camera, this.wrangler.getObjectsInView()
+        );
 
         this.selectSceneTreeObject(result);
 
         return result;
+    }
+
+    private calculateSelectionPosition(event: MouseEvent) {
+        let x: number = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+        let y: number = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+
+        const offset = this.getOffsetsById(this.container.id);
+        x -= offset.left;
+        y -= offset.top;
+
+        return {x, y};
     }
 
     private getOffsetsById(id: string): { top: number; left: number; } {
