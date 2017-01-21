@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--[if IE 9 ]> <html class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html> <!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" type="image/x-icon" href="/dev/sonar-6.2/favicon.ico">
+
+    <title>DEV &raquo; Softvis3D - SonarQube</title>
+
+    <link href="/dev/sonar-6.2/sonar.css" rel="stylesheet" media="all">
+
+    <script>
+        var pageLang = 'de';
+
+        window.SS = {
+            hoursInDay: 8,
+            user: '',
+            userName: '',
+            userEmail: '',
+            lf: {
+                enableGravatar: true,
+                gravatarServerUrl: 'https://secure.gravatar.com/avatar/{EMAIL_MD5}.jpg?s={SIZE}&d=identicon'
+            },
+            updateCenterActive: true,
+            'sonar.technicalDebt.ratingGrid': '0.05,0.1,0.2,0.5'
+        };
+    </script>
+    <script>
+        window.baseUrl = '/sonar';
+    </script>
+    <style type="text/css">.level{display:inline-block;width:80px;height:24px;line-height:24px;border-radius:24px;box-sizing:border-box;color:#fff;letter-spacing:.02em;font-size:13px;font-weight:400;text-align:center;text-shadow:0 0 1px rgba(0,0,0,.35)}.level-small{width:64px;margin-top:-1px;margin-bottom:-1px;height:18px;line-height:18px;font-size:12px}.level-muted{background-color:#bdbdbd!important}a>.level{margin-bottom:-1px;border-bottom:1px solid;transition:all .2s ease}a>.level:hover{opacity:.8}.level-OK{background-color:#85bb43}.level-WARN{background-color:#f90}.level-ERROR{background-color:#d4333f}</style><style type="text/css">.rating{display:inline-block;width:24px;height:24px;line-height:23px;border-radius:24px;box-sizing:border-box;color:#fff;font-size:16px;font-weight:400;text-align:center;text-shadow:0 0 1px rgba(0,0,0,.35)}.rating-small{width:18px;height:18px;line-height:18px;margin-top:-1px;margin-bottom:-1px;font-size:12px}.rating-muted{background-color:#bdbdbd!important;color:#fff!important;text-shadow:0 0 1px rgba(0,0,0,.35)!important}a>.rating{margin-bottom:-1px;border-bottom:1px solid;transition:all .2s ease}a>.rating:hover{opacity:.8}.rating-A{background-color:#0a0}a>.rating-A{border-bottom-color:#0a0}.rating-B{background-color:#80cc00}a .rating-B{border-bottom-color:#80cc00}.rating-C{background-color:#fe0;color:#444;text-shadow:none}a .rating-C{border-bottom-color:#fe0}.rating-D{background-color:#f77700}a .rating-D{border-bottom-color:#f77700}.rating-E{background-color:#e00}a .rating-E{border-bottom-color:#e00}</style></head>
+<body>
+
+
+
+<div class="page-wrapper page-wrapper-context" id="container">
+    <nav class="navbar navbar-global page-container" id="global-navigation"><div data-reactroot="" class="container"><div class="navbar-header"><a class="navbar-brand" href="/sonar/about"><img src="/dev/sonar-6.2/logo.svg" width="100" height="30" alt="Embrace Quality" title="Embrace Quality"></a></div><ul class="nav navbar-nav"><li><a href="/sonar/projects">Projects</a></li><li><a href="/sonar/issues#resolved=false">Issues</a></li><li><a href="/sonar/coding_rules">Rules</a></li><li><a href="/sonar/profiles">Quality Profiles</a></li><li><a href="/sonar/quality_gates">Quality Gates</a></li></ul><ul class="nav navbar-nav navbar-right"><li><a href="#">Log in</a></li><li class="dropdown"><a class="navbar-search-dropdown" href="#"><i class="icon-search navbar-icon"></i><!-- react-text: 22 -->&nbsp;<!-- /react-text --><i class="icon-dropdown"></i></a><div class="dropdown-menu dropdown-menu-right global-navbar-search-dropdown"></div></li><li><a href="#"><i class="icon-help navbar-icon"></i></a></li></ul></div></nav>
+
+
+    <nav class="navbar navbar-context page-container" id="context-navigation"><div data-reactroot="" class="container"><!-- react-empty: 2 --><ul class="nav navbar-nav nav-crumbs"><li><a href="/sonar/dashboard/index"><i class="icon-qualifier-trk"></i><!-- react-text: 7 -->&nbsp;<!-- /react-text --><!-- react-text: 8 -->Angular<!-- /react-text --></a></li></ul><div class="navbar-right navbar-context-meta"><ul class="list-inline"><li>13. November 2016 17:35</li><li><!-- react-text: 13 -->Version <!-- /react-text --><!-- react-text: 14 -->2.x<!-- /react-text --></li></ul></div><ul class="nav navbar-nav nav-tabs"><li class=""><a href="/sonar/dashboard"><i class="icon-home"></i></a></li><li class=""><a href="/sonar/component_issues/index">Issues</a></li><li class=""><a href="/sonar/component_measures/">Measures</a></li><li class=""><a href="/sonar/code/">Code</a></li><li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><!-- react-text: 27 -->More<!-- /react-text --><!-- react-text: 28 -->&nbsp;<!-- /react-text --><i class="icon-dropdown"></i></a><ul class="dropdown-menu"><li class=""><a href="sonar-6.2.html">SoftVis3D Viewer</a></li></ul></li></ul></div></nav>
+
+    <div id="app"></div>
+
+    <!-- Style -->
+    <link rel="stylesheet" href="static/style.css" />
+    <link rel="stylesheet" href="static/resources/sonar.css" />
+
+    <!-- Dependencies -->
+    <script src="static/react.min.js"></script>
+    <script src="static/react-dom.min.js"></script>
+    <script src="static/three.min.js"></script>
+    <script src="static/resources/orbit-controls.js"></script>
+
+    <!-- Main -->
+    <script src="static/bundle.js"></script>
+
+</div>
+
+
+
+<ul class="processes-container"></ul><div id="footer" class="page-footer page-container">
+
+
+    <div>SonarQube™ technology is powered by <a href="http://www.sonarsource.com" target="SonarSource SA">SonarSource SA</a></div>
+    <div>
+        Version 6.2 -
+        <a href="http://www.gnu.org/licenses/lgpl-3.0.txt" target="lgpl_v3">LGPL v3</a> -
+        <a href="http://www.sonarqube.org" target="sonar">Community</a> -
+        <a href="http://www.sonarqube.org/documentation" target="sonar_doc">Documentation</a> -
+        <a href="http://www.sonarqube.org/support" target="support">Get Support</a> -
+        <a href="http://redirect.sonarsource.com/doc/plugin-library.html" target="plugins">Plugins</a> -
+        <a href="about:blank">Web API</a> -
+        <a href="about:blank">About</a>
+    </div>
+    <!--[if lte IE 8 ]><p class="spacer-top alert alert-danger">IE 8 is not supported. Some widgets may not be properly displayed. Please switch to a <a target="_blank" href="http://redirect.sonarsource.com/doc/requirements.html">supported&nbsp;version&nbsp;or&nbsp;another&nbsp;supported&nbsp;browser</a>.</p><!--<![endif]-->
+</div>
+
+
+
+<!--[if lte IE 7 ]>
+<div style="position:fixed;z-index:99999;top:0;bottom:0;left:0;right:0;background:#fff;">
+    <div style="margin-top:150px;text-align:center;line-height:1.4;color:#333;">
+        The web interface cannot be displayed because your browser is not supported.<br>
+        Please switch to a <a target="_blank"
+                              href="http://redirect.sonarsource.com/doc/requirements.html">supported&nbsp;version&nbsp;or&nbsp;another&nbsp;supported&nbsp;browser</a>.
+    </div>
+</div>
+<!--<![endif]-->
+
+
+
+
+<div class="workspace-nav"><ul class="workspace-nav-list"></ul>
+</div></body></html>
