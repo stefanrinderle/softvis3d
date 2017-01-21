@@ -1,5 +1,6 @@
 import * as React from "react";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import {PreviewPicture} from "../../constants/PreviewPicture";
 
 export default class PreviewPictureComponent extends React.Component<{ store: CityBuilderStore; }, any> {
 

@@ -21,9 +21,13 @@
 import {BackendService} from "./BackendService";
 import {AppStatusStore} from "../../stores/AppStatusStore";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import Metric from "../../constants/Metric";
 
-export interface SonarQubeApiMetric extends Metric {
+export interface SonarQubeApiMetric {
     id: number;
+    key: string;
+    type: MetricType;
+    name: string;
     hidden?: boolean;
 }
 
@@ -52,7 +56,7 @@ export default class SonarQubeMetricsService extends BackendService {
                 (response.data.metrics as Array<SonarQubeApiMetric>)
                     .filter((c) => SonarQubeMetricsService.shouldMetricBeFiltered(c.type))
                     .filter((c) => c.hidden === true || c.hidden === undefined || c.hidden === null)
-                    .map((c) => { delete c.id; delete c.hidden; return c; })
+                    .map((c) => { return this.createMetric(c); })
             );
 
             const metricsCount = response.data.p * response.data.ps;
@@ -63,6 +67,10 @@ export default class SonarQubeMetricsService extends BackendService {
             }
 
         }).catch(console.log);
+    }
+
+    private createMetric(sonarQubeMetric: SonarQubeApiMetric): Metric {
+        return new Metric(sonarQubeMetric.key, sonarQubeMetric.type, sonarQubeMetric.name);
     }
 
     private static shouldMetricBeFiltered(type: string): boolean {

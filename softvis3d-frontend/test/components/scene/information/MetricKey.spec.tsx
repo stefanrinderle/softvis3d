@@ -2,6 +2,7 @@ import * as React from "react";
 import {shallow} from "enzyme";
 import {expect} from "chai";
 import MetricKey from "../../../../src/components/scene/information/MetricKey";
+import Metric from "../../../../src/constants/Metric";
 
 describe("<MetricKey/>", () => {
 
@@ -9,11 +10,7 @@ describe("<MetricKey/>", () => {
         let title: string = "ExpectedTitle";
         let expectedMetricName: string = "ExpectedMetricName";
 
-        let expectedMetric: Metric = {
-            key: "123",
-            type: "INT",
-            name: expectedMetricName
-        };
+        let expectedMetric: Metric = new Metric("123", "INT", expectedMetricName);
 
         const bottomBarMetricInfo = shallow(
             <MetricKey title={title} metric={expectedMetric} selectedElement={null}/>
@@ -27,11 +24,7 @@ describe("<MetricKey/>", () => {
         let title: string = "ExpectedTitle";
         let expectedMetricName: string = "ExpectedMetricName";
 
-        let expectedMetric: Metric = {
-            key: "123",
-            type: "INT",
-            name: expectedMetricName
-        };
+        let expectedMetric: Metric = new Metric("123", "INT", expectedMetricName);
 
         let expectedMeasure: number = 55;
         let selectedElement: TreeElement = {

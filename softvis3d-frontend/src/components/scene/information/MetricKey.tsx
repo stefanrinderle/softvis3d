@@ -1,5 +1,6 @@
 import * as React from "react";
 import {observer} from "mobx-react";
+import Metric from "../../../constants/Metric";
 
 interface MetricKeyProps {
     title: string;

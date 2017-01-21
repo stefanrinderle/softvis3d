@@ -2,8 +2,12 @@ import {observable} from "mobx";
 import {district} from "../constants/Layouts";
 import {defaultProfile, custom} from "../constants/Profiles";
 import * as Metrics from "../constants/Metrics";
-import {SelectOptionElement} from "../components/ui/selectbox/SelectBoxBuilder";
+import {availableColorMetrics} from "../constants/Metrics";
 import {placeholder, customEvostreet, customDistrict} from "../constants/PreviewPictures";
+import MetricSet from "../constants/MetricSet";
+import Metric from "../constants/Metric";
+import {Profile} from "../constants/Profile";
+import {PreviewPicture} from "../constants/PreviewPicture";
 
 class CityBuilderStore {
 
@@ -14,28 +18,16 @@ class CityBuilderStore {
     @observable
     public metricColor: Metric = Metrics.noMetric;
     @observable
-    public availableColorMetrics: Metric[] = observable([]);
+    public availableColorMetrics: MetricSet = new MetricSet(availableColorMetrics);
     @observable
     public renderButtonClicked: boolean = false;
     @observable
     public show: boolean = false;
     @observable
-    private availableGenericMetrics: Metric[] = observable([]);
+    private availableGenericMetrics: MetricSet;
     private previewPictures: PreviewPicture[] = [];
 
     public constructor() {
-        this.availableGenericMetrics.push(Metrics.noMetric);
-        this.availableColorMetrics = this.availableColorMetrics.concat([
-            Metrics.noMetric,
-            Metrics.complexityMetric,
-            Metrics.coverageMetric,
-            Metrics.violationMetric,
-            Metrics.newIssuesMetric,
-            Metrics.linesOfCodeMetric,
-            Metrics.openIssuesMetric,
-            Metrics.packageNameMetric
-        ]);
-
         this.previewPictures = [
             customDistrict,
             customEvostreet
@@ -60,7 +52,11 @@ class CityBuilderStore {
     }
 
     public addGenericMetrics(metrics: Metric[]) {
-        this.availableGenericMetrics = this.availableGenericMetrics.concat(metrics);
+        if (this.availableGenericMetrics) {
+            this.availableGenericMetrics.addMetrics(metrics);
+        } else {
+            this.availableGenericMetrics = new MetricSet(metrics);
+        }
     }
 
     public getPreviewBackground(): PreviewPicture {
@@ -73,17 +69,18 @@ class CityBuilderStore {
         return placeholder;
     }
 
-    public getAvailableGenericMetrics(): Array<SelectOptionElement<Metric>> {
-        return this.getSelectOptionMetric(this.availableGenericMetrics);
+    public getAvailableGenericMetrics(): SelectOptionValue[] {
+        if (this.availableGenericMetrics) {
+            return this.availableGenericMetrics.getSelectOptions();
+        } else {
+            return [];
+        }
     }
 
-    public getAvailableColorMetrics(): Array<SelectOptionElement<Metric>> {
-        return this.getSelectOptionMetric(this.availableColorMetrics);
+    public getAvailableColorMetrics(): SelectOptionValue[] {
+        return this.availableColorMetrics.getSelectOptions();
     }
 
-    private getSelectOptionMetric(metric: Metric[]) {
-        return metric.map((m) => ({key: m.key, label: m.name, value: m}));
-    }
 }
 
 const cityBuilderStore = new CityBuilderStore();

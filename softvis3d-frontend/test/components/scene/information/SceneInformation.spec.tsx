@@ -3,8 +3,8 @@ import {shallow} from "enzyme";
 import {expect} from "chai";
 import SceneInformation from "../../../../src/components/scene/information/SceneInformation";
 import MetricKey from "../../../../src/components/scene/information/MetricKey";
+import {SceneStore, default as sceneStore} from "../../../../src/stores/SceneStore";
 import {CityBuilderStore} from "../../../../src/stores/CityBuilderStore";
-import {SceneStore} from "../../../../src/stores/SceneStore";
 
 describe("<SceneInformation/>", () => {
 
@@ -19,7 +19,7 @@ describe("<SceneInformation/>", () => {
         expect(bottomBar
             .contains(<MetricKey
                 title="Width"
-                metric={testCityBuilderStore.profile.metricWidth}
+                metric={sceneStore.sceneProfile.metricWidth}
                 selectedElement={testSceneStore.selectedElement}
             />)).to.be.true;
 

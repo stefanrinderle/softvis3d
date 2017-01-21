@@ -4,9 +4,7 @@ import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import LayoutProcessor from "../../legacy/LayoutProcessor";
-
-const ScalePicker: new() => SelectBoxBuilder<Scale> = SelectBoxBuilder as any;
-const MetricPropertyPicker: new() => SelectBoxBuilder<Metric> = SelectBoxBuilder as any;
+import Metric from "../../constants/Metric";
 
 @observer
 export default class OptionsAdvanced extends React.Component<{ store: CityBuilderStore; }, any> {
@@ -15,7 +13,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
             <Category label="Advanced Options" className="advanced" toggle={true} initialVisibility={false}>
                 <div className="left-column">
                     <div className="builder-option">
-                        <MetricPropertyPicker
+                        <SelectBoxBuilder
                             label="Metric - Base"
                             value={this.props.store.profile.metricWidth}
                             options={this.props.store.getAvailableGenericMetrics()}
@@ -26,7 +24,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                         />
                     </div>
                     <div className="builder-option">
-                    <MetricPropertyPicker
+                    <SelectBoxBuilder
                             label="Metric - Height"
                             value={this.props.store.profile.metricHeight}
                             options={this.props.store.getAvailableGenericMetrics()}
@@ -39,10 +37,10 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                 </div>
                 <div className="right-column">
                     <div className="builder-option">
-                        <ScalePicker
+                        <SelectBoxBuilder
                             label="Scaling Method"
                             value={this.props.store.profile.scale}
-                            options={LayoutProcessor.SCALING_METHODS.map((s: Scale) => Object.assign({value: s}, s))}
+                            options={LayoutProcessor.SCALING_METHODS}
                             onChange={(scale) => {
                                 this.props.store.chooseEditableProfile();
                                 this.props.store.profile.scale = scale;

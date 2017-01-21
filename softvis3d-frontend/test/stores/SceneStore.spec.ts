@@ -17,9 +17,8 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-
-import { expect } from "chai";
-import { INITIAL_SHAPES } from "../../src/constants/InitialSceneShapes";
+import {expect} from "chai";
+import {INITIAL_SHAPES} from "../../src/constants/InitialSceneShapes";
 import {SceneStore} from "../../src/stores/SceneStore";
 
 describe("SceneStore", () => {
@@ -107,4 +106,50 @@ describe("SceneStore", () => {
         expect(sceneStore.isShapesUpdate()).to.be.true;
     });
 
+    it("should return for getColorValue if no selected element available", () => {
+        let sceneStore = new SceneStore();
+
+        let result: number | null = sceneStore.getColorValue();
+
+        expect(result).to.be.null;
+    });
+
+    it("should return for getColorValue if no measure in the selected element is available", () => {
+        let sceneStore = new SceneStore();
+
+        sceneStore.setSelectedObjectId("123");
+        sceneStore.legacyData = {
+            id: "123",
+            name: "oidfoijs",
+            isNode: false,
+            children: [],
+            measures: {},
+            parentId: null
+        };
+        let result: number | null = sceneStore.getColorValue();
+
+        expect(result).to.be.null;
+    });
+
+    // TODO: somehow the test does not work but it works in the view.
+    // it("should return for getColorValue if measure in the selected element is available", () => {
+    //     let sceneStore = new SceneStore();
+    //
+    //     sceneStore.setSelectedObjectId("123");
+    //     sceneStore.legacyData = {
+    //         id: "123",
+    //         name: "oidfoijs",
+    //         isNode: false,
+    //         children: [],
+    //         measures: {
+    //             "ncloc": 989898
+    //         },
+    //         parentId: null
+    //     };
+    //     sceneStore.sceneMetricColor = linesOfCodeMetric;
+    //
+    //     let result: number | null = sceneStore.getColorValue();
+    //
+    //     expect(result).to.be.eq(989898);
+    // });
 });

@@ -1,7 +1,20 @@
 import {observable, computed, reaction} from "mobx";
 import {TreeService} from "../services/TreeService";
+import {defaultProfile} from "../constants/Profiles";
+import {district} from "../constants/Layouts";
+import * as Metrics from "../constants/Metrics";
+import Metric from "../constants/Metric";
+import {Profile} from "../constants/Profile";
 
 class SceneStore {
+
+    @observable
+    public sceneLayoutType: Layout = district;
+    @observable
+    public sceneProfile: Profile = defaultProfile;
+    @observable
+    public sceneMetricColor: Metric = Metrics.noMetric;
+
     @observable
     public legacyData: TreeElement | null = null;
 
@@ -75,6 +88,15 @@ class SceneStore {
 
     public resetMoved() {
         this.mouseMoved = false;
+    }
+
+    public getColorValue(): number | null {
+        if (this.selectedElement && this.selectedElement.measures
+                && sceneStore.sceneMetricColor.key in this.selectedElement.measures) {
+            return this.selectedElement.measures[sceneStore.sceneMetricColor.key];
+        } else {
+            return null;
+        }
     }
 }
 

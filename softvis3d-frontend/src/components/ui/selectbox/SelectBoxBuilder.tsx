@@ -2,17 +2,12 @@ import * as React from "react";
 import SelectBox from "./SelectBox";
 import SelectOption from "./SelectOption";
 
-export interface SelectOptionElement<T> {
-    value: T;
-    label: string;
-}
-
-export interface SelectBoxBuilderProps<T> {
+export interface SelectBoxBuilderProps {
     className?: string;
     label: string;
-    value: T;
-    options: Array<SelectOptionElement<T>>;
-    onChange: (value: T) => void|boolean;
+    value: any;
+    options: SelectOptionValue[];
+    onChange: (value: any) => void|boolean;
     onClick?: (event: React.SyntheticEvent) => void|boolean;
     onMouseDown?: (event: React.SyntheticEvent) => void|boolean;
     disabled?: boolean;
@@ -20,7 +15,7 @@ export interface SelectBoxBuilderProps<T> {
     append?: JSX.Element[];
 }
 
-export default class SelectBoxBuilder<T> extends React.Component<SelectBoxBuilderProps<T>, any> {
+export default class SelectBoxBuilder extends React.Component<SelectBoxBuilderProps, any> {
     public render() {
         return (
             <SelectBox

@@ -23,6 +23,7 @@
 import * as CodeCityVis from "codecity-visualizer";
 import Softvis3dModel from "./Softvis3dModel";
 import {TreeNodeInterface} from "codecity-visualizer/types/interfaces";
+import Scale from "../constants/Scale";
 
 const illustratorEvostreet = CodeCityVis.illustrators.evostreet;
 const illustratorDistrict = CodeCityVis.illustrators.district;
@@ -44,22 +45,10 @@ export interface MetricScale {
     metricColor: MinMaxValue;
 }
 
-const LOGARITHMIC: Scale = {
-    key: "logarithmic",
-    label: "Logarithmic"
-};
-const EXPONENTIAL: Scale = {
-    key: "exponential", 
-    label: "Exponential"
-};
-const LINEAR_SCALED: Scale = {
-    key: "linear_s",
-    label: "Linear (scaled)"
-};
-const LINEAR: Scale = {
-    key: "linear",
-    label: "Linear"
-};
+const LOGARITHMIC: Scale = new Scale("logarithmic", "Logarithmic");
+const EXPONENTIAL: Scale = new Scale("exponential", "Exponential");
+const LINEAR_SCALED: Scale = new Scale("linear_s", "Linear (scaled)");
+const LINEAR: Scale = new Scale("linear", "Linear");
 
 class LayoutProcessor {
     public static SCALING_METHODS: Scale[] = [

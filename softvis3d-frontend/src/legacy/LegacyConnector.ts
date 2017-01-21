@@ -7,6 +7,7 @@ import {reaction} from "mobx";
 export default class LegacyConnector {
 
     private sceneStore: SceneStore;
+    // It is only allowed to use cityBuilderStore in the method updateSceneStoreValues
     private cityBuilderStore: CityBuilderStore;
 
     public constructor(sceneStore: SceneStore, cityBuilderStore: CityBuilderStore) {
@@ -17,12 +18,12 @@ export default class LegacyConnector {
             "Convert backend data to threeJS shapes",
             () => this.sceneStore.legacyData,
             () => {
-                this.buildCity(true);
+                this.buildCity(false);
             }
         );
         reaction(
             "Change color buildings on demand",
-            () => this.cityBuilderStore.metricColor,
+            () => this.sceneStore.sceneMetricColor,
             () => {
                 this.buildCity(true);
             }
@@ -30,15 +31,17 @@ export default class LegacyConnector {
     }
 
     private buildCity(isColorUpdate: boolean) {
+        this.updateSceneStoreValues();
+
         if (this.sceneStore.legacyData !== null) {
-            const model = new Softvis3dModel(this.sceneStore.legacyData, this.cityBuilderStore.profile.metricWidth.key,
-                this.cityBuilderStore.profile.metricHeight.key, this.cityBuilderStore.metricColor.key);
+            const model = new Softvis3dModel(this.sceneStore.legacyData, this.sceneStore.sceneProfile.metricWidth.key,
+                this.sceneStore.sceneProfile.metricHeight.key, this.sceneStore.sceneMetricColor.key);
 
             const options = {
-                layout: this.cityBuilderStore.layoutType.id,
+                layout: this.sceneStore.sceneLayoutType.id,
                 layoutOptions: {},
-                colorMetric: this.cityBuilderStore.metricColor.key,
-                scalingMethod: this.cityBuilderStore.profile.scale
+                colorMetric: this.sceneStore.sceneMetricColor.key,
+                scalingMethod: this.sceneStore.sceneProfile.scale
             };
 
             const processor = new LayoutProcessor(options);
@@ -50,5 +53,13 @@ export default class LegacyConnector {
                 this.sceneStore.setShapes(shapes);
             }
         }
+    }
+
+    /**
+     * TODO: I don't really have an idea where to put this code.
+     */
+    private updateSceneStoreValues() {
+        this.sceneStore.sceneProfile = this.cityBuilderStore.profile;
+        this.sceneStore.sceneLayoutType = this.cityBuilderStore.layoutType;
     }
 }

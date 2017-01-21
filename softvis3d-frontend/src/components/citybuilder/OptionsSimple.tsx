@@ -6,9 +6,8 @@ import {district, evostreet} from "../../constants/Layouts";
 import * as Profiles from "../../constants/Profiles";
 import PreviewPictureComponent from "./PreviewPictureComponent";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
-
-const ProfileSelectBox: new() => SelectBoxBuilder<Profile> = SelectBoxBuilder as any;
-const MetricSelectBox: new() => SelectBoxBuilder<Metric> = SelectBoxBuilder as any;
+import Metric from "../../constants/Metric";
+import {Profile} from "../../constants/Profile";
 
 @observer
 export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {
@@ -25,11 +24,11 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
             <div className="simple">
                 <div className="left-column">
                     <div className="builder-option">
-                        <ProfileSelectBox
+                        <SelectBoxBuilder
                             label="Profile"
                             className="profiles"
                             value={this.props.store.profile}
-                            options={profiles.map((p) => ({key: p.id, label: p.name, value: p}))}
+                            options={profiles}
                             onChange={(p: Profile) => { this.props.store.setProfile(p); }}
                         />
                         <p className="selection-description profile-description">
@@ -37,7 +36,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                         </p>
                     </div>
                     <div className="builder-option">
-                        <MetricSelectBox
+                        <SelectBoxBuilder
                             label="Building Color"
                             className="metric color"
                             value={this.props.store.metricColor}

@@ -23,6 +23,7 @@ import {district, evostreet} from "../../src/constants/Layouts";
 import {defaultProfile, custom, duplicatedLinesOfCode} from "../../src/constants/Profiles";
 import * as Metrics from "../../src/constants/Metrics";
 import {placeholder, customDistrict, customEvostreet} from "../../src/constants/PreviewPictures";
+import Metric from "../../src/constants/Metric";
 
 describe("CityBuilderStore", () => {
 
@@ -31,7 +32,7 @@ describe("CityBuilderStore", () => {
         expect(underTest.layoutType).to.be.eq(district);
         expect(underTest.profile).to.be.eq(defaultProfile);
         expect(underTest.metricColor).to.be.eq(Metrics.noMetric);
-        expect(underTest.availableColorMetrics.length).to.be.eq(8);
+        expect(underTest.availableColorMetrics.getKeys().length).to.be.eq(8);
         expect(underTest.renderButtonClicked).to.be.eq(false);
         expect(underTest.show).to.be.eq(false);
 
@@ -49,15 +50,28 @@ describe("CityBuilderStore", () => {
         expect(underTest.layoutType).to.be.equal(evostreet);
     });
 
+    it("should set profile", () => {
+        let underTest: CityBuilderStore = new CityBuilderStore();
+        underTest.setProfile(defaultProfile);
+        expect(underTest.profile).to.be.equal(defaultProfile);
+    });
+
+    it("should set profile if already set", () => {
+        let underTest: CityBuilderStore = new CityBuilderStore();
+        underTest.setProfile(defaultProfile);
+        underTest.setProfile(defaultProfile);
+        expect(underTest.profile).to.be.equal(defaultProfile);
+    });
+
     it("should set and get generic metrics", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         let expectedMetrics: Metric[] = [];
-        expectedMetrics.push({key: "1", type: "INT", name: "1"});
-        expectedMetrics.push({key: "2", type: "FLOAT", name: "2"});
+        expectedMetrics.push(new Metric("1", "INT", "1"));
+        expectedMetrics.push(new Metric("2", "FLOAT", "2"));
 
-        expect(underTest.getAvailableGenericMetrics().length).to.be.equal(1);
+        expect(underTest.getAvailableGenericMetrics().length).to.be.equal(0);
         underTest.addGenericMetrics(expectedMetrics);
-        expect(underTest.getAvailableGenericMetrics().length).to.be.equal(3);
+        expect(underTest.getAvailableGenericMetrics().length).to.be.equal(2);
     });
 
     it("should get color metrics", () => {

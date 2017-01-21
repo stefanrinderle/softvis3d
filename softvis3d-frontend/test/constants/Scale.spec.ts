@@ -17,46 +17,18 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
+import {expect} from "chai";
+import Scale from "../../src/constants/Scale";
 
-import ReactElement = __React.ReactElement;
+describe("Scale", () => {
 
-declare const config: {
-    api: string;
-    env: string;
-    project: string | null;
-    proxy: string | null;
-    proxyLegacy: boolean;
-};
+    it("should implement SelectOptionValue", () => {
+        let expectedKey: string = "23";
+        let expectedLabel: string = "INT";
 
-declare module "config" {
-    export default config;
-}
+        let result: Scale = new Scale(expectedKey, expectedLabel);
 
-declare type MetricType = "INT" | "FLOAT" | "PERCENT" | "BOOL" |
-    "STRING" | "MILLISEC" | "DATA" | "LEVEL" |
-    "DISTRIB" | "RATING" | "WORK_DUR" | "NONE";
+        expect(result.getLabel()).to.be.eq(expectedLabel);
+    });
 
-declare interface SelectOptionValue {
-    getLabel(): string;
-}
-
-interface MeasureList {
-    [propName: string]: number;
-}
-
-declare interface TreeElement {
-    id: string;
-    name: string;
-    isNode: boolean;
-
-    children: TreeElement[];
-
-    measures: MeasureList;
-    parentId: string | null;
-}
-
-declare interface Layout {
-    id: string;
-    name: string;
-    description: string;
-}
+});

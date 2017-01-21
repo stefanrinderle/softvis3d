@@ -17,46 +17,31 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
+import {expect} from "chai";
+import Metric from "../../src/constants/Metric";
 
-import ReactElement = __React.ReactElement;
+describe("Metric", () => {
 
-declare const config: {
-    api: string;
-    env: string;
-    project: string | null;
-    proxy: string | null;
-    proxyLegacy: boolean;
-};
+    it("should construct minimal metric", () => {
+        let expectedKey: string = "23";
+        let expectedType: MetricType = "INT";
+        let expectedName: string = "diufgh";
 
-declare module "config" {
-    export default config;
-}
+        let result: Metric = new Metric(expectedKey, expectedType, expectedName);
 
-declare type MetricType = "INT" | "FLOAT" | "PERCENT" | "BOOL" |
-    "STRING" | "MILLISEC" | "DATA" | "LEVEL" |
-    "DISTRIB" | "RATING" | "WORK_DUR" | "NONE";
+        expect(result.key).to.be.eq(expectedKey);
+        expect(result.name).to.be.eq(expectedName);
+        expect(result.type).to.be.eq(expectedType);
+    });
 
-declare interface SelectOptionValue {
-    getLabel(): string;
-}
+    it("should implement SelectOptionValue", () => {
+        let expectedKey: string = "23";
+        let expectedType: MetricType = "INT";
+        let expectedName: string = "diufgh";
 
-interface MeasureList {
-    [propName: string]: number;
-}
+        let result: Metric = new Metric(expectedKey, expectedType, expectedName);
 
-declare interface TreeElement {
-    id: string;
-    name: string;
-    isNode: boolean;
+        expect(result.getLabel()).to.be.eq(expectedName);
+    });
 
-    children: TreeElement[];
-
-    measures: MeasureList;
-    parentId: string | null;
-}
-
-declare interface Layout {
-    id: string;
-    name: string;
-    description: string;
-}
+});
