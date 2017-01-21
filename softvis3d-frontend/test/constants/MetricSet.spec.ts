@@ -28,13 +28,13 @@ describe("MetricSet", () => {
         initialMetrics.push(new Metric("123", "INT", "siuhf"));
 
         let result: MetricSet = new MetricSet(initialMetrics);
-        expect(result.getKeys().length).to.be.eq(1);
+        expect(result.keys.length).to.be.eq(1);
 
         let additionalMetrics: Metric[] = [];
         additionalMetrics.push(new Metric("123", "INT", "siuhf"));
         result.addMetrics(additionalMetrics);
 
-        expect(result.getKeys().length).to.be.eq(2);
+        expect(result.keys.length).to.be.eq(2);
     });
 
     it("should return metric keys", () => {
@@ -44,9 +44,9 @@ describe("MetricSet", () => {
 
         let result: MetricSet = new MetricSet(initialMetrics);
 
-        expect(result.getKeys().length).to.be.eq(2);
-        expect(result.getKeys()[0]).to.be.eq("123");
-        expect(result.getKeys()[1]).to.be.eq("321");
+        expect(result.keys.length).to.be.eq(2);
+        expect(result.keys[0]).to.be.eq("123");
+        expect(result.keys[1]).to.be.eq("321");
     });
 
     it("should return select options", () => {
@@ -56,9 +56,9 @@ describe("MetricSet", () => {
 
         let result: MetricSet = new MetricSet(initialMetrics);
 
-        expect(result.getSelectOptions().length).to.be.eq(2);
-        expect(result.getSelectOptions()[0].getLabel()).to.be.eq("siuhf");
-        expect(result.getSelectOptions()[1].getLabel()).to.be.eq("iojsiodf");
+        expect(result.asSelectOptions.length).to.be.eq(2);
+        expect(result.asSelectOptions[0].getLabel()).to.be.eq("siuhf");
+        expect(result.asSelectOptions[1].getLabel()).to.be.eq("iojsiodf");
     });
 
 });

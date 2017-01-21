@@ -40,7 +40,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                             label="Building Color"
                             className="metric color"
                             value={this.props.store.metricColor}
-                            options={this.props.store.getAvailableColorMetrics()}
+                            options={this.props.store.colorMetrics.asSelectOptions}
                             onChange={(m: Metric) => { this.props.store.metricColor = m; }}
                         />
                         <p className="selection-description color-description">

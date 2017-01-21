@@ -16,7 +16,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                         <SelectBoxBuilder
                             label="Metric - Base"
                             value={this.props.store.profile.metricWidth}
-                            options={this.props.store.getAvailableGenericMetrics()}
+                            options={this.props.store.genericMetrics.asSelectOptions}
                             onChange={(m: Metric) => {
                                 this.props.store.chooseEditableProfile();
                                 this.props.store.profile.metricWidth = m;
@@ -27,7 +27,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                     <SelectBoxBuilder
                             label="Metric - Height"
                             value={this.props.store.profile.metricHeight}
-                            options={this.props.store.getAvailableGenericMetrics()}
+                            options={this.props.store.genericMetrics.asSelectOptions}
                             onChange={(m: Metric) => {
                                 this.props.store.chooseEditableProfile();
                                 this.props.store.profile.metricHeight = m;

@@ -32,7 +32,7 @@ describe("CityBuilderStore", () => {
         expect(underTest.layoutType).to.be.eq(district);
         expect(underTest.profile).to.be.eq(defaultProfile);
         expect(underTest.metricColor).to.be.eq(Metrics.noMetric);
-        expect(underTest.availableColorMetrics.getKeys().length).to.be.eq(8);
+        expect(underTest.colorMetrics.keys.length).to.be.eq(8);
         expect(underTest.renderButtonClicked).to.be.eq(false);
         expect(underTest.show).to.be.eq(false);
 
@@ -69,14 +69,17 @@ describe("CityBuilderStore", () => {
         expectedMetrics.push(new Metric("1", "INT", "1"));
         expectedMetrics.push(new Metric("2", "FLOAT", "2"));
 
-        expect(underTest.getAvailableGenericMetrics().length).to.be.equal(0);
-        underTest.addGenericMetrics(expectedMetrics);
-        expect(underTest.getAvailableGenericMetrics().length).to.be.equal(2);
+        expect(underTest.genericMetrics.length).to.be.equal(0);
+        underTest.genericMetrics.addMetrics(expectedMetrics);
+        expect(underTest.genericMetrics.length).to.be.equal(2);
+
+        underTest.genericMetrics.addMetric(new Metric("3", "PERCENT", "3"));
+        expect(underTest.genericMetrics.length).to.be.equal(3);
     });
 
     it("should get color metrics", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
-        expect(underTest.getAvailableColorMetrics().length).to.be.equal(8);
+        expect(underTest.colorMetrics.length).to.be.equal(8);
     });
 
     it("should get preview picture custom district", () => {

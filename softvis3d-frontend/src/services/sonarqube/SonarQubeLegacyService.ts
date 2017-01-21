@@ -70,7 +70,7 @@ export default class SonarQubeLegacyService extends BackendService {
         result.add(this.cityBuilderStore.profile.metricWidth.key);
         result.add(this.cityBuilderStore.profile.metricHeight.key);
 
-        const colorMetrics: string[] = this.cityBuilderStore.availableColorMetrics.getKeys();
+        const colorMetrics: string[] = this.cityBuilderStore.colorMetrics.keys;
 
         for (let i = 0; i < colorMetrics.length; i++) {
             if (colorMetrics[i] !== 'none' && colorMetrics[i] !== 'package') {

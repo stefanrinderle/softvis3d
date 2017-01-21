@@ -30,7 +30,7 @@ describe("SonarQubeMetricsService", () => {
 
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let spyAdd = Sinon.spy(testCityBuilderStore, "addGenericMetrics");
+        let spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
         let apiUrl: string = "urlsihshoif";
         let underTest: SonarQubeMetricsService =
@@ -67,7 +67,7 @@ describe("SonarQubeMetricsService", () => {
 
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let spyAdd = Sinon.spy(testCityBuilderStore, "addGenericMetrics");
+        let spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
         let apiUrl: string = "urlsihshoif";
         let underTest: SonarQubeMetricsService =
@@ -107,7 +107,7 @@ describe("SonarQubeMetricsService", () => {
 
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let spyAdd = Sinon.spy(testCityBuilderStore, "addGenericMetrics");
+        let spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
         let apiUrl: string = "urlsihshoif";
         let underTest: SonarQubeMetricsService =

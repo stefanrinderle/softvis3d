@@ -33,7 +33,7 @@ export default class SceneInformation extends React.Component<SceneInformationPr
                     label="Color"
                     className="metric-info"
                     value={sceneStore.sceneMetricColor}
-                    options={new MetricSet(availableColorMetrics).getSelectOptions()}
+                    options={new MetricSet(availableColorMetrics).asSelectOptions}
                     onChange={(m: Metric) => { this.updateColorMetric(m); }}
                     append={colorInformation}
                 />

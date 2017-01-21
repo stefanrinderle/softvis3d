@@ -51,23 +51,21 @@ export default class SonarQubeMetricsService extends BackendService {
 
         const params = {f: 'name', p: page};
         this.callApi("/metrics/search", { params }).then(response => {
-            this.cityBuilderStore.addGenericMetrics(
-                (response.data.metrics as Array<SonarQubeApiMetric>)
-                    .filter((c) => SonarQubeMetricsService.shouldMetricBeFiltered(c.type))
-                    .filter((c) => c.hidden === true || c.hidden === undefined || c.hidden === null)
-                    .map((c) => { return this.createMetric(c); })
-            );
+            const metrics: Metric[] = (response.data.metrics as Array<SonarQubeApiMetric>)
+                .filter((c) => SonarQubeMetricsService.shouldMetricBeFiltered(c.type))
+                .filter((c) => c.hidden === true || c.hidden === undefined || c.hidden === null)
+                .map((c) => { return this.createMetric(c); });
+            this.cityBuilderStore.genericMetrics.addMetrics(metrics);
 
-            const metricsCount = response.data.p * response.data.ps;
-            if (metricsCount < response.data.total) {
+            const metricsPosition = response.data.p * response.data.ps;
+            if (metricsPosition < response.data.total) {
                 this.loadAvailableMetrics(page + 1);
             } else {
                 this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
             }
 
         }).catch(error => {
-            this.appStatusStore.error("SonarQube metric API is not available or responding: "
-                + error.response.statusText);
+            this.appStatusStore.error("SonarQube metric API is not available or responding: " + error.response.statusText);
             this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
         });
     }
