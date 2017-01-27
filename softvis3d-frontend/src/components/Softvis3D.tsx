@@ -17,11 +17,12 @@ interface Softvis3DProps {
 export default class Softvis3D extends React.Component<Softvis3DProps, any> {
 
     public render() {
+        const {appStatusStore, sceneStore, cityBuilderStore} = this.props;
         return (
             <div>
-                <Status appStatusStore={this.props.appStatusStore}/>
-                <CityBuilder store={this.props.cityBuilderStore} appStatusStore={this.props.appStatusStore}/>
-                <Visualization cityBuilderStore={this.props.cityBuilderStore} sceneStore={this.props.sceneStore}/>
+                <Status appStatusStore={appStatusStore}/>
+                <CityBuilder store={cityBuilderStore} appStatusStore={appStatusStore}/>
+                <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
             </div>
         );
     }

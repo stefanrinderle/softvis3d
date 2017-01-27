@@ -7,9 +7,9 @@ import cityBuilderStore from "./stores/CityBuilderStore";
 import sceneStore from "./stores/SceneStore";
 import SonarQubeMetricsService from "./services/sonarqube/SonarQubeMetricsService";
 import SonarQubeLegacyService from "./services/sonarqube/SonarQubeLegacyService";
+import WebGLDetector from "./services/WebGLDetector";
 import SceneReactions from "./reactions/SceneReactions";
 import BuilderReactions from "./reactions/BuilderReactions";
-import {WebGLDetector} from "./components/scene/webgl/WebGLDetector";
 
 interface AppConfiguration {
     api: string;
@@ -61,8 +61,9 @@ export default class App {
 
     private assertRequirementsAreMet() {
         if (!WebGLDetector.isWebGLSupported()) {
-            console.warn(WebGLDetector.getWebGLErrorMessage());
-            throw "WebGL has not been detected.";
+            const error = WebGLDetector.getWebGLErrorMessage();
+            console.warn(error);
+            throw error;
         }
     }
 }
