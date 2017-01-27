@@ -29,7 +29,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                             className="profiles"
                             value={this.props.store.profile}
                             options={profiles}
-                            onChange={(p: Profile) => { this.props.store.setProfile(p); }}
+                            onChange={(p: Profile) => { this.props.store.profile = p; }}
                         />
                         <p className="selection-description profile-description">
                             {this.props.store.profile.description}

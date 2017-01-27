@@ -13,8 +13,6 @@ class CityBuilderStore {
     @observable
     public layout: Layout = district;
     @observable
-    public profile: Profile = defaultProfile;
-    @observable
     public metricColor: Metric = noMetric;
     @observable
     public readonly colorMetrics: MetricSet = new MetricSet(availableColorMetrics);
@@ -24,6 +22,9 @@ class CityBuilderStore {
     public initiateBuildProcess: boolean = false;
     @observable
     public show: boolean = false;
+
+    @observable
+    private hProfile: Profile = defaultProfile;
     private previewPictures: PreviewPicture[] = [];
 
     public constructor() {
@@ -33,17 +34,20 @@ class CityBuilderStore {
         ];
     }
 
-    public chooseEditableProfile() {
-        this.setProfile(custom);
-    }
-
-    public setProfile(p: Profile) {
+    set profile(p: Profile) {
         if (p.id === custom.id) {
             p.metricHeight = this.profile.metricHeight;
             p.metricWidth = this.profile.metricWidth;
         }
+        this.hProfile = p;
+    }
 
-        this.profile = p;
+    get profile(): Profile {
+        return this.hProfile;
+    }
+
+    public chooseEditableProfile() {
+        this.profile = custom;
     }
 
     public getPreviewBackground(): PreviewPicture {

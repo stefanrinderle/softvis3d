@@ -52,14 +52,14 @@ describe("CityBuilderStore", () => {
 
     it("should set profile", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
-        underTest.setProfile(defaultProfile);
+        underTest.profile = defaultProfile;
         expect(underTest.profile).to.be.equal(defaultProfile);
     });
 
     it("should set profile if already set", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
-        underTest.setProfile(defaultProfile);
-        underTest.setProfile(defaultProfile);
+        underTest.profile = defaultProfile;
+        underTest.profile = defaultProfile;
         expect(underTest.profile).to.be.equal(defaultProfile);
     });
 
