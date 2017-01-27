@@ -1,4 +1,4 @@
-import {observable, computed, reaction} from "mobx";
+import {observable, computed} from "mobx";
 import {TreeService} from "../services/TreeService";
 import {defaultProfile} from "../constants/Profiles";
 import {district} from "../constants/Layouts";
@@ -7,65 +7,28 @@ import Metric from "../constants/Metric";
 import {Profile} from "../constants/Profile";
 
 class SceneStore {
-
     @observable
-    public sceneLayoutType: Layout = district;
+    public layout: Layout = district;
     @observable
-    public sceneProfile: Profile = defaultProfile;
+    public profile: Profile = defaultProfile;
     @observable
-    public sceneMetricColor: Metric = Metrics.noMetric;
-
+    public metricColor: Metric = Metrics.noMetric;
     @observable
     public legacyData: TreeElement | null = null;
-
     @observable
     public selectedObjectId: string | null = null;
-
     @observable
-    private currentShapes: any;
-
-    private shapesUpdate: boolean = false;
-
+    public shapes: any;
     @observable
-    private rendered: boolean = false;
-
-    private mouseMoved: boolean = false;
+    public refreshScene: boolean = false;
 
     public constructor() {
-        this.rendered = false;
-
-        reaction(
-            "Render the threeJS scene as soon as data is available",
-            () => this.currentShapes,
-            () => { this.rendered = true; }
-        );
-    }
-
-    public setSelectedObjectId(objectId: string | null) {
-        this.selectedObjectId = objectId;
-    }
-
-    public setShapes(shapes: any) {
-        this.shapesUpdate = false;
-        this.currentShapes = shapes;
-    }
-
-    public updateShapes(shapes: any) {
-        this.shapesUpdate = true;
-        this.currentShapes = shapes;
-    }
-
-    public getShapes() {
-        return this.currentShapes;
-    }
-
-    public isShapesUpdate() {
-        return this.shapesUpdate;
+        this.shapes = null;
     }
 
     @computed
     public get isVisible() {
-        return this.rendered;
+        return this.shapes !== null;
     }
 
     @computed
@@ -78,22 +41,10 @@ class SceneStore {
         return selectedElement;
     }
 
-    public hasMouseMoved(): boolean {
-        return this.mouseMoved;
-    }
-
-    public setMoved() {
-        this.mouseMoved = true;
-    }
-
-    public resetMoved() {
-        this.mouseMoved = false;
-    }
-
     public getColorValue(): number | null {
         if (this.selectedElement && this.selectedElement.measures
-                && sceneStore.sceneMetricColor.key in this.selectedElement.measures) {
-            return this.selectedElement.measures[sceneStore.sceneMetricColor.key];
+                && this.metricColor.key in this.selectedElement.measures) {
+            return this.selectedElement.measures[this.metricColor.key];
         } else {
             return null;
         }

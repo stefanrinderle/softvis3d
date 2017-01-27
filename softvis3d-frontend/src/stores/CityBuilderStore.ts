@@ -11,7 +11,7 @@ import {PreviewPicture} from "../constants/PreviewPicture";
 class CityBuilderStore {
 
     @observable
-    public layoutType: Layout = district;
+    public layout: Layout = district;
     @observable
     public profile: Profile = defaultProfile;
     @observable
@@ -21,7 +21,7 @@ class CityBuilderStore {
     @observable
     public readonly genericMetrics: MetricSet = new MetricSet([]);
     @observable
-    public renderButtonClicked: boolean = false;
+    public initiateBuildProcess: boolean = false;
     @observable
     public show: boolean = false;
     private previewPictures: PreviewPicture[] = [];
@@ -37,10 +37,6 @@ class CityBuilderStore {
         this.setProfile(custom);
     }
 
-    public setLayout(l: Layout) {
-        this.layoutType = l;
-    }
-
     public setProfile(p: Profile) {
         if (p.id === custom.id) {
             p.metricHeight = this.profile.metricHeight;
@@ -52,7 +48,7 @@ class CityBuilderStore {
 
     public getPreviewBackground(): PreviewPicture {
         for (let preview of this.previewPictures) {
-            if (preview.forLayout(this.layoutType) && preview.forProfile(this.profile)) {
+            if (preview.forLayout(this.layout) && preview.forProfile(this.profile)) {
                 return preview;
             }
         }

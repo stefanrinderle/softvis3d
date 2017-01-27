@@ -18,7 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 /* tslint:disable */
-import {reaction} from "mobx";
 import {BackendService} from "./BackendService";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import {AppStatusStore} from "../../stores/AppStatusStore";
@@ -40,17 +39,9 @@ export default class SonarQubeLegacyService extends BackendService {
         this.appStatusStore = appStatusStore;
         this.cityBuilderStore = cityBuilderStore;
         this.sceneStore = sceneStore;
-
-        reaction(
-            "Load backend legacy data when the scene should be rendered",
-            () => this.cityBuilderStore.renderButtonClicked,
-            () => this.cityBuilderStore.renderButtonClicked && this.loadLegacyBackend().then(() => {
-                this.cityBuilderStore.renderButtonClicked = false;
-            })
-        );
     }
 
-    private loadLegacyBackend() {
+    public loadLegacyBackend() {
         this.appStatusStore.load(SonarQubeLegacyService.LOAD_LEGACY);
 
         const params = {
@@ -64,7 +55,7 @@ export default class SonarQubeLegacyService extends BackendService {
         }).catch(console.log);
     }
 
-    private getMetricRequestValues(): string {
+    public getMetricRequestValues(): string {
         let result: Set<string> = new Set;
 
         result.add(this.cityBuilderStore.profile.metricWidth.key);
@@ -81,7 +72,7 @@ export default class SonarQubeLegacyService extends BackendService {
         return this.getColorMetricsString(result);
     }
 
-    private getColorMetricsString(colorMetrics: Set<string>): string {
+    public getColorMetricsString(colorMetrics: Set<string>): string {
         return Array.from(colorMetrics).join(",");
     }
 }

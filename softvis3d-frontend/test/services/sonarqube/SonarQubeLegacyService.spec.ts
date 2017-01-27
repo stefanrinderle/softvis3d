@@ -51,7 +51,7 @@ describe("SonarQubeLegacyService", () => {
             });
         });
 
-        testCityBuilderStore.renderButtonClicked = true;
+        testCityBuilderStore.initiateBuildProcess = true;
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});
@@ -66,7 +66,7 @@ describe("SonarQubeLegacyService", () => {
             returnPromise2.then(() => {
                 clock.tick(10);
                 returnPromise3.then(() => {
-                    expect(testCityBuilderStore.renderButtonClicked).to.be.false;
+                    expect(testCityBuilderStore.initiateBuildProcess).to.be.false;
                     done();
                 }).catch((error) => done(error));
             }).catch((error) => done(error));
@@ -92,7 +92,7 @@ describe("SonarQubeLegacyService", () => {
             return Promise.resolve({});
         });
 
-        testCityBuilderStore.renderButtonClicked = false;
+        testCityBuilderStore.initiateBuildProcess = false;
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -126,7 +126,7 @@ describe("SonarQubeLegacyService", () => {
             });
         });
 
-        testCityBuilderStore.renderButtonClicked = true;
+        testCityBuilderStore.initiateBuildProcess = true;
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);

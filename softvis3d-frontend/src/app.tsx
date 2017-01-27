@@ -7,6 +7,8 @@ import cityBuilderStore from "./stores/CityBuilderStore";
 import sceneStore from "./stores/SceneStore";
 import SonarQubeMetricsService from "./services/sonarqube/SonarQubeMetricsService";
 import SonarQubeLegacyService from "./services/sonarqube/SonarQubeLegacyService";
+import SceneReactions from "./reactions/SceneReactions";
+import BuilderReactions from "./reactions/BuilderReactions";
 
 interface AppConfiguration {
     api: string;
@@ -15,25 +17,27 @@ interface AppConfiguration {
 }
 
 export default class App {
-    private isInitialized: boolean;
+    private isInitialized: boolean = false;
     private communicator: SonarQubeMetricsService;
     private legacyService: SonarQubeLegacyService;
     private legacy: LegacyConnector;
+    private reactions: any[];
 
     public constructor(config: AppConfiguration) {
         this.bootstrap(config);
     }
 
     public bootstrap(config: AppConfiguration) {
-        this.isInitialized = false;
-        this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
-        this.legacyService = new SonarQubeLegacyService(config.api, config.projectKey,
-            appStatusStore, cityBuilderStore, sceneStore);
-        this.legacy = new LegacyConnector(sceneStore, cityBuilderStore);
         appStatusStore.showLoadingQueue = config.isDev;
+        this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
+        this.legacyService = new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
+        this.legacy = new LegacyConnector(sceneStore, cityBuilderStore);
+        this.reactions = [];
     }
 
     public init() {
+        this.reactions.push(new SceneReactions(sceneStore, cityBuilderStore, this.legacy, this.legacyService));
+        this.reactions.push(new BuilderReactions(cityBuilderStore, sceneStore));
         this.communicator.loadAvailableMetrics();
         this.isInitialized = true;
     }

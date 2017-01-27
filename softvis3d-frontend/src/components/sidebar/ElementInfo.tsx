@@ -37,7 +37,7 @@ export default class ElementInfo extends React.Component<ElementInfoProps, any> 
     }
 
     private selectElement() {
-        this.props.sceneStore.setSelectedObjectId(this.props.element.id);
+        this.props.sceneStore.selectedObjectId = this.props.element.id;
     }
 
 }

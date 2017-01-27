@@ -6,10 +6,8 @@ import SelectBoxBuilder from "../../ui/selectbox/SelectBoxBuilder";
 import {availableColorMetrics} from "../../../constants/Metrics";
 import MetricSet from "../../../constants/MetricSet";
 import Metric from "../../../constants/Metric";
-import {CityBuilderStore} from "../../../stores/CityBuilderStore";
 
 interface SceneInformationProps {
-    cityBuilderStore: CityBuilderStore;
     sceneStore: SceneStore;
 }
 
@@ -27,14 +25,14 @@ export default class SceneInformation extends React.Component<SceneInformationPr
 
         return (
             <div className="scene-information">
-                <MetricKey title="Width" metric={sceneStore.sceneProfile.metricWidth} selectedElement={selectedElement}/>
-                <MetricKey title="Height" metric={sceneStore.sceneProfile.metricHeight} selectedElement={selectedElement}/>
+                <MetricKey title="Width" metric={sceneStore.profile.metricWidth} selectedElement={selectedElement}/>
+                <MetricKey title="Height" metric={sceneStore.profile.metricHeight} selectedElement={selectedElement}/>
                 <SelectBoxBuilder
                     label="Color"
                     className="metric-info"
-                    value={sceneStore.sceneMetricColor}
+                    value={sceneStore.metricColor}
                     options={new MetricSet(availableColorMetrics).asSelectOptions}
-                    onChange={(m: Metric) => { this.updateColorMetric(m); }}
+                    onChange={(m: Metric) => { sceneStore.metricColor = m; }}
                     append={colorInformation}
                 />
             </div>
@@ -48,13 +46,5 @@ export default class SceneInformation extends React.Component<SceneInformationPr
             colorInformation.push(<span className="value">{colorValue}</span>);
         }
         return colorInformation;
-    }
-
-    /**
-     * Update of the color metric in the visualization should also update metric value for city builder.
-     */
-    private updateColorMetric(metric: Metric) {
-        this.props.sceneStore.sceneMetricColor = metric;
-        this.props.cityBuilderStore.metricColor = metric;
     }
 }

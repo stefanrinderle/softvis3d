@@ -55,31 +55,6 @@ describe("SceneStore", () => {
         expect(sceneStore.selectedObjectId).to.be.equal(null);
     });
 
-    it("should not have mouse moved after initialization", () => {
-        let sceneStore = new SceneStore();
-        expect(sceneStore.hasMouseMoved()).to.be.false;
-    });
-
-    it("should have mouse moved after set it to move", () => {
-        let sceneStore = new SceneStore();
-        sceneStore.setMoved();
-
-        expect(sceneStore.hasMouseMoved()).to.be.true;
-    });
-
-    it("should have mouse moved after set it to move", () => {
-        let sceneStore = new SceneStore();
-        expect(sceneStore.hasMouseMoved()).to.be.false;
-
-        sceneStore.setMoved();
-
-        expect(sceneStore.hasMouseMoved()).to.be.true;
-
-        sceneStore.resetMoved();
-
-        expect(sceneStore.hasMouseMoved()).to.be.false;
-    });
-
     it("should set shapes if set", () => {
         let sceneStore = new SceneStore();
 

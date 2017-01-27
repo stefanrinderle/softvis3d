@@ -55,7 +55,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                             store={this.props.store}
                         />
                         <p className="selection-description layout-description">
-                            {this.props.store.layoutType.description}
+                            {this.props.store.layout.description}
                         </p>
                     </div>
                 </div>

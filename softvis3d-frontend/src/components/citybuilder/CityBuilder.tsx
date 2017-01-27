@@ -49,7 +49,7 @@ export default class CityBuilder extends React.Component<CityBuilderProps, any> 
 
     private loadScene() {
         this.props.store.show = false;
-        this.props.store.renderButtonClicked = true;
+        this.props.store.initiateBuildProcess = true;
     }
 
     private close() {

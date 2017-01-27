@@ -1,14 +1,12 @@
 import * as React from "react";
-import { SoftVis3dScene } from "./visualization/SoftVis3dScene";
 import { observer } from "mobx-react";
+import { reaction } from "mobx";
+import { SoftVis3dScene } from "./visualization/SoftVis3dScene";
 import { SceneStore } from "../../stores/SceneStore";
 import { WebGLDetector } from "./webgl/WebGLDetector";
-import { reaction } from "mobx";
 import SceneInformation from "./information/SceneInformation";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
 
 interface SceneProps {
-    cityBuilderStore: CityBuilderStore;
     sceneStore: SceneStore;
 }
 
@@ -23,6 +21,7 @@ export default class Scene extends React.Component<SceneProps, any> {
 
     private static CANVAS_ID: string = "softvis3dscene";
     private softVis3dScene: SoftVis3dScene;
+    private mouseMoved: boolean = false;
 
     constructor() {
         super();
@@ -32,7 +31,8 @@ export default class Scene extends React.Component<SceneProps, any> {
         if (WebGLDetector.isWebGLSupported()) {
             this.loadScene();
             // initial load - all other updates via the render method.
-            this.softVis3dScene.loadSoftVis3d(this.props.sceneStore.getShapes());
+            this.softVis3dScene.loadSoftVis3d(this.props.sceneStore.shapes);
+            this.props.sceneStore.refreshScene = false;
 
             reaction(
                 "Select object in scene",
@@ -41,7 +41,7 @@ export default class Scene extends React.Component<SceneProps, any> {
             );
             reaction(
                 "Load new objects in scene",
-                () => this.props.sceneStore.getShapes(),
+                () => this.props.sceneStore.shapes,
                 () => { this.loadObjectsInScene(); }
             );
         } else {
@@ -50,40 +50,41 @@ export default class Scene extends React.Component<SceneProps, any> {
     }
 
     public render() {
-        const {cityBuilderStore, sceneStore} = this.props;
+        const {sceneStore} = this.props;
 
         // needed because the scene object is not available on the first render.
         // but needed to use the "render" method if the shapes change.
         if (this.softVis3dScene !== undefined) {
-            this.softVis3dScene.loadSoftVis3d(sceneStore.getShapes());
+            this.softVis3dScene.loadSoftVis3d(sceneStore.shapes);
         }
 
         return (
             <div className="scene">
                 <canvas id={Scene.CANVAS_ID} onClick={this.makeSelection.bind(this)}/>
-                <SceneInformation cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
+                <SceneInformation sceneStore={sceneStore}/>
            </div>
         );
     }
 
     private loadObjectsInScene() {
-        let shapes: any = this.props.sceneStore.getShapes();
-        let isShapesUpdate: boolean = this.props.sceneStore.isShapesUpdate();
+        let shapes: any = this.props.sceneStore.shapes;
+        let fullUpdate: boolean = this.props.sceneStore.refreshScene;
 
-        if (!isShapesUpdate) {
+        if (fullUpdate) {
             this.softVis3dScene.loadSoftVis3d(shapes);
         } else {
             this.softVis3dScene.updateColorsWithUpdatedShapes(shapes);
         }
+
+        this.props.sceneStore.refreshScene = false;
     }
 
     private makeSelection(event: any) {
-        if (!this.props.sceneStore.hasMouseMoved()) {
-            let selectedId: string | null = this.softVis3dScene.makeSelection(event);
-            this.props.sceneStore.setSelectedObjectId(selectedId);
+        if (!this.mouseMoved) {
+            this.props.sceneStore.selectedObjectId = this.softVis3dScene.makeSelection(event);
         }
 
-        this.props.sceneStore.resetMoved();
+        this.mouseMoved = false;
     }
 
     private loadScene() {
@@ -99,7 +100,7 @@ export default class Scene extends React.Component<SceneProps, any> {
 
     private addOrbitControlsListener() {
         this.softVis3dScene.getControls().addEventListener("change", () => {
-            this.props.sceneStore.setMoved();
+            this.mouseMoved = true;
         });
     }
 
