@@ -24,7 +24,7 @@ describe("<Visualization/>", () => {
         expectedParentElement.children.push(expectedSelectedElement);
 
         // Trigger change on "shapes"
-        localSceneStore.setShapes(null);
+        localSceneStore.shapes = null;
 
         localSceneStore.legacyData = expectedParentElement;
         localSceneStore.selectedObjectId = testId;
@@ -37,7 +37,7 @@ describe("<Visualization/>", () => {
         expect(visualization.contains(
             <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
-            <Scene cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />)).to.be.true;
+            <Scene sceneStore={localSceneStore} />)).to.be.true;
         expect(visualization.contains(
             <SideBar sceneStore={localSceneStore}/>)).to.be.true;
     });
@@ -47,7 +47,7 @@ describe("<Visualization/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         // Trigger change on "shapes"
-        localSceneStore.setShapes(null);
+        localSceneStore.shapes = null;
 
         const visualization = shallow(
             <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
@@ -57,7 +57,7 @@ describe("<Visualization/>", () => {
         expect(visualization.contains(
             <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
-            <Scene cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />)).to.be.true;
+            <Scene sceneStore={localSceneStore} />)).to.be.true;
         expect(visualization.contains(
             <SideBar sceneStore={localSceneStore}/>)).to.be.true;
     });
@@ -70,7 +70,7 @@ describe("<Visualization/>", () => {
         let expectedSelectedElement: TreeElement = createTestTreeElement(testId);
 
         // Trigger change on "shapes"
-        localSceneStore.setShapes(null);
+        localSceneStore.shapes = null;
 
         localSceneStore.legacyData = expectedSelectedElement;
         localSceneStore.selectedObjectId = testId;
@@ -83,7 +83,7 @@ describe("<Visualization/>", () => {
         expect(visualization.contains(
             <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
-            <Scene cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />)).to.be.true;
+            <Scene sceneStore={localSceneStore} />)).to.be.true;
         expect(visualization.contains(
             <SideBar sceneStore={localSceneStore}/>)).to.be.true;
     });

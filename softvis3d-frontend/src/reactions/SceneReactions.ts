@@ -6,13 +6,18 @@ import SonarQubeLegacyService from "../services/sonarqube/SonarQubeLegacyService
 
 export default class SceneReactions {
     private builder: CityBuilderStore;
-    private scene: SceneStore;
+    private sceneStore: SceneStore;
     private legacy: LegacyConnector;
     private legacy2: SonarQubeLegacyService;
 
-    constructor(scene: SceneStore, builder: CityBuilderStore, legacy: LegacyConnector, legacy2: SonarQubeLegacyService) {
+    constructor(
+        sceneStore: SceneStore,
+        builder: CityBuilderStore,
+        legacy: LegacyConnector,
+        legacy2: SonarQubeLegacyService
+    ) {
         this.builder = builder;
-        this.scene = scene;
+        this.sceneStore = sceneStore;
         this.legacy = legacy;
         this.legacy2 = legacy2;
         this.prepareReactions();
@@ -21,15 +26,15 @@ export default class SceneReactions {
     private prepareReactions() {
         reaction(
             "Transfer the chosen color from the scene to the builder",
-            () => this.scene.metricColor,
-            () => { this.builder.metricColor = this.scene.metricColor; }
+            () => this.sceneStore.metricColor,
+            () => { this.builder.metricColor = this.sceneStore.metricColor; }
         );
 
         reaction(
             "Load backend legacy data when the scene should be rendered",
-            () => this.scene.refreshScene,
+            () => this.sceneStore.refreshScene,
             () => {
-                if (this.scene.refreshScene) {
+                if (this.sceneStore.refreshScene) {
                     this.legacy2.loadLegacyBackend();
                 }
             }
@@ -37,9 +42,9 @@ export default class SceneReactions {
 
         reaction(
             "Load backend legacy data when the scene should be rendered",
-            () => this.scene.metricColor,
+            () => this.sceneStore.metricColor,
             () => {
-                if (this.scene.shapes !== null) {
+                if (this.sceneStore.shapes !== null) {
                     this.legacy.buildCity();
                 }
             }
@@ -47,8 +52,32 @@ export default class SceneReactions {
 
         reaction(
             "Convert backend data to threeJS shapes",
-            () => this.scene.legacyData,
+            () => this.sceneStore.legacyData,
             () => { this.legacy.buildCity(); }
+        );
+
+        reaction(
+            "Load new objects in scene",
+            () => this.sceneStore.shapes,
+            () => {
+                if (this.sceneStore.shapes !== null && this.sceneStore.initialRenderComplete) {
+                    let shapes = this.sceneStore.shapes;
+                    let colorsOnly = !this.sceneStore.refreshScene;
+
+                    if (colorsOnly) {
+                        this.sceneStore.scenePainter.updateColorsWithUpdatedShapes(shapes);
+                        this.sceneStore.refreshScene = false;
+                    } else {
+                        this.sceneStore.scenePainter.loadSoftVis3d(shapes);
+                    }
+                }
+            }
+        );
+
+        reaction(
+            "Select object in scene",
+            () => this.sceneStore.selectedObjectId,
+            () => { this.sceneStore.scenePainter.selectSceneTreeObject(this.sceneStore.selectedObjectId); }
         );
     }
 }

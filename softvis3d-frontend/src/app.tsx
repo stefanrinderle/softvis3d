@@ -9,6 +9,7 @@ import SonarQubeMetricsService from "./services/sonarqube/SonarQubeMetricsServic
 import SonarQubeLegacyService from "./services/sonarqube/SonarQubeLegacyService";
 import SceneReactions from "./reactions/SceneReactions";
 import BuilderReactions from "./reactions/BuilderReactions";
+import {WebGLDetector} from "./components/scene/webgl/WebGLDetector";
 
 interface AppConfiguration {
     api: string;
@@ -21,6 +22,7 @@ export default class App {
     private communicator: SonarQubeMetricsService;
     private legacyService: SonarQubeLegacyService;
     private legacy: LegacyConnector;
+    //noinspection JSMismatchedCollectionQueryUpdate
     private reactions: any[];
 
     public constructor(config: AppConfiguration) {
@@ -47,12 +49,20 @@ export default class App {
             this.init();
         }
 
+        this.assertRequirementsAreMet();
+
         cityBuilderStore.show = true;
 
         ReactDOM.render(
            <Softvis3D sceneStore={sceneStore} cityBuilderStore={cityBuilderStore} appStatusStore={appStatusStore}/>,
             document.getElementById(target)!
         );
+    }
 
+    private assertRequirementsAreMet() {
+        if (!WebGLDetector.isWebGLSupported()) {
+            console.warn(WebGLDetector.getWebGLErrorMessage());
+            throw "WebGL has not been detected.";
+        }
     }
 }

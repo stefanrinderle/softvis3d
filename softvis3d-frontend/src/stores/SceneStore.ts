@@ -5,6 +5,7 @@ import {district} from "../constants/Layouts";
 import * as Metrics from "../constants/Metrics";
 import Metric from "../constants/Metric";
 import {Profile} from "../constants/Profile";
+import {SoftVis3dScene} from "../components/scene/visualization/SoftVis3dScene";
 
 class SceneStore {
     @observable
@@ -18,12 +19,15 @@ class SceneStore {
     @observable
     public selectedObjectId: string | null = null;
     @observable
-    public shapes: any;
+    public shapes: any = null;
     @observable
     public refreshScene: boolean = false;
 
+    public initialRenderComplete: boolean = false;
+    public scenePainter: SoftVis3dScene;
+
     public constructor() {
-        this.shapes = null;
+        this.scenePainter = new SoftVis3dScene();
     }
 
     @computed

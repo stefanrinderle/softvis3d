@@ -30,16 +30,16 @@ describe("SceneStore", () => {
 
     it("should contain not initial test shapes", () => {
         let sceneStore = new SceneStore();
-        expect(sceneStore.getShapes()).not.to.be.equal(INITIAL_SHAPES);
-        expect(sceneStore.isShapesUpdate()).to.be.false;
+        expect(sceneStore.shapes).not.to.be.equal(INITIAL_SHAPES);
+        expect(sceneStore.refreshScene).to.be.false;
+        expect(sceneStore.initialRenderComplete).to.be.false;
     });
 
     it("should set selectedObjectId", () => {
         let sceneStore = new SceneStore();
 
         let expected: string = "sdufhisufh";
-        sceneStore.setSelectedObjectId(expected);
-
+        sceneStore.selectedObjectId = expected;
         expect(sceneStore.selectedObjectId).to.be.equal(expected);
     });
 
@@ -47,11 +47,10 @@ describe("SceneStore", () => {
         let sceneStore = new SceneStore();
 
         let expected: string = "sdufhisufh";
-        sceneStore.setSelectedObjectId(expected);
+        sceneStore.selectedObjectId = expected;
         expect(sceneStore.selectedObjectId).to.be.equal(expected);
 
-        let input: string | null = null;
-        sceneStore.setSelectedObjectId(input);
+        sceneStore.selectedObjectId = null;
         expect(sceneStore.selectedObjectId).to.be.equal(null);
     });
 
@@ -62,28 +61,14 @@ describe("SceneStore", () => {
             test: "bla"
         };
 
-        sceneStore.setShapes(shapes);
+        sceneStore.shapes = shapes;
 
-        expect(sceneStore.getShapes()).to.be.eq(shapes);
-        expect(sceneStore.isShapesUpdate()).to.be.false;
-    });
-
-    it("should update only if update", () => {
-        let sceneStore = new SceneStore();
-
-        let shapes: any = {
-            test: "bla"
-        };
-
-        sceneStore.updateShapes(shapes);
-
-        expect(sceneStore.getShapes()).to.be.eq(shapes);
-        expect(sceneStore.isShapesUpdate()).to.be.true;
+        expect(sceneStore.shapes).to.be.equal(shapes);
+        expect(sceneStore.refreshScene).to.be.false;
     });
 
     it("should return for getColorValue if no selected element available", () => {
         let sceneStore = new SceneStore();
-
         let result: number | null = sceneStore.getColorValue();
 
         expect(result).to.be.null;
@@ -92,7 +77,7 @@ describe("SceneStore", () => {
     it("should return for getColorValue if no measure in the selected element is available", () => {
         let sceneStore = new SceneStore();
 
-        sceneStore.setSelectedObjectId("123");
+        sceneStore.selectedObjectId = "123";
         sceneStore.legacyData = {
             id: "123",
             name: "oidfoijs",
