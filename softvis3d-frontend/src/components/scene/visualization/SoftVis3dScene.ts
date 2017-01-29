@@ -37,6 +37,8 @@ export class SoftVis3dScene {
     private camera: Camera;
     private controls: THREE.OrbitControls;
 
+    private animationId: null|number = null;
+
     public init() {
         const container = <HTMLCanvasElement> document.getElementById(SoftVis3dScene.CANVAS_ID);
 
@@ -58,10 +60,27 @@ export class SoftVis3dScene {
         window.addEventListener("resize", () => {
             this.onWindowResize();
         });
+
+        this.stopAnimation();
+        this.startAnimation();
     }
 
-    public getControls(): THREE.OrbitControls {
-        return this.controls;
+    public stopAnimation() {
+        if (this.animationId !== null) {
+            cancelAnimationFrame(this.animationId);
+            this.animationId = null;
+        }
+    }
+
+    public startAnimation() {
+        if (this.animationId === null) {
+            this.animate();
+        }
+    }
+
+    public animate() {
+        requestAnimationFrame(this.animate.bind(this));
+        this.renderer.render(this.scene, this.getCamera());
     }
 
     public loadSoftVis3d(shapes: SoftVis3dShape[]) {
@@ -72,10 +91,6 @@ export class SoftVis3dScene {
 
     public updateColorsWithUpdatedShapes(shapes: SoftVis3dShape[]) {
         this.wrangler.updateColorsWithUpdatedShapes(shapes);
-    }
-
-    public render() {
-        this.renderer.render(this.scene, this.getCamera());
     }
 
     public setCameraTo(x: number, y: number, z: number) {

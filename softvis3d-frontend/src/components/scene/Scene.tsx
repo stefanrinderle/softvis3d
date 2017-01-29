@@ -22,8 +22,6 @@ export default class Scene extends React.Component<SceneProps, any> {
 
     public componentDidMount() {
         this.props.sceneStore.scenePainter.init();
-        this.animate();
-        this.addOrbitControlsListener();
 
         // initial load - all other updates via the render method.
         this.props.sceneStore.scenePainter.loadSoftVis3d(this.props.sceneStore.shapes);
@@ -36,28 +34,18 @@ export default class Scene extends React.Component<SceneProps, any> {
 
         return (
             <div className="scene">
-                <canvas id={SoftVis3dScene.CANVAS_ID} onClick={this.makeSelection.bind(this)}/>
+                <canvas id={SoftVis3dScene.CANVAS_ID}
+                        onMouseDown={() => { this.mouseMoved = false; }}
+                        onMouseMove={() => { this.mouseMoved = true; }}
+                        onMouseUp={(e) => !this.mouseMoved && this.makeSelection(e) }
+                        />
                 <SceneInformation sceneStore={sceneStore}/>
            </div>
         );
     }
 
     private makeSelection(event: any) {
-        if (!this.mouseMoved) {
-            this.props.sceneStore.selectedObjectId = this.props.sceneStore.scenePainter.makeSelection(event);
-        }
-
-        this.mouseMoved = false;
-    }
-
-    private animate() {
-        requestAnimationFrame(this.animate.bind(this));
-        this.props.sceneStore.scenePainter.render();
-    }
-
-    private addOrbitControlsListener() {
-        this.props.sceneStore.scenePainter.getControls().addEventListener("change", () => {
-            this.mouseMoved = true;
-        });
+        const {sceneStore} = this.props;
+        sceneStore.selectedObjectId = sceneStore.scenePainter.makeSelection(event);
     }
 }
