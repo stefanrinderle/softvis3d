@@ -253,7 +253,7 @@ class LayoutProcessor {
         } else { // Linear
             factor = 1;
 
-            if (this._options.scalingMethod == "linear") {
+            if (this._options.scalingMethod === "linear") {
                 // Do not Scale Height
                 max = Infinity;
             }

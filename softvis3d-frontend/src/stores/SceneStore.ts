@@ -5,7 +5,7 @@ import {district} from "../constants/Layouts";
 import * as Metrics from "../constants/Metrics";
 import Metric from "../constants/Metric";
 import {Profile} from "../constants/Profile";
-import {SoftVis3dScene} from "../components/scene/visualization/SoftVis3dScene";
+import SoftVis3dScene from "../components/scene/visualization/SoftVis3dScene";
 
 class SceneStore {
     @observable

@@ -17,7 +17,6 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-/* tslint:disable */
 import {BackendService} from "./BackendService";
 import {AppStatusStore} from "../../stores/AppStatusStore";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
@@ -32,7 +31,7 @@ export interface SonarQubeApiMetric {
 }
 
 export default class SonarQubeMetricsService extends BackendService {
-    public static LOAD_METRICS = 'SONAR_LOAD_METRICS';
+    public static LOAD_METRICS = "SONAR_LOAD_METRICS";
 
     private appStatusStore: AppStatusStore;
     private cityBuilderStore: CityBuilderStore;
@@ -49,10 +48,10 @@ export default class SonarQubeMetricsService extends BackendService {
             this.appStatusStore.load(SonarQubeMetricsService.LOAD_METRICS);
         }
 
-        const params = {f: 'name', p: page};
-        this.callApi("/metrics/search", { params }).then(response => {
-            const metrics: Metric[] = (response.data.metrics as Array<SonarQubeApiMetric>)
-                .filter((c) => SonarQubeMetricsService.shouldMetricBeFiltered(c.type))
+        const params = {f: "name", p: page};
+        this.callApi("/metrics/search", { params }).then((response) => {
+            const metrics: Metric[] = (response.data.metrics as SonarQubeApiMetric[])
+                .filter((c) => this.shouldMetricBeFiltered(c.type))
                 .filter((c) => c.hidden === true || c.hidden === undefined || c.hidden === null)
                 .map((c) => { return this.createMetric(c); });
             this.cityBuilderStore.genericMetrics.addMetrics(metrics);
@@ -64,7 +63,7 @@ export default class SonarQubeMetricsService extends BackendService {
                 this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
             }
 
-        }).catch(error => {
+        }).catch((error) => {
             this.appStatusStore.error("SonarQube metric API is not available or responding: " + error.response.statusText);
             this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
         });
@@ -74,7 +73,7 @@ export default class SonarQubeMetricsService extends BackendService {
         return new Metric(sonarQubeMetric.key, sonarQubeMetric.type, sonarQubeMetric.name);
     }
 
-    private static shouldMetricBeFiltered(type: string): boolean {
+    private shouldMetricBeFiltered(type: string): boolean {
         return type === "INT" || type === "FLOAT" || type === "PERCENT"
             || type === "MILLISEC" || type === "RATING" || type === "WORK_DUR";
     }

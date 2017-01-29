@@ -24,7 +24,7 @@ class CityBuilderStore {
     public show: boolean = false;
 
     @observable
-    private hProfile: Profile = defaultProfile;
+    private _profile: Profile = defaultProfile;
     private previewPictures: PreviewPicture[] = [];
 
     public constructor() {
@@ -39,11 +39,11 @@ class CityBuilderStore {
             p.metricHeight = this.profile.metricHeight;
             p.metricWidth = this.profile.metricWidth;
         }
-        this.hProfile = p;
+        this._profile = p;
     }
 
     get profile(): Profile {
-        return this.hProfile;
+        return this._profile;
     }
 
     public chooseEditableProfile() {

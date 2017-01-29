@@ -25,7 +25,7 @@ import { SoftVis3dShape } from "../domain/SoftVis3dShape";
 import { Dimension } from "../domain/Dimension";
 import { SelectionService } from "./SelectionCalculator";
 
-export class SoftVis3dScene {
+export default class SoftVis3dScene {
     public static CANVAS_ID: string = "softvis3dscene";
 
     private width: number;
@@ -197,5 +197,4 @@ export class SoftVis3dScene {
 
         return result;
     }
-
 }

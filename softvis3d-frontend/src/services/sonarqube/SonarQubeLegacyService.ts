@@ -17,14 +17,13 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-/* tslint:disable */
 import {BackendService} from "./BackendService";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import {AppStatusStore} from "../../stores/AppStatusStore";
 import {SceneStore} from "../../stores/SceneStore";
 
 export default class SonarQubeLegacyService extends BackendService {
-    public static LOAD_LEGACY = 'SONAR_LOAD_LEGACY_BACKEND';
+    public static LOAD_LEGACY = "SONAR_LOAD_LEGACY_BACKEND";
 
     private projectKey: string;
     private appStatusStore: AppStatusStore;
@@ -49,30 +48,15 @@ export default class SonarQubeLegacyService extends BackendService {
             metrics: this.getMetricRequestValues()
         };
 
-        return this.callApi("/softVis3D/getVisualization", { params }).then(response => {
+        return this.callApi("/softVis3D/getVisualization", { params }).then((response) => {
             this.appStatusStore.loadComplete(SonarQubeLegacyService.LOAD_LEGACY);
             this.sceneStore.legacyData = response.data;
         }).catch(console.log);
     }
 
     public getMetricRequestValues(): string {
-        let result: Set<string> = new Set;
-
-        result.add(this.cityBuilderStore.profile.metricWidth.key);
-        result.add(this.cityBuilderStore.profile.metricHeight.key);
-
-        const colorMetrics: string[] = this.cityBuilderStore.colorMetrics.keys;
-
-        for (let i = 0; i < colorMetrics.length; i++) {
-            if (colorMetrics[i] !== 'none' && colorMetrics[i] !== 'package') {
-                result.add(colorMetrics[i]);
-            }
-        }
-
-        return this.getColorMetricsString(result);
-    }
-
-    public getColorMetricsString(colorMetrics: Set<string>): string {
-        return Array.from(colorMetrics).join(",");
+        let result: string[] = this.cityBuilderStore.colorMetrics.keys.filter((c) => c !== "none" && c !== "package");
+        result.push(this.cityBuilderStore.profile.metricWidth.key, this.cityBuilderStore.profile.metricHeight.key);
+        return result.join(",");
     }
 }

@@ -5,7 +5,7 @@
         "ordered-imports": [ false ],
         "object-literal-sort-keys": false,
         "interface-name": [true, "never-prefix"],
-        "variable-name": ["check-format", "allow-pascal-case"],
+        "variable-name": ["check-format", "allow-leading-underscore"],
         "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
         "no-bitwise": false,
         "quotemark": [true, "double"],

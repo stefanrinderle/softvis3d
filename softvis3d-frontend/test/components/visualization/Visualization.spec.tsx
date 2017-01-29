@@ -10,7 +10,7 @@ import SideBar from "../../../src/components/sidebar/SideBar";
 
 describe("<Visualization/>", () => {
 
-    it("should initialize all elements on start - selected and parent element given", () => {
+    it("should not render any children, when no visualization (shapes) is ready", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
 
@@ -23,7 +23,6 @@ describe("<Visualization/>", () => {
 
         expectedParentElement.children.push(expectedSelectedElement);
 
-        // Trigger change on "shapes"
         localSceneStore.shapes = null;
 
         localSceneStore.legacyData = expectedParentElement;
@@ -33,44 +32,18 @@ describe("<Visualization/>", () => {
             <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
-        expect(visualization.children()).to.have.length(3);
-        expect(visualization.contains(
-            <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
-        expect(visualization.contains(
-            <Scene sceneStore={localSceneStore} />)).to.be.true;
-        expect(visualization.contains(
-            <SideBar sceneStore={localSceneStore}/>)).to.be.true;
+        expect(visualization.children()).to.have.length(0);
+        expect(visualization.find("div")).to.have.length(1);
     });
 
-    it("should initialize all elements on start - no selected element give", () => {
-        let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
-
-        // Trigger change on "shapes"
-        localSceneStore.shapes = null;
-
-        const visualization = shallow(
-            <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
-        );
-
-        expect(visualization.children()).to.have.length(3);
-        expect(visualization.contains(
-            <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
-        expect(visualization.contains(
-            <Scene sceneStore={localSceneStore} />)).to.be.true;
-        expect(visualization.contains(
-            <SideBar sceneStore={localSceneStore}/>)).to.be.true;
-    });
-
-    it("should initialize all elements on start - no parent element given", () => {
+    it("should initialize all elements on start - shapes available but empty", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
 
         let testId: string = "siudgffsiuhdsfiu2332";
         let expectedSelectedElement: TreeElement = createTestTreeElement(testId);
 
-        // Trigger change on "shapes"
-        localSceneStore.shapes = null;
+        localSceneStore.shapes = {};
 
         localSceneStore.legacyData = expectedSelectedElement;
         localSceneStore.selectedObjectId = testId;

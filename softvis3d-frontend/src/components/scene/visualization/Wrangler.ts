@@ -37,9 +37,7 @@ interface SoftVis3dSelectedObject {
 export class Wrangler {
 
     private scene: Scene;
-
     private objectsInView: SoftVis3dMesh[] = [];
-
     private selectedTreeObject: SoftVis3dSelectedObject | null = null;
 
     constructor(scene: Scene) {
@@ -101,10 +99,8 @@ export class Wrangler {
     }
 
     private removeAllFromScene() {
-        for (let object of this.objectsInView) {
-            this.scene.remove(object);
+        while (this.objectsInView.length) {
+            this.scene.remove(this.objectsInView.pop() as SoftVis3dMesh);
         }
-
-        this.objectsInView = [];
     }
 }

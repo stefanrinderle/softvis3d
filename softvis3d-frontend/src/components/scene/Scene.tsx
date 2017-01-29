@@ -1,7 +1,7 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { SoftVis3dScene } from "./visualization/SoftVis3dScene";
 import { SceneStore } from "../../stores/SceneStore";
+import SoftVis3dScene from "./visualization/SoftVis3dScene";
 import SceneInformation from "./information/SceneInformation";
 
 interface SceneProps {
