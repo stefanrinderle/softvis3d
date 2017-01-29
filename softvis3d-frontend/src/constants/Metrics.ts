@@ -1,7 +1,6 @@
 /* #################################### *
  * ##         Custom Metrics         ## *
  * #################################### */
-
 import Metric from "./Metric";
 
 export const noMetric: Metric = new Metric("none", "NONE", " -- None -- ");
@@ -18,7 +17,9 @@ export const linesOfCodeMetric: Metric = new Metric("ncloc", "INT", "Lines of Co
 
 export const newIssuesMetric: Metric = new Metric("new_violations", "INT", "New Issues");
 
-export const newLinesOfCodeMetric: Metric = new Metric("new_lines_to_cover", "INT", "Lines to Cover on New Code");
+export const newLinesToCoverMetric: Metric = new Metric("new_lines_to_cover", "INT", "Lines to Cover on New Code");
+
+export const newLinesOfCodeMetric: Metric = new Metric("new_lines", "INT", "Lines on New Code");
 
 export const complexityMetric: Metric = new Metric("complexity", "INT", "Complexity");
 

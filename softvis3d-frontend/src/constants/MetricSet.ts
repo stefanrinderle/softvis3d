@@ -1,5 +1,6 @@
 import Metric from "./Metric";
-import {computed, observable, isObservable} from "mobx";
+import { computed, observable, isObservable } from "mobx";
+import { newLinesOfCodeMetric } from "./Metrics";
 
 export default class MetricSet {
     @observable
@@ -35,4 +36,15 @@ export default class MetricSet {
         return this.metrics;
     }
 
+    public hasNewLinesOfCodeMetric(): boolean {
+        let result: boolean = false;
+
+        for (let metric of this.metrics) {
+            if (metric.key === newLinesOfCodeMetric.key) {
+                return true;
+            }
+        }
+
+        return result;
+    }
 }
