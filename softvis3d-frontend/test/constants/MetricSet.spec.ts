@@ -69,7 +69,7 @@ describe("MetricSet", () => {
 
         let result: MetricSet = new MetricSet(initialMetrics);
 
-        expect(result.hasNewLinesOfCodeMetric()).to.be.eq(false);
+        expect(result.hasNewLinesOfCodeMetric).to.be.eq(false);
     });
 
     it("should detect new lines of code metric available", () => {
@@ -79,7 +79,7 @@ describe("MetricSet", () => {
 
         let result: MetricSet = new MetricSet(initialMetrics);
 
-        expect(result.hasNewLinesOfCodeMetric()).to.be.eq(true);
+        expect(result.hasNewLinesOfCodeMetric).to.be.eq(true);
     });
 
 });

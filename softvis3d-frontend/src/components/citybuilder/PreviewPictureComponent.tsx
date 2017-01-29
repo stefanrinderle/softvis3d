@@ -13,7 +13,6 @@ export default class PreviewPictureComponent extends React.Component<{ store: Ci
 
         return (
             <div className={"preview"} style={previewStyle}>
-                {preview.contents}
             </div>
         );
     }

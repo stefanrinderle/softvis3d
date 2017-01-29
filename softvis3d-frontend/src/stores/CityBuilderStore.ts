@@ -2,7 +2,7 @@ import {observable} from "mobx";
 import {district} from "../constants/Layouts";
 import {defaultProfile, custom} from "../constants/Profiles";
 import {noMetric, availableColorMetrics} from "../constants/Metrics";
-import {placeholder, customEvostreet, customDistrict} from "../constants/PreviewPictures";
+import {placeholder, availablePreviewPictures} from "../constants/PreviewPictures";
 import MetricSet from "../constants/MetricSet";
 import Metric from "../constants/Metric";
 import {Profile} from "../constants/Profile";
@@ -24,14 +24,6 @@ class CityBuilderStore {
     public renderButtonClicked: boolean = false;
     @observable
     public show: boolean = false;
-    private previewPictures: PreviewPicture[] = [];
-
-    public constructor() {
-        this.previewPictures = [
-            customDistrict,
-            customEvostreet
-        ];
-    }
 
     public chooseEditableProfile() {
         this.setProfile(custom);
@@ -51,7 +43,7 @@ class CityBuilderStore {
     }
 
     public getPreviewBackground(): PreviewPicture {
-        for (let preview of this.previewPictures) {
+        for (let preview of availablePreviewPictures) {
             if (preview.forLayout(this.layoutType) && preview.forProfile(this.profile)) {
                 return preview;
             }

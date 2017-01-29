@@ -36,7 +36,8 @@ export default class MetricSet {
         return this.metrics;
     }
 
-    public hasNewLinesOfCodeMetric(): boolean {
+    @computed
+    get hasNewLinesOfCodeMetric(): boolean {
         let result: boolean = false;
 
         for (let metric of this.metrics) {

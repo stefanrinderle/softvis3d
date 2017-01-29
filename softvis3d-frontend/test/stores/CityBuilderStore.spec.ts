@@ -20,9 +20,9 @@
 import {expect} from "chai";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import {district, evostreet} from "../../src/constants/Layouts";
-import {defaultProfile, custom, duplicatedLinesOfCode} from "../../src/constants/Profiles";
+import {defaultProfile, custom} from "../../src/constants/Profiles";
 import * as Metrics from "../../src/constants/Metrics";
-import {placeholder, customDistrict, customEvostreet} from "../../src/constants/PreviewPictures";
+import {placeholder, defaultDistrict, defaultEvostreet} from "../../src/constants/PreviewPictures";
 import Metric from "../../src/constants/Metric";
 
 describe("CityBuilderStore", () => {
@@ -82,24 +82,24 @@ describe("CityBuilderStore", () => {
         expect(underTest.colorMetrics.length).to.be.equal(8);
     });
 
-    it("should get preview picture custom district", () => {
+    it("should get preview picture default profile and layout district", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         underTest.layoutType = district;
-        underTest.profile = custom;
-        expect(underTest.getPreviewBackground()).to.be.equal(customDistrict);
+        underTest.profile = defaultProfile;
+        expect(underTest.getPreviewBackground()).to.be.equal(defaultDistrict);
     });
 
-    it("should get preview picture custom evostreets", () => {
+    it("should get preview picture default profile and layout  evostreets", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         underTest.layoutType = evostreet;
-        underTest.profile = custom;
-        expect(underTest.getPreviewBackground()).to.be.equal(customEvostreet);
+        underTest.profile = defaultProfile;
+        expect(underTest.getPreviewBackground()).to.be.equal(defaultEvostreet);
     });
 
     it("should get placeholder preview picture", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         underTest.layoutType = district;
-        underTest.profile = duplicatedLinesOfCode;
+        underTest.profile = custom;
         expect(underTest.getPreviewBackground()).to.be.equal(placeholder);
     });
 
