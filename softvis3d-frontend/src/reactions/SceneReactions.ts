@@ -58,18 +58,19 @@ export default class SceneReactions {
 
         reaction(
             "Load new objects in scene",
-            () => this.sceneStore.shapes,
+            () => [this.sceneStore.shapes, this.sceneStore.sceneComponentIsMounted],
             () => {
-                if (this.sceneStore.shapes !== null && this.sceneStore.initialRenderComplete) {
+                if (this.sceneStore.shapes !== null && this.sceneStore.sceneComponentIsMounted) {
                     let shapes = this.sceneStore.shapes;
                     let colorsOnly = !this.sceneStore.refreshScene;
 
                     if (colorsOnly) {
                         this.sceneStore.scenePainter.updateColorsWithUpdatedShapes(shapes);
-                        this.sceneStore.refreshScene = false;
                     } else {
                         this.sceneStore.scenePainter.loadSoftVis3d(shapes);
                     }
+
+                    this.sceneStore.refreshScene = false;
                 }
             }
         );

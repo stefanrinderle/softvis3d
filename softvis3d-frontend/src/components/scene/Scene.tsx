@@ -22,11 +22,12 @@ export default class Scene extends React.Component<SceneProps, any> {
 
     public componentDidMount() {
         this.props.sceneStore.scenePainter.init();
+        this.props.sceneStore.refreshScene = true;
+        this.props.sceneStore.sceneComponentIsMounted = true;
+    }
 
-        // initial load - all other updates via the render method.
-        this.props.sceneStore.scenePainter.loadSoftVis3d(this.props.sceneStore.shapes);
-        this.props.sceneStore.refreshScene = false;
-        this.props.sceneStore.initialRenderComplete = true;
+    public componentWillUnmount() {
+        this.props.sceneStore.sceneComponentIsMounted = false;
     }
 
     public render() {

@@ -32,7 +32,7 @@ describe("SceneStore", () => {
         let sceneStore = new SceneStore();
         expect(sceneStore.shapes).not.to.be.equal(INITIAL_SHAPES);
         expect(sceneStore.refreshScene).to.be.false;
-        expect(sceneStore.initialRenderComplete).to.be.false;
+        expect(sceneStore.sceneComponentIsMounted).to.be.false;
     });
 
     it("should set selectedObjectId", () => {

@@ -22,8 +22,9 @@ class SceneStore {
     public shapes: any = null;
     @observable
     public refreshScene: boolean = false;
+    @observable
+    public sceneComponentIsMounted: boolean = false;
 
-    public initialRenderComplete: boolean = false;
     public scenePainter: SoftVis3dScene;
 
     public constructor() {
