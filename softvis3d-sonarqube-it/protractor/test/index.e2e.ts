@@ -25,15 +25,58 @@ describe("Index", () => {
         browser.sleep(2000);
     });
 
+    it("shoud show the District option", () => {
+        element(by.partialButtonText("Load Scene")).click();
+        browser.sleep(2000);
+
+        browser.actions()
+            .mouseMove({x: 300, y: 300})
+            .mouseDown()
+            .mouseUp()
+            .perform();
+
+        browser.sleep(500);
+
+        element(by.cssContainingText("option", "Package Name")).click();
+
+        browser.sleep(2000);
+    });
+
+    it("shoud show the District option with the leak period profile", () => {
+        element(by.cssContainingText("option", "Leak period")).click();
+
+        element(by.partialButtonText("Load Scene")).click();
+        browser.sleep(2000);
+
+        browser.actions()
+            .mouseMove({x: 300, y: 300})
+            .mouseDown()
+            .mouseUp()
+            .perform();
+
+        browser.sleep(500);
+
+        element(by.cssContainingText("option", "Package Name")).click();
+
+        browser.sleep(2000);
+    });
+
     it("shoud show the evostreet option", () => {
         element(by.id("select-evostreet")).click();
-        element(by.id("load-scene-button")).click();
+        element(by.partialButtonText("Load Scene")).click();
+        browser.sleep(2000);
+
+        browser.actions()
+            .mouseMove({x: 300, y: 300})
+            .mouseDown()
+            .mouseMove({x: 50, y: 50})
+            .mouseUp()
+            .perform();
+
+        browser.sleep(500);
+
+        element(by.cssContainingText("option", "Coverage")).click();
+
         browser.sleep(2000);
     });
-
-    it("shoud show the District option", () => {
-        element(by.id("load-scene-button")).click();
-        browser.sleep(2000);
-    });
-
 });
