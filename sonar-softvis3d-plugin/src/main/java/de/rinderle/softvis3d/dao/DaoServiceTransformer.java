@@ -53,8 +53,10 @@ class DaoServiceTransformer {
 
         if (!StringUtils.isBlank(measure.getValue())) {
           measureResult.put(measure.getMetric(), Double.valueOf(measure.getValue()));
+        } else if (!measure.getPeriods().getPeriodsValueList().isEmpty()) {
+            measureResult.put(measure.getMetric(), Double.valueOf(measure.getPeriods().getPeriodsValueList
+              ().get(0).getValue()));
         }
-
       }
 
       result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(), measureResult));
