@@ -5,6 +5,7 @@ import Category from "../ui/Category";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import LayoutProcessor from "../../legacy/LayoutProcessor";
 import Metric from "../../classes/Metric";
+import {custom} from "../../constants/Profiles";
 
 @observer
 export default class OptionsAdvanced extends React.Component<{ store: CityBuilderStore; }, any> {
@@ -18,7 +19,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                             value={this.props.store.profile.metricWidth}
                             options={this.props.store.genericMetrics.asSelectOptions}
                             onChange={(m: Metric) => {
-                                this.props.store.chooseEditableProfile();
+                                this.props.store.profile = custom;
                                 this.props.store.profile.metricWidth = m;
                             }}
                         />
@@ -29,7 +30,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                             value={this.props.store.profile.metricHeight}
                             options={this.props.store.genericMetrics.asSelectOptions}
                             onChange={(m: Metric) => {
-                                this.props.store.chooseEditableProfile();
+                                this.props.store.profile = custom;
                                 this.props.store.profile.metricHeight = m;
                             }}
                         />
@@ -42,7 +43,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                             value={this.props.store.profile.scale}
                             options={LayoutProcessor.SCALING_METHODS}
                             onChange={(scale) => {
-                                this.props.store.chooseEditableProfile();
+                                this.props.store.profile = custom;
                                 this.props.store.profile.scale = scale;
                             }}
                         />

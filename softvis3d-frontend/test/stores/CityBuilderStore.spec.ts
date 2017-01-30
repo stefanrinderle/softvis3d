@@ -38,12 +38,6 @@ describe("CityBuilderStore", () => {
 
     });
 
-    it("should choose editable profile", () => {
-        let underTest: CityBuilderStore = new CityBuilderStore();
-        underTest.chooseEditableProfile();
-        expect(underTest.profile).to.be.equal(custom);
-    });
-
     it("should set layout", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         underTest.layout = evostreet;

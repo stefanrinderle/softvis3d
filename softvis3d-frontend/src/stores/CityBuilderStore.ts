@@ -47,10 +47,6 @@ class CityBuilderStore {
         return this._profile;
     }
 
-    public chooseEditableProfile() {
-        this.profile = custom;
-    }
-
     public getPreviewBackground(): PreviewPicture {
         for (let preview of this.previewPictures) {
             if (preview.forLayout(this.layout) && preview.forProfile(this.profile)) {

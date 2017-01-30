@@ -25,7 +25,7 @@ const duplicatedLinesOfCode: Profile = new ProfileBuilder("duplicatedLinesOfCode
         "a high risk especially if a lot of changes take place.")
     .build();
 
-const custom: Profile = new ProfileBuilder("custom", "Customize", true)
+const custom: Profile = new ProfileBuilder("custom", "Customize")
     .withConfiguration(Metric.noMetric, Metric.noMetric, LayoutProcessor.SCALING_METHODS[0])
     .withDescription("Select any metric using the 'Advanced options' at the bottom of this dialog.")
     .build();
