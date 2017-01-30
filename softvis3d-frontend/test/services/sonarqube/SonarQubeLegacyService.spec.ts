@@ -103,7 +103,7 @@ describe("SonarQubeLegacyService", () => {
             assert(spyCallApi.called);
 
             expect(spyCallApi.args[0][1].params.metrics)
-                .to.be.eq("complexity,coverage,violations,new_violations,ncloc,open_issues");
+                .to.be.eq("complexity,ncloc,coverage,violations,new_violations,open_issues");
 
             done();
         }).catch((error) => done(error));
