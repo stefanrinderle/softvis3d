@@ -59,9 +59,11 @@ export default class SonarQubeLegacyService extends BackendService {
         }).catch(console.log);
     }
 
-    public getMetricRequestValues(): string {
+    private getMetricRequestValues(): string {
         let result: string[] = this.cityBuilderStore.colorMetrics.keys.filter((c) => c !== "none" && c !== "package");
         result.push(this.cityBuilderStore.profile.metricWidth.key, this.cityBuilderStore.profile.metricHeight.key);
-        return result.join(",");
+
+        // Make Unique, then join
+        return result.filter((v, i, s) => s.indexOf(v) === i).join(",");
     }
 }

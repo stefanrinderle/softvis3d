@@ -51,7 +51,7 @@ describe("SonarQubeLegacyService", () => {
             });
         });
 
-        testCityBuilderStore.initiateBuildProcess = true;
+        underTest.loadLegacyBackend();
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});
@@ -70,37 +70,6 @@ describe("SonarQubeLegacyService", () => {
                     done();
                 }).catch((error) => done(error));
             }).catch((error) => done(error));
-        }).catch((error) => done(error));
-    });
-
-    it("should do nothing on button change to false", (done) => {
-        let clock = Sinon.useFakeTimers();
-
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let testSceneStore: SceneStore = new SceneStore();
-
-        let spyLoad = Sinon.spy(testAppStatusStore, "load");
-        let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
-
-        let apiUrl: string = "urlsihshoif";
-        let projectKey: string = "sdufsofin";
-        let underTest: SonarQubeLegacyService =
-            new SonarQubeLegacyService(apiUrl, projectKey, testAppStatusStore, testCityBuilderStore, testSceneStore);
-
-        let spyCallApi = Sinon.stub(underTest, "callApi", () => {
-            return Promise.resolve({});
-        });
-
-        testCityBuilderStore.initiateBuildProcess = false;
-
-        let returnPromise: Promise<any> = Promise.resolve({});
-        clock.tick(10);
-        returnPromise.then(() => {
-            Sinon.assert.notCalled(spyCallApi);
-            assert(spyLoad.notCalled);
-            assert(spyLoadComplete.notCalled);
-            done();
         }).catch((error) => done(error));
     });
 
@@ -126,7 +95,7 @@ describe("SonarQubeLegacyService", () => {
             });
         });
 
-        testCityBuilderStore.initiateBuildProcess = true;
+        underTest.loadLegacyBackend();
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -134,7 +103,7 @@ describe("SonarQubeLegacyService", () => {
             assert(spyCallApi.called);
 
             expect(spyCallApi.args[0][1].params.metrics)
-                .to.be.eq("complexity,ncloc,coverage,violations,new_violations,open_issues");
+                .to.be.eq("complexity,coverage,violations,new_violations,ncloc,open_issues");
 
             done();
         }).catch((error) => done(error));
