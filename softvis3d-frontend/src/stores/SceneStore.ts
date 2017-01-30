@@ -4,7 +4,8 @@ import {defaultProfile} from "../constants/Profiles";
 import {district} from "../constants/Layouts";
 import * as Metrics from "../constants/Metrics";
 import Metric from "../classes/Metric";
-import {Profile} from "../classes/Profile";
+import Layout from "../classes/Layout";
+import Profile from "../classes/Profile";
 import SoftVis3dScene from "../components/scene/visualization/SoftVis3dScene";
 
 class SceneStore {

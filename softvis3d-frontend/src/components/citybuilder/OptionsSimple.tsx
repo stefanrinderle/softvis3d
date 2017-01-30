@@ -7,7 +7,7 @@ import * as Profiles from "../../constants/Profiles";
 import PreviewPictureComponent from "./PreviewPictureComponent";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import Metric from "../../classes/Metric";
-import {Profile} from "../../classes/Profile";
+import Profile from "../../classes/Profile";
 
 @observer
 export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {

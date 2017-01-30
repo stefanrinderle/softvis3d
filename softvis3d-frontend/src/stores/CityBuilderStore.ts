@@ -5,7 +5,8 @@ import {noMetric, availableColorMetrics} from "../constants/Metrics";
 import {placeholder, customEvostreet, customDistrict} from "../constants/PreviewPictures";
 import MetricSet from "../classes/MetricSet";
 import Metric from "../classes/Metric";
-import {Profile} from "../classes/Profile";
+import Layout from "../classes/Layout";
+import Profile from "../classes/Profile";
 import {PreviewPicture} from "../classes/PreviewPicture";
 
 class CityBuilderStore {

@@ -54,9 +54,3 @@ declare interface TreeElement {
     measures: MeasureList;
     parentId: string | null;
 }
-
-declare interface Layout {
-    id: string;
-    name: string;
-    description: string;
-}

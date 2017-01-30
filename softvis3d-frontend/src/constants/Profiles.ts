@@ -1,6 +1,7 @@
 import * as Metric from "./Metrics";
 import LayoutProcessor from "../legacy/LayoutProcessor";
-import {Profile, ProfileBuilder} from "../classes/Profile";
+import {ProfileBuilder} from "../classes/Profile";
+import Profile from "../classes/Profile";
 
 const defaultProfile: Profile = new ProfileBuilder("default", "Default")
     .withConfiguration(Metric.complexityMetric, Metric.linesOfCodeMetric, LayoutProcessor.SCALING_METHODS[0])

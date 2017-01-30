@@ -1,7 +1,7 @@
 import Metric from "./Metric";
 import Scale from "./Scale";
 
-export class Profile implements SelectOptionValue {
+export default class Profile implements SelectOptionValue {
 
     public id: string;
 

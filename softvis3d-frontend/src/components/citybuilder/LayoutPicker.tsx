@@ -2,6 +2,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import { RadioButton, RadioGroup } from "../ui/RadioButton";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import Layout from "../../classes/Layout";
 
 export interface LayoutPickerProps {
     layouts: Layout[];
