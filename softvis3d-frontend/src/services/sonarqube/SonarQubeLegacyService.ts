@@ -30,8 +30,13 @@ export default class SonarQubeLegacyService extends BackendService {
     private cityBuilderStore: CityBuilderStore;
     private sceneStore: SceneStore;
 
-    constructor(apiUrl: string, projectKey: string,
-                appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
+    constructor(
+        apiUrl: string,
+        projectKey: string,
+        appStatusStore: AppStatusStore,
+        cityBuilderStore: CityBuilderStore,
+        sceneStore: SceneStore
+    ) {
         super(apiUrl);
 
         this.projectKey = projectKey;
