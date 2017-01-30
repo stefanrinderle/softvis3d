@@ -47,24 +47,25 @@ $simpleCategoryHeight: 290px;
 
         .selection-description {
             margin: 6px 0 0 0;
+            font-size: 12px;
 
             &.profile-description {
-                min-height: 100px;
+                min-height: 85px;
             }
 
             &.layout-description {
-                min-height: 64px;
+                min-height: 45px;
             }
 
             &.color-description {
-                min-height: 40px;
+                min-height: 30px;
             }
         }
     }
 
     fieldset.advanced {
         // Toggle Properties
-        margin: 8px 0;
+        margin: 6px 0;
 
         &.collapsable:not(.collapsed) div.category-content {
             max-height: 110px;
@@ -90,7 +91,7 @@ $simpleCategoryHeight: 290px;
     }
 
     .builder-option {
-        margin: 0  3px 6px 3px;
+        margin: 2px  3px 8px 3px;
 
         span {
             display: block;
