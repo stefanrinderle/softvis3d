@@ -1,5 +1,5 @@
-import {PreviewPicture} from "./PreviewPicture";
-import {Profile} from "./Profile";
+import {PreviewPicture} from "../classes/PreviewPicture";
+import {Profile} from "../classes/Profile";
 
 const customDistrict: PreviewPicture = {
     forLayout: (l: Layout) => l.id === "district",

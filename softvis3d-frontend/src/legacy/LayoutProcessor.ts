@@ -23,7 +23,7 @@
 import * as CodeCityVis from "codecity-visualizer";
 import Softvis3dModel from "./Softvis3dModel";
 import {TreeNodeInterface} from "codecity-visualizer/types/interfaces";
-import Scale from "../constants/Scale";
+import Scale from "../classes/Scale";
 
 const illustratorEvostreet = CodeCityVis.illustrators.evostreet;
 const illustratorDistrict = CodeCityVis.illustrators.district;

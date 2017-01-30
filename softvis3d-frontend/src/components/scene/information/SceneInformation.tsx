@@ -4,8 +4,8 @@ import MetricKey from "./MetricKey";
 import {SceneStore} from "../../../stores/SceneStore";
 import SelectBoxBuilder from "../../ui/selectbox/SelectBoxBuilder";
 import {availableColorMetrics} from "../../../constants/Metrics";
-import MetricSet from "../../../constants/MetricSet";
-import Metric from "../../../constants/Metric";
+import MetricSet from "../../../classes/MetricSet";
+import Metric from "../../../classes/Metric";
 
 interface SceneInformationProps {
     sceneStore: SceneStore;

@@ -2,7 +2,7 @@ import * as React from "react";
 import {shallow} from "enzyme";
 import {expect} from "chai";
 import MetricKey from "../../../../src/components/scene/information/MetricKey";
-import Metric from "../../../../src/constants/Metric";
+import Metric from "../../../../src/classes/Metric";
 
 describe("<MetricKey/>", () => {
 
@@ -33,7 +33,7 @@ describe("<MetricKey/>", () => {
             isNode: true,
             children: [],
             measures: {
-                "123": expectedMeasure
+                123: expectedMeasure
             },
             parentId: null
         };

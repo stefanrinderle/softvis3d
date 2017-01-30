@@ -23,7 +23,7 @@ import {district, evostreet} from "../../src/constants/Layouts";
 import {defaultProfile, custom, duplicatedLinesOfCode} from "../../src/constants/Profiles";
 import * as Metrics from "../../src/constants/Metrics";
 import {placeholder, customDistrict, customEvostreet} from "../../src/constants/PreviewPictures";
-import Metric from "../../src/constants/Metric";
+import Metric from "../../src/classes/Metric";
 
 describe("CityBuilderStore", () => {
 

@@ -20,7 +20,7 @@
 import {BackendService} from "./BackendService";
 import {AppStatusStore} from "../../stores/AppStatusStore";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
-import Metric from "../../constants/Metric";
+import Metric from "../../classes/Metric";
 
 export interface SonarQubeApiMetric {
     id: number;

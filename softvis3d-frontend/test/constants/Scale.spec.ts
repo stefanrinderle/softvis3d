@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-import Scale from "../../src/constants/Scale";
+import Scale from "../../src/classes/Scale";
 
 describe("Scale", () => {
 

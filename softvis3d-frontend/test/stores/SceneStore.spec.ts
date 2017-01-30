@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-import {INITIAL_SHAPES} from "../../src/constants/InitialSceneShapes";
+import {INITIAL_SHAPES} from "../helper/InitialSceneShapes";
 import {SceneStore} from "../../src/stores/SceneStore";
 
 describe("SceneStore", () => {

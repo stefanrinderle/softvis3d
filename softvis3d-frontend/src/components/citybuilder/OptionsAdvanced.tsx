@@ -4,7 +4,7 @@ import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import LayoutProcessor from "../../legacy/LayoutProcessor";
-import Metric from "../../constants/Metric";
+import Metric from "../../classes/Metric";
 
 @observer
 export default class OptionsAdvanced extends React.Component<{ store: CityBuilderStore; }, any> {

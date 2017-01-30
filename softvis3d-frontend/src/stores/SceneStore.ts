@@ -3,8 +3,8 @@ import {TreeService} from "../services/TreeService";
 import {defaultProfile} from "../constants/Profiles";
 import {district} from "../constants/Layouts";
 import * as Metrics from "../constants/Metrics";
-import Metric from "../constants/Metric";
-import {Profile} from "../constants/Profile";
+import Metric from "../classes/Metric";
+import {Profile} from "../classes/Profile";
 import SoftVis3dScene from "../components/scene/visualization/SoftVis3dScene";
 
 class SceneStore {

@@ -6,8 +6,8 @@ import {district, evostreet} from "../../constants/Layouts";
 import * as Profiles from "../../constants/Profiles";
 import PreviewPictureComponent from "./PreviewPictureComponent";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
-import Metric from "../../constants/Metric";
-import {Profile} from "../../constants/Profile";
+import Metric from "../../classes/Metric";
+import {Profile} from "../../classes/Profile";
 
 @observer
 export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {

@@ -3,10 +3,10 @@ import {district} from "../constants/Layouts";
 import {defaultProfile, custom} from "../constants/Profiles";
 import {noMetric, availableColorMetrics} from "../constants/Metrics";
 import {placeholder, customEvostreet, customDistrict} from "../constants/PreviewPictures";
-import MetricSet from "../constants/MetricSet";
-import Metric from "../constants/Metric";
-import {Profile} from "../constants/Profile";
-import {PreviewPicture} from "../constants/PreviewPicture";
+import MetricSet from "../classes/MetricSet";
+import Metric from "../classes/Metric";
+import {Profile} from "../classes/Profile";
+import {PreviewPicture} from "../classes/PreviewPicture";
 
 class CityBuilderStore {
 
