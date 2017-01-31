@@ -20,6 +20,7 @@
 
 import config from "./default";
 
+config.api = "/api";
 config.env = "development";
 config.proxy = "http://localhost:9001";
 config.proxyLegacy = true;
