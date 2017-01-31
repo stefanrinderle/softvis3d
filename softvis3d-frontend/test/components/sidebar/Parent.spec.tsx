@@ -2,9 +2,9 @@ import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import { SceneStore } from "../../../src/stores/SceneStore";
-import SelectParent from "../../../src/components/sidebar/SelectParent";
+import ParentElement from "../../../src/components/sidebar/ParentElement";
 
-describe("<SelectParent/>", () => {
+describe("<ParentElement/>", () => {
 
     it("should show nothing if selected Element has no parent", () => {
         const element = createTestTreeElement("root");
@@ -12,7 +12,7 @@ describe("<SelectParent/>", () => {
         localSceneStore.legacyData = element;
 
         let sideBarSelectParent = shallow(
-            <SelectParent sceneStore={localSceneStore} selectedElement={element}/>
+            <ParentElement sceneStore={localSceneStore} selectedElement={element}/>
         );
 
         expect(sideBarSelectParent.children().length).to.be.eq(0);
@@ -30,7 +30,7 @@ describe("<SelectParent/>", () => {
         localSceneStore.legacyData = root;
 
         let sideBarSelectParent = shallow(
-            <SelectParent sceneStore={localSceneStore} selectedElement={root}/>
+            <ParentElement sceneStore={localSceneStore} selectedElement={root}/>
         );
 
         expect(sideBarSelectParent.children()).to.have.length(0);
@@ -52,7 +52,7 @@ describe("<SelectParent/>", () => {
         localSceneStore.legacyData = parent1;
 
         let sideBarSelectParent = shallow(
-            <SelectParent sceneStore={localSceneStore} selectedElement={parent0}/>
+            <ParentElement sceneStore={localSceneStore} selectedElement={parent0}/>
         );
 
         sideBarSelectParent.find(".select-parent span").simulate("click");
@@ -75,7 +75,7 @@ describe("<SelectParent/>", () => {
         localSceneStore.legacyData = parent1;
 
         let sideBarSelectParent = shallow(
-            <SelectParent sceneStore={localSceneStore} selectedElement={child}/>
+            <ParentElement sceneStore={localSceneStore} selectedElement={child}/>
         );
 
         sideBarSelectParent.find(".select-parent span").simulate("click");

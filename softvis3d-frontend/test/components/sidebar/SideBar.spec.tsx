@@ -2,8 +2,8 @@ import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import SideBar from "../../../src/components/sidebar/SideBar";
-import SideBarNodeList from "../../../src/components/sidebar/NodeList";
-import SideBarSelectParent from "../../../src/components/sidebar/SelectParent";
+import FolderContent from "../../../src/components/sidebar/FolderContent";
+import ParentElement from "../../../src/components/sidebar/ParentElement";
 import { SceneStore } from "../../../src/stores/SceneStore";
 
 describe("<SideBar/>", () => {
@@ -42,14 +42,14 @@ describe("<SideBar/>", () => {
         expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
 
         expect(selectedElementInfo.contains(
-            <SideBarSelectParent
+            <ParentElement
                 selectedElement={parent0}
                 sceneStore={localSceneStore}/>
         )).to.be.true;
 
         expect(selectedElementInfo.contains(
-            <SideBarNodeList
-                selectedElement={parent0}
+            <FolderContent
+                activeFolder={parent0}
                 sceneStore={localSceneStore}
             />
         )).to.be.true;
@@ -81,14 +81,14 @@ describe("<SideBar/>", () => {
         expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
 
         expect(selectedElementInfo.contains(
-            <SideBarSelectParent
+            <ParentElement
                 selectedElement={child}
                 sceneStore={localSceneStore}/>
         )).to.be.true;
 
         expect(selectedElementInfo.contains(
-            <SideBarNodeList
-                selectedElement={child}
+            <FolderContent
+                activeFolder={child}
                 sceneStore={localSceneStore}
             />
         )).to.be.true;

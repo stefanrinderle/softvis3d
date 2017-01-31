@@ -10,7 +10,7 @@ interface ElementInfoProps {
 /**
  * Currently used for an example use of selected scene object store.
  */
-export default class ElementInfo extends React.Component<ElementInfoProps, any> {
+export default class FolderContentElement extends React.Component<ElementInfoProps, any> {
 
     public render() {
         const {element, isSelected} = this.props;

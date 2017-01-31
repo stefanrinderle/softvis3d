@@ -2,10 +2,10 @@ import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import { SceneStore } from "../../../src/stores/SceneStore";
-import ElementInfo from "../../../src/components/sidebar/ElementInfo";
-import NodeList from "../../../src/components/sidebar/NodeList";
+import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
+import FolderContent from "../../../src/components/sidebar/FolderContent";
 
-describe("<NodeList/>", () => {
+describe("<FolderContent/>", () => {
 
     it("should show siblings of the selected element as list", () => {
         let parent: TreeElement = createTestTreeElement("parent");
@@ -22,14 +22,14 @@ describe("<NodeList/>", () => {
         localSceneStore.legacyData = parent;
 
         const sideBarLeafInfo = shallow(
-            <NodeList
-                selectedElement={child1}
+            <FolderContent
+                activeFolder={child1}
                 sceneStore={localSceneStore}
             />
         );
 
         expect(sideBarLeafInfo.contains(
-            <ElementInfo
+            <FolderContentElement
                 element={child1}
                 isSelected={true}
                 sceneStore={localSceneStore}
@@ -37,7 +37,7 @@ describe("<NodeList/>", () => {
             )).to.be.true;
 
         expect(sideBarLeafInfo.contains(
-            <ElementInfo
+            <FolderContentElement
                 element={child2}
                 isSelected={false}
                 sceneStore={localSceneStore}
@@ -58,8 +58,8 @@ describe("<NodeList/>", () => {
         localSceneStore.legacyData = root;
 
         const selectedElementInfo = shallow(
-            <NodeList
-                selectedElement={root}
+            <FolderContent
+                activeFolder={root}
                 sceneStore={localSceneStore}
             />
         );
@@ -67,14 +67,14 @@ describe("<NodeList/>", () => {
         expect(selectedElementInfo.find("ul.node-list")).to.have.length(1);
 
         expect(selectedElementInfo.contains(
-            <ElementInfo
+            <FolderContentElement
                 element={child1}
                 isSelected={false}
                 sceneStore={localSceneStore}/>)
         ).to.be.true;
 
         expect(selectedElementInfo.contains(
-            <ElementInfo
+            <FolderContentElement
                 element={child2}
                 isSelected={false}
                 sceneStore={localSceneStore}/>)

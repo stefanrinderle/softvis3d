@@ -2,9 +2,9 @@ import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import { SceneStore } from "../../../src/stores/SceneStore";
-import ElementInfo from "../../../src/components/sidebar/ElementInfo";
+import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
 
-describe("<ElementInfo/>", () => {
+describe("<FolderContentElement/>", () => {
 
     it("should show element", () => {
         let expectedName = "element98szdfkjbsf";
@@ -12,7 +12,7 @@ describe("<ElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <ElementInfo element={selectedElement} sceneStore={localSceneStore} isSelected={false}/>
+            <FolderContentElement element={selectedElement} sceneStore={localSceneStore} isSelected={false}/>
         );
 
         expect(selectedSingleFileInfo.html().includes(expectedName)).to.be.true;
@@ -24,7 +24,7 @@ describe("<ElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <ElementInfo element={selectedElement} sceneStore={localSceneStore} isSelected={true}/>
+            <FolderContentElement element={selectedElement} sceneStore={localSceneStore} isSelected={true}/>
         );
 
         expect(selectedSingleFileInfo.html().includes(expectedName)).to.be.true;
@@ -37,7 +37,7 @@ describe("<ElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <ElementInfo element={selectedElement} sceneStore={localSceneStore} isSelected={false}/>
+            <FolderContentElement element={selectedElement} sceneStore={localSceneStore} isSelected={false}/>
         );
 
         selectedSingleFileInfo.find("li").simulate("click");
@@ -51,7 +51,7 @@ describe("<ElementInfo/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <ElementInfo element={selectedElement} isSelected={true} sceneStore={localSceneStore} />
+            <FolderContentElement element={selectedElement} isSelected={true} sceneStore={localSceneStore} />
         );
 
         selectedSingleFileInfo.find("li").simulate("click");

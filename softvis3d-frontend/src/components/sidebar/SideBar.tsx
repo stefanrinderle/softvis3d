@@ -1,8 +1,10 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import NodeList from "./NodeList";
-import SelectParent from "./SelectParent";
-import { SceneStore } from "../../stores/SceneStore";
+import NodeList from "./FolderContent";
+import ParentElement from "./ParentElement";
+import {SceneStore} from "../../stores/SceneStore";
+import {TreeService} from "../../services/TreeService";
+import ActiveFolder from "./ActiveFolder";
 
 interface SideBarProps {
     sceneStore: SceneStore;
@@ -14,16 +16,33 @@ export default class SideBar extends React.Component<SideBarProps, any> {
         const {sceneStore} = this.props;
 
         if (sceneStore.selectedElement === null) {
-            return <div id="app-sidebar" className="side-bar"></div>;
+            return <div id="app-sidebar" className="side-bar" />;
         }
+
+        const activeFolder = this.getActiveFolder(sceneStore.selectedElement);
 
         return (
             <div id="app-sidebar" className="side-bar">
                 <h3>{sceneStore.selectedElement.name}</h3>
-                <SelectParent sceneStore={sceneStore} selectedElement={sceneStore.selectedElement} />
-                <NodeList sceneStore={sceneStore} selectedElement={sceneStore.selectedElement} />
+                <ParentElement sceneStore={sceneStore} selectedElement={sceneStore.selectedElement} />
+                <ActiveFolder sceneStore={sceneStore} activeFolder={activeFolder} />
+                <NodeList sceneStore={sceneStore} activeFolder={activeFolder} />
             </div>
         );
+    }
+
+    private getActiveFolder(element: TreeElement): TreeElement | null {
+        return element.isNode
+            ? element
+            : this.getParentElement(element);
+    }
+
+    private getParentElement(element: TreeElement): TreeElement | null {
+        if (!this.props.sceneStore.legacyData) {
+            return null;
+        }
+
+        return TreeService.searchParentNode(this.props.sceneStore.legacyData, element);
     }
 
 }
