@@ -67,5 +67,4 @@ export class Setup {
         light.position.set(0, 1, 0);
         scene.add(light);
     }
-
 }

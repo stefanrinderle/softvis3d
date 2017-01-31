@@ -2,6 +2,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import { RadioButton, RadioGroup } from "../ui/RadioButton";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import Layout from "../../classes/Layout";
 
 export interface LayoutPickerProps {
     layouts: Layout[];
@@ -12,15 +13,16 @@ export interface LayoutPickerProps {
 export default class LayoutPicker extends React.Component<LayoutPickerProps, any> {
 
     public render() {
+        const {layouts, store} = this.props;
         return (
             <div className="layout-component">
                 <RadioGroup
-                    onChange={this.props.store.setLayout.bind(this.props.store)}
-                    value={this.props.store.layoutType}
+                    onChange={(l: Layout) => { store.layout = l; }}
+                    value={store.layout}
                     className={"list"}
                 >
                     {
-                        this.props.layouts.map(
+                        layouts.map(
                             (layout) => <RadioButton
                                 key={layout.id}
                                 value={layout}

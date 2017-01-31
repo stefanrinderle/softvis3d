@@ -17,40 +17,35 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-/* tslint:disable */
-import {reaction} from "mobx";
 import {BackendService} from "./BackendService";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import {AppStatusStore} from "../../stores/AppStatusStore";
 import {SceneStore} from "../../stores/SceneStore";
 
 export default class SonarQubeLegacyService extends BackendService {
-    public static LOAD_LEGACY = 'SONAR_LOAD_LEGACY_BACKEND';
+    public static LOAD_LEGACY = "SONAR_LOAD_LEGACY_BACKEND";
 
     private projectKey: string;
     private appStatusStore: AppStatusStore;
     private cityBuilderStore: CityBuilderStore;
     private sceneStore: SceneStore;
 
-    constructor(apiUrl: string, projectKey: string,
-                appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
+    constructor(
+        apiUrl: string,
+        projectKey: string,
+        appStatusStore: AppStatusStore,
+        cityBuilderStore: CityBuilderStore,
+        sceneStore: SceneStore
+    ) {
         super(apiUrl);
 
         this.projectKey = projectKey;
         this.appStatusStore = appStatusStore;
         this.cityBuilderStore = cityBuilderStore;
         this.sceneStore = sceneStore;
-
-        reaction(
-            "Load backend legacy data when the scene should be rendered",
-            () => this.cityBuilderStore.renderButtonClicked,
-            () => this.cityBuilderStore.renderButtonClicked && this.loadLegacyBackend().then(() => {
-                this.cityBuilderStore.renderButtonClicked = false;
-            })
-        );
     }
 
-    private loadLegacyBackend() {
+    public loadLegacyBackend() {
         this.appStatusStore.load(SonarQubeLegacyService.LOAD_LEGACY);
 
         const params = {
@@ -58,30 +53,23 @@ export default class SonarQubeLegacyService extends BackendService {
             metrics: this.getMetricRequestValues()
         };
 
-        return this.callApi("/softVis3D/getVisualization", { params }).then(response => {
+        return this.callApi("/softVis3D/getVisualization", { params }).then((response) => {
             this.appStatusStore.loadComplete(SonarQubeLegacyService.LOAD_LEGACY);
             this.sceneStore.legacyData = response.data;
         }).catch(console.log);
     }
 
     private getMetricRequestValues(): string {
-        let result: Set<string> = new Set;
-
+        let result: Set<string> = new Set();
         result.add(this.cityBuilderStore.profile.metricWidth.key);
         result.add(this.cityBuilderStore.profile.metricHeight.key);
 
-        const colorMetrics: string[] = this.cityBuilderStore.colorMetrics.keys;
-
-        for (let i = 0; i < colorMetrics.length; i++) {
-            if (colorMetrics[i] !== 'none' && colorMetrics[i] !== 'package') {
-                result.add(colorMetrics[i]);
+        for (const colorMetric of this.cityBuilderStore.colorMetrics.keys) {
+            if (colorMetric !== "none" && colorMetric !== "package") {
+                result.add(colorMetric);
             }
         }
 
-        return this.getColorMetricsString(result);
-    }
-
-    private getColorMetricsString(colorMetrics: Set<string>): string {
-        return Array.from(colorMetrics).join(",");
+        return Array.from(result).join(",");
     }
 }

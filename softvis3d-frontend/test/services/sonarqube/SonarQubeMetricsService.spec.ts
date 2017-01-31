@@ -17,13 +17,13 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {assert, expect} from "chai";
-import SonarQubeMetricsService, {SonarQubeApiMetric} from "../../../src/services/sonarqube/SonarQubeMetricsService";
-import {AppStatusStore} from "../../../src/stores/AppStatusStore";
+import { assert, expect } from "chai";
+import SonarQubeMetricsService, { SonarQubeApiMetric } from "../../../src/services/sonarqube/SonarQubeMetricsService";
+import { AppStatusStore } from "../../../src/stores/AppStatusStore";
 import * as Sinon from "sinon";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
-import {newLinesToCoverMetric} from "../../../src/constants/Metrics";
-import {leakPeriod} from "../../../src/constants/Profiles";
+import { CityBuilderStore } from "../../../src/stores/CityBuilderStore";
+import { newLinesToCoverMetric } from "../../../src/constants/Metrics";
+import { leakPeriod } from "../../../src/constants/Profiles";
 
 describe("SonarQubeMetricsService", () => {
 

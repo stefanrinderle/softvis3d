@@ -39,7 +39,7 @@ export default class Softvis3dModel extends BaseModel {
     private _metricHeightKey :string;
     private _metricColorKey :string;
 
-    constructor(treeResult: TreeElement, metricWidthKey: string, metricHeighKey: string, metricColorKey: string) {
+    constructor(treeResult: TreeElement, metricWidthKey: string, metricHeightKey: string, metricColorKey: string) {
         super();
 
         this._attributes = {};
@@ -53,13 +53,13 @@ export default class Softvis3dModel extends BaseModel {
         };
 
         this._metricWidthKey = metricWidthKey;
-        this._metricHeightKey = metricHeighKey;
+        this._metricHeightKey = metricHeightKey;
         this._metricColorKey = metricColorKey;
 
         this._tree = this._createTree(treeResult);
     }
 
-    _createTree(treeNode: TreeElement) {
+    private _createTree(treeNode: TreeElement) {
         const t = String(treeNode.id);
         const v = String(this._version);
 
@@ -98,20 +98,15 @@ export default class Softvis3dModel extends BaseModel {
         return node;
     }
 
-    getMetricValue(treeNode: TreeElement, key: string): number | null {
-        if (this.isMetricValueSet(treeNode, key)) {
-            return treeNode.measures[key];
-        } else {
-            return 0;
-        }
+    getMetricValue(treeNode: TreeElement, key: string): number {
+        return this.isMetricValueSet(treeNode, key) ? treeNode.measures[key] as number : 0;
     }
 
     isMetricValueSet(treeNode: TreeElement, key: string): boolean {
-        if (treeNode.measures !== undefined && key in treeNode.measures && !isNaN(treeNode.measures[key]) && isFinite(treeNode.measures[key])) {
-            return true;
-        } else {
-            return false;
-        }
+        return treeNode.measures !== undefined
+            && key in treeNode.measures
+            && !isNaN(treeNode.measures[key])
+            && isFinite(treeNode.measures[key]);
     }
 
     /**

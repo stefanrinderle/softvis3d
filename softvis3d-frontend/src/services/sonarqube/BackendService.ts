@@ -17,7 +17,7 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-/* tslint:disable */
+
 import axios, {AxiosPromise, AxiosRequestConfig} from "axios";
 
 export abstract class BackendService {
@@ -28,7 +28,7 @@ export abstract class BackendService {
         this.baseUrl = apiUrl;
     }
 
-    callApi(route: string, options: AxiosRequestConfig = {}): AxiosPromise {
+    public callApi(route: string, options: AxiosRequestConfig = {}): AxiosPromise {
         return axios.get(this.baseUrl + route, options);
     }
 

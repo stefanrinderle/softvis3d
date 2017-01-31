@@ -1,13 +1,13 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import { observer } from "mobx-react";
+import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import LayoutPicker from "./LayoutPicker";
-import {availableLayouts} from "../../constants/Layouts";
+import { availableLayouts } from "../../constants/Layouts";
 import * as Profiles from "../../constants/Profiles";
 import PreviewPictureComponent from "./PreviewPictureComponent";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
-import Metric from "../../constants/Metric";
-import {Profile} from "../../constants/Profile";
+import Metric from "../../classes/Metric";
+import Profile from "../../classes/Profile";
 
 @observer
 export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {
@@ -29,7 +29,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                             className="profiles"
                             value={this.props.store.profile}
                             options={profiles}
-                            onChange={(p: Profile) => { this.props.store.setProfile(p); }}
+                            onChange={(p: Profile) => { this.props.store.profile = p; }}
                         />
                         <p className="selection-description profile-description">
                             {this.props.store.profile.description}
@@ -55,7 +55,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                             store={this.props.store}
                         />
                         <p className="selection-description layout-description">
-                            {this.props.store.layoutType.description}
+                            {this.props.store.layout.description}
                         </p>
                     </div>
                 </div>

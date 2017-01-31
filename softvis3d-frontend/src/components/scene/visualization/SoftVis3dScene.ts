@@ -25,9 +25,8 @@ import { SoftVis3dShape } from "../domain/SoftVis3dShape";
 import { Dimension } from "../domain/Dimension";
 import { SelectionService } from "./SelectionCalculator";
 
-export class SoftVis3dScene {
-
-    private container: HTMLCanvasElement;
+export default class SoftVis3dScene {
+    public static CANVAS_ID: string = "softvis3dscene";
 
     private width: number;
     private height: number;
@@ -38,45 +37,60 @@ export class SoftVis3dScene {
     private camera: Camera;
     private controls: THREE.OrbitControls;
 
-    constructor(canvasId: string) {
-        this.container = <HTMLCanvasElement> document.getElementById(canvasId);
+    private animationId: null|number = null;
 
-        this.width = this.container.width;
-        this.height = this.container.height;
+    public init() {
+        const container = <HTMLCanvasElement> document.getElementById(SoftVis3dScene.CANVAS_ID);
+
+        this.width = container.width;
+        this.height = container.height;
 
         this.scene = new Scene();
-        this.renderer = new WebGLRenderer({canvas: this.container, antialias: true, alpha: true});
+        this.renderer = new WebGLRenderer({canvas: container, antialias: true, alpha: true});
         this.wrangler = new Wrangler(this.scene);
 
-        Setup.initRenderer(this.renderer, this.scene, this.container);
+        Setup.initRenderer(this.renderer, this.scene, container);
 
-        this.camera = new Camera(this.container);
+        this.camera = new Camera(container);
 
-        this.controls = new THREE.OrbitControls(this.camera.getCamera(), this.container);
+        this.controls = new THREE.OrbitControls(this.camera.getCamera(), container);
 
         this.onWindowResize();
 
         window.addEventListener("resize", () => {
             this.onWindowResize();
         });
+
+        this.stopAnimation();
+        this.startAnimation();
     }
 
-    public getControls(): THREE.OrbitControls {
-        return this.controls;
+    public stopAnimation() {
+        if (this.animationId !== null) {
+            cancelAnimationFrame(this.animationId);
+            this.animationId = null;
+        }
+    }
+
+    public startAnimation() {
+        if (this.animationId === null) {
+            this.animate();
+        }
+    }
+
+    public animate() {
+        requestAnimationFrame(this.animate.bind(this));
+        this.renderer.render(this.scene, this.getCamera());
     }
 
     public loadSoftVis3d(shapes: SoftVis3dShape[]) {
         this.wrangler.loadSoftVis3d(shapes);
         let platformDimension: Dimension = this.findMaxDimension(shapes);
-        this.camera.setCameraPosition(0, platformDimension._length * 0.7, platformDimension._width * 0.7);
+        this.setCameraTo(0, platformDimension._length * 0.7, platformDimension._width * 0.7);
     }
 
     public updateColorsWithUpdatedShapes(shapes: SoftVis3dShape[]) {
         this.wrangler.updateColorsWithUpdatedShapes(shapes);
-    }
-
-    public render() {
-        this.renderer.render(this.scene, this.camera.getCamera());
     }
 
     public setCameraTo(x: number, y: number, z: number) {
@@ -135,7 +149,7 @@ export class SoftVis3dScene {
         let x: number = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
         let y: number = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 
-        const offset = this.getOffsetsById(this.container.id);
+        const offset = this.getOffsetsById(SoftVis3dScene.CANVAS_ID);
         x -= offset.left;
         y -= offset.top;
 
@@ -183,5 +197,4 @@ export class SoftVis3dScene {
 
         return result;
     }
-
 }

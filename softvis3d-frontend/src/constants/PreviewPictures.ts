@@ -1,6 +1,7 @@
-import {PreviewPicture} from "./PreviewPicture";
-import {Profile} from "./Profile";
-import {defaultProfile, leakPeriod, duplicatedLinesOfCode} from "./Profiles";
+import Layout from "../classes/Layout";
+import { PreviewPicture } from "./PreviewPicture";
+import { Profile } from "./Profile";
+import { defaultProfile, leakPeriod, duplicatedLinesOfCode } from "./Profiles";
 
 const defaultDistrict: PreviewPicture = {
     forLayout: (l: Layout) => l.id === "district",

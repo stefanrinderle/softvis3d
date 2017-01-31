@@ -36,7 +36,7 @@ export default class SelectParent extends React.Component<SelectParentProps, any
     }
 
     private setSelectedObjectId(id: string): any {
-        this.props.sceneStore.setSelectedObjectId(id);
+        this.props.sceneStore.selectedObjectId = id;
     }
 
     private getParentElement(element: TreeElement) {

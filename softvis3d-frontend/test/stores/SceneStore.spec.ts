@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-import {INITIAL_SHAPES} from "../../src/constants/InitialSceneShapes";
+import {INITIAL_SHAPES} from "../helper/InitialSceneShapes";
 import {SceneStore} from "../../src/stores/SceneStore";
 
 describe("SceneStore", () => {
@@ -30,16 +30,16 @@ describe("SceneStore", () => {
 
     it("should contain not initial test shapes", () => {
         let sceneStore = new SceneStore();
-        expect(sceneStore.getShapes()).not.to.be.equal(INITIAL_SHAPES);
-        expect(sceneStore.isShapesUpdate()).to.be.false;
+        expect(sceneStore.shapes).not.to.be.equal(INITIAL_SHAPES);
+        expect(sceneStore.refreshScene).to.be.false;
+        expect(sceneStore.sceneComponentIsMounted).to.be.false;
     });
 
     it("should set selectedObjectId", () => {
         let sceneStore = new SceneStore();
 
         let expected: string = "sdufhisufh";
-        sceneStore.setSelectedObjectId(expected);
-
+        sceneStore.selectedObjectId = expected;
         expect(sceneStore.selectedObjectId).to.be.equal(expected);
     });
 
@@ -47,37 +47,11 @@ describe("SceneStore", () => {
         let sceneStore = new SceneStore();
 
         let expected: string = "sdufhisufh";
-        sceneStore.setSelectedObjectId(expected);
+        sceneStore.selectedObjectId = expected;
         expect(sceneStore.selectedObjectId).to.be.equal(expected);
 
-        let input: string | null = null;
-        sceneStore.setSelectedObjectId(input);
+        sceneStore.selectedObjectId = null;
         expect(sceneStore.selectedObjectId).to.be.equal(null);
-    });
-
-    it("should not have mouse moved after initialization", () => {
-        let sceneStore = new SceneStore();
-        expect(sceneStore.hasMouseMoved()).to.be.false;
-    });
-
-    it("should have mouse moved after set it to move", () => {
-        let sceneStore = new SceneStore();
-        sceneStore.setMoved();
-
-        expect(sceneStore.hasMouseMoved()).to.be.true;
-    });
-
-    it("should have mouse moved after set it to move", () => {
-        let sceneStore = new SceneStore();
-        expect(sceneStore.hasMouseMoved()).to.be.false;
-
-        sceneStore.setMoved();
-
-        expect(sceneStore.hasMouseMoved()).to.be.true;
-
-        sceneStore.resetMoved();
-
-        expect(sceneStore.hasMouseMoved()).to.be.false;
     });
 
     it("should set shapes if set", () => {
@@ -87,28 +61,14 @@ describe("SceneStore", () => {
             test: "bla"
         };
 
-        sceneStore.setShapes(shapes);
+        sceneStore.shapes = shapes;
 
-        expect(sceneStore.getShapes()).to.be.eq(shapes);
-        expect(sceneStore.isShapesUpdate()).to.be.false;
-    });
-
-    it("should update only if update", () => {
-        let sceneStore = new SceneStore();
-
-        let shapes: any = {
-            test: "bla"
-        };
-
-        sceneStore.updateShapes(shapes);
-
-        expect(sceneStore.getShapes()).to.be.eq(shapes);
-        expect(sceneStore.isShapesUpdate()).to.be.true;
+        expect(sceneStore.shapes).to.be.equal(shapes);
+        expect(sceneStore.refreshScene).to.be.false;
     });
 
     it("should return for getColorValue if no selected element available", () => {
         let sceneStore = new SceneStore();
-
         let result: number | null = sceneStore.getColorValue();
 
         expect(result).to.be.null;
@@ -117,7 +77,7 @@ describe("SceneStore", () => {
     it("should return for getColorValue if no measure in the selected element is available", () => {
         let sceneStore = new SceneStore();
 
-        sceneStore.setSelectedObjectId("123");
+        sceneStore.selectedObjectId = "123";
         sceneStore.legacyData = {
             id: "123",
             name: "oidfoijs",

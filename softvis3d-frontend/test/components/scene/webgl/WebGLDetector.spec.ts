@@ -19,7 +19,7 @@
 ///
 
 import { expect } from "chai";
-import { WebGLDetector } from "../../../../src/components/scene/webgl/WebGLDetector";
+import WebGLDetector from "../../../../src/services/WebGLDetector";
 
 describe("WebGLDetector", () => {
 

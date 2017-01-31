@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-export class WebGLDetector {
+export default class WebGLDetector {
 
     public static isWebGLSupported(): boolean {
         try {

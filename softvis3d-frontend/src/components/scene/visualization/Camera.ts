@@ -76,5 +76,4 @@ export class Camera {
 
         this.perpCam.name = "perp";
     }
-
 }

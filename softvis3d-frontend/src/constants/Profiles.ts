@@ -1,6 +1,6 @@
 import * as Metric from "./Metrics";
 import LayoutProcessor from "../legacy/LayoutProcessor";
-import {Profile, ProfileBuilder} from "./Profile";
+import Profile, { ProfileBuilder } from "../classes/Profile";
 
 const defaultProfile: Profile = new ProfileBuilder("default", "Default")
     .withConfiguration(Metric.complexityMetric, Metric.linesOfCodeMetric, LayoutProcessor.SCALING_METHODS[0])
@@ -24,7 +24,7 @@ const duplicatedLinesOfCode: Profile = new ProfileBuilder("duplicatedLinesOfCode
         "a high risk especially if a lot of changes take place.")
     .build();
 
-const custom: Profile = new ProfileBuilder("custom", "Customize", true)
+const custom: Profile = new ProfileBuilder("custom", "Customize")
     .withConfiguration(Metric.noMetric, Metric.noMetric, LayoutProcessor.SCALING_METHODS[0])
     .withDescription("Select any metric using the 'Advanced options' at the bottom of this dialog.")
     .build();
