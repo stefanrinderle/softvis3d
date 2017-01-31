@@ -17,13 +17,12 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
-import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
-import {district, evostreet} from "../../src/constants/Layouts";
-import {defaultProfile, custom, duplicatedLinesOfCode} from "../../src/constants/Profiles";
+import { expect } from "chai";
+import { district, evostreet } from "../../src/constants/Layouts";
+import { defaultProfile, custom, duplicatedLinesOfCode } from "../../src/constants/Profiles";
 import * as Metrics from "../../src/constants/Metrics";
-import {placeholder, customDistrict, customEvostreet} from "../../src/constants/PreviewPictures";
-import Metric from "../../src/classes/Metric";
+import { placeholder, customDistrict, customEvostreet } from "../../src/constants/PreviewPictures";
+import Metric from "../../src/constants/Metric";
 
 describe("CityBuilderStore", () => {
 
@@ -76,14 +75,14 @@ describe("CityBuilderStore", () => {
         expect(underTest.colorMetrics.length).to.be.equal(8);
     });
 
-    it("should get preview picture custom district", () => {
+    it("should get preview picture default profile and layout district", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         underTest.layout = district;
         underTest.profile = custom;
         expect(underTest.getPreviewBackground()).to.be.equal(customDistrict);
     });
 
-    it("should get preview picture custom evostreets", () => {
+    it("should get preview picture default profile and layout  evostreets", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         underTest.layout = evostreet;
         underTest.profile = custom;

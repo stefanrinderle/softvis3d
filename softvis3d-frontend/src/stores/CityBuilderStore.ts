@@ -1,13 +1,13 @@
-import {observable} from "mobx";
-import {district} from "../constants/Layouts";
-import {defaultProfile, custom} from "../constants/Profiles";
-import {noMetric, availableColorMetrics} from "../constants/Metrics";
-import {placeholder, customEvostreet, customDistrict} from "../constants/PreviewPictures";
-import MetricSet from "../classes/MetricSet";
-import Metric from "../classes/Metric";
+import { observable } from "mobx";
+import { district } from "../constants/Layouts";
+import { defaultProfile, custom } from "../constants/Profiles";
+import { noMetric, availableColorMetrics } from "../constants/Metrics";
+import { placeholder, customEvostreet, customDistrict } from "../constants/PreviewPictures";
 import Layout from "../classes/Layout";
-import Profile from "../classes/Profile";
-import {PreviewPicture} from "../classes/PreviewPicture";
+import MetricSet from "../constants/MetricSet";
+import Metric from "../constants/Metric";
+import { Profile } from "../constants/Profile";
+import { PreviewPicture } from "../constants/PreviewPicture";
 
 class CityBuilderStore {
 

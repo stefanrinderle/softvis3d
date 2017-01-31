@@ -1,6 +1,6 @@
 import * as React from "react";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
-import {PreviewPicture} from "../../classes/PreviewPicture";
+import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import { PreviewPicture } from "../../classes/PreviewPicture";
 
 export default class PreviewPictureComponent extends React.Component<{ store: CityBuilderStore; }, any> {
 
@@ -13,7 +13,6 @@ export default class PreviewPictureComponent extends React.Component<{ store: Ci
 
         return (
             <div className={"preview"} style={previewStyle}>
-                {preview.contents}
             </div>
         );
     }

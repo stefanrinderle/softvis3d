@@ -17,9 +17,10 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
-import Metric from "../../src/classes/Metric";
-import MetricSet from "../../src/classes/MetricSet";
+import { expect } from "chai";
+import Metric from "../../src/constants/Metric";
+import MetricSet from "../../src/constants/MetricSet";
+import { newLinesOfCodeMetric } from "../../src/constants/Metrics";
 
 describe("MetricSet", () => {
 
@@ -59,6 +60,26 @@ describe("MetricSet", () => {
         expect(result.asSelectOptions.length).to.be.eq(2);
         expect(result.asSelectOptions[0].getLabel()).to.be.eq("siuhf");
         expect(result.asSelectOptions[1].getLabel()).to.be.eq("iojsiodf");
+    });
+
+    it("should detect new lines of code metric not available", () => {
+        let initialMetrics: Metric[] = [];
+        initialMetrics.push(new Metric("123", "INT", "siuhf"));
+        initialMetrics.push(new Metric("321", "INT", "iojsiodf"));
+
+        let result: MetricSet = new MetricSet(initialMetrics);
+
+        expect(result.hasNewLinesOfCodeMetric).to.be.eq(false);
+    });
+
+    it("should detect new lines of code metric available", () => {
+        let initialMetrics: Metric[] = [];
+        initialMetrics.push(new Metric("123", "INT", "siuhf"));
+        initialMetrics.push(newLinesOfCodeMetric);
+
+        let result: MetricSet = new MetricSet(initialMetrics);
+
+        expect(result.hasNewLinesOfCodeMetric).to.be.eq(true);
     });
 
 });

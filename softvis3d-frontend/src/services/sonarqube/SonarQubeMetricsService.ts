@@ -17,10 +17,12 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {BackendService} from "./BackendService";
-import {AppStatusStore} from "../../stores/AppStatusStore";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import { BackendService } from "./BackendService";
+import { AppStatusStore } from "../../stores/AppStatusStore";
+import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import Metric from "../../classes/Metric";
+import { leakPeriod } from "../../constants/Profiles";
+import { newLinesToCoverMetric } from "../../constants/Metrics";
 
 export interface SonarQubeApiMetric {
     id: number;
@@ -54,12 +56,15 @@ export default class SonarQubeMetricsService extends BackendService {
                 .filter((c) => this.shouldMetricBeFiltered(c.type))
                 .filter((c) => c.hidden === true || c.hidden === undefined || c.hidden === null)
                 .map((c) => { return this.createMetric(c); });
+
             this.cityBuilderStore.genericMetrics.addMetrics(metrics);
 
             const metricsPosition = response.data.p * response.data.ps;
             if (metricsPosition < response.data.total) {
                 this.loadAvailableMetrics(page + 1);
             } else {
+                this.checkNewLinesOfCodeMetric();
+
                 this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
             }
 
@@ -76,6 +81,12 @@ export default class SonarQubeMetricsService extends BackendService {
     private shouldMetricBeFiltered(type: string): boolean {
         return type === "INT" || type === "FLOAT" || type === "PERCENT"
             || type === "MILLISEC" || type === "RATING" || type === "WORK_DUR";
+    }
+
+    private checkNewLinesOfCodeMetric() {
+        if (!this.cityBuilderStore.genericMetrics.hasNewLinesOfCodeMetric) {
+            leakPeriod.metricHeight = newLinesToCoverMetric;
+        }
     }
 
 }
