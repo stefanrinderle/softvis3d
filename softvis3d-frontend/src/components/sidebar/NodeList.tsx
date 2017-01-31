@@ -56,40 +56,45 @@ export default class NodeList extends React.Component<NodeListProps, NodeListSta
     }
 
     public render() {
-        const elements = this.getElementList();
+        const {sceneStore, selectedElement} = this.props;
 
-        if (elements.length === 0) {
+        const currentFolder = this.getActiveFolder();
+        const elements = this.getElementList(currentFolder);
+
+        if (currentFolder === null) {
             // TODO: "Error" is not the Way to go :-/
             return <ul>
                 <li key="error">ERROR</li>
             </ul>;
         }
 
+        const folderClass = currentFolder.id === selectedElement.id ? "current-selected" : "";
+
         return (
-            <Scrollbars id="node-scroller" style={{ width: "100%", height: this.state.listHeight }}>
-                <ul className="node-list">
-                    {elements}
-                </ul>
-            </Scrollbars>
+            <div>
+                <div className="select-current-folder">
+                    <span
+                        className={folderClass}
+                        onClick={() => {sceneStore.selectedObjectId = currentFolder.id;}}
+                    >
+                        {currentFolder.name}
+                    </span>
+                </div>
+                <Scrollbars id="node-scroller" style={{ width: "100%", height: this.state.listHeight }}>
+                    <ul className="node-list">
+                        {elements}
+                    </ul>
+                </Scrollbars>
+            </div>
         );
     }
 
-    private getElementList(): JSX.Element[] {
-        const folder = this.getActiveFolder();
-
+    private getElementList(folder: TreeElement | null): JSX.Element[] {
         if (folder === null) {
             return [];
         }
 
-        let folderElements: JSX.Element[] = [
-            <ElementInfo
-                key={folder.id}
-                element={folder}
-                sceneStore={this.props.sceneStore}
-                isSelected={folder.id === this.props.selectedElement.id}
-                isOrigin={true}
-            />
-        ];
+        let folderElements: JSX.Element[] = [];
         for (let child of folder.children) {
             folderElements.push(
                 <ElementInfo
@@ -104,7 +109,7 @@ export default class NodeList extends React.Component<NodeListProps, NodeListSta
         return folderElements;
     }
 
-    private getActiveFolder() {
+    private getActiveFolder(): TreeElement | null {
         return this.props.selectedElement.isNode
             ? this.props.selectedElement
             : this.getParentElement(this.props.selectedElement);
