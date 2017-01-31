@@ -24,6 +24,7 @@ import { Setup } from "./Setup";
 import { SoftVis3dShape } from "../domain/SoftVis3dShape";
 import { Dimension } from "../domain/Dimension";
 import { SelectionService } from "./SelectionCalculator";
+import HtmlDom from "../../../services/HtmlDom";
 
 export default class SoftVis3dScene {
     public static CANVAS_ID: string = "softvis3dscene";
@@ -109,13 +110,10 @@ export default class SoftVis3dScene {
      * Resizes the camera when document is resized.
      */
     public onWindowResize() {
-        const sidebar = document.getElementById("app-sidebar");
-        const sidebarWidth = sidebar ? sidebar.offsetWidth + 1 : 0;
+        const sidebarWidth = HtmlDom.getWidthById("app-sidebar");
+        const topbarHeight = HtmlDom.getHeightById("app-topbar");
 
-        const topbar = document.getElementById("app-topbar");
-        const topbarHeight = topbar ? topbar.offsetHeight : 0;
-
-        const appOffset = this.getOffsetsById("app");
+        const appOffset = HtmlDom.getOffsetsById("app");
         const sceneBoarderWidth = 1;
         const sonarFooter = document.getElementById("footer");
         const sonarFooterHeight =  sonarFooter ? sonarFooter.offsetHeight : 11;
@@ -149,32 +147,11 @@ export default class SoftVis3dScene {
         let x: number = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
         let y: number = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 
-        const offset = this.getOffsetsById(SoftVis3dScene.CANVAS_ID);
+        const offset = HtmlDom.getOffsetsById(SoftVis3dScene.CANVAS_ID);
         x -= offset.left;
         y -= offset.top;
 
         return {x, y};
-    }
-
-    private getOffsetsById(id: string): { top: number; left: number; } {
-        let node = document.getElementById(id);
-        let top = 0;
-        let left = 0;
-        let topScroll = 0;
-        let leftScroll = 0;
-        if (node && node.offsetParent) {
-            do {
-                top += node.offsetTop;
-                left += node.offsetLeft;
-                topScroll += node.offsetParent ? node.offsetParent.scrollTop : 0;
-                leftScroll += node.offsetParent ? node.offsetParent.scrollLeft : 0;
-            } while (node = node.offsetParent as HTMLElement);
-        }
-
-        return {
-            top: top - topScroll,
-            left: left - leftScroll
-        };
     }
 
     private findMaxDimension(shapes: SoftVis3dShape[]): Dimension {
