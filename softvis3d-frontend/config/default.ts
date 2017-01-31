@@ -18,14 +18,13 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-/* Config is globally available in the app, using
- * > import config from "config";
- *
- * Configuration Parameters:
+/* Configuration Parameters:
  * - api: Default uri for the web api (relative or absolute)
  * - env: Runtime environment of the app
  * - project: use initialise the app with this project (for development or testing)
  * - proxy: proxy the api-uri on the webpack-dev-server (not available in production)
+ * - pathRewrite: rewrite any path (not available in production)
+ * - proxyLegacy: proxy the softvis3d backend to the static json file(not available in production)
  */
 
 const config: any = {
