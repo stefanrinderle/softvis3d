@@ -1,7 +1,8 @@
 /* #################################### *
  * ##         Custom Metrics         ## *
  * #################################### */
-import Metric from "./Metric";
+
+import Metric from "../classes/Metric";
 
 export const noMetric: Metric = new Metric("none", "NONE", " -- None -- ");
 

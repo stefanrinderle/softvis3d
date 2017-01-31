@@ -1,6 +1,6 @@
 import Layout from "../classes/Layout";
-import { PreviewPicture } from "./PreviewPicture";
-import { Profile } from "./Profile";
+import { PreviewPicture } from "../classes/PreviewPicture";
+import Profile from "../classes/Profile";
 import { defaultProfile, leakPeriod, duplicatedLinesOfCode } from "./Profiles";
 
 const defaultDistrict: PreviewPicture = {

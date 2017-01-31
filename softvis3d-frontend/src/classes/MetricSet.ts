@@ -1,6 +1,6 @@
-import Metric from "./Metric";
 import { computed, observable, isObservable } from "mobx";
-import { newLinesOfCodeMetric } from "./Metrics";
+import Metric from "./Metric";
+import { newLinesOfCodeMetric } from "../constants/Metrics";
 
 export default class MetricSet {
     @observable

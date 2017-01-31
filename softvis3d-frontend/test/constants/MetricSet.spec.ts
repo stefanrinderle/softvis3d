@@ -18,8 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import { expect } from "chai";
-import Metric from "../../src/constants/Metric";
-import MetricSet from "../../src/constants/MetricSet";
+import Metric from "../../src/classes/Metric";
+import MetricSet from "../../src/classes/MetricSet";
 import { newLinesOfCodeMetric } from "../../src/constants/Metrics";
 
 describe("MetricSet", () => {

@@ -1,13 +1,13 @@
 import { observable } from "mobx";
-import { district } from "../constants/Layouts";
-import { defaultProfile, custom } from "../constants/Profiles";
-import { noMetric, availableColorMetrics } from "../constants/Metrics";
-import { placeholder, customEvostreet, customDistrict } from "../constants/PreviewPictures";
 import Layout from "../classes/Layout";
-import MetricSet from "../constants/MetricSet";
-import Metric from "../constants/Metric";
-import { Profile } from "../constants/Profile";
-import { PreviewPicture } from "../constants/PreviewPicture";
+import { district } from "../constants/Layouts";
+import Metric from "../classes/Metric";
+import { noMetric, availableColorMetrics } from "../constants/Metrics";
+import MetricSet from "../classes/MetricSet";
+import Profile from "../classes/Profile";
+import { defaultProfile, custom } from "../constants/Profiles";
+import { PreviewPicture } from "../classes/PreviewPicture";
+import { placeholder, availablePreviewPictures } from "../constants/PreviewPictures";
 
 class CityBuilderStore {
 
@@ -26,14 +26,6 @@ class CityBuilderStore {
 
     @observable
     private _profile: Profile = defaultProfile;
-    private previewPictures: PreviewPicture[] = [];
-
-    public constructor() {
-        this.previewPictures = [
-            customDistrict,
-            customEvostreet
-        ];
-    }
 
     set profile(p: Profile) {
         if (p.id === custom.id) {
@@ -48,7 +40,7 @@ class CityBuilderStore {
     }
 
     public getPreviewBackground(): PreviewPicture {
-        for (let preview of this.previewPictures) {
+        for (let preview of availablePreviewPictures) {
             if (preview.forLayout(this.layout) && preview.forProfile(this.profile)) {
                 return preview;
             }
