@@ -35,27 +35,27 @@ describe("<SideBar/>", () => {
         localSceneStore.legacyData = parent1;
         localSceneStore.selectedObjectId = parent0.id;
 
-        const selectedElementInfo = shallow(
+        const shallowSidebar = shallow(
             <SideBar sceneStore={localSceneStore}/>
         );
 
-        expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
+        expect(shallowSidebar.hasClass("side-bar")).to.be.true;
 
-        expect(selectedElementInfo.contains(
+        expect(shallowSidebar.contains(
             <ParentElement
                 selectedElement={parent0}
                 sceneStore={localSceneStore}/>
         )).to.be.true;
 
-        expect(selectedElementInfo.contains(
+        expect(shallowSidebar.contains(
             <FolderContent
                 activeFolder={parent0}
                 sceneStore={localSceneStore}
             />
         )).to.be.true;
 
-        expect(selectedElementInfo.html()).to.contain(parent0.id);
-        expect(selectedElementInfo.html()).to.contain(child.id);
+        expect(shallowSidebar.html()).to.contain(parent0.id);
+        expect(shallowSidebar.html()).to.contain(child.id);
     });
 
     it("should show node info for leafs", () => {
@@ -74,27 +74,27 @@ describe("<SideBar/>", () => {
         localSceneStore.legacyData = parent1;
         localSceneStore.selectedObjectId = child.id;
 
-        const selectedElementInfo = shallow(
+        const shallowSidebar = shallow(
             <SideBar sceneStore={localSceneStore}/>
         );
 
-        expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
+        expect(shallowSidebar.hasClass("side-bar")).to.be.true;
 
-        expect(selectedElementInfo.contains(
+        expect(shallowSidebar.contains(
             <ParentElement
                 selectedElement={child}
                 sceneStore={localSceneStore}/>
         )).to.be.true;
 
-        expect(selectedElementInfo.contains(
+        expect(shallowSidebar.contains(
             <FolderContent
-                activeFolder={child}
+                activeFolder={parent0}
                 sceneStore={localSceneStore}
             />
         )).to.be.true;
 
-        expect(selectedElementInfo.html()).to.contain(parent0.id);
-        expect(selectedElementInfo.html()).to.contain(child.id);
+        expect(shallowSidebar.html()).to.contain(parent0.id);
+        expect(shallowSidebar.html()).to.contain(child.id);
     });
 });
 
