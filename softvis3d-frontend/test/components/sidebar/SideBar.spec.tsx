@@ -2,8 +2,8 @@ import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import SideBar from "../../../src/components/sidebar/SideBar";
-import SideBarNodeList from "../../../src/components/sidebar/NodeList";
-import SideBarSelectParent from "../../../src/components/sidebar/SelectParent";
+import FolderContent from "../../../src/components/sidebar/FolderContent";
+import ParentElement from "../../../src/components/sidebar/ParentElement";
 import { SceneStore } from "../../../src/stores/SceneStore";
 
 describe("<SideBar/>", () => {
@@ -35,27 +35,27 @@ describe("<SideBar/>", () => {
         localSceneStore.legacyData = parent1;
         localSceneStore.selectedObjectId = parent0.id;
 
-        const selectedElementInfo = shallow(
+        const shallowSidebar = shallow(
             <SideBar sceneStore={localSceneStore}/>
         );
 
-        expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
+        expect(shallowSidebar.hasClass("side-bar")).to.be.true;
 
-        expect(selectedElementInfo.contains(
-            <SideBarSelectParent
+        expect(shallowSidebar.contains(
+            <ParentElement
                 selectedElement={parent0}
                 sceneStore={localSceneStore}/>
         )).to.be.true;
 
-        expect(selectedElementInfo.contains(
-            <SideBarNodeList
-                selectedElement={parent0}
+        expect(shallowSidebar.contains(
+            <FolderContent
+                activeFolder={parent0}
                 sceneStore={localSceneStore}
             />
         )).to.be.true;
 
-        expect(selectedElementInfo.html()).to.contain(parent0.id);
-        expect(selectedElementInfo.html()).to.contain(child.id);
+        expect(shallowSidebar.html()).to.contain(parent0.id);
+        expect(shallowSidebar.html()).to.contain(child.id);
     });
 
     it("should show node info for leafs", () => {
@@ -74,27 +74,27 @@ describe("<SideBar/>", () => {
         localSceneStore.legacyData = parent1;
         localSceneStore.selectedObjectId = child.id;
 
-        const selectedElementInfo = shallow(
+        const shallowSidebar = shallow(
             <SideBar sceneStore={localSceneStore}/>
         );
 
-        expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
+        expect(shallowSidebar.hasClass("side-bar")).to.be.true;
 
-        expect(selectedElementInfo.contains(
-            <SideBarSelectParent
+        expect(shallowSidebar.contains(
+            <ParentElement
                 selectedElement={child}
                 sceneStore={localSceneStore}/>
         )).to.be.true;
 
-        expect(selectedElementInfo.contains(
-            <SideBarNodeList
-                selectedElement={child}
+        expect(shallowSidebar.contains(
+            <FolderContent
+                activeFolder={parent0}
                 sceneStore={localSceneStore}
             />
         )).to.be.true;
 
-        expect(selectedElementInfo.html()).to.contain(parent0.id);
-        expect(selectedElementInfo.html()).to.contain(child.id);
+        expect(shallowSidebar.html()).to.contain(parent0.id);
+        expect(shallowSidebar.html()).to.contain(child.id);
     });
 });
 

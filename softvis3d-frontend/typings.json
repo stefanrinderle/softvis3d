@@ -3,6 +3,7 @@
     "mocha": "registry:dt/mocha#2.2.5+20161028141524",
     "react": "registry:dt/react#0.14.0+20161024223416",
     "react-addons-test-utils": "registry:dt/react-addons-test-utils#0.14.0+20160427035638",
+    "react-custom-scrollbar": "file:./etc/react-custom-scrollbar.d.ts",
     "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
     "three": "registry:dt/three#0.0.0+20161004170959",
     "three-orbitcontrols": "registry:dt/three-orbitcontrols#0.0.0+20160704010734"

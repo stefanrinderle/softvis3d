@@ -37,29 +37,43 @@
         }
     }
 
+    .current-selected{
+        color: $font-color-link-active;
+        font-weight: bold;
+    }
+
+    div.select-current-folder {
+        height: 22px;
+
+        span {
+            background: no-repeat left center;
+            @include bg-img-open-folder;
+            display: block;
+            cursor: pointer;
+
+            margin: 0 0 0 12px;
+            padding: 3px 0 3px 20px;
+            color: $font-color-link-default;
+
+            &:hover {
+                color: $font-color-link-hover;
+            }
+        }
+    }
+
     ul.node-list {
         text-align: left;
         font-weight: normal;
         list-style: none;
-        margin: 0 0 0 12px;
+        margin: 0 0 0 24px;
         padding: 0;
 
         li {
             background: no-repeat left center;
             padding: 3px 0 3px 20px;
-            margin-left: 12px;
+            margin: 0;
             color: $font-color-link-default;
             cursor: pointer;
-
-            &.current-selected{
-                color: $font-color-link-active;
-                font-weight: bold;
-            }
-
-            &.origin.node {
-                @include bg-img-open-folder;
-                margin-left: 0;
-            }
 
             &.leaf {
                 @include bg-img-file;
