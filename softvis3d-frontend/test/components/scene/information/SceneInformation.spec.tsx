@@ -17,7 +17,7 @@ describe("<SceneInformation/>", () => {
         expect(bottomBar
             .contains(<MetricKey
                 title="Width"
-                metric={sceneStore.metricWidth}
+                metric={sceneStore.options.metricWidth}
                 selectedElement={testSceneStore.selectedElement}
             />)).to.be.true;
 

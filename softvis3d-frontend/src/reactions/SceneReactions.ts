@@ -26,8 +26,8 @@ export default class SceneReactions {
     private prepareReactions() {
         reaction(
             "Transfer the chosen color from the scene to the builder",
-            () => this.scene.metricColor,
-            () => { this.builder.metricColor = this.scene.metricColor; }
+            () => this.scene.options.metricColor,
+            () => { this.builder.metricColor = this.scene.options.metricColor; }
         );
 
         reaction(
@@ -42,7 +42,7 @@ export default class SceneReactions {
 
         reaction(
             "Load backend legacy data when the scene should be rendered",
-            () => this.scene.metricColor,
+            () => this.scene.options.metricColor,
             () => {
                 if (this.scene.shapes !== null) {
                     this.legacy.buildCity();

@@ -20,7 +20,7 @@
 import {expect} from "chai";
 import Layout from "../../src/classes/Layout";
 
-describe("Metric", () => {
+describe("Layout", () => {
 
     it("should construct layout", () => {
 

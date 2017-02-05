@@ -25,14 +25,14 @@ export default class SceneInformation extends React.Component<SceneInformationPr
 
         return (
             <div className="scene-information">
-                <MetricKey title="Width" metric={sceneStore.metricWidth} selectedElement={selectedElement}/>
-                <MetricKey title="Height" metric={sceneStore.metricHeight} selectedElement={selectedElement}/>
+                <MetricKey title="Width" metric={sceneStore.options.metricWidth} selectedElement={selectedElement}/>
+                <MetricKey title="Height" metric={sceneStore.options.metricHeight} selectedElement={selectedElement}/>
                 <SelectBoxBuilder
                     label="Color"
                     className="metric-info"
-                    value={sceneStore.metricColor}
+                    value={sceneStore.options.metricColor}
                     options={new MetricSet(availableColorMetrics).asSelectOptions}
-                    onChange={(m: Metric) => { sceneStore.metricColor = m; }}
+                    onChange={(m: Metric) => { sceneStore.options.metricColor = m; }}
                     append={colorInformation}
                 />
             </div>
