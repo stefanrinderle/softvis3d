@@ -3,21 +3,29 @@ import {CityBuilderStore} from "../stores/CityBuilderStore";
 import {reaction} from "mobx";
 import LegacyConnector from "../legacy/LegacyConnector";
 import SonarQubeLegacyService from "../services/sonarqube/SonarQubeLegacyService";
+import {AppStatusStore} from "../stores/AppStatusStore";
+import LoadAction from "../classes/status/LoadAction";
 
 export default class SceneReactions {
+
+    private static LOAD_SOFTVIS: LoadAction = new LoadAction("LOAD_SOFTVIS", "Create visualization");
+
     private builder: CityBuilderStore;
     private scene: SceneStore;
+    private appStatusStore: AppStatusStore;
     private legacy: LegacyConnector;
     private sonarService: SonarQubeLegacyService;
 
     constructor(
         scene: SceneStore,
         builder: CityBuilderStore,
+        appStatusStore: AppStatusStore,
         legacy: LegacyConnector,
         sonarService: SonarQubeLegacyService
     ) {
         this.builder = builder;
         this.scene = scene;
+        this.appStatusStore = appStatusStore;
         this.legacy = legacy;
         this.sonarService = sonarService;
         this.prepareReactions();
@@ -41,7 +49,7 @@ export default class SceneReactions {
         );
 
         reaction(
-            "Load backend legacy data when the scene should be rendered",
+            "Rebuild city if color metric changed",
             () => this.scene.options.metricColor,
             () => {
                 if (this.scene.shapes !== null) {
@@ -67,7 +75,9 @@ export default class SceneReactions {
                     if (colorsOnly) {
                         this.scene.scenePainter.updateColorsWithUpdatedShapes(shapes);
                     } else {
+                        this.appStatusStore.load(SceneReactions.LOAD_SOFTVIS);
                         this.scene.scenePainter.loadSoftVis3d(shapes);
+                        this.appStatusStore.loadComplete(SceneReactions.LOAD_SOFTVIS);
                     }
 
                     this.scene.refreshScene = false;

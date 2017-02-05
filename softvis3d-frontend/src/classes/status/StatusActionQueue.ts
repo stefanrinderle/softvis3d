@@ -27,7 +27,11 @@ export default class StatusActionQueue<T extends StatusAction> implements Iterab
         return this._queue.length === 0;
     }
 
-    public next(): IteratorResult<StatusAction> {
+    public get queue(): T[] {
+        return this._queue;
+    }
+
+    public next(): IteratorResult<T> {
         if (this._pointer < this._queue.length) {
             return {
                 done: false,

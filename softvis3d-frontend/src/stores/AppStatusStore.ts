@@ -7,9 +7,9 @@ class AppStatusStore {
     @observable
     public showLoadingQueue: boolean = false;
     @observable
-    public loadingQueue: StatusActionQueue<LoadAction> = new StatusActionQueue();
+    public loadingQueue: StatusActionQueue<LoadAction> = new StatusActionQueue<LoadAction>();
     @observable
-    public errors: StatusActionQueue<ErrorAction> = new StatusActionQueue();
+    public errors: StatusActionQueue<ErrorAction> = new StatusActionQueue<ErrorAction>();
 
     @computed
     get isVisible() {

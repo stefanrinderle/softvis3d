@@ -36,12 +36,12 @@ export default class App {
         appStatusStore.showLoadingQueue = config.isDev;
         this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
         this.legacyService = new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
-        this.legacy = new LegacyConnector(sceneStore, cityBuilderStore);
+        this.legacy = new LegacyConnector(sceneStore, cityBuilderStore, appStatusStore);
         this.reactions = [];
     }
 
     public init() {
-        this.reactions.push(new SceneReactions(sceneStore, cityBuilderStore, this.legacy, this.legacyService));
+        this.reactions.push(new SceneReactions(sceneStore, cityBuilderStore, appStatusStore, this.legacy, this.legacyService));
         this.reactions.push(new BuilderReactions(cityBuilderStore, sceneStore));
         this.communicator.loadAvailableMetrics();
         this.isInitialized = true;
@@ -66,7 +66,11 @@ export default class App {
         if (!WebGLDetector.isWebGLSupported()) {
             const error = WebGLDetector.getWebGLErrorMessage();
 
-            appStatusStore.error(new ErrorAction(App.WEBGL_ERROR_KEY, "WebGL is required. " + error));
+            appStatusStore.error(
+                new ErrorAction(App.WEBGL_ERROR_KEY, "WebGL is required. " + error, "Reload page", () => {
+                    location.reload();
+                })
+            );
         }
     }
 }

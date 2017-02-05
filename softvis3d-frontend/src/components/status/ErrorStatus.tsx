@@ -23,15 +23,18 @@ export default class ErrorStatus extends React.Component<{ appStatusStore: AppSt
     }
 
     private createErrorElements() {
-        const queue = this.props.appStatusStore.errors;
-
         let elements: Array<React.ReactElement<any>> = [];
-        for (let queueElement of queue) {
+        for (let queueElement of this.props.appStatusStore.errors.queue) {
             elements.push(
-                <li key={queueElement.key}>{queueElement.description}</li>
+                <li key={queueElement.key}>
+                    {queueElement.description}
+                    <br /><br />
+                    <div className="buttons">
+                        <button onClick={() => queueElement.retryCallback()}>{queueElement.retryButtonText}</button>
+                    </div>
+                </li>
             );
         }
-
         return elements;
     }
 

@@ -28,7 +28,7 @@ describe("<Status/>", () => {
     it("should draw error components if errors", () => {
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        localAppStatusStore.error(new ErrorAction("key", "test"));
+        localAppStatusStore.error(new ErrorAction("key", "test", "", () => {}));
 
         const softvis3d = shallow(
             <Status appStatusStore={localAppStatusStore}/>

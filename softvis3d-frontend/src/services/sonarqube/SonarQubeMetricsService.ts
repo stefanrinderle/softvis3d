@@ -48,7 +48,7 @@ export default class SonarQubeMetricsService extends BackendService {
         this.cityBuilderStore = cityBuilderStore;
     }
 
-    public loadAvailableMetrics(page = 1) {
+    public loadAvailableMetrics(page = 1): void {
         if (page === 1) {
             this.appStatusStore.load(SonarQubeMetricsService.LOAD_METRICS);
         }
@@ -74,7 +74,10 @@ export default class SonarQubeMetricsService extends BackendService {
         }).catch((error) => {
             this.appStatusStore.error(
                 new ErrorAction(SonarQubeMetricsService.LOAD_METRICS_ERROR_KEY,
-                    "SonarQube metric API is not available or responding: " + error.response.statusText));
+                    "SonarQube metric API is not available or responding: " + error.response.statusText,
+                    "Try again", () => {
+                        location.reload();
+                    }));
             this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
         });
     }

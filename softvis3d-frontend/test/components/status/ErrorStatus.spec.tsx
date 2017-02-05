@@ -11,7 +11,7 @@ describe("<ErrorStatus/>", () => {
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         let expectedErrorMessage = "test";
-        localAppStatusStore.error(new ErrorAction("key", expectedErrorMessage));
+        localAppStatusStore.error(new ErrorAction("key", expectedErrorMessage, "", () => {}));
 
         const loadingQueue = shallow(
             <ErrorStatus appStatusStore={localAppStatusStore}/>
@@ -25,8 +25,8 @@ describe("<ErrorStatus/>", () => {
 
         let expectedErrorMessage = "test";
         let expectedErrorMessage2 = "ioiio";
-        localAppStatusStore.error(new ErrorAction("key", expectedErrorMessage));
-        localAppStatusStore.error(new ErrorAction("key2", expectedErrorMessage2));
+        localAppStatusStore.error(new ErrorAction("key", expectedErrorMessage, "", () => {}));
+        localAppStatusStore.error(new ErrorAction("key2", expectedErrorMessage2, "", () => {}));
 
         const loadingQueue = shallow(
             <ErrorStatus appStatusStore={localAppStatusStore}/>

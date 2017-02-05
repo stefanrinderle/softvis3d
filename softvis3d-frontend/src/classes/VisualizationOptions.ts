@@ -4,6 +4,7 @@ import Layout from "./Layout";
 import {district} from "../constants/Layouts";
 import {noMetric} from "../constants/Metrics";
 import {LOGARITHMIC} from "../constants/Scales";
+import {observable} from "mobx";
 
 export default class VisualizationOptions {
 
@@ -14,6 +15,7 @@ export default class VisualizationOptions {
     public layout: Layout;
     public metricWidth: Metric;
     public metricHeight: Metric;
+    @observable
     public metricColor: Metric;
     public scale: Scale;
 
