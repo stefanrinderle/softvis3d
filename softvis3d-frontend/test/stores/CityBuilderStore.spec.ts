@@ -19,23 +19,23 @@
 ///
 import { expect } from "chai";
 import { district, evostreet } from "../../src/constants/Layouts";
-import { defaultProfile, custom } from "../../src/constants/Profiles";
+import {defaultProfile, custom, leakPeriod} from "../../src/constants/Profiles";
 import * as Metrics from "../../src/constants/Metrics";
 import { CityBuilderStore } from "../../src/stores/CityBuilderStore";
 import Metric from "../../src/classes/Metric";
 import { defaultDistrict, defaultEvostreet, placeholder } from "../../src/constants/PreviewPictures";
+import {LOGARITHMIC, LINEAR_SCALED} from "../../src/constants/Scales";
 
 describe("CityBuilderStore", () => {
 
     it("should have set all default values on init", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         expect(underTest.layout).to.be.eq(district);
-        expect(underTest.profile).to.be.eq(defaultProfile);
+        expect(underTest.profile.id).to.be.eq(defaultProfile.id);
         expect(underTest.metricColor).to.be.eq(Metrics.noMetric);
         expect(underTest.colorMetrics.keys.length).to.be.eq(8);
         expect(underTest.initiateBuildProcess).to.be.eq(false);
         expect(underTest.show).to.be.eq(false);
-
     });
 
     it("should set layout", () => {
@@ -47,14 +47,37 @@ describe("CityBuilderStore", () => {
     it("should set profile", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         underTest.profile = defaultProfile;
-        expect(underTest.profile).to.be.equal(defaultProfile);
+        expect(underTest.profile.id).to.be.equal(defaultProfile.id);
     });
 
     it("should set profile if already set", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         underTest.profile = defaultProfile;
         underTest.profile = defaultProfile;
-        expect(underTest.profile).to.be.equal(defaultProfile);
+        expect(underTest.profile.id).to.be.equal(defaultProfile.id);
+    });
+
+    it("should update custom profile", () => {
+        let underTest: CityBuilderStore = new CityBuilderStore();
+        underTest.profile = leakPeriod;
+        underTest.profile = custom;
+        expect(underTest.profile.id).to.be.equal(custom.id);
+        expect(leakPeriod.metricHeight).to.be.equal(custom.metricHeight);
+        expect(leakPeriod.metricWidth).to.be.equal(custom.metricWidth);
+        expect(leakPeriod.scale).to.be.equal(custom.scale);
+    });
+
+    it("should update scale profile but set default again", () => {
+        let underTest: CityBuilderStore = new CityBuilderStore();
+        expect(underTest.profile.id).to.be.equal(defaultProfile.id);
+        expect(underTest.profile.scale).to.be.equal(LOGARITHMIC);
+        underTest.profile.scale = LINEAR_SCALED;
+
+        expect(underTest.profile.scale).to.be.equal(LINEAR_SCALED);
+
+        underTest.profile = defaultProfile;
+
+        expect(underTest.profile.scale).to.be.equal(defaultProfile.scale);
     });
 
     it("should set and get generic metrics", () => {

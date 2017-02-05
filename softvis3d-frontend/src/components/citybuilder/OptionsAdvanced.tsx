@@ -43,7 +43,6 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                             value={this.props.store.profile.scale}
                             options={LayoutProcessor.SCALING_METHODS}
                             onChange={(scale) => {
-                                this.props.store.profile = custom;
                                 this.props.store.profile.scale = scale;
                             }}
                         />

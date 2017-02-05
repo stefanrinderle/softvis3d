@@ -1,12 +1,16 @@
 import Metric from "./Metric";
 import Scale from "./Scale";
+import {observable} from "mobx";
 
 export default class Profile implements SelectOptionValue {
 
     public id: string;
     public description: string;
+    @observable
     public metricHeight: Metric;
+    @observable
     public metricWidth: Metric;
+    @observable
     public scale: Scale;
     private name: string;
 
@@ -23,6 +27,18 @@ export default class Profile implements SelectOptionValue {
         return this.name;
     }
 
+    public updateConfiguration(metricWidth: Metric, metricHeight: Metric, scale: Scale): void {
+        this.metricHeight = metricHeight;
+        this.metricWidth = metricWidth;
+        this.scale = scale;
+    }
+
+    public clone(): Profile {
+        return new ProfileBuilder(this.id, this.name)
+            .withConfiguration(this.metricWidth, this.metricHeight, this.scale)
+            .withDescription(this.description)
+            .build();
+    }
 }
 
 export class ProfileBuilder {

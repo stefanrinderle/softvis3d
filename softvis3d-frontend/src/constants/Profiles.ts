@@ -35,3 +35,23 @@ export {
     duplicatedLinesOfCode,
     custom
 }
+
+export class Profiles {
+
+    public static availableProfiles: Profile[] = [
+        defaultProfile,
+        leakPeriod,
+        duplicatedLinesOfCode,
+        custom
+    ];
+
+    public static getAvailableProfileById(id: string): Profile {
+        for (let searchProfile of this.availableProfiles) {
+            if (searchProfile.id === id) {
+                return searchProfile;
+            }
+        }
+        return custom;
+    }
+
+}

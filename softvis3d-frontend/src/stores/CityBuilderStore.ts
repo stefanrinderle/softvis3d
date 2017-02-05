@@ -1,13 +1,13 @@
-import { observable } from "mobx";
+import {observable} from "mobx";
 import Layout from "../classes/Layout";
-import { district } from "../constants/Layouts";
+import {district} from "../constants/Layouts";
 import Metric from "../classes/Metric";
-import { noMetric, availableColorMetrics } from "../constants/Metrics";
+import {noMetric, availableColorMetrics} from "../constants/Metrics";
 import MetricSet from "../classes/MetricSet";
 import Profile from "../classes/Profile";
-import { defaultProfile, custom } from "../constants/Profiles";
-import { PreviewPicture } from "../classes/PreviewPicture";
-import { placeholder, availablePreviewPictures } from "../constants/PreviewPictures";
+import {defaultProfile, custom, Profiles} from "../constants/Profiles";
+import {PreviewPicture} from "../classes/PreviewPicture";
+import {placeholder, availablePreviewPictures} from "../constants/PreviewPictures";
 
 class CityBuilderStore {
 
@@ -25,14 +25,16 @@ class CityBuilderStore {
     public show: boolean = false;
 
     @observable
-    private _profile: Profile = defaultProfile;
+    private _profile: Profile = defaultProfile.clone();
+    private _customProfile: Profile = custom;
 
     set profile(p: Profile) {
         if (p.id === custom.id) {
-            p.metricHeight = this.profile.metricHeight;
-            p.metricWidth = this.profile.metricWidth;
+            this._customProfile.updateConfiguration(this.profile.metricWidth, this.profile.metricHeight, this.profile.scale);
+            this._profile = this._customProfile;
+        } else {
+            this._profile = Profiles.getAvailableProfileById(p.id).clone();
         }
-        this._profile = p;
     }
 
     get profile(): Profile {

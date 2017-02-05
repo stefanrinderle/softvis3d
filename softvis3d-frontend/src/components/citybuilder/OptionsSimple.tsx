@@ -1,24 +1,17 @@
 import * as React from "react";
-import { observer } from "mobx-react";
-import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import {observer} from "mobx-react";
+import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import LayoutPicker from "./LayoutPicker";
-import { availableLayouts } from "../../constants/Layouts";
-import * as Profiles from "../../constants/Profiles";
+import {availableLayouts} from "../../constants/Layouts";
 import PreviewPictureComponent from "./PreviewPictureComponent";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import Metric from "../../classes/Metric";
 import Profile from "../../classes/Profile";
+import {Profiles} from "../../constants/Profiles";
 
 @observer
 export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {
     public render() {
-
-        const profiles = [
-            Profiles.defaultProfile,
-            Profiles.leakPeriod,
-            Profiles.duplicatedLinesOfCode,
-            Profiles.custom
-        ];
 
         return (
             <div className="simple">
@@ -28,7 +21,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                             label="Profile"
                             className="profiles"
                             value={this.props.store.profile}
-                            options={profiles}
+                            options={Profiles.availableProfiles}
                             onChange={(p: Profile) => { this.props.store.profile = p; }}
                         />
                         <p className="selection-description profile-description">
