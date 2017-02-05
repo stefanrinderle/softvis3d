@@ -21,9 +21,12 @@ import {BackendService} from "./BackendService";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import {AppStatusStore} from "../../stores/AppStatusStore";
 import {SceneStore} from "../../stores/SceneStore";
+import LoadAction from "../../classes/status/LoadAction";
+import ErrorAction from "../../classes/status/ErrorAction";
 
 export default class SonarQubeLegacyService extends BackendService {
-    public static LOAD_LEGACY = "SONAR_LOAD_LEGACY_BACKEND";
+    public static LOAD_LEGACY: LoadAction = new LoadAction("SONAR_LOAD_LEGACY_BACKEND", "Request measures from SonarQube");
+    public static LOAD_MEASURES_ERROR_KEY: string = "LOAD_MEASURES_ERROR";
 
     private projectKey: string;
     private appStatusStore: AppStatusStore;
@@ -56,7 +59,12 @@ export default class SonarQubeLegacyService extends BackendService {
         return this.callApi("/softVis3D/getVisualization", { params }).then((response) => {
             this.appStatusStore.loadComplete(SonarQubeLegacyService.LOAD_LEGACY);
             this.sceneStore.legacyData = response.data;
-        }).catch(console.log);
+        }).catch((error) => {
+            this.appStatusStore.loadComplete(SonarQubeLegacyService.LOAD_LEGACY);
+            this.appStatusStore.error(
+                new ErrorAction(SonarQubeLegacyService.LOAD_MEASURES_ERROR_KEY,
+                    "SonarQube measure API is not available or responding: " + error.response.statusText));
+        });
     }
 
     private getMetricRequestValues(): string {

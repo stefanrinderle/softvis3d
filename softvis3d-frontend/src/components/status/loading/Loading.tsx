@@ -7,7 +7,7 @@ import {AppStatusStore} from "../../../stores/AppStatusStore";
 @observer
 export default class Loading extends React.Component<{ appStatusStore: AppStatusStore; }, any> {
     public render() {
-        if (this.props.appStatusStore.loadingQueue.length > 0) {
+        if (!this.props.appStatusStore.loadingQueue.isEmpty) {
             return <div>
                 <LoadingImage/>
                 <LoadingQueue appStatusStore={this.props.appStatusStore}/>

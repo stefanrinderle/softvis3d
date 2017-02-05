@@ -1,15 +1,17 @@
 import * as React from "react";
 import {AppStatusStore} from "../../../stores/AppStatusStore";
+import StatusActionQueue from "../../../classes/status/StatusActionQueue";
+import LoadAction from "../../../classes/status/LoadAction";
 
 export default class LoadingQueue extends React.Component<{ appStatusStore: AppStatusStore; }, any> {
 
     public render() {
-        const queue = this.props.appStatusStore.loadingQueue;
+        const queue: StatusActionQueue<LoadAction> = this.props.appStatusStore.loadingQueue;
 
         let elements: Array<React.ReactElement<any>> = [];
-        for (let i = 0; i < queue.length; i++) {
+        for (let queueElement of queue) {
             elements.push(
-                <li key={queue[i] + "_" + i}>{queue[i]}</li>
+                <li key={queueElement.key}>{queueElement.description}</li>
             );
         }
 

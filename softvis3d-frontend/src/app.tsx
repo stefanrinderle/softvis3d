@@ -10,6 +10,7 @@ import SonarQubeLegacyService from "./services/sonarqube/SonarQubeLegacyService"
 import WebGLDetector from "./services/WebGLDetector";
 import SceneReactions from "./reactions/SceneReactions";
 import BuilderReactions from "./reactions/BuilderReactions";
+import ErrorAction from "./classes/status/ErrorAction";
 
 interface AppConfiguration {
     api: string;
@@ -18,6 +19,8 @@ interface AppConfiguration {
 }
 
 export default class App {
+    private static WEBGL_ERROR_KEY: string = "WEBGL_ERROR";
+
     private isInitialized: boolean = false;
     private communicator: SonarQubeMetricsService;
     private legacyService: SonarQubeLegacyService;
@@ -62,8 +65,8 @@ export default class App {
     private assertRequirementsAreMet() {
         if (!WebGLDetector.isWebGLSupported()) {
             const error = WebGLDetector.getWebGLErrorMessage();
-            console.warn(error);
-            throw error;
+
+            appStatusStore.error(new ErrorAction(App.WEBGL_ERROR_KEY, "WebGL is required. " + error));
         }
     }
 }

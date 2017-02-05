@@ -3,6 +3,7 @@ import {expect} from "chai";
 import {shallow} from "enzyme";
 import ErrorStatus from "../../../src/components/status/ErrorStatus";
 import {AppStatusStore} from "../../../src/stores/AppStatusStore";
+import ErrorAction from "../../../src/classes/status/ErrorAction";
 
 describe("<ErrorStatus/>", () => {
 
@@ -10,7 +11,7 @@ describe("<ErrorStatus/>", () => {
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         let expectedErrorMessage = "test";
-        localAppStatusStore.error(expectedErrorMessage);
+        localAppStatusStore.error(new ErrorAction("key", expectedErrorMessage));
 
         const loadingQueue = shallow(
             <ErrorStatus appStatusStore={localAppStatusStore}/>
@@ -24,8 +25,8 @@ describe("<ErrorStatus/>", () => {
 
         let expectedErrorMessage = "test";
         let expectedErrorMessage2 = "ioiio";
-        localAppStatusStore.error(expectedErrorMessage);
-        localAppStatusStore.error(expectedErrorMessage2);
+        localAppStatusStore.error(new ErrorAction("key", expectedErrorMessage));
+        localAppStatusStore.error(new ErrorAction("key2", expectedErrorMessage2));
 
         const loadingQueue = shallow(
             <ErrorStatus appStatusStore={localAppStatusStore}/>

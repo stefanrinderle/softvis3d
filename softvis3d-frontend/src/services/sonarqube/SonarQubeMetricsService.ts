@@ -23,6 +23,8 @@ import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import Metric from "../../classes/Metric";
 import { leakPeriod } from "../../constants/Profiles";
 import { newLinesToCoverMetric } from "../../constants/Metrics";
+import LoadAction from "../../classes/status/LoadAction";
+import ErrorAction from "../../classes/status/ErrorAction";
 
 export interface SonarQubeApiMetric {
     id: number;
@@ -33,7 +35,8 @@ export interface SonarQubeApiMetric {
 }
 
 export default class SonarQubeMetricsService extends BackendService {
-    public static LOAD_METRICS = "SONAR_LOAD_METRICS";
+    public static LOAD_METRICS: LoadAction = new LoadAction("SONAR_LOAD_METRICS", "Request metric definitions from SonarQube");
+    private static LOAD_METRICS_ERROR_KEY: string = "LOAD_METRICS_ERROR";
 
     private appStatusStore: AppStatusStore;
     private cityBuilderStore: CityBuilderStore;
@@ -69,7 +72,9 @@ export default class SonarQubeMetricsService extends BackendService {
             }
 
         }).catch((error) => {
-            this.appStatusStore.error("SonarQube metric API is not available or responding: " + error.response.statusText);
+            this.appStatusStore.error(
+                new ErrorAction(SonarQubeMetricsService.LOAD_METRICS_ERROR_KEY,
+                    "SonarQube metric API is not available or responding: " + error.response.statusText));
             this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
         });
     }

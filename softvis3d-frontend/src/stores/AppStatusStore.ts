@@ -1,46 +1,35 @@
 import {computed, observable} from "mobx";
+import LoadAction from "../classes/status/LoadAction";
+import ErrorAction from "../classes/status/ErrorAction";
+import StatusActionQueue from "../classes/status/StatusActionQueue";
 
 class AppStatusStore {
     @observable
     public showLoadingQueue: boolean = false;
     @observable
-    public loadingQueue: string[] = [];
+    public loadingQueue: StatusActionQueue<LoadAction> = new StatusActionQueue();
     @observable
-    public errors: string[] = [];
+    public errors: StatusActionQueue<ErrorAction> = new StatusActionQueue();
 
     @computed
     get isVisible() {
-        return this.loadingQueue.length > 0 || this.errors.length > 0;
+        return !(this.loadingQueue.isEmpty && this.errors.isEmpty);
     }
 
-    public load(event: string): void {
-        this.loadingQueue.push(event);
+    public load(action: LoadAction): void {
+        this.loadingQueue.add(action);
     }
 
-    public loadComplete(event: string): void  {
-        for (let i = 0; i < this.loadingQueue.length; i++) {
-            if (this.loadingQueue[i] === event) {
-                this.loadingQueue.splice(i, 1);
-                return;
-            }
-        }
-
-        console.error(`Could not remove load event: '${event}'`);
+    public loadComplete(action: LoadAction): void  {
+        this.loadingQueue.remove(action);
     }
 
-    public acknowledgeError(error: string): void  {
-        for (let i = 0; i < this.errors.length; i++) {
-            if (this.errors[i] === error) {
-                this.errors.splice(i, 1);
-                return;
-            }
-        }
-
-        console.error(`Could not remove load event: '${error}'`);
+    public error(error: ErrorAction): void {
+        this.errors.add(error);
     }
 
-    public error(msg: string): void {
-        this.errors.push(msg);
+    public acknowledgeError(error: ErrorAction): void  {
+        this.errors.remove(error);
     }
 }
 

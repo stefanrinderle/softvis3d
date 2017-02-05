@@ -1,13 +1,14 @@
 import * as React from "react";
-import { expect } from "chai";
-import { shallow } from "enzyme";
+import {expect} from "chai";
+import {shallow} from "enzyme";
 import Softvis3D from "../../src/components/Softvis3D";
-import cityBuilderStore, { CityBuilderStore } from "../../src/stores/CityBuilderStore";
+import cityBuilderStore, {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import CityBuilder from "../../src/components/citybuilder/CityBuilder";
 import Visualization from "../../src/components/visualization/Visualization";
 import {AppStatusStore, default as appStatusStore} from "../../src/stores/AppStatusStore";
-import sceneStore, { SceneStore } from "../../src/stores/SceneStore";
+import sceneStore, {SceneStore} from "../../src/stores/SceneStore";
 import Status from "../../src/components/status/Status";
+import LoadAction from "../../src/classes/status/LoadAction";
 
 describe("<SoftVis3D/>", () => {
 
@@ -33,7 +34,7 @@ describe("<SoftVis3D/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        localAppStatusStore.loadingQueue = ["eins"];
+        localAppStatusStore.loadingQueue.add(new LoadAction("key", "eins"));
         localCityBuilderStore.show = true;
 
         const softvis3d = shallow(

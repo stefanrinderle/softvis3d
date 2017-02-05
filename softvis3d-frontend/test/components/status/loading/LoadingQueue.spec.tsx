@@ -3,6 +3,7 @@ import {expect} from "chai";
 import {shallow} from "enzyme";
 import LoadingQueue from "../../../../src/components/status/loading/LoadingQueue";
 import {AppStatusStore} from "../../../../src/stores/AppStatusStore";
+import LoadAction from "../../../../src/classes/status/LoadAction";
 
 describe("<LoadingQueue/>", () => {
 
@@ -10,7 +11,7 @@ describe("<LoadingQueue/>", () => {
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         let expectedLoadMessage = "test";
-        localAppStatusStore.load(expectedLoadMessage);
+        localAppStatusStore.load(new LoadAction("key", expectedLoadMessage));
 
         const loadingQueue = shallow(
             <LoadingQueue appStatusStore={localAppStatusStore}/>
@@ -24,8 +25,8 @@ describe("<LoadingQueue/>", () => {
 
         let expectedLoadMessage = "test";
         let expectedLoadMessage2 = "ioiio";
-        localAppStatusStore.load(expectedLoadMessage);
-        localAppStatusStore.load(expectedLoadMessage2);
+        localAppStatusStore.load(new LoadAction("key", expectedLoadMessage));
+        localAppStatusStore.load(new LoadAction("key2",expectedLoadMessage2));
 
         const loadingQueue = shallow(
             <LoadingQueue appStatusStore={localAppStatusStore}/>

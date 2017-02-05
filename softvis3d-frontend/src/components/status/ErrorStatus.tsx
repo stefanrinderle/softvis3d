@@ -6,12 +6,15 @@ import {AppStatusStore} from "../../stores/AppStatusStore";
 export default class ErrorStatus extends React.Component<{ appStatusStore: AppStatusStore; }, any> {
 
     public render() {
-        if (this.props.appStatusStore.errors.length > 0) {
+        if (!this.props.appStatusStore.errors.isEmpty) {
             let elements = this.createErrorElements();
             return (
-                <ul className="events">
-                    {elements}
-                </ul>
+                <div>
+                    <h2>An error occured:</h2>
+                    <ul className="events">
+                        {elements}
+                    </ul>
+                </div>
             );
         } else {
             return <div />;
@@ -23,11 +26,12 @@ export default class ErrorStatus extends React.Component<{ appStatusStore: AppSt
         const queue = this.props.appStatusStore.errors;
 
         let elements: Array<React.ReactElement<any>> = [];
-        for (let i = 0; i < queue.length; i++) {
+        for (let queueElement of queue) {
             elements.push(
-                <li key={queue[i] + "_" + i}>{queue[i]}</li>
+                <li key={queueElement.key}>{queueElement.description}</li>
             );
         }
+
         return elements;
     }
 
