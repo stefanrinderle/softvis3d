@@ -38,7 +38,7 @@ export class Wrangler {
 
     private scene: Scene;
     private objectsInView: SoftVis3dMesh[] = [];
-    private selectedTreeObject: SoftVis3dSelectedObject | null = null;
+    private selectedTreeObjects: SoftVis3dSelectedObject[] = [];
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -63,19 +63,21 @@ export class Wrangler {
         }
 
         // update selected object
-        if (this.selectedTreeObject !== null) {
-            let formerSelectedObjectId: string = this.selectedTreeObject.object.getSoftVis3dId();
-            this.selectedTreeObject = null;
+        if (this.selectedTreeObjects.length > 0) {
+            let formerSelectedObjectId: string = this.selectedTreeObjects[0].object.getSoftVis3dId();
+            this.selectedTreeObjects = [];
             this.selectSceneTreeObject(formerSelectedObjectId);
         }
     }
 
     public selectSceneTreeObject(objectSoftVis3dId: string | null) {
-        if (this.selectedTreeObject !== null) {
-            this.selectedTreeObject.object.material.color.setHex(this.selectedTreeObject.color);
+        // reset former selected objects
+
+        for (let previousSelection of this.selectedTreeObjects) {
+            previousSelection.object.material.color.setHex(previousSelection.color);
         }
 
-        this.selectedTreeObject = null;
+        this.selectedTreeObjects = [];
 
         if (objectSoftVis3dId !== null) {
             for (let obj of this.objectsInView) {
@@ -83,10 +85,12 @@ export class Wrangler {
 
                     let selectedObjectMaterial: MeshLambertMaterial = obj.material;
 
-                    this.selectedTreeObject = {
+                    let selectedObjectInformation = {
                         object: obj,
                         color: selectedObjectMaterial.color.getHex()
                     };
+
+                    this.selectedTreeObjects.push(selectedObjectInformation);
 
                     selectedObjectMaterial.color.setHex(0xFFC519);
                 }
