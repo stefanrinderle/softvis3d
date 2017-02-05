@@ -16,14 +16,14 @@ export default class LegacyConnector {
 
     public buildCity() {
         if (this.sceneStore.legacyData !== null) {
-            const model = new Softvis3dModel(this.sceneStore.legacyData, this.sceneStore.profile.metricWidth.key,
-                this.sceneStore.profile.metricHeight.key, this.sceneStore.metricColor.key);
+            const model = new Softvis3dModel(this.sceneStore.legacyData, this.sceneStore.metricWidth.key,
+                this.sceneStore.metricHeight.key, this.sceneStore.metricColor.key);
 
             const options = {
                 layout: this.sceneStore.layout.id,
                 layoutOptions: {},
                 colorMetric: this.sceneStore.metricColor.key,
-                scalingMethod: this.sceneStore.profile.scale
+                scalingMethod: this.sceneStore.scale
             };
 
             const processor = new LayoutProcessor(options);

@@ -1,20 +1,24 @@
 import {observable, computed} from "mobx";
 import {TreeService} from "../services/TreeService";
-import {defaultProfile} from "../constants/Profiles";
 import {district} from "../constants/Layouts";
 import * as Metrics from "../constants/Metrics";
 import Metric from "../classes/Metric";
 import Layout from "../classes/Layout";
-import Profile from "../classes/Profile";
 import SoftVis3dScene from "../components/scene/visualization/SoftVis3dScene";
+import Scale from "../classes/Scale";
+import {LOGARITHMIC} from "../constants/Scales";
 
 class SceneStore {
     @observable
     public layout: Layout = district;
     @observable
-    public profile: Profile = defaultProfile;
+    public metricWidth: Metric = Metrics.noMetric;
+    @observable
+    public metricHeight: Metric = Metrics.noMetric;
     @observable
     public metricColor: Metric = Metrics.noMetric;
+    @observable
+    public scale: Scale = LOGARITHMIC;
     @observable
     public legacyData: TreeElement | null = null;
     @observable

@@ -24,7 +24,9 @@ export default class BuilderReactions {
 
                     // Transfer values
                     this.scene.layout = this.builder.layout;
-                    this.scene.profile = this.builder.profile;
+                    this.scene.metricWidth = this.builder.profile.metricWidth;
+                    this.scene.metricHeight = this.builder.profile.metricHeight;
+                    this.scene.scale = this.builder.profile.scale;
                     this.scene.metricColor = this.builder.metricColor;
 
                     this.scene.refreshScene = true;
