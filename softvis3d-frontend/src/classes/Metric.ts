@@ -10,6 +10,10 @@ export default class Metric implements SelectOptionValue {
         this.name = name;
     }
 
+    public getValue(): string {
+        return this.key;
+    }
+
     public getLabel(): string {
         return this.name;
     }

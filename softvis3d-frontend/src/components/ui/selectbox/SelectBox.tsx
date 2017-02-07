@@ -2,7 +2,7 @@ import * as React from "react";
 import SelectOption from "./SelectOption";
 import SelectGroup from "./SelectGroup";
 
-type ChangeEvent = (value: any, event: React.SyntheticEvent, src: React.Component<any, any>) => void|boolean;
+type ChangeEvent = (value: any) => void|boolean;
 
 interface SelectBoxProps {
     children?: Array<SelectOption|SelectGroup>;
@@ -11,7 +11,7 @@ interface SelectBoxProps {
 
     className?: string;
     disabled?: boolean;
-    value?: any;
+    value: SelectOptionValue;
     label?: string;
 
     onChange: ChangeEvent;
@@ -24,12 +24,19 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
         prepend: [],
         append: [],
         className: "",
-        disabled: false
+        disabled: false,
+        value: null
     };
 
+    private values: SelectOptionValue[] = [];
+
     public handleChange(event: React.SyntheticEvent) {
-        const newValue = JSON.parse((event.target as HTMLOptionElement).value);
-        this.props.onChange(newValue, event, this);
+        const value = (event.target as HTMLOptionElement).value;
+        const target = this.values.find((o: SelectOptionValue) => o.getValue() === value);
+
+        if (target) {
+            this.props.onChange(target);
+        }
     }
 
     public render() {
@@ -45,7 +52,7 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
                 <select
                     disabled={this.props.disabled}
                     className={this.props.className}
-                    value={JSON.stringify(this.props.value)}
+                    value={this.props.value.getValue()}
                     onChange={this.handleChange.bind(this)}
                     onClick={clickEvent}
                     onMouseDown={mouseDownEvent}
@@ -68,13 +75,20 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
     }
 
     private renderChildren(): Array<React.Component<any, any>> {
+        this.values = [];
         return React.Children.map<any>(
             (this.props.children as Array<SelectOption|SelectGroup>),
             (child: React.ReactElement<any>) => {
                 if (child.type === SelectOption) {
+                    //noinspection JSUnusedGlobalSymbols
                     return React.cloneElement(child, {
                         checked: child.props.value === this.props.value,
-                        disabled: this.props.disabled || child.props.disabled
+                        disabled: this.props.disabled || child.props.disabled,
+                        ref: (object: SelectOption | null) => {
+                            if (object) {
+                                this.values.push(object.props.value);
+                            }
+                        }
                     });
                 } else if (child.type === SelectGroup) {
                     return React.cloneElement(child, {

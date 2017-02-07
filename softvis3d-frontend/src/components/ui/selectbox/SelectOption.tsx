@@ -3,7 +3,7 @@ import * as React from "react";
 interface SelectOptionProps {
     checked?: boolean;
     disabled?: boolean;
-    selectOptionElement: SelectOptionValue;
+    value: SelectOptionValue;
 }
 
 export default class SelectOption extends React.Component<SelectOptionProps, any> {
@@ -15,11 +15,11 @@ export default class SelectOption extends React.Component<SelectOptionProps, any
     public render() {
         return (
             <option
-                value={JSON.stringify(this.props.selectOptionElement)}
+                value={this.props.value.getValue()}
                 checked={this.props.checked}
                 disabled={this.props.disabled}
             >
-                {this.props.selectOptionElement.getLabel()}
+                {this.props.value.getLabel()}
             </option>
         );
     }

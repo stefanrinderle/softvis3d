@@ -6,6 +6,7 @@ import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import LayoutProcessor from "../../legacy/LayoutProcessor";
 import Metric from "../../classes/Metric";
 import { custom } from "../../constants/Profiles";
+import Scale from "../../classes/Scale";
 
 @observer
 export default class OptionsAdvanced extends React.Component<{ store: CityBuilderStore; }, any> {
@@ -42,7 +43,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                             label="Scaling Method"
                             value={this.props.store.profile.scale}
                             options={LayoutProcessor.SCALING_METHODS}
-                            onChange={(scale) => {
+                            onChange={(scale: Scale) => {
                                 this.props.store.profile.scale = scale;
                             }}
                         />
