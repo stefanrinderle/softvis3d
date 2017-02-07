@@ -1,11 +1,11 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import { observer } from "mobx-react";
+import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import LayoutProcessor from "../../legacy/LayoutProcessor";
 import Metric from "../../classes/Metric";
-import {custom} from "../../constants/Profiles";
+import { custom } from "../../constants/Profiles";
 
 @observer
 export default class OptionsAdvanced extends React.Component<{ store: CityBuilderStore; }, any> {
@@ -47,6 +47,9 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                             }}
                         />
                     </div>
+                    <p className="selection-description profile-description">
+                        Change how the metric values will be scaled for width and height.
+                    </p>
                 </div>
             </Category>
         );
