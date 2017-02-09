@@ -6,6 +6,7 @@ interface SelectGroupProps {
     children?: SelectOption[];
     disabled?: boolean;
     label: string;
+    optionRef?: (o: SelectOption) => void;
 }
 
 export default class SelectGroup extends React.Component<SelectGroupProps, any> {
@@ -29,7 +30,8 @@ export default class SelectGroup extends React.Component<SelectGroupProps, any> 
                 if (child.type === SelectOption) {
                     return React.cloneElement(child, {
                         checked: child.props.value === this.props.selectedValue,
-                        disabled: this.props.disabled || child.props.disabled
+                        disabled: this.props.disabled || child.props.disabled,
+                        ref: this.props.optionRef
                     });
                 } else {
                     return child;

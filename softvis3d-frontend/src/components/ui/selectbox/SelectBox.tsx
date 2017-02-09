@@ -19,6 +19,10 @@ interface SelectBoxProps {
     onMouseDown?: (event: React.SyntheticEvent) => void|boolean;
 }
 
+interface ValueStore {
+    [index: string]: SelectOptionValue;
+}
+
 export default class SelectBox extends React.Component<SelectBoxProps, any> {
     public static defaultProps = {
         prepend: [],
@@ -28,14 +32,13 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
         value: null
     };
 
-    private values: SelectOptionValue[] = [];
+    private values: ValueStore = {};
 
     public handleChange(event: React.SyntheticEvent) {
         const value = (event.target as HTMLOptionElement).value;
-        const target = this.values.find((o: SelectOptionValue) => o.getValue() === value);
 
-        if (target) {
-            this.props.onChange(target);
+        if (value in this.values) {
+            this.props.onChange(this.values[value]);
         }
     }
 
@@ -74,26 +77,39 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
         );
     }
 
+    private addValue(v: SelectOptionValue) {
+        this.values[v.getValue()] = v;
+    }
+
+    private clearValues() {
+        this.values = {};
+    }
+
     private renderChildren(): Array<React.Component<any, any>> {
-        this.values = [];
+        this.clearValues();
+        const ref = (o: SelectOption | null) => {
+            if (!o) {
+                this.clearValues();
+            } else {
+                const v: SelectOptionValue = o.props.value;
+                this.addValue(v);
+            }
+        };
+
         return React.Children.map<any>(
             (this.props.children as Array<SelectOption|SelectGroup>),
             (child: React.ReactElement<any>) => {
                 if (child.type === SelectOption) {
-                    //noinspection JSUnusedGlobalSymbols
                     return React.cloneElement(child, {
                         checked: child.props.value === this.props.value,
                         disabled: this.props.disabled || child.props.disabled,
-                        ref: (object: SelectOption | null) => {
-                            if (object) {
-                                this.values.push(object.props.value);
-                            }
-                        }
+                        ref
                     });
                 } else if (child.type === SelectGroup) {
                     return React.cloneElement(child, {
                         selectedValue: this.props.value,
-                        disabled: this.props.disabled || child.props.disabled
+                        disabled: this.props.disabled || child.props.disabled,
+                        optionRef: ref
                     });
                 } else {
                     return child;
