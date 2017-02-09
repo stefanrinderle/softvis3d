@@ -35,8 +35,9 @@ export default class SelectBoxBuilder extends React.Component<SelectBoxBuilderPr
 
     private getSelectOptions() {
         return this.props.options
-            .map((selectOptionElement) => <SelectOption
-                value={selectOptionElement}
+            .map((option) => <SelectOption
+                key={option.getValue()}
+                value={option}
                 disabled={this.props.disabled}
             />);
     }
