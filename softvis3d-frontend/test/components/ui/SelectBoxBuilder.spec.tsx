@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as Sinon from "sinon";
-import {assert, expect} from "chai/lib/Chai";
+import {assert, expect} from "chai";
 import {mount} from "enzyme";
 import SelectBoxBuilder from "../../../src/components/ui/selectbox/SelectBoxBuilder";
 
