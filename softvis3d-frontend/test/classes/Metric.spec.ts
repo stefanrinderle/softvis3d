@@ -42,6 +42,7 @@ describe("Metric", () => {
         let result: Metric = new Metric(expectedKey, expectedType, expectedName);
 
         expect(result.getLabel()).to.be.eq(expectedName);
+        expect(result.getValue()).to.be.eq(expectedKey);
     });
 
 });

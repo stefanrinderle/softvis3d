@@ -52,6 +52,7 @@ describe("Profile", () => {
             .build();
 
         expect(profile.getLabel()).to.be.eq(expectedName);
+        expect(profile.getValue()).to.be.eq(expectedId);
     });
 
     it("should be able to clone", () => {
