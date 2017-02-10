@@ -15,7 +15,7 @@ export default class SelectOption extends React.Component<SelectOptionProps, any
     public render() {
         return (
             <option
-                value={this.props.value.getValue()}
+                value={this.props.value.getId()}
                 checked={this.props.checked}
                 disabled={this.props.disabled}
             >

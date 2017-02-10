@@ -8,15 +8,15 @@ describe("<SelectBoxBuilder/>", () => {
 
     const v1: SelectOptionValue = {
         getLabel: () => "Test 1",
-        getValue: () => "test 1"
+        getId: () => "test 1"
     };
     const v2: SelectOptionValue = {
         getLabel: () => "Test 2",
-        getValue: () => "test 2"
+        getId: () => "test 2"
     };
     const v3: SelectOptionValue = {
         getLabel: () => "Test 3",
-        getValue: () => "test 3"
+        getId: () => "test 3"
     };
 
     it("should build a functioning selectbox", () => {
@@ -33,11 +33,11 @@ describe("<SelectBoxBuilder/>", () => {
             />
         );
 
-        wrapper.find("select").simulate("change", {target: { value : v3.getValue()}});
+        wrapper.find("select").simulate("change", {target: { value : v3.getId()}});
         assert(spy.withArgs(v3).calledOnce, "Value 3 was not triggered");
 
-        wrapper.find("select").simulate("change", {target: { value : v2.getValue()}});
-        wrapper.find("select").simulate("change", {target: { value : v3.getValue()}});
+        wrapper.find("select").simulate("change", {target: { value : v2.getId()}});
+        wrapper.find("select").simulate("change", {target: { value : v3.getId()}});
         assert(spy.neverCalledWith(v1), "Value 1 was triggered");
         assert(spy.withArgs(v2).calledOnce, "Value 2 was not triggered");
         assert(spy.withArgs(v3).calledTwice, "Value 3 was not triggered again");

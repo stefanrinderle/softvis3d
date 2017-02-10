@@ -1,15 +1,15 @@
 export default class Scale implements SelectOptionValue {
 
-    private key: string;
+    private id: string;
     private label: string;
 
-    constructor(key: string, label: string) {
-        this.key = key;
+    constructor(id: string, label: string) {
+        this.id = id;
         this.label = label;
     }
 
-    public getValue(): string {
-        return this.key;
+    public getId(): string {
+        return this.id;
     }
 
     public getLabel(): string {

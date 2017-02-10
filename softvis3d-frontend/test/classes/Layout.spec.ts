@@ -41,7 +41,7 @@ describe("Layout", () => {
         let result: Layout = new Layout(id, name, description);
 
         expect(result.getLabel()).to.be.eq(name);
-        expect(result.getValue()).to.be.eq(id);
+        expect(result.getId()).to.be.eq(id);
     });
 
 });

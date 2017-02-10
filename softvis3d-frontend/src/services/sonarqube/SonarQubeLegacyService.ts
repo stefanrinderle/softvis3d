@@ -73,8 +73,8 @@ export default class SonarQubeLegacyService extends BackendService {
 
     private getMetricRequestValues(): string {
         let result: Set<string> = new Set();
-        result.add(this.cityBuilderStore.profile.metricWidth.key);
-        result.add(this.cityBuilderStore.profile.metricHeight.key);
+        result.add(this.cityBuilderStore.profile.metricWidth.id);
+        result.add(this.cityBuilderStore.profile.metricHeight.id);
 
         for (const colorMetric of this.cityBuilderStore.colorMetrics.keys) {
             if (colorMetric !== "none" && colorMetric !== "package") {

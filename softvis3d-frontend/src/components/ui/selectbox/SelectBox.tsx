@@ -55,7 +55,7 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
                 <select
                     disabled={this.props.disabled}
                     className={this.props.className}
-                    value={this.props.value.getValue()}
+                    value={this.props.value.getId()}
                     onChange={this.handleChange.bind(this)}
                     onClick={clickEvent}
                     onMouseDown={mouseDownEvent}
@@ -78,7 +78,7 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
     }
 
     private addValue(v: SelectOptionValue) {
-        this.values[v.getValue()] = v;
+        this.values[v.getId()] = v;
     }
 
     private clearValues() {

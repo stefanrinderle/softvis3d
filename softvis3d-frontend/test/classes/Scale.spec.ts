@@ -23,13 +23,13 @@ import Scale from "../../src/classes/Scale";
 describe("Scale", () => {
 
     it("should implement SelectOptionValue", () => {
-        let expectedKey: string = "23";
+        let expectedId: string = "23";
         let expectedLabel: string = "INT";
 
-        let result: Scale = new Scale(expectedKey, expectedLabel);
+        let result: Scale = new Scale(expectedId, expectedLabel);
 
         expect(result.getLabel()).to.be.eq(expectedLabel);
-        expect(result.getValue()).to.be.eq(expectedKey);
+        expect(result.getId()).to.be.eq(expectedId);
     });
 
 });

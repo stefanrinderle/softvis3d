@@ -1,17 +1,17 @@
 export default class Metric implements SelectOptionValue {
 
-    public key: string;
+    public id: string;
     public name: string;
     public type: MetricType;
 
-    constructor(key: string, type: MetricType, name: string) {
-        this.key = key;
+    constructor(id: string, type: MetricType, name: string) {
+        this.id = id;
         this.type = type;
         this.name = name;
     }
 
-    public getValue(): string {
-        return this.key;
+    public getId(): string {
+        return this.id;
     }
 
     public getLabel(): string {
