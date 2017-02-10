@@ -86,5 +86,79 @@ public class DaoServiceTransformerTest {
     assertEquals(expectedId, result.get(0).getId());
     assertEquals(expectedName, result.get(0).getName());
     assertEquals(expectedPath, result.get(0).getPath());
+
+    assertEquals(1.1, result.get(0).getMetrics().get("20"), 0.001);
+    assertEquals(2.2, result.get(0).getMetrics().get("1"), 0.001);
+  }
+
+  @Test
+  public void testTransformComponentToMeasureWithPeriods() throws Exception {
+    final List<WsMeasures.Component> inputList = new ArrayList<>();
+
+    final String expectedId = "123";
+    final String expectedName = "456";
+    final String expectedPath = "789";
+
+    final WsMeasures.PeriodsValue.Builder valueBuilder1 = WsMeasures.PeriodsValue.newBuilder();
+    valueBuilder1.addPeriodsValue(WsMeasures.PeriodValue.newBuilder().setIndex(1).setValue("1.1").build());
+
+    final WsMeasures.PeriodsValue.Builder valueBuilder2 = WsMeasures.PeriodsValue.newBuilder();
+    valueBuilder2.addPeriodsValue(WsMeasures.PeriodValue.newBuilder().setIndex(1).setValue("2.2").build());
+
+    final WsMeasures.Measure.Builder measure1 = WsMeasures.Measure.newBuilder()
+        .setMetric("20")
+        .setPeriods(valueBuilder1);
+    final WsMeasures.Measure.Builder measure2 = WsMeasures.Measure.newBuilder()
+        .setMetric("1")
+        .setValue("2.2");
+
+    final WsMeasures.Component.Builder wsComponent = WsMeasures.Component.newBuilder()
+        .setId(expectedId)
+        .setName(expectedName)
+        .setPath(expectedPath)
+        .addMeasures(0, measure1)
+        .addMeasures(1, measure2);
+
+    inputList.add(wsComponent.build());
+
+    final List<SonarMeasure> result = daoServiceTransformer.transformComponentToMeasure(inputList);
+
+    assertEquals(1, result.size());
+    assertEquals(expectedId, result.get(0).getId());
+    assertEquals(expectedName, result.get(0).getName());
+    assertEquals(expectedPath, result.get(0).getPath());
+
+    assertEquals(1.1, result.get(0).getMetrics().get("20"), 0.001);
+    assertEquals(2.2, result.get(0).getMetrics().get("1"), 0.001);
+  }
+
+  @Test
+  public void testTransformComponentToMeasureNoOrEmptyMeasure() throws Exception {
+    final List<WsMeasures.Component> inputList = new ArrayList<>();
+
+    final String expectedId = "123";
+    final String expectedName = "456";
+    final String expectedPath = "789";
+
+    final WsMeasures.Measure.Builder measure1 = WsMeasures.Measure.newBuilder()
+        .setMetric("20")
+        .setValue("");
+
+    final WsMeasures.Component.Builder wsComponent = WsMeasures.Component.newBuilder()
+        .setId(expectedId)
+        .setName(expectedName)
+        .setPath(expectedPath)
+        .addMeasures(0, measure1);
+
+    inputList.add(wsComponent.build());
+
+    final List<SonarMeasure> result = daoServiceTransformer.transformComponentToMeasure(inputList);
+
+    assertEquals(1, result.size());
+    assertEquals(expectedId, result.get(0).getId());
+    assertEquals(expectedName, result.get(0).getName());
+    assertEquals(expectedPath, result.get(0).getPath());
+
+    assertEquals(0, result.get(0).getMetrics().size());
   }
 }
