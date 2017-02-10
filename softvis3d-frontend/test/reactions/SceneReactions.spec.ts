@@ -17,7 +17,7 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect, assert} from "chai";
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {SceneStore} from "../../src/stores/SceneStore";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
@@ -54,13 +54,14 @@ describe("SceneReactions", () => {
         let testSonarService: SonarQubeLegacyService =
             new SonarQubeLegacyService("", "", testAppStatusStore, testCityBuilderStore, testSceneStore);
 
-        let spyLoad = Sinon.spy(testSonarService, "loadLegacyBackend");
+        let mockLoad = Sinon.mock(testSonarService);
+        mockLoad.expects("loadLegacyBackend").once();
 
         new SceneReactions(testSceneStore, testCityBuilderStore, testAppStatusStore, testLegayConnector, testSonarService);
 
         testSceneStore.refreshScene = true;
 
-        assert(spyLoad.called);
+        mockLoad.verify();
     });
 
     it("should NOT load backend legacy data when the scene should NOT be rendered", () => {
@@ -72,13 +73,14 @@ describe("SceneReactions", () => {
         let testSonarService: SonarQubeLegacyService =
             new SonarQubeLegacyService("", "", testAppStatusStore, testCityBuilderStore, testSceneStore);
 
-        let spyLoad = Sinon.spy(testSonarService, "loadLegacyBackend");
+        let mockLoad = Sinon.mock(testSonarService);
+        mockLoad.expects("loadLegacyBackend").never();
 
         new SceneReactions(testSceneStore, testCityBuilderStore, testAppStatusStore, testLegayConnector, testSonarService);
 
         testSceneStore.refreshScene = false;
 
-        assert(spyLoad.notCalled);
+        mockLoad.verify();
     });
 
     it("should rebuild city if color metric changed", () => {
@@ -90,14 +92,15 @@ describe("SceneReactions", () => {
         let testSonarService: SonarQubeLegacyService =
             new SonarQubeLegacyService("", "", testAppStatusStore, testCityBuilderStore, testSceneStore);
 
-        let spyBuild = Sinon.spy(testLegayConnector, "buildCity");
+        let mockBuild = Sinon.mock(testLegayConnector);
+        mockBuild.expects("buildCity").once();
 
         new SceneReactions(testSceneStore, testCityBuilderStore, testAppStatusStore, testLegayConnector, testSonarService);
 
         testSceneStore.shapes = [];
         testSceneStore.options.metricColor = complexityMetric;
 
-        assert(spyBuild.called);
+        mockBuild.verify();
     });
 
     it("should convert backend data to threeJS shapes", () => {
@@ -109,7 +112,8 @@ describe("SceneReactions", () => {
         let testSonarService: SonarQubeLegacyService =
             new SonarQubeLegacyService("", "", testAppStatusStore, testCityBuilderStore, testSceneStore);
 
-        let spyBuild = Sinon.spy(testLegayConnector, "buildCity");
+        let mockBuild = Sinon.mock(testLegayConnector);
+        mockBuild.expects("buildCity").once();
 
         new SceneReactions(testSceneStore, testCityBuilderStore, testAppStatusStore, testLegayConnector, testSonarService);
 
@@ -122,7 +126,7 @@ describe("SceneReactions", () => {
             parentId: null
         };
 
-        assert(spyBuild.called);
+        mockBuild.verify();
     });
 
 });
