@@ -11,8 +11,20 @@ export default class TopBarMenu extends React.Component<{ cityBuilderStore: City
     public render() {
         return (
             <div className="top-bar-menu">
-                <button className="left" onClick={this.showBuilder.bind(this)}>Settings</button>
-                <button className="right" onClick={this.showSettings.bind(this)}>Help</button>
+                <button
+                    className="left"
+                    onClick={this.showBuilder.bind(this)}
+                    disabled={this.props.cityBuilderStore.show}
+                >
+                    Settings
+                </button>
+
+                <button
+                    className="right"
+                    onClick={this.showSettings.bind(this)}
+                >
+                    Help
+                </button>
             </div>
         );
     }

@@ -82,8 +82,14 @@
     }
 
     &:hover {
-        background: #236a97;
-        color: #fff;
+        background: $font-color-link-default;
+        color: $white;
+    }
+
+    &:disabled {
+        color: $font-color-link-hover;
+        background: transparent;
+        cursor: default;
     }
 }
 
