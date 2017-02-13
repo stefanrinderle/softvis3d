@@ -34,6 +34,6 @@ export default class TopBarMenu extends React.Component<{ cityBuilderStore: City
     }
 
     private showSettings() {
-        window.open("http://softvis3d.com/#/details/usage");
+        window.open("http://softvis3d.com/#/help");
     }
 }
