@@ -10,7 +10,7 @@ export default class Layout implements SelectOptionValue {
         this.description = description;
     }
 
-    public getValue(): string {
+    public getId(): string {
         return this.id;
     }
 

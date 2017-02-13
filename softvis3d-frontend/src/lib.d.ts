@@ -37,8 +37,8 @@ declare type MetricType = "INT" | "FLOAT" | "PERCENT" | "BOOL" |
     "DISTRIB" | "RATING" | "WORK_DUR" | "NONE";
 
 declare interface SelectOptionValue {
+    getId(): string;
     getLabel(): string;
-    getValue(): string;
 }
 
 interface MeasureList {

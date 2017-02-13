@@ -29,20 +29,20 @@ describe("Metric", () => {
 
         let result: Metric = new Metric(expectedKey, expectedType, expectedName);
 
-        expect(result.key).to.be.eq(expectedKey);
+        expect(result.id).to.be.eq(expectedKey);
         expect(result.name).to.be.eq(expectedName);
         expect(result.type).to.be.eq(expectedType);
     });
 
     it("should implement SelectOptionValue", () => {
-        let expectedKey: string = "23";
+        let expectedId: string = "23";
         let expectedType: MetricType = "INT";
         let expectedName: string = "diufgh";
 
-        let result: Metric = new Metric(expectedKey, expectedType, expectedName);
+        let result: Metric = new Metric(expectedId, expectedType, expectedName);
 
         expect(result.getLabel()).to.be.eq(expectedName);
-        expect(result.getValue()).to.be.eq(expectedKey);
+        expect(result.getId()).to.be.eq(expectedId);
     });
 
 });

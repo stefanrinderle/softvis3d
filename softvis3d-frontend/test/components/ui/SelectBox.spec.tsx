@@ -10,19 +10,19 @@ describe("<SelectBox/>", () => {
 
     const v1: SelectOptionValue = {
         getLabel: () => "Test 1",
-        getValue: () => "test 1"
+        getId: () => "test 1"
     };
     const v2: SelectOptionValue = {
         getLabel: () => "Test 2",
-        getValue: () => "test 2"
+        getId: () => "test 2"
     };
     const v3: SelectOptionValue = {
         getLabel: () => "Test 3",
-        getValue: () => "test 3"
+        getId: () => "test 3"
     };
     const v4: SelectOptionValue = {
         getLabel: () => "Test 4",
-        getValue: () => "test 4"
+        getId: () => "test 4"
     };
 
     it("should trigger the correct value on change", () => {
@@ -37,11 +37,11 @@ describe("<SelectBox/>", () => {
             </SelectBox>
         );
 
-        wrapper.find("select").simulate("change", {target: { value : v3.getValue()}});
+        wrapper.find("select").simulate("change", {target: { value : v3.getId()}});
         assert(spy.withArgs(v3).calledOnce, "Value 3 was not triggered");
 
-        wrapper.find("select").simulate("change", {target: { value : v2.getValue()}});
-        wrapper.find("select").simulate("change", {target: { value : v3.getValue()}});
+        wrapper.find("select").simulate("change", {target: { value : v2.getId()}});
+        wrapper.find("select").simulate("change", {target: { value : v3.getId()}});
         assert(spy.neverCalledWith(v1), "Value 1 was triggered");
         assert(spy.withArgs(v2).calledOnce, "Value 2 was not triggered");
         assert(spy.withArgs(v3).calledTwice, "Value 3 was not triggered again");
@@ -67,12 +67,12 @@ describe("<SelectBox/>", () => {
         wrapper.find("select").simulate("click");
         assert(spy.notCalled, "Mouse Events triggered a Change");
 
-        wrapper.find("select").simulate("change", {target: { value : v3.getValue()}});
+        wrapper.find("select").simulate("change", {target: { value : v3.getId()}});
         assert(spy.withArgs(v3).calledOnce, "Value 3 was not triggered");
 
-        wrapper.find("select").simulate("change", {target: { value : v2.getValue()}});
-        wrapper.find("select").simulate("change", {target: { value : v3.getValue()}});
-        wrapper.find("select").simulate("change", {target: { value : v4.getValue()}});
+        wrapper.find("select").simulate("change", {target: { value : v2.getId()}});
+        wrapper.find("select").simulate("change", {target: { value : v3.getId()}});
+        wrapper.find("select").simulate("change", {target: { value : v4.getId()}});
         assert(spy.neverCalledWith(v1), "Value 1 was triggered");
         assert(spy.withArgs(v2).calledOnce, "Value 2 was not triggered");
         assert(spy.withArgs(v3).calledTwice, "Value 3 was not triggered again");
@@ -98,7 +98,7 @@ describe("<SelectBox/>", () => {
             </SelectBox>
         );
 
-        wrapper.find("select").simulate("change", {target: { value : v3.getValue()}});
+        wrapper.find("select").simulate("change", {target: { value : v3.getId()}});
         assert(spyMouseDown.notCalled, "MouseDown was called on `change`");
         assert(spyClick.notCalled, "Click was called on `change`");
 
