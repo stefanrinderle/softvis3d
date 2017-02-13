@@ -5,9 +5,9 @@ import SelectOption from "./SelectOption";
 export interface SelectBoxBuilderProps {
     className?: string;
     label: string;
-    value: any;
+    value: SelectOptionValue;
     options: SelectOptionValue[];
-    onChange: (value: any) => void|boolean;
+    onChange: (value: SelectOptionValue) => void|boolean;
     onClick?: (event: React.SyntheticEvent) => void|boolean;
     onMouseDown?: (event: React.SyntheticEvent) => void|boolean;
     disabled?: boolean;
@@ -35,8 +35,9 @@ export default class SelectBoxBuilder extends React.Component<SelectBoxBuilderPr
 
     private getSelectOptions() {
         return this.props.options
-            .map((selectOptionElement) => <SelectOption
-                selectOptionElement={selectOptionElement}
+            .map((option) => <SelectOption
+                key={option.getValue()}
+                value={option}
                 disabled={this.props.disabled}
             />);
     }

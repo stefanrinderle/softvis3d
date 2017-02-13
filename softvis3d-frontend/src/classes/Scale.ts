@@ -8,6 +8,10 @@ export default class Scale implements SelectOptionValue {
         this.label = label;
     }
 
+    public getValue(): string {
+        return this.key;
+    }
+
     public getLabel(): string {
         return this.label;
     }

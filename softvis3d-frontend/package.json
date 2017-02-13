@@ -64,6 +64,8 @@
     "css-loader": "^0.26.1",
     "enzyme": "^2.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "jsdom": "9.10.0",
+    "jsdom-global": "2.1.1",
     "mocha": "^3.2.0",
     "mocha-sonar-generic-test-coverage": "0.0.1",
     "nyc": "^10.1.2",

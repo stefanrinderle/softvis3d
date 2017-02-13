@@ -23,6 +23,10 @@ export default class Profile implements SelectOptionValue {
         this.description = builder.description;
     }
 
+    public getValue(): string {
+        return this.id;
+    }
+
     public getLabel(): string {
         return this.name;
     }

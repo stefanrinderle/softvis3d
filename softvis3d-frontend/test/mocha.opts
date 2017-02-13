@@ -1,3 +1,4 @@
+-r jsdom-global/register
 --require ts-node/register
 --reporter spec
 test/**/*.spec.ts*
