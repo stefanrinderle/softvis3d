@@ -32,8 +32,12 @@ describe("<Visualization/>", () => {
             <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
-        expect(visualization.children()).to.have.length(0);
-        expect(visualization.find("div")).to.have.length(1);
+        expect(visualization.children()).to.have.length(1);
+
+        expect(visualization.contains(
+            <TopBar sceneStore={localSceneStore}
+                    cityBuilderStore={localCityBuilderStore}
+            />)).to.be.true;
     });
 
     it("should initialize all elements on start - shapes available but empty", () => {

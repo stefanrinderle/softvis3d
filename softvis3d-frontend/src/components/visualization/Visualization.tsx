@@ -17,7 +17,11 @@ export default class Visualization extends React.Component<VisualizationProps, a
         const {cityBuilderStore, sceneStore} = this.props;
 
         if (!sceneStore.isVisible) {
-            return <div />;
+            return (
+                <div className="visualisation">
+                    <TopBar cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
+                </div>
+            );
         }
 
         return (
