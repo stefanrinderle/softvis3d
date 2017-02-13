@@ -119,7 +119,7 @@ body, #app {
 
 #app {
     @include clearfix;
-    min-width: 920px;
+    min-width: $dialog-width;
     background-color: $background-app;
     position: relative;
 }
