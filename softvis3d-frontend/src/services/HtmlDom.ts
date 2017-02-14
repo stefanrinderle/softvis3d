@@ -28,7 +28,15 @@ export default class HtmlDom {
         }
 
         if (window.getComputedStyle) {
-            return parseInt(window.getComputedStyle(element).height || "0", 10);
+            const style = window.getComputedStyle(element);
+            let h = parseInt(style.height || "0", 10);
+            h += parseInt(style.paddingTop || "0", 10);
+            h += parseInt(style.paddingBottom || "0", 10);
+            h += parseInt(style.marginTop || "0", 10);
+            h += parseInt(style.marginBottom || "0", 10);
+            h += parseInt(style.borderTopWidth || "0", 10);
+            h += parseInt(style.borderBottomWidth || "0", 10);
+            return h;
         } else {
             return element.offsetHeight;
         }
@@ -42,7 +50,15 @@ export default class HtmlDom {
         }
 
         if (window.getComputedStyle) {
-            return parseInt(window.getComputedStyle(element).width || "0", 10);
+            const style = window.getComputedStyle(element);
+            let w = parseInt(style.width || "0", 10);
+            w += parseInt(style.paddingLeft || "0", 10);
+            w += parseInt(style.paddingRight || "0", 10);
+            w += parseInt(style.marginLeft || "0", 10);
+            w += parseInt(style.marginRight || "0", 10);
+            w += parseInt(style.borderLeftWidth || "0", 10);
+            w += parseInt(style.borderRightWidth || "0", 10);
+            return w;
         } else {
             return element.offsetWidth;
         }

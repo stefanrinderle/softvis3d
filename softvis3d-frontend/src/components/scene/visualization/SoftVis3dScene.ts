@@ -118,7 +118,7 @@ export default class SoftVis3dScene {
         const sonarFooter = document.getElementById("footer");
         const sonarFooterHeight =  sonarFooter ? sonarFooter.offsetHeight : 11;
         const appMaxHeight = window.innerHeight - sonarFooterHeight - appOffset.top - (2 * sceneBoarderWidth);
-        const appComputedWidth = HtmlDom.getWidthById("app");
+        const appComputedWidth = HtmlDom.getWidthById("app") - 2 * sceneBoarderWidth;
 
         this.width = appComputedWidth - sidebarWidth - 1;
         this.height = appMaxHeight - topbarHeight;
