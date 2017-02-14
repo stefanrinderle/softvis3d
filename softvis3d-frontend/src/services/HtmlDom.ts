@@ -22,11 +22,29 @@ export default class HtmlDom {
 
     public static getHeightById(id: string): number {
         const element = document.getElementById(id);
-        return element ? element.offsetHeight : 0;
+
+        if (!element) {
+            return 0;
+        }
+
+        if (window.getComputedStyle) {
+            return parseInt(window.getComputedStyle(element).height || "0", 10);
+        } else {
+            return element.offsetHeight;
+        }
     }
 
     public static getWidthById(id: string): number {
         const element = document.getElementById(id);
-        return element ? element.offsetWidth : 0;
+
+        if (!element) {
+            return 0;
+        }
+
+        if (window.getComputedStyle) {
+            return parseInt(window.getComputedStyle(element).width || "0", 10);
+        } else {
+            return element.offsetWidth;
+        }
     }
 }
