@@ -3,7 +3,6 @@
     top: 35px;
     right: 1px;
 
-    //height: 85%;
     width: 280px;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -31,6 +30,12 @@
             padding: 3px 0 3px 20px;
             color: $font-color-link-default;
 
+            width: 258px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: normal;
+
             &:hover {
                 color: $font-color-link-hover;
             }
@@ -55,6 +60,12 @@
             padding: 3px 0 3px 20px;
             color: $font-color-link-default;
 
+            width: 246px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: normal;
+
             &:hover {
                 color: $font-color-link-hover;
             }
@@ -74,6 +85,12 @@
             margin: 0;
             color: $font-color-link-default;
             cursor: pointer;
+
+            width: 240px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: normal;
 
             &.leaf {
                 @include bg-img-file;
