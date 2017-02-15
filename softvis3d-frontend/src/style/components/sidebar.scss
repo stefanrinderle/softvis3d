@@ -31,10 +31,7 @@
             color: $font-color-link-default;
 
             width: 258px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            word-wrap: normal;
+            @include prevent-text-overflow;
 
             &:hover {
                 color: $font-color-link-hover;
@@ -61,10 +58,7 @@
             color: $font-color-link-default;
 
             width: 246px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            word-wrap: normal;
+            @include prevent-text-overflow;
 
             &:hover {
                 color: $font-color-link-hover;
@@ -87,10 +81,7 @@
             cursor: pointer;
 
             width: 240px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            word-wrap: normal;
+            @include prevent-text-overflow;
 
             &.leaf {
                 @include bg-img-file;
