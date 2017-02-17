@@ -24,7 +24,8 @@ export default class ErrorStatus extends React.Component<{ appStatusStore: AppSt
 
     private createErrorElements() {
         let elements: Array<React.ReactElement<any>> = [];
-        for (let queueElement of this.props.appStatusStore.errors.queue) {
+
+        for (let queueElement of this.props.appStatusStore.errors) {
             elements.push(
                 <li key={queueElement.key}>
                     {queueElement.description}

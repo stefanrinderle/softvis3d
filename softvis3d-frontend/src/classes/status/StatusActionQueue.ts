@@ -25,10 +25,6 @@ export default class StatusActionQueue<T extends StatusAction> {
         return this._queue.length === 0;
     }
 
-    public get queue(): T[] {
-        return this._queue;
-    }
-
     public [Symbol.iterator](): IterableIterator<T> {
         return this._queue[Symbol.iterator]();
     }
