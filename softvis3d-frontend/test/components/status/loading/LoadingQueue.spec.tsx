@@ -26,7 +26,7 @@ describe("<LoadingQueue/>", () => {
         let expectedLoadMessage = "test";
         let expectedLoadMessage2 = "ioiio";
         localAppStatusStore.load(new LoadAction("key", expectedLoadMessage));
-        localAppStatusStore.load(new LoadAction("key2",expectedLoadMessage2));
+        localAppStatusStore.load(new LoadAction("key2", expectedLoadMessage2));
 
         const loadingQueue = shallow(
             <LoadingQueue appStatusStore={localAppStatusStore}/>

@@ -41,9 +41,8 @@ export default class StatusActionQueue<T extends StatusAction> implements Iterab
             this._pointer = 0;
             return {
                 done: true,
-                // TODO: examples did not have a value on done: true. But did not compile without a value.
-                value: this._queue[0]
-            };
+                value: undefined
+            } as any as IteratorResult<T>;
         }
     }
 
