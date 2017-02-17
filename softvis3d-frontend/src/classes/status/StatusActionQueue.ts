@@ -1,11 +1,9 @@
 import StatusAction from "./StatusAction";
 import {computed, observable} from "mobx";
 
-export default class StatusActionQueue<T extends StatusAction> implements IterableIterator<StatusAction> {
-
+export default class StatusActionQueue<T extends StatusAction> {
     @observable
     private _queue: T[] = [];
-    private _pointer: number = 0;
 
     public add(action: T) {
         this._queue.push(action);
@@ -31,23 +29,7 @@ export default class StatusActionQueue<T extends StatusAction> implements Iterab
         return this._queue;
     }
 
-    public next(): IteratorResult<T> {
-        if (this._pointer < this._queue.length) {
-            return {
-                done: false,
-                value: this._queue[this._pointer++]
-            };
-        } else {
-            this._pointer = 0;
-            return {
-                done: true,
-                value: undefined
-            } as any as IteratorResult<T>;
-        }
+    public [Symbol.iterator](): IterableIterator<T> {
+        return this._queue[Symbol.iterator]();
     }
-
-    public [Symbol.iterator](): IterableIterator<StatusAction> {
-        return this;
-    }
-
 }
