@@ -1,20 +1,20 @@
 import {observable} from "mobx";
 import Layout from "../classes/Layout";
 import {district} from "../constants/Layouts";
-import Metric from "../classes/Metric";
 import {noMetric, availableColorMetrics} from "../constants/Metrics";
 import MetricSet from "../classes/MetricSet";
 import Profile from "../classes/Profile";
 import {defaultProfile, custom, Profiles} from "../constants/Profiles";
 import {PreviewPicture} from "../classes/PreviewPicture";
 import {placeholder, availablePreviewPictures} from "../constants/PreviewPictures";
+import ColorMetric from "../classes/ColorMetric";
 
 class CityBuilderStore {
 
     @observable
     public layout: Layout = district;
     @observable
-    public metricColor: Metric = noMetric;
+    public metricColor: ColorMetric = noMetric;
     @observable
     public readonly colorMetrics: MetricSet = new MetricSet(availableColorMetrics);
     @observable

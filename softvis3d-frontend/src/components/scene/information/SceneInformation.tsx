@@ -5,7 +5,7 @@ import {SceneStore} from "../../../stores/SceneStore";
 import SelectBoxBuilder from "../../ui/selectbox/SelectBoxBuilder";
 import {availableColorMetrics} from "../../../constants/Metrics";
 import MetricSet from "../../../classes/MetricSet";
-import Metric from "../../../classes/Metric";
+import ColorMetric from "../../../classes/ColorMetric";
 
 interface SceneInformationProps {
     sceneStore: SceneStore;
@@ -32,7 +32,7 @@ export default class SceneInformation extends React.Component<SceneInformationPr
                     className="metric-info"
                     value={sceneStore.options.metricColor}
                     options={new MetricSet(availableColorMetrics).asSelectOptions}
-                    onChange={(m: Metric) => { sceneStore.options.metricColor = m; }}
+                    onChange={(m: ColorMetric) => { sceneStore.options.metricColor = m; }}
                     append={colorInformation}
                 />
             </div>
