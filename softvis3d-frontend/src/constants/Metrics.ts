@@ -9,33 +9,33 @@ export const noMetric: ColorMetric = new ColorMetric("none", "NONE", " -- None -
     "The building color can be changed dynamically in the view using the combo box in the bottom bar.");
 
 export const packageNameMetric: ColorMetric = new ColorMetric("package", "NONE", "Package Name",
-    "Every package gets a random color.");
+    "Every house is assigned a color, depending on it's containing package or namespace.");
 
 /* #################################### *
  * ## Metrics available in SonarQube ## *
  * #################################### */
 
 export const violationMetric: ColorMetric = new ColorMetric("violations", "INT", "Issues",
-    "Scale from green, no open violations, to red, highest number of violations.");
+    "Scale from green (no open violations) to red (highest number of violations).");
 
 export const linesOfCodeMetric: ColorMetric = new ColorMetric("ncloc", "INT", "Lines of Code",
-    "Scale from green to red with the number of lines.");
+    "Scale from green (few lines of code) to red (a lot of lines of code).");
 
 export const newIssuesMetric: ColorMetric = new ColorMetric("new_violations", "INT", "New Issues",
-    "Scale from green, no new issues, to red, highest number of new issues.");
+    "Scale from green (no new issues) to red (highest number of new issues).");
 
 export const newLinesToCoverMetric: Metric = new Metric("new_lines_to_cover", "INT", "Lines to Cover on New Code");
 
 export const newLinesOfCodeMetric: Metric = new Metric("new_lines", "INT", "Lines on New Code");
 
 export const complexityMetric: ColorMetric = new ColorMetric("complexity", "INT", "Complexity",
-    "Scale from green, low complexity, to red, high complexity.");
+    "Scale from green (low complexity) to red (high complexity).");
 
 export const coverageMetric: ColorMetric = new ColorMetric("coverage", "PERCENT", "Coverage",
-    "Scale from green, high coverage, to red, no or low coverage.");
+    "Scale from green (high coverage) to red (low or no coverage).");
 
 export const openIssuesMetric: ColorMetric = new ColorMetric("open_issues", "INT", "Open Issues",
-    "Scale from green, no open issues, to red, highest number of issues.");
+    "Scale from green (no open issues) to red (a lot of issues).");
 
 export const duplicatedLinesOfCodeMetric: Metric = new Metric("duplicated_lines", "INT", "Duplicated Lines");
 
