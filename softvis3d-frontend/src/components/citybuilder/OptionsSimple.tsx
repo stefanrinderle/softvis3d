@@ -5,9 +5,9 @@ import LayoutPicker from "./LayoutPicker";
 import {availableLayouts} from "../../constants/Layouts";
 import PreviewPictureComponent from "./PreviewPictureComponent";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
-import Metric from "../../classes/Metric";
 import Profile from "../../classes/Profile";
 import {Profiles} from "../../constants/Profiles";
+import ColorMetric from "../../classes/ColorMetric";
 
 @observer
 export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {
@@ -34,10 +34,10 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                             className="metric color"
                             value={this.props.store.metricColor}
                             options={this.props.store.colorMetrics.asSelectOptions}
-                            onChange={(m: Metric) => { this.props.store.metricColor = m; }}
+                            onChange={(m: ColorMetric) => { this.props.store.metricColor = m; }}
                         />
                         <p className="selection-description color-description">
-                            The building color can be changed dynamically in the view using the combo box in the bottom bar.
+                            { this.props.store.metricColor.description }
                         </p>
                     </div>
 
