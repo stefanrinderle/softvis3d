@@ -26,13 +26,14 @@ import Scale from "../../src/classes/Scale";
 import {coverageMetric, linesOfCodeMetric, complexityMetric, noMetric} from "../../src/constants/Metrics";
 import Metric from "../../src/classes/Metric";
 import {LOGARITHMIC} from "../../src/constants/Scales";
+import ColorMetric from "../../src/classes/ColorMetric";
 
 describe("VisualizationOptions", () => {
 
     it("should construct config", () => {
         let metricWidth: Metric = complexityMetric;
         let metricHeight: Metric = linesOfCodeMetric;
-        let metricColor: Metric = coverageMetric;
+        let metricColor: ColorMetric = coverageMetric;
         let scalingmethod: Scale = LayoutProcessor.SCALING_METHODS[0];
         let layout: Layout = evostreet;
 
