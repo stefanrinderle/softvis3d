@@ -35,8 +35,8 @@ describe("Profile", () => {
             .build();
 
         expect(profile.id).to.be.eq(expectedId);
-        expect(profile.metricWidth).to.be.eq(Metric.complexityMetric);
-        expect(profile.metricHeight).to.be.eq(Metric.linesOfCodeMetric);
+        expect(profile.footprint).to.be.eq(Metric.complexityMetric);
+        expect(profile.height).to.be.eq(Metric.linesOfCodeMetric);
         expect(profile.scale).to.be.eq(LayoutProcessor.SCALING_METHODS[0]);
 
         expect(profile.description).to.be.eq(expectedDescription);
@@ -74,8 +74,8 @@ describe("Profile", () => {
 
         expect(cloneResult.id).to.be.eq(id);
         expect(cloneResult.getLabel()).to.be.eq(name);
-        expect(cloneResult.metricWidth).to.be.eq(metricWidth);
-        expect(cloneResult.metricHeight).to.be.eq(metricHeight);
+        expect(cloneResult.footprint).to.be.eq(metricWidth);
+        expect(cloneResult.height).to.be.eq(metricHeight);
         expect(cloneResult.scale).to.be.eq(scalingmethod);
         expect(cloneResult.description).to.be.eq(description);
     });
@@ -101,8 +101,8 @@ describe("Profile", () => {
 
         expect(test.id).to.be.eq(id);
         expect(test.getLabel()).to.be.eq(name);
-        expect(test.metricWidth).to.be.eq(updateMetricWidth);
-        expect(test.metricHeight).to.be.eq(updateMetricHeight);
+        expect(test.footprint).to.be.eq(updateMetricWidth);
+        expect(test.height).to.be.eq(updateMetricHeight);
         expect(test.scale).to.be.eq(updateScale);
         expect(test.description).to.be.eq(description);
     });

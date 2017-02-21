@@ -16,12 +16,12 @@ describe("<SceneInformation/>", () => {
 
         expect(bottomBar
             .contains(<MetricKey
-                title="Width"
-                metric={sceneStore.options.metricWidth}
+                title="Footprint"
+                metric={sceneStore.options.footprint}
                 selectedElement={testSceneStore.selectedElement}
             />)).to.be.true;
 
-        expect(bottomBar.children().length).to.be.eq(3);
+        expect(bottomBar.children()).to.be.length(3);
     });
 
 });

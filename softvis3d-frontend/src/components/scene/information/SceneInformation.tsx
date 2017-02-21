@@ -25,8 +25,8 @@ export default class SceneInformation extends React.Component<SceneInformationPr
 
         return (
             <div className="scene-information">
-                <MetricKey title="Width" metric={sceneStore.options.metricWidth} selectedElement={selectedElement}/>
-                <MetricKey title="Height" metric={sceneStore.options.metricHeight} selectedElement={selectedElement}/>
+                <MetricKey title="Footprint" metric={sceneStore.options.footprint} selectedElement={selectedElement}/>
+                <MetricKey title="Height" metric={sceneStore.options.height} selectedElement={selectedElement}/>
                 <SelectBoxBuilder
                     label="Color"
                     className="metric-info"
