@@ -30,7 +30,7 @@ describe("CityBuilderStore", () => {
 
     it("should have set all default values on init", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
-        expect(underTest.layout).to.be.eq(district);
+        expect(underTest.layout).to.be.eq(evostreet);
         expect(underTest.profile.id).to.be.eq(defaultProfile.id);
         expect(underTest.metricColor).to.be.eq(Metrics.noMetric);
         expect(underTest.colorMetrics.keys.length).to.be.eq(8);
@@ -40,6 +40,10 @@ describe("CityBuilderStore", () => {
 
     it("should set layout", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
+
+        underTest.layout = district;
+        expect(underTest.layout).to.be.equal(district);
+
         underTest.layout = evostreet;
         expect(underTest.layout).to.be.equal(evostreet);
     });
