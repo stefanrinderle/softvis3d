@@ -2,9 +2,6 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 
-/**
- * Currently used for an example use of selected scene object store.
- */
 @observer
 export default class TopBarMenu extends React.Component<{ cityBuilderStore: CityBuilderStore }, any> {
 
@@ -20,10 +17,16 @@ export default class TopBarMenu extends React.Component<{ cityBuilderStore: City
                 </button>
 
                 <button
-                    className="right"
-                    onClick={this.showSettings.bind(this)}
+                    className="middle"
+                    onClick={this.openHelp.bind(this)}
                 >
                     Help
+                </button>
+                <button
+                    className="right"
+                    onClick={this.openFeedback.bind(this)}
+                >
+                    Feedback
                 </button>
             </div>
         );
@@ -33,7 +36,11 @@ export default class TopBarMenu extends React.Component<{ cityBuilderStore: City
         this.props.cityBuilderStore.show = true;
     }
 
-    private showSettings() {
+    private openHelp() {
         window.open("http://softvis3d.com/#/help");
+    }
+
+    private openFeedback() {
+        window.open("http://softvis3d.com/#/feedback");
     }
 }

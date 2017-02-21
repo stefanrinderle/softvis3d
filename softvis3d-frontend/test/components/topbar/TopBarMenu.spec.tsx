@@ -16,7 +16,7 @@ describe("<TopBarMenu/>", () => {
         );
 
         const topBarButtons = topBarMenu.find("button");
-        expect(topBarButtons).to.be.lengthOf(2);
+        expect(topBarButtons).to.be.lengthOf(3);
 
         topBarButtons.first().simulate("click");
         expect(localCityBuilderStore.show).to.be.true;
