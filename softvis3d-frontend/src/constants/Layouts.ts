@@ -19,6 +19,6 @@ export {
 };
 
 export const availableLayouts: Layout[] = [
-    district,
-    evostreet
+    evostreet,
+    district
 ];
