@@ -1,6 +1,6 @@
 import {observable} from "mobx";
 import Layout from "../classes/Layout";
-import {district} from "../constants/Layouts";
+import {evostreet} from "../constants/Layouts";
 import {noMetric, availableColorMetrics} from "../constants/Metrics";
 import MetricSet from "../classes/MetricSet";
 import Profile from "../classes/Profile";
@@ -12,7 +12,7 @@ import ColorMetric from "../classes/ColorMetric";
 class CityBuilderStore {
 
     @observable
-    public layout: Layout = district;
+    public layout: Layout = evostreet;
     @observable
     public metricColor: ColorMetric = noMetric;
     @observable
