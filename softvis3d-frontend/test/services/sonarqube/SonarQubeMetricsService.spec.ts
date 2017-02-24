@@ -60,7 +60,7 @@ describe("SonarQubeMetricsService", () => {
         clock.tick(10);
         returnPromise.then(() => {
             Sinon.assert.called(spyAdd);
-            expect(leakPeriod.metricHeight).to.be.eq(newLinesToCoverMetric);
+            expect(leakPeriod.height).to.be.eq(newLinesToCoverMetric);
             done();
         }).catch((error) => done(error));
     });

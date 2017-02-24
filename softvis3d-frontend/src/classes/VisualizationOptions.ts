@@ -14,16 +14,16 @@ export default class VisualizationOptions {
     }
 
     public layout: Layout;
-    public metricWidth: Metric;
-    public metricHeight: Metric;
+    public footprint: Metric;
+    public height: Metric;
     @observable
     public metricColor: ColorMetric;
     public scale: Scale;
 
-    constructor(layout: Layout, metricWidth: Metric, metricHeight: Metric, metricColor: ColorMetric, scale: Scale) {
+    constructor(layout: Layout, footprint: Metric, height: Metric, metricColor: ColorMetric, scale: Scale) {
         this.layout = layout;
-        this.metricWidth = metricWidth;
-        this.metricHeight = metricHeight;
+        this.footprint = footprint;
+        this.height = height;
         this.metricColor = metricColor;
         this.scale = scale;
     }

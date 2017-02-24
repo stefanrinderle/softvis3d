@@ -33,10 +33,11 @@ describe("BuilderReactions", () => {
         let testSceneStore = new SceneStore();
         testSceneStore.shapes = {};
 
-        new BuilderReactions(testCityBuilderStore, testSceneStore);
+        const reactionRegister = new BuilderReactions(testCityBuilderStore, testSceneStore);
 
         testCityBuilderStore.initiateBuildProcess = true;
 
+        expect(reactionRegister).not.to.be.null;
         expect(testSceneStore.shapes).to.be.null;
         expect(testCityBuilderStore.initiateBuildProcess).to.be.false;
         expect(testSceneStore.refreshScene).to.be.true;
@@ -56,14 +57,15 @@ describe("BuilderReactions", () => {
         testCityBuilderStore.profile.scale = expectedScale;
         testCityBuilderStore.metricColor = expectedColorMetric;
 
-        new BuilderReactions(testCityBuilderStore, testSceneStore);
+        const reactionRegister = new BuilderReactions(testCityBuilderStore, testSceneStore);
 
         testCityBuilderStore.initiateBuildProcess = true;
 
+        expect(reactionRegister).not.to.be.null;
         expect(testSceneStore.options.layout).to.be.eq(expectedLayout);
         expect(testSceneStore.options.metricColor).to.be.eq(expectedColorMetric);
-        expect(testSceneStore.options.metricWidth).to.be.eq(expectedProfile.metricWidth);
-        expect(testSceneStore.options.metricHeight).to.be.eq(expectedProfile.metricHeight);
+        expect(testSceneStore.options.footprint).to.be.eq(expectedProfile.footprint);
+        expect(testSceneStore.options.height).to.be.eq(expectedProfile.height);
         expect(testSceneStore.options.scale).to.be.eq(expectedScale);
     });
 

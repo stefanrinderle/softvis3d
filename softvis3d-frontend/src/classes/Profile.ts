@@ -7,9 +7,9 @@ export default class Profile implements SelectOptionValue {
     public id: string;
     public description: string;
     @observable
-    public metricHeight: Metric;
+    public height: Metric;
     @observable
-    public metricWidth: Metric;
+    public footprint: Metric;
     @observable
     public scale: Scale;
     private name: string;
@@ -17,8 +17,8 @@ export default class Profile implements SelectOptionValue {
     constructor(builder: ProfileBuilder) {
         this.id = builder.id;
         this.name = builder.name;
-        this.metricHeight = builder.metricHeight;
-        this.metricWidth = builder.metricWidth;
+        this.height = builder.height;
+        this.footprint = builder.footprint;
         this.scale = builder.scale;
         this.description = builder.description;
     }
@@ -31,15 +31,15 @@ export default class Profile implements SelectOptionValue {
         return this.name;
     }
 
-    public updateConfiguration(metricWidth: Metric, metricHeight: Metric, scale: Scale): void {
-        this.metricHeight = metricHeight;
-        this.metricWidth = metricWidth;
+    public updateConfiguration(footprint: Metric, height: Metric, scale: Scale): void {
+        this.height = height;
+        this.footprint = footprint;
         this.scale = scale;
     }
 
     public clone(): Profile {
         return new ProfileBuilder(this.id, this.name)
-            .withConfiguration(this.metricWidth, this.metricHeight, this.scale)
+            .withConfiguration(this.footprint, this.height, this.scale)
             .withDescription(this.description)
             .build();
     }
@@ -49,8 +49,8 @@ export class ProfileBuilder {
 
     public id: string;
     public name: string;
-    public metricHeight: Metric;
-    public metricWidth: Metric;
+    public height: Metric;
+    public footprint: Metric;
     public scale: Scale;
     public description: string;
 
@@ -59,9 +59,9 @@ export class ProfileBuilder {
         this.name = name;
     }
 
-    public withConfiguration(metricWidth: Metric, metricHeight: Metric, scale: Scale): ProfileBuilder {
-        this.metricHeight = metricHeight;
-        this.metricWidth = metricWidth;
+    public withConfiguration(footprint: Metric, height: Metric, scale: Scale): ProfileBuilder {
+        this.height = height;
+        this.footprint = footprint;
         this.scale = scale;
         return this;
     }

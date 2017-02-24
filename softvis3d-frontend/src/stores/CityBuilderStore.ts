@@ -30,7 +30,7 @@ class CityBuilderStore {
 
     set profile(p: Profile) {
         if (p.id === custom.id) {
-            this._customProfile.updateConfiguration(this.profile.metricWidth, this.profile.metricHeight, this.profile.scale);
+            this._customProfile.updateConfiguration(this.profile.footprint, this.profile.height, this.profile.scale);
             this._profile = this._customProfile;
         } else {
             this._profile = Profiles.getAvailableProfileById(p.id).clone();

@@ -41,7 +41,7 @@ interface MinMaxValue {
 }
 
 export interface MetricScale {
-    metricHeight: MinMaxValue;
+    height: MinMaxValue;
     metricFootprint: MinMaxValue;
     metricColor: MinMaxValue;
 }
@@ -67,7 +67,7 @@ class LayoutProcessor {
         this._illustrator = null;
         this._rules = [];
         this._metricScale = {
-            metricHeight: {min: Infinity, max: 0},
+            height: {min: Infinity, max: 0},
             metricFootprint: {min: Infinity, max: 0},
             metricColor: {min: Infinity, max: 0}
         };
@@ -202,7 +202,7 @@ class LayoutProcessor {
         let base: number;
 
         if (this._options.scalingMethod === "logarithmic") {
-            if (this._metricScale.metricHeight.max > 1400) {
+            if (this._metricScale.height.max > 1400) {
                 // Logarithmic Max: ~2300 ==> 450
                 base = 5;
                 power = 3.89;
@@ -217,7 +217,7 @@ class LayoutProcessor {
                 condition: (model: Softvis3dModel, node: TreeNodeInterface) => model && node.children.length === 0,
                 metric: (model, node, version) => {
                     const attr: AttributeContainer = attributeHelper.attrFallbackSweep(model, node, version);
-                    return ("metricHeight" in attr) ? attr["metricHeight"] : 0;
+                    return ("height" in attr) ? attr["height"] : 0;
                 },
                 attributes: "dimensions.height",
                 min: 6,
@@ -227,13 +227,13 @@ class LayoutProcessor {
             });
         } else if (this._options.scalingMethod === "exponential") {
             factor = 0.5;
-            power = Math.log(max / factor) / Math.log(this._metricScale.metricHeight.max);
+            power = Math.log(max / factor) / Math.log(this._metricScale.height.max);
 
             return new CodeCityVis.rules.math.exponential({
                 condition: (model: Softvis3dModel, node: TreeNodeInterface) => model && node.children.length === 0,
                 metric: (model, node, version) => {
                     const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                    return ("metricHeight" in attr) ? attr["metricHeight"] : 0;
+                    return ("height" in attr) ? attr["height"] : 0;
                 },
                 attributes: "dimensions.height",
                 min: 6,
@@ -249,15 +249,15 @@ class LayoutProcessor {
                 max = Infinity;
             }
 
-            if (this._metricScale.metricHeight.max > max) {
-                factor = max / this._metricScale.metricHeight.max;
+            if (this._metricScale.height.max > max) {
+                factor = max / this._metricScale.height.max;
             }
 
             return new CodeCityVis.rules.math.linear({
                 condition: (model, node) => model && node.children.length === 0,
                 metric: (model, node, version) => {
                     const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                    return ("metricHeight" in attr) ? attr["metricHeight"] : 0;
+                    return ("height" in attr) ? attr["height"] : 0;
                 },
                 attributes: "dimensions.height",
                 min: 6,
