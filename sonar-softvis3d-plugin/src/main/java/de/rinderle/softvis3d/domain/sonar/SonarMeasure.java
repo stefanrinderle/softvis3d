@@ -26,13 +26,15 @@ public class SonarMeasure {
   private final String id;
   private final String name;
   private final Map<String, Double> metrics;
+  private final String key;
   private String path;
 
-  public SonarMeasure(String id, String name, String path, Map<String, Double> metrics) {
+  public SonarMeasure(String id, String name, String path, Map<String, Double> metrics, String key) {
     this.id = id;
     this.name = name;
     this.path = path;
     this.metrics = metrics;
+    this.key = key;
   }
 
   public String getId() {
@@ -55,10 +57,14 @@ public class SonarMeasure {
     return metrics;
   }
 
+  public String getKey() {
+    return key;
+  }
+
   @Override
   public String toString() {
-    return "SonarMeasure{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", metrics=" + metrics + ", path='" + path
-        + '\'' + '}';
+    return "SonarMeasure{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", metrics=" + metrics + ", key='" + key
+        + '\'' + ", path='" + path + '\'' + '}';
   }
 
 }

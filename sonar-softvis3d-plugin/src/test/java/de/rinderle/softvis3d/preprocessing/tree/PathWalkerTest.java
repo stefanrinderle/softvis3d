@@ -121,7 +121,7 @@ public class PathWalkerTest {
   }
 
   private void callWalker(final PathWalker walker, final String id, final String path) {
-    final SonarMeasure element = new SonarMeasure(id, id, path, Collections.emptyMap());
+    final SonarMeasure element = new SonarMeasure(id, id, path, Collections.emptyMap(), null);
     walker.addPath(element);
   }
 

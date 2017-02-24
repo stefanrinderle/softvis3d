@@ -36,7 +36,6 @@ import org.mockito.MockitoAnnotations;
 import org.sonar.api.server.ws.LocalConnector;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -78,33 +77,33 @@ public class TreeBuilderTest {
     final VisualizationRequest requestDTO = new VisualizationRequest(this.snapshotKey, METRICS);
 
     final List<SonarMeasure> measures = new ArrayList<>();
-    measures.add(new SonarMeasure("2", "2", "/src/main/2", Collections.emptyMap()));
+    measures.add(new SonarMeasure("2", "2", "/src/main/2", Collections.emptyMap(),
+      "composer:src/Composer/Command/AboutCommand.php"));
     when(this.daoService.getFlatChildrenWithMetrics(eq(localConnector), eq(requestDTO))).thenReturn(measures);
 
     final RootTreeNode result = underTest.createTreeStructure(localConnector, requestDTO);
 
     assertEquals(1, result.getChildren().size());
     assertEquals(1, result.getChildren().values().iterator().next().getDepth().intValue());
+    assertEquals("composer", result.getChildren().values().iterator().next().getName());
     assertEquals(this.snapshotKey, result.getId());
   }
 
   @Test
-  public void createTreeStructureWithChildrenAndModules() throws Exception {
+  public void createTreeStructureWithChildrenKey() throws Exception {
     final VisualizationRequest requestDTO = new VisualizationRequest(this.snapshotKey, METRICS);
 
-    final List<SonarMeasure> modules = new ArrayList<>();
-    modules.add(new SonarMeasure("1", "1", "module1", Collections.emptyMap()));
-    modules.add(new SonarMeasure("2", "2", "module1", Collections.emptyMap()));
-    when(this.daoService.getSubProjects(any(LocalConnector.class), any(String.class))).thenReturn(modules);
-
     final List<SonarMeasure> measures = new ArrayList<>();
-    measures.add(new SonarMeasure("3", "3", "/src/main/2", Collections.emptyMap()));
-    when(this.daoService.getFlatChildrenWithMetrics(any(LocalConnector.class), any(VisualizationRequest.class))).thenReturn(measures);
+    measures.add(new SonarMeasure("2", "2", "/src/main/2", Collections.emptyMap(),
+        "org.sonarsource.sonarqube:sonar-db:src/test/java/org/sonar/db/version/DecimalColumnDefTest.java"));
+    when(this.daoService.getFlatChildrenWithMetrics(eq(localConnector), eq(requestDTO))).thenReturn(measures);
 
     final RootTreeNode result = underTest.createTreeStructure(localConnector, requestDTO);
 
-    assertEquals(2, result.getChildren().size());
+    assertEquals(1, result.getChildren().size());
     assertEquals(1, result.getChildren().values().iterator().next().getDepth().intValue());
+    assertEquals("sonar-db", result.getChildren().values().iterator().next().getName());
     assertEquals(this.snapshotKey, result.getId());
   }
+
 }

@@ -37,7 +37,8 @@ class DaoServiceTransformer {
     final List<SonarMeasure> result = new ArrayList<>();
 
     for (final WsComponents.Component component : input) {
-      result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(), Collections.emptyMap()));
+      result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(), Collections.emptyMap()
+          , component.getKey()));
     }
 
     return result;
@@ -59,7 +60,8 @@ class DaoServiceTransformer {
         }
       }
 
-      result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(), measureResult));
+      result.add(new SonarMeasure(component.getId(), component.getName(), component.getPath(), measureResult,
+          component.getKey()));
     }
 
     return result;

@@ -25,7 +25,6 @@ import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -43,44 +42,32 @@ public class TreeBuilder {
     LOGGER.info("Create tree structure for id {}", requestDTO.getRootSnapshotKey());
     final PathWalker pathWalker = new PathWalker(requestDTO.getRootSnapshotKey());
 
-    final List<SonarMeasure> modules = getModules(localConnector, requestDTO.getRootSnapshotKey());
-
-    LOGGER.info("Number of modules: {}", modules.size());
-
-    if (modules.isEmpty()) {
-      addModuleToTreeWalker(pathWalker, requestDTO, "", localConnector);
-    } else {
-      for (final SonarMeasure module : modules) {
-        final VisualizationRequest moduleTemp = new VisualizationRequest(module.getId(), requestDTO.getMetrics());
-
-        addModuleToTreeWalker(pathWalker, moduleTemp, module.getName(), localConnector);
-      }
-    }
+    addModuleToTreeWalker(pathWalker, requestDTO, localConnector);
 
     return pathWalker.getTree();
   }
 
   private void addModuleToTreeWalker(final PathWalker pathWalker, final VisualizationRequest requestDTO,
-                                     final String moduleName, LocalConnector localConnector) {
+    LocalConnector localConnector) {
     final List<SonarMeasure> flatChildren = this.daoService.getFlatChildrenWithMetrics(localConnector, requestDTO);
 
+    String moduleName;
     for (final SonarMeasure flatChild : flatChildren) {
-      if (!moduleName.isEmpty()) {
-        flatChild.setPath(moduleName + '/' + flatChild.getPath());
+
+      final int lastIndexOf = getLastIndexOfColon(flatChild.getKey());
+      moduleName = flatChild.getKey().substring(0, lastIndexOf);
+
+      if (getLastIndexOfColon(moduleName) > 0) {
+        moduleName = moduleName.substring(getLastIndexOfColon(moduleName) + 1);
       }
 
+      flatChild.setPath(moduleName + '/' + flatChild.getPath());
       pathWalker.addPath(flatChild);
     }
   }
 
-  private List<SonarMeasure> getModules(LocalConnector localConnector, final String rootSnapshotId) {
-    List<SonarMeasure> result = this.daoService.getSubProjects(localConnector, rootSnapshotId);
-
-    if (result == null || result.isEmpty()) {
-      result = new ArrayList<>();
-    }
-
-    return result;
+  private int getLastIndexOfColon(String input) {
+    return input.lastIndexOf(':');
   }
 
 }
