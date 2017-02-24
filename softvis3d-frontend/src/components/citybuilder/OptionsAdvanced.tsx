@@ -16,23 +16,23 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                 <div className="left-column">
                     <div className="builder-option">
                         <SelectBoxBuilder
-                            label="Metric - Base"
-                            value={this.props.store.profile.metricWidth}
+                            label="Metric - Footprint"
+                            value={this.props.store.profile.footprint}
                             options={this.props.store.genericMetrics.asSelectOptions}
                             onChange={(m: Metric) => {
                                 this.props.store.profile = custom;
-                                this.props.store.profile.metricWidth = m;
+                                this.props.store.profile.footprint = m;
                             }}
                         />
                     </div>
                     <div className="builder-option">
                     <SelectBoxBuilder
                             label="Metric - Height"
-                            value={this.props.store.profile.metricHeight}
+                            value={this.props.store.profile.height}
                             options={this.props.store.genericMetrics.asSelectOptions}
                             onChange={(m: Metric) => {
                                 this.props.store.profile = custom;
-                                this.props.store.profile.metricHeight = m;
+                                this.props.store.profile.height = m;
                             }}
                         />
                     </div>
@@ -49,7 +49,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                         />
                     </div>
                     <p className="selection-description profile-description">
-                        Change how the metric values will be scaled for width and height.
+                        Change how the metric values will be scaled for footprint and height.
                     </p>
                 </div>
             </Category>

@@ -93,7 +93,7 @@ export default class SonarQubeMetricsService extends BackendService {
 
     private checkNewLinesOfCodeMetric() {
         if (!this.cityBuilderStore.genericMetrics.hasNewLinesOfCodeMetric) {
-            leakPeriod.metricHeight = newLinesToCoverMetric;
+            leakPeriod.height = newLinesToCoverMetric;
         }
     }
 

@@ -35,11 +35,11 @@ export default class Softvis3dModel extends BaseModel {
     private _graph: any[];
     private _tree: TreeNodeInterface;
     private _metricScale: MetricScale;
-    private _metricWidthKey :string;
-    private _metricHeightKey :string;
+    private _footprintKey :string;
+    private _heightKey :string;
     private _metricColorKey :string;
 
-    constructor(treeResult: TreeElement, metricWidthKey: string, metricHeightKey: string, metricColorKey: string) {
+    constructor(treeResult: TreeElement, footprintKey: string, heightKey: string, metricColorKey: string) {
         super();
 
         this._attributes = {};
@@ -47,13 +47,13 @@ export default class Softvis3dModel extends BaseModel {
         this._versions = [ this._version ];
         this._graph = [];
         this._metricScale = {
-            metricHeight: {min: Infinity, max: 0},
+            height: {min: Infinity, max: 0},
             metricFootprint: {min: Infinity, max: 0},
             metricColor: {min: Infinity, max: 0}
         };
 
-        this._metricWidthKey = metricWidthKey;
-        this._metricHeightKey = metricHeightKey;
+        this._footprintKey = footprintKey;
+        this._heightKey = heightKey;
         this._metricColorKey = metricColorKey;
 
         this._tree = this._createTree(treeResult);
@@ -69,20 +69,20 @@ export default class Softvis3dModel extends BaseModel {
 
         this._attributes[v][t] = {
             'name': t,
-            'metricHeight' : this.getMetricValue(treeNode, this._metricHeightKey),
-            'metricFootprint' : this.getMetricValue(treeNode, this._metricWidthKey),
+            'height' : this.getMetricValue(treeNode, this._heightKey),
+            'metricFootprint' : this.getMetricValue(treeNode, this._footprintKey),
             'metricColor' : this.getMetricValue(treeNode, this._metricColorKey)
         };
 
 
-        if (this.isMetricValueSet(treeNode, this._metricHeightKey)) {
-            this._metricScale.metricHeight.min = Math.min(treeNode.measures[this._metricHeightKey], this._metricScale.metricHeight.min);
-            this._metricScale.metricHeight.max = Math.max(treeNode.measures[this._metricHeightKey], this._metricScale.metricHeight.max);
+        if (this.isMetricValueSet(treeNode, this._heightKey)) {
+            this._metricScale.height.min = Math.min(treeNode.measures[this._heightKey], this._metricScale.height.min);
+            this._metricScale.height.max = Math.max(treeNode.measures[this._heightKey], this._metricScale.height.max);
         }
 
-        if (this.isMetricValueSet(treeNode, this._metricWidthKey)) {
-            this._metricScale.metricFootprint.min = Math.min(treeNode.measures[this._metricWidthKey], this._metricScale.metricFootprint.min);
-            this._metricScale.metricFootprint.max = Math.max(treeNode.measures[this._metricWidthKey], this._metricScale.metricFootprint.max);
+        if (this.isMetricValueSet(treeNode, this._footprintKey)) {
+            this._metricScale.metricFootprint.min = Math.min(treeNode.measures[this._footprintKey], this._metricScale.metricFootprint.min);
+            this._metricScale.metricFootprint.max = Math.max(treeNode.measures[this._footprintKey], this._metricScale.metricFootprint.max);
         }
 
         if (this.isMetricValueSet(treeNode, this._metricColorKey)) {

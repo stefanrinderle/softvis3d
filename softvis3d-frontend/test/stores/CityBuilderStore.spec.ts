@@ -66,8 +66,8 @@ describe("CityBuilderStore", () => {
         underTest.profile = leakPeriod;
         underTest.profile = custom;
         expect(underTest.profile.id).to.be.equal(custom.id);
-        expect(leakPeriod.metricHeight).to.be.equal(custom.metricHeight);
-        expect(leakPeriod.metricWidth).to.be.equal(custom.metricWidth);
+        expect(leakPeriod.height).to.be.equal(custom.height);
+        expect(leakPeriod.footprint).to.be.equal(custom.footprint);
         expect(leakPeriod.scale).to.be.equal(custom.scale);
     });
 

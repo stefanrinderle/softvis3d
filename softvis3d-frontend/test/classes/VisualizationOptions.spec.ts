@@ -34,17 +34,17 @@ describe("VisualizationOptions", () => {
         let metricWidth: Metric = complexityMetric;
         let metricHeight: Metric = linesOfCodeMetric;
         let metricColor: ColorMetric = coverageMetric;
-        let scalingmethod: Scale = LayoutProcessor.SCALING_METHODS[0];
+        let scalingMethod: Scale = LayoutProcessor.SCALING_METHODS[0];
         let layout: Layout = evostreet;
 
         let result: VisualizationConfiguration =
-            new VisualizationConfiguration(layout, metricWidth, metricHeight, metricColor, scalingmethod);
+            new VisualizationConfiguration(layout, metricWidth, metricHeight, metricColor, scalingMethod);
 
         expect(result.layout).to.be.eq(layout);
-        expect(result.metricWidth).to.be.eq(metricWidth);
-        expect(result.metricHeight).to.be.eq(metricHeight);
+        expect(result.footprint).to.be.eq(metricWidth);
+        expect(result.height).to.be.eq(metricHeight);
         expect(result.metricColor).to.be.eq(metricColor);
-        expect(result.scale).to.be.eq(scalingmethod);
+        expect(result.scale).to.be.eq(scalingMethod);
     });
 
     it("should create default config", () => {
@@ -57,8 +57,8 @@ describe("VisualizationOptions", () => {
         let result: VisualizationConfiguration = VisualizationConfiguration.createDefault();
 
         expect(result.layout).to.be.eq(layout);
-        expect(result.metricWidth).to.be.eq(metricWidth);
-        expect(result.metricHeight).to.be.eq(metricHeight);
+        expect(result.footprint).to.be.eq(metricWidth);
+        expect(result.height).to.be.eq(metricHeight);
         expect(result.metricColor).to.be.eq(metricColor);
         expect(result.scale).to.be.eq(scalingmethod);
     });

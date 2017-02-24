@@ -25,8 +25,8 @@ export default class BuilderReactions {
 
                     // Transfer values
                     this.scene.options =
-                        new VisualizationOptions(this.builder.layout, this.builder.profile.metricWidth,
-                            this.builder.profile.metricHeight, this.builder.metricColor, this.builder.profile.scale);
+                        new VisualizationOptions(this.builder.layout, this.builder.profile.footprint,
+                            this.builder.profile.height, this.builder.metricColor, this.builder.profile.scale);
 
                     this.scene.refreshScene = true;
                 }

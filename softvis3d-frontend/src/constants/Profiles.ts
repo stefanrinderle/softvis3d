@@ -4,7 +4,7 @@ import Profile, { ProfileBuilder } from "../classes/Profile";
 
 const defaultProfile: Profile = new ProfileBuilder("default", "Default")
     .withConfiguration(Metric.complexityMetric, Metric.linesOfCodeMetric, LayoutProcessor.SCALING_METHODS[0])
-    .withDescription("Default risk analysis profile. Complexity as building width and lines of code as building" +
+    .withDescription("Default risk analysis profile. Complexity as building footprint and lines of code as building" +
         " height provide a very good overview of the structure of your project. It should be easy to identify the " +
         "classes or packages with the highest risks. Change the building color to take a closer look at the " +
         "interesting parts.")
