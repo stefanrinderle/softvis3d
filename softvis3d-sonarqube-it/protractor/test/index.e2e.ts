@@ -26,6 +26,7 @@ describe("Index", () => {
     });
 
     it("shoud show the District option", () => {
+        element(by.id("select-district")).click();
         element(by.partialButtonText("Load Scene")).click();
         browser.sleep(2000);
 
@@ -43,6 +44,7 @@ describe("Index", () => {
     });
 
     it("shoud show the District option with the leak period profile", () => {
+        element(by.id("select-district")).click();
         element(by.cssContainingText("option", "Leak period")).click();
 
         element(by.partialButtonText("Load Scene")).click();
