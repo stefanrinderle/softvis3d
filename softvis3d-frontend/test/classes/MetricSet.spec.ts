@@ -82,4 +82,35 @@ describe("MetricSet", () => {
         expect(result.hasNewLinesOfCodeMetric).to.be.eq(true);
     });
 
+    it("should return metric by id", () => {
+        let initialMetrics: Metric[] = [];
+        initialMetrics.push(new Metric("123", "INT", "siuhf"));
+
+        let expectedKey: string = "321";
+        let expectedMetric: Metric = new Metric(expectedKey, "INT", "siuhf");
+        initialMetrics.push(expectedMetric);
+
+        let result: MetricSet = new MetricSet(initialMetrics);
+
+        expect(result.getMetricByKey(expectedKey)).to.be.eq(expectedMetric);
+    });
+
+    it("should return metric by id but not found", () => {
+        let initialMetrics: Metric[] = [];
+        initialMetrics.push(new Metric("123", "INT", "siuhf"));
+
+        let result: MetricSet = new MetricSet(initialMetrics);
+
+        expect(result.getMetricByKey("not known")).to.be.undefined;
+    });
+
+    it("should return metric by on undefined", () => {
+        let initialMetrics: Metric[] = [];
+        initialMetrics.push(new Metric("123", "INT", "siuhf"));
+
+        let result: MetricSet = new MetricSet(initialMetrics);
+
+        let testUndefined = undefined;
+        expect(result.getMetricByKey(testUndefined)).to.be.undefined;
+    });
 });

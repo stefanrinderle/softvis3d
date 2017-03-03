@@ -25,6 +25,7 @@ import { leakPeriod } from "../../constants/Profiles";
 import { newLinesToCoverMetric } from "../../constants/Metrics";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
+import VisualizationLinkService from "../VisualizationLinkService";
 
 export interface SonarQubeApiMetric {
     id: number;
@@ -68,9 +69,14 @@ export default class SonarQubeMetricsService extends BackendService {
             } else {
                 this.checkNewLinesOfCodeMetric();
 
+                // TODO: Where to put this code?
+                // It is important that all available metrics are set before calling the VisualizationLinkService.
+                let visualizationLikService: VisualizationLinkService =
+                    new VisualizationLinkService(this.cityBuilderStore);
+                visualizationLikService.process(document.location.search);
+
                 this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
             }
-
         }).catch((error) => {
             this.appStatusStore.error(
                 new ErrorAction(SonarQubeMetricsService.LOAD_METRICS_ERROR_KEY,
