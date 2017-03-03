@@ -20,8 +20,7 @@
 import {expect} from "chai";
 import Profile, {ProfileBuilder} from "../../src/classes/Profile";
 import * as Metric from "../../src/constants/Metrics";
-import LayoutProcessor from "../../src/legacy/LayoutProcessor";
-import {EXPONENTIAL} from "../../src/constants/Scales";
+import {EXPONENTIAL, Scales} from "../../src/constants/Scales";
 
 describe("Profile", () => {
 
@@ -30,14 +29,14 @@ describe("Profile", () => {
         let expectedName = "ydydf";
         let expectedDescription = "sdoihffishd";
         let profile: Profile = new ProfileBuilder(expectedId, expectedName)
-            .withConfiguration(Metric.complexityMetric, Metric.linesOfCodeMetric, LayoutProcessor.SCALING_METHODS[0])
+            .withConfiguration(Metric.complexityMetric, Metric.linesOfCodeMetric, Scales.availableScales[0])
             .withDescription(expectedDescription)
             .build();
 
         expect(profile.id).to.be.eq(expectedId);
         expect(profile.footprint).to.be.eq(Metric.complexityMetric);
         expect(profile.height).to.be.eq(Metric.linesOfCodeMetric);
-        expect(profile.scale).to.be.eq(LayoutProcessor.SCALING_METHODS[0]);
+        expect(profile.scale).to.be.eq(Scales.availableScales[0]);
 
         expect(profile.description).to.be.eq(expectedDescription);
     });
@@ -47,7 +46,7 @@ describe("Profile", () => {
         let expectedName = "ydydf";
         let expectedDescription = "sdoihffishd";
         let profile: Profile = new ProfileBuilder(expectedId, expectedName)
-            .withConfiguration(Metric.complexityMetric, Metric.linesOfCodeMetric, LayoutProcessor.SCALING_METHODS[0])
+            .withConfiguration(Metric.complexityMetric, Metric.linesOfCodeMetric, Scales.availableScales[0])
             .withDescription(expectedDescription)
             .build();
 
@@ -60,7 +59,7 @@ describe("Profile", () => {
         let name = "Customize";
         let metricWidth = Metric.complexityMetric;
         let metricHeight = Metric.linesOfCodeMetric;
-        let scalingmethod = LayoutProcessor.SCALING_METHODS[0];
+        let scalingmethod = Scales.availableScales[0];
         let description = "sdfiuhsi";
 
         const test: Profile = new ProfileBuilder(id, name)
@@ -85,7 +84,7 @@ describe("Profile", () => {
         let name = "Customize";
         let metricWidth = Metric.complexityMetric;
         let metricHeight = Metric.linesOfCodeMetric;
-        let scalingmethod = LayoutProcessor.SCALING_METHODS[0];
+        let scalingmethod = Scales.availableScales[0];
         let description = "sdfiuhsi";
 
         const test: Profile = new ProfileBuilder(id, name)

@@ -4,9 +4,9 @@ import Layout from "../classes/Layout";
 import {availableLayouts} from "../constants/Layouts";
 import {custom} from "../constants/Profiles";
 import Scale from "../classes/Scale";
-import {availableScales} from "../constants/Scales";
 import ColorMetric from "../classes/ColorMetric";
 import {availableColorMetrics} from "../constants/Metrics";
+import {Scales} from "../constants/Scales";
 
 export interface Parameters {
     [id: string]: string;
@@ -31,7 +31,7 @@ export default class VisualizationLinkService {
         let metricColor: ColorMetric | undefined = this.getColorMetric(params.metricColor);
 
         let layout: Layout | undefined = this.getLayout(params.layout);
-        let scale: Scale | undefined = this.getScale(params.scale);
+        let scale: Scale | undefined = Scales.getScaleById(params.scale);
 
         if (metricFootprint !== undefined && metricHeight !== undefined && metricColor !== undefined &&
             layout !== undefined && scale !== undefined) {
@@ -84,13 +84,4 @@ export default class VisualizationLinkService {
         }
     }
 
-    private getScale(scaleId: string): Scale | undefined {
-        if (scaleId !== undefined) {
-            for (const availableScale of availableScales) {
-                if (availableScale.getId() === scaleId) {
-                    return availableScale;
-                }
-            }
-        }
-    }
 }
