@@ -18,12 +18,13 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-// import * as Sinon from "sinon";
 import VisualizationLinkService, {Parameters} from "../../src/services/VisualizationLinkService";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import Metric from "../../src/classes/Metric";
 import {custom} from "../../src/constants/Profiles";
-import {district} from "../../src/constants/Layouts";
+import {district, evostreet} from "../../src/constants/Layouts";
+import {EXPONENTIAL, LINEAR_SCALED} from "../../src/constants/Scales";
+import {coverageMetric, packageNameMetric} from "../../src/constants/Metrics";
 
 describe("VisualizationLinkService", () => {
 
@@ -55,7 +56,6 @@ describe("VisualizationLinkService", () => {
     it("Should initiate visualization if all values are set", () => {
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore);
-        // let mockCityBuilderStore = Sinon.mock(testCityBuilderStore);
 
         let initialMetrics: Metric[] = [];
         let metricFootprint = new Metric("123", "INT", "siuhf");
@@ -64,16 +64,41 @@ describe("VisualizationLinkService", () => {
         initialMetrics.push(metricHeight);
         testCityBuilderStore.genericMetrics.addMetrics(initialMetrics);
 
-        underTest.process("?metricFootprint=123&metricHeight=13&layout=district");
+        underTest.process("?metricFootprint=123&metricHeight=13&layout=district&scale=exponential&metricColor=coverage");
 
         expect(testCityBuilderStore.profile).to.be.eq(custom);
         expect(testCityBuilderStore.profile.footprint).to.be.eq(metricFootprint);
         expect(testCityBuilderStore.profile.height).to.be.eq(metricHeight);
+        expect(testCityBuilderStore.metricColor).to.be.eq(coverageMetric);
         expect(testCityBuilderStore.layout).to.be.eq(district);
+        expect(testCityBuilderStore.profile.scale).to.be.eq(EXPONENTIAL);
 
         expect(testCityBuilderStore.show).to.be.eq(false);
         expect(testCityBuilderStore.initiateBuildProcess).to.be.eq(true);
     });
 
+    it("Should initiate visualization if all values are set - other settings", () => {
+        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore);
+
+        let initialMetrics: Metric[] = [];
+        let metricFootprint = new Metric("123", "INT", "siuhf");
+        initialMetrics.push(metricFootprint);
+        let metricHeight = new Metric("13", "INT", "siuhf2");
+        initialMetrics.push(metricHeight);
+        testCityBuilderStore.genericMetrics.addMetrics(initialMetrics);
+
+        underTest.process("?metricFootprint=13&metricHeight=123&layout=evostreet&scale=linear_s&metricColor=package");
+
+        expect(testCityBuilderStore.profile).to.be.eq(custom);
+        expect(testCityBuilderStore.profile.footprint).to.be.eq(metricHeight);
+        expect(testCityBuilderStore.profile.height).to.be.eq(metricFootprint);
+        expect(testCityBuilderStore.metricColor).to.be.eq(packageNameMetric);
+        expect(testCityBuilderStore.layout).to.be.eq(evostreet);
+        expect(testCityBuilderStore.profile.scale).to.be.eq(LINEAR_SCALED);
+
+        expect(testCityBuilderStore.show).to.be.eq(false);
+        expect(testCityBuilderStore.initiateBuildProcess).to.be.eq(true);
+    });
 
 });
