@@ -39,13 +39,25 @@ export const openIssuesMetric: ColorMetric = new ColorMetric("open_issues", "INT
 
 export const duplicatedLinesOfCodeMetric: Metric = new Metric("duplicated_lines", "INT", "Duplicated Lines");
 
-export const availableColorMetrics: ColorMetric[] = [
-    noMetric,
-    complexityMetric,
-    coverageMetric,
-    violationMetric,
-    newIssuesMetric,
-    linesOfCodeMetric,
-    openIssuesMetric,
-    packageNameMetric
-];
+export class ColorMetrics {
+
+    public static availableColorMetrics: ColorMetric[] = [
+        noMetric,
+        complexityMetric,
+        coverageMetric,
+        violationMetric,
+        newIssuesMetric,
+        linesOfCodeMetric,
+        openIssuesMetric,
+        packageNameMetric
+    ];
+
+    public static getColorMetricById(id: string): ColorMetric | undefined {
+        for (let availableColorMetric of ColorMetrics.availableColorMetrics) {
+            if (availableColorMetric.id === id) {
+                return availableColorMetric;
+            }
+        }
+    }
+
+}

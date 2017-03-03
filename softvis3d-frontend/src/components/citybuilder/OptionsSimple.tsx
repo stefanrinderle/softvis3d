@@ -2,7 +2,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import LayoutPicker from "./LayoutPicker";
-import {availableLayouts} from "../../constants/Layouts";
+import {Layouts} from "../../constants/Layouts";
 import PreviewPictureComponent from "./PreviewPictureComponent";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import Profile from "../../classes/Profile";
@@ -44,7 +44,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                     <div className="builder-option">
                         <span>Layout</span>
                         <LayoutPicker
-                            layouts={availableLayouts}
+                            layouts={Layouts.availableLayouts}
                             store={this.props.store}
                         />
                         <p className="selection-description layout-description">

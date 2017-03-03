@@ -1,12 +1,12 @@
 import {CityBuilderStore} from "../stores/CityBuilderStore";
 import Metric from "../classes/Metric";
 import Layout from "../classes/Layout";
-import {availableLayouts} from "../constants/Layouts";
 import {custom} from "../constants/Profiles";
 import Scale from "../classes/Scale";
 import ColorMetric from "../classes/ColorMetric";
-import {availableColorMetrics} from "../constants/Metrics";
+import {ColorMetrics} from "../constants/Metrics";
 import {Scales} from "../constants/Scales";
+import {Layouts} from "../constants/Layouts";
 
 export interface Parameters {
     [id: string]: string;
@@ -28,9 +28,9 @@ export default class VisualizationLinkService {
         let metricHeight: Metric | undefined =
             this.cityBuilderStore.genericMetrics.getMetricByKey(params.metricHeight);
 
-        let metricColor: ColorMetric | undefined = this.getColorMetric(params.metricColor);
+        let metricColor: ColorMetric | undefined = ColorMetrics.getColorMetricById(params.metricColor);
 
-        let layout: Layout | undefined = this.getLayout(params.layout);
+        let layout: Layout | undefined = Layouts.getLayoutById(params.layout);
         let scale: Scale | undefined = Scales.getScaleById(params.scale);
 
         if (metricFootprint !== undefined && metricHeight !== undefined && metricColor !== undefined &&
@@ -62,26 +62,6 @@ export default class VisualizationLinkService {
         }
 
         return params;
-    }
-
-    private getLayout(layoutId: string | undefined): Layout | undefined {
-        if (layoutId !== undefined) {
-            for (const availableLayout of availableLayouts) {
-                if (availableLayout.id === layoutId) {
-                    return availableLayout;
-                }
-            }
-        }
-    }
-
-    private getColorMetric(metricId: string | undefined): ColorMetric | undefined {
-        if (metricId !== undefined) {
-            for (const availableColorMetric of availableColorMetrics) {
-                if (availableColorMetric.id === metricId) {
-                    return availableColorMetric;
-                }
-            }
-        }
     }
 
 }
