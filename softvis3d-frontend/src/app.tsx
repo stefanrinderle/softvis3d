@@ -11,6 +11,7 @@ import WebGLDetector from "./services/WebGLDetector";
 import SceneReactions from "./reactions/SceneReactions";
 import BuilderReactions from "./reactions/BuilderReactions";
 import ErrorAction from "./classes/status/ErrorAction";
+import VisualizationLinkService from "./services/VisualizationLinkService";
 
 interface AppConfiguration {
     api: string;
@@ -24,6 +25,7 @@ export default class App {
     private isInitialized: boolean = false;
     private communicator: SonarQubeMetricsService;
     private legacyService: SonarQubeLegacyService;
+    private visualizationLinkService: VisualizationLinkService;
     private legacy: LegacyConnector;
     //noinspection JSMismatchedCollectionQueryUpdate
     private reactions: any[];
@@ -34,8 +36,11 @@ export default class App {
 
     public bootstrap(config: AppConfiguration) {
         appStatusStore.showLoadingQueue = config.isDev;
-        this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
-        this.legacyService = new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
+        this.visualizationLinkService = new VisualizationLinkService(cityBuilderStore);
+        this.communicator =
+            new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore, this.visualizationLinkService);
+        this.legacyService =
+            new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
         this.legacy = new LegacyConnector(sceneStore, cityBuilderStore, appStatusStore);
         this.reactions = [];
     }
@@ -57,7 +62,8 @@ export default class App {
         cityBuilderStore.show = true;
 
         ReactDOM.render(
-           <Softvis3D sceneStore={sceneStore} cityBuilderStore={cityBuilderStore} appStatusStore={appStatusStore}/>,
+           <Softvis3D sceneStore={sceneStore} cityBuilderStore={cityBuilderStore} appStatusStore={appStatusStore}
+                      visualizationLinkService={this.visualizationLinkService}/>,
             document.getElementById(target)!
         );
     }

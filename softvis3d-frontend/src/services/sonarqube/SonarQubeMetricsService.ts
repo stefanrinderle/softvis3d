@@ -41,12 +41,15 @@ export default class SonarQubeMetricsService extends BackendService {
 
     private appStatusStore: AppStatusStore;
     private cityBuilderStore: CityBuilderStore;
+    private visualizationLinkService: VisualizationLinkService;
 
-    constructor(apiUrl: string, appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore) {
+    constructor(apiUrl: string, appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore,
+                visualizationLinkService: VisualizationLinkService) {
         super(apiUrl);
 
         this.appStatusStore = appStatusStore;
         this.cityBuilderStore = cityBuilderStore;
+        this.visualizationLinkService = visualizationLinkService;
     }
 
     public loadAvailableMetrics(page = 1): void {
@@ -71,9 +74,7 @@ export default class SonarQubeMetricsService extends BackendService {
 
                 // TODO: Where to put this code?
                 // It is important that all available metrics are set before calling the VisualizationLinkService.
-                let visualizationLikService: VisualizationLinkService =
-                    new VisualizationLinkService(this.cityBuilderStore);
-                visualizationLikService.process(document.location.search);
+                this.visualizationLinkService.process(document.location.search);
 
                 this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
             }

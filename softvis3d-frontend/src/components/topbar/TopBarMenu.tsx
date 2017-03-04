@@ -1,9 +1,15 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import VisualizationLinkService from "../../services/VisualizationLinkService";
+
+interface TopBarMenuProbs {
+    cityBuilderStore: CityBuilderStore;
+    visualizationLinkService: VisualizationLinkService;
+}
 
 @observer
-export default class TopBarMenu extends React.Component<{ cityBuilderStore: CityBuilderStore }, any> {
+export default class TopBarMenu extends React.Component<TopBarMenuProbs, any> {
 
     public render() {
         return (
@@ -15,12 +21,18 @@ export default class TopBarMenu extends React.Component<{ cityBuilderStore: City
                 >
                     Settings
                 </button>
-
                 <button
                     className="middle"
                     onClick={this.openHelp.bind(this)}
                 >
                     Help
+                </button>
+                <button
+                    className="middle"
+                    onClick={this.createVisualizationLink.bind(this)}
+                    disabled={this.props.cityBuilderStore.show}
+                >
+                    Share
                 </button>
                 <button
                     className="right"
@@ -42,5 +54,9 @@ export default class TopBarMenu extends React.Component<{ cityBuilderStore: City
 
     private openFeedback() {
         window.open("http://softvis3d.com/#/feedback");
+    }
+
+    private createVisualizationLink() {
+        alert(this.props.visualizationLinkService.createVisualizationLink());
     }
 }

@@ -24,6 +24,7 @@ import * as Sinon from "sinon";
 import { CityBuilderStore } from "../../../src/stores/CityBuilderStore";
 import { newLinesToCoverMetric } from "../../../src/constants/Metrics";
 import { leakPeriod } from "../../../src/constants/Profiles";
+import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
 
 describe("SonarQubeMetricsService", () => {
 
@@ -32,11 +33,12 @@ describe("SonarQubeMetricsService", () => {
 
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let localVisualizationLinkService = new VisualizationLinkService(testCityBuilderStore);
         let spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeMetricsService =
-            new SonarQubeMetricsService(apiUrl, testAppStatusStore, testCityBuilderStore);
+        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl, testAppStatusStore,
+            testCityBuilderStore, localVisualizationLinkService);
 
         let expectedMetrics: SonarQubeApiMetric[] = [];
         expectedMetrics.push({
@@ -70,11 +72,12 @@ describe("SonarQubeMetricsService", () => {
 
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let localVisualizationLinkService = new VisualizationLinkService(testCityBuilderStore);
         let spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeMetricsService =
-            new SonarQubeMetricsService(apiUrl, testAppStatusStore, testCityBuilderStore);
+        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl, testAppStatusStore,
+            testCityBuilderStore, localVisualizationLinkService);
 
         let expectedMetrics: SonarQubeApiMetric[] = [];
         expectedMetrics.push({
@@ -110,11 +113,12 @@ describe("SonarQubeMetricsService", () => {
 
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let localVisualizationLinkService = new VisualizationLinkService(testCityBuilderStore);
         let spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeMetricsService =
-            new SonarQubeMetricsService(apiUrl, testAppStatusStore, testCityBuilderStore);
+        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl, testAppStatusStore,
+            testCityBuilderStore, localVisualizationLinkService);
 
         let expectedMetrics: SonarQubeApiMetric[] = [];
         expectedMetrics.push({
@@ -153,9 +157,10 @@ describe("SonarQubeMetricsService", () => {
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let localVisualizationLinkService = new VisualizationLinkService(testCityBuilderStore);
 
-        let underTest: SonarQubeMetricsService =
-            new SonarQubeMetricsService("urlsihshoif", testAppStatusStore, testCityBuilderStore);
+        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif", testAppStatusStore, 
+            testCityBuilderStore, localVisualizationLinkService);
 
         Sinon.stub(underTest, "callApi", () => {
             return Promise.resolve({
@@ -185,9 +190,10 @@ describe("SonarQubeMetricsService", () => {
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let localVisualizationLinkService = new VisualizationLinkService(testCityBuilderStore);
 
-        let underTest: SonarQubeMetricsService =
-            new SonarQubeMetricsService("urlsihshoif", testAppStatusStore, testCityBuilderStore);
+        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif", testAppStatusStore,
+            testCityBuilderStore, localVisualizationLinkService);
 
         let spyCallApi = Sinon.stub(underTest, "callApi");
         spyCallApi.onFirstCall().returns(

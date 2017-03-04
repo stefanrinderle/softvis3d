@@ -9,29 +9,34 @@ import {AppStatusStore, default as appStatusStore} from "../../src/stores/AppSta
 import sceneStore, {SceneStore} from "../../src/stores/SceneStore";
 import Status from "../../src/components/status/Status";
 import LoadAction from "../../src/classes/status/LoadAction";
+import VisualizationLinkService from "../../src/services/VisualizationLinkService";
 
 describe("<SoftVis3D/>", () => {
 
     it("should draw all componenty on start", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
+        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore);
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         const softvis3d = shallow(
             <Softvis3D cityBuilderStore={localCityBuilderStore}
-                       sceneStore={localSceneStore} appStatusStore={localAppStatusStore}/>
+                       sceneStore={localSceneStore} appStatusStore={localAppStatusStore}
+                       visualizationLinkService={localVisualizationLinkService}/>
         );
 
         expect(softvis3d.contains(<Status appStatusStore={appStatusStore}/>)).to.be.true;
         expect(softvis3d.contains(<CityBuilder store={cityBuilderStore} appStatusStore={appStatusStore}/>)).to.be.true;
         expect(softvis3d.contains(
-            <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
+            <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}
+                           visualizationLinkService={localVisualizationLinkService}/>
         )).to.be.true;
     });
 
     it("should show loader on state change", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
+        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore);
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         localAppStatusStore.loadingQueue.add(new LoadAction("key", "eins"));
@@ -39,7 +44,8 @@ describe("<SoftVis3D/>", () => {
 
         const softvis3d = shallow(
             <Softvis3D cityBuilderStore={localCityBuilderStore}
-                       sceneStore={localSceneStore} appStatusStore={localAppStatusStore}/>
+                       sceneStore={localSceneStore} appStatusStore={localAppStatusStore}
+                       visualizationLinkService={localVisualizationLinkService}/>
         );
 
         expect(softvis3d.contains(<Status appStatusStore={appStatusStore}/>)).to.be.true;

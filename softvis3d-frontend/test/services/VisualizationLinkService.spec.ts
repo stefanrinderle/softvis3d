@@ -21,7 +21,7 @@ import {expect} from "chai";
 import VisualizationLinkService, {Parameters} from "../../src/services/VisualizationLinkService";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import Metric from "../../src/classes/Metric";
-import {custom} from "../../src/constants/Profiles";
+import {custom, defaultProfile} from "../../src/constants/Profiles";
 import {district, evostreet} from "../../src/constants/Layouts";
 import {EXPONENTIAL, LINEAR_SCALED} from "../../src/constants/Scales";
 import {coverageMetric, packageNameMetric} from "../../src/constants/Metrics";
@@ -99,6 +99,36 @@ describe("VisualizationLinkService", () => {
 
         expect(testCityBuilderStore.show).to.be.eq(false);
         expect(testCityBuilderStore.initiateBuildProcess).to.be.eq(true);
+    });
+
+    it("Extracts the parameters properly on single property", () => {
+        let localCityBuilderStore = new CityBuilderStore();
+        localCityBuilderStore.profile = defaultProfile;
+
+        let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore);
+
+        let result = underTest.createVisualizationLink();
+
+        expect(result).to.contain(
+            "?metricFootprint=complexity&metricHeight=ncloc&metricColor=none&layout=evostreet&scale=logarithmic");
+    });
+
+    it("Visualization link based on already existing params", () => {
+        let localCityBuilderStore = new CityBuilderStore();
+        localCityBuilderStore.profile = defaultProfile;
+
+        let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore);
+
+        let href: string = "http://localhost:9000/plugins/resource/rinderle%3AklamottenwetterWeb?page=SoftVis3D";
+
+        let params: Parameters = {
+            test1: "test1Value",
+            test2: "test2Value"
+        };
+        let result = underTest.createVisualizationLinkForCurrentUrl(href, params);
+
+        expect(result).to.be.eq("http://localhost:9000/plugins/resource/rinderle%3AklamottenwetterWeb" +
+            "?page=SoftVis3D&test1=test1Value&test2=test2Value");
     });
 
 });
