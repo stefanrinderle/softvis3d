@@ -8,7 +8,7 @@ import LoadAction from "../classes/status/LoadAction";
 
 export default class SceneReactions {
 
-    private static LOAD_SOFTVIS: LoadAction = new LoadAction("LOAD_SOFTVIS", "Create visualization");
+    public static LOAD_SOFTVIS: LoadAction = new LoadAction("LOAD_SOFTVIS", "Create visualization");
 
     private builder: CityBuilderStore;
     private scene: SceneStore;
@@ -76,7 +76,7 @@ export default class SceneReactions {
                         this.scene.scenePainter.updateColorsWithUpdatedShapes(shapes);
                     } else {
                         this.appStatusStore.load(SceneReactions.LOAD_SOFTVIS);
-                        this.scene.scenePainter.loadSoftVis3d(shapes);
+                        this.scene.scenePainter.loadSoftVis3d(shapes, this.scene.cameraPosition);
                         this.appStatusStore.loadComplete(SceneReactions.LOAD_SOFTVIS);
                     }
 

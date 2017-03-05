@@ -18,6 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
+import {Vector3} from "three";
 import VisualizationLinkService, {Parameters} from "../../src/services/VisualizationLinkService";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import Metric from "../../src/classes/Metric";
@@ -73,7 +74,7 @@ describe("VisualizationLinkService", () => {
 
         let expectedSelectedObjectId: string = "123453";
         underTest.process("?metricFootprint=123&metricHeight=13&layout=district&scale=exponential&metricColor=coverage" +
-            "&selectedObjectId=" + expectedSelectedObjectId);
+            "&selectedObjectId=" + expectedSelectedObjectId + "&cameraX=1&cameraY=2&cameraZ=3");
 
         expect(testCityBuilderStore.profile).to.be.eq(custom);
         expect(testCityBuilderStore.profile.footprint).to.be.eq(metricFootprint);
@@ -82,6 +83,13 @@ describe("VisualizationLinkService", () => {
         expect(testCityBuilderStore.layout).to.be.eq(district);
         expect(testCityBuilderStore.profile.scale).to.be.eq(EXPONENTIAL);
 
+        expect(localSceneStore.cameraPosition).to.be.not.null;
+        expect(localSceneStore.cameraPosition).to.be.not.undefined;
+        if (localSceneStore.cameraPosition) {
+            expect(localSceneStore.cameraPosition.x).to.be.eq(1);
+            expect(localSceneStore.cameraPosition.y).to.be.eq(2);
+            expect(localSceneStore.cameraPosition.z).to.be.eq(3);
+        }
         expect(localSceneStore.selectedObjectId).to.be.eq(expectedSelectedObjectId);
 
         expect(testCityBuilderStore.show).to.be.eq(false);
@@ -100,7 +108,8 @@ describe("VisualizationLinkService", () => {
         initialMetrics.push(metricHeight);
         testCityBuilderStore.genericMetrics.addMetrics(initialMetrics);
 
-        underTest.process("?metricFootprint=13&metricHeight=123&layout=evostreet&scale=linear_s&metricColor=package");
+        underTest.process("?metricFootprint=13&metricHeight=123&layout=evostreet&scale=linear_s&metricColor=package" +
+            "&cameraX=999&cameraY=88.11&cameraZ=333333.3300");
 
         expect(testCityBuilderStore.profile).to.be.eq(custom);
         expect(testCityBuilderStore.profile.footprint).to.be.eq(metricHeight);
@@ -109,27 +118,41 @@ describe("VisualizationLinkService", () => {
         expect(testCityBuilderStore.layout).to.be.eq(evostreet);
         expect(testCityBuilderStore.profile.scale).to.be.eq(LINEAR_SCALED);
 
+        expect(localSceneStore.cameraPosition).to.be.not.null;
+        expect(localSceneStore.cameraPosition).to.be.not.undefined;
+        if (localSceneStore.cameraPosition) {
+            expect(localSceneStore.cameraPosition.x).to.be.eq(999);
+            expect(localSceneStore.cameraPosition.y).to.be.eq(88.11);
+            expect(localSceneStore.cameraPosition.z).to.be.eq(333333.33);
+        }
+
         expect(testCityBuilderStore.show).to.be.eq(false);
         expect(testCityBuilderStore.initiateBuildProcess).to.be.eq(true);
     });
 
     it("Extracts the parameters properly for mandatory params", () => {
         let localCityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
         localCityBuilderStore.profile = defaultProfile;
+
+        let localSceneStore: SceneStore = new SceneStore();
+        // Math.round in place
+        localSceneStore.cameraPosition = new Vector3(1.2, 2.1, 3.3);
 
         let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
         let result = underTest.createVisualizationLink();
 
         expect(result).to.contain(
-            "?metricFootprint=complexity&metricHeight=ncloc&metricColor=none&layout=evostreet&scale=logarithmic");
+            "?metricFootprint=complexity&metricHeight=ncloc&metricColor=none&layout=evostreet&scale=logarithmic" +
+            "&cameraX=1&cameraY=2&cameraZ=3");
     });
 
     it("Extracts the parameters properly with all optional params", () => {
         let localCityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
         localCityBuilderStore.profile = defaultProfile;
+
+        let localSceneStore: SceneStore = new SceneStore();
+        localSceneStore.cameraPosition = new Vector3(1, 2, 3);
 
         let expectedSelectedObjectId: string = "123453";
         localSceneStore.selectedObjectId = expectedSelectedObjectId;
@@ -140,7 +163,7 @@ describe("VisualizationLinkService", () => {
 
         expect(result).to.contain(
             "?metricFootprint=complexity&metricHeight=ncloc&metricColor=none&layout=evostreet&scale=logarithmic" +
-            "&selectedObjectId=" + expectedSelectedObjectId);
+            "&cameraX=1&cameraY=2&cameraZ=3&selectedObjectId=" + expectedSelectedObjectId);
     });
 
     it("Visualization link based on already existing params", () => {

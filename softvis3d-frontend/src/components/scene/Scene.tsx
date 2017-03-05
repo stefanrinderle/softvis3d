@@ -42,15 +42,24 @@ export default class Scene extends React.Component<SceneProps, any> {
                 <canvas id={SoftVis3dScene.CANVAS_ID}
                         onMouseDown={() => { this.mouseMoved = false; }}
                         onMouseMove={() => { this.mouseMoved = true; }}
-                        onMouseUp={(e) => !this.mouseMoved && this.makeSelection(e) }
+                        onMouseUp={(e) => { this.onMouseUp(e); }}
                         />
                 <SceneInformation sceneStore={sceneStore}/>
            </div>
         );
     }
 
-    private makeSelection(event: any) {
-        const {sceneStore} = this.props;
-        sceneStore.selectedObjectId = sceneStore.scenePainter.makeSelection(event);
+    // public for tests
+    public updateCameraPosition() {
+        this.props.sceneStore.cameraPosition = this.props.sceneStore.scenePainter.getCamera().position;
     }
+
+    private onMouseUp(event: any) {
+        this.updateCameraPosition();
+
+        if (!this.mouseMoved) {
+            this.props.sceneStore.selectedObjectId = this.props.sceneStore.scenePainter.makeSelection(event);
+        }
+    }
+
 }

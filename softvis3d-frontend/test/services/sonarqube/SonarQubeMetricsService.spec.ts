@@ -57,7 +57,7 @@ describe("SonarQubeMetricsService", () => {
             expect(leakPeriod.height).to.be.eq(newLinesToCoverMetric);
             done();
         }).catch((error) => {
-            assert.isNotOk(error, 'Promise error');
+            assert.isNotOk(error, "Promise error");
             done();
         });
     });
@@ -92,7 +92,7 @@ describe("SonarQubeMetricsService", () => {
             Sinon.assert.calledWith(spyAdd, []);
             done();
         }).catch((error) => {
-            assert.isNotOk(error, 'Promise error');
+            assert.isNotOk(error, "Promise error");
             done();
         });
     });
@@ -126,7 +126,7 @@ describe("SonarQubeMetricsService", () => {
             Sinon.assert.calledWith(spyAdd, []);
             done();
         }).catch((error) => {
-            assert.isNotOk(error, 'Promise error');
+            assert.isNotOk(error, "Promise error");
             done();
         });
     });
@@ -154,7 +154,7 @@ describe("SonarQubeMetricsService", () => {
             assert(spyLoadComplete.calledWith(SonarQubeMetricsService.LOAD_METRICS));
             done();
         }).catch((error) => {
-            assert.isNotOk(error, 'Promise error');
+            assert.isNotOk(error, "Promise error");
             done();
         });
     });
@@ -196,7 +196,7 @@ describe("SonarQubeMetricsService", () => {
 
             done();
         }).catch((error) => {
-            assert.isNotOk(error, 'Promise error');
+            assert.isNotOk(error, "Promise error");
             done();
         });
     });
@@ -227,7 +227,7 @@ describe("SonarQubeMetricsService", () => {
             assert(spyError.calledOnce);
             done();
         }).catch((error) => {
-            assert.isNotOk(error, 'Promise error');
+            assert.isNotOk(error, "Promise error");
             done();
         });
     });
@@ -261,7 +261,7 @@ describe("SonarQubeMetricsService", () => {
         );
 
         underTest.loadAvailableMetrics().then(() => {
-            assert.isNotOk({}, 'Promise error');
+            assert.isNotOk({}, "Promise error");
             done();
         }).catch(() => {
             assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));

@@ -9,6 +9,7 @@ import {Scales} from "../constants/Scales";
 import {Layouts} from "../constants/Layouts";
 import VisualizationLinkParams from "../classes/VisualizationLinkParams";
 import {SceneStore} from "../stores/SceneStore";
+import {Vector3} from "three";
 
 export interface Parameters {
     [id: string]: string;
@@ -37,16 +38,19 @@ export default class VisualizationLinkService {
         let layout: Layout | undefined = Layouts.getLayoutById(params.layout);
         let scale: Scale | undefined = Scales.getScaleById(params.scale);
 
+        let cameraPosition = this.getCameraPosition(params);
+
         let selectedObjectId: string | undefined = params.selectedObjectId;
 
         if (metricFootprint !== undefined && metricHeight !== undefined && metricColor !== undefined &&
-            layout !== undefined && scale !== undefined) {
+            layout !== undefined && scale !== undefined && cameraPosition !== undefined) {
 
             let visualizationLinkParams: VisualizationLinkParams =
                 new VisualizationLinkParams(metricFootprint, metricHeight, metricColor, layout, scale);
 
             this.applyParams(visualizationLinkParams);
             this.sceneStore.selectedObjectId = selectedObjectId;
+            this.sceneStore.cameraPosition = cameraPosition;
 
             this.cityBuilderStore.show = false;
             this.cityBuilderStore.initiateBuildProcess = true;
@@ -77,7 +81,7 @@ export default class VisualizationLinkService {
                 this.cityBuilderStore.layout, this.cityBuilderStore.profile.scale);
 
         let params: Parameters = visualizationLinkParams.getKeyValuePairs();
-
+        this.addCameraPosition(params);
         this.addOptionalSelectObjectId(params);
 
         return this.createVisualizationLinkForCurrentUrl(document.location.href, params);
@@ -90,6 +94,14 @@ export default class VisualizationLinkService {
         let urlContainsParams: boolean = href.indexOf("?") >= 0;
 
         return href + this.createUrlParameterList(params, urlContainsParams);
+    }
+
+    private getCameraPosition(params: Parameters): Vector3 | undefined {
+        let cameraPosition: Vector3 | undefined;
+        if (params.cameraX !== undefined && params.cameraY !== undefined && params.cameraZ !== undefined) {
+            cameraPosition = new Vector3(+params.cameraX, +params.cameraY, +params.cameraZ);
+        }
+        return cameraPosition;
     }
 
     private applyParams(visualizationLinkParams: VisualizationLinkParams) {
@@ -117,6 +129,17 @@ export default class VisualizationLinkService {
         }
 
         return result.substr(0, result.length - 1);
+    }
+
+    private addCameraPosition(params: Parameters) {
+        if (this.sceneStore.cameraPosition) {
+            params = Object.assign(params, {
+                cameraX: Math.round(this.sceneStore.cameraPosition.x),
+                cameraY: Math.round(this.sceneStore.cameraPosition.y),
+                cameraZ: Math.round(this.sceneStore.cameraPosition.z)
+            });
+        }
+        return params;
     }
 
     private addOptionalSelectObjectId(params: Parameters) {

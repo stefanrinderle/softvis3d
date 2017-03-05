@@ -1,6 +1,7 @@
 import * as React from "react";
 import {shallow} from "enzyme";
 import {expect} from "chai";
+import {Vector3, PerspectiveCamera} from "three";
 import Scene from "../../../src/components/scene/Scene";
 import {SceneStore} from "../../../src/stores/SceneStore";
 import SceneInformation from "../../../src/components/scene/information/SceneInformation";
@@ -76,4 +77,34 @@ describe("<Scene/>", () => {
         expect(localSceneStore.sceneComponentIsMounted).to.be.false;
     });
 
+    it("should update camera position", () => {
+        let localSceneStore: SceneStore = new SceneStore();
+
+        let expectedCameraPosition: Vector3 = new Vector3(1, 2, 3);
+
+        let scenePainter: SoftVis3dScene = new SoftVis3dScene();
+        localSceneStore.scenePainter = scenePainter;
+
+        let camera: PerspectiveCamera = new PerspectiveCamera();
+        camera.position.x = expectedCameraPosition.x;
+        camera.position.y = expectedCameraPosition.y;
+        camera.position.z = expectedCameraPosition.z;
+        Sinon.stub(scenePainter, "getCamera", () => {
+            return camera;
+        });
+
+        let underTest: Scene = new Scene();
+        underTest.props = {
+            sceneStore: localSceneStore
+        };
+        underTest.updateCameraPosition();
+
+        expect(localSceneStore.cameraPosition).not.to.be.null;
+        expect(localSceneStore.cameraPosition).not.to.be.undefined;
+        if (localSceneStore.cameraPosition) {
+            expect(localSceneStore.cameraPosition.x).to.be.eq(expectedCameraPosition.x);
+            expect(localSceneStore.cameraPosition.y).to.be.eq(expectedCameraPosition.y);
+            expect(localSceneStore.cameraPosition.z).to.be.eq(expectedCameraPosition.z);
+        }
+    });
 });
