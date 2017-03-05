@@ -22,7 +22,7 @@ class CityBuilderStore {
     @observable
     public initiateBuildProcess: boolean = false;
     @observable
-    public show: boolean = false;
+    public show: boolean = true;
 
     @observable
     private _profile: Profile = defaultProfile.clone();

@@ -22,6 +22,7 @@ describe("<CityBuilder/>", () => {
 
     it("should not show if cityStore show is false", () => {
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        testCityBuilderStore.show = false;
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
 
         const cityBuilder = shallow(

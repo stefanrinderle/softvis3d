@@ -33,5 +33,4 @@ const appConfiguration = {
 };
 
 const softvis3d = new App(appConfiguration);
-softvis3d.init();
 softvis3d.run("app");

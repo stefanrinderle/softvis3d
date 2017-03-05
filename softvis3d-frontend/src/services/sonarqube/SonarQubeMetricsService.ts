@@ -17,15 +17,14 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { BackendService } from "./BackendService";
-import { AppStatusStore } from "../../stores/AppStatusStore";
-import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import {BackendService} from "./BackendService";
+import {AppStatusStore} from "../../stores/AppStatusStore";
+import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import Metric from "../../classes/Metric";
-import { leakPeriod } from "../../constants/Profiles";
-import { newLinesToCoverMetric } from "../../constants/Metrics";
+import {leakPeriod} from "../../constants/Profiles";
+import {newLinesToCoverMetric} from "../../constants/Metrics";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
-import VisualizationLinkService from "../VisualizationLinkService";
 
 export interface SonarQubeApiMetric {
     id: number;
@@ -41,51 +40,52 @@ export default class SonarQubeMetricsService extends BackendService {
 
     private appStatusStore: AppStatusStore;
     private cityBuilderStore: CityBuilderStore;
-    private visualizationLinkService: VisualizationLinkService;
 
-    constructor(apiUrl: string, appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore,
-                visualizationLinkService: VisualizationLinkService) {
+    constructor(apiUrl: string, appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore) {
         super(apiUrl);
 
         this.appStatusStore = appStatusStore;
         this.cityBuilderStore = cityBuilderStore;
-        this.visualizationLinkService = visualizationLinkService;
     }
 
-    public loadAvailableMetrics(page = 1): void {
-        if (page === 1) {
-            this.appStatusStore.load(SonarQubeMetricsService.LOAD_METRICS);
-        }
-
-        const params = {f: "name", p: page};
-        this.callApi("/metrics/search", { params }).then((response) => {
-            const metrics: Metric[] = (response.data.metrics as SonarQubeApiMetric[])
-                .filter((c) => this.shouldMetricBeFiltered(c.type))
-                .filter((c) => c.hidden === true || c.hidden === undefined || c.hidden === null)
-                .map((c) => { return this.createMetric(c); });
-
-            this.cityBuilderStore.genericMetrics.addMetrics(metrics);
-
-            const metricsPosition = response.data.p * response.data.ps;
-            if (metricsPosition < response.data.total) {
-                this.loadAvailableMetrics(page + 1);
-            } else {
-                this.checkNewLinesOfCodeMetric();
-
-                // TODO: Where to put this code?
-                // It is important that all available metrics are set before calling the VisualizationLinkService.
-                this.visualizationLinkService.process(document.location.search);
-
-                this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
+    public loadAvailableMetrics(page = 1): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            if (page === 1) {
+                this.appStatusStore.load(SonarQubeMetricsService.LOAD_METRICS);
             }
-        }).catch((error) => {
-            this.appStatusStore.error(
-                new ErrorAction(SonarQubeMetricsService.LOAD_METRICS_ERROR_KEY,
-                    "SonarQube metric API is not available or responding: " + error.response.statusText,
-                    "Try again", () => {
-                        location.reload();
-                    }));
-            this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
+
+            const params = {f: "name", p: page};
+            this.callApi("/metrics/search", { params }).then((response) => {
+                const metrics: Metric[] = (response.data.metrics as SonarQubeApiMetric[])
+                    .filter((c) => this.shouldMetricBeFiltered(c.type))
+                    .filter((c) => c.hidden === true || c.hidden === undefined || c.hidden === null)
+                    .map((c) => { return this.createMetric(c); });
+
+                this.cityBuilderStore.genericMetrics.addMetrics(metrics);
+
+                const metricsPosition = response.data.p * response.data.ps;
+                if (metricsPosition < response.data.total) {
+                    return this.loadAvailableMetrics(page + 1).then(() => {
+                        resolve();
+                    }).catch(() => {
+                        reject();
+                    });
+                } else {
+                    this.checkNewLinesOfCodeMetric();
+
+                    this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
+                    resolve();
+                }
+            }).catch((error) => {
+                this.appStatusStore.error(
+                    new ErrorAction(SonarQubeMetricsService.LOAD_METRICS_ERROR_KEY,
+                        "SonarQube metric API is not available or responding: " + error.response.statusText,
+                        "Try again", () => {
+                            location.reload();
+                        }));
+                this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
+                reject();
+            });
         });
     }
 

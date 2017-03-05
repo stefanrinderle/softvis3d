@@ -35,7 +35,7 @@ describe("CityBuilderStore", () => {
         expect(underTest.metricColor).to.be.eq(Metrics.noMetric);
         expect(underTest.colorMetrics.keys.length).to.be.eq(8);
         expect(underTest.initiateBuildProcess).to.be.eq(false);
-        expect(underTest.show).to.be.eq(false);
+        expect(underTest.show).to.be.eq(true);
     });
 
     it("should set layout", () => {
