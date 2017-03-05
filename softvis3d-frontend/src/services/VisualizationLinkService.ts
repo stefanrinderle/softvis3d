@@ -8,6 +8,7 @@ import {ColorMetrics} from "../constants/Metrics";
 import {Scales} from "../constants/Scales";
 import {Layouts} from "../constants/Layouts";
 import VisualizationLinkParams from "../classes/VisualizationLinkParams";
+import {SceneStore} from "../stores/SceneStore";
 
 export interface Parameters {
     [id: string]: string;
@@ -16,9 +17,11 @@ export interface Parameters {
 export default class VisualizationLinkService {
 
     private cityBuilderStore: CityBuilderStore;
+    private sceneStore: SceneStore;
 
-    constructor(cityBuilderStore: CityBuilderStore) {
+    constructor(cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
         this.cityBuilderStore = cityBuilderStore;
+        this.sceneStore = sceneStore;
     }
 
     public process(search: string) {
@@ -34,6 +37,8 @@ export default class VisualizationLinkService {
         let layout: Layout | undefined = Layouts.getLayoutById(params.layout);
         let scale: Scale | undefined = Scales.getScaleById(params.scale);
 
+        let selectedObjectId: string | undefined = params.selectedObjectId;
+
         if (metricFootprint !== undefined && metricHeight !== undefined && metricColor !== undefined &&
             layout !== undefined && scale !== undefined) {
 
@@ -41,6 +46,7 @@ export default class VisualizationLinkService {
                 new VisualizationLinkParams(metricFootprint, metricHeight, metricColor, layout, scale);
 
             this.applyParams(visualizationLinkParams);
+            this.sceneStore.selectedObjectId = selectedObjectId;
 
             this.cityBuilderStore.show = false;
             this.cityBuilderStore.initiateBuildProcess = true;
@@ -71,6 +77,8 @@ export default class VisualizationLinkService {
                 this.cityBuilderStore.layout, this.cityBuilderStore.profile.scale);
 
         let params: Parameters = visualizationLinkParams.getKeyValuePairs();
+
+        this.addOptionalSelectObjectId(params);
 
         return this.createVisualizationLinkForCurrentUrl(document.location.href, params);
     }
@@ -111,4 +119,12 @@ export default class VisualizationLinkService {
         return result.substr(0, result.length - 1);
     }
 
+    private addOptionalSelectObjectId(params: Parameters) {
+        if (this.sceneStore.selectedObjectId) {
+            params = Object.assign(params, {
+                selectedObjectId: this.sceneStore.selectedObjectId
+            });
+        }
+        return params;
+    }
 }

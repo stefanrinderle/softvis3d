@@ -99,7 +99,9 @@ export default class SoftVis3dScene {
     }
 
     public selectSceneTreeObject(objectSoftVis3dId: string | null) {
-        this.wrangler.selectSceneTreeObject(objectSoftVis3dId);
+        if (this.wrangler) {
+            this.wrangler.selectSceneTreeObject(objectSoftVis3dId);
+        }
     }
 
     public getCamera(): PerspectiveCamera {

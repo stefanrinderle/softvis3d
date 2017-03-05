@@ -24,6 +24,10 @@ export default class Scene extends React.Component<SceneProps, any> {
         this.props.sceneStore.scenePainter.init();
         this.props.sceneStore.refreshScene = true;
         this.props.sceneStore.sceneComponentIsMounted = true;
+
+        if (this.props.sceneStore.selectedObjectId) {
+            this.props.sceneStore.scenePainter.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
+        }
     }
 
     public componentWillUnmount() {

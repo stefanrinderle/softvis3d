@@ -32,7 +32,7 @@ export default class App {
     public constructor(config: AppConfiguration) {
         appStatusStore.showLoadingQueue = config.isDev;
 
-        this.visualizationLinkService = new VisualizationLinkService(cityBuilderStore);
+        this.visualizationLinkService = new VisualizationLinkService(cityBuilderStore, sceneStore);
         this.communicator =
             new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
         this.legacyService =

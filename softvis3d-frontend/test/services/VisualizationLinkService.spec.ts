@@ -25,12 +25,14 @@ import {custom, defaultProfile} from "../../src/constants/Profiles";
 import {district, evostreet} from "../../src/constants/Layouts";
 import {EXPONENTIAL, LINEAR_SCALED} from "../../src/constants/Scales";
 import {coverageMetric, packageNameMetric} from "../../src/constants/Metrics";
+import {SceneStore} from "../../src/stores/SceneStore";
 
 describe("VisualizationLinkService", () => {
 
     it("Does nothing on empty string", () => {
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore);
+        let localSceneStore: SceneStore = new SceneStore();
+        let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore, localSceneStore);
 
         underTest.process("");
 
@@ -38,7 +40,9 @@ describe("VisualizationLinkService", () => {
     });
 
     it("Extracts the parameters properly", () => {
-        let underTest: VisualizationLinkService = new VisualizationLinkService(new CityBuilderStore());
+        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let localSceneStore: SceneStore = new SceneStore();
+        let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore, localSceneStore);
         let result: Parameters = underTest.getQueryParams("?test=123&test3=bla&metricWidth=13");
 
         expect(result.test).to.contain("123");
@@ -47,7 +51,9 @@ describe("VisualizationLinkService", () => {
     });
 
     it("Extracts the parameters properly on single property", () => {
-        let underTest: VisualizationLinkService = new VisualizationLinkService(new CityBuilderStore());
+        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let localSceneStore: SceneStore = new SceneStore();
+        let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore, localSceneStore);
         let result: Parameters = underTest.getQueryParams("?test=123");
 
         expect(result.test).to.contain("123");
@@ -55,7 +61,8 @@ describe("VisualizationLinkService", () => {
 
     it("Should initiate visualization if all values are set", () => {
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore);
+        let localSceneStore: SceneStore = new SceneStore();
+        let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore, localSceneStore);
 
         let initialMetrics: Metric[] = [];
         let metricFootprint = new Metric("123", "INT", "siuhf");
@@ -64,7 +71,9 @@ describe("VisualizationLinkService", () => {
         initialMetrics.push(metricHeight);
         testCityBuilderStore.genericMetrics.addMetrics(initialMetrics);
 
-        underTest.process("?metricFootprint=123&metricHeight=13&layout=district&scale=exponential&metricColor=coverage");
+        let expectedSelectedObjectId: string = "123453";
+        underTest.process("?metricFootprint=123&metricHeight=13&layout=district&scale=exponential&metricColor=coverage" +
+            "&selectedObjectId=" + expectedSelectedObjectId);
 
         expect(testCityBuilderStore.profile).to.be.eq(custom);
         expect(testCityBuilderStore.profile.footprint).to.be.eq(metricFootprint);
@@ -73,13 +82,16 @@ describe("VisualizationLinkService", () => {
         expect(testCityBuilderStore.layout).to.be.eq(district);
         expect(testCityBuilderStore.profile.scale).to.be.eq(EXPONENTIAL);
 
+        expect(localSceneStore.selectedObjectId).to.be.eq(expectedSelectedObjectId);
+
         expect(testCityBuilderStore.show).to.be.eq(false);
         expect(testCityBuilderStore.initiateBuildProcess).to.be.eq(true);
     });
 
     it("Should initiate visualization if all values are set - other settings", () => {
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore);
+        let localSceneStore: SceneStore = new SceneStore();
+        let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore, localSceneStore);
 
         let initialMetrics: Metric[] = [];
         let metricFootprint = new Metric("123", "INT", "siuhf");
@@ -101,11 +113,12 @@ describe("VisualizationLinkService", () => {
         expect(testCityBuilderStore.initiateBuildProcess).to.be.eq(true);
     });
 
-    it("Extracts the parameters properly on single property", () => {
+    it("Extracts the parameters properly for mandatory params", () => {
         let localCityBuilderStore = new CityBuilderStore();
+        let localSceneStore: SceneStore = new SceneStore();
         localCityBuilderStore.profile = defaultProfile;
 
-        let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore);
+        let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
         let result = underTest.createVisualizationLink();
 
@@ -113,11 +126,29 @@ describe("VisualizationLinkService", () => {
             "?metricFootprint=complexity&metricHeight=ncloc&metricColor=none&layout=evostreet&scale=logarithmic");
     });
 
-    it("Visualization link based on already existing params", () => {
+    it("Extracts the parameters properly with all optional params", () => {
         let localCityBuilderStore = new CityBuilderStore();
+        let localSceneStore: SceneStore = new SceneStore();
         localCityBuilderStore.profile = defaultProfile;
 
-        let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore);
+        let expectedSelectedObjectId: string = "123453";
+        localSceneStore.selectedObjectId = expectedSelectedObjectId;
+
+        let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
+
+        let result = underTest.createVisualizationLink();
+
+        expect(result).to.contain(
+            "?metricFootprint=complexity&metricHeight=ncloc&metricColor=none&layout=evostreet&scale=logarithmic" +
+            "&selectedObjectId=" + expectedSelectedObjectId);
+    });
+
+    it("Visualization link based on already existing params", () => {
+        let localCityBuilderStore = new CityBuilderStore();
+        let localSceneStore: SceneStore = new SceneStore();
+        localCityBuilderStore.profile = defaultProfile;
+
+        let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
         let href: string = "http://localhost:9000/plugins/resource/rinderle%3AklamottenwetterWeb?page=SoftVis3D";
 

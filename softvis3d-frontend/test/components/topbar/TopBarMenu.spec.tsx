@@ -4,12 +4,14 @@ import {shallow} from "enzyme";
 import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
 import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
 import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
+import {SceneStore} from "../../../src/stores/SceneStore";
 
 describe("<TopBarMenu/>", () => {
 
     it("should show settings button", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore);
+        let localSceneStore: SceneStore = new SceneStore();
+        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
         localCityBuilderStore.show = false;
 

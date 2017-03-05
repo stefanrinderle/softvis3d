@@ -12,8 +12,8 @@ describe("<TopBar/>", () => {
 
     it("should show default text div on start", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore);
         let localSceneStore: SceneStore = new SceneStore();
+        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
         let selectedElement: TreeElement = createTestTreeElement();
 
         localSceneStore.legacyData = selectedElement;

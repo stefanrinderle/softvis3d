@@ -13,8 +13,8 @@ describe("<Visualization/>", () => {
 
     it("should not render any children, when no visualization (shapes) is ready", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore);
         let localSceneStore: SceneStore = new SceneStore();
+        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
         let parentId: string = "parentsduhfisdfuh";
         let expectedParentElement: TreeElement = createTestTreeElement(parentId);
@@ -45,8 +45,8 @@ describe("<Visualization/>", () => {
 
     it("should initialize all elements on start - shapes available but empty", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore);
         let localSceneStore: SceneStore = new SceneStore();
+        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
         let testId: string = "siudgffsiuhdsfiu2332";
         let expectedSelectedElement: TreeElement = createTestTreeElement(testId);

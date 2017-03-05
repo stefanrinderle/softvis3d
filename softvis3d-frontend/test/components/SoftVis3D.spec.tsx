@@ -16,7 +16,7 @@ describe("<SoftVis3D/>", () => {
     it("should draw all componenty on start", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore);
+        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         const softvis3d = shallow(
@@ -36,7 +36,7 @@ describe("<SoftVis3D/>", () => {
     it("should show loader on state change", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore);
+        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         localAppStatusStore.loadingQueue.add(new LoadAction("key", "eins"));
