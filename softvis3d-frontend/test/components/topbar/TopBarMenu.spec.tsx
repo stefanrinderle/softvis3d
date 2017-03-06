@@ -16,7 +16,7 @@ describe("<TopBarMenu/>", () => {
         localCityBuilderStore.show = false;
 
         const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore} 
+            <TopBarMenu cityBuilderStore={localCityBuilderStore}
                         visualizationLinkService={localVisualizationLinkService}/>
         );
 

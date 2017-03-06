@@ -69,15 +69,15 @@ describe("VisualizationLinkParams", () => {
         let pairs: Parameters = result.getKeyValuePairs();
 
         let expected: Parameters = {
-            "metricFootprint": "ncloc",
-            "metricHeight": "complexity",
-            "metricColor": "coverage",
-            "layout": "evostreet",
-            "scale": "logarithmic",
-            "cameraX": "0",
-            "cameraY": "1",
-            "cameraZ": "2",
-            "selectedObjectId": "123"
+            metricFootprint: "ncloc",
+            metricHeight: "complexity",
+            metricColor: "coverage",
+            layout: "evostreet",
+            scale: "logarithmic",
+            cameraX: "0",
+            cameraY: "1",
+            cameraZ: "2",
+            selectedObjectId: "123"
         };
 
         expect(JSON.stringify(pairs)).to.be.eq(JSON.stringify(expected));
@@ -99,14 +99,14 @@ describe("VisualizationLinkParams", () => {
         let pairs: Parameters = result.getKeyValuePairs();
 
         let expected: Parameters = {
-            "metricFootprint": "ncloc",
-            "metricHeight": "complexity",
-            "metricColor": "coverage",
-            "layout": "evostreet",
-            "scale": "logarithmic",
-            "cameraX": "0",
-            "cameraY": "1",
-            "cameraZ": "2"
+            metricFootprint: "ncloc",
+            metricHeight: "complexity",
+            metricColor: "coverage",
+            layout: "evostreet",
+            scale: "logarithmic",
+            cameraX: "0",
+            cameraY: "1",
+            cameraZ: "2"
         };
 
         expect(JSON.stringify(pairs)).to.be.eq(JSON.stringify(expected));

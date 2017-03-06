@@ -38,10 +38,10 @@ describe("SonarQubeMetricsService", () => {
 
         let expectedMetrics: SonarQubeApiMetric[] = [];
         expectedMetrics.push({
-           id: 123,
-           key: "ncloc",
-           type: "INT",
-           name: "lines of code"
+            id: 123,
+            key: "ncloc",
+            type: "INT",
+            name: "lines of code"
         });
 
         Sinon.stub(underTest, "callApi", () => {
@@ -138,7 +138,7 @@ describe("SonarQubeMetricsService", () => {
 
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif", testAppStatusStore, 
+        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif", testAppStatusStore,
             testCityBuilderStore);
 
         Sinon.stub(underTest, "callApi", () => {

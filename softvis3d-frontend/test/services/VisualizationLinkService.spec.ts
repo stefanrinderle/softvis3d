@@ -37,7 +37,7 @@ describe("VisualizationLinkService", () => {
         let localSceneStore: SceneStore = new SceneStore();
         let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore, localSceneStore);
 
-        let stub = Sinon.stub(UrlParameterService, 'getQueryParams').returns({});
+        let stub = Sinon.stub(UrlParameterService, "getQueryParams").returns({});
 
         underTest.process("");
 
@@ -62,16 +62,16 @@ describe("VisualizationLinkService", () => {
 
         let expectedSelectedObjectId: string = "123453";
 
-        let stub = Sinon.stub(UrlParameterService, 'getQueryParams').returns({
-            "metricFootprint": "123",
-            "metricHeight": "13",
-            "layout": "district",
-            "scale": "exponential",
-            "metricColor": "coverage",
-            "selectedObjectId": expectedSelectedObjectId,
-            "cameraX": "1",
-            "cameraY": "2",
-            "cameraZ": "3"
+        let stub = Sinon.stub(UrlParameterService, "getQueryParams").returns({
+            metricFootprint: "123",
+            metricHeight: "13",
+            layout: "district",
+            scale: "exponential",
+            metricColor: "coverage",
+            selectedObjectId: expectedSelectedObjectId,
+            cameraX: "1",
+            cameraY: "2",
+            cameraZ: "3"
         });
 
         // input for the method comes from UrlParameterService
@@ -113,15 +113,15 @@ describe("VisualizationLinkService", () => {
         initialMetrics.push(metricHeight);
         testCityBuilderStore.genericMetrics.addMetrics(initialMetrics);
 
-        let stub = Sinon.stub(UrlParameterService, 'getQueryParams').returns({
-            "metricFootprint": "13",
-            "metricHeight": "123",
-            "layout": "evostreet",
-            "scale": "linear_s",
-            "metricColor": "package",
-            "cameraX": "999",
-            "cameraY": "88.11",
-            "cameraZ": "333333.3300"
+        let stub = Sinon.stub(UrlParameterService, "getQueryParams").returns({
+            metricFootprint: "13",
+            metricHeight: "123",
+            layout: "evostreet",
+            scale: "linear_s",
+            metricColor: "package",
+            cameraX: "999",
+            cameraY: "88.11",
+            cameraZ: "333333.3300"
         });
 
         // input for the method comes from UrlParameterService
@@ -160,19 +160,19 @@ describe("VisualizationLinkService", () => {
 
         let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
-        let stub = Sinon.stub(UrlParameterService, 'createVisualizationLinkForCurrentUrl').returns("abc");
+        let stub = Sinon.stub(UrlParameterService, "createVisualizationLinkForCurrentUrl").returns("abc");
 
         let result = underTest.createVisualizationLink();
 
         assert(stub.calledWithExactly(document.location.href, {
-            "metricFootprint": "complexity",
-            "metricHeight": "ncloc",
-            "metricColor": "none",
-            "layout": "evostreet",
-            "scale": "logarithmic",
-            "cameraX": "1",
-            "cameraY": "2",
-            "cameraZ": "3"
+            metricFootprint: "complexity",
+            metricHeight: "ncloc",
+            metricColor: "none",
+            layout: "evostreet",
+            scale: "logarithmic",
+            cameraX: "1",
+            cameraY: "2",
+            cameraZ: "3"
         }));
 
         expect(result).to.contain("abc");
@@ -192,20 +192,20 @@ describe("VisualizationLinkService", () => {
 
         let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
-        let stub = Sinon.stub(UrlParameterService, 'createVisualizationLinkForCurrentUrl').returns("abc");
+        let stub = Sinon.stub(UrlParameterService, "createVisualizationLinkForCurrentUrl").returns("abc");
 
         let result = underTest.createVisualizationLink();
 
         assert(stub.calledWithExactly(document.location.href, {
-            "metricFootprint": "complexity",
-            "metricHeight": "ncloc",
-            "metricColor": "none",
-            "layout": "evostreet",
-            "scale": "logarithmic",
-            "cameraX": "1",
-            "cameraY": "2",
-            "cameraZ": "3",
-            "selectedObjectId": expectedSelectedObjectId
+            metricFootprint: "complexity",
+            metricHeight: "ncloc",
+            metricColor: "none",
+            layout: "evostreet",
+            scale: "logarithmic",
+            cameraX: "1",
+            cameraY: "2",
+            cameraZ: "3",
+            selectedObjectId: expectedSelectedObjectId
         }));
 
         expect(result).to.contain("abc");
@@ -219,8 +219,8 @@ describe("VisualizationLinkService", () => {
 
         let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
-        expect(function(){
-            underTest.createVisualizationLink()
+        expect(() => {
+            underTest.createVisualizationLink();
         }).to.throw("this.sceneStore.cameraPosition is undefined or null on createVisualizationLink");
     });
 });
