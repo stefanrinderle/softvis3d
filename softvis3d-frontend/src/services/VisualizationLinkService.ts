@@ -10,10 +10,7 @@ import {Layouts} from "../constants/Layouts";
 import VisualizationLinkParams from "../classes/VisualizationLinkParams";
 import {SceneStore} from "../stores/SceneStore";
 import {Vector3} from "three";
-
-export interface Parameters {
-    [id: string]: string;
-}
+import {Parameters, default as UrlParameterService} from "./UrlParameterService";
 
 export default class VisualizationLinkService {
 
@@ -26,7 +23,7 @@ export default class VisualizationLinkService {
     }
 
     public process(search: string) {
-        let params: Parameters = this.getQueryParams(search);
+        let params: Parameters = UrlParameterService.getQueryParams(search);
 
         let metricFootprint: Metric | undefined =
             this.cityBuilderStore.genericMetrics.getMetricByKey(params.metricFootprint);
@@ -46,54 +43,30 @@ export default class VisualizationLinkService {
             layout !== undefined && scale !== undefined && cameraPosition !== undefined) {
 
             let visualizationLinkParams: VisualizationLinkParams =
-                new VisualizationLinkParams(metricFootprint, metricHeight, metricColor, layout, scale);
+                new VisualizationLinkParams(metricFootprint, metricHeight, metricColor, layout, scale,
+                                            selectedObjectId, cameraPosition);
 
             this.applyParams(visualizationLinkParams);
-            this.sceneStore.selectedObjectId = selectedObjectId;
-            this.sceneStore.cameraPosition = cameraPosition;
 
             this.cityBuilderStore.show = false;
             this.cityBuilderStore.initiateBuildProcess = true;
         }
     }
 
-    /**
-     * public for unit tests
-     */
-    public getQueryParams(qs: string): Parameters {
-        qs = qs.split("+").join(" ");
-
-        let params: Parameters = {};
-        let tokens: RegExpExecArray | null;
-        let re: RegExp = /[?&]?([^=]+)=([^&]*)/g;
-
-        while (tokens = re.exec(qs)) {
-            params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+    public createVisualizationLink(): string {
+        if (!this.sceneStore.cameraPosition) {
+            throw new Error("this.sceneStore.cameraPosition is undefined or null on createVisualizationLink");
         }
 
-        return params;
-    }
-
-    public createVisualizationLink(): string {
         let visualizationLinkParams: VisualizationLinkParams =
             new VisualizationLinkParams(this.cityBuilderStore.profile.footprint,
                 this.cityBuilderStore.profile.height, this.cityBuilderStore.metricColor,
-                this.cityBuilderStore.layout, this.cityBuilderStore.profile.scale);
+                this.cityBuilderStore.layout, this.cityBuilderStore.profile.scale,
+                this.sceneStore.selectedObjectId, this.sceneStore.cameraPosition);
 
         let params: Parameters = visualizationLinkParams.getKeyValuePairs();
-        this.addCameraPosition(params);
-        this.addOptionalSelectObjectId(params);
 
-        return this.createVisualizationLinkForCurrentUrl(document.location.href, params);
-    }
-
-    /**
-     * public for unit tests
-     */
-    public createVisualizationLinkForCurrentUrl(href: string, params: Parameters): string {
-        let urlContainsParams: boolean = href.indexOf("?") >= 0;
-
-        return href + this.createUrlParameterList(params, urlContainsParams);
+        return UrlParameterService.createVisualizationLinkForCurrentUrl(document.location.href, params);
     }
 
     private getCameraPosition(params: Parameters): Vector3 | undefined {
@@ -111,43 +84,9 @@ export default class VisualizationLinkService {
         this.cityBuilderStore.metricColor = visualizationLinkParams.metricColor;
         this.cityBuilderStore.profile.scale = visualizationLinkParams.scale;
         this.cityBuilderStore.layout = visualizationLinkParams.layout;
+
+        this.sceneStore.selectedObjectId = visualizationLinkParams.selectedObjectId;
+        this.sceneStore.cameraPosition = visualizationLinkParams.cameraPosition;
     }
 
-    private createUrlParameterList(parameters: Parameters, urlContainsParams: boolean) {
-        let result: string;
-
-        if (urlContainsParams) {
-            result = "&";
-        } else {
-            result = "?";
-        }
-
-        for (let key in parameters) {
-            if (parameters[key]) {
-                result += key + "=" + parameters[key] + "&";
-            }
-        }
-
-        return result.substr(0, result.length - 1);
-    }
-
-    private addCameraPosition(params: Parameters) {
-        if (this.sceneStore.cameraPosition) {
-            params = Object.assign(params, {
-                cameraX: Math.round(this.sceneStore.cameraPosition.x),
-                cameraY: Math.round(this.sceneStore.cameraPosition.y),
-                cameraZ: Math.round(this.sceneStore.cameraPosition.z)
-            });
-        }
-        return params;
-    }
-
-    private addOptionalSelectObjectId(params: Parameters) {
-        if (this.sceneStore.selectedObjectId) {
-            params = Object.assign(params, {
-                selectedObjectId: this.sceneStore.selectedObjectId
-            });
-        }
-        return params;
-    }
 }

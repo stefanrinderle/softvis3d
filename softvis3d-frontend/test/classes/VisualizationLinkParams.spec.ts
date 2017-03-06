@@ -17,7 +17,7 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect, assert} from "chai";
+import {expect} from "chai";
 import Layout from "../../src/classes/Layout";
 import {evostreet} from "../../src/constants/Layouts";
 import Scale from "../../src/classes/Scale";
@@ -26,7 +26,8 @@ import Metric from "../../src/classes/Metric";
 import {Scales} from "../../src/constants/Scales";
 import ColorMetric from "../../src/classes/ColorMetric";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
-import {Parameters} from "../../src/services/VisualizationLinkService";
+import {Parameters} from "../../src/services/UrlParameterService";
+import {Vector3} from "three";
 
 describe("VisualizationLinkParams", () => {
 
@@ -36,15 +37,20 @@ describe("VisualizationLinkParams", () => {
         let metricColor: ColorMetric = coverageMetric;
         let scalingMethod: Scale = Scales.availableScales[0];
         let layout: Layout = evostreet;
+        let selectedObjectId: string = "123";
+        let cameraPosition: Vector3 = new Vector3(0, 1, 2);
 
         let result: VisualizationLinkParams =
-            new VisualizationLinkParams(metricFootprint, metricHeight, metricColor, layout, scalingMethod);
+            new VisualizationLinkParams(metricFootprint, metricHeight, metricColor, layout, scalingMethod,
+                                        selectedObjectId, cameraPosition);
 
         expect(result.layout).to.be.eq(layout);
         expect(result.metricFootprint).to.be.eq(metricFootprint);
         expect(result.metricHeight).to.be.eq(metricHeight);
         expect(result.metricColor).to.be.eq(metricColor);
         expect(result.scale).to.be.eq(scalingMethod);
+        expect(result.selectedObjectId).to.be.eq(selectedObjectId);
+        expect(result.cameraPosition).to.be.eq(cameraPosition);
     });
 
     it("should create default config", () => {
@@ -53,19 +59,57 @@ describe("VisualizationLinkParams", () => {
         let metricColor: ColorMetric = coverageMetric;
         let scalingMethod: Scale = Scales.availableScales[0];
         let layout: Layout = evostreet;
+        let selectedObjectId: string = "123";
+        let cameraPosition: Vector3 = new Vector3(0.34, 1.23, 2);
 
         let result: VisualizationLinkParams =
-            new VisualizationLinkParams(metricHeight, metricWidth, metricColor, layout, scalingMethod);
+            new VisualizationLinkParams(metricHeight, metricWidth, metricColor, layout, scalingMethod,
+                                        selectedObjectId, cameraPosition);
 
         let pairs: Parameters = result.getKeyValuePairs();
 
-        for (let key in pairs) {
-            if (pairs[key]) {
-                expect(pairs[key]).not.to.be.null;
-            } else {
-                assert.fail();
-            }
-        }
+        let expected: Parameters = {
+            "metricFootprint": "ncloc",
+            "metricHeight": "complexity",
+            "metricColor": "coverage",
+            "layout": "evostreet",
+            "scale": "logarithmic",
+            "cameraX": "0",
+            "cameraY": "1",
+            "cameraZ": "2",
+            "selectedObjectId": "123"
+        };
+
+        expect(JSON.stringify(pairs)).to.be.eq(JSON.stringify(expected));
+    });
+
+    it("should create only mandatory", () => {
+        let metricWidth: Metric = complexityMetric;
+        let metricHeight: Metric = linesOfCodeMetric;
+        let metricColor: ColorMetric = coverageMetric;
+        let scalingMethod: Scale = Scales.availableScales[0];
+        let layout: Layout = evostreet;
+        let selectedObjectId: string | null = null;
+        let cameraPosition: Vector3 = new Vector3(0.34, 1.23, 2);
+
+        let result: VisualizationLinkParams =
+            new VisualizationLinkParams(metricHeight, metricWidth, metricColor, layout, scalingMethod,
+                selectedObjectId, cameraPosition);
+
+        let pairs: Parameters = result.getKeyValuePairs();
+
+        let expected: Parameters = {
+            "metricFootprint": "ncloc",
+            "metricHeight": "complexity",
+            "metricColor": "coverage",
+            "layout": "evostreet",
+            "scale": "logarithmic",
+            "cameraX": "0",
+            "cameraY": "1",
+            "cameraZ": "2"
+        };
+
+        expect(JSON.stringify(pairs)).to.be.eq(JSON.stringify(expected));
     });
 
 });

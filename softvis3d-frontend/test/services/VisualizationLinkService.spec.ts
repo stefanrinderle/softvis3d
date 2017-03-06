@@ -17,9 +17,9 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
+import {expect, assert} from "chai";
 import {Vector3} from "three";
-import VisualizationLinkService, {Parameters} from "../../src/services/VisualizationLinkService";
+import VisualizationLinkService from "../../src/services/VisualizationLinkService";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import Metric from "../../src/classes/Metric";
 import {custom, defaultProfile} from "../../src/constants/Profiles";
@@ -27,6 +27,8 @@ import {district, evostreet} from "../../src/constants/Layouts";
 import {EXPONENTIAL, LINEAR_SCALED} from "../../src/constants/Scales";
 import {coverageMetric, packageNameMetric} from "../../src/constants/Metrics";
 import {SceneStore} from "../../src/stores/SceneStore";
+import * as Sinon from "sinon";
+import UrlParameterService from "../../src/services/UrlParameterService";
 
 describe("VisualizationLinkService", () => {
 
@@ -35,29 +37,15 @@ describe("VisualizationLinkService", () => {
         let localSceneStore: SceneStore = new SceneStore();
         let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore, localSceneStore);
 
+        let stub = Sinon.stub(UrlParameterService, 'getQueryParams').returns({});
+
         underTest.process("");
 
+        assert(stub.calledWithExactly(""));
+
         expect(testCityBuilderStore.initiateBuildProcess).to.be.eq(false);
-    });
 
-    it("Extracts the parameters properly", () => {
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
-        let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore, localSceneStore);
-        let result: Parameters = underTest.getQueryParams("?test=123&test3=bla&metricWidth=13");
-
-        expect(result.test).to.contain("123");
-        expect(result.test3).to.contain("bla");
-        expect(result.metricWidth).to.contain("13");
-    });
-
-    it("Extracts the parameters properly on single property", () => {
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
-        let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore, localSceneStore);
-        let result: Parameters = underTest.getQueryParams("?test=123");
-
-        expect(result.test).to.contain("123");
+        stub.restore();
     });
 
     it("Should initiate visualization if all values are set", () => {
@@ -73,8 +61,23 @@ describe("VisualizationLinkService", () => {
         testCityBuilderStore.genericMetrics.addMetrics(initialMetrics);
 
         let expectedSelectedObjectId: string = "123453";
-        underTest.process("?metricFootprint=123&metricHeight=13&layout=district&scale=exponential&metricColor=coverage" +
-            "&selectedObjectId=" + expectedSelectedObjectId + "&cameraX=1&cameraY=2&cameraZ=3");
+
+        let stub = Sinon.stub(UrlParameterService, 'getQueryParams').returns({
+            "metricFootprint": "123",
+            "metricHeight": "13",
+            "layout": "district",
+            "scale": "exponential",
+            "metricColor": "coverage",
+            "selectedObjectId": expectedSelectedObjectId,
+            "cameraX": "1",
+            "cameraY": "2",
+            "cameraZ": "3"
+        });
+
+        // input for the method comes from UrlParameterService
+        underTest.process("abc");
+
+        assert(stub.calledWithExactly("abc"));
 
         expect(testCityBuilderStore.profile).to.be.eq(custom);
         expect(testCityBuilderStore.profile.footprint).to.be.eq(metricFootprint);
@@ -94,6 +97,8 @@ describe("VisualizationLinkService", () => {
 
         expect(testCityBuilderStore.show).to.be.eq(false);
         expect(testCityBuilderStore.initiateBuildProcess).to.be.eq(true);
+
+        stub.restore();
     });
 
     it("Should initiate visualization if all values are set - other settings", () => {
@@ -108,8 +113,21 @@ describe("VisualizationLinkService", () => {
         initialMetrics.push(metricHeight);
         testCityBuilderStore.genericMetrics.addMetrics(initialMetrics);
 
-        underTest.process("?metricFootprint=13&metricHeight=123&layout=evostreet&scale=linear_s&metricColor=package" +
-            "&cameraX=999&cameraY=88.11&cameraZ=333333.3300");
+        let stub = Sinon.stub(UrlParameterService, 'getQueryParams').returns({
+            "metricFootprint": "13",
+            "metricHeight": "123",
+            "layout": "evostreet",
+            "scale": "linear_s",
+            "metricColor": "package",
+            "cameraX": "999",
+            "cameraY": "88.11",
+            "cameraZ": "333333.3300"
+        });
+
+        // input for the method comes from UrlParameterService
+        underTest.process("abc");
+
+        assert(stub.calledWithExactly("abc"));
 
         expect(testCityBuilderStore.profile).to.be.eq(custom);
         expect(testCityBuilderStore.profile.footprint).to.be.eq(metricHeight);
@@ -128,6 +146,8 @@ describe("VisualizationLinkService", () => {
 
         expect(testCityBuilderStore.show).to.be.eq(false);
         expect(testCityBuilderStore.initiateBuildProcess).to.be.eq(true);
+
+        stub.restore();
     });
 
     it("Extracts the parameters properly for mandatory params", () => {
@@ -140,11 +160,24 @@ describe("VisualizationLinkService", () => {
 
         let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
+        let stub = Sinon.stub(UrlParameterService, 'createVisualizationLinkForCurrentUrl').returns("abc");
+
         let result = underTest.createVisualizationLink();
 
-        expect(result).to.contain(
-            "?metricFootprint=complexity&metricHeight=ncloc&metricColor=none&layout=evostreet&scale=logarithmic" +
-            "&cameraX=1&cameraY=2&cameraZ=3");
+        assert(stub.calledWithExactly(document.location.href, {
+            "metricFootprint": "complexity",
+            "metricHeight": "ncloc",
+            "metricColor": "none",
+            "layout": "evostreet",
+            "scale": "logarithmic",
+            "cameraX": "1",
+            "cameraY": "2",
+            "cameraZ": "3"
+        }));
+
+        expect(result).to.contain("abc");
+
+        stub.restore();
     });
 
     it("Extracts the parameters properly with all optional params", () => {
@@ -159,30 +192,35 @@ describe("VisualizationLinkService", () => {
 
         let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
+        let stub = Sinon.stub(UrlParameterService, 'createVisualizationLinkForCurrentUrl').returns("abc");
+
         let result = underTest.createVisualizationLink();
 
-        expect(result).to.contain(
-            "?metricFootprint=complexity&metricHeight=ncloc&metricColor=none&layout=evostreet&scale=logarithmic" +
-            "&cameraX=1&cameraY=2&cameraZ=3&selectedObjectId=" + expectedSelectedObjectId);
+        assert(stub.calledWithExactly(document.location.href, {
+            "metricFootprint": "complexity",
+            "metricHeight": "ncloc",
+            "metricColor": "none",
+            "layout": "evostreet",
+            "scale": "logarithmic",
+            "cameraX": "1",
+            "cameraY": "2",
+            "cameraZ": "3",
+            "selectedObjectId": expectedSelectedObjectId
+        }));
+
+        expect(result).to.contain("abc");
+
+        stub.restore();
     });
 
-    it("Visualization link based on already existing params", () => {
+    it("Should throw error if no camera position is set.", () => {
         let localCityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
-        localCityBuilderStore.profile = defaultProfile;
 
         let underTest: VisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
-        let href: string = "http://localhost:9000/plugins/resource/rinderle%3AklamottenwetterWeb?page=SoftVis3D";
-
-        let params: Parameters = {
-            test1: "test1Value",
-            test2: "test2Value"
-        };
-        let result = underTest.createVisualizationLinkForCurrentUrl(href, params);
-
-        expect(result).to.be.eq("http://localhost:9000/plugins/resource/rinderle%3AklamottenwetterWeb" +
-            "?page=SoftVis3D&test1=test1Value&test2=test2Value");
+        expect(function(){
+            underTest.createVisualizationLink()
+        }).to.throw("this.sceneStore.cameraPosition is undefined or null on createVisualizationLink");
     });
-
 });
