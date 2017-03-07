@@ -87,12 +87,12 @@ export default class SoftVis3dScene {
     public loadSoftVis3d(shapes: SoftVis3dShape[], cameraPosition?: Vector3) {
         this.wrangler.loadSoftVis3d(shapes);
 
-        if (cameraPosition) {
-            this.setCameraTo(cameraPosition);
-        } else {
+        if (!cameraPosition) {
             let platformDimension: Dimension = this.findMaxDimension(shapes);
-            this.setCameraTo(new Vector3(0, platformDimension._length * 0.7, platformDimension._width * 0.7));
+            cameraPosition = new Vector3(0, platformDimension._length * 0.7, platformDimension._width * 0.7);
         }
+
+        this.setCameraTo(cameraPosition);
     }
 
     public updateColorsWithUpdatedShapes(shapes: SoftVis3dShape[]) {

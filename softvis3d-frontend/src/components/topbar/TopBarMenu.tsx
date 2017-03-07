@@ -2,6 +2,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import VisualizationLinkService from "../../services/VisualizationLinkService";
+import TopBarShareButton from "./TopBarShareButton";
 
 interface TopBarMenuProbs {
     cityBuilderStore: CityBuilderStore;
@@ -9,12 +10,13 @@ interface TopBarMenuProbs {
 }
 
 @observer
-export default class TopBarMenu extends React.Component<TopBarMenuProbs, any> {
+export default class TopBarMenu extends React.Component<TopBarMenuProbs, undefined> {
 
     public render() {
         return (
             <div className="top-bar-menu">
                 <button
+                    id="settings-button"
                     className="left"
                     onClick={this.showBuilder.bind(this)}
                     disabled={this.props.cityBuilderStore.show}
@@ -22,19 +24,16 @@ export default class TopBarMenu extends React.Component<TopBarMenuProbs, any> {
                     Settings
                 </button>
                 <button
+                    id="help-button"
                     className="middle"
                     onClick={this.openHelp.bind(this)}
                 >
                     Help
                 </button>
+                <TopBarShareButton show={this.props.cityBuilderStore.show}
+                                   visualizationLinkService={this.props.visualizationLinkService}/>
                 <button
-                    className="middle"
-                    onClick={this.createVisualizationLink.bind(this)}
-                    disabled={this.props.cityBuilderStore.show}
-                >
-                    Share
-                </button>
-                <button
+                    id="feedback-button"
                     className="right"
                     onClick={this.openFeedback.bind(this)}
                 >
@@ -56,7 +55,4 @@ export default class TopBarMenu extends React.Component<TopBarMenuProbs, any> {
         window.open("http://softvis3d.com/#/feedback");
     }
 
-    private createVisualizationLink() {
-        alert(this.props.visualizationLinkService.createVisualizationLink());
-    }
 }

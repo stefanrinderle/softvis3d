@@ -61,4 +61,15 @@ describe("UrlParameterService", () => {
         expect(result).to.be.eq("http://localhost:8080?test1=test1Value&test2=test2Value");
     });
 
+    it("Visualization link should override properties", () => {
+        let href: string = "http://localhost:8080?test1=YYY&test2=XXX";
+
+        let params: Parameters = {
+            test1: "test1Value",
+            test2: "test2Value"
+        };
+        let result = UrlParameterService.createVisualizationLinkForCurrentUrl(href, params);
+
+        expect(result).to.be.eq("http://localhost:8080?test1=test1Value&test2=test2Value");
+    });
 });

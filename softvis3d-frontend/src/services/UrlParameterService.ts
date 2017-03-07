@@ -4,9 +4,6 @@ export interface Parameters {
 
 export default class UrlParameterService {
 
-    /**
-     * public for unit tests
-     */
     public static getQueryParams(qs: string): Parameters {
         qs = qs.split("+").join(" ");
 
@@ -21,24 +18,23 @@ export default class UrlParameterService {
         return params;
     }
 
-    /**
-     * public for unit tests
-     */
     public static createVisualizationLinkForCurrentUrl(href: string, params: Parameters): string {
-        let urlContainsParams: boolean = href.indexOf("?") >= 0;
+        let paramsStartPosition: number = href.indexOf("?");
 
-        return href + this.createUrlParameterList(params, urlContainsParams);
-    }
+        let hrefParamsPart: string = href.substr(paramsStartPosition, href.length);
+        let hrefParams: Parameters = this.getQueryParams(hrefParamsPart);
 
-    private static createUrlParameterList(parameters: Parameters, urlContainsParams: boolean): string {
-        let result: string;
-
-        if (urlContainsParams) {
-            result = "&";
-        } else {
-            result = "?";
+        if (paramsStartPosition >= 0) {
+            href = href.substr(0, href.indexOf("?"));
         }
 
+        return href + this.createUrlParameterList(hrefParams, params);
+    }
+
+    private static createUrlParameterList(existingParameters: Parameters, parameters: Parameters): string {
+        parameters = Object.assign(existingParameters, parameters);
+
+        let result: string = "?";
         for (let key in parameters) {
             if (parameters[key]) {
                 result += key + "=" + parameters[key] + "&";

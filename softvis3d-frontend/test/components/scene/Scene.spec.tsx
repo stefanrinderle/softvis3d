@@ -33,6 +33,15 @@ describe("<Scene/>", () => {
         underTest.props = {
             sceneStore: localSceneStore
         };
+
+        let camera: PerspectiveCamera = new PerspectiveCamera();
+        camera.position.x = 0;
+        camera.position.y = 0;
+        camera.position.z = 0;
+        Sinon.stub(scenePainter, "getCamera", () => {
+            return camera;
+        });
+
         underTest.componentDidMount();
 
         expect(localSceneStore.refreshScene).to.be.true;
@@ -51,6 +60,14 @@ describe("<Scene/>", () => {
         mockScenePainter.expects("selectSceneTreeObject").once();
         let mockScenePainterInit = Sinon.mock(scenePainter);
         mockScenePainterInit.expects("init").once();
+
+        let camera: PerspectiveCamera = new PerspectiveCamera();
+        camera.position.x = 0;
+        camera.position.y = 0;
+        camera.position.z = 0;
+        Sinon.stub(scenePainter, "getCamera", () => {
+            return camera;
+        });
 
         let underTest: Scene = new Scene();
         underTest.props = {

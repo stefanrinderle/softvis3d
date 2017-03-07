@@ -28,6 +28,8 @@ export default class Scene extends React.Component<SceneProps, any> {
         if (this.props.sceneStore.selectedObjectId) {
             this.props.sceneStore.scenePainter.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
         }
+
+        this.updateCameraPosition();
     }
 
     public componentWillUnmount() {
