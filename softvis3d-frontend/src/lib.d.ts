@@ -47,6 +47,7 @@ interface MeasureList {
 
 declare interface TreeElement {
     id: string;
+    key?: string;
     name: string;
     isNode: boolean;
 

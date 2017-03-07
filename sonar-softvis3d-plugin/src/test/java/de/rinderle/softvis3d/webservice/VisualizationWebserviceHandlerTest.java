@@ -95,10 +95,10 @@ public class VisualizationWebserviceHandlerTest {
 
   private RootTreeNode mockPreProcessing() {
     final RootTreeNode rootTreeNode = new RootTreeNode("1");
-    rootTreeNode.getChildren().put("2", new ValueTreeNode("2", rootTreeNode, 1, TreeNodeType.TREE, "2",
-        Collections.emptyMap()));
-    rootTreeNode.getChildren().put("3", new ValueTreeNode("3", rootTreeNode, 1, TreeNodeType.TREE, "3",
-        Collections.emptyMap()));
+    rootTreeNode.getChildren().put("2", new ValueTreeNode("2", "2", rootTreeNode, 1, TreeNodeType.TREE, "2",
+      Collections.emptyMap()));
+    rootTreeNode.getChildren().put("3", new ValueTreeNode("3", "3", rootTreeNode, 1, TreeNodeType.TREE, "3",
+      Collections.emptyMap()));
 
     when(preProcessor.process(any(LocalConnector.class), any(VisualizationRequest.class))).thenReturn(rootTreeNode);
 

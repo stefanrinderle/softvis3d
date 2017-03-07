@@ -16,8 +16,9 @@ $content-height: 32px;
     }
 
     .selected-element-info {
+        float: left;
         height: $content-height;
-        margin-right: 295px;
+        margin-right: 25px;
         background: no-repeat 8px 45%;
         background-size: 20px;
         &.leaf {
@@ -28,10 +29,9 @@ $content-height: 32px;
         }
 
         .element-name {
-            margin: 6px 60px 0 34px;
+            margin: 6px 0 0 34px;
             height: ($content-height - 8px);
             float: left;
-            min-width: 400px;
             max-width: 600px;
             overflow: hidden;
 
@@ -40,15 +40,15 @@ $content-height: 32px;
         }
     }
 
+    .info-buttons {
+        padding: (($content-height - 26px)/2) 0;
+    }
+
     .top-bar-menu {
         float: right;
         width: 291px;
         text-align: center;
         padding: (($content-height - 26px)/2) 0;
-
-        button {
-            @include softvis-button;
-        }
 
         .dropdown {
             $dropdown-width: 132px;
@@ -77,5 +77,9 @@ $content-height: 32px;
                 }
             }
         }
+    }
+
+    button {
+        @include softvis-button;
     }
 }

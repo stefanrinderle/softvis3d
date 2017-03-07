@@ -23,13 +23,19 @@ import java.util.Map;
 
 public class ValueTreeNode extends TreeNode {
 
+  private final String key;
   private final Map<String, Double> metrics;
 
-  public ValueTreeNode(final String id, final TreeNode parent, final int depth, final TreeNodeType type,
+  public ValueTreeNode(final String id, final String key, final TreeNode parent, final int depth, final TreeNodeType type,
     final String name, Map<String, Double> metrics) {
     super(id, parent, depth, type, name);
 
+    this.key = key;
     this.metrics = metrics;
+  }
+
+  public String getKey() {
+    return key;
   }
 
   public Map<String, Double> getMetrics() {

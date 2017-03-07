@@ -39,7 +39,7 @@ public class TreeNodeJsonWriter {
     jsonWriter.prop("id", node.getId());
     jsonWriter.prop("name", node.getName());
     jsonWriter.prop("isNode", node.isNode());
-    optionalTransformMetricValues(jsonWriter, node);
+    addValueTreeNodeValues(jsonWriter, node);
 
     final TreeNode parent = node.getParent();
     if (parent != null) {
@@ -51,9 +51,11 @@ public class TreeNodeJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void optionalTransformMetricValues(final SoftVis3dJsonWriter jsonWriter, final TreeNode node) {
+  private void addValueTreeNodeValues(final SoftVis3dJsonWriter jsonWriter, final TreeNode node) {
     if (node instanceof ValueTreeNode) {
       final ValueTreeNode valueNode = (ValueTreeNode) node;
+
+      jsonWriter.prop("key", valueNode.getKey());
 
       jsonWriter.name("measures");
       jsonWriter.beginObject();

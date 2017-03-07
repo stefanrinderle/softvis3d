@@ -56,14 +56,14 @@ public class TreeNodeJsonWriterTest {
     final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
     final RootTreeNode treeNode1 = new RootTreeNode("1");
-    TestTreeBuilder.createValueTreeNode("2", treeNode1, 1);
-    TestTreeBuilder.createValueTreeNode("3", treeNode1, 2);
+    TestTreeBuilder.createValueTreeNode("2", "2", treeNode1, 1);
+    TestTreeBuilder.createValueTreeNode("3", "3", treeNode1, 2);
 
     underTest.transformRootTreeToJson(jsonWriter, treeNode1);
 
     jsonWriter.close();
 
-    final String expectedResult = "{\"id\":\"1\",\"name\":\"root\",\"isNode\":true,\"children\":[{\"id\":\"2\",\"name\":\"2\",\"isNode\":false,\"measures\":{\"complexity\":1.0,\"ncloc\":12.32},\"parentId\":\"1\",\"children\":[]},{\"id\":\"3\",\"name\":\"3\",\"isNode\":false,\"measures\":{\"complexity\":1.0,\"ncloc\":12.32},\"parentId\":\"1\",\"children\":[]}]}";
+    final String expectedResult = "{\"id\":\"1\",\"name\":\"root\",\"isNode\":true,\"children\":[{\"id\":\"2\",\"name\":\"2\",\"isNode\":false,\"key\":\"2\",\"measures\":{\"complexity\":1.0,\"ncloc\":12.32},\"parentId\":\"1\",\"children\":[]},{\"id\":\"3\",\"name\":\"3\",\"isNode\":false,\"key\":\"3\",\"measures\":{\"complexity\":1.0,\"ncloc\":12.32},\"parentId\":\"1\",\"children\":[]}]}";
 
     assertEquals(expectedResult, stringOutputStream.toString());
   }

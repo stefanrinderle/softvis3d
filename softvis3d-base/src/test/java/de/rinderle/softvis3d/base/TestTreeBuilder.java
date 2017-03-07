@@ -28,11 +28,12 @@ import java.util.Map;
 
 public class TestTreeBuilder {
 
-  public static TreeNode createValueTreeNode(final String id, final TreeNode parent, final int depth) {
+  public static TreeNode createValueTreeNode(final String id, final String key, final TreeNode parent, final int
+    depth) {
     final Map<String, Double> metrics = new HashMap<>();
     metrics.put("ncloc", 12.32);
     metrics.put("complexity", 1.0);
-    final ValueTreeNode result = new ValueTreeNode(id, parent, depth,
+    final ValueTreeNode result = new ValueTreeNode(id, key, parent, depth,
         TreeNodeType.TREE, id, metrics);
 
     parent.addChildrenNode(id, result);
