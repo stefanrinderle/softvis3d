@@ -38,10 +38,9 @@ describe("ClipBoardService", () => {
         try {
             ClipBoardService.copyTextToClipboard("expectedTestText");
             expect(true).to.be.false;
-        } catch(error) {
+        } catch (error) {
             // did not get this work without the exception. But its ok for the test.
         }
     });
-
 
 });
