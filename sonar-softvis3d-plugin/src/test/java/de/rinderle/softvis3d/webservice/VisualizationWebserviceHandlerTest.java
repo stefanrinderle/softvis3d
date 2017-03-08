@@ -19,13 +19,11 @@
  */
 package de.rinderle.softvis3d.webservice;
 
-import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
-import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
-import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
-import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
-import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
 
 import java.io.BufferedOutputStream;

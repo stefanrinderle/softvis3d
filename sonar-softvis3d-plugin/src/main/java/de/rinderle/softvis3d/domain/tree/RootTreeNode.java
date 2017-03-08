@@ -17,8 +17,12 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.base.domain.tree;
+package de.rinderle.softvis3d.domain.tree;
 
-public enum TreeNodeType {
-  TREE, PATH_GENERATED
+public class RootTreeNode extends TreeNode {
+
+  public RootTreeNode(final String id) {
+    super(id, null, 0, TreeNodeType.TREE, "root");
+  }
+
 }

@@ -17,12 +17,27 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.base.domain.tree;
+package de.rinderle.softvis3d.domain;
 
-public class RootTreeNode extends TreeNode {
+public class Metric {
 
-  public RootTreeNode(final String id) {
-    super(id, null, 0, TreeNodeType.TREE, "root");
+  private final Integer id;
+  private final String description;
+
+  public Metric(final Integer id, final String description) {
+    if (id == null || description == null) {
+      throw new IllegalArgumentException("Metric initialization failed.");
+    }
+
+    this.id = id;
+    this.description = description;
   }
 
+  public Integer getId() {
+    return id;
+  }
+
+  public String getDescription() {
+    return description;
+  }
 }

@@ -17,27 +17,28 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.base.domain;
+package de.rinderle.softvis3d;
 
-public class Metric {
+import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
 
-  private final Integer id;
-  private final String description;
+import java.util.HashMap;
+import java.util.Map;
 
-  public Metric(final Integer id, final String description) {
-    if (id == null || description == null) {
-      throw new IllegalArgumentException("Metric initialization failed.");
-    }
+public class TestTreeBuilder {
 
-    this.id = id;
-    this.description = description;
+  public static TreeNode createValueTreeNode(final String id, final String key, final TreeNode parent, final int
+    depth) {
+    final Map<String, Double> metrics = new HashMap<>();
+    metrics.put("ncloc", 12.32);
+    metrics.put("complexity", 1.0);
+    final ValueTreeNode result = new ValueTreeNode(id, key, parent, depth,
+        TreeNodeType.TREE, id, metrics);
+
+    parent.addChildrenNode(id, result);
+
+    return result;
   }
 
-  public Integer getId() {
-    return id;
-  }
-
-  public String getDescription() {
-    return description;
-  }
 }

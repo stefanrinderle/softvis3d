@@ -19,9 +19,9 @@
  */
 package de.rinderle.softvis3d.preprocessing.tree;
 
-import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
-import de.rinderle.softvis3d.base.domain.tree.TreeNode;
-import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.TreeNodeType;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

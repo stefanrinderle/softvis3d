@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.base.domain.tree;
+package de.rinderle.softvis3d.domain.tree;
 
 import java.util.ArrayList;
 import java.util.List;

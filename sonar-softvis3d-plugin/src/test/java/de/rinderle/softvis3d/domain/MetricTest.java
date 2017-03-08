@@ -17,29 +17,31 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.base.domain.tree;
+package de.rinderle.softvis3d.domain;
 
-import java.util.Map;
+import org.junit.Test;
 
-public class ValueTreeNode extends TreeNode {
+import static org.junit.Assert.assertEquals;
 
-  private final String key;
-  private final Map<String, Double> metrics;
+public class MetricTest {
 
-  public ValueTreeNode(final String id, final String key, final TreeNode parent, final int depth, final TreeNodeType type,
-    final String name, Map<String, Double> metrics) {
-    super(id, parent, depth, type, name);
+  @Test
+  public void testGetter() throws Exception {
+    final Integer id = 12213;
+    final String description = "testDescription";
+    final Metric metric = new Metric(id, description);
 
-    this.key = key;
-    this.metrics = metrics;
+    assertEquals(id, metric.getId());
+    assertEquals(description, metric.getDescription());
   }
 
-  public String getKey() {
-    return key;
+  @Test(expected = IllegalArgumentException.class)
+  public void testNullId() throws Exception {
+    new Metric(null, "testDescription");
   }
 
-  public Map<String, Double> getMetrics() {
-    return metrics;
+  @Test(expected = IllegalArgumentException.class)
+  public void testNullDescription() throws Exception {
+    new Metric(123, null);
   }
-
 }

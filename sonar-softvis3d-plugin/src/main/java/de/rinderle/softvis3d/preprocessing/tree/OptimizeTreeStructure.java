@@ -19,8 +19,9 @@
  */
 package de.rinderle.softvis3d.preprocessing.tree;
 
-import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
-import de.rinderle.softvis3d.base.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.domain.tree.TreeNode;
+
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;

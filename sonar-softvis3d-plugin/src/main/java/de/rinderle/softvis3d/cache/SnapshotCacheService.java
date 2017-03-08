@@ -20,8 +20,8 @@
 package de.rinderle.softvis3d.cache;
 
 import com.google.inject.Singleton;
-import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 
 @Singleton
 public class SnapshotCacheService {

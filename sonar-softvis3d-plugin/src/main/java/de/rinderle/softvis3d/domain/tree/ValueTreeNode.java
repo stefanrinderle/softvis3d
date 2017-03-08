@@ -17,28 +17,29 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.base;
+package de.rinderle.softvis3d.domain.tree;
 
-import de.rinderle.softvis3d.base.domain.tree.TreeNode;
-import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
-import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
-
-import java.util.HashMap;
 import java.util.Map;
 
-public class TestTreeBuilder {
+public class ValueTreeNode extends TreeNode {
 
-  public static TreeNode createValueTreeNode(final String id, final String key, final TreeNode parent, final int
-    depth) {
-    final Map<String, Double> metrics = new HashMap<>();
-    metrics.put("ncloc", 12.32);
-    metrics.put("complexity", 1.0);
-    final ValueTreeNode result = new ValueTreeNode(id, key, parent, depth,
-        TreeNodeType.TREE, id, metrics);
+  private final String key;
+  private final Map<String, Double> metrics;
 
-    parent.addChildrenNode(id, result);
+  public ValueTreeNode(final String id, final String key, final TreeNode parent, final int depth, final TreeNodeType type,
+    final String name, Map<String, Double> metrics) {
+    super(id, parent, depth, type, name);
 
-    return result;
+    this.key = key;
+    this.metrics = metrics;
+  }
+
+  public String getKey() {
+    return key;
+  }
+
+  public Map<String, Double> getMetrics() {
+    return metrics;
   }
 
 }
