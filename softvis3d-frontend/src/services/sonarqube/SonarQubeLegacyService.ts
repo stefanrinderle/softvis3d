@@ -56,7 +56,7 @@ export default class SonarQubeLegacyService extends BackendService {
             metrics: this.getMetricRequestValues()
         };
 
-        return this.callApi("/softVis3D/getVisualization", { params }).then((response) => {
+        this.callApi("/softVis3D/getVisualization", { params }).then((response) => {
             this.appStatusStore.loadComplete(SonarQubeLegacyService.LOAD_LEGACY);
             this.sceneStore.legacyData = response.data;
         }).catch((error) => {

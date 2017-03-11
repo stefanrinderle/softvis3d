@@ -17,7 +17,7 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { Scene, WebGLRenderer, PerspectiveCamera } from "three";
+import { Scene, WebGLRenderer, PerspectiveCamera, Vector3 } from "three";
 import { Camera } from "./Camera";
 import { Wrangler } from "./Wrangler";
 import { Setup } from "./Setup";
@@ -84,22 +84,29 @@ export default class SoftVis3dScene {
         this.renderer.render(this.scene, this.getCamera());
     }
 
-    public loadSoftVis3d(shapes: SoftVis3dShape[]) {
+    public loadSoftVis3d(shapes: SoftVis3dShape[], cameraPosition?: Vector3) {
         this.wrangler.loadSoftVis3d(shapes);
-        let platformDimension: Dimension = this.findMaxDimension(shapes);
-        this.setCameraTo(0, platformDimension._length * 0.7, platformDimension._width * 0.7);
+
+        if (!cameraPosition) {
+            let platformDimension: Dimension = this.findMaxDimension(shapes);
+            cameraPosition = new Vector3(0, platformDimension._length * 0.7, platformDimension._width * 0.7);
+        }
+
+        this.setCameraTo(cameraPosition);
     }
 
     public updateColorsWithUpdatedShapes(shapes: SoftVis3dShape[]) {
         this.wrangler.updateColorsWithUpdatedShapes(shapes);
     }
 
-    public setCameraTo(x: number, y: number, z: number) {
-        this.camera.setCameraPosition(x, y, z);
+    public setCameraTo(position: Vector3) {
+        this.camera.setCameraPosition(position.x, position.y, position.z);
     }
 
     public selectSceneTreeObject(objectSoftVis3dId: string | null) {
-        this.wrangler.selectSceneTreeObject(objectSoftVis3dId);
+        if (this.wrangler) {
+            this.wrangler.selectSceneTreeObject(objectSoftVis3dId);
+        }
     }
 
     public getCamera(): PerspectiveCamera {

@@ -17,20 +17,19 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
+import {expect} from "chai";
+import {ColorMetrics, coverageMetric, packageNameMetric} from "../../src/constants/Metrics";
 
-import App from "./app";
-import config from "config";
+describe("Metrics", () => {
 
-if (config.project === null) {
-    interface MyWindow extends Window { PROJECT_KEY: string; }
-    config.project = (window as MyWindow).PROJECT_KEY;
-}
+    it("should provide available color metrics", () => {
+        expect(ColorMetrics.availableColorMetrics.length).to.be.greaterThan(0);
+    });
 
-const appConfiguration = {
-    api: config.api,
-    projectKey: config.project,
-    isDev: config.env === "development"
-};
+    it("should find layout by id", () => {
+        expect(ColorMetrics.getColorMetricById(coverageMetric.id)).to.be.eq(coverageMetric);
 
-const softvis3d = new App(appConfiguration);
-softvis3d.run("app");
+        expect(ColorMetrics.getColorMetricById(packageNameMetric.id)).to.be.eq(packageNameMetric);
+    });
+
+});

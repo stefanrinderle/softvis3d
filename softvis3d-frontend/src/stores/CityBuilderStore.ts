@@ -1,7 +1,7 @@
 import {observable} from "mobx";
 import Layout from "../classes/Layout";
 import {evostreet} from "../constants/Layouts";
-import {noMetric, availableColorMetrics} from "../constants/Metrics";
+import {noMetric, ColorMetrics} from "../constants/Metrics";
 import MetricSet from "../classes/MetricSet";
 import Profile from "../classes/Profile";
 import {defaultProfile, custom, Profiles} from "../constants/Profiles";
@@ -16,13 +16,13 @@ class CityBuilderStore {
     @observable
     public metricColor: ColorMetric = noMetric;
     @observable
-    public readonly colorMetrics: MetricSet = new MetricSet(availableColorMetrics);
+    public readonly colorMetrics: MetricSet = new MetricSet(ColorMetrics.availableColorMetrics);
     @observable
     public readonly genericMetrics: MetricSet = new MetricSet([]);
     @observable
     public initiateBuildProcess: boolean = false;
     @observable
-    public show: boolean = false;
+    public show: boolean = true;
 
     @observable
     private _profile: Profile = defaultProfile.clone();

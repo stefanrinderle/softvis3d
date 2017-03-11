@@ -17,20 +17,14 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
+import SoftVis3dScene from "../../../../src/components/scene/visualization/SoftVis3dScene";
 
-import App from "./app";
-import config from "config";
+describe("SoftVis3dScene", () => {
 
-if (config.project === null) {
-    interface MyWindow extends Window { PROJECT_KEY: string; }
-    config.project = (window as MyWindow).PROJECT_KEY;
-}
+    it("should catch selectSceneTreeObject if not initialized", () => {
+        let underTest: SoftVis3dScene = new SoftVis3dScene();
 
-const appConfiguration = {
-    api: config.api,
-    projectKey: config.project,
-    isDev: config.env === "development"
-};
+        underTest.selectSceneTreeObject("asd");
+    });
 
-const softvis3d = new App(appConfiguration);
-softvis3d.run("app");
+});

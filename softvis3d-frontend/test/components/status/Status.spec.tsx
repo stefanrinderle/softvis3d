@@ -49,5 +49,4 @@ describe("<Status/>", () => {
         expect(softvis3d.children().length).to.be.eq(0);
     });
 
-
 });

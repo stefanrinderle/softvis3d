@@ -48,4 +48,16 @@ export default class MetricSet {
 
         return result;
     }
+
+    public getMetricByKey(sourceId: string): Metric | undefined {
+        if (!sourceId) {
+            return;
+        }
+
+        for (let metric of this.metrics) {
+            if (metric.id === sourceId) {
+                return metric;
+            }
+        }
+    }
 }

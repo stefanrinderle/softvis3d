@@ -6,7 +6,6 @@ $content-height: 32px;
     padding: 0;
 
     height: $content-height;
-    overflow: hidden;
     margin: auto;
 
     .no-info {
@@ -21,8 +20,12 @@ $content-height: 32px;
         margin-right: 295px;
         background: no-repeat 8px 45%;
         background-size: 20px;
-        &.leaf { @include bg-img-file; }
-        &.node { @include bg-img-folder; }
+        &.leaf {
+            @include bg-img-file;
+        }
+        &.node {
+            @include bg-img-folder;
+        }
 
         .element-name {
             margin: 6px 60px 0 34px;
@@ -45,6 +48,34 @@ $content-height: 32px;
 
         button {
             @include softvis-button;
+        }
+
+        .dropdown {
+            $dropdown-width: 132px;
+            $dropdown-padding: 6px;
+
+            position: relative;
+            display: inline-block;
+            overflow: visible;
+
+            .dropdown-menu {
+                display: none;
+                position: absolute;
+                padding: 0 $dropdown-padding $dropdown-padding;
+
+                &.open {
+                    z-index: 20;
+                    display: block;
+                    width: $dropdown-width;
+                    left: -($dropdown-padding);
+                }
+
+                button {
+                    width: 100%;
+                    border-top-width: 0;
+                    display: block;
+                }
+            }
         }
     }
 }

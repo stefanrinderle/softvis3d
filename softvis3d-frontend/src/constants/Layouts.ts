@@ -18,7 +18,20 @@ export {
     evostreet
 };
 
-export const availableLayouts: Layout[] = [
-    evostreet,
-    district
-];
+export class Layouts {
+
+    public static availableLayouts: Layout[] = [
+        evostreet,
+        district
+    ];
+
+    public static getLayoutById(layoutId: string): Layout | undefined {
+        if (layoutId !== undefined) {
+            for (const availableLayout of Layouts.availableLayouts) {
+                if (availableLayout.getId() === layoutId) {
+                    return availableLayout;
+                }
+            }
+        }
+    }
+}

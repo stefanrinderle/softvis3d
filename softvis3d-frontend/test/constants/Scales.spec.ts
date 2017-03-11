@@ -17,20 +17,19 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
+import {expect} from "chai";
+import {Scales, EXPONENTIAL, LOGARITHMIC} from "../../src/constants/Scales";
 
-import App from "./app";
-import config from "config";
+describe("Scales", () => {
 
-if (config.project === null) {
-    interface MyWindow extends Window { PROJECT_KEY: string; }
-    config.project = (window as MyWindow).PROJECT_KEY;
-}
+    it("should provide available scales", () => {
+        expect(Scales.availableScales.length).to.be.greaterThan(0);
+    });
 
-const appConfiguration = {
-    api: config.api,
-    projectKey: config.project,
-    isDev: config.env === "development"
-};
+    it("should find scale by id", () => {
+        expect(Scales.getScaleById(EXPONENTIAL.getId())).to.be.eq(EXPONENTIAL);
 
-const softvis3d = new App(appConfiguration);
-softvis3d.run("app");
+        expect(Scales.getScaleById(LOGARITHMIC.getId())).to.be.eq(LOGARITHMIC);
+    });
+
+});

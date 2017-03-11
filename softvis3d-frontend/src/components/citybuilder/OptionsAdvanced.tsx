@@ -1,12 +1,12 @@
 import * as React from "react";
-import { observer } from "mobx-react";
-import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import {observer} from "mobx-react";
+import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
-import LayoutProcessor from "../../legacy/LayoutProcessor";
 import Metric from "../../classes/Metric";
-import { custom } from "../../constants/Profiles";
+import {custom} from "../../constants/Profiles";
 import Scale from "../../classes/Scale";
+import {Scales} from "../../constants/Scales";
 
 @observer
 export default class OptionsAdvanced extends React.Component<{ store: CityBuilderStore; }, any> {
@@ -42,7 +42,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                         <SelectBoxBuilder
                             label="Scaling Method"
                             value={this.props.store.profile.scale}
-                            options={LayoutProcessor.SCALING_METHODS}
+                            options={Scales.availableScales}
                             onChange={(scale: Scale) => {
                                 this.props.store.profile.scale = scale;
                             }}
