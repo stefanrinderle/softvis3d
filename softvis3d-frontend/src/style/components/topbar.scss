@@ -49,46 +49,33 @@ $content-height: 32px;
         button {
             @include softvis-button;
         }
-    }
 
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
+        .dropdown {
+            $dropdown-width: 132px;
+            $dropdown-padding: 6px;
 
-    .dropdown-menu {
-        display: none;
-        color: #236a97;
-        position: absolute;
-        height: 24px;
-        width: 125px;
-        line-height: 22px;
-        background: white;
-        padding-top: 0;
-        z-index: 9999;
-    }
+            position: relative;
+            display: inline-block;
+            overflow: visible;
 
-    .dropdown-menu > span {
-        display: block;
-        color: #236a97;
-        position: absolute;
-        height: 24px;
-        width: 125px;
-        line-height: 22px;
-        box-sizing: border-box;
-        border: 1px solid $font-color-link-default;
-        border-radius: 2px;
-        background: white;
-        padding-left: 5px;
-        cursor: pointer;
-    }
+            .dropdown-menu {
+                display: none;
+                position: absolute;
+                padding: 0 $dropdown-padding $dropdown-padding;
 
-    .dropdown-menu > span:hover {
-        background-color: #236a97;
-        color: white;
-    }
+                &.open {
+                    z-index: 20;
+                    display: block;
+                    width: $dropdown-width;
+                    left: -($dropdown-padding);
+                }
 
-    .dropdown-menu-open {
-        display: block;
+                button {
+                    width: 100%;
+                    border-top-width: 0;
+                    display: block;
+                }
+            }
+        }
     }
 }

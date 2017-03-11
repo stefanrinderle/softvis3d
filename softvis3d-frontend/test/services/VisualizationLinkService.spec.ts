@@ -139,9 +139,9 @@ describe("VisualizationLinkService", () => {
         expect(localSceneStore.cameraPosition).to.be.not.null;
         expect(localSceneStore.cameraPosition).to.be.not.undefined;
         if (localSceneStore.cameraPosition) {
-            expect(localSceneStore.cameraPosition.x).to.be.eq(999);
-            expect(localSceneStore.cameraPosition.y).to.be.eq(88.11);
-            expect(localSceneStore.cameraPosition.z).to.be.eq(333333.33);
+            expect(localSceneStore.cameraPosition.x).to.be.approximately(999, 1);
+            expect(localSceneStore.cameraPosition.y).to.be.approximately(88, 1);
+            expect(localSceneStore.cameraPosition.z).to.be.approximately(333333, 1);
         }
 
         expect(testCityBuilderStore.show).to.be.eq(false);

@@ -31,8 +31,8 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
                         Share
                     </button>
                     <div className={this.getShareMenuClassName()}>
-                        <span onClick={this.copyVisualizationLink.bind(this)}>Copy to clipboard</span><br />
-                        <span onClick={this.openVisualizationLink.bind(this)}>Open in new tab</span>
+                        <button onClick={this.copyVisualizationLink.bind(this)}>Copy to clipboard</button>
+                        <button onClick={this.openVisualizationLink.bind(this)}>Open in new tab</button>
                     </div>
                 </div>
         );
@@ -44,7 +44,7 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
         classes.push("dropdown-menu");
 
         if (this.state.isVisible) {
-            classes.push("dropdown-menu-open");
+            classes.push("open");
         }
 
         return classes.join(" ");

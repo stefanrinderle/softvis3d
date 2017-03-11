@@ -77,8 +77,7 @@ describe("<TopBarMenu/>", () => {
         );
 
         expect(topBarMenu.contains(
-            <TopBarShareButton show={true} visualizationLinkService={localVisualizationLinkService}/>)
+            <TopBarShareButton disabled={true} visualizationLinkService={localVisualizationLinkService}/>)
         ).to.be.true;
-
     });
 });

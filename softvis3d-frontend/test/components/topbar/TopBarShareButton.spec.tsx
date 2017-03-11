@@ -22,7 +22,7 @@ describe("<TopBarShareButton/>", () => {
         expect(shareButton.children("button").length).to.be.eq(1);
 
         expect(shareButton.children(".dropdown-menu").length).to.be.eq(1);
-        expect(shareButton.children(".dropdown-menu-open").length).to.be.eq(0);
+        expect(shareButton.children(".dropdown-menu.open").length).to.be.eq(0);
 
         expect(shareButton.state().isVisible).to.be.false;
     });
@@ -40,7 +40,7 @@ describe("<TopBarShareButton/>", () => {
             <TopBarShareButton disabled={true} visualizationLinkService={localVisualizationLinkService}/>
         );
 
-        const dropDownButtons = shareButton.find("span");
+        const dropDownButtons = shareButton.find(".dropdown-menu button");
 
         dropDownButtons.at(1).simulate("click");
 
@@ -63,7 +63,7 @@ describe("<TopBarShareButton/>", () => {
             <TopBarShareButton disabled={true} visualizationLinkService={localVisualizationLinkService}/>
         );
 
-        const dropDownButtons = shareButton.find("span");
+        const dropDownButtons = shareButton.find(".dropdown-menu button");
 
         dropDownButtons.at(0).simulate("click");
 
