@@ -4,12 +4,12 @@ import VisualizationLinkService from "../../services/VisualizationLinkService";
 import ClipBoardService from "../../services/ClipBoardService";
 
 interface TopBarShareButtonProbs {
-    show: boolean;
+    disabled: boolean;
     visualizationLinkService: VisualizationLinkService;
 }
 
 interface TopBarShareButtonStates {
-    isShareMenuVisible: boolean;
+    isVisible: boolean;
 }
 
 @observer
@@ -26,7 +26,7 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
                      onMouseLeave={() => this.setShareMenuState(false)}>
                     <button
                         className="middle"
-                        disabled={this.props.show}
+                        disabled={this.props.disabled}
                     >
                         Share
                     </button>
@@ -43,7 +43,7 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
 
         classes.push("dropdown-menu");
 
-        if (this.state.isShareMenuVisible && !this.props.show) {
+        if (this.state.isVisible) {
             classes.push("dropdown-menu-open");
         }
 
@@ -52,7 +52,7 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
 
     private setShareMenuState(value: boolean) {
         this.setState({
-            isShareMenuVisible: value
+            isVisible: value && !this.props.disabled
         });
     }
 
@@ -65,5 +65,4 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
         ClipBoardService.copyTextToClipboard(this.props.visualizationLinkService.createVisualizationLink());
         this.setShareMenuState(false);
     }
-
 }

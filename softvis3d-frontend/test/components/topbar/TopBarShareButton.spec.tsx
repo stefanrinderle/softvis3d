@@ -16,7 +16,7 @@ describe("<TopBarShareButton/>", () => {
         let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
         const shareButton = mount(
-            <TopBarShareButton show={false} visualizationLinkService={localVisualizationLinkService}/>
+            <TopBarShareButton disabled={false} visualizationLinkService={localVisualizationLinkService}/>
         );
 
         expect(shareButton.children("button").length).to.be.eq(1);
@@ -24,7 +24,7 @@ describe("<TopBarShareButton/>", () => {
         expect(shareButton.children(".dropdown-menu").length).to.be.eq(1);
         expect(shareButton.children(".dropdown-menu-open").length).to.be.eq(0);
 
-        expect(shareButton.state().isShareMenuVisible).to.be.false;
+        expect(shareButton.state().isVisible).to.be.false;
     });
 
     it("should open visualization link", () => {
@@ -37,7 +37,7 @@ describe("<TopBarShareButton/>", () => {
         Sinon.stub(localVisualizationLinkService, "createVisualizationLink").returns("abc");
 
         const shareButton = mount(
-            <TopBarShareButton show={true} visualizationLinkService={localVisualizationLinkService}/>
+            <TopBarShareButton disabled={true} visualizationLinkService={localVisualizationLinkService}/>
         );
 
         const dropDownButtons = shareButton.find("span");
@@ -47,7 +47,7 @@ describe("<TopBarShareButton/>", () => {
         assert(stub.calledWithExactly("abc"));
         stub.restore();
 
-        expect(shareButton.state().isShareMenuVisible).to.be.false;
+        expect(shareButton.state().isVisible).to.be.false;
     });
 
     it("should copy visualization link", () => {
@@ -60,7 +60,7 @@ describe("<TopBarShareButton/>", () => {
         Sinon.stub(localVisualizationLinkService, "createVisualizationLink").returns("abc");
 
         const shareButton = mount(
-            <TopBarShareButton show={true} visualizationLinkService={localVisualizationLinkService}/>
+            <TopBarShareButton disabled={true} visualizationLinkService={localVisualizationLinkService}/>
         );
 
         const dropDownButtons = shareButton.find("span");
@@ -70,6 +70,6 @@ describe("<TopBarShareButton/>", () => {
         assert(stub.calledWithExactly("abc"));
         stub.restore();
 
-        expect(shareButton.state().isShareMenuVisible).to.be.false;
+        expect(shareButton.state().isVisible).to.be.false;
     });
 });

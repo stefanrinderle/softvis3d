@@ -30,8 +30,10 @@ export default class TopBarMenu extends React.Component<TopBarMenuProbs, undefin
                 >
                     Help
                 </button>
-                <TopBarShareButton show={this.props.cityBuilderStore.show}
-                                   visualizationLinkService={this.props.visualizationLinkService}/>
+                <TopBarShareButton
+                    disabled={this.props.cityBuilderStore.show}
+                    visualizationLinkService={this.props.visualizationLinkService}
+                />
                 <button
                     id="feedback-button"
                     className="right"
