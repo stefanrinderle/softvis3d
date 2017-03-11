@@ -27,20 +27,21 @@ export default class App {
     private visualizationLinkService: VisualizationLinkService;
     private legacy: LegacyConnector;
     //noinspection JSMismatchedCollectionQueryUpdate
-    private reactions: any[] = [];
+    private reactions: any[];
 
     public constructor(config: AppConfiguration) {
         appStatusStore.showLoadingQueue = config.isDev;
 
         this.visualizationLinkService = new VisualizationLinkService(cityBuilderStore, sceneStore);
-        this.communicator =
-            new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
+        this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
         this.legacyService =
             new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
         this.legacy = new LegacyConnector(sceneStore, cityBuilderStore, appStatusStore);
 
-        this.reactions.push(new SceneReactions(sceneStore, cityBuilderStore, appStatusStore, this.legacy, this.legacyService));
-        this.reactions.push(new BuilderReactions(cityBuilderStore, sceneStore));
+        this.reactions = [
+            new SceneReactions(sceneStore, cityBuilderStore, appStatusStore, this.legacy, this.legacyService),
+            new BuilderReactions(cityBuilderStore, sceneStore)
+        ];
     }
 
     public run(target: string) {

@@ -54,5 +54,4 @@ export default class TopBarMenu extends React.Component<TopBarMenuProbs, undefin
     private openFeedback() {
         window.open("http://softvis3d.com/#/feedback");
     }
-
 }

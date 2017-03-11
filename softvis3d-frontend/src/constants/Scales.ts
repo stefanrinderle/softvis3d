@@ -22,11 +22,13 @@ export class Scales {
     ];
 
     public static getScaleById(scaleId: string): Scale | undefined {
-        if (scaleId !== undefined) {
-            for (const availableScale of Scales.availableScales) {
-                if (availableScale.getId() === scaleId) {
-                    return availableScale;
-                }
+        if (!scaleId) {
+            return;
+        }
+
+        for (const availableScale of Scales.availableScales) {
+            if (availableScale.getId() === scaleId) {
+                return availableScale;
             }
         }
     }

@@ -49,12 +49,14 @@ export default class MetricSet {
         return result;
     }
 
-    public getMetricByKey(sourceId: string | undefined): Metric | undefined {
-        if (sourceId !== undefined) {
-            for (let metric of this.metrics) {
-                if (metric.id === sourceId) {
-                    return metric;
-                }
+    public getMetricByKey(sourceId: string): Metric | undefined {
+        if (!sourceId) {
+            return;
+        }
+
+        for (let metric of this.metrics) {
+            if (metric.id === sourceId) {
+                return metric;
             }
         }
     }

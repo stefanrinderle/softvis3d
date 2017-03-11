@@ -103,14 +103,4 @@ describe("MetricSet", () => {
 
         expect(result.getMetricByKey("not known")).to.be.undefined;
     });
-
-    it("should return metric by on undefined", () => {
-        let initialMetrics: Metric[] = [];
-        initialMetrics.push(new Metric("123", "INT", "siuhf"));
-
-        let result: MetricSet = new MetricSet(initialMetrics);
-
-        let testUndefined = undefined;
-        expect(result.getMetricByKey(testUndefined)).to.be.undefined;
-    });
 });

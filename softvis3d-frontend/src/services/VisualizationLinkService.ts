@@ -39,12 +39,17 @@ export default class VisualizationLinkService {
 
         let selectedObjectId: string | undefined = params.selectedObjectId;
 
-        if (metricFootprint !== undefined && metricHeight !== undefined && metricColor !== undefined &&
-            layout !== undefined && scale !== undefined && cameraPosition !== undefined) {
-
-            let visualizationLinkParams: VisualizationLinkParams =
-                new VisualizationLinkParams(metricFootprint, metricHeight, metricColor, layout, scale,
-                                            selectedObjectId, cameraPosition);
+        if (metricFootprint !== undefined
+            && metricHeight !== undefined
+            && metricColor !== undefined
+            && layout !== undefined
+            && scale !== undefined
+            && cameraPosition !== undefined
+        ) {
+            let visualizationLinkParams: VisualizationLinkParams = new VisualizationLinkParams(
+                metricFootprint, metricHeight, metricColor,
+                layout, scale, selectedObjectId, cameraPosition
+            );
 
             this.applyParams(visualizationLinkParams);
 
@@ -72,7 +77,11 @@ export default class VisualizationLinkService {
     private getCameraPosition(params: Parameters): Vector3 | undefined {
         let cameraPosition: Vector3 | undefined;
         if (params.cameraX !== undefined && params.cameraY !== undefined && params.cameraZ !== undefined) {
-            cameraPosition = new Vector3(+params.cameraX, +params.cameraY, +params.cameraZ);
+            cameraPosition = new Vector3(
+                parseInt(params.cameraX, 10),
+                parseInt(params.cameraY, 10),
+                parseInt(params.cameraZ, 10)
+            );
         }
         return cameraPosition;
     }
