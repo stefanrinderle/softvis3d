@@ -1,6 +1,7 @@
 import * as React from "react";
 import {expect} from "chai";
 import {shallow} from "enzyme";
+import * as Sinon from "sinon";
 import Softvis3D from "../../src/components/Softvis3D";
 import cityBuilderStore, {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import CityBuilder from "../../src/components/citybuilder/CityBuilder";
@@ -10,6 +11,7 @@ import sceneStore, {SceneStore} from "../../src/stores/SceneStore";
 import Status from "../../src/components/status/Status";
 import LoadAction from "../../src/classes/status/LoadAction";
 import VisualizationLinkService from "../../src/services/VisualizationLinkService";
+import {ObjectFactory} from "../../src/components/scene/visualization/ObjectFactory";
 
 describe("<SoftVis3D/>", () => {
 
@@ -18,6 +20,9 @@ describe("<SoftVis3D/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
         let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
+
+        let mockScenePainter = Sinon.mock(ObjectFactory);
+        mockScenePainter.expects("loadFonts").once();
 
         const softvis3d = shallow(
             <Softvis3D cityBuilderStore={localCityBuilderStore}
@@ -31,6 +36,9 @@ describe("<SoftVis3D/>", () => {
             <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}
                            visualizationLinkService={localVisualizationLinkService}/>
         )).to.be.true;
+
+        mockScenePainter.verify();
+        mockScenePainter.restore();
     });
 
     it("should show loader on state change", () => {
@@ -42,6 +50,9 @@ describe("<SoftVis3D/>", () => {
         localAppStatusStore.loadingQueue.add(new LoadAction("key", "eins"));
         localCityBuilderStore.show = true;
 
+        let mockScenePainter = Sinon.mock(ObjectFactory);
+        mockScenePainter.expects("loadFonts").once();
+
         const softvis3d = shallow(
             <Softvis3D cityBuilderStore={localCityBuilderStore}
                        sceneStore={localSceneStore} appStatusStore={localAppStatusStore}
@@ -49,6 +60,9 @@ describe("<SoftVis3D/>", () => {
         );
 
         expect(softvis3d.contains(<Status appStatusStore={appStatusStore}/>)).to.be.true;
+
+        mockScenePainter.verify();
+        mockScenePainter.restore();
     });
 
 });
