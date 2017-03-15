@@ -19,42 +19,23 @@
  */
 package de.rinderle.softvis3d;
 
-import org.sonar.api.web.AbstractRubyTemplate;
-import org.sonar.api.web.NavigationSection;
-import org.sonar.api.web.RubyRailsPage;
+import org.sonar.api.web.page.Context;
+import org.sonar.api.web.page.Page;
+import org.sonar.api.web.page.PageDefinition;
 
-@NavigationSection({NavigationSection.RESOURCE})
-public class SoftVis3DPage extends AbstractRubyTemplate implements
-  RubyRailsPage {
+public class SoftVis3DPageDefinition implements PageDefinition {
 
-  static final String PLUGIN_KEY = "SoftVis3D";
-
+  static final String PLUGIN_KEY = "softvis3d";
   static final String PLUGIN_NAME = "SoftVis3D Viewer";
 
-  static final String PLUGIN_TEMPLATE_PATH = "/softVis3D_page.html.erb";
+  private static final String PLUGIN_OVERVIEW = "project_page";
 
-  /**
-   * @return the page id
-   */
   @Override
-  public String getId() {
-    return PLUGIN_KEY;
-  }
-
-  /**
-   * @return the page title
-   */
-  @Override
-  public String getTitle() {
-    return PLUGIN_NAME;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  protected String getTemplatePath() {
-    return PLUGIN_TEMPLATE_PATH;
+  public void define(Context context) {
+    context.addPage(Page.builder(PLUGIN_KEY + "/" + PLUGIN_OVERVIEW)
+        .setName(PLUGIN_NAME)
+        .setScope(Page.Scope.COMPONENT)
+        .build());
   }
 
 }
