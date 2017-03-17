@@ -1,7 +1,7 @@
-/*
- * softvis3d-base
- * Copyright (C) 2015 Stefan Rinderle
- * stefan@rinderle.info
+/**
+ * SoftVis3D Sonar plugin
+ * Copyright (C) 2016 Stefan Rinderle and Yvo Niedrich
+ * stefan@rinderle.info / yvo.niedrich@gmail.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,10 +17,10 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.base.result;
+package de.rinderle.softvis3d.webservice;
 
-import de.rinderle.softvis3d.base.TestTreeBuilder;
-import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.TestTreeBuilder;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -56,14 +56,14 @@ public class TreeNodeJsonWriterTest {
     final TreeNodeJsonWriter underTest = new TreeNodeJsonWriter();
 
     final RootTreeNode treeNode1 = new RootTreeNode("1");
-    TestTreeBuilder.createValueTreeNode("2", treeNode1, 1);
-    TestTreeBuilder.createValueTreeNode("3", treeNode1, 2);
+    TestTreeBuilder.createValueTreeNode("2", "2", treeNode1, 1);
+    TestTreeBuilder.createValueTreeNode("3", "3", treeNode1, 2);
 
     underTest.transformRootTreeToJson(jsonWriter, treeNode1);
 
     jsonWriter.close();
 
-    final String expectedResult = "{\"id\":\"1\",\"name\":\"root\",\"isNode\":true,\"children\":[{\"id\":\"2\",\"name\":\"2\",\"isNode\":false,\"measures\":{\"complexity\":1.0,\"ncloc\":12.32},\"parentId\":\"1\",\"children\":[]},{\"id\":\"3\",\"name\":\"3\",\"isNode\":false,\"measures\":{\"complexity\":1.0,\"ncloc\":12.32},\"parentId\":\"1\",\"children\":[]}]}";
+    final String expectedResult = "{\"id\":\"1\",\"name\":\"root\",\"isNode\":true,\"children\":[{\"id\":\"2\",\"name\":\"2\",\"isNode\":false,\"key\":\"2\",\"measures\":{\"complexity\":1.0,\"ncloc\":12.32},\"parentId\":\"1\",\"children\":[]},{\"id\":\"3\",\"name\":\"3\",\"isNode\":false,\"key\":\"3\",\"measures\":{\"complexity\":1.0,\"ncloc\":12.32},\"parentId\":\"1\",\"children\":[]}]}";
 
     assertEquals(expectedResult, stringOutputStream.toString());
   }

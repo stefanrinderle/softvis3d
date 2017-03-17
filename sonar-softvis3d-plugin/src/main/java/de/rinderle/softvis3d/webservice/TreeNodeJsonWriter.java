@@ -1,7 +1,7 @@
-/*
- * softvis3d-base
- * Copyright (C) 2015 Stefan Rinderle
- * stefan@rinderle.info
+/**
+ * SoftVis3D Sonar plugin
+ * Copyright (C) 2016 Stefan Rinderle and Yvo Niedrich
+ * stefan@rinderle.info / yvo.niedrich@gmail.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,11 +17,11 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.base.result;
+package de.rinderle.softvis3d.webservice;
 
-import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
-import de.rinderle.softvis3d.base.domain.tree.TreeNode;
-import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
 
 import java.util.Map;
 
@@ -39,7 +39,7 @@ public class TreeNodeJsonWriter {
     jsonWriter.prop("id", node.getId());
     jsonWriter.prop("name", node.getName());
     jsonWriter.prop("isNode", node.isNode());
-    optionalTransformMetricValues(jsonWriter, node);
+    addValueTreeNodeValues(jsonWriter, node);
 
     final TreeNode parent = node.getParent();
     if (parent != null) {
@@ -51,9 +51,11 @@ public class TreeNodeJsonWriter {
     jsonWriter.endObject();
   }
 
-  private void optionalTransformMetricValues(final SoftVis3dJsonWriter jsonWriter, final TreeNode node) {
+  private void addValueTreeNodeValues(final SoftVis3dJsonWriter jsonWriter, final TreeNode node) {
     if (node instanceof ValueTreeNode) {
       final ValueTreeNode valueNode = (ValueTreeNode) node;
+
+      jsonWriter.prop("key", valueNode.getKey());
 
       jsonWriter.name("measures");
       jsonWriter.beginObject();

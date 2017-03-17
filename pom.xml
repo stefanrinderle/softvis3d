@@ -119,7 +119,6 @@
   </dependencyManagement>
 
   <modules>
-    <module>softvis3d-base</module>
     <module>softvis3d-frontend</module>
     <module>sonar-softvis3d-plugin</module>
     <module>softvis3d-sonarqube-it</module>

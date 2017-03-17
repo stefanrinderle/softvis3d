@@ -19,9 +19,9 @@
  */
 package de.rinderle.softvis3d.cache;
 
-import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.domain.SnapshotStorageKey;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
