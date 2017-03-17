@@ -25,27 +25,29 @@ export default class SelectedElementInfo extends React.Component<SelectedElement
             selectedElement.isNode ? "node" : "leaf"
         ];
 
-        if (selectedElement.isNode) {
-            return (
+        return (
+            <div>
                 <div className={classes.join(" ")}>
                     <span className="element-name">{selectedElement.name}</span>
+                    {this.renderButtons(selectedElement.isNode)}
                 </div>
-            );
-        } else {
-            return (
-                <div>
-                    <div className={classes.join(" ")}>
-                        <span className="element-name">{selectedElement.name}</span>
-                    </div>
-                    <div className="info-buttons">
-                        <button id="open-file-button" className="left"
-                                onClick={this.openSourceCode.bind(this)}>Open file</button>
-                        <button id="open-measures-button" className="right"
-                                onClick={this.openMeasures.bind(this)}>Open measures</button>
-                    </div>
-                </div>
-            );
+            </div>
+        );
+    }
+
+    private renderButtons(isNode: boolean) {
+        if (isNode) {
+            return null;
         }
+
+        return (
+            <div className="info-buttons">
+                <button id="open-file-button" className="left"
+                        onClick={() => { this.openSourceCode(); }}>Open file</button>
+                <button id="open-measures-button" className="right"
+                        onClick={() => { this.openMeasures(); }}>Open measures</button>
+            </div>
+        );
     }
 
     private openSourceCode() {
