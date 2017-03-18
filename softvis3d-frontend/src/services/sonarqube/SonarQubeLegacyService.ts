@@ -52,7 +52,8 @@ export default class SonarQubeLegacyService extends BackendService {
         this.appStatusStore.load(SonarQubeLegacyService.LOAD_LEGACY);
 
         const params = {
-            projectKey: this.projectKey,
+            // TODO
+            projectKey: "de.rinderle.softvis3d:softvis3d",
             metrics: this.getMetricRequestValues()
         };
 

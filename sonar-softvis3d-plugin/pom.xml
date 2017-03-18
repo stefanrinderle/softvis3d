@@ -90,16 +90,6 @@
           <target>${jdk.min.version}</target>
         </configuration>
       </plugin>
-      <!--<plugin>-->
-        <!--<groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>-->
-        <!--<artifactId>sonar-packaging-maven-plugin</artifactId>-->
-        <!--<version>1.18.0.372</version>-->
-        <!--<extensions>true</extensions>-->
-        <!--<configuration>-->
-          <!--<pluginClass>de.rinderle.softvis3d.SoftVis3DPlugin</pluginClass>-->
-          <!--<pluginName>SoftVis3D</pluginName>-->
-        <!--</configuration>-->
-      <!--</plugin>-->
       <plugin>
         <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
         <artifactId>sonar-packaging-maven-plugin</artifactId>
@@ -112,31 +102,31 @@
 
       <!-- FRONTEND -->
       <!-- get the frontend production build files -->
-      <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-remote-resources-plugin</artifactId>-->
-        <!--<version>1.5</version>-->
-        <!--<configuration>-->
-          <!--<resourceBundles>-->
-            <!--<resourceBundle>de.rinderle.softvis3d:softvis3d-frontend:${project.version}</resourceBundle>-->
-          <!--</resourceBundles>-->
-          <!--<outputDirectory>${project.build.directory}/shared-resources</outputDirectory>-->
-        <!--</configuration>-->
-        <!--<executions>-->
-          <!--<execution>-->
-            <!--<goals>-->
-              <!--<goal>process</goal>-->
-            <!--</goals>-->
-            <!--<phase>generate-resources</phase>-->
-          <!--</execution>-->
-        <!--</executions>-->
-      <!--</plugin>-->
-      <!--&lt;!&ndash; replace the base path &ndash;&gt;-->
-      <!--<plugin>-->
-        <!--<groupId>com.google.code.maven-replacer-plugin</groupId>-->
-        <!--<artifactId>replacer</artifactId>-->
-        <!--<version>1.5.2</version>-->
-        <!--<executions>-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <version>1.5</version>
+        <configuration>
+          <resourceBundles>
+            <resourceBundle>de.rinderle.softvis3d:softvis3d-frontend:${project.version}</resourceBundle>
+          </resourceBundles>
+          <outputDirectory>${project.build.directory}/shared-resources</outputDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <phase>generate-resources</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- replace the base path -->
+      <plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>replacer</artifactId>
+        <version>1.5.2</version>
+        <executions>
           <!--<execution>-->
             <!--<id>base html file</id>-->
             <!--<goals>-->
@@ -165,32 +155,32 @@
               <!--</replacements>-->
             <!--</configuration>-->
           <!--</execution>-->
-          <!--<execution>-->
-            <!--<id>Javascript files</id>-->
-            <!--<goals>-->
-              <!--<goal>replace</goal>-->
-            <!--</goals>-->
-            <!--<phase>generate-resources</phase>-->
-            <!--<configuration>-->
-              <!--<basedir>${project.build.directory}/shared-resources/app/static/</basedir>-->
-              <!--<includes>-->
-                <!--<include>bundle.js</include>-->
-              <!--</includes>-->
-              <!--<file>${project.build.directory}/shared-resources/app/static/bundle.js</file>-->
-              <!--<regex>false</regex>-->
-              <!--<unescape>true</unescape>-->
-              <!--<replacements>-->
-                <!--<replacement>-->
-                  <!--<token>static/resources/</token>-->
-                  <!--<value>../../static/softvis3d/resources/</value>-->
-                <!--</replacement>-->
-              <!--</replacements>-->
-            <!--</configuration>-->
-          <!--</execution>-->
-        <!--</executions>-->
+          <execution>
+            <id>Javascript files</id>
+            <goals>
+              <goal>replace</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <basedir>${project.build.directory}/shared-resources/app/static</basedir>
+              <includes>
+                <include>bundle.js</include>
+              </includes>
+              <file>${project.build.directory}/shared-resources/static/bundle.js</file>
+              <regex>false</regex>
+              <unescape>true</unescape>
+              <replacements>
+                <replacement>
+                  <token>static/resources/</token>
+                  <value>../../static/softvis3d/resources/</value>
+                </replacement>
+              </replacements>
+            </configuration>
+          </execution>
+        </executions>
 
-      <!--</plugin>-->
-      <!--&lt;!&ndash; rename file to ruby &ndash;&gt;-->
+      </plugin>
+      <!-- rename file to ruby -->
       <!--<plugin>-->
         <!--<groupId>com.coderplus.maven.plugins</groupId>-->
         <!--<artifactId>copy-rename-maven-plugin</artifactId>-->
@@ -211,14 +201,20 @@
         <!--</executions>-->
       <!--</plugin>-->
     </plugins>
-    <!--<resources>-->
-      <!--<resource>-->
-        <!--<directory>${project.build.directory}/shared-resources/app</directory>-->
-        <!--<includes>-->
-          <!--<include>**/*.*</include>-->
-        <!--</includes>-->
-      <!--</resource>-->
-    <!--</resources>-->
+    <resources>
+      <resource>
+        <directory>${project.build.directory}/shared-resources/app</directory>
+        <includes>
+          <include>**/*.*</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.*</include>
+        </includes>
+      </resource>
+    </resources>
   </build>
 
 </project>
