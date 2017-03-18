@@ -23,19 +23,19 @@ import org.sonar.api.web.page.Context;
 import org.sonar.api.web.page.Page;
 import org.sonar.api.web.page.PageDefinition;
 
+import static org.sonar.api.web.page.Page.Scope.COMPONENT;
+
 public class SoftVis3DPageDefinition implements PageDefinition {
 
   static final String PLUGIN_KEY = "softvis3d";
   static final String PLUGIN_NAME = "SoftVis3D Viewer";
 
-  private static final String PLUGIN_OVERVIEW = "project_page";
+  private static final String PLUGIN_OVERVIEW = "overview_page";
 
   @Override
   public void define(Context context) {
-    context.addPage(Page.builder(PLUGIN_KEY + "/" + PLUGIN_OVERVIEW)
-        .setName(PLUGIN_NAME)
-        .setScope(Page.Scope.COMPONENT)
-        .build());
+    context
+        .addPage(Page.builder(PLUGIN_KEY + '/' + PLUGIN_OVERVIEW).setName(PLUGIN_NAME).setScope
+            (COMPONENT).build());
   }
-
 }
