@@ -14,6 +14,9 @@ interface SceneProps {
 @observer
 export default class Scene extends React.Component<SceneProps, any> {
 
+    private static KEY_DOWN_EVENT_NAME: string = "keydown";
+    private static R_KEY_CODE: number = 82;
+
     private mouseMoved: boolean = false;
 
     constructor() {
@@ -30,10 +33,23 @@ export default class Scene extends React.Component<SceneProps, any> {
         }
 
         this.updateCameraPosition();
+
+        /**
+         * Why not onKeyDown?
+         * The DOM wants the element to be focused in order to receive the keyboard event. If you don't want to hack the
+         * element with tabIndex or contentEditable to get it to focus, you could use native DOM event listeners on window.
+         * see http://stackoverflow.com/questions/32255075/react-not-responding-to-key-down-event
+         * or https://www.npmjs.com/package/react-keydown
+         *
+         * Instead of a new library, i go for naive event listeners.
+         */
+        window.addEventListener(Scene.KEY_DOWN_EVENT_NAME, this.handleKeyDown.bind(this));
     }
 
     public componentWillUnmount() {
         this.props.sceneStore.sceneComponentIsMounted = false;
+
+        window.removeEventListener(Scene.KEY_DOWN_EVENT_NAME, this.handleKeyDown.bind(this));
     }
 
     public render() {
@@ -54,6 +70,12 @@ export default class Scene extends React.Component<SceneProps, any> {
     // public for tests
     public updateCameraPosition() {
         this.props.sceneStore.cameraPosition = this.props.sceneStore.scenePainter.getCamera().position;
+    }
+
+    public handleKeyDown(event: KeyboardEvent) {
+        if (event.keyCode === Scene.R_KEY_CODE) {
+            this.props.sceneStore.scenePainter.resetCameraPosition(this.props.sceneStore.shapes);
+        }
     }
 
     private onMouseUp(event: any) {
