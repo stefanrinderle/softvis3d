@@ -17,10 +17,10 @@ describe("<Scene/>", () => {
         localSceneStore.scenePainter = scenePainter;
         let initStub = Sinon.stub(scenePainter, "init");
 
-        Sinon.stub(scenePainter, 'getCamera', function () {
+        Sinon.stub(scenePainter, "getCamera", () => {
             return {
                 position: {}
-            }
+            };
         });
 
         let scene = mount(
