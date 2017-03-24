@@ -10,7 +10,7 @@ import SoftVis3dScene from "../../../src/components/scene/visualization/SoftVis3
 
 describe("<Scene/>", () => {
 
-    it("should initialize mounr", () => {
+    it("should initialize", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         let scenePainter: SoftVis3dScene = new SoftVis3dScene();
@@ -33,27 +33,7 @@ describe("<Scene/>", () => {
         expect(initStub.called).to.be.true;
     });
 
-    it("should reset camera position", () => {
-        let localSceneStore: SceneStore = new SceneStore();
-
-        let scenePainter: SoftVis3dScene = new SoftVis3dScene();
-        localSceneStore.scenePainter = scenePainter;
-        let resetStub = Sinon.stub(scenePainter, "resetCameraPosition");
-
-        let underTest: Scene = new Scene();
-        underTest.props = {
-            sceneStore: localSceneStore
-        };
-
-        let event: any = {
-            keyCode: 82
-        };
-        underTest.handleKeyDown(event);
-
-        expect(resetStub.called).to.be.true;
-    });
-
-    it("should mount", () => {
+    it("should initialize default", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         let scenePainter: SoftVis3dScene = new SoftVis3dScene();
@@ -155,5 +135,25 @@ describe("<Scene/>", () => {
             expect(localSceneStore.cameraPosition.y).to.be.eq(expectedCameraPosition.y);
             expect(localSceneStore.cameraPosition.z).to.be.eq(expectedCameraPosition.z);
         }
+    });
+
+    it("should reset camera position", () => {
+        let localSceneStore: SceneStore = new SceneStore();
+
+        let scenePainter: SoftVis3dScene = new SoftVis3dScene();
+        localSceneStore.scenePainter = scenePainter;
+        let resetStub = Sinon.stub(scenePainter, "resetCameraPosition");
+
+        let underTest: Scene = new Scene();
+        underTest.props = {
+            sceneStore: localSceneStore
+        };
+
+        let event: any = {
+            keyCode: 82
+        };
+        underTest.handleKeyDown(event);
+
+        expect(resetStub.called).to.be.true;
     });
 });

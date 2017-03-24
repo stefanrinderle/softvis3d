@@ -15,7 +15,7 @@ interface SceneProps {
 export default class Scene extends React.Component<SceneProps, any> {
 
     private static KEY_DOWN_EVENT_NAME: string = "keydown";
-    private static R_KEY_CODE: number = 82;
+    private static KEY_CODE_R: number = 82;
 
     private mouseMoved: boolean = false;
 
@@ -73,7 +73,7 @@ export default class Scene extends React.Component<SceneProps, any> {
     }
 
     public handleKeyDown(event: KeyboardEvent) {
-        if (event.keyCode === Scene.R_KEY_CODE) {
+        if (event.keyCode === Scene.KEY_CODE_R) {
             this.props.sceneStore.scenePainter.resetCameraPosition(this.props.sceneStore.shapes);
         }
     }
