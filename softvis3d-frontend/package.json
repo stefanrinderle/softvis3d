@@ -49,6 +49,7 @@
     "react-dom": "^15.4.2",
     "sass-loader": "^4.1.1",
     "three": "^0.84.0",
+    "three-orbit-controls": "^82.1.0",
     "ts-node": "^2.1.0",
     "tslint": "^4.4.2",
     "typescript": "^2.1.6",

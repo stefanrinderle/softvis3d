@@ -56,3 +56,8 @@ declare interface TreeElement {
     measures: MeasureList;
     parentId: string | null;
 }
+
+declare module "three-orbit-controls" {
+    let orbitcontrols: (three: any) => any;
+    export = orbitcontrols;
+}
