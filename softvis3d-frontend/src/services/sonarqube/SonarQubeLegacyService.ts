@@ -17,10 +17,10 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {BackendService} from "./BackendService";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
-import {AppStatusStore} from "../../stores/AppStatusStore";
-import {SceneStore} from "../../stores/SceneStore";
+import { BackendService } from "./BackendService";
+import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import { AppStatusStore } from "../../stores/AppStatusStore";
+import { SceneStore } from "../../stores/SceneStore";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
 
@@ -52,8 +52,7 @@ export default class SonarQubeLegacyService extends BackendService {
         this.appStatusStore.load(SonarQubeLegacyService.LOAD_LEGACY);
 
         const params = {
-            // TODO
-            projectKey: "de.rinderle.softvis3d:softvis3d",
+            projectKey: this.projectKey,
             metrics: this.getMetricRequestValues()
         };
 
