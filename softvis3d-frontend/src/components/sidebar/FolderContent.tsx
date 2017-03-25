@@ -50,6 +50,12 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
         window.addEventListener("resize", this.onResize.bind(this), false);
     }
 
+    public componentDidUpdate(prevProps: NodeListProps) {
+        if (this.props.activeFolder !== prevProps.activeFolder) {
+            this.onResize();
+        }
+    }
+
     public componentWillUnmount () {
         window.removeEventListener("resize", this.onResize);
     }
