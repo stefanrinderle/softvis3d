@@ -93,7 +93,7 @@
         <configuration>
           <resourcesDirectory>${project.basedir}</resourcesDirectory>
           <includes>
-            <include>app/**/*.*</include>
+            <include>app/static/**/*.*</include>
           </includes>
         </configuration>
       </plugin>

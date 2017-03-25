@@ -127,34 +127,6 @@
         <artifactId>replacer</artifactId>
         <version>1.5.2</version>
         <executions>
-          <!--<execution>-->
-            <!--<id>base html file</id>-->
-            <!--<goals>-->
-              <!--<goal>replace</goal>-->
-            <!--</goals>-->
-            <!--<phase>generate-resources</phase>-->
-            <!--<configuration>-->
-              <!--<file>${project.build.directory}/shared-resources/app/index.html</file>-->
-              <!--<regex>false</regex>-->
-              <!--<unescape>true</unescape>-->
-              <!--<replacements>-->
-                <!--<replacement>-->
-                  <!--<token>href="static</token>-->
-                  <!--<value>href="&lt;%= "#{ApplicationController.root_context}" -%&gt;/static/softvis3d-->
-                  <!--</value>-->
-                <!--</replacement>-->
-                <!--<replacement>-->
-                  <!--<token>src="static</token>-->
-                  <!--<value>src="&lt;%= "#{ApplicationController.root_context}" -%&gt;/static/softvis3d-->
-                  <!--</value>-->
-                <!--</replacement>-->
-                <!--<replacement>-->
-                  <!--<token>%PROJECT_KEY%</token>-->
-                  <!--<value>&lt;%= @resource.key %&gt;</value>-->
-                <!--</replacement>-->
-              <!--</replacements>-->
-            <!--</configuration>-->
-          <!--</execution>-->
           <execution>
             <id>Javascript files</id>
             <goals>
@@ -180,26 +152,6 @@
         </executions>
 
       </plugin>
-      <!-- rename file to ruby -->
-      <!--<plugin>-->
-        <!--<groupId>com.coderplus.maven.plugins</groupId>-->
-        <!--<artifactId>copy-rename-maven-plugin</artifactId>-->
-        <!--<version>1.0.1</version>-->
-        <!--<executions>-->
-          <!--<execution>-->
-            <!--<id>rename-file</id>-->
-            <!--<phase>generate-resources</phase>-->
-            <!--<goals>-->
-              <!--<goal>rename</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-              <!--<sourceFile>${project.build.directory}/shared-resources/app/index.html</sourceFile>-->
-              <!--<destinationFile>${project.build.directory}/shared-resources/app/softVis3D_page.html.erb-->
-              <!--</destinationFile>-->
-            <!--</configuration>-->
-          <!--</execution>-->
-        <!--</executions>-->
-      <!--</plugin>-->
     </plugins>
     <resources>
       <resource>
