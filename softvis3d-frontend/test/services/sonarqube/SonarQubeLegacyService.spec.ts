@@ -126,7 +126,7 @@ describe("SonarQubeLegacyService", () => {
             new SonarQubeLegacyService(apiUrl, projectKey, testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         let spyCallApi = Sinon.stub(underTest, "callApi", () => {
-            return Promise.reject({data: {message: 'Error message'}});
+            return Promise.reject({data: {message: "Error message"}});
         });
 
         underTest.loadLegacyBackend();

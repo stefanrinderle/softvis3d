@@ -98,12 +98,12 @@ describe("<FolderContent/>", () => {
         let windowStub = Sinon.stub(window, "addEventListener");
 
         let localSceneStore: SceneStore = new SceneStore();
-        Sinon.spy(FolderContent.prototype, 'componentDidMount');
+        Sinon.spy(FolderContent.prototype, "componentDidMount");
         let wrapper = mount(<FolderContent
             activeFolder={null}
             sceneStore={localSceneStore}
         />);
-        expect(FolderContent.prototype.componentDidMount).to.have.property('callCount', 1);
+        expect(FolderContent.prototype.componentDidMount).to.have.property("callCount", 1);
 
         expect(wrapper.state().listHeight).to.be.eq(123);
 
