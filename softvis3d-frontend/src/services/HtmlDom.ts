@@ -1,5 +1,11 @@
-export default class HtmlDom {
-    public static getOffsetsById(id: string): { top: number; left: number; } {
+export interface Offset {
+    top: number;
+    left: number;
+}
+
+export class HtmlDom {
+
+    public static getOffsetsById(id: string): Offset {
         let node = document.getElementById(id);
         let top = 0;
         let left = 0;
