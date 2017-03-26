@@ -55,10 +55,8 @@ window.registerExtension('softvis3d/overview_page', function (options) {
     loadScript('/static/softvis3d/react.min.js', function () {});
     loadScript('/static/softvis3d/react-dom.min.js', function () {});
     loadScript('/static/softvis3d/three.min.js', function () {
-        loadScript('/static/softvis3d/resources/orbit-controls.js', function () {
-            loadScript('/static/softvis3d/bundle.js', function () {
-                console.log('finished loading');
-            });
+        loadScript('/static/softvis3d/bundle.js', function () {
+            console.log('finished loading');
         });
     });
 

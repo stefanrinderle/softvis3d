@@ -1,11 +1,11 @@
 import * as React from "react";
-import {assert, expect} from "chai";
-import {mount, shallow} from "enzyme";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import { assert, expect } from "chai";
+import { mount, shallow } from "enzyme";
+import { SceneStore } from "../../../src/stores/SceneStore";
 import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
-import FolderContent, {NodeListProps} from "../../../src/components/sidebar/FolderContent";
+import FolderContent, { NodeListProps } from "../../../src/components/sidebar/FolderContent";
 import * as Sinon from "sinon";
-import {HtmlDom} from "../../../src/services/HtmlDom";
+import { HtmlDom } from "../../../src/services/HtmlDom";
 
 describe("<FolderContent/>", () => {
 
