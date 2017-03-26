@@ -17,14 +17,14 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { Scene, WebGLRenderer, PerspectiveCamera, Vector3 } from "three";
-import { Camera } from "./Camera";
-import { Wrangler } from "./Wrangler";
-import { Setup } from "./Setup";
-import { SoftVis3dShape } from "../domain/SoftVis3dShape";
-import { Dimension } from "../domain/Dimension";
-import { SelectionService } from "./SelectionCalculator";
-import HtmlDom from "../../../services/HtmlDom";
+import {PerspectiveCamera, Scene, Vector3, WebGLRenderer} from "three";
+import {Camera} from "./Camera";
+import {Wrangler} from "./Wrangler";
+import {Setup} from "./Setup";
+import {SoftVis3dShape} from "../domain/SoftVis3dShape";
+import {Dimension} from "../domain/Dimension";
+import {SelectionService} from "./SelectionCalculator";
+import {HtmlDom, Offset} from "../../../services/HtmlDom";
 
 export default class SoftVis3dScene {
     public static CANVAS_ID: string = "softvis3dscene";
@@ -120,7 +120,7 @@ export default class SoftVis3dScene {
         const sidebarWidth = HtmlDom.getWidthById("app-sidebar");
         const topbarHeight = HtmlDom.getHeightById("app-topbar");
 
-        const appOffset = HtmlDom.getOffsetsById("app");
+        const appOffset: Offset = HtmlDom.getOffsetsById("app");
         const sceneBoarderWidth = 1;
         const sonarFooter = document.getElementById("footer");
         const sonarFooterHeight =  sonarFooter ? sonarFooter.offsetHeight : 11;
@@ -154,7 +154,7 @@ export default class SoftVis3dScene {
         let x: number = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
         let y: number = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 
-        const offset = HtmlDom.getOffsetsById(SoftVis3dScene.CANVAS_ID);
+        const offset: Offset = HtmlDom.getOffsetsById(SoftVis3dScene.CANVAS_ID);
         x -= offset.left;
         y -= offset.top;
 
