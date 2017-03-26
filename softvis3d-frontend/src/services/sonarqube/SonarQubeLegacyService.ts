@@ -60,10 +60,19 @@ export default class SonarQubeLegacyService extends BackendService {
             this.appStatusStore.loadComplete(SonarQubeLegacyService.LOAD_LEGACY);
             this.sceneStore.legacyData = response.data;
         }).catch((error) => {
+            let message;
+
+            if ("response" in error) {
+                message = "SonarQube measure API is not available or responding: " + error.response.statusText;
+            } else {
+                console.error(error);
+                message = "Internal Error: Could not load data.";
+            }
+
             this.appStatusStore.loadComplete(SonarQubeLegacyService.LOAD_LEGACY);
             this.appStatusStore.error(
                 new ErrorAction(SonarQubeLegacyService.LOAD_MEASURES_ERROR_KEY,
-                    "SonarQube measure API is not available or responding: " + error.response.statusText,
+                    message,
                     "Try again", () => {
                         this.loadLegacyBackend();
                     })

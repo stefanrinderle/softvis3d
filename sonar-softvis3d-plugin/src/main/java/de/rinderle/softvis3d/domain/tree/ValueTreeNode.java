@@ -1,7 +1,7 @@
-/*
- * softvis3d-base
- * Copyright (C) 2015 Stefan Rinderle
- * stefan@rinderle.info
+/**
+ * SoftVis3D Sonar plugin
+ * Copyright (C) 2016 Stefan Rinderle and Yvo Niedrich
+ * stefan@rinderle.info / yvo.niedrich@gmail.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,12 +17,29 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package de.rinderle.softvis3d.base.domain.tree;
+package de.rinderle.softvis3d.domain.tree;
 
-public class RootTreeNode extends TreeNode {
+import java.util.Map;
 
-  public RootTreeNode(final String id) {
-    super(id, null, 0, TreeNodeType.TREE, "root");
+public class ValueTreeNode extends TreeNode {
+
+  private final String key;
+  private final Map<String, Double> metrics;
+
+  public ValueTreeNode(final String id, final String key, final TreeNode parent, final int depth, final TreeNodeType type,
+    final String name, Map<String, Double> metrics) {
+    super(id, parent, depth, type, name);
+
+    this.key = key;
+    this.metrics = metrics;
+  }
+
+  public String getKey() {
+    return key;
+  }
+
+  public Map<String, Double> getMetrics() {
+    return metrics;
   }
 
 }

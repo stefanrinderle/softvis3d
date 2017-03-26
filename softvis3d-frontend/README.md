@@ -1,7 +1,8 @@
 # SoftVis3D - Frontend module
 
 # Installation
-1. `npm install`
+0. `npm install -g yarn`
+1. `yarn install`
 
 # Development
 1. Start SonarQube-Server
@@ -9,14 +10,14 @@
 2. Configure Dev-Environment (`config/dev.ts`)
    * update `proxy` to point to the SonarQube-Server
    * update `project` for development on a specific Project _(use projectKey)_
-4. `npm start` will start the dev-server on `http://localhost:8080`
+4. `yarn start` will start the dev-server on `http://localhost:8080`
 
 # Production Build
-`npm run build` will execute all available tests before building the project, which can be found in `/app`.
+`yarn run build` will execute all available tests before building the project, which can be found in `/app`.
 
 # Unit tests
- * `npm test` will run mocha.
- * `npm test:coverage` will also generate a coverage report
+ * `yarn test` will run mocha.
+ * `yarn test:coverage` will also generate a coverage report
 
 # TODOS
  * If ts-node transpilation fails webpack will carry on and the build will still succeed.

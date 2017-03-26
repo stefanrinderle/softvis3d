@@ -1,24 +1,21 @@
-$content-height: 32px;
-
 .top-bar {
     @include clearfix;
     border-bottom: 1px solid $border-color-background;
-    padding: 0;
+    padding: 3px 0;
 
-    height: $content-height;
+    height: 26px;
     margin: auto;
 
     .no-info {
         display: block;
-        padding: ($content-height / 4);
+        padding: 5px 8px;
         color: $font-color-highlight;
         font-style: italic;
     }
 
     .selected-element-info {
-        height: $content-height;
         margin-right: 295px;
-        background: no-repeat 8px 45%;
+        background: no-repeat 8px 25%;
         background-size: 20px;
         &.leaf {
             @include bg-img-file;
@@ -28,15 +25,17 @@ $content-height: 32px;
         }
 
         .element-name {
-            margin: 6px 60px 0 34px;
-            height: ($content-height - 8px);
-            float: left;
-            min-width: 400px;
-            max-width: 600px;
+            display: inline-block;
+            margin: 0 60px 0 32px;
+            padding-top: 2px;
             overflow: hidden;
 
             font-weight: 600;
             font-size: 12pt;
+        }
+
+        .info-buttons {
+            display: inline;
         }
     }
 
@@ -44,11 +43,6 @@ $content-height: 32px;
         float: right;
         width: 291px;
         text-align: center;
-        padding: (($content-height - 26px)/2) 0;
-
-        button {
-            @include softvis-button;
-        }
 
         .dropdown {
             $dropdown-width: 132px;
@@ -77,5 +71,9 @@ $content-height: 32px;
                 }
             }
         }
+    }
+
+    button {
+        @include softvis-button;
     }
 }

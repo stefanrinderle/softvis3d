@@ -1,4 +1,4 @@
-package de.rinderle.softvis3d.base.domain.tree;
+package de.rinderle.softvis3d.domain.tree;
 
 import org.junit.Test;
 

@@ -3,9 +3,9 @@ import {observer} from "mobx-react";
 import {Scrollbars} from "react-custom-scrollbars";
 import FolderContentElement from "./FolderContentElement";
 import {SceneStore} from "../../stores/SceneStore";
-import HtmlDom from "../../services/HtmlDom";
+import {HtmlDom, Offset} from "../../services/HtmlDom";
 
-interface NodeListProps {
+export interface NodeListProps {
     activeFolder: TreeElement|null;
     sceneStore: SceneStore;
 }
@@ -27,16 +27,16 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
     }
 
     public updateDimensions() {
-        const sceneHeight = HtmlDom.getHeightById("softvis3dscene");
-        const sceneOffsets = HtmlDom.getOffsetsById("softvis3dscene");
-        const scrollerOffset = HtmlDom.getOffsetsById("node-scroller");
+        const sceneHeight: number = HtmlDom.getHeightById("softvis3dscene");
+        const sceneOffsets: Offset = HtmlDom.getOffsetsById("softvis3dscene");
+        const scrollerOffset: Offset = HtmlDom.getOffsetsById("node-scroller");
 
         this.setState({
             listHeight: sceneHeight - scrollerOffset.top + sceneOffsets.top
         });
     }
 
-    public onResize () {
+    public onResize() {
         if (!this.rafID) {
             this.rafID = window.requestAnimationFrame(() => {
                 this.rafID = null;
@@ -48,6 +48,12 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
     public componentDidMount () {
         this.updateDimensions();
         window.addEventListener("resize", this.onResize.bind(this), false);
+    }
+
+    public componentDidUpdate(prevProps: NodeListProps) {
+        if (this.props.activeFolder !== prevProps.activeFolder) {
+            this.onResize();
+        }
     }
 
     public componentWillUnmount () {

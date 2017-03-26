@@ -19,8 +19,8 @@
  */
 package de.rinderle.softvis3d.preprocessing.tree;
 
-import de.rinderle.softvis3d.base.domain.tree.TreeNode;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
+import de.rinderle.softvis3d.domain.tree.TreeNode;
 
 import java.util.Collections;
 import java.util.Map;

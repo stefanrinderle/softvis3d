@@ -19,13 +19,11 @@
  */
 package de.rinderle.softvis3d.webservice;
 
-import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
-import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
-import de.rinderle.softvis3d.base.domain.tree.ValueTreeNode;
-import de.rinderle.softvis3d.base.result.SoftVis3dJsonWriter;
-import de.rinderle.softvis3d.base.result.TreeNodeJsonWriter;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
+import de.rinderle.softvis3d.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
 import de.rinderle.softvis3d.preprocessing.PreProcessor;
 
 import java.io.BufferedOutputStream;
@@ -96,10 +94,10 @@ public class VisualizationWebserviceHandlerTest {
 
   private RootTreeNode mockPreProcessing() {
     final RootTreeNode rootTreeNode = new RootTreeNode("1");
-    rootTreeNode.getChildren().put("2", new ValueTreeNode("2", rootTreeNode, 1, TreeNodeType.TREE, "2",
-        Collections.emptyMap()));
-    rootTreeNode.getChildren().put("3", new ValueTreeNode("3", rootTreeNode, 1, TreeNodeType.TREE, "3",
-        Collections.emptyMap()));
+    rootTreeNode.getChildren().put("2", new ValueTreeNode("2", "2", rootTreeNode, 1, TreeNodeType.TREE, "2",
+      Collections.emptyMap()));
+    rootTreeNode.getChildren().put("3", new ValueTreeNode("3", "3", rootTreeNode, 1, TreeNodeType.TREE, "3",
+      Collections.emptyMap()));
 
     when(preProcessor.process(any(LocalConnector.class), any(VisualizationRequest.class))).thenReturn(rootTreeNode);
 

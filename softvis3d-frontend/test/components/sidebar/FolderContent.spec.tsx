@@ -1,9 +1,11 @@
 import * as React from "react";
-import { expect } from "chai";
-import { shallow } from "enzyme";
-import { SceneStore } from "../../../src/stores/SceneStore";
+import {assert, expect} from "chai";
+import {mount, shallow} from "enzyme";
+import {SceneStore} from "../../../src/stores/SceneStore";
 import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
-import FolderContent from "../../../src/components/sidebar/FolderContent";
+import FolderContent, {NodeListProps} from "../../../src/components/sidebar/FolderContent";
+import * as Sinon from "sinon";
+import {HtmlDom} from "../../../src/services/HtmlDom";
 
 describe("<FolderContent/>", () => {
 
@@ -35,7 +37,7 @@ describe("<FolderContent/>", () => {
                 isSelected={true}
                 sceneStore={localSceneStore}
             />
-            )).to.be.true;
+        )).to.be.true;
 
         expect(sideBarLeafInfo.contains(
             <FolderContentElement
@@ -43,7 +45,7 @@ describe("<FolderContent/>", () => {
                 isSelected={false}
                 sceneStore={localSceneStore}
             />
-            )).to.be.true;
+        )).to.be.true;
     });
 
     it("should show children of the selected element as list", () => {
@@ -81,6 +83,71 @@ describe("<FolderContent/>", () => {
                 sceneStore={localSceneStore}/>)
         ).to.be.true;
     });
+
+    it("should mount component with dimension update", () => {
+        Sinon.stub(HtmlDom, "getHeightById", () => {
+            return 123;
+        });
+        Sinon.stub(HtmlDom, "getOffsetsById", () => {
+            return {
+                top: 312,
+                left: 111
+            };
+        });
+
+        let windowStub = Sinon.stub(window, "addEventListener");
+
+        let localSceneStore: SceneStore = new SceneStore();
+        Sinon.spy(FolderContent.prototype, "componentDidMount");
+        let wrapper = mount(<FolderContent
+            activeFolder={null}
+            sceneStore={localSceneStore}
+        />);
+        expect(FolderContent.prototype.componentDidMount).to.have.property("callCount", 1);
+
+        expect(wrapper.state().listHeight).to.be.eq(123);
+
+        assert(windowStub.called);
+        windowStub.restore();
+    });
+
+    it("should remove event listener on unmount", () => {
+        let windowStub = Sinon.stub(window, "removeEventListener");
+
+        let underTest: FolderContent = new FolderContent();
+        underTest.componentWillUnmount();
+
+        assert(windowStub.called);
+        windowStub.restore();
+    });
+
+    it("should resize on component update", () => {
+        let underTest: FolderContent = new FolderContent();
+
+        let underTestSpy = Sinon.mock(underTest);
+        underTestSpy.expects("onResize").once();
+
+        let localSceneStore: SceneStore = new SceneStore();
+        let prevProps: NodeListProps = {
+            activeFolder: null,
+            sceneStore: localSceneStore
+        };
+
+        underTest.props = {
+            activeFolder: createTestTreeElement("root2"),
+            sceneStore: localSceneStore
+        };
+
+        underTest.componentDidUpdate(prevProps);
+
+        underTestSpy.verify();
+
+        // do not resize if no change in active folder
+        underTest.componentDidUpdate(underTest.props);
+
+        underTestSpy.verify();
+    });
+
 });
 
 function createTestTreeElement(name: string): TreeElement {
