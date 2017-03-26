@@ -9,6 +9,8 @@ ts-node/
 target/
 yarn/
 
+config/*.js
+
 src/*.js
 src/*.js.map
 
