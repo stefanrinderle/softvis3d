@@ -103,6 +103,7 @@
           <resourceBundles>
             <resourceBundle>de.rinderle.softvis3d:softvis3d-frontend:${project.version}</resourceBundle>
           </resourceBundles>
+          <attachToMain>false</attachToMain>
           <outputDirectory>${project.build.directory}/shared-resources</outputDirectory>
         </configuration>
         <executions>
@@ -137,21 +138,21 @@
               <replacements>
                 <replacement>
                   <token>static/resources/</token>
-                  <value>../../static/softvis3d/resources/</value>
+                  <value>../../../static/softvis3d/resources/</value>
                 </replacement>
               </replacements>
             </configuration>
           </execution>
         </executions>
-
       </plugin>
     </plugins>
     <resources>
       <resource>
-        <directory>${project.build.directory}/shared-resources/app</directory>
+        <directory>${project.build.directory}/shared-resources/app/static</directory>
         <includes>
           <include>**/*.*</include>
         </includes>
+        <targetPath>static</targetPath>
       </resource>
       <resource>
         <directory>src/main/resources</directory>
