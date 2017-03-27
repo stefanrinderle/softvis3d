@@ -10,7 +10,7 @@ function waitFor(selector) {
 describe("Index", () => {
 
     beforeEach(() => {
-        browser.get("project/extension/softvis3d/overview_page?id=de.rinderle.softvis3d%3Asoftvis3d");
+        browser.get("/project/extension/softvis3d/overview_page?id=de.rinderle.softvis3d%3Asoftvis3d");
 
         // element(by.linkText("softvis3d")).click();
         // browser.sleep(3000);
