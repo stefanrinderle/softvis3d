@@ -7,6 +7,7 @@ import {SceneStore} from "../../../src/stores/SceneStore";
 import SceneInformation from "../../../src/components/scene/information/SceneInformation";
 import * as Sinon from "sinon";
 import SoftVis3dScene from "../../../src/components/scene/visualization/SoftVis3dScene";
+import "jsdom-global/register";
 
 describe("<Scene/>", () => {
 
@@ -17,11 +18,7 @@ describe("<Scene/>", () => {
         localSceneStore.scenePainter = scenePainter;
         let initStub = Sinon.stub(scenePainter, "init");
 
-        Sinon.stub(scenePainter, "getCamera", () => {
-            return {
-                position: {}
-            };
-        });
+        Sinon.stub(scenePainter, "getCamera", () => ({ position: {} }));
 
         let scene = mount(
             <Scene sceneStore={localSceneStore}/>
@@ -138,22 +135,26 @@ describe("<Scene/>", () => {
     });
 
     it("should reset camera position", () => {
-        let localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = new SceneStore();
 
-        let scenePainter: SoftVis3dScene = new SoftVis3dScene();
+        const scenePainter: SoftVis3dScene = new SoftVis3dScene();
         localSceneStore.scenePainter = scenePainter;
-        let resetStub = Sinon.stub(scenePainter, "resetCameraPosition");
 
-        let underTest: Scene = new Scene();
-        underTest.props = {
-            sceneStore: localSceneStore
-        };
+        Sinon.stub(scenePainter, "init");
+        Sinon.stub(scenePainter, "getCamera", () => ({ position: {} }));
+        const resetStub = Sinon.stub(scenePainter, "resetCameraPosition");
 
-        let event: any = {
-            keyCode: 82
-        };
-        underTest.handleKeyDown(event);
+        const wrapper = mount(<Scene sceneStore={localSceneStore} />);
+        const scene: Scene = wrapper.instance() as Scene;
 
+        const eventButtonR = { keyCode: 82 } as any as KeyboardEvent;
+        const eventClickScene = { target: null } as any as MouseEvent;
+
+        scene.handleKeyDown(eventButtonR);
+        expect(resetStub.called).to.be.false;
+
+        scene.handleMouseDown(eventClickScene);
+        scene.handleKeyDown(eventButtonR);
         expect(resetStub.called).to.be.true;
     });
 });

@@ -13,6 +13,49 @@
         margin: 0;
         padding: 0;
 
+        &.active > .key-legend {
+            visibility: visible;
+            opacity: .8;
+        }
+
+        .key-legend {
+            pointer-events: none;
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background-color: $white;
+            box-shadow: 0 0 4px 5px $white;
+            padding: 2px;
+
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility .5s, opacity .5s linear;
+
+            table {
+                border-spacing: 0;
+                border: 0;
+
+                .keyboard-key {
+                    border: 1px solid gray;
+                    font-size: 10px;
+                    line-height: 12px;
+                    font-weight: bold;
+                    box-shadow: 1px 0 1px 0 darken($white, 10%),
+                                0 1px 0 1px darken($white, 20%),
+                                0 1px 0 2px darken($white, 85%);
+                    border-radius: 3px;
+                    margin: 2px 5px 5px 5px;
+                    padding: 0 2px;
+                    background: $white;
+                }
+
+                span {
+                    font-size: 12px;
+
+                }
+            }
+        }
+
         .scene-information {
             position: absolute;
             left: 0; right: 0;
