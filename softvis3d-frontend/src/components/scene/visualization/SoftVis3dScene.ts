@@ -17,7 +17,7 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {Scene, WebGLRenderer, PerspectiveCamera, Vector3 } from "three";
+import {Scene, WebGLRenderer, PerspectiveCamera, Vector3} from "three";
 import {Camera} from "./Camera";
 import {Wrangler} from "./Wrangler";
 import {Setup} from "./Setup";
@@ -43,7 +43,7 @@ export default class SoftVis3dScene {
     private camera: Camera;
     private controls: THREE.OrbitControls;
 
-    private animationId: null|number = null;
+    private animationId: null | number = null;
 
     public init() {
         const container = <HTMLCanvasElement> document.getElementById(SoftVis3dScene.CANVAS_ID);
@@ -93,8 +93,7 @@ export default class SoftVis3dScene {
         this.wrangler.loadSoftVis3d(shapes);
 
         if (!cameraPosition) {
-            let platformDimension: Dimension = this.findMaxDimension(shapes);
-            cameraPosition = new Vector3(0, platformDimension._length * 0.7, platformDimension._width * 0.7);
+            cameraPosition = this.getDefaultCameraPosition(shapes);
         }
 
         this.setCameraTo(cameraPosition);
@@ -128,7 +127,7 @@ export default class SoftVis3dScene {
         const appOffset: Offset = HtmlDom.getOffsetsById("app");
         const sceneBoarderWidth = 1;
         const sonarFooter = document.getElementById("footer");
-        const sonarFooterHeight =  sonarFooter ? sonarFooter.offsetHeight : 11;
+        const sonarFooterHeight = sonarFooter ? sonarFooter.offsetHeight : 11;
         const appMaxHeight = window.innerHeight - sonarFooterHeight - appOffset.top - (2 * sceneBoarderWidth);
         const appComputedWidth = HtmlDom.getWidthById("app") - 2 * sceneBoarderWidth;
 
@@ -155,6 +154,15 @@ export default class SoftVis3dScene {
         return result;
     }
 
+    /**
+     * Why recalculate?
+     * I want the position to be reset based on the given shapes. In the use case of the "direct link" feature,
+     * reset to the "first" position would reset to the starting point from the link.
+     */
+    public resetCameraPosition(shapes: SoftVis3dShape[]) {
+        this.setCameraTo(this.getDefaultCameraPosition(shapes));
+    }
+
     private calculateSelectionPosition(event: MouseEvent) {
         let x: number = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
         let y: number = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
@@ -164,6 +172,11 @@ export default class SoftVis3dScene {
         y -= offset.top;
 
         return {x, y};
+    }
+
+    private getDefaultCameraPosition(shapes: SoftVis3dShape[]) {
+        let platformDimension: Dimension = this.findMaxDimension(shapes);
+        return new Vector3(0, platformDimension._length * 0.7, platformDimension._width * 0.7);
     }
 
     private findMaxDimension(shapes: SoftVis3dShape[]): Dimension {

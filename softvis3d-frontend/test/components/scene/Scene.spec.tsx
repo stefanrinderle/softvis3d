@@ -1,27 +1,36 @@
 import * as React from "react";
-import {shallow} from "enzyme";
+import {mount} from "enzyme";
 import {expect} from "chai";
-import {Vector3, PerspectiveCamera} from "three";
+import {PerspectiveCamera, Vector3} from "three";
 import Scene from "../../../src/components/scene/Scene";
 import {SceneStore} from "../../../src/stores/SceneStore";
 import SceneInformation from "../../../src/components/scene/information/SceneInformation";
 import * as Sinon from "sinon";
 import SoftVis3dScene from "../../../src/components/scene/visualization/SoftVis3dScene";
+import "jsdom-global/register";
 
 describe("<Scene/>", () => {
 
-    it("should initialize rendering", () => {
+    it("should initialize", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
-        const scene = shallow(
+        let scenePainter: SoftVis3dScene = new SoftVis3dScene();
+        localSceneStore.scenePainter = scenePainter;
+        let initStub = Sinon.stub(scenePainter, "init");
+
+        Sinon.stub(scenePainter, "getCamera", () => ({ position: {} }));
+
+        let scene = mount(
             <Scene sceneStore={localSceneStore}/>
         );
 
         expect(scene.contains(
             <SceneInformation sceneStore={localSceneStore}/>)).to.be.true;
+
+        expect(initStub.called).to.be.true;
     });
 
-    it("should mount", () => {
+    it("should initialize default", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         let scenePainter: SoftVis3dScene = new SoftVis3dScene();
@@ -123,5 +132,29 @@ describe("<Scene/>", () => {
             expect(localSceneStore.cameraPosition.y).to.be.eq(expectedCameraPosition.y);
             expect(localSceneStore.cameraPosition.z).to.be.eq(expectedCameraPosition.z);
         }
+    });
+
+    it("should reset camera position", () => {
+        const localSceneStore: SceneStore = new SceneStore();
+
+        const scenePainter: SoftVis3dScene = new SoftVis3dScene();
+        localSceneStore.scenePainter = scenePainter;
+
+        Sinon.stub(scenePainter, "init");
+        Sinon.stub(scenePainter, "getCamera", () => ({ position: {} }));
+        const resetStub = Sinon.stub(scenePainter, "resetCameraPosition");
+
+        const wrapper = mount(<Scene sceneStore={localSceneStore} />);
+        const scene: Scene = wrapper.instance() as Scene;
+
+        const eventButtonR = { keyCode: 82 } as any as KeyboardEvent;
+        const eventClickScene = { target: null } as any as MouseEvent;
+
+        scene.handleKeyDown(eventButtonR);
+        expect(resetStub.called).to.be.false;
+
+        scene.handleMouseDown(eventClickScene);
+        scene.handleKeyDown(eventButtonR);
+        expect(resetStub.called).to.be.true;
     });
 });
