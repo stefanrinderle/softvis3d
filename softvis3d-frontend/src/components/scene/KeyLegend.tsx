@@ -22,6 +22,18 @@ export class KeyLegend extends React.Component<KeyLegendProps, any> {
                 <table>
                     <tbody>
                         <tr>
+                            <td><div className="mouse-key mouse-left" /></td>
+                            <td><span>Rotate</span></td>
+                        </tr>
+                        <tr>
+                            <td><div className="mouse-key mouse-middle" /></td>
+                            <td><span>Zoom</span></td>
+                        </tr>
+                        <tr>
+                            <td><div className="mouse-key mouse-right" /></td>
+                            <td><span>Move</span></td>
+                        </tr>
+                        <tr>
                             <td><div className="keyboard-key">R</div></td>
                             <td><span>Reset Camera</span></td>
                         </tr>
