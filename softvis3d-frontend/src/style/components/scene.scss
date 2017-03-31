@@ -59,15 +59,15 @@
 
                     &.mouse-left {
                         @include bg-img-mouse-left;
-                        background-size: contain;
+                        background-size: 14px 22px;
                     }
                     &.mouse-right {
                         @include bg-img-mouse-right;
-                        background-size: contain;
+                        background-size: 14px 22px;
                     }
                     &.mouse-middle {
                         @include bg-img-mouse-middle;
-                        background-size: contain;
+                        background-size: 14px 22px;
                     }
                 }
 
