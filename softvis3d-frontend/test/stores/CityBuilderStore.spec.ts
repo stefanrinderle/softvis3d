@@ -31,7 +31,7 @@ describe("CityBuilderStore", () => {
     it("should have set all default values on init", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         expect(underTest.layout).to.be.eq(evostreet);
-        expect(underTest.profile.id).to.be.eq(defaultProfile.id);
+        expect(underTest.profile.getId()).to.be.eq(defaultProfile.getId());
         expect(underTest.metricColor).to.be.eq(Metrics.noColorMetric);
         expect(underTest.colorMetrics.keys.length).to.be.eq(8);
         expect(underTest.initiateBuildProcess).to.be.eq(false);
@@ -51,21 +51,21 @@ describe("CityBuilderStore", () => {
     it("should set profile", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         underTest.profile = defaultProfile;
-        expect(underTest.profile.id).to.be.equal(defaultProfile.id);
+        expect(underTest.profile.getId()).to.be.equal(defaultProfile.getId());
     });
 
     it("should set profile if already set", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         underTest.profile = defaultProfile;
         underTest.profile = defaultProfile;
-        expect(underTest.profile.id).to.be.equal(defaultProfile.id);
+        expect(underTest.profile.getId()).to.be.equal(defaultProfile.getId());
     });
 
     it("should update custom profile", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         underTest.profile = leakPeriod;
         underTest.profile = custom;
-        expect(underTest.profile.id).to.be.equal(custom.id);
+        expect(underTest.profile.getId()).to.be.equal(custom.getId());
         expect(leakPeriod.heightMetricId).to.be.equal(custom.heightMetricId);
         expect(leakPeriod.footprintMetricId).to.be.equal(custom.footprintMetricId);
         expect(leakPeriod.scale).to.be.equal(custom.scale);
@@ -73,7 +73,7 @@ describe("CityBuilderStore", () => {
 
     it("should update scale profile but set default again", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
-        expect(underTest.profile.id).to.be.equal(defaultProfile.id);
+        expect(underTest.profile.getId()).to.be.equal(defaultProfile.getId());
         expect(underTest.profile.scale).to.be.equal(LOGARITHMIC);
         underTest.profile.scale = LINEAR_SCALED;
 

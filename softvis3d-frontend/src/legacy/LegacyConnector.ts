@@ -23,13 +23,13 @@ export default class LegacyConnector {
         if (this.sceneStore.legacyData !== null) {
             this.appStatusStore.load(LegacyConnector.BUILD_CITY);
 
-            const model = new Softvis3dModel(this.sceneStore.legacyData, this.sceneStore.options.footprint.id,
-                this.sceneStore.options.height.id, this.sceneStore.options.metricColor.id);
+            const model = new Softvis3dModel(this.sceneStore.legacyData, this.sceneStore.options.footprint.getId(),
+                this.sceneStore.options.height.getId(), this.sceneStore.options.metricColor.getId());
 
             const options = {
-                layout: this.sceneStore.options.layout.id,
+                layout: this.sceneStore.options.layout.getId(),
                 layoutOptions: {},
-                colorMetric: this.sceneStore.options.metricColor.id,
+                colorMetric: this.sceneStore.options.metricColor.getId(),
                 scalingMethod: this.sceneStore.options.scale
             };
 

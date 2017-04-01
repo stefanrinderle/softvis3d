@@ -80,8 +80,8 @@ describe("VisualizationLinkService", () => {
         assert(stub.calledWithExactly("abc"));
 
         expect(testCityBuilderStore.profile).to.be.eq(custom);
-        expect(testCityBuilderStore.profile.footprintMetricId).to.be.eq(metricFootprint.id);
-        expect(testCityBuilderStore.profile.heightMetricId).to.be.eq(metricHeight.id);
+        expect(testCityBuilderStore.profile.footprintMetricId).to.be.eq(metricFootprint.getId());
+        expect(testCityBuilderStore.profile.heightMetricId).to.be.eq(metricHeight.getId());
         expect(testCityBuilderStore.metricColor).to.be.eq(coverageColorMetric);
         expect(testCityBuilderStore.layout).to.be.eq(district);
         expect(testCityBuilderStore.profile.scale).to.be.eq(EXPONENTIAL);
@@ -130,8 +130,8 @@ describe("VisualizationLinkService", () => {
         assert(stub.calledWithExactly("abc"));
 
         expect(testCityBuilderStore.profile).to.be.eq(custom);
-        expect(testCityBuilderStore.profile.footprintMetricId).to.be.eq(metricHeight.id);
-        expect(testCityBuilderStore.profile.heightMetricId).to.be.eq(metricFootprint.id);
+        expect(testCityBuilderStore.profile.footprintMetricId).to.be.eq(metricHeight.getId());
+        expect(testCityBuilderStore.profile.heightMetricId).to.be.eq(metricFootprint.getId());
         expect(testCityBuilderStore.metricColor).to.be.eq(packageNameColorMetric);
         expect(testCityBuilderStore.layout).to.be.eq(evostreet);
         expect(testCityBuilderStore.profile.scale).to.be.eq(LINEAR_SCALED);

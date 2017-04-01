@@ -59,8 +59,8 @@ describe("VisualizationOptions", () => {
         let result: VisualizationConfiguration = VisualizationConfiguration.createDefault();
 
         expect(result.layout).to.be.eq(layout);
-        expect(result.footprint.id).to.be.eq(noMetricId);
-        expect(result.height.id).to.be.eq(noMetricId);
+        expect(result.footprint.getId()).to.be.eq(noMetricId);
+        expect(result.height.getId()).to.be.eq(noMetricId);
         expect(result.metricColor).to.be.eq(metricColor);
         expect(result.scale).to.be.eq(scalingmethod);
     });

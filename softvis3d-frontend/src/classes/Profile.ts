@@ -3,7 +3,6 @@ import { observable } from "mobx";
 
 export default class Profile implements SelectOptionValue {
 
-    public id: string;
     public description: string;
     @observable
     public heightMetricId: string;
@@ -11,6 +10,8 @@ export default class Profile implements SelectOptionValue {
     public footprintMetricId: string;
     @observable
     public scale: Scale;
+
+    private id: string;
     private name: string;
 
     constructor(builder: ProfileBuilder) {

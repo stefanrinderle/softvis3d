@@ -57,7 +57,7 @@ export class ColorMetrics {
 
     public static getColorMetricById(id: string): Metric | undefined {
         for (let availableColorMetric of ColorMetrics.availableColorMetrics) {
-            if (availableColorMetric.id === id) {
+            if (availableColorMetric.getId() === id) {
                 return availableColorMetric;
             }
         }

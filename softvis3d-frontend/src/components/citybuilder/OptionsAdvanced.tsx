@@ -25,7 +25,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                             options={this.props.store.genericMetrics.asSelectOptions}
                             onChange={(m: Metric) => {
                                 this.props.store.profile = custom;
-                                this.props.store.profile.footprintMetricId = m.id;
+                                this.props.store.profile.footprintMetricId = m.getId();
                             }}
                         />
                         <p className="selection-description">{ footprintMetric.description }</p>
@@ -39,7 +39,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                             options={this.props.store.genericMetrics.asSelectOptions}
                             onChange={(m: Metric) => {
                                 this.props.store.profile = custom;
-                                this.props.store.profile.heightMetricId = m.id;
+                                this.props.store.profile.heightMetricId = m.getId();
                             }}
                         />
                         <p className="selection-description">{ heightMetric.description }</p>

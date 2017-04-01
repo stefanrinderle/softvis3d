@@ -30,8 +30,8 @@ export default class VisualizationLinkParams {
         let result: Parameters = {
             metricFootprint: this._metricFootprintId,
             metricHeight: this._metricHeightId,
-            metricColor: this._metricColor.id,
-            layout: this._layout.id,
+            metricColor: this._metricColor.getId(),
+            layout: this._layout.getId(),
             scale: this._scale.getId(),
             cameraX: Math.round(this._cameraPosition.x).toString(),
             cameraY: Math.round(this._cameraPosition.y).toString(),

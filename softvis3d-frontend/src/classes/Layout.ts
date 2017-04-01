@@ -1,8 +1,9 @@
 export default class Layout implements SelectOptionValue {
 
-    public id: string;
-    public name: string;
     public description: string;
+
+    private id: string;
+    private name: string;
 
     constructor(id: string, name: string, description: string) {
         this.id = id;

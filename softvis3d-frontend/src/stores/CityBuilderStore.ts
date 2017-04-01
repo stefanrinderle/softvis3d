@@ -29,12 +29,12 @@ class CityBuilderStore {
     private _customProfile: Profile = custom;
 
     set profile(p: Profile) {
-        if (p.id === custom.id) {
+        if (p.getId() === custom.getId()) {
             this._customProfile.updateConfiguration(
                 this.profile.footprintMetricId, this.profile.heightMetricId, this.profile.scale);
             this._profile = this._customProfile;
         } else {
-            this._profile = Profiles.getAvailableProfileById(p.id).clone();
+            this._profile = Profiles.getAvailableProfileById(p.getId()).clone();
         }
     }
 
@@ -46,7 +46,6 @@ class CityBuilderStore {
         let result = this.genericMetrics.getMetricByKey(this._profile.heightMetricId);
         if (result === undefined) {
             return new Metric(noMetricId, "NONE", " -- None -- ", "");
-            ;
         } else {
             return result;
         }
@@ -56,7 +55,6 @@ class CityBuilderStore {
         let result = this.genericMetrics.getMetricByKey(this._profile.footprintMetricId);
         if (result === undefined) {
             return new Metric(noMetricId, "NONE", " -- None -- ", "");
-            ;
         } else {
             return result;
         }

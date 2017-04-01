@@ -35,7 +35,7 @@ describe("Profile", () => {
             .withDescription(expectedDescription)
             .build();
 
-        expect(profile.id).to.be.eq(expectedId);
+        expect(profile.getId()).to.be.eq(expectedId);
         expect(profile.footprintMetricId).to.be.eq(complexityMetricId);
         expect(profile.heightMetricId).to.be.eq(linesOfCodeMetricId);
         expect(profile.scale).to.be.eq(Scales.availableScales[0]);
@@ -73,7 +73,7 @@ describe("Profile", () => {
 
         expect(test).not.to.be.eq(cloneResult);
 
-        expect(cloneResult.id).to.be.eq(id);
+        expect(cloneResult.getId()).to.be.eq(id);
         expect(cloneResult.getLabel()).to.be.eq(name);
         expect(cloneResult.footprintMetricId).to.be.eq(metricWidth);
         expect(cloneResult.heightMetricId).to.be.eq(metricHeight);
@@ -100,7 +100,7 @@ describe("Profile", () => {
 
         test.updateConfiguration(updateMetricWidth, updateMetricHeight, updateScale);
 
-        expect(test.id).to.be.eq(id);
+        expect(test.getId()).to.be.eq(id);
         expect(test.getLabel()).to.be.eq(name);
         expect(test.footprintMetricId).to.be.eq(updateMetricWidth);
         expect(test.heightMetricId).to.be.eq(updateMetricHeight);

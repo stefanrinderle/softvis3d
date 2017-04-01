@@ -49,7 +49,7 @@ export class Profiles {
 
     public static getAvailableProfileById(id: string): Profile {
         for (let searchProfile of this.availableProfiles) {
-            if (searchProfile.id === id) {
+            if (searchProfile.getId() === id) {
                 return searchProfile;
             }
         }

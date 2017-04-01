@@ -28,7 +28,7 @@ export default class MetricSet {
 
     @computed
     get keys(): string[] {
-        return this.metrics.map((m) => (m.id));
+        return this.metrics.map((m) => (m.getId()));
     }
 
     @computed
@@ -41,7 +41,7 @@ export default class MetricSet {
         let result: boolean = false;
 
         for (let metric of this.metrics) {
-            if (metric.id === newLinesOfCodeMetricId) {
+            if (metric.getId() === newLinesOfCodeMetricId) {
                 return true;
             }
         }
@@ -55,7 +55,7 @@ export default class MetricSet {
         }
 
         for (let metric of this.metrics) {
-            if (metric.id === sourceId) {
+            if (metric.getId() === sourceId) {
                 return metric;
             }
         }

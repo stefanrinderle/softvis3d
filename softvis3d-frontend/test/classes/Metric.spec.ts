@@ -30,9 +30,7 @@ describe("Metric", () => {
 
         let result: Metric = new Metric(expectedKey, expectedType, expectedName, expectedDescription);
 
-        expect(result.id).to.be.eq(expectedKey);
-        expect(result.name).to.be.eq(expectedName);
-        expect(result.type).to.be.eq(expectedType);
+        expect(result.getId()).to.be.eq(expectedKey);
         expect(result.description).to.be.eq(expectedDescription);
     });
 

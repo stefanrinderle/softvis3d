@@ -27,9 +27,9 @@ describe("Metrics", () => {
     });
 
     it("should find layout by id", () => {
-        expect(ColorMetrics.getColorMetricById(coverageColorMetric.id)).to.be.eq(coverageColorMetric);
+        expect(ColorMetrics.getColorMetricById(coverageColorMetric.getId())).to.be.eq(coverageColorMetric);
 
-        expect(ColorMetrics.getColorMetricById(packageNameColorMetric.id)).to.be.eq(packageNameColorMetric);
+        expect(ColorMetrics.getColorMetricById(packageNameColorMetric.getId())).to.be.eq(packageNameColorMetric);
     });
 
 });

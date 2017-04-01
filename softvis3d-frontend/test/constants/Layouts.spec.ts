@@ -27,9 +27,9 @@ describe("Layouts", () => {
     });
 
     it("should find layout by id", () => {
-        expect(Layouts.getLayoutById(evostreet.id)).to.be.eq(evostreet);
+        expect(Layouts.getLayoutById(evostreet.getId())).to.be.eq(evostreet);
 
-        expect(Layouts.getLayoutById(district.id)).to.be.eq(district);
+        expect(Layouts.getLayoutById(district.getId())).to.be.eq(district);
     });
 
 });

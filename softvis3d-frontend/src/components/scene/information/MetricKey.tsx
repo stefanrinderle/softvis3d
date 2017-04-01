@@ -17,7 +17,7 @@ export default class MetricKey extends React.Component<MetricKeyProps, any> {
         return (
             <div className="metric-info">
                 <span className="title">{title}</span>
-                <span className="name">{metric.name}</span>
+                <span className="name">{metric.getLabel()}</span>
                 {this.renderValue((selectedElement as TreeElement|null), metric)}
             </div>
         );
@@ -25,7 +25,7 @@ export default class MetricKey extends React.Component<MetricKeyProps, any> {
 
     private renderValue(element: TreeElement|null, metric: Metric) {
         if (element !== null && element.children.length === 0) {
-            return <span className="value">{element.measures[metric.id] || 0}</span>;
+            return <span className="value">{element.measures[metric.getId()] || 0}</span>;
         }
     }
 
