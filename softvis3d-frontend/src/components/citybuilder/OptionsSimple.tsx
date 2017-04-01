@@ -1,13 +1,13 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import { observer } from "mobx-react";
+import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import LayoutPicker from "./LayoutPicker";
-import {Layouts} from "../../constants/Layouts";
+import { Layouts } from "../../constants/Layouts";
 import PreviewPictureComponent from "./PreviewPictureComponent";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import Profile from "../../classes/Profile";
-import {Profiles} from "../../constants/Profiles";
-import ColorMetric from "../../classes/ColorMetric";
+import { Profiles } from "../../constants/Profiles";
+import Metric from "../../classes/Metric";
 
 @observer
 export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {
@@ -34,7 +34,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                             className="metric color"
                             value={this.props.store.metricColor}
                             options={this.props.store.colorMetrics.asSelectOptions}
-                            onChange={(m: ColorMetric) => { this.props.store.metricColor = m; }}
+                            onChange={(m: Metric) => { this.props.store.metricColor = m; }}
                         />
                         <p className="selection-description color-description">
                             { this.props.store.metricColor.description }

@@ -17,18 +17,19 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
-import {SceneStore} from "../../src/stores/SceneStore";
-import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
+import { expect } from "chai";
+import { SceneStore } from "../../src/stores/SceneStore";
+import { CityBuilderStore } from "../../src/stores/CityBuilderStore";
 import BuilderReactions from "../../src/reactions/BuilderReactions";
-import {evostreet} from "../../src/constants/Layouts";
-import {leakPeriod} from "../../src/constants/Profiles";
-import {coverageMetric} from "../../src/constants/Metrics";
-import {EXPONENTIAL} from "../../src/constants/Scales";
+import { evostreet } from "../../src/constants/Layouts";
+import { leakPeriod } from "../../src/constants/Profiles";
+import { complexityMetricId, coverageMetric, newLinesOfCodeMetricId } from "../../src/constants/Metrics";
+import { EXPONENTIAL } from "../../src/constants/Scales";
+import Metric from "../../src/classes/Metric";
 
 describe("BuilderReactions", () => {
 
-    it("should initiate build process - part1 invalidate existing scene", () => {
+    it("should initiate build process - part 1 invalidate existing scene", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testSceneStore = new SceneStore();
         testSceneStore.shapes = {};
@@ -43,7 +44,7 @@ describe("BuilderReactions", () => {
         expect(testSceneStore.refreshScene).to.be.true;
     });
 
-    it("should initiate build process - part2 transfer option values", () => {
+    it("should initiate build process - part 2 transfer option values", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testSceneStore = new SceneStore();
 
@@ -51,6 +52,9 @@ describe("BuilderReactions", () => {
         let expectedProfile = leakPeriod;
         let expectedScale = EXPONENTIAL;
         let expectedColorMetric = coverageMetric;
+
+        testCityBuilderStore.genericMetrics.addMetric(new Metric(complexityMetricId, "INT", "", ""));
+        testCityBuilderStore.genericMetrics.addMetric(new Metric(newLinesOfCodeMetricId, "INT", "", ""));
 
         testCityBuilderStore.layout = expectedLayout;
         testCityBuilderStore.profile = expectedProfile;
@@ -64,8 +68,8 @@ describe("BuilderReactions", () => {
         expect(reactionRegister).not.to.be.null;
         expect(testSceneStore.options.layout).to.be.eq(expectedLayout);
         expect(testSceneStore.options.metricColor).to.be.eq(expectedColorMetric);
-        expect(testSceneStore.options.footprint).to.be.eq(expectedProfile.footprint);
-        expect(testSceneStore.options.height).to.be.eq(expectedProfile.height);
+        expect(testSceneStore.options.footprint.id).to.be.eq(expectedProfile.footprintMetricId);
+        expect(testSceneStore.options.height.id).to.be.eq(expectedProfile.heightMetricId);
         expect(testSceneStore.options.scale).to.be.eq(expectedScale);
     });
 

@@ -17,7 +17,7 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
+import { expect } from "chai";
 import Metric from "../../src/classes/Metric";
 
 describe("Metric", () => {
@@ -26,20 +26,23 @@ describe("Metric", () => {
         let expectedKey: string = "23";
         let expectedType: MetricType = "INT";
         let expectedName: string = "diufgh";
+        let expectedDescription: string = "description";
 
-        let result: Metric = new Metric(expectedKey, expectedType, expectedName);
+        let result: Metric = new Metric(expectedKey, expectedType, expectedName, expectedDescription);
 
         expect(result.id).to.be.eq(expectedKey);
         expect(result.name).to.be.eq(expectedName);
         expect(result.type).to.be.eq(expectedType);
+        expect(result.description).to.be.eq(expectedDescription);
     });
 
     it("should implement SelectOptionValue", () => {
         let expectedId: string = "23";
         let expectedType: MetricType = "INT";
         let expectedName: string = "diufgh";
+        let expectedDescription: string = "description";
 
-        let result: Metric = new Metric(expectedId, expectedType, expectedName);
+        let result: Metric = new Metric(expectedId, expectedType, expectedName, expectedDescription);
 
         expect(result.getLabel()).to.be.eq(expectedName);
         expect(result.getId()).to.be.eq(expectedId);

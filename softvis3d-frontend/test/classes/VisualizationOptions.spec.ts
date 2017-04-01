@@ -17,22 +17,21 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
+import { expect } from "chai";
 import VisualizationConfiguration from "../../src/classes/VisualizationOptions";
 import Layout from "../../src/classes/Layout";
-import {evostreet, district} from "../../src/constants/Layouts";
+import { district, evostreet } from "../../src/constants/Layouts";
 import Scale from "../../src/classes/Scale";
-import {coverageMetric, linesOfCodeMetric, complexityMetric, noMetric} from "../../src/constants/Metrics";
+import { complexityMetric, coverageMetric, linesOfCodeMetric, noMetric } from "../../src/constants/Metrics";
 import Metric from "../../src/classes/Metric";
-import {LOGARITHMIC, Scales} from "../../src/constants/Scales";
-import ColorMetric from "../../src/classes/ColorMetric";
+import { LOGARITHMIC, Scales } from "../../src/constants/Scales";
 
 describe("VisualizationOptions", () => {
 
     it("should construct config", () => {
         let metricWidth: Metric = complexityMetric;
         let metricHeight: Metric = linesOfCodeMetric;
-        let metricColor: ColorMetric = coverageMetric;
+        let metricColor: Metric = coverageMetric;
         let scalingMethod: Scale = Scales.availableScales[0];
         let layout: Layout = evostreet;
 

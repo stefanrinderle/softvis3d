@@ -17,10 +17,10 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {BackendService} from "./BackendService";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
-import {AppStatusStore} from "../../stores/AppStatusStore";
-import {SceneStore} from "../../stores/SceneStore";
+import { BackendService } from "./BackendService";
+import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import { AppStatusStore } from "../../stores/AppStatusStore";
+import { SceneStore } from "../../stores/SceneStore";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
 
@@ -82,8 +82,8 @@ export default class SonarQubeLegacyService extends BackendService {
 
     private getMetricRequestValues(): string {
         let result: Set<string> = new Set();
-        result.add(this.cityBuilderStore.profile.footprint.id);
-        result.add(this.cityBuilderStore.profile.height.id);
+        result.add(this.cityBuilderStore.profile.footprintMetricId);
+        result.add(this.cityBuilderStore.profile.heightMetricId);
 
         for (const colorMetric of this.cityBuilderStore.colorMetrics.keys) {
             if (colorMetric !== "none" && colorMetric !== "package") {

@@ -1,6 +1,6 @@
-import {SceneStore} from "../stores/SceneStore";
-import {CityBuilderStore} from "../stores/CityBuilderStore";
-import {reaction} from "mobx";
+import { SceneStore } from "../stores/SceneStore";
+import { CityBuilderStore } from "../stores/CityBuilderStore";
+import { reaction } from "mobx";
 import VisualizationOptions from "../classes/VisualizationOptions";
 
 export default class BuilderReactions {
@@ -25,8 +25,8 @@ export default class BuilderReactions {
 
                     // Transfer values
                     this.scene.options =
-                        new VisualizationOptions(this.builder.layout, this.builder.profile.footprint,
-                            this.builder.profile.height, this.builder.metricColor, this.builder.profile.scale);
+                        new VisualizationOptions(this.builder.layout, this.builder.footprintMetric,
+                            this.builder.heightMetric, this.builder.metricColor, this.builder.profile.scale);
 
                     this.scene.refreshScene = true;
                 }
