@@ -113,8 +113,24 @@
 }
 
 @mixin bg-img-arrow-down {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50px' height='50px'><polyline points='46.139,15.518 25.166,36.49 4.193,15.519'/></svg>");
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50px' height='50px'%3E%3Cpolyline points='46.139,15.518 25.166,36.49 4.193,15.519'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: 98% 50%;
     background-size: 9px;
+}
+
+@mixin bg-img-mouse {
+    background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='168' height='247'%3E%3Cpath fill='%23fff' stroke='%23000' stroke-width='8.5' d='M10.298 90h149.334v95.503H10.298z'/%3E%3Cellipse cx='84.965' cy='189.38' fill='%23fff' stroke='%23000' stroke-width='8' rx='74.75' ry='49.25'/%3E%3Cellipse cx='84.965' cy='94' fill='%23fff' rx='75' ry='88.5'/%3E%3Cellipse cx='84.965' cy='94' fill='none' stroke='%23000' stroke-width='8' rx='75' ry='88.5'/%3E%3Cpath d='M8.923 110.75h4v28.5h-4zm148.52 0h4v28.5h-4z'/%3E%3Cpath fill='%23fff' stroke='null' d='M13.798 94.75h71.167v28H13.798z'/%3E%3Cpath fill='%23fff' stroke='null' d='M84.965 93.998H156.3V122.5H84.964zm-70.78 29.752h141.547v66.253H14.186z'/%3E%3Cpath stroke='null' d='M80.093 7h7v115.5h-7z'/%3E%3Cpath stroke='null' d='M9.09 118.75h152v7h-152z'/%3E%3Cellipse cx='83.84' cy='68' fill='%23fff' stroke='%23000' stroke-width='6' rx='14' ry='38'/%3E%3C/svg%3E") no-repeat center;
+}
+
+@mixin bg-img-mouse-left {
+    background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='168' height='247'%3E%3Cpath fill='%23fff' stroke='%23000' stroke-width='8.5' d='M10.298 90h149.334v95.503H10.298z'/%3E%3Cellipse cx='84.965' cy='189.38' fill='%23fff' stroke='%23000' stroke-width='8' rx='74.75' ry='49.25'/%3E%3Cellipse cx='84.965' cy='94' fill='%23fff' rx='75' ry='88.5'/%3E%3Cpath fill='%23ff9718' stroke='null' d='M11.217 124.998S6.907 93 18.66 53.75C30.41 14.5 83.43 6.5 83.43 6.5l.41 119.748'/%3E%3Cellipse cx='84.965' cy='94' fill='none' stroke='%23000' stroke-width='8' rx='75' ry='88.5'/%3E%3Cpath d='M8.923 110.75h4v28.5h-4zm148.52 0h4v28.5h-4z'/%3E%3Cpath fill='%23ff9718' stroke='null' d='M13.798 94.75h71.167v28H13.798z'/%3E%3Cpath fill='%23fff' stroke='null' d='M84.965 93.998H156.3V122.5H84.964zm-70.78 29.752h141.547v66.253H14.186z'/%3E%3Cpath stroke='null' d='M80.093 7h7v115.5h-7z'/%3E%3Cpath stroke='null' d='M9.09 118.75h152v7h-152z'/%3E%3Cellipse cx='83.84' cy='68' fill='%23fff' stroke='%23000' stroke-width='6' rx='14' ry='38'/%3E%3C/svg%3E") no-repeat center;
+}
+
+@mixin bg-img-mouse-middle {
+    background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='168' height='247'%3E%3Cpath fill='%23fff' stroke='%23000' stroke-width='8.5' d='M10.298 90h149.334v95.503H10.298z'/%3E%3Cellipse cx='84.965' cy='189.38' fill='%23fff' stroke='%23000' stroke-width='8' rx='74.75' ry='49.25'/%3E%3Cellipse cx='84.965' cy='94' fill='%23fff' rx='75' ry='88.5'/%3E%3Cellipse cx='84.965' cy='94' fill='none' stroke='%23000' stroke-width='8' rx='75' ry='88.5'/%3E%3Cpath d='M8.923 110.75h4v28.5h-4zm148.52 0h4v28.5h-4z'/%3E%3Cpath fill='%23fff' stroke='null' d='M13.798 94.75h71.167v28H13.798z'/%3E%3Cpath fill='%23fff' stroke='null' d='M84.965 93.998H156.3V122.5H84.964zm-70.78 29.752h141.547v66.253H14.186z'/%3E%3Cpath stroke='null' d='M80.093 7h7v115.5h-7z'/%3E%3Cpath stroke='null' d='M9.09 118.75h152v7h-152z'/%3E%3Cellipse cx='83.84' cy='68' fill='%23ff9718' stroke='%23000' stroke-width='6' rx='14' ry='38'/%3E%3C/svg%3E") no-repeat center;
+}
+
+@mixin bg-img-mouse-right {
+    background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='168' height='247'%3E%3Cpath fill='%23fff' stroke='%23000' stroke-width='8.5' d='M10.298 90h149.334v95.503H10.298z'/%3E%3Cellipse cx='84.965' cy='189.38' fill='%23fff' stroke='%23000' stroke-width='8' rx='74.75' ry='49.25'/%3E%3Cellipse cx='84.965' cy='94' fill='%23fff' rx='75' ry='88.5'/%3E%3Cpath fill='%23ff9718' stroke='null' d='M83.87 5.167s0 120.667-.072 120.666h76.51c.07 0 .07-37.168 0-37.333 0 .164-2.192-32.167-18.173-54.167-15.98-22-58.266-29.166-58.266-29.166z'/%3E%3Cellipse cx='84.965' cy='94' fill='none' stroke='%23000' stroke-width='8' rx='75' ry='88.5'/%3E%3Cpath d='M8.923 110.75h4v28.5h-4zm148.52 0h4v28.5h-4z'/%3E%3Cpath fill='%23fff' stroke='null' d='M13.798 94.75h71.167v28H13.798z'/%3E%3Cpath fill='%23ff9718' stroke='null' d='M84.965 93.998H156.3V122.5H84.964z'/%3E%3Cpath fill='%23fff' stroke='null' d='M14.186 123.75h141.546v66.253H14.186z'/%3E%3Cpath stroke='null' d='M80.093 7h7v115.5h-7z'/%3E%3Cpath stroke='null' d='M9.09 118.75h152v7h-152z'/%3E%3Cellipse cx='83.84' cy='68' fill='%23fff' stroke='%23000' stroke-width='6' rx='14' ry='38'/%3E%3C/svg%3E") no-repeat center;
 }
