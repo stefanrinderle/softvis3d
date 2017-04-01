@@ -33,7 +33,7 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                 </div>
                 <div className="middle-column">
                     <div className="builder-option">
-                    <SelectBoxBuilder
+                        <SelectBoxBuilder
                             label="Metric - Height"
                             value={heightMetric}
                             options={this.props.store.genericMetrics.asSelectOptions}
@@ -55,10 +55,8 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                                 this.props.store.profile.scale = scale;
                             }}
                         />
+                        <p className="selection-description">{ this.props.store.profile.scale.description }</p>
                     </div>
-                    <p className="selection-description">
-                        Change how the metric values will be scaled for footprint and height.
-                    </p>
                 </div>
             </Category>
         );
