@@ -32,7 +32,7 @@ describe("CityBuilderStore", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         expect(underTest.layout).to.be.eq(evostreet);
         expect(underTest.profile.id).to.be.eq(defaultProfile.id);
-        expect(underTest.metricColor).to.be.eq(Metrics.noMetric);
+        expect(underTest.metricColor).to.be.eq(Metrics.noColorMetric);
         expect(underTest.colorMetrics.keys.length).to.be.eq(8);
         expect(underTest.initiateBuildProcess).to.be.eq(false);
         expect(underTest.show).to.be.eq(true);

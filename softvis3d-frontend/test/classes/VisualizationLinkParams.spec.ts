@@ -21,7 +21,7 @@ import { expect } from "chai";
 import Layout from "../../src/classes/Layout";
 import { evostreet } from "../../src/constants/Layouts";
 import Scale from "../../src/classes/Scale";
-import { complexityMetricId, coverageMetric, linesOfCodeMetricId } from "../../src/constants/Metrics";
+import { complexityMetricId, coverageColorMetric, linesOfCodeMetricId } from "../../src/constants/Metrics";
 import Metric from "../../src/classes/Metric";
 import { Scales } from "../../src/constants/Scales";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
@@ -33,7 +33,7 @@ describe("VisualizationLinkParams", () => {
     it("should construct config", () => {
         let metricFootprintId: string = complexityMetricId;
         let metricHeightId: string = linesOfCodeMetricId;
-        let metricColor: Metric = coverageMetric;
+        let metricColor: Metric = coverageColorMetric;
         let scalingMethod: Scale = Scales.availableScales[0];
         let layout: Layout = evostreet;
         let selectedObjectId: string = "123";
@@ -55,7 +55,7 @@ describe("VisualizationLinkParams", () => {
     it("should create default config", () => {
         let complexityFootprintId: string = complexityMetricId;
         let metricHeightId: string = linesOfCodeMetricId;
-        let metricColor: Metric = coverageMetric;
+        let metricColor: Metric = coverageColorMetric;
         let scalingMethod: Scale = Scales.availableScales[0];
         let layout: Layout = evostreet;
         let selectedObjectId: string = "123";
@@ -85,7 +85,7 @@ describe("VisualizationLinkParams", () => {
     it("should create only mandatory", () => {
         let metricFootprintId: string = complexityMetricId;
         let metricHeightId: string = linesOfCodeMetricId;
-        let metricColor: Metric = coverageMetric;
+        let metricColor: Metric = coverageColorMetric;
         let scalingMethod: Scale = Scales.availableScales[0];
         let layout: Layout = evostreet;
         let selectedObjectId: string | null = null;

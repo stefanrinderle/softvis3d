@@ -25,7 +25,7 @@ import Metric from "../../src/classes/Metric";
 import { custom, defaultProfile } from "../../src/constants/Profiles";
 import { district, evostreet } from "../../src/constants/Layouts";
 import { EXPONENTIAL, LINEAR_SCALED } from "../../src/constants/Scales";
-import { coverageMetric, packageNameMetric } from "../../src/constants/Metrics";
+import { coverageColorMetric, packageNameColorMetric } from "../../src/constants/Metrics";
 import { SceneStore } from "../../src/stores/SceneStore";
 import * as Sinon from "sinon";
 import UrlParameterService from "../../src/services/UrlParameterService";
@@ -82,7 +82,7 @@ describe("VisualizationLinkService", () => {
         expect(testCityBuilderStore.profile).to.be.eq(custom);
         expect(testCityBuilderStore.profile.footprintMetricId).to.be.eq(metricFootprint.id);
         expect(testCityBuilderStore.profile.heightMetricId).to.be.eq(metricHeight.id);
-        expect(testCityBuilderStore.metricColor).to.be.eq(coverageMetric);
+        expect(testCityBuilderStore.metricColor).to.be.eq(coverageColorMetric);
         expect(testCityBuilderStore.layout).to.be.eq(district);
         expect(testCityBuilderStore.profile.scale).to.be.eq(EXPONENTIAL);
 
@@ -132,7 +132,7 @@ describe("VisualizationLinkService", () => {
         expect(testCityBuilderStore.profile).to.be.eq(custom);
         expect(testCityBuilderStore.profile.footprintMetricId).to.be.eq(metricHeight.id);
         expect(testCityBuilderStore.profile.heightMetricId).to.be.eq(metricFootprint.id);
-        expect(testCityBuilderStore.metricColor).to.be.eq(packageNameMetric);
+        expect(testCityBuilderStore.metricColor).to.be.eq(packageNameColorMetric);
         expect(testCityBuilderStore.layout).to.be.eq(evostreet);
         expect(testCityBuilderStore.profile.scale).to.be.eq(LINEAR_SCALED);
 

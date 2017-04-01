@@ -1,12 +1,12 @@
-import { observable } from "mobx";
+import {observable} from "mobx";
 import Layout from "../classes/Layout";
-import { evostreet } from "../constants/Layouts";
-import { ColorMetrics, noMetric } from "../constants/Metrics";
+import {evostreet} from "../constants/Layouts";
+import {ColorMetrics, noColorMetric, noMetricId} from "../constants/Metrics";
 import MetricSet from "../classes/MetricSet";
 import Profile from "../classes/Profile";
-import { custom, defaultProfile, Profiles } from "../constants/Profiles";
-import { PreviewPicture } from "../classes/PreviewPicture";
-import { availablePreviewPictures, placeholder } from "../constants/PreviewPictures";
+import {custom, defaultProfile, Profiles} from "../constants/Profiles";
+import {PreviewPicture} from "../classes/PreviewPicture";
+import {availablePreviewPictures, placeholder} from "../constants/PreviewPictures";
 import Metric from "../classes/Metric";
 
 class CityBuilderStore {
@@ -14,7 +14,7 @@ class CityBuilderStore {
     @observable
     public layout: Layout = evostreet;
     @observable
-    public metricColor: Metric = noMetric;
+    public metricColor: Metric = noColorMetric;
     @observable
     public readonly colorMetrics: MetricSet = new MetricSet(ColorMetrics.availableColorMetrics);
     @observable
@@ -45,7 +45,8 @@ class CityBuilderStore {
     get heightMetric(): Metric {
         let result = this.genericMetrics.getMetricByKey(this._profile.heightMetricId);
         if (result === undefined) {
-            return noMetric;
+            return new Metric(noMetricId, "NONE", " -- None -- ", "");
+            ;
         } else {
             return result;
         }
@@ -54,7 +55,8 @@ class CityBuilderStore {
     get footprintMetric(): Metric {
         let result = this.genericMetrics.getMetricByKey(this._profile.footprintMetricId);
         if (result === undefined) {
-            return noMetric;
+            return new Metric(noMetricId, "NONE", " -- None -- ", "");
+            ;
         } else {
             return result;
         }
@@ -74,4 +76,4 @@ class CityBuilderStore {
 const cityBuilderStore = new CityBuilderStore();
 
 export default cityBuilderStore;
-export { CityBuilderStore };
+export {CityBuilderStore};

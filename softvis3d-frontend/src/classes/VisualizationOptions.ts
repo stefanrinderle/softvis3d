@@ -1,15 +1,16 @@
 import Metric from "./Metric";
 import Scale from "./Scale";
 import Layout from "./Layout";
-import { district } from "../constants/Layouts";
-import { noMetric } from "../constants/Metrics";
-import { LOGARITHMIC } from "../constants/Scales";
-import { observable } from "mobx";
+import {district} from "../constants/Layouts";
+import {noColorMetric, noMetricId} from "../constants/Metrics";
+import {LOGARITHMIC} from "../constants/Scales";
+import {observable} from "mobx";
 
 export default class VisualizationOptions {
 
     public static createDefault(): VisualizationOptions {
-        return new VisualizationOptions(district, noMetric, noMetric, noMetric, LOGARITHMIC);
+        let defaultMetric = new Metric(noMetricId, "NONE", " -- None -- ", "");
+        return new VisualizationOptions(district, defaultMetric, defaultMetric, noColorMetric, LOGARITHMIC);
     }
 
     public layout: Layout;

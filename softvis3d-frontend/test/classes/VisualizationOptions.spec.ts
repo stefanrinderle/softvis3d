@@ -17,21 +17,27 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { expect } from "chai";
+import {expect} from "chai";
 import VisualizationConfiguration from "../../src/classes/VisualizationOptions";
 import Layout from "../../src/classes/Layout";
-import { district, evostreet } from "../../src/constants/Layouts";
+import {district, evostreet} from "../../src/constants/Layouts";
 import Scale from "../../src/classes/Scale";
-import { complexityMetric, coverageMetric, linesOfCodeMetric, noMetric } from "../../src/constants/Metrics";
+import {
+    complexityMetricId,
+    coverageColorMetric,
+    linesOfCodeMetricId,
+    noColorMetric,
+    noMetricId
+} from "../../src/constants/Metrics";
 import Metric from "../../src/classes/Metric";
-import { LOGARITHMIC, Scales } from "../../src/constants/Scales";
+import {LOGARITHMIC, Scales} from "../../src/constants/Scales";
 
 describe("VisualizationOptions", () => {
 
     it("should construct config", () => {
-        let metricWidth: Metric = complexityMetric;
-        let metricHeight: Metric = linesOfCodeMetric;
-        let metricColor: Metric = coverageMetric;
+        let metricWidth: Metric = new Metric(complexityMetricId, "NONE", " -- None -- ", "");
+        let metricHeight: Metric = new Metric(linesOfCodeMetricId, "NONE", " -- None -- ", "");
+        let metricColor: Metric = coverageColorMetric;
         let scalingMethod: Scale = Scales.availableScales[0];
         let layout: Layout = evostreet;
 
@@ -46,17 +52,15 @@ describe("VisualizationOptions", () => {
     });
 
     it("should create default config", () => {
-        let metricWidth: Metric = noMetric;
-        let metricHeight: Metric = noMetric;
-        let metricColor: Metric = noMetric;
+        let metricColor: Metric = noColorMetric;
         let scalingmethod: Scale = LOGARITHMIC;
         let layout: Layout = district;
 
         let result: VisualizationConfiguration = VisualizationConfiguration.createDefault();
 
         expect(result.layout).to.be.eq(layout);
-        expect(result.footprint).to.be.eq(metricWidth);
-        expect(result.height).to.be.eq(metricHeight);
+        expect(result.footprint.id).to.be.eq(noMetricId);
+        expect(result.height.id).to.be.eq(noMetricId);
         expect(result.metricColor).to.be.eq(metricColor);
         expect(result.scale).to.be.eq(scalingmethod);
     });

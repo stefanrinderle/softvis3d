@@ -23,7 +23,7 @@ import { CityBuilderStore } from "../../src/stores/CityBuilderStore";
 import BuilderReactions from "../../src/reactions/BuilderReactions";
 import { evostreet } from "../../src/constants/Layouts";
 import { leakPeriod } from "../../src/constants/Profiles";
-import { complexityMetricId, coverageMetric, newLinesOfCodeMetricId } from "../../src/constants/Metrics";
+import { complexityMetricId, coverageColorMetric, newLinesOfCodeMetricId } from "../../src/constants/Metrics";
 import { EXPONENTIAL } from "../../src/constants/Scales";
 import Metric from "../../src/classes/Metric";
 
@@ -51,7 +51,7 @@ describe("BuilderReactions", () => {
         let expectedLayout = evostreet;
         let expectedProfile = leakPeriod;
         let expectedScale = EXPONENTIAL;
-        let expectedColorMetric = coverageMetric;
+        let expectedColorMetric = coverageColorMetric;
 
         testCityBuilderStore.genericMetrics.addMetric(new Metric(complexityMetricId, "INT", "", ""));
         testCityBuilderStore.genericMetrics.addMetric(new Metric(newLinesOfCodeMetricId, "INT", "", ""));

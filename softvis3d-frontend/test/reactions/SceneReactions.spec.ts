@@ -25,7 +25,7 @@ import SceneReactions from "../../src/reactions/SceneReactions";
 import {AppStatusStore} from "../../src/stores/AppStatusStore";
 import LegacyConnector from "../../src/legacy/LegacyConnector";
 import SonarQubeLegacyService from "../../src/services/sonarqube/SonarQubeLegacyService";
-import {complexityMetric} from "../../src/constants/Metrics";
+import {complexityColorMetric} from "../../src/constants/Metrics";
 import SoftVis3dScene from "../../src/components/scene/visualization/SoftVis3dScene";
 import {Vector3} from "three";
 
@@ -42,9 +42,9 @@ describe("SceneReactions", () => {
 
         new SceneReactions(testSceneStore, testCityBuilderStore, testAppStatusStore, testLegayConnector, testSonarService);
 
-        testSceneStore.options.metricColor = complexityMetric;
+        testSceneStore.options.metricColor = complexityColorMetric;
 
-        expect(testCityBuilderStore.metricColor).to.be.eq(complexityMetric);
+        expect(testCityBuilderStore.metricColor).to.be.eq(complexityColorMetric);
     });
 
     it("should load backend legacy data when the scene should be rendered", () => {
@@ -121,7 +121,7 @@ describe("SceneReactions", () => {
         new SceneReactions(testSceneStore, testCityBuilderStore, testAppStatusStore, testLegayConnector, testSonarService);
 
         testSceneStore.shapes = [];
-        testSceneStore.options.metricColor = complexityMetric;
+        testSceneStore.options.metricColor = complexityColorMetric;
 
         mockBuild.verify();
     });
