@@ -17,14 +17,14 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { expect } from "chai";
-import { SceneStore } from "../../src/stores/SceneStore";
-import { CityBuilderStore } from "../../src/stores/CityBuilderStore";
+import {expect} from "chai";
+import {SceneStore} from "../../src/stores/SceneStore";
+import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import BuilderReactions from "../../src/reactions/BuilderReactions";
-import { evostreet } from "../../src/constants/Layouts";
-import { leakPeriod } from "../../src/constants/Profiles";
-import { complexityMetricId, coverageColorMetric, newLinesOfCodeMetricId } from "../../src/constants/Metrics";
-import { EXPONENTIAL } from "../../src/constants/Scales";
+import {evostreet} from "../../src/constants/Layouts";
+import {leakPeriod} from "../../src/constants/Profiles";
+import {complexityMetricId, coverageColorMetric, newLinesOfCodeMetricId} from "../../src/constants/Metrics";
+import {EXPONENTIAL} from "../../src/constants/Scales";
 import Metric from "../../src/classes/Metric";
 
 describe("BuilderReactions", () => {
@@ -53,8 +53,8 @@ describe("BuilderReactions", () => {
         let expectedScale = EXPONENTIAL;
         let expectedColorMetric = coverageColorMetric;
 
-        testCityBuilderStore.genericMetrics.addMetric(new Metric(complexityMetricId, "INT", "", ""));
-        testCityBuilderStore.genericMetrics.addMetric(new Metric(newLinesOfCodeMetricId, "INT", "", ""));
+        testCityBuilderStore.genericMetrics.addMetric(new Metric(complexityMetricId, "", ""));
+        testCityBuilderStore.genericMetrics.addMetric(new Metric(newLinesOfCodeMetricId, "", ""));
 
         testCityBuilderStore.layout = expectedLayout;
         testCityBuilderStore.profile = expectedProfile;

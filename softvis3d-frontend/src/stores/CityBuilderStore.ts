@@ -45,7 +45,7 @@ class CityBuilderStore {
     get heightMetric(): Metric {
         let result = this.genericMetrics.getMetricByKey(this._profile.heightMetricId);
         if (result === undefined) {
-            return new Metric(noMetricId, "NONE", " -- None -- ", "");
+            return new Metric(noMetricId, " -- None -- ", "");
         } else {
             return result;
         }
@@ -54,7 +54,7 @@ class CityBuilderStore {
     get footprintMetric(): Metric {
         let result = this.genericMetrics.getMetricByKey(this._profile.footprintMetricId);
         if (result === undefined) {
-            return new Metric(noMetricId, "NONE", " -- None -- ", "");
+            return new Metric(noMetricId, " -- None -- ", "");
         } else {
             return result;
         }

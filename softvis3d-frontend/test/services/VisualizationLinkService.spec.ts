@@ -17,16 +17,16 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { assert, expect } from "chai";
-import { Vector3 } from "three";
+import {assert, expect} from "chai";
+import {Vector3} from "three";
 import VisualizationLinkService from "../../src/services/VisualizationLinkService";
-import { CityBuilderStore } from "../../src/stores/CityBuilderStore";
+import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import Metric from "../../src/classes/Metric";
-import { custom, defaultProfile } from "../../src/constants/Profiles";
-import { district, evostreet } from "../../src/constants/Layouts";
-import { EXPONENTIAL, LINEAR_SCALED } from "../../src/constants/Scales";
-import { coverageColorMetric, packageNameColorMetric } from "../../src/constants/Metrics";
-import { SceneStore } from "../../src/stores/SceneStore";
+import {custom, defaultProfile} from "../../src/constants/Profiles";
+import {district, evostreet} from "../../src/constants/Layouts";
+import {EXPONENTIAL, LINEAR_SCALED} from "../../src/constants/Scales";
+import {coverageColorMetric, packageNameColorMetric} from "../../src/constants/Metrics";
+import {SceneStore} from "../../src/stores/SceneStore";
 import * as Sinon from "sinon";
 import UrlParameterService from "../../src/services/UrlParameterService";
 
@@ -54,9 +54,9 @@ describe("VisualizationLinkService", () => {
         let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore, localSceneStore);
 
         let initialMetrics: Metric[] = [];
-        let metricFootprint = new Metric("123", "INT", "siuhf", "");
+        let metricFootprint = new Metric("123", "siuhf", "");
         initialMetrics.push(metricFootprint);
-        let metricHeight = new Metric("13", "INT", "siuhf2", "");
+        let metricHeight = new Metric("13", "siuhf2", "");
         initialMetrics.push(metricHeight);
         testCityBuilderStore.genericMetrics.addMetrics(initialMetrics);
 
@@ -107,9 +107,9 @@ describe("VisualizationLinkService", () => {
         let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore, localSceneStore);
 
         let initialMetrics: Metric[] = [];
-        let metricFootprint = new Metric("123", "INT", "siuhf", "");
+        let metricFootprint = new Metric("123", "siuhf", "");
         initialMetrics.push(metricFootprint);
-        let metricHeight = new Metric("13", "INT", "siuhf2", "");
+        let metricHeight = new Metric("13", "siuhf2", "");
         initialMetrics.push(metricHeight);
         testCityBuilderStore.genericMetrics.addMetrics(initialMetrics);
 

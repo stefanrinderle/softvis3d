@@ -35,8 +35,8 @@ import {LOGARITHMIC, Scales} from "../../src/constants/Scales";
 describe("VisualizationOptions", () => {
 
     it("should construct config", () => {
-        let metricWidth: Metric = new Metric(complexityMetricId, "NONE", " -- None -- ", "");
-        let metricHeight: Metric = new Metric(linesOfCodeMetricId, "NONE", " -- None -- ", "");
+        let metricWidth: Metric = new Metric(complexityMetricId, " -- None -- ", "");
+        let metricHeight: Metric = new Metric(linesOfCodeMetricId, " -- None -- ", "");
         let metricColor: Metric = coverageColorMetric;
         let scalingMethod: Scale = Scales.availableScales[0];
         let layout: Layout = evostreet;

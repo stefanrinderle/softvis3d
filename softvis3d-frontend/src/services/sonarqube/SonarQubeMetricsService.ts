@@ -17,19 +17,19 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { BackendService } from "./BackendService";
-import { AppStatusStore } from "../../stores/AppStatusStore";
-import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import {BackendService} from "./BackendService";
+import {AppStatusStore} from "../../stores/AppStatusStore";
+import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import Metric from "../../classes/Metric";
-import { leakPeriod } from "../../constants/Profiles";
+import {leakPeriod} from "../../constants/Profiles";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
-import { newLinesToCoverMetricId } from "../../constants/Metrics";
+import {newLinesToCoverMetricId} from "../../constants/Metrics";
 
 export interface SonarQubeApiMetric {
     id: number;
     key: string;
-    type: MetricType;
+    type: string;
     name: string;
     description: string;
     hidden?: boolean;
@@ -91,7 +91,7 @@ export default class SonarQubeMetricsService extends BackendService {
     }
 
     private createMetric(sonarQubeMetric: SonarQubeApiMetric): Metric {
-        return new Metric(sonarQubeMetric.key, sonarQubeMetric.type, sonarQubeMetric.name, sonarQubeMetric.description);
+        return new Metric(sonarQubeMetric.key, sonarQubeMetric.name, sonarQubeMetric.description);
     }
 
     private shouldMetricBeFiltered(type: string): boolean {

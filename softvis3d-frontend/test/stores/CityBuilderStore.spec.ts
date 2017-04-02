@@ -17,14 +17,14 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { expect } from "chai";
-import { district, evostreet } from "../../src/constants/Layouts";
-import { custom, defaultProfile, leakPeriod } from "../../src/constants/Profiles";
+import {expect} from "chai";
+import {district, evostreet} from "../../src/constants/Layouts";
+import {custom, defaultProfile, leakPeriod} from "../../src/constants/Profiles";
 import * as Metrics from "../../src/constants/Metrics";
-import { CityBuilderStore } from "../../src/stores/CityBuilderStore";
+import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import Metric from "../../src/classes/Metric";
-import { defaultDistrict, defaultEvostreet, placeholder } from "../../src/constants/PreviewPictures";
-import { LINEAR_SCALED, LOGARITHMIC } from "../../src/constants/Scales";
+import {defaultDistrict, defaultEvostreet, placeholder} from "../../src/constants/PreviewPictures";
+import {LINEAR_SCALED, LOGARITHMIC} from "../../src/constants/Scales";
 
 describe("CityBuilderStore", () => {
 
@@ -87,14 +87,14 @@ describe("CityBuilderStore", () => {
     it("should set and get generic metrics", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         let expectedMetrics: Metric[] = [];
-        expectedMetrics.push(new Metric("1", "INT", "1", ""));
-        expectedMetrics.push(new Metric("2", "FLOAT", "2", ""));
+        expectedMetrics.push(new Metric("1", "1", ""));
+        expectedMetrics.push(new Metric("2", "2", ""));
 
         expect(underTest.genericMetrics.length).to.be.equal(0);
         underTest.genericMetrics.addMetrics(expectedMetrics);
         expect(underTest.genericMetrics.length).to.be.equal(2);
 
-        underTest.genericMetrics.addMetric(new Metric("3", "PERCENT", "3", ""));
+        underTest.genericMetrics.addMetric(new Metric("3", "3", ""));
         expect(underTest.genericMetrics.length).to.be.equal(3);
     });
 
