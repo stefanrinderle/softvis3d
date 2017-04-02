@@ -2,8 +2,9 @@ import Scale from "./Scale";
 import { observable } from "mobx";
 
 export default class Profile implements SelectOptionValue {
-
-    public description: string;
+    public readonly id: string;
+    public readonly label: string;
+    public readonly description: string;
     @observable
     public heightMetricId: string;
     @observable
@@ -11,24 +12,13 @@ export default class Profile implements SelectOptionValue {
     @observable
     public scale: Scale;
 
-    private id: string;
-    private name: string;
-
     constructor(builder: ProfileBuilder) {
         this.id = builder.id;
-        this.name = builder.name;
+        this.label = builder.name;
         this.heightMetricId = builder.heightMetricId;
         this.footprintMetricId = builder.footprintMetricId;
         this.scale = builder.scale;
         this.description = builder.description;
-    }
-
-    public getId(): string {
-        return this.id;
-    }
-
-    public getLabel(): string {
-        return this.name;
     }
 
     public updateConfiguration(footprintMetricId: string, heightMetricId: string, scale: Scale): void {
@@ -38,7 +28,7 @@ export default class Profile implements SelectOptionValue {
     }
 
     public clone(): Profile {
-        return new ProfileBuilder(this.id, this.name)
+        return new ProfileBuilder(this.id, this.label)
             .withConfiguration(this.footprintMetricId, this.heightMetricId, this.scale)
             .withDescription(this.description)
             .build();

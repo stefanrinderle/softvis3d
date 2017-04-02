@@ -29,8 +29,8 @@ describe("Scale", () => {
 
         let result: Scale = new Scale(expectedId, expectedLabel, expectedDescription);
 
-        expect(result.getLabel()).to.be.eq(expectedLabel);
-        expect(result.getId()).to.be.eq(expectedId);
+        expect(result.label).to.be.eq(expectedLabel);
+        expect(result.id).to.be.eq(expectedId);
         expect(result.description).to.be.eq(expectedDescription);
     });
 

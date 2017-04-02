@@ -29,7 +29,7 @@ describe("Metric", () => {
 
         let result: Metric = new Metric(expectedKey, expectedName, expectedDescription);
 
-        expect(result.getId()).to.be.eq(expectedKey);
+        expect(result.id).to.be.eq(expectedKey);
         expect(result.description).to.be.eq(expectedDescription);
     });
 
@@ -40,8 +40,8 @@ describe("Metric", () => {
 
         let result: Metric = new Metric(expectedId, expectedName, expectedDescription);
 
-        expect(result.getLabel()).to.be.eq(expectedName);
-        expect(result.getId()).to.be.eq(expectedId);
+        expect(result.label).to.be.eq(expectedName);
+        expect(result.id).to.be.eq(expectedId);
     });
 
 });

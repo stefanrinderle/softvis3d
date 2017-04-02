@@ -27,9 +27,9 @@ describe("Profiles", () => {
     });
 
     it("should find profile by id", () => {
-        expect(Profiles.getAvailableProfileById(custom.getId())).to.be.eq(custom);
+        expect(Profiles.getAvailableProfileById(custom.id)).to.be.eq(custom);
 
-        expect(Profiles.getAvailableProfileById(defaultProfile.getId())).to.be.eq(defaultProfile);
+        expect(Profiles.getAvailableProfileById(defaultProfile.id)).to.be.eq(defaultProfile);
     });
 
 });

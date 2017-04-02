@@ -43,8 +43,8 @@ class SceneStore {
 
     public getColorValue(): number | null {
         if (this.selectedElement && this.selectedElement.measures
-                && this.options.metricColor.getId() in this.selectedElement.measures) {
-            return this.selectedElement.measures[this.options.metricColor.getId()];
+                && this.options.metricColor.id in this.selectedElement.measures) {
+            return this.selectedElement.measures[this.options.metricColor.id];
         } else {
             return null;
         }
