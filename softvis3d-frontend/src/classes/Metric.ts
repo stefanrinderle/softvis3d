@@ -1,6 +1,6 @@
 export default class Metric implements SelectOptionValue {
 
-    public description: string;
+    public readonly description: string;
 
     private id: string;
     private name: string;

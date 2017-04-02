@@ -1,6 +1,6 @@
 export default class Layout implements SelectOptionValue {
 
-    public description: string;
+    public readonly description: string;
 
     private id: string;
     private name: string;

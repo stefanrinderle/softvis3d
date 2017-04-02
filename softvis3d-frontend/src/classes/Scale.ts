@@ -1,6 +1,6 @@
 export default class Scale implements SelectOptionValue {
 
-    public description: string;
+    public readonly description: string;
 
     private id: string;
     private label: string;
