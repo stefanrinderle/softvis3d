@@ -106,7 +106,7 @@ describe("SceneStore", () => {
     //         },
     //         parentId: null
     //     };
-    //     sceneStore.sceneMetricColor = linesOfCodeMetric;
+    //     sceneStore.sceneMetricColor = linesOfCodeColorMetric;
     //
     //     let result: number | null = sceneStore.getColorValue();
     //

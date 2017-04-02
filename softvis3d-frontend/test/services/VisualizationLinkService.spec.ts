@@ -17,7 +17,7 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect, assert} from "chai";
+import {assert, expect} from "chai";
 import {Vector3} from "three";
 import VisualizationLinkService from "../../src/services/VisualizationLinkService";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
@@ -25,7 +25,7 @@ import Metric from "../../src/classes/Metric";
 import {custom, defaultProfile} from "../../src/constants/Profiles";
 import {district, evostreet} from "../../src/constants/Layouts";
 import {EXPONENTIAL, LINEAR_SCALED} from "../../src/constants/Scales";
-import {coverageMetric, packageNameMetric} from "../../src/constants/Metrics";
+import {coverageColorMetric, packageNameColorMetric} from "../../src/constants/Metrics";
 import {SceneStore} from "../../src/stores/SceneStore";
 import * as Sinon from "sinon";
 import UrlParameterService from "../../src/services/UrlParameterService";
@@ -54,9 +54,9 @@ describe("VisualizationLinkService", () => {
         let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore, localSceneStore);
 
         let initialMetrics: Metric[] = [];
-        let metricFootprint = new Metric("123", "INT", "siuhf");
+        let metricFootprint = new Metric("123", "siuhf", "");
         initialMetrics.push(metricFootprint);
-        let metricHeight = new Metric("13", "INT", "siuhf2");
+        let metricHeight = new Metric("13", "siuhf2", "");
         initialMetrics.push(metricHeight);
         testCityBuilderStore.genericMetrics.addMetrics(initialMetrics);
 
@@ -80,9 +80,9 @@ describe("VisualizationLinkService", () => {
         assert(stub.calledWithExactly("abc"));
 
         expect(testCityBuilderStore.profile).to.be.eq(custom);
-        expect(testCityBuilderStore.profile.footprint).to.be.eq(metricFootprint);
-        expect(testCityBuilderStore.profile.height).to.be.eq(metricHeight);
-        expect(testCityBuilderStore.metricColor).to.be.eq(coverageMetric);
+        expect(testCityBuilderStore.profile.footprintMetricId).to.be.eq(metricFootprint.id);
+        expect(testCityBuilderStore.profile.heightMetricId).to.be.eq(metricHeight.id);
+        expect(testCityBuilderStore.metricColor).to.be.eq(coverageColorMetric);
         expect(testCityBuilderStore.layout).to.be.eq(district);
         expect(testCityBuilderStore.profile.scale).to.be.eq(EXPONENTIAL);
 
@@ -107,9 +107,9 @@ describe("VisualizationLinkService", () => {
         let underTest: VisualizationLinkService = new VisualizationLinkService(testCityBuilderStore, localSceneStore);
 
         let initialMetrics: Metric[] = [];
-        let metricFootprint = new Metric("123", "INT", "siuhf");
+        let metricFootprint = new Metric("123", "siuhf", "");
         initialMetrics.push(metricFootprint);
-        let metricHeight = new Metric("13", "INT", "siuhf2");
+        let metricHeight = new Metric("13", "siuhf2", "");
         initialMetrics.push(metricHeight);
         testCityBuilderStore.genericMetrics.addMetrics(initialMetrics);
 
@@ -130,9 +130,9 @@ describe("VisualizationLinkService", () => {
         assert(stub.calledWithExactly("abc"));
 
         expect(testCityBuilderStore.profile).to.be.eq(custom);
-        expect(testCityBuilderStore.profile.footprint).to.be.eq(metricHeight);
-        expect(testCityBuilderStore.profile.height).to.be.eq(metricFootprint);
-        expect(testCityBuilderStore.metricColor).to.be.eq(packageNameMetric);
+        expect(testCityBuilderStore.profile.footprintMetricId).to.be.eq(metricHeight.id);
+        expect(testCityBuilderStore.profile.heightMetricId).to.be.eq(metricFootprint.id);
+        expect(testCityBuilderStore.metricColor).to.be.eq(packageNameColorMetric);
         expect(testCityBuilderStore.layout).to.be.eq(evostreet);
         expect(testCityBuilderStore.profile.scale).to.be.eq(LINEAR_SCALED);
 

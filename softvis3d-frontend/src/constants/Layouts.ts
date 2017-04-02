@@ -28,7 +28,7 @@ export class Layouts {
     public static getLayoutById(layoutId: string): Layout | undefined {
         if (layoutId !== undefined) {
             for (const availableLayout of Layouts.availableLayouts) {
-                if (availableLayout.getId() === layoutId) {
+                if (availableLayout.id === layoutId) {
                     return availableLayout;
                 }
             }

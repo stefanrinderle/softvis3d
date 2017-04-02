@@ -30,7 +30,7 @@ describe("Layout", () => {
         let result: Layout = new Layout(id, name, description);
 
         expect(result.id).to.be.eq(id);
-        expect(result.name).to.be.eq(name);
+        expect(result.label).to.be.eq(name);
         expect(result.description).to.be.eq(description);
     });
 
@@ -40,8 +40,8 @@ describe("Layout", () => {
         let description = "description";
         let result: Layout = new Layout(id, name, description);
 
-        expect(result.getLabel()).to.be.eq(name);
-        expect(result.getId()).to.be.eq(id);
+        expect(result.label).to.be.eq(name);
+        expect(result.id).to.be.eq(id);
     });
 
 });

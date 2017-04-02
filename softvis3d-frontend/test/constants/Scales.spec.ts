@@ -27,9 +27,9 @@ describe("Scales", () => {
     });
 
     it("should find scale by id", () => {
-        expect(Scales.getScaleById(EXPONENTIAL.getId())).to.be.eq(EXPONENTIAL);
+        expect(Scales.getScaleById(EXPONENTIAL.id)).to.be.eq(EXPONENTIAL);
 
-        expect(Scales.getScaleById(LOGARITHMIC.getId())).to.be.eq(LOGARITHMIC);
+        expect(Scales.getScaleById(LOGARITHMIC.id)).to.be.eq(LOGARITHMIC);
     });
 
 });

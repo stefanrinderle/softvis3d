@@ -209,7 +209,6 @@ class LayoutProcessor {
                 power = 3.5;
             }
 
-            // Logarithmic Max: ~2000 ==> 450
             return new CodeCityVis.rules.math.logarithmic({
                 condition: (model: Softvis3dModel, node: TreeNodeInterface) => model && node.children.length === 0,
                 metric: (model, node, version) => {
@@ -218,7 +217,7 @@ class LayoutProcessor {
                 },
                 attributes: "dimensions.height",
                 min: 6,
-                max: 450,
+                max,
                 logbase: base,
                 logexp: power
             });

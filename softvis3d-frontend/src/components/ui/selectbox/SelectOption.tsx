@@ -15,11 +15,11 @@ export default class SelectOption extends React.Component<SelectOptionProps, any
     public render() {
         return (
             <option
-                value={this.props.value.getId()}
+                value={this.props.value.id}
                 checked={this.props.checked}
                 disabled={this.props.disabled}
             >
-                {this.props.value.getLabel()}
+                {this.props.value.label}
             </option>
         );
     }
