@@ -64,31 +64,5 @@ export default class SceneReactions {
             () => { this.legacy.buildCity(); }
         );
 
-        reaction(
-            "Load new objects in scene",
-            () => [this.scene.shapes, this.scene.sceneComponentIsMounted],
-            () => {
-                if (this.scene.shapes !== null && this.scene.sceneComponentIsMounted) {
-                    let shapes = this.scene.shapes;
-                    let colorsOnly = !this.scene.refreshScene;
-
-                    if (colorsOnly) {
-                        this.scene.scenePainter.updateColorsWithUpdatedShapes(shapes);
-                    } else {
-                        this.appStatusStore.load(SceneReactions.LOAD_SOFTVIS);
-                        this.scene.scenePainter.loadSoftVis3d(shapes, this.scene.cameraPosition);
-                        this.appStatusStore.loadComplete(SceneReactions.LOAD_SOFTVIS);
-                    }
-
-                    this.scene.refreshScene = false;
-                }
-            }
-        );
-
-        reaction(
-            "Select object in scene",
-            () => this.scene.selectedObjectId,
-            () => { this.scene.scenePainter.selectSceneTreeObject(this.scene.selectedObjectId); }
-        );
     }
 }

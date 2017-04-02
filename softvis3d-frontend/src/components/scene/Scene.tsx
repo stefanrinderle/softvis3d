@@ -1,10 +1,12 @@
 import * as React from "react";
-import { observer } from "mobx-react";
-import { SceneStore } from "../../stores/SceneStore";
+import {observer} from "mobx-react";
+import {SceneStore} from "../../stores/SceneStore";
 import SoftVis3dScene from "./visualization/SoftVis3dScene";
 import SceneInformation from "./information/SceneInformation";
 import {KeyLegend} from "./KeyLegend";
-import {HtmlDom} from "../../services/HtmlDom";
+import {SceneMouseInteractions} from "./SceneMouseInteractions";
+import {Event} from "./EventDispatcher";
+import {SceneKeyInteractions} from "./SceneKeyInteractions";
 
 interface SceneProps {
     sceneStore: SceneStore;
@@ -20,12 +22,9 @@ interface SceneStates {
 @observer
 export default class Scene extends React.Component<SceneProps, SceneStates> {
 
-    private static EVENT_KEY_DOWN: string = "keydown";
-    private static EVENT_MOUSE_DOWN: string = "mousedown";
-    private static KEY_CODE_R: number = 82;
-    private static KEY_CODE_L: number = 76;
-
-    private mouseMoved: boolean = false;
+    private scenePainter: SoftVis3dScene;
+    private mouseActions: SceneMouseInteractions;
+    private keyActions: SceneKeyInteractions;
 
     constructor() {
         super();
@@ -36,82 +35,99 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     }
 
     public componentDidMount() {
-        this.props.sceneStore.scenePainter.init();
+        this.scenePainter = new SoftVis3dScene();
+        this.scenePainter.init();
+
         this.props.sceneStore.refreshScene = true;
         this.props.sceneStore.sceneComponentIsMounted = true;
 
-        if (this.props.sceneStore.selectedObjectId) {
-            this.props.sceneStore.scenePainter.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
-        }
+        this.mouseActions = new SceneMouseInteractions();
+        this.mouseActions.onMouseDownEvent.addEventListener(this.handleMouseDown.bind(this));
+        this.mouseActions.onMouseMovedEvent.addEventListener(this.updateCameraPosition.bind(this));
+        this.mouseActions.onSelectObjectEvent.addEventListener(this.selectObject.bind(this));
 
-        this.updateCameraPosition();
-        window.addEventListener(Scene.EVENT_MOUSE_DOWN, this.handleMouseDown.bind(this));
-        window.addEventListener(Scene.EVENT_KEY_DOWN, this.handleKeyDown.bind(this));
+        this.keyActions = new SceneKeyInteractions();
+        this.keyActions.onResetCameraEvent.addEventListener(this.resetCamera.bind(this));
+        this.keyActions.onToggleLegendEvent.addEventListener(this.toggleLegend.bind(this));
     }
 
     public componentWillUnmount() {
         this.props.sceneStore.sceneComponentIsMounted = false;
 
-        window.removeEventListener(Scene.EVENT_MOUSE_DOWN, this.handleMouseDown.bind(this));
-        window.removeEventListener(Scene.EVENT_KEY_DOWN, this.handleKeyDown.bind(this));
+        this.mouseActions.unmount();
+        this.keyActions.unmount();
     }
 
     public render() {
         const {sceneStore} = this.props;
         const {focus, legend} = this.state;
 
+        if (sceneStore.shapes !== null && sceneStore.sceneComponentIsMounted) {
+            let shapes = sceneStore.shapes;
+            let colorsOnly = !sceneStore.refreshScene;
+
+            if (colorsOnly) {
+                this.scenePainter.updateColorsWithUpdatedShapes(shapes);
+            } else {
+                this.scenePainter.loadSoftVis3d(shapes, sceneStore.cameraPosition);
+            }
+        }
+
+        if (this.props.sceneStore.selectedObjectId && this.scenePainter) {
+            this.scenePainter.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
+        }
+
         let cssClass = "scene";
         cssClass += focus ? " active" : "";
 
         return (
             <div id="scene-container" className={cssClass}>
-                <KeyLegend show={legend} />
+                <KeyLegend show={legend}/>
                 <canvas id={SoftVis3dScene.CANVAS_ID}
-                        onMouseDown={() => { this.mouseMoved = false; }}
-                        onMouseMove={() => { this.mouseMoved = true; }}
-                        onMouseUp={(e) => { this.onMouseUp(e); }}
-                        />
+                        onMouseDown={() => {
+                            this.mouseActions.setMouseMoved(false);
+                        }}
+                        onMouseMove={() => {
+                            this.mouseActions.setMouseMoved(true);
+                        }}
+                        onMouseUp={(e) => {
+                            this.mouseActions.onMouseUp(e);
+                        }}
+                />
                 <SceneInformation sceneStore={sceneStore}/>
-           </div>
+            </div>
         );
     }
 
     // public for tests
     public updateCameraPosition() {
-        this.props.sceneStore.cameraPosition = this.props.sceneStore.scenePainter.getCamera().position;
+        this.props.sceneStore.cameraPosition = this.scenePainter.getCamera().position;
     }
 
-    public handleMouseDown(event: MouseEvent) {
-        const self = document.getElementById("scene-container");
-        let isWithinScene = event.target === self || HtmlDom.isDescendant(self, event.target as HTMLElement);
+    public handleMouseDown(event: Event<boolean>) {
+        let isWithinScene: boolean = event.getType();
         if (isWithinScene ? !this.state.focus : this.state.focus) {
             this.setState({...this.state, focus: isWithinScene});
         }
     }
 
-    public handleKeyDown(event: KeyboardEvent) {
+    private selectObject(event: Event<MouseEvent>) {
+        this.props.sceneStore.selectedObjectId = this.scenePainter.makeSelection(event.getType());
+    }
+
+    private resetCamera() {
         if (!this.state.focus) {
             return;
         }
 
-        switch (event.keyCode) {
-            case Scene.KEY_CODE_R:
-                this.props.sceneStore.scenePainter.resetCameraPosition(this.props.sceneStore.shapes);
-                break;
-            case Scene.KEY_CODE_L:
-                this.setState({...this.state, legend: !this.state.legend});
-                break;
-            default:
-                // KEY NOT REGISTERED
-        }
+        this.scenePainter.resetCameraPosition(this.props.sceneStore.shapes);
     }
 
-    private onMouseUp(event: any) {
-        this.updateCameraPosition();
-
-        if (!this.mouseMoved) {
-            this.props.sceneStore.selectedObjectId = this.props.sceneStore.scenePainter.makeSelection(event);
+    private toggleLegend() {
+        if (!this.state.focus) {
+            return;
         }
-    }
 
+        this.setState({...this.state, legend: !this.state.legend});
+    }
 }
