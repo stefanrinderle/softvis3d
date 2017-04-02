@@ -19,8 +19,8 @@ export class EventDispatcher<T> {
 
     public hasEventListener(listener: Function): Boolean {
         let exists: Boolean = false;
-        for (let i = 0; i < this._listeners.length; i++) {
-            if (this._listeners[i].listener === listener) {
+        for (let listenerElement of this._listeners) {
+            if (listenerElement === listener) {
                 exists = true;
             }
         }
@@ -45,8 +45,8 @@ export class EventDispatcher<T> {
     }
 
     public dispatchEvent(evt: Event<T>) {
-        for (let i = 0; i < this._listeners.length; i++) {
-            this._listeners[i].listener.call(this, evt);
+        for (let listenerElement of this._listeners) {
+            listenerElement.call(this, evt);
         }
     }
 }
