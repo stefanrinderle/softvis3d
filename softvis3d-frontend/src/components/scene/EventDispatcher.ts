@@ -11,7 +11,7 @@ export class Event<T> {
 }
 
 export class EventDispatcher<T> {
-    private _listeners: any[];
+    private _listeners: Function[];
 
     constructor() {
         this._listeners = [];
@@ -33,12 +33,12 @@ export class EventDispatcher<T> {
             return;
         }
 
-        this._listeners.push({listener: listenerFunc});
+        this._listeners.push(listenerFunc);
     }
 
     public removeEventListener(listenerFunc: Function): void {
         for (let i = 0; i < this._listeners.length; i++) {
-            if (this._listeners[i].listener === listenerFunc) {
+            if (this._listeners[i] === listenerFunc) {
                 this._listeners.splice(i, 1);
             }
         }

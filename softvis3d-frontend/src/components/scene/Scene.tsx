@@ -1,12 +1,13 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {SceneStore} from "../../stores/SceneStore";
-import SoftVis3dScene from "./visualization/SoftVis3dScene";
 import SceneInformation from "./information/SceneInformation";
 import {KeyLegend} from "./KeyLegend";
 import {SceneMouseInteractions} from "./SceneMouseInteractions";
 import {Event} from "./EventDispatcher";
 import {SceneKeyInteractions} from "./SceneKeyInteractions";
+import ThreeSceneService from "./visualization/ThreeSceneService";
+import SoftVis3dScene from "./visualization/scene/SoftVis3dScene";
 
 interface SceneProps {
     sceneStore: SceneStore;
@@ -22,7 +23,7 @@ interface SceneStates {
 @observer
 export default class Scene extends React.Component<SceneProps, SceneStates> {
 
-    private scenePainter: SoftVis3dScene;
+    private threeSceneService: ThreeSceneService;
     private mouseActions: SceneMouseInteractions;
     private keyActions: SceneKeyInteractions;
 
@@ -35,8 +36,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     }
 
     public componentDidMount() {
-        this.scenePainter = new SoftVis3dScene();
-        this.scenePainter.init();
+        this.threeSceneService = new ThreeSceneService();
 
         this.props.sceneStore.refreshScene = true;
         this.props.sceneStore.sceneComponentIsMounted = true;
@@ -62,19 +62,10 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         const {sceneStore} = this.props;
         const {focus, legend} = this.state;
 
-        if (sceneStore.shapes !== null && sceneStore.sceneComponentIsMounted) {
-            let shapes = sceneStore.shapes;
-            let colorsOnly = !sceneStore.refreshScene;
-
-            if (colorsOnly) {
-                this.scenePainter.updateColorsWithUpdatedShapes(shapes);
-            } else {
-                this.scenePainter.loadSoftVis3d(shapes, sceneStore.cameraPosition);
-            }
-        }
-
-        if (this.props.sceneStore.selectedObjectId && this.scenePainter) {
-            this.scenePainter.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
+        if (sceneStore.sceneComponentIsMounted) {
+            this.threeSceneService.update(sceneStore.shapes, sceneStore.sceneComponentIsMounted,
+                sceneStore.refreshScene, sceneStore.cameraPosition);
+            this.threeSceneService.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
         }
 
         let cssClass = "scene";
@@ -84,15 +75,9 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
             <div id="scene-container" className={cssClass}>
                 <KeyLegend show={legend}/>
                 <canvas id={SoftVis3dScene.CANVAS_ID}
-                        onMouseDown={() => {
-                            this.mouseActions.setMouseMoved(false);
-                        }}
-                        onMouseMove={() => {
-                            this.mouseActions.setMouseMoved(true);
-                        }}
-                        onMouseUp={(e) => {
-                            this.mouseActions.onMouseUp(e);
-                        }}
+                        onMouseDown={() => { this.mouseActions.setMouseMoved(false); }}
+                        onMouseMove={() => { this.mouseActions.setMouseMoved(true); }}
+                        onMouseUp={(e) => { this.mouseActions.onMouseUp(e); }}
                 />
                 <SceneInformation sceneStore={sceneStore}/>
             </div>
@@ -101,7 +86,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
 
     // public for tests
     public updateCameraPosition() {
-        this.props.sceneStore.cameraPosition = this.scenePainter.getCamera().position;
+        this.props.sceneStore.cameraPosition = this.threeSceneService.getCameraPosition();
     }
 
     public handleMouseDown(event: Event<boolean>) {
@@ -112,7 +97,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     }
 
     private selectObject(event: Event<MouseEvent>) {
-        this.props.sceneStore.selectedObjectId = this.scenePainter.makeSelection(event.getType());
+        this.props.sceneStore.selectedObjectId = this.threeSceneService.makeSelection(event.getType());
     }
 
     private resetCamera() {
@@ -120,7 +105,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
             return;
         }
 
-        this.scenePainter.resetCameraPosition(this.props.sceneStore.shapes);
+        this.threeSceneService.resetCameraPosition(this.props.sceneStore.shapes);
     }
 
     private toggleLegend() {

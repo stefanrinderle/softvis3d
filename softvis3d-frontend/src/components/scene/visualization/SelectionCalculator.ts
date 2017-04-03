@@ -17,24 +17,24 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {Raycaster, Vector3, Intersection} from "three";
-import {Camera} from "./Camera";
+import {Intersection, Raycaster, Vector3} from "three";
 import {SoftVis3dMesh} from "../domain/SoftVis3dMesh";
+import PerspectiveCamera = THREE.PerspectiveCamera;
 
 export class SelectionService {
 
     public static RAYCASTER = new Raycaster();
 
     public static makeSelection(x: number, y: number, width: number, height: number,
-                                camera: Camera, objectsInView: SoftVis3dMesh[]): string | null {
+                                camera: PerspectiveCamera, objectsInView: SoftVis3dMesh[]): string | null {
 
         // creating NDC coordinates for ray intersection.
         let mouseDownX: number = (x / width) * 2 - 1;
         let mouseDownY: number = -(y / height) * 2 + 1;
 
-        let vector = new Vector3(mouseDownX, mouseDownY, 1).unproject(camera.getCamera());
+        let vector = new Vector3(mouseDownX, mouseDownY, 1).unproject(camera);
 
-        let cameraPosition = camera.getCameraPosition();
+        let cameraPosition = camera.position;
         SelectionService.RAYCASTER.set(cameraPosition, vector.sub(cameraPosition).normalize());
         let intersected: Intersection[] =
             SelectionService.RAYCASTER.intersectObjects(objectsInView, true);

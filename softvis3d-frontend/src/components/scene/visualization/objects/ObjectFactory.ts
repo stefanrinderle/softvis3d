@@ -19,8 +19,8 @@
 ///
 
 import { MeshLambertMaterial, BoxGeometry } from "three";
-import { SoftVis3dMesh } from "../domain/SoftVis3dMesh";
-import { SoftVis3dShape } from "../domain/SoftVis3dShape";
+import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
+import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
 
 export class ObjectFactory {
 
