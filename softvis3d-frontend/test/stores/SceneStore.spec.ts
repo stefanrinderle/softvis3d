@@ -31,7 +31,7 @@ describe("SceneStore", () => {
     it("should contain not initial test shapes", () => {
         let sceneStore = new SceneStore();
         expect(sceneStore.shapes).not.to.be.equal(INITIAL_SHAPES);
-        expect(sceneStore.refreshScene).to.be.false;
+        expect(sceneStore.colorsChanged).to.be.false;
         expect(sceneStore.sceneComponentIsMounted).to.be.false;
     });
 
@@ -64,7 +64,7 @@ describe("SceneStore", () => {
         sceneStore.shapes = shapes;
 
         expect(sceneStore.shapes).to.be.equal(shapes);
-        expect(sceneStore.refreshScene).to.be.false;
+        expect(sceneStore.colorsChanged).to.be.false;
     });
 
     it("should return for getColorValue if no selected element available", () => {

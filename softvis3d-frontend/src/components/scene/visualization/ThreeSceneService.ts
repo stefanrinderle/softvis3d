@@ -34,15 +34,14 @@ export default class ThreeSceneService {
         this.wrangler = new Wrangler(this.threeScene.scene);
     }
 
-    public update(shapes: SoftVis3dShape[], sceneComponentIsMounted: boolean, refreshScene: boolean, cameraPosition?: Vector3) {
+    public update(shapes: SoftVis3dShape[], sceneComponentIsMounted: boolean, colorsChanged: boolean, cameraPosition?: Vector3) {
         if (shapes !== null && sceneComponentIsMounted) {
-            let colorsOnly = !refreshScene;
 
-            if (colorsOnly) {
+            if (colorsChanged) {
                 this.wrangler.updateColorsWithUpdatedShapes(shapes);
-            } else {
-                this.loadSoftVis3d(shapes, cameraPosition);
             }
+
+            this.loadSoftVis3d(shapes, cameraPosition);
         }
     }
 

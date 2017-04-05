@@ -17,12 +17,13 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect, assert} from "chai";
+import {assert, expect} from "chai";
 import {AppStatusStore} from "../../../src/stores/AppStatusStore";
 import * as Sinon from "sinon";
 import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
 import SonarQubeLegacyService from "../../../src/services/sonarqube/SonarQubeLegacyService";
 import {SceneStore} from "../../../src/stores/SceneStore";
+import VisualizationOptions from "../../../src/classes/VisualizationOptions";
 
 describe("SonarQubeLegacyService", () => {
 
@@ -51,7 +52,7 @@ describe("SonarQubeLegacyService", () => {
             });
         });
 
-        underTest.loadLegacyBackend();
+        underTest.loadLegacyBackend(VisualizationOptions.createDefault());
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});
@@ -95,7 +96,7 @@ describe("SonarQubeLegacyService", () => {
             });
         });
 
-        underTest.loadLegacyBackend();
+        underTest.loadLegacyBackend(VisualizationOptions.createDefault());
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -129,7 +130,7 @@ describe("SonarQubeLegacyService", () => {
             return Promise.reject({data: {message: "Error message"}});
         });
 
-        underTest.loadLegacyBackend();
+        underTest.loadLegacyBackend(VisualizationOptions.createDefault());
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});
@@ -170,7 +171,7 @@ describe("SonarQubeLegacyService", () => {
             });
         });
 
-        underTest.loadLegacyBackend();
+        underTest.loadLegacyBackend(VisualizationOptions.createDefault());
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});

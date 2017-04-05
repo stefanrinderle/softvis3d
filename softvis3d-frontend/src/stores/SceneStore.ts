@@ -13,7 +13,7 @@ class SceneStore {
     @observable
     public shapes: any = null;
     @observable
-    public refreshScene: boolean = false;
+    public colorsChanged: boolean = false;
     @observable
     public sceneComponentIsMounted: boolean = false;
 

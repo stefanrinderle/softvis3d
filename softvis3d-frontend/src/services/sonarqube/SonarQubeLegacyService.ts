@@ -23,6 +23,7 @@ import { AppStatusStore } from "../../stores/AppStatusStore";
 import { SceneStore } from "../../stores/SceneStore";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
+import VisualizationOptions from "../../classes/VisualizationOptions";
 
 export default class SonarQubeLegacyService extends BackendService {
     public static LOAD_LEGACY: LoadAction = new LoadAction("SONAR_LOAD_LEGACY_BACKEND", "Request measures from SonarQube");
@@ -48,8 +49,11 @@ export default class SonarQubeLegacyService extends BackendService {
         this.sceneStore = sceneStore;
     }
 
-    public loadLegacyBackend() {
+    public loadLegacyBackend(options: VisualizationOptions) {
         this.appStatusStore.load(SonarQubeLegacyService.LOAD_LEGACY);
+
+        this.sceneStore.options = options;
+        this.sceneStore.shapes = null;
 
         const params = {
             projectKey: this.projectKey,
@@ -74,7 +78,7 @@ export default class SonarQubeLegacyService extends BackendService {
                 new ErrorAction(SonarQubeLegacyService.LOAD_MEASURES_ERROR_KEY,
                     message,
                     "Try again", () => {
-                        this.loadLegacyBackend();
+                        this.loadLegacyBackend(options);
                     })
             );
         });

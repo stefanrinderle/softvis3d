@@ -38,9 +38,6 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     public componentDidMount() {
         this.threeSceneService = new ThreeSceneService();
 
-        this.props.sceneStore.refreshScene = true;
-        this.props.sceneStore.sceneComponentIsMounted = true;
-
         this.mouseActions = new SceneMouseInteractions();
         this.mouseActions.onMouseDownEvent.addEventListener(this.handleMouseDown.bind(this));
         this.mouseActions.onMouseMovedEvent.addEventListener(this.updateCameraPosition.bind(this));
@@ -49,6 +46,8 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         this.keyActions = new SceneKeyInteractions();
         this.keyActions.onResetCameraEvent.addEventListener(this.resetCamera.bind(this));
         this.keyActions.onToggleLegendEvent.addEventListener(this.toggleLegend.bind(this));
+
+        this.props.sceneStore.sceneComponentIsMounted = true;
     }
 
     public componentWillUnmount() {
@@ -64,7 +63,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
 
         if (sceneStore.sceneComponentIsMounted) {
             this.threeSceneService.update(sceneStore.shapes, sceneStore.sceneComponentIsMounted,
-                sceneStore.refreshScene, sceneStore.cameraPosition);
+                sceneStore.colorsChanged, sceneStore.cameraPosition);
             this.threeSceneService.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
         }
 
