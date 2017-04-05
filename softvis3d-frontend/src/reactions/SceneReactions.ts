@@ -15,7 +15,7 @@ export default class SceneReactions {
     constructor(
         scene: SceneStore,
         builder: CityBuilderStore,
-        legacy: LegacyConnector,
+        legacy: LegacyConnector
     ) {
         this.builder = builder;
         this.scene = scene;
