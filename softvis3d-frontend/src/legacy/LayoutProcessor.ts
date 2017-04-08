@@ -182,6 +182,8 @@ class LayoutProcessor {
                 return this._RuleHouseColorByOpenIssues();
             case "package":
                 return this._RuleHouseColorByPackageName();
+            case "scmNumberOfAuthorsColorMetric":
+                return this._RuleHouseColorByScmInfos();
             default:
                 return this._RuleHouseColorInitial();
         }
@@ -444,6 +446,29 @@ class LayoutProcessor {
             max: maxVal,
             minColor: 0x00CC00,
             maxColor: 0xEE0000
+        });
+    }
+
+    /**
+     * Issues --> Building Color
+     * @private
+     * @returns {BaseRule}
+     */
+    private _RuleHouseColorByScmInfos() {
+        let minVal = 1;
+        let maxVal = 4;
+
+        return new CodeCityVis.rules.color.gradient({
+            condition: (model, node) => model && node.children.length === 0,
+            metric: (model, node, version) => {
+                const attr = attributeHelper.attrFallbackSweep(model, node, version);
+                return ("metricColor" in attr) ? attr["metricColor"] : 0;
+            },
+            attributes: "color",
+            min: minVal,
+            max: maxVal,
+            minColor: 0xEE0000,
+            maxColor: 0x00CC00
         });
     }
 

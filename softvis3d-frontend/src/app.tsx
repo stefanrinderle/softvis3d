@@ -12,6 +12,7 @@ import SceneReactions from "./reactions/SceneReactions";
 import BuilderReactions from "./reactions/BuilderReactions";
 import ErrorAction from "./classes/status/ErrorAction";
 import VisualizationLinkService from "./services/VisualizationLinkService";
+import SonarQubeScmService from "./services/sonarqube/SonarQubeScmService";
 
 export interface AppConfiguration {
     api: string;
@@ -26,6 +27,8 @@ export default class App {
     private legacyService: SonarQubeLegacyService;
     private visualizationLinkService: VisualizationLinkService;
     private legacy: LegacyConnector;
+    private scmService: SonarQubeScmService;
+
     //noinspection JSMismatchedCollectionQueryUpdate
     private reactions: any[];
 
@@ -38,8 +41,10 @@ export default class App {
             new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
         this.legacy = new LegacyConnector(sceneStore, cityBuilderStore, appStatusStore);
 
+        this.scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
+
         this.reactions = [
-            new SceneReactions(sceneStore, cityBuilderStore, appStatusStore, this.legacy, this.legacyService),
+            new SceneReactions(sceneStore, cityBuilderStore, appStatusStore, this.legacy, this.legacyService, this.scmService),
             new BuilderReactions(cityBuilderStore, sceneStore)
         ];
     }
