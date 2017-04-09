@@ -19,7 +19,7 @@
 ///
 import {Vector3} from "three";
 import {SoftVis3dShape} from "../domain/SoftVis3dShape";
-import {SelectionService} from "./SelectionCalculator";
+import {SelectionCalculator} from "./SelectionCalculator";
 import {HtmlDom, Offset} from "../../../services/HtmlDom";
 import SoftVis3dScene from "./scene/SoftVis3dScene";
 import {Wrangler} from "./objects/Wrangler";
@@ -58,7 +58,7 @@ export default class ThreeSceneService {
     public makeSelection(event: MouseEvent): string | null {
         const selection = this.calculateSelectionPosition(event);
 
-        let result: string | null = SelectionService.makeSelection(
+        let result: string | null = SelectionCalculator.makeSelection(
             selection.x, selection.y,
             this.threeScene.width, this.threeScene.height,
             this.threeScene.camera.getCamera(), this.wrangler.getObjectsInView()

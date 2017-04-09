@@ -25,15 +25,10 @@ export default class SceneReactions {
 
     private prepareReactions() {
         reaction(
-            "Transfer the chosen color from the scene to the builder",
-            () => this.scene.options.metricColor,
-            () => { this.builder.metricColor = this.scene.options.metricColor; }
-        );
-
-        reaction(
-            "Rebuild city if color metric changed",
+            "Transfer the chosen color from the scene to the builder and rebuild city",
             () => this.scene.options.metricColor,
             () => {
+                this.builder.metricColor = this.scene.options.metricColor;
                 this.scene.colorsChanged = true;
                 this.legacy.buildCity();
             }

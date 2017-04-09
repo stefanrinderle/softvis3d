@@ -37,6 +37,15 @@ export class SceneKeyInteractions {
         window.removeEventListener(SceneKeyInteractions.EVENT_KEY_DOWN, this.handleKeyDown.bind(this));
     }
 
+    public get onResetCameraEvent(): EventDispatcher<void> {
+        return this._onResetCameraEvent;
+    }
+
+    public get onToggleLegendEvent(): EventDispatcher<void> {
+        return this._onToggleLegendEvent;
+    }
+
+    // public for tests
     public handleKeyDown(event: KeyboardEvent) {
         switch (event.keyCode) {
             case SceneKeyInteractions.KEY_CODE_R:
@@ -48,14 +57,6 @@ export class SceneKeyInteractions {
             default:
             // KEY NOT REGISTERED
         }
-    }
-
-    public get onResetCameraEvent(): EventDispatcher<void> {
-        return this._onResetCameraEvent;
-    }
-
-    public get onToggleLegendEvent(): EventDispatcher<void> {
-        return this._onToggleLegendEvent;
     }
 
 }

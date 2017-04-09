@@ -21,7 +21,7 @@ import {Intersection, Raycaster, Vector3} from "three";
 import {SoftVis3dMesh} from "../domain/SoftVis3dMesh";
 import PerspectiveCamera = THREE.PerspectiveCamera;
 
-export class SelectionService {
+export class SelectionCalculator {
 
     public static RAYCASTER = new Raycaster();
 
@@ -35,9 +35,10 @@ export class SelectionService {
         let vector = new Vector3(mouseDownX, mouseDownY, 1).unproject(camera);
 
         let cameraPosition = camera.position;
-        SelectionService.RAYCASTER.set(cameraPosition, vector.sub(cameraPosition).normalize());
+        let direction = vector.sub(cameraPosition).normalize();
+        SelectionCalculator.RAYCASTER.set(cameraPosition, direction);
         let intersected: Intersection[] =
-            SelectionService.RAYCASTER.intersectObjects(objectsInView, true);
+            SelectionCalculator.RAYCASTER.intersectObjects(objectsInView, true);
 
         let result: string | null = null;
         if (intersected.length > 0) {
