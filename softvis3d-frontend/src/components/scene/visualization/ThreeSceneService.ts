@@ -29,14 +29,21 @@ export default class ThreeSceneService {
     private threeScene: SoftVis3dScene;
     private wrangler: Wrangler;
 
-    public constructor() {
-        this.threeScene = new SoftVis3dScene();
-        this.wrangler = new Wrangler(this.threeScene.scene);
+    public constructor(softvis3dScene?: SoftVis3dScene, wrangler?: Wrangler) {
+        if (softvis3dScene) {
+            this.threeScene = softvis3dScene;
+        } else {
+            this.threeScene = new SoftVis3dScene();
+        }
+        if (wrangler) {
+            this.wrangler = wrangler;
+        } else {
+            this.wrangler = new Wrangler(this.threeScene.scene);
+        }
     }
 
     public update(shapes: SoftVis3dShape[], sceneComponentIsMounted: boolean, colorsChanged: boolean, cameraPosition?: Vector3) {
         if (shapes !== null && sceneComponentIsMounted) {
-
             if (colorsChanged) {
                 this.wrangler.updateColorsWithUpdatedShapes(shapes);
             }
@@ -52,7 +59,7 @@ export default class ThreeSceneService {
     }
 
     public getCameraPosition(): Vector3 {
-        return this.threeScene.camera.getCamera().position;
+        return this.threeScene.getCameraPosition();
     }
 
     public makeSelection(event: MouseEvent): string | null {
@@ -61,7 +68,7 @@ export default class ThreeSceneService {
         let result: string | null = SelectionCalculator.makeSelection(
             selection.x, selection.y,
             this.threeScene.width, this.threeScene.height,
-            this.threeScene.camera.getCamera(), this.wrangler.getObjectsInView()
+            this.threeScene.getCamera(), this.wrangler.getObjectsInView()
         );
 
         this.selectSceneTreeObject(result);
@@ -70,7 +77,7 @@ export default class ThreeSceneService {
     }
 
     public setCameraTo(position: Vector3) {
-        this.threeScene.camera.setCameraPosition(position.x, position.y, position.z);
+        this.threeScene.setCameraTo(position);
     }
 
     /**

@@ -72,7 +72,11 @@ export default class SoftVis3dScene {
         this.camera.setCameraPosition(position.x, position.y, position.z);
     }
 
-    public getDefaultCameraPosition(shapes: SoftVis3dShape[]) {
+    public getCameraPosition(): Vector3 {
+        return this.getCamera().position;
+    }
+
+    public getDefaultCameraPosition(shapes: SoftVis3dShape[]): Vector3 {
         let platformDimension: Dimension = this.findMaxDimension(shapes);
         return new Vector3(0, platformDimension._length * 0.7, platformDimension._width * 0.7);
     }
@@ -124,7 +128,7 @@ export default class SoftVis3dScene {
         this.renderer.render(this.scene, this.getCamera());
     }
 
-    private getCamera(): PerspectiveCamera {
+    public getCamera(): PerspectiveCamera {
         return this.camera.getCamera();
     }
 
