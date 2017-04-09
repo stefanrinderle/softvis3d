@@ -102,6 +102,10 @@ export default class SoftVis3dScene {
         return result;
     }
 
+    public getCamera(): PerspectiveCamera {
+        return this.camera.getCamera();
+    }
+
     public get width() {
         return this._width;
     }
@@ -126,10 +130,6 @@ export default class SoftVis3dScene {
     private animate() {
         requestAnimationFrame(this.animate.bind(this));
         this.renderer.render(this.scene, this.getCamera());
-    }
-
-    public getCamera(): PerspectiveCamera {
-        return this.camera.getCamera();
     }
 
     /**
