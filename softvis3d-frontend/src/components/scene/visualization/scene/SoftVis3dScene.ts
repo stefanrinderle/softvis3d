@@ -22,9 +22,10 @@ import {PerspectiveCamera, Scene, Vector3, WebGLRenderer} from "three";
 import {Camera} from "./Camera";
 import {Setup} from "./Setup";
 import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
-import {Dimension} from "../../domain/Dimension";
+import {Rectangle} from "../../domain/Dimension";
 import {HtmlDom, Offset} from "../../../../services/HtmlDom";
 import * as OrbitControlsExtender from "three-orbit-controls";
+import SceneObjectCalculator from "./SceneObjectCalculator";
 
 // tslint:disable-next-line
 const OrbitControls: any = OrbitControlsExtender(three);
@@ -46,16 +47,12 @@ export default class SoftVis3dScene {
     public constructor() {
         const container = <HTMLCanvasElement> document.getElementById(SoftVis3dScene.CANVAS_ID);
 
-        this._width = container.width;
-        this._height = container.height;
-
         this.scene = new Scene();
         this.renderer = new WebGLRenderer({canvas: container, antialias: true, alpha: true});
 
         Setup.initRenderer(this.renderer, this.scene, container);
 
         this.camera = new Camera(container);
-
         this.controls = new OrbitControls(this.camera.getCamera(), container);
 
         this.onWindowResize();
@@ -77,33 +74,8 @@ export default class SoftVis3dScene {
     }
 
     public getDefaultCameraPosition(shapes: SoftVis3dShape[]): Vector3 {
-        let platformDimension: Dimension = this.findMaxDimension(shapes);
-        return new Vector3(0, platformDimension._length * 0.7, platformDimension._width * 0.7);
-    }
-
-    public findMaxDimension(shapes: SoftVis3dShape[]): Dimension {
-        let result: Dimension = {
-            _length: 0,
-            _width: 0,
-            _height: 0
-        };
-        for (let shape of shapes) {
-            if (shape.dimensions._length > result._length) {
-                result._length = shape.dimensions._length;
-            }
-            if (shape.dimensions._width > result._width) {
-                result._width = shape.dimensions._width;
-            }
-            if (shape.dimensions._height > result._height) {
-                result._height = shape.dimensions._height;
-            }
-        }
-
-        return result;
-    }
-
-    public getCamera(): PerspectiveCamera {
-        return this.camera.getCamera();
+        let platform: Rectangle = SceneObjectCalculator.findMaxDimension(shapes);
+        return new Vector3(0, platform.length * 0.7, platform.width * 0.7);
     }
 
     public get width() {
@@ -114,9 +86,13 @@ export default class SoftVis3dScene {
         return this._height;
     }
 
+    public getCamera(): PerspectiveCamera {
+        return this.camera.getCamera();
+    }
+
     private stopAnimation() {
         if (this.animationId !== null) {
-            cancelAnimationFrame(this.animationId);
+            window.cancelAnimationFrame(this.animationId);
             this.animationId = null;
         }
     }
@@ -128,7 +104,7 @@ export default class SoftVis3dScene {
     }
 
     private animate() {
-        requestAnimationFrame(this.animate.bind(this));
+        window.requestAnimationFrame(this.animate.bind(this));
         this.renderer.render(this.scene, this.getCamera());
     }
 
@@ -140,19 +116,19 @@ export default class SoftVis3dScene {
         const topbarHeight = HtmlDom.getHeightById("app-topbar");
 
         const appOffset: Offset = HtmlDom.getOffsetsById("app");
-        const sceneBoarderWidth = 1;
         const sonarFooter = document.getElementById("footer");
-        const sonarFooterHeight = sonarFooter ? sonarFooter.offsetHeight : 11;
-        const appMaxHeight = window.innerHeight - sonarFooterHeight - appOffset.top - (2 * sceneBoarderWidth);
-        const appComputedWidth = HtmlDom.getWidthById("app") - 2 * sceneBoarderWidth;
+        const appWidth = HtmlDom.getWidthById("app");
 
-        this._width = appComputedWidth - sidebarWidth - 1;
-        this._height = appMaxHeight - topbarHeight;
+        let result: Rectangle = SceneObjectCalculator.calculateDimensionOnResize(
+                sidebarWidth, topbarHeight, appOffset, sonarFooter, appWidth);
 
-        this.camera.setAspect(this._width, this._height);
+        this.camera.setAspect(result.width, result.length);
 
-        this.renderer.setSize(this._width, this._height);
-        this.renderer.setViewport(0, 0, this._width, this._height);
+        this.renderer.setSize(result.width, result.length);
+        this.renderer.setViewport(0, 0, result.width, result.length);
+
+        this._width = result.width;
+        this._height = result.length;
     }
 
 }

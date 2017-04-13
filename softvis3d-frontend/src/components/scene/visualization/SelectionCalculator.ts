@@ -35,8 +35,7 @@ export class SelectionCalculator {
         let vector = new Vector3(mouseDownX, mouseDownY, 1).unproject(camera);
 
         let cameraPosition = camera.position;
-        let direction = vector.sub(cameraPosition).normalize();
-        SelectionCalculator.RAYCASTER.set(cameraPosition, direction);
+        SelectionCalculator.RAYCASTER.set(cameraPosition, vector.sub(cameraPosition).normalize());
         let intersected: Intersection[] =
             SelectionCalculator.RAYCASTER.intersectObjects(objectsInView, true);
 
