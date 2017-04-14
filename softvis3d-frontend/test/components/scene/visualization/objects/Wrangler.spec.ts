@@ -94,7 +94,7 @@ describe("Wrangler", () => {
 
         underTest.loadSoftVis3d(shapes);
 
-        let resultObjects : SoftVis3dMesh[] = underTest.getObjectsInView();
+        let resultObjects: SoftVis3dMesh[] = underTest.getObjectsInView();
         expect(resultObjects[0].material.color).to.be.eq(expectedColor1);
 
         underTest.updateColorsWithUpdatedShapes(shapes);

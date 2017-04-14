@@ -31,7 +31,7 @@ describe("<Scene/>", () => {
     it("should initialize with selected object id", () => {
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.selectedObjectId = "suidhfisudhf";
-        localSceneStore.sceneComponentIsMounted= true;
+        localSceneStore.sceneComponentIsMounted = true;
 
         let underTest: Scene = new Scene();
         underTest.props = {

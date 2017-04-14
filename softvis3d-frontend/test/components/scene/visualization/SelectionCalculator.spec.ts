@@ -37,7 +37,7 @@ describe("SelectionCalculator", () => {
             index: 0,
             face: new Face3(0, 0, 0),
             faceIndex: 0,
-            object: object
+            object
         });
         let setRaycaterStub = Sinon.stub(SelectionCalculator.RAYCASTER, "intersectObjects").returns(intersected);
 

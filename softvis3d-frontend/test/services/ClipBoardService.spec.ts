@@ -25,8 +25,8 @@ describe("ClipBoardService", () => {
 
     it("copy the text to the clipboard", () => {
         let document: any = {
-            createElement: () => {},
-            execCommand: () => {}
+            createElement: () => undefined,
+            execCommand: () => undefined
         };
 
         let element: HTMLTextAreaElement = HTMLTextAreaElement.prototype;

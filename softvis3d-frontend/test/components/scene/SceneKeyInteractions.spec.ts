@@ -27,7 +27,7 @@ describe("SceneKeyInteractions", () => {
 
         const eventButtonR = { keyCode: 82 } as any as KeyboardEvent;
 
-        let listener: Function = () => { };
+        let listener: Function = () => undefined;
         const spy = Sinon.spy(listener);
 
         underTest.onResetCameraEvent.addEventListener(spy);
@@ -42,7 +42,7 @@ describe("SceneKeyInteractions", () => {
 
         const eventButtonR = { keyCode: 76 } as any as KeyboardEvent;
 
-        let listener: Function = () => { };
+        let listener: Function = () => undefined;
         const spy = Sinon.spy(listener);
 
         underTest.onToggleLegendEvent.addEventListener(spy);
@@ -57,7 +57,7 @@ describe("SceneKeyInteractions", () => {
 
         const eventButtonR = { keyCode: 4 } as any as KeyboardEvent;
 
-        let listener: Function = () => { };
+        let listener: Function = () => undefined;
         const spy = Sinon.spy(listener);
 
         underTest.onResetCameraEvent.addEventListener(spy);

@@ -35,10 +35,11 @@ describe("SceneReactions", () => {
         let testLegayConnector: LegacyConnector =
             new LegacyConnector(testSceneStore, testCityBuilderStore, testAppStatusStore);
 
-        new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
+        let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
 
         testSceneStore.options.metricColor = complexityColorMetric;
 
+        expect(reactions).not.to.be.null;
         expect(testCityBuilderStore.metricColor).to.be.eq(complexityColorMetric);
     });
 
@@ -52,13 +53,14 @@ describe("SceneReactions", () => {
         let mockBuild = Sinon.mock(testLegayConnector);
         mockBuild.expects("buildCity").once();
 
-        new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
+        let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
 
         testSceneStore.shapes = [];
         testSceneStore.options.metricColor = complexityColorMetric;
 
         mockBuild.verify();
 
+        expect(reactions).not.to.be.null;
         expect(testSceneStore.colorsChanged).to.be.eq(true);
     });
 
@@ -72,7 +74,7 @@ describe("SceneReactions", () => {
         let mockBuild = Sinon.mock(testLegayConnector);
         mockBuild.expects("buildCity").once();
 
-        new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
+        let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
 
         testSceneStore.legacyData = {
             id: "",
@@ -84,6 +86,8 @@ describe("SceneReactions", () => {
         };
 
         mockBuild.verify();
+
+        expect(reactions).not.to.be.null;
         expect(testSceneStore.colorsChanged).to.be.eq(false);
     });
 

@@ -1,4 +1,4 @@
-import {expect, assert} from "chai";
+import {assert, expect} from "chai";
 import * as Sinon from "sinon";
 import {SceneMouseInteractions} from "../../../src/components/scene/SceneMouseInteractions";
 import {HtmlDom} from "../../../src/services/HtmlDom";
@@ -93,9 +93,9 @@ describe("SceneMouseInteractions", () => {
     it("should raise mouse moved event on mouse up and not moved.", () => {
         let underTest: SceneMouseInteractions = new SceneMouseInteractions();
 
-        let listener1: Function = () => { };
+        let listener1: Function = () => undefined;
         const spy1 = Sinon.spy(listener1);
-        let listener2: Function = () => { };
+        let listener2: Function = () => undefined;
         const spy2 = Sinon.spy(listener2);
 
         underTest.onMouseMovedEvent.addEventListener(spy1);
@@ -112,9 +112,9 @@ describe("SceneMouseInteractions", () => {
     it("should raise select object event on mouse up and moved.", () => {
         let underTest: SceneMouseInteractions = new SceneMouseInteractions();
 
-        let listener1: Function = () => { };
+        let listener1: Function = () => undefined;
         const spy1 = Sinon.spy(listener1);
-        let listener2: Function = () => { };
+        let listener2: Function = () => undefined;
         const spy2 = Sinon.spy(listener2);
 
         underTest.onMouseMovedEvent.addEventListener(spy1);
