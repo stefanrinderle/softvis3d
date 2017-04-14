@@ -18,14 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-export class Dimension {
-    public readonly length: number;
-    public readonly width: number;
-    public readonly height: number;
+export class Rectangle {
 
-    constructor(width: number, length: number, height: number) {
+    public readonly width: number;
+    public readonly length: number;
+
+    constructor(width: number, length: number) {
         this.width = width;
         this.length = length;
-        this.height = height;
     }
+
 }

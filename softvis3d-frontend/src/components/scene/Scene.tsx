@@ -23,9 +23,9 @@ interface SceneStates {
 @observer
 export default class Scene extends React.Component<SceneProps, SceneStates> {
 
-    private threeSceneService: ThreeSceneService;
-    private mouseActions: SceneMouseInteractions;
-    private keyActions: SceneKeyInteractions;
+    private _threeSceneService: ThreeSceneService;
+    private _mouseActions: SceneMouseInteractions;
+    private _keyActions: SceneKeyInteractions;
 
     constructor() {
         super();
@@ -36,16 +36,16 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     }
 
     public componentDidMount() {
-        this.threeSceneService = new ThreeSceneService();
+        this._threeSceneService = new ThreeSceneService();
 
-        this.mouseActions = new SceneMouseInteractions();
-        this.mouseActions.onMouseDownEvent.addEventListener(this.handleMouseDown.bind(this));
-        this.mouseActions.onMouseMovedEvent.addEventListener(this.updateCameraPosition.bind(this));
-        this.mouseActions.onSelectObjectEvent.addEventListener(this.selectObject.bind(this));
+        this._mouseActions = new SceneMouseInteractions();
+        this._mouseActions.onMouseDownEvent.addEventListener(this.handleMouseDown.bind(this));
+        this._mouseActions.onMouseMovedEvent.addEventListener(this.updateCameraPosition.bind(this));
+        this._mouseActions.onSelectObjectEvent.addEventListener(this.selectObject.bind(this));
 
-        this.keyActions = new SceneKeyInteractions();
-        this.keyActions.onResetCameraEvent.addEventListener(this.resetCamera.bind(this));
-        this.keyActions.onToggleLegendEvent.addEventListener(this.toggleLegend.bind(this));
+        this._keyActions = new SceneKeyInteractions();
+        this._keyActions.onResetCameraEvent.addEventListener(this.resetCamera.bind(this));
+        this._keyActions.onToggleLegendEvent.addEventListener(this.toggleLegend.bind(this));
 
         this.props.sceneStore.sceneComponentIsMounted = true;
     }
@@ -53,8 +53,8 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     public componentWillUnmount() {
         this.props.sceneStore.sceneComponentIsMounted = false;
 
-        this.mouseActions.unmount();
-        this.keyActions.unmount();
+        this._mouseActions.unmount();
+        this._keyActions.unmount();
     }
 
     public render() {
@@ -62,9 +62,9 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         const {focus, legend} = this.state;
 
         if (sceneStore.sceneComponentIsMounted) {
-            this.threeSceneService.update(sceneStore.shapes, sceneStore.sceneComponentIsMounted,
+            this._threeSceneService.update(sceneStore.shapes, sceneStore.sceneComponentIsMounted,
                 sceneStore.colorsChanged, sceneStore.cameraPosition);
-            this.threeSceneService.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
+            this._threeSceneService.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
         }
 
         let cssClass = "scene";
@@ -74,18 +74,17 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
             <div id="scene-container" className={cssClass}>
                 <KeyLegend show={legend}/>
                 <canvas id={SoftVis3dScene.CANVAS_ID}
-                        onMouseDown={() => { this.mouseActions.setMouseMoved(false); }}
-                        onMouseMove={() => { this.mouseActions.setMouseMoved(true); }}
-                        onMouseUp={(e) => { this.mouseActions.onMouseUp(e); }}
+                        onMouseDown={() => { this._mouseActions.setMouseMoved(false); }}
+                        onMouseMove={() => { this._mouseActions.setMouseMoved(true); }}
+                        onMouseUp={(e) => { this._mouseActions.onMouseUp(e); }}
                 />
                 <SceneInformation sceneStore={sceneStore}/>
             </div>
         );
     }
 
-    // public for tests
     public updateCameraPosition() {
-        this.props.sceneStore.cameraPosition = this.threeSceneService.getCameraPosition();
+        this.props.sceneStore.cameraPosition = this._threeSceneService.getCameraPosition();
     }
 
     public handleMouseDown(event: Event<boolean>) {
@@ -95,8 +94,28 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         }
     }
 
+    /**
+     * Test injection setter
+     */
+
+    public set threeSceneService(value: ThreeSceneService) {
+        this._threeSceneService = value;
+    }
+
+    public set mouseActions(value: SceneMouseInteractions) {
+        this._mouseActions = value;
+    }
+
+    public set keyActions(value: SceneKeyInteractions) {
+        this._keyActions = value;
+    }
+
+    /**
+     * private methods
+     */
+
     private selectObject(event: Event<MouseEvent>) {
-        this.props.sceneStore.selectedObjectId = this.threeSceneService.makeSelection(event.getType());
+        this.props.sceneStore.selectedObjectId = this._threeSceneService.makeSelection(event.getType());
     }
 
     private resetCamera() {
@@ -104,7 +123,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
             return;
         }
 
-        this.threeSceneService.resetCameraPosition(this.props.sceneStore.shapes);
+        this._threeSceneService.resetCameraPosition(this.props.sceneStore.shapes);
     }
 
     private toggleLegend() {
@@ -114,4 +133,5 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
 
         this.setState({...this.state, legend: !this.state.legend});
     }
+
 }

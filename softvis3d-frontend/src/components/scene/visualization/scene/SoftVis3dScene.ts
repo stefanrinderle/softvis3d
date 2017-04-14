@@ -22,7 +22,7 @@ import {PerspectiveCamera, Scene, Vector3, WebGLRenderer} from "three";
 import {Camera} from "./Camera";
 import {Setup} from "./Setup";
 import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
-import {Rectangle} from "../../domain/Dimension";
+import {Rectangle} from "../../domain/Rectangle";
 import {HtmlDom, Offset} from "../../../../services/HtmlDom";
 import * as OrbitControlsExtender from "three-orbit-controls";
 import SceneObjectCalculator from "./SceneObjectCalculator";
@@ -69,8 +69,12 @@ export default class SoftVis3dScene {
         this.camera.setCameraPosition(position.x, position.y, position.z);
     }
 
+    public getCamera(): PerspectiveCamera {
+        return this.camera.getCamera();
+    }
+
     public getCameraPosition(): Vector3 {
-        return this.getCamera().position;
+        return this.camera.getCameraPosition();
     }
 
     public getDefaultCameraPosition(shapes: SoftVis3dShape[]): Vector3 {
@@ -84,10 +88,6 @@ export default class SoftVis3dScene {
 
     public get height() {
         return this._height;
-    }
-
-    public getCamera(): PerspectiveCamera {
-        return this.camera.getCamera();
     }
 
     private stopAnimation() {

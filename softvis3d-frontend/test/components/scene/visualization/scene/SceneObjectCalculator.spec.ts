@@ -21,7 +21,8 @@
 import {expect} from "chai";
 import {SoftVis3dShape} from "../../../../../src/components/scene/domain/SoftVis3dShape";
 import SceneObjectCalculator from "../../../../../src/components/scene/visualization/scene/SceneObjectCalculator";
-import {Dimension, Rectangle} from "../../../../../src/components/scene/domain/Dimension";
+import {Dimension} from "../../../../../src/components/scene/domain/Dimension";
+import {Rectangle} from "../../../../../src/components/scene/domain/Rectangle";
 import {Vector2} from "three";
 import {Offset} from "../../../../../src/services/HtmlDom";
 

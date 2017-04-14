@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
-import {Rectangle} from "../../domain/Dimension";
+import {Rectangle} from "../../domain/Rectangle";
 import {Offset} from "../../../../services/HtmlDom";
 
 export default class SceneObjectCalculator {
