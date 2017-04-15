@@ -58,13 +58,7 @@ export default class SceneReactions {
             () => this.scene.options.metricColor,
             () => {
                 if (this.scene.shapes !== null) {
-                    if (this.scene.options.metricColor === scmNumberOfAuthorsColorMetric) {
-                        this.scmService.loadScmInfos().then(() => {
-                            this.legacy.buildCity();
-                        });
-                    } else {
-                        this.legacy.buildCity();
-                    }
+                    this.buildCity();
                 }
             }
         );
@@ -73,7 +67,7 @@ export default class SceneReactions {
             "Convert backend data to threeJS shapes",
             () => this.scene.legacyData,
             () => {
-                this.legacy.buildCity();
+                this.buildCity();
             }
         );
 
@@ -105,5 +99,15 @@ export default class SceneReactions {
                 this.scene.scenePainter.selectSceneTreeObject(this.scene.selectedObjectId);
             }
         );
+    }
+
+    private buildCity() {
+        if (this.scene.options.metricColor === scmNumberOfAuthorsColorMetric) {
+            this.scmService.loadScmInfos().then(() => {
+                this.legacy.buildCity();
+            });
+        } else {
+            this.legacy.buildCity();
+        }
     }
 }

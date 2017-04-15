@@ -62,19 +62,19 @@ describe("ScmCalculator", () => {
     it("should create metric based on inut array", () => {
         let measure: string[] = [];
         let lineNumber = "1";
-        let author_name = "srinderle";
+        let authorName = "srinderle";
         let lastCommit = "dofighodifg";
         let lastCommitRevision = "idufghidugh";
 
         measure[0] = lineNumber;
-        measure[1] = author_name;
+        measure[1] = authorName;
         measure[2] = lastCommit;
         measure[3] = lastCommitRevision;
 
         let result = ScmCalculator.createMetric(measure);
 
         expect(result.lineNumber).to.be.eq(+lineNumber);
-        expect(result.authorName).to.be.eq(author_name);
+        expect(result.authorName).to.be.eq(authorName);
         expect(result.lastCommit).to.be.eq(lastCommit);
         expect(result.lastCommitRevision).to.be.eq(lastCommitRevision);
     });
