@@ -23,13 +23,7 @@ import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
 import {SceneStore} from "../../stores/SceneStore";
 import {TreeService} from "../TreeService";
-
-export interface SonarQubeApiScm {
-    lineNumber: number;
-    author_name: string;
-    lastCommit: string;
-    lastCommitRevision: string;
-}
+import ScmCalculator from "./ScmCalculator";
 
 export default class SonarQubeScmService extends BackendService {
     public static LOAD_SCM: LoadAction = new LoadAction("SONAR_LOAD_SCM", "Request scm infos from SonarQube");
@@ -46,39 +40,72 @@ export default class SonarQubeScmService extends BackendService {
     }
 
     public loadScmInfos(): Promise<void> {
-        return new Promise<void>((resolve) => {
+        this.appStatusStore.load(SonarQubeScmService.LOAD_SCM);
+
+        return new Promise<void>((resolve, reject) => {
             if (this.sceneStore.legacyData !== null) {
                 let allFiles: TreeElement[] = TreeService.getAllFiles(this.sceneStore.legacyData);
 
-                let requests: Array<Promise<void>> = [];
-                for (let file of allFiles) {
-                    requests.push(this.loadScmInfosFor(file));
-                }
-
-                Promise.all(requests).then(() => {
+                this.loadScmInfosBatch(allFiles).then(() => {
+                    this.appStatusStore.loadComplete(SonarQubeScmService.LOAD_SCM);
                     resolve();
+                }).catch(() => {
+                    reject();
                 });
+            } else {
+                resolve();
             }
+        });
+    }
+
+    private loadScmInfosBatch(allFiles: TreeElement[], page: number = 0): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            let size: number = 75;
+            let pageSize = Math.floor(allFiles.length / size);
+            this.appStatusStore.loadStatusUpdate(SonarQubeScmService.LOAD_SCM, pageSize, page);
+
+            let requests: Array<Promise<void>> = [];
+
+            let start: number = page * size;
+            let end: number = (page * size) + size;
+
+            if (allFiles.length < end) {
+                end = allFiles.length;
+            }
+
+            for (let i = start; i < end; i++) {
+                requests.push(this.loadScmInfosFor(allFiles[i]));
+            }
+
+            Promise.all(requests).then(() => {
+                let isNextBatchRequired: boolean = allFiles.length > (page * size) + size;
+                if (isNextBatchRequired) {
+                    this.loadScmInfosBatch(allFiles, page + 1).then(() => {
+                        resolve();
+                    });
+                } else {
+                    resolve();
+                }
+            }).catch(() => {
+                reject();
+            });
         });
     }
 
     private loadScmInfosFor(element: TreeElement): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            this.appStatusStore.load(SonarQubeScmService.LOAD_SCM);
-
             const params = {key: element.key};
             this.callApi("/sources/scm", {params}).then((response) => {
                 let metrics = (response.data.scm)
                     .map((c: any) => {
-                            return this.createMetric(c);
+                            return ScmCalculator.createMetric(c);
                         }
                     );
 
                 element.measures = Object.assign(element.measures, {
-                    scmNumberOfAuthorsColorMetric: this.calcNumberOfAuthors(metrics)
+                    scmNumberOfAuthorsColorMetric: ScmCalculator.calcNumberOfAuthors(metrics)
                 });
 
-                this.appStatusStore.loadComplete(SonarQubeScmService.LOAD_SCM);
                 resolve();
             }).catch((error) => {
                 this.appStatusStore.error(
@@ -91,33 +118,6 @@ export default class SonarQubeScmService extends BackendService {
                 reject();
             });
         });
-    }
-
-    private calcNumberOfAuthors(measures: [SonarQubeApiScm]): number {
-        let groupByAuthorName = this.groupByAuthorName(measures);
-        return groupByAuthorName.size;
-    }
-
-    private groupByAuthorName(measures: [SonarQubeApiScm]) {
-        const map = new Map();
-        measures.forEach((item) => {
-            const key = item.author_name;
-            if (!map.has(key)) {
-                map.set(key, [item]);
-            } else {
-                map.get(key).push(item);
-            }
-        });
-        return map;
-    }
-
-    private createMetric(measure: [string]): SonarQubeApiScm {
-        return {
-            lineNumber: +measure[0],
-            author_name: measure[1],
-            lastCommit: measure[2],
-            lastCommitRevision: measure[3]
-        };
     }
 
 }

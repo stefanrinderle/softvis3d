@@ -17,7 +17,7 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
+import {assert, expect} from "chai";
 import {AppStatusStore} from "../../src/stores/AppStatusStore";
 import LoadAction from "../../src/classes/status/LoadAction";
 import ErrorAction from "../../src/classes/status/ErrorAction";
@@ -77,4 +77,17 @@ describe("AppStatusStore", () => {
         expect(underTest.isVisible).to.be.equal(false);
     });
 
+    it("should create new instance of loading queue on status update", () => {
+        let underTest: AppStatusStore = new AppStatusStore();
+
+        let temp = underTest.loadingQueue;
+
+        underTest.load(new LoadAction("key", "testEvent"));
+
+        assert(underTest.loadingQueue === temp);
+
+        underTest.loadStatusUpdate(new LoadAction("key", "testEvent"), 3, 4);
+
+        assert(underTest.loadingQueue !== temp);
+    });
 });

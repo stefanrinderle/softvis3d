@@ -20,6 +20,18 @@ export default class StatusActionQueue<T extends StatusAction> {
         console.error("Could not remove action: " + JSON.stringify(action));
     }
 
+    public copyAndUpdate(action: T): StatusActionQueue<T> {
+        let newQueue: StatusActionQueue<T> = new StatusActionQueue<T>();
+        for (let element of this._queue) {
+            if (element.key === action.key) {
+                newQueue.add(action);
+            } else {
+                newQueue.add(element);
+            }
+        }
+        return newQueue;
+    }
+
     @computed
     public get isEmpty(): boolean {
         return this._queue.length === 0;

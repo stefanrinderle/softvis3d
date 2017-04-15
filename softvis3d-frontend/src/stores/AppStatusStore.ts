@@ -20,6 +20,12 @@ class AppStatusStore {
         this.loadingQueue.add(action);
     }
 
+    public loadStatusUpdate(action: LoadAction, pageSize: number, page: number): void  {
+        action.setStatus(pageSize, page);
+
+        this.loadingQueue = this.loadingQueue.copyAndUpdate(action);
+    }
+
     public loadComplete(action: LoadAction): void  {
         this.loadingQueue.remove(action);
     }

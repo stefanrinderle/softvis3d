@@ -10,9 +10,20 @@ export default class LoadingQueue extends React.Component<{ appStatusStore: AppS
 
         let elements: Array<React.ReactElement<any>> = [];
         for (let queueElement of queue) {
-            elements.push(
-                <li key={queueElement.key}>{queueElement.description}</li>
-            );
+            if (queueElement.current && queueElement.limit) {
+                elements.push(
+                    <li key={queueElement.key}>
+                        {queueElement.description}<br />
+                        {queueElement.current} of {queueElement.limit} | {queueElement.percent} %
+                    </li>
+                );
+            } else {
+                elements.push(
+                    <li key={queueElement.key}>
+                        {queueElement.description}
+                    </li>
+                );
+            }
         }
 
         return (
