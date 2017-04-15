@@ -75,6 +75,50 @@ describe("SonarQubeLegacyService", () => {
         }).catch((error) => done(error));
     });
 
+    it("should NOT call backend with the same parameters", (done) => {
+        let clock = Sinon.useFakeTimers();
+
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let testSceneStore: SceneStore = new SceneStore();
+        testSceneStore.scmMetricLoaded = true;
+
+        let spyLoad = Sinon.spy(testAppStatusStore, "load");
+        let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
+
+        let apiUrl: string = "urlsihshoif";
+        let projectKey: string = "sdufsofin";
+        let underTest: SonarQubeLegacyService =
+            new SonarQubeLegacyService(apiUrl, projectKey, testAppStatusStore, testCityBuilderStore, testSceneStore);
+
+        let expectedData = {
+            testData: "disuffsiug"
+        };
+
+        let spyCallApi = Sinon.stub(underTest, "callApi", () => {
+            return Promise.resolve({
+                data: expectedData
+            });
+        });
+
+        underTest.loadLegacyBackend();
+
+        let returnPromise: Promise<any> = Promise.resolve({});
+        let returnPromise2: Promise<any> = Promise.resolve({});
+        clock.tick(10);
+        returnPromise.then(() => {
+            underTest.loadLegacyBackend();
+            
+            clock.tick(10);
+            returnPromise2.then(() => {
+                Sinon.assert.calledOnce(spyCallApi);
+                assert(spyLoad.calledTwice);
+                assert(spyLoadComplete.calledTwice);
+                done();
+            }).catch((error) => done(error));
+        }).catch((error) => done(error));
+    });
+
     it("should request all predefined metrics", (done) => {
         let clock = Sinon.useFakeTimers();
 
