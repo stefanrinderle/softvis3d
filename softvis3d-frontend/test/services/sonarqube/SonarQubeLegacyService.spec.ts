@@ -17,7 +17,7 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect, assert} from "chai";
+import {assert, expect} from "chai";
 import {AppStatusStore} from "../../../src/stores/AppStatusStore";
 import * as Sinon from "sinon";
 import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
@@ -32,6 +32,7 @@ describe("SonarQubeLegacyService", () => {
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let testSceneStore: SceneStore = new SceneStore();
+        testSceneStore.scmMetricLoaded = true;
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
@@ -61,6 +62,7 @@ describe("SonarQubeLegacyService", () => {
             Sinon.assert.called(spyCallApi);
             assert(spyLoad.calledWith(SonarQubeLegacyService.LOAD_LEGACY));
             assert(spyLoadComplete.calledWith(SonarQubeLegacyService.LOAD_LEGACY));
+            expect(testSceneStore.scmMetricLoaded).to.be.eq(false);
             expect(testSceneStore.legacyData).to.be.eq(expectedData);
             clock.tick(10);
             returnPromise2.then(() => {
