@@ -114,7 +114,7 @@ class SonarVisualizationRequestParams {
 
     public equals(candidate: SonarVisualizationRequestParams): boolean {
         if (candidate) {
-            return this.projectKey == candidate.projectKey && this.metrics == candidate.metrics;
+            return this.projectKey === candidate.projectKey && this.metrics === candidate.metrics;
         } else {
             return false;
         }
