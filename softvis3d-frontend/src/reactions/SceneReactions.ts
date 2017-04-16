@@ -6,7 +6,7 @@ import SonarQubeLegacyService from "../services/sonarqube/SonarQubeLegacyService
 import {AppStatusStore} from "../stores/AppStatusStore";
 import LoadAction from "../classes/status/LoadAction";
 import SonarQubeScmService from "../services/sonarqube/SonarQubeScmService";
-import {scmNumberOfAuthorsColorMetric} from "../constants/Metrics";
+import {numberOfAuthorsBlameColorMetric} from "../constants/Metrics";
 
 export default class SceneReactions {
 
@@ -102,7 +102,7 @@ export default class SceneReactions {
     }
 
     private buildCity() {
-        if (this.scene.options.metricColor === scmNumberOfAuthorsColorMetric && !this.scene.scmMetricLoaded) {
+        if (this.scene.options.metricColor === numberOfAuthorsBlameColorMetric && !this.scene.scmMetricLoaded) {
             this.scmService.loadScmInfos().then(() => {
                 this.scene.scmMetricLoaded = true;
                 this.legacy.buildCity();

@@ -23,6 +23,12 @@
 import * as CodeCityVis from "codecity-visualizer";
 import Softvis3dModel from "./Softvis3dModel";
 import {TreeNodeInterface} from "codecity-visualizer/types/interfaces";
+import {
+    complexityColorMetric, coverageColorMetric, linesOfCodeColorMetric, newIssuesColorMetric,
+    numberOfAuthorsBlameColorMetric,
+    openIssuesColorMetric, packageNameColorMetric,
+    violationsColorMetric
+} from "../constants/Metrics";
 
 const illustratorEvostreet = CodeCityVis.illustrators.evostreet;
 const illustratorDistrict = CodeCityVis.illustrators.district;
@@ -170,19 +176,21 @@ class LayoutProcessor {
 
     private _getHouseColorRule() {
         switch (this._options.colorMetric) {
-            case "ncloc":
+            case linesOfCodeColorMetric.id:
                 return this._RuleHouseColorByLinesOfCode();
-            case "complexity":
+            case complexityColorMetric.id:
                 return this._RuleHouseColorByComplexity();
-            case "coverage":
+            case coverageColorMetric.id:
                 return this._RuleHouseColorByCoverage();
-            case "violations":
+            case violationsColorMetric.id:
                 return this._RuleHouseColorByIssues();
-            case "open_issues":
+            case newIssuesColorMetric.id:
+                return this._RuleHouseColorByIssues();
+            case openIssuesColorMetric.id:
                 return this._RuleHouseColorByOpenIssues();
-            case "package":
+            case packageNameColorMetric.id:
                 return this._RuleHouseColorByPackageName();
-            case "scmNumberOfAuthorsColorMetric":
+            case numberOfAuthorsBlameColorMetric.id:
                 return this._RuleHouseColorByScmInfos();
             default:
                 return this._RuleHouseColorInitial();

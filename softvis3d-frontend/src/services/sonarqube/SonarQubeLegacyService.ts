@@ -23,6 +23,7 @@ import {AppStatusStore} from "../../stores/AppStatusStore";
 import {SceneStore} from "../../stores/SceneStore";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
+import {noColorMetric, numberOfAuthorsBlameColorMetric, packageNameColorMetric} from "../../constants/Metrics";
 
 export default class SonarQubeLegacyService extends BackendService {
     public static LOAD_LEGACY: LoadAction = new LoadAction("SONAR_LOAD_LEGACY_BACKEND", "Request measures from SonarQube");
@@ -92,8 +93,8 @@ export default class SonarQubeLegacyService extends BackendService {
         result.add(this.cityBuilderStore.profile.heightMetricId);
 
         for (const colorMetric of this.cityBuilderStore.colorMetrics.keys) {
-            if (colorMetric !== "none" && colorMetric !== "package"
-                && colorMetric !== "scmNumberOfAuthorsColorMetric") {
+            if (colorMetric !== noColorMetric.id && colorMetric !== packageNameColorMetric.id
+                && colorMetric !== numberOfAuthorsBlameColorMetric.id) {
                 result.add(colorMetric);
             }
         }

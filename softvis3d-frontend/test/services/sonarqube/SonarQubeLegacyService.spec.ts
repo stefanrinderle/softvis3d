@@ -108,7 +108,7 @@ describe("SonarQubeLegacyService", () => {
         clock.tick(10);
         returnPromise.then(() => {
             underTest.loadLegacyBackend();
-            
+
             clock.tick(10);
             returnPromise2.then(() => {
                 Sinon.assert.calledOnce(spyCallApi);

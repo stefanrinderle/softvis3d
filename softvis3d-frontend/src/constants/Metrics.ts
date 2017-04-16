@@ -42,8 +42,8 @@ export const coverageColorMetric: Metric = new Metric(coverageMetricId, "Coverag
 export const openIssuesColorMetric: Metric = new Metric("open_issues", "Open Issues",
     "Scale from green (no open issues) to red (a lot of issues).");
 
-export const scmNumberOfAuthorsColorMetric: Metric = new Metric("scmNumberOfAuthorsColorMetric",
-    "Scm number of authors", "Number of authors.");
+export const numberOfAuthorsBlameColorMetric: Metric = new Metric("number_of_authors_blame",
+    "Number of authors (blame)", "Number of authors based on the SCM blame info. See help page for details.");
 
 export class ColorMetrics {
 
@@ -51,12 +51,12 @@ export class ColorMetrics {
         noColorMetric,
         complexityColorMetric,
         coverageColorMetric,
+        numberOfAuthorsBlameColorMetric,
         violationsColorMetric,
         newIssuesColorMetric,
         linesOfCodeColorMetric,
         openIssuesColorMetric,
-        packageNameColorMetric,
-        scmNumberOfAuthorsColorMetric
+        packageNameColorMetric
     ];
 
     public static getColorMetricById(id: string): Metric | undefined {

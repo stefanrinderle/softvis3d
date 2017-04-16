@@ -103,7 +103,7 @@ export default class SonarQubeScmService extends BackendService {
                     );
 
                 element.measures = Object.assign(element.measures, {
-                    scmNumberOfAuthorsColorMetric: ScmCalculator.calcNumberOfAuthors(metrics)
+                    number_of_authors_blame: ScmCalculator.calcNumberOfAuthors(metrics)
                 });
 
                 resolve();
