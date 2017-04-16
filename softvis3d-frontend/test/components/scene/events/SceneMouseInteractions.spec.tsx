@@ -1,8 +1,8 @@
 import {assert, expect} from "chai";
 import * as Sinon from "sinon";
-import {SceneMouseInteractions} from "../../../src/components/scene/SceneMouseInteractions";
-import {HtmlDom} from "../../../src/services/HtmlDom";
-import {Event} from "../../../src/components/scene/EventDispatcher";
+import Event from "../../../../src/components/scene/events/Event";
+import {SceneMouseInteractions} from "../../../../src/components/scene/events/SceneMouseInteractions";
+import {HtmlDom} from "../../../../src/services/HtmlDom";
 
 describe("SceneMouseInteractions", () => {
 
@@ -15,7 +15,7 @@ describe("SceneMouseInteractions", () => {
         assert(windowStubAdd.calledOnce);
         assert(windowStubAdd.calledWith("mousedown"));
 
-        underTest.unmount();
+        underTest.destroy();
 
         assert(windowStubRemove.calledOnce);
         assert(windowStubRemove.calledWith("mousedown"));

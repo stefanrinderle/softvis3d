@@ -21,7 +21,7 @@ describe("ThreeSceneService", () => {
         sceneGetDefaultPositionStub.returns(expectedPosition);
         let cameraPositionStub = softvis3dScene.setCameraTo;
 
-        let underTest: ThreeSceneService = new ThreeSceneService(softvis3dScene, wrangler);
+        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         let colorsChanged: boolean = false;
         let sceneComponentIsMounted: boolean = true;
@@ -44,7 +44,7 @@ describe("ThreeSceneService", () => {
         let sceneGetDefaultPositionStub = softvis3dScene.getDefaultCameraPosition;
         let cameraPositionStub = softvis3dScene.setCameraTo;
 
-        let underTest: ThreeSceneService = new ThreeSceneService(softvis3dScene, wrangler);
+        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         let colorsChanged: boolean = false;
         let sceneComponentIsMounted: boolean = true;
@@ -65,7 +65,7 @@ describe("ThreeSceneService", () => {
 
         let wranglerUpdateStub = wrangler.updateColorsWithUpdatedShapes;
 
-        let underTest: ThreeSceneService = new ThreeSceneService(softvis3dScene, wrangler);
+        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         let colorsChanged: boolean = true;
         let sceneComponentIsMounted: boolean = true;
@@ -82,7 +82,7 @@ describe("ThreeSceneService", () => {
 
         let wranglerLoadStub = wrangler.loadSoftVis3d;
 
-        let underTest: ThreeSceneService = new ThreeSceneService(softvis3dScene, wrangler);
+        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         let colorsChanged: boolean = false;
         let sceneComponentIsMounted: boolean = false;
@@ -98,7 +98,7 @@ describe("ThreeSceneService", () => {
 
         let wranglerSelectObjectStub = wrangler.selectSceneTreeObject;
 
-        let underTest: ThreeSceneService = new ThreeSceneService(softvis3dScene, wrangler);
+        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         let objectSoftVis3dId: string = "osdufhsidufhiusdfh";
 
@@ -113,7 +113,7 @@ describe("ThreeSceneService", () => {
 
         let wranglerSelectObjectStub = wrangler.selectSceneTreeObject;
 
-        let underTest: ThreeSceneService = new ThreeSceneService(softvis3dScene, wrangler);
+        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         underTest.selectSceneTreeObject(null);
         underTest.selectSceneTreeObject();
@@ -128,7 +128,7 @@ describe("ThreeSceneService", () => {
         let expectedPosition: Vector3 = new Vector3(1, 2, 3);
         softvis3dScene.getCameraPosition.returns(expectedPosition);
 
-        let underTest: ThreeSceneService = new ThreeSceneService(softvis3dScene, wrangler);
+        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         let result: Vector3 = underTest.getCameraPosition();
 
@@ -148,7 +148,7 @@ describe("ThreeSceneService", () => {
             top: 8787
         });
 
-        let underTest: ThreeSceneService = new ThreeSceneService(softvis3dScene, wrangler);
+        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         const event = {
             clientX: 12,
@@ -171,7 +171,7 @@ describe("ThreeSceneService", () => {
         let wrangler: any = Sinon.createStubInstance(Wrangler);
 
         let cameraPositionStub = softvis3dScene.setCameraTo;
-        let underTest: ThreeSceneService = new ThreeSceneService(softvis3dScene, wrangler);
+        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         let expectedPosition: Vector3 = new Vector3(1, 2, 3);
         underTest.setCameraTo(expectedPosition);
@@ -188,7 +188,7 @@ describe("ThreeSceneService", () => {
         let expectedPosition: Vector3 = new Vector3(1, 2, 3);
         let sceneGetDefaultPositionStub = softvis3dScene.getDefaultCameraPosition.returns(expectedPosition);
         let cameraPositionStub = softvis3dScene.setCameraTo;
-        let underTest: ThreeSceneService = new ThreeSceneService(softvis3dScene, wrangler);
+        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         let shapes: SoftVis3dShape[] = [];
         underTest.resetCameraPosition(shapes);

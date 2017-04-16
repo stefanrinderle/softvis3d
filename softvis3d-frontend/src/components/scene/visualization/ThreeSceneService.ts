@@ -29,17 +29,25 @@ export default class ThreeSceneService {
     private threeScene: SoftVis3dScene;
     private wrangler: Wrangler;
 
-    public constructor(softvis3dScene?: SoftVis3dScene, wrangler?: Wrangler) {
-        if (softvis3dScene) {
-            this.threeScene = softvis3dScene;
-        } else {
-            this.threeScene = new SoftVis3dScene();
-        }
-        if (wrangler) {
-            this.wrangler = wrangler;
-        } else {
-            this.wrangler = new Wrangler(this.threeScene.scene);
-        }
+    public static create() {
+        const softvisScene = new SoftVis3dScene();
+        const wrangler= new Wrangler(softvisScene.scene);
+        return new ThreeSceneService(
+            softvisScene,
+            wrangler
+        );
+    }
+
+    public static createForTest(softvis3dSceneMock: SoftVis3dScene, wranglerMock: Wrangler) {
+        return new ThreeSceneService(
+            softvis3dSceneMock,
+            wranglerMock
+        );
+    }
+
+    private constructor(softvis3dScene: SoftVis3dScene, wrangler: Wrangler) {
+        this.threeScene = softvis3dScene;
+        this.wrangler = wrangler;
     }
 
     public update(shapes: SoftVis3dShape[], sceneComponentIsMounted: boolean, colorsChanged: boolean, cameraPosition?: Vector3) {

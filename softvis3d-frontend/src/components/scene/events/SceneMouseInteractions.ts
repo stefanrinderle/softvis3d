@@ -18,8 +18,9 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {HtmlDom} from "../../services/HtmlDom";
-import {Event, EventDispatcher} from "./EventDispatcher";
+import {HtmlDom} from "../../../services/HtmlDom";
+import {EventDispatcher} from "./EventDispatcher";
+import Event from "./Event";
 
 export class SceneMouseInteractions {
 
@@ -37,7 +38,7 @@ export class SceneMouseInteractions {
         window.addEventListener(SceneMouseInteractions.EVENT_MOUSE_DOWN, this.handleMouseDown.bind(this));
     }
 
-    public unmount() {
+    public destroy() {
         window.removeEventListener(SceneMouseInteractions.EVENT_MOUSE_DOWN, this.handleMouseDown.bind(this));
     }
 

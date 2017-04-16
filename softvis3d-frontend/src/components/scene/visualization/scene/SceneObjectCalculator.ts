@@ -23,6 +23,8 @@ import {Offset} from "../../../../services/HtmlDom";
 
 export default class SceneObjectCalculator {
 
+    private static DEFAULT_FOOTER_HEIGHT: number = 11;
+
     public static findMaxDimension(shapes: SoftVis3dShape[]): Rectangle {
         let length: number = 0;
         let width: number = 0;
@@ -42,7 +44,7 @@ export default class SceneObjectCalculator {
     public static calculateDimensionOnResize(sidebarWidth: number, topbarHeight: number, appOffset: Offset,
                                              sonarFooter: HTMLElement | null, appWidth: number): Rectangle {
         const sceneBoarderWidth = 1;
-        const sonarFooterHeight = sonarFooter ? sonarFooter.offsetHeight : 11;
+        const sonarFooterHeight = sonarFooter ? sonarFooter.offsetHeight : SceneObjectCalculator.DEFAULT_FOOTER_HEIGHT;
         const appMaxHeight = window.innerHeight - sonarFooterHeight - appOffset.top - (2 * sceneBoarderWidth);
         const appComputedWidth = appWidth - 2 * sceneBoarderWidth;
 

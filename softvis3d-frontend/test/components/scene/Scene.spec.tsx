@@ -7,9 +7,9 @@ import {shallow} from "enzyme";
 import Scene from "../../../src/components/scene/Scene";
 import SceneInformation from "../../../src/components/scene/information/SceneInformation";
 import {KeyLegend} from "../../../src/components/scene/KeyLegend";
-import {SceneMouseInteractions} from "../../../src/components/scene/SceneMouseInteractions";
 import ThreeSceneService from "../../../src/components/scene/visualization/ThreeSceneService";
 import {Vector3} from "three";
+import {SceneMouseInteractions} from "../../../src/components/scene/events/SceneMouseInteractions";
 
 describe("<Scene/>", () => {
 
@@ -63,8 +63,8 @@ describe("<Scene/>", () => {
         underTest.componentWillUnmount();
 
         expect(localSceneStore.sceneComponentIsMounted).to.be.false;
-        assert(stubMouseActions.unmount.called);
-        assert(stubKeyActions.unmount.called);
+        assert(stubMouseActions.destroy.called);
+        assert(stubKeyActions.destroy.called);
     });
 
     it("should update camera position", () => {

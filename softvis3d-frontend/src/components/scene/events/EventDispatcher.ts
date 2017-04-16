@@ -1,14 +1,4 @@
-export class Event<T> {
-    private _type: T;
-
-    constructor(type: T) {
-        this._type = type;
-    }
-
-    public getType(): T {
-        return this._type;
-    }
-}
+import Event from "./Event";
 
 export class EventDispatcher<T> {
     private _listeners: Function[];
@@ -40,13 +30,14 @@ export class EventDispatcher<T> {
     }
 
     private hasEventListener(listener: Function): Boolean {
-        let exists: Boolean = false;
-        for (let listenerElement of this._listeners) {
-            if (listenerElement === listener) {
-                exists = true;
-            }
-        }
-
-        return exists;
+        return this._listeners.indexOf(listener) >= 0;
+        // let exists: Boolean = false;
+        // for (let listenerElement of this._listeners) {
+        //     if (listenerElement === listener) {
+        //         exists = true;
+        //     }
+        // }
+        //
+        // return exists;
     }
 }

@@ -1,6 +1,6 @@
 import {assert} from "chai";
-import {SceneKeyInteractions} from "../../../src/components/scene/SceneKeyInteractions";
 import * as Sinon from "sinon";
+import {SceneKeyInteractions} from "../../../../src/components/scene/events/SceneKeyInteractions";
 
 describe("SceneKeyInteractions", () => {
 
@@ -13,7 +13,7 @@ describe("SceneKeyInteractions", () => {
         assert(windowStubAdd.calledOnce);
         assert(windowStubAdd.calledWith("keydown"));
 
-        underTest.unmount();
+        underTest.destroy();
 
         assert(windowStubRemove.calledOnce);
         assert(windowStubRemove.calledWith("keydown"));

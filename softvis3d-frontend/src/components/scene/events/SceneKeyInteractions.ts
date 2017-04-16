@@ -17,8 +17,9 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
+import {EventDispatcher} from "./EventDispatcher";
+import Event from "./Event";
 
-import {Event, EventDispatcher} from "./EventDispatcher";
 export class SceneKeyInteractions {
 
     private static EVENT_KEY_DOWN: string = "keydown";
@@ -33,7 +34,7 @@ export class SceneKeyInteractions {
         window.addEventListener(SceneKeyInteractions.EVENT_KEY_DOWN, this.handleKeyDown.bind(this));
     }
 
-    public unmount() {
+    public destroy() {
         window.removeEventListener(SceneKeyInteractions.EVENT_KEY_DOWN, this.handleKeyDown.bind(this));
     }
 
