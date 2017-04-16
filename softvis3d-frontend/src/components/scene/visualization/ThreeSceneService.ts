@@ -45,11 +45,6 @@ export default class ThreeSceneService {
         );
     }
 
-    private constructor(softvis3dScene: SoftVis3dScene, wrangler: Wrangler) {
-        this.threeScene = softvis3dScene;
-        this.wrangler = wrangler;
-    }
-
     public update(shapes: SoftVis3dShape[], sceneComponentIsMounted: boolean, colorsChanged: boolean, cameraPosition?: Vector3) {
         if (shapes !== null && sceneComponentIsMounted) {
             if (colorsChanged) {
@@ -95,6 +90,11 @@ export default class ThreeSceneService {
      */
     public resetCameraPosition(shapes: SoftVis3dShape[]) {
         this.setCameraTo(this.threeScene.getDefaultCameraPosition(shapes));
+    }
+
+    private constructor(softvis3dScene: SoftVis3dScene, wrangler: Wrangler) {
+        this.threeScene = softvis3dScene;
+        this.wrangler = wrangler;
     }
 
     private loadSoftVis3d(shapes: SoftVis3dShape[], cameraPosition?: Vector3) {

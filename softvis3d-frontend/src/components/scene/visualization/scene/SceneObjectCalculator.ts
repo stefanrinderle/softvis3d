@@ -23,8 +23,6 @@ import {Offset} from "../../../../services/HtmlDom";
 
 export default class SceneObjectCalculator {
 
-    private static DEFAULT_FOOTER_HEIGHT: number = 11;
-
     public static findMaxDimension(shapes: SoftVis3dShape[]): Rectangle {
         let length: number = 0;
         let width: number = 0;
@@ -53,5 +51,7 @@ export default class SceneObjectCalculator {
 
         return new Rectangle(width, height);
     }
+
+    private static DEFAULT_FOOTER_HEIGHT: number = 11;
 
 }
