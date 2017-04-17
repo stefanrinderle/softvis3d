@@ -21,11 +21,13 @@ import {assert, expect} from "chai";
 import {AppStatusStore} from "../../src/stores/AppStatusStore";
 import LoadAction from "../../src/classes/status/LoadAction";
 import ErrorAction from "../../src/classes/status/ErrorAction";
+import StatusAction from "../../src/classes/status/StatusAction";
 
 describe("AppStatusStore", () => {
 
     it("should have set all default values on init", () => {
         let underTest: AppStatusStore = new AppStatusStore();
+        expect(underTest.loadingQueue.isEmpty).to.be.true;
         expect(underTest.loadingQueue.isEmpty).to.be.true;
         expect(underTest.errors.isEmpty).to.be.true;
         expect(underTest.showLoadingQueue).to.be.eq(false);
@@ -74,6 +76,19 @@ describe("AppStatusStore", () => {
         let underTest: AppStatusStore = new AppStatusStore();
         underTest.error(new ErrorAction("key", "testError", "", () => {}));
         underTest.acknowledgeError(new ErrorAction("key", "testError", "", () => {}));
+        expect(underTest.isVisible).to.be.equal(false);
+    });
+
+    it("should return isVisible true if status has element", () => {
+        let underTest: AppStatusStore = new AppStatusStore();
+        underTest.status(new StatusAction("key", "testError"));
+        expect(underTest.isVisible).to.be.equal(true);
+    });
+
+    it("should return isVisible true after status is removed", () => {
+        let underTest: AppStatusStore = new AppStatusStore();
+        underTest.status(new StatusAction("key", "testError"));
+        underTest.removeStatus(new StatusAction("key", "testError"));
         expect(underTest.isVisible).to.be.equal(false);
     });
 

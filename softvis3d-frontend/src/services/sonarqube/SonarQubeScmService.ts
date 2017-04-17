@@ -27,6 +27,8 @@ import ScmCalculator from "./ScmCalculator";
 
 export default class SonarQubeScmService extends BackendService {
     public static LOAD_SCM: LoadAction = new LoadAction("SONAR_LOAD_SCM", "Request scm infos from SonarQube");
+    public static STATUS_SCM_NOT_AVAILABLE: LoadAction = new LoadAction("STATUS_SCM_NOT_AVAILABLE",
+        "SCM blame info is not available. Please check your scm plugin.");
     private static LOAD_SCM_ERROR_KEY: string = "LOAD_SCM_ERROR";
 
     private appStatusStore: AppStatusStore;
@@ -37,6 +39,32 @@ export default class SonarQubeScmService extends BackendService {
 
         this.appStatusStore = appStatusStore;
         this.sceneStore = sceneStore;
+    }
+
+    public checkScmInfosAvailable(): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            if (this.sceneStore.legacyData !== null) {
+                let allFiles: TreeElement[] = TreeService.getAllFiles(this.sceneStore.legacyData);
+                allFiles = allFiles.slice(0, 10);
+
+                let requests: Array<Promise<void>> = [];
+                for (let file of allFiles) {
+                    requests.push(this.loadScmInfosFor(file));
+                }
+
+                Promise.all(requests).then(() => {
+                    let isScmMetricAvailable = this.checkScmMetricAvailable(allFiles);
+                    if (!isScmMetricAvailable) {
+                        this.appStatusStore.status(SonarQubeScmService.STATUS_SCM_NOT_AVAILABLE);
+                    }
+                    resolve(isScmMetricAvailable);
+                }).catch(() => {
+                    reject();
+                });
+            } else {
+                resolve(false);
+            }
+        });
     }
 
     public loadScmInfos(): Promise<void> {
@@ -56,6 +84,15 @@ export default class SonarQubeScmService extends BackendService {
                 resolve();
             }
         });
+    }
+
+    private checkScmMetricAvailable(allFiles: TreeElement[]): boolean {
+        for (let file of allFiles) {
+            if (file.measures.number_of_authors_blame > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private loadScmInfosBatch(allFiles: TreeElement[], page: number = 0): Promise<void> {

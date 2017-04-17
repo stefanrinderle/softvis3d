@@ -27,6 +27,107 @@ import ScmCalculator from "../../../src/services/sonarqube/ScmCalculator";
 
 describe("SonarQubeScmService", () => {
 
+    it("should check if metric is available if its available", (done) => {
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+
+        let testSceneStore: SceneStore = new SceneStore();
+        let exampleData: any = {};
+        testSceneStore.legacyData = exampleData;
+
+        let apiUrl: string = "urlsihshoif";
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,
+            testSceneStore);
+
+        let treeServiceMock = Sinon.stub(TreeService, "getAllFiles");
+        let treeElements: TreeElement[] = [];
+        treeElements.push(createTestTreeElement("test"));
+        treeServiceMock.returns(treeElements);
+
+        let measure: string[] = [];
+        let measures: any = [];
+        measures.push(measure);
+
+        let scmCalculatorCreateMetricMock = Sinon.stub(ScmCalculator, "createMetric");
+        scmCalculatorCreateMetricMock.returns({
+            lineNumber: 1,
+            authorName: "srinderle",
+            lastCommit: "oisdfosidj",
+            lastCommitRevision: "soidufhosidjf"
+        });
+        let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
+        scmCalculatorCaclAuthorsMock.returns(4);
+
+        Sinon.stub(underTest, "callApi", () => {
+            return Promise.resolve({
+                data: {
+                    scm: measures
+                }
+            });
+        });
+
+        underTest.checkScmInfosAvailable().then((result) => {
+            expect(result).to.be.true;
+
+            treeServiceMock.restore();
+            scmCalculatorCreateMetricMock.restore();
+            scmCalculatorCaclAuthorsMock.restore();
+            done();
+        }).catch((error) => {
+            assert.isNotOk(error, "Promise error");
+            done();
+        });
+    });
+
+    it("should check if metric is available if its NOT available", (done) => {
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+
+        let testSceneStore: SceneStore = new SceneStore();
+        let exampleData: any = {};
+        testSceneStore.legacyData = exampleData;
+
+        let apiUrl: string = "urlsihshoif";
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,
+            testSceneStore);
+
+        let statusStub = Sinon.stub(testAppStatusStore, "status");
+
+        let treeServiceMock = Sinon.stub(TreeService, "getAllFiles");
+        let treeElements: TreeElement[] = [];
+        treeElements.push(createTestTreeElement("test"));
+        treeServiceMock.returns(treeElements);
+
+        let measure: string[] = [];
+        let measures: any = [];
+        measures.push(measure);
+
+        let scmCalculatorCreateMetricMock = Sinon.stub(ScmCalculator, "createMetric");
+        scmCalculatorCreateMetricMock.returns({ });
+        let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
+        scmCalculatorCaclAuthorsMock.returns(0);
+
+        Sinon.stub(underTest, "callApi", () => {
+            return Promise.resolve({
+                data: {
+                    scm: measures
+                }
+            });
+        });
+
+        underTest.checkScmInfosAvailable().then((result) => {
+            expect(result).to.be.false;
+            assert(statusStub.calledOnce);
+
+            treeServiceMock.restore();
+            scmCalculatorCreateMetricMock.restore();
+            scmCalculatorCaclAuthorsMock.restore();
+            statusStub.restore();
+            done();
+        }).catch((error) => {
+            assert.isNotOk(error, "Promise error");
+            done();
+        });
+    });
+
     it("should call backend and add metric", (done) => {
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
 

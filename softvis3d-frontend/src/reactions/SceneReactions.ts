@@ -103,9 +103,15 @@ export default class SceneReactions {
 
     private buildCity() {
         if (this.scene.options.metricColor === numberOfAuthorsBlameColorMetric && !this.scene.scmMetricLoaded) {
-            this.scmService.loadScmInfos().then(() => {
-                this.scene.scmMetricLoaded = true;
-                this.legacy.buildCity();
+            this.scmService.checkScmInfosAvailable().then((result: boolean) => {
+                if (result) {
+                    this.scmService.loadScmInfos().then(() => {
+                        this.scene.scmMetricLoaded = true;
+                        this.legacy.buildCity();
+                    });
+                } else {
+                    this.legacy.buildCity();
+                }
             });
         } else {
             this.legacy.buildCity();
