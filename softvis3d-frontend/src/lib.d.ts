@@ -33,8 +33,8 @@ declare module "config" {
 }
 
 declare interface SelectOptionValue {
-    getId(): string;
-    getLabel(): string;
+    readonly id: string;
+    readonly label: string;
 }
 
 interface MeasureList {

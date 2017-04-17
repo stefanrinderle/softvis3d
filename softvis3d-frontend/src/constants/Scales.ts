@@ -34,7 +34,7 @@ export class Scales {
         }
 
         for (const availableScale of Scales.availableScales) {
-            if (availableScale.getId() === scaleId) {
+            if (availableScale.id === scaleId) {
                 return availableScale;
             }
         }

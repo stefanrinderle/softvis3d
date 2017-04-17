@@ -1,8 +1,8 @@
 import Metric from "../classes/Metric";
 import Layout from "../classes/Layout";
 import Scale from "../classes/Scale";
-import { Vector3 } from "three";
-import { Parameters } from "../services/UrlParameterService";
+import {Vector3} from "three";
+import {Parameters} from "../services/UrlParameterService";
 
 export default class VisualizationLinkParams {
 
@@ -30,9 +30,9 @@ export default class VisualizationLinkParams {
         let result: Parameters = {
             metricFootprint: this._metricFootprintId,
             metricHeight: this._metricHeightId,
-            metricColor: this._metricColor.getId(),
-            layout: this._layout.getId(),
-            scale: this._scale.getId(),
+            metricColor: this._metricColor.id,
+            layout: this._layout.id,
+            scale: this._scale.id,
             cameraX: Math.round(this._cameraPosition.x).toString(),
             cameraY: Math.round(this._cameraPosition.y).toString(),
             cameraZ: Math.round(this._cameraPosition.z).toString()

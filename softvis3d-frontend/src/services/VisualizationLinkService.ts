@@ -1,15 +1,15 @@
-import { CityBuilderStore } from "../stores/CityBuilderStore";
+import {CityBuilderStore} from "../stores/CityBuilderStore";
 import Metric from "../classes/Metric";
 import Layout from "../classes/Layout";
-import { custom } from "../constants/Profiles";
+import {custom} from "../constants/Profiles";
 import Scale from "../classes/Scale";
-import { ColorMetrics } from "../constants/Metrics";
-import { Scales } from "../constants/Scales";
-import { Layouts } from "../constants/Layouts";
+import {ColorMetrics} from "../constants/Metrics";
+import {Scales} from "../constants/Scales";
+import {Layouts} from "../constants/Layouts";
 import VisualizationLinkParams from "../classes/VisualizationLinkParams";
-import { SceneStore } from "../stores/SceneStore";
-import { Vector3 } from "three";
-import { default as UrlParameterService, Parameters } from "./UrlParameterService";
+import {SceneStore} from "../stores/SceneStore";
+import {Vector3} from "three";
+import {default as UrlParameterService, Parameters } from "./UrlParameterService";
 
 export default class VisualizationLinkService {
 
@@ -46,7 +46,7 @@ export default class VisualizationLinkService {
             && cameraPosition !== undefined
         ) {
             let visualizationLinkParams: VisualizationLinkParams = new VisualizationLinkParams(
-                metricFootprint.getId(), metricHeight.getId(), metricColor,
+                metricFootprint.id, metricHeight.id, metricColor,
                 layout, scale, selectedObjectId, cameraPosition
             );
 
@@ -77,9 +77,9 @@ export default class VisualizationLinkService {
         let cameraPosition: Vector3 | undefined;
         if (params.cameraX !== undefined && params.cameraY !== undefined && params.cameraZ !== undefined) {
             cameraPosition = new Vector3(
-                parseInt(params.cameraX, 10),
-                parseInt(params.cameraY, 10),
-                parseInt(params.cameraZ, 10)
+                parseFloat(params.cameraX),
+                parseFloat(params.cameraY),
+                parseFloat(params.cameraZ)
             );
         }
         return cameraPosition;

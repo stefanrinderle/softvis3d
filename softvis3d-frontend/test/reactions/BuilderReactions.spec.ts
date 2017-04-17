@@ -75,8 +75,8 @@ describe("BuilderReactions", () => {
         expect(reactionRegister).not.to.be.null;
         expect(testSceneStore.options.layout).to.be.eq(expectedLayout);
         expect(testSceneStore.options.metricColor).to.be.eq(expectedColorMetric);
-        expect(testSceneStore.options.footprint.getId()).to.be.eq(expectedProfile.footprintMetricId);
-        expect(testSceneStore.options.height.getId()).to.be.eq(expectedProfile.heightMetricId);
+        expect(testSceneStore.options.footprint.id).to.be.eq(expectedProfile.footprintMetricId);
+        expect(testSceneStore.options.height.id).to.be.eq(expectedProfile.heightMetricId);
         expect(testSceneStore.options.scale).to.be.eq(expectedScale);
     });
 

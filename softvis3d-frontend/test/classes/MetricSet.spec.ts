@@ -58,8 +58,8 @@ describe("MetricSet", () => {
         let result: MetricSet = new MetricSet(initialMetrics);
 
         expect(result.asSelectOptions.length).to.be.eq(2);
-        expect(result.asSelectOptions[0].getLabel()).to.be.eq("siuhf");
-        expect(result.asSelectOptions[1].getLabel()).to.be.eq("iojsiodf");
+        expect(result.asSelectOptions[0].label).to.be.eq("siuhf");
+        expect(result.asSelectOptions[1].label).to.be.eq("iojsiodf");
     });
 
     it("should detect new lines of code metric not available", () => {
