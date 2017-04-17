@@ -82,6 +82,10 @@ export default class SoftVis3dScene {
         return new Vector3(0, platform.length * 0.7, platform.width * 0.7);
     }
 
+    public resetControls() {
+        this.controls.reset();
+    }
+
     public get width() {
         return this._width;
     }

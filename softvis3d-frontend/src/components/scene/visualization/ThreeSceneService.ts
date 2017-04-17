@@ -102,6 +102,7 @@ export default class ThreeSceneService {
      * reset to the "first" position would reset to the starting point from the link.
      */
     public resetCameraPosition(shapes: SoftVis3dShape[]) {
+        this.threeScene.resetControls();
         this.setCameraTo(this.threeScene.getDefaultCameraPosition(shapes));
     }
 
