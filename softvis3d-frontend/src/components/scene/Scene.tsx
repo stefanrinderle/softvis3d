@@ -89,7 +89,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     public handleMouseDown(event: Event<boolean>) {
         let isWithinScene: boolean = event.getType();
         if (isWithinScene ? !this.state.focus : this.state.focus) {
-            this.setState({...this.state, focus: isWithinScene});
+            this.updateSceneFocusState(isWithinScene);
         }
     }
 
@@ -113,23 +113,25 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
      * private methods
      */
 
+    private updateSceneFocusState(newState: boolean) {
+        this.setState({...this.state, focus: newState});
+
+        if (newState) {
+            this._keyActions.resume();
+        } else {
+            this._keyActions.halt();
+        }
+    }
+
     private selectObject(event: Event<MouseEvent>) {
         this.props.sceneStore.selectedObjectId = this._threeSceneService.makeSelection(event.getType());
     }
 
     private resetCamera() {
-        if (!this.state.focus) {
-            return;
-        }
-
         this._threeSceneService.resetCameraPosition(this.props.sceneStore.shapes);
     }
 
     private toggleLegend() {
-        if (!this.state.focus) {
-            return;
-        }
-
         this.setState({...this.state, legend: !this.state.legend});
     }
 

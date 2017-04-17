@@ -29,9 +29,11 @@ export class SceneKeyInteractions {
 
     private _onResetCameraEvent: EventDispatcher<void> = new EventDispatcher<void>();
     private _onToggleLegendEvent: EventDispatcher<void> = new EventDispatcher<void>();
+    private active: boolean;
 
-    constructor() {
+    constructor(active?: boolean) {
         window.addEventListener(SceneKeyInteractions.EVENT_KEY_DOWN, this.handleKeyDown.bind(this));
+        this.active = !!active;
     }
 
     public destroy() {
@@ -46,8 +48,20 @@ export class SceneKeyInteractions {
         return this._onToggleLegendEvent;
     }
 
+    public halt() {
+        this.active = false;
+    }
+
+    public resume() {
+        this.active = true;
+    }
+
     // public for tests
     public handleKeyDown(event: KeyboardEvent) {
+        if (!this.active) {
+            return;
+        }
+
         switch (event.keyCode) {
             case SceneKeyInteractions.KEY_CODE_R:
                 this._onResetCameraEvent.dispatchEvent(new Event<void>(undefined));

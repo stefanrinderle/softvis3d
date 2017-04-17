@@ -33,22 +33,30 @@ describe("SceneKeyInteractions", () => {
         underTest.onResetCameraEvent.addEventListener(spy);
 
         underTest.handleKeyDown(eventButtonR);
+        assert(spy.notCalled);
 
+        underTest.resume();
+
+        underTest.handleKeyDown(eventButtonR);
         assert(spy.calledOnce);
     });
 
     it("should raise toggle legend event on l button clicked.", () => {
         let underTest: SceneKeyInteractions = new SceneKeyInteractions();
 
-        const eventButtonR = { keyCode: 76 } as any as KeyboardEvent;
+        const eventButtonL = { keyCode: 76 } as any as KeyboardEvent;
 
         let listener: Function = () => undefined;
         const spy = Sinon.spy(listener);
 
         underTest.onToggleLegendEvent.addEventListener(spy);
 
-        underTest.handleKeyDown(eventButtonR);
+        underTest.handleKeyDown(eventButtonL);
+        assert(spy.notCalled);
 
+        underTest.resume();
+
+        underTest.handleKeyDown(eventButtonL);
         assert(spy.calledOnce);
     });
 
