@@ -104,7 +104,7 @@ describe("ThreeSceneService", () => {
         assert(wranglerSelectObjectStub.calledWith(objectSoftVis3dId));
     });
 
-    it("should do nothing if no id provided.", () => {
+    it("should also work if id is null to reset the current selected object.", () => {
         let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
         let wrangler: any = Sinon.createStubInstance(Wrangler);
 
@@ -113,9 +113,8 @@ describe("ThreeSceneService", () => {
         let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         underTest.selectSceneTreeObject(null);
-        underTest.selectSceneTreeObject();
 
-        assert(wranglerSelectObjectStub.notCalled);
+        assert(wranglerSelectObjectStub.calledWith(null));
     });
 
     it("should return camera position.", () => {

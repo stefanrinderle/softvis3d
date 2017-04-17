@@ -67,8 +67,8 @@ export default class ThreeSceneService {
         this.lastOptions = Object.assign({}, options);
     }
 
-    public selectSceneTreeObject(objectSoftVis3dId?: string | null) {
-        if (this.wrangler && objectSoftVis3dId) {
+    public selectSceneTreeObject(objectSoftVis3dId: string | null) {
+        if (this.wrangler) {
             this.wrangler.selectSceneTreeObject(objectSoftVis3dId);
         }
     }
