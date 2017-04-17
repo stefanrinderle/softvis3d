@@ -17,7 +17,8 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {Scene, WebGLRenderer, PerspectiveCamera, Vector3} from "three";
+import * as three from "three";
+import {PerspectiveCamera, Scene, Vector3, WebGLRenderer} from "three";
 import {Camera} from "./Camera";
 import {Wrangler} from "./Wrangler";
 import {Setup} from "./Setup";
@@ -25,7 +26,6 @@ import {SoftVis3dShape} from "../domain/SoftVis3dShape";
 import {Dimension} from "../domain/Dimension";
 import {SelectionService} from "./SelectionCalculator";
 import {HtmlDom, Offset} from "../../../services/HtmlDom";
-import * as three from "three";
 import * as OrbitControlsExtender from "three-orbit-controls";
 
 // tslint:disable-next-line
@@ -160,6 +160,7 @@ export default class SoftVis3dScene {
      * reset to the "first" position would reset to the starting point from the link.
      */
     public resetCameraPosition(shapes: SoftVis3dShape[]) {
+        this.controls.reset();
         this.setCameraTo(this.getDefaultCameraPosition(shapes));
     }
 
