@@ -46,7 +46,6 @@ describe("BuilderReactions", () => {
         expect(reactionRegister).not.to.be.null;
         expect(testSceneStore.shapes).to.be.null;
         expect(testCityBuilderStore.initiateBuildProcess).to.be.false;
-        expect(testSceneStore.colorsChanged).to.be.false;
     });
 
     it("should initiate build process - part 2 transfer option values", () => {

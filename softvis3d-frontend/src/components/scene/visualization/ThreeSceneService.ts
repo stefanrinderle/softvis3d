@@ -23,6 +23,7 @@ import {SelectionCalculator} from "./SelectionCalculator";
 import {HtmlDom, Offset} from "../../../services/HtmlDom";
 import SoftVis3dScene from "./scene/SoftVis3dScene";
 import {Wrangler} from "./objects/Wrangler";
+import VisualizationOptions from "../../../classes/VisualizationOptions";
 
 export default class ThreeSceneService {
 
@@ -45,19 +46,25 @@ export default class ThreeSceneService {
     private threeScene: SoftVis3dScene;
     private wrangler: Wrangler;
 
+    private lastOptions: VisualizationOptions;
+
     private constructor(softvis3dScene: SoftVis3dScene, wrangler: Wrangler) {
         this.threeScene = softvis3dScene;
         this.wrangler = wrangler;
     }
 
-    public update(shapes: SoftVis3dShape[], sceneComponentIsMounted: boolean, colorsChanged: boolean, cameraPosition?: Vector3) {
-        if (shapes !== null && sceneComponentIsMounted) {
-            if (colorsChanged) {
-                this.wrangler.updateColorsWithUpdatedShapes(shapes);
+    public update(shapes: SoftVis3dShape[], options: VisualizationOptions, cameraPosition?: Vector3) {
+        if (shapes !== null) {
+            if (options.equalsWithoutColor(this.lastOptions)) {
+                if (this.lastOptions.metricColor !== options.metricColor) {
+                    this.wrangler.updateColorsWithUpdatedShapes(shapes);
+                }
+            } else {
+                this.loadSoftVis3d(shapes, cameraPosition);
             }
-
-            this.loadSoftVis3d(shapes, cameraPosition);
         }
+
+        this.lastOptions = Object.assign({}, options);
     }
 
     public selectSceneTreeObject(objectSoftVis3dId?: string | null) {
@@ -71,7 +78,8 @@ export default class ThreeSceneService {
     }
 
     public makeSelection(event: MouseEvent): string | null {
-        const selection = this.calculateSelectionPosition(event);
+        const offset: Offset = HtmlDom.getOffsetsById(SoftVis3dScene.CANVAS_ID);
+        const selection = SelectionCalculator.calculateSelectionPosition(event, offset);
 
         let result: string | null = SelectionCalculator.makeSelection(
             selection.x, selection.y,
@@ -107,14 +115,4 @@ export default class ThreeSceneService {
         this.threeScene.setCameraTo(cameraPosition);
     }
 
-    private calculateSelectionPosition(event: MouseEvent) {
-        let x: number = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-        let y: number = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-
-        const offset: Offset = HtmlDom.getOffsetsById(SoftVis3dScene.CANVAS_ID);
-        x -= offset.left;
-        y -= offset.top;
-
-        return {x, y};
-    }
 }

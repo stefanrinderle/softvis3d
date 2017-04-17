@@ -3,6 +3,7 @@ import * as Sinon from "sinon";
 import {SelectionCalculator} from "../../../../src/components/scene/visualization/SelectionCalculator";
 import {SoftVis3dMesh} from "../../../../src/components/scene/domain/SoftVis3dMesh";
 import {Face3, Geometry, Intersection, MeshLambertMaterial, PerspectiveCamera, Vector3} from "three";
+import {Offset} from "../../../../src/services/HtmlDom";
 
 describe("SelectionCalculator", () => {
 
@@ -76,4 +77,16 @@ describe("SelectionCalculator", () => {
         setRaycaterStub.restore();
     });
 
+    it("should calculate selection position", () => {
+        const mouseEvent = {
+            clientX: 3423,
+            clientY: 4545
+        } as any as MouseEvent;
+        const offset: Offset = new Offset(3443, 5665);
+
+        let result = SelectionCalculator.calculateSelectionPosition(mouseEvent, offset);
+
+        expect(result.x).to.be.eq(-2242);
+        expect(result.y).to.be.eq(1102);
+    });
 });

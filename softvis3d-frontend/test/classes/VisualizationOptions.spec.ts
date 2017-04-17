@@ -17,8 +17,7 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
-import VisualizationConfiguration from "../../src/classes/VisualizationOptions";
+import {assert, expect} from "chai";
 import Layout from "../../src/classes/Layout";
 import {district, evostreet} from "../../src/constants/Layouts";
 import Scale from "../../src/classes/Scale";
@@ -30,7 +29,8 @@ import {
     noMetricId
 } from "../../src/constants/Metrics";
 import Metric from "../../src/classes/Metric";
-import {LOGARITHMIC, Scales} from "../../src/constants/Scales";
+import {EXPONENTIAL, LOGARITHMIC, Scales} from "../../src/constants/Scales";
+import VisualizationOptions from "../../src/classes/VisualizationOptions";
 
 describe("VisualizationOptions", () => {
 
@@ -41,8 +41,8 @@ describe("VisualizationOptions", () => {
         let scalingMethod: Scale = Scales.availableScales[0];
         let layout: Layout = evostreet;
 
-        let result: VisualizationConfiguration =
-            new VisualizationConfiguration(layout, metricWidth, metricHeight, metricColor, scalingMethod);
+        let result: VisualizationOptions =
+            new VisualizationOptions(layout, metricWidth, metricHeight, metricColor, scalingMethod);
 
         expect(result.layout).to.be.eq(layout);
         expect(result.footprint).to.be.eq(metricWidth);
@@ -56,13 +56,37 @@ describe("VisualizationOptions", () => {
         let scalingmethod: Scale = LOGARITHMIC;
         let layout: Layout = district;
 
-        let result: VisualizationConfiguration = VisualizationConfiguration.createDefault();
+        let result: VisualizationOptions = VisualizationOptions.createDefault();
 
         expect(result.layout).to.be.eq(layout);
         expect(result.footprint.getId()).to.be.eq(noMetricId);
         expect(result.height.getId()).to.be.eq(noMetricId);
         expect(result.metricColor).to.be.eq(metricColor);
         expect(result.scale).to.be.eq(scalingmethod);
+    });
+
+    it("should check equals without color", () => {
+        let exampleMetric: Metric = new Metric(noMetricId, "", "");
+        let result: VisualizationOptions =
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC);
+
+        assert(result.equalsWithoutColor(result));
+
+        let copy: VisualizationOptions =
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC);
+
+        assert(result.equalsWithoutColor(copy));
+        assert(copy.equalsWithoutColor(result));
+
+        copy.metricColor = coverageColorMetric;
+
+        assert(result.equalsWithoutColor(copy));
+        assert(copy.equalsWithoutColor(result));
+
+        copy.scale = EXPONENTIAL;
+
+        expect(result.equalsWithoutColor(copy)).to.be.false;
+        expect(copy.equalsWithoutColor(result)).to.be.false;
     });
 
 });

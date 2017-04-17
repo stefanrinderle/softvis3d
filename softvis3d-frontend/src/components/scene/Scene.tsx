@@ -62,8 +62,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         const {focus, legend} = this.state;
 
         if (sceneStore.sceneComponentIsMounted) {
-            this._threeSceneService.update(sceneStore.shapes, sceneStore.sceneComponentIsMounted,
-                sceneStore.colorsChanged, sceneStore.cameraPosition);
+            this._threeSceneService.update(sceneStore.shapes, sceneStore.options, sceneStore.cameraPosition);
             this._threeSceneService.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
         }
 

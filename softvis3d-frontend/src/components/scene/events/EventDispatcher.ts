@@ -31,13 +31,5 @@ export class EventDispatcher<T> {
 
     private hasEventListener(listener: Function): Boolean {
         return this._listeners.indexOf(listener) >= 0;
-        // let exists: Boolean = false;
-        // for (let listenerElement of this._listeners) {
-        //     if (listenerElement === listener) {
-        //         exists = true;
-        //     }
-        // }
-        //
-        // return exists;
     }
 }

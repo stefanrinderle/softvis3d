@@ -59,9 +59,7 @@ describe("SceneReactions", () => {
         testSceneStore.options.metricColor = complexityColorMetric;
 
         mockBuild.verify();
-
         expect(reactions).not.to.be.null;
-        expect(testSceneStore.colorsChanged).to.be.eq(true);
     });
 
     it("should convert backend data to threeJS shapes", () => {
@@ -88,7 +86,6 @@ describe("SceneReactions", () => {
         mockBuild.verify();
 
         expect(reactions).not.to.be.null;
-        expect(testSceneStore.colorsChanged).to.be.eq(false);
     });
 
 });

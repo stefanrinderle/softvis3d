@@ -19,7 +19,8 @@
 ///
 import {Intersection, Raycaster, Vector3} from "three";
 import {SoftVis3dMesh} from "../domain/SoftVis3dMesh";
-import PerspectiveCamera = THREE.PerspectiveCamera;
+import {PerspectiveCamera} from "three";
+import {Offset} from "../../../services/HtmlDom";
 
 export class SelectionCalculator {
 
@@ -46,5 +47,15 @@ export class SelectionCalculator {
         }
 
         return result;
+    }
+
+    public static calculateSelectionPosition(event: MouseEvent, offset: Offset) {
+        let x: number = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+        let y: number = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+
+        x -= offset.left;
+        y -= offset.top;
+
+        return {x, y};
     }
 }

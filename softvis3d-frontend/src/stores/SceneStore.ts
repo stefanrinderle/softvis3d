@@ -13,8 +13,6 @@ class SceneStore {
     @observable
     public shapes: any = null;
     @observable
-    public colorsChanged: boolean = false;
-    @observable
     public sceneComponentIsMounted: boolean = false;
 
     public cameraPosition: Vector3 | undefined;

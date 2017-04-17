@@ -7,6 +7,11 @@ import {SoftVis3dShape} from "../../../../src/components/scene/domain/SoftVis3dS
 import {Wrangler} from "../../../../src/components/scene/visualization/objects/Wrangler";
 import {SelectionCalculator} from "../../../../src/components/scene/visualization/SelectionCalculator";
 import {HtmlDom} from "../../../../src/services/HtmlDom";
+import VisualizationOptions from "../../../../src/classes/VisualizationOptions";
+import {evostreet} from "../../../../src/constants/Layouts";
+import Metric from "../../../../src/classes/Metric";
+import {complexityColorMetric, noColorMetric, noMetricId} from "../../../../src/constants/Metrics";
+import {LOGARITHMIC} from "../../../../src/constants/Scales";
 
 describe("ThreeSceneService", () => {
 
@@ -23,11 +28,12 @@ describe("ThreeSceneService", () => {
 
         let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
-        let colorsChanged: boolean = false;
-        let sceneComponentIsMounted: boolean = true;
+        let options: VisualizationOptions =
+            new VisualizationOptions(evostreet, new Metric(noMetricId, "", ""), new Metric(noMetricId, "", ""),
+                                     noColorMetric, LOGARITHMIC);
         let shapes: SoftVis3dShape[] = [];
 
-        underTest.update(shapes, sceneComponentIsMounted, colorsChanged);
+        underTest.update(shapes, options);
 
         assert(wranglerLoadStub.calledWith(shapes));
         assert(sceneGetDefaultPositionStub.calledWith(shapes));
@@ -46,11 +52,12 @@ describe("ThreeSceneService", () => {
 
         let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
-        let colorsChanged: boolean = false;
-        let sceneComponentIsMounted: boolean = true;
+        let options: VisualizationOptions =
+            new VisualizationOptions(evostreet, new Metric(noMetricId, "", ""), new Metric(noMetricId, "", ""),
+                noColorMetric, LOGARITHMIC);
         let shapes: SoftVis3dShape[] = [];
 
-        underTest.update(shapes, sceneComponentIsMounted, colorsChanged, expectedPosition);
+        underTest.update(shapes, options, expectedPosition);
 
         assert(wranglerLoadStub.calledWith(shapes));
         assert(sceneGetDefaultPositionStub.notCalled);
@@ -67,29 +74,19 @@ describe("ThreeSceneService", () => {
 
         let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
-        let colorsChanged: boolean = true;
-        let sceneComponentIsMounted: boolean = true;
+        let exampleMetric: Metric = new Metric(noMetricId, "", "");
+        let options: VisualizationOptions =
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC);
         let shapes: SoftVis3dShape[] = [];
 
-        underTest.update(shapes, sceneComponentIsMounted, colorsChanged, expectedPosition);
+        underTest.update(shapes, options, expectedPosition);
+
+        let optionsWithChangedColor: VisualizationOptions =
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, complexityColorMetric, LOGARITHMIC);
+        underTest.update(shapes, optionsWithChangedColor, expectedPosition);
 
         assert(wranglerUpdateStub.calledWith(shapes));
-    });
-
-    it("should do nothing if not initialized yet.", () => {
-        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
-        let wrangler: any = Sinon.createStubInstance(Wrangler);
-
-        let wranglerLoadStub = wrangler.loadSoftVis3d;
-
-        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
-
-        let colorsChanged: boolean = false;
-        let sceneComponentIsMounted: boolean = false;
-
-        underTest.update([], sceneComponentIsMounted, colorsChanged);
-
-        assert(wranglerLoadStub.notCalled);
+        assert(wranglerUpdateStub.calledOnce);
     });
 
     it("should select scene object.", () => {
@@ -143,6 +140,7 @@ describe("ThreeSceneService", () => {
 
         let expectedId: string = "djfksjdbf";
         let sceneCalcStub = Sinon.stub(SelectionCalculator, "makeSelection").returns(expectedId);
+        let calcPositionStub = Sinon.stub(SelectionCalculator, "calculateSelectionPosition").returns({x: 76, y: 89});
         let htmlDomStub = Sinon.stub(HtmlDom, "getOffsetsById").returns({
             left: 21,
             top: 8787
@@ -159,11 +157,13 @@ describe("ThreeSceneService", () => {
 
         expect(result).to.be.eq(expectedId);
         assert(wranglerSelectObjectStub.called);
-        assert(sceneCalcStub.calledWith(-9, -8772));
+        assert(calcPositionStub.called);
+        assert(sceneCalcStub.calledWith(76, 89));
 
         htmlDomStub.restore();
         wranglerSelectObjectStub.restore();
         sceneCalcStub.restore();
+        calcPositionStub.restore();
     });
 
     it("should set camera position in scene.", () => {

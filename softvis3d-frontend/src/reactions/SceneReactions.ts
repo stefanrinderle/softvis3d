@@ -29,7 +29,6 @@ export default class SceneReactions {
             () => this.scene.options.metricColor,
             () => {
                 this.builder.metricColor = this.scene.options.metricColor;
-                this.scene.colorsChanged = true;
                 this.legacy.buildCity();
             }
         );
@@ -38,7 +37,6 @@ export default class SceneReactions {
             "Convert backend data to threeJS shapes",
             () => this.scene.legacyData,
             () => {
-                this.scene.colorsChanged = false;
                 this.legacy.buildCity();
             }
         );
