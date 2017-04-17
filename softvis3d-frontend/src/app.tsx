@@ -39,8 +39,8 @@ export default class App {
         this.legacy = new LegacyConnector(sceneStore, cityBuilderStore, appStatusStore);
 
         this.reactions = [
-            new SceneReactions(sceneStore, cityBuilderStore, appStatusStore, this.legacy, this.legacyService),
-            new BuilderReactions(cityBuilderStore, sceneStore)
+            new SceneReactions(sceneStore, cityBuilderStore, this.legacy),
+            new BuilderReactions(cityBuilderStore, this.legacyService)
         ];
     }
 

@@ -1,106 +1,70 @@
-import * as React from "react";
-import {mount} from "enzyme";
-import {expect} from "chai";
-import {PerspectiveCamera, Vector3} from "three";
-import Scene from "../../../src/components/scene/Scene";
-import {SceneStore} from "../../../src/stores/SceneStore";
-import SceneInformation from "../../../src/components/scene/information/SceneInformation";
-import * as Sinon from "sinon";
-import SoftVis3dScene from "../../../src/components/scene/visualization/SoftVis3dScene";
 import "jsdom-global/register";
+import * as React from "react";
+import * as Sinon from "sinon";
+import {SceneStore} from "../../../src/stores/SceneStore";
+import {assert, expect} from "chai";
+import {shallow} from "enzyme";
+import Scene from "../../../src/components/scene/Scene";
+import SceneInformation from "../../../src/components/scene/information/SceneInformation";
+import {KeyLegend} from "../../../src/components/scene/KeyLegend";
+import ThreeSceneService from "../../../src/components/scene/visualization/ThreeSceneService";
+import {Vector3} from "three";
+import {SceneMouseInteractions} from "../../../src/components/scene/events/SceneMouseInteractions";
 
 describe("<Scene/>", () => {
 
     it("should initialize", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
-        let scenePainter: SoftVis3dScene = new SoftVis3dScene();
-        localSceneStore.scenePainter = scenePainter;
-        let initStub = Sinon.stub(scenePainter, "init");
-
-        Sinon.stub(scenePainter, "getCamera", () => ({ position: {} }));
-
-        let scene = mount(
+        let scene = shallow(
             <Scene sceneStore={localSceneStore}/>
         );
 
         expect(scene.contains(
             <SceneInformation sceneStore={localSceneStore}/>)).to.be.true;
+        expect(scene.contains(
+            <KeyLegend show={true}/>)).to.be.true;
 
-        expect(initStub.called).to.be.true;
-    });
-
-    it("should initialize default", () => {
-        let localSceneStore: SceneStore = new SceneStore();
-
-        let scenePainter: SoftVis3dScene = new SoftVis3dScene();
-        localSceneStore.scenePainter = scenePainter;
-        let mockScenePainter = Sinon.mock(scenePainter);
-        mockScenePainter.expects("init").once();
-
-        let underTest: Scene = new Scene();
-        underTest.props = {
-            sceneStore: localSceneStore
-        };
-
-        let camera: PerspectiveCamera = new PerspectiveCamera();
-        camera.position.x = 0;
-        camera.position.y = 0;
-        camera.position.z = 0;
-        Sinon.stub(scenePainter, "getCamera", () => {
-            return camera;
-        });
-
-        underTest.componentDidMount();
-
-        expect(localSceneStore.refreshScene).to.be.true;
-        expect(localSceneStore.sceneComponentIsMounted).to.be.true;
-
-        mockScenePainter.verify();
+        expect(localSceneStore.sceneComponentIsMounted).to.be.false;
     });
 
     it("should initialize with selected object id", () => {
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.selectedObjectId = "suidhfisudhf";
-
-        let scenePainter: SoftVis3dScene = new SoftVis3dScene();
-        localSceneStore.scenePainter = scenePainter;
-        let mockScenePainter = Sinon.mock(scenePainter);
-        mockScenePainter.expects("selectSceneTreeObject").once();
-        let mockScenePainterInit = Sinon.mock(scenePainter);
-        mockScenePainterInit.expects("init").once();
-
-        let camera: PerspectiveCamera = new PerspectiveCamera();
-        camera.position.x = 0;
-        camera.position.y = 0;
-        camera.position.z = 0;
-        Sinon.stub(scenePainter, "getCamera", () => {
-            return camera;
-        });
+        localSceneStore.sceneComponentIsMounted = true;
 
         let underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore
         };
-        underTest.componentDidMount();
+        let stubSceneService: any = Sinon.createStubInstance(ThreeSceneService);
+        underTest.threeSceneService = stubSceneService;
 
-        expect(localSceneStore.refreshScene).to.be.true;
-        expect(localSceneStore.sceneComponentIsMounted).to.be.true;
+        underTest.render();
 
-        mockScenePainter.verify();
-        mockScenePainterInit.verify();
+        assert(stubSceneService.update.called);
+        assert(stubSceneService.selectSceneTreeObject.called);
     });
 
     it("should unmount", () => {
         let localSceneStore: SceneStore = new SceneStore();
+        localSceneStore.sceneComponentIsMounted = true;
 
         let underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore
         };
+
+        let stubMouseActions: any = Sinon.createStubInstance(SceneMouseInteractions);
+        underTest.mouseActions = stubMouseActions;
+        let stubKeyActions: any = Sinon.createStubInstance(SceneMouseInteractions);
+        underTest.keyActions = stubKeyActions;
+
         underTest.componentWillUnmount();
 
         expect(localSceneStore.sceneComponentIsMounted).to.be.false;
+        assert(stubMouseActions.destroy.called);
+        assert(stubKeyActions.destroy.called);
     });
 
     it("should update camera position", () => {
@@ -108,21 +72,15 @@ describe("<Scene/>", () => {
 
         let expectedCameraPosition: Vector3 = new Vector3(1, 2, 3);
 
-        let scenePainter: SoftVis3dScene = new SoftVis3dScene();
-        localSceneStore.scenePainter = scenePainter;
-
-        let camera: PerspectiveCamera = new PerspectiveCamera();
-        camera.position.x = expectedCameraPosition.x;
-        camera.position.y = expectedCameraPosition.y;
-        camera.position.z = expectedCameraPosition.z;
-        Sinon.stub(scenePainter, "getCamera", () => {
-            return camera;
-        });
-
         let underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore
         };
+
+        let stubSceneService: any = Sinon.createStubInstance(ThreeSceneService);
+        stubSceneService.getCameraPosition.returns(expectedCameraPosition);
+        underTest.threeSceneService = stubSceneService;
+
         underTest.updateCameraPosition();
 
         expect(localSceneStore.cameraPosition).not.to.be.null;
@@ -134,27 +92,4 @@ describe("<Scene/>", () => {
         }
     });
 
-    it("should reset camera position", () => {
-        const localSceneStore: SceneStore = new SceneStore();
-
-        const scenePainter: SoftVis3dScene = new SoftVis3dScene();
-        localSceneStore.scenePainter = scenePainter;
-
-        Sinon.stub(scenePainter, "init");
-        Sinon.stub(scenePainter, "getCamera", () => ({ position: {} }));
-        const resetStub = Sinon.stub(scenePainter, "resetCameraPosition");
-
-        const wrapper = mount(<Scene sceneStore={localSceneStore} />);
-        const scene: Scene = wrapper.instance() as Scene;
-
-        const eventButtonR = { keyCode: 82 } as any as KeyboardEvent;
-        const eventClickScene = { target: null } as any as MouseEvent;
-
-        scene.handleKeyDown(eventButtonR);
-        expect(resetStub.called).to.be.false;
-
-        scene.handleMouseDown(eventClickScene);
-        scene.handleKeyDown(eventButtonR);
-        expect(resetStub.called).to.be.true;
-    });
 });

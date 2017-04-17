@@ -17,14 +17,15 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import SoftVis3dScene from "../../../../src/components/scene/visualization/SoftVis3dScene";
 
-describe("SoftVis3dScene", () => {
+export class Rectangle {
 
-    it("should catch selectSceneTreeObject if not initialized", () => {
-        let underTest: SoftVis3dScene = new SoftVis3dScene();
+    public readonly width: number;
+    public readonly length: number;
 
-        underTest.selectSceneTreeObject("asd");
-    });
+    constructor(width: number, length: number) {
+        this.width = width;
+        this.length = length;
+    }
 
-});
+}

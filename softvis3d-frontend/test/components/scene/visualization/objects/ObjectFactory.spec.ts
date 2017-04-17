@@ -19,9 +19,9 @@
 ///
 
 import { expect } from "chai";
-import { ObjectFactory } from "../../../../src/components/scene/visualization/ObjectFactory";
-import { SoftVis3dShape } from "../../../../src/components/scene/domain/SoftVis3dShape";
-import { SoftVis3dMesh } from "../../../../src/components/scene/domain/SoftVis3dMesh";
+import { ObjectFactory } from "../../../../../src/components/scene/visualization/objects/ObjectFactory";
+import { SoftVis3dShape } from "../../../../../src/components/scene/domain/SoftVis3dShape";
+import { SoftVis3dMesh } from "../../../../../src/components/scene/domain/SoftVis3dMesh";
 import { Vector2 } from "three";
 
 describe("ObjectFactory", () => {
