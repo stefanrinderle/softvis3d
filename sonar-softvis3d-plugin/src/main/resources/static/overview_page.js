@@ -7,12 +7,12 @@ window.registerExtension('softvis3d/overview_page', function (options) {
     div.innerHTML = s;
     options.el.appendChild(div);
 
-    loadStyle('../../../static/softvis3d/style.css');
+    loadStyle(window.baseUrl + '/static/softvis3d/style.css');
 
-    loadScript('../../../static/softvis3d/react.min.js', function () {});
-    loadScript('../../../static/softvis3d/react-dom.min.js', function () {});
-    loadScript('../../../static/softvis3d/three.min.js', function () {
-        loadScript('../../../static/softvis3d/bundle.js');
+    loadScript(window.baseUrl + '/static/softvis3d/react.min.js', function () {});
+    loadScript(window.baseUrl + '/static/softvis3d/react-dom.min.js', function () {});
+    loadScript(window.baseUrl + '/static/softvis3d/three.min.js', function () {
+        loadScript(window.baseUrl + '/static/softvis3d/bundle.js');
     });
 });
 
