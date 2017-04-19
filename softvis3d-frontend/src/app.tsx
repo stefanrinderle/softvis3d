@@ -35,16 +35,14 @@ export default class App {
     public constructor(config: AppConfiguration) {
         appStatusStore.showLoadingQueue = config.isDev;
 
+        this.scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
         this.visualizationLinkService = new VisualizationLinkService(cityBuilderStore, sceneStore);
         this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
-        this.legacyService =
-            new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
-        this.legacy = new LegacyCityCreator(sceneStore, appStatusStore);
-
-        this.scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
+        this.legacyService = new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
+        this.legacy = new LegacyCityCreator(sceneStore, appStatusStore, this.scmService);
 
         this.reactions = [
-            new SceneReactions(sceneStore, cityBuilderStore, appStatusStore, this.legacy, this.legacyService, this.scmService),
+            new SceneReactions(sceneStore, cityBuilderStore, appStatusStore, this.legacy, this.legacyService),
             new BuilderReactions(cityBuilderStore, sceneStore)
         ];
     }

@@ -21,7 +21,7 @@ import {BackendService} from "./BackendService";
 import {AppStatusStore} from "../../stores/AppStatusStore";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
-import {SceneStore} from "../../stores/SceneStore";
+import {SceneStore, default as sceneStore} from "../../stores/SceneStore";
 import {TreeService} from "../TreeService";
 import ScmCalculator from "./ScmCalculator";
 
@@ -39,6 +39,32 @@ export default class SonarQubeScmService extends BackendService {
 
         this.appStatusStore = appStatusStore;
         this.sceneStore = sceneStore;
+    }
+
+    public assertScmInfoAreLoaded(): Promise<void> {
+        return new Promise<void>((resolve) => {
+            if (sceneStore.scmMetricLoaded) {
+                resolve();
+                return;
+            }
+
+            this.loadScmInfosIfAvailable().then(() => {
+                this.sceneStore.scmMetricLoaded = true;
+                resolve();
+            });
+        });
+    }
+
+    public loadScmInfosIfAvailable(): Promise<void> {
+        return new Promise<void>((resolve) => {
+            this.checkScmInfosAvailable().then((isAvailable: boolean) => {
+                if (isAvailable) {
+                    this.loadScmInfos().then(() => resolve());
+                } else {
+                    resolve();
+                }
+            });
+        });
     }
 
     public checkScmInfosAvailable(): Promise<boolean> {

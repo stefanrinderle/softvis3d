@@ -5,8 +5,6 @@ import LegacyCityCreator from "../legacy/LegacyCityCreator";
 import SonarQubeLegacyService from "../services/sonarqube/SonarQubeLegacyService";
 import {AppStatusStore} from "../stores/AppStatusStore";
 import LoadAction from "../classes/status/LoadAction";
-import SonarQubeScmService from "../services/sonarqube/SonarQubeScmService";
-import {numberOfAuthorsBlameColorMetric} from "../constants/Metrics";
 
 export default class SceneReactions {
 
@@ -17,22 +15,19 @@ export default class SceneReactions {
     private appStatusStore: AppStatusStore;
     private legacy: LegacyCityCreator;
     private sonarService: SonarQubeLegacyService;
-    private scmService: SonarQubeScmService;
 
     constructor(
         scene: SceneStore,
         builder: CityBuilderStore,
         appStatusStore: AppStatusStore,
         legacy: LegacyCityCreator,
-        sonarService: SonarQubeLegacyService,
-        scmService: SonarQubeScmService
+        sonarService: SonarQubeLegacyService
     ) {
         this.builder = builder;
         this.scene = scene;
         this.appStatusStore = appStatusStore;
         this.legacy = legacy;
         this.sonarService = sonarService;
-        this.scmService = scmService;
         this.prepareReactions();
     }
 
@@ -60,7 +55,7 @@ export default class SceneReactions {
             () => this.scene.options.metricColor,
             () => {
                 if (this.scene.shapes !== null) {
-                    this.buildCity();
+                    this.legacy.createCity();
                 }
             }
         );
@@ -69,7 +64,7 @@ export default class SceneReactions {
             "Convert backend data to threeJS shapes",
             () => this.scene.legacyData,
             () => {
-                this.buildCity();
+                this.legacy.createCity();
             }
         );
 
@@ -101,22 +96,5 @@ export default class SceneReactions {
                 this.scene.scenePainter.selectSceneTreeObject(this.scene.selectedObjectId);
             }
         );
-    }
-
-    private buildCity() {
-        if (this.scene.options.metricColor === numberOfAuthorsBlameColorMetric && !this.scene.scmMetricLoaded) {
-            this.scmService.checkScmInfosAvailable().then((result: boolean) => {
-                if (result) {
-                    this.scmService.loadScmInfos().then(() => {
-                        this.scene.scmMetricLoaded = true;
-                        this.legacy.createCity();
-                    });
-                } else {
-                    this.legacy.createCity();
-                }
-            });
-        } else {
-            this.legacy.createCity();
-        }
     }
 }
