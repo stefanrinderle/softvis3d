@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import Softvis3D from "./components/Softvis3D";
-import LegacyConnector from "./legacy/LegacyConnector";
+import LegacyCityCreator from "./legacy/LegacyCityCreator";
 import appStatusStore from "./stores/AppStatusStore";
 import cityBuilderStore from "./stores/CityBuilderStore";
 import sceneStore from "./stores/SceneStore";
@@ -26,7 +26,7 @@ export default class App {
     private communicator: SonarQubeMetricsService;
     private legacyService: SonarQubeLegacyService;
     private visualizationLinkService: VisualizationLinkService;
-    private legacy: LegacyConnector;
+    private legacy: LegacyCityCreator;
     private scmService: SonarQubeScmService;
 
     //noinspection JSMismatchedCollectionQueryUpdate
@@ -39,7 +39,7 @@ export default class App {
         this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
         this.legacyService =
             new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
-        this.legacy = new LegacyConnector(sceneStore, cityBuilderStore, appStatusStore);
+        this.legacy = new LegacyCityCreator(sceneStore, appStatusStore);
 
         this.scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
 

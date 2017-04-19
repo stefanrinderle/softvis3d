@@ -1,7 +1,7 @@
 import {SceneStore} from "../stores/SceneStore";
 import {CityBuilderStore} from "../stores/CityBuilderStore";
 import {reaction} from "mobx";
-import LegacyConnector from "../legacy/LegacyConnector";
+import LegacyCityCreator from "../legacy/LegacyCityCreator";
 import SonarQubeLegacyService from "../services/sonarqube/SonarQubeLegacyService";
 import {AppStatusStore} from "../stores/AppStatusStore";
 import LoadAction from "../classes/status/LoadAction";
@@ -15,16 +15,18 @@ export default class SceneReactions {
     private builder: CityBuilderStore;
     private scene: SceneStore;
     private appStatusStore: AppStatusStore;
-    private legacy: LegacyConnector;
+    private legacy: LegacyCityCreator;
     private sonarService: SonarQubeLegacyService;
     private scmService: SonarQubeScmService;
 
-    constructor(scene: SceneStore,
-                builder: CityBuilderStore,
-                appStatusStore: AppStatusStore,
-                legacy: LegacyConnector,
-                sonarService: SonarQubeLegacyService,
-                scmService: SonarQubeScmService) {
+    constructor(
+        scene: SceneStore,
+        builder: CityBuilderStore,
+        appStatusStore: AppStatusStore,
+        legacy: LegacyCityCreator,
+        sonarService: SonarQubeLegacyService,
+        scmService: SonarQubeScmService
+    ) {
         this.builder = builder;
         this.scene = scene;
         this.appStatusStore = appStatusStore;
@@ -107,14 +109,14 @@ export default class SceneReactions {
                 if (result) {
                     this.scmService.loadScmInfos().then(() => {
                         this.scene.scmMetricLoaded = true;
-                        this.legacy.buildCity();
+                        this.legacy.createCity();
                     });
                 } else {
-                    this.legacy.buildCity();
+                    this.legacy.createCity();
                 }
             });
         } else {
-            this.legacy.buildCity();
+            this.legacy.createCity();
         }
     }
 }
