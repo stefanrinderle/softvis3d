@@ -1,7 +1,7 @@
 import {SceneStore} from "../stores/SceneStore";
 import {CityBuilderStore} from "../stores/CityBuilderStore";
 import {reaction} from "mobx";
-import LegacyConnector from "../legacy/LegacyConnector";
+import LegacyCityCreator from "../legacy/LegacyCityCreator";
 import SonarQubeLegacyService from "../services/sonarqube/SonarQubeLegacyService";
 import {AppStatusStore} from "../stores/AppStatusStore";
 import LoadAction from "../classes/status/LoadAction";
@@ -13,14 +13,14 @@ export default class SceneReactions {
     private builder: CityBuilderStore;
     private scene: SceneStore;
     private appStatusStore: AppStatusStore;
-    private legacy: LegacyConnector;
+    private legacy: LegacyCityCreator;
     private sonarService: SonarQubeLegacyService;
 
     constructor(
         scene: SceneStore,
         builder: CityBuilderStore,
         appStatusStore: AppStatusStore,
-        legacy: LegacyConnector,
+        legacy: LegacyCityCreator,
         sonarService: SonarQubeLegacyService
     ) {
         this.builder = builder;
@@ -35,7 +35,9 @@ export default class SceneReactions {
         reaction(
             "Transfer the chosen color from the scene to the builder",
             () => this.scene.options.metricColor,
-            () => { this.builder.metricColor = this.scene.options.metricColor; }
+            () => {
+                this.builder.metricColor = this.scene.options.metricColor;
+            }
         );
 
         reaction(
@@ -53,7 +55,7 @@ export default class SceneReactions {
             () => this.scene.options.metricColor,
             () => {
                 if (this.scene.shapes !== null) {
-                    this.legacy.buildCity();
+                    this.legacy.createCity();
                 }
             }
         );
@@ -61,7 +63,9 @@ export default class SceneReactions {
         reaction(
             "Convert backend data to threeJS shapes",
             () => this.scene.legacyData,
-            () => { this.legacy.buildCity(); }
+            () => {
+                this.legacy.createCity();
+            }
         );
 
         reaction(
@@ -88,7 +92,9 @@ export default class SceneReactions {
         reaction(
             "Select object in scene",
             () => this.scene.selectedObjectId,
-            () => { this.scene.scenePainter.selectSceneTreeObject(this.scene.selectedObjectId); }
+            () => {
+                this.scene.scenePainter.selectSceneTreeObject(this.scene.selectedObjectId);
+            }
         );
     }
 }

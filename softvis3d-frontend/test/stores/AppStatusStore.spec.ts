@@ -17,15 +17,17 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
+import {assert, expect} from "chai";
 import {AppStatusStore} from "../../src/stores/AppStatusStore";
 import LoadAction from "../../src/classes/status/LoadAction";
 import ErrorAction from "../../src/classes/status/ErrorAction";
+import StatusAction from "../../src/classes/status/StatusAction";
 
 describe("AppStatusStore", () => {
 
     it("should have set all default values on init", () => {
         let underTest: AppStatusStore = new AppStatusStore();
+        expect(underTest.loadingQueue.isEmpty).to.be.true;
         expect(underTest.loadingQueue.isEmpty).to.be.true;
         expect(underTest.errors.isEmpty).to.be.true;
         expect(underTest.showLoadingQueue).to.be.eq(false);
@@ -77,4 +79,30 @@ describe("AppStatusStore", () => {
         expect(underTest.isVisible).to.be.equal(false);
     });
 
+    it("should return isVisible true if status has element", () => {
+        let underTest: AppStatusStore = new AppStatusStore();
+        underTest.status(new StatusAction("key", "testError"));
+        expect(underTest.isVisible).to.be.equal(true);
+    });
+
+    it("should return isVisible true after status is removed", () => {
+        let underTest: AppStatusStore = new AppStatusStore();
+        underTest.status(new StatusAction("key", "testError"));
+        underTest.removeStatus(new StatusAction("key", "testError"));
+        expect(underTest.isVisible).to.be.equal(false);
+    });
+
+    it("should create new instance of loading queue on status update", () => {
+        let underTest: AppStatusStore = new AppStatusStore();
+
+        let temp = underTest.loadingQueue;
+
+        underTest.load(new LoadAction("key", "testEvent"));
+
+        assert(underTest.loadingQueue === temp);
+
+        underTest.loadStatusUpdate(new LoadAction("key", "testEvent"), 3, 4);
+
+        assert(underTest.loadingQueue !== temp);
+    });
 });

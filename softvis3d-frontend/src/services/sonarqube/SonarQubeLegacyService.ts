@@ -17,12 +17,13 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { BackendService } from "./BackendService";
-import { CityBuilderStore } from "../../stores/CityBuilderStore";
-import { AppStatusStore } from "../../stores/AppStatusStore";
-import { SceneStore } from "../../stores/SceneStore";
+import {BackendService} from "./BackendService";
+import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import {AppStatusStore} from "../../stores/AppStatusStore";
+import {SceneStore} from "../../stores/SceneStore";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
+import {noColorMetric, numberOfAuthorsBlameColorMetric, packageNameColorMetric} from "../../constants/Metrics";
 
 export default class SonarQubeLegacyService extends BackendService {
     public static LOAD_LEGACY: LoadAction = new LoadAction("SONAR_LOAD_LEGACY_BACKEND", "Request measures from SonarQube");
@@ -32,6 +33,8 @@ export default class SonarQubeLegacyService extends BackendService {
     private appStatusStore: AppStatusStore;
     private cityBuilderStore: CityBuilderStore;
     private sceneStore: SceneStore;
+
+    private currentParams: SonarVisualizationRequestParams;
 
     constructor(
         apiUrl: string,
@@ -51,33 +54,37 @@ export default class SonarQubeLegacyService extends BackendService {
     public loadLegacyBackend() {
         this.appStatusStore.load(SonarQubeLegacyService.LOAD_LEGACY);
 
-        const params = {
-            projectKey: this.projectKey,
-            metrics: this.getMetricRequestValues()
-        };
+        const params = new SonarVisualizationRequestParams(this.projectKey, this.getMetricRequestValues());
 
-        this.callApi("/softVis3D/getVisualization", { params }).then((response) => {
+        if (this.currentParams && this.currentParams.equals(params)) {
             this.appStatusStore.loadComplete(SonarQubeLegacyService.LOAD_LEGACY);
-            this.sceneStore.legacyData = response.data;
-        }).catch((error) => {
-            let message;
+            this.sceneStore.legacyData = Object.assign({}, this.sceneStore.legacyData);
+        } else {
+            this.callApi("/softVis3D/getVisualization", { params }).then((response) => {
+                this.appStatusStore.loadComplete(SonarQubeLegacyService.LOAD_LEGACY);
+                this.currentParams = params;
+                this.sceneStore.scmMetricLoaded = false;
+                this.sceneStore.legacyData = response.data;
+            }).catch((error) => {
+                let message;
 
-            if ("response" in error) {
-                message = "SonarQube measure API is not available or responding: " + error.response.statusText;
-            } else {
-                console.error(error);
-                message = "Internal Error: Could not load data.";
-            }
+                if ("response" in error) {
+                    message = "SonarQube measure API is not available or responding: " + error.response.statusText;
+                } else {
+                    console.error(error);
+                    message = "Internal Error: Could not load data.";
+                }
 
-            this.appStatusStore.loadComplete(SonarQubeLegacyService.LOAD_LEGACY);
-            this.appStatusStore.error(
-                new ErrorAction(SonarQubeLegacyService.LOAD_MEASURES_ERROR_KEY,
-                    message,
-                    "Try again", () => {
-                        this.loadLegacyBackend();
-                    })
-            );
-        });
+                this.appStatusStore.loadComplete(SonarQubeLegacyService.LOAD_LEGACY);
+                this.appStatusStore.error(
+                    new ErrorAction(SonarQubeLegacyService.LOAD_MEASURES_ERROR_KEY,
+                        message,
+                        "Try again", () => {
+                            this.loadLegacyBackend();
+                        })
+                );
+            });
+        }
     }
 
     private getMetricRequestValues(): string {
@@ -86,11 +93,32 @@ export default class SonarQubeLegacyService extends BackendService {
         result.add(this.cityBuilderStore.profile.heightMetricId);
 
         for (const colorMetric of this.cityBuilderStore.colorMetrics.keys) {
-            if (colorMetric !== "none" && colorMetric !== "package") {
+            if (colorMetric !== noColorMetric.id && colorMetric !== packageNameColorMetric.id
+                && colorMetric !== numberOfAuthorsBlameColorMetric.id) {
                 result.add(colorMetric);
             }
         }
 
         return Array.from(result).join(",");
     }
+}
+
+class SonarVisualizationRequestParams {
+
+    public readonly projectKey: string;
+    public readonly metrics: string;
+
+    constructor(projectKey: string, metrics: string) {
+        this.projectKey = projectKey;
+        this.metrics = metrics;
+    }
+
+    public equals(candidate: SonarVisualizationRequestParams): boolean {
+        if (candidate) {
+            return this.projectKey === candidate.projectKey && this.metrics === candidate.metrics;
+        } else {
+            return false;
+        }
+    }
+
 }

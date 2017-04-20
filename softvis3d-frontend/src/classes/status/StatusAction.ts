@@ -3,7 +3,7 @@ export default class StatusAction {
     private _key: string;
     private _description: string;
 
-    protected constructor(key: string, description: string) {
+    public constructor(key: string, description: string) {
         this._key = key;
         this._description = description;
     }

@@ -1,4 +1,4 @@
-import {observable, computed} from "mobx";
+import {computed, observable} from "mobx";
 import {TreeService} from "../services/TreeService";
 import SoftVis3dScene from "../components/scene/visualization/SoftVis3dScene";
 import VisualizationOptions from "../classes/VisualizationOptions";
@@ -21,6 +21,7 @@ class SceneStore {
     public cameraPosition: Vector3 | undefined;
 
     public scenePainter: SoftVis3dScene;
+    public scmMetricLoaded: boolean;
 
     public constructor() {
         this.scenePainter = new SoftVis3dScene();
