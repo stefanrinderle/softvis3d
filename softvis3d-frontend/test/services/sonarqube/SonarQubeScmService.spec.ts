@@ -171,8 +171,8 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest.loadScmInfos().then(() => {
-            assert(treeElements[0].measures.hasOwnProperty("number_of_authors_blame"));
-            expect(treeElements[0].measures.number_of_authors_blame).to.be.eq(4);
+            assert(treeElements[0].measures.hasOwnProperty("number_of_authors"));
+            expect(treeElements[0].measures.number_of_authors).to.be.eq(4);
 
             assert(loadStub.called);
             assert(loadCompleteStub.called);
@@ -232,10 +232,10 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest.loadScmInfos().then(() => {
-            assert(treeElements[0].measures.hasOwnProperty("number_of_authors_blame"));
-            expect(treeElements[0].measures.number_of_authors_blame).to.be.eq(4);
+            assert(treeElements[0].measures.hasOwnProperty("number_of_authors"));
+            expect(treeElements[0].measures.number_of_authors).to.be.eq(4);
 
-            expect(treeElements[89].measures.number_of_authors_blame).to.be.eq(4);
+            expect(treeElements[89].measures.number_of_authors).to.be.eq(4);
 
             assert(loadStub.called);
             assert(loadCompleteStub.called);

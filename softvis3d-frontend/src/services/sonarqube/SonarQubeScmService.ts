@@ -114,7 +114,7 @@ export default class SonarQubeScmService extends BackendService {
 
     private checkScmMetricAvailable(allFiles: TreeElement[]): boolean {
         for (let file of allFiles) {
-            if (file.measures.number_of_authors_blame > 0) {
+            if (file.measures.number_of_authors > 0) {
                 return true;
             }
         }
@@ -166,7 +166,7 @@ export default class SonarQubeScmService extends BackendService {
                     );
 
                 element.measures = Object.assign(element.measures, {
-                    number_of_authors_blame: ScmCalculator.calcNumberOfAuthors(metrics)
+                    number_of_authors: ScmCalculator.calcNumberOfAuthors(metrics)
                 });
 
                 resolve();
