@@ -30,7 +30,6 @@ describe("SceneStore", () => {
     it("should contain not initial test shapes", () => {
         let sceneStore = new SceneStore();
         expect(sceneStore.shapes).to.be.null;
-        expect(sceneStore.sceneComponentIsMounted).to.be.false;
     });
 
     it("should set selectedObjectId", () => {

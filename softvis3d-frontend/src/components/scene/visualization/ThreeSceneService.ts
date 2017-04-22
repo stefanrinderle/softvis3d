@@ -54,14 +54,16 @@ export default class ThreeSceneService {
     }
 
     public update(shapes: SoftVis3dShape[], options: VisualizationOptions, cameraPosition?: Vector3) {
-        if (shapes !== null) {
-            if (options.equalsWithoutColor(this.lastOptions)) {
-                if (this.lastOptions.metricColor !== options.metricColor) {
-                    this.wrangler.updateColorsWithUpdatedShapes(shapes);
-                }
-            } else {
-                this.loadSoftVis3d(shapes, cameraPosition);
+        if (shapes === null) {
+            return;
+        }
+
+        if (options.equalsWithoutColor(this.lastOptions)) {
+            if (this.lastOptions.metricColor !== options.metricColor) {
+                this.wrangler.updateColorsWithUpdatedShapes(shapes);
             }
+        } else {
+            this.loadSoftVis3d(shapes, cameraPosition);
         }
 
         this.lastOptions = Object.assign({}, options);

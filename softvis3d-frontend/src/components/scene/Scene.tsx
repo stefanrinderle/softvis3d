@@ -14,6 +14,7 @@ interface SceneProps {
 }
 
 interface SceneStates {
+    mounted: boolean;
     focus: boolean;
     legend: boolean;
 }
@@ -26,10 +27,12 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     private _threeSceneService: ThreeSceneService;
     private _mouseActions: SceneMouseInteractions;
     private _keyActions: SceneKeyInteractions;
+    private canvasState: string = "";
 
     constructor() {
         super();
         this.state = {
+            mounted: false,
             focus: false,
             legend: true
         };
@@ -47,23 +50,23 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         this._keyActions.onResetCameraEvent.addEventListener(this.resetCamera.bind(this));
         this._keyActions.onToggleLegendEvent.addEventListener(this.toggleLegend.bind(this));
 
-        this.props.sceneStore.sceneComponentIsMounted = true;
+        this.setState({...this.state, mounted: true});
     }
 
     public componentWillUnmount() {
-        this.props.sceneStore.sceneComponentIsMounted = false;
-
         this._mouseActions.destroy();
         this._keyActions.destroy();
+        this.setState({...this.state, mounted: false});
     }
 
     public render() {
         const {sceneStore} = this.props;
-        const {focus, legend} = this.state;
+        const {focus, legend, mounted} = this.state;
 
-        if (sceneStore.sceneComponentIsMounted) {
+        if (mounted && sceneStore.shapesHash !== this.canvasState) {
             this._threeSceneService.update(sceneStore.shapes, sceneStore.options, sceneStore.cameraPosition);
             this._threeSceneService.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
+            this.canvasState = sceneStore.shapesHash;
         }
 
         let cssClass = "scene";
@@ -134,5 +137,4 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     private toggleLegend() {
         this.setState({...this.state, legend: !this.state.legend});
     }
-
 }

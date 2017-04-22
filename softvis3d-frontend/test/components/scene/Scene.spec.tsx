@@ -24,31 +24,31 @@ describe("<Scene/>", () => {
             <SceneInformation sceneStore={localSceneStore}/>)).to.be.true;
         expect(scene.contains(
             <KeyLegend show={true}/>)).to.be.true;
-
-        expect(localSceneStore.sceneComponentIsMounted).to.be.false;
     });
 
-    it("should initialize with selected object id", () => {
-        let localSceneStore: SceneStore = new SceneStore();
-        localSceneStore.selectedObjectId = "suidhfisudhf";
-        localSceneStore.sceneComponentIsMounted = true;
-
-        let underTest: Scene = new Scene();
-        underTest.props = {
-            sceneStore: localSceneStore
-        };
-        let stubSceneService: any = Sinon.createStubInstance(ThreeSceneService);
-        underTest.threeSceneService = stubSceneService;
-
-        underTest.render();
-
-        assert(stubSceneService.update.called);
-        assert(stubSceneService.selectSceneTreeObject.called);
-    });
+    /* TODO:
+     * Scene needs to be actively mounted to update/render
+     *
+     * // it("should initialize with selected object id", () => {
+     * //     let localSceneStore: SceneStore = new SceneStore();
+     * //     localSceneStore.selectedObjectId = "suidhfisudhf";
+     * //
+     * //     let underTest: Scene = new Scene();
+     * //     underTest.props = {
+     * //         sceneStore: localSceneStore
+     * //     };
+     * //     let stubSceneService: any = Sinon.createStubInstance(ThreeSceneService);
+     * //
+     * //     underTest.threeSceneService = stubSceneService;
+     * //     underTest.render();
+     * //
+     * //     assert(stubSceneService.update.called);
+     * //     assert(stubSceneService.selectSceneTreeObject.called);
+     * // });
+    */
 
     it("should unmount", () => {
         let localSceneStore: SceneStore = new SceneStore();
-        localSceneStore.sceneComponentIsMounted = true;
 
         let underTest: Scene = new Scene();
         underTest.props = {
@@ -62,7 +62,6 @@ describe("<Scene/>", () => {
 
         underTest.componentWillUnmount();
 
-        expect(localSceneStore.sceneComponentIsMounted).to.be.false;
         assert(stubMouseActions.destroy.called);
         assert(stubKeyActions.destroy.called);
     });
