@@ -102,13 +102,13 @@ describe("SonarQubeLegacyService", () => {
             });
         });
 
-        underTest.loadLegacyBackend();
+        underTest.loadLegacyBackend(VisualizationOptions.createDefault());
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise.then(() => {
-            underTest.loadLegacyBackend();
+            underTest.loadLegacyBackend(VisualizationOptions.createDefault());
 
             clock.tick(10);
             returnPromise2.then(() => {
