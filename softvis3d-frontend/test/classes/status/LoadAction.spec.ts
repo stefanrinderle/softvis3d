@@ -18,7 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-import StatusAction from "../../../src/classes/status/StatusAction";
 import LoadAction from "../../../src/classes/status/LoadAction";
 
 describe("LoadAction", () => {
@@ -27,10 +26,48 @@ describe("LoadAction", () => {
         let expectedKey: string = "23";
         let expectedDescription: string = "diufgh";
 
-        let result: StatusAction = new LoadAction(expectedKey, expectedDescription);
+        let result: LoadAction = new LoadAction(expectedKey, expectedDescription);
 
         expect(result.key).to.be.eq(expectedKey);
         expect(result.description).to.be.eq(expectedDescription);
     });
 
+    it("should save status", () => {
+        let expectedKey: string = "23";
+        let expectedDescription: string = "diufgh";
+
+        let result: LoadAction = new LoadAction(expectedKey, expectedDescription);
+
+        let limit = 200;
+        let current = 56;
+        result.setStatus(limit, current);
+
+        expect(result.limit).to.be.eq(limit);
+        expect(result.current).to.be.eq(current);
+    });
+
+    it("should calc percentage", () => {
+        let expectedKey: string = "23";
+        let expectedDescription: string = "diufgh";
+
+        let result: LoadAction = new LoadAction(expectedKey, expectedDescription);
+
+        let limit = 200;
+        let current = 56;
+        result.setStatus(limit, current);
+
+        expect(result.percent).to.be.eq(28);
+
+        limit = 200;
+        current = 0;
+        result.setStatus(limit, current);
+
+        expect(result.percent).to.be.eq(0);
+
+        limit = 200;
+        current = 200;
+        result.setStatus(limit, current);
+
+        expect(result.percent).to.be.eq(100);
+    });
 });

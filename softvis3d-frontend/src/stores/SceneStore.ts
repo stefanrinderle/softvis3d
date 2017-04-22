@@ -17,6 +17,8 @@ class SceneStore {
 
     public cameraPosition: Vector3 | undefined;
 
+    public scmMetricLoaded: boolean;
+
     @computed
     public get isVisible() {
         return this.shapes !== null;

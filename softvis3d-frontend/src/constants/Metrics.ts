@@ -42,12 +42,16 @@ export const coverageColorMetric: Metric = new Metric(coverageMetricId, "Coverag
 export const openIssuesColorMetric: Metric = new Metric("open_issues", "Open Issues",
     "Scale from green (no open issues) to red (a lot of issues).");
 
+export const numberOfAuthorsBlameColorMetric: Metric = new Metric("number_of_authors",
+    "Number of authors", "Number of authors based on the SCM blame info. See help page for details.");
+
 export class ColorMetrics {
 
     public static availableColorMetrics: Metric[] = [
         noColorMetric,
         complexityColorMetric,
         coverageColorMetric,
+        numberOfAuthorsBlameColorMetric,
         violationsColorMetric,
         newIssuesColorMetric,
         linesOfCodeColorMetric,
