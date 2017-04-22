@@ -68,14 +68,14 @@ describe("AppStatusStore", () => {
 
     it("should return isVisible true if errors has element", () => {
         let underTest: AppStatusStore = new AppStatusStore();
-        underTest.error(new ErrorAction("key", "testError", "", () => {}));
+        underTest.error(new ErrorAction("key", "testError", "", () => undefined));
         expect(underTest.isVisible).to.be.equal(true);
     });
 
     it("should return isVisible true after error is acknowledged", () => {
         let underTest: AppStatusStore = new AppStatusStore();
-        underTest.error(new ErrorAction("key", "testError", "", () => {}));
-        underTest.acknowledgeError(new ErrorAction("key", "testError", "", () => {}));
+        underTest.error(new ErrorAction("key", "testError", "", () => undefined));
+        underTest.acknowledgeError(new ErrorAction("key", "testError", "", () => undefined));
         expect(underTest.isVisible).to.be.equal(false);
     });
 

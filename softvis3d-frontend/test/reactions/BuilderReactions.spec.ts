@@ -26,27 +26,34 @@ import {leakPeriod} from "../../src/constants/Profiles";
 import {complexityMetricId, coverageColorMetric, newLinesOfCodeMetricId} from "../../src/constants/Metrics";
 import {EXPONENTIAL} from "../../src/constants/Scales";
 import Metric from "../../src/classes/Metric";
+import SonarQubeLegacyService from "../../src/services/sonarqube/SonarQubeLegacyService";
+import {AppStatusStore} from "../../src/stores/AppStatusStore";
 
 describe("BuilderReactions", () => {
 
     it("should initiate build process - part 1 invalidate existing scene", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testSceneStore = new SceneStore();
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+        let testSonarService: SonarQubeLegacyService =
+            new SonarQubeLegacyService("", "", testAppStatusStore, testCityBuilderStore, testSceneStore);
         testSceneStore.shapes = {};
 
-        const reactionRegister = new BuilderReactions(testCityBuilderStore, testSceneStore);
+        const reactionRegister = new BuilderReactions(testCityBuilderStore, testSonarService);
 
         testCityBuilderStore.initiateBuildProcess = true;
 
         expect(reactionRegister).not.to.be.null;
         expect(testSceneStore.shapes).to.be.null;
         expect(testCityBuilderStore.initiateBuildProcess).to.be.false;
-        expect(testSceneStore.refreshScene).to.be.true;
     });
 
     it("should initiate build process - part 2 transfer option values", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testSceneStore = new SceneStore();
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+        let testSonarService: SonarQubeLegacyService =
+            new SonarQubeLegacyService("", "", testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         let expectedLayout = evostreet;
         let expectedProfile = leakPeriod;
@@ -61,7 +68,7 @@ describe("BuilderReactions", () => {
         testCityBuilderStore.profile.scale = expectedScale;
         testCityBuilderStore.metricColor = expectedColorMetric;
 
-        const reactionRegister = new BuilderReactions(testCityBuilderStore, testSceneStore);
+        const reactionRegister = new BuilderReactions(testCityBuilderStore, testSonarService);
 
         testCityBuilderStore.initiateBuildProcess = true;
 

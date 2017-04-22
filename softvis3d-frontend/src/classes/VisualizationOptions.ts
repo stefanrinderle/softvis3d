@@ -28,4 +28,14 @@ export default class VisualizationOptions {
         this.scale = scale;
     }
 
+    public equalsWithoutColor(candidate: VisualizationOptions) {
+        if (candidate) {
+            return this.layout === candidate.layout
+                && this.footprint === candidate.footprint
+                && this.height === candidate.height
+                && this.scale === candidate.scale;
+        } else {
+            return false;
+        }
+    }
 }

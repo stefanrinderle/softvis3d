@@ -18,7 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-import {INITIAL_SHAPES} from "../helper/InitialSceneShapes";
 import {SceneStore} from "../../src/stores/SceneStore";
 
 describe("SceneStore", () => {
@@ -30,8 +29,7 @@ describe("SceneStore", () => {
 
     it("should contain not initial test shapes", () => {
         let sceneStore = new SceneStore();
-        expect(sceneStore.shapes).not.to.be.equal(INITIAL_SHAPES);
-        expect(sceneStore.refreshScene).to.be.false;
+        expect(sceneStore.shapes).to.be.null;
         expect(sceneStore.sceneComponentIsMounted).to.be.false;
     });
 
@@ -64,7 +62,6 @@ describe("SceneStore", () => {
         sceneStore.shapes = shapes;
 
         expect(sceneStore.shapes).to.be.equal(shapes);
-        expect(sceneStore.refreshScene).to.be.false;
     });
 
     it("should return for getColorValue if no selected element available", () => {

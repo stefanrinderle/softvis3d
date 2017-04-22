@@ -19,8 +19,8 @@
 ///
 
 import { MeshLambertMaterial, BoxGeometry } from "three";
-import { SoftVis3dMesh } from "../domain/SoftVis3dMesh";
-import { SoftVis3dShape } from "../domain/SoftVis3dShape";
+import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
+import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
 
 export class ObjectFactory {
 
@@ -37,12 +37,12 @@ export class ObjectFactory {
     private static _getShape(element: SoftVis3dShape): SoftVis3dMesh {
         element.opacity = 1;
 
-        let z = element.position._z + Math.floor(element.dimensions._height / 2);
+        let z = element.position._z + Math.floor(element.dimensions.height / 2);
 
         let geometry = new BoxGeometry(
-            element.dimensions._length,
-            element.dimensions._height,
-            element.dimensions._width,
+            element.dimensions.length,
+            element.dimensions.height,
+            element.dimensions.width,
             0,
             0,
             0

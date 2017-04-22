@@ -38,7 +38,6 @@ export class Camera {
 
     constructor(container: HTMLCanvasElement) {
         this.aspectRatio = container.clientWidth / container.clientHeight;
-
         this.initPerspective();
     }
 

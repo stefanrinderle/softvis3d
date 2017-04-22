@@ -23,6 +23,7 @@ import * as Sinon from "sinon";
 import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
 import SonarQubeLegacyService from "../../../src/services/sonarqube/SonarQubeLegacyService";
 import {SceneStore} from "../../../src/stores/SceneStore";
+import VisualizationOptions from "../../../src/classes/VisualizationOptions";
 
 describe("SonarQubeLegacyService", () => {
 
@@ -52,7 +53,7 @@ describe("SonarQubeLegacyService", () => {
             });
         });
 
-        underTest.loadLegacyBackend();
+        underTest.loadLegacyBackend(VisualizationOptions.createDefault());
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});
@@ -141,7 +142,7 @@ describe("SonarQubeLegacyService", () => {
             });
         });
 
-        underTest.loadLegacyBackend();
+        underTest.loadLegacyBackend(VisualizationOptions.createDefault());
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -175,7 +176,7 @@ describe("SonarQubeLegacyService", () => {
             return Promise.reject({data: {message: "Error message"}});
         });
 
-        underTest.loadLegacyBackend();
+        underTest.loadLegacyBackend(VisualizationOptions.createDefault());
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});
@@ -216,7 +217,7 @@ describe("SonarQubeLegacyService", () => {
             });
         });
 
-        underTest.loadLegacyBackend();
+        underTest.loadLegacyBackend(VisualizationOptions.createDefault());
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});
