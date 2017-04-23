@@ -23,8 +23,9 @@ import {SceneStore} from "../../src/stores/SceneStore";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import SceneReactions from "../../src/reactions/SceneReactions";
 import {AppStatusStore} from "../../src/stores/AppStatusStore";
-import LegacyConnector from "../../src/legacy/LegacyConnector";
+import LegacyCityCreator from "../../src/legacy/LegacyCityCreator";
 import {complexityColorMetric} from "../../src/constants/Metrics";
+import SonarQubeScmService from "../../src/services/sonarqube/SonarQubeScmService";
 
 describe("SceneReactions", () => {
 
@@ -32,8 +33,10 @@ describe("SceneReactions", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testSceneStore = new SceneStore();
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testLegayConnector: LegacyConnector =
-            new LegacyConnector(testSceneStore, testCityBuilderStore, testAppStatusStore);
+        let testSonarScmService: SonarQubeScmService =
+            new SonarQubeScmService("", testAppStatusStore, testSceneStore);
+        let testLegayConnector: LegacyCityCreator =
+            new LegacyCityCreator(testSceneStore, testAppStatusStore, testSonarScmService);
 
         let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
 
@@ -47,11 +50,13 @@ describe("SceneReactions", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testSceneStore = new SceneStore();
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testLegayConnector: LegacyConnector =
-            new LegacyConnector(testSceneStore, testCityBuilderStore, testAppStatusStore);
+        let testSonarScmService: SonarQubeScmService =
+            new SonarQubeScmService("", testAppStatusStore, testSceneStore);
+        let testLegayConnector: LegacyCityCreator =
+            new LegacyCityCreator(testSceneStore, testAppStatusStore, testSonarScmService);
 
         let mockBuild = Sinon.mock(testLegayConnector);
-        mockBuild.expects("buildCity").once();
+        mockBuild.expects("createCity").once();
 
         let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
 
@@ -66,11 +71,13 @@ describe("SceneReactions", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testSceneStore = new SceneStore();
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testLegayConnector: LegacyConnector =
-            new LegacyConnector(testSceneStore, testCityBuilderStore, testAppStatusStore);
+        let testSonarScmService: SonarQubeScmService =
+            new SonarQubeScmService("", testAppStatusStore, testSceneStore);
+        let testLegayConnector: LegacyCityCreator =
+            new LegacyCityCreator(testSceneStore, testAppStatusStore, testSonarScmService);
 
         let mockBuild = Sinon.mock(testLegayConnector);
-        mockBuild.expects("buildCity").once();
+        mockBuild.expects("createCity").once();
 
         let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
 

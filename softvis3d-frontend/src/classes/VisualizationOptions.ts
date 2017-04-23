@@ -28,7 +28,7 @@ export default class VisualizationOptions {
         this.scale = scale;
     }
 
-    public equalsWithoutColor(candidate: VisualizationOptions) {
+    public equalsWithoutColor(candidate: VisualizationOptions | null): boolean {
         if (candidate) {
             return this.layout === candidate.layout
                 && this.footprint === candidate.footprint

@@ -45,6 +45,22 @@ export class TreeService {
         }
     }
 
+    public static getAllFiles(node: TreeElement): TreeElement[] {
+        let results: TreeElement[] = [];
+
+        if (!node.isNode) {
+            results.push(node);
+        }
+
+        // children nodes
+        for (const child of node.children) {
+            let result = this.getAllFiles(child);
+            results = results.concat(result);
+        }
+
+        return results;
+    }
+
     private static searchIdInElement(id: string, element: TreeElement): TreeElement | null {
         if (element.id === id) {
             return element;

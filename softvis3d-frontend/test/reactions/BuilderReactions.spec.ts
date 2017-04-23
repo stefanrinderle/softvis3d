@@ -28,24 +28,22 @@ import {EXPONENTIAL} from "../../src/constants/Scales";
 import Metric from "../../src/classes/Metric";
 import SonarQubeLegacyService from "../../src/services/sonarqube/SonarQubeLegacyService";
 import {AppStatusStore} from "../../src/stores/AppStatusStore";
+import * as Sinon from "sinon";
 
 describe("BuilderReactions", () => {
 
     it("should initiate build process - part 1 invalidate existing scene", () => {
         let testCityBuilderStore = new CityBuilderStore();
-        let testSceneStore = new SceneStore();
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testSonarService: SonarQubeLegacyService =
-            new SonarQubeLegacyService("", "", testAppStatusStore, testCityBuilderStore, testSceneStore);
-        testSceneStore.shapes = {};
+        const testSonarService = Sinon.createStubInstance(SonarQubeLegacyService) as any;
+        const reactionRegister = new BuilderReactions(testCityBuilderStore, testSonarService as SonarQubeLegacyService);
 
-        const reactionRegister = new BuilderReactions(testCityBuilderStore, testSonarService);
+        expect(testSonarService.loadLegacyBackend.notCalled).to.be.true;
 
         testCityBuilderStore.initiateBuildProcess = true;
 
         expect(reactionRegister).not.to.be.null;
-        expect(testSceneStore.shapes).to.be.null;
         expect(testCityBuilderStore.initiateBuildProcess).to.be.false;
+        expect(testSonarService.loadLegacyBackend.calledOnce).to.be.true;
     });
 
     it("should initiate build process - part 2 transfer option values", () => {

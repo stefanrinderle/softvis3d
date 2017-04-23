@@ -1,7 +1,7 @@
 import {SceneStore} from "../stores/SceneStore";
 import {CityBuilderStore} from "../stores/CityBuilderStore";
 import {reaction} from "mobx";
-import LegacyConnector from "../legacy/LegacyConnector";
+import LegacyCityCreator from "../legacy/LegacyCityCreator";
 import LoadAction from "../classes/status/LoadAction";
 
 export default class SceneReactions {
@@ -10,12 +10,12 @@ export default class SceneReactions {
 
     private builder: CityBuilderStore;
     private scene: SceneStore;
-    private legacy: LegacyConnector;
+    private legacy: LegacyCityCreator;
 
     constructor(
         scene: SceneStore,
         builder: CityBuilderStore,
-        legacy: LegacyConnector
+        legacy: LegacyCityCreator
     ) {
         this.builder = builder;
         this.scene = scene;
@@ -29,7 +29,7 @@ export default class SceneReactions {
             () => this.scene.options.metricColor,
             () => {
                 this.builder.metricColor = this.scene.options.metricColor;
-                this.legacy.buildCity();
+                this.legacy.createCity();
             }
         );
 
@@ -37,9 +37,8 @@ export default class SceneReactions {
             "Convert backend data to threeJS shapes",
             () => this.scene.legacyData,
             () => {
-                this.legacy.buildCity();
+                this.legacy.createCity();
             }
         );
-
     }
 }

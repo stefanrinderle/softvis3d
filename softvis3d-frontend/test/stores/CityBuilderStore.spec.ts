@@ -17,14 +17,14 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
-import {district, evostreet} from "../../src/constants/Layouts";
-import {custom, defaultProfile, leakPeriod} from "../../src/constants/Profiles";
+import { expect } from "chai";
+import { district, evostreet } from "../../src/constants/Layouts";
+import { custom, defaultProfile, leakPeriod } from "../../src/constants/Profiles";
 import * as Metrics from "../../src/constants/Metrics";
-import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
+import { CityBuilderStore } from "../../src/stores/CityBuilderStore";
 import Metric from "../../src/classes/Metric";
-import {defaultDistrict, defaultEvostreet, placeholder} from "../../src/constants/PreviewPictures";
-import {LINEAR_SCALED, LOGARITHMIC} from "../../src/constants/Scales";
+import { defaultDistrict, defaultEvostreet, placeholder } from "../../src/constants/PreviewPictures";
+import { LINEAR_SCALED, LOGARITHMIC } from "../../src/constants/Scales";
 
 describe("CityBuilderStore", () => {
 
@@ -33,7 +33,7 @@ describe("CityBuilderStore", () => {
         expect(underTest.layout).to.be.eq(evostreet);
         expect(underTest.profile.id).to.be.eq(defaultProfile.id);
         expect(underTest.metricColor).to.be.eq(Metrics.noColorMetric);
-        expect(underTest.colorMetrics.keys.length).to.be.eq(8);
+        expect(underTest.colorMetrics.keys.length).to.be.eq(9);
         expect(underTest.initiateBuildProcess).to.be.eq(false);
         expect(underTest.show).to.be.eq(true);
     });
@@ -100,7 +100,7 @@ describe("CityBuilderStore", () => {
 
     it("should get color metrics", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
-        expect(underTest.colorMetrics.length).to.be.equal(8);
+        expect(underTest.colorMetrics.length).to.be.equal(9);
     });
 
     it("should get preview picture default profile and layout district", () => {
