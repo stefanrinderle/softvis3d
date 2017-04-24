@@ -19,12 +19,12 @@
 ///
 import { expect } from "chai";
 import { district, evostreet } from "../../src/constants/Layouts";
-import {defaultProfile, custom, leakPeriod} from "../../src/constants/Profiles";
+import { custom, defaultProfile, leakPeriod } from "../../src/constants/Profiles";
 import * as Metrics from "../../src/constants/Metrics";
 import { CityBuilderStore } from "../../src/stores/CityBuilderStore";
 import Metric from "../../src/classes/Metric";
 import { defaultDistrict, defaultEvostreet, placeholder } from "../../src/constants/PreviewPictures";
-import {LOGARITHMIC, LINEAR_SCALED} from "../../src/constants/Scales";
+import { LINEAR_SCALED, LOGARITHMIC } from "../../src/constants/Scales";
 
 describe("CityBuilderStore", () => {
 
@@ -32,8 +32,8 @@ describe("CityBuilderStore", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         expect(underTest.layout).to.be.eq(evostreet);
         expect(underTest.profile.id).to.be.eq(defaultProfile.id);
-        expect(underTest.metricColor).to.be.eq(Metrics.noMetric);
-        expect(underTest.colorMetrics.keys.length).to.be.eq(8);
+        expect(underTest.metricColor).to.be.eq(Metrics.noColorMetric);
+        expect(underTest.colorMetrics.keys.length).to.be.eq(9);
         expect(underTest.initiateBuildProcess).to.be.eq(false);
         expect(underTest.show).to.be.eq(true);
     });
@@ -66,8 +66,8 @@ describe("CityBuilderStore", () => {
         underTest.profile = leakPeriod;
         underTest.profile = custom;
         expect(underTest.profile.id).to.be.equal(custom.id);
-        expect(leakPeriod.height).to.be.equal(custom.height);
-        expect(leakPeriod.footprint).to.be.equal(custom.footprint);
+        expect(leakPeriod.heightMetricId).to.be.equal(custom.heightMetricId);
+        expect(leakPeriod.footprintMetricId).to.be.equal(custom.footprintMetricId);
         expect(leakPeriod.scale).to.be.equal(custom.scale);
     });
 
@@ -87,20 +87,20 @@ describe("CityBuilderStore", () => {
     it("should set and get generic metrics", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
         let expectedMetrics: Metric[] = [];
-        expectedMetrics.push(new Metric("1", "INT", "1"));
-        expectedMetrics.push(new Metric("2", "FLOAT", "2"));
+        expectedMetrics.push(new Metric("1", "1", ""));
+        expectedMetrics.push(new Metric("2", "2", ""));
 
         expect(underTest.genericMetrics.length).to.be.equal(0);
         underTest.genericMetrics.addMetrics(expectedMetrics);
         expect(underTest.genericMetrics.length).to.be.equal(2);
 
-        underTest.genericMetrics.addMetric(new Metric("3", "PERCENT", "3"));
+        underTest.genericMetrics.addMetric(new Metric("3", "3", ""));
         expect(underTest.genericMetrics.length).to.be.equal(3);
     });
 
     it("should get color metrics", () => {
         let underTest: CityBuilderStore = new CityBuilderStore();
-        expect(underTest.colorMetrics.length).to.be.equal(8);
+        expect(underTest.colorMetrics.length).to.be.equal(9);
     });
 
     it("should get preview picture default profile and layout district", () => {

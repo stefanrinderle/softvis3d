@@ -22,15 +22,16 @@ import {AppStatusStore} from "../../stores/AppStatusStore";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import Metric from "../../classes/Metric";
 import {leakPeriod} from "../../constants/Profiles";
-import {newLinesToCoverMetric} from "../../constants/Metrics";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
+import {newLinesToCoverMetricId} from "../../constants/Metrics";
 
 export interface SonarQubeApiMetric {
     id: number;
     key: string;
-    type: MetricType;
+    type: string;
     name: string;
+    description: string;
     hidden?: boolean;
 }
 
@@ -54,7 +55,7 @@ export default class SonarQubeMetricsService extends BackendService {
                 this.appStatusStore.load(SonarQubeMetricsService.LOAD_METRICS);
             }
 
-            const params = {f: "name", p: page};
+            const params = {f: "name,description", p: page};
             this.callApi("/metrics/search", { params }).then((response) => {
                 const metrics: Metric[] = (response.data.metrics as SonarQubeApiMetric[])
                     .filter((c) => this.shouldMetricBeFiltered(c.type))
@@ -90,7 +91,7 @@ export default class SonarQubeMetricsService extends BackendService {
     }
 
     private createMetric(sonarQubeMetric: SonarQubeApiMetric): Metric {
-        return new Metric(sonarQubeMetric.key, sonarQubeMetric.type, sonarQubeMetric.name);
+        return new Metric(sonarQubeMetric.key, sonarQubeMetric.name, sonarQubeMetric.description);
     }
 
     private shouldMetricBeFiltered(type: string): boolean {
@@ -100,7 +101,7 @@ export default class SonarQubeMetricsService extends BackendService {
 
     private checkNewLinesOfCodeMetric() {
         if (!this.cityBuilderStore.genericMetrics.hasNewLinesOfCodeMetric) {
-            leakPeriod.height = newLinesToCoverMetric;
+            leakPeriod.heightMetricId = newLinesToCoverMetricId;
         }
     }
 

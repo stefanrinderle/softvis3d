@@ -77,14 +77,24 @@ $simpleCategoryHeight: 290px;
 
         .left-column {
             float: left;
-            width: 48%;
+            width: 33%;
+        }
+
+        .middle-column {
+            float: left;
+            width: 33%;
         }
 
         .right-column {
-            float: right;
-            width: 48%;
+            float: left;
+            width: 33%;
             height: 100%;
             right: 0;
+        }
+
+        .selection-description {
+            margin: 6px 0 0 6px;
+            font-size: 12px;
         }
     }
 

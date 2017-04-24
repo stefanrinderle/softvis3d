@@ -20,8 +20,8 @@
 
 import { MeshLambertMaterial, Scene } from "three";
 import { ObjectFactory } from "./ObjectFactory";
-import { SoftVis3dMesh } from "../domain/SoftVis3dMesh";
-import { SoftVis3dShape } from "../domain/SoftVis3dShape";
+import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
+import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
 
 interface SoftVis3dSelectedObject {
     object: SoftVis3dMesh;

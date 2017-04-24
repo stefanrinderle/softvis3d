@@ -18,11 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { WebGLRenderer, DirectionalLight, Scene } from "three";
+import {DirectionalLight, Scene, WebGLRenderer} from "three";
 
-/**
- * TODO: Write tests with sinon mocks.
- */
 export class Setup {
 
     public static initRenderer(renderer: WebGLRenderer, scene: Scene, container: HTMLCanvasElement) {

@@ -1,11 +1,11 @@
 import * as React from "react";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import MetricKey from "./MetricKey";
-import {SceneStore} from "../../../stores/SceneStore";
+import { SceneStore } from "../../../stores/SceneStore";
 import SelectBoxBuilder from "../../ui/selectbox/SelectBoxBuilder";
-import {ColorMetrics} from "../../../constants/Metrics";
+import { ColorMetrics } from "../../../constants/Metrics";
 import MetricSet from "../../../classes/MetricSet";
-import ColorMetric from "../../../classes/ColorMetric";
+import Metric from "../../../classes/Metric";
 
 interface SceneInformationProps {
     sceneStore: SceneStore;
@@ -32,7 +32,7 @@ export default class SceneInformation extends React.Component<SceneInformationPr
                     className="metric-info"
                     value={sceneStore.options.metricColor}
                     options={new MetricSet(ColorMetrics.availableColorMetrics).asSelectOptions}
-                    onChange={(m: ColorMetric) => { sceneStore.options.metricColor = m; }}
+                    onChange={(m: Metric) => { sceneStore.options.metricColor = m; }}
                     append={colorInformation}
                 />
             </div>

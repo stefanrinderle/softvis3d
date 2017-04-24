@@ -1,20 +1,11 @@
 export default class Layout implements SelectOptionValue {
+    public readonly id: string;
+    public readonly label: string;
+    public readonly description: string;
 
-    public id: string;
-    public name: string;
-    public description: string;
-
-    constructor(id: string, name: string, description: string) {
+    constructor(id: string, label: string, description: string) {
         this.id = id;
-        this.name = name;
+        this.label = label;
         this.description = description;
-    }
-
-    public getId(): string {
-        return this.id;
-    }
-
-    public getLabel(): string {
-        return this.name;
     }
 }

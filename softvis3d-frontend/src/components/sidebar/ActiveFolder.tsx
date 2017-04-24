@@ -14,7 +14,6 @@ export default class ActiveFolder extends React.Component<NodeListProps, any> {
         const {activeFolder, sceneStore} = this.props;
 
         if (activeFolder === null) {
-            // TODO: "Error" is not the Way to go :-/
             return <div />;
         }
 

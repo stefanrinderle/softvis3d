@@ -17,14 +17,29 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import SoftVis3dScene from "../../../../src/components/scene/visualization/SoftVis3dScene";
 
-describe("SoftVis3dScene", () => {
+import SonarQubeApiScm from "./SonarQubeApiScm";
+export default class ScmCalculator {
 
-    it("should catch selectSceneTreeObject if not initialized", () => {
-        let underTest: SoftVis3dScene = new SoftVis3dScene();
+    public static calcNumberOfAuthors(measures: SonarQubeApiScm[]): number {
+        let groupByAuthorName = this.groupByAuthorName(measures);
+        return groupByAuthorName.size;
+    }
 
-        underTest.selectSceneTreeObject("asd");
-    });
+    public static createMetric(measure: string[]): SonarQubeApiScm {
+        return new SonarQubeApiScm(+measure[0], measure[1], measure[2], measure[3]);
+    }
 
-});
+    private static groupByAuthorName(measures: SonarQubeApiScm[]) {
+        const map = new Map();
+        measures.forEach((item) => {
+            const key = item.authorName;
+            if (!map.has(key)) {
+                map.set(key, [item]);
+            } else {
+                map.get(key).push(item);
+            }
+        });
+        return map;
+    }
+}

@@ -22,7 +22,7 @@ import SonarQubeMetricsService, {SonarQubeApiMetric} from "../../../src/services
 import {AppStatusStore} from "../../../src/stores/AppStatusStore";
 import * as Sinon from "sinon";
 import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
-import {newLinesToCoverMetric} from "../../../src/constants/Metrics";
+import {newLinesToCoverMetricId} from "../../../src/constants/Metrics";
 import {leakPeriod} from "../../../src/constants/Profiles";
 
 describe("SonarQubeMetricsService", () => {
@@ -41,7 +41,8 @@ describe("SonarQubeMetricsService", () => {
             id: 123,
             key: "ncloc",
             type: "INT",
-            name: "lines of code"
+            name: "lines of code",
+            description: ""
         });
 
         Sinon.stub(underTest, "callApi", () => {
@@ -54,7 +55,7 @@ describe("SonarQubeMetricsService", () => {
 
         underTest.loadAvailableMetrics().then(() => {
             Sinon.assert.called(spyAdd);
-            expect(leakPeriod.height).to.be.eq(newLinesToCoverMetric);
+            expect(leakPeriod.heightMetricId).to.be.eq(newLinesToCoverMetricId);
             done();
         }).catch((error) => {
             assert.isNotOk(error, "Promise error");
@@ -77,7 +78,8 @@ describe("SonarQubeMetricsService", () => {
             key: "ncloc",
             type: "INT",
             name: "lines of code",
-            hidden: false
+            hidden: false,
+            description: ""
         });
 
         Sinon.stub(underTest, "callApi", () => {
@@ -111,7 +113,8 @@ describe("SonarQubeMetricsService", () => {
             id: 123,
             key: "ncloc",
             type: "STRING",
-            name: "lines of code"
+            name: "lines of code",
+            description: ""
         });
 
         Sinon.stub(underTest, "callApi", () => {
@@ -220,8 +223,7 @@ describe("SonarQubeMetricsService", () => {
             });
         });
 
-        underTest.loadAvailableMetrics().then(() => {
-        }).catch(() => {
+        underTest.loadAvailableMetrics().then(() => undefined).catch(() => {
             assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
             assert(spyLoadComplete.calledWith(SonarQubeMetricsService.LOAD_METRICS));
             assert(spyError.calledOnce);

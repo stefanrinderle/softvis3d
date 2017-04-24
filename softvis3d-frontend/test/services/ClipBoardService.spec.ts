@@ -25,15 +25,15 @@ describe("ClipBoardService", () => {
 
     it("copy the text to the clipboard", () => {
         let document: any = {
-            createElement: () => {},
-            execCommand: () => {}
+            createElement: () => undefined,
+            execCommand: () => undefined
         };
 
         let element: HTMLTextAreaElement = HTMLTextAreaElement.prototype;
-        Sinon.stub(element, "select");
-        Sinon.stub(document, "createElement").returns(element);
+        let elementSelectStub = Sinon.stub(element, "select");
+        let documentCreateElementStub = Sinon.stub(document, "createElement").returns(element);
 
-        Sinon.stub(document, "execCommand");
+        let documentExecStub = Sinon.stub(document, "execCommand");
 
         try {
             ClipBoardService.copyTextToClipboard("expectedTestText");
@@ -41,6 +41,10 @@ describe("ClipBoardService", () => {
         } catch (error) {
             // did not get this work without the exception. But its ok for the test.
         }
+
+        elementSelectStub.restore();
+        documentCreateElementStub.restore();
+        documentExecStub.restore();
     });
 
 });

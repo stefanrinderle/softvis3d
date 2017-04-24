@@ -32,13 +32,9 @@ declare module "config" {
     export default config;
 }
 
-declare type MetricType = "INT" | "FLOAT" | "PERCENT" | "BOOL" |
-    "STRING" | "MILLISEC" | "DATA" | "LEVEL" |
-    "DISTRIB" | "RATING" | "WORK_DUR" | "NONE";
-
 declare interface SelectOptionValue {
-    getId(): string;
-    getLabel(): string;
+    readonly id: string;
+    readonly label: string;
 }
 
 interface MeasureList {

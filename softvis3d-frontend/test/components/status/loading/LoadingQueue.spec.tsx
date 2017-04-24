@@ -20,6 +20,25 @@ describe("<LoadingQueue/>", () => {
         expect(loadingQueue.html()).to.include(expectedLoadMessage);
     });
 
+    it("should show loading list single with status", () => {
+        let localAppStatusStore: AppStatusStore = new AppStatusStore();
+
+        let expectedLoadMessage = "test";
+        let action = new LoadAction("key", expectedLoadMessage);
+        localAppStatusStore.load(action);
+
+        let pageSize = 34;
+        let limit = 98;
+        localAppStatusStore.loadStatusUpdate(action, pageSize, limit);
+
+        const loadingQueue = shallow(
+            <LoadingQueue appStatusStore={localAppStatusStore}/>
+        );
+
+        expect(loadingQueue.html()).to.include(pageSize);
+        expect(loadingQueue.html()).to.include(limit);
+    });
+
     it("should show loading list multi", () => {
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
 

@@ -17,7 +17,7 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
+import {assert, expect} from "chai";
 import StatusAction from "../../../src/classes/status/StatusAction";
 import StatusActionQueue from "../../../src/classes/status/StatusActionQueue";
 
@@ -34,6 +34,16 @@ describe("AppStatusStore", () => {
 
         underTest.remove(testAction);
         expect(underTest.isEmpty).to.be.equal(true);
+    });
+
+    it("should update and return new instance", () => {
+        let underTest: StatusActionQueue<TestStatusAction> = new StatusActionQueue();
+        let testAction: TestStatusAction = new TestStatusAction("key", "testEvent");
+
+        underTest.add(testAction);
+        let result = underTest.copyAndUpdate(testAction);
+        assert(result !== underTest);
+        assert(!result.isEmpty);
     });
 
     it("should work with multiple events", () => {

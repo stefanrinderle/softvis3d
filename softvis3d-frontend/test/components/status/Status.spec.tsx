@@ -8,6 +8,7 @@ import Loading from "../../../src/components/status/loading/Loading";
 import ErrorStatus from "../../../src/components/status/ErrorStatus";
 import LoadAction from "../../../src/classes/status/LoadAction";
 import ErrorAction from "../../../src/classes/status/ErrorAction";
+import InfoStatus from "../../../src/components/status/InfoStatus";
 
 describe("<Status/>", () => {
 
@@ -21,6 +22,7 @@ describe("<Status/>", () => {
         );
 
         expect(softvis3d.contains(<SoftVis3DLogo/>)).to.be.true;
+        expect(softvis3d.contains(<InfoStatus appStatusStore={localAppStatusStore}/>)).to.be.true;
         expect(softvis3d.contains(<Loading appStatusStore={localAppStatusStore}/>)).to.be.true;
         expect(softvis3d.contains(<ErrorStatus appStatusStore={localAppStatusStore}/>)).to.be.true;
     });
@@ -28,13 +30,14 @@ describe("<Status/>", () => {
     it("should draw error components if errors", () => {
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        localAppStatusStore.error(new ErrorAction("key", "test", "", () => {}));
+        localAppStatusStore.error(new ErrorAction("key", "test", "", () => undefined));
 
         const softvis3d = shallow(
             <Status appStatusStore={localAppStatusStore}/>
         );
 
         expect(softvis3d.contains(<SoftVis3DLogo/>)).to.be.true;
+        expect(softvis3d.contains(<InfoStatus appStatusStore={localAppStatusStore}/>)).to.be.true;
         expect(softvis3d.contains(<Loading appStatusStore={localAppStatusStore}/>)).to.be.true;
         expect(softvis3d.contains(<ErrorStatus appStatusStore={localAppStatusStore}/>)).to.be.true;
     });
