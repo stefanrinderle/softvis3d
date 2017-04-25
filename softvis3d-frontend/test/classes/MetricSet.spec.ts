@@ -17,22 +17,22 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { expect } from "chai";
+import {expect} from "chai";
 import Metric from "../../src/classes/Metric";
 import MetricSet from "../../src/classes/MetricSet";
-import { newLinesOfCodeMetric } from "../../src/constants/Metrics";
+import {newLinesOfCodeMetricId} from "../../src/constants/Metrics";
 
 describe("MetricSet", () => {
 
     it("should add metrics", () => {
         let initialMetrics: Metric[] = [];
-        initialMetrics.push(new Metric("123", "INT", "siuhf"));
+        initialMetrics.push(new Metric("123", "siuhf", ""));
 
         let result: MetricSet = new MetricSet(initialMetrics);
         expect(result.keys.length).to.be.eq(1);
 
         let additionalMetrics: Metric[] = [];
-        additionalMetrics.push(new Metric("123", "INT", "siuhf"));
+        additionalMetrics.push(new Metric("123", "siuhf", ""));
         result.addMetrics(additionalMetrics);
 
         expect(result.keys.length).to.be.eq(2);
@@ -40,8 +40,8 @@ describe("MetricSet", () => {
 
     it("should return metric keys", () => {
         let initialMetrics: Metric[] = [];
-        initialMetrics.push(new Metric("123", "INT", "siuhf"));
-        initialMetrics.push(new Metric("321", "INT", "siuhf"));
+        initialMetrics.push(new Metric("123", "siuhf", ""));
+        initialMetrics.push(new Metric("321", "siuhf", ""));
 
         let result: MetricSet = new MetricSet(initialMetrics);
 
@@ -52,20 +52,20 @@ describe("MetricSet", () => {
 
     it("should return select options", () => {
         let initialMetrics: Metric[] = [];
-        initialMetrics.push(new Metric("123", "INT", "siuhf"));
-        initialMetrics.push(new Metric("321", "INT", "iojsiodf"));
+        initialMetrics.push(new Metric("123", "siuhf", ""));
+        initialMetrics.push(new Metric("321", "iojsiodf", ""));
 
         let result: MetricSet = new MetricSet(initialMetrics);
 
         expect(result.asSelectOptions.length).to.be.eq(2);
-        expect(result.asSelectOptions[0].getLabel()).to.be.eq("siuhf");
-        expect(result.asSelectOptions[1].getLabel()).to.be.eq("iojsiodf");
+        expect(result.asSelectOptions[0].label).to.be.eq("siuhf");
+        expect(result.asSelectOptions[1].label).to.be.eq("iojsiodf");
     });
 
     it("should detect new lines of code metric not available", () => {
         let initialMetrics: Metric[] = [];
-        initialMetrics.push(new Metric("123", "INT", "siuhf"));
-        initialMetrics.push(new Metric("321", "INT", "iojsiodf"));
+        initialMetrics.push(new Metric("123", "siuhf", ""));
+        initialMetrics.push(new Metric("321", "iojsiodf", ""));
 
         let result: MetricSet = new MetricSet(initialMetrics);
 
@@ -74,8 +74,8 @@ describe("MetricSet", () => {
 
     it("should detect new lines of code metric available", () => {
         let initialMetrics: Metric[] = [];
-        initialMetrics.push(new Metric("123", "INT", "siuhf"));
-        initialMetrics.push(newLinesOfCodeMetric);
+        initialMetrics.push(new Metric("123", "siuhf", ""));
+        initialMetrics.push(new Metric(newLinesOfCodeMetricId, "iojsiodf", ""));
 
         let result: MetricSet = new MetricSet(initialMetrics);
 
@@ -84,10 +84,10 @@ describe("MetricSet", () => {
 
     it("should return metric by id", () => {
         let initialMetrics: Metric[] = [];
-        initialMetrics.push(new Metric("123", "INT", "siuhf"));
+        initialMetrics.push(new Metric("123", "siuhf", ""));
 
         let expectedKey: string = "321";
-        let expectedMetric: Metric = new Metric(expectedKey, "INT", "siuhf");
+        let expectedMetric: Metric = new Metric(expectedKey, "siuhf", "");
         initialMetrics.push(expectedMetric);
 
         let result: MetricSet = new MetricSet(initialMetrics);
@@ -97,7 +97,7 @@ describe("MetricSet", () => {
 
     it("should return metric by id but not found", () => {
         let initialMetrics: Metric[] = [];
-        initialMetrics.push(new Metric("123", "INT", "siuhf"));
+        initialMetrics.push(new Metric("123", "siuhf", ""));
 
         let result: MetricSet = new MetricSet(initialMetrics);
 

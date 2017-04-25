@@ -1,6 +1,6 @@
-import { computed, observable, isObservable } from "mobx";
+import { computed, isObservable, observable } from "mobx";
 import Metric from "./Metric";
-import { newLinesOfCodeMetric } from "../constants/Metrics";
+import { newLinesOfCodeMetricId } from "../constants/Metrics";
 
 export default class MetricSet {
     @observable
@@ -41,7 +41,7 @@ export default class MetricSet {
         let result: boolean = false;
 
         for (let metric of this.metrics) {
-            if (metric.id === newLinesOfCodeMetric.id) {
+            if (metric.id === newLinesOfCodeMetricId) {
                 return true;
             }
         }

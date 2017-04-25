@@ -4,7 +4,7 @@
 
   <groupId>de.rinderle.softvis3d</groupId>
   <artifactId>softvis3d</artifactId>
-  <version>0.8.0-SNAPSHOT</version>
+  <version>0.9.0-SNAPSHOT</version>
 
   <packaging>pom</packaging>
 
@@ -15,12 +15,9 @@
     <coverage.reports.dir>${basedir}/target/coverage-reports</coverage.reports.dir>
     <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
 
-    <guice.version>3.0</guice.version>
+    <guice.version>4.1.0</guice.version>
 
     <jdk.min.version>1.7</jdk.min.version>
-
-    <node.version>v6.9.0</node.version>
-    <npm.version>3.10.8</npm.version>
   </properties>
 
   <url>http://softvis3d.com</url>
@@ -29,7 +26,7 @@
 
   <organization>
     <name>Stefan Rinderle and Yvo Niedrich</name>
-	<url>http://softvis3d.com</url>
+	  <url>http://softvis3d.com</url>
   </organization>
 
   <licenses>
@@ -72,17 +69,12 @@
       <dependency>
         <groupId>com.google.code.gson</groupId>
         <artifactId>gson</artifactId>
-        <version>2.3.1</version>
+        <version>2.8.0</version>
       </dependency>
       <dependency>
         <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>
         <version>2.6</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.4</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
@@ -106,20 +98,19 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.11</version>
+        <version>4.12</version>
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.powermock</groupId>
-        <artifactId>powermock-api-mockito</artifactId>
-        <version>1.5.5</version>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>2.7.14</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
 
   <modules>
-    <module>softvis3d-base</module>
     <module>softvis3d-frontend</module>
     <module>sonar-softvis3d-plugin</module>
     <module>softvis3d-sonarqube-it</module>
@@ -137,14 +128,9 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.3</version>
-      </plugin>
-      <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.7.201606060606</version>
+        <version>0.7.9</version>
         <executions>
           <execution>
             <id>jacoco-initialize</id>
@@ -174,34 +160,5 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>cleanAll</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-clean-plugin</artifactId>
-            <version>3.0.0</version>
-            <executions>
-              <execution>
-                <phase>clean</phase>
-                <goals>
-                  <goal>clean</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <filesets>
-                <fileset>
-                  <directory>node</directory>
-                </fileset>
-              </filesets>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 
 </project>

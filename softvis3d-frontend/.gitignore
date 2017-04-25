@@ -7,6 +7,9 @@ node_modules/
 typings/
 ts-node/
 target/
+yarn/
+
+config/*.js
 
 src/*.js
 src/*.js.map

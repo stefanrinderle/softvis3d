@@ -1,25 +1,24 @@
 import Metric from "../classes/Metric";
 import Layout from "../classes/Layout";
 import Scale from "../classes/Scale";
-import ColorMetric from "../classes/ColorMetric";
 import {Vector3} from "three";
 import {Parameters} from "../services/UrlParameterService";
 
 export default class VisualizationLinkParams {
 
-    private _metricFootprint: Metric;
-    private _metricHeight: Metric;
-    private _metricColor: ColorMetric;
+    private _metricFootprintId: string;
+    private _metricHeightId: string;
+    private _metricColor: Metric;
     private _layout: Layout;
     private _scale: Scale;
     private _selectedObjectId: string | null;
     private _cameraPosition: THREE.Vector3;
 
-    constructor(metricFootprint: Metric, metricHeight: Metric, metricColor: ColorMetric, layout: Layout, scale: Scale,
+    constructor(footprintMetricId: string, heightMetricId: string, metricColor: Metric, layout: Layout, scale: Scale,
                 selectedObjectId: string | null, cameraPosition: Vector3) {
 
-        this._metricFootprint = metricFootprint;
-        this._metricHeight = metricHeight;
+        this._metricFootprintId = footprintMetricId;
+        this._metricHeightId = heightMetricId;
         this._metricColor = metricColor;
         this._layout = layout;
         this._scale = scale;
@@ -29,11 +28,11 @@ export default class VisualizationLinkParams {
 
     public getKeyValuePairs() {
         let result: Parameters = {
-            metricFootprint: this._metricFootprint.id,
-            metricHeight: this._metricHeight.id,
+            metricFootprint: this._metricFootprintId,
+            metricHeight: this._metricHeightId,
             metricColor: this._metricColor.id,
             layout: this._layout.id,
-            scale: this._scale.getId(),
+            scale: this._scale.id,
             cameraX: Math.round(this._cameraPosition.x).toString(),
             cameraY: Math.round(this._cameraPosition.y).toString(),
             cameraZ: Math.round(this._cameraPosition.z).toString()
@@ -52,15 +51,15 @@ export default class VisualizationLinkParams {
         return params;
     }
 
-    get metricFootprint(): Metric {
-        return this._metricFootprint;
+    get metricFootprintId(): string {
+        return this._metricFootprintId;
     }
 
-    get metricHeight(): Metric {
-        return this._metricHeight;
+    get metricHeightId(): string {
+        return this._metricHeightId;
     }
 
-    get metricColor(): ColorMetric {
+    get metricColor(): Metric {
         return this._metricColor;
     }
 

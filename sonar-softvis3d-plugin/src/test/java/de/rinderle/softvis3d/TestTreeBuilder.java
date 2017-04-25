@@ -19,16 +19,24 @@
  */
 package de.rinderle.softvis3d;
 
-import de.rinderle.softvis3d.base.domain.tree.TreeNode;
-import de.rinderle.softvis3d.base.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.domain.tree.TreeNode;
+import de.rinderle.softvis3d.domain.tree.TreeNodeType;
+import de.rinderle.softvis3d.domain.tree.ValueTreeNode;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TestTreeBuilder {
 
-  public static TreeNode createTreeNode(final String id, final TreeNode parent,
-    final int depth) {
-    final TreeNode result = new TreeNode(id, parent, depth, TreeNodeType.TREE, id + "");
+  public static TreeNode createValueTreeNode(final String id, final String key, final TreeNode parent, final int
+    depth) {
+    final Map<String, Double> metrics = new HashMap<>();
+    metrics.put("ncloc", 12.32);
+    metrics.put("complexity", 1.0);
+    final ValueTreeNode result = new ValueTreeNode(id, key, parent, depth,
+        TreeNodeType.TREE, id, metrics);
 
-    parent.addChildrenNode(id + "", result);
+    parent.addChildrenNode(id, result);
 
     return result;
   }

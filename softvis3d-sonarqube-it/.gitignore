@@ -1,1 +1,4 @@
 integrationtest/protractor/results
+
+protractor/test/*.js
+protractor/test/*.js.map

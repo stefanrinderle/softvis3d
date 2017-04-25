@@ -32,13 +32,9 @@ declare module "config" {
     export default config;
 }
 
-declare type MetricType = "INT" | "FLOAT" | "PERCENT" | "BOOL" |
-    "STRING" | "MILLISEC" | "DATA" | "LEVEL" |
-    "DISTRIB" | "RATING" | "WORK_DUR" | "NONE";
-
 declare interface SelectOptionValue {
-    getId(): string;
-    getLabel(): string;
+    readonly id: string;
+    readonly label: string;
 }
 
 interface MeasureList {
@@ -47,6 +43,7 @@ interface MeasureList {
 
 declare interface TreeElement {
     id: string;
+    key?: string;
     name: string;
     isNode: boolean;
 
@@ -54,4 +51,9 @@ declare interface TreeElement {
 
     measures: MeasureList;
     parentId: string | null;
+}
+
+declare module "three-orbit-controls" {
+    let orbitcontrols: (three: any) => any;
+    export = orbitcontrols;
 }

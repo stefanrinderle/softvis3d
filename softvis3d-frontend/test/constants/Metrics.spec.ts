@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-import {ColorMetrics, coverageMetric, packageNameMetric} from "../../src/constants/Metrics";
+import {ColorMetrics, coverageColorMetric, packageNameColorMetric} from "../../src/constants/Metrics";
 
 describe("Metrics", () => {
 
@@ -27,9 +27,9 @@ describe("Metrics", () => {
     });
 
     it("should find layout by id", () => {
-        expect(ColorMetrics.getColorMetricById(coverageMetric.id)).to.be.eq(coverageMetric);
+        expect(ColorMetrics.getColorMetricById(coverageColorMetric.id)).to.be.eq(coverageColorMetric);
 
-        expect(ColorMetrics.getColorMetricById(packageNameMetric.id)).to.be.eq(packageNameMetric);
+        expect(ColorMetrics.getColorMetricById(packageNameColorMetric.id)).to.be.eq(packageNameColorMetric);
     });
 
 });

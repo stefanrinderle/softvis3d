@@ -23,6 +23,12 @@
 import * as CodeCityVis from "codecity-visualizer";
 import Softvis3dModel from "./Softvis3dModel";
 import {TreeNodeInterface} from "codecity-visualizer/types/interfaces";
+import {
+    complexityColorMetric, coverageColorMetric, linesOfCodeColorMetric, newIssuesColorMetric,
+    numberOfAuthorsBlameColorMetric,
+    openIssuesColorMetric, packageNameColorMetric,
+    violationsColorMetric
+} from "../constants/Metrics";
 
 const illustratorEvostreet = CodeCityVis.illustrators.evostreet;
 const illustratorDistrict = CodeCityVis.illustrators.district;
@@ -170,18 +176,22 @@ class LayoutProcessor {
 
     private _getHouseColorRule() {
         switch (this._options.colorMetric) {
-            case "ncloc":
+            case linesOfCodeColorMetric.id:
                 return this._RuleHouseColorByLinesOfCode();
-            case "complexity":
+            case complexityColorMetric.id:
                 return this._RuleHouseColorByComplexity();
-            case "coverage":
+            case coverageColorMetric.id:
                 return this._RuleHouseColorByCoverage();
-            case "violations":
+            case violationsColorMetric.id:
                 return this._RuleHouseColorByIssues();
-            case "open_issues":
+            case newIssuesColorMetric.id:
+                return this._RuleHouseColorByIssues();
+            case openIssuesColorMetric.id:
                 return this._RuleHouseColorByOpenIssues();
-            case "package":
+            case packageNameColorMetric.id:
                 return this._RuleHouseColorByPackageName();
+            case numberOfAuthorsBlameColorMetric.id:
+                return this._RuleHouseColorByScmInfos();
             default:
                 return this._RuleHouseColorInitial();
         }
@@ -209,7 +219,6 @@ class LayoutProcessor {
                 power = 3.5;
             }
 
-            // Logarithmic Max: ~2000 ==> 450
             return new CodeCityVis.rules.math.logarithmic({
                 condition: (model: Softvis3dModel, node: TreeNodeInterface) => model && node.children.length === 0,
                 metric: (model, node, version) => {
@@ -218,7 +227,7 @@ class LayoutProcessor {
                 },
                 attributes: "dimensions.height",
                 min: 6,
-                max: 450,
+                max,
                 logbase: base,
                 logexp: power
             });
@@ -445,6 +454,29 @@ class LayoutProcessor {
             max: maxVal,
             minColor: 0x00CC00,
             maxColor: 0xEE0000
+        });
+    }
+
+    /**
+     * Issues --> Building Color
+     * @private
+     * @returns {BaseRule}
+     */
+    private _RuleHouseColorByScmInfos() {
+        let minVal = 1;
+        let maxVal = 4;
+
+        return new CodeCityVis.rules.color.gradient({
+            condition: (model, node) => model && node.children.length === 0,
+            metric: (model, node, version) => {
+                const attr = attributeHelper.attrFallbackSweep(model, node, version);
+                return ("metricColor" in attr) ? attr["metricColor"] : 0;
+            },
+            attributes: "color",
+            min: minVal,
+            max: maxVal,
+            minColor: 0xEE0000,
+            maxColor: 0x00CC00
         });
     }
 

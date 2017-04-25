@@ -3,14 +3,13 @@ import Metric from "../classes/Metric";
 import Layout from "../classes/Layout";
 import {custom} from "../constants/Profiles";
 import Scale from "../classes/Scale";
-import ColorMetric from "../classes/ColorMetric";
 import {ColorMetrics} from "../constants/Metrics";
 import {Scales} from "../constants/Scales";
 import {Layouts} from "../constants/Layouts";
 import VisualizationLinkParams from "../classes/VisualizationLinkParams";
 import {SceneStore} from "../stores/SceneStore";
 import {Vector3} from "three";
-import {Parameters, default as UrlParameterService} from "./UrlParameterService";
+import {default as UrlParameterService, Parameters } from "./UrlParameterService";
 
 export default class VisualizationLinkService {
 
@@ -30,7 +29,7 @@ export default class VisualizationLinkService {
         let metricHeight: Metric | undefined =
             this.cityBuilderStore.genericMetrics.getMetricByKey(params.metricHeight);
 
-        let metricColor: ColorMetric | undefined = ColorMetrics.getColorMetricById(params.metricColor);
+        let metricColor: Metric | undefined = ColorMetrics.getColorMetricById(params.metricColor);
 
         let layout: Layout | undefined = Layouts.getLayoutById(params.layout);
         let scale: Scale | undefined = Scales.getScaleById(params.scale);
@@ -47,7 +46,7 @@ export default class VisualizationLinkService {
             && cameraPosition !== undefined
         ) {
             let visualizationLinkParams: VisualizationLinkParams = new VisualizationLinkParams(
-                metricFootprint, metricHeight, metricColor,
+                metricFootprint.id, metricHeight.id, metricColor,
                 layout, scale, selectedObjectId, cameraPosition
             );
 
@@ -64,8 +63,8 @@ export default class VisualizationLinkService {
         }
 
         let visualizationLinkParams: VisualizationLinkParams =
-            new VisualizationLinkParams(this.cityBuilderStore.profile.footprint,
-                this.cityBuilderStore.profile.height, this.cityBuilderStore.metricColor,
+            new VisualizationLinkParams(this.cityBuilderStore.profile.footprintMetricId,
+                this.cityBuilderStore.profile.heightMetricId, this.cityBuilderStore.metricColor,
                 this.cityBuilderStore.layout, this.cityBuilderStore.profile.scale,
                 this.sceneStore.selectedObjectId, this.sceneStore.cameraPosition);
 
@@ -78,9 +77,9 @@ export default class VisualizationLinkService {
         let cameraPosition: Vector3 | undefined;
         if (params.cameraX !== undefined && params.cameraY !== undefined && params.cameraZ !== undefined) {
             cameraPosition = new Vector3(
-                parseInt(params.cameraX, 10),
-                parseInt(params.cameraY, 10),
-                parseInt(params.cameraZ, 10)
+                parseFloat(params.cameraX),
+                parseFloat(params.cameraY),
+                parseFloat(params.cameraZ)
             );
         }
         return cameraPosition;
@@ -88,8 +87,8 @@ export default class VisualizationLinkService {
 
     private applyParams(visualizationLinkParams: VisualizationLinkParams) {
         this.cityBuilderStore.profile = custom;
-        this.cityBuilderStore.profile.footprint = visualizationLinkParams.metricFootprint;
-        this.cityBuilderStore.profile.height = visualizationLinkParams.metricHeight;
+        this.cityBuilderStore.profile.footprintMetricId = visualizationLinkParams.metricFootprintId;
+        this.cityBuilderStore.profile.heightMetricId = visualizationLinkParams.metricHeightId;
         this.cityBuilderStore.metricColor = visualizationLinkParams.metricColor;
         this.cityBuilderStore.profile.scale = visualizationLinkParams.scale;
         this.cityBuilderStore.layout = visualizationLinkParams.layout;

@@ -33,7 +33,6 @@ export class SoftVis3dShape extends Shape {
 
     public type: string;
     public margin: number;
-    public rotation: number;
 
     constructor(points: Vector2[], key: string) {
         super(points);
@@ -45,11 +44,7 @@ export class SoftVis3dShape extends Shape {
             _y: 0,
             _z: 0
         };
-        this.dimensions = {
-            _length: 5,
-            _width: 5,
-            _height: 5
-        };
+        this.dimensions = new Dimension(5, 5, 5);
         this.color = 0;
         this.opacity = 0.5;
     }

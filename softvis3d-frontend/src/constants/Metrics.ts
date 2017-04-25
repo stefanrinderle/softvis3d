@@ -3,56 +3,63 @@
  * #################################### */
 
 import Metric from "../classes/Metric";
-import ColorMetric from "../classes/ColorMetric";
 
-export const noMetric: ColorMetric = new ColorMetric("none", "NONE", " -- None -- ",
+export const complexityMetricId = "complexity";
+export const linesOfCodeMetricId = "ncloc";
+export const newLinesOfCodeMetricId = "new_lines";
+export const duplicatedLinesOfCodeMetricId = "duplicated_lines";
+export const noMetricId = "none";
+
+export const coverageMetricId = "coverage";
+export const newLinesToCoverMetricId = "new_lines_to_cover";
+
+/* ############################################################# *
+ * ## Color metric definitions with color descriptions        ## *
+ * ## should only used for color metric settings and options. ## *
+ * ############################################################# */
+
+export const noColorMetric: Metric = new Metric(noMetricId, " -- None -- ",
     "The building color can be changed dynamically in the view using the combo box in the bottom bar.");
 
-export const packageNameMetric: ColorMetric = new ColorMetric("package", "NONE", "Package Name",
+export const packageNameColorMetric: Metric = new Metric("package", "Package Name",
     "Every house is assigned a color, depending on it's containing package or namespace.");
 
-/* #################################### *
- * ## Metrics available in SonarQube ## *
- * #################################### */
-
-export const violationMetric: ColorMetric = new ColorMetric("violations", "INT", "Issues",
+export const violationsColorMetric: Metric = new Metric("violations", "Issues",
     "Scale from green (no open violations) to red (highest number of violations).");
 
-export const linesOfCodeMetric: ColorMetric = new ColorMetric("ncloc", "INT", "Lines of Code",
+export const linesOfCodeColorMetric: Metric = new Metric(linesOfCodeMetricId, "Lines of Code",
     "Scale from green (few lines of code) to red (a lot of lines of code).");
 
-export const newIssuesMetric: ColorMetric = new ColorMetric("new_violations", "INT", "New Issues",
+export const newIssuesColorMetric: Metric = new Metric("new_violations", "New Issues",
     "Scale from green (no new issues) to red (highest number of new issues).");
 
-export const newLinesToCoverMetric: Metric = new Metric("new_lines_to_cover", "INT", "Lines to Cover on New Code");
-
-export const newLinesOfCodeMetric: Metric = new Metric("new_lines", "INT", "Lines on New Code");
-
-export const complexityMetric: ColorMetric = new ColorMetric("complexity", "INT", "Complexity",
+export const complexityColorMetric: Metric = new Metric(complexityMetricId, "Complexity",
     "Scale from green (low complexity) to red (high complexity).");
 
-export const coverageMetric: ColorMetric = new ColorMetric("coverage", "PERCENT", "Coverage",
+export const coverageColorMetric: Metric = new Metric(coverageMetricId, "Coverage",
     "Scale from green (high coverage) to red (low or no coverage).");
 
-export const openIssuesMetric: ColorMetric = new ColorMetric("open_issues", "INT", "Open Issues",
+export const openIssuesColorMetric: Metric = new Metric("open_issues", "Open Issues",
     "Scale from green (no open issues) to red (a lot of issues).");
 
-export const duplicatedLinesOfCodeMetric: Metric = new Metric("duplicated_lines", "INT", "Duplicated Lines");
+export const numberOfAuthorsBlameColorMetric: Metric = new Metric("number_of_authors",
+    "Number of authors", "Number of authors based on the SCM blame info. See help page for details.");
 
 export class ColorMetrics {
 
-    public static availableColorMetrics: ColorMetric[] = [
-        noMetric,
-        complexityMetric,
-        coverageMetric,
-        violationMetric,
-        newIssuesMetric,
-        linesOfCodeMetric,
-        openIssuesMetric,
-        packageNameMetric
+    public static availableColorMetrics: Metric[] = [
+        noColorMetric,
+        complexityColorMetric,
+        coverageColorMetric,
+        numberOfAuthorsBlameColorMetric,
+        violationsColorMetric,
+        newIssuesColorMetric,
+        linesOfCodeColorMetric,
+        openIssuesColorMetric,
+        packageNameColorMetric
     ];
 
-    public static getColorMetricById(id: string): ColorMetric | undefined {
+    public static getColorMetricById(id: string): Metric | undefined {
         for (let availableColorMetric of ColorMetrics.availableColorMetrics) {
             if (availableColorMetric.id === id) {
                 return availableColorMetric;

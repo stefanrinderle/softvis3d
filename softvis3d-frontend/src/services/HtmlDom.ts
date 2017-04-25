@@ -1,5 +1,16 @@
-export default class HtmlDom {
-    public static getOffsetsById(id: string): { top: number; left: number; } {
+export class Offset {
+    public readonly top: number;
+    public readonly left: number;
+
+    constructor(top: number, left: number) {
+        this.top = top;
+        this.left = left;
+    }
+}
+
+export class HtmlDom {
+
+    public static getOffsetsById(id: string): Offset {
         let node = document.getElementById(id);
         let top = 0;
         let left = 0;
@@ -14,10 +25,7 @@ export default class HtmlDom {
             } while (node = node.offsetParent as HTMLElement);
         }
 
-        return {
-            top: top - topScroll,
-            left: left - leftScroll
-        };
+        return new Offset(top - topScroll, left - leftScroll);
     }
 
     public static getHeightById(id: string): number {
@@ -62,5 +70,20 @@ export default class HtmlDom {
         } else {
             return element.offsetWidth;
         }
+    }
+
+    public static isDescendant(parent: HTMLElement | null, child: HTMLElement | null): boolean {
+        if (!parent || !child) {
+            return false;
+        }
+
+        let node = child.parentNode;
+        while (node != null) {
+            if (node === parent) {
+                return true;
+            }
+            node = node.parentNode;
+        }
+        return false;
     }
 }

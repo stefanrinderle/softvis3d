@@ -26,7 +26,7 @@ export default class LayoutPicker extends React.Component<LayoutPickerProps, any
                             (layout) => <RadioButton
                                 key={layout.id}
                                 value={layout}
-                                label={layout.name}
+                                label={layout.label}
                             />
                         )
                     }

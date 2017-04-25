@@ -7,16 +7,16 @@ import SelectBoxBuilder from "../../../src/components/ui/selectbox/SelectBoxBuil
 describe("<SelectBoxBuilder/>", () => {
 
     const v1: SelectOptionValue = {
-        getLabel: () => "Test 1",
-        getId: () => "test 1"
+        label: "Test 1",
+        id: "test 1"
     };
     const v2: SelectOptionValue = {
-        getLabel: () => "Test 2",
-        getId: () => "test 2"
+        label: "Test 2",
+        id: "test 2"
     };
     const v3: SelectOptionValue = {
-        getLabel: () => "Test 3",
-        getId: () => "test 3"
+        label: "Test 3",
+        id: "test 3"
     };
 
     it("should build a functioning selectbox", () => {
@@ -33,11 +33,11 @@ describe("<SelectBoxBuilder/>", () => {
             />
         );
 
-        wrapper.find("select").simulate("change", {target: { value : v3.getId()}});
+        wrapper.find("select").simulate("change", {target: { value : v3.id}});
         assert(spy.withArgs(v3).calledOnce, "Value 3 was not triggered");
 
-        wrapper.find("select").simulate("change", {target: { value : v2.getId()}});
-        wrapper.find("select").simulate("change", {target: { value : v3.getId()}});
+        wrapper.find("select").simulate("change", {target: { value : v2.id}});
+        wrapper.find("select").simulate("change", {target: { value : v3.id}});
         assert(spy.neverCalledWith(v1), "Value 1 was triggered");
         assert(spy.withArgs(v2).calledOnce, "Value 2 was not triggered");
         assert(spy.withArgs(v3).calledTwice, "Value 3 was not triggered again");

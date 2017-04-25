@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import Softvis3D from "./components/Softvis3D";
-import LegacyConnector from "./legacy/LegacyConnector";
+import LegacyCityCreator from "./legacy/LegacyCityCreator";
 import appStatusStore from "./stores/AppStatusStore";
 import cityBuilderStore from "./stores/CityBuilderStore";
 import sceneStore from "./stores/SceneStore";
@@ -12,6 +12,7 @@ import SceneReactions from "./reactions/SceneReactions";
 import BuilderReactions from "./reactions/BuilderReactions";
 import ErrorAction from "./classes/status/ErrorAction";
 import VisualizationLinkService from "./services/VisualizationLinkService";
+import SonarQubeScmService from "./services/sonarqube/SonarQubeScmService";
 
 export interface AppConfiguration {
     api: string;
@@ -25,22 +26,24 @@ export default class App {
     private communicator: SonarQubeMetricsService;
     private legacyService: SonarQubeLegacyService;
     private visualizationLinkService: VisualizationLinkService;
-    private legacy: LegacyConnector;
+    private legacy: LegacyCityCreator;
+    private scmService: SonarQubeScmService;
+
     //noinspection JSMismatchedCollectionQueryUpdate
     private reactions: any[];
 
     public constructor(config: AppConfiguration) {
         appStatusStore.showLoadingQueue = config.isDev;
 
+        this.scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
         this.visualizationLinkService = new VisualizationLinkService(cityBuilderStore, sceneStore);
         this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
-        this.legacyService =
-            new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
-        this.legacy = new LegacyConnector(sceneStore, cityBuilderStore, appStatusStore);
+        this.legacyService = new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
+        this.legacy = new LegacyCityCreator(sceneStore, appStatusStore, this.scmService);
 
         this.reactions = [
-            new SceneReactions(sceneStore, cityBuilderStore, appStatusStore, this.legacy, this.legacyService),
-            new BuilderReactions(cityBuilderStore, sceneStore)
+            new SceneReactions(sceneStore, cityBuilderStore, this.legacy),
+            new BuilderReactions(cityBuilderStore, this.legacyService)
         ];
     }
 

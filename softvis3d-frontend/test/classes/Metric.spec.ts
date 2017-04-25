@@ -24,25 +24,24 @@ describe("Metric", () => {
 
     it("should construct minimal metric", () => {
         let expectedKey: string = "23";
-        let expectedType: MetricType = "INT";
         let expectedName: string = "diufgh";
+        let expectedDescription: string = "description";
 
-        let result: Metric = new Metric(expectedKey, expectedType, expectedName);
+        let result: Metric = new Metric(expectedKey, expectedName, expectedDescription);
 
         expect(result.id).to.be.eq(expectedKey);
-        expect(result.name).to.be.eq(expectedName);
-        expect(result.type).to.be.eq(expectedType);
+        expect(result.description).to.be.eq(expectedDescription);
     });
 
     it("should implement SelectOptionValue", () => {
         let expectedId: string = "23";
-        let expectedType: MetricType = "INT";
         let expectedName: string = "diufgh";
+        let expectedDescription: string = "description";
 
-        let result: Metric = new Metric(expectedId, expectedType, expectedName);
+        let result: Metric = new Metric(expectedId, expectedName, expectedDescription);
 
-        expect(result.getLabel()).to.be.eq(expectedName);
-        expect(result.getId()).to.be.eq(expectedId);
+        expect(result.label).to.be.eq(expectedName);
+        expect(result.id).to.be.eq(expectedId);
     });
 
 });

@@ -17,27 +17,32 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
-import VisualizationConfiguration from "../../src/classes/VisualizationOptions";
+import {assert, expect} from "chai";
 import Layout from "../../src/classes/Layout";
-import {evostreet, district} from "../../src/constants/Layouts";
+import {district, evostreet} from "../../src/constants/Layouts";
 import Scale from "../../src/classes/Scale";
-import {coverageMetric, linesOfCodeMetric, complexityMetric, noMetric} from "../../src/constants/Metrics";
+import {
+    complexityMetricId,
+    coverageColorMetric,
+    linesOfCodeMetricId,
+    noColorMetric,
+    noMetricId
+} from "../../src/constants/Metrics";
 import Metric from "../../src/classes/Metric";
-import {LOGARITHMIC, Scales} from "../../src/constants/Scales";
-import ColorMetric from "../../src/classes/ColorMetric";
+import {EXPONENTIAL, LOGARITHMIC, Scales} from "../../src/constants/Scales";
+import VisualizationOptions from "../../src/classes/VisualizationOptions";
 
 describe("VisualizationOptions", () => {
 
     it("should construct config", () => {
-        let metricWidth: Metric = complexityMetric;
-        let metricHeight: Metric = linesOfCodeMetric;
-        let metricColor: ColorMetric = coverageMetric;
+        let metricWidth: Metric = new Metric(complexityMetricId, " -- None -- ", "");
+        let metricHeight: Metric = new Metric(linesOfCodeMetricId, " -- None -- ", "");
+        let metricColor: Metric = coverageColorMetric;
         let scalingMethod: Scale = Scales.availableScales[0];
         let layout: Layout = evostreet;
 
-        let result: VisualizationConfiguration =
-            new VisualizationConfiguration(layout, metricWidth, metricHeight, metricColor, scalingMethod);
+        let result: VisualizationOptions =
+            new VisualizationOptions(layout, metricWidth, metricHeight, metricColor, scalingMethod);
 
         expect(result.layout).to.be.eq(layout);
         expect(result.footprint).to.be.eq(metricWidth);
@@ -47,19 +52,41 @@ describe("VisualizationOptions", () => {
     });
 
     it("should create default config", () => {
-        let metricWidth: Metric = noMetric;
-        let metricHeight: Metric = noMetric;
-        let metricColor: Metric = noMetric;
+        let metricColor: Metric = noColorMetric;
         let scalingmethod: Scale = LOGARITHMIC;
         let layout: Layout = district;
 
-        let result: VisualizationConfiguration = VisualizationConfiguration.createDefault();
+        let result: VisualizationOptions = VisualizationOptions.createDefault();
 
         expect(result.layout).to.be.eq(layout);
-        expect(result.footprint).to.be.eq(metricWidth);
-        expect(result.height).to.be.eq(metricHeight);
+        expect(result.footprint.id).to.be.eq(noMetricId);
+        expect(result.height.id).to.be.eq(noMetricId);
         expect(result.metricColor).to.be.eq(metricColor);
         expect(result.scale).to.be.eq(scalingmethod);
+    });
+
+    it("should check equals without color", () => {
+        let exampleMetric: Metric = new Metric(noMetricId, "", "");
+        let result: VisualizationOptions =
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC);
+
+        assert(result.equalsWithoutColor(result));
+
+        let copy: VisualizationOptions =
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC);
+
+        assert(result.equalsWithoutColor(copy));
+        assert(copy.equalsWithoutColor(result));
+
+        copy.metricColor = coverageColorMetric;
+
+        assert(result.equalsWithoutColor(copy));
+        assert(copy.equalsWithoutColor(result));
+
+        copy.scale = EXPONENTIAL;
+
+        expect(result.equalsWithoutColor(copy)).to.be.false;
+        expect(copy.equalsWithoutColor(result)).to.be.false;
     });
 
 });

@@ -1,40 +1,48 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import { observer } from "mobx-react";
+import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import Metric from "../../classes/Metric";
-import {custom} from "../../constants/Profiles";
+import { custom } from "../../constants/Profiles";
 import Scale from "../../classes/Scale";
-import {Scales} from "../../constants/Scales";
+import { Scales } from "../../constants/Scales";
 
 @observer
 export default class OptionsAdvanced extends React.Component<{ store: CityBuilderStore; }, any> {
     public render() {
+
+        let footprintMetric: Metric = this.props.store.footprintMetric;
+        let heightMetric: Metric = this.props.store.heightMetric;
+
         return (
             <Category label="Advanced Options" className="advanced" toggle={true} initialVisibility={false}>
                 <div className="left-column">
                     <div className="builder-option">
                         <SelectBoxBuilder
                             label="Metric - Footprint"
-                            value={this.props.store.profile.footprint}
+                            value={footprintMetric}
                             options={this.props.store.genericMetrics.asSelectOptions}
                             onChange={(m: Metric) => {
                                 this.props.store.profile = custom;
-                                this.props.store.profile.footprint = m;
+                                this.props.store.profile.footprintMetricId = m.id;
                             }}
                         />
+                        <p className="selection-description">{ footprintMetric.description }</p>
                     </div>
+                </div>
+                <div className="middle-column">
                     <div className="builder-option">
-                    <SelectBoxBuilder
+                        <SelectBoxBuilder
                             label="Metric - Height"
-                            value={this.props.store.profile.height}
+                            value={heightMetric}
                             options={this.props.store.genericMetrics.asSelectOptions}
                             onChange={(m: Metric) => {
                                 this.props.store.profile = custom;
-                                this.props.store.profile.height = m;
+                                this.props.store.profile.heightMetricId = m.id;
                             }}
                         />
+                        <p className="selection-description">{ heightMetric.description }</p>
                     </div>
                 </div>
                 <div className="right-column">
@@ -47,10 +55,8 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                                 this.props.store.profile.scale = scale;
                             }}
                         />
+                        <p className="selection-description">{ this.props.store.profile.scale.description }</p>
                     </div>
-                    <p className="selection-description profile-description">
-                        Change how the metric values will be scaled for footprint and height.
-                    </p>
                 </div>
             </Category>
         );

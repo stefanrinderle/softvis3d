@@ -19,10 +19,10 @@
  */
 package de.rinderle.softvis3d.preprocessing.tree;
 
-import de.rinderle.softvis3d.base.domain.tree.RootTreeNode;
 import de.rinderle.softvis3d.dao.DaoService;
 import de.rinderle.softvis3d.domain.VisualizationRequest;
 import de.rinderle.softvis3d.domain.sonar.SonarMeasure;
+import de.rinderle.softvis3d.domain.tree.RootTreeNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
