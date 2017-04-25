@@ -1,12 +1,12 @@
-import {observable} from "mobx";
+import { observable } from "mobx";
 import Layout from "../classes/Layout";
-import {evostreet} from "../constants/Layouts";
-import {ColorMetrics, noColorMetric, noMetricId} from "../constants/Metrics";
+import { evostreet } from "../constants/Layouts";
+import { ColorMetrics, noColorMetric, noMetricId } from "../constants/Metrics";
 import MetricSet from "../classes/MetricSet";
 import Profile from "../classes/Profile";
-import {custom, defaultProfile, Profiles} from "../constants/Profiles";
-import {PreviewPicture} from "../classes/PreviewPicture";
-import {availablePreviewPictures, placeholder} from "../constants/PreviewPictures";
+import { custom, defaultProfile, Profiles } from "../constants/Profiles";
+import { PreviewPicture } from "../classes/PreviewPicture";
+import { availablePreviewPictures, placeholder } from "../constants/PreviewPictures";
 import Metric from "../classes/Metric";
 
 class CityBuilderStore {

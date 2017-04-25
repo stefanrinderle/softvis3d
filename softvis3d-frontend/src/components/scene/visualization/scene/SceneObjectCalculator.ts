@@ -17,9 +17,9 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
-import {Rectangle} from "../../domain/Rectangle";
-import {Offset} from "../../../../services/HtmlDom";
+import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
+import { Rectangle } from "../../domain/Rectangle";
+import { Offset } from "../../../../services/HtmlDom";
 
 export default class SceneObjectCalculator {
 

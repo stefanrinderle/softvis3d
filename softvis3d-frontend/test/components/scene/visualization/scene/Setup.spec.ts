@@ -17,8 +17,8 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {assert, expect} from "chai";
-import {Setup} from "../../../../../src/components/scene/visualization/scene/Setup";
+import { assert, expect } from "chai";
+import { Setup } from "../../../../../src/components/scene/visualization/scene/Setup";
 import * as Sinon from "sinon";
 
 describe("Setup", () => {

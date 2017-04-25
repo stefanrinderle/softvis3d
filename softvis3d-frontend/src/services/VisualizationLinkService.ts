@@ -1,15 +1,15 @@
-import {CityBuilderStore} from "../stores/CityBuilderStore";
+import { CityBuilderStore } from "../stores/CityBuilderStore";
 import Metric from "../classes/Metric";
 import Layout from "../classes/Layout";
-import {custom} from "../constants/Profiles";
+import { custom } from "../constants/Profiles";
 import Scale from "../classes/Scale";
-import {ColorMetrics} from "../constants/Metrics";
-import {Scales} from "../constants/Scales";
-import {Layouts} from "../constants/Layouts";
+import { ColorMetrics } from "../constants/Metrics";
+import { Scales } from "../constants/Scales";
+import { Layouts } from "../constants/Layouts";
 import VisualizationLinkParams from "../classes/VisualizationLinkParams";
-import {SceneStore} from "../stores/SceneStore";
-import {Vector3} from "three";
-import {default as UrlParameterService, Parameters } from "./UrlParameterService";
+import { SceneStore } from "../stores/SceneStore";
+import { Vector3 } from "three";
+import { default as UrlParameterService, Parameters } from "./UrlParameterService";
 
 export default class VisualizationLinkService {
 

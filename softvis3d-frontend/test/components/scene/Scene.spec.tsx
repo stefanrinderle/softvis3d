@@ -1,15 +1,15 @@
 import "jsdom-global/register";
 import * as React from "react";
 import * as Sinon from "sinon";
-import {SceneStore} from "../../../src/stores/SceneStore";
-import {assert, expect} from "chai";
-import {shallow} from "enzyme";
+import { SceneStore } from "../../../src/stores/SceneStore";
+import { assert, expect } from "chai";
+import { shallow } from "enzyme";
 import Scene from "../../../src/components/scene/Scene";
 import SceneInformation from "../../../src/components/scene/information/SceneInformation";
-import {KeyLegend} from "../../../src/components/scene/KeyLegend";
+import { KeyLegend } from "../../../src/components/scene/KeyLegend";
 import ThreeSceneService from "../../../src/components/scene/visualization/ThreeSceneService";
-import {Vector3} from "three";
-import {SceneMouseInteractions} from "../../../src/components/scene/events/SceneMouseInteractions";
+import { Vector3 } from "three";
+import { SceneMouseInteractions } from "../../../src/components/scene/events/SceneMouseInteractions";
 
 describe("<Scene/>", () => {
 

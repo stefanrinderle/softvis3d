@@ -17,16 +17,13 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {MeshLambertMaterial, BoxGeometry, FontLoader} from "three";
-import {SoftVis3dMesh} from "../domain/SoftVis3dMesh";
-import {SoftVis3dShape} from "../domain/SoftVis3dShape";
-import {TreeService} from "../../../services/TreeService";
-import sceneStore from "../../../stores/SceneStore";
-import {TextStreetObject} from "./objects/TextStreetObject";
-import {TextPlatformObject} from "./objects/TextPlatformObject";
-import { MeshLambertMaterial, BoxGeometry } from "three";
-import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
+import { BoxGeometry, FontLoader, MeshLambertMaterial } from "three";
 import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
+import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
+import { TextStreetObject } from "./TextStreetObject";
+import { TextPlatformObject } from "./TextPlatformObject";
+import { TreeService } from "../../../../services/TreeService";
+import sceneStore from "../../../../stores/SceneStore";
 
 export class ObjectFactory {
 

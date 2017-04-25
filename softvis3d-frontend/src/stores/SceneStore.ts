@@ -1,7 +1,7 @@
-import {computed, observe, observable} from "mobx";
-import {TreeService} from "../services/TreeService";
+import { computed, observable, observe } from "mobx";
+import { TreeService } from "../services/TreeService";
 import VisualizationOptions from "../classes/VisualizationOptions";
-import {Vector3} from "three";
+import { Vector3 } from "three";
 
 class SceneStore {
     @observable

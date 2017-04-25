@@ -1,17 +1,17 @@
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import * as Sinon from "sinon";
 import ThreeSceneService from "../../../../src/components/scene/visualization/ThreeSceneService";
 import SoftVis3dScene from "../../../../src/components/scene/visualization/scene/SoftVis3dScene";
-import {Vector3} from "three";
-import {SoftVis3dShape} from "../../../../src/components/scene/domain/SoftVis3dShape";
-import {Wrangler} from "../../../../src/components/scene/visualization/objects/Wrangler";
-import {SelectionCalculator} from "../../../../src/components/scene/visualization/SelectionCalculator";
-import {HtmlDom} from "../../../../src/services/HtmlDom";
+import { Vector3 } from "three";
+import { SoftVis3dShape } from "../../../../src/components/scene/domain/SoftVis3dShape";
+import { Wrangler } from "../../../../src/components/scene/visualization/objects/Wrangler";
+import { SelectionCalculator } from "../../../../src/components/scene/visualization/SelectionCalculator";
+import { HtmlDom } from "../../../../src/services/HtmlDom";
 import VisualizationOptions from "../../../../src/classes/VisualizationOptions";
-import {evostreet} from "../../../../src/constants/Layouts";
+import { evostreet } from "../../../../src/constants/Layouts";
 import Metric from "../../../../src/classes/Metric";
-import {complexityColorMetric, noColorMetric, noMetricId} from "../../../../src/constants/Metrics";
-import {LOGARITHMIC} from "../../../../src/constants/Scales";
+import { complexityColorMetric, noColorMetric, noMetricId } from "../../../../src/constants/Metrics";
+import { LOGARITHMIC } from "../../../../src/constants/Scales";
 
 describe("ThreeSceneService", () => {
 

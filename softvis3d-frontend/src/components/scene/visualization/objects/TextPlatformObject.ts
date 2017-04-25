@@ -17,9 +17,9 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {SoftVis3dMesh} from "../../domain/SoftVis3dMesh";
-import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
-import {BaseTextObject} from "./BaseTextObject";
+import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
+import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
+import { BaseTextObject } from "./BaseTextObject";
 
 export class TextPlatformObject extends BaseTextObject {
 
@@ -33,13 +33,13 @@ export class TextPlatformObject extends BaseTextObject {
 
         cube.rotation.x += targetRotation + Math.PI;
 
-        cube.position.x = element.position._x + (element.dimensions._length / 2) - textGeo.boundingBox.max.length();
-        cube.position.z = cube.position.z + (element.dimensions._width / 2);
+        cube.position.x = element.position._x + (element.dimensions.length / 2) - textGeo.boundingBox.max.length();
+        cube.position.z = cube.position.z + (element.dimensions.width / 2);
     }
 
     protected calcSize(size: number, element: SoftVis3dShape) {
-        if (size > element.dimensions._width) {
-            size = element.dimensions._width;
+        if (size > element.dimensions.width) {
+            size = element.dimensions.width;
         } else if (size < 10) {
             size = 10;
         }

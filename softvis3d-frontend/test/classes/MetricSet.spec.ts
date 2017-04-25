@@ -17,10 +17,10 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
+import { expect } from "chai";
 import Metric from "../../src/classes/Metric";
 import MetricSet from "../../src/classes/MetricSet";
-import {newLinesOfCodeMetricId} from "../../src/constants/Metrics";
+import { newLinesOfCodeMetricId } from "../../src/constants/Metrics";
 
 describe("MetricSet", () => {
 

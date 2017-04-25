@@ -18,12 +18,12 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import * as three from "three";
-import {PerspectiveCamera, Scene, Vector3, WebGLRenderer} from "three";
-import {Camera} from "./Camera";
-import {Setup} from "./Setup";
-import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
-import {Rectangle} from "../../domain/Rectangle";
-import {HtmlDom, Offset} from "../../../../services/HtmlDom";
+import { PerspectiveCamera, Scene, Vector3, WebGLRenderer } from "three";
+import { Camera } from "./Camera";
+import { Setup } from "./Setup";
+import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
+import { Rectangle } from "../../domain/Rectangle";
+import { HtmlDom, Offset } from "../../../../services/HtmlDom";
 import * as OrbitControlsExtender from "three-orbit-controls";
 import SceneObjectCalculator from "./SceneObjectCalculator";
 

@@ -1,4 +1,4 @@
-import {computed, observable} from "mobx";
+import { computed, observable } from "mobx";
 import LoadAction from "../classes/status/LoadAction";
 import ErrorAction from "../classes/status/ErrorAction";
 import StatusActionQueue from "../classes/status/StatusActionQueue";

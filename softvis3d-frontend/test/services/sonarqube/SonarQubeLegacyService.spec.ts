@@ -17,12 +17,12 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {assert, expect} from "chai";
-import {AppStatusStore} from "../../../src/stores/AppStatusStore";
+import { assert, expect } from "chai";
+import { AppStatusStore } from "../../../src/stores/AppStatusStore";
 import * as Sinon from "sinon";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
+import { CityBuilderStore } from "../../../src/stores/CityBuilderStore";
 import SonarQubeLegacyService from "../../../src/services/sonarqube/SonarQubeLegacyService";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import { SceneStore } from "../../../src/stores/SceneStore";
 import VisualizationOptions from "../../../src/classes/VisualizationOptions";
 
 describe("SonarQubeLegacyService", () => {

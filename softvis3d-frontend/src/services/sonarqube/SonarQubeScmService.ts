@@ -17,12 +17,12 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {BackendService} from "./BackendService";
-import {AppStatusStore} from "../../stores/AppStatusStore";
+import { BackendService } from "./BackendService";
+import { AppStatusStore } from "../../stores/AppStatusStore";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
-import {SceneStore, default as sceneStore} from "../../stores/SceneStore";
-import {TreeService} from "../TreeService";
+import { default as sceneStore, SceneStore } from "../../stores/SceneStore";
+import { TreeService } from "../TreeService";
 import ScmCalculator from "./ScmCalculator";
 
 export default class SonarQubeScmService extends BackendService {

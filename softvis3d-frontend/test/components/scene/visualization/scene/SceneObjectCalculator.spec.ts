@@ -18,13 +18,13 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {SoftVis3dShape} from "../../../../../src/components/scene/domain/SoftVis3dShape";
+import { expect } from "chai";
+import { SoftVis3dShape } from "../../../../../src/components/scene/domain/SoftVis3dShape";
 import SceneObjectCalculator from "../../../../../src/components/scene/visualization/scene/SceneObjectCalculator";
-import {Dimension} from "../../../../../src/components/scene/domain/Dimension";
-import {Rectangle} from "../../../../../src/components/scene/domain/Rectangle";
-import {Vector2} from "three";
-import {Offset} from "../../../../../src/services/HtmlDom";
+import { Dimension } from "../../../../../src/components/scene/domain/Dimension";
+import { Rectangle } from "../../../../../src/components/scene/domain/Rectangle";
+import { Vector2 } from "three";
+import { Offset } from "../../../../../src/services/HtmlDom";
 
 describe("SceneObjectCalculator", () => {
 

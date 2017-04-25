@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {DirectionalLight, Scene, WebGLRenderer} from "three";
+import { DirectionalLight, Scene, WebGLRenderer } from "three";
 
 export class Setup {
 

@@ -18,13 +18,13 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert, expect} from "chai";
-import {Wrangler} from "../../../../../src/components/scene/visualization/objects/Wrangler";
+import { assert, expect } from "chai";
+import { Wrangler } from "../../../../../src/components/scene/visualization/objects/Wrangler";
 import * as Sinon from "sinon";
-import {SoftVis3dShape} from "../../../../../src/components/scene/domain/SoftVis3dShape";
-import {Color, Geometry, MeshLambertMaterial, Scene} from "three";
-import {ObjectFactory} from "../../../../../src/components/scene/visualization/objects/ObjectFactory";
-import {SoftVis3dMesh} from "../../../../../src/components/scene/domain/SoftVis3dMesh";
+import { SoftVis3dShape } from "../../../../../src/components/scene/domain/SoftVis3dShape";
+import { Color, Geometry, MeshLambertMaterial, Scene } from "three";
+import { ObjectFactory } from "../../../../../src/components/scene/visualization/objects/ObjectFactory";
+import { SoftVis3dMesh } from "../../../../../src/components/scene/domain/SoftVis3dMesh";
 
 describe("Wrangler", () => {
 

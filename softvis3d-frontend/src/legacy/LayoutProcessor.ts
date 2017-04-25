@@ -22,11 +22,15 @@
 
 import * as CodeCityVis from "codecity-visualizer";
 import Softvis3dModel from "./Softvis3dModel";
-import {TreeNodeInterface} from "codecity-visualizer/types/interfaces";
+import { TreeNodeInterface } from "codecity-visualizer/types/interfaces";
 import {
-    complexityColorMetric, coverageColorMetric, linesOfCodeColorMetric, newIssuesColorMetric,
+    complexityColorMetric,
+    coverageColorMetric,
+    linesOfCodeColorMetric,
+    newIssuesColorMetric,
     numberOfAuthorsBlameColorMetric,
-    openIssuesColorMetric, packageNameColorMetric,
+    openIssuesColorMetric,
+    packageNameColorMetric,
     violationsColorMetric
 } from "../constants/Metrics";
 

@@ -1,5 +1,5 @@
 import StatusAction from "./StatusAction";
-import {computed, observable} from "mobx";
+import { computed, observable } from "mobx";
 
 export default class StatusActionQueue<T extends StatusAction> {
     @observable

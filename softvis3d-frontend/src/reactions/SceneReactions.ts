@@ -1,6 +1,6 @@
-import {SceneStore} from "../stores/SceneStore";
-import {CityBuilderStore} from "../stores/CityBuilderStore";
-import {reaction} from "mobx";
+import { SceneStore } from "../stores/SceneStore";
+import { CityBuilderStore } from "../stores/CityBuilderStore";
+import { reaction } from "mobx";
 import LegacyCityCreator from "../legacy/LegacyCityCreator";
 import LoadAction from "../classes/status/LoadAction";
 

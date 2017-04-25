@@ -17,19 +17,15 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import Layout from "../../src/classes/Layout";
-import {district, evostreet} from "../../src/constants/Layouts";
+import { district, evostreet } from "../../src/constants/Layouts";
 import Scale from "../../src/classes/Scale";
 import {
-    complexityMetricId,
-    coverageColorMetric,
-    linesOfCodeMetricId,
-    noColorMetric,
-    noMetricId
+    complexityMetricId, coverageColorMetric, linesOfCodeMetricId, noColorMetric, noMetricId
 } from "../../src/constants/Metrics";
 import Metric from "../../src/classes/Metric";
-import {EXPONENTIAL, LOGARITHMIC, Scales} from "../../src/constants/Scales";
+import { EXPONENTIAL, LOGARITHMIC, Scales } from "../../src/constants/Scales";
 import VisualizationOptions from "../../src/classes/VisualizationOptions";
 
 describe("VisualizationOptions", () => {

@@ -17,14 +17,14 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
+import { expect } from "chai";
 import * as Sinon from "sinon";
-import {SceneStore} from "../../src/stores/SceneStore";
-import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
+import { SceneStore } from "../../src/stores/SceneStore";
+import { CityBuilderStore } from "../../src/stores/CityBuilderStore";
 import SceneReactions from "../../src/reactions/SceneReactions";
-import {AppStatusStore} from "../../src/stores/AppStatusStore";
+import { AppStatusStore } from "../../src/stores/AppStatusStore";
 import LegacyCityCreator from "../../src/legacy/LegacyCityCreator";
-import {complexityColorMetric} from "../../src/constants/Metrics";
+import { complexityColorMetric } from "../../src/constants/Metrics";
 import SonarQubeScmService from "../../src/services/sonarqube/SonarQubeScmService";
 
 describe("SceneReactions", () => {

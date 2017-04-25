@@ -1,6 +1,6 @@
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import * as Sinon from "sinon";
-import {EventDispatcher} from "../../../../src/components/scene/events/EventDispatcher";
+import { EventDispatcher } from "../../../../src/components/scene/events/EventDispatcher";
 import Event from "../../../../src/components/scene/events/Event";
 
 describe("EventDispatcher", () => {

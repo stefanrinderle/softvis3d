@@ -18,8 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {Camera} from "../../../../../src/components/scene/visualization/scene/Camera";
+import { expect } from "chai";
+import { Camera } from "../../../../../src/components/scene/visualization/scene/Camera";
 
 describe("Camera", () => {
 

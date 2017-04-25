@@ -1,17 +1,17 @@
 import * as React from "react";
-import {expect} from "chai";
-import {shallow} from "enzyme";
+import { expect } from "chai";
+import { shallow } from "enzyme";
 import * as Sinon from "sinon";
 import Softvis3D from "../../src/components/Softvis3D";
-import cityBuilderStore, {CityBuilderStore} from "../../src/stores/CityBuilderStore";
+import cityBuilderStore, { CityBuilderStore } from "../../src/stores/CityBuilderStore";
 import CityBuilder from "../../src/components/citybuilder/CityBuilder";
 import Visualization from "../../src/components/visualization/Visualization";
-import {AppStatusStore, default as appStatusStore} from "../../src/stores/AppStatusStore";
-import sceneStore, {SceneStore} from "../../src/stores/SceneStore";
+import { AppStatusStore, default as appStatusStore } from "../../src/stores/AppStatusStore";
+import sceneStore, { SceneStore } from "../../src/stores/SceneStore";
 import Status from "../../src/components/status/Status";
 import LoadAction from "../../src/classes/status/LoadAction";
 import VisualizationLinkService from "../../src/services/VisualizationLinkService";
-import {ObjectFactory} from "../../src/components/scene/visualization/ObjectFactory";
+import { ObjectFactory } from "../../src/components/scene/visualization/objects/ObjectFactory";
 
 describe("<SoftVis3D/>", () => {
 

@@ -18,8 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {HtmlDom} from "../../../services/HtmlDom";
-import {EventDispatcher} from "./EventDispatcher";
+import { HtmlDom } from "../../../services/HtmlDom";
+import { EventDispatcher } from "./EventDispatcher";
 import Event from "./Event";
 
 export class SceneMouseInteractions {

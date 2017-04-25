@@ -1,8 +1,8 @@
 import Metric from "../classes/Metric";
 import Layout from "../classes/Layout";
 import Scale from "../classes/Scale";
-import {Vector3} from "three";
-import {Parameters} from "../services/UrlParameterService";
+import { Vector3 } from "three";
+import { Parameters } from "../services/UrlParameterService";
 
 export default class VisualizationLinkParams {
 

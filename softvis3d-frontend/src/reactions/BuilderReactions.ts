@@ -1,5 +1,5 @@
-import {CityBuilderStore} from "../stores/CityBuilderStore";
-import {reaction} from "mobx";
+import { CityBuilderStore } from "../stores/CityBuilderStore";
+import { reaction } from "mobx";
 import VisualizationOptions from "../classes/VisualizationOptions";
 import SonarQubeLegacyService from "../services/sonarqube/SonarQubeLegacyService";
 

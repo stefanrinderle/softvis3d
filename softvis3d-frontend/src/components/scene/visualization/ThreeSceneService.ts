@@ -17,12 +17,12 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {Vector3} from "three";
-import {SoftVis3dShape} from "../domain/SoftVis3dShape";
-import {SelectionCalculator} from "./SelectionCalculator";
-import {HtmlDom, Offset} from "../../../services/HtmlDom";
+import { Vector3 } from "three";
+import { SoftVis3dShape } from "../domain/SoftVis3dShape";
+import { SelectionCalculator } from "./SelectionCalculator";
+import { HtmlDom, Offset } from "../../../services/HtmlDom";
 import SoftVis3dScene from "./scene/SoftVis3dScene";
-import {Wrangler} from "./objects/Wrangler";
+import { Wrangler } from "./objects/Wrangler";
 import VisualizationOptions from "../../../classes/VisualizationOptions";
 
 export default class ThreeSceneService {

@@ -17,9 +17,9 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {MeshLambertMaterial, TextGeometry} from "three";
-import {SoftVis3dMesh} from "../../domain/SoftVis3dMesh";
-import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
+import { MeshLambertMaterial, TextGeometry } from "three";
+import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
+import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
 
 export abstract class BaseTextObject {
 
@@ -29,7 +29,7 @@ export abstract class BaseTextObject {
         let bevelSize = 1;
         let bevelEnabled = false;
 
-        let maxValue = Math.max(element.dimensions._length, element.dimensions._width, element.dimensions._height);
+        let maxValue = Math.max(element.dimensions.length, element.dimensions.width, element.dimensions.height);
         let size = maxValue / 25;
         let height = 3;
 
@@ -53,7 +53,7 @@ export abstract class BaseTextObject {
             transparent: false
         });
 
-        let z = element.position._z + Math.floor(element.dimensions._height / 2);
+        let z = element.position._z + Math.floor(element.dimensions.height / 2);
 
         // TODO: Should be set an id? If yes, which one?
         let cube: SoftVis3dMesh = new SoftVis3dMesh("uidhfisuhdfiushdfiuhsdifuhsi", textGeo, material);

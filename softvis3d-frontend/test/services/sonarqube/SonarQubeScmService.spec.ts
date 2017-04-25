@@ -17,12 +17,12 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {assert, expect} from "chai";
-import {AppStatusStore} from "../../../src/stores/AppStatusStore";
+import { assert, expect } from "chai";
+import { AppStatusStore } from "../../../src/stores/AppStatusStore";
 import * as Sinon from "sinon";
 import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
-import {SceneStore} from "../../../src/stores/SceneStore";
-import {TreeService} from "../../../src/services/TreeService";
+import { SceneStore } from "../../../src/stores/SceneStore";
+import { TreeService } from "../../../src/services/TreeService";
 import ScmCalculator from "../../../src/services/sonarqube/ScmCalculator";
 
 describe("SonarQubeScmService", () => {

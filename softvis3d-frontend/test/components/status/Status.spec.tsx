@@ -1,7 +1,7 @@
 import * as React from "react";
-import {expect} from "chai";
-import {shallow} from "enzyme";
-import {AppStatusStore} from "../../../src/stores/AppStatusStore";
+import { expect } from "chai";
+import { shallow } from "enzyme";
+import { AppStatusStore } from "../../../src/stores/AppStatusStore";
 import Status from "../../../src/components/status/Status";
 import SoftVis3DLogo from "../../../src/components/status/SoftVis3DLogo";
 import Loading from "../../../src/components/status/loading/Loading";

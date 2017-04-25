@@ -17,16 +17,16 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {SoftVis3dMesh} from "../../domain/SoftVis3dMesh";
-import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
-import {BaseTextObject} from "./BaseTextObject";
+import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
+import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
+import { BaseTextObject } from "./BaseTextObject";
 
 export class TextStreetObject extends BaseTextObject {
 
     private rotate = false;
 
     public create(element: SoftVis3dShape, name: string, font: any): SoftVis3dMesh {
-        if (element.dimensions._width > element.dimensions._length) {
+        if (element.dimensions.width > element.dimensions.length) {
             this.rotate = true;
         }
 
@@ -58,14 +58,14 @@ export class TextStreetObject extends BaseTextObject {
 
     protected calcSize(size: number, element: SoftVis3dShape): number {
         if (this.rotate) {
-            if (size > element.dimensions._length) {
-                size = element.dimensions._length;
+            if (size > element.dimensions.length) {
+                size = element.dimensions.length;
             } else if (size < 10) {
                 size = 10;
             }
         } else {
-            if (size > element.dimensions._width) {
-                size = element.dimensions._width;
+            if (size > element.dimensions.width) {
+                size = element.dimensions.width;
             } else if (size < 10) {
                 size = 10;
             }

@@ -1,6 +1,6 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {AppStatusStore} from "../../stores/AppStatusStore";
+import { observer } from "mobx-react";
+import { AppStatusStore } from "../../stores/AppStatusStore";
 import Loading from "./loading/Loading";
 import SoftVis3DLogo from "./SoftVis3DLogo";
 import ErrorStatus from "./ErrorStatus";

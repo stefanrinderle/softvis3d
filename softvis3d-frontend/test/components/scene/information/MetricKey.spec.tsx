@@ -1,6 +1,6 @@
 import * as React from "react";
-import {shallow} from "enzyme";
-import {expect} from "chai";
+import { shallow } from "enzyme";
+import { expect } from "chai";
 import MetricKey from "../../../../src/components/scene/information/MetricKey";
 import Metric from "../../../../src/classes/Metric";
 

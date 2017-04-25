@@ -1,8 +1,8 @@
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import * as Sinon from "sinon";
 import Event from "../../../../src/components/scene/events/Event";
-import {SceneMouseInteractions} from "../../../../src/components/scene/events/SceneMouseInteractions";
-import {HtmlDom} from "../../../../src/services/HtmlDom";
+import { SceneMouseInteractions } from "../../../../src/components/scene/events/SceneMouseInteractions";
+import { HtmlDom } from "../../../../src/services/HtmlDom";
 
 describe("SceneMouseInteractions", () => {
 

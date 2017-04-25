@@ -1,6 +1,6 @@
-import {assert} from "chai";
+import { assert } from "chai";
 import * as Sinon from "sinon";
-import {SceneKeyInteractions} from "../../../../src/components/scene/events/SceneKeyInteractions";
+import { SceneKeyInteractions } from "../../../../src/components/scene/events/SceneKeyInteractions";
 
 describe("SceneKeyInteractions", () => {
 

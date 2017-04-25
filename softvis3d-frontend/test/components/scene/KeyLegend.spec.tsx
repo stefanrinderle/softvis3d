@@ -1,7 +1,7 @@
 import * as React from "react";
-import {expect} from "chai";
-import {mount} from "enzyme";
-import {KeyLegend} from "../../../src/components/scene/KeyLegend";
+import { expect } from "chai";
+import { mount } from "enzyme";
+import { KeyLegend } from "../../../src/components/scene/KeyLegend";
 
 describe("<KeyLegend/>", () => {
 

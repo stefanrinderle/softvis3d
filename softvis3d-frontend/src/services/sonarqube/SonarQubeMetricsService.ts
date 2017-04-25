@@ -17,14 +17,14 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {BackendService} from "./BackendService";
-import {AppStatusStore} from "../../stores/AppStatusStore";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import { BackendService } from "./BackendService";
+import { AppStatusStore } from "../../stores/AppStatusStore";
+import { CityBuilderStore } from "../../stores/CityBuilderStore";
 import Metric from "../../classes/Metric";
-import {leakPeriod} from "../../constants/Profiles";
+import { leakPeriod } from "../../constants/Profiles";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
-import {newLinesToCoverMetricId} from "../../constants/Metrics";
+import { newLinesToCoverMetricId } from "../../constants/Metrics";
 
 export interface SonarQubeApiMetric {
     id: number;
