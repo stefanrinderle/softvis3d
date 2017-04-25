@@ -37,7 +37,7 @@ exports.config = {
   capabilities: {
     // 'browserName': 'chrome',
     // 'chromeOptions': {
-    //   'args': ['show-fps-counter=true', '–ignore-gpu-blacklist', '--enable-webgl']
+    //   'args': ['show-fps-counter=true', '–ignore-gpu-blacklist', '--enable-webgl', "--log-path=chromedriver.log"]
     // }
     'browserName': 'firefox'
   },
@@ -54,6 +54,9 @@ exports.config = {
 
         jasmine.getEnv().addReporter(junitReporter);
         jasmine.getEnv().addReporter(reporter);
+
+        let SpecReporter = require('jasmine-spec-reporter').SpecReporter;
+        jasmine.getEnv().addReporter(new SpecReporter({displayStacktrace: 'all'}));
     },
 
   beforeLaunch: function() {

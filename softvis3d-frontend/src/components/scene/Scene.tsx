@@ -1,11 +1,11 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {SceneStore} from "../../stores/SceneStore";
+import { observer } from "mobx-react";
+import { SceneStore } from "../../stores/SceneStore";
 import SceneInformation from "./information/SceneInformation";
-import {KeyLegend} from "./KeyLegend";
-import {SceneMouseInteractions} from "./events/SceneMouseInteractions";
+import { KeyLegend } from "./KeyLegend";
+import { SceneMouseInteractions } from "./events/SceneMouseInteractions";
 import Event from "./events/Event";
-import {SceneKeyInteractions} from "./events/SceneKeyInteractions";
+import { SceneKeyInteractions } from "./events/SceneKeyInteractions";
 import ThreeSceneService from "./visualization/ThreeSceneService";
 import SoftVis3dScene from "./visualization/scene/SoftVis3dScene";
 
@@ -67,6 +67,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
             this._threeSceneService.update(sceneStore.shapes, sceneStore.options, sceneStore.cameraPosition);
             this._threeSceneService.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
             this.canvasState = sceneStore.shapesHash;
+            this.updateCameraPosition();
         }
 
         let cssClass = "scene";
