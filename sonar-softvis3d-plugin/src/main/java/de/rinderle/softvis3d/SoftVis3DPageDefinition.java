@@ -27,8 +27,8 @@ import static org.sonar.api.web.page.Page.Scope.COMPONENT;
 
 public class SoftVis3DPageDefinition implements PageDefinition {
 
-  static final String PLUGIN_KEY = "softvis3d";
-  static final String PLUGIN_NAME = "SoftVis3D Viewer";
+  private static final String PLUGIN_KEY = "softvis3d";
+  private static final String PLUGIN_NAME = "SoftVis3D Viewer";
 
   private static final String PLUGIN_OVERVIEW = "overview_page";
 
