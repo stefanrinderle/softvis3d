@@ -1,8 +1,8 @@
 import * as React from "react";
-import {expect, assert} from "chai";
-import {shallow} from "enzyme";
+import { assert, expect } from "chai";
+import { shallow } from "enzyme";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import { SceneStore } from "../../../src/stores/SceneStore";
 import * as Sinon from "sinon";
 
 describe("<SelectedElementInfo/>", () => {

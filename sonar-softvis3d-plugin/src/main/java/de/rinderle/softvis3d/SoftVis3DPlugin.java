@@ -31,7 +31,7 @@ public final class SoftVis3DPlugin implements Plugin {
   @Override
   public void define(Context context) {
     context.addExtensions(
-      SoftVis3DPage.class,
+      SoftVis3DPageDefinition.class,
       SoftVis3DWebservice.class
     );
   }

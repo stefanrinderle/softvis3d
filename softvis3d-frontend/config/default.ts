@@ -28,7 +28,7 @@
  */
 
 const config: any = {
-    api: "../../api",
+    api: "../../../api",
     env: "production",
     project: null,
     proxy: null,
