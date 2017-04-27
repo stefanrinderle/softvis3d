@@ -4,7 +4,7 @@
   <parent>
     <groupId>de.rinderle.softvis3d</groupId>
     <artifactId>softvis3d</artifactId>
-    <version>0.9.0-SNAPSHOT</version>
+    <version>0.9.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>softvis3d-frontend</artifactId>
@@ -94,7 +94,7 @@
         <configuration>
           <resourcesDirectory>${project.basedir}</resourcesDirectory>
           <includes>
-            <include>app/**/*.*</include>
+            <include>app/static/**/*.*</include>
           </includes>
         </configuration>
       </plugin>

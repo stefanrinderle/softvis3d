@@ -62,22 +62,13 @@ export default class SelectedElementInfo extends React.Component<SelectedElement
         }
     }
 
-    /**
-     * We can be sure that we are currently in the plugin "folder" of the path:
-     *
-     * Example current url "http://localhost:9000/plugins/resource/de.rinderle.softvis3d%3Asoftvis3d?page=SoftVis3D"
-     * Example current url "http://softvis3d.com/sonar/plugins/resource/de.rinderle.softvis3d%3Asoftvis3d?page=SoftVis3D"
-     *
-     * So we cut of everything starting from "plugin" to be sure that it also works with sub dirs.
-     *
-     * TODO: Could be added to UrlParameterService.ts after branch "3-direct-visualization-link" is merged.
-     */
     private open(newLocation: string, id: string) {
-        let href: string = document.location.href;
-
-        let baseLocation: string = href.substr(0, href.indexOf("/plugins"));
-        let codeLocation: string = baseLocation + newLocation;
-
-        window.open(codeLocation + "?id=" + id);
+        let baseUrl: string = (window as any).baseUrl;
+        let result = "";
+        if (baseUrl) {
+            result = baseUrl;
+        }
+        result = result + newLocation + "?id=" + id;
+        window.open(result);
     }
 }

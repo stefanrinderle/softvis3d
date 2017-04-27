@@ -2,9 +2,9 @@ import * as React from "react";
 import * as Sinon from "sinon";
 import { assert } from "chai";
 import { mount } from "enzyme";
-import SelectBox from "../../../src/components/ui/selectbox/SelectBox";
-import SelectOption from "../../../src/components/ui/selectbox/SelectOption";
-import SelectGroup from "../../../src/components/ui/selectbox/SelectGroup";
+import SelectBox from "../../../../src/components/ui/selectbox/SelectBox";
+import SelectOption from "../../../../src/components/ui/selectbox/SelectOption";
+import SelectGroup from "../../../../src/components/ui/selectbox/SelectGroup";
 
 describe("<SelectBox/>", () => {
 

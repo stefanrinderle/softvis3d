@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -133,13 +134,28 @@ public class VisualizationWebserviceHandlerTest {
       }
 
       @Override
+      public List<String> multiParam(String s) {
+        return null;
+      }
+
+      @Override
       public InputStream paramAsInputStream(String key) {
+        return null;
+      }
+
+      @Override
+      public Part paramAsPart(String s) {
         return null;
       }
 
       @Override
       public LocalConnector localConnector() {
         return localConnector;
+      }
+
+      @Override
+      public String getPath() {
+        return null;
       }
     };
   }

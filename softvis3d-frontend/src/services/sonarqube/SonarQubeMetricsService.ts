@@ -77,10 +77,10 @@ export default class SonarQubeMetricsService extends BackendService {
                     this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
                     resolve();
                 }
-            }).catch((error) => {
+            }).catch(() => {
                 this.appStatusStore.error(
                     new ErrorAction(SonarQubeMetricsService.LOAD_METRICS_ERROR_KEY,
-                        "SonarQube metric API is not available or responding: " + error.response.statusText,
+                        "SonarQube metric API is not available or responding: ",
                         "Try again", () => {
                             location.reload();
                         }));

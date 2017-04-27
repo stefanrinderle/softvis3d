@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for f in test/**/*.ts* ; do
+for f in test/*/**/*.ts* ; do
   src_folder_string='src/'
   result_string="${f/test\//$src_folder_string}"
 
