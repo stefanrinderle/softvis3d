@@ -20,7 +20,6 @@
 import {expect} from "chai";
 import Metric from "../../src/classes/Metric";
 import MetricSet from "../../src/classes/MetricSet";
-import {newLinesOfCodeMetricId} from "../../src/constants/Metrics";
 
 describe("MetricSet", () => {
 
@@ -60,26 +59,6 @@ describe("MetricSet", () => {
         expect(result.asSelectOptions.length).to.be.eq(2);
         expect(result.asSelectOptions[0].label).to.be.eq("siuhf");
         expect(result.asSelectOptions[1].label).to.be.eq("iojsiodf");
-    });
-
-    it("should detect new lines of code metric not available", () => {
-        let initialMetrics: Metric[] = [];
-        initialMetrics.push(new Metric("123", "siuhf", ""));
-        initialMetrics.push(new Metric("321", "iojsiodf", ""));
-
-        let result: MetricSet = new MetricSet(initialMetrics);
-
-        expect(result.hasNewLinesOfCodeMetric).to.be.eq(false);
-    });
-
-    it("should detect new lines of code metric available", () => {
-        let initialMetrics: Metric[] = [];
-        initialMetrics.push(new Metric("123", "siuhf", ""));
-        initialMetrics.push(new Metric(newLinesOfCodeMetricId, "iojsiodf", ""));
-
-        let result: MetricSet = new MetricSet(initialMetrics);
-
-        expect(result.hasNewLinesOfCodeMetric).to.be.eq(true);
     });
 
     it("should return metric by id", () => {
