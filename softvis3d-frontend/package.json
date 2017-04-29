@@ -4,8 +4,7 @@
   "description": "Frontend for the SonarQube-Plugin Softvis3D",
   "main": "src/app.tsx",
   "scripts": {
-    "postinstall": "yarn run install:config -s && yarn run install:dist -s && yarn run install:typings -s",
-    "install:config": "shx cp -n config/dev.example.ts config/dev.ts",
+    "postinstall": "yarn run install:dist -s && yarn run install:typings -s",
     "install:dist": "shx cp node_modules/react/dist/react.min.js node_modules/react-dom/dist/react-dom.min.js node_modules/three/build/three.min.js app/static/",
     "install:typings": "typings install",
     "start": "webpack-dev-server",

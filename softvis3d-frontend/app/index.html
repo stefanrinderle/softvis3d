@@ -7,11 +7,22 @@
         <link rel="stylesheet" href="static/resources/sonar.css" />
     </head>
     <body>
-        <script>
-            var PROJECT_KEY = '%PROJECT_KEY%';
-        </script>
-
-        <div id="app"></div>
+        <div id="app">
+            <style type="text/css">
+                .code-highlight {
+                    font-family: monospace;
+                    padding: 1px 2px;
+                    color: #000;
+                    background: #DDD;
+                    border: 1px solid #BBB;
+                    border-radius: 2px;
+                }
+            </style>
+            <div style="text-align: center">
+                <h1>Softvis3D - Development</h1>
+                If you see this message please check for your development file: <span class="code-highlight">app/development.js</span>
+            </div>
+        </div>
 
         <!-- Dependencies -->
         <script src="static/react.min.js"></script>
@@ -20,5 +31,9 @@
 
         <!-- Main -->
         <script src="static/bundle.js"></script>
+
+        <!-- Development -->
+        <script src="development.js"></script>
+
     </body>
 </html>

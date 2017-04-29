@@ -20,18 +20,6 @@
 
 import ReactElement = __React.ReactElement;
 
-declare const config: {
-    api: string;
-    env: string;
-    project: string | null;
-    proxy: string | null;
-    proxyLegacy: boolean;
-};
-
-declare module "config" {
-    export default config;
-}
-
 declare interface SelectOptionValue {
     readonly id: string;
     readonly label: string;
