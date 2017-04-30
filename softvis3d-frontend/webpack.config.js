@@ -17,34 +17,23 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-require('ts-node/register');
+//require('ts-node/register');
 var webpack = require('webpack'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin'),
-    tsnode = require('ts-node'),
-    path = require('path'),
     isProd = process.argv.indexOf('--prod') !== -1,
-    targetFolder = "static/";
-
-var configFile = path.resolve(!isProd && tsnode.fileExists("./config/dev.ts") ? "./config/dev.ts" : "./config/default.ts"),
-    plugins = isProd ? [new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false }, minimize: true, sourceMap: true })] : [],
-    appConfig = require(configFile).default,
-    proxy = {};
-
-if (appConfig.proxy) {
-    proxy[appConfig.api] = {
-        target: appConfig.proxy,
-        pathRewrite: appConfig.pathRewrite,
-        secure: false,
-        changeOrigin: true,
-        bypass: function(req) {
-            if (appConfig.proxyLegacy && req.url.includes('softVis3D/getVisualization')) {
-                return '/dev/getVisualization.json';
+    ExtractTextPlugin = require('extract-text-webpack-plugin'),
+    targetFolder = "static/",
+    plugins = [new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false }, minimize: true, sourceMap: true })],
+    proxy = {
+        "/api": {
+            target: "http://localhost:9000",
+            secure: false,
+            changeOrigin: true,
+            bypass: function(req) {
+                // if (url.includes('softVis3D/getVisualization')) return '/dev/getVisualization.json';
+                return false;
             }
-
-            return false;
         }
     };
-}
 
 module.exports = [
     // ######## JS Configuration ########
@@ -71,10 +60,7 @@ module.exports = [
         devtool: isProd ? null : "source-map",
 
         resolve: {
-            extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
-            alias: {
-                config: configFile
-            }
+            extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
         },
 
         module: {
@@ -88,7 +74,7 @@ module.exports = [
             ]
         },
 
-        plugins: plugins,
+        plugins: isProd ? plugins : [],
 
         // When importing a module whose path matches one of the following, just
         // assume a corresponding global variable exists and use that instead.

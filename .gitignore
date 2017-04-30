@@ -2,13 +2,15 @@
 ###############
 *.class
 **/target
+node_modules
+.vagrant
 
 # IDE files #
 #############
-/.project
-/.idea
-/.settings
-/.sonar
+.project
+.idea
+.settings
+.sonar
 .iml
 .pmd
 .classpath

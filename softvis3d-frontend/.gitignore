@@ -1,18 +1,11 @@
 .ignore/
 .nyc_output/
-.idea/
-.vagrant/
 coverage/
-node_modules/
 typings/
-ts-node/
-target/
 yarn/
 
-config/*.js
-
+app/development.js
 src/*.js
 src/*.js.map
 
-config/dev.ts
 npm-debug.log*
