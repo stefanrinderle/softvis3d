@@ -1,12 +1,7 @@
 .ignore/
 .nyc_output/
-.idea/
-.vagrant/
 coverage/
-node_modules/
 typings/
-ts-node/
-target/
 yarn/
 
 app/development.js
