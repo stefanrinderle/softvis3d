@@ -32,6 +32,8 @@ class SceneStore {
     public get selectedElement(): TreeElement | null {
         let selectedElement: TreeElement | null = null;
         if (this.legacyData !== null && this.selectedObjectId != null) {
+            // TODO: check performance of searchTreeNode on bigger projects
+            // console.error("HERE scenestore - selectedElement");
             selectedElement =
                 TreeService.searchTreeNode(this.legacyData, this.selectedObjectId);
         }
