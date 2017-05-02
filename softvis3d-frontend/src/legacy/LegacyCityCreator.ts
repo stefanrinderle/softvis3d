@@ -5,6 +5,7 @@ import LoadAction from "../classes/status/LoadAction";
 import {AppStatusStore} from "../stores/AppStatusStore";
 import SonarQubeScmService from "../services/sonarqube/SonarQubeScmService";
 import {numberOfAuthorsBlameColorMetric} from "../constants/Metrics";
+import {TreeElement} from "../services/sonarqube/SoftVis3dTree";
 
 export default class LegacyCityCreator {
     private static BUILD_CITY: LoadAction = new LoadAction("BUILD_CITY", "Create layout");

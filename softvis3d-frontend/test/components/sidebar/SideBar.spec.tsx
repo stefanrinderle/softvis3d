@@ -5,6 +5,7 @@ import SideBar from "../../../src/components/sidebar/SideBar";
 import FolderContent from "../../../src/components/sidebar/FolderContent";
 import ParentElement from "../../../src/components/sidebar/ParentElement";
 import { SceneStore } from "../../../src/stores/SceneStore";
+import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
 
 describe("<SideBar/>", () => {
 
@@ -20,20 +21,16 @@ describe("<SideBar/>", () => {
     });
 
     it("should show node info for nodes", () => {
-        let parent1: TreeElement = createTestTreeElement();
-        let parent0: TreeElement = createTestTreeElement();
-        let child: TreeElement = createTestTreeElement();
+        let parent: TreeElement = new TreeElement("parent", "parent", {}, "parent", "", "DIR");
+        let child1: TreeElement = new TreeElement("child1", "child1", {}, "child1", "", "DIR", parent);
+        let child11: TreeElement = new TreeElement("child11", "child11", {}, "child11", "", "FIL", child1);
 
-        parent1.isNode = true;
-        parent1.children.push(parent0);
-        parent0.isNode = true;
-        parent0.parentId = parent1.id;
-        parent0.children.push(child);
-        child.parentId = parent0.id;
+        parent.children.push(child1);
+        child1.children.push(child11);
 
         let localSceneStore: SceneStore = new SceneStore();
-        localSceneStore.legacyData = parent1;
-        localSceneStore.selectedObjectId = parent0.id;
+        localSceneStore.legacyData = parent;
+        localSceneStore.selectedObjectId = child1.id;
 
         const shallowSidebar = shallow(
             <SideBar sceneStore={localSceneStore}/>
@@ -43,36 +40,32 @@ describe("<SideBar/>", () => {
 
         expect(shallowSidebar.contains(
             <ParentElement
-                selectedElement={parent0}
+                selectedElement={child1}
                 sceneStore={localSceneStore}/>
         )).to.be.true;
 
         expect(shallowSidebar.contains(
             <FolderContent
-                activeFolder={parent0}
+                activeFolder={child1}
                 sceneStore={localSceneStore}
             />
         )).to.be.true;
 
-        expect(shallowSidebar.html()).to.contain(parent0.id);
-        expect(shallowSidebar.html()).to.contain(child.id);
+        expect(shallowSidebar.html()).to.contain(child1.id);
+        expect(shallowSidebar.html()).to.contain(child11.id);
     });
 
     it("should show node info for leafs", () => {
-        let parent1: TreeElement = createTestTreeElement();
-        let parent0: TreeElement = createTestTreeElement();
-        let child: TreeElement = createTestTreeElement();
+        let parent: TreeElement = new TreeElement("parent", "parent", {}, "parent", "", "DIR");
+        let child1: TreeElement = new TreeElement("child1", "child1", {}, "child1", "", "DIR", parent);
+        let child11: TreeElement = new TreeElement("child11", "child11", {}, "child11", "", "FIL", child1);
 
-        parent1.isNode = true;
-        parent1.children.push(parent0);
-        parent0.isNode = true;
-        parent0.parentId = parent1.id;
-        parent0.children.push(child);
-        child.parentId = parent0.id;
+        parent.children.push(child1);
+        child1.children.push(child11);
 
         let localSceneStore: SceneStore = new SceneStore();
-        localSceneStore.legacyData = parent1;
-        localSceneStore.selectedObjectId = child.id;
+        localSceneStore.legacyData = parent;
+        localSceneStore.selectedObjectId = child11.id;
 
         const shallowSidebar = shallow(
             <SideBar sceneStore={localSceneStore}/>
@@ -82,32 +75,18 @@ describe("<SideBar/>", () => {
 
         expect(shallowSidebar.contains(
             <ParentElement
-                selectedElement={child}
+                selectedElement={child11}
                 sceneStore={localSceneStore}/>
         )).to.be.true;
 
         expect(shallowSidebar.contains(
             <FolderContent
-                activeFolder={parent0}
+                activeFolder={child1}
                 sceneStore={localSceneStore}
             />
         )).to.be.true;
 
-        expect(shallowSidebar.html()).to.contain(parent0.id);
-        expect(shallowSidebar.html()).to.contain(child.id);
+        expect(shallowSidebar.html()).to.contain(child1.id);
+        expect(shallowSidebar.html()).to.contain(child11.id);
     });
 });
-
-function createTestTreeElement(): TreeElement {
-    const id = Math.random() + "";
-    return {
-        id,
-        name: id,
-        isNode: false,
-
-        children: [],
-
-        measures: {},
-        parentId: null
-    };
-}

@@ -6,13 +6,13 @@ import appStatusStore from "./stores/AppStatusStore";
 import cityBuilderStore from "./stores/CityBuilderStore";
 import sceneStore from "./stores/SceneStore";
 import SonarQubeMetricsService from "./services/sonarqube/SonarQubeMetricsService";
-import SonarQubeLegacyService from "./services/sonarqube/SonarQubeLegacyService";
 import WebGLDetector from "./services/WebGLDetector";
 import SceneReactions from "./reactions/SceneReactions";
 import BuilderReactions from "./reactions/BuilderReactions";
 import ErrorAction from "./classes/status/ErrorAction";
 import VisualizationLinkService from "./services/VisualizationLinkService";
 import SonarQubeScmService from "./services/sonarqube/SonarQubeScmService";
+import SonarQubeMeasuresService from "./services/sonarqube/SonarQubeMeasuresService";
 
 export interface AppConfiguration {
     api: string;
@@ -24,7 +24,7 @@ export default class App {
     private static WEBGL_ERROR_KEY: string = "WEBGL_ERROR";
 
     private communicator: SonarQubeMetricsService;
-    private legacyService: SonarQubeLegacyService;
+    private measuresService: SonarQubeMeasuresService;
     private visualizationLinkService: VisualizationLinkService;
     private legacy: LegacyCityCreator;
     private scmService: SonarQubeScmService;
@@ -38,12 +38,13 @@ export default class App {
         this.scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
         this.visualizationLinkService = new VisualizationLinkService(cityBuilderStore, sceneStore);
         this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
-        this.legacyService = new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
+        this.measuresService = new SonarQubeMeasuresService(config.api, config.projectKey, appStatusStore,
+                                                            cityBuilderStore, sceneStore);
         this.legacy = new LegacyCityCreator(sceneStore, appStatusStore, this.scmService);
 
         this.reactions = [
             new SceneReactions(sceneStore, cityBuilderStore, this.legacy),
-            new BuilderReactions(cityBuilderStore, this.legacyService)
+            new BuilderReactions(cityBuilderStore, this.measuresService)
         ];
     }
 

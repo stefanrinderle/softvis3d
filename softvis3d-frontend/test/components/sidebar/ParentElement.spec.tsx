@@ -3,11 +3,12 @@ import { expect } from "chai";
 import { shallow } from "enzyme";
 import { SceneStore } from "../../../src/stores/SceneStore";
 import ParentElement from "../../../src/components/sidebar/ParentElement";
+import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
 
 describe("<ParentElement/>", () => {
 
     it("should show nothing if selected Element has no parent", () => {
-        const element = createTestTreeElement("root");
+        const element = new TreeElement("parent", "parent", {}, "", "", "DIR");
         let localSceneStore = new SceneStore();
         localSceneStore.legacyData = element;
 
@@ -19,79 +20,56 @@ describe("<ParentElement/>", () => {
     });
 
     it("should show nothing if the parent of selected element is root", () => {
-        let root: TreeElement = createTestTreeElement("root");
-        let myElement: TreeElement = createTestTreeElement("parentElement234");
+        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", "DIR");
+        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", "FIL", parent);
 
-        root.isNode = true;
-        root.children.push(myElement);
-        myElement.parentId = root.id;
+        parent.children.push(child1);
 
         let localSceneStore = new SceneStore();
-        localSceneStore.legacyData = root;
+        localSceneStore.legacyData = parent;
 
         let sideBarSelectParent = shallow(
-            <ParentElement sceneStore={localSceneStore} selectedElement={root}/>
+            <ParentElement sceneStore={localSceneStore} selectedElement={parent}/>
         );
 
         expect(sideBarSelectParent.children()).to.have.length(0);
     });
 
     it("should select parent folder on click (for node element)", () => {
-        let parent1: TreeElement = createTestTreeElement("parent1");
-        let parent0: TreeElement = createTestTreeElement("parent0");
-        let child: TreeElement = createTestTreeElement("child");
+        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", "DIR");
+        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", "DIR", parent);
+        let child11: TreeElement = new TreeElement("child11", "child11", {}, "", "", "FIL", parent);
 
-        parent1.isNode = true;
-        parent1.children.push(parent0);
-        parent0.isNode = true;
-        parent0.parentId = parent1.id;
-        parent0.children.push(child);
-        child.parentId = parent0.id;
+        parent.children.push(child1);
+        child1.children.push(child11);
 
         let localSceneStore = new SceneStore();
-        localSceneStore.legacyData = parent1;
+        localSceneStore.legacyData = parent;
 
         let sideBarSelectParent = shallow(
-            <ParentElement sceneStore={localSceneStore} selectedElement={parent0}/>
+            <ParentElement sceneStore={localSceneStore} selectedElement={child1}/>
         );
 
         sideBarSelectParent.find(".select-parent span").simulate("click");
-        expect(localSceneStore.selectedObjectId).to.be.eq("parent1");
+        expect(localSceneStore.selectedObjectId).to.be.eq("parent");
     });
 
     it("should select parent folder on click (for leaf element)", () => {
-        let parent1: TreeElement = createTestTreeElement("parent1");
-        let parent0: TreeElement = createTestTreeElement("parent0");
-        let child = createTestTreeElement("child");
+        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", "DIR");
+        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", "DIR", parent);
+        let child11: TreeElement = new TreeElement("child11", "child11", {}, "", "", "FIL", child1);
 
-        parent1.isNode = true;
-        parent1.children.push(parent0);
-        parent0.isNode = true;
-        parent0.parentId = parent1.id;
-        parent0.children.push(child);
-        child.parentId = parent0.id;
+        parent.children.push(child1);
+        child1.children.push(child11);
 
         let localSceneStore = new SceneStore();
-        localSceneStore.legacyData = parent1;
+        localSceneStore.legacyData = parent;
 
         let sideBarSelectParent = shallow(
-            <ParentElement sceneStore={localSceneStore} selectedElement={child}/>
+            <ParentElement sceneStore={localSceneStore} selectedElement={child11}/>
         );
 
         sideBarSelectParent.find(".select-parent span").simulate("click");
-        expect(localSceneStore.selectedObjectId).to.be.eq("parent1");
+        expect(localSceneStore.selectedObjectId).to.be.eq("parent");
     });
 });
-
-function createTestTreeElement(name: string): TreeElement {
-    return {
-        id: name,
-        name,
-        isNode: false,
-
-        children: [],
-
-        measures: {},
-        parentId: null
-    };
-}

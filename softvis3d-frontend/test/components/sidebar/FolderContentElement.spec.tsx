@@ -1,8 +1,9 @@
 import * as React from "react";
-import { expect } from "chai";
-import { shallow } from "enzyme";
-import { SceneStore } from "../../../src/stores/SceneStore";
+import {expect} from "chai";
+import {shallow} from "enzyme";
+import {SceneStore} from "../../../src/stores/SceneStore";
 import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
+import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
 
 describe("<FolderContentElement/>", () => {
 
@@ -51,7 +52,7 @@ describe("<FolderContentElement/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <FolderContentElement element={selectedElement} isSelected={true} sceneStore={localSceneStore} />
+            <FolderContentElement element={selectedElement} isSelected={true} sceneStore={localSceneStore}/>
         );
 
         selectedSingleFileInfo.find("li").simulate("click");
@@ -61,14 +62,5 @@ describe("<FolderContentElement/>", () => {
 });
 
 function createTestTreeElement(name: string): TreeElement {
-    return {
-        id: name,
-        name,
-        isNode: false,
-
-        children: [],
-
-        measures: {},
-        parentId: null
-    };
+    return new TreeElement(name, name, {}, name, "", "FIL");
 }

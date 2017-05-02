@@ -1,9 +1,10 @@
 import * as React from "react";
-import { assert, expect } from "chai";
-import { shallow } from "enzyme";
+import {assert, expect} from "chai";
+import {shallow} from "enzyme";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
-import { SceneStore } from "../../../src/stores/SceneStore";
+import {SceneStore} from "../../../src/stores/SceneStore";
 import * as Sinon from "sinon";
+import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
 
 describe("<SelectedElementInfo/>", () => {
 
@@ -19,8 +20,7 @@ describe("<SelectedElementInfo/>", () => {
 
     it("should show node element if node details are requested", () => {
         let selectedElement: TreeElement = createTestTreeElement("my test element");
-        selectedElement.isNode = true;
-        selectedElement.children.push(createTestTreeElement("child"));
+        selectedElement.children.push(createTestTreeElement("child", selectedElement));
 
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.legacyData = selectedElement;
@@ -37,8 +37,9 @@ describe("<SelectedElementInfo/>", () => {
     });
 
     it("should show leaf element if leaf details are requested", () => {
-        let selectedElement: TreeElement = createTestTreeElement("my test element");
-        selectedElement.isNode = false;
+        let root: TreeElement = createTestTreeElement("my test element");
+        let selectedElement: TreeElement = createTestTreeElement("my test element", root);
+        root.children.push(selectedElement);
 
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.legacyData = selectedElement;
@@ -52,10 +53,11 @@ describe("<SelectedElementInfo/>", () => {
     });
 
     it("should open the source code page on click", () => {
-        let selectedElement: TreeElement = createTestTreeElement("my test element");
-        selectedElement.isNode = false;
         let expectedKey: string = "iudhsfiushdf";
-        selectedElement.key = expectedKey;
+
+        let root: TreeElement = createTestTreeElement("my test element");
+        let selectedElement: TreeElement = createTestTreeElement(expectedKey, root);
+        root.children.push(selectedElement);
 
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.legacyData = selectedElement;
@@ -74,10 +76,11 @@ describe("<SelectedElementInfo/>", () => {
     });
 
     it("should open the measures page on click", () => {
-        let selectedElement: TreeElement = createTestTreeElement("my test element");
-        selectedElement.isNode = false;
         let expectedKey: string = "iudhsfiushdf";
-        selectedElement.key = expectedKey;
+
+        let root: TreeElement = createTestTreeElement("my test element");
+        let selectedElement: TreeElement = createTestTreeElement(expectedKey, root);
+        root.children.push(selectedElement);
 
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.legacyData = selectedElement;
@@ -96,24 +99,20 @@ describe("<SelectedElementInfo/>", () => {
     });
 });
 
-function createTestTreeElement(
-    name: string,
-    expectedHeightMetricValue: number = 0,
-    expectedFootprintMetricValue: number = 0,
-    expectedColorMetricValue: number = 0
-): TreeElement {
-    return {
-        id: name,
-        name,
-        isNode: false,
-
-        children: [],
-
-        measures: {
+function createTestTreeElement(name: string, parent?: TreeElement, expectedHeightMetricValue: number = 0,
+                               expectedFootprintMetricValue: number = 0,
+                               expectedColorMetricValue: number = 0): TreeElement {
+    if (parent) {
+        return new TreeElement(name, name, {
             c: expectedColorMetricValue,
             h: expectedHeightMetricValue,
             f: expectedFootprintMetricValue
-        },
-        parentId: null
-    };
+        }, "", "", "FIL", parent);
+    } else {
+        return new TreeElement(name, name, {
+            c: expectedColorMetricValue,
+            h: expectedHeightMetricValue,
+            f: expectedFootprintMetricValue
+        }, "", "", "DIR");
+    }
 }

@@ -20,6 +20,7 @@
 /* tslint:disable */
 import * as CodeCityVis from "codecity-visualizer";
 import {MetricScale} from "./LayoutProcessor";
+import {TreeElement} from "../services/sonarqube/SoftVis3dTree";
 
 const BaseModel  = CodeCityVis.models.base;
 const TreeNode   = CodeCityVis.components.node;

@@ -1,6 +1,7 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {SceneStore} from "../../stores/SceneStore";
+import {TreeElement} from "../../services/sonarqube/SoftVis3dTree";
 
 interface NodeListProps {
     sceneStore: SceneStore;

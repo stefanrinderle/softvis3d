@@ -1,5 +1,6 @@
 import * as React from "react";
 import {SceneStore} from "../../stores/SceneStore";
+import {TreeElement} from "../../services/sonarqube/SoftVis3dTree";
 
 interface ElementInfoProps {
     element: TreeElement;
@@ -15,7 +16,7 @@ export default class FolderContentElement extends React.Component<ElementInfoPro
     public render() {
         const {element, isSelected} = this.props;
         let classes = [];
-        classes.push(element.isNode ? "node" : "leaf");
+        classes.push(element.isFile ? "leaf" : "node");
 
         if (isSelected) {
             classes.push("current-selected");

@@ -6,19 +6,17 @@ import FolderContentElement from "../../../src/components/sidebar/FolderContentE
 import FolderContent, { NodeListProps } from "../../../src/components/sidebar/FolderContent";
 import * as Sinon from "sinon";
 import { HtmlDom } from "../../../src/services/HtmlDom";
+import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
 
 describe("<FolderContent/>", () => {
 
     it("should show siblings of the selected element as list", () => {
-        let parent: TreeElement = createTestTreeElement("parent");
-        let child1: TreeElement = createTestTreeElement("child1");
-        let child2: TreeElement = createTestTreeElement("child2");
+        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", "DIR");
+        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", "FIL", parent);
+        let child2: TreeElement = new TreeElement("child2", "child2", {}, "", "", "FIL", parent);
 
-        parent.isNode = true;
         parent.children.push(child1);
         parent.children.push(child2);
-        child1.parentId = parent.id;
-        child2.parentId = parent.id;
 
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.legacyData = parent;
@@ -49,11 +47,9 @@ describe("<FolderContent/>", () => {
     });
 
     it("should show children of the selected element as list", () => {
-        let root: TreeElement = createTestTreeElement("root");
-        let child1: TreeElement = createTestTreeElement("child1");
-        let child2: TreeElement = createTestTreeElement("child2");
-
-        root.isNode = true;
+        let root: TreeElement = new TreeElement("parent", "parent", {}, "", "", "DIR");
+        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", "FIL", root);
+        let child2: TreeElement = new TreeElement("child2", "child2", {}, "", "", "FIL", root);
         root.children.push(child1);
         root.children.push(child2);
 
@@ -136,7 +132,7 @@ describe("<FolderContent/>", () => {
         };
 
         underTest.props = {
-            activeFolder: createTestTreeElement("root2"),
+            activeFolder: new TreeElement("root2", "root2", {}, "", "", "FIL"),
             sceneStore: localSceneStore
         };
 
@@ -151,16 +147,3 @@ describe("<FolderContent/>", () => {
     });
 
 });
-
-function createTestTreeElement(name: string): TreeElement {
-    return {
-        id: name,
-        name,
-        isNode: false,
-
-        children: [],
-
-        measures: {},
-        parentId: null
-    };
-}

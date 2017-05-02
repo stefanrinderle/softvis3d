@@ -7,6 +7,7 @@ import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
 import {SceneStore} from "../../../src/stores/SceneStore";
 import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
+import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
 
 describe("<TopBar/>", () => {
 
@@ -33,14 +34,5 @@ describe("<TopBar/>", () => {
 });
 
 function createTestTreeElement(): TreeElement {
-    return {
-        id: "",
-        name: "",
-        isNode: false,
-
-        children: [],
-
-        measures: {},
-        parentId: null
-    };
+    return new TreeElement("", "", {}, "", "", "FIL");
 }
