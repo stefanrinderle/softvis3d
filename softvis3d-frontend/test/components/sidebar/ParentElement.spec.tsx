@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { shallow } from "enzyme";
 import { SceneStore } from "../../../src/stores/SceneStore";
 import ParentElement from "../../../src/components/sidebar/ParentElement";
-import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../../src/classes/TreeElement";
 
 describe("<ParentElement/>", () => {
 

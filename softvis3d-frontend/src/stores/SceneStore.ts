@@ -2,7 +2,7 @@ import {computed, observe, observable} from "mobx";
 import {TreeService} from "../services/TreeService";
 import VisualizationOptions from "../classes/VisualizationOptions";
 import {Vector3} from "three";
-import {TreeElement} from "../services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../classes/TreeElement";
 
 class SceneStore {
     @observable

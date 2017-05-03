@@ -3,7 +3,7 @@ import {shallow} from "enzyme";
 import {expect} from "chai";
 import MetricKey from "../../../../src/components/scene/information/MetricKey";
 import Metric from "../../../../src/classes/Metric";
-import {TreeElement} from "../../../../src/services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../../../src/classes/TreeElement";
 
 describe("<MetricKey/>", () => {
 

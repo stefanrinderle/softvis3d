@@ -19,7 +19,7 @@
 ///
 import {expect} from "chai";
 import {TreeService} from "../../src/services/TreeService";
-import {TreeElement} from "../../src/services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../src/classes/TreeElement";
 
 describe("TreeService", () => {
 

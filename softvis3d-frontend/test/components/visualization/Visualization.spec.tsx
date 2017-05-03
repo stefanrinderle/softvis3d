@@ -8,7 +8,7 @@ import {SceneStore} from "../../../src/stores/SceneStore";
 import TopBar from "../../../src/components/topbar/TopBar";
 import SideBar from "../../../src/components/sidebar/SideBar";
 import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
-import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../../src/classes/TreeElement";
 
 describe("<Visualization/>", () => {
 

@@ -4,7 +4,7 @@ import {shallow} from "enzyme";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
 import {SceneStore} from "../../../src/stores/SceneStore";
 import * as Sinon from "sinon";
-import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../../src/classes/TreeElement";
 
 describe("<SelectedElementInfo/>", () => {
 

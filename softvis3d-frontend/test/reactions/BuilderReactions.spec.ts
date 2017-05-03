@@ -20,8 +20,8 @@
 import {expect} from "chai";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import BuilderReactions from "../../src/reactions/BuilderReactions";
-import SonarQubeMeasuresService from "../../src/services/sonarqube/SonarQubeMeasuresService";
 import * as Sinon from "sinon";
+import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/SonarQubeMeasuresService";
 
 describe("BuilderReactions", () => {
 

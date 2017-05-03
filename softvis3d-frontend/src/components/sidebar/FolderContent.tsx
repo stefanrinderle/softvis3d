@@ -4,7 +4,7 @@ import {Scrollbars} from "react-custom-scrollbars";
 import FolderContentElement from "./FolderContentElement";
 import {SceneStore} from "../../stores/SceneStore";
 import {HtmlDom, Offset} from "../../services/HtmlDom";
-import {TreeElement} from "../../services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../classes/TreeElement";
 
 export interface NodeListProps {
     activeFolder: TreeElement|null;

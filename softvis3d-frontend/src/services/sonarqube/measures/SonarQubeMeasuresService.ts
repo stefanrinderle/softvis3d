@@ -17,53 +17,18 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {BackendService} from "./BackendService";
-import {AppStatusStore} from "../../stores/AppStatusStore";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
-import LoadAction from "../../classes/status/LoadAction";
-import ErrorAction from "../../classes/status/ErrorAction";
-import {noColorMetric, numberOfAuthorsBlameColorMetric, packageNameColorMetric} from "../../constants/Metrics";
-import {SceneStore} from "../../stores/SceneStore";
-import {TreeElement} from "./SoftVis3dTree";
-import VisualizationOptions from "../../classes/VisualizationOptions";
-
-export interface SonarQubePeriod {
-    index: number;
-    value: string;
-}
-
-export interface SonarQubeMeasure {
-    metric: string;
-    value: number;
-    periods: SonarQubePeriod[];
-}
-
-export interface SonarQubeApiComponent {
-    id: string;
-    key: string;
-    language?: string;
-    measures: SonarQubeMeasure[];
-    name: string;
-    path: string;
-    qualifier: string;
-}
-
-export interface SonarQubePaging {
-    pageIndex: number;
-    pageSize: number;
-    total: number;
-}
-
-export interface SonarQubeMeasurePagingResponse {
-    baseComponent: SonarQubeApiComponent;
-    components: SonarQubeApiComponent[];
-    paging: SonarQubePaging;
-}
-
-export interface SonarQubeMeasureResponse {
-    baseComponent: SonarQubeApiComponent;
-    components: SonarQubeApiComponent[];
-}
+import {BackendService} from "../BackendService";
+import {CityBuilderStore} from "../../../stores/CityBuilderStore";
+import LoadAction from "../../../classes/status/LoadAction";
+import ErrorAction from "../../../classes/status/ErrorAction";
+import {noColorMetric, numberOfAuthorsBlameColorMetric, packageNameColorMetric} from "../../../constants/Metrics";
+import {SceneStore} from "../../../stores/SceneStore";
+import VisualizationOptions from "../../../classes/VisualizationOptions";
+import {AppStatusStore} from "../../../stores/AppStatusStore";
+import {TreeElement} from "../../../classes/TreeElement";
+import {SonarVisualizationRequestParams} from "./SonarVisualizationRequestParams";
+import {SonarQubeMeasurePagingResponse, SonarQubeMeasureResponse} from "./SonarQubeMeasureResponse";
+import SonarQubeTransformer from "../SonarQubeTransformer";
 
 export default class SonarQubeMeasuresService extends BackendService {
     public static LOAD_MEASURES: LoadAction = new LoadAction("SONAR_LOAD_MEASURES", "Request measures from SonarQube");
@@ -105,7 +70,7 @@ export default class SonarQubeMeasuresService extends BackendService {
             /**
              * Create a "starting point" root element and load the tree of the project.
              */
-            let root: TreeElement = TreeElement.createRoot(this.projectKey);
+            let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", "PRJ");
 
             this.loadTree(root).then(() => {
                 let t1 = performance.now();
@@ -153,7 +118,7 @@ export default class SonarQubeMeasuresService extends BackendService {
                     for (const component of result.components) {
                         // ignore the folder with just "/" because this is not needed.
                         if (component.path !== "/") {
-                            this.addToParent(parent, component);
+                            this.addToParent(parent, SonarQubeTransformer.createTreeElement(component));
                         }
                     }
                     /**
@@ -162,7 +127,7 @@ export default class SonarQubeMeasuresService extends BackendService {
                      */
                     this.loadMeasures(parent.key, metricKeys, "all", "FIL").then((filesResult) => {
                         for (const file of filesResult.components) {
-                            this.addToParentChild(parent, file);
+                            this.addToParentDescending(parent, SonarQubeTransformer.createTreeElement(file));
                         }
                         resolve();
                     }).catch(() => {
@@ -177,7 +142,7 @@ export default class SonarQubeMeasuresService extends BackendService {
                      */
                     let requests: Array<Promise<void>> = [];
                     for (const subProject of result.components) {
-                        let node: TreeElement = TreeElement.create(subProject);
+                        let node: TreeElement = SonarQubeTransformer.createTreeElement(subProject);
 
                         if (parent) {
                             parent.children.push(node);
@@ -200,35 +165,39 @@ export default class SonarQubeMeasuresService extends BackendService {
     /**
      * Will be called with the path of the components sorted.
      */
-    public addToParent(parent: TreeElement, component: SonarQubeApiComponent) {
+    public addToParent(parent: TreeElement, element: TreeElement) {
         if (parent.children.length === 0) {
-            parent.children.push(TreeElement.create(component));
+            parent.children.push(element);
         } else {
             for (const child of parent.children) {
-                let indexOf = component.path.indexOf(child.path);
+                let indexOf = element.path.indexOf(child.path);
                 if (indexOf === 0) {
-                    this.addToParent(child, component);
+                    this.addToParent(child, element);
                     return;
                 }
             }
-            parent.children.push(TreeElement.create(component));
+            parent.children.push(element);
         }
+
+        element.parent = parent;
     }
 
-    public addToParentChild(parent: TreeElement, component: SonarQubeApiComponent) {
+    public addToParentDescending(parent: TreeElement, element: TreeElement) {
         if (parent.children.length === 0) {
-            parent.children.push(TreeElement.create(component));
+            parent.children.push(element);
         } else {
             for (let _i = parent.children.length - 1; _i >= 0; _i--) {
                 let child = parent.children[_i];
-                let indexOf = component.path.indexOf(child.path);
+                let indexOf = element.path.indexOf(child.path);
                 if (indexOf === 0) {
-                    this.addToParent(child, component);
+                    this.addToParentDescending(child, element);
                     return;
                 }
             }
-            parent.children.push(TreeElement.create(component));
+            parent.children.push(element);
         }
+
+        element.parent = parent;
     }
 
     public loadMeasures(baseComponentKey: string, metricKeys: string, strategy: string, qualifiers: string,
@@ -281,34 +250,4 @@ export default class SonarQubeMeasuresService extends BackendService {
 
         return Array.from(result).join(",");
     }
-
-    // private createMetric(sonarQubeMetric: SonarQubeApiMetric): Metric {
-    //     return new Metric(sonarQubeMetric.key, sonarQubeMetric.name, sonarQubeMetric.description);
-    // }
-    //
-    // private shouldMetricBeFiltered(type: string): boolean {
-    //     return type === "INT" || type === "FLOAT" || type === "PERCENT"
-    //         || type === "MILLISEC" || type === "RATING" || type === "WORK_DUR";
-    // }
-
-}
-
-class SonarVisualizationRequestParams {
-
-    public readonly projectKey: string;
-    public readonly metrics: string;
-
-    constructor(projectKey: string, metrics: string) {
-        this.projectKey = projectKey;
-        this.metrics = metrics;
-    }
-
-    public equals(candidate: SonarVisualizationRequestParams): boolean {
-        if (candidate) {
-            return this.projectKey === candidate.projectKey && this.metrics === candidate.metrics;
-        } else {
-            return false;
-        }
-    }
-
 }

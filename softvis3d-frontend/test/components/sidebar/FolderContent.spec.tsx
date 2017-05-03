@@ -6,7 +6,7 @@ import FolderContentElement from "../../../src/components/sidebar/FolderContentE
 import FolderContent, { NodeListProps } from "../../../src/components/sidebar/FolderContent";
 import * as Sinon from "sinon";
 import { HtmlDom } from "../../../src/services/HtmlDom";
-import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../../src/classes/TreeElement";
 
 describe("<FolderContent/>", () => {
 

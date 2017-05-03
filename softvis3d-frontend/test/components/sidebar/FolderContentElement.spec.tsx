@@ -3,7 +3,7 @@ import {expect} from "chai";
 import {shallow} from "enzyme";
 import {SceneStore} from "../../../src/stores/SceneStore";
 import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
-import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../../src/classes/TreeElement";
 
 describe("<FolderContentElement/>", () => {
 

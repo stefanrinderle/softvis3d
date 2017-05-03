@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {TreeElement} from "./sonarqube/SoftVis3dTree";
+import {TreeElement} from "../classes/TreeElement";
 export class TreeService {
 
     public static searchTreeNode(tree: TreeElement, id: string): TreeElement | null {

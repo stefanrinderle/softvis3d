@@ -24,7 +24,7 @@ import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmSer
 import {SceneStore} from "../../../src/stores/SceneStore";
 import {TreeService} from "../../../src/services/TreeService";
 import ScmCalculator from "../../../src/services/sonarqube/ScmCalculator";
-import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../../src/classes/TreeElement";
 
 describe("SonarQubeScmService", () => {
 

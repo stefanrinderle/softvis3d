@@ -24,7 +24,7 @@ import ErrorAction from "../../classes/status/ErrorAction";
 import {default as sceneStore, SceneStore} from "../../stores/SceneStore";
 import {TreeService} from "../TreeService";
 import ScmCalculator from "./ScmCalculator";
-import {TreeElement} from "./SoftVis3dTree";
+import {TreeElement} from "../../classes/TreeElement";
 
 export default class SonarQubeScmService extends BackendService {
     public static LOAD_SCM: LoadAction = new LoadAction("SONAR_LOAD_SCM", "Request scm infos from SonarQube");

@@ -4,7 +4,7 @@ import NodeList from "./FolderContent";
 import ParentElement from "./ParentElement";
 import {SceneStore} from "../../stores/SceneStore";
 import ActiveFolder from "./ActiveFolder";
-import {TreeElement} from "../../services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../classes/TreeElement";
 
 interface SideBarProps {
     sceneStore: SceneStore;

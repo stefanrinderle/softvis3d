@@ -12,7 +12,7 @@ import BuilderReactions from "./reactions/BuilderReactions";
 import ErrorAction from "./classes/status/ErrorAction";
 import VisualizationLinkService from "./services/VisualizationLinkService";
 import SonarQubeScmService from "./services/sonarqube/SonarQubeScmService";
-import SonarQubeMeasuresService from "./services/sonarqube/SonarQubeMeasuresService";
+import SonarQubeMeasuresService from "./services/sonarqube/measures/SonarQubeMeasuresService";
 
 export interface AppConfiguration {
     api: string;

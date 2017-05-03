@@ -5,7 +5,7 @@ import SideBar from "../../../src/components/sidebar/SideBar";
 import FolderContent from "../../../src/components/sidebar/FolderContent";
 import ParentElement from "../../../src/components/sidebar/ParentElement";
 import { SceneStore } from "../../../src/stores/SceneStore";
-import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../../src/classes/TreeElement";
 
 describe("<SideBar/>", () => {
 

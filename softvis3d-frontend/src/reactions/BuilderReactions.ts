@@ -1,7 +1,7 @@
 import {CityBuilderStore} from "../stores/CityBuilderStore";
 import {reaction} from "mobx";
 import VisualizationOptions from "../classes/VisualizationOptions";
-import SonarQubeMeasuresService from "../services/sonarqube/SonarQubeMeasuresService";
+import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
 
 export default class BuilderReactions {
     private builder: CityBuilderStore;

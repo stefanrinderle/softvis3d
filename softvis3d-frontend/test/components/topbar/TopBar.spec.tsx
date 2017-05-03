@@ -7,7 +7,7 @@ import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
 import {SceneStore} from "../../../src/stores/SceneStore";
 import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
-import {TreeElement} from "../../../src/services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../../src/classes/TreeElement";
 
 describe("<TopBar/>", () => {
 

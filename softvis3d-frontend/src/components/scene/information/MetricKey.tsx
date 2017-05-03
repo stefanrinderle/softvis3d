@@ -1,7 +1,7 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import Metric from "../../../classes/Metric";
-import {TreeElement} from "../../../services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../../classes/TreeElement";
 
 interface MetricKeyProps {
     title: string;

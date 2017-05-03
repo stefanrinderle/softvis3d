@@ -19,7 +19,7 @@
 ///
 import {expect} from "chai";
 import {SceneStore} from "../../src/stores/SceneStore";
-import {TreeElement} from "../../src/services/sonarqube/SoftVis3dTree";
+import {TreeElement} from "../../src/classes/TreeElement";
 
 describe("SceneStore", () => {
 
@@ -75,7 +75,7 @@ describe("SceneStore", () => {
         let sceneStore = new SceneStore();
 
         sceneStore.selectedObjectId = "123";
-        sceneStore.legacyData = TreeElement.createRoot("sdfsdf");
+        sceneStore.legacyData = new TreeElement("sdfsdf", "", {}, "", "", "");
         let result: number | null = sceneStore.getColorValue();
 
         expect(result).to.be.null;
