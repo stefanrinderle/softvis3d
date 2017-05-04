@@ -27,7 +27,10 @@ import VisualizationOptions from "../../../classes/VisualizationOptions";
 import {AppStatusStore} from "../../../stores/AppStatusStore";
 import {TreeElement} from "../../../classes/TreeElement";
 import {SonarVisualizationRequestParams} from "./SonarVisualizationRequestParams";
-import {SonarQubeMeasurePagingResponse, SonarQubeMeasureResponse} from "./SonarQubeMeasureResponse";
+import {
+    SonarQubeApiComponent, SonarQubeMeasurePagingResponse,
+    SonarQubeMeasureResponse
+} from "./SonarQubeMeasureResponse";
 import SonarQubeTransformer from "../SonarQubeTransformer";
 
 export default class SonarQubeMeasuresService extends BackendService {
@@ -72,7 +75,9 @@ export default class SonarQubeMeasuresService extends BackendService {
              */
             let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", "PRJ");
 
-            this.loadTree(root).then(() => {
+            let metricKeys = this.getMetricRequestValues();
+
+            this.loadTree(root, metricKeys).then(() => {
                 let t1 = performance.now();
                 console.error("Call to took " + (t1 - t0) + " milliseconds.");
 
@@ -96,10 +101,8 @@ export default class SonarQubeMeasuresService extends BackendService {
         }
     }
 
-    public loadTree(parent: TreeElement): Promise<void> {
+    public loadTree(parent: TreeElement, metricKeys: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            let metricKeys = this.getMetricRequestValues();
-
             /**
              * Load the direct children of the given component. In SQ terms this means only directories or sub-projects
              * will be loaded.
@@ -112,48 +115,16 @@ export default class SonarQubeMeasuresService extends BackendService {
                  * The result contains either only dirs or only sub-projects.
                  */
                 if (result.components[0].qualifier === "DIR") {
-                    /**
-                     * Add each directory to the tree based on the current parent.
-                     */
-                    for (const component of result.components) {
-                        // ignore the folder with just "/" because this is not needed.
-                        if (component.path !== "/") {
-                            this.addToParent(parent, SonarQubeTransformer.createTreeElement(component));
-                        }
-                    }
-                    /**
-                     * The files are still missing, so request them for the same key as the directories have been
-                     * requested.
-                     */
-                    this.loadMeasures(parent.key, metricKeys, "all", "FIL").then((filesResult) => {
-                        for (const file of filesResult.components) {
-                            this.addToParentDescending(parent, SonarQubeTransformer.createTreeElement(file));
-                        }
+                    this.processNodeLevel(result.components, parent, metricKeys).then(() => {
                         resolve();
                     }).catch(() => {
                         reject();
                     });
                 } else if (result.components[0].qualifier === "BRC") {
-                    /**
-                     * For sub-projects, we do the following:
-                     * 1. Create a TreeElement
-                     * 2. Add the sub-project as child to the current node.
-                     * 3. Load again with the sub-project as parent.
-                     */
-                    let requests: Array<Promise<void>> = [];
-                    for (const subProject of result.components) {
-                        let node: TreeElement = SonarQubeTransformer.createTreeElement(subProject);
-
-                        if (parent) {
-                            parent.children.push(node);
-                        }
-
-                        requests.push(this.loadTree(node));
-                    }
-                    Promise.all(requests).then(() => {
+                    this.processLeafLevel(result.components, parent, metricKeys).then(() => {
                         resolve();
-                    }).catch((error) => {
-                        reject(error);
+                    }).catch(() => {
+                        reject();
                     });
                 }
             }).catch((error) => {
@@ -162,42 +133,58 @@ export default class SonarQubeMeasuresService extends BackendService {
         });
     }
 
-    /**
-     * Will be called with the path of the components sorted.
-     */
-    public addToParent(parent: TreeElement, element: TreeElement) {
-        if (parent.children.length === 0) {
-            parent.children.push(element);
-        } else {
-            for (const child of parent.children) {
-                let indexOf = element.path.indexOf(child.path);
-                if (indexOf === 0) {
-                    this.addToParent(child, element);
-                    return;
+    public processNodeLevel(components: SonarQubeApiComponent[], parent: TreeElement,
+                            metricKeys: string): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            /**
+             * Add each directory to the tree based on the current parent.
+             */
+            for (const component of components) {
+                // ignore the folder with just "/" because this is not needed.
+                if (component.path !== "/") {
+                    parent.addAsChild(SonarQubeTransformer.createTreeElement(component));
                 }
             }
-            parent.children.push(element);
-        }
-
-        element.parent = parent;
+            /**
+             * The files are still missing, so request them for the same key as the directories have been
+             * requested.
+             */
+            this.loadMeasures(parent.key, metricKeys, "all", "FIL").then((filesResult) => {
+                for (const file of filesResult.components) {
+                    parent.addAsChild(SonarQubeTransformer.createTreeElement(file), true);
+                }
+                resolve();
+            }).catch(() => {
+                reject();
+            });
+        });
     }
 
-    public addToParentDescending(parent: TreeElement, element: TreeElement) {
-        if (parent.children.length === 0) {
-            parent.children.push(element);
-        } else {
-            for (let _i = parent.children.length - 1; _i >= 0; _i--) {
-                let child = parent.children[_i];
-                let indexOf = element.path.indexOf(child.path);
-                if (indexOf === 0) {
-                    this.addToParentDescending(child, element);
-                    return;
-                }
-            }
-            parent.children.push(element);
-        }
+    public processLeafLevel(components: SonarQubeApiComponent[], parent: TreeElement,
+                            metricKeys: string): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            /**
+             * For sub-projects, we do the following:
+             * 1. Create a TreeElement
+             * 2. Add the sub-project as child to the current node.
+             * 3. Load again with the sub-project as parent.
+             */
+            let requests: Array<Promise<void>> = [];
+            for (const subProject of components) {
+                let node: TreeElement = SonarQubeTransformer.createTreeElement(subProject);
 
-        element.parent = parent;
+                if (parent) {
+                    parent.children.push(node);
+                }
+
+                requests.push(this.loadTree(node, metricKeys));
+            }
+            Promise.all(requests).then(() => {
+                resolve();
+            }).catch((error) => {
+                reject(error);
+            });
+        });
     }
 
     public loadMeasures(baseComponentKey: string, metricKeys: string, strategy: string, qualifiers: string,

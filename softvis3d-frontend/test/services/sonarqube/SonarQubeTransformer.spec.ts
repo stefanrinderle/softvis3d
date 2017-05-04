@@ -77,7 +77,6 @@ describe("SonarQubeTransformer", () => {
     });
 
     it("should transform SQComponent to TreeElement - with measures", () => {
-
         let measures: SonarQubeMeasure[] = [];
         measures.push({
             metric: "ncloc",
@@ -107,6 +106,37 @@ describe("SonarQubeTransformer", () => {
 
         expect(result.measures.ncloc).to.be.eq(123);
         expect(result.measures.complexity).to.be.eq(321);
+    });
+
+    it("should transform SQComponent to TreeElement - with period measures", () => {
+        let index: number = 1;
+        let value: string = "123";
+
+        let measures: SonarQubeMeasure[] = [];
+        measures.push({
+            metric: "ncloc",
+            periods: [{
+                index,
+                value
+            }]
+        });
+
+        let component: SonarQubeApiComponent = {
+            id: "id",
+            key: "key",
+            measures,
+            name: "name",
+            path: "path",
+            qualifier: "FIL"
+        };
+
+        let expectedParent: TreeElement = new TreeElement("", "asdda", {}, "", "", "PRJ");
+        let result: TreeElement = SonarQubeTransformer.createTreeElement(component, expectedParent);
+
+        expect(result.measures).not.to.be.undefined;
+        expect(result.measures).not.to.be.null;
+
+        expect(result.measures.ncloc).to.be.eq(123);
     });
 
 });

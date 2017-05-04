@@ -11,7 +11,13 @@ export default class SonarQubeTransformer {
         let measureList: MeasureList = {};
 
         for (let localMeasure of component.measures) {
-            measureList[localMeasure.metric] = +localMeasure.value;
+            if (localMeasure.value) {
+                measureList[localMeasure.metric] = +localMeasure.value;
+            } else {
+                if (localMeasure.periods.length > 0) {
+                    measureList[localMeasure.metric] = +localMeasure.periods[0].value;
+                }
+            }
         }
 
         return new TreeElement(component.id, component.key, measureList, component.name, component.path,

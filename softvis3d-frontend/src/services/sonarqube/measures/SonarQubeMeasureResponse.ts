@@ -21,7 +21,7 @@ export interface SonarQubeApiComponent {
 
 export interface SonarQubeMeasure {
     metric: string;
-    value: number;
+    value?: number;
     periods: SonarQubePeriod[];
 }
 
