@@ -1,6 +1,7 @@
 import * as React from "react";
 import SelectOption from "./SelectOption";
 import SelectGroup from "./SelectGroup";
+import {MouseEventHandler} from "react";
 
 type ChangeEvent = (value: any) => void|boolean;
 
@@ -15,8 +16,8 @@ interface SelectBoxProps {
     label?: string;
 
     onChange: ChangeEvent;
-    onClick?: (event: React.SyntheticEvent) => void|boolean;
-    onMouseDown?: (event: React.SyntheticEvent) => void|boolean;
+    onClick?: MouseEventHandler<HTMLElement>;
+    onMouseDown?: MouseEventHandler<HTMLElement>;
 }
 
 interface ValueStore {
@@ -24,6 +25,8 @@ interface ValueStore {
 }
 
 export default class SelectBox extends React.Component<SelectBoxProps, any> {
+
+    //noinspection JSUnusedGlobalSymbols
     public static defaultProps = {
         prepend: [],
         append: [],
@@ -34,7 +37,7 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
 
     private values: ValueStore = {};
 
-    public handleChange(event: React.SyntheticEvent) {
+    public handleChange(event: MouseEvent) {
         const value = (event.target as HTMLOptionElement).value;
 
         if (value in this.values) {
@@ -43,8 +46,9 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
     }
 
     public render() {
-        const noEvent = () => true;
-        const clickEvent = this.props.onClick || noEvent;
+        // tslint:disable-next-line no-empty
+        const noEvent = () => {};
+        const clickEvent: MouseEventHandler<HTMLElement> = this.props.onClick || noEvent;
         const mouseDownEvent = this.props.onMouseDown || noEvent;
         const className = "selectbox " + (this.props.className || "");
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 
-type BoundChangeEvent = (event: React.SyntheticEvent, src: React.Component<any, any>) => void;
-type ChangeEvent = (value: any, event: React.SyntheticEvent, src: React.Component<any, any>) => void;
+type BoundChangeEvent = (event: ChangeEvent, src: React.Component<any, any>) => void;
+type ChangeEvent = (value: any, event: ChangeEvent, src: React.Component<any, any>) => void;
 
 interface RadioGroupProps {
     children?: RadioButton[];
@@ -17,6 +17,7 @@ interface RadioGroupProps {
 
 export class RadioGroup extends React.Component<RadioGroupProps, any> {
 
+    //noinspection JSUnusedGlobalSymbols
     public static defaultProps = {
         className: "",
         disabled: false
@@ -64,13 +65,15 @@ interface RadioButtonProps {
 }
 
 export class RadioButton extends React.Component<RadioButtonProps, any> {
+
+    //noinspection JSUnusedGlobalSymbols
     public static defaultProps = {
         className: "",
         activeClass: "active",
         disabled: false
     };
 
-    public handleClick(event: React.SyntheticEvent): void {
+    public handleClick(event: ChangeEvent): void {
         if (!this.props.disabled && this.props.onChange) {
             this.props.onChange(event, this);
         }
