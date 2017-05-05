@@ -6,7 +6,6 @@
  * NodeJS
  * docker & docker-compose
 
-**TODO!!!** <br />
 When encountering any problems (or working on a windows environment) it is highly recommended to use the provided vagrant instance instead: `vagrant up`. <br />
 _The necessary port 9000 will be forwarded from your host to the client machine._
 
