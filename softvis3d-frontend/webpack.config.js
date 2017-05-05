@@ -21,6 +21,7 @@
 module.exports = function (env) {
     env = env || {};
     var webpack = require('webpack'),
+        path = require('path'),
         isProd = env.prod,
         ExtractTextPlugin = require('extract-text-webpack-plugin'),
         targetFolder = "static/",
@@ -35,11 +36,13 @@ module.exports = function (env) {
                 }
             }
         };
+
     return [
         // ######## JS Configuration ########
         // ##################################
         {
             name: "js",
+
             entry: [
                 "core-js/fn/set",
                 "core-js/fn/array/index-of",
@@ -53,7 +56,7 @@ module.exports = function (env) {
                 "./src/index.ts"
             ],
             output: {
-                path: "/app",
+                path: path.join(__dirname, "app"),
                 filename: targetFolder + "bundle.js"
             },
 
@@ -65,23 +68,37 @@ module.exports = function (env) {
 
             module: {
                 rules: [
-                    { test: /\.tsx?$/, exclude: /(node_modules)/, loader: "babel-loader?presets[]=es2015!ts-loader"  },
-                    { test: /\.js$/, exclude: /(node_modules)/, loader: "babel-loader?presets[]=es2015" },
-                    { test: /\.js$/, loader: "source-map-loader", enforce: "pre"} // if isProd
+                    {
+                        test: /\.tsx?$/,
+                        exclude: /(node_modules)/,
+                        use: [
+                            {
+                                loader: "babel-loader",
+                                options: {
+                                    presets: ["env"]
+                                }
+                            },
+                            {
+                                loader: "ts-loader"
+                            },
+                        ]
+                    },
+                    {
+                        test: /\.js$/,
+                        use: ["source-map-loader"],
+                        enforce: "pre"
+                    }
                 ]
             },
 
             plugins: isProd ? plugins : [],
 
-            // When importing a module whose path matches one of the following, just
-            // assume a corresponding global variable exists and use that instead.
-            // This is important because it allows us to avoid bundling all of our
-            // dependencies, which allows browsers to cache those libraries between builds.
             externals: {
                 "react": "React",
                 "react-dom": "ReactDOM",
                 "three": "THREE"
             },
+
             devServer: {
                 port: 8080,
                 open: true,
@@ -96,11 +113,14 @@ module.exports = function (env) {
         // ##################################
         {
             name: "css",
+
             entry: [ "./src/style/index.scss" ],
+
             output: {
-                path: "/app",
+                path: path.join(__dirname, "app"),
                 filename: targetFolder + "style.css"
             },
+
             module: {
                 rules: [
                     {
@@ -109,6 +129,7 @@ module.exports = function (env) {
                     }
                 ]
             },
+
             plugins: [
                 // Required for creating a separate css file rather than mashing css and js into one horrible file
                 new ExtractTextPlugin(targetFolder + "style.css")
