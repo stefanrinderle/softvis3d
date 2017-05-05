@@ -17,7 +17,6 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {BackendService} from "../BackendService";
 import {CityBuilderStore} from "../../../stores/CityBuilderStore";
 import LoadAction from "../../../classes/status/LoadAction";
 import ErrorAction from "../../../classes/status/ErrorAction";
@@ -27,13 +26,11 @@ import VisualizationOptions from "../../../classes/VisualizationOptions";
 import {AppStatusStore} from "../../../stores/AppStatusStore";
 import {TreeElement} from "../../../classes/TreeElement";
 import {SonarVisualizationRequestParams} from "./SonarVisualizationRequestParams";
-import {
-    SonarQubeApiComponent, SonarQubeMeasurePagingResponse,
-    SonarQubeMeasureResponse
-} from "./SonarQubeMeasureResponse";
+import {SonarQubeApiComponent} from "./SonarQubeMeasureResponse";
 import SonarQubeTransformer from "../SonarQubeTransformer";
+import SonarQubeMeasuresApiService from "./SonarQubeMeasuresApiService";
 
-export default class SonarQubeMeasuresService extends BackendService {
+export default class SonarQubeMeasuresService {
     public static LOAD_MEASURES: LoadAction = new LoadAction("SONAR_LOAD_MEASURES", "Request measures from SonarQube");
     private static LOAD_MEASURES_ERROR_KEY: string = "LOAD_MEASURES_ERROR";
 
@@ -42,13 +39,14 @@ export default class SonarQubeMeasuresService extends BackendService {
     private cityBuilderStore: CityBuilderStore;
     private sceneStore: SceneStore;
 
+    private measureApiService: SonarQubeMeasuresApiService;
+
     private currentParams: SonarVisualizationRequestParams;
 
-    constructor(apiUrl: string, projectKey: string, appStatusStore: AppStatusStore,
+    constructor(projectKey: string, measureApiService: SonarQubeMeasuresApiService, appStatusStore: AppStatusStore,
                 cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
-        super(apiUrl);
-
         this.projectKey = projectKey;
+        this.measureApiService = measureApiService;
         this.appStatusStore = appStatusStore;
         this.cityBuilderStore = cityBuilderStore;
         this.sceneStore = sceneStore;
@@ -62,7 +60,7 @@ export default class SonarQubeMeasuresService extends BackendService {
 
         // this.projectKey = "org.sonarsource.sonarqube:sonarqube";
 
-        const params = new SonarVisualizationRequestParams(this.projectKey, this.getMetricRequestValues());
+        const params = new SonarVisualizationRequestParams(this.getMetricRequestValues());
 
         if (this.currentParams && this.currentParams.equals(params)) {
             this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
@@ -107,7 +105,7 @@ export default class SonarQubeMeasuresService extends BackendService {
              * Load the direct children of the given component. In SQ terms this means only directories or sub-projects
              * will be loaded.
              */
-            this.loadMeasures(parent.key, metricKeys, "children", "DIR,BRC").then((result) => {
+            this.measureApiService.loadMeasures(parent.key, metricKeys, "children", "DIR,BRC").then((result) => {
                 if (result.components.length === 0) {
                     resolve();
                 }
@@ -149,7 +147,7 @@ export default class SonarQubeMeasuresService extends BackendService {
              * The files are still missing, so request them for the same key as the directories have been
              * requested.
              */
-            this.loadMeasures(parent.key, metricKeys, "all", "FIL").then((filesResult) => {
+            this.measureApiService.loadMeasures(parent.key, metricKeys, "all", "FIL").then((filesResult) => {
                 for (const file of filesResult.components) {
                     parent.addAsChild(SonarQubeTransformer.createTreeElement(file), true);
                 }
@@ -181,42 +179,6 @@ export default class SonarQubeMeasuresService extends BackendService {
             }
             Promise.all(requests).then(() => {
                 resolve();
-            }).catch((error) => {
-                reject(error);
-            });
-        });
-    }
-
-    public loadMeasures(baseComponentKey: string, metricKeys: string, strategy: string, qualifiers: string,
-                        page: number = 1): Promise<SonarQubeMeasureResponse> {
-        return new Promise<SonarQubeMeasureResponse>((resolve, reject) => {
-            const params = {
-                baseComponentKey,
-                p: page,
-                metricKeys,
-                strategy,
-                qualifiers,
-                s: "path",
-                ps: 500
-            };
-            this.callApi("/measures/component_tree", {params}).then((response) => {
-                let result: SonarQubeMeasurePagingResponse = response.data;
-                let allResults: SonarQubeMeasureResponse = {
-                    baseComponent: result.baseComponent,
-                    components: result.components
-                };
-
-                const position = result.paging.pageIndex * result.paging.pageSize;
-                if (position < result.paging.total) {
-                    return this.loadMeasures(baseComponentKey, metricKeys, strategy, qualifiers, page + 1).then((resultSecond) => {
-                        allResults.components.concat(resultSecond.components);
-                        resolve(allResults);
-                    }).catch((error) => {
-                        reject(error);
-                    });
-                } else {
-                    resolve(allResults);
-                }
             }).catch((error) => {
                 reject(error);
             });

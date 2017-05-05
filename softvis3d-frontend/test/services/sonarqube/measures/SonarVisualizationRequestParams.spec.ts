@@ -23,28 +23,21 @@ import {SonarVisualizationRequestParams} from "../../../../src/services/sonarqub
 describe("SonarVisualizationRequestParams", () => {
 
     it("should be equals with itself", () => {
-        let underTest: SonarVisualizationRequestParams = new SonarVisualizationRequestParams("key", "metrics");
+        let underTest: SonarVisualizationRequestParams = new SonarVisualizationRequestParams("metrics");
 
         expect(underTest.equals(underTest)).to.be.true;
     });
 
     it("should be equals with other object", () => {
-        let underTest: SonarVisualizationRequestParams = new SonarVisualizationRequestParams("key", "metrics");
-        let underTestSecond: SonarVisualizationRequestParams = new SonarVisualizationRequestParams("key", "metrics");
+        let underTest: SonarVisualizationRequestParams = new SonarVisualizationRequestParams("metrics");
+        let underTestSecond: SonarVisualizationRequestParams = new SonarVisualizationRequestParams("metrics");
 
         expect(underTest.equals(underTestSecond)).to.be.true;
     });
 
-    it("should not be equals if key changes", () => {
-        let underTest: SonarVisualizationRequestParams = new SonarVisualizationRequestParams("key", "metrics");
-        let underTestSecond: SonarVisualizationRequestParams = new SonarVisualizationRequestParams("key1", "metrics");
-
-        expect(underTest.equals(underTestSecond)).to.be.false;
-    });
-
-    it("should not be equals if key changes", () => {
-        let underTest: SonarVisualizationRequestParams = new SonarVisualizationRequestParams("key", "metrics");
-        let underTestSecond: SonarVisualizationRequestParams = new SonarVisualizationRequestParams("key", "metrics1");
+    it("should not be equals if metric changes", () => {
+        let underTest: SonarVisualizationRequestParams = new SonarVisualizationRequestParams("metrics");
+        let underTestSecond: SonarVisualizationRequestParams = new SonarVisualizationRequestParams("metrics1");
 
         expect(underTest.equals(underTestSecond)).to.be.false;
     });

@@ -13,6 +13,7 @@ import ErrorAction from "./classes/status/ErrorAction";
 import VisualizationLinkService from "./services/VisualizationLinkService";
 import SonarQubeScmService from "./services/sonarqube/SonarQubeScmService";
 import SonarQubeMeasuresService from "./services/sonarqube/measures/SonarQubeMeasuresService";
+import SonarQubeMeasuresApiService from "./services/sonarqube/measures/SonarQubeMeasuresApiService";
 
 export interface AppConfiguration {
     api: string;
@@ -25,6 +26,7 @@ export default class App {
 
     private communicator: SonarQubeMetricsService;
     private measuresService: SonarQubeMeasuresService;
+    private measuresApiService: SonarQubeMeasuresApiService;
     private visualizationLinkService: VisualizationLinkService;
     private legacy: LegacyCityCreator;
     private scmService: SonarQubeScmService;
@@ -38,7 +40,8 @@ export default class App {
         this.scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
         this.visualizationLinkService = new VisualizationLinkService(cityBuilderStore, sceneStore);
         this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
-        this.measuresService = new SonarQubeMeasuresService(config.api, config.projectKey, appStatusStore,
+        this.measuresApiService = new SonarQubeMeasuresApiService(config.api, config.projectKey);
+        this.measuresService = new SonarQubeMeasuresService(config.projectKey, this.measuresApiService, appStatusStore,
                                                             cityBuilderStore, sceneStore);
         this.legacy = new LegacyCityCreator(sceneStore, appStatusStore, this.scmService);
 
