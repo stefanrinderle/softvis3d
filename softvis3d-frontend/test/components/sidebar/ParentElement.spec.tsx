@@ -8,7 +8,7 @@ import {TreeElement} from "../../../src/classes/TreeElement";
 describe("<ParentElement/>", () => {
 
     it("should show nothing if selected Element has no parent", () => {
-        const element = new TreeElement("parent", "parent", {}, "", "", "DIR");
+        const element = new TreeElement("parent", "parent", {}, "", "", false);
         let localSceneStore = new SceneStore();
         localSceneStore.legacyData = element;
 
@@ -20,8 +20,8 @@ describe("<ParentElement/>", () => {
     });
 
     it("should show nothing if the parent of selected element is root", () => {
-        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", "DIR");
-        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", "FIL", parent);
+        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", false);
+        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", true, parent);
 
         parent.children.push(child1);
 
@@ -36,9 +36,9 @@ describe("<ParentElement/>", () => {
     });
 
     it("should select parent folder on click (for node element)", () => {
-        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", "DIR");
-        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", "DIR", parent);
-        let child11: TreeElement = new TreeElement("child11", "child11", {}, "", "", "FIL", parent);
+        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", false);
+        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", false, parent);
+        let child11: TreeElement = new TreeElement("child11", "child11", {}, "", "", true, parent);
 
         parent.children.push(child1);
         child1.children.push(child11);
@@ -55,9 +55,9 @@ describe("<ParentElement/>", () => {
     });
 
     it("should select parent folder on click (for leaf element)", () => {
-        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", "DIR");
-        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", "DIR", parent);
-        let child11: TreeElement = new TreeElement("child11", "child11", {}, "", "", "FIL", child1);
+        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", false);
+        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", false, parent);
+        let child11: TreeElement = new TreeElement("child11", "child11", {}, "", "", true, child1);
 
         parent.children.push(child1);
         child1.children.push(child11);

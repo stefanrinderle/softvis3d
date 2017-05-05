@@ -34,5 +34,5 @@ describe("<TopBar/>", () => {
 });
 
 function createTestTreeElement(): TreeElement {
-    return new TreeElement("", "", {}, "", "", "FIL");
+    return new TreeElement("", "", {}, "", "", true);
 }

@@ -16,7 +16,7 @@ export interface SonarQubeApiComponent {
     measures: SonarQubeMeasure[];
     name: string;
     path: string;
-    qualifier: string;
+    qualifier: SonarQubeQualifier;
 }
 
 export interface SonarQubeMeasure {
@@ -35,3 +35,17 @@ export interface SonarQubePaging {
     pageSize: number;
     total: number;
 }
+
+/**
+ * BRC - Sub-projects
+ * DIR - Directories
+ * FIL - Files
+ * TRK - Projects
+ * UTS - Unit Test Files
+ */
+export type SonarQubeQualifier =
+    | "BRC"
+    | "DIR"
+    | "FIL"
+    | "TRK"
+    | "UTS";

@@ -21,9 +21,9 @@ describe("<SideBar/>", () => {
     });
 
     it("should show node info for nodes", () => {
-        let parent: TreeElement = new TreeElement("parent", "parent", {}, "parent", "", "DIR");
-        let child1: TreeElement = new TreeElement("child1", "child1", {}, "child1", "", "DIR", parent);
-        let child11: TreeElement = new TreeElement("child11", "child11", {}, "child11", "", "FIL", child1);
+        let parent: TreeElement = new TreeElement("parent", "parent", {}, "parent", "", false);
+        let child1: TreeElement = new TreeElement("child1", "child1", {}, "child1", "", false, parent);
+        let child11: TreeElement = new TreeElement("child11", "child11", {}, "child11", "", true, child1);
 
         parent.children.push(child1);
         child1.children.push(child11);
@@ -56,9 +56,9 @@ describe("<SideBar/>", () => {
     });
 
     it("should show node info for leafs", () => {
-        let parent: TreeElement = new TreeElement("parent", "parent", {}, "parent", "", "DIR");
-        let child1: TreeElement = new TreeElement("child1", "child1", {}, "child1", "", "DIR", parent);
-        let child11: TreeElement = new TreeElement("child11", "child11", {}, "child11", "", "FIL", child1);
+        let parent: TreeElement = new TreeElement("parent", "parent", {}, "parent", "", false);
+        let child1: TreeElement = new TreeElement("child1", "child1", {}, "child1", "", false, parent);
+        let child11: TreeElement = new TreeElement("child11", "child11", {}, "child11", "", true, child1);
 
         parent.children.push(child1);
         child1.children.push(child11);

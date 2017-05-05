@@ -74,5 +74,5 @@ describe("<Visualization/>", () => {
 });
 
 function createTestTreeElement(id: string, parent?: TreeElement): TreeElement {
-    return new TreeElement(id, "", {}, "", "", "FIL", parent);
+    return new TreeElement(id, "", {}, "", "", true, parent);
 }

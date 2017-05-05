@@ -30,7 +30,7 @@ describe("<MetricKey/>", () => {
         let expectedMeasure: number = 55;
         let selectedElement: TreeElement = new TreeElement("", "", {
             123: expectedMeasure
-        }, "", "", "FIL");
+        }, "", "", true);
         const bottomBarMetricInfo = shallow(
             <MetricKey title={title} metric={expectedMetric} selectedElement={selectedElement}/>
         );

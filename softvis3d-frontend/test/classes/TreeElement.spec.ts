@@ -123,5 +123,5 @@ describe("TreeElement", () => {
 });
 
 function createTreeElementAsChildWithPath(path: string) {
-    return new TreeElement("", "", {}, "", path, "");
+    return new TreeElement("", "", {}, "", path, false);
 }

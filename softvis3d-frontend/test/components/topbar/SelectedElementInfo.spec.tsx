@@ -107,12 +107,12 @@ function createTestTreeElement(name: string, parent?: TreeElement, expectedHeigh
             c: expectedColorMetricValue,
             h: expectedHeightMetricValue,
             f: expectedFootprintMetricValue
-        }, "", "", "FIL", parent);
+        }, "", "", true, parent);
     } else {
         return new TreeElement(name, name, {
             c: expectedColorMetricValue,
             h: expectedHeightMetricValue,
             f: expectedFootprintMetricValue
-        }, "", "", "DIR");
+        }, "", "", false);
     }
 }

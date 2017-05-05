@@ -144,7 +144,7 @@ function createResponseWithOneComponent(pageIndex: number, pageSize: number,
             measures: [],
             name: "" + pageIndex,
             path: "" + pageIndex,
-            qualifier: "" + pageIndex
+            qualifier: "DIR"
         },
         components: [{
             id: "expectedId" + pageIndex,
@@ -152,7 +152,7 @@ function createResponseWithOneComponent(pageIndex: number, pageSize: number,
             measures: [],
             name: "name" + pageIndex,
             path: "path" + pageIndex,
-            qualifier: "qal" + pageIndex
+            qualifier: "FIL"
         }],
         paging: {
             pageIndex,

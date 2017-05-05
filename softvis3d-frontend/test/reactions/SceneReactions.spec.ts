@@ -82,7 +82,7 @@ describe("SceneReactions", () => {
 
         let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
 
-        testSceneStore.legacyData = new TreeElement("", "", {}, "", "", "");
+        testSceneStore.legacyData = new TreeElement("", "", {}, "", "", false);
 
         mockBuild.verify();
 

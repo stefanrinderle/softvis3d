@@ -309,5 +309,5 @@ describe("SonarQubeScmService", () => {
 });
 
 function createTestTreeElement(name: string, parent?: TreeElement): TreeElement {
-    return new TreeElement(name, name, {}, "", "", "FIL", parent);
+    return new TreeElement(name, name, {}, "", "", true, parent);
 }

@@ -20,8 +20,10 @@ export default class SonarQubeTransformer {
             }
         }
 
+        let isFile: boolean = component.qualifier === "FIL" || component.qualifier === "UTS";
+
         return new TreeElement(component.id, component.key, measureList, component.name, component.path,
-            component.qualifier, parent);
+            isFile, parent);
     }
 
 }

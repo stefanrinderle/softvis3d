@@ -62,5 +62,5 @@ describe("<FolderContentElement/>", () => {
 });
 
 function createTestTreeElement(name: string): TreeElement {
-    return new TreeElement(name, name, {}, name, "", "FIL");
+    return new TreeElement(name, name, {}, name, "", true);
 }

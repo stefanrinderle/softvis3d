@@ -21,7 +21,7 @@ import {expect} from "chai";
 import SonarQubeTransformer from "../../../src/services/sonarqube/SonarQubeTransformer";
 import {
     SonarQubeApiComponent,
-    SonarQubeMeasure
+    SonarQubeMeasure, SonarQubeQualifier
 } from "../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
 import {TreeElement} from "../../../src/classes/TreeElement";
 
@@ -33,7 +33,7 @@ describe("SonarQubeTransformer", () => {
         let measures: SonarQubeMeasure[] = [];
         let name = "name";
         let path = "path";
-        let qualifier = "DIR";
+        let qualifier: SonarQubeQualifier = "DIR";
 
         let component: SonarQubeApiComponent = {
             id,
@@ -67,7 +67,7 @@ describe("SonarQubeTransformer", () => {
             qualifier: "FIL"
         };
 
-        let expectedParent: TreeElement = new TreeElement("", "asdda", {}, "", "", "PRJ");
+        let expectedParent: TreeElement = new TreeElement("", "asdda", {}, "", "", false);
         let result: TreeElement = SonarQubeTransformer.createTreeElement(component, expectedParent);
 
         expect(result.parent).not.to.be.undefined;
@@ -98,7 +98,7 @@ describe("SonarQubeTransformer", () => {
             qualifier: "FIL"
         };
 
-        let expectedParent: TreeElement = new TreeElement("", "asdda", {}, "", "", "PRJ");
+        let expectedParent: TreeElement = new TreeElement("", "asdda", {}, "", "", false);
         let result: TreeElement = SonarQubeTransformer.createTreeElement(component, expectedParent);
 
         expect(result.measures).not.to.be.undefined;
@@ -130,7 +130,7 @@ describe("SonarQubeTransformer", () => {
             qualifier: "FIL"
         };
 
-        let expectedParent: TreeElement = new TreeElement("", "asdda", {}, "", "", "PRJ");
+        let expectedParent: TreeElement = new TreeElement("", "asdda", {}, "", "", false);
         let result: TreeElement = SonarQubeTransformer.createTreeElement(component, expectedParent);
 
         expect(result.measures).not.to.be.undefined;

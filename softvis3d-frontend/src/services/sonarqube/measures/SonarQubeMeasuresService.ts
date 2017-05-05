@@ -71,7 +71,7 @@ export default class SonarQubeMeasuresService {
             /**
              * Create a "starting point" root element and load the tree of the project.
              */
-            let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", "PRJ");
+            let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", false);
 
             let metricKeys = this.getMetricRequestValues();
 
