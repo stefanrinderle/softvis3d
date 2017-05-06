@@ -36,7 +36,7 @@ export default class SonarQubeMeasuresTreeService {
              * Load the direct children of the given component. In SQ terms this means only directories or sub-projects
              * will be loaded.
              */
-            this.measureApiService.loadMeasures(parent.key, metricKeys, "children", ["DIR","BRC"]).then((result) => {
+            this.measureApiService.loadMeasures(parent.key, metricKeys, "children", ["DIR", "BRC"]).then((result) => {
                 if (result.components.length === 0) {
                     resolve();
                 }
