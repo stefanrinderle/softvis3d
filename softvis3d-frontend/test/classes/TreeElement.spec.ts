@@ -43,21 +43,7 @@ describe("TreeElement", () => {
 
         expect(parent.children.length).to.be.eq(1);
         expect(parent.children[0]).to.be.eq(subfolder);
-        expect(parent.children[0].children.length).to.be.eq(1);
-        expect(parent.children[0].children[0]).to.be.eq(child);
-    });
-
-    it("should be able to add a child in subfolder", () => {
-        let parent: TreeElement = createTreeElementAsChildWithPath("src");
-
-        let subfolder: TreeElement = createTreeElementAsChildWithPath("src/sub");
-        parent.addAsChild(subfolder);
-
-        let child: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
-        parent.addAsChild(child);
-
-        expect(parent.children.length).to.be.eq(1);
-        expect(parent.children[0]).to.be.eq(subfolder);
+        expect(parent.children[0].name).to.be.eq("sub");
         expect(parent.children[0].children.length).to.be.eq(1);
         expect(parent.children[0].children[0]).to.be.eq(child);
     });

@@ -4,7 +4,7 @@ export class TreeElement {
     public readonly key: string;
     public measures: MeasureList;
 
-    public readonly name: string;
+    public name: string;
     public readonly path: string;
 
     public parent?: TreeElement;
@@ -28,23 +28,27 @@ export class TreeElement {
      * Will be called with the path of the components sorted.
      */
     public addAsChild(element: TreeElement, isDescending: boolean = false) {
-        if (this.children.length === 0) {
-            this.children.push(element);
-        } else {
-            let children = this.children;
-            if (isDescending) {
-                children = children.reverse();
-            }
-
-            for (let child of children) {
-                let indexOf = element.path.indexOf(child.path + "/");
-                if (indexOf === 0) {
-                    child.addAsChild(element);
-                    return;
-                }
-            }
-            this.children.push(element);
+        let children = this.children;
+        if (isDescending) {
+            children = children.reverse();
         }
+
+        for (let child of children) {
+            let indexOf = element.path.indexOf(child.path + "/");
+
+            if (indexOf === 0) {
+                child.addAsChild(element, isDescending);
+                return;
+            }
+        }
+
+        if (!element.isFile) {
+            let indexOf = element.path.indexOf(this.path + "/");
+            if (indexOf === 0) {
+                element.name = element.path.substr(this.path.length + 1, element.path.length);
+            }
+        }
+        this.children.push(element);
 
         element.parent = this;
     }

@@ -90,7 +90,7 @@ export default class SonarQubeMeasuresTreeService {
     }
 
     private processLeafLevel(components: SonarQubeApiComponent[], parent: TreeElement,
-                            metricKeys: string): Promise<void> {
+                             metricKeys: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             /**
              * Add each directory to the tree based on the current parent.
@@ -117,7 +117,7 @@ export default class SonarQubeMeasuresTreeService {
     }
 
     private processNodeLevel(components: SonarQubeApiComponent[], parent: TreeElement,
-                            metricKeys: string): Promise<void> {
+                             metricKeys: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             /**
              * For sub-projects, we do the following:
