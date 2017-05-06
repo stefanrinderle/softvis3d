@@ -25,7 +25,7 @@ export default class MetricKey extends React.Component<MetricKeyProps, any> {
     }
 
     private renderValue(element: TreeElement|null, metric: Metric) {
-        if (element !== null && element.isFile) {
+        if (element !== null) {
             return <span className="value">{element.measures[metric.id] || 0}</span>;
         }
     }
