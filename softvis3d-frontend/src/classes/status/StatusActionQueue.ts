@@ -17,12 +17,13 @@ export default class StatusActionQueue<T extends StatusAction> {
             }
         }
 
+        // tslint:disable-next-line no-console
         console.error("Could not remove action: " + JSON.stringify(action));
     }
 
     public copyAndUpdate(action: T): StatusActionQueue<T> {
-        let newQueue: StatusActionQueue<T> = new StatusActionQueue<T>();
-        for (let element of this._queue) {
+        const newQueue: StatusActionQueue<T> = new StatusActionQueue<T>();
+        for (const element of this._queue) {
             if (element.key === action.key) {
                 newQueue.add(action);
             } else {

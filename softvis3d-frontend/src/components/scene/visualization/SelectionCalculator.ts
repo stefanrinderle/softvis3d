@@ -42,7 +42,7 @@ export class SelectionCalculator {
 
         let result: string | null = null;
         if (intersected.length > 0) {
-            let object: SoftVis3dMesh = <SoftVis3dMesh> intersected[0].object;
+            let object: SoftVis3dMesh = intersected[0].object as SoftVis3dMesh;
             result = object.getSoftVis3dId();
         }
 

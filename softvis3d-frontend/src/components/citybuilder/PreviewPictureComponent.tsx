@@ -7,7 +7,7 @@ export default class PreviewPictureComponent extends React.Component<{ store: Ci
     public render() {
         const preview: PreviewPicture = this.props.store.getPreviewBackground();
 
-        let previewStyle = {
+        const previewStyle = {
             backgroundImage: "url(" + preview.bgPicture + ")"
         };
 

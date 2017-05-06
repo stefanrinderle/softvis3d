@@ -75,6 +75,7 @@ export default class SonarQubeLegacyService extends BackendService {
                 if ("response" in error) {
                     message = "SonarQube measure API is not available or responding: " + error.response.statusText;
                 } else {
+                    // tslint:disable-next-line no-console
                     console.error(error);
                     message = "Internal Error: Could not load data.";
                 }

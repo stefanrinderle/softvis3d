@@ -9,7 +9,7 @@ import {observable} from "mobx";
 export default class VisualizationOptions {
 
     public static createDefault(): VisualizationOptions {
-        let defaultMetric = new Metric(noMetricId, " -- None -- ", "");
+        const defaultMetric = new Metric(noMetricId, " -- None -- ", "");
         return new VisualizationOptions(district, defaultMetric, defaultMetric, noColorMetric, LOGARITHMIC);
     }
 
