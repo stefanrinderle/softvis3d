@@ -279,6 +279,59 @@ describe("SonarQubeMeasuresTreeService", () => {
             done();
         });
     });
+
+    /**
+     * removeEmptyDirectories tests
+     */
+
+    it("should remove an empty dir as root child", () => {
+        let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
+
+        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService(measureApiService);
+
+        let root: TreeElement = new TreeElement("", "", {}, "", "", false);
+        let emptySubDir: TreeElement = new TreeElement("", "", {}, "", "", false);
+        root.children.push(emptySubDir);
+
+        underTest.removeEmptyDirectories(root);
+
+        expect(root.children.length).to.be.eq(0);
+    });
+
+    it("should remove an multiple empty dirs", () => {
+        let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
+
+        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService(measureApiService);
+
+        let root: TreeElement = new TreeElement("", "", {}, "", "", false);
+        let emptySubDir: TreeElement = new TreeElement("", "", {}, "", "", false);
+        root.children.push(emptySubDir);
+        let emptySubDir2: TreeElement = new TreeElement("", "", {}, "", "", false);
+        emptySubDir.children.push(emptySubDir2);
+
+        underTest.removeEmptyDirectories(root);
+
+        expect(root.children.length).to.be.eq(0);
+    });
+
+    it("should remove an empty dir after not empty dir", () => {
+        let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
+
+        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService(measureApiService);
+
+        let root: TreeElement = new TreeElement("", "", {}, "", "", false);
+        let subDir: TreeElement = new TreeElement("", "", {}, "", "/src", false);
+        root.children.push(subDir);
+        let file: TreeElement = new TreeElement("", "", {}, "", "/src/file.java", true);
+        subDir.children.push(file);
+        let emptySubDir2: TreeElement = new TreeElement("", "", {}, "/src/test", "", false);
+        subDir.children.push(emptySubDir2);
+
+        underTest.removeEmptyDirectories(root);
+
+        expect(root.children.length).to.be.eq(1);
+        expect(root.children[0].children.length).to.be.eq(1);
+    });
 });
 
 function createResponseWithComponents(components: SonarQubeApiComponent[]): SonarQubeMeasureResponse {

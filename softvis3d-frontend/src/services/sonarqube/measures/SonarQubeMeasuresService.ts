@@ -66,7 +66,6 @@ export default class SonarQubeMeasuresService {
             this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
             this.sceneStore.legacyData = Object.assign({}, this.sceneStore.legacyData);
         } else {
-            // let t0 = performance.now();
 
             /**
              * Create a "starting point" root element and load the tree of the project.
@@ -74,6 +73,10 @@ export default class SonarQubeMeasuresService {
             let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", false);
 
             this.measureTreeService.loadTree(root, metricKeys).then(() => {
+                // let t0 = performance.now();
+
+                this.measureTreeService.removeEmptyDirectories(root);
+
                 // let t1 = performance.now();
                 // console.error("Call to took " + (t1 - t0) + " milliseconds.");
 

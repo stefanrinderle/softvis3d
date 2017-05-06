@@ -62,7 +62,34 @@ export default class SonarQubeMeasuresTreeService {
         });
     }
 
-    public processLeafLevel(components: SonarQubeApiComponent[], parent: TreeElement,
+    public removeEmptyDirectories(element: TreeElement) {
+        if (element.children.length === 0) {
+            return;
+        } else {
+            let checkAgain: boolean = false;
+            for (let index = 0; index < element.children.length; index++) {
+                let child = element.children[index];
+                if (!child.isFile) {
+                    if (child.children.length === 0) {
+                        element.children.splice(index, 1);
+                        checkAgain = true;
+                    } else {
+                        this.removeEmptyDirectories(child);
+
+                        if (child.children.length === 0) {
+                            element.children.splice(index, 1);
+                            checkAgain = true;
+                        }
+                    }
+                }
+            }
+            if (checkAgain) {
+                this.removeEmptyDirectories(element);
+            }
+        }
+    }
+
+    private processLeafLevel(components: SonarQubeApiComponent[], parent: TreeElement,
                             metricKeys: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             /**
@@ -89,7 +116,7 @@ export default class SonarQubeMeasuresTreeService {
         });
     }
 
-    public processNodeLevel(components: SonarQubeApiComponent[], parent: TreeElement,
+    private processNodeLevel(components: SonarQubeApiComponent[], parent: TreeElement,
                             metricKeys: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             /**
