@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {BackendService} from "../BackendService";
-import {SonarQubeMeasurePagingResponse, SonarQubeMeasureResponse} from "./SonarQubeMeasureResponse";
+import {SonarQubeMeasurePagingResponse, SonarQubeMeasureResponse, SonarQubeQualifier} from "./SonarQubeMeasureResponse";
 
 export default class SonarQubeMeasuresApiService extends BackendService {
     private projectKey: string;
@@ -29,7 +29,7 @@ export default class SonarQubeMeasuresApiService extends BackendService {
         this.projectKey = projectKey;
     }
 
-    public loadMeasures(baseComponentKey: string, metricKeys: string, strategy: string, qualifiers: string,
+    public loadMeasures(baseComponentKey: string, metricKeys: string, strategy: string, qualifiers: SonarQubeQualifier[],
                         page: number = 1): Promise<SonarQubeMeasureResponse> {
         return new Promise<SonarQubeMeasureResponse>((resolve, reject) => {
             const params = {
@@ -37,7 +37,7 @@ export default class SonarQubeMeasuresApiService extends BackendService {
                 p: page,
                 metricKeys,
                 strategy,
-                qualifiers,
+                qualifiers: Array.from(qualifiers).join(","),
                 s: "path",
                 ps: 500
             };

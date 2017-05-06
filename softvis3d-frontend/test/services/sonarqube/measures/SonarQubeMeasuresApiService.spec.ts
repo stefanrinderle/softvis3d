@@ -19,8 +19,8 @@
 ///
 import {assert, expect} from "chai";
 import * as Sinon from "sinon";
-import SonarQubeMeasuresApiService from "../../../src/services/sonarqube/measures/SonarQubeMeasuresApiService";
-import {SonarQubeMeasurePagingResponse} from "../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
+import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresApiService";
+import {SonarQubeMeasurePagingResponse} from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
 
 describe("SonarQubeMeasuresApiService", () => {
 
@@ -36,7 +36,7 @@ describe("SonarQubeMeasuresApiService", () => {
             });
         });
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", "DIR").then((result) => {
+        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", ["DIR"]).then((result) => {
             assert(stub.called);
             expect(result.components.length).to.be.eq(1);
 
@@ -66,7 +66,7 @@ describe("SonarQubeMeasuresApiService", () => {
                 data: data2
             }));
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", "DIR").then((result) => {
+        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", ["DIR"]).then((result) => {
             assert(spyCallApi.called);
             expect(result.components.length).to.be.eq(2);
             assert(spyCallApi.calledTwice);
@@ -92,7 +92,7 @@ describe("SonarQubeMeasuresApiService", () => {
             });
         });
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", "DIR").then(() => {
+        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", ["DIR"]).then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 
             done();
@@ -102,7 +102,7 @@ describe("SonarQubeMeasuresApiService", () => {
         });
     });
 
-    it("should load again if more results", (done) => {
+    it("should call backend and react on errors on the second call", (done) => {
         let apiUrl: string = "urlsihshoif";
         let projectKey: string = "odivoins";
 
@@ -123,7 +123,7 @@ describe("SonarQubeMeasuresApiService", () => {
                 }
             }));
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", "DIR").then(() => {
+        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", ["DIR"]).then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 
             done();

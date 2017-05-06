@@ -14,6 +14,8 @@ import VisualizationLinkService from "./services/VisualizationLinkService";
 import SonarQubeScmService from "./services/sonarqube/SonarQubeScmService";
 import SonarQubeMeasuresService from "./services/sonarqube/measures/SonarQubeMeasuresService";
 import SonarQubeMeasuresApiService from "./services/sonarqube/measures/SonarQubeMeasuresApiService";
+import SonarQubeMeasuresTreeService from "./services/sonarqube/measures/SonarQubeMeasuresTreeService";
+import SonarQubeMeasuresMetricService from "./services/sonarqube/measures/SonarQubeMeasuresMetricService";
 
 export interface AppConfiguration {
     api: string;
@@ -25,11 +27,8 @@ export default class App {
     private static WEBGL_ERROR_KEY: string = "WEBGL_ERROR";
 
     private communicator: SonarQubeMetricsService;
-    private measuresService: SonarQubeMeasuresService;
-    private measuresApiService: SonarQubeMeasuresApiService;
     private visualizationLinkService: VisualizationLinkService;
     private legacy: LegacyCityCreator;
-    private scmService: SonarQubeScmService;
 
     //noinspection JSMismatchedCollectionQueryUpdate
     private reactions: any[];
@@ -37,17 +36,20 @@ export default class App {
     public constructor(config: AppConfiguration) {
         appStatusStore.showLoadingQueue = config.isDev;
 
-        this.scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
         this.visualizationLinkService = new VisualizationLinkService(cityBuilderStore, sceneStore);
         this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
-        this.measuresApiService = new SonarQubeMeasuresApiService(config.api, config.projectKey);
-        this.measuresService = new SonarQubeMeasuresService(config.projectKey, this.measuresApiService, appStatusStore,
-                                                            cityBuilderStore, sceneStore);
-        this.legacy = new LegacyCityCreator(sceneStore, appStatusStore, this.scmService);
+
+        let scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
+        let measuresApiService = new SonarQubeMeasuresApiService(config.api, config.projectKey);
+        let measuresTreeService = new SonarQubeMeasuresTreeService(measuresApiService);
+        let measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
+        let measuresService = new SonarQubeMeasuresService(config.projectKey, measuresTreeService, measuresMetricService,
+                                                           appStatusStore, cityBuilderStore, sceneStore);
+        this.legacy = new LegacyCityCreator(sceneStore, appStatusStore, scmService);
 
         this.reactions = [
             new SceneReactions(sceneStore, cityBuilderStore, this.legacy),
-            new BuilderReactions(cityBuilderStore, this.measuresService)
+            new BuilderReactions(cityBuilderStore, measuresService)
         ];
     }
 
