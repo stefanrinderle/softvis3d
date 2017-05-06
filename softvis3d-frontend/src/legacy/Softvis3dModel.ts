@@ -76,17 +76,17 @@ export default class Softvis3dModel extends BaseModel {
         };
 
 
-        if (this.isMetricValueSet(treeNode, this._heightKey)) {
+        if (this.isMetricValueSet(treeNode, this._heightKey) && treeNode.isFile) {
             this._metricScale.height.min = Math.min(treeNode.measures[this._heightKey], this._metricScale.height.min);
             this._metricScale.height.max = Math.max(treeNode.measures[this._heightKey], this._metricScale.height.max);
         }
 
-        if (this.isMetricValueSet(treeNode, this._footprintKey)) {
+        if (this.isMetricValueSet(treeNode, this._footprintKey) && treeNode.isFile) {
             this._metricScale.metricFootprint.min = Math.min(treeNode.measures[this._footprintKey], this._metricScale.metricFootprint.min);
             this._metricScale.metricFootprint.max = Math.max(treeNode.measures[this._footprintKey], this._metricScale.metricFootprint.max);
         }
 
-        if (this.isMetricValueSet(treeNode, this._metricColorKey)) {
+        if (this.isMetricValueSet(treeNode, this._metricColorKey) && treeNode.isFile) {
             this._metricScale.metricColor.min = Math.min(treeNode.measures[this._metricColorKey], this._metricScale.metricColor.min);
             this._metricScale.metricColor.max = Math.max(treeNode.measures[this._metricColorKey], this._metricScale.metricColor.max);
         }
