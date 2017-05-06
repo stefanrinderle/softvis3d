@@ -1,6 +1,6 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import { RadioButton, RadioGroup } from "../ui/RadioButton";
+import {RadioButton, RadioGroup} from "../ui/RadioButton";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import Layout from "../../classes/Layout";
 
@@ -21,17 +21,19 @@ export default class LayoutPicker extends React.Component<LayoutPickerProps, any
                     value={store.layout}
                     className={"list"}
                 >
-                    {
-                        layouts.map(
-                            (layout) => <RadioButton
-                                key={layout.id}
-                                value={layout}
-                                label={layout.label}
-                            />
-                        )
-                    }
+                    { this.mapLayouts(layouts) }
                 </RadioGroup>
             </div>
         );
+    }
+
+    private mapLayouts(l: Layout[]): RadioButton[] {
+        return l.map(
+            (layout) => <RadioButton
+                key={layout.id}
+                value={layout}
+                label={layout.label}
+            />
+        ) as any[];
     }
 }
