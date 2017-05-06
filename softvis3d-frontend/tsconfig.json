@@ -7,6 +7,7 @@
         "noUnusedLocals": true,
         "strictNullChecks": true,
         "experimentalDecorators": true,
+        "skipLibCheck": true,
         "module": "commonJS",
         "target": "es6",
         "jsx": "react"

@@ -16,6 +16,6 @@ _The necessary port 9000 will be forwarded from your host to the client machine.
  * To build and deploy Softvis3D to your SonarQube docker container:
    ```
    mvn package -DskipTests
-   CONTAINER_ID=`docker ps -q --filter "name=softvis3d_sonarqube" --filter "status=running"`
+   CONTAINER_ID=`docker ps -q --filter "name=sonarqube" --filter "name=softvis" --filter "status=running"`
    docker cp sonar-softvis3d-plugin/target/sonar-softvis3d-plugin-*-SNAPSHOT.jar ${CONTAINER_ID}:/opt/sonarqube/extensions/downloads
    ```

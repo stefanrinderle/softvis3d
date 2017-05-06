@@ -1,6 +1,7 @@
 import * as React from "react";
 import SelectBox from "./SelectBox";
 import SelectOption from "./SelectOption";
+import {MouseEventHandler} from "react";
 
 export interface SelectBoxBuilderProps {
     className?: string;
@@ -8,8 +9,8 @@ export interface SelectBoxBuilderProps {
     value: SelectOptionValue;
     options: SelectOptionValue[];
     onChange: (value: SelectOptionValue) => void|boolean;
-    onClick?: (event: React.SyntheticEvent) => void|boolean;
-    onMouseDown?: (event: React.SyntheticEvent) => void|boolean;
+    onClick?: MouseEventHandler<HTMLElement>;
+    onMouseDown?: MouseEventHandler<HTMLElement>;
     disabled?: boolean;
     prepend?: JSX.Element[];
     append?: JSX.Element[];

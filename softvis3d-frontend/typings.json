@@ -1,15 +1,16 @@
 {
   "globalDependencies": {
     "mocha": "registry:dt/mocha#2.2.5+20161028141524",
-    "react": "registry:dt/react#0.14.0+20161024223416",
-    "react-addons-test-utils": "registry:dt/react-addons-test-utils#0.14.0+20160427035638",
-    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
     "three": "registry:dt/three#0.0.0+20161004170959",
     "three-orbitcontrols": "registry:dt/three-orbitcontrols#0.0.0+20160704010734"
   },
   "dependencies": {
     "chai": "registry:npm/chai#3.5.0+20160723033700",
     "enzyme": "registry:npm/enzyme#2.2.0+20160322031343",
+    "react": "registry:dt/react#15.0.0+20170324160437",
+    "react-addons-test-utils": "registry:dt/react-addons-test-utils#0.14.0+20170123203653",
+    "react-custom-scrollbars": "registry:dt/react-custom-scrollbars#2.0.1+20170210124854",
+    "react-dom": "registry:dt/react-dom#0.14.0+20170207010524",
     "sinon": "registry:npm/sinon#1.16.0+20160723033700"
   }
 }
