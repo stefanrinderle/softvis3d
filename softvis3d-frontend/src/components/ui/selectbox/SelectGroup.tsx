@@ -3,13 +3,14 @@ import SelectOption from "./SelectOption";
 
 interface SelectGroupProps {
     selectedValue?: any;
-    children?: SelectOption[];
     disabled?: boolean;
     label: string;
     optionRef?: (o: SelectOption) => void;
 }
 
 export default class SelectGroup extends React.Component<SelectGroupProps, any> {
+
+    //noinspection JSUnusedGlobalSymbols
     public static defaultProps = {
         className: "",
         disabled: false

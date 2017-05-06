@@ -4,7 +4,6 @@ type BoundChangeEvent = (event: ChangeEvent, src: React.Component<any, any>) => 
 type ChangeEvent = (value: any, event: ChangeEvent, src: React.Component<any, any>) => void;
 
 interface RadioGroupProps {
-    children?: RadioButton[];
     key?: string | number;
     ref?: string | ((component: RadioGroup) => any);
 
