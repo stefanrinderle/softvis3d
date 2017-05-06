@@ -30,6 +30,7 @@ interface MeasureList {
 }
 
 declare module "three-orbit-controls" {
-    let orbitcontrols: (three: any) => any;
+    import OrbitControls = THREE.OrbitControls;
+    let orbitcontrols: (three: any) => OrbitControls;
     export = orbitcontrols;
 }

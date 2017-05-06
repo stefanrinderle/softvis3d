@@ -1,6 +1,6 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {Scrollbars} from "react-custom-scrollbars";
+import { observer } from "mobx-react";
+import  Scrollbars  from "react-custom-scrollbars";
 import FolderContentElement from "./FolderContentElement";
 import {SceneStore} from "../../stores/SceneStore";
 import {HtmlDom, Offset} from "../../services/HtmlDom";

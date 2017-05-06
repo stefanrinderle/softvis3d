@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default class SoftVis3DLogo extends React.Component<undefined, any> {
+export default class SoftVis3DLogo extends React.Component<{}, any> {
 
     public render() {
         return (

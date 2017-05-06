@@ -53,9 +53,9 @@
         export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {
         ```
 
-   * if no property, then use undefined as „object“ type for params
+   * if no property is accepted, then use an empty „object“ as params
 
         ```
         @observer
-        export default class OptionsSimple extends React.Component<undefined, any> {
+        export default class OptionsSimple extends React.Component<{}, any> {
         ```
