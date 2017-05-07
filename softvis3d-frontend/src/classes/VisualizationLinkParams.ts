@@ -12,7 +12,7 @@ export default class VisualizationLinkParams {
     private _layout: Layout;
     private _scale: Scale;
     private _selectedObjectId: string | null;
-    private _cameraPosition: THREE.Vector3;
+    private _cameraPosition: Vector3;
 
     constructor(footprintMetricId: string, heightMetricId: string, metricColor: Metric, layout: Layout, scale: Scale,
                 selectedObjectId: string | null, cameraPosition: Vector3) {
