@@ -81,15 +81,8 @@ describe("<FolderContent/>", () => {
     });
 
     it("should mount component with dimension update", () => {
-        let htmlDomGetHeightStub = Sinon.stub(HtmlDom, "getHeightById", () => {
-            return 123;
-        });
-        let htmlDomGetOffsetStub = Sinon.stub(HtmlDom, "getOffsetsById", () => {
-            return {
-                top: 312,
-                left: 111
-            };
-        });
+        const htmlDomGetHeightStub = Sinon.stub(HtmlDom, "getHeightById").callsFake(() => 123);
+        const htmlDomGetOffsetStub = Sinon.stub(HtmlDom, "getOffsetsById").callsFake(() => ({top: 312, left: 111}));
 
         let windowStub = Sinon.stub(window, "addEventListener");
 

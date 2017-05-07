@@ -17,7 +17,7 @@ export {
     EXPONENTIAL,
     LINEAR_SCALED,
     LINEAR
-}
+};
 
 export class Scales {
 

@@ -1,4 +1,3 @@
-import "jsdom-global/register";
 import * as React from "react";
 import * as Sinon from "sinon";
 import {SceneStore} from "../../../src/stores/SceneStore";
