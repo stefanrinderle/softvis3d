@@ -42,11 +42,7 @@ export default class SideBar extends React.Component<SideBarProps, any> {
             return null;
         }
 
-        if (element.parent) {
-            return element.parent;
-        } else {
-            return null;
-        }
+        return element.parent ? element.parent : null;
     }
 
 }

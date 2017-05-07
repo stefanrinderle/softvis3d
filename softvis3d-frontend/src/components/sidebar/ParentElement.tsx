@@ -36,15 +36,11 @@ export default class ParentElement extends React.Component<SelectParentProps, an
         );
     }
 
-    private getParentElement(element: TreeElement) {
+    private getParentElement(element: TreeElement): TreeElement | null {
         if (!this.props.sceneStore.legacyData) {
             return null;
         }
 
-        if (element.parent) {
-            return element.parent;
-        } else {
-            return null;
-        }
+        return element.parent ? element.parent : null;
     }
 }

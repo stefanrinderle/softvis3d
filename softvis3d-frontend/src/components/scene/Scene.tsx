@@ -64,12 +64,14 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         const {sceneStore} = this.props;
         const {focus, legend, mounted} = this.state;
 
-        if (mounted && sceneStore.shapesHash !== this.canvasState) {
-            this._threeSceneService.update(sceneStore.shapes, sceneStore.options, sceneStore.cameraPosition);
-            this.canvasState = sceneStore.shapesHash;
-        } else if (mounted && this.selectedObjectIdState !== this.props.sceneStore.selectedObjectId) {
-            this._threeSceneService.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
-            this.selectedObjectIdState = this.props.sceneStore.selectedObjectId;
+        if (mounted) {
+            if (sceneStore.shapesHash !== this.canvasState) {
+                this._threeSceneService.update(sceneStore.shapes, sceneStore.options, sceneStore.cameraPosition);
+                this.canvasState = sceneStore.shapesHash;
+            } else if (sceneStore.selectedObjectId !== this.selectedObjectIdState) {
+                this._threeSceneService.selectSceneTreeObject(sceneStore.selectedObjectId);
+                this.selectedObjectIdState = sceneStore.selectedObjectId;
+            }
         }
 
         let cssClass = "scene";

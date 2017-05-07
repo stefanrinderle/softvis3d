@@ -90,11 +90,13 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
     }
 
     private getElement(child: TreeElement) {
+        const {sceneStore} = this.props;
+
         return <FolderContentElement
                 key={child.id}
                 element={child}
-                isSelected={child.id === this.props.sceneStore.selectedObjectId}
-                sceneStore={this.props.sceneStore}
+                isSelected={child.id === sceneStore.selectedObjectId}
+                sceneStore={sceneStore}
             />;
     }
 }
