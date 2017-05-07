@@ -44,7 +44,7 @@ export interface SonarQubePaging {
  * UTS - Unit Test Files
  */
 export type SonarQubeQualifier =
-    | "BRC"
+    "BRC"
     | "DIR"
     | "FIL"
     | "TRK"

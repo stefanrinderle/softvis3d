@@ -1,5 +1,15 @@
 export class TreeElement {
 
+    private static sortByNameAndType() {
+        return (a: TreeElement, b: TreeElement) => {
+            if (a.isFile === b.isFile) {
+                return a.name.localeCompare(b.name);
+            }
+
+            return a.isFile ? 1 : -1;
+        };
+    }
+
     public readonly id: string;
     public readonly key: string;
     public measures: MeasureList;
@@ -10,7 +20,7 @@ export class TreeElement {
     public parent?: TreeElement;
     public readonly children: TreeElement[];
 
-    public isFile: boolean;
+    public readonly isFile: boolean;
 
     public constructor(id: string, key: string, measures: MeasureList, name: string, path: string, isFile: boolean,
                        parent?: TreeElement) {
@@ -24,33 +34,8 @@ export class TreeElement {
         this.children = [];
     }
 
-    /**
-     * Will be called with the path of the components sorted.
-     */
-    public add(element: TreeElement, examineInReversedOrder: boolean = false) {
-        let children: TreeElement[] = this.children;
-        if (examineInReversedOrder) {
-            children = [...this.children].reverse();
-        }
-
-        for (let child of children) {
-            let indexOf = element.path.indexOf(child.path + "/");
-
-            if (indexOf === 0) {
-                child.add(element, examineInReversedOrder);
-                return;
-            }
-        }
-
-        if (!element.isFile) {
-            let indexOf = element.path.indexOf(this.path + "/");
-            if (indexOf === 0) {
-                element.name = element.path.substr(this.path.length + 1, element.path.length);
-            }
-        }
-        this.children.push(element);
-
-        element.parent = this;
+    public getSortedChilds(): TreeElement[] {
+        return this.children.sort(TreeElement.sortByNameAndType());
     }
 
 }

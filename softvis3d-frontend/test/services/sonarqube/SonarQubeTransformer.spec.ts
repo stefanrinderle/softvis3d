@@ -27,6 +27,10 @@ import {TreeElement} from "../../../src/classes/TreeElement";
 
 describe("SonarQubeTransformer", () => {
 
+    /**
+     * createTreeElement tests.
+     */
+
     it("should transform SQComponent to TreeElement - minimal", () => {
         let id = "id";
         let key = "key";
@@ -139,4 +143,95 @@ describe("SonarQubeTransformer", () => {
         expect(result.measures.ncloc).to.be.eq(123);
     });
 
+    /**
+     * add tests.
+     */
+
+    it("should be able to add a child simple", () => {
+        let parent: TreeElement = createTreeElementAsChildWithPath("/src");
+        let child: TreeElement = createTreeElementAsChildWithPath("/src/file.java");
+
+        SonarQubeTransformer.add(parent, child);
+
+        expect(parent.children.length).to.be.eq(1);
+        expect(parent.children[0]).to.be.eq(child);
+    });
+
+    it("should be able to add a child in subfolder", () => {
+        let parent: TreeElement = createTreeElementAsChildWithPath("src");
+
+        let subfolder: TreeElement = createTreeElementAsChildWithPath("src/sub");
+        SonarQubeTransformer.add(parent, subfolder);
+
+        let child: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
+        SonarQubeTransformer.add(parent, child);
+
+        expect(parent.children.length).to.be.eq(1);
+        expect(parent.children[0]).to.be.eq(subfolder);
+        expect(parent.children[0].name).to.be.eq("sub");
+        expect(parent.children[0].children.length).to.be.eq(1);
+        expect(parent.children[0].children[0]).to.be.eq(child);
+    });
+
+    it("should be able to add a child - complex", () => {
+        let parent: TreeElement = createTreeElementAsChildWithPath("src");
+
+        let subfolder1: TreeElement = createTreeElementAsChildWithPath("src/sub");
+        SonarQubeTransformer.add(parent, subfolder1);
+
+        let subfolder2: TreeElement = createTreeElementAsChildWithPath("src/sub2");
+        SonarQubeTransformer.add(parent, subfolder2);
+
+        let child1: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
+        SonarQubeTransformer.add(parent, child1);
+
+        let subfolder22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22");
+        SonarQubeTransformer.add(parent, subfolder22);
+
+        let child22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22/file.java");
+        SonarQubeTransformer.add(parent, child22);
+
+        expect(parent.children.length).to.be.eq(2);
+        expect(parent.children[0]).to.be.eq(subfolder1);
+        expect(parent.children[0].children.length).to.be.eq(1);
+        expect(parent.children[0].children[0]).to.be.eq(child1);
+
+        expect(parent.children[1]).to.be.eq(subfolder2);
+        expect(parent.children[1].children.length).to.be.eq(1);
+        expect(parent.children[1].children[0]).to.be.eq(subfolder22);
+        expect(parent.children[1].children[0].children[0]).to.be.eq(child22);
+    });
+
+    it("should be able to add a child - complex descending", () => {
+        let parent: TreeElement = createTreeElementAsChildWithPath("src");
+
+        let subfolder1: TreeElement = createTreeElementAsChildWithPath("src/sub");
+        SonarQubeTransformer.add(parent, subfolder1, true);
+
+        let subfolder2: TreeElement = createTreeElementAsChildWithPath("src/sub2");
+        SonarQubeTransformer.add(parent, subfolder2, true);
+
+        let child1: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
+        SonarQubeTransformer.add(parent, child1, true);
+
+        let subfolder22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22");
+        SonarQubeTransformer.add(parent, subfolder22, true);
+
+        let child22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22/file.java");
+        SonarQubeTransformer.add(parent, child22, true);
+
+        expect(parent.children.length).to.be.eq(2);
+        expect(parent.children[0]).to.be.eq(subfolder1);
+        expect(parent.children[0].children.length).to.be.eq(1);
+        expect(parent.children[0].children[0]).to.be.eq(child1);
+
+        expect(parent.children[1]).to.be.eq(subfolder2);
+        expect(parent.children[1].children.length).to.be.eq(1);
+        expect(parent.children[1].children[0]).to.be.eq(subfolder22);
+        expect(parent.children[1].children[0].children[0]).to.be.eq(child22);
+    });
 });
+
+function createTreeElementAsChildWithPath(path: string, isFile: boolean = false) {
+    return new TreeElement("", "", {}, "", path, isFile);
+}

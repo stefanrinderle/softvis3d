@@ -26,4 +26,33 @@ export default class SonarQubeTransformer {
             isFile, parent);
     }
 
+    /**
+     * Will be called with the path of the components sorted.
+     */
+    public static add(parent: TreeElement, element: TreeElement, examineInReversedOrder: boolean = false) {
+        let children: TreeElement[] = parent.children;
+        if (examineInReversedOrder) {
+            children = [...parent.children].reverse();
+        }
+
+        for (let child of children) {
+            let indexOf = element.path.indexOf(child.path + "/");
+
+            if (indexOf === 0) {
+                SonarQubeTransformer.add(child, element, examineInReversedOrder);
+                return;
+            }
+        }
+
+        if (!element.isFile) {
+            let indexOf = element.path.indexOf(parent.path + "/");
+            if (indexOf === 0) {
+                element.name = element.path.substr(parent.path.length + 1, element.path.length);
+            }
+        }
+        parent.children.push(element);
+
+        element.parent = parent;
+    }
+
 }

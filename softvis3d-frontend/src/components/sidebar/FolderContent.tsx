@@ -79,10 +79,7 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
         }
 
         let folderElements: JSX.Element[] = [];
-        for (let child of folder.children.filter((e) => !e.isFile)) {
-            folderElements.push(this.getElement(child));
-        }
-        for (let child of folder.children.filter((e) => e.isFile)) {
+        for (let child of folder.getSortedChilds()) {
             folderElements.push(this.getElement(child));
         }
 

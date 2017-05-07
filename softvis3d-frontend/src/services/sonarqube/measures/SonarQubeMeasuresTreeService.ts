@@ -109,7 +109,7 @@ export default class SonarQubeMeasuresTreeService {
             for (const component of components) {
                 // ignore the folder with just "/" because this is not needed.
                 if (component.path !== "/") {
-                    parent.add(SonarQubeTransformer.createTreeElement(component));
+                    SonarQubeTransformer.add(parent, SonarQubeTransformer.createTreeElement(component));
                 }
             }
             /**
@@ -118,7 +118,7 @@ export default class SonarQubeMeasuresTreeService {
              */
             this.measureApiService.loadMeasures(parent.key, metricKeys, "all", ["FIL"]).then((filesResult) => {
                 for (const file of filesResult.components) {
-                    parent.add(SonarQubeTransformer.createTreeElement(file), true);
+                    SonarQubeTransformer.add(parent, SonarQubeTransformer.createTreeElement(file), true);
                 }
                 resolve();
             }).catch((error) => {

@@ -19,95 +19,34 @@
 ///
 import {expect} from "chai";
 import {TreeElement} from "../../src/classes/TreeElement";
+import SonarQubeTransformer from "../../src/services/sonarqube/SonarQubeTransformer";
 
 describe("TreeElement", () => {
 
-    it("should be able to add a child simple", () => {
+    it("should be able to sort by name and type", () => {
         let parent: TreeElement = createTreeElementAsChildWithPath("/src");
-        let child: TreeElement = createTreeElementAsChildWithPath("/src/file.java");
+        let testDir: TreeElement = createTreeElementAsChildWithPath("/src/test");
+        SonarQubeTransformer.add(parent, testDir);
 
-        parent.add(child);
+        let mainDir: TreeElement = createTreeElementAsChildWithPath("/src/main");
+        SonarQubeTransformer.add(parent, mainDir);
 
-        expect(parent.children.length).to.be.eq(1);
-        expect(parent.children[0]).to.be.eq(child);
-    });
+        let fileA: TreeElement = createTreeElementAsChildWithPath("/src/a.java", true);
+        SonarQubeTransformer.add(parent, fileA);
+        let fileZ: TreeElement = createTreeElementAsChildWithPath("/src/z.java", true);
+        SonarQubeTransformer.add(parent, fileZ);
 
-    it("should be able to add a child in subfolder", () => {
-        let parent: TreeElement = createTreeElementAsChildWithPath("src");
+        let folderResult: TreeElement[] = parent.getSortedChilds();
 
-        let subfolder: TreeElement = createTreeElementAsChildWithPath("src/sub");
-        parent.add(subfolder);
-
-        let child: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
-        parent.add(child);
-
-        expect(parent.children.length).to.be.eq(1);
-        expect(parent.children[0]).to.be.eq(subfolder);
-        expect(parent.children[0].name).to.be.eq("sub");
-        expect(parent.children[0].children.length).to.be.eq(1);
-        expect(parent.children[0].children[0]).to.be.eq(child);
-    });
-
-    it("should be able to add a child - complex", () => {
-        let parent: TreeElement = createTreeElementAsChildWithPath("src");
-
-        let subfolder1: TreeElement = createTreeElementAsChildWithPath("src/sub");
-        parent.add(subfolder1);
-
-        let subfolder2: TreeElement = createTreeElementAsChildWithPath("src/sub2");
-        parent.add(subfolder2);
-
-        let child1: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
-        parent.add(child1);
-
-        let subfolder22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22");
-        parent.add(subfolder22);
-
-        let child22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22/file.java");
-        parent.add(child22);
-
-        expect(parent.children.length).to.be.eq(2);
-        expect(parent.children[0]).to.be.eq(subfolder1);
-        expect(parent.children[0].children.length).to.be.eq(1);
-        expect(parent.children[0].children[0]).to.be.eq(child1);
-
-        expect(parent.children[1]).to.be.eq(subfolder2);
-        expect(parent.children[1].children.length).to.be.eq(1);
-        expect(parent.children[1].children[0]).to.be.eq(subfolder22);
-        expect(parent.children[1].children[0].children[0]).to.be.eq(child22);
-    });
-
-    it("should be able to add a child - complex descending", () => {
-        let parent: TreeElement = createTreeElementAsChildWithPath("src");
-
-        let subfolder1: TreeElement = createTreeElementAsChildWithPath("src/sub");
-        parent.add(subfolder1, true);
-
-        let subfolder2: TreeElement = createTreeElementAsChildWithPath("src/sub2");
-        parent.add(subfolder2, true);
-
-        let child1: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
-        parent.add(child1, true);
-
-        let subfolder22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22");
-        parent.add(subfolder22, true);
-
-        let child22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22/file.java");
-        parent.add(child22, true);
-
-        expect(parent.children.length).to.be.eq(2);
-        expect(parent.children[0]).to.be.eq(subfolder1);
-        expect(parent.children[0].children.length).to.be.eq(1);
-        expect(parent.children[0].children[0]).to.be.eq(child1);
-
-        expect(parent.children[1]).to.be.eq(subfolder2);
-        expect(parent.children[1].children.length).to.be.eq(1);
-        expect(parent.children[1].children[0]).to.be.eq(subfolder22);
-        expect(parent.children[1].children[0].children[0]).to.be.eq(child22);
+        expect(folderResult.length).to.be.eq(4);
+        expect(folderResult[0].path).to.be.eq("/src/main");
+        expect(folderResult[1].path).to.be.eq("/src/test");
+        expect(folderResult[2].path).to.be.eq("/src/a.java");
+        expect(folderResult[3].path).to.be.eq("/src/z.java");
     });
 
 });
 
-function createTreeElementAsChildWithPath(path: string) {
-    return new TreeElement("", "", {}, "", path, false);
+function createTreeElementAsChildWithPath(path: string, isFile: boolean = false) {
+    return new TreeElement("", "", {}, "", path, isFile);
 }
