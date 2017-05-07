@@ -5,6 +5,7 @@ import StatusActionQueue from "../classes/status/StatusActionQueue";
 import StatusAction from "../classes/status/StatusAction";
 
 class AppStatusStore {
+
     @observable
     public showLoadingQueue: boolean = false;
     @observable
@@ -28,35 +29,38 @@ class AppStatusStore {
     }
 
     public load(action: LoadAction): void {
-        this.loadingQueue = this.loadingQueue.copyAndAdd(action);
+        this.loadingQueue.add(action);
     }
 
-    public loadStatusUpdate(action: LoadAction, pageSize: number, page: number): void  {
-        action.setStatus(pageSize, page);
+    public loadStatusUpdate(actionKey: string, max: number, current: number): void {
+        let savedAction = this.loadingQueue.getAction(actionKey);
 
-        this.loadingQueue = this.loadingQueue.copyAndUpdate(action);
-    }
-
-    public loadStatusUpdateIncrementMax(action: LoadAction): void  {
-        let current = this.loadingQueue.getAction(action.key);
-
-        if (current) {
-            action.incrementMax();
-            this.loadingQueue = this.loadingQueue.copyAndUpdate(action);
+        if (savedAction) {
+            savedAction.setStatus(max, current);
+            this.loadingQueue = this.loadingQueue.update(savedAction);
         }
     }
 
-    public loadStatusUpdateIncrementCurrent(action: LoadAction): void  {
-        let current = this.loadingQueue.getAction(action.key);
+    public loadStatusUpdateIncrementMax(actionKey: string): void {
+        let savedAction = this.loadingQueue.getAction(actionKey);
 
-        if (current) {
-            action.incrementCurrent();
-            this.loadingQueue = this.loadingQueue.copyAndUpdate(action);
+        if (savedAction) {
+            savedAction.incrementMax();
+            this.loadingQueue = this.loadingQueue.update(savedAction);
         }
     }
 
-    public loadComplete(action: LoadAction): void  {
-        this.loadingQueue = this.loadingQueue.copyAndRemove(action);
+    public loadStatusUpdateIncrementCurrent(actionKey: string): void {
+        let savedAction = this.loadingQueue.getAction(actionKey);
+
+        if (savedAction) {
+            savedAction.incrementCurrent();
+            this.loadingQueue = this.loadingQueue.update(savedAction);
+        }
+    }
+
+    public loadComplete(action: LoadAction): void {
+        this.loadingQueue.remove(action);
     }
 
     public error(error: ErrorAction): void {
@@ -71,4 +75,4 @@ class AppStatusStore {
 const appStatusStore = new AppStatusStore();
 
 export default appStatusStore;
-export { AppStatusStore };
+export {AppStatusStore};

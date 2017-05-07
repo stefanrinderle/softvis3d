@@ -35,7 +35,7 @@ export default class SonarQubeMeasuresTreeService {
     }
 
     public loadTree(parent: TreeElement, metricKeys: string): Promise<void> {
-        this.appStatusStore.loadStatusUpdateIncrementMax(SonarQubeMeasuresService.LOAD_MEASURES);
+        this.appStatusStore.loadStatusUpdateIncrementMax(SonarQubeMeasuresService.LOAD_MEASURES.key);
 
         return new Promise<void>((resolve, reject) => {
             /**
@@ -96,7 +96,7 @@ export default class SonarQubeMeasuresTreeService {
     }
 
     private resolveLoadTree(resolve: Function) {
-        this.appStatusStore.loadStatusUpdateIncrementCurrent(SonarQubeMeasuresService.LOAD_MEASURES);
+        this.appStatusStore.loadStatusUpdateIncrementCurrent(SonarQubeMeasuresService.LOAD_MEASURES.key);
         resolve();
     }
 
@@ -109,7 +109,7 @@ export default class SonarQubeMeasuresTreeService {
             for (const component of components) {
                 // ignore the folder with just "/" because this is not needed.
                 if (component.path !== "/") {
-                    parent.addAsChild(SonarQubeTransformer.createTreeElement(component));
+                    parent.add(SonarQubeTransformer.createTreeElement(component));
                 }
             }
             /**
@@ -118,7 +118,7 @@ export default class SonarQubeMeasuresTreeService {
              */
             this.measureApiService.loadMeasures(parent.key, metricKeys, "all", ["FIL"]).then((filesResult) => {
                 for (const file of filesResult.components) {
-                    parent.addAsChild(SonarQubeTransformer.createTreeElement(file), true);
+                    parent.add(SonarQubeTransformer.createTreeElement(file), true);
                 }
                 resolve();
             }).catch((error) => {

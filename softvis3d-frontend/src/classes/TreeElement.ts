@@ -27,17 +27,17 @@ export class TreeElement {
     /**
      * Will be called with the path of the components sorted.
      */
-    public addAsChild(element: TreeElement, isDescending: boolean = false) {
-        let children = this.children;
-        if (isDescending) {
-            children = children.reverse();
+    public add(element: TreeElement, examineInReversedOrder: boolean = false) {
+        let children: TreeElement[] = this.children;
+        if (examineInReversedOrder) {
+            children = [...this.children].reverse();
         }
 
         for (let child of children) {
             let indexOf = element.path.indexOf(child.path + "/");
 
             if (indexOf === 0) {
-                child.addAsChild(element, isDescending);
+                child.add(element, examineInReversedOrder);
                 return;
             }
         }

@@ -126,7 +126,7 @@ export default class SonarQubeScmService extends BackendService {
         return new Promise<void>((resolve, reject) => {
             let size: number = 75;
             let pageSize = Math.floor(allFiles.length / size);
-            this.appStatusStore.loadStatusUpdate(SonarQubeScmService.LOAD_SCM, pageSize, page);
+            this.appStatusStore.loadStatusUpdate(SonarQubeScmService.LOAD_SCM.key, pageSize, page);
 
             let requests: Array<Promise<void>> = [];
 

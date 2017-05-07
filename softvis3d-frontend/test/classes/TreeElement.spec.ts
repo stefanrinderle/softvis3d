@@ -26,7 +26,7 @@ describe("TreeElement", () => {
         let parent: TreeElement = createTreeElementAsChildWithPath("/src");
         let child: TreeElement = createTreeElementAsChildWithPath("/src/file.java");
 
-        parent.addAsChild(child);
+        parent.add(child);
 
         expect(parent.children.length).to.be.eq(1);
         expect(parent.children[0]).to.be.eq(child);
@@ -36,10 +36,10 @@ describe("TreeElement", () => {
         let parent: TreeElement = createTreeElementAsChildWithPath("src");
 
         let subfolder: TreeElement = createTreeElementAsChildWithPath("src/sub");
-        parent.addAsChild(subfolder);
+        parent.add(subfolder);
 
         let child: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
-        parent.addAsChild(child);
+        parent.add(child);
 
         expect(parent.children.length).to.be.eq(1);
         expect(parent.children[0]).to.be.eq(subfolder);
@@ -52,19 +52,19 @@ describe("TreeElement", () => {
         let parent: TreeElement = createTreeElementAsChildWithPath("src");
 
         let subfolder1: TreeElement = createTreeElementAsChildWithPath("src/sub");
-        parent.addAsChild(subfolder1);
+        parent.add(subfolder1);
 
         let subfolder2: TreeElement = createTreeElementAsChildWithPath("src/sub2");
-        parent.addAsChild(subfolder2);
+        parent.add(subfolder2);
 
         let child1: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
-        parent.addAsChild(child1);
+        parent.add(child1);
 
         let subfolder22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22");
-        parent.addAsChild(subfolder22);
+        parent.add(subfolder22);
 
         let child22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22/file.java");
-        parent.addAsChild(child22);
+        parent.add(child22);
 
         expect(parent.children.length).to.be.eq(2);
         expect(parent.children[0]).to.be.eq(subfolder1);
@@ -81,29 +81,29 @@ describe("TreeElement", () => {
         let parent: TreeElement = createTreeElementAsChildWithPath("src");
 
         let subfolder1: TreeElement = createTreeElementAsChildWithPath("src/sub");
-        parent.addAsChild(subfolder1, true);
+        parent.add(subfolder1, true);
 
         let subfolder2: TreeElement = createTreeElementAsChildWithPath("src/sub2");
-        parent.addAsChild(subfolder2, true);
+        parent.add(subfolder2, true);
 
         let child1: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
-        parent.addAsChild(child1, true);
+        parent.add(child1, true);
 
         let subfolder22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22");
-        parent.addAsChild(subfolder22, true);
+        parent.add(subfolder22, true);
 
         let child22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22/file.java");
-        parent.addAsChild(child22, true);
+        parent.add(child22, true);
 
         expect(parent.children.length).to.be.eq(2);
-        expect(parent.children[1]).to.be.eq(subfolder1);
-        expect(parent.children[1].children.length).to.be.eq(1);
-        expect(parent.children[1].children[0]).to.be.eq(child1);
-
-        expect(parent.children[0]).to.be.eq(subfolder2);
+        expect(parent.children[0]).to.be.eq(subfolder1);
         expect(parent.children[0].children.length).to.be.eq(1);
-        expect(parent.children[0].children[0]).to.be.eq(subfolder22);
-        expect(parent.children[0].children[0].children[0]).to.be.eq(child22);
+        expect(parent.children[0].children[0]).to.be.eq(child1);
+
+        expect(parent.children[1]).to.be.eq(subfolder2);
+        expect(parent.children[1].children.length).to.be.eq(1);
+        expect(parent.children[1].children[0]).to.be.eq(subfolder22);
+        expect(parent.children[1].children[0].children[0]).to.be.eq(child22);
     });
 
 });

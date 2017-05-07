@@ -2,20 +2,20 @@ import StatusAction from "./StatusAction";
 
 export default class LoadAction extends StatusAction {
 
-    private _limit: number;
-    private _current: number;
+    private _max: number | undefined;
+    private _current: number | undefined;
 
     constructor(key: string, description: string) {
         super(key, description);
     }
 
-    public setStatus(limit: number, current: number) {
-        this._limit = limit;
+    public setStatus(max: number, current: number) {
+        this._max = max;
         this._current = current;
     }
 
-    public get limit(): number | undefined {
-        return this._limit;
+    public get max(): number | undefined {
+        return this._max;
     }
 
     public get current(): number | undefined  {
@@ -23,8 +23,8 @@ export default class LoadAction extends StatusAction {
     }
 
     public incrementMax() {
-        if (typeof this._limit !== "undefined") {
-            this._limit = this._limit + 1;
+        if (typeof this._max !== "undefined") {
+            this._max = this._max + 1;
         }
     }
 
@@ -34,9 +34,13 @@ export default class LoadAction extends StatusAction {
         }
     }
 
+    public hasStatus(): boolean {
+        return typeof this._current !== "undefined" && typeof this._max !== "undefined";
+    }
+
     public get percent(): number {
-        if (typeof this.limit !== "undefined" && typeof this.current !== "undefined") {
-            return Math.floor((100 / this.limit) * this.current);
+        if (typeof this._current !== "undefined" && typeof this._max !== "undefined") {
+            return Math.floor((100 / this._max) * this._current);
         } else {
             return 100;
         }
