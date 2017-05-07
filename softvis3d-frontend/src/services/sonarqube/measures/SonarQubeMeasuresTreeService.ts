@@ -18,7 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {TreeElement} from "../../../classes/TreeElement";
-import {SonarQubeApiComponent} from "./SonarQubeMeasureResponse";
+import {
+    SonarQubeApiComponent, SonarQubeQualifier, SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE,
+    SQ_QUALIFIER_SUB_PROJECT
+} from "./SonarQubeMeasureResponse";
 import SonarQubeTransformer from "../SonarQubeTransformer";
 import SonarQubeMeasuresApiService from "./SonarQubeMeasuresApiService";
 import {AppStatusStore} from "../../../stores/AppStatusStore";
@@ -42,20 +45,21 @@ export default class SonarQubeMeasuresTreeService {
              * Load the direct children of the given component. In SQ terms this means only directories or sub-projects
              * will be loaded.
              */
-            this.measureApiService.loadMeasures(parent.key, metricKeys, "children", ["DIR", "BRC"]).then((result) => {
+            let qualifiers: SonarQubeQualifier[] = [SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_SUB_PROJECT];
+            this.measureApiService.loadMeasures(parent.key, metricKeys, "children", qualifiers).then((result) => {
                 if (result.components.length === 0) {
                     this.resolveLoadTree(resolve);
                 }
                 /**
                  * The result contains either only dirs or only sub-projects.
                  */
-                if (result.components[0].qualifier === "DIR") {
+                if (result.components[0].qualifier === SQ_QUALIFIER_DIRECTORY) {
                     this.processLeafLevel(result.components, parent, metricKeys).then(() => {
                         this.resolveLoadTree(resolve);
                     }).catch((error) => {
                         reject(error);
                     });
-                } else if (result.components[0].qualifier === "BRC") {
+                } else if (result.components[0].qualifier === SQ_QUALIFIER_SUB_PROJECT) {
                     this.processNodeLevel(result.components, parent, metricKeys).then(() => {
                         this.resolveLoadTree(resolve);
                     }).catch((error) => {
@@ -116,11 +120,12 @@ export default class SonarQubeMeasuresTreeService {
              * The files are still missing, so request them for the same key as the directories have been
              * requested.
              */
-            this.measureApiService.loadMeasures(parent.key, metricKeys, "all", ["FIL"]).then((filesResult) => {
-                for (const file of filesResult.components) {
-                    SonarQubeTransformer.add(parent, SonarQubeTransformer.createTreeElement(file), true);
-                }
-                resolve();
+            this.measureApiService.loadMeasures(
+                parent.key, metricKeys, "all", [SQ_QUALIFIER_FILE]).then((filesResult) => {
+                    for (const file of filesResult.components) {
+                        SonarQubeTransformer.add(parent, SonarQubeTransformer.createTreeElement(file), true);
+                    }
+                    resolve();
             }).catch((error) => {
                 reject(error);
             });

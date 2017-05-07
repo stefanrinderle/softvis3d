@@ -21,7 +21,10 @@ import {expect} from "chai";
 import SonarQubeTransformer from "../../../src/services/sonarqube/SonarQubeTransformer";
 import {
     SonarQubeApiComponent,
-    SonarQubeMeasure, SonarQubeQualifier
+    SonarQubeMeasure,
+    SonarQubeQualifier,
+    SQ_QUALIFIER_DIRECTORY,
+    SQ_QUALIFIER_FILE
 } from "../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
 import {TreeElement} from "../../../src/classes/TreeElement";
 
@@ -37,7 +40,7 @@ describe("SonarQubeTransformer", () => {
         let measures: SonarQubeMeasure[] = [];
         let name = "name";
         let path = "path";
-        let qualifier: SonarQubeQualifier = "DIR";
+        let qualifier: SonarQubeQualifier = SQ_QUALIFIER_DIRECTORY;
 
         let component: SonarQubeApiComponent = {
             id,
@@ -68,7 +71,7 @@ describe("SonarQubeTransformer", () => {
             measures: [],
             name: "name",
             path: "path",
-            qualifier: "FIL"
+            qualifier: SQ_QUALIFIER_FILE
         };
 
         let expectedParent: TreeElement = new TreeElement("", "asdda", {}, "", "", false);
@@ -99,7 +102,7 @@ describe("SonarQubeTransformer", () => {
             measures,
             name: "name",
             path: "path",
-            qualifier: "FIL"
+            qualifier: SQ_QUALIFIER_FILE
         };
 
         let expectedParent: TreeElement = new TreeElement("", "asdda", {}, "", "", false);
@@ -131,7 +134,7 @@ describe("SonarQubeTransformer", () => {
             measures,
             name: "name",
             path: "path",
-            qualifier: "FIL"
+            qualifier: SQ_QUALIFIER_FILE
         };
 
         let expectedParent: TreeElement = new TreeElement("", "asdda", {}, "", "", false);

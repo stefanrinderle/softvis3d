@@ -20,7 +20,10 @@
 import {assert, expect} from "chai";
 import * as Sinon from "sinon";
 import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresApiService";
-import {SonarQubeMeasurePagingResponse} from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
+import {
+    SonarQubeMeasurePagingResponse,
+    SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE
+} from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
 
 describe("SonarQubeMeasuresApiService", () => {
 
@@ -36,7 +39,7 @@ describe("SonarQubeMeasuresApiService", () => {
             });
         });
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", ["DIR"]).then((result) => {
+        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", [SQ_QUALIFIER_DIRECTORY]).then((result) => {
             assert(stub.called);
             expect(result.components.length).to.be.eq(1);
 
@@ -66,7 +69,7 @@ describe("SonarQubeMeasuresApiService", () => {
                 data: data2
             }));
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", ["DIR"]).then((result) => {
+        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", [SQ_QUALIFIER_DIRECTORY]).then((result) => {
             assert(spyCallApi.called);
             expect(result.components.length).to.be.eq(2);
             assert(spyCallApi.calledTwice);
@@ -92,7 +95,7 @@ describe("SonarQubeMeasuresApiService", () => {
             });
         });
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", ["DIR"]).then(() => {
+        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", [SQ_QUALIFIER_DIRECTORY]).then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 
             done();
@@ -123,7 +126,7 @@ describe("SonarQubeMeasuresApiService", () => {
                 }
             }));
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", ["DIR"]).then(() => {
+        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", [SQ_QUALIFIER_DIRECTORY]).then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 
             done();
@@ -144,7 +147,7 @@ function createResponseWithOneComponent(pageIndex: number, pageSize: number,
             measures: [],
             name: "" + pageIndex,
             path: "" + pageIndex,
-            qualifier: "DIR"
+            qualifier: SQ_QUALIFIER_DIRECTORY
         },
         components: [{
             id: "expectedId" + pageIndex,
@@ -152,7 +155,7 @@ function createResponseWithOneComponent(pageIndex: number, pageSize: number,
             measures: [],
             name: "name" + pageIndex,
             path: "path" + pageIndex,
-            qualifier: "FIL"
+            qualifier: SQ_QUALIFIER_FILE
         }],
         paging: {
             pageIndex,

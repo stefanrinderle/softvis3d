@@ -22,7 +22,7 @@ import * as Sinon from "sinon";
 import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresApiService";
 import {
     SonarQubeApiComponent,
-    SonarQubeMeasureResponse
+    SonarQubeMeasureResponse, SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE, SQ_QUALIFIER_SUB_PROJECT
 } from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
 import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresTreeService";
 import {TreeElement} from "../../../../src/classes/TreeElement";
@@ -76,7 +76,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             measures: [],
             name: "",
             path: "/src",
-            qualifier: "DIR"
+            qualifier: SQ_QUALIFIER_DIRECTORY
         }];
         let components2: SonarQubeApiComponent[] = [{
             id: "",
@@ -84,7 +84,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             measures: [],
             name: "",
             path: "/src/file.java",
-            qualifier: "FIL"
+            qualifier: SQ_QUALIFIER_FILE
         }];
         measureApiService.loadMeasures.onFirstCall().returns(
             Promise.resolve(
@@ -125,7 +125,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             measures: [],
             name: "",
             path: "",
-            qualifier: "BRC"
+            qualifier: SQ_QUALIFIER_SUB_PROJECT
         }];
         let components2: SonarQubeApiComponent[] = [{
             id: "",
@@ -133,14 +133,14 @@ describe("SonarQubeMeasuresTreeService", () => {
             measures: [],
             name: "",
             path: "/",
-            qualifier: "DIR"
+            qualifier: SQ_QUALIFIER_DIRECTORY
         }, {
             id: "",
             key: "",
             measures: [],
             name: "",
             path: "/src",
-            qualifier: "DIR"
+            qualifier: SQ_QUALIFIER_DIRECTORY
         }];
         let components3: SonarQubeApiComponent[] = [{
             id: "",
@@ -148,7 +148,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             measures: [],
             name: "",
             path: "/src/file.java",
-            qualifier: "FIL"
+            qualifier: SQ_QUALIFIER_FILE
         }];
         measureApiService.loadMeasures.onFirstCall().returns(
             Promise.resolve(
@@ -223,7 +223,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             measures: [],
             name: "",
             path: "/src",
-            qualifier: "DIR"
+            qualifier: SQ_QUALIFIER_DIRECTORY
         }];
         measureApiService.loadMeasures.onFirstCall().returns(
             Promise.resolve(
@@ -266,7 +266,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             measures: [],
             name: "",
             path: "",
-            qualifier: "BRC"
+            qualifier: SQ_QUALIFIER_SUB_PROJECT
         }];
         let components2: SonarQubeApiComponent[] = [{
             id: "",
@@ -274,14 +274,14 @@ describe("SonarQubeMeasuresTreeService", () => {
             measures: [],
             name: "",
             path: "/",
-            qualifier: "DIR"
+            qualifier: SQ_QUALIFIER_DIRECTORY
         }, {
             id: "",
             key: "",
             measures: [],
             name: "",
             path: "/src",
-            qualifier: "DIR"
+            qualifier: SQ_QUALIFIER_DIRECTORY
         }];
         measureApiService.loadMeasures.onFirstCall().returns(
             Promise.resolve(
@@ -381,7 +381,7 @@ function createResponseWithComponents(components: SonarQubeApiComponent[]): Sona
             measures: [],
             name: "",
             path: "",
-            qualifier: "DIR"
+            qualifier: SQ_QUALIFIER_DIRECTORY
         },
         components
     };
