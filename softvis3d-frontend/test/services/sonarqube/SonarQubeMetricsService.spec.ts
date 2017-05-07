@@ -43,7 +43,7 @@ describe("SonarQubeMetricsService", () => {
             description: ""
         });
 
-        Sinon.stub(underTest, "callApi", () => {
+        Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
                     metrics: expectedMetrics
@@ -79,7 +79,7 @@ describe("SonarQubeMetricsService", () => {
             description: ""
         });
 
-        Sinon.stub(underTest, "callApi", () => {
+        Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
                     metrics: expectedMetrics
@@ -114,7 +114,7 @@ describe("SonarQubeMetricsService", () => {
             description: ""
         });
 
-        Sinon.stub(underTest, "callApi", () => {
+        Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
                     metrics: expectedMetrics
@@ -141,7 +141,7 @@ describe("SonarQubeMetricsService", () => {
         let underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif", testAppStatusStore,
             testCityBuilderStore);
 
-        Sinon.stub(underTest, "callApi", () => {
+        Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
                     metrics: []
@@ -212,7 +212,7 @@ describe("SonarQubeMetricsService", () => {
         let underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif", testAppStatusStore,
             testCityBuilderStore);
 
-        Sinon.stub(underTest, "callApi", () => {
+        Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
                 response: {
                     statusText: "not working"

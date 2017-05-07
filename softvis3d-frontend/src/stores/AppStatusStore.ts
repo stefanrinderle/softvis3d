@@ -43,8 +43,6 @@ class AppStatusStore {
         if (current) {
             action.incrementMax();
             this.loadingQueue = this.loadingQueue.copyAndUpdate(action);
-        } else {
-            console.error("Action " + JSON.stringify(action) + " not found");
         }
     }
 
@@ -54,8 +52,6 @@ class AppStatusStore {
         if (current) {
             action.incrementCurrent();
             this.loadingQueue = this.loadingQueue.copyAndUpdate(action);
-        } else {
-            console.error("Action " + JSON.stringify(action) + " not found");
         }
     }
 

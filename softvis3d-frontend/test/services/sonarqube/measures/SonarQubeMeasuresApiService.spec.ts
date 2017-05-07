@@ -30,7 +30,7 @@ describe("SonarQubeMeasuresApiService", () => {
 
         let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(apiUrl, projectKey);
         let data: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 1);
-        let stub = Sinon.stub(underTest, "callApi", () => {
+        let stub = Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data
             });
@@ -84,7 +84,7 @@ describe("SonarQubeMeasuresApiService", () => {
 
         let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(apiUrl, projectKey);
 
-        Sinon.stub(underTest, "callApi", () => {
+        Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
                 response: {
                     statusText: "not working"

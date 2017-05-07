@@ -85,8 +85,7 @@ export default class SonarQubeMeasuresService {
                 this.sceneStore.legacyData = root;
 
                 this.cityBuilderStore.show = false;
-            }).catch((error) => {
-                console.error(error);
+            }).catch(() => {
                 this.appStatusStore.error(
                     new ErrorAction(SonarQubeMeasuresService.LOAD_MEASURES_ERROR_KEY,
                         "SonarQube metric API is not available or responding: ",
