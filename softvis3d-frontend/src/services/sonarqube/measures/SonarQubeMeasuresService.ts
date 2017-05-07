@@ -58,8 +58,6 @@ export default class SonarQubeMeasuresService {
         this.sceneStore.options = options;
         this.sceneStore.shapes = null;
 
-        // this.projectKey = "org.sonarsource.sonarqube:sonarqube";
-
         let metricKeys = this.measureMetricService.getMetricRequestValues();
 
         if (this.metricKeys && this.metricKeys === metricKeys) {
