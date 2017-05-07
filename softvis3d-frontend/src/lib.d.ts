@@ -18,8 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import ReactElement = __React.ReactElement;
-
 declare interface SelectOptionValue {
     readonly id: string;
     readonly label: string;

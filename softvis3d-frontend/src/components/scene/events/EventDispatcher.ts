@@ -29,7 +29,7 @@ export class EventDispatcher<T> {
         }
     }
 
-    private hasEventListener(listener: Function): Boolean {
+    private hasEventListener(listener: Function): boolean {
         return this._listeners.indexOf(listener) >= 0;
     }
 }

@@ -6,7 +6,6 @@ import {MouseEventHandler} from "react";
 type ChangeEvent = (value: any) => void|boolean;
 
 interface SelectBoxProps {
-    children?: Array<SelectOption|SelectGroup>;
     prepend?: JSX.Element[];
     append?: JSX.Element[];
 

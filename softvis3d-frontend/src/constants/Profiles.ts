@@ -36,7 +36,7 @@ export {
     leakPeriod,
     duplicatedLinesOfCode,
     custom
-}
+};
 
 export class Profiles {
 

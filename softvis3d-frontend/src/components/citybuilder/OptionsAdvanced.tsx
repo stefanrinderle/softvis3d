@@ -12,8 +12,7 @@ import { Scales } from "../../constants/Scales";
 export default class OptionsAdvanced extends React.Component<{ store: CityBuilderStore; }, any> {
     public render() {
 
-        let footprintMetric: Metric = this.props.store.footprintMetric;
-        let heightMetric: Metric = this.props.store.heightMetric;
+        const {footprintMetric, heightMetric} = this.props.store;
 
         return (
             <Category label="Advanced Options" className="advanced" toggle={true} initialVisibility={false}>

@@ -21,8 +21,6 @@ export default class SceneInformation extends React.Component<SceneInformationPr
         const {sceneStore} = this.props;
         const selectedElement = sceneStore.selectedElement;
 
-        let colorInformation = this.renderColorInformation();
-
         return (
             <div className="scene-information">
                 <MetricKey title="Footprint" metric={sceneStore.options.footprint} selectedElement={selectedElement}/>
@@ -33,7 +31,7 @@ export default class SceneInformation extends React.Component<SceneInformationPr
                     value={sceneStore.options.metricColor}
                     options={new MetricSet(ColorMetrics.availableColorMetrics).asSelectOptions}
                     onChange={(m: Metric) => { sceneStore.options.metricColor = m; }}
-                    append={colorInformation}
+                    append={this.renderColorInformation()}
                 />
             </div>
         );

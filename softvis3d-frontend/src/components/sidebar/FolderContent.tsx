@@ -45,7 +45,7 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
         }
     }
 
-    public componentDidMount () {
+    public componentDidMount() {
         this.updateDimensions();
         window.addEventListener("resize", this.onResize.bind(this), false);
     }
@@ -56,7 +56,7 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
         }
     }
 
-    public componentWillUnmount () {
+    public componentWillUnmount() {
         window.removeEventListener("resize", this.onResize);
     }
 
