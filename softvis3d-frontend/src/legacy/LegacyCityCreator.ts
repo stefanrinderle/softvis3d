@@ -50,7 +50,9 @@ export default class LegacyCityCreator {
             return this.scmService.assertScmInfoAreLoaded();
         }
 
-        return new Promise<void>((resolve) => { resolve(); });
+        return new Promise<void>((resolve) => {
+            resolve();
+        });
     }
 
     private prepareModel() {

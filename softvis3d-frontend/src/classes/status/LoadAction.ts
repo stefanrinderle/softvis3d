@@ -14,16 +14,32 @@ export default class LoadAction extends StatusAction {
         this._current = current;
     }
 
-    public get limit(): number {
+    public get limit(): number | undefined {
         return this._limit;
     }
 
-    public get current(): number {
+    public get current(): number | undefined  {
         return this._current;
     }
 
+    public incrementMax() {
+        if (typeof this._limit !== "undefined") {
+            this._limit = this._limit + 1;
+        }
+    }
+
+    public incrementCurrent() {
+        if (typeof this._current !== "undefined") {
+            this._current = this._current + 1;
+        }
+    }
+
     public get percent(): number {
-        return Math.floor((100 / this.limit) * this.current);
+        if (typeof this.limit !== "undefined" && typeof this.current !== "undefined") {
+            return Math.floor((100 / this.limit) * this.current);
+        } else {
+            return 100;
+        }
     }
 
 }

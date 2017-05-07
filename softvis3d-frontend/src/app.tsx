@@ -41,7 +41,7 @@ export default class App {
 
         let scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
         let measuresApiService = new SonarQubeMeasuresApiService(config.api, config.projectKey);
-        let measuresTreeService = new SonarQubeMeasuresTreeService(measuresApiService);
+        let measuresTreeService = new SonarQubeMeasuresTreeService(appStatusStore, measuresApiService);
         let measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
         let measuresService = new SonarQubeMeasuresService(config.projectKey, measuresTreeService, measuresMetricService,
                                                            appStatusStore, cityBuilderStore, sceneStore);

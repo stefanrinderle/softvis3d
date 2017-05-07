@@ -73,13 +73,10 @@ export default class SonarQubeMeasuresService {
             let root: TreeElement =
                 new TreeElement(this.projectKey, this.projectKey, {}, this.projectKey, this.projectKey, false);
 
+            this.appStatusStore.loadStatusUpdate(SonarQubeMeasuresService.LOAD_MEASURES, 1, 0);
+
             this.measureTreeService.loadTree(root, metricKeys).then(() => {
-                // let t0 = performance.now();
-
                 this.measureTreeService.removeEmptyDirectories(root);
-
-                // let t1 = performance.now();
-                // console.error("Call to took " + (t1 - t0) + " milliseconds.");
 
                 this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
 

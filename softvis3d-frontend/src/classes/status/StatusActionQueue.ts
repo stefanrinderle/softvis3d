@@ -9,6 +9,16 @@ export default class StatusActionQueue<T extends StatusAction> {
         this._queue.push(action);
     }
 
+    public copyAndRemove(action: T): StatusActionQueue<T> {
+        let newQueue: StatusActionQueue<T> = new StatusActionQueue<T>();
+        for (let element of this._queue) {
+            if (element.key !== action.key) {
+                newQueue.add(element);
+            }
+        }
+        return newQueue;
+    }
+
     public remove(action: T) {
         for (let i = 0; i < this._queue.length; i++) {
             if (this._queue[i].key === action.key) {
@@ -18,6 +28,15 @@ export default class StatusActionQueue<T extends StatusAction> {
         }
 
         console.error("Could not remove action: " + JSON.stringify(action));
+    }
+
+    public copyAndAdd(action: T): StatusActionQueue<T> {
+        let newQueue: StatusActionQueue<T> = new StatusActionQueue<T>();
+        for (let element of this._queue) {
+            newQueue.add(element);
+        }
+        newQueue.add(action);
+        return newQueue;
     }
 
     public copyAndUpdate(action: T): StatusActionQueue<T> {
@@ -30,6 +49,15 @@ export default class StatusActionQueue<T extends StatusAction> {
             }
         }
         return newQueue;
+    }
+
+    public getAction(key: string): T | undefined {
+        for (let element of this._queue) {
+            if (element.key === key) {
+                return element;
+            }
+        }
+        return undefined;
     }
 
     @computed

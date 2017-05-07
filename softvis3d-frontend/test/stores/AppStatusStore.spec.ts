@@ -96,11 +96,11 @@ describe("AppStatusStore", () => {
         let underTest: AppStatusStore = new AppStatusStore();
 
         let temp = underTest.loadingQueue;
-
         underTest.load(new LoadAction("key", "testEvent"));
 
-        assert(underTest.loadingQueue === temp);
+        assert(underTest.loadingQueue !== temp);
 
+        temp = underTest.loadingQueue;
         underTest.loadStatusUpdate(new LoadAction("key", "testEvent"), 3, 4);
 
         assert(underTest.loadingQueue !== temp);

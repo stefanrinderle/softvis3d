@@ -28,7 +28,7 @@ class AppStatusStore {
     }
 
     public load(action: LoadAction): void {
-        this.loadingQueue.add(action);
+        this.loadingQueue = this.loadingQueue.copyAndAdd(action);
     }
 
     public loadStatusUpdate(action: LoadAction, pageSize: number, page: number): void  {
@@ -37,8 +37,30 @@ class AppStatusStore {
         this.loadingQueue = this.loadingQueue.copyAndUpdate(action);
     }
 
+    public loadStatusUpdateIncrementMax(action: LoadAction): void  {
+        let current = this.loadingQueue.getAction(action.key);
+
+        if (current) {
+            action.incrementMax();
+            this.loadingQueue = this.loadingQueue.copyAndUpdate(action);
+        } else {
+            console.error("Action " + JSON.stringify(action) + " not found");
+        }
+    }
+
+    public loadStatusUpdateIncrementCurrent(action: LoadAction): void  {
+        let current = this.loadingQueue.getAction(action.key);
+
+        if (current) {
+            action.incrementCurrent();
+            this.loadingQueue = this.loadingQueue.copyAndUpdate(action);
+        } else {
+            console.error("Action " + JSON.stringify(action) + " not found");
+        }
+    }
+
     public loadComplete(action: LoadAction): void  {
-        this.loadingQueue.remove(action);
+        this.loadingQueue = this.loadingQueue.copyAndRemove(action);
     }
 
     public error(error: ErrorAction): void {

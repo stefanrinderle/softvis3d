@@ -21,16 +21,22 @@ import {TreeElement} from "../../../classes/TreeElement";
 import {SonarQubeApiComponent} from "./SonarQubeMeasureResponse";
 import SonarQubeTransformer from "../SonarQubeTransformer";
 import SonarQubeMeasuresApiService from "./SonarQubeMeasuresApiService";
+import {AppStatusStore} from "../../../stores/AppStatusStore";
+import SonarQubeMeasuresService from "./SonarQubeMeasuresService";
 
 export default class SonarQubeMeasuresTreeService {
 
     private measureApiService: SonarQubeMeasuresApiService;
+    private appStatusStore: AppStatusStore;
 
-    constructor(measureApiService: SonarQubeMeasuresApiService) {
+    constructor(appStatusStore: AppStatusStore, measureApiService: SonarQubeMeasuresApiService) {
+        this.appStatusStore = appStatusStore;
         this.measureApiService = measureApiService;
     }
 
     public loadTree(parent: TreeElement, metricKeys: string): Promise<void> {
+        this.appStatusStore.loadStatusUpdateIncrementMax(SonarQubeMeasuresService.LOAD_MEASURES);
+
         return new Promise<void>((resolve, reject) => {
             /**
              * Load the direct children of the given component. In SQ terms this means only directories or sub-projects
@@ -38,20 +44,20 @@ export default class SonarQubeMeasuresTreeService {
              */
             this.measureApiService.loadMeasures(parent.key, metricKeys, "children", ["DIR", "BRC"]).then((result) => {
                 if (result.components.length === 0) {
-                    resolve();
+                    this.resolveLoadTree(resolve);
                 }
                 /**
                  * The result contains either only dirs or only sub-projects.
                  */
                 if (result.components[0].qualifier === "DIR") {
                     this.processLeafLevel(result.components, parent, metricKeys).then(() => {
-                        resolve();
+                        this.resolveLoadTree(resolve);
                     }).catch((error) => {
                         reject(error);
                     });
                 } else if (result.components[0].qualifier === "BRC") {
                     this.processNodeLevel(result.components, parent, metricKeys).then(() => {
-                        resolve();
+                        this.resolveLoadTree(resolve);
                     }).catch((error) => {
                         reject(error);
                     });
@@ -87,6 +93,11 @@ export default class SonarQubeMeasuresTreeService {
                 this.removeEmptyDirectories(element);
             }
         }
+    }
+
+    private resolveLoadTree(resolve: Function) {
+        this.appStatusStore.loadStatusUpdateIncrementCurrent(SonarQubeMeasuresService.LOAD_MEASURES);
+        resolve();
     }
 
     private processLeafLevel(components: SonarQubeApiComponent[], parent: TreeElement,

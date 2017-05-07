@@ -26,13 +26,19 @@ import {
 } from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
 import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresTreeService";
 import {TreeElement} from "../../../../src/classes/TreeElement";
+import {AppStatusStore} from "../../../../src/stores/AppStatusStore";
 
 describe("SonarQubeMeasuresTreeService", () => {
 
     it("should immediately resolve on response without components", (done) => {
         let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService(measureApiService);
+        let spyIncrementMax = Sinon.spy(testAppStatusStore, "loadStatusUpdateIncrementMax");
+        let spyIncrementCurrent = Sinon.spy(testAppStatusStore, "loadStatusUpdateIncrementCurrent");
+
+        let underTest: SonarQubeMeasuresTreeService =
+            new SonarQubeMeasuresTreeService(testAppStatusStore, measureApiService);
 
         measureApiService.loadMeasures.returns(
             Promise.resolve(
@@ -42,6 +48,8 @@ describe("SonarQubeMeasuresTreeService", () => {
 
         let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", false);
         underTest.loadTree(root, "metricKeys").then(() => {
+            assert(spyIncrementMax.called);
+            assert(spyIncrementCurrent.called);
             assert(measureApiService.loadMeasures.called);
             expect(parent).to.be.eq(parent);
 
@@ -54,8 +62,13 @@ describe("SonarQubeMeasuresTreeService", () => {
 
     it("should call process dir level", (done) => {
         let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService(measureApiService);
+        Sinon.spy(testAppStatusStore, "loadStatusUpdateIncrementMax");
+        Sinon.spy(testAppStatusStore, "loadStatusUpdateIncrementCurrent");
+
+        let underTest: SonarQubeMeasuresTreeService =
+            new SonarQubeMeasuresTreeService(testAppStatusStore, measureApiService);
 
         let components1: SonarQubeApiComponent[] = [{
             id: "",
@@ -97,9 +110,14 @@ describe("SonarQubeMeasuresTreeService", () => {
     });
 
     it("should call process sub.project level", (done) => {
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
 
-        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService(measureApiService);
+        Sinon.spy(testAppStatusStore, "loadStatusUpdateIncrementMax");
+        Sinon.spy(testAppStatusStore, "loadStatusUpdateIncrementCurrent");
+
+        let underTest: SonarQubeMeasuresTreeService =
+            new SonarQubeMeasuresTreeService(testAppStatusStore, measureApiService);
 
         let components1: SonarQubeApiComponent[] = [{
             id: "kjashdkh",
@@ -161,9 +179,14 @@ describe("SonarQubeMeasuresTreeService", () => {
     });
 
     it("should call service and react on errors", (done) => {
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
 
-        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService(measureApiService);
+        Sinon.spy(testAppStatusStore, "loadStatusUpdateIncrementMax");
+        Sinon.spy(testAppStatusStore, "loadStatusUpdateIncrementCurrent");
+
+        let underTest: SonarQubeMeasuresTreeService =
+            new SonarQubeMeasuresTreeService(testAppStatusStore, measureApiService);
 
         measureApiService.loadMeasures.returns(
             Promise.reject({
@@ -185,9 +208,14 @@ describe("SonarQubeMeasuresTreeService", () => {
     });
 
     it("should call service and react on errors the second call", (done) => {
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
 
-        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService(measureApiService);
+        Sinon.spy(testAppStatusStore, "loadStatusUpdateIncrementMax");
+        Sinon.spy(testAppStatusStore, "loadStatusUpdateIncrementCurrent");
+
+        let underTest: SonarQubeMeasuresTreeService =
+            new SonarQubeMeasuresTreeService(testAppStatusStore, measureApiService);
 
         let components1: SonarQubeApiComponent[] = [{
             id: "",
@@ -223,9 +251,14 @@ describe("SonarQubeMeasuresTreeService", () => {
     });
 
     it("should call process sub.project level and react on errors", (done) => {
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
 
-        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService(measureApiService);
+        Sinon.spy(testAppStatusStore, "loadStatusUpdateIncrementMax");
+        Sinon.spy(testAppStatusStore, "loadStatusUpdateIncrementCurrent");
+
+        let underTest: SonarQubeMeasuresTreeService =
+            new SonarQubeMeasuresTreeService(testAppStatusStore, measureApiService);
 
         let components1: SonarQubeApiComponent[] = [{
             id: "kjashdkh",
@@ -285,9 +318,11 @@ describe("SonarQubeMeasuresTreeService", () => {
      */
 
     it("should remove an empty dir as root child", () => {
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
 
-        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService(measureApiService);
+        let underTest: SonarQubeMeasuresTreeService =
+            new SonarQubeMeasuresTreeService(testAppStatusStore, measureApiService);
 
         let root: TreeElement = new TreeElement("", "", {}, "", "", false);
         let emptySubDir: TreeElement = new TreeElement("", "", {}, "", "", false);
@@ -299,9 +334,11 @@ describe("SonarQubeMeasuresTreeService", () => {
     });
 
     it("should remove an multiple empty dirs", () => {
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
 
-        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService(measureApiService);
+        let underTest: SonarQubeMeasuresTreeService =
+            new SonarQubeMeasuresTreeService(testAppStatusStore, measureApiService);
 
         let root: TreeElement = new TreeElement("", "", {}, "", "", false);
         let emptySubDir: TreeElement = new TreeElement("", "", {}, "", "", false);
@@ -315,9 +352,11 @@ describe("SonarQubeMeasuresTreeService", () => {
     });
 
     it("should remove an empty dir after not empty dir", () => {
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
 
-        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService(measureApiService);
+        let underTest: SonarQubeMeasuresTreeService =
+            new SonarQubeMeasuresTreeService(testAppStatusStore, measureApiService);
 
         let root: TreeElement = new TreeElement("", "", {}, "", "", false);
         let subDir: TreeElement = new TreeElement("", "", {}, "", "/src", false);

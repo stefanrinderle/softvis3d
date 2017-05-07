@@ -78,20 +78,23 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
             return [];
         }
 
-        const {sceneStore} = this.props;
-
         let folderElements: JSX.Element[] = [];
-        for (let child of folder.children) {
-            folderElements.push(
-                <FolderContentElement
-                    key={child.id}
-                    element={child}
-                    isSelected={child.id === sceneStore.selectedObjectId}
-                    sceneStore={sceneStore}
-                />
-            );
+        for (let child of folder.children.filter((e) => !e.isFile)) {
+            folderElements.push(this.getElement(child));
+        }
+        for (let child of folder.children.filter((e) => e.isFile)) {
+            folderElements.push(this.getElement(child));
         }
 
         return folderElements;
+    }
+
+    private getElement(child: TreeElement) {
+        return <FolderContentElement
+                key={child.id}
+                element={child}
+                isSelected={child.id === this.props.sceneStore.selectedObjectId}
+                sceneStore={this.props.sceneStore}
+            />;
     }
 }
