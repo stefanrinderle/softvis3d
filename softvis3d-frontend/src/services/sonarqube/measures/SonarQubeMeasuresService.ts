@@ -70,7 +70,8 @@ export default class SonarQubeMeasuresService {
             /**
              * Create a "starting point" root element and load the tree of the project.
              */
-            let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", false);
+            let root: TreeElement =
+                new TreeElement(this.projectKey, this.projectKey, {}, this.projectKey, this.projectKey, false);
 
             this.measureTreeService.loadTree(root, metricKeys).then(() => {
                 // let t0 = performance.now();

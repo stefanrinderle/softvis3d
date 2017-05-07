@@ -49,7 +49,7 @@ describe("SonarQubeMeasuresService", () => {
             new SonarQubeMeasuresService(projectKey, measureTreeService, measureMetricService, testAppStatusStore,
                                          testCityBuilderStore, testSceneStore);
 
-        let expectedData: TreeElement = new TreeElement("", projectKey, {}, "", "", false);
+        let expectedData: TreeElement = new TreeElement(projectKey, projectKey, {}, projectKey, projectKey, false);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
 
         underTest.loadMeasuresInitial(VisualizationOptions.createDefault());

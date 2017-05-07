@@ -28,6 +28,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     private _mouseActions: SceneMouseInteractions;
     private _keyActions: SceneKeyInteractions;
     private canvasState: string = "";
+    private selectedObjectIdState: string | null;
 
     constructor() {
         super();
@@ -65,8 +66,10 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
 
         if (mounted && sceneStore.shapesHash !== this.canvasState) {
             this._threeSceneService.update(sceneStore.shapes, sceneStore.options, sceneStore.cameraPosition);
-            this._threeSceneService.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
             this.canvasState = sceneStore.shapesHash;
+        } else if (mounted && this.selectedObjectIdState !== this.props.sceneStore.selectedObjectId) {
+            this._threeSceneService.selectSceneTreeObject(this.props.sceneStore.selectedObjectId);
+            this.selectedObjectIdState = this.props.sceneStore.selectedObjectId;
         }
 
         let cssClass = "scene";

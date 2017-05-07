@@ -129,9 +129,8 @@ export default class SonarQubeMeasuresTreeService {
             for (const subProject of components) {
                 let node: TreeElement = SonarQubeTransformer.createTreeElement(subProject);
 
-                if (parent) {
-                    parent.children.push(node);
-                }
+                parent.children.push(node);
+                node.parent = parent;
 
                 requests.push(this.loadTree(node, metricKeys));
             }
