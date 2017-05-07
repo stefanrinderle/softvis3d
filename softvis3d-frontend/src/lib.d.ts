@@ -40,7 +40,9 @@ declare interface TreeElement {
 }
 
 declare module "three-orbit-controls" {
-    import OrbitControls = THREE.OrbitControls;
-    let orbitcontrols: (three: any) => OrbitControls;
+    interface OrbitController {
+        reset(): void;
+    }
+    let orbitcontrols: (three: any) => (new(camera: any, canvas: HTMLCanvasElement) => OrbitController);
     export = orbitcontrols;
 }

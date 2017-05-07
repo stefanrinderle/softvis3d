@@ -72,7 +72,17 @@ describe("SelectionCalculator", () => {
         SelectionCalculator.makeSelection(x, y, width, height, camera, objectsInView);
 
         assert(setRaycaterStub.calledOnce);
-        assert(setRaycaterStub.calledWith(expectedPosition, expectedDirection));
+
+        const callArgs = setRaycaterStub.getCall(0).args;
+        expect(callArgs).to.be.lengthOf(2, "Invalid Argument Count");
+
+        expect(callArgs[0]).to.be.instanceOf(expectedPosition.constructor, "Argument 1 Types did not match");
+        expect(callArgs[0]).to.deep.equal(expectedPosition, "Positions did not match");
+
+        expect(callArgs[1]).to.be.instanceOf(expectedDirection.constructor, "Argument 2 Types did not match");
+        expect(callArgs[1].x).to.be.closeTo(expectedDirection.x, 1e-5);
+        expect(callArgs[1].y).to.be.closeTo(expectedDirection.y, 1e-5);
+        expect(callArgs[1].z).to.be.closeTo(expectedDirection.z, 1e-5);
 
         setRaycaterStub.restore();
     });
