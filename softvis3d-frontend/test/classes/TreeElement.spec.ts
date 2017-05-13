@@ -36,7 +36,7 @@ describe("TreeElement", () => {
         let fileZ: TreeElement = createTreeElementAsChildWithPath("/src/z.java", true);
         SonarQubeTransformer.add(parent, fileZ);
 
-        let folderResult: TreeElement[] = parent.getSortedChilds();
+        let folderResult: TreeElement[] = parent.getSortedChildren();
 
         expect(folderResult.length).to.be.eq(4);
         expect(folderResult[0].path).to.be.eq("/src/main");

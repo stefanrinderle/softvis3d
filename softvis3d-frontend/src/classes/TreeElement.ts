@@ -1,13 +1,11 @@
 export class TreeElement {
 
-    private static sortByNameAndType() {
-        return (a: TreeElement, b: TreeElement) => {
-            if (a.isFile === b.isFile) {
-                return a.name.localeCompare(b.name);
-            }
+    private static sortByNameAndType(a: TreeElement, b: TreeElement) {
+        if (a.isFile === b.isFile) {
+            return a.name.localeCompare(b.name);
+        }
 
-            return a.isFile ? 1 : -1;
-        };
+        return a.isFile ? 1 : -1;
     }
 
     public readonly id: string;
@@ -34,8 +32,8 @@ export class TreeElement {
         this.children = [];
     }
 
-    public getSortedChilds(): TreeElement[] {
-        return this.children.sort(TreeElement.sortByNameAndType());
+    public getSortedChildren(): TreeElement[] {
+        return this.children.sort(TreeElement.sortByNameAndType);
     }
 
 }
