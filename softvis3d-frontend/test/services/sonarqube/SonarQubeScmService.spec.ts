@@ -24,6 +24,7 @@ import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmSer
 import {SceneStore} from "../../../src/stores/SceneStore";
 import {TreeService} from "../../../src/services/TreeService";
 import ScmCalculator from "../../../src/services/sonarqube/ScmCalculator";
+import {TreeElement} from "../../../src/classes/TreeElement";
 
 describe("SonarQubeScmService", () => {
 
@@ -307,15 +308,6 @@ describe("SonarQubeScmService", () => {
 
 });
 
-function createTestTreeElement(name: string): TreeElement {
-    return {
-        id: name,
-        name,
-        isNode: false,
-
-        children: [],
-
-        measures: {},
-        parentId: null
-    };
+function createTestTreeElement(name: string, parent?: TreeElement): TreeElement {
+    return new TreeElement(name, name, {}, "", "", true, parent);
 }

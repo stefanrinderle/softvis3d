@@ -3,8 +3,8 @@ import {observer} from "mobx-react";
 import NodeList from "./FolderContent";
 import ParentElement from "./ParentElement";
 import {SceneStore} from "../../stores/SceneStore";
-import {TreeService} from "../../services/TreeService";
 import ActiveFolder from "./ActiveFolder";
+import {TreeElement} from "../../classes/TreeElement";
 
 interface SideBarProps {
     sceneStore: SceneStore;
@@ -32,9 +32,9 @@ export default class SideBar extends React.Component<SideBarProps, any> {
     }
 
     private getActiveFolder(element: TreeElement): TreeElement | null {
-        return element.isNode
-            ? element
-            : this.getParentElement(element);
+        return element.isFile
+            ? this.getParentElement(element)
+            : element;
     }
 
     private getParentElement(element: TreeElement): TreeElement | null {
@@ -42,7 +42,7 @@ export default class SideBar extends React.Component<SideBarProps, any> {
             return null;
         }
 
-        return TreeService.searchParentNode(this.props.sceneStore.legacyData, element);
+        return element.parent ? element.parent : null;
     }
 
 }

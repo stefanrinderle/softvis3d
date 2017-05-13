@@ -19,6 +19,7 @@
 ///
 import {expect} from "chai";
 import {TreeService} from "../../src/services/TreeService";
+import {TreeElement} from "../../src/classes/TreeElement";
 
 describe("TreeService", () => {
 
@@ -131,15 +132,6 @@ describe("TreeService", () => {
     });
 });
 
-function createTestTreeElement(id: string): TreeElement {
-    return {
-        id,
-        name: "",
-        isNode: false,
-
-        children: [],
-
-        measures: {},
-        parentId: null
-    };
+function createTestTreeElement(id: string, parent?: TreeElement): TreeElement {
+    return new TreeElement(id, "", {}, "", "", true, parent);
 }

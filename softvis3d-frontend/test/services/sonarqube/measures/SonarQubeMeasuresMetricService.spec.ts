@@ -17,20 +17,20 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
+import {expect} from "chai";
+import SonarQubeMeasuresMetricService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresMetricService";
+import {CityBuilderStore} from "../../../../src/stores/CityBuilderStore";
 
-declare interface SelectOptionValue {
-    readonly id: string;
-    readonly label: string;
-}
+describe("SonarQubeMeasuresMetricService", () => {
 
-interface MeasureList {
-    [propName: string]: number;
-}
+    it("should call backend and load measures", () => {
+        let cityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
-declare module "three-orbit-controls" {
-    interface OrbitController {
-        reset(): void;
-    }
-    let orbitcontrols: (three: any) => (new(camera: any, canvas: HTMLCanvasElement) => OrbitController);
-    export = orbitcontrols;
-}
+        let underTest: SonarQubeMeasuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
+
+        let result = underTest.getMetricRequestValues();
+
+        expect(result).to.be.eq("complexity,ncloc,coverage,violations,new_violations,open_issues");
+    });
+
+});

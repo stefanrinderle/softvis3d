@@ -21,7 +21,7 @@ import {assert, expect} from "chai";
 import StatusAction from "../../../src/classes/status/StatusAction";
 import StatusActionQueue from "../../../src/classes/status/StatusActionQueue";
 
-describe("AppStatusStore", () => {
+describe("StatusActionQueue", () => {
 
     it("should do add remove and isEmpty", () => {
         let underTest: StatusActionQueue<TestStatusAction> = new StatusActionQueue();
@@ -41,7 +41,7 @@ describe("AppStatusStore", () => {
         let testAction: TestStatusAction = new TestStatusAction("key", "testEvent");
 
         underTest.add(testAction);
-        let result = underTest.copyAndUpdate(testAction);
+        let result = underTest.update(testAction);
         assert(result !== underTest);
         assert(!result.isEmpty);
     });

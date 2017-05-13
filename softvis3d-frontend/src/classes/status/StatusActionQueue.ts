@@ -2,6 +2,7 @@ import StatusAction from "./StatusAction";
 import {computed, observable} from "mobx";
 
 export default class StatusActionQueue<T extends StatusAction> {
+
     @observable
     private _queue: T[] = [];
 
@@ -21,7 +22,13 @@ export default class StatusActionQueue<T extends StatusAction> {
         console.error("Could not remove action: " + JSON.stringify(action));
     }
 
-    public copyAndUpdate(action: T): StatusActionQueue<T> {
+    /**
+     * As only the content of the action changes, queue has to be recreated
+     * for the @observable to fire an event.
+     *
+     * @returns new instance of StatusActionQueue<T>.
+     */
+    public update(action: T): StatusActionQueue<T> {
         const newQueue: StatusActionQueue<T> = new StatusActionQueue<T>();
         for (const element of this._queue) {
             if (element.key === action.key) {
@@ -31,6 +38,15 @@ export default class StatusActionQueue<T extends StatusAction> {
             }
         }
         return newQueue;
+    }
+
+    public getAction(key: string): T | undefined {
+        for (let element of this._queue) {
+            if (element.key === key) {
+                return element;
+            }
+        }
+        return undefined;
     }
 
     @computed

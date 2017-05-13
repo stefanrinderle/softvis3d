@@ -1,6 +1,7 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import Metric from "../../../classes/Metric";
+import {TreeElement} from "../../../classes/TreeElement";
 
 interface MetricKeyProps {
     title: string;
@@ -24,7 +25,7 @@ export default class MetricKey extends React.Component<MetricKeyProps, any> {
     }
 
     private renderValue(element: TreeElement|null, metric: Metric) {
-        if (element !== null && element.children.length === 0) {
+        if (element !== null) {
             return <span className="value">{element.measures[metric.id] || 0}</span>;
         }
     }

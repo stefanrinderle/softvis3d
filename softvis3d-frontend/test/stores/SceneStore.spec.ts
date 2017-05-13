@@ -19,6 +19,7 @@
 ///
 import {expect} from "chai";
 import {SceneStore} from "../../src/stores/SceneStore";
+import {TreeElement} from "../../src/classes/TreeElement";
 
 describe("SceneStore", () => {
 
@@ -74,14 +75,7 @@ describe("SceneStore", () => {
         let sceneStore = new SceneStore();
 
         sceneStore.selectedObjectId = "123";
-        sceneStore.legacyData = {
-            id: "123",
-            name: "oidfoijs",
-            isNode: false,
-            children: [],
-            measures: {},
-            parentId: null
-        };
+        sceneStore.legacyData = new TreeElement("sdfsdf", "", {}, "", "", true);
         let result: number | null = sceneStore.getColorValue();
 
         expect(result).to.be.null;

@@ -16,7 +16,7 @@ public class SoftVis3DPluginTest {
         final Plugin.Context context = mock(Plugin.Context.class);
         underTest.define(context);
 
-        verify(context).addExtensions(eq(SoftVis3DPageDefinition.class), eq(SoftVis3DWebservice.class));
+        verify(context).addExtension(eq(SoftVis3DPageDefinition.class));
     }
 
 }

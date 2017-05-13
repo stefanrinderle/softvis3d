@@ -38,12 +38,27 @@ describe("LoadAction", () => {
 
         let result: LoadAction = new LoadAction(expectedKey, expectedDescription);
 
-        let limit = 200;
+        let max = 200;
         let current = 56;
-        result.setStatus(limit, current);
+        result.setStatus(max, current);
 
-        expect(result.limit).to.be.eq(limit);
+        expect(result.max).to.be.eq(max);
         expect(result.current).to.be.eq(current);
+    });
+
+    it("should know if a status was set or not", () => {
+        let expectedKey: string = "23";
+        let expectedDescription: string = "diufgh";
+
+        let result: LoadAction = new LoadAction(expectedKey, expectedDescription);
+
+        expect(result.hasStatus()).to.be.false;
+
+        let max = 200;
+        let current = 56;
+        result.setStatus(max, current);
+
+        expect(result.hasStatus()).to.be.true;
     });
 
     it("should calc percentage", () => {

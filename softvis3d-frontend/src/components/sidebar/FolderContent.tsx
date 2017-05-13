@@ -1,9 +1,10 @@
 import * as React from "react";
-import { observer } from "mobx-react";
+import {observer} from "mobx-react";
 import Scrollbars from "react-custom-scrollbars";
 import FolderContentElement from "./FolderContentElement";
-import { SceneStore } from "../../stores/SceneStore";
-import { HtmlDom, Offset } from "../../services/HtmlDom";
+import {SceneStore} from "../../stores/SceneStore";
+import {HtmlDom, Offset} from "../../services/HtmlDom";
+import {TreeElement} from "../../classes/TreeElement";
 
 export interface NodeListProps {
     activeFolder: TreeElement|null;
@@ -77,20 +78,19 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
             return [];
         }
 
+        return folder
+            .getSortedChildren()
+            .map((child) => this.getElement(child));
+    }
+
+    private getElement(child: TreeElement): JSX.Element {
         const {sceneStore} = this.props;
 
-        let folderElements: JSX.Element[] = [];
-        for (let child of folder.children) {
-            folderElements.push(
-                <FolderContentElement
-                    key={child.id}
-                    element={child}
-                    isSelected={child.id === sceneStore.selectedObjectId}
-                    sceneStore={sceneStore}
-                />
-            );
-        }
-
-        return folderElements;
+        return <FolderContentElement
+                key={child.id}
+                element={child}
+                isSelected={child.id === sceneStore.selectedObjectId}
+                sceneStore={sceneStore}
+            />;
     }
 }
