@@ -3,6 +3,7 @@ import {shallow} from "enzyme";
 import {expect} from "chai";
 import MetricKey from "../../../../src/components/scene/information/MetricKey";
 import Metric from "../../../../src/classes/Metric";
+import {TreeElement} from "../../../../src/classes/TreeElement";
 
 describe("<MetricKey/>", () => {
 
@@ -20,23 +21,16 @@ describe("<MetricKey/>", () => {
         expect(bottomBarMetricInfo.html()).to.include(title);
     });
 
-    it("should show title and metric", () => {
+    it("should show title, metric and measure", () => {
         let title: string = "ExpectedTitle";
         let expectedMetricName: string = "ExpectedMetricName";
 
         let expectedMetric: Metric = new Metric("123", expectedMetricName, "");
 
         let expectedMeasure: number = 55;
-        let selectedElement: TreeElement = {
-            id: "",
-            name: "",
-            isNode: true,
-            children: [],
-            measures: {
-                123: expectedMeasure
-            },
-            parentId: null
-        };
+        let selectedElement: TreeElement = new TreeElement("", "", {
+            123: expectedMeasure
+        }, "", "", true);
         const bottomBarMetricInfo = shallow(
             <MetricKey title={title} metric={expectedMetric} selectedElement={selectedElement}/>
         );

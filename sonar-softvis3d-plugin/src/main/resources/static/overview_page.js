@@ -17,7 +17,7 @@ if (typeof(Promise) === "undefined") {
         var done = false;
         script.onload = script.onreadystatechange = function () {
             // attach to both events for cross browser finish detection:
-            if (!done && (!this.readyState || this.readyState === "loaded" || this.readyState === "compvare")) {
+            if (!done && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete")) {
                 done = true;
                 if (typeof f === "function") {
                     f();
@@ -41,7 +41,7 @@ if (typeof(Promise) === "undefined") {
         var done = false;
         script.onload = script.onreadystatechange = function () {
             // attach to both events for cross browser finish detection:
-            if (!done && (!this.readyState || this.readyState === "loaded" || this.readyState === "compvare")) {
+            if (!done && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete")) {
                 done = true;
                 if (typeof f === "function") {
                     f();
@@ -55,13 +55,13 @@ if (typeof(Promise) === "undefined") {
     }
 
     function load() {
-        var compvared = 0;
+        var completed = 0;
         var limit = arguments.length;
         var files = arguments;
 
         return new Promise(function(resolve) {
             var fn = function() {
-                if (++compvared === limit) {
+                if (++completed === limit) {
                     resolve();
                 }
             };

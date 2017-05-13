@@ -26,14 +26,9 @@ import org.sonar.api.Plugin;
  */
 public final class SoftVis3DPlugin implements Plugin {
 
-  public static final boolean CACHE_ENABLED = true;
-
   @Override
   public void define(Context context) {
-    context.addExtensions(
-      SoftVis3DPageDefinition.class,
-      SoftVis3DWebservice.class
-    );
+    context.addExtension(SoftVis3DPageDefinition.class);
   }
 
 }

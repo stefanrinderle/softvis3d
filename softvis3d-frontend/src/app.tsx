@@ -6,13 +6,16 @@ import appStatusStore from "./stores/AppStatusStore";
 import cityBuilderStore from "./stores/CityBuilderStore";
 import sceneStore from "./stores/SceneStore";
 import SonarQubeMetricsService from "./services/sonarqube/SonarQubeMetricsService";
-import SonarQubeLegacyService from "./services/sonarqube/SonarQubeLegacyService";
 import WebGLDetector from "./services/WebGLDetector";
 import SceneReactions from "./reactions/SceneReactions";
 import BuilderReactions from "./reactions/BuilderReactions";
 import ErrorAction from "./classes/status/ErrorAction";
 import VisualizationLinkService from "./services/VisualizationLinkService";
 import SonarQubeScmService from "./services/sonarqube/SonarQubeScmService";
+import SonarQubeMeasuresService from "./services/sonarqube/measures/SonarQubeMeasuresService";
+import SonarQubeMeasuresApiService from "./services/sonarqube/measures/SonarQubeMeasuresApiService";
+import SonarQubeMeasuresTreeService from "./services/sonarqube/measures/SonarQubeMeasuresTreeService";
+import SonarQubeMeasuresMetricService from "./services/sonarqube/measures/SonarQubeMeasuresMetricService";
 
 export interface AppConfiguration {
     api: string;
@@ -24,10 +27,8 @@ export default class App {
     private static WEBGL_ERROR_KEY: string = "WEBGL_ERROR";
 
     private communicator: SonarQubeMetricsService;
-    private legacyService: SonarQubeLegacyService;
     private visualizationLinkService: VisualizationLinkService;
     private legacy: LegacyCityCreator;
-    private scmService: SonarQubeScmService;
 
     //noinspection JSMismatchedCollectionQueryUpdate
     private reactions: any[];
@@ -35,15 +36,20 @@ export default class App {
     public constructor(config: AppConfiguration) {
         appStatusStore.showLoadingQueue = config.isDev;
 
-        this.scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
         this.visualizationLinkService = new VisualizationLinkService(cityBuilderStore, sceneStore);
         this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
-        this.legacyService = new SonarQubeLegacyService(config.api, config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
-        this.legacy = new LegacyCityCreator(sceneStore, appStatusStore, this.scmService);
+
+        let scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
+        let measuresApiService = new SonarQubeMeasuresApiService(config.api, config.projectKey);
+        let measuresTreeService = new SonarQubeMeasuresTreeService(appStatusStore, measuresApiService);
+        let measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
+        let measuresService = new SonarQubeMeasuresService(config.projectKey, measuresTreeService, measuresMetricService,
+                                                           appStatusStore, cityBuilderStore, sceneStore);
+        this.legacy = new LegacyCityCreator(sceneStore, appStatusStore, scmService);
 
         this.reactions = [
             new SceneReactions(sceneStore, cityBuilderStore, this.legacy),
-            new BuilderReactions(cityBuilderStore, this.legacyService)
+            new BuilderReactions(cityBuilderStore, measuresService)
         ];
     }
 

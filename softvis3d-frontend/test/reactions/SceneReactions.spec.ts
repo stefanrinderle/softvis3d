@@ -26,6 +26,7 @@ import {AppStatusStore} from "../../src/stores/AppStatusStore";
 import LegacyCityCreator from "../../src/legacy/LegacyCityCreator";
 import {complexityColorMetric} from "../../src/constants/Metrics";
 import SonarQubeScmService from "../../src/services/sonarqube/SonarQubeScmService";
+import {TreeElement} from "../../src/classes/TreeElement";
 
 describe("SceneReactions", () => {
 
@@ -81,14 +82,7 @@ describe("SceneReactions", () => {
 
         let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
 
-        testSceneStore.legacyData = {
-            id: "",
-            name: "",
-            isNode: false,
-            children: [],
-            measures: {},
-            parentId: null
-        };
+        testSceneStore.legacyData = new TreeElement("", "", {}, "", "", false);
 
         mockBuild.verify();
 

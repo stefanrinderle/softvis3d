@@ -29,7 +29,7 @@ describe("<LoadingQueue/>", () => {
 
         let pageSize = 34;
         let limit = 98;
-        localAppStatusStore.loadStatusUpdate(action, pageSize, limit);
+        localAppStatusStore.loadStatusUpdate(action.key, pageSize, limit);
 
         const loadingQueue = shallow(
             <LoadingQueue appStatusStore={localAppStatusStore}/>

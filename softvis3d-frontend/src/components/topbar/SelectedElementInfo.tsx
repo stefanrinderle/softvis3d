@@ -22,21 +22,21 @@ export default class SelectedElementInfo extends React.Component<SelectedElement
 
         let classes = [
             "selected-element-info",
-            selectedElement.isNode ? "node" : "leaf"
+            selectedElement.isFile ? "leaf" : "node"
         ];
 
         return (
             <div>
                 <div className={classes.join(" ")}>
                     <span className="element-name">{selectedElement.name}</span>
-                    {this.renderButtons(selectedElement.isNode)}
+                    {this.renderButtons(selectedElement.isFile)}
                 </div>
             </div>
         );
     }
 
-    private renderButtons(isNode: boolean) {
-        if (isNode) {
+    private renderButtons(isFile: boolean) {
+        if (!isFile) {
             return null;
         }
 

@@ -18,15 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
+import {TreeElement} from "../classes/TreeElement";
 export class TreeService {
-
-    public static searchParentNode(tree: TreeElement, node: TreeElement): TreeElement | null {
-        if (!node.parentId) {
-            return null;
-        }
-
-        return this.searchTreeNode(tree, node.parentId);
-    }
 
     public static searchTreeNode(tree: TreeElement, id: string): TreeElement | null {
         if (tree) {
@@ -48,7 +41,7 @@ export class TreeService {
     public static getAllFiles(node: TreeElement): TreeElement[] {
         let results: TreeElement[] = [];
 
-        if (!node.isNode) {
+        if (node.isFile) {
             results.push(node);
         }
 

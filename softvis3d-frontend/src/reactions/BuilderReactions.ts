@@ -1,15 +1,15 @@
 import {CityBuilderStore} from "../stores/CityBuilderStore";
 import {reaction} from "mobx";
 import VisualizationOptions from "../classes/VisualizationOptions";
-import SonarQubeLegacyService from "../services/sonarqube/SonarQubeLegacyService";
+import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
 
 export default class BuilderReactions {
     private builder: CityBuilderStore;
-    private sonarService: SonarQubeLegacyService;
+    private measuresService: SonarQubeMeasuresService;
 
-    constructor(builder: CityBuilderStore, sonarService: SonarQubeLegacyService) {
+    constructor(builder: CityBuilderStore, measuresService: SonarQubeMeasuresService) {
         this.builder = builder;
-        this.sonarService = sonarService;
+        this.measuresService = measuresService;
         this.prepareReactions();
     }
 
@@ -24,7 +24,7 @@ export default class BuilderReactions {
                     let options: VisualizationOptions = new VisualizationOptions(this.builder.layout, this.builder.footprintMetric,
                         this.builder.heightMetric, this.builder.metricColor, this.builder.profile.scale);
 
-                    this.sonarService.loadLegacyBackend(options);
+                    this.measuresService.loadMeasuresInitial(options);
                 }
             }
         );

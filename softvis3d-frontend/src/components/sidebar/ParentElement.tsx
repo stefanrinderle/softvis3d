@@ -1,7 +1,7 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {SceneStore} from "../../stores/SceneStore";
-import {TreeService} from "../../services/TreeService";
+import {TreeElement} from "../../classes/TreeElement";
 
 interface SelectParentProps {
     sceneStore: SceneStore;
@@ -18,7 +18,7 @@ export default class ParentElement extends React.Component<SelectParentProps, an
         const {sceneStore, selectedElement} = this.props;
         let parent: TreeElement | null = this.getParentElement(selectedElement);
 
-        if (parent && !selectedElement.isNode) {
+        if (parent && selectedElement.isFile) {
             parent = this.getParentElement(parent);
         }
 
@@ -36,11 +36,11 @@ export default class ParentElement extends React.Component<SelectParentProps, an
         );
     }
 
-    private getParentElement(element: TreeElement) {
+    private getParentElement(element: TreeElement): TreeElement | null {
         if (!this.props.sceneStore.legacyData) {
             return null;
         }
 
-        return TreeService.searchParentNode(this.props.sceneStore.legacyData, element);
+        return element.parent ? element.parent : null;
     }
 }

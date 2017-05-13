@@ -31,7 +31,6 @@ describe("AppStatusStore", () => {
         expect(underTest.loadingQueue.isEmpty).to.be.true;
         expect(underTest.errors.isEmpty).to.be.true;
         expect(underTest.showLoadingQueue).to.be.eq(false);
-
     });
 
     it("should return isVisible false", () => {
@@ -96,13 +95,32 @@ describe("AppStatusStore", () => {
         let underTest: AppStatusStore = new AppStatusStore();
 
         let temp = underTest.loadingQueue;
-
         underTest.load(new LoadAction("key", "testEvent"));
 
         assert(underTest.loadingQueue === temp);
 
-        underTest.loadStatusUpdate(new LoadAction("key", "testEvent"), 3, 4);
+        temp = underTest.loadingQueue;
+        underTest.loadStatusUpdate("key", 3, 4);
 
         assert(underTest.loadingQueue !== temp);
+    });
+
+    it("should be able to increment max status and current", () => {
+        let underTest: AppStatusStore = new AppStatusStore();
+
+        underTest.load(new LoadAction("key", "testEvent"));
+        underTest.loadStatusUpdate("key", 1, 6);
+        underTest.loadStatusUpdateIncrementCurrent("key");
+        underTest.loadStatusUpdateIncrementMax("key");
+
+        let resultAction = underTest.loadingQueue.getAction("key");
+        expect(resultAction).not.to.be.undefined;
+        if (resultAction) {
+            expect(resultAction.current).not.to.be.undefined;
+            assert(resultAction.current === 7);
+            assert(resultAction.max === 2);
+        } else {
+            assert.notOk("This should not happen. Action not found");
+        }
     });
 });
