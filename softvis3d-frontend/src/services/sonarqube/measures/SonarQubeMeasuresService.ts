@@ -74,7 +74,7 @@ export default class SonarQubeMeasuresService {
             this.appStatusStore.loadStatusUpdate(SonarQubeMeasuresService.LOAD_MEASURES.key, 1, 0);
 
             this.measureTreeService.loadTree(root, metricKeys).then(() => {
-                this.measureTreeService.removeEmptyDirectories(root);
+                this.measureTreeService.optimizeDirectoryStructure(root);
 
                 this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
 
