@@ -57,7 +57,7 @@ describe("SonarQubeScmService", () => {
         let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
         scmCalculatorCaclAuthorsMock.returns(4);
 
-        Sinon.stub(underTest, "callApi", () => {
+        Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
                     scm: measures
@@ -105,7 +105,7 @@ describe("SonarQubeScmService", () => {
         let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
         scmCalculatorCaclAuthorsMock.returns(0);
 
-        Sinon.stub(underTest, "callApi", () => {
+        Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
                     scm: measures
@@ -162,7 +162,7 @@ describe("SonarQubeScmService", () => {
         let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
         scmCalculatorCaclAuthorsMock.returns(4);
 
-        Sinon.stub(underTest, "callApi", () => {
+        Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
                     scm: measures
@@ -223,7 +223,7 @@ describe("SonarQubeScmService", () => {
         let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
         scmCalculatorCaclAuthorsMock.returns(4);
 
-        Sinon.stub(underTest, "callApi", () => {
+        Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
                     scm: measures
@@ -286,7 +286,7 @@ describe("SonarQubeScmService", () => {
         treeElements.push(createTestTreeElement("test"));
         treeServiceMock.returns(treeElements);
 
-        Sinon.stub(underTest, "callApi", () => {
+        Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
                 response: {
                     statusText: "not working"

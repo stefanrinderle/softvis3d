@@ -1,6 +1,6 @@
 # SoftVis3D - Software visualization in 3D
 
-Visualize your project in SonarQube. Please take a look at http://softvis3d.com for further details, screenshots and live demo.
+Visualize your project in SonarQube. Please take a look at [softvis3d.com](http://softvis3d.com) for further details, screenshots and a live demo.
 
 ## Version overview
 
@@ -17,7 +17,7 @@ Visualize your project in SonarQube. Please take a look at http://softvis3d.com 
 
 ### Plugin version 0.5.x (current development)
 
-* Does NOT need graphviz to be installed on the server
+* Does **NOT** require graphviz to be installed on the server
 * New frontend layout
 * Works with SonarQube >= 5.5
 
@@ -30,7 +30,7 @@ Licensed under the GNU Lesser General Public License, Version 3.0: http://www.gn
 - Any metric from SonarSource can be used
 - Easily navigate through the 3D visualisation
 - WebGL technology to support all browsers
-- Helps you analyze your software quality easily
+- Helps you analyse your software quality easily
 
 ## Code city layout
 
@@ -40,7 +40,7 @@ The "code city" view provides a visualization for the hierarchical structure of 
 
 Evostreet is a stable layout for visualizing evolving software systems using the city metaphor.
 
-## Requirenments
+## Requirements
 
 * SonarQube >= 5.5
 * Java 7 runtime required

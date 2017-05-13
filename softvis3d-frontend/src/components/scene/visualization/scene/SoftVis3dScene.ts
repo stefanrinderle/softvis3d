@@ -27,8 +27,7 @@ import {HtmlDom, Offset} from "../../../../services/HtmlDom";
 import * as OrbitControlsExtender from "three-orbit-controls";
 import SceneObjectCalculator from "./SceneObjectCalculator";
 
-// tslint:disable-next-line
-const OrbitControls: any = OrbitControlsExtender(three);
+const OrbitControls = OrbitControlsExtender(three);
 
 export default class SoftVis3dScene {
     public static CANVAS_ID: string = "softvis3dscene";
@@ -40,12 +39,12 @@ export default class SoftVis3dScene {
     private _height: number;
 
     private renderer: WebGLRenderer;
-    private controls: THREE.OrbitControls;
+    private controls: any;
 
     private animationId: null | number = null;
 
     public constructor() {
-        const container = <HTMLCanvasElement> document.getElementById(SoftVis3dScene.CANVAS_ID);
+        const container = document.getElementById(SoftVis3dScene.CANVAS_ID) as HTMLCanvasElement;
 
         this.scene = new Scene();
         this.renderer = new WebGLRenderer({canvas: container, antialias: true, alpha: true});

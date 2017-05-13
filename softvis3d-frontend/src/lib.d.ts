@@ -18,20 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import ReactElement = __React.ReactElement;
-
-declare const config: {
-    api: string;
-    env: string;
-    project: string | null;
-    proxy: string | null;
-    proxyLegacy: boolean;
-};
-
-declare module "config" {
-    export default config;
-}
-
 declare interface SelectOptionValue {
     readonly id: string;
     readonly label: string;
@@ -54,6 +40,9 @@ declare interface TreeElement {
 }
 
 declare module "three-orbit-controls" {
-    let orbitcontrols: (three: any) => any;
+    interface OrbitController {
+        reset(): void;
+    }
+    let orbitcontrols: (three: any) => (new(camera: any, canvas: HTMLCanvasElement) => OrbitController);
     export = orbitcontrols;
 }

@@ -47,7 +47,7 @@ describe("SonarQubeLegacyService", () => {
             testData: "disuffsiug"
         };
 
-        let spyCallApi = Sinon.stub(underTest, "callApi", () => {
+        let spyCallApi = Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: expectedData
             });
@@ -96,7 +96,7 @@ describe("SonarQubeLegacyService", () => {
             testData: "disuffsiug"
         };
 
-        let spyCallApi = Sinon.stub(underTest, "callApi", () => {
+        let spyCallApi = Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: expectedData
             });
@@ -136,7 +136,7 @@ describe("SonarQubeLegacyService", () => {
             testData: "disuffsiug"
         };
 
-        let spyCallApi = Sinon.stub(underTest, "callApi", () => {
+        let spyCallApi = Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: expectedData
             });
@@ -172,7 +172,7 @@ describe("SonarQubeLegacyService", () => {
         let underTest: SonarQubeLegacyService =
             new SonarQubeLegacyService(apiUrl, projectKey, testAppStatusStore, testCityBuilderStore, testSceneStore);
 
-        let spyCallApi = Sinon.stub(underTest, "callApi", () => {
+        let spyCallApi = Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({data: {message: "Error message"}});
         });
 
@@ -209,7 +209,7 @@ describe("SonarQubeLegacyService", () => {
         let underTest: SonarQubeLegacyService =
             new SonarQubeLegacyService(apiUrl, projectKey, testAppStatusStore, testCityBuilderStore, testSceneStore);
 
-        let spyCallApi = Sinon.stub(underTest, "callApi", () => {
+        let spyCallApi = Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
                 response: {
                     statusText: "osidhfosihdf"

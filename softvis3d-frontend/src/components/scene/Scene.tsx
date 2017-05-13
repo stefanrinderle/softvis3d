@@ -91,7 +91,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     }
 
     public handleMouseDown(event: Event<boolean>) {
-        let isWithinScene: boolean = event.getType();
+        const isWithinScene: boolean = event.getType();
         if (isWithinScene ? !this.state.focus : this.state.focus) {
             this.updateSceneFocusState(isWithinScene);
         }

@@ -13,6 +13,7 @@
         "no-parameter-properties": true,
         "max-classes-per-file": [true, 5],
         "no-conditional-assignment": false,
-        "no-unused-new": false
+        "prefer-const": false,
+        "ban-types": false
     }
 }

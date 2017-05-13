@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Scrollbars } from "react-custom-scrollbars";
+import Scrollbars from "react-custom-scrollbars";
 import FolderContentElement from "./FolderContentElement";
 import { SceneStore } from "../../stores/SceneStore";
 import { HtmlDom, Offset } from "../../services/HtmlDom";
@@ -45,7 +45,7 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
         }
     }
 
-    public componentDidMount () {
+    public componentDidMount() {
         this.updateDimensions();
         window.addEventListener("resize", this.onResize.bind(this), false);
     }
@@ -56,7 +56,7 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
         }
     }
 
-    public componentWillUnmount () {
+    public componentWillUnmount() {
         window.removeEventListener("resize", this.onResize);
     }
 

@@ -11,7 +11,6 @@ export const duplicatedLinesOfCodeMetricId = "duplicated_lines";
 export const noMetricId = "none";
 
 export const coverageMetricId = "coverage";
-export const newLinesToCoverMetricId = "new_lines_to_cover";
 
 /* ############################################################# *
  * ## Color metric definitions with color descriptions        ## *

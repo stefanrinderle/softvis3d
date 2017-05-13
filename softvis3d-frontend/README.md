@@ -6,10 +6,11 @@
 
 # Development
 1. Start SonarQube-Server
-   * `vagrant up` will register an instance of SonarQube to `http://localhost:9001`
-2. Configure Dev-Environment (`config/dev.ts`)
-   * update `proxy` to point to the SonarQube-Server
-   * update `project` for development on a specific Project _(use projectKey)_
+   * See the [readme file](../DEV.md) within this projects root for a quick setup guide with docker
+   * The Server needs to be reachable at port 9000
+2. Configure Dev-Environment (`app/development.js`)
+   * webpack will proxy `http://localhost/api` to point to the configured SonarQube API path
+   * update `projectKey` to any available (scanned) project on the SonarQube instance
 4. `yarn start` will start the dev-server on `http://localhost:8080`
 
 # Production Build
@@ -52,9 +53,9 @@
         export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {
         ```
 
-   * if no property, then use undefined as „object“ type for params
+   * if no property is accepted, then use an empty „object“ as params
 
         ```
         @observer
-        export default class OptionsSimple extends React.Component<undefined, any> {
+        export default class OptionsSimple extends React.Component<{}, any> {
         ```

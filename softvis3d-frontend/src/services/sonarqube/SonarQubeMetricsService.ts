@@ -21,10 +21,8 @@ import {BackendService} from "./BackendService";
 import {AppStatusStore} from "../../stores/AppStatusStore";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import Metric from "../../classes/Metric";
-import {leakPeriod} from "../../constants/Profiles";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
-import {newLinesToCoverMetricId} from "../../constants/Metrics";
 
 export interface SonarQubeApiMetric {
     id: number;
@@ -60,7 +58,7 @@ export default class SonarQubeMetricsService extends BackendService {
                 const metrics: Metric[] = (response.data.metrics as SonarQubeApiMetric[])
                     .filter((c) => this.shouldMetricBeFiltered(c.type))
                     .filter((c) => c.hidden === true || c.hidden === undefined || c.hidden === null)
-                    .map((c) => { return this.createMetric(c); });
+                    .map((c) => this.createMetric(c));
 
                 this.cityBuilderStore.genericMetrics.addMetrics(metrics);
 
@@ -72,8 +70,6 @@ export default class SonarQubeMetricsService extends BackendService {
                         reject();
                     });
                 } else {
-                    this.checkNewLinesOfCodeMetric();
-
                     this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
                     resolve();
                 }
@@ -97,12 +93,6 @@ export default class SonarQubeMetricsService extends BackendService {
     private shouldMetricBeFiltered(type: string): boolean {
         return type === "INT" || type === "FLOAT" || type === "PERCENT"
             || type === "MILLISEC" || type === "RATING" || type === "WORK_DUR";
-    }
-
-    private checkNewLinesOfCodeMetric() {
-        if (!this.cityBuilderStore.genericMetrics.hasNewLinesOfCodeMetric) {
-            leakPeriod.heightMetricId = newLinesToCoverMetricId;
-        }
     }
 
 }

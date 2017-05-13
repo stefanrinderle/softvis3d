@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default class LoadingImage extends React.Component<undefined, any> {
+export default class LoadingImage extends React.Component<{}, any> {
     public render() {
         return (
             <div>
