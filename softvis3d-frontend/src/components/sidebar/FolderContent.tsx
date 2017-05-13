@@ -80,10 +80,10 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
 
         return folder
             .getSortedChildren()
-            .map(this.getElement);
+            .map((child) => this.getElement(child));
     }
 
-    private getElement(child: TreeElement) {
+    private getElement(child: TreeElement): JSX.Element {
         const {sceneStore} = this.props;
 
         return <FolderContentElement
