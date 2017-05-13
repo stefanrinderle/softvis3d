@@ -13,8 +13,9 @@ export default class LoadingQueue extends React.Component<{ appStatusStore: AppS
             if (queueElement.hasStatus()) {
                 elements.push(
                     <li key={queueElement.key}>
-                        {queueElement.description}<br />
-                        {queueElement.current} of {queueElement.max} | {queueElement.percent} %
+                        <span className="status-description">{queueElement.description}</span>
+                        <span className="status-percent">{queueElement.percent}%</span>
+                        <span className="status-absolute">{queueElement.current} of {queueElement.max}</span>
                     </li>
                 );
             } else {

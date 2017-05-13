@@ -30,6 +30,23 @@
             &:not(:last-child) {
                 border-bottom: 1px solid $border-color-background;
             }
+
+            .status-description {
+                display: block;
+            }
+            .status-percent {
+                display: block;
+                font-weight: bold;
+                margin: 5px;
+            }
+            .status-absolute {
+                display: block;
+                font-size: smaller;
+                font-style: italic;
+                &:before { content: '(' }
+                &:after { content: ')' }
+            }
+
         }
     }
 }
