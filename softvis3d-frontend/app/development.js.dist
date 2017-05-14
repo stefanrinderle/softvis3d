@@ -7,4 +7,3 @@
 
     softvis3d.run(entry);
 })(window.softvis3d.app, "app");
-
