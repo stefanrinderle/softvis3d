@@ -72,31 +72,45 @@ export default class SonarQubeMeasuresTreeService {
         });
     }
 
-    public removeEmptyDirectories(element: TreeElement) {
-        if (element.children.length === 0) {
+    public optimizeDirectoryStructure(element: TreeElement) {
+        if (element.isFile || element.children.length === 0) {
             return;
-        } else {
-            let checkAgain: boolean = false;
-            for (let index = 0; index < element.children.length; index++) {
-                let child = element.children[index];
-                if (!child.isFile) {
-                    if (child.children.length === 0) {
-                        element.children.splice(index, 1);
-                        checkAgain = true;
-                    } else {
-                        this.removeEmptyDirectories(child);
+        }
 
-                        if (child.children.length === 0) {
-                            element.children.splice(index, 1);
-                            checkAgain = true;
-                        }
-                    }
-                }
-            }
-            if (checkAgain) {
-                this.removeEmptyDirectories(element);
+        let checkAgain: boolean = false;
+        for (let index = 0; index < element.children.length; index++) {
+            checkAgain = this.processChild(element.children, index);
+        }
+
+        if (checkAgain) {
+            this.optimizeDirectoryStructure(element);
+        }
+    }
+
+    private processChild(children: TreeElement[], index: number): boolean {
+        let child = children[index];
+
+        if (child.isFile) {
+            return false;
+        }
+
+        this.optimizeDirectoryStructure(child);
+
+        if (child.children.length === 1 && !child.children[0].isFile) {
+            // The element child only contains a single folder.
+            child.children[0].parent = child.parent;
+
+            if (child.parent) {
+                child.parent.replaceChildByKey(child.key, child.children[0]);
             }
         }
+
+        if (child.children.length === 0) {
+            children.splice(index, 1);
+            return true;
+        }
+
+        return false;
     }
 
     private resolveLoadTree(resolve: Function) {
@@ -122,10 +136,10 @@ export default class SonarQubeMeasuresTreeService {
              */
             this.measureApiService.loadMeasures(
                 parent.key, metricKeys, "all", [SQ_QUALIFIER_FILE]).then((filesResult) => {
-                    for (const file of filesResult.components) {
-                        SonarQubeTransformer.add(parent, SonarQubeTransformer.createTreeElement(file), true);
-                    }
-                    resolve();
+                for (const file of filesResult.components) {
+                    SonarQubeTransformer.add(parent, SonarQubeTransformer.createTreeElement(file), true);
+                }
+                resolve();
             }).catch((error) => {
                 reject(error);
             });

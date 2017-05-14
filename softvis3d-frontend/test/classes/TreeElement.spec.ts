@@ -45,8 +45,26 @@ describe("TreeElement", () => {
         expect(folderResult[3].path).to.be.eq("/src/z.java");
     });
 
+    it("should be able to replace child", () => {
+        let parent: TreeElement = createTreeElementAsChildWithNameAndKey("/src", "123");
+        SonarQubeTransformer.add(parent, createTreeElementAsChildWithNameAndKey("sdfsdf", "35"));
+        SonarQubeTransformer.add(parent, createTreeElementAsChildWithNameAndKey("sdfs", "443"));
+
+        let testDir: TreeElement = createTreeElementAsChildWithNameAndKey("/src/test", "333");
+        SonarQubeTransformer.add(parent, testDir);
+
+        let fileA: TreeElement = createTreeElementAsChildWithPath("/src/a.java", true);
+        parent.replaceChildByKey("333", fileA);
+
+        expect(parent.children[2]).to.be.eq(fileA);
+    });
+
 });
 
 function createTreeElementAsChildWithPath(path: string, isFile: boolean = false) {
     return new TreeElement("", "", {}, "", path, isFile);
+}
+
+function createTreeElementAsChildWithNameAndKey(name: string, key: string) {
+    return new TreeElement("", key, {}, name, "", false);
 }

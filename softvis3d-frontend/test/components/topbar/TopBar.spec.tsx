@@ -17,7 +17,7 @@ describe("<TopBar/>", () => {
         let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
         let selectedElement: TreeElement = createTestTreeElement();
 
-        localSceneStore.legacyData = selectedElement;
+        localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
         const selectedElementInfo = shallow(

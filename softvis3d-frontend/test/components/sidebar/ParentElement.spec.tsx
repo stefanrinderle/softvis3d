@@ -10,7 +10,7 @@ describe("<ParentElement/>", () => {
     it("should show nothing if selected Element has no parent", () => {
         const element = new TreeElement("parent", "parent", {}, "", "", false);
         let localSceneStore = new SceneStore();
-        localSceneStore.legacyData = element;
+        localSceneStore.projectData = element;
 
         let sideBarSelectParent = shallow(
             <ParentElement sceneStore={localSceneStore} selectedElement={element}/>
@@ -26,7 +26,7 @@ describe("<ParentElement/>", () => {
         parent.children.push(child1);
 
         let localSceneStore = new SceneStore();
-        localSceneStore.legacyData = parent;
+        localSceneStore.projectData = parent;
 
         let sideBarSelectParent = shallow(
             <ParentElement sceneStore={localSceneStore} selectedElement={parent}/>
@@ -44,7 +44,7 @@ describe("<ParentElement/>", () => {
         child1.children.push(child11);
 
         let localSceneStore = new SceneStore();
-        localSceneStore.legacyData = parent;
+        localSceneStore.projectData = parent;
 
         let sideBarSelectParent = shallow(
             <ParentElement sceneStore={localSceneStore} selectedElement={child1}/>
@@ -63,7 +63,7 @@ describe("<ParentElement/>", () => {
         child1.children.push(child11);
 
         let localSceneStore = new SceneStore();
-        localSceneStore.legacyData = parent;
+        localSceneStore.projectData = parent;
 
         let sideBarSelectParent = shallow(
             <ParentElement sceneStore={localSceneStore} selectedElement={child11}/>

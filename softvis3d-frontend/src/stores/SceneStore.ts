@@ -8,7 +8,7 @@ class SceneStore {
     @observable
     public options: VisualizationOptions = VisualizationOptions.createDefault();
     @observable
-    public legacyData: TreeElement | null = null;
+    public projectData: TreeElement | null = null;
     @observable
     public selectedObjectId: string | null = null;
     @observable
@@ -31,9 +31,9 @@ class SceneStore {
     @computed
     public get selectedElement(): TreeElement | null {
         let selectedElement: TreeElement | null = null;
-        if (this.legacyData !== null && this.selectedObjectId != null) {
+        if (this.projectData !== null && this.selectedObjectId != null) {
             selectedElement =
-                TreeService.searchTreeNode(this.legacyData, this.selectedObjectId);
+                TreeService.searchTreeNode(this.projectData, this.selectedObjectId);
         }
         return selectedElement;
     }

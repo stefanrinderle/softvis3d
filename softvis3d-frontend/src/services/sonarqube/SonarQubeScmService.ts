@@ -70,8 +70,8 @@ export default class SonarQubeScmService extends BackendService {
 
     public checkScmInfosAvailable(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            if (this.sceneStore.legacyData !== null) {
-                let allFiles: TreeElement[] = TreeService.getAllFiles(this.sceneStore.legacyData);
+            if (this.sceneStore.projectData !== null) {
+                let allFiles: TreeElement[] = TreeService.getAllFiles(this.sceneStore.projectData);
                 allFiles = allFiles.slice(0, 10);
 
                 let requests: Array<Promise<void>> = [];
@@ -98,8 +98,8 @@ export default class SonarQubeScmService extends BackendService {
         this.appStatusStore.load(SonarQubeScmService.LOAD_SCM);
 
         return new Promise<void>((resolve, reject) => {
-            if (this.sceneStore.legacyData !== null) {
-                let allFiles: TreeElement[] = TreeService.getAllFiles(this.sceneStore.legacyData);
+            if (this.sceneStore.projectData !== null) {
+                let allFiles: TreeElement[] = TreeService.getAllFiles(this.sceneStore.projectData);
 
                 this.loadScmInfosBatch(allFiles).then(() => {
                     this.appStatusStore.loadComplete(SonarQubeScmService.LOAD_SCM);

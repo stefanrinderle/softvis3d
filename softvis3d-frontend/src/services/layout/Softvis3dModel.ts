@@ -20,7 +20,7 @@
 /* tslint:disable */
 import * as CodeCityVis from "codecity-visualizer";
 import {MetricScale} from "./LayoutProcessor";
-import {TreeElement} from "../classes/TreeElement";
+import {TreeElement} from "../../classes/TreeElement";
 
 const BaseModel  = CodeCityVis.models.base;
 const TreeNode   = CodeCityVis.components.node;

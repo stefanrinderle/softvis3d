@@ -36,4 +36,13 @@ export class TreeElement {
         return this.children.sort(TreeElement.sortByNameAndType);
     }
 
+    public replaceChildByKey(key: string, replaceChild: TreeElement) {
+        for (let index = 0; index < this.children.length; index++) {
+            if (key === this.children[index].key) {
+                replaceChild.name = this.children[index].name + "/" + replaceChild.name;
+                this.children[index] = replaceChild;
+                break;
+            }
+        }
+    }
 }

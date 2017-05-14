@@ -23,7 +23,7 @@ describe("<SelectedElementInfo/>", () => {
         selectedElement.children.push(createTestTreeElement("child", selectedElement));
 
         let localSceneStore: SceneStore = new SceneStore();
-        localSceneStore.legacyData = selectedElement;
+        localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
         const selectedElementInfo = shallow(
@@ -42,7 +42,7 @@ describe("<SelectedElementInfo/>", () => {
         root.children.push(selectedElement);
 
         let localSceneStore: SceneStore = new SceneStore();
-        localSceneStore.legacyData = selectedElement;
+        localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
         const selectedElementInfo = shallow(
@@ -60,7 +60,7 @@ describe("<SelectedElementInfo/>", () => {
         root.children.push(selectedElement);
 
         let localSceneStore: SceneStore = new SceneStore();
-        localSceneStore.legacyData = selectedElement;
+        localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
         let stub = Sinon.stub(window, "open");
@@ -83,7 +83,7 @@ describe("<SelectedElementInfo/>", () => {
         root.children.push(selectedElement);
 
         let localSceneStore: SceneStore = new SceneStore();
-        localSceneStore.legacyData = selectedElement;
+        localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
         let stub = Sinon.stub(window, "open");

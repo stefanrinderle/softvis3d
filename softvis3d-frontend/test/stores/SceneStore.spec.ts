@@ -75,7 +75,7 @@ describe("SceneStore", () => {
         let sceneStore = new SceneStore();
 
         sceneStore.selectedObjectId = "123";
-        sceneStore.legacyData = new TreeElement("sdfsdf", "", {}, "", "", true);
+        sceneStore.projectData = new TreeElement("sdfsdf", "", {}, "", "", true);
         let result: number | null = sceneStore.getColorValue();
 
         expect(result).to.be.null;
@@ -86,7 +86,7 @@ describe("SceneStore", () => {
     //     let sceneStore = new SceneStore();
     //
     //     sceneStore.setSelectedObjectId("123");
-    //     sceneStore.legacyData = {
+    //     sceneStore.projectData = {
     //         id: "123",
     //         name: "oidfoijs",
     //         isNode: false,
