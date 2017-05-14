@@ -73,66 +73,43 @@ export default class SonarQubeMeasuresTreeService {
     }
 
     public optimizeDirectoryStructure(element: TreeElement) {
-        if (element.children.length === 0) {
+        if (element.isFile || element.children.length === 0) {
             return;
-        } else {
-            let checkAgain: boolean = false;
-            for (let index = 0; index < element.children.length; index++) {
-                checkAgain = this.processChild(element.children, index);
-            }
-            if (checkAgain) {
-                this.optimizeDirectoryStructure(element);
-            }
+        }
+
+        let checkAgain: boolean = false;
+        for (let index = 0; index < element.children.length; index++) {
+            checkAgain = this.processChild(element.children, index);
+        }
+
+        if (checkAgain) {
+            this.optimizeDirectoryStructure(element);
         }
     }
 
     private processChild(children: TreeElement[], index: number): boolean {
         let child = children[index];
-        if (!child.isFile) {
-            if (child.children.length === 0) {
-                /**
-                 * The element child is a folder and does not have any children. Can be removed.
-                 */
-                children.splice(index, 1);
-                return true;
-            } else if (child.children.length === 1 && !child.children[0].isFile) {
-                /**
-                 * The element child only contains a single folder.
-                 */
-                this.optimizeDirectoryStructure(child);
 
-                if (child.children[0]) {
-                    /**
-                     * The folder is present after it has been cleaned up.
-                     * Replace the child folder.
-                     */
-                    child.children[0].parent = child.parent;
+        if (child.isFile) {
+            return false;
+        }
 
-                    if (child.parent) {
-                        child.parent.replaceChildByKey(child.key, child.children[0]);
-                    }
-                } else {
-                    /**
-                     * The folder has been removed.
-                     */
-                    children.splice(index, 1);
-                    return true;
-                }
-            } else {
-                /**
-                 * The element has > 1 children.
-                 */
-                this.optimizeDirectoryStructure(child);
+        this.optimizeDirectoryStructure(child);
 
-                /**
-                 * Check children length again after the directory has been cleaned up.
-                 */
-                if (child.children.length === 0) {
-                    children.splice(index, 1);
-                    return true;
-                }
+        if (child.children.length === 1 && !child.children[0].isFile) {
+            // The element child only contains a single folder.
+            child.children[0].parent = child.parent;
+
+            if (child.parent) {
+                child.parent.replaceChildByKey(child.key, child.children[0]);
             }
         }
+
+        if (child.children.length === 0) {
+            children.splice(index, 1);
+            return true;
+        }
+
         return false;
     }
 
