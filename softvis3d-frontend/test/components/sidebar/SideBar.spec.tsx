@@ -29,7 +29,7 @@ describe("<SideBar/>", () => {
         child1.children.push(child11);
 
         let localSceneStore: SceneStore = new SceneStore();
-        localSceneStore.legacyData = parent;
+        localSceneStore.projectData = parent;
         localSceneStore.selectedObjectId = child1.id;
 
         const shallowSidebar = shallow(
@@ -64,7 +64,7 @@ describe("<SideBar/>", () => {
         child1.children.push(child11);
 
         let localSceneStore: SceneStore = new SceneStore();
-        localSceneStore.legacyData = parent;
+        localSceneStore.projectData = parent;
         localSceneStore.selectedObjectId = child11.id;
 
         const shallowSidebar = shallow(

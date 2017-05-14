@@ -1,25 +1,22 @@
 import {SceneStore} from "../stores/SceneStore";
 import {CityBuilderStore} from "../stores/CityBuilderStore";
 import {reaction} from "mobx";
-import LegacyCityCreator from "../legacy/LegacyCityCreator";
-import LoadAction from "../classes/status/LoadAction";
+import {CityLayoutService} from "../services/layout/CityLayoutService";
 
 export default class SceneReactions {
 
-    public static LOAD_SOFTVIS: LoadAction = new LoadAction("LOAD_SOFTVIS", "Create visualization");
-
     private builder: CityBuilderStore;
     private scene: SceneStore;
-    private legacy: LegacyCityCreator;
+    private cityLayoutService: CityLayoutService;
 
     constructor(
         scene: SceneStore,
         builder: CityBuilderStore,
-        legacy: LegacyCityCreator
+        cityLayoutService: CityLayoutService
     ) {
         this.builder = builder;
         this.scene = scene;
-        this.legacy = legacy;
+        this.cityLayoutService = cityLayoutService;
         this.prepareReactions();
     }
 
@@ -29,15 +26,15 @@ export default class SceneReactions {
             () => this.scene.options.metricColor,
             () => {
                 this.builder.metricColor = this.scene.options.metricColor;
-                this.legacy.createCity();
+                this.cityLayoutService.createCity();
             }
         );
 
         reaction(
             "Convert backend data to threeJS shapes",
-            () => this.scene.legacyData,
+            () => this.scene.projectData,
             () => {
-                this.legacy.createCity();
+                this.cityLayoutService.createCity();
             }
         );
     }

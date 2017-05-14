@@ -62,7 +62,7 @@ describe("SonarQubeMeasuresService", () => {
             assert(spyLoadComplete.calledWith(SonarQubeMeasuresService.LOAD_MEASURES));
 
             expect(testSceneStore.scmMetricLoaded).to.be.eq(false);
-            expect(testSceneStore.legacyData).to.deep.equal(expectedData);
+            expect(testSceneStore.projectData).to.deep.equal(expectedData);
             clock.tick(10);
             done();
         }).catch((error) => done(error));

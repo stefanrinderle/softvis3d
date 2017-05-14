@@ -27,7 +27,7 @@ describe("<Visualization/>", () => {
 
         localSceneStore.shapes = null;
 
-        localSceneStore.legacyData = expectedParentElement;
+        localSceneStore.projectData = expectedParentElement;
         localSceneStore.selectedObjectId = testId;
 
         const visualization = shallow(
@@ -53,7 +53,7 @@ describe("<Visualization/>", () => {
 
         localSceneStore.shapes = {};
 
-        localSceneStore.legacyData = expectedSelectedElement;
+        localSceneStore.projectData = expectedSelectedElement;
         localSceneStore.selectedObjectId = testId;
 
         const visualization = shallow(

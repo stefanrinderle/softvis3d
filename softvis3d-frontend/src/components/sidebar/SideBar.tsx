@@ -38,7 +38,7 @@ export default class SideBar extends React.Component<SideBarProps, any> {
     }
 
     private getParentElement(element: TreeElement): TreeElement | null {
-        if (!this.props.sceneStore.legacyData) {
+        if (!this.props.sceneStore.projectData) {
             return null;
         }
 

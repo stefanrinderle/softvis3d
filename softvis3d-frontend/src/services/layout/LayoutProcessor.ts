@@ -28,13 +28,13 @@ import {
     numberOfAuthorsBlameColorMetric,
     openIssuesColorMetric, packageNameColorMetric,
     violationsColorMetric
-} from "../constants/Metrics";
+} from "../../constants/Metrics";
 
 const illustratorEvostreet = CodeCityVis.illustrators.evostreet;
 const illustratorDistrict = CodeCityVis.illustrators.district;
 const attributeHelper = CodeCityVis.helper.attributes;
 
-type VersionInterface = CodeCityVis.components.version;
+// type VersionInterface = CodeCityVis.components.version;
 interface AttributeContainer {
     [index: string]: any;
 }
@@ -62,21 +62,8 @@ class LayoutProcessor {
     private _rules: CodeCityVis.rules.base[];
     private _metricScale: MetricScale;
 
-    constructor(options = {}) {
-        this._options = Object.assign(
-            { layout: "district", layoutOptions: {}, colorMetric: "none", scalingMethod: "linear" },
-            options
-        );
-        this._illustrator = null;
-        this._rules = [];
-        this._metricScale = {
-            height: {min: Infinity, max: 0},
-            metricFootprint: {min: Infinity, max: 0},
-            metricColor: {min: Infinity, max: 0}
-        };
-    }
-
-    public getIllustration(model: Softvis3dModel, version: VersionInterface) {
+    public getIllustration(options: {}, model: Softvis3dModel) {
+        this.setOptions(options);
         // Step 1: Load Metrics Scale
         this._metricScale = model.getMetricScale();
 
@@ -95,10 +82,24 @@ class LayoutProcessor {
             illustrator.addRule(rule);
         }
 
-        return illustrator.draw(version);
+        return illustrator.draw(model._version);
     }
 
-    public setLayoutEvostreet() {
+    private setOptions(options = {}) {
+        this._options = Object.assign(
+            { layout: "district", layoutOptions: {}, colorMetric: "none", scalingMethod: "linear" },
+            options
+        );
+        this._illustrator = null;
+        this._rules = [];
+        this._metricScale = {
+            height: {min: Infinity, max: 0},
+            metricFootprint: {min: Infinity, max: 0},
+            metricColor: {min: Infinity, max: 0}
+        };
+    }
+
+    private setLayoutEvostreet() {
         this._illustrator = illustratorEvostreet;
 
         this._options.layoutOptions = this._mergeDeep(
@@ -129,7 +130,7 @@ class LayoutProcessor {
         this._rules.push(this._RulePackageColorBlue());
     }
 
-    public setLayoutDistrict() {
+    private setLayoutDistrict() {
         this._illustrator = illustratorDistrict;
 
         this._options.layoutOptions = this._mergeDeep(

@@ -33,7 +33,7 @@ describe("SonarQubeScmService", () => {
 
         let testSceneStore: SceneStore = new SceneStore();
         let exampleData: any = {};
-        testSceneStore.legacyData = exampleData;
+        testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
         let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,
@@ -84,7 +84,7 @@ describe("SonarQubeScmService", () => {
 
         let testSceneStore: SceneStore = new SceneStore();
         let exampleData: any = {};
-        testSceneStore.legacyData = exampleData;
+        testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
         let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,
@@ -138,7 +138,7 @@ describe("SonarQubeScmService", () => {
 
         let testSceneStore: SceneStore = new SceneStore();
         let exampleData: any = {};
-        testSceneStore.legacyData = exampleData;
+        testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
         let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,
@@ -197,7 +197,7 @@ describe("SonarQubeScmService", () => {
 
         let testSceneStore: SceneStore = new SceneStore();
         let exampleData: any = {};
-        testSceneStore.legacyData = exampleData;
+        testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
         let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,
@@ -255,7 +255,7 @@ describe("SonarQubeScmService", () => {
     it("should do nothing if no data is available", (done) => {
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testSceneStore: SceneStore = new SceneStore();
-        testSceneStore.legacyData = null;
+        testSceneStore.projectData = null;
 
         let apiUrl: string = "urlsihshoif";
         let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,
@@ -276,7 +276,7 @@ describe("SonarQubeScmService", () => {
 
         let testSceneStore: SceneStore = new SceneStore();
         let exampleData: any = {};
-        testSceneStore.legacyData = exampleData;
+        testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
         let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,

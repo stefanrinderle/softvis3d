@@ -19,7 +19,7 @@ describe("<FolderContent/>", () => {
         parent.children.push(child2);
 
         let localSceneStore: SceneStore = new SceneStore();
-        localSceneStore.legacyData = parent;
+        localSceneStore.projectData = parent;
         localSceneStore.selectedObjectId = child1.id;
 
         const sideBarLeafInfo = shallow(
@@ -54,7 +54,7 @@ describe("<FolderContent/>", () => {
         root.children.push(child2);
 
         let localSceneStore: SceneStore = new SceneStore();
-        localSceneStore.legacyData = root;
+        localSceneStore.projectData = root;
 
         const selectedElementInfo = shallow(
             <FolderContent

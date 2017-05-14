@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import Softvis3D from "./components/Softvis3D";
-import LegacyCityCreator from "./legacy/LegacyCityCreator";
 import appStatusStore from "./stores/AppStatusStore";
 import cityBuilderStore from "./stores/CityBuilderStore";
 import sceneStore from "./stores/SceneStore";
@@ -16,6 +15,7 @@ import SonarQubeMeasuresService from "./services/sonarqube/measures/SonarQubeMea
 import SonarQubeMeasuresApiService from "./services/sonarqube/measures/SonarQubeMeasuresApiService";
 import SonarQubeMeasuresTreeService from "./services/sonarqube/measures/SonarQubeMeasuresTreeService";
 import SonarQubeMeasuresMetricService from "./services/sonarqube/measures/SonarQubeMeasuresMetricService";
+import {CityLayoutService} from "./services/layout/CityLayoutService";
 
 export interface AppConfiguration {
     api: string;
@@ -28,7 +28,7 @@ export default class App {
 
     private communicator: SonarQubeMetricsService;
     private visualizationLinkService: VisualizationLinkService;
-    private legacy: LegacyCityCreator;
+    private cityLayoutService: CityLayoutService;
 
     //noinspection JSMismatchedCollectionQueryUpdate
     private reactions: any[];
@@ -45,10 +45,10 @@ export default class App {
         let measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
         let measuresService = new SonarQubeMeasuresService(config.projectKey, measuresTreeService, measuresMetricService,
                                                            appStatusStore, cityBuilderStore, sceneStore);
-        this.legacy = new LegacyCityCreator(sceneStore, appStatusStore, scmService);
+        this.cityLayoutService = new CityLayoutService(sceneStore, appStatusStore, scmService);
 
         this.reactions = [
-            new SceneReactions(sceneStore, cityBuilderStore, this.legacy),
+            new SceneReactions(sceneStore, cityBuilderStore, this.cityLayoutService),
             new BuilderReactions(cityBuilderStore, measuresService)
         ];
     }

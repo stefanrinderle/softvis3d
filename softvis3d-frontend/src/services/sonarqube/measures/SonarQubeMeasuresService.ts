@@ -62,7 +62,7 @@ export default class SonarQubeMeasuresService {
 
         if (this.metricKeys && this.metricKeys === metricKeys) {
             this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
-            this.sceneStore.legacyData = Object.assign({}, this.sceneStore.legacyData);
+            this.sceneStore.projectData = Object.assign({}, this.sceneStore.projectData);
         } else {
 
             /**
@@ -80,7 +80,7 @@ export default class SonarQubeMeasuresService {
 
                 this.metricKeys = metricKeys;
                 this.sceneStore.scmMetricLoaded = false;
-                this.sceneStore.legacyData = root;
+                this.sceneStore.projectData = root;
 
                 this.cityBuilderStore.show = false;
             }).catch(() => {
