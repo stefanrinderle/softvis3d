@@ -113,6 +113,7 @@ class LayoutProcessor {
                     "spacer.terranullius": 40,
                     "spacer.conclusive": 0,
                     "spacer.branches": 50,
+                    "road.trim": true,
                     "house.container": (key: string, mirror: boolean) => new CodeCityVis.containers.lightmap(key, mirror),
                     "house.distribution": "left",
                     "house.platforms": {
