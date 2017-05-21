@@ -2981,9 +2981,9 @@ mobx-react@^4.1.0:
   dependencies:
     hoist-non-react-statics "^1.2.0"
 
-mobx@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-2.7.0.tgz#cf3d82d18c0ca7f458d8f2a240817b3dc7e54a01"
+mobx@^3.1.9:
+  version "3.1.9"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-3.1.9.tgz#ed4af9d874ff6032c7af91fc1b87d9d33122a557"
 
 mocha-sonar-generic-test-coverage@^0.0.3:
   version "0.0.3"

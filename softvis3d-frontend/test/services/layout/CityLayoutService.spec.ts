@@ -55,7 +55,7 @@ describe("CityLayoutService", () => {
         clock.tick(10);
         returnPromise.then(() => {
             assert(layoutProcessor.getIllustration.called);
-            expect(testSceneStore.shapes).to.be.eq(epectedShape);
+            expect(testSceneStore.shapes).to.be.deep.equal(epectedShape);
 
             clock.tick(10);
             done();

@@ -22,19 +22,23 @@ export default class SceneReactions {
 
     private prepareReactions() {
         reaction(
-            "Transfer the chosen color from the scene to the builder and rebuild city",
             () => this.scene.options.metricColor,
             () => {
                 this.builder.metricColor = this.scene.options.metricColor;
                 this.cityLayoutService.createCity();
+            },
+            {
+                name: "Transfer the chosen color from the scene to the builder and rebuild city"
             }
         );
 
         reaction(
-            "Convert backend data to threeJS shapes",
             () => this.scene.projectData,
             () => {
                 this.cityLayoutService.createCity();
+            },
+            {
+                name: "Convert backend data to threeJS shapes"
             }
         );
     }
