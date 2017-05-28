@@ -61,7 +61,7 @@ describe("SceneStore", () => {
 
         sceneStore.shapes = shapes;
 
-        expect(sceneStore.shapes).to.be.equal(shapes);
+        expect(sceneStore.shapes).to.be.deep.equal(shapes);
     });
 
     it("should return for getColorValue if no selected element available", () => {

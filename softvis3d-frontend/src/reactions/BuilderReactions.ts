@@ -15,7 +15,6 @@ export default class BuilderReactions {
 
     private prepareReactions() {
         reaction(
-            "Transfer all required data to the scene",
             () => this.builder.initiateBuildProcess,
             () => {
                 if (this.builder.initiateBuildProcess) {
@@ -26,6 +25,9 @@ export default class BuilderReactions {
 
                     this.measuresService.loadMeasuresInitial(options);
                 }
+            },
+            {
+                name: "Transfer all required data to the scene"
             }
         );
     }
