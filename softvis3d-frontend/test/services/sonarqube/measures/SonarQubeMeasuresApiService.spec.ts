@@ -24,14 +24,14 @@ import {
     SonarQubeMeasurePagingResponse,
     SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE
 } from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
+import {AppConfiguration} from "../../../../src/classes/AppConfiguration";
 
 describe("SonarQubeMeasuresApiService", () => {
 
     it("should call backend and load measures", (done) => {
-        let apiUrl: string = "urlsihshoif";
-        let projectKey: string = "odivoins";
+        let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(apiUrl, projectKey);
+        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
         let data: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 1);
         let stub = Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -51,10 +51,9 @@ describe("SonarQubeMeasuresApiService", () => {
     });
 
     it("should load again if more results", (done) => {
-        let apiUrl: string = "urlsihshoif";
-        let projectKey: string = "odivoins";
+        let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(apiUrl, projectKey);
+        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
 
         let data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
         let data2: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(2, 500, 600);
@@ -82,10 +81,9 @@ describe("SonarQubeMeasuresApiService", () => {
     });
 
     it("should call backend and react on errors", (done) => {
-        let apiUrl: string = "urlsihshoif";
-        let projectKey: string = "odivoins";
+        let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(apiUrl, projectKey);
+        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
@@ -106,10 +104,9 @@ describe("SonarQubeMeasuresApiService", () => {
     });
 
     it("should call backend and react on errors on the second call", (done) => {
-        let apiUrl: string = "urlsihshoif";
-        let projectKey: string = "odivoins";
+        let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(apiUrl, projectKey);
+        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
 
         let data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
 

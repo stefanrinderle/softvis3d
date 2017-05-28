@@ -1,6 +1,6 @@
 (function(App, entry) {
     var softvis3d = new App({
-        api: "/api",
+        baseUrl: "",
         projectKey: "de.rinderle.softvis3d:softvis3d",
         isDev: true
     });

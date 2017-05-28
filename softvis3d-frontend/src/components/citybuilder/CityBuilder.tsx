@@ -9,6 +9,7 @@ import {AppStatusStore} from "../../stores/AppStatusStore";
 export interface CityBuilderProps {
     store: CityBuilderStore;
     appStatusStore: AppStatusStore;
+    baseUrl?: string;
 }
 
 @observer
@@ -21,7 +22,7 @@ export default class CityBuilder extends React.Component<CityBuilderProps, any> 
 
         return (
             <div className="city-builder">
-                <OptionsSimple store={this.props.store} />
+                <OptionsSimple store={this.props.store} baseUrl={this.props.baseUrl}/>
                 <OptionsAdvanced store={this.props.store} />
 
                 { this.renderButtons() }

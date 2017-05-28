@@ -88,7 +88,7 @@ if (typeof(Promise) === "undefined") {
         ).then(function() {
             load(baseUrl + "/static/softvis3d/bundle.js").then(function() {
                 var softvis3d = new window.softvis3d.app({
-                    api: baseUrl + "/api",
+                    baseUrl: baseUrl,
                     projectKey: options.component.key,
                     isDev: false
                 });

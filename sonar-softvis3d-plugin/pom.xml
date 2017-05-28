@@ -112,7 +112,7 @@
               <replacements>
                 <replacement>
                   <token>static/resources/</token>
-                  <value>../../../static/softvis3d/resources/</value>
+                  <value>static/softvis3d/resources/</value>
                 </replacement>
               </replacements>
             </configuration>

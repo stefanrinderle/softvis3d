@@ -36,8 +36,8 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,
-            testSceneStore);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
+            testSceneStore, apiUrl);
 
         let treeServiceMock = Sinon.stub(TreeService, "getAllFiles");
         let treeElements: TreeElement[] = [];
@@ -87,8 +87,8 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,
-            testSceneStore);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
+            testSceneStore, apiUrl);
 
         let statusStub = Sinon.stub(testAppStatusStore, "status");
 
@@ -102,7 +102,7 @@ describe("SonarQubeScmService", () => {
         measures.push(measure);
 
         let scmCalculatorCreateMetricMock = Sinon.stub(ScmCalculator, "createMetric");
-        scmCalculatorCreateMetricMock.returns({ });
+        scmCalculatorCreateMetricMock.returns({});
         let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
         scmCalculatorCaclAuthorsMock.returns(0);
 
@@ -141,8 +141,8 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,
-            testSceneStore);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
+            testSceneStore, apiUrl);
 
         let treeServiceMock = Sinon.stub(TreeService, "getAllFiles");
         let treeElements: TreeElement[] = [];
@@ -200,8 +200,8 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,
-            testSceneStore);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
+            testSceneStore, apiUrl);
 
         let treeServiceMock = Sinon.stub(TreeService, "getAllFiles");
         let treeElements: TreeElement[] = [];
@@ -258,8 +258,8 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = null;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,
-            testSceneStore);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
+            testSceneStore, apiUrl);
 
         underTest.loadScmInfos().then(() => {
             done();
@@ -279,8 +279,8 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl, testAppStatusStore,
-            testSceneStore);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
+            testSceneStore, apiUrl);
 
         let treeServiceMock = Sinon.stub(TreeService, "getAllFiles");
         let treeElements: TreeElement[] = [];

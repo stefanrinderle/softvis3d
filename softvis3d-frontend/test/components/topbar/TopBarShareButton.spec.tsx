@@ -1,19 +1,15 @@
 import * as React from "react";
-import {expect, assert} from "chai";
+import {assert, expect} from "chai";
 import {mount} from "enzyme";
 import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
 import TopBarShareButton from "../../../src/components/topbar/TopBarShareButton";
-import {SceneStore} from "../../../src/stores/SceneStore";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
 import * as Sinon from "sinon";
 import ClipBoardService from "../../../src/services/ClipBoardService";
 
 describe("<TopBarShareButton/>", () => {
 
     it("should initialize if disabled", () => {
-        let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
+        let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
 
         const shareButton = mount(
             <TopBarShareButton disabled={false} visualizationLinkService={localVisualizationLinkService}/>
@@ -28,13 +24,11 @@ describe("<TopBarShareButton/>", () => {
     });
 
     it("should open visualization link", () => {
-        let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
+        let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
 
         let stub = Sinon.stub(window, "open");
 
-        Sinon.stub(localVisualizationLinkService, "createVisualizationLink").returns("abc");
+        localVisualizationLinkService.createVisualizationLink.returns("abc");
 
         const shareButton = mount(
             <TopBarShareButton disabled={true} visualizationLinkService={localVisualizationLinkService}/>
@@ -51,13 +45,11 @@ describe("<TopBarShareButton/>", () => {
     });
 
     it("should copy visualization link", () => {
-        let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
+        let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
 
         let stub = Sinon.stub(ClipBoardService, "copyTextToClipboard");
 
-        Sinon.stub(localVisualizationLinkService, "createVisualizationLink").returns("abc");
+        localVisualizationLinkService.createVisualizationLink.returns("abc");
 
         const shareButton = mount(
             <TopBarShareButton disabled={true} visualizationLinkService={localVisualizationLinkService}/>
