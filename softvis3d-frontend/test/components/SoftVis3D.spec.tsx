@@ -7,9 +7,9 @@ import CityBuilder from "../../src/components/citybuilder/CityBuilder";
 import Visualization from "../../src/components/visualization/Visualization";
 import {AppStatusStore, default as appStatusStore} from "../../src/stores/AppStatusStore";
 import sceneStore, {SceneStore} from "../../src/stores/SceneStore";
-import Status from "../../src/components/status/Status";
 import LoadAction from "../../src/classes/status/LoadAction";
 import VisualizationLinkService from "../../src/services/VisualizationLinkService";
+import Status from "../../src/components/status/Status";
 
 describe("<SoftVis3D/>", () => {
 
@@ -25,7 +25,7 @@ describe("<SoftVis3D/>", () => {
                        visualizationLinkService={localVisualizationLinkService}/>
         );
 
-        expect(softvis3d.contains(<Status appStatusStore={appStatusStore}/>)).to.be.true;
+        expect(softvis3d.contains(<Status />)).to.be.true;
         expect(softvis3d.contains(<CityBuilder store={cityBuilderStore} appStatusStore={appStatusStore}/>)).to.be.true;
         expect(softvis3d.contains(
             <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}
@@ -48,7 +48,7 @@ describe("<SoftVis3D/>", () => {
                        visualizationLinkService={localVisualizationLinkService}/>
         );
 
-        expect(softvis3d.contains(<Status appStatusStore={appStatusStore}/>)).to.be.true;
+        expect(softvis3d.contains(<Status />)).to.be.true;
     });
 
 });

@@ -9,13 +9,14 @@ import ErrorStatus from "../../../src/components/status/ErrorStatus";
 import LoadAction from "../../../src/classes/status/LoadAction";
 import ErrorAction from "../../../src/classes/status/ErrorAction";
 import InfoStatus from "../../../src/components/status/InfoStatus";
+import {bindMock} from "../../Helper";
 
 describe("<Status/>", () => {
 
     it("should draw loading components if loading", () => {
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
-
         localAppStatusStore.load(new LoadAction("test", ""));
+        bindMock("AppStatusStore", localAppStatusStore);
 
         const softvis3d = shallow(
             <Status appStatusStore={localAppStatusStore}/>
@@ -29,11 +30,11 @@ describe("<Status/>", () => {
 
     it("should draw error components if errors", () => {
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
-
         localAppStatusStore.error(new ErrorAction("key", "test", "", () => undefined));
+        bindMock("AppStatusStore", localAppStatusStore);
 
         const softvis3d = shallow(
-            <Status appStatusStore={localAppStatusStore}/>
+            <Status />
         );
 
         expect(softvis3d.contains(<SoftVis3DLogo/>)).to.be.true;
@@ -44,9 +45,10 @@ describe("<Status/>", () => {
 
     it("should draw nothing if not visible", () => {
         let localAppStatusStore: AppStatusStore = new AppStatusStore();
+        bindMock("AppStatusStore", localAppStatusStore);
 
         const softvis3d = shallow(
-            <Status appStatusStore={localAppStatusStore}/>
+            <Status />
         );
 
         expect(softvis3d.children().length).to.be.eq(0);

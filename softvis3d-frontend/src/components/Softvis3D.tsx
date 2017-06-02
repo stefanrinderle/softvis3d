@@ -22,7 +22,7 @@ export default class Softvis3D extends React.Component<Softvis3DProps, any> {
         const {appStatusStore, sceneStore, cityBuilderStore, visualizationLinkService} = this.props;
         return (
             <div>
-                <Status appStatusStore={appStatusStore}/>
+                <Status />
                 <CityBuilder store={cityBuilderStore} appStatusStore={appStatusStore}/>
                 <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}
                                visualizationLinkService={visualizationLinkService}/>
