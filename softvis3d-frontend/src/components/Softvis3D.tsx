@@ -6,26 +6,23 @@ import {CityBuilderStore} from "../stores/CityBuilderStore";
 import {SceneStore} from "../stores/SceneStore";
 import Visualization from "./visualization/Visualization";
 import Status from "./status/Status";
-import VisualizationLinkService from "../services/VisualizationLinkService";
 
 interface Softvis3DProps {
     appStatusStore: AppStatusStore;
     sceneStore: SceneStore;
     cityBuilderStore: CityBuilderStore;
-    visualizationLinkService: VisualizationLinkService;
 }
 
 @observer
 export default class Softvis3D extends React.Component<Softvis3DProps, any> {
 
     public render() {
-        const {appStatusStore, sceneStore, cityBuilderStore, visualizationLinkService} = this.props;
+        const {appStatusStore, sceneStore, cityBuilderStore} = this.props;
         return (
             <div>
-                <Status />
+                <Status appStatusStore={appStatusStore}/>
                 <CityBuilder store={cityBuilderStore} appStatusStore={appStatusStore}/>
-                <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}
-                               visualizationLinkService={visualizationLinkService}/>
+                <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
             </div>
         );
     }

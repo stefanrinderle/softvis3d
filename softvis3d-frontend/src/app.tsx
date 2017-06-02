@@ -16,6 +16,7 @@ import SonarQubeMeasuresApiService from "./services/sonarqube/measures/SonarQube
 import SonarQubeMeasuresTreeService from "./services/sonarqube/measures/SonarQubeMeasuresTreeService";
 import SonarQubeMeasuresMetricService from "./services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import {CityLayoutService} from "./services/layout/CityLayoutService";
+import {container} from "./inversify.config";
 
 export interface AppConfiguration {
     api: string;
@@ -37,6 +38,9 @@ export default class App {
         appStatusStore.showLoadingQueue = config.isDev;
 
         this.visualizationLinkService = new VisualizationLinkService(cityBuilderStore, sceneStore);
+        container.bind<VisualizationLinkService>("VisualizationLinkService")
+            .toConstantValue(this.visualizationLinkService);
+
         this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
 
         let scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
@@ -44,7 +48,7 @@ export default class App {
         let measuresTreeService = new SonarQubeMeasuresTreeService(appStatusStore, measuresApiService);
         let measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
         let measuresService = new SonarQubeMeasuresService(config.projectKey, measuresTreeService, measuresMetricService,
-                                                           appStatusStore, cityBuilderStore, sceneStore);
+            appStatusStore, cityBuilderStore, sceneStore);
         this.cityLayoutService = new CityLayoutService(sceneStore, appStatusStore, scmService);
 
         this.reactions = [
@@ -61,8 +65,7 @@ export default class App {
         this.assertRequirementsAreMet();
 
         ReactDOM.render(
-           <Softvis3D sceneStore={sceneStore} cityBuilderStore={cityBuilderStore} appStatusStore={appStatusStore}
-                      visualizationLinkService={this.visualizationLinkService}/>,
+            <Softvis3D sceneStore={sceneStore} cityBuilderStore={cityBuilderStore} appStatusStore={appStatusStore}/>,
             document.getElementById(target)!
         );
     }

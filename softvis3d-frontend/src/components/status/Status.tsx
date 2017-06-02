@@ -5,16 +5,11 @@ import Loading from "./loading/Loading";
 import SoftVis3DLogo from "./SoftVis3DLogo";
 import ErrorStatus from "./ErrorStatus";
 import InfoStatus from "./InfoStatus";
-import {lazyInject} from "../../inversify.config";
 
 @observer
-export default class Status extends React.Component<any, any> {
-
-    @lazyInject("AppStatusStore")
-    private appStatusStore: AppStatusStore;
-
+export default class Status extends React.Component<{ appStatusStore: AppStatusStore; }, any> {
     public render() {
-        if (!this.appStatusStore.isVisible) {
+        if (!this.props.appStatusStore.isVisible) {
             return <div />;
         }
 
@@ -22,9 +17,9 @@ export default class Status extends React.Component<any, any> {
             <div className="status-component">
                 <SoftVis3DLogo/>
 
-                <InfoStatus appStatusStore={this.appStatusStore}/>
-                <Loading appStatusStore={this.appStatusStore}/>
-                <ErrorStatus appStatusStore={this.appStatusStore}/>
+                <InfoStatus appStatusStore={this.props.appStatusStore}/>
+                <Loading appStatusStore={this.props.appStatusStore}/>
+                <ErrorStatus appStatusStore={this.props.appStatusStore}/>
             </div>
         );
     }

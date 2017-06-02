@@ -7,7 +7,6 @@ import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
 import {SceneStore} from "../../../src/stores/SceneStore";
 import TopBar from "../../../src/components/topbar/TopBar";
 import SideBar from "../../../src/components/sidebar/SideBar";
-import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
 import {TreeElement} from "../../../src/classes/TreeElement";
 
 describe("<Visualization/>", () => {
@@ -15,7 +14,6 @@ describe("<Visualization/>", () => {
     it("should not render any children, when no visualization (shapes) is ready", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
         let parentId: string = "parentsduhfisdfuh";
         let expectedParentElement: TreeElement = createTestTreeElement(parentId);
@@ -31,22 +29,18 @@ describe("<Visualization/>", () => {
         localSceneStore.selectedObjectId = testId;
 
         const visualization = shallow(
-            <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}
-                           visualizationLinkService={localVisualizationLinkService}/>
+            <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
         expect(visualization.children()).to.have.length(1);
 
         expect(visualization.contains(
-            <TopBar sceneStore={localSceneStore} cityBuilderStore={localCityBuilderStore}
-                    visualizationLinkService={localVisualizationLinkService}
-            />)).to.be.true;
+            <TopBar sceneStore={localSceneStore} cityBuilderStore={localCityBuilderStore}/>)).to.be.true;
     });
 
     it("should initialize all elements on start - shapes available but empty", () => {
         let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
         let testId: string = "siudgffsiuhdsfiu2332";
         let expectedSelectedElement: TreeElement = createTestTreeElement(testId);
@@ -57,14 +51,12 @@ describe("<Visualization/>", () => {
         localSceneStore.selectedObjectId = testId;
 
         const visualization = shallow(
-            <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}
-                           visualizationLinkService={localVisualizationLinkService}/>
+            <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
         expect(visualization.children()).to.have.length(3);
         expect(visualization.contains(
-            <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}
-                    visualizationLinkService={localVisualizationLinkService}/>)).to.be.true;
+            <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
             <Scene sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
