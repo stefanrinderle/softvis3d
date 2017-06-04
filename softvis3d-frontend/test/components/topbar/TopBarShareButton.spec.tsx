@@ -1,5 +1,5 @@
 import * as React from "react";
-import {expect, assert} from "chai";
+import {assert, expect} from "chai";
 import {mount} from "enzyme";
 import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
 import TopBarShareButton from "../../../src/components/topbar/TopBarShareButton";
@@ -7,6 +7,7 @@ import {SceneStore} from "../../../src/stores/SceneStore";
 import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
 import * as Sinon from "sinon";
 import ClipBoardService from "../../../src/services/ClipBoardService";
+import {bindMock} from "../../Helper";
 
 describe("<TopBarShareButton/>", () => {
 
@@ -15,8 +16,10 @@ describe("<TopBarShareButton/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
         let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
+        bindMock("VisualizationLinkService", localVisualizationLinkService);
+
         const shareButton = mount(
-            <TopBarShareButton disabled={false} visualizationLinkService={localVisualizationLinkService}/>
+            <TopBarShareButton disabled={false}/>
         );
 
         expect(shareButton.children("button").length).to.be.eq(1);
@@ -32,12 +35,13 @@ describe("<TopBarShareButton/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
         let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
+        bindMock("VisualizationLinkService", localVisualizationLinkService);
         let stub = Sinon.stub(window, "open");
 
         Sinon.stub(localVisualizationLinkService, "createVisualizationLink").returns("abc");
 
         const shareButton = mount(
-            <TopBarShareButton disabled={true} visualizationLinkService={localVisualizationLinkService}/>
+            <TopBarShareButton disabled={true}/>
         );
 
         const dropDownButtons = shareButton.find(".dropdown-menu button");
@@ -55,12 +59,13 @@ describe("<TopBarShareButton/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
         let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
+        bindMock("VisualizationLinkService", localVisualizationLinkService);
         let stub = Sinon.stub(ClipBoardService, "copyTextToClipboard");
 
         Sinon.stub(localVisualizationLinkService, "createVisualizationLink").returns("abc");
 
         const shareButton = mount(
-            <TopBarShareButton disabled={true} visualizationLinkService={localVisualizationLinkService}/>
+            <TopBarShareButton disabled={true}/>
         );
 
         const dropDownButtons = shareButton.find(".dropdown-menu button");

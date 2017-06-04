@@ -17,29 +17,25 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
+import {assert, expect} from "chai";
 import * as Sinon from "sinon";
 import {SceneStore} from "../../src/stores/SceneStore";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import SceneReactions from "../../src/reactions/SceneReactions";
-import {AppStatusStore} from "../../src/stores/AppStatusStore";
 import {complexityColorMetric} from "../../src/constants/Metrics";
-import SonarQubeScmService from "../../src/services/sonarqube/SonarQubeScmService";
 import {TreeElement} from "../../src/classes/TreeElement";
 import {CityLayoutService} from "../../src/services/layout/CityLayoutService";
+import {bindMock} from "../Helper";
 
 describe("SceneReactions", () => {
 
     it("should change city builder color metric setting if changed in the scene", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testSceneStore = new SceneStore();
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testSonarScmService: SonarQubeScmService =
-            new SonarQubeScmService("", testAppStatusStore, testSceneStore);
-        let testLegayConnector: CityLayoutService =
-            new CityLayoutService(testSceneStore, testAppStatusStore, testSonarScmService);
+        let testCityLayoutService = Sinon.createStubInstance(CityLayoutService);
+        bindMock("CityLayoutService", testCityLayoutService);
 
-        let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
+        let reactions = new SceneReactions(testSceneStore, testCityBuilderStore);
 
         testSceneStore.options.metricColor = complexityColorMetric;
 
@@ -50,42 +46,29 @@ describe("SceneReactions", () => {
     it("should rebuild city if color metric changed", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testSceneStore = new SceneStore();
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testSonarScmService: SonarQubeScmService =
-            new SonarQubeScmService("", testAppStatusStore, testSceneStore);
-        let testLegayConnector: CityLayoutService =
-            new CityLayoutService(testSceneStore, testAppStatusStore, testSonarScmService);
+        let testCityLayoutService = Sinon.createStubInstance(CityLayoutService);
+        bindMock("CityLayoutService", testCityLayoutService);
 
-        let mockBuild = Sinon.mock(testLegayConnector);
-        mockBuild.expects("createCity").once();
-
-        let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
+        let reactions = new SceneReactions(testSceneStore, testCityBuilderStore);
 
         testSceneStore.shapes = [];
         testSceneStore.options.metricColor = complexityColorMetric;
 
-        mockBuild.verify();
+        assert(testCityLayoutService.createCity.calledOnce);
         expect(reactions).not.to.be.null;
     });
 
     it("should convert backend data to threeJS shapes", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testSceneStore = new SceneStore();
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testSonarScmService: SonarQubeScmService =
-            new SonarQubeScmService("", testAppStatusStore, testSceneStore);
-        let testLegayConnector: CityLayoutService =
-            new CityLayoutService(testSceneStore, testAppStatusStore, testSonarScmService);
+        let testCityLayoutService = Sinon.createStubInstance(CityLayoutService);
+        bindMock("CityLayoutService", testCityLayoutService);
 
-        let mockBuild = Sinon.mock(testLegayConnector);
-        mockBuild.expects("createCity").once();
-
-        let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, testLegayConnector);
+        let reactions = new SceneReactions(testSceneStore, testCityBuilderStore);
 
         testSceneStore.projectData = new TreeElement("", "", {}, "", "", false);
 
-        mockBuild.verify();
-
+        assert(testCityLayoutService.createCity.calledOnce);
         expect(reactions).not.to.be.null;
     });
 

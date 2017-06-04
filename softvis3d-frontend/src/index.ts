@@ -18,6 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
+import "reflect-metadata";
 import App from "./app";
 
 (window as any).softvis3d = {

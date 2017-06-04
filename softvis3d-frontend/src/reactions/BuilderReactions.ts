@@ -2,14 +2,15 @@ import {CityBuilderStore} from "../stores/CityBuilderStore";
 import {reaction} from "mobx";
 import VisualizationOptions from "../classes/VisualizationOptions";
 import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
+import {lazyInject} from "../inversify.config";
 
 export default class BuilderReactions {
     private builder: CityBuilderStore;
+    @lazyInject("SonarQubeMeasuresService")
     private measuresService: SonarQubeMeasuresService;
 
-    constructor(builder: CityBuilderStore, measuresService: SonarQubeMeasuresService) {
+    constructor(builder: CityBuilderStore) {
         this.builder = builder;
-        this.measuresService = measuresService;
         this.prepareReactions();
     }
 

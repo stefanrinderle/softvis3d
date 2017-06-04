@@ -27,6 +27,7 @@ import VisualizationOptions from "../../../src/classes/VisualizationOptions";
 import {numberOfAuthorsBlameColorMetric} from "../../../src/constants/Metrics";
 import LayoutProcessor from "../../../src/services/layout/LayoutProcessor";
 import {CityLayoutService} from "../../../src/services/layout/CityLayoutService";
+import {bindMock} from "../../Helper";
 
 describe("CityLayoutService", () => {
 
@@ -38,6 +39,7 @@ describe("CityLayoutService", () => {
         testSceneStore.projectData = new TreeElement("", "", {}, "", "", false);
 
         let scmService: any = Sinon.createStubInstance(SonarQubeScmService);
+        bindMock("SonarQubeScmService", scmService);
         let layoutProcessor: any = Sinon.createStubInstance(LayoutProcessor);
         let epectedShape = {};
         layoutProcessor.getIllustration.callsFake(() => {
@@ -45,9 +47,10 @@ describe("CityLayoutService", () => {
                 shapes: epectedShape
             };
         });
+        bindMock("LayoutProcessor", layoutProcessor);
 
         let underTest: CityLayoutService =
-            new CityLayoutService(testSceneStore, testAppStatusStore, scmService, layoutProcessor);
+            new CityLayoutService(testSceneStore, testAppStatusStore);
 
         underTest.createCity();
 
@@ -70,12 +73,13 @@ describe("CityLayoutService", () => {
         testSceneStore.projectData = new TreeElement("", "", {}, "", "", false);
 
         let scmService: any = Sinon.createStubInstance(SonarQubeScmService);
+        bindMock("SonarQubeScmService", scmService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
         let underTest: CityLayoutService =
-            new CityLayoutService(testSceneStore, testAppStatusStore, scmService);
+            new CityLayoutService(testSceneStore, testAppStatusStore);
 
         underTest.createCity();
 
@@ -103,12 +107,13 @@ describe("CityLayoutService", () => {
         scmService.assertScmInfoAreLoaded.callsFake(() => {
             return Promise.resolve({});
         });
+        bindMock("SonarQubeScmService", scmService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
         let underTest: CityLayoutService =
-            new CityLayoutService(testSceneStore, testAppStatusStore, scmService);
+            new CityLayoutService(testSceneStore, testAppStatusStore);
 
         underTest.createCity();
 

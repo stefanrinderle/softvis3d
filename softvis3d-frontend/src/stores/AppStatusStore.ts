@@ -3,7 +3,9 @@ import LoadAction from "../classes/status/LoadAction";
 import ErrorAction from "../classes/status/ErrorAction";
 import StatusActionQueue from "../classes/status/StatusActionQueue";
 import StatusAction from "../classes/status/StatusAction";
+import {injectable} from "inversify";
 
+@injectable()
 class AppStatusStore {
 
     @observable
@@ -67,7 +69,7 @@ class AppStatusStore {
         this.errors.add(error);
     }
 
-    public acknowledgeError(error: ErrorAction): void  {
+    public acknowledgeError(error: ErrorAction): void {
         this.errors.remove(error);
     }
 }

@@ -2,10 +2,10 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import VisualizationLinkService from "../../services/VisualizationLinkService";
 import ClipBoardService from "../../services/ClipBoardService";
+import {lazyInject} from "../../inversify.config";
 
 interface TopBarShareButtonProbs {
     disabled: boolean;
-    visualizationLinkService: VisualizationLinkService;
 }
 
 interface TopBarShareButtonStates {
@@ -14,6 +14,9 @@ interface TopBarShareButtonStates {
 
 @observer
 export default class TopBarShareButton extends React.Component<TopBarShareButtonProbs, TopBarShareButtonStates> {
+
+    @lazyInject("VisualizationLinkService")
+    private visualizationLinkService: VisualizationLinkService;
 
     public componentWillMount() {
         this.setShareMenuState(false);
@@ -57,12 +60,12 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
     }
 
     private openVisualizationLink() {
-        window.open(this.props.visualizationLinkService.createVisualizationLink());
+        window.open(this.visualizationLinkService.createVisualizationLink());
         this.setShareMenuState(false);
     }
 
     private copyVisualizationLink() {
-        ClipBoardService.copyTextToClipboard(this.props.visualizationLinkService.createVisualizationLink());
+        ClipBoardService.copyTextToClipboard(this.visualizationLinkService.createVisualizationLink());
         this.setShareMenuState(false);
     }
 }

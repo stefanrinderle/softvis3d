@@ -22,14 +22,17 @@ import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import BuilderReactions from "../../src/reactions/BuilderReactions";
 import * as Sinon from "sinon";
 import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/SonarQubeMeasuresService";
+import {bindMock} from "../Helper";
 
 describe("BuilderReactions", () => {
 
     it("should initiate build process", () => {
         let testCityBuilderStore = new CityBuilderStore();
         const testSonarService = Sinon.createStubInstance(SonarQubeMeasuresService) as any;
+        bindMock("SonarQubeMeasuresService", testSonarService);
+
         const reactionRegister =
-            new BuilderReactions(testCityBuilderStore, testSonarService as SonarQubeMeasuresService);
+            new BuilderReactions(testCityBuilderStore);
 
         expect(testSonarService.loadMeasuresInitial.notCalled).to.be.true;
 

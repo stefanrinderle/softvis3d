@@ -19,22 +19,26 @@
 ///
 import {TreeElement} from "../../../classes/TreeElement";
 import {
-    SonarQubeApiComponent, SonarQubeQualifier, SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE,
+    SonarQubeApiComponent,
+    SonarQubeQualifier,
+    SQ_QUALIFIER_DIRECTORY,
+    SQ_QUALIFIER_FILE,
     SQ_QUALIFIER_SUB_PROJECT
 } from "./SonarQubeMeasureResponse";
 import SonarQubeTransformer from "../SonarQubeTransformer";
 import SonarQubeMeasuresApiService from "./SonarQubeMeasuresApiService";
 import {AppStatusStore} from "../../../stores/AppStatusStore";
 import SonarQubeMeasuresService from "./SonarQubeMeasuresService";
+import {lazyInject} from "../../../inversify.config";
 
 export default class SonarQubeMeasuresTreeService {
 
+    @lazyInject("SonarQubeMeasuresApiService")
     private measureApiService: SonarQubeMeasuresApiService;
     private appStatusStore: AppStatusStore;
 
-    constructor(appStatusStore: AppStatusStore, measureApiService: SonarQubeMeasuresApiService) {
+    constructor(appStatusStore: AppStatusStore) {
         this.appStatusStore = appStatusStore;
-        this.measureApiService = measureApiService;
     }
 
     public loadTree(parent: TreeElement, metricKeys: string): Promise<void> {

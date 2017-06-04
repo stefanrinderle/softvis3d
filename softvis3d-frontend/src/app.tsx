@@ -16,6 +16,7 @@ import SonarQubeMeasuresApiService from "./services/sonarqube/measures/SonarQube
 import SonarQubeMeasuresTreeService from "./services/sonarqube/measures/SonarQubeMeasuresTreeService";
 import SonarQubeMeasuresMetricService from "./services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import {CityLayoutService} from "./services/layout/CityLayoutService";
+import {container} from "./inversify.config";
 
 export interface AppConfiguration {
     api: string;
@@ -28,7 +29,6 @@ export default class App {
 
     private communicator: SonarQubeMetricsService;
     private visualizationLinkService: VisualizationLinkService;
-    private cityLayoutService: CityLayoutService;
 
     //noinspection JSMismatchedCollectionQueryUpdate
     private reactions: any[];
@@ -37,19 +37,31 @@ export default class App {
         appStatusStore.showLoadingQueue = config.isDev;
 
         this.visualizationLinkService = new VisualizationLinkService(cityBuilderStore, sceneStore);
-        this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
+        container.bind<VisualizationLinkService>("VisualizationLinkService")
+            .toConstantValue(this.visualizationLinkService);
 
-        let scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
-        let measuresApiService = new SonarQubeMeasuresApiService(config.api, config.projectKey);
-        let measuresTreeService = new SonarQubeMeasuresTreeService(appStatusStore, measuresApiService);
-        let measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
-        let measuresService = new SonarQubeMeasuresService(config.projectKey, measuresTreeService, measuresMetricService,
-                                                           appStatusStore, cityBuilderStore, sceneStore);
-        this.cityLayoutService = new CityLayoutService(sceneStore, appStatusStore, scmService);
+        this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
+        container.bind<SonarQubeMetricsService>("SonarQubeMetricsService")
+            .toConstantValue(this.communicator);
+
+        container.bind<SonarQubeScmService>("SonarQubeScmService")
+            .toConstantValue(new SonarQubeScmService(config.api, appStatusStore, sceneStore));
+        container.bind<SonarQubeMeasuresApiService>("SonarQubeMeasuresApiService")
+            .toConstantValue(new SonarQubeMeasuresApiService(config.api, config.projectKey));
+
+        container.bind<SonarQubeMeasuresTreeService>("SonarQubeMeasuresTreeService")
+            .toConstantValue(new SonarQubeMeasuresTreeService(appStatusStore));
+        container.bind<SonarQubeMeasuresMetricService>("SonarQubeMeasuresMetricService")
+            .toConstantValue(new SonarQubeMeasuresMetricService(cityBuilderStore));
+        let measuresService = new SonarQubeMeasuresService(config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
+        container.bind<SonarQubeMeasuresService>("SonarQubeMeasuresService")
+            .toConstantValue(measuresService);
+        container.bind<CityLayoutService>("CityLayoutService")
+            .toConstantValue(new CityLayoutService(sceneStore, appStatusStore));
 
         this.reactions = [
-            new SceneReactions(sceneStore, cityBuilderStore, this.cityLayoutService),
-            new BuilderReactions(cityBuilderStore, measuresService)
+            new SceneReactions(sceneStore, cityBuilderStore),
+            new BuilderReactions(cityBuilderStore)
         ];
     }
 
@@ -61,8 +73,7 @@ export default class App {
         this.assertRequirementsAreMet();
 
         ReactDOM.render(
-           <Softvis3D sceneStore={sceneStore} cityBuilderStore={cityBuilderStore} appStatusStore={appStatusStore}
-                      visualizationLinkService={this.visualizationLinkService}/>,
+            <Softvis3D sceneStore={sceneStore} cityBuilderStore={cityBuilderStore} appStatusStore={appStatusStore}/>,
             document.getElementById(target)!
         );
     }
