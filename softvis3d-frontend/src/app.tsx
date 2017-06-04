@@ -42,14 +42,18 @@ export default class App {
             .toConstantValue(this.visualizationLinkService);
 
         this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
+        container.bind<SonarQubeMetricsService>("SonarQubeMetricsService")
+            .toConstantValue(this.communicator);
 
-        let scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
+        container.bind<SonarQubeScmService>("SonarQubeScmService")
+            .toConstantValue(new SonarQubeScmService(config.api, appStatusStore, sceneStore));
+
         let measuresApiService = new SonarQubeMeasuresApiService(config.api, config.projectKey);
         let measuresTreeService = new SonarQubeMeasuresTreeService(appStatusStore, measuresApiService);
         let measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
         let measuresService = new SonarQubeMeasuresService(config.projectKey, measuresTreeService, measuresMetricService,
             appStatusStore, cityBuilderStore, sceneStore);
-        this.cityLayoutService = new CityLayoutService(sceneStore, appStatusStore, scmService);
+        this.cityLayoutService = new CityLayoutService(sceneStore, appStatusStore);
 
         this.reactions = [
             new SceneReactions(sceneStore, cityBuilderStore, this.cityLayoutService),

@@ -16,8 +16,6 @@ describe("<TopBarShareButton/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
         let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
 
-        // container.bind<VisualizationLinkService>("VisualizationLinkService")
-        //     .toConstantValue(localVisualizationLinkService);
         bindMock("VisualizationLinkService", localVisualizationLinkService);
 
         const shareButton = mount(

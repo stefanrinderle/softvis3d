@@ -6,20 +6,22 @@ import {AppStatusStore} from "../../stores/AppStatusStore";
 import SonarQubeScmService from "../sonarqube/SonarQubeScmService";
 import {numberOfAuthorsBlameColorMetric} from "../../constants/Metrics";
 import {TreeElement} from "../../classes/TreeElement";
+import {lazyInject} from "../../inversify.config";
 
 export class CityLayoutService {
     public static BUILD_CITY: LoadAction = new LoadAction("BUILD_CITY", "Create layout");
 
     private sceneStore: SceneStore;
     private appStatusStore: AppStatusStore;
-    private scmService: SonarQubeScmService;
     private layoutProcessor: LayoutProcessor;
 
-    public constructor(sceneStore: SceneStore, appStatusStore: AppStatusStore, scmService: SonarQubeScmService,
+    @lazyInject("SonarQubeScmService")
+    private scmService: SonarQubeScmService;
+
+    public constructor(sceneStore: SceneStore, appStatusStore: AppStatusStore,
                        layoutProcessor?: LayoutProcessor) {
         this.sceneStore = sceneStore;
         this.appStatusStore = appStatusStore;
-        this.scmService = scmService;
 
         // for tests
         if (layoutProcessor) {
