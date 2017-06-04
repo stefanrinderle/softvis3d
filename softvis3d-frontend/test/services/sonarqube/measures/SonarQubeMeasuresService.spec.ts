@@ -27,6 +27,7 @@ import SonarQubeMeasuresService from "../../../../src/services/sonarqube/measure
 import SonarQubeMeasuresMetricService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresTreeService";
 import {TreeElement} from "../../../../src/classes/TreeElement";
+import {bindMock} from "../../../Helper";
 
 describe("SonarQubeMeasuresService", () => {
 
@@ -39,15 +40,16 @@ describe("SonarQubeMeasuresService", () => {
         testSceneStore.scmMetricLoaded = true;
 
         let measureTreeService: any = Sinon.createStubInstance(SonarQubeMeasuresTreeService);
+        bindMock("SonarQubeMeasuresTreeService", measureTreeService);
         let measureMetricService: any = Sinon.createStubInstance(SonarQubeMeasuresMetricService);
+        bindMock("SonarQubeMeasuresMetricService", measureMetricService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
         let projectKey: string = "sdufsofin";
         let underTest: SonarQubeMeasuresService =
-            new SonarQubeMeasuresService(projectKey, measureTreeService, measureMetricService, testAppStatusStore,
-                                         testCityBuilderStore, testSceneStore);
+            new SonarQubeMeasuresService(projectKey, testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         let expectedData: TreeElement = new TreeElement(projectKey, projectKey, {}, projectKey, projectKey, false);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
@@ -77,7 +79,9 @@ describe("SonarQubeMeasuresService", () => {
         testSceneStore.scmMetricLoaded = true;
 
         let measureTreeService: any = Sinon.createStubInstance(SonarQubeMeasuresTreeService);
+        bindMock("SonarQubeMeasuresTreeService", measureTreeService);
         let measureMetricService: any = Sinon.createStubInstance(SonarQubeMeasuresMetricService);
+        bindMock("SonarQubeMeasuresMetricService", measureMetricService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
@@ -86,8 +90,7 @@ describe("SonarQubeMeasuresService", () => {
 
         let projectKey: string = "sdufsofin";
         let underTest: SonarQubeMeasuresService =
-            new SonarQubeMeasuresService(projectKey, measureTreeService, measureMetricService, testAppStatusStore,
-                                         testCityBuilderStore, testSceneStore);
+            new SonarQubeMeasuresService(projectKey, testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         let expectedData: TreeElement = new TreeElement("", projectKey, {}, "", "", false);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
@@ -119,7 +122,9 @@ describe("SonarQubeMeasuresService", () => {
         testSceneStore.scmMetricLoaded = true;
 
         let measureTreeService: any = Sinon.createStubInstance(SonarQubeMeasuresTreeService);
+        bindMock("SonarQubeMeasuresTreeService", measureTreeService);
         let measureMetricService: any = Sinon.createStubInstance(SonarQubeMeasuresMetricService);
+        bindMock("SonarQubeMeasuresMetricService", measureMetricService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
@@ -127,8 +132,7 @@ describe("SonarQubeMeasuresService", () => {
 
         let projectKey: string = "sdufsofin";
         let underTest: SonarQubeMeasuresService =
-            new SonarQubeMeasuresService(projectKey, measureTreeService, measureMetricService, testAppStatusStore,
-                                         testCityBuilderStore, testSceneStore);
+            new SonarQubeMeasuresService(projectKey, testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         measureTreeService.loadTree.returns(Promise.reject({data: {message: "Error message"}}));
 

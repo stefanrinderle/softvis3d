@@ -50,10 +50,11 @@ export default class App {
         container.bind<SonarQubeMeasuresApiService>("SonarQubeMeasuresApiService")
             .toConstantValue(new SonarQubeMeasuresApiService(config.api, config.projectKey));
 
-        let measuresTreeService = new SonarQubeMeasuresTreeService(appStatusStore);
-        let measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
-        let measuresService = new SonarQubeMeasuresService(config.projectKey, measuresTreeService, measuresMetricService,
-            appStatusStore, cityBuilderStore, sceneStore);
+        container.bind<SonarQubeMeasuresTreeService>("SonarQubeMeasuresTreeService")
+            .toConstantValue(new SonarQubeMeasuresTreeService(appStatusStore));
+        container.bind<SonarQubeMeasuresMetricService>("SonarQubeMeasuresMetricService")
+            .toConstantValue(new SonarQubeMeasuresMetricService(cityBuilderStore));
+        let measuresService = new SonarQubeMeasuresService(config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
         this.cityLayoutService = new CityLayoutService(sceneStore, appStatusStore);
 
         this.reactions = [

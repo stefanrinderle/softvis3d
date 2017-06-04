@@ -26,6 +26,7 @@ import {AppStatusStore} from "../../../stores/AppStatusStore";
 import {TreeElement} from "../../../classes/TreeElement";
 import SonarQubeMeasuresTreeService from "./SonarQubeMeasuresTreeService";
 import SonarQubeMeasuresMetricService from "./SonarQubeMeasuresMetricService";
+import {lazyInject} from "../../../inversify.config";
 
 export default class SonarQubeMeasuresService {
     public static LOAD_MEASURES: LoadAction = new LoadAction("SONAR_LOAD_MEASURES", "Request measures from SonarQube");
@@ -36,17 +37,15 @@ export default class SonarQubeMeasuresService {
     private cityBuilderStore: CityBuilderStore;
     private sceneStore: SceneStore;
 
+    @lazyInject("SonarQubeMeasuresTreeService")
     private measureTreeService: SonarQubeMeasuresTreeService;
+    @lazyInject("SonarQubeMeasuresMetricService")
     private measureMetricService: SonarQubeMeasuresMetricService;
 
     private metricKeys: string;
 
-    constructor(projectKey: string, measureTreeService: SonarQubeMeasuresTreeService,
-                measureMetricService: SonarQubeMeasuresMetricService, appStatusStore: AppStatusStore,
-                cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
+    constructor(projectKey: string, appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
         this.projectKey = projectKey;
-        this.measureTreeService = measureTreeService;
-        this.measureMetricService = measureMetricService;
         this.appStatusStore = appStatusStore;
         this.cityBuilderStore = cityBuilderStore;
         this.sceneStore = sceneStore;
