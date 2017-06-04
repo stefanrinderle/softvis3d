@@ -13,22 +13,15 @@ export class CityLayoutService {
 
     private sceneStore: SceneStore;
     private appStatusStore: AppStatusStore;
-    private layoutProcessor: LayoutProcessor;
 
+    @lazyInject("LayoutProcessor")
+    private layoutProcessor: LayoutProcessor;
     @lazyInject("SonarQubeScmService")
     private scmService: SonarQubeScmService;
 
-    public constructor(sceneStore: SceneStore, appStatusStore: AppStatusStore,
-                       layoutProcessor?: LayoutProcessor) {
+    public constructor(sceneStore: SceneStore, appStatusStore: AppStatusStore) {
         this.sceneStore = sceneStore;
         this.appStatusStore = appStatusStore;
-
-        // for tests
-        if (layoutProcessor) {
-            this.layoutProcessor = layoutProcessor;
-        } else {
-            this.layoutProcessor = new LayoutProcessor();
-        }
     }
 
     public createCity() {

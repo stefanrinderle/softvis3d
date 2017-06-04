@@ -47,9 +47,10 @@ describe("CityLayoutService", () => {
                 shapes: epectedShape
             };
         });
+        bindMock("LayoutProcessor", layoutProcessor);
 
         let underTest: CityLayoutService =
-            new CityLayoutService(testSceneStore, testAppStatusStore, layoutProcessor);
+            new CityLayoutService(testSceneStore, testAppStatusStore);
 
         underTest.createCity();
 

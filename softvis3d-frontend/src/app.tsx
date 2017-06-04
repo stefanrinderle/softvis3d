@@ -29,7 +29,6 @@ export default class App {
 
     private communicator: SonarQubeMetricsService;
     private visualizationLinkService: VisualizationLinkService;
-    private cityLayoutService: CityLayoutService;
 
     //noinspection JSMismatchedCollectionQueryUpdate
     private reactions: any[];
@@ -55,11 +54,14 @@ export default class App {
         container.bind<SonarQubeMeasuresMetricService>("SonarQubeMeasuresMetricService")
             .toConstantValue(new SonarQubeMeasuresMetricService(cityBuilderStore));
         let measuresService = new SonarQubeMeasuresService(config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
-        this.cityLayoutService = new CityLayoutService(sceneStore, appStatusStore);
+        container.bind<SonarQubeMeasuresService>("SonarQubeMeasuresService")
+            .toConstantValue(measuresService);
+        container.bind<CityLayoutService>("CityLayoutService")
+            .toConstantValue(new CityLayoutService(sceneStore, appStatusStore));
 
         this.reactions = [
-            new SceneReactions(sceneStore, cityBuilderStore, this.cityLayoutService),
-            new BuilderReactions(cityBuilderStore, measuresService)
+            new SceneReactions(sceneStore, cityBuilderStore),
+            new BuilderReactions(cityBuilderStore)
         ];
     }
 

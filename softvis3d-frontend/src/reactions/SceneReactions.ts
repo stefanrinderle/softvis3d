@@ -2,21 +2,21 @@ import {SceneStore} from "../stores/SceneStore";
 import {CityBuilderStore} from "../stores/CityBuilderStore";
 import {reaction} from "mobx";
 import {CityLayoutService} from "../services/layout/CityLayoutService";
+import {lazyInject} from "../inversify.config";
 
 export default class SceneReactions {
 
     private builder: CityBuilderStore;
     private scene: SceneStore;
+    @lazyInject("CityLayoutService")
     private cityLayoutService: CityLayoutService;
 
     constructor(
         scene: SceneStore,
-        builder: CityBuilderStore,
-        cityLayoutService: CityLayoutService
+        builder: CityBuilderStore
     ) {
         this.builder = builder;
         this.scene = scene;
-        this.cityLayoutService = cityLayoutService;
         this.prepareReactions();
     }
 
