@@ -58,11 +58,14 @@ describe("<Scene/>", () => {
         underTest.mouseActions = stubMouseActions;
         let stubKeyActions: any = Sinon.createStubInstance(SceneMouseInteractions);
         underTest.keyActions = stubKeyActions;
+        let stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
+        underTest.threeSceneService = stubThreeSceneService;
 
         underTest.componentWillUnmount();
 
         assert(stubMouseActions.destroy.called);
         assert(stubKeyActions.destroy.called);
+        assert(stubThreeSceneService.destroy.called);
     });
 
     it("should update camera position", () => {

@@ -53,6 +53,11 @@ export default class ThreeSceneService {
         this.wrangler = wrangler;
     }
 
+    public destroy() {
+        this.threeScene.destroy();
+        this.wrangler.destroy();
+    }
+
     public update(shapes: SoftVis3dShape[], options: VisualizationOptions, cameraPosition?: Vector3) {
         if (shapes === null) {
             return;

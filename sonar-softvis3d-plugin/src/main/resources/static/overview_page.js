@@ -80,6 +80,7 @@ if (typeof(Promise) === "undefined") {
     window.registerExtension("softvis3d/overview_page", function (options) {
         createEntryPoint(options.el, entryPoint);
 
+        var softvis3d;
         load(
             baseUrl + "/static/softvis3d/style.css",
             baseUrl + "/static/softvis3d/react.min.js",
@@ -87,7 +88,7 @@ if (typeof(Promise) === "undefined") {
             baseUrl + "/static/softvis3d/three.min.js"
         ).then(function() {
             load(baseUrl + "/static/softvis3d/bundle.js").then(function() {
-                var softvis3d = new window.softvis3d.app({
+                softvis3d = new window.softvis3d.app({
                     baseUrl: baseUrl,
                     projectKey: options.component.key,
                     isDev: false
@@ -99,7 +100,7 @@ if (typeof(Promise) === "undefined") {
 
         // return a function, which is called when the page is being closed
         return function () {
-            // do not remove this function because otherwise an exception will be thrown!
+            softvis3d.stop(entryPoint);
         };
     });
 })("app", window.baseUrl);

@@ -18,10 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { MeshLambertMaterial, Scene } from "three";
-import { ObjectFactory } from "./ObjectFactory";
-import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
-import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
+import {MeshLambertMaterial, Scene} from "three";
+import {ObjectFactory} from "./ObjectFactory";
+import {SoftVis3dMesh} from "../../domain/SoftVis3dMesh";
+import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
 
 interface SoftVis3dSelectedObject {
     object: SoftVis3dMesh;
@@ -102,9 +102,17 @@ export class Wrangler {
         return this.objectsInView;
     }
 
+    public destroy() {
+        this.removeAllFromScene();
+
+        this.objectsInView = [];
+        this.selectedTreeObjects = [];
+    }
+
     private removeAllFromScene() {
         while (this.objectsInView.length) {
             this.scene.remove(this.objectsInView.pop() as SoftVis3dMesh);
         }
     }
+
 }

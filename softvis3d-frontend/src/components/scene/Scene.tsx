@@ -58,6 +58,8 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         this._mouseActions.destroy();
         this._keyActions.destroy();
         this.setState({...this.state, mounted: false});
+
+        this._threeSceneService.destroy();
     }
 
     public render() {
