@@ -9,8 +9,13 @@ import Profile from "../../classes/Profile";
 import { Profiles } from "../../constants/Profiles";
 import Metric from "../../classes/Metric";
 
+export interface OptionsSimpleProps {
+    store: CityBuilderStore;
+    baseUrl?: string;
+}
+
 @observer
-export default class OptionsSimple extends React.Component<{ store: CityBuilderStore; }, any> {
+export default class OptionsSimple extends React.Component<OptionsSimpleProps, any> {
     public render() {
 
         return (
@@ -53,7 +58,7 @@ export default class OptionsSimple extends React.Component<{ store: CityBuilderS
                     </div>
                 </div>
                 <div className="right-column">
-                    <PreviewPictureComponent store={this.props.store}/>
+                    <PreviewPictureComponent store={this.props.store} baseUrl={this.props.baseUrl}/>
                 </div>
             </div>
         );

@@ -7,18 +7,14 @@ import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
 import {SceneStore} from "../../../src/stores/SceneStore";
 import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
-import {TreeElement} from "../../../src/classes/TreeElement";
+import * as Sinon from "sinon";
 
 describe("<TopBar/>", () => {
 
     it("should show default text div on start", () => {
-        let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
-        let selectedElement: TreeElement = createTestTreeElement();
-
-        localSceneStore.projectData = selectedElement;
-        localSceneStore.selectedObjectId = selectedElement.id;
+        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
 
         const selectedElementInfo = shallow(
             <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}
@@ -32,7 +28,3 @@ describe("<TopBar/>", () => {
     });
 
 });
-
-function createTestTreeElement(): TreeElement {
-    return new TreeElement("", "", {}, "", "", true);
-}

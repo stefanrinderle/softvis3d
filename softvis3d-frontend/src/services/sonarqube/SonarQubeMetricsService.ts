@@ -40,8 +40,8 @@ export default class SonarQubeMetricsService extends BackendService {
     private appStatusStore: AppStatusStore;
     private cityBuilderStore: CityBuilderStore;
 
-    constructor(apiUrl: string, appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore) {
-        super(apiUrl);
+    constructor(appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore, baseUrl?: string) {
+        super(baseUrl);
 
         this.appStatusStore = appStatusStore;
         this.cityBuilderStore = cityBuilderStore;

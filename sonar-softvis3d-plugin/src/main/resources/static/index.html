@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
-        <title>Softvis3D &raquo; dev</title>
-        <link rel="stylesheet" href="./style.css" />
-        <link rel="stylesheet" href="./sonar.css" />
+        <meta charset="UTF-8"/>
+        <title>Softvis3D</title>
+        <link rel="stylesheet" href="./style.css"/>
+        <link rel="stylesheet" href="./sonar.css"/>
     </head>
     <body>
-        <script>
-            var PROJECT_KEY = 'osiudhisudiauhdiauh';
-        </script>
-
-        <div id="app"></div>
+        <div id="app">
+            Loading...
+        </div>
 
         <!-- Dependencies -->
         <script src="./react.min.js"></script>
@@ -22,7 +20,32 @@
         <script src="./bundle.js"></script>
 
         <script>
-            console.log("window.baseUrl" + window.baseUrl);
+            function getParameterByName(name, url) {
+                if (!url) {
+                    url = window.location.href;
+                }
+                name = name.replace(/[\[\]]/g, "\\$&");
+                var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, " "));
+            }
+
+            var projectKey = getParameterByName('projectKey');
+            var baseUrl = getParameterByName('baseUrl');
+
+            if (projectKey) {
+                var softvis3d = new window.softvis3d.app({
+                    baseUrl: baseUrl,
+                    projectKey: projectKey,
+                    isDev: false
+                });
+
+                softvis3d.run("app");
+            } else {
+                document.getElementById("app").textContent =
+                        "Url parameter projectKey not found but required.";
+            }
         </script>
     </body>
 </html>

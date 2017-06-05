@@ -22,14 +22,14 @@ import axios, {AxiosPromise, AxiosRequestConfig} from "axios";
 
 export abstract class BackendService {
 
-    private baseUrl: string;
+    private apiUrl: string;
 
-    constructor(apiUrl: string) {
-        this.baseUrl = apiUrl;
+    constructor(baseUrl?: string) {
+        this.apiUrl = (baseUrl || "") + "/api";
     }
 
     public callApi(route: string, options: AxiosRequestConfig = {}): AxiosPromise {
-        return axios.get(this.baseUrl + route, options);
+        return axios.get(this.apiUrl + route, options);
     }
 
 }

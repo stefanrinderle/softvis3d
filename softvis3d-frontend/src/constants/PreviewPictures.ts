@@ -1,49 +1,26 @@
-import Layout from "../classes/Layout";
-import { PreviewPicture } from "../classes/PreviewPicture";
-import Profile from "../classes/Profile";
-import { defaultProfile, leakPeriod, duplicatedLinesOfCode } from "./Profiles";
+import {defaultProfile, duplicatedLinesOfCode, leakPeriod} from "./Profiles";
+import {PreviewPicture} from "../classes/PreviewPicture";
+import {district, evostreet} from "./Layouts";
 
-const defaultDistrict: PreviewPicture = {
-    forLayout: (l: Layout) => l.id === "district",
-    forProfile: (p: Profile) => p.id === defaultProfile.id,
-    bgPicture: "static/resources/preview/district_complexity_loc_EXTINT.png"
-};
+const defaultDistrict: PreviewPicture =
+    new PreviewPicture("/static/resources/preview/district_complexity_loc_EXTINT.png", district, defaultProfile);
 
-const defaultEvostreet: PreviewPicture = {
-    forLayout: (l: Layout) => l.id === "evostreet",
-    forProfile: (p: Profile) => p.id === defaultProfile.id,
-    bgPicture: "static/resources/preview/evostreet_complexity_loc_EXTINT.png"
-};
+const defaultEvostreet: PreviewPicture =
+    new PreviewPicture("/static/resources/preview/evostreet_complexity_loc_EXTINT.png", evostreet, defaultProfile);
 
-const leakDistrict: PreviewPicture = {
-    forLayout: (l: Layout) => l.id === "district",
-    forProfile: (p: Profile) => p.id === leakPeriod.id,
-    bgPicture: "static/resources/preview/district_complexity_newLOC_ApacheCommons_Lang.png"
-};
+const leakDistrict: PreviewPicture =
+    new PreviewPicture("/static/resources/preview/district_complexity_newLOC_ApacheCommons_Lang.png", district, leakPeriod);
 
-const leakEvostreet: PreviewPicture = {
-    forLayout: (l: Layout) => l.id === "evostreet",
-    forProfile: (p: Profile) => p.id === leakPeriod.id,
-    bgPicture: "static/resources/preview/evostreet_complexity_newLOC_ApacheCommons_Lang.png"
-};
+const leakEvostreet: PreviewPicture =
+    new PreviewPicture("/static/resources/preview/evostreet_complexity_newLOC_ApacheCommons_Lang.png", evostreet, leakPeriod);
 
-const duplicateDistrict: PreviewPicture = {
-    forLayout: (l: Layout) => l.id === "district",
-    forProfile: (p: Profile) => p.id === duplicatedLinesOfCode.id,
-    bgPicture: "static/resources/preview/district_complexity_duplicatedLOC_LMSAPP_SHOP.png"
-};
+const duplicateDistrict: PreviewPicture =
+    new PreviewPicture("/static/resources/preview/district_complexity_duplicatedLOC_LMSAPP_SHOP.png", district, duplicatedLinesOfCode);
 
-const duplicateEvostreet: PreviewPicture = {
-    forLayout: (l: Layout) => l.id === "evostreet",
-    forProfile: (p: Profile) => p.id === duplicatedLinesOfCode.id,
-    bgPicture: "static/resources/preview/evostreet_complexity_duplicatedLOC_LMSAPP_SHOP.png"
-};
+const duplicateEvostreet: PreviewPicture = new PreviewPicture(
+    "/static/resources/preview/evostreet_complexity_duplicatedLOC_LMSAPP_SHOP.png", evostreet, duplicatedLinesOfCode);
 
-const placeholder: PreviewPicture = {
-    forLayout: () => false,
-    forProfile: () => false,
-    bgPicture: "static/resources/preview/placeholderLogo.png"
-};
+const placeholder: PreviewPicture = new PreviewPicture("static/resources/preview/placeholderLogo.png");
 
 export {
     defaultDistrict,

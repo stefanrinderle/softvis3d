@@ -9,14 +9,17 @@ import {Layouts} from "../constants/Layouts";
 import VisualizationLinkParams from "../classes/VisualizationLinkParams";
 import {SceneStore} from "../stores/SceneStore";
 import {Vector3} from "three";
-import {default as UrlParameterService, Parameters } from "./UrlParameterService";
+import {default as UrlParameterService, Parameters} from "./UrlParameterService";
+import {AppConfiguration} from "../classes/AppConfiguration";
 
 export default class VisualizationLinkService {
 
     private cityBuilderStore: CityBuilderStore;
     private sceneStore: SceneStore;
+    private config: AppConfiguration;
 
-    constructor(cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
+    constructor(config: AppConfiguration, cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
+        this.config = config;
         this.cityBuilderStore = cityBuilderStore;
         this.sceneStore = sceneStore;
     }
@@ -58,6 +61,23 @@ export default class VisualizationLinkService {
     }
 
     public createVisualizationLink(): string {
+        return UrlParameterService.createVisualizationLinkForCurrentUrl(document.location.href, this.createCurrentParams());
+    }
+
+    public createPlainVisualizationLink(): string {
+        let baseUrl = "";
+        if (this.config.baseUrl) {
+            baseUrl = this.config.baseUrl;
+        }
+
+        const baseLocation = baseUrl + "/static/softvis3d/index.html" +
+            "?projectKey=" + this.config.projectKey + "&baseUrl=" + baseUrl;
+
+        return UrlParameterService.createVisualizationLinkForCurrentUrl(baseLocation, this.createCurrentParams());
+    }
+
+    private createCurrentParams(): Parameters {
+        // TODO merge master
         if (!this.sceneStore.cameraPosition) {
             throw new Error("this.sceneStore.cameraPosition is undefined or null on createVisualizationLink");
         }
@@ -68,9 +88,7 @@ export default class VisualizationLinkService {
                 this.cityBuilderStore.layout, this.cityBuilderStore.profile.scale,
                 this.sceneStore.selectedObjectId, this.sceneStore.cameraPosition);
 
-        let params: Parameters = visualizationLinkParams.getKeyValuePairs();
-
-        return UrlParameterService.createVisualizationLinkForCurrentUrl(document.location.href, params);
+        return visualizationLinkParams.getKeyValuePairs();
     }
 
     private getCameraPosition(params: Parameters): Vector3 | undefined {

@@ -8,27 +8,16 @@ import {SceneStore} from "../../../src/stores/SceneStore";
 import TopBar from "../../../src/components/topbar/TopBar";
 import SideBar from "../../../src/components/sidebar/SideBar";
 import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
-import {TreeElement} from "../../../src/classes/TreeElement";
+import * as Sinon from "sinon";
 
 describe("<Visualization/>", () => {
 
     it("should not render any children, when no visualization (shapes) is ready", () => {
-        let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
-
-        let parentId: string = "parentsduhfisdfuh";
-        let expectedParentElement: TreeElement = createTestTreeElement(parentId);
-
-        let testId: string = "siudgffsiuhdsfiu2332";
-        let expectedSelectedElement: TreeElement = createTestTreeElement(testId, expectedParentElement);
-
-        expectedParentElement.children.push(expectedSelectedElement);
+        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
 
         localSceneStore.shapes = null;
-
-        localSceneStore.projectData = expectedParentElement;
-        localSceneStore.selectedObjectId = testId;
 
         const visualization = shallow(
             <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}
@@ -44,17 +33,9 @@ describe("<Visualization/>", () => {
     });
 
     it("should initialize all elements on start - shapes available but empty", () => {
-        let localCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
-        let localVisualizationLinkService = new VisualizationLinkService(localCityBuilderStore, localSceneStore);
-
-        let testId: string = "siudgffsiuhdsfiu2332";
-        let expectedSelectedElement: TreeElement = createTestTreeElement(testId);
-
-        localSceneStore.shapes = {};
-
-        localSceneStore.projectData = expectedSelectedElement;
-        localSceneStore.selectedObjectId = testId;
+        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
 
         const visualization = shallow(
             <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}
@@ -72,7 +53,3 @@ describe("<Visualization/>", () => {
     });
 
 });
-
-function createTestTreeElement(id: string, parent?: TreeElement): TreeElement {
-    return new TreeElement(id, "", {}, "", "", true, parent);
-}

@@ -16,12 +16,7 @@ import SonarQubeMeasuresApiService from "./services/sonarqube/measures/SonarQube
 import SonarQubeMeasuresTreeService from "./services/sonarqube/measures/SonarQubeMeasuresTreeService";
 import SonarQubeMeasuresMetricService from "./services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import {CityLayoutService} from "./services/layout/CityLayoutService";
-
-export interface AppConfiguration {
-    api: string;
-    projectKey: string;
-    isDev: boolean;
-}
+import {AppConfiguration} from "./classes/AppConfiguration";
 
 export default class App {
     private static WEBGL_ERROR_KEY: string = "WEBGL_ERROR";
@@ -30,20 +25,23 @@ export default class App {
     private visualizationLinkService: VisualizationLinkService;
     private cityLayoutService: CityLayoutService;
 
+    private config: AppConfiguration;
+
     //noinspection JSMismatchedCollectionQueryUpdate
     private reactions: any[];
 
     public constructor(config: AppConfiguration) {
-        appStatusStore.showLoadingQueue = config.isDev;
+        this.config = config;
+        appStatusStore.showLoadingQueue = this.config.isDev;
 
-        this.visualizationLinkService = new VisualizationLinkService(cityBuilderStore, sceneStore);
-        this.communicator = new SonarQubeMetricsService(config.api, appStatusStore, cityBuilderStore);
+        this.visualizationLinkService = new VisualizationLinkService(this.config, cityBuilderStore, sceneStore);
+        this.communicator = new SonarQubeMetricsService(appStatusStore, cityBuilderStore, this.config.baseUrl);
 
-        let scmService = new SonarQubeScmService(config.api, appStatusStore, sceneStore);
-        let measuresApiService = new SonarQubeMeasuresApiService(config.api, config.projectKey);
+        let scmService = new SonarQubeScmService(appStatusStore, sceneStore, this.config.baseUrl);
+        let measuresApiService = new SonarQubeMeasuresApiService(this.config);
         let measuresTreeService = new SonarQubeMeasuresTreeService(appStatusStore, measuresApiService);
         let measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
-        let measuresService = new SonarQubeMeasuresService(config.projectKey, measuresTreeService, measuresMetricService,
+        let measuresService = new SonarQubeMeasuresService(this.config.projectKey, measuresTreeService, measuresMetricService,
                                                            appStatusStore, cityBuilderStore, sceneStore);
         this.cityLayoutService = new CityLayoutService(sceneStore, appStatusStore, scmService);
 
@@ -62,7 +60,7 @@ export default class App {
 
         ReactDOM.render(
            <Softvis3D sceneStore={sceneStore} cityBuilderStore={cityBuilderStore} appStatusStore={appStatusStore}
-                      visualizationLinkService={this.visualizationLinkService}/>,
+                      visualizationLinkService={this.visualizationLinkService} baseUrl={this.config.baseUrl}/>,
             document.getElementById(target)!
         );
     }
