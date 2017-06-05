@@ -25,11 +25,7 @@ export abstract class BackendService {
     private apiUrl: string;
 
     constructor(baseUrl?: string) {
-        if (baseUrl) {
-            this.apiUrl = baseUrl + "/api";
-        } else {
-            this.apiUrl = "/api";
-        }
+        this.apiUrl = (baseUrl || "") + "/api";
     }
 
     public callApi(route: string, options: AxiosRequestConfig = {}): AxiosPromise {

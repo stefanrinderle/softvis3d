@@ -35,8 +35,8 @@ export default class SonarQubeScmService extends BackendService {
     private appStatusStore: AppStatusStore;
     private sceneStore: SceneStore;
 
-    constructor(appStatusStore: AppStatusStore, sceneStore: SceneStore, apiUrl?: string) {
-        super(apiUrl);
+    constructor(appStatusStore: AppStatusStore, sceneStore: SceneStore, baseUrl?: string) {
+        super(baseUrl);
 
         this.appStatusStore = appStatusStore;
         this.sceneStore = sceneStore;
