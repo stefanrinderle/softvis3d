@@ -29,9 +29,7 @@ import {SoftVis3dMesh} from "../../../../../src/components/scene/domain/SoftVis3
 describe("Wrangler", () => {
 
     it("should load softvis shapes", () => {
-        let scene: any = new Scene();
-        let sceneStub = Sinon.stub(scene, "add");
-
+        let scene = Sinon.createStubInstance(Scene);
         let underTest: Wrangler = new Wrangler(scene);
 
         let shapes: SoftVis3dShape[] = [];
@@ -44,15 +42,13 @@ describe("Wrangler", () => {
 
         underTest.loadSoftVis3d(shapes);
 
-        assert(sceneStub.calledThrice);
+        assert(scene.add.calledThrice);
 
-        sceneStub.restore();
         objectFactoryMock.restore();
     });
 
     it("should remove existing softvis shapes on load", () => {
-        let scene: any = new Scene();
-        let sceneStub = Sinon.stub(scene, "remove");
+        let scene = Sinon.createStubInstance(Scene);
 
         let underTest: Wrangler = new Wrangler(scene);
 
@@ -63,18 +59,17 @@ describe("Wrangler", () => {
         let objectFactoryMock = Sinon.stub(ObjectFactory, "getSceneObjects").returns(objectsInView);
 
         underTest.loadSoftVis3d(shapes);
-        assert(sceneStub.notCalled);
+        assert(scene.remove.notCalled);
 
         underTest.loadSoftVis3d(shapes);
 
-        assert(sceneStub.calledOnce);
+        assert(scene.remove.calledOnce);
 
-        sceneStub.restore();
         objectFactoryMock.restore();
     });
 
     it("should update the colors of the shapes", () => {
-        let scene: any = new Scene();
+        let scene = Sinon.createStubInstance(Scene);
 
         let underTest: Wrangler = new Wrangler(scene);
 
@@ -107,7 +102,7 @@ describe("Wrangler", () => {
     });
 
     it("should update the colors of the shapes", () => {
-        let scene: any = new Scene();
+        let scene = Sinon.createStubInstance(Scene);
 
         let underTest: Wrangler = new Wrangler(scene);
 
@@ -138,7 +133,7 @@ describe("Wrangler", () => {
     });
 
     it("should select scene tree object", () => {
-        let scene: any = new Scene();
+        let scene = Sinon.createStubInstance(Scene);
 
         let underTest: Wrangler = new Wrangler(scene);
 
@@ -164,7 +159,7 @@ describe("Wrangler", () => {
     });
 
     it("should reset to former color on selectt object", () => {
-        let scene: any = new Scene();
+        let scene = Sinon.createStubInstance(Scene);
 
         let underTest: Wrangler = new Wrangler(scene);
 
@@ -192,6 +187,15 @@ describe("Wrangler", () => {
         expect(resultObjects[1].material.color.b).to.be.eq(selectedColor.b);
 
         objectFactoryMock.restore();
+    });
+
+    it("should reset on destroy", () => {
+        let scene = Sinon.createStubInstance(Scene);
+        let underTest: Wrangler = new Wrangler(scene);
+
+        underTest.destroy();
+
+        expect(underTest.getObjectsInView()).to.be.deep.eq([]);
     });
 });
 

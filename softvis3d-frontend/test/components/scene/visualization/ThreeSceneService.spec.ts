@@ -196,4 +196,15 @@ describe("ThreeSceneService", () => {
         assert(sceneGetDefaultPositionStub.calledWith(shapes));
     });
 
+    it("should call destory on scene and wrangler on destroy.", () => {
+        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        let wrangler: any = Sinon.createStubInstance(Wrangler);
+
+        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+
+        underTest.destroy();
+
+        assert(softvis3dScene.destroy.called);
+        assert(wrangler.destroy.called);
+    });
 });
