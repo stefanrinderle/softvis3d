@@ -50,17 +50,15 @@ export default class SonarQubeMeasuresTreeService {
                 if (result.components.length === 0) {
                     this.resolveLoadTree(resolve);
                 }
-                /**
-                 * The result contains either only dirs or only sub-projects.
-                 */
-                if (result.components[0].qualifier === SQ_QUALIFIER_DIRECTORY) {
-                    this.processLeafLevel(result.components, parent, metricKeys).then(() => {
+
+                if (this.isSubProjectResponse(result.components)) {
+                    this.processNodeLevel(result.components, parent, metricKeys).then(() => {
                         this.resolveLoadTree(resolve);
                     }).catch((error) => {
                         reject(error);
                     });
-                } else if (result.components[0].qualifier === SQ_QUALIFIER_SUB_PROJECT) {
-                    this.processNodeLevel(result.components, parent, metricKeys).then(() => {
+                } else {
+                    this.processLeafLevel(result.components, parent, metricKeys).then(() => {
                         this.resolveLoadTree(resolve);
                     }).catch((error) => {
                         reject(error);
@@ -85,6 +83,16 @@ export default class SonarQubeMeasuresTreeService {
         if (checkAgain) {
             this.optimizeDirectoryStructure(element);
         }
+    }
+
+    private isSubProjectResponse(components: SonarQubeApiComponent[]): boolean {
+        for (const component of components) {
+            if (component.qualifier === SQ_QUALIFIER_SUB_PROJECT) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private processChild(children: TreeElement[], index: number): boolean {

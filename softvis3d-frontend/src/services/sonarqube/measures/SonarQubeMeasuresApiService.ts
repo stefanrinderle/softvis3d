@@ -42,6 +42,7 @@ export default class SonarQubeMeasuresApiService extends BackendService {
                 s: "path",
                 ps: 500
             };
+
             this.callApi("/measures/component_tree", {params}).then((response) => {
                 let result: SonarQubeMeasurePagingResponse = response.data;
                 let allResults: SonarQubeMeasureResponse = {
