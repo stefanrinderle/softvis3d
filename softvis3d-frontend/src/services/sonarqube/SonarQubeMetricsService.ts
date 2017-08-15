@@ -23,11 +23,12 @@ import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import Metric from "../../classes/Metric";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";
+import {MetricType} from "../../classes/MetricType";
 
 export interface SonarQubeApiMetric {
     id: number;
     key: string;
-    type: string;
+    type: MetricType;
     name: string;
     description: string;
     hidden?: boolean;
@@ -87,12 +88,12 @@ export default class SonarQubeMetricsService extends BackendService {
     }
 
     private createMetric(sonarQubeMetric: SonarQubeApiMetric): Metric {
-        return new Metric(sonarQubeMetric.key, sonarQubeMetric.name, sonarQubeMetric.description);
+        return new Metric(sonarQubeMetric.key, sonarQubeMetric.name, sonarQubeMetric.description, sonarQubeMetric.type);
     }
 
-    private shouldMetricBeFiltered(type: string): boolean {
-        return type === "INT" || type === "FLOAT" || type === "PERCENT"
-            || type === "MILLISEC" || type === "RATING" || type === "WORK_DUR";
+    private shouldMetricBeFiltered(type: MetricType): boolean {
+        return type === MetricType.INT || type === MetricType.FLOAT || type === MetricType.PERCENT
+            || type === MetricType.MILLISEC || type === MetricType.RATING || type === MetricType.WORK_DUR;
     }
 
 }

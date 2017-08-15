@@ -4,6 +4,7 @@ import {expect} from "chai";
 import MetricKey from "../../../../src/components/scene/information/MetricKey";
 import Metric from "../../../../src/classes/Metric";
 import {TreeElement} from "../../../../src/classes/TreeElement";
+import {MetricType} from "../../../../src/classes/MetricType";
 
 describe("<MetricKey/>", () => {
 
@@ -38,6 +39,22 @@ describe("<MetricKey/>", () => {
         expect(bottomBarMetricInfo.html()).to.include(expectedMetricName);
         expect(bottomBarMetricInfo.html()).to.include(title);
         expect(bottomBarMetricInfo.html()).to.include(expectedMeasure);
+    });
+
+    it("should format measure", () => {
+        let expectedMetric: Metric = new Metric("123", "", "", MetricType.MILLISEC);
+
+        let expectedMeasure: number = 1479855600000;
+        let selectedElement: TreeElement = new TreeElement("", "", {
+            123: expectedMeasure
+        }, "", "", true);
+        const bottomBarMetricInfo = shallow(
+            <MetricKey title={""} metric={expectedMetric} selectedElement={selectedElement}/>
+        );
+
+        expect(bottomBarMetricInfo.html()).to.include("11");
+        expect(bottomBarMetricInfo.html()).to.include("23");
+        expect(bottomBarMetricInfo.html()).to.include("2016");
     });
 
 });
