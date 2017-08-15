@@ -25,4 +25,13 @@ describe("MetricKeyFormatter", () => {
         expect(result).to.contain("2016");
     });
 
+    it("should return empty string on undefined value", () => {
+        let metric = new Metric("", "", "", MetricType.MILLISEC);
+        let value;
+
+        let result: string = MetricKeyFormatter.formatMeasureValue(metric, value);
+
+        expect(result).to.be.eq("n/a");
+    });
+
 });
