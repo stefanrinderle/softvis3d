@@ -16,12 +16,11 @@ describe("MetricKeyFormatter", () => {
 
     it("should convert to date on milliseconds", () => {
         let metric = new Metric("", "", "", MetricType.MILLISEC);
-        let value = 1479855600000;
+        let value = 1479816020000;
 
         let result: string = MetricKeyFormatter.formatMeasureValue(metric, value);
 
         expect(result).to.contain("11");
-        expect(result).to.contain("23");
         expect(result).to.contain("2016");
     });
 

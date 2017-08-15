@@ -44,7 +44,7 @@ describe("<MetricKey/>", () => {
     it("should format measure", () => {
         let expectedMetric: Metric = new Metric("123", "", "", MetricType.MILLISEC);
 
-        let expectedMeasure: number = 1479855600000;
+        let expectedMeasure: number = 1479816020000;
         let selectedElement: TreeElement = new TreeElement("", "", {
             123: expectedMeasure
         }, "", "", true);
@@ -53,7 +53,6 @@ describe("<MetricKey/>", () => {
         );
 
         expect(bottomBarMetricInfo.html()).to.include("11");
-        expect(bottomBarMetricInfo.html()).to.include("23");
         expect(bottomBarMetricInfo.html()).to.include("2016");
     });
 
