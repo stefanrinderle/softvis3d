@@ -51,14 +51,16 @@ export default class SonarQubeMeasuresTreeService {
                     this.resolveLoadTree(resolve);
                 }
 
-                if (this.isSubProjectResponse(result.components)) {
-                    this.processNodeLevel(result.components, parent, metricKeys).then(() => {
+                let filteredComponents = this.filterComponents(result.components);
+
+                if (this.isSubProjectResponse(filteredComponents)) {
+                    this.processNodeLevel(filteredComponents, parent, metricKeys).then(() => {
                         this.resolveLoadTree(resolve);
                     }).catch((error) => {
                         reject(error);
                     });
                 } else {
-                    this.processLeafLevel(result.components, parent, metricKeys).then(() => {
+                    this.processLeafLevel(filteredComponents, parent, metricKeys).then(() => {
                         this.resolveLoadTree(resolve);
                     }).catch((error) => {
                         reject(error);
@@ -83,6 +85,19 @@ export default class SonarQubeMeasuresTreeService {
         if (checkAgain) {
             this.optimizeDirectoryStructure(element);
         }
+    }
+
+    private filterComponents(components: SonarQubeApiComponent[]): SonarQubeApiComponent[] {
+        let result: SonarQubeApiComponent[] = [];
+
+        for (const component of components) {
+            // ignore the folder with just "/" because this is not needed.
+            if (component.path !== "/") {
+                result.push(component);
+            }
+        }
+
+        return result;
     }
 
     private isSubProjectResponse(components: SonarQubeApiComponent[]): boolean {
@@ -133,10 +148,7 @@ export default class SonarQubeMeasuresTreeService {
              * Add each directory to the tree based on the current parent.
              */
             for (const component of components) {
-                // ignore the folder with just "/" because this is not needed.
-                if (component.path !== "/") {
-                    SonarQubeTransformer.add(parent, SonarQubeTransformer.createTreeElement(component));
-                }
+                SonarQubeTransformer.add(parent, SonarQubeTransformer.createTreeElement(component));
             }
             /**
              * The files are still missing, so request them for the same key as the directories have been
