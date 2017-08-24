@@ -65,6 +65,15 @@ export default class App {
         );
     }
 
+    public stop(target: string) {
+        let element = document.getElementById(target);
+        if (element) {
+            ReactDOM.unmountComponentAtNode(element);
+        } else {
+            throw Error("Target element id " + target + "not found");
+        }
+    }
+
     private assertRequirementsAreMet() {
         if (!WebGLDetector.isWebGLSupported()) {
             const error = WebGLDetector.getWebGLErrorMessage();

@@ -64,6 +64,10 @@ export default class SoftVis3dScene {
         this.startAnimation();
     }
 
+    public destroy() {
+        this.stopAnimation();
+    }
+
     public setCameraTo(position: Vector3) {
         this.camera.setCameraPosition(position.x, position.y, position.z);
     }
@@ -123,7 +127,7 @@ export default class SoftVis3dScene {
         const appWidth = HtmlDom.getWidthById("app");
 
         let result: Rectangle = SceneObjectCalculator.calculateDimensionOnResize(
-                sidebarWidth, topbarHeight, appOffset, sonarFooter, appWidth);
+            sidebarWidth, topbarHeight, appOffset, sonarFooter, appWidth);
 
         this.camera.setAspect(result.width, result.length);
 
