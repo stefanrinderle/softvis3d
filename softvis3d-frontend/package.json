@@ -62,9 +62,9 @@
     "sass-loader": "^6.0.5",
     "three": "^0.85.2",
     "three-orbit-controls": "^82.1.0",
-    "ts-node": "^3.0.4",
+    "ts-node": "^3.1.0",
     "tslint": "^5.3.2",
-    "typescript": "^2.3.3",
+    "typescript": "^2.4.2",
     "webpack": "^2.6.1"
   },
   "devDependencies": {
@@ -85,7 +85,7 @@
     "shx": "^0.2.2",
     "sinon": "^2.3.2",
     "source-map-loader": "^0.2.1",
-    "ts-loader": "^2.1.0",
+    "ts-loader": "^2.3.2",
     "webpack-dev-server": "^2.4.5"
   }
 }

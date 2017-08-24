@@ -22,6 +22,7 @@ import SonarQubeMetricsService, {SonarQubeApiMetric} from "../../../src/services
 import {AppStatusStore} from "../../../src/stores/AppStatusStore";
 import * as Sinon from "sinon";
 import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
+import {MetricType} from "../../../src/classes/MetricType";
 
 describe("SonarQubeMetricsService", () => {
 
@@ -38,7 +39,7 @@ describe("SonarQubeMetricsService", () => {
         expectedMetrics.push({
             id: 123,
             key: "ncloc",
-            type: "INT",
+            type: MetricType.INT,
             name: "lines of code",
             description: ""
         });
@@ -73,7 +74,7 @@ describe("SonarQubeMetricsService", () => {
         expectedMetrics.push({
             id: 123,
             key: "ncloc",
-            type: "INT",
+            type: MetricType.INT,
             name: "lines of code",
             hidden: false,
             description: ""
@@ -109,7 +110,7 @@ describe("SonarQubeMetricsService", () => {
         expectedMetrics.push({
             id: 123,
             key: "ncloc",
-            type: "STRING",
+            type: MetricType.STRING,
             name: "lines of code",
             description: ""
         });

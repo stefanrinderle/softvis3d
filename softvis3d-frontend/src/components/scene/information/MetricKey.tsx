@@ -2,6 +2,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import Metric from "../../../classes/Metric";
 import {TreeElement} from "../../../classes/TreeElement";
+import MetricKeyFormatter from "./MetricKeyFormatter";
 
 interface MetricKeyProps {
     title: string;
@@ -19,14 +20,15 @@ export default class MetricKey extends React.Component<MetricKeyProps, any> {
             <div className="metric-info">
                 <span className="title">{title}</span>
                 <span className="name">{metric.label}</span>
-                {this.renderValue((selectedElement as TreeElement|null), metric)}
+                {this.renderValue((selectedElement as TreeElement | null), metric)}
             </div>
         );
     }
 
-    private renderValue(element: TreeElement|null, metric: Metric) {
+    private renderValue(element: TreeElement | null, metric: Metric) {
         if (element !== null) {
-            return <span className="value">{element.measures[metric.id] || 0}</span>;
+            let value = MetricKeyFormatter.formatMeasureValue(metric, element.measures[metric.id]);
+            return <span className="value">{value}</span>;
         }
     }
 
