@@ -16,9 +16,7 @@
     <sonar.sources>src</sonar.sources>
     <sonar.tests>test</sonar.tests>
     <sonar.testExecutionReportPaths>coverage/sonar-coverage.xml</sonar.testExecutionReportPaths>
-    <sonar.ts.tslintpath>node_modules/.bin/tslint</sonar.ts.tslintpath>
-    <sonar.ts.tslintconfigpath>tslint.json</sonar.ts.tslintconfigpath>
-    <sonar.ts.lcov.reportpath>coverage/lcov.info</sonar.ts.lcov.reportpath>
+    <sonar.typescript.lcov.reportPaths>coverage/lcov.info</sonar.typescript.lcov.reportPaths>
   </properties>
 
   <build>
