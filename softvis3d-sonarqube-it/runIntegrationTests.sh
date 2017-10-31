@@ -29,10 +29,9 @@ docker build -t ${CONTAINER_IDENTIFIER} ${TMP_DOCKERFILE_DIR}
 
 dockerid=$(docker run -d --name ${CONTAINER_NAME} -p ${SONARQUBE_LOCAL_PORT}:9000 ${CONTAINER_IDENTIFIER})
 
-echo "Run integration test container $CONTAINER_NAME with id $dockerid and wait a minute"
+echo "Run integration test container $CONTAINER_NAME with id $dockerid and wait 180 seconds"
+sleep 180
 
-echo "Wait for sonarqube instance to start"
-sleep 90
 echo "Analyse project"
 mvn -f ../pom.xml -U -B -Pci clean install sonar:sonar -Dsonar.host.url=http://localhost:${SONARQUBE_LOCAL_PORT}
 
