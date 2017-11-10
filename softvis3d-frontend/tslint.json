@@ -1,5 +1,5 @@
 {
-    "extends": "tslint:recommended",
+    "extends": ["tslint:recommended", "tslint-sonarts"],
     "rules": {
         "max-line-length": [true, 135],
         "ordered-imports": [ false ],
@@ -14,6 +14,7 @@
         "max-classes-per-file": [true, 5],
         "no-conditional-assignment": false,
         "prefer-const": false,
-        "ban-types": false
+        "ban-types": false,
+        "no-shadowed-variable": false
     }
 }

@@ -16,8 +16,8 @@
     "prebuild:force": "yarn run install:rebuild-sass -s",
     "build:force": "webpack --progress --colors --env.prod",
     "lint": "yarn run lint:sources -s && yarn run lint:tests -s",
-    "lint:sources": "tslint \"src/**/*.ts?(x)\" && shx echo \"[tslint] Lint successful (Sources)\"",
-    "lint:tests": "tslint \"test/**/*.ts?(x)\" && shx echo \"[tslint] Lint successful (Tests)\"",
+    "lint:sources": "tslint --type-check --project tsconfig.json --config tslint.json --type-check && shx echo \"[tslint] Lint successful (Sources)\"",
+    "lint:tests": "tslint --project test/tsconfig.json --config test/tslint.json --type-check && shx echo \"[tslint] Lint successful (Tests)\"",
     "test": "mocha",
     "test:coverage": "nyc mocha",
     "test:sonarqube": "mocha --reporter mocha-sonar-generic-test-coverage > coverage/sonar-coverage.xml",
@@ -63,8 +63,8 @@
     "three": "^0.85.2",
     "three-orbit-controls": "^82.1.0",
     "ts-node": "^3.1.0",
-    "tslint": "^5.3.2",
-    "typescript": "^2.4.2",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.1",
     "webpack": "^2.6.1"
   },
   "devDependencies": {
@@ -86,6 +86,7 @@
     "sinon": "^2.3.2",
     "source-map-loader": "^0.2.1",
     "ts-loader": "^2.3.2",
+    "tslint-sonarts": "^1.1.1",
     "webpack-dev-server": "^2.4.5"
   }
 }
