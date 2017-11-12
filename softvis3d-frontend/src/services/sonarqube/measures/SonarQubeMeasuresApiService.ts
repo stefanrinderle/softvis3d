@@ -22,12 +22,9 @@ import {SonarQubeMeasurePagingResponse, SonarQubeMeasureResponse, SonarQubeQuali
 import {AppConfiguration} from "../../../classes/AppConfiguration";
 
 export default class SonarQubeMeasuresApiService extends BackendService {
-    private projectKey: string;
 
     constructor(config: AppConfiguration) {
         super(config.baseUrl);
-
-        this.projectKey = config.projectKey;
     }
 
     public loadMeasures(baseComponentKey: string, metricKeys: string, strategy: string, qualifiers: SonarQubeQualifier[],

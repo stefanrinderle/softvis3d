@@ -27,7 +27,7 @@ export default class App {
 
     private config: AppConfiguration;
 
-    //noinspection JSMismatchedCollectionQueryUpdate
+    // @ts-ignore: unused variable
     private reactions: any[];
 
     public constructor(config: AppConfiguration) {

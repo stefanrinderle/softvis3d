@@ -10,7 +10,7 @@ interface TopBarMenuProbs {
 }
 
 @observer
-export default class TopBarMenu extends React.Component<TopBarMenuProbs, undefined> {
+export default class TopBarMenu extends React.Component<TopBarMenuProbs, any> {
 
     public render() {
         return (
