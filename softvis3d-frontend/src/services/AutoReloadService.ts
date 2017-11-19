@@ -21,16 +21,21 @@ export default class AutoReloadService {
             window.clearInterval(this.timer);
         }
 
-        this.timer = window.setInterval(this.loadComponentInfo, AutoReloadService.RELOAD_INTERVAL_MS);
+        // only start the timer if the analysisDate value is available.
+        if (!isUndefined(this.appStatusStore.analysisDate)) {
+            this.timer = window.setInterval(this.updateAnalysisDate.bind(this), AutoReloadService.RELOAD_INTERVAL_MS);
+        }
     }
 
     public isActive(): boolean {
         return !isUndefined(this.timer);
     }
 
-    public loadComponentInfo() {
+    public updateAnalysisDate() {
         this.componentInfoService.loadComponentInfo().then((result) => {
-            this.appStatusStore.analysisDate = result.analysisDate;
+            if (!this.appStatusStore.analysisDate || this.appStatusStore.analysisDate.getTime() !== result.analysisDate.getTime()) {
+                this.appStatusStore.analysisDate = result.analysisDate;
+            }
         });
     }
 }
