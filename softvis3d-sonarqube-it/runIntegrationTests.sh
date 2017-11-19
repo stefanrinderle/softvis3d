@@ -25,7 +25,7 @@ cp ./sonarqube/Dockerfile ${TMP_DOCKERFILE_DIR}/Dockerfile
 sed -i -e "s/XX_SONARQUBE_VERSION_XX/${SONARQUBE_VERSION}/g" ${TMP_DOCKERFILE_DIR}/Dockerfile
 sed -i -e "s/XX_PLUGIN_FILENAME_XX/${PLUGIN_FILENAME}/g" ${TMP_DOCKERFILE_DIR}/Dockerfile
 
-docker build -t ${CONTAINER_IDENTIFIER} ${TMP_DOCKERFILE_DIR}
+docker build -t ${CONTAINER_IDENTIFIER} ${TMP_DOCKERFILE_DIR} --pull
 
 dockerid=$(docker run -d --name ${CONTAINER_NAME} -p ${SONARQUBE_LOCAL_PORT}:9000 ${CONTAINER_IDENTIFIER})
 
@@ -47,7 +47,7 @@ cd protractor
 npm install
 cd ..
 
-docker build -t softvis3d_protractor_runner ./protractor
+docker build -t softvis3d_protractor_runner ./protractor --pull
 docker run --name ${CONTAINER_NAME}_protractorTestRun -i --privileged --rm --net=host  -v /dev/shm:/dev/shm -v $(pwd)/protractor:/protractor softvis3d_protractor_runner  ./protractor.conf.js --baseUrl="http://localhost:${SONARQUBE_LOCAL_PORT}/"
 
 echo "Stop and cleanup of containers and images"
