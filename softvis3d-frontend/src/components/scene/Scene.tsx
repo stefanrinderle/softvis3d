@@ -1,13 +1,14 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {SceneStore} from "../../stores/SceneStore";
+import { observer } from "mobx-react";
+import { SceneStore } from "../../stores/SceneStore";
 import SceneInformation from "./information/SceneInformation";
-import {KeyLegend} from "./KeyLegend";
-import {SceneMouseInteractions} from "./events/SceneMouseInteractions";
+import { KeyLegend } from "./KeyLegend";
+import { SceneMouseInteractions } from "./events/SceneMouseInteractions";
 import Event from "./events/Event";
-import {SceneKeyInteractions} from "./events/SceneKeyInteractions";
+import { SceneKeyInteractions } from "./events/SceneKeyInteractions";
 import ThreeSceneService from "./visualization/ThreeSceneService";
 import SoftVis3dScene from "./visualization/scene/SoftVis3dScene";
+import ColorThemeSelector from "../../classes/ColorThemeSelector";
 
 interface SceneProps {
     sceneStore: SceneStore;
@@ -50,6 +51,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         this._keyActions = new SceneKeyInteractions();
         this._keyActions.onResetCameraEvent.addEventListener(this.resetCamera.bind(this));
         this._keyActions.onToggleLegendEvent.addEventListener(this.toggleLegend.bind(this));
+        this._keyActions.onToggleColorThemeEvent.addEventListener(this.onToggleColorTheme.bind(this));
 
         this.setState({...this.state, mounted: true});
     }
@@ -68,7 +70,8 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
 
         if (mounted) {
             if (sceneStore.shapesHash !== this.canvasState) {
-                this._threeSceneService.update(sceneStore.shapes, sceneStore.options, sceneStore.cameraPosition);
+                this._threeSceneService.update(
+                    sceneStore.shapes, sceneStore.options, sceneStore.colorTheme, sceneStore.cameraPosition);
                 this.updateCameraPosition();
                 this.canvasState = sceneStore.shapesHash;
             } else if (sceneStore.selectedObjectId !== this.selectedObjectIdState) {
@@ -145,4 +148,12 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     private toggleLegend() {
         this.setState({...this.state, legend: !this.state.legend});
     }
+
+    private onToggleColorTheme() {
+        let resultColorTheme = ColorThemeSelector.toggleColorTheme(this.props.sceneStore.colorTheme);
+
+        this._threeSceneService.setColorTheme(resultColorTheme);
+        this.props.sceneStore.colorTheme = resultColorTheme;
+    }
+
 }

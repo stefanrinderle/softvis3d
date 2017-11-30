@@ -3,6 +3,7 @@ import Layout from "../classes/Layout";
 import Scale from "../classes/Scale";
 import {Vector3} from "three";
 import {Parameters} from "../services/UrlParameterService";
+import { SceneColorTheme } from "./SceneColorTheme";
 
 export default class VisualizationLinkParams {
 
@@ -13,9 +14,10 @@ export default class VisualizationLinkParams {
     private _scale: Scale;
     private _selectedObjectId: string | null;
     private _cameraPosition: Vector3;
+    private _colorTheme: SceneColorTheme;
 
     constructor(footprintMetricId: string, heightMetricId: string, metricColor: Metric, layout: Layout, scale: Scale,
-                selectedObjectId: string | null, cameraPosition: Vector3) {
+                selectedObjectId: string | null, cameraPosition: Vector3, colorTheme: SceneColorTheme) {
 
         this._metricFootprintId = footprintMetricId;
         this._metricHeightId = heightMetricId;
@@ -24,6 +26,7 @@ export default class VisualizationLinkParams {
         this._scale = scale;
         this._selectedObjectId = selectedObjectId;
         this._cameraPosition = cameraPosition;
+        this._colorTheme = colorTheme;
     }
 
     public getKeyValuePairs() {
@@ -35,7 +38,8 @@ export default class VisualizationLinkParams {
             scale: this._scale.id,
             cameraX: Math.round(this._cameraPosition.x).toString(),
             cameraY: Math.round(this._cameraPosition.y).toString(),
-            cameraZ: Math.round(this._cameraPosition.z).toString()
+            cameraZ: Math.round(this._cameraPosition.z).toString(),
+            colorTheme: this._colorTheme.id
         };
 
         result = this.addOptionalSelectObjectId(result);
@@ -77,6 +81,10 @@ export default class VisualizationLinkParams {
 
     get cameraPosition(): Vector3 {
         return this._cameraPosition;
+    }
+
+    get colorTheme(): SceneColorTheme {
+        return this._colorTheme;
     }
 
 }

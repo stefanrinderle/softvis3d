@@ -70,23 +70,23 @@ describe("VisualizationOptions", () => {
         let result: VisualizationOptions =
             new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC);
 
-        assert(result.equalsWithoutColor(result));
+        assert(result.equalStructure(result));
 
         let copy: VisualizationOptions =
             new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC);
 
-        assert(result.equalsWithoutColor(copy));
-        assert(copy.equalsWithoutColor(result));
+        assert(result.equalStructure(copy));
+        assert(copy.equalStructure(result));
 
         copy.metricColor = coverageColorMetric;
 
-        assert(result.equalsWithoutColor(copy));
-        assert(copy.equalsWithoutColor(result));
+        assert(result.equalStructure(copy));
+        assert(copy.equalStructure(result));
 
         copy.scale = EXPONENTIAL;
 
-        expect(result.equalsWithoutColor(copy)).to.be.false;
-        expect(copy.equalsWithoutColor(result)).to.be.false;
+        expect(result.equalStructure(copy)).to.be.false;
+        expect(copy.equalStructure(result)).to.be.false;
     });
 
 });

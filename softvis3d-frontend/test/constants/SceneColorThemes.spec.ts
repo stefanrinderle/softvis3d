@@ -17,34 +17,19 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {assert, expect} from "chai";
-import {Setup} from "../../../../../src/components/scene/visualization/scene/Setup";
-import * as Sinon from "sinon";
+import { expect } from "chai";
+import { DARK_COLOR_THEME, DEFAULT_COLOR_THEME, SceneColorThemes } from "../../src/constants/SceneColorThemes";
 
-describe("Setup", () => {
+describe("SceneColorThemes", () => {
 
-    it("should construct and init renderer and lights", () => {
-        let container: any = {
-            clientWidth: 45,
-            clientHeight: 78
-        };
+    it("should provide available layouts", () => {
+        expect(SceneColorThemes.availableColorThemes.length).to.be.greaterThan(0);
+    });
 
-        let renderer: any = {
-            setSize: Sinon.stub(),
-            setViewport: Sinon.stub(),
-            setClearColor: Sinon.stub()
-        };
+    it("should find layout by id", () => {
+        expect(SceneColorThemes.getColorThemeById(DEFAULT_COLOR_THEME.id)).to.be.eq(DEFAULT_COLOR_THEME);
 
-        let sceneMock: any = {
-            add: Sinon.stub()
-        };
-
-        Setup.initRenderer(renderer, sceneMock, container);
-
-        assert(renderer.setSize.calledWith(container.clientWidth, container.clientHeight));
-        assert(renderer.setViewport.calledWith(0, 0, container.clientWidth, container.clientHeight));
-
-        expect(sceneMock.add.callCount).to.be.eq(5);
+        expect(SceneColorThemes.getColorThemeById(DARK_COLOR_THEME.id)).to.be.eq(DARK_COLOR_THEME);
     });
 
 });

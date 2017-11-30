@@ -17,9 +17,10 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {expect} from "chai";
-import {SceneStore} from "../../src/stores/SceneStore";
-import {TreeElement} from "../../src/classes/TreeElement";
+import { expect } from "chai";
+import { SceneStore } from "../../src/stores/SceneStore";
+import { TreeElement } from "../../src/classes/TreeElement";
+import { DEFAULT_COLOR_THEME } from "../../src/constants/SceneColorThemes";
 
 describe("SceneStore", () => {
 
@@ -31,6 +32,11 @@ describe("SceneStore", () => {
     it("should contain not initial test shapes", () => {
         let sceneStore = new SceneStore();
         expect(sceneStore.shapes).to.be.null;
+    });
+
+    it("should contain default color theme on init", () => {
+        let sceneStore = new SceneStore();
+        expect(sceneStore.colorTheme).to.be.equal(DEFAULT_COLOR_THEME);
     });
 
     it("should set selectedObjectId", () => {

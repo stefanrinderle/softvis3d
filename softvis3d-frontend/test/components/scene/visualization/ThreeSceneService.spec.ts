@@ -1,17 +1,19 @@
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import * as Sinon from "sinon";
 import ThreeSceneService from "../../../../src/components/scene/visualization/ThreeSceneService";
 import SoftVis3dScene from "../../../../src/components/scene/visualization/scene/SoftVis3dScene";
-import {Vector3} from "three";
-import {SoftVis3dShape} from "../../../../src/components/scene/domain/SoftVis3dShape";
-import {Wrangler} from "../../../../src/components/scene/visualization/objects/Wrangler";
-import {SelectionCalculator} from "../../../../src/components/scene/visualization/SelectionCalculator";
-import {HtmlDom} from "../../../../src/services/HtmlDom";
+import { Vector3 } from "three";
+import { SoftVis3dShape } from "../../../../src/components/scene/domain/SoftVis3dShape";
+import { Wrangler } from "../../../../src/components/scene/visualization/objects/Wrangler";
+import { SelectionCalculator } from "../../../../src/components/scene/visualization/SelectionCalculator";
+import { HtmlDom } from "../../../../src/services/HtmlDom";
 import VisualizationOptions from "../../../../src/classes/VisualizationOptions";
-import {evostreet} from "../../../../src/constants/Layouts";
+import { evostreet } from "../../../../src/constants/Layouts";
 import Metric from "../../../../src/classes/Metric";
-import {complexityColorMetric, noColorMetric, noMetricId} from "../../../../src/constants/Metrics";
-import {LOGARITHMIC} from "../../../../src/constants/Scales";
+import { complexityColorMetric, noColorMetric, noMetricId } from "../../../../src/constants/Metrics";
+import { LOGARITHMIC } from "../../../../src/constants/Scales";
+import { SceneColorTheme } from "../../../../src/classes/SceneColorTheme";
+import { SceneColorThemes } from "../../../../src/constants/SceneColorThemes";
 
 describe("ThreeSceneService", () => {
 
@@ -30,14 +32,18 @@ describe("ThreeSceneService", () => {
 
         let options: VisualizationOptions =
             new VisualizationOptions(evostreet, new Metric(noMetricId, "", ""), new Metric(noMetricId, "", ""),
-                                     noColorMetric, LOGARITHMIC);
+                noColorMetric, LOGARITHMIC);
         let shapes: SoftVis3dShape[] = [];
 
-        underTest.update(shapes, options);
+        let sceneSetColorThemeStub = softvis3dScene.setColorTheme;
+        let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
+
+        underTest.update(shapes, options, colorTheme);
 
         assert(wranglerLoadStub.calledWith(shapes));
         assert(sceneGetDefaultPositionStub.calledWith(shapes));
         assert(cameraPositionStub.calledWith(expectedPosition));
+        assert(sceneSetColorThemeStub.calledWith(colorTheme));
     });
 
     it("should update shapes on start with camera position.", () => {
@@ -57,11 +63,15 @@ describe("ThreeSceneService", () => {
                 noColorMetric, LOGARITHMIC);
         let shapes: SoftVis3dShape[] = [];
 
-        underTest.update(shapes, options, expectedPosition);
+        let sceneSetColorThemeStub = softvis3dScene.setColorTheme;
+        let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
+
+        underTest.update(shapes, options, colorTheme, expectedPosition);
 
         assert(wranglerLoadStub.calledWith(shapes));
         assert(sceneGetDefaultPositionStub.notCalled);
         assert(cameraPositionStub.calledWith(expectedPosition));
+        assert(sceneSetColorThemeStub.calledWith(colorTheme));
     });
 
     it("should update shapes on color update.", () => {
@@ -78,12 +88,13 @@ describe("ThreeSceneService", () => {
         let options: VisualizationOptions =
             new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC);
         let shapes: SoftVis3dShape[] = [];
+        let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
 
-        underTest.update(shapes, options, expectedPosition);
+        underTest.update(shapes, options, colorTheme, expectedPosition);
 
         let optionsWithChangedColor: VisualizationOptions =
             new VisualizationOptions(evostreet, exampleMetric, exampleMetric, complexityColorMetric, LOGARITHMIC);
-        underTest.update(shapes, optionsWithChangedColor, expectedPosition);
+        underTest.update(shapes, optionsWithChangedColor, colorTheme, expectedPosition);
 
         assert(wranglerUpdateStub.calledWith(shapes));
         assert(wranglerUpdateStub.calledOnce);

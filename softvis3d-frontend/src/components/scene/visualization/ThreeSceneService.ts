@@ -17,13 +17,14 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {Vector3} from "three";
-import {SoftVis3dShape} from "../domain/SoftVis3dShape";
-import {SelectionCalculator} from "./SelectionCalculator";
-import {HtmlDom, Offset} from "../../../services/HtmlDom";
+import { Vector3 } from "three";
+import { SoftVis3dShape } from "../domain/SoftVis3dShape";
+import { SelectionCalculator } from "./SelectionCalculator";
+import { HtmlDom, Offset } from "../../../services/HtmlDom";
 import SoftVis3dScene from "./scene/SoftVis3dScene";
-import {Wrangler} from "./objects/Wrangler";
+import { Wrangler } from "./objects/Wrangler";
 import VisualizationOptions from "../../../classes/VisualizationOptions";
+import { SceneColorTheme } from "../../../classes/SceneColorTheme";
 
 export default class ThreeSceneService {
 
@@ -58,12 +59,12 @@ export default class ThreeSceneService {
         this.wrangler.destroy();
     }
 
-    public update(shapes: SoftVis3dShape[], options: VisualizationOptions, cameraPosition?: Vector3) {
+    public update(shapes: SoftVis3dShape[], options: VisualizationOptions, colorTheme: SceneColorTheme, cameraPosition?: Vector3) {
         if (shapes === null) {
             return;
         }
 
-        if (options.equalsWithoutColor(this.lastOptions)) {
+        if (options.equalStructure(this.lastOptions)) {
             if (this.lastOptions.metricColor !== options.metricColor) {
                 this.wrangler.updateColorsWithUpdatedShapes(shapes);
             }
@@ -71,7 +72,13 @@ export default class ThreeSceneService {
             this.loadSoftVis3d(shapes, cameraPosition);
         }
 
+        this.threeScene.setColorTheme(colorTheme);
+
         this.lastOptions = Object.assign({}, options);
+    }
+
+    public setColorTheme(colorTheme: SceneColorTheme) {
+        this.threeScene.setColorTheme(colorTheme);
     }
 
     public selectSceneTreeObject(objectSoftVis3dId: string | null) {

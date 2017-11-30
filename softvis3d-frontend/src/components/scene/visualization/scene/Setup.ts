@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {DirectionalLight, Scene, WebGLRenderer} from "three";
+import { DirectionalLight, Scene, WebGLRenderer } from "three";
 
 export class Setup {
 
@@ -28,8 +28,6 @@ export class Setup {
 
         Setup.setupRenderer(renderer, width, height);
         Setup.lights(scene);
-
-        renderer.setClearColor(0xffffff, 1);
     }
 
     /**

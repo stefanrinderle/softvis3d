@@ -1,10 +1,10 @@
 import Metric from "./Metric";
 import Scale from "./Scale";
 import Layout from "./Layout";
-import {district} from "../constants/Layouts";
-import {noColorMetric, noMetricId} from "../constants/Metrics";
-import {LOGARITHMIC} from "../constants/Scales";
-import {observable} from "mobx";
+import { district } from "../constants/Layouts";
+import { noColorMetric, noMetricId } from "../constants/Metrics";
+import { LOGARITHMIC } from "../constants/Scales";
+import { observable } from "mobx";
 
 export default class VisualizationOptions {
 
@@ -28,7 +28,7 @@ export default class VisualizationOptions {
         this.scale = scale;
     }
 
-    public equalsWithoutColor(candidate: VisualizationOptions | null): boolean {
+    public equalStructure(candidate: VisualizationOptions | null): boolean {
         if (candidate) {
             return this.layout === candidate.layout
                 && this.footprint === candidate.footprint

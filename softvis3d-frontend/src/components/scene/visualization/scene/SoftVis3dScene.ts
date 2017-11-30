@@ -18,14 +18,15 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import * as three from "three";
-import {PerspectiveCamera, Scene, Vector3, WebGLRenderer} from "three";
-import {Camera} from "./Camera";
-import {Setup} from "./Setup";
-import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
-import {Rectangle} from "../../domain/Rectangle";
-import {HtmlDom, Offset} from "../../../../services/HtmlDom";
+import { PerspectiveCamera, Scene, Vector3, WebGLRenderer } from "three";
+import { Camera } from "./Camera";
+import { Setup } from "./Setup";
+import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
+import { Rectangle } from "../../domain/Rectangle";
+import { HtmlDom, Offset } from "../../../../services/HtmlDom";
 import * as OrbitControlsExtender from "three-orbit-controls";
 import SceneObjectCalculator from "./SceneObjectCalculator";
+import { SceneColorTheme } from "../../../../classes/SceneColorTheme";
 
 const OrbitControls = OrbitControlsExtender(three);
 
@@ -66,6 +67,10 @@ export default class SoftVis3dScene {
 
     public destroy() {
         this.stopAnimation();
+    }
+
+    public setColorTheme(colorTheme: SceneColorTheme) {
+        this.renderer.setClearColor(colorTheme.backgroundColor, 1);
     }
 
     public setCameraTo(position: Vector3) {
