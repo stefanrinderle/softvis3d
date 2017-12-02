@@ -3,12 +3,10 @@ import { observer } from "mobx-react";
 import { SceneStore } from "../../stores/SceneStore";
 import SceneInformation from "./information/SceneInformation";
 import { KeyLegend } from "./KeyLegend";
-import { SceneMouseInteractions } from "./events/SceneMouseInteractions";
-import Event from "./events/Event";
 import { SceneKeyInteractions } from "./events/SceneKeyInteractions";
 import ThreeSceneService from "./visualization/ThreeSceneService";
-import SoftVis3dScene from "./visualization/scene/SoftVis3dScene";
 import ColorThemeSelector from "../../classes/ColorThemeSelector";
+import SceneCanvas from "./SceneCanvas";
 
 interface SceneProps {
     sceneStore: SceneStore;
@@ -25,8 +23,9 @@ interface SceneStates {
 @observer
 export default class Scene extends React.Component<SceneProps, SceneStates> {
 
+    public static SCENE_CONTAINER_ID = "scene-container";
+
     private _threeSceneService: ThreeSceneService;
-    private _mouseActions: SceneMouseInteractions;
     private _keyActions: SceneKeyInteractions;
     private canvasState: string = "";
     private selectedObjectIdState: string | null;
@@ -43,11 +42,6 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     public componentDidMount() {
         this._threeSceneService = ThreeSceneService.create();
 
-        this._mouseActions = new SceneMouseInteractions();
-        this._mouseActions.onMouseDownEvent.addEventListener(this.handleMouseDown.bind(this));
-        this._mouseActions.onMouseMovedEvent.addEventListener(this.updateCameraPosition.bind(this));
-        this._mouseActions.onSelectObjectEvent.addEventListener(this.selectObject.bind(this));
-
         this._keyActions = new SceneKeyInteractions();
         this._keyActions.onResetCameraEvent.addEventListener(this.resetCamera.bind(this));
         this._keyActions.onToggleLegendEvent.addEventListener(this.toggleLegend.bind(this));
@@ -57,7 +51,6 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     }
 
     public componentWillUnmount() {
-        this._mouseActions.destroy();
         this._keyActions.destroy();
         this.setState({...this.state, mounted: false});
 
@@ -84,12 +77,11 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         cssClass += focus ? " active" : "";
 
         return (
-            <div id="scene-container" className={cssClass}>
+            <div id={Scene.SCENE_CONTAINER_ID} className={cssClass}>
                 <KeyLegend show={legend}/>
-                <canvas id={SoftVis3dScene.CANVAS_ID}
-                        onMouseDown={() => { this._mouseActions.setMouseMoved(false); }}
-                        onMouseMove={() => { this._mouseActions.setMouseMoved(true); }}
-                        onMouseUp={(e) => { this._mouseActions.onMouseUp(e); }}
+                <SceneCanvas selectObject={this.selectObject.bind(this)}
+                             updateCameraPosition={this.updateCameraPosition.bind(this)}
+                             updateSceneFocusState={this.updateSceneFocusState.bind(this)}
                 />
                 <SceneInformation sceneStore={sceneStore}/>
             </div>
@@ -100,23 +92,12 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         this.props.sceneStore.cameraPosition = this._threeSceneService.getCameraPosition();
     }
 
-    public handleMouseDown(event: Event<boolean>) {
-        const isWithinScene: boolean = event.getType();
-        if (isWithinScene ? !this.state.focus : this.state.focus) {
-            this.updateSceneFocusState(isWithinScene);
-        }
-    }
-
     /**
      * Test injection setter
      */
 
     public set threeSceneService(value: ThreeSceneService) {
         this._threeSceneService = value;
-    }
-
-    public set mouseActions(value: SceneMouseInteractions) {
-        this._mouseActions = value;
     }
 
     public set keyActions(value: SceneKeyInteractions) {
@@ -137,8 +118,8 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         }
     }
 
-    private selectObject(event: Event<MouseEvent>) {
-        this.props.sceneStore.selectedObjectId = this._threeSceneService.makeSelection(event.getType());
+    private selectObject(event: MouseEvent) {
+        this.props.sceneStore.selectedObjectId = this._threeSceneService.makeSelection(event);
     }
 
     private resetCamera() {

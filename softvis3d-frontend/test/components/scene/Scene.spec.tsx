@@ -8,7 +8,7 @@ import SceneInformation from "../../../src/components/scene/information/SceneInf
 import { KeyLegend } from "../../../src/components/scene/KeyLegend";
 import ThreeSceneService from "../../../src/components/scene/visualization/ThreeSceneService";
 import { Vector3 } from "three";
-import { SceneMouseInteractions } from "../../../src/components/scene/events/SceneMouseInteractions";
+import { SceneKeyInteractions } from "../../../src/components/scene/events/SceneKeyInteractions";
 
 describe("<Scene/>", () => {
 
@@ -65,16 +65,13 @@ describe("<Scene/>", () => {
             sceneStore: localSceneStore
         };
 
-        let stubMouseActions: any = Sinon.createStubInstance(SceneMouseInteractions);
-        underTest.mouseActions = stubMouseActions;
-        let stubKeyActions: any = Sinon.createStubInstance(SceneMouseInteractions);
+        let stubKeyActions: any = Sinon.createStubInstance(SceneKeyInteractions);
         underTest.keyActions = stubKeyActions;
         let stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
         underTest.threeSceneService = stubThreeSceneService;
 
         underTest.componentWillUnmount();
 
-        assert(stubMouseActions.destroy.called);
         assert(stubKeyActions.destroy.called);
         assert(stubThreeSceneService.destroy.called);
     });
