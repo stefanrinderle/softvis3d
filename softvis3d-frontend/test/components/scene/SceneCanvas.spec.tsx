@@ -54,7 +54,7 @@ describe("<SceneCanvas/>", () => {
         let testEvent: Event<boolean> = new Event(true);
         underTest.handleMouseDown(testEvent);
 
-        assert(sceneFocusSpy.called);
+        assert(sceneFocusSpy.calledWith(true));
     });
 
     it("should handle mouse down event to unfocus", () => {
@@ -70,7 +70,24 @@ describe("<SceneCanvas/>", () => {
         let testEvent: Event<boolean> = new Event(false);
         underTest.handleMouseDown(testEvent);
 
-        assert(sceneFocusSpy.called);
+        assert(sceneFocusSpy.calledWith(false));
+    });
+
+    it("should handle mouse select event", () => {
+        let selectObjectSpy = Sinon.spy();
+
+        let underTest: SceneCanvas = new SceneCanvas();
+        underTest.props = {
+            selectObject: selectObjectSpy,
+            updateCameraPosition: Sinon.spy(),
+            updateSceneFocusState: Sinon.spy()
+        };
+
+        let mouseEventStub = Sinon.createStubInstance(MouseEvent);
+        let testEvent: Event<MouseEvent> = new Event(mouseEventStub);
+        underTest.handleSelectObject(testEvent);
+
+        assert(selectObjectSpy.calledWith(mouseEventStub));
     });
 
 });

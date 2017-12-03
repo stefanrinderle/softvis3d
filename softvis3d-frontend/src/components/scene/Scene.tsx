@@ -17,6 +17,7 @@ interface SceneStates {
     focus: boolean;
     legend: boolean;
 }
+
 /**
  * Responsible for the drawing the canvas for the visualization.
  */
@@ -27,8 +28,8 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
 
     private _threeSceneService: ThreeSceneService;
     private _keyActions: SceneKeyInteractions;
-    private canvasState: string = "";
-    private selectedObjectIdState: string | null;
+    private shapesHash: string = "";
+    private selectedObjectIdState: string | null = null;
 
     constructor() {
         super();
@@ -42,10 +43,10 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     public componentDidMount() {
         this._threeSceneService = ThreeSceneService.create();
 
-        this._keyActions = new SceneKeyInteractions();
-        this._keyActions.onResetCameraEvent.addEventListener(this.resetCamera.bind(this));
-        this._keyActions.onToggleLegendEvent.addEventListener(this.toggleLegend.bind(this));
-        this._keyActions.onToggleColorThemeEvent.addEventListener(this.onToggleColorTheme.bind(this));
+        this._keyActions = SceneKeyInteractions.create();
+        this._keyActions.addResetCameraEventListener(this.resetCamera.bind(this));
+        this._keyActions.addToggleLegendEventListener(this.toggleLegend.bind(this));
+        this._keyActions.addToggleColorThemeEventListener(this.onToggleColorTheme.bind(this));
 
         this.setState({...this.state, mounted: true});
     }
@@ -62,15 +63,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         const {focus, legend, mounted} = this.state;
 
         if (mounted) {
-            if (sceneStore.shapesHash !== this.canvasState) {
-                this._threeSceneService.update(
-                    sceneStore.shapes, sceneStore.options, sceneStore.colorTheme, sceneStore.cameraPosition);
-                this.updateCameraPosition();
-                this.canvasState = sceneStore.shapesHash;
-            } else if (sceneStore.selectedObjectId !== this.selectedObjectIdState) {
-                this._threeSceneService.selectSceneTreeObject(sceneStore.selectedObjectId);
-                this.selectedObjectIdState = sceneStore.selectedObjectId;
-            }
+            this.processSceneUpdates();
         }
 
         let cssClass = "scene";
@@ -88,25 +81,27 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         );
     }
 
-    public updateCameraPosition() {
-        this.props.sceneStore.cameraPosition = this._threeSceneService.getCameraPosition();
-    }
+    public processSceneUpdates() {
+        const {sceneStore} = this.props;
 
-    /**
-     * Test injection setter
-     */
-
-    public set threeSceneService(value: ThreeSceneService) {
-        this._threeSceneService = value;
-    }
-
-    public set keyActions(value: SceneKeyInteractions) {
-        this._keyActions = value;
+        if (sceneStore.shapesHash !== this.shapesHash) {
+            this._threeSceneService.update(
+                sceneStore.shapes, sceneStore.options, sceneStore.colorTheme, sceneStore.cameraPosition);
+            this.updateCameraPosition();
+            this.shapesHash = sceneStore.shapesHash;
+        } else if (sceneStore.selectedObjectId !== this.selectedObjectIdState) {
+            this._threeSceneService.selectSceneTreeObject(sceneStore.selectedObjectId);
+            this.selectedObjectIdState = sceneStore.selectedObjectId;
+        }
     }
 
     /**
      * private methods
      */
+
+    private updateCameraPosition() {
+        this.props.sceneStore.cameraPosition = this._threeSceneService.getCameraPosition();
+    }
 
     private updateSceneFocusState(newState: boolean) {
         this.setState({...this.state, focus: newState});

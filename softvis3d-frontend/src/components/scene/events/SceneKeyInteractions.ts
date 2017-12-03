@@ -22,6 +22,11 @@ import Event from "./Event";
 
 export class SceneKeyInteractions {
 
+    // to be able to mock the construction
+    public static create() {
+        return new SceneKeyInteractions();
+    }
+
     private static EVENT_KEY_DOWN: string = "keydown";
 
     private static KEY_CODE_R: number = 82;
@@ -34,7 +39,7 @@ export class SceneKeyInteractions {
 
     private active: boolean;
 
-    constructor(active?: boolean) {
+    private constructor(active?: boolean) {
         window.addEventListener(SceneKeyInteractions.EVENT_KEY_DOWN, this.handleKeyDown.bind(this));
         this.active = !!active;
     }
@@ -43,16 +48,16 @@ export class SceneKeyInteractions {
         window.removeEventListener(SceneKeyInteractions.EVENT_KEY_DOWN, this.handleKeyDown.bind(this));
     }
 
-    public get onResetCameraEvent(): EventDispatcher<void> {
-        return this._onResetCameraEvent;
+    public addResetCameraEventListener(callback: Function) {
+        this._onResetCameraEvent.addEventListener(callback);
     }
 
-    public get onToggleLegendEvent(): EventDispatcher<void> {
-        return this._onToggleLegendEvent;
+    public addToggleLegendEventListener(callback: Function) {
+        this._onToggleLegendEvent.addEventListener(callback);
     }
 
-    public get onToggleColorThemeEvent(): EventDispatcher<void> {
-        return this._onToggleColorThemeEvent;
+    public addToggleColorThemeEventListener(callback: Function) {
+        this._onToggleColorThemeEvent.addEventListener(callback);
     }
 
     public halt() {
