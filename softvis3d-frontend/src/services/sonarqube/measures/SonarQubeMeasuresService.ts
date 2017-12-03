@@ -52,7 +52,7 @@ export default class SonarQubeMeasuresService {
         this.sceneStore = sceneStore;
     }
 
-    public loadMeasuresInitial(options: VisualizationOptions) {
+    public loadMeasures(options: VisualizationOptions, isForce: boolean = false) {
         this.appStatusStore.load(SonarQubeMeasuresService.LOAD_MEASURES);
 
         this.sceneStore.options = options;
@@ -60,7 +60,7 @@ export default class SonarQubeMeasuresService {
 
         let metricKeys = this.measureMetricService.getMetricRequestValues();
 
-        if (this.metricKeys && this.metricKeys === metricKeys) {
+        if (!isForce && this.metricKeys && this.metricKeys === metricKeys) {
             this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
             this.sceneStore.projectData = Object.assign({}, this.sceneStore.projectData);
         } else {

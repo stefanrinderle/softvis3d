@@ -31,6 +31,7 @@ describe("AppStatusStore", () => {
         expect(underTest.loadingQueue.isEmpty).to.be.true;
         expect(underTest.errors.isEmpty).to.be.true;
         expect(underTest.showLoadingQueue).to.be.eq(false);
+        expect(underTest.analysisDate).to.be.undefined;
     });
 
     it("should return isVisible false", () => {

@@ -69,6 +69,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         if (mounted) {
             if (sceneStore.shapesHash !== this.canvasState) {
                 this._threeSceneService.update(sceneStore.shapes, sceneStore.options, sceneStore.cameraPosition);
+                this._threeSceneService.selectSceneTreeObject(sceneStore.selectedObjectId);
                 this.updateCameraPosition();
                 this.canvasState = sceneStore.shapesHash;
             } else if (sceneStore.selectedObjectId !== this.selectedObjectIdState) {

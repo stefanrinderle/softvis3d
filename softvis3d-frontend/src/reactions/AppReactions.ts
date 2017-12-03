@@ -3,14 +3,17 @@ import { reaction } from "mobx";
 import VisualizationOptions from "../classes/VisualizationOptions";
 import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
 import AutoReloadService from "../services/AutoReloadService";
+import { AppStatusStore } from "../stores/AppStatusStore";
 
-export default class BuilderReactions {
+export default class AppReactions {
     private cityBuilderStore: CityBuilderStore;
+    private appStatusStore: AppStatusStore;
     private measuresService: SonarQubeMeasuresService;
     private autoReloadService: AutoReloadService;
 
-    constructor(cityBuilderStore: CityBuilderStore, measuresService: SonarQubeMeasuresService,
+    constructor(appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore, measuresService: SonarQubeMeasuresService,
                 autoReloadService: AutoReloadService) {
+        this.appStatusStore = appStatusStore;
         this.cityBuilderStore = cityBuilderStore;
         this.measuresService = measuresService;
         this.autoReloadService = autoReloadService;
@@ -19,21 +22,18 @@ export default class BuilderReactions {
 
     private prepareReactions() {
         reaction(
-            () => this.cityBuilderStore.initiateBuildProcess,
+            () => this.appStatusStore.analysisDate,
             () => {
-                if (this.cityBuilderStore.initiateBuildProcess) {
-                    this.cityBuilderStore.initiateBuildProcess = false;
-
+                if (this.autoReloadService.isActive()) {
                     let options: VisualizationOptions = new VisualizationOptions(
                         this.cityBuilderStore.layout, this.cityBuilderStore.footprintMetric,
                         this.cityBuilderStore.heightMetric, this.cityBuilderStore.metricColor, this.cityBuilderStore.profile.scale);
 
-                    this.measuresService.loadMeasures(options);
-                    this.autoReloadService.startAutoReload();
+                    this.measuresService.loadMeasures(options, true);
                 }
             },
             {
-                name: "Transfer all required data to the scene"
+                name: "Reload measures."
             }
         );
     }
