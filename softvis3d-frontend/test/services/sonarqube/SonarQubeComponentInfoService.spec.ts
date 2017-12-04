@@ -18,19 +18,15 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import { assert, expect } from "chai";
-import { AppStatusStore } from "../../../src/stores/AppStatusStore";
 import * as Sinon from "sinon";
 import SonarQubeComponentInfoService from "../../../src/services/sonarqube/SonarQubeComponentInfoService";
 
 describe("SonarQubeComponentInfoService", () => {
 
     it("should call backend and return component info", (done) => {
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-
         let apiUrl: string = "urlsihshoif";
         let projectKey = "iuzsgdfus";
-        let underTest: SonarQubeComponentInfoService = new SonarQubeComponentInfoService(projectKey, testAppStatusStore,
-            apiUrl);
+        let underTest: SonarQubeComponentInfoService = new SonarQubeComponentInfoService(projectKey, apiUrl);
 
         let expectedId = "0844b558-2051-45a6-9970-e3f53fc86f09";
         let expectedKey = "de.rinderle.softvis3d:softvis3d";
@@ -69,17 +65,15 @@ describe("SonarQubeComponentInfoService", () => {
     });
 
     it("should react on errors", (done) => {
-        const testAppStatusStore = Sinon.createStubInstance(AppStatusStore);
-
         let apiUrl: string = "urlsihshoif";
         let projectKey = "iuzsgdfus";
-        let underTest: SonarQubeComponentInfoService = new SonarQubeComponentInfoService(projectKey, testAppStatusStore,
+        let underTest: SonarQubeComponentInfoService = new SonarQubeComponentInfoService(projectKey,
             apiUrl);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
                 response: {
-                    statusText: "not working"
+                    data: "not working"
                 }
             });
         });
@@ -88,8 +82,8 @@ describe("SonarQubeComponentInfoService", () => {
             assert.isNotOk("Should go to catch clause instead of then");
 
             done();
-        }).catch(() => {
-            assert(testAppStatusStore.error.called);
+        }).catch((error) => {
+            expect(error).to.be.eq("not working");
 
             done();
         });

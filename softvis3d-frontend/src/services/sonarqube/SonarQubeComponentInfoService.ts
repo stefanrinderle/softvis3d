@@ -18,8 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import { BackendService } from "./BackendService";
-import { AppStatusStore } from "../../stores/AppStatusStore";
-import ErrorAction from "../../classes/status/ErrorAction";
 
 export interface SonarQubeComponentInfo {
     id: number;
@@ -29,18 +27,20 @@ export interface SonarQubeComponentInfo {
 }
 
 export default class SonarQubeComponentInfoService extends BackendService {
-    private static LOAD_COMPONENT_INFO_ERROR_KEY: string = "LOAD_COMPONENT_INFO_ERROR";
 
-    private appStatusStore: AppStatusStore;
     private projectKey: string;
 
-    constructor(projectKey: string, appStatusStore: AppStatusStore, baseUrl?: string) {
+    constructor(projectKey: string, baseUrl?: string) {
         super(baseUrl);
 
         this.projectKey = projectKey;
-        this.appStatusStore = appStatusStore;
     }
 
+    /**
+     * Only available (with the implemented parameters) from SQ version 6.4.
+     *
+     * Error handling should be done by the caller.
+     */
     public loadComponentInfo(): Promise<SonarQubeComponentInfo> {
         return new Promise<SonarQubeComponentInfo>((resolve, reject) => {
             const params = {component: this.projectKey};
@@ -50,13 +50,11 @@ export default class SonarQubeComponentInfoService extends BackendService {
 
                 resolve(response.data.component);
             }).catch((error) => {
-                this.appStatusStore.error(
-                    new ErrorAction(SonarQubeComponentInfoService.LOAD_COMPONENT_INFO_ERROR_KEY,
-                        "SonarQube component API is not available or responding: ",
-                        "Try again", () => {
-                            location.reload();
-                        }));
-                reject(error.message);
+                /**
+                 * Does not throw an application error because the api/component/show web-api changed in version 6.4
+                 * and we currently support SQ versions > 6.3.
+                 */
+                reject(error.response.data);
             });
         });
     }
