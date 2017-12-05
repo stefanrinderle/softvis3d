@@ -7,6 +7,7 @@ import {SceneStore} from "../stores/SceneStore";
 import Visualization from "./visualization/Visualization";
 import Status from "./status/Status";
 import VisualizationLinkService from "../services/VisualizationLinkService";
+import { ObjectFactory } from "./scene/visualization/objects/ObjectFactory";
 
 interface Softvis3DProps {
     appStatusStore: AppStatusStore;
@@ -20,6 +21,8 @@ interface Softvis3DProps {
 export default class Softvis3D extends React.Component<Softvis3DProps, any> {
 
     public render() {
+        ObjectFactory.loadFonts();
+
         const {appStatusStore, sceneStore, cityBuilderStore, visualizationLinkService, baseUrl} = this.props;
         return (
             <div>

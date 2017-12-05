@@ -10,14 +10,18 @@ import {SceneStore} from "../../src/stores/SceneStore";
 import Status from "../../src/components/status/Status";
 import VisualizationLinkService from "../../src/services/VisualizationLinkService";
 import * as Sinon from "sinon";
+import { ObjectFactory } from "../../src/components/scene/visualization/objects/ObjectFactory";
 
 describe("<SoftVis3D/>", () => {
 
-    it("should draw all componenty on start", () => {
+    it("should draw all components on start", () => {
         let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
         let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
         let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
         let localAppStatusStore: AppStatusStore = Sinon.createStubInstance(AppStatusStore);
+
+        ObjectFactory.loadFonts = Sinon.stub();
+
         const baseUrl = "suzdgs";
         const softvis3d = shallow(
             <Softvis3D cityBuilderStore={localCityBuilderStore}
