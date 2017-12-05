@@ -1,13 +1,12 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {SceneStore} from "../../stores/SceneStore";
+import { observer } from "mobx-react";
+import { SceneStore } from "../../stores/SceneStore";
 import SceneInformation from "./information/SceneInformation";
-import {KeyLegend} from "./KeyLegend";
-import {SceneMouseInteractions} from "./events/SceneMouseInteractions";
-import Event from "./events/Event";
-import {SceneKeyInteractions} from "./events/SceneKeyInteractions";
+import { KeyLegend } from "./KeyLegend";
+import { SceneKeyInteractions } from "./events/SceneKeyInteractions";
 import ThreeSceneService from "./visualization/ThreeSceneService";
-import SoftVis3dScene from "./visualization/scene/SoftVis3dScene";
+import ColorThemeSelector from "../../classes/ColorThemeSelector";
+import SceneCanvas from "./SceneCanvas";
 
 interface SceneProps {
     sceneStore: SceneStore;
@@ -18,17 +17,19 @@ interface SceneStates {
     focus: boolean;
     legend: boolean;
 }
+
 /**
  * Responsible for the drawing the canvas for the visualization.
  */
 @observer
 export default class Scene extends React.Component<SceneProps, SceneStates> {
 
+    public static SCENE_CONTAINER_ID = "scene-container";
+
     private _threeSceneService: ThreeSceneService;
-    private _mouseActions: SceneMouseInteractions;
     private _keyActions: SceneKeyInteractions;
-    private canvasState: string = "";
-    private selectedObjectIdState: string | null;
+    private shapesHash: string = "";
+    private selectedObjectIdState: string | null = null;
 
     constructor() {
         super();
@@ -42,20 +43,15 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     public componentDidMount() {
         this._threeSceneService = ThreeSceneService.create();
 
-        this._mouseActions = new SceneMouseInteractions();
-        this._mouseActions.onMouseDownEvent.addEventListener(this.handleMouseDown.bind(this));
-        this._mouseActions.onMouseMovedEvent.addEventListener(this.updateCameraPosition.bind(this));
-        this._mouseActions.onSelectObjectEvent.addEventListener(this.selectObject.bind(this));
-
-        this._keyActions = new SceneKeyInteractions();
-        this._keyActions.onResetCameraEvent.addEventListener(this.resetCamera.bind(this));
-        this._keyActions.onToggleLegendEvent.addEventListener(this.toggleLegend.bind(this));
+        this._keyActions = SceneKeyInteractions.create();
+        this._keyActions.addResetCameraEventListener(this.resetCamera.bind(this));
+        this._keyActions.addToggleLegendEventListener(this.toggleLegend.bind(this));
+        this._keyActions.addToggleColorThemeEventListener(this.onToggleColorTheme.bind(this));
 
         this.setState({...this.state, mounted: true});
     }
 
     public componentWillUnmount() {
-        this._mouseActions.destroy();
         this._keyActions.destroy();
         this.setState({...this.state, mounted: false});
 
@@ -67,63 +63,45 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         const {focus, legend, mounted} = this.state;
 
         if (mounted) {
-            if (sceneStore.shapesHash !== this.canvasState) {
-                this._threeSceneService.update(sceneStore.shapes, sceneStore.options, sceneStore.cameraPosition);
-                this._threeSceneService.selectSceneTreeObject(sceneStore.selectedObjectId);
-                this.updateCameraPosition();
-                this.canvasState = sceneStore.shapesHash;
-            } else if (sceneStore.selectedObjectId !== this.selectedObjectIdState) {
-                this._threeSceneService.selectSceneTreeObject(sceneStore.selectedObjectId);
-                this.selectedObjectIdState = sceneStore.selectedObjectId;
-            }
+            this.processSceneUpdates();
         }
 
         let cssClass = "scene";
         cssClass += focus ? " active" : "";
 
         return (
-            <div id="scene-container" className={cssClass}>
+            <div id={Scene.SCENE_CONTAINER_ID} className={cssClass}>
                 <KeyLegend show={legend}/>
-                <canvas id={SoftVis3dScene.CANVAS_ID}
-                        onMouseDown={() => { this._mouseActions.setMouseMoved(false); }}
-                        onMouseMove={() => { this._mouseActions.setMouseMoved(true); }}
-                        onMouseUp={(e) => { this._mouseActions.onMouseUp(e); }}
+                <SceneCanvas selectObject={this.selectObject.bind(this)}
+                             updateCameraPosition={this.updateCameraPosition.bind(this)}
+                             updateSceneFocusState={this.updateSceneFocusState.bind(this)}
                 />
                 <SceneInformation sceneStore={sceneStore}/>
             </div>
         );
     }
 
-    public updateCameraPosition() {
-        this.props.sceneStore.cameraPosition = this._threeSceneService.getCameraPosition();
-    }
+    public processSceneUpdates() {
+        const {sceneStore} = this.props;
 
-    public handleMouseDown(event: Event<boolean>) {
-        const isWithinScene: boolean = event.getType();
-        if (isWithinScene ? !this.state.focus : this.state.focus) {
-            this.updateSceneFocusState(isWithinScene);
+        if (sceneStore.shapesHash !== this.shapesHash) {
+            this._threeSceneService.update(
+                sceneStore.shapes, sceneStore.options, sceneStore.colorTheme, sceneStore.cameraPosition);
+            this.updateCameraPosition();
+            this.shapesHash = sceneStore.shapesHash;
+        } else if (sceneStore.selectedObjectId !== this.selectedObjectIdState) {
+            this._threeSceneService.selectSceneTreeObject(sceneStore.selectedObjectId);
+            this.selectedObjectIdState = sceneStore.selectedObjectId;
         }
-    }
-
-    /**
-     * Test injection setter
-     */
-
-    public set threeSceneService(value: ThreeSceneService) {
-        this._threeSceneService = value;
-    }
-
-    public set mouseActions(value: SceneMouseInteractions) {
-        this._mouseActions = value;
-    }
-
-    public set keyActions(value: SceneKeyInteractions) {
-        this._keyActions = value;
     }
 
     /**
      * private methods
      */
+
+    private updateCameraPosition() {
+        this.props.sceneStore.cameraPosition = this._threeSceneService.getCameraPosition();
+    }
 
     private updateSceneFocusState(newState: boolean) {
         this.setState({...this.state, focus: newState});
@@ -135,8 +113,8 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         }
     }
 
-    private selectObject(event: Event<MouseEvent>) {
-        this.props.sceneStore.selectedObjectId = this._threeSceneService.makeSelection(event.getType());
+    private selectObject(event: MouseEvent) {
+        this.props.sceneStore.selectedObjectId = this._threeSceneService.makeSelection(event);
     }
 
     private resetCamera() {
@@ -146,4 +124,12 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     private toggleLegend() {
         this.setState({...this.state, legend: !this.state.legend});
     }
+
+    private onToggleColorTheme() {
+        let resultColorTheme = ColorThemeSelector.toggleColorTheme(this.props.sceneStore.colorTheme);
+
+        this._threeSceneService.setColorTheme(resultColorTheme);
+        this.props.sceneStore.colorTheme = resultColorTheme;
+    }
+
 }

@@ -27,6 +27,8 @@ import { Scales } from "../../src/constants/Scales";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
 import { Parameters } from "../../src/services/UrlParameterService";
 import { Vector3 } from "three";
+import { SceneColorTheme } from "../../src/classes/SceneColorTheme";
+import { SceneColorThemes } from "../../src/constants/SceneColorThemes";
 
 describe("VisualizationLinkParams", () => {
 
@@ -38,10 +40,11 @@ describe("VisualizationLinkParams", () => {
         let layout: Layout = evostreet;
         let selectedObjectId: string = "123";
         let cameraPosition: Vector3 = new Vector3(0, 1, 2);
+        let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
 
         let result: VisualizationLinkParams =
             new VisualizationLinkParams(metricFootprintId, metricHeightId, metricColor, layout, scalingMethod,
-                                        selectedObjectId, cameraPosition);
+                                        selectedObjectId, cameraPosition, colorTheme);
 
         expect(result.layout).to.be.eq(layout);
         expect(result.metricFootprintId).to.be.eq(metricFootprintId);
@@ -50,6 +53,7 @@ describe("VisualizationLinkParams", () => {
         expect(result.scale).to.be.eq(scalingMethod);
         expect(result.selectedObjectId).to.be.eq(selectedObjectId);
         expect(result.cameraPosition).to.be.eq(cameraPosition);
+        expect(result.colorTheme).to.be.eq(SceneColorThemes.availableColorThemes[0]);
     });
 
     it("should create default config", () => {
@@ -60,10 +64,11 @@ describe("VisualizationLinkParams", () => {
         let layout: Layout = evostreet;
         let selectedObjectId: string = "123";
         let cameraPosition: Vector3 = new Vector3(0.34, 1.23, 2);
+        let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
 
         let result: VisualizationLinkParams =
             new VisualizationLinkParams(complexityFootprintId, metricHeightId, metricColor, layout, scalingMethod,
-                                        selectedObjectId, cameraPosition);
+                                        selectedObjectId, cameraPosition, colorTheme);
 
         let pairs: Parameters = result.getKeyValuePairs();
 
@@ -76,6 +81,7 @@ describe("VisualizationLinkParams", () => {
             cameraX: "0",
             cameraY: "1",
             cameraZ: "2",
+            colorTheme: "default",
             selectedObjectId: "123"
         };
 
@@ -90,10 +96,11 @@ describe("VisualizationLinkParams", () => {
         let layout: Layout = evostreet;
         let selectedObjectId: string | null = null;
         let cameraPosition: Vector3 = new Vector3(0.34, 1.23, 2);
+        let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[1];
 
         let result: VisualizationLinkParams =
             new VisualizationLinkParams(metricFootprintId, metricHeightId, metricColor, layout, scalingMethod,
-                selectedObjectId, cameraPosition);
+                selectedObjectId, cameraPosition, colorTheme);
 
         let pairs: Parameters = result.getKeyValuePairs();
 
@@ -105,7 +112,8 @@ describe("VisualizationLinkParams", () => {
             scale: "logarithmic",
             cameraX: "0",
             cameraY: "1",
-            cameraZ: "2"
+            cameraZ: "2",
+            colorTheme: "dark"
         };
 
         expect(JSON.stringify(pairs)).to.be.eq(JSON.stringify(expected));

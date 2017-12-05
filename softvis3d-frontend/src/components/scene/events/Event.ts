@@ -1,11 +1,12 @@
 export default class Event<T> {
-    private _type: T;
+
+    private _value: T;
 
     constructor(type: T) {
-        this._type = type;
+        this._value = type;
     }
 
-    public getType(): T {
-        return this._type;
+    public getValue(): T {
+        return this._value;
     }
 }

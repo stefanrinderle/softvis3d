@@ -18,11 +18,17 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {HtmlDom} from "../../../services/HtmlDom";
-import {EventDispatcher} from "./EventDispatcher";
+import { HtmlDom } from "../../../services/HtmlDom";
+import { EventDispatcher } from "./EventDispatcher";
 import Event from "./Event";
+import Scene from "../Scene";
 
 export class SceneMouseInteractions {
+
+    // to be able to mock the construction
+    public static create() {
+        return new SceneMouseInteractions();
+    }
 
     private static EVENT_MOUSE_DOWN: string = "mousedown";
 
@@ -34,7 +40,7 @@ export class SceneMouseInteractions {
     private _onSelectObjectEvent: EventDispatcher<MouseEvent> = new EventDispatcher<MouseEvent>();
     private _mouseMoved: boolean = false;
 
-    constructor() {
+    private constructor() {
         window.addEventListener(SceneMouseInteractions.EVENT_MOUSE_DOWN, this.handleMouseDown.bind(this));
     }
 
@@ -42,20 +48,20 @@ export class SceneMouseInteractions {
         window.removeEventListener(SceneMouseInteractions.EVENT_MOUSE_DOWN, this.handleMouseDown.bind(this));
     }
 
-    public get onMouseDownEvent(): EventDispatcher<boolean> {
-        return this._onMouseDownEvent;
+    public addMouseDownEventListener(callback: Function) {
+        this._onMouseDownEvent.addEventListener(callback);
     }
 
-    public get onMouseMovedEvent(): EventDispatcher<void> {
-        return this._onMouseMovedEvent;
+    public addMouseMovedEventListener(callback: Function) {
+        this._onMouseMovedEvent.addEventListener(callback);
     }
 
-    public get onSelectObjectEvent(): EventDispatcher<MouseEvent> {
-        return this._onSelectObjectEvent;
+    public addSelectObjectEventEventListener(callback: Function) {
+        this._onSelectObjectEvent.addEventListener(callback);
     }
 
     public handleMouseDown(event: MouseEvent) {
-        const self = document.getElementById("scene-container");
+        const self = document.getElementById(Scene.SCENE_CONTAINER_ID);
         let isWithinScene = event.target === self || HtmlDom.isDescendant(self, event.target as HTMLElement);
 
         this._onMouseDownEvent.dispatchEvent(new Event<boolean>(isWithinScene));

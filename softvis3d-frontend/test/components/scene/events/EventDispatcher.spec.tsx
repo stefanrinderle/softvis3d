@@ -21,7 +21,7 @@ describe("EventDispatcher", () => {
 
         let expectedResult: string = "oisudhf";
         underTest.addEventListener((result: Event<string>) => {
-            expect(expectedResult).to.be.eq(result.getType());
+            expect(expectedResult).to.be.eq(result.getValue());
         });
 
         let event: Event<string> = new Event<string>(expectedResult);
@@ -37,7 +37,7 @@ describe("EventDispatcher", () => {
             if (counter > 1) {
                 expect(true).to.be.false;
             }
-            expect(expectedResult).to.be.eq(result.getType());
+            expect(expectedResult).to.be.eq(result.getValue());
         };
 
         underTest.addEventListener(listener);
@@ -67,11 +67,11 @@ describe("EventDispatcher", () => {
 
         let expectedResult: string = "oisudhf";
         let listener1: Function = (result: Event<string>) => {
-            expect(expectedResult).to.be.eq(result.getType());
+            expect(expectedResult).to.be.eq(result.getValue());
         };
         const spy1 = Sinon.spy(listener1);
         let listener2: Function = (result: Event<string>) => {
-            expect(expectedResult).to.be.eq(result.getType());
+            expect(expectedResult).to.be.eq(result.getValue());
         };
         const spy2 = Sinon.spy(listener2);
 

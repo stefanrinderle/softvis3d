@@ -181,7 +181,8 @@ describe("VisualizationLinkService", () => {
             scale: "logarithmic",
             cameraX: "1",
             cameraY: "2",
-            cameraZ: "3"
+            cameraZ: "3",
+            colorTheme: "default"
         }));
 
         expect(result).to.contain("abc");
@@ -217,6 +218,7 @@ describe("VisualizationLinkService", () => {
             cameraX: "1",
             cameraY: "2",
             cameraZ: "3",
+            colorTheme: "default",
             selectedObjectId: expectedSelectedObjectId
         }));
 
@@ -272,6 +274,7 @@ describe("VisualizationLinkService", () => {
             cameraX: "1",
             cameraY: "2",
             cameraZ: "3",
+            colorTheme: "default",
             selectedObjectId: expectedSelectedObjectId
         }));
 

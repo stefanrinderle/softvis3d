@@ -11,6 +11,8 @@ import {SceneStore} from "../stores/SceneStore";
 import {Vector3} from "three";
 import {default as UrlParameterService, Parameters} from "./UrlParameterService";
 import {AppConfiguration} from "../classes/AppConfiguration";
+import { SceneColorTheme } from "../classes/SceneColorTheme";
+import { DEFAULT_COLOR_THEME, SceneColorThemes } from "../constants/SceneColorThemes";
 
 export default class VisualizationLinkService {
 
@@ -38,6 +40,7 @@ export default class VisualizationLinkService {
         let scale: Scale | undefined = Scales.getScaleById(params.scale);
 
         let cameraPosition = this.getCameraPosition(params);
+        let colorTheme: SceneColorTheme | undefined = SceneColorThemes.getColorThemeById(params.colorTheme);
 
         let selectedObjectId: string | undefined = params.selectedObjectId;
 
@@ -48,9 +51,13 @@ export default class VisualizationLinkService {
             && scale !== undefined
             && cameraPosition !== undefined
         ) {
+            if (colorTheme === undefined) {
+                colorTheme = DEFAULT_COLOR_THEME;
+            }
+
             let visualizationLinkParams: VisualizationLinkParams = new VisualizationLinkParams(
                 metricFootprint.id, metricHeight.id, metricColor,
-                layout, scale, selectedObjectId, cameraPosition
+                layout, scale, selectedObjectId, cameraPosition, colorTheme
             );
 
             this.applyParams(visualizationLinkParams);
@@ -77,7 +84,6 @@ export default class VisualizationLinkService {
     }
 
     private createCurrentParams(): Parameters {
-        // TODO merge master
         if (!this.sceneStore.cameraPosition) {
             throw new Error("this.sceneStore.cameraPosition is undefined or null on createVisualizationLink");
         }
@@ -86,7 +92,7 @@ export default class VisualizationLinkService {
             new VisualizationLinkParams(this.cityBuilderStore.profile.footprintMetricId,
                 this.cityBuilderStore.profile.heightMetricId, this.cityBuilderStore.metricColor,
                 this.cityBuilderStore.layout, this.cityBuilderStore.profile.scale,
-                this.sceneStore.selectedObjectId, this.sceneStore.cameraPosition);
+                this.sceneStore.selectedObjectId, this.sceneStore.cameraPosition, this.sceneStore.colorTheme);
 
         return visualizationLinkParams.getKeyValuePairs();
     }
@@ -113,6 +119,7 @@ export default class VisualizationLinkService {
 
         this.sceneStore.selectedObjectId = visualizationLinkParams.selectedObjectId;
         this.sceneStore.cameraPosition = visualizationLinkParams.cameraPosition;
+        this.sceneStore.colorTheme = visualizationLinkParams.colorTheme;
     }
 
 }

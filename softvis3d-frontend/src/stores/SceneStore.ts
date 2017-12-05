@@ -3,6 +3,8 @@ import {TreeService} from "../services/TreeService";
 import VisualizationOptions from "../classes/VisualizationOptions";
 import {Vector3} from "three";
 import {TreeElement} from "../classes/TreeElement";
+import { SceneColorTheme } from "../classes/SceneColorTheme";
+import { DEFAULT_COLOR_THEME } from "../constants/SceneColorThemes";
 
 class SceneStore {
     @observable
@@ -18,6 +20,7 @@ class SceneStore {
 
     public cameraPosition: Vector3 | undefined;
     public scmMetricLoaded: boolean;
+    public colorTheme: SceneColorTheme = DEFAULT_COLOR_THEME;
 
     public constructor() {
         observe(this, "shapes", () => { this.shapesHash = (Date.now()).toString(36); });
