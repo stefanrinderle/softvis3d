@@ -40,7 +40,7 @@ pipeline {
                         if (env.BRANCH_NAME == "master") {
                             sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN'
                         } else {
-                            sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.projectKey=de.rinderle.softvis3d:softvis3d:$BRANCH_NAME'
+                            sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.projectKey=de.rinderle.softvis3d:softvis3d:$BRANCH_NAME -Dsonar.projectName=softvis3d:$BRANCH_NAME'
                         }
                     }
                 }
