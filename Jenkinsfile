@@ -1,59 +1,58 @@
 pipeline {
-        agent any
-        tools {
-            maven 'Maven 3.5'
-            jdk 'JDK 8'
+    agent any
+    tools {
+        maven 'Maven 3.5'
+        jdk 'JDK 8'
+    }
+    stages {
+        stage('Prepare') {
+            steps {
+                deleteDir()
+                checkout scm
+            }
         }
-        stages {
-            stage('Prepare') {
-                steps {
-                    deleteDir()
-                    checkout scm
-                }
-            }
 
-            stage('Build') {
-                steps {
-                    script {
-                        env.CHROME_BIN = '/usr/bin/chromium-browser'
-                        configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
-                            sh 'mvn -s $MAVEN_SETTINGS clean license:check install -PcleanAll,ci -U -B'
-                        }
-
-                        // publish frontend coverage html
-                        publishHTML(target: [
-                        allowMissing         : false,
-                        alwaysLinkToLastBuild: true,
-                        keepAll              : true,
-                        reportDir            : 'softvis3d-frontend/src/coverage',
-                        reportFiles          : 'index.html',
-                        reportName           : "Frontend test coverage Report"])
+        stage('Build') {
+            steps {
+                script {
+                    env.CHROME_BIN = '/usr/bin/chromium-browser'
+                    configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
+                        sh 'mvn -s $MAVEN_SETTINGS clean license:check install -PcleanAll,ci -U -B'
                     }
-                }
-            }
 
-            stage('Verify') {
-                steps {
-                    script {
-                        withSonarQubeEnv('SonarQube SoftVis3D') {
-                            if(env.BRANCH_NAME == "master") {
-                                sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN'
-                            } else {
-                                sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.projectKey=de.rinderle.softvis3d:softvis3d:$BRANCH_NAME'
-                            }
-                        }
-                    }
+                    // publish frontend coverage html
+                    publishHTML(target: [
+                            allowMissing         : false,
+                            alwaysLinkToLastBuild: true,
+                            keepAll              : true,
+                            reportDir            : 'softvis3d-frontend/src/coverage',
+                            reportFiles          : 'index.html',
+                            reportName           : "Frontend test coverage Report"])
                 }
             }
         }
 
-        post {
-            changed {
-                sendNotification buildChanged: true
+        stage('Verify') {
+            steps {
+                script {
+                    withSonarQubeEnv('SonarQube SoftVis3D') {
+                        if (env.BRANCH_NAME == "master") {
+                            sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN'
+                        } else {
+                            sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.projectKey=de.rinderle.softvis3d:softvis3d:$BRANCH_NAME'
+                        }
+                    }
+                }
             }
-            failure {
-                sendNotification buildChanged: false
-            }
+        }
+    }
+
+    post {
+        changed {
+            sendNotification buildChanged: true
+        }
+        failure {
+            sendNotification buildChanged: false
         }
     }
 }
