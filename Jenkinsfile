@@ -3,6 +3,7 @@ pipeline {
     tools {
         maven 'Maven 3.5'
         jdk 'JDK 8'
+        nodejs 'NodeJS 10'
     }
     stages {
         stage('Prepare') {
@@ -25,7 +26,7 @@ pipeline {
                             allowMissing         : false,
                             alwaysLinkToLastBuild: true,
                             keepAll              : true,
-                            reportDir            : 'softvis3d-frontend/src/coverage',
+                            reportDir            : 'softvis3d-frontend/coverage',
                             reportFiles          : 'index.html',
                             reportName           : "Frontend test coverage Report"])
                 }
@@ -35,13 +36,11 @@ pipeline {
         stage('Verify') {
             steps {
                 script {
-                    nodejs(nodeJSInstallationName: 'NodeJS 10') {
-                        withSonarQubeEnv('SonarQube SoftVis3D') {
-                            if (env.BRANCH_NAME == "master") {
-                                sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN'
-                            } else {
-                                sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.projectKey=de.rinderle.softvis3d:softvis3d:$BRANCH_NAME'
-                            }
+                    withSonarQubeEnv('SonarQube SoftVis3D') {
+                        if (env.BRANCH_NAME == "master") {
+                            sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN'
+                        } else {
+                            sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.projectKey=de.rinderle.softvis3d:softvis3d:$BRANCH_NAME'
                         }
                     }
                 }
