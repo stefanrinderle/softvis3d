@@ -11,7 +11,7 @@
     "start": "webpack-dev-server",
     "prebuild": "yarn run lint:sources && yarn run test",
     "build": "yarn run build:force",
-    "prebuild:ci": "yarn run lint && yarn run test:coverage && yarn run test:sonarqube",
+    "prebuild:ci": "yarn run lint:sources && yarn run test:coverage && yarn run test:sonarqube",
     "build:ci": "yarn run build:force",
     "prebuild:force": "yarn run install:rebuild-sass",
     "build:force": "webpack --progress --colors --env.prod",
