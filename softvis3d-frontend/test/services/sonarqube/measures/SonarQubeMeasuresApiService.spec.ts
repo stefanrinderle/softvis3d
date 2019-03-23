@@ -17,21 +17,25 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import * as Sinon from "sinon";
 import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresApiService";
 import {
     SonarQubeMeasurePagingResponse,
     SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE
 } from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
-import {AppConfiguration} from "../../../../src/classes/AppConfiguration";
+import { AppConfiguration } from "../../../../src/classes/AppConfiguration";
+import { AppStatusStore } from "../../../../src/stores/AppStatusStore";
+import SonarQubeMeasuresService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresService";
 
 describe("SonarQubeMeasuresApiService", () => {
 
     it("should call backend and load measures", (done) => {
         let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+        let spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
+        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration, testAppStatusStore);
         let data: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 1);
         let stub = Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -39,7 +43,8 @@ describe("SonarQubeMeasuresApiService", () => {
             });
         });
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", [SQ_QUALIFIER_DIRECTORY]).then((result) => {
+        underTest.loadMeasures("baseKey", "ncloc,complexity").then((result) => {
+            assert(spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 1, 1));
             assert(stub.called);
             expect(result.components.length).to.be.eq(1);
 
@@ -52,8 +57,10 @@ describe("SonarQubeMeasuresApiService", () => {
 
     it("should load again if more results", (done) => {
         let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+        let spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
+        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration, testAppStatusStore);
 
         let data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
         let data2: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(2, 500, 600);
@@ -68,10 +75,14 @@ describe("SonarQubeMeasuresApiService", () => {
                 data: data2
             }));
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", [SQ_QUALIFIER_DIRECTORY]).then((result) => {
+        underTest.loadMeasures("baseKey", "ncloc,complexity").then((result) => {
             assert(spyCallApi.called);
             expect(result.components.length).to.be.eq(2);
             assert(spyCallApi.calledTwice);
+
+            assert(spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 1, 1));
+            assert(spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 600, 2));
+            assert(spyLoadStatusUpdate.calledTwice);
 
             done();
         }).catch((error) => {
@@ -82,8 +93,9 @@ describe("SonarQubeMeasuresApiService", () => {
 
     it("should call backend and react on errors", (done) => {
         let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
+        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration, testAppStatusStore);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
@@ -93,7 +105,7 @@ describe("SonarQubeMeasuresApiService", () => {
             });
         });
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", [SQ_QUALIFIER_DIRECTORY]).then(() => {
+        underTest.loadMeasures("baseKey", "ncloc,complexity").then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 
             done();
@@ -105,8 +117,9 @@ describe("SonarQubeMeasuresApiService", () => {
 
     it("should call backend and react on errors on the second call", (done) => {
         let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
+        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration, testAppStatusStore);
 
         let data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
 
@@ -123,7 +136,7 @@ describe("SonarQubeMeasuresApiService", () => {
                 }
             }));
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity", "children", [SQ_QUALIFIER_DIRECTORY]).then(() => {
+        underTest.loadMeasures("baseKey", "ncloc,complexity").then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 
             done();
@@ -135,8 +148,7 @@ describe("SonarQubeMeasuresApiService", () => {
     });
 });
 
-function createResponseWithOneComponent(pageIndex: number, pageSize: number,
-                                        total: number): SonarQubeMeasurePagingResponse {
+function createResponseWithOneComponent(pageIndex: number, pageSize: number, total: number): SonarQubeMeasurePagingResponse {
     return {
         baseComponent: {
             id: "" + pageIndex,

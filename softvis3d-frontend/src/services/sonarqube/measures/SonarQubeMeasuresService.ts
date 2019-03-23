@@ -26,6 +26,7 @@ import {AppStatusStore} from "../../../stores/AppStatusStore";
 import {TreeElement} from "../../../classes/TreeElement";
 import SonarQubeMeasuresTreeService from "./SonarQubeMeasuresTreeService";
 import SonarQubeMeasuresMetricService from "./SonarQubeMeasuresMetricService";
+import SonarQubeOptimizeStructureService from "./SonarQubeOptimizeStructureService";
 
 export default class SonarQubeMeasuresService {
     public static LOAD_MEASURES: LoadAction = new LoadAction("SONAR_LOAD_MEASURES", "Request measures from SonarQube");
@@ -39,17 +40,21 @@ export default class SonarQubeMeasuresService {
     private measureTreeService: SonarQubeMeasuresTreeService;
     private measureMetricService: SonarQubeMeasuresMetricService;
 
+    private optimizeStructureService: SonarQubeOptimizeStructureService;
+
     private metricKeys: string;
 
     constructor(projectKey: string, measureTreeService: SonarQubeMeasuresTreeService,
                 measureMetricService: SonarQubeMeasuresMetricService, appStatusStore: AppStatusStore,
-                cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
+                cityBuilderStore: CityBuilderStore, sceneStore: SceneStore,
+                optimizeStructureService: SonarQubeOptimizeStructureService) {
         this.projectKey = projectKey;
         this.measureTreeService = measureTreeService;
         this.measureMetricService = measureMetricService;
         this.appStatusStore = appStatusStore;
         this.cityBuilderStore = cityBuilderStore;
         this.sceneStore = sceneStore;
+        this.optimizeStructureService = optimizeStructureService;
     }
 
     public loadMeasures(options: VisualizationOptions, isForce: boolean = false) {
@@ -64,17 +69,14 @@ export default class SonarQubeMeasuresService {
             this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
             this.sceneStore.projectData = Object.assign({}, this.sceneStore.projectData);
         } else {
-
             /**
              * Create a "starting point" root element and load the tree of the project.
              */
             let root: TreeElement =
                 new TreeElement(this.projectKey, this.projectKey, {}, this.projectKey, this.projectKey, false);
 
-            this.appStatusStore.loadStatusUpdate(SonarQubeMeasuresService.LOAD_MEASURES.key, 1, 0);
-
             this.measureTreeService.loadTree(root, metricKeys).then(() => {
-                this.measureTreeService.optimizeDirectoryStructure(root);
+                this.optimizeStructureService.optimize(root);
 
                 this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
 

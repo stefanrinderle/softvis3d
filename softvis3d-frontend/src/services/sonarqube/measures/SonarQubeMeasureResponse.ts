@@ -43,12 +43,12 @@ export interface SonarQubePaging {
  * TRK - Projects
  * UTS - Unit Test Files
  */
-export const SQ_QUALIFIER_SUB_PROJECT = "BRC";
 export const SQ_QUALIFIER_DIRECTORY = "DIR";
 export const SQ_QUALIFIER_FILE = "FIL";
 // not used yet
 // export const SQ_QUALIFIER_PROJECT = "TRK";
-export const SQ_QUALIFIER_UNIT_TEST_FILE = "UTS";
+// export const SQ_QUALIFIER_UNIT_TEST_FILE = "UTS";
+// export const SQ_QUALIFIER_SUB_PROJECT = "BRC";
 
 // unfortunately, the const values can not be used here in the SonarQubeQualifier type.
 export type SonarQubeQualifier =

@@ -20,6 +20,7 @@ import { AppConfiguration } from "./classes/AppConfiguration";
 import SonarQubeComponentInfoService from "./services/sonarqube/SonarQubeComponentInfoService";
 import AutoReloadService from "./services/AutoReloadService";
 import AppReactions from "./reactions/AppReactions";
+import SonarQubeOptimizeStructureService from "./services/sonarqube/measures/SonarQubeOptimizeStructureService";
 
 export default class App {
     private static WEBGL_ERROR_KEY: string = "WEBGL_ERROR";
@@ -45,11 +46,12 @@ export default class App {
         let autoReloadService = new AutoReloadService(appStatusStore, this.componentInfoService);
 
         let scmService = new SonarQubeScmService(appStatusStore, sceneStore, this.config.baseUrl);
-        let measuresApiService = new SonarQubeMeasuresApiService(this.config);
-        let measuresTreeService = new SonarQubeMeasuresTreeService(appStatusStore, measuresApiService);
+        let measuresApiService = new SonarQubeMeasuresApiService(this.config, appStatusStore);
+        let measuresTreeService = new SonarQubeMeasuresTreeService(measuresApiService);
         let measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
+        let optimizeStructureService = new SonarQubeOptimizeStructureService();
         let measuresService = new SonarQubeMeasuresService(this.config.projectKey, measuresTreeService, measuresMetricService,
-            appStatusStore, cityBuilderStore, sceneStore);
+            appStatusStore, cityBuilderStore, sceneStore, optimizeStructureService);
         this.cityLayoutService = new CityLayoutService(sceneStore, appStatusStore, scmService);
 
         this.reactions = [

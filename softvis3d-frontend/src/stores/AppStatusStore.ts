@@ -43,24 +43,6 @@ class AppStatusStore {
         }
     }
 
-    public loadStatusUpdateIncrementMax(actionKey: string): void {
-        let savedAction = this.loadingQueue.getAction(actionKey);
-
-        if (savedAction) {
-            savedAction.incrementMax();
-            this.loadingQueue = this.loadingQueue.update(savedAction);
-        }
-    }
-
-    public loadStatusUpdateIncrementCurrent(actionKey: string): void {
-        let savedAction = this.loadingQueue.getAction(actionKey);
-
-        if (savedAction) {
-            savedAction.incrementCurrent();
-            this.loadingQueue = this.loadingQueue.update(savedAction);
-        }
-    }
-
     public loadComplete(action: LoadAction): void {
         this.loadingQueue.remove(action);
     }

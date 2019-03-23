@@ -17,30 +17,38 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {BackendService} from "../BackendService";
-import {SonarQubeMeasurePagingResponse, SonarQubeMeasureResponse, SonarQubeQualifier} from "./SonarQubeMeasureResponse";
-import {AppConfiguration} from "../../../classes/AppConfiguration";
+import { BackendService } from "../BackendService";
+import { SonarQubeMeasurePagingResponse,
+         SonarQubeMeasureResponse, SQ_QUALIFIER_FILE, SQ_QUALIFIER_DIRECTORY } from "./SonarQubeMeasureResponse";
+import { AppStatusStore } from "../../../stores/AppStatusStore";
+import SonarQubeMeasuresService from "./SonarQubeMeasuresService";
+import { AppConfiguration } from "../../../classes/AppConfiguration";
 
 export default class SonarQubeMeasuresApiService extends BackendService {
 
-    constructor(config: AppConfiguration) {
+    private appStatusStore: AppStatusStore;
+
+    constructor(config: AppConfiguration, appStatusStore: AppStatusStore) {
         super(config.baseUrl);
+        this.appStatusStore = appStatusStore;
     }
 
-    public loadMeasures(baseComponentKey: string, metricKeys: string, strategy: string, qualifiers: SonarQubeQualifier[],
-                        page: number = 1): Promise<SonarQubeMeasureResponse> {
+    public loadMeasures(baseComponentKey: string, metricKeys: string,
+                        pageMax: number = 1, pageCurrent: number = 1): Promise<SonarQubeMeasureResponse> {
+
+        this.appStatusStore.loadStatusUpdate(SonarQubeMeasuresService.LOAD_MEASURES.key, pageMax, pageCurrent);
+
         return new Promise<SonarQubeMeasureResponse>((resolve, reject) => {
             const params = {
                 baseComponentKey,
-                p: page,
+                p: pageCurrent,
                 metricKeys,
-                strategy,
-                qualifiers: Array.from(qualifiers).join(","),
+                qualifiers: [SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE],
                 s: "path",
                 ps: 500
             };
 
-            this.callApi("/measures/component_tree", {params}).then((response) => {
+            this.callApi("/measures/component_tree", { params }).then((response) => {
                 let result: SonarQubeMeasurePagingResponse = response.data;
                 let allResults: SonarQubeMeasureResponse = {
                     baseComponent: result.baseComponent,
@@ -49,12 +57,13 @@ export default class SonarQubeMeasuresApiService extends BackendService {
 
                 const position = result.paging.pageIndex * result.paging.pageSize;
                 if (position < result.paging.total) {
-                    return this.loadMeasures(baseComponentKey, metricKeys, strategy, qualifiers, page + 1).then((resultSecond) => {
-                        allResults.components = allResults.components.concat(resultSecond.components);
-                        resolve(allResults);
-                    }).catch((error) => {
-                        reject(error);
-                    });
+                    return this.loadMeasures(baseComponentKey, metricKeys,
+                        result.paging.total, pageCurrent + 1).then((resultSecond) => {
+                            allResults.components = allResults.components.concat(resultSecond.components);
+                            resolve(allResults);
+                        }).catch((error) => {
+                            reject(error);
+                        });
                 } else {
                     resolve(allResults);
                 }
