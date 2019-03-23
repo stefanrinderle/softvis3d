@@ -27,16 +27,16 @@ export default class SelectGroup extends React.Component<SelectGroupProps, any> 
     private renderChildren(): Array<React.Component<any, any>> {
         return React.Children.map<any>(
             (this.props.children as SelectOption[]),
-            (child: React.ReactElement<any>) => {
-                if (child.type === SelectOption) {
+            (child: React.ReactChild) => {
+                if (typeof child === "object" && child.type === SelectOption) {
                     return React.cloneElement(child, {
-                        checked: child.props.value === this.props.selectedValue,
+                        selected: child.props.value === this.props.selectedValue,
                         disabled: this.props.disabled || child.props.disabled,
                         ref: this.props.optionRef
                     });
-                } else {
-                    return child;
                 }
+
+                return child;
             }
         );
     }

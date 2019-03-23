@@ -18,11 +18,12 @@ class SceneStore {
     @observable
     public shapesHash: string = "";
 
-    public cameraPosition: Vector3 | undefined;
+    public cameraPosition?: Vector3;
     public scmMetricLoaded: boolean;
     public colorTheme: SceneColorTheme = DEFAULT_COLOR_THEME;
 
     public constructor() {
+        this.scmMetricLoaded = false;
         observe(this, "shapes", () => { this.shapesHash = (Date.now()).toString(36); });
     }
 

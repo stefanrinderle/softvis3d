@@ -47,6 +47,8 @@ export default class SoftVis3dScene {
     public constructor() {
         const container = document.getElementById(SoftVis3dScene.CANVAS_ID) as HTMLCanvasElement;
 
+        this._height = this._width = 0;
+
         this.scene = new Scene();
         this.renderer = new WebGLRenderer({canvas: container, antialias: true, alpha: true});
 

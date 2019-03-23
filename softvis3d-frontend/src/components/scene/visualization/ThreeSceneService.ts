@@ -47,7 +47,7 @@ export default class ThreeSceneService {
     private threeScene: SoftVis3dScene;
     private wrangler: Wrangler;
 
-    private lastOptions: VisualizationOptions;
+    private lastOptions?: VisualizationOptions;
 
     private constructor(softvis3dScene: SoftVis3dScene, wrangler: Wrangler) {
         this.threeScene = softvis3dScene;
@@ -64,7 +64,7 @@ export default class ThreeSceneService {
             return;
         }
 
-        if (options.equalStructure(this.lastOptions)) {
+        if (this.lastOptions && options.equalStructure(this.lastOptions)) {
             if (this.lastOptions.metricColor !== options.metricColor) {
                 this.wrangler.updateColorsWithUpdatedShapes(shapes);
             }

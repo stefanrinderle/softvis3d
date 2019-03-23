@@ -4,20 +4,19 @@ import {MetricType} from "../../../classes/MetricType";
 export default class MetricKeyFormatter {
 
     public static formatMeasureValue(metric: Metric, value?: number): string {
-        if (value) {
-            switch (metric.type) {
-                case MetricType.MILLISEC:
-                    return this.convertMillisecondsToDigitalClock(+value);
-                default:
-                    return value + "";
-            }
-        } else {
+        if (!value) {
             return "n/a";
         }
+
+        if (metric.type === MetricType.MILLISEC) {
+            return this.convertMillisecondsToDigitalClock(+value);
+        }
+
+        return value + "";
     }
 
     private static convertMillisecondsToDigitalClock(milliseconds: number): string {
-        let date = new Date(milliseconds);
+        const date = new Date(milliseconds);
         return date.toLocaleDateString();
     }
 

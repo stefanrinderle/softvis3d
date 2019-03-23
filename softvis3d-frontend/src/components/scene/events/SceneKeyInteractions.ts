@@ -39,9 +39,9 @@ export class SceneKeyInteractions {
 
     private active: boolean;
 
-    private constructor(active?: boolean) {
+    private constructor(active = false) {
         window.addEventListener(SceneKeyInteractions.EVENT_KEY_DOWN, this.handleKeyDown.bind(this));
-        this.active = !!active;
+        this.active = active;
     }
 
     public destroy() {

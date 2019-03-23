@@ -20,7 +20,7 @@ export default class MetricKey extends React.Component<MetricKeyProps, any> {
             <div className="metric-info">
                 <span className="title">{title}</span>
                 <span className="name">{metric.label}</span>
-                {this.renderValue((selectedElement as TreeElement | null), metric)}
+                {this.renderValue(selectedElement, metric)}
             </div>
         );
     }

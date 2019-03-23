@@ -1,6 +1,8 @@
 {
     "extends": ["tslint:recommended", "tslint-sonarts"],
     "rules": {
+        "no-identical-functions": false,
+        "parameters-max-number": [true, 8],
         "max-line-length": [true, 135],
         "ordered-imports": [ false ],
         "object-literal-sort-keys": false,

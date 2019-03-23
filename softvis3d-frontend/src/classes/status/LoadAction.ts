@@ -2,8 +2,8 @@ import StatusAction from "./StatusAction";
 
 export default class LoadAction extends StatusAction {
 
-    private _max: number | undefined;
-    private _current: number | undefined;
+    private _max?: number;
+    private _current?: number;
 
     constructor(key: string, description: string) {
         super(key, description);

@@ -39,7 +39,7 @@ export default class SonarQubeMeasuresService {
     private measureTreeService: SonarQubeMeasuresTreeService;
     private measureMetricService: SonarQubeMeasuresMetricService;
 
-    private metricKeys: string;
+    private metricKeys?: string;
 
     constructor(projectKey: string, measureTreeService: SonarQubeMeasuresTreeService,
                 measureMetricService: SonarQubeMeasuresMetricService, appStatusStore: AppStatusStore,

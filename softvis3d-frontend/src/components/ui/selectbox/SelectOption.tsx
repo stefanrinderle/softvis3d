@@ -1,7 +1,7 @@
 import * as React from "react";
 
 interface SelectOptionProps {
-    checked?: boolean;
+    selected?: boolean;
     disabled?: boolean;
     value: SelectOptionValue;
 }
@@ -16,7 +16,7 @@ export default class SelectOption extends React.Component<SelectOptionProps, any
         return (
             <option
                 value={this.props.value.id}
-                checked={this.props.checked}
+                selected={this.props.selected}
                 disabled={this.props.disabled}
             >
                 {this.props.value.label}

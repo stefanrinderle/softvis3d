@@ -6,6 +6,9 @@ import {SceneStore} from "../../stores/SceneStore";
 import {HtmlDom, Offset} from "../../services/HtmlDom";
 import {TreeElement} from "../../classes/TreeElement";
 
+// FIXME
+const ScrollbarsWORKAROUND = (Scrollbars as any);
+
 export interface NodeListProps {
     activeFolder: TreeElement|null;
     sceneStore: SceneStore;
@@ -17,7 +20,7 @@ interface NodeListStates {
 
 @observer
 export default class FolderContent extends React.Component<NodeListProps, NodeListStates> {
-    private rafID: number | null;
+    private rafID?: number;
 
     constructor(p?: NodeListProps, context?: any) {
         super(p, context);
@@ -40,7 +43,7 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
     public onResize() {
         if (!this.rafID) {
             this.rafID = window.requestAnimationFrame(() => {
-                this.rafID = null;
+                this.rafID = undefined;
                 this.updateDimensions();
             });
         }
@@ -65,11 +68,11 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
         const elements = this.getElementList(this.props.activeFolder);
 
         return (
-            <Scrollbars id="node-scroller" style={{ width: "100%", height: this.state.listHeight }}>
+            <ScrollbarsWORKAROUND id="node-scroller" style={{ width: "100%", height: this.state.listHeight }}>
                 <ul className="node-list">
                     {elements}
                 </ul>
-            </Scrollbars>
+            </ScrollbarsWORKAROUND>
         );
     }
 

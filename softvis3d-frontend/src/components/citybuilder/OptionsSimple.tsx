@@ -27,7 +27,7 @@ export default class OptionsSimple extends React.Component<OptionsSimpleProps, a
                             className="profiles"
                             value={this.props.store.profile}
                             options={Profiles.availableProfiles}
-                            onChange={(p: Profile) => { this.props.store.profile = p; }}
+                            onChange={(p: any) => { this.props.store.profile = (p as Profile); }}
                         />
                         <p className="selection-description profile-description">
                             {this.props.store.profile.description}
@@ -39,7 +39,7 @@ export default class OptionsSimple extends React.Component<OptionsSimpleProps, a
                             className="metric color"
                             value={this.props.store.metricColor}
                             options={this.props.store.colorMetrics.asSelectOptions}
-                            onChange={(m: Metric) => { this.props.store.metricColor = m; }}
+                            onChange={(m: any) => { this.props.store.metricColor = (m as Metric); }}
                         />
                         <p className="selection-description color-description">
                             { this.props.store.metricColor.description }

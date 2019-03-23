@@ -37,6 +37,9 @@ export class SoftVis3dShape extends Shape {
     constructor(points: Vector2[], key: string) {
         super(points);
 
+        this.type = "";
+        this.margin = 0;
+
         this.holes = [];
         this.key = key;
         this.position = {

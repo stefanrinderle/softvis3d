@@ -9,7 +9,7 @@ export default class AutoReloadService {
 
     private appStatusStore: AppStatusStore;
     private componentInfoService: SonarQubeComponentInfoService;
-    private timer: number | undefined;
+    private timer?: number;
 
     constructor(appStatusStore: AppStatusStore, componentInfoService: SonarQubeComponentInfoService) {
         this.appStatusStore = appStatusStore;

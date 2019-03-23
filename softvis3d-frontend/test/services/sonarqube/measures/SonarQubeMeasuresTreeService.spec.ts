@@ -46,7 +46,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             )
         );
 
-        let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", false);
+        let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
         underTest.loadTree(root, "metricKeys").then(() => {
             assert(spyIncrementMax.called);
             assert(spyIncrementCurrent.called);
@@ -97,7 +97,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             )
         );
 
-        let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", false);
+        let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
         underTest.loadTree(root, "metricKeys").then(() => {
             assert(measureApiService.loadMeasures.calledTwice);
             expect(root.children[0].children[0].path).to.be.eq("/src/file.java");
@@ -166,7 +166,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             )
         );
 
-        let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", false);
+        let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
         underTest.loadTree(root, "metricKeys").then(() => {
             assert(measureApiService.loadMeasures.calledThrice);
             expect(root.children[0].children[0].children[0].path).to.be.eq("/src/file.java");
@@ -196,7 +196,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             })
         );
 
-        let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", false);
+        let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
         underTest.loadTree(root, "metricKeys").then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 
@@ -238,7 +238,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             })
         );
 
-        let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", false);
+        let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
         underTest.loadTree(root, "metricKeys").then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 
@@ -301,7 +301,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             })
         );
 
-        let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", false);
+        let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
         underTest.loadTree(root, "metricKeys").then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 
