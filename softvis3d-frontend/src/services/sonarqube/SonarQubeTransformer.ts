@@ -8,7 +8,7 @@ import { SonarQubeApiComponent, SQ_QUALIFIER_FILE } from "./measures/SonarQubeMe
 export default class SonarQubeTransformer {
 
     public static createTreeElement(component: SonarQubeApiComponent, parent?: TreeElement): TreeElement {
-        let measureList: MeasureList = {};
+        const measureList: MeasureList = {};
 
         for (let localMeasure of component.measures) {
             if (localMeasure.value) {
@@ -20,7 +20,7 @@ export default class SonarQubeTransformer {
             }
         }
 
-        let isFile: boolean = component.qualifier === SQ_QUALIFIER_FILE;
+        const isFile: boolean = component.qualifier === SQ_QUALIFIER_FILE;
 
         return new TreeElement(component.id, component.key, measureList, component.name, component.path,
             isFile, parent);
@@ -36,7 +36,7 @@ export default class SonarQubeTransformer {
         }
 
         for (let child of children) {
-            let indexOf = element.path.indexOf(child.path + "/");
+            const indexOf = element.path.indexOf(child.path + "/");
 
             if (indexOf === 0) {
                 SonarQubeTransformer.add(child, element, examineInReversedOrder);
@@ -45,7 +45,7 @@ export default class SonarQubeTransformer {
         }
 
         if (!element.isFile) {
-            let indexOf = element.path.indexOf(parent.path + "/");
+            const indexOf = element.path.indexOf(parent.path + "/");
             if (indexOf === 0) {
                 element.name = element.path.substr(parent.path.length + 1, element.path.length);
             }

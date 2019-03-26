@@ -26,7 +26,7 @@ export default class SonarQubeOptimizeStructureService {
             return;
         }
 
-        let checkAgain: boolean = false;
+        let checkAgain = false;
         for (let index = 0; index < element.children.length; index++) {
             checkAgain = this.processChild(element.children, index);
         }
@@ -37,7 +37,7 @@ export default class SonarQubeOptimizeStructureService {
     }
 
     private processChild(children: TreeElement[], index: number): boolean {
-        let child = children[index];
+        const child = children[index];
 
         if (child.isFile) {
             return false;

@@ -26,7 +26,7 @@ import { AppConfiguration } from "../../../classes/AppConfiguration";
 
 export default class SonarQubeMeasuresApiService extends BackendService {
 
-    private appStatusStore: AppStatusStore;
+    private readonly appStatusStore: AppStatusStore;
 
     constructor(config: AppConfiguration, appStatusStore: AppStatusStore) {
         super(config.baseUrl);
@@ -34,7 +34,7 @@ export default class SonarQubeMeasuresApiService extends BackendService {
     }
 
     public loadMeasures(baseComponentKey: string, metricKeys: string,
-                        pageMax: number = 1, pageCurrent: number = 1): Promise<SonarQubeMeasureResponse> {
+                        pageMax = 1, pageCurrent = 1): Promise<SonarQubeMeasureResponse> {
 
         this.appStatusStore.loadStatusUpdate(SonarQubeMeasuresService.LOAD_MEASURES.key, pageMax, pageCurrent);
 

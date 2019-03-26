@@ -40,7 +40,7 @@ export default class SonarQubeMeasuresService {
     private measureTreeService: SonarQubeMeasuresTreeService;
     private measureMetricService: SonarQubeMeasuresMetricService;
 
-    private optimizeStructureService: SonarQubeOptimizeStructureService;
+    private readonly optimizeStructureService: SonarQubeOptimizeStructureService;
 
     private metricKeys: string;
 

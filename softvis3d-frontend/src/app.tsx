@@ -43,14 +43,14 @@ export default class App {
         this.communicator = new SonarQubeMetricsService(appStatusStore, cityBuilderStore, this.config.baseUrl);
 
         this.componentInfoService = new SonarQubeComponentInfoService(this.config.projectKey, this.config.baseUrl);
-        let autoReloadService = new AutoReloadService(appStatusStore, this.componentInfoService);
+        const autoReloadService = new AutoReloadService(appStatusStore, this.componentInfoService);
 
-        let scmService = new SonarQubeScmService(appStatusStore, sceneStore, this.config.baseUrl);
-        let measuresApiService = new SonarQubeMeasuresApiService(this.config, appStatusStore);
-        let measuresTreeService = new SonarQubeMeasuresTreeService(measuresApiService);
-        let measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
-        let optimizeStructureService = new SonarQubeOptimizeStructureService();
-        let measuresService = new SonarQubeMeasuresService(this.config.projectKey, measuresTreeService, measuresMetricService,
+        const scmService = new SonarQubeScmService(appStatusStore, sceneStore, this.config.baseUrl);
+        const measuresApiService = new SonarQubeMeasuresApiService(this.config, appStatusStore);
+        const measuresTreeService = new SonarQubeMeasuresTreeService(measuresApiService);
+        const measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
+        const optimizeStructureService = new SonarQubeOptimizeStructureService();
+        const measuresService = new SonarQubeMeasuresService(this.config.projectKey, measuresTreeService, measuresMetricService,
             appStatusStore, cityBuilderStore, sceneStore, optimizeStructureService);
         this.cityLayoutService = new CityLayoutService(sceneStore, appStatusStore, scmService);
 
@@ -77,7 +77,7 @@ export default class App {
     }
 
     public stop(target: string) {
-        let element = document.getElementById(target);
+        const element = document.getElementById(target);
         if (element) {
             ReactDOM.unmountComponentAtNode(element);
         } else {
