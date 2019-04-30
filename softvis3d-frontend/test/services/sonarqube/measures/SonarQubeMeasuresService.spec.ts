@@ -27,6 +27,7 @@ import SonarQubeMeasuresService from "../../../../src/services/sonarqube/measure
 import SonarQubeMeasuresMetricService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresTreeService";
 import {TreeElement} from "../../../../src/classes/TreeElement";
+import SonarQubeOptimizeStructureService from "../../../../src/services/sonarqube/measures/SonarQubeOptimizeStructureService";
 
 describe("SonarQubeMeasuresService", () => {
 
@@ -40,6 +41,7 @@ describe("SonarQubeMeasuresService", () => {
 
         let measureTreeService: any = Sinon.createStubInstance(SonarQubeMeasuresTreeService);
         let measureMetricService: any = Sinon.createStubInstance(SonarQubeMeasuresMetricService);
+        let optimizeStructureService: any = Sinon.createStubInstance(SonarQubeOptimizeStructureService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
@@ -47,7 +49,7 @@ describe("SonarQubeMeasuresService", () => {
         let projectKey: string = "sdufsofin";
         let underTest: SonarQubeMeasuresService =
             new SonarQubeMeasuresService(projectKey, measureTreeService, measureMetricService, testAppStatusStore,
-                                         testCityBuilderStore, testSceneStore);
+                                         testCityBuilderStore, testSceneStore, optimizeStructureService);
 
         let expectedData: TreeElement = new TreeElement(projectKey, projectKey, {}, projectKey, projectKey, false);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
@@ -78,6 +80,7 @@ describe("SonarQubeMeasuresService", () => {
 
         let measureTreeService: any = Sinon.createStubInstance(SonarQubeMeasuresTreeService);
         let measureMetricService: any = Sinon.createStubInstance(SonarQubeMeasuresMetricService);
+        let optimizeStructureService: any = Sinon.createStubInstance(SonarQubeOptimizeStructureService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
@@ -87,7 +90,7 @@ describe("SonarQubeMeasuresService", () => {
         let projectKey: string = "sdufsofin";
         let underTest: SonarQubeMeasuresService =
             new SonarQubeMeasuresService(projectKey, measureTreeService, measureMetricService, testAppStatusStore,
-                                         testCityBuilderStore, testSceneStore);
+                                         testCityBuilderStore, testSceneStore, optimizeStructureService);
 
         let expectedData: TreeElement = new TreeElement("", projectKey, {}, "", "", false);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
@@ -120,6 +123,7 @@ describe("SonarQubeMeasuresService", () => {
 
         let measureTreeService: any = Sinon.createStubInstance(SonarQubeMeasuresTreeService);
         let measureMetricService: any = Sinon.createStubInstance(SonarQubeMeasuresMetricService);
+        let optimizeStructureService: any = Sinon.createStubInstance(SonarQubeOptimizeStructureService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
@@ -128,7 +132,7 @@ describe("SonarQubeMeasuresService", () => {
         let projectKey: string = "sdufsofin";
         let underTest: SonarQubeMeasuresService =
             new SonarQubeMeasuresService(projectKey, measureTreeService, measureMetricService, testAppStatusStore,
-                                         testCityBuilderStore, testSceneStore);
+                                         testCityBuilderStore, testSceneStore, optimizeStructureService);
 
         measureTreeService.loadTree.returns(Promise.reject({data: {message: "Error message"}}));
 

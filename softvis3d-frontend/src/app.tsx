@@ -20,6 +20,7 @@ import { AppConfiguration } from "./classes/AppConfiguration";
 import SonarQubeComponentInfoService from "./services/sonarqube/SonarQubeComponentInfoService";
 import AutoReloadService from "./services/AutoReloadService";
 import AppReactions from "./reactions/AppReactions";
+import SonarQubeOptimizeStructureService from "./services/sonarqube/measures/SonarQubeOptimizeStructureService";
 
 export default class App {
     private static WEBGL_ERROR_KEY: string = "WEBGL_ERROR";
@@ -42,14 +43,15 @@ export default class App {
         this.communicator = new SonarQubeMetricsService(appStatusStore, cityBuilderStore, this.config.baseUrl);
 
         this.componentInfoService = new SonarQubeComponentInfoService(this.config.projectKey, this.config.baseUrl);
-        let autoReloadService = new AutoReloadService(appStatusStore, this.componentInfoService);
+        const autoReloadService = new AutoReloadService(appStatusStore, this.componentInfoService);
 
-        let scmService = new SonarQubeScmService(appStatusStore, sceneStore, this.config.baseUrl);
-        let measuresApiService = new SonarQubeMeasuresApiService(this.config);
-        let measuresTreeService = new SonarQubeMeasuresTreeService(appStatusStore, measuresApiService);
-        let measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
-        let measuresService = new SonarQubeMeasuresService(this.config.projectKey, measuresTreeService, measuresMetricService,
-            appStatusStore, cityBuilderStore, sceneStore);
+        const scmService = new SonarQubeScmService(appStatusStore, sceneStore, this.config.baseUrl);
+        const measuresApiService = new SonarQubeMeasuresApiService(this.config, appStatusStore);
+        const measuresTreeService = new SonarQubeMeasuresTreeService(measuresApiService);
+        const measuresMetricService = new SonarQubeMeasuresMetricService(cityBuilderStore);
+        const optimizeStructureService = new SonarQubeOptimizeStructureService();
+        const measuresService = new SonarQubeMeasuresService(this.config.projectKey, measuresTreeService, measuresMetricService,
+            appStatusStore, cityBuilderStore, sceneStore, optimizeStructureService);
         this.cityLayoutService = new CityLayoutService(sceneStore, appStatusStore, scmService);
 
         this.reactions = [
@@ -75,7 +77,7 @@ export default class App {
     }
 
     public stop(target: string) {
-        let element = document.getElementById(target);
+        const element = document.getElementById(target);
         if (element) {
             ReactDOM.unmountComponentAtNode(element);
         } else {
