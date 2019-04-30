@@ -101,22 +101,24 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
 
         return React.Children.map<any>(
             (this.props.children as Array<SelectOption|SelectGroup>),
-            (child: React.ReactElement<any>) => {
-                if (child.type === SelectOption) {
+            (child: React.ReactChild) => {
+                if (typeof child === "object" && child.type === SelectOption) {
                     return React.cloneElement(child, {
-                        checked: child.props.value === this.props.value,
+                        selected: child.props.value === this.props.value,
                         disabled: this.props.disabled || child.props.disabled,
                         ref
                     });
-                } else if (child.type === SelectGroup) {
+                }
+
+                if (typeof child === "object" && child.type === SelectGroup) {
                     return React.cloneElement(child, {
                         selectedValue: this.props.value,
                         disabled: this.props.disabled || child.props.disabled,
                         optionRef: ref
                     });
-                } else {
-                    return child;
                 }
+
+                return child;
             }
         );
     }

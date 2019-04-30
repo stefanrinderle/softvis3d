@@ -17,38 +17,15 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
+import {expect} from "chai";
+import { availablePreviewPictures } from "../../src/constants/PreviewPictures";
 
-import { Shape, Vector2 } from "three";
-import { Dimension } from "./Dimension";
-import { Position } from "./Position";
+describe("PreviewPictures", () => {
 
-export class SoftVis3dShape extends Shape {
+    it("should provide available layouts", () => {
+        for (let preview of availablePreviewPictures) {
+            expect(preview.bgPicture).to.contain("/static/resources/preview/");
+        }
+    });
 
-    public key: string;
-
-    public position: Position;
-    public dimensions: Dimension;
-    public color: number;
-    public opacity?: number;
-
-    public type: string;
-    public margin: number;
-
-    constructor(points: Vector2[], key: string) {
-        super(points);
-
-        this.type = "";
-        this.margin = 0;
-
-        this.holes = [];
-        this.key = key;
-        this.position = {
-            _x: 0,
-            _y: 0,
-            _z: 0
-        };
-        this.dimensions = new Dimension(5, 5, 5);
-        this.color = 0;
-        this.opacity = 0.5;
-    }
-}
+});

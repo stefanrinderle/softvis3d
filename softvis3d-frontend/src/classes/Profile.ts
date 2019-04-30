@@ -47,6 +47,11 @@ export class ProfileBuilder {
     constructor(id: string, name: string) {
         this.id = id;
         this.name = name;
+
+        this.heightMetricId = "";
+        this.footprintMetricId = "";
+        this.scale = new Scale("none", "None", "");
+        this.description = "";
     }
 
     public withConfiguration(footprintMetricId: string, heightMetricId: string, scale: Scale): ProfileBuilder {

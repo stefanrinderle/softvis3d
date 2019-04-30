@@ -38,7 +38,13 @@ export class Camera {
 
     constructor(container: HTMLCanvasElement) {
         this.aspectRatio = container.clientWidth / container.clientHeight;
-        this.initPerspective();
+        this.perpCam = new PerspectiveCamera(
+            this.fov,
+            this.aspectRatio,
+            this.perpNearPane,
+            this.perpFarPane
+        );
+        this.perpCam.name = "perp";
     }
 
     public setCameraPosition(positionX: number, positionY: number, positionZ: number) {
@@ -59,20 +65,5 @@ export class Camera {
     public setAspect(width: number, height: number) {
         this.perpCam.aspect = width / height;
         this.perpCam.updateProjectionMatrix();
-    }
-
-    /**
-     * Initialize the perspective camera.
-     */
-    private initPerspective() {
-        this.perpCam = new PerspectiveCamera
-        (
-            this.fov,
-            this.aspectRatio,
-            this.perpNearPane,
-            this.perpFarPane
-        );
-
-        this.perpCam.name = "perp";
     }
 }

@@ -20,7 +20,7 @@ const duplicateDistrict: PreviewPicture =
 const duplicateEvostreet: PreviewPicture = new PreviewPicture(
     "/static/resources/preview/evostreet_complexity_duplicatedLOC_LMSAPP_SHOP.png", evostreet, duplicatedLinesOfCode);
 
-const placeholder: PreviewPicture = new PreviewPicture("static/resources/preview/placeholderLogo.png");
+const placeholder: PreviewPicture = new PreviewPicture("/static/resources/preview/placeholderLogo.png");
 
 export {
     defaultDistrict,

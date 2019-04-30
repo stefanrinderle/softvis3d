@@ -62,6 +62,12 @@ class LayoutProcessor {
     private _rules: CodeCityVis.rules.base[];
     private _metricScale: MetricScale;
 
+    public constructor() {
+        this._options = {} as any;
+        this._rules = [];
+        this._metricScale = undefined as any;
+    }
+
     public getIllustration(options: {}, model: Softvis3dModel) {
         this.setOptions(options);
         // Step 1: Load Metrics Scale
@@ -222,7 +228,7 @@ class LayoutProcessor {
             }
 
             return new CodeCityVis.rules.math.logarithmic({
-                condition: (model: Softvis3dModel, node: TreeNodeInterface) => model && node.children.length === 0,
+                condition: (model, node) => model && node.children.length === 0,
                 metric: (model, node, version) => {
                     const attr: AttributeContainer = attributeHelper.attrFallbackSweep(model, node, version);
                     return ("height" in attr) ? attr["height"] : 0;
@@ -238,7 +244,7 @@ class LayoutProcessor {
             power = Math.log(max / factor) / Math.log(this._metricScale.height.max);
 
             return new CodeCityVis.rules.math.exponential({
-                condition: (model: Softvis3dModel, node: TreeNodeInterface) => model && node.children.length === 0,
+                condition: (model, node) => model && node.children.length === 0,
                 metric: (model, node, version) => {
                     const attr = attributeHelper.attrFallbackSweep(model, node, version);
                     return ("height" in attr) ? attr["height"] : 0;

@@ -38,6 +38,10 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
             focus: false,
             legend: true
         };
+
+        // FIXME!!!
+        this._threeSceneService = (undefined as any);
+        this._keyActions = (undefined as any);
     }
 
     public componentDidMount() {

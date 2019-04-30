@@ -40,7 +40,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             )
         );
 
-        let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", false);
+        let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
         underTest.loadTree(root, "metricKeys").then(() => {
             assert(measureApiService.loadMeasures.called);
 
@@ -78,7 +78,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             )
         );
 
-        let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", false);
+        let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
         underTest.loadTree(root, "metricKeys").then(() => {
             assert(measureApiService.loadMeasures.called);
             expect(root.children.length).to.be.eq(2);
@@ -103,7 +103,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             })
         );
 
-        let root: TreeElement = new TreeElement("", this.projectKey, {}, "", "", false);
+        let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
         underTest.loadTree(root, "metricKeys").then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 

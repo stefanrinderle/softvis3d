@@ -16,7 +16,7 @@ interface SceneCanvasProps {
 @observer
 export default class SceneCanvas extends React.Component<SceneCanvasProps, any> {
 
-    private _mouseActions: SceneMouseInteractions;
+    private _mouseActions?: SceneMouseInteractions;
 
     public componentDidMount() {
         this._mouseActions = SceneMouseInteractions.create();
@@ -26,6 +26,8 @@ export default class SceneCanvas extends React.Component<SceneCanvasProps, any> 
     }
 
     public componentWillUnmount() {
+        if (!this._mouseActions) { throw Error("mouse actions not defined"); }
+
         this._mouseActions.destroy();
     }
 
@@ -33,13 +35,13 @@ export default class SceneCanvas extends React.Component<SceneCanvasProps, any> 
         return (
             <canvas id={SoftVis3dScene.CANVAS_ID}
                     onMouseDown={() => {
-                        this._mouseActions.setMouseMoved(false);
+                        if (this._mouseActions) { this._mouseActions.setMouseMoved(false); }
                     }}
                     onMouseMove={() => {
-                        this._mouseActions.setMouseMoved(true);
+                        if (this._mouseActions) { this._mouseActions.setMouseMoved(true); }
                     }}
                     onMouseUp={(e) => {
-                        this._mouseActions.onMouseUp(e);
+                        if (this._mouseActions) { this._mouseActions.onMouseUp(e); }
                     }}
             />
         );

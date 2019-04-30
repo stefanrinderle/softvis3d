@@ -8,7 +8,7 @@ export interface SelectBoxBuilderProps {
     label: string;
     value: SelectOptionValue;
     options: SelectOptionValue[];
-    onChange: (value: SelectOptionValue) => void|boolean;
+    onChange: (value: any) => void|boolean;
     onClick?: MouseEventHandler<HTMLElement>;
     onMouseDown?: MouseEventHandler<HTMLElement>;
     disabled?: boolean;

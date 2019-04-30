@@ -15,7 +15,7 @@ class AppStatusStore {
     @observable
     public errors: StatusActionQueue<ErrorAction> = new StatusActionQueue<ErrorAction>();
     @observable
-    public analysisDate: Date | undefined;
+    public analysisDate?: Date;
 
     @computed
     get isVisible() {

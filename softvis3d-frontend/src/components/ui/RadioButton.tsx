@@ -29,16 +29,16 @@ export class RadioGroup extends React.Component<RadioGroupProps, any> {
     public renderChildren(): Array<React.Component<any, any>> {
         return React.Children.map<any>(
             (this.props.children as RadioButton[]),
-            (child: React.ReactElement<any>) => {
-                if (child.type === RadioButton) {
+            (child: React.ReactChild) => {
+                if (typeof child === "object" && child.type === RadioButton) {
                     return React.cloneElement(child, {
                         checked: child.props.value === this.props.value,
                         disabled: this.props.disabled || child.props.disabled,
                         onChange: this.handleChange.bind(this, child.props.value)
                     });
-                } else {
-                    return child;
                 }
+
+                return child;
             }
         );
     }

@@ -5,6 +5,7 @@
         "noImplicitAny": true,
         "noUnusedParameters": true,
         "noUnusedLocals": true,
+        "strict": true,
         "strictNullChecks": true,
         "experimentalDecorators": true,
         "skipLibCheck": true,
