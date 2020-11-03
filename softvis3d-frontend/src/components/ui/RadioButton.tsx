@@ -1,7 +1,8 @@
+import {ChangeEvent} from "react";
 import * as React from "react";
 
-type BoundChangeEvent = (event: ChangeEvent, src: React.Component<any, any>) => void;
-type ChangeEvent = (value: any, event: ChangeEvent, src: React.Component<any, any>) => void;
+type BoundChangeEvent = (event: ChangeEvent<HTMLInputElement>, src: React.Component<any, any>) => void;
+type LocalChangeEvent = (value: any, event: LocalChangeEvent, src: React.Component<any, any>) => void;
 
 interface RadioGroupProps {
     key?: string | number;
@@ -11,7 +12,7 @@ interface RadioGroupProps {
     disabled?: boolean;
     value?: any;
 
-    onChange: ChangeEvent;
+    onChange: LocalChangeEvent;
 }
 
 export class RadioGroup extends React.Component<RadioGroupProps, any> {
@@ -72,7 +73,7 @@ export class RadioButton extends React.Component<RadioButtonProps, any> {
         disabled: false
     };
 
-    public handleClick(event: ChangeEvent): void {
+    public handleClick(event: ChangeEvent<HTMLInputElement>): void {
         if (!this.props.disabled && this.props.onChange) {
             this.props.onChange(event, this);
         }
