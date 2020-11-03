@@ -72,6 +72,9 @@ export default class ThreeSceneService {
             if (this.lastOptions.metricColor !== options.metricColor) {
                 this.wrangler.updateColorsWithUpdatedShapes(shapes);
             }
+            if (this.lastOptions.houseColorMode !== options.houseColorMode) {
+                this.wrangler.updateColorsWithUpdatedShapes(shapes);
+            }
         } else {
             this.loadSoftVis3d(shapes, cameraPosition);
         }

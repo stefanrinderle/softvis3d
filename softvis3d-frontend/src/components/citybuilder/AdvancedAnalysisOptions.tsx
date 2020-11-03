@@ -1,7 +1,9 @@
 import {observer} from "mobx-react";
 import * as React from "react";
+import HouseColorMode from "../../classes/HouseColorMode";
 import Metric from "../../classes/Metric";
 import Scale from "../../classes/Scale";
+import {HouseColorModes} from "../../constants/HouseColorModes";
 import {custom} from "../../constants/Profiles";
 import {Scales} from "../../constants/Scales";
 import CityBuilderStore from "../../stores/CityBuilderStore";
@@ -54,7 +56,21 @@ export default class AdvancedAnalysisOptions extends React.Component<{ store: Ci
                                 this.props.store.profile.scale = scale;
                             }}
                         />
-                        <p className="selection-description">{this.props.store.profile.scale.description}</p>
+                        <p className="selection-description">{ this.props.store.profile.scale.description }</p>
+                    </div>
+                </div>
+                <br />
+                <div className="left-column">
+                    <div className="builder-option">
+                        <SelectBoxBuilder
+                            label="House color mode"
+                            value={this.props.store.houseColorMode}
+                            options={HouseColorModes.availableHouseColorModes}
+                            onChange={(houseColorMode: HouseColorMode) => {
+                                this.props.store.houseColorMode = houseColorMode;
+                            }}
+                        />
+                        <p className="selection-description">{ this.props.store.houseColorMode.description }</p>
                     </div>
                 </div>
             </Category>
