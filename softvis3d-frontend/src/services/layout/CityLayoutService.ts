@@ -1,11 +1,11 @@
-import {SceneStore} from "../../stores/SceneStore";
-import Softvis3dModel from "./Softvis3dModel";
-import LayoutProcessor from "./LayoutProcessor";
 import LoadAction from "../../classes/status/LoadAction";
-import {AppStatusStore} from "../../stores/AppStatusStore";
-import SonarQubeScmService from "../sonarqube/SonarQubeScmService";
-import {numberOfAuthorsBlameColorMetric} from "../../constants/Metrics";
 import {TreeElement} from "../../classes/TreeElement";
+import {numberOfAuthorsBlameColorMetric} from "../../constants/Metrics";
+import {AppStatusStore} from "../../stores/AppStatusStore";
+import {SceneStore} from "../../stores/SceneStore";
+import SonarQubeScmService from "../sonarqube/SonarQubeScmService";
+import LayoutProcessor from "./LayoutProcessor";
+import Softvis3dModel from "./Softvis3dModel";
 
 export class CityLayoutService {
     public static BUILD_CITY: LoadAction = new LoadAction("BUILD_CITY", "Create layout");
@@ -62,7 +62,8 @@ export class CityLayoutService {
             this.sceneStore.projectData as TreeElement,
             this.sceneStore.options.footprint.id,
             this.sceneStore.options.height.id,
-            this.sceneStore.options.metricColor.id
+            this.sceneStore.options.metricColor.id,
+            this.sceneStore.options.houseColorMode
         );
     }
 

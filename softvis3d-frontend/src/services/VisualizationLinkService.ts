@@ -1,18 +1,20 @@
-import {CityBuilderStore} from "../stores/CityBuilderStore";
-import Metric from "../classes/Metric";
-import Layout from "../classes/Layout";
-import {custom} from "../constants/Profiles";
-import Scale from "../classes/Scale";
-import {ColorMetrics} from "../constants/Metrics";
-import {Scales} from "../constants/Scales";
-import {Layouts} from "../constants/Layouts";
-import VisualizationLinkParams from "../classes/VisualizationLinkParams";
-import {SceneStore} from "../stores/SceneStore";
 import {Vector3} from "three";
-import {default as UrlParameterService, Parameters} from "./UrlParameterService";
 import {AppConfiguration} from "../classes/AppConfiguration";
-import { SceneColorTheme } from "../classes/SceneColorTheme";
-import { DEFAULT_COLOR_THEME, SceneColorThemes } from "../constants/SceneColorThemes";
+import HouseColorMode from "../classes/HouseColorMode";
+import Layout from "../classes/Layout";
+import Metric from "../classes/Metric";
+import Scale from "../classes/Scale";
+import {SceneColorTheme} from "../classes/SceneColorTheme";
+import VisualizationLinkParams from "../classes/VisualizationLinkParams";
+import {DEFAULT_HOUSE_COLOR_MODE, HouseColorModes} from "../constants/HouseColorModes";
+import {Layouts} from "../constants/Layouts";
+import {ColorMetrics} from "../constants/Metrics";
+import {custom} from "../constants/Profiles";
+import {Scales} from "../constants/Scales";
+import {DEFAULT_COLOR_THEME, SceneColorThemes} from "../constants/SceneColorThemes";
+import {CityBuilderStore} from "../stores/CityBuilderStore";
+import {SceneStore} from "../stores/SceneStore";
+import {default as UrlParameterService, Parameters} from "./UrlParameterService";
 
 export default class VisualizationLinkService {
 
@@ -44,6 +46,8 @@ export default class VisualizationLinkService {
 
         let selectedObjectId: string | undefined = params.selectedObjectId;
 
+        let houseColorMode: HouseColorMode | undefined = HouseColorModes.getModeById(params.houseColorMode);
+
         if (metricFootprint !== undefined
             && metricHeight !== undefined
             && metricColor !== undefined
@@ -54,10 +58,14 @@ export default class VisualizationLinkService {
             if (colorTheme === undefined) {
                 colorTheme = DEFAULT_COLOR_THEME;
             }
+            if (houseColorMode === undefined) {
+                houseColorMode = DEFAULT_HOUSE_COLOR_MODE;
+            }
 
             let visualizationLinkParams: VisualizationLinkParams = new VisualizationLinkParams(
                 metricFootprint.id, metricHeight.id, metricColor,
-                layout, scale, selectedObjectId, cameraPosition, colorTheme
+                layout, scale, selectedObjectId, cameraPosition, colorTheme,
+                houseColorMode
             );
 
             this.applyParams(visualizationLinkParams);
@@ -92,7 +100,8 @@ export default class VisualizationLinkService {
             new VisualizationLinkParams(this.cityBuilderStore.profile.footprintMetricId,
                 this.cityBuilderStore.profile.heightMetricId, this.cityBuilderStore.metricColor,
                 this.cityBuilderStore.layout, this.cityBuilderStore.profile.scale,
-                this.sceneStore.selectedObjectId, this.sceneStore.cameraPosition, this.sceneStore.colorTheme);
+                this.sceneStore.selectedObjectId, this.sceneStore.cameraPosition, this.sceneStore.colorTheme,
+                this.cityBuilderStore.houseColorMode);
 
         return visualizationLinkParams.getKeyValuePairs();
     }
@@ -116,6 +125,7 @@ export default class VisualizationLinkService {
         this.cityBuilderStore.metricColor = visualizationLinkParams.metricColor;
         this.cityBuilderStore.profile.scale = visualizationLinkParams.scale;
         this.cityBuilderStore.layout = visualizationLinkParams.layout;
+        this.cityBuilderStore.houseColorMode = visualizationLinkParams.houseColorMode;
 
         this.sceneStore.selectedObjectId = visualizationLinkParams.selectedObjectId;
         this.sceneStore.cameraPosition = visualizationLinkParams.cameraPosition;

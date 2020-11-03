@@ -1,8 +1,8 @@
-import { CityBuilderStore } from "../stores/CityBuilderStore";
-import { reaction } from "mobx";
+import {reaction} from "mobx";
 import VisualizationOptions from "../classes/VisualizationOptions";
-import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
 import AutoReloadService from "../services/AutoReloadService";
+import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
+import {CityBuilderStore} from "../stores/CityBuilderStore";
 
 export default class BuilderReactions {
     private cityBuilderStore: CityBuilderStore;
@@ -26,7 +26,8 @@ export default class BuilderReactions {
 
                     let options: VisualizationOptions = new VisualizationOptions(
                         this.cityBuilderStore.layout, this.cityBuilderStore.footprintMetric,
-                        this.cityBuilderStore.heightMetric, this.cityBuilderStore.metricColor, this.cityBuilderStore.profile.scale);
+                        this.cityBuilderStore.heightMetric, this.cityBuilderStore.metricColor,
+                        this.cityBuilderStore.profile.scale, this.cityBuilderStore.houseColorMode);
 
                     this.measuresService.loadMeasures(options);
                     this.autoReloadService.startAutoReload();

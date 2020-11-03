@@ -1,19 +1,20 @@
-import { assert, expect } from "chai";
+import {assert, expect} from "chai";
 import * as Sinon from "sinon";
-import ThreeSceneService from "../../../../src/components/scene/visualization/ThreeSceneService";
-import SoftVis3dScene from "../../../../src/components/scene/visualization/scene/SoftVis3dScene";
-import { Vector3 } from "three";
-import { SoftVis3dShape } from "../../../../src/components/scene/domain/SoftVis3dShape";
-import { Wrangler } from "../../../../src/components/scene/visualization/objects/Wrangler";
-import { SelectionCalculator } from "../../../../src/components/scene/visualization/SelectionCalculator";
-import { HtmlDom } from "../../../../src/services/HtmlDom";
-import VisualizationOptions from "../../../../src/classes/VisualizationOptions";
-import { evostreet } from "../../../../src/constants/Layouts";
+import {Vector3} from "three";
 import Metric from "../../../../src/classes/Metric";
-import { complexityColorMetric, noColorMetric, noMetricId } from "../../../../src/constants/Metrics";
-import { LOGARITHMIC } from "../../../../src/constants/Scales";
-import { SceneColorTheme } from "../../../../src/classes/SceneColorTheme";
-import { SceneColorThemes } from "../../../../src/constants/SceneColorThemes";
+import {SceneColorTheme} from "../../../../src/classes/SceneColorTheme";
+import VisualizationOptions from "../../../../src/classes/VisualizationOptions";
+import {SoftVis3dShape} from "../../../../src/components/scene/domain/SoftVis3dShape";
+import {Wrangler} from "../../../../src/components/scene/visualization/objects/Wrangler";
+import SoftVis3dScene from "../../../../src/components/scene/visualization/scene/SoftVis3dScene";
+import {SelectionCalculator} from "../../../../src/components/scene/visualization/SelectionCalculator";
+import ThreeSceneService from "../../../../src/components/scene/visualization/ThreeSceneService";
+import {ADDITIONAL_HOUSE_COLOR_MODE, DEFAULT_HOUSE_COLOR_MODE} from '../../../../src/constants/HouseColorModes';
+import {evostreet} from "../../../../src/constants/Layouts";
+import {complexityColorMetric, noColorMetric, noMetricId} from "../../../../src/constants/Metrics";
+import {LOGARITHMIC} from "../../../../src/constants/Scales";
+import {SceneColorThemes} from "../../../../src/constants/SceneColorThemes";
+import {HtmlDom} from "../../../../src/services/HtmlDom";
 
 describe("ThreeSceneService", () => {
 
@@ -32,7 +33,7 @@ describe("ThreeSceneService", () => {
 
         let options: VisualizationOptions =
             new VisualizationOptions(evostreet, new Metric(noMetricId, "", ""), new Metric(noMetricId, "", ""),
-                noColorMetric, LOGARITHMIC);
+                noColorMetric, LOGARITHMIC, DEFAULT_HOUSE_COLOR_MODE);
         let shapes: SoftVis3dShape[] = [];
 
         let sceneSetColorThemeStub = softvis3dScene.setColorTheme;
@@ -60,7 +61,7 @@ describe("ThreeSceneService", () => {
 
         let options: VisualizationOptions =
             new VisualizationOptions(evostreet, new Metric(noMetricId, "", ""), new Metric(noMetricId, "", ""),
-                noColorMetric, LOGARITHMIC);
+                noColorMetric, LOGARITHMIC, DEFAULT_HOUSE_COLOR_MODE);
         let shapes: SoftVis3dShape[] = [];
 
         let sceneSetColorThemeStub = softvis3dScene.setColorTheme;
@@ -86,15 +87,41 @@ describe("ThreeSceneService", () => {
 
         let exampleMetric: Metric = new Metric(noMetricId, "", "");
         let options: VisualizationOptions =
-            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC);
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, DEFAULT_HOUSE_COLOR_MODE);
         let shapes: SoftVis3dShape[] = [];
         let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
 
         underTest.update(shapes, options, colorTheme, expectedPosition);
 
         let optionsWithChangedColor: VisualizationOptions =
-            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, complexityColorMetric, LOGARITHMIC);
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, complexityColorMetric, LOGARITHMIC, DEFAULT_HOUSE_COLOR_MODE);
         underTest.update(shapes, optionsWithChangedColor, colorTheme, expectedPosition);
+
+        assert(wranglerUpdateStub.calledWith(shapes));
+        assert(wranglerUpdateStub.calledOnce);
+    });
+
+    it("should update shapes on house color update.", () => {
+        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        let wrangler: any = Sinon.createStubInstance(Wrangler);
+
+        let expectedPosition: Vector3 = new Vector3(1, 2, 3);
+
+        let wranglerUpdateStub = wrangler.updateColorsWithUpdatedShapes;
+
+        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+
+        let exampleMetric: Metric = new Metric(noMetricId, "", "");
+        let options: VisualizationOptions =
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, DEFAULT_HOUSE_COLOR_MODE);
+        let shapes: SoftVis3dShape[] = [];
+        let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
+
+        underTest.update(shapes, options, colorTheme, expectedPosition);
+
+        let optionsWithChangedHouseColor: VisualizationOptions =
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, ADDITIONAL_HOUSE_COLOR_MODE);
+        underTest.update(shapes, optionsWithChangedHouseColor, colorTheme, expectedPosition);
 
         assert(wranglerUpdateStub.calledWith(shapes));
         assert(wranglerUpdateStub.calledOnce);

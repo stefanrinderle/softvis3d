@@ -1,12 +1,14 @@
+import {observer} from "mobx-react";
 import * as React from "react";
-import { observer } from "mobx-react";
-import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import HouseColorMode from "../../classes/HouseColorMode";
+import Metric from "../../classes/Metric";
+import Scale from "../../classes/Scale";
+import {HouseColorModes} from "../../constants/HouseColorModes";
+import {custom} from "../../constants/Profiles";
+import {Scales} from "../../constants/Scales";
+import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
-import Metric from "../../classes/Metric";
-import { custom } from "../../constants/Profiles";
-import Scale from "../../classes/Scale";
-import { Scales } from "../../constants/Scales";
 
 @observer
 export default class OptionsAdvanced extends React.Component<{ store: CityBuilderStore; }, any> {
@@ -55,6 +57,20 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                             }}
                         />
                         <p className="selection-description">{ this.props.store.profile.scale.description }</p>
+                    </div>
+                </div>
+                <br />
+                <div className="left-column">
+                    <div className="builder-option">
+                        <SelectBoxBuilder
+                            label="House color mode"
+                            value={this.props.store.houseColorMode}
+                            options={HouseColorModes.availableHouseColorModes}
+                            onChange={(houseColorMode: HouseColorMode) => {
+                                this.props.store.houseColorMode = houseColorMode;
+                            }}
+                        />
+                        <p className="selection-description">{ this.props.store.houseColorMode.description }</p>
                     </div>
                 </div>
             </Category>

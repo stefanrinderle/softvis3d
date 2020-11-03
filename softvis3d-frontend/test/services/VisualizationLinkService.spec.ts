@@ -18,18 +18,18 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {assert, expect} from "chai";
+import * as Sinon from "sinon";
 import {Vector3} from "three";
+import {AppConfiguration} from "../../src/classes/AppConfiguration";
+import Metric from "../../src/classes/Metric";
+import {district, evostreet} from "../../src/constants/Layouts";
+import {coverageColorMetric, packageNameColorMetric} from "../../src/constants/Metrics";
+import {custom, defaultProfile} from "../../src/constants/Profiles";
+import {EXPONENTIAL, LINEAR_SCALED} from "../../src/constants/Scales";
+import UrlParameterService from "../../src/services/UrlParameterService";
 import VisualizationLinkService from "../../src/services/VisualizationLinkService";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
-import Metric from "../../src/classes/Metric";
-import {custom, defaultProfile} from "../../src/constants/Profiles";
-import {district, evostreet} from "../../src/constants/Layouts";
-import {EXPONENTIAL, LINEAR_SCALED} from "../../src/constants/Scales";
-import {coverageColorMetric, packageNameColorMetric} from "../../src/constants/Metrics";
 import {SceneStore} from "../../src/stores/SceneStore";
-import * as Sinon from "sinon";
-import UrlParameterService from "../../src/services/UrlParameterService";
-import {AppConfiguration} from "../../src/classes/AppConfiguration";
 
 describe("VisualizationLinkService", () => {
 
@@ -182,7 +182,8 @@ describe("VisualizationLinkService", () => {
             cameraX: "1",
             cameraY: "2",
             cameraZ: "3",
-            colorTheme: "default"
+            colorTheme: "default",
+            houseColorMode: "default"
         }));
 
         expect(result).to.contain("abc");
@@ -219,7 +220,8 @@ describe("VisualizationLinkService", () => {
             cameraY: "2",
             cameraZ: "3",
             colorTheme: "default",
-            selectedObjectId: expectedSelectedObjectId
+            selectedObjectId: expectedSelectedObjectId,
+            houseColorMode: "default"
         }));
 
         expect(result).to.contain("abc");
@@ -275,7 +277,8 @@ describe("VisualizationLinkService", () => {
             cameraY: "2",
             cameraZ: "3",
             colorTheme: "default",
-            selectedObjectId: expectedSelectedObjectId
+            selectedObjectId: expectedSelectedObjectId,
+            houseColorMode: "default"
         }));
 
         expect(result).to.contain("abc");
