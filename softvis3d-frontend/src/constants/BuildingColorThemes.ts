@@ -1,6 +1,6 @@
 import BuildingColorTheme from "../classes/BuildingColorTheme";
 
-const DEFAULT_GREENRED_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorTheme("default-redgreen", "Green-Red colors",
+const DEFAULT_GREENRED_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorTheme("default-greenred", "Green-Red colors",
     "Green for 'good' to red for 'bad'",
     0x00CC00, 0xEE0000);
 
