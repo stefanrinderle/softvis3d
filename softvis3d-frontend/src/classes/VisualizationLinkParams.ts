@@ -3,7 +3,7 @@ import Layout from "../classes/Layout";
 import Metric from "../classes/Metric";
 import Scale from "../classes/Scale";
 import {Parameters} from "../services/UrlParameterService";
-import HouseColorMode from "./HouseColorMode";
+import BuildingColorTheme from "./BuildingColorTheme";
 import {SceneColorTheme} from "./SceneColorTheme";
 
 export default class VisualizationLinkParams {
@@ -16,12 +16,12 @@ export default class VisualizationLinkParams {
     private readonly _selectedObjectId: string | null;
     private readonly _cameraPosition: Vector3;
     private readonly _colorTheme: SceneColorTheme;
-    private readonly _houseColorMode: HouseColorMode;
+    private readonly _buildingColorTheme: BuildingColorTheme;
 
     // tslint:disable-next-line:parameters-max-number
     constructor(footprintMetricId: string, heightMetricId: string, metricColor: Metric, layout: Layout, scale: Scale,
                 selectedObjectId: string | null, cameraPosition: Vector3, colorTheme: SceneColorTheme,
-                houseColorMode: HouseColorMode) {
+                buildingColorTheme: BuildingColorTheme) {
 
         this._metricFootprintId = footprintMetricId;
         this._metricHeightId = heightMetricId;
@@ -31,7 +31,7 @@ export default class VisualizationLinkParams {
         this._selectedObjectId = selectedObjectId;
         this._cameraPosition = cameraPosition;
         this._colorTheme = colorTheme;
-        this._houseColorMode = houseColorMode;
+        this._buildingColorTheme = buildingColorTheme;
     }
 
     public getKeyValuePairs() {
@@ -45,7 +45,7 @@ export default class VisualizationLinkParams {
             cameraY: Math.round(this._cameraPosition.y).toString(),
             cameraZ: Math.round(this._cameraPosition.z).toString(),
             colorTheme: this._colorTheme.id,
-            houseColorMode: this._houseColorMode.id
+            buildingColorTheme: this._buildingColorTheme.id
         };
 
         result = this.addOptionalSelectObjectId(result);
@@ -93,8 +93,8 @@ export default class VisualizationLinkParams {
         return this._colorTheme;
     }
 
-    get houseColorMode(): HouseColorMode {
-        return this._houseColorMode;
+    get buildingColorTheme(): BuildingColorTheme {
+        return this._buildingColorTheme;
     }
 
 }

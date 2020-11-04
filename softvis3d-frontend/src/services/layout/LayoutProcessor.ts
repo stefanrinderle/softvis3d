@@ -22,7 +22,7 @@
 
 import * as CodeCityVis from "codecity-visualizer";
 import {TreeNodeInterface} from "codecity-visualizer/types/interfaces";
-import HouseColorMode from '../../classes/HouseColorMode';
+import BuildingColorTheme from '../../classes/BuildingColorTheme';
 import {
     complexityColorMetric,
     coverageColorMetric,
@@ -33,7 +33,7 @@ import {
     packageNameColorMetric,
     violationsColorMetric
 } from "../../constants/Metrics";
-import LayoutHouseColorRules from './LayoutHouseColorRules';
+import LayoutBuildingColorRules from './LayoutBuildingColorRules';
 import Softvis3dModel from "./Softvis3dModel";
 
 const illustratorEvostreet = CodeCityVis.illustrators.evostreet;
@@ -67,13 +67,13 @@ class LayoutProcessor {
     private _illustrator: any;
     private _rules: CodeCityVis.rules.base[];
     private _metricScale: MetricScale;
-    private _houseColorMode: HouseColorMode;
+    private _buildingColorTheme: BuildingColorTheme;
 
     public constructor() {
         this._options = {} as any;
         this._rules = [];
         this._metricScale = undefined as any;
-        this._houseColorMode = undefined as any;
+        this._buildingColorTheme = undefined as any;
     }
 
     public getIllustration(options: {}, model: Softvis3dModel) {
@@ -82,7 +82,7 @@ class LayoutProcessor {
             this.setOptions(options);
             // Step 1: Load Metrics Scale
             this._metricScale = model.getMetricScale();
-            this._houseColorMode = model.getHouseColorMode();
+            this._buildingColorTheme = model.getBuildingColorTheme();
 
             // Step 2: Prepare the layout
             if (this._options.layout === "evostreet") {
@@ -145,9 +145,9 @@ class LayoutProcessor {
         );
 
         this._rules = [];
-        this._rules.push(this._RuleHouseHeight());
-        this._rules.push(this._RuleHouseBase());
-        this._rules.push(this._getHouseColorRule());
+        this._rules.push(this._RuleBuildingHeight());
+        this._rules.push(this._RuleBuildingBase());
+        this._rules.push(this._getBuildingColorRule());
         this._rules.push(this._RulePackageColorBlue());
     }
 
@@ -165,9 +165,9 @@ class LayoutProcessor {
         );
 
         this._rules = [];
-        this._rules.push(this._RuleHouseHeight());
-        this._rules.push(this._RuleHouseBase());
-        this._rules.push(this._getHouseColorRule());
+        this._rules.push(this._RuleBuildingHeight());
+        this._rules.push(this._RuleBuildingBase());
+        this._rules.push(this._getBuildingColorRule());
         this._rules.push(this._RulePackageColorGrey());
     }
 
@@ -196,27 +196,27 @@ class LayoutProcessor {
         return merged;
     }
 
-    private _getHouseColorRule() {
-        let rules = new LayoutHouseColorRules(this._metricScale, this._houseColorMode);
+    private _getBuildingColorRule() {
+        let rules = new LayoutBuildingColorRules(this._metricScale, this._buildingColorTheme);
         switch (this._options.colorMetric) {
             case linesOfCodeColorMetric.id:
-                return rules.ruleHouseColorByLinesOfCode();
+                return rules.ruleBuildingColorByLinesOfCode();
             case complexityColorMetric.id:
-                return rules.ruleHouseColorByComplexity();
+                return rules.ruleBuildingColorByComplexity();
             case coverageColorMetric.id:
-                return rules.ruleHouseColorByCoverage();
+                return rules.ruleBuildingColorByCoverage();
             case violationsColorMetric.id:
-                return rules.ruleHouseColorByIssues();
+                return rules.ruleBuildingColorByIssues();
             case newIssuesColorMetric.id:
-                return rules.ruleHouseColorByIssues();
+                return rules.ruleBuildingColorByIssues();
             case openIssuesColorMetric.id:
-                return rules.ruleHouseColorByOpenIssues();
+                return rules.ruleBuildingColorByOpenIssues();
             case packageNameColorMetric.id:
-                return rules.ruleHouseColorByPackageName();
+                return rules.ruleBuildingColorByPackageName();
             case numberOfAuthorsBlameColorMetric.id:
-                return rules.ruleHouseColorByScmInfos();
+                return rules.ruleBuildingColorByScmInfos();
             default:
-                return rules.ruleHouseColorInitial();
+                return rules.ruleBuildingColorInitial();
         }
     }
 
@@ -225,7 +225,7 @@ class LayoutProcessor {
      * @private
      * @returns {BaseRule}
      */
-    private _RuleHouseHeight() {
+    private _RuleBuildingHeight() {
         let max = 450;
         let factor: number;
         let power: number;
@@ -301,7 +301,7 @@ class LayoutProcessor {
      * @private
      * @returns {BaseRule}
      */
-    private _RuleHouseBase() {
+    private _RuleBuildingBase() {
         let max = 450;
         let factor: number;
         let power: number;

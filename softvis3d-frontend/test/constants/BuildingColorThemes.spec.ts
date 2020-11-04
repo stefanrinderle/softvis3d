@@ -19,21 +19,21 @@
 ///
 import {expect} from "chai";
 import {
-    ADDITIONAL_HOUSE_COLOR_MODE,
-    DEFAULT_HOUSE_COLOR_MODE,
-    HouseColorModes
-} from '../../src/constants/HouseColorModes';
+    ADDITIONAL_BUILDING_COLOR_THEME,
+    BuildingColorThemes,
+    DEFAULT_BUILDING_COLOR_THEME
+} from "../../src/constants/BuildingColorThemes";
 
-describe("HouseColorModes", () => {
+describe("BuildingColorThemes", () => {
 
     it("should provide available modes", () => {
-        expect(HouseColorModes.availableHouseColorModes.length).to.be.greaterThan(0);
+        expect(BuildingColorThemes.availableBuildingColorThemes.length).to.be.greaterThan(0);
     });
 
     it("should find modes by id", () => {
-        expect(HouseColorModes.getModeById(DEFAULT_HOUSE_COLOR_MODE.id)).to.be.eq(DEFAULT_HOUSE_COLOR_MODE);
+        expect(BuildingColorThemes.getModeById(DEFAULT_BUILDING_COLOR_THEME.id)).to.be.eq(DEFAULT_BUILDING_COLOR_THEME);
 
-        expect(HouseColorModes.getModeById(ADDITIONAL_HOUSE_COLOR_MODE.id)).to.be.eq(ADDITIONAL_HOUSE_COLOR_MODE);
+        expect(BuildingColorThemes.getModeById(ADDITIONAL_BUILDING_COLOR_THEME.id)).to.be.eq(ADDITIONAL_BUILDING_COLOR_THEME);
     });
 
 });
