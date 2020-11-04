@@ -68,7 +68,7 @@ export default class ThreeSceneService {
             if (this.lastOptions.metricColor !== options.metricColor) {
                 this.wrangler.updateColorsWithUpdatedShapes(shapes);
             }
-            if (this.lastOptions.houseColorMode !== options.houseColorMode) {
+            if (this.lastOptions.buildingColorTheme !== options.buildingColorTheme) {
                 this.wrangler.updateColorsWithUpdatedShapes(shapes);
             }
         } else {

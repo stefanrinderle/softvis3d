@@ -21,17 +21,17 @@
 /* tslint:disable */
 
 import * as CodeCityVis from "codecity-visualizer";
-import HouseColorMode from '../../classes/HouseColorMode';
+import BuildingColorTheme from '../../classes/BuildingColorTheme';
 import {MetricScale} from './LayoutProcessor';
 
 const attributeHelper = CodeCityVis.helper.attributes;
 
-class LayoutHouseColorRules {
+class LayoutBuildingColorRules {
 
-    private readonly _colorMode: HouseColorMode;
+    private readonly _colorMode: BuildingColorTheme;
     private readonly _metricScale: MetricScale;
 
-    public constructor(metricScale: MetricScale, colorMode: HouseColorMode) {
+    public constructor(metricScale: MetricScale, colorMode: BuildingColorTheme) {
         this._metricScale = metricScale;
         this._colorMode = colorMode;
     }
@@ -40,7 +40,7 @@ class LayoutHouseColorRules {
      * Package-Name --> Building Color
      * @returns {BaseRule}
      */
-    public ruleHouseColorInitial() {
+    public ruleBuildingColorInitial() {
         return new CodeCityVis.rules.universal({
             condition: (model, node) => !!(model && node.children.length === 0 && node.parent),
             metric: () => {
@@ -55,7 +55,7 @@ class LayoutHouseColorRules {
      * @private
      * @returns {BaseRule}
      */
-    public ruleHouseColorByPackageName() {
+    public ruleBuildingColorByPackageName() {
         return new CodeCityVis.rules.color.assigned({
             condition: (model, node) => !!(model && node.children.length === 0 && node.parent),
             metric: (model, node): string => {
@@ -70,7 +70,7 @@ class LayoutHouseColorRules {
      * @private
      * @returns {BaseRule}
      */
-    public ruleHouseColorByLinesOfCode() {
+    public ruleBuildingColorByLinesOfCode() {
         let minVal = 25;
         let maxVal = this._metricScale.metricColor.max;
         maxVal = Math.max(350, maxVal);
@@ -84,7 +84,7 @@ class LayoutHouseColorRules {
      * @private
      * @returns {BaseRule}
      */
-    public ruleHouseColorByScmInfos() {
+    public ruleBuildingColorByScmInfos() {
         let minVal = 1;
         let maxVal = 4;
 
@@ -96,7 +96,7 @@ class LayoutHouseColorRules {
      * @private
      * @returns {BaseRule}
      */
-    public ruleHouseColorByComplexity() {
+    public ruleBuildingColorByComplexity() {
         let minVal = 25;
         let maxVal = this._metricScale.metricColor.max;
         maxVal = Math.max(200, maxVal);
@@ -110,7 +110,7 @@ class LayoutHouseColorRules {
      * @private
      * @returns {BaseRule}
      */
-    public ruleHouseColorByCoverage() {
+    public ruleBuildingColorByCoverage() {
         let minVal = 0;
         let maxVal = 95;
 
@@ -122,7 +122,7 @@ class LayoutHouseColorRules {
      * @private
      * @returns {BaseRule}
      */
-    public ruleHouseColorByIssues() {
+    public ruleBuildingColorByIssues() {
         let minVal = 0;
         let maxVal = this._metricScale.metricColor.max;
         maxVal = Math.max(20, maxVal);
@@ -136,7 +136,7 @@ class LayoutHouseColorRules {
      * @private
      * @returns {BaseRule}
      */
-    public ruleHouseColorByOpenIssues() {
+    public ruleBuildingColorByOpenIssues() {
         let minVal = 0;
         let maxVal = this._metricScale.metricColor.max;
         maxVal = Math.max(20, maxVal);
@@ -145,7 +145,7 @@ class LayoutHouseColorRules {
         return this.createMinMaxRule(minVal, maxVal, this._colorMode);
     }
 
-    private createMinMaxRule(minVal: number, maxVal: number, colorMode: HouseColorMode) {
+    private createMinMaxRule(minVal: number, maxVal: number, colorMode: BuildingColorTheme) {
         return new CodeCityVis.rules.color.gradient({
             condition: (model, node) => model && node.children.length === 0,
             metric: (model, node, version) => {
@@ -161,4 +161,4 @@ class LayoutHouseColorRules {
     }
 }
 
-export default LayoutHouseColorRules;
+export default LayoutBuildingColorRules;

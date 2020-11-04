@@ -18,12 +18,12 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {assert, expect} from "chai";
-import HouseColorMode from '../../src/classes/HouseColorMode';
+import BuildingColorTheme from '../../src/classes/BuildingColorTheme';
 import Layout from "../../src/classes/Layout";
 import Metric from "../../src/classes/Metric";
 import Scale from "../../src/classes/Scale";
 import VisualizationOptions from "../../src/classes/VisualizationOptions";
-import {DEFAULT_HOUSE_COLOR_MODE} from '../../src/constants/HouseColorModes';
+import {DEFAULT_BUILDING_COLOR_THEME} from '../../src/constants/BuildingColorThemes';
 import {district, evostreet} from "../../src/constants/Layouts";
 import {
     complexityMetricId,
@@ -42,17 +42,17 @@ describe("VisualizationOptions", () => {
         let metricColor: Metric = coverageColorMetric;
         let scalingMethod: Scale = Scales.availableScales[0];
         let layout: Layout = evostreet;
-        let houseColorMode: HouseColorMode = DEFAULT_HOUSE_COLOR_MODE;
+        let buildingColorTheme: BuildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
 
         let result: VisualizationOptions =
-            new VisualizationOptions(layout, metricWidth, metricHeight, metricColor, scalingMethod, houseColorMode);
+            new VisualizationOptions(layout, metricWidth, metricHeight, metricColor, scalingMethod, buildingColorTheme);
 
         expect(result.layout).to.be.eq(layout);
         expect(result.footprint).to.be.eq(metricWidth);
         expect(result.height).to.be.eq(metricHeight);
         expect(result.metricColor).to.be.eq(metricColor);
         expect(result.scale).to.be.eq(scalingMethod);
-        expect(result.houseColorMode).to.be.eq(houseColorMode);
+        expect(result.buildingColorTheme).to.be.eq(buildingColorTheme);
     });
 
     it("should create default config", () => {
@@ -67,18 +67,18 @@ describe("VisualizationOptions", () => {
         expect(result.height.id).to.be.eq(noMetricId);
         expect(result.metricColor).to.be.eq(metricColor);
         expect(result.scale).to.be.eq(scalingmethod);
-        expect(result.houseColorMode).to.be.eq(DEFAULT_HOUSE_COLOR_MODE);
+        expect(result.buildingColorTheme).to.be.eq(DEFAULT_BUILDING_COLOR_THEME);
     });
 
     it("should check equals without color", () => {
         let exampleMetric: Metric = new Metric(noMetricId, "", "");
         let result: VisualizationOptions =
-            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, DEFAULT_HOUSE_COLOR_MODE);
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, DEFAULT_BUILDING_COLOR_THEME);
 
         assert(result.equalStructure(result));
 
         let copy: VisualizationOptions =
-            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, DEFAULT_HOUSE_COLOR_MODE);
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, DEFAULT_BUILDING_COLOR_THEME);
 
         assert(result.equalStructure(copy));
         assert(copy.equalStructure(result));

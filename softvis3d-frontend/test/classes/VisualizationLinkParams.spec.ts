@@ -19,13 +19,13 @@
 ///
 import {expect} from "chai";
 import {Vector3} from "three";
-import HouseColorMode from '../../src/classes/HouseColorMode';
+import BuildingColorTheme from '../../src/classes/BuildingColorTheme';
 import Layout from "../../src/classes/Layout";
 import Metric from "../../src/classes/Metric";
 import Scale from "../../src/classes/Scale";
 import {SceneColorTheme} from "../../src/classes/SceneColorTheme";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
-import {DEFAULT_HOUSE_COLOR_MODE} from '../../src/constants/HouseColorModes';
+import {DEFAULT_BUILDING_COLOR_THEME} from '../../src/constants/BuildingColorThemes';
 import {evostreet} from "../../src/constants/Layouts";
 import {complexityMetricId, coverageColorMetric, linesOfCodeMetricId} from "../../src/constants/Metrics";
 import {Scales} from "../../src/constants/Scales";
@@ -43,11 +43,11 @@ describe("VisualizationLinkParams", () => {
         let selectedObjectId: string = "123";
         let cameraPosition: Vector3 = new Vector3(0, 1, 2);
         let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
-        let houseColorMode: HouseColorMode = DEFAULT_HOUSE_COLOR_MODE;
+        let buildingColorTheme: BuildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
 
         let result: VisualizationLinkParams =
             new VisualizationLinkParams(metricFootprintId, metricHeightId, metricColor, layout, scalingMethod,
-                                        selectedObjectId, cameraPosition, colorTheme, houseColorMode);
+                                        selectedObjectId, cameraPosition, colorTheme, buildingColorTheme);
 
         expect(result.layout).to.be.eq(layout);
         expect(result.metricFootprintId).to.be.eq(metricFootprintId);
@@ -57,7 +57,7 @@ describe("VisualizationLinkParams", () => {
         expect(result.selectedObjectId).to.be.eq(selectedObjectId);
         expect(result.cameraPosition).to.be.eq(cameraPosition);
         expect(result.colorTheme).to.be.eq(SceneColorThemes.availableColorThemes[0]);
-        expect(result.houseColorMode).to.be.eq(DEFAULT_HOUSE_COLOR_MODE);
+        expect(result.buildingColorTheme).to.be.eq(DEFAULT_BUILDING_COLOR_THEME);
     });
 
     it("should create default config", () => {
@@ -69,11 +69,11 @@ describe("VisualizationLinkParams", () => {
         let selectedObjectId: string = "123";
         let cameraPosition: Vector3 = new Vector3(0.34, 1.23, 2);
         let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
-        let houseColorMode: HouseColorMode = DEFAULT_HOUSE_COLOR_MODE;
+        let buildingColorTheme: BuildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
 
         let result: VisualizationLinkParams =
             new VisualizationLinkParams(complexityFootprintId, metricHeightId, metricColor, layout, scalingMethod,
-                                        selectedObjectId, cameraPosition, colorTheme, houseColorMode);
+                                        selectedObjectId, cameraPosition, colorTheme, buildingColorTheme);
 
         let pairs: Parameters = result.getKeyValuePairs();
 
@@ -87,7 +87,7 @@ describe("VisualizationLinkParams", () => {
             cameraY: "1",
             cameraZ: "2",
             colorTheme: "default",
-            houseColorMode: "default",
+            buildingColorTheme: "default",
             selectedObjectId: "123"
         };
 
@@ -106,7 +106,7 @@ describe("VisualizationLinkParams", () => {
 
         let result: VisualizationLinkParams =
             new VisualizationLinkParams(metricFootprintId, metricHeightId, metricColor, layout, scalingMethod,
-                selectedObjectId, cameraPosition, colorTheme, DEFAULT_HOUSE_COLOR_MODE);
+                selectedObjectId, cameraPosition, colorTheme, DEFAULT_BUILDING_COLOR_THEME);
 
         let pairs: Parameters = result.getKeyValuePairs();
 
@@ -120,7 +120,7 @@ describe("VisualizationLinkParams", () => {
             cameraY: "1",
             cameraZ: "2",
             colorTheme: "dark",
-            houseColorMode: "default"
+            buildingColorTheme: "default"
         };
 
         expect(JSON.stringify(pairs)).to.be.eq(JSON.stringify(expected));

@@ -18,16 +18,16 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-import HouseColorMode from '../../src/classes/HouseColorMode';
+import BuildingColorTheme from "../../src/classes/BuildingColorTheme";
 
-describe("HouseColorMode", () => {
+describe("BuildingColorTheme", () => {
 
     it("should implement SelectOptionValue", () => {
         let expectedId: string = "23";
         let expectedLabel: string = "INT";
         let expectedDescription: string = "ksudfhiusdhfs";
 
-        let result: HouseColorMode = new HouseColorMode(expectedId, expectedLabel, expectedDescription, 0, 0);
+        let result: BuildingColorTheme = new BuildingColorTheme(expectedId, expectedLabel, expectedDescription, 0, 0);
 
         expect(result.label).to.be.eq(expectedLabel);
         expect(result.id).to.be.eq(expectedId);

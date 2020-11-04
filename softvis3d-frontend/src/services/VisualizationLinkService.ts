@@ -1,12 +1,12 @@
 import {Vector3} from "three";
 import {AppConfiguration} from "../classes/AppConfiguration";
-import HouseColorMode from "../classes/HouseColorMode";
+import BuildingColorTheme from "../classes/BuildingColorTheme";
 import Layout from "../classes/Layout";
 import Metric from "../classes/Metric";
 import Scale from "../classes/Scale";
 import {SceneColorTheme} from "../classes/SceneColorTheme";
 import VisualizationLinkParams from "../classes/VisualizationLinkParams";
-import {DEFAULT_HOUSE_COLOR_MODE, HouseColorModes} from "../constants/HouseColorModes";
+import {BuildingColorThemes, DEFAULT_BUILDING_COLOR_THEME} from "../constants/BuildingColorThemes";
 import {Layouts} from "../constants/Layouts";
 import {ColorMetrics} from "../constants/Metrics";
 import {custom} from "../constants/Profiles";
@@ -46,7 +46,7 @@ export default class VisualizationLinkService {
 
         let selectedObjectId: string | undefined = params.selectedObjectId;
 
-        let houseColorMode: HouseColorMode | undefined = HouseColorModes.getModeById(params.houseColorMode);
+        let buildingColorTheme: BuildingColorTheme | undefined = BuildingColorThemes.getModeById(params.buildingColorTheme);
 
         if (metricFootprint !== undefined
             && metricHeight !== undefined
@@ -58,14 +58,14 @@ export default class VisualizationLinkService {
             if (colorTheme === undefined) {
                 colorTheme = DEFAULT_COLOR_THEME;
             }
-            if (houseColorMode === undefined) {
-                houseColorMode = DEFAULT_HOUSE_COLOR_MODE;
+            if (buildingColorTheme === undefined) {
+                buildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
             }
 
             let visualizationLinkParams: VisualizationLinkParams = new VisualizationLinkParams(
                 metricFootprint.id, metricHeight.id, metricColor,
                 layout, scale, selectedObjectId, cameraPosition, colorTheme,
-                houseColorMode
+                buildingColorTheme
             );
 
             this.applyParams(visualizationLinkParams);
@@ -101,7 +101,7 @@ export default class VisualizationLinkService {
                 this.cityBuilderStore.profile.heightMetricId, this.cityBuilderStore.metricColor,
                 this.cityBuilderStore.layout, this.cityBuilderStore.profile.scale,
                 this.sceneStore.selectedObjectId, this.sceneStore.cameraPosition, this.sceneStore.colorTheme,
-                this.cityBuilderStore.houseColorMode);
+                this.cityBuilderStore.buildingColorTheme);
 
         return visualizationLinkParams.getKeyValuePairs();
     }
@@ -125,7 +125,7 @@ export default class VisualizationLinkService {
         this.cityBuilderStore.metricColor = visualizationLinkParams.metricColor;
         this.cityBuilderStore.profile.scale = visualizationLinkParams.scale;
         this.cityBuilderStore.layout = visualizationLinkParams.layout;
-        this.cityBuilderStore.houseColorMode = visualizationLinkParams.houseColorMode;
+        this.cityBuilderStore.buildingColorTheme = visualizationLinkParams.buildingColorTheme;
 
         this.sceneStore.selectedObjectId = visualizationLinkParams.selectedObjectId;
         this.sceneStore.cameraPosition = visualizationLinkParams.cameraPosition;

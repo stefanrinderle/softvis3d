@@ -1,11 +1,11 @@
 import {observable} from "mobx";
-import HouseColorMode from "../classes/HouseColorMode";
+import BuildingColorTheme from "../classes/BuildingColorTheme";
 import Layout from "../classes/Layout";
 import Metric from "../classes/Metric";
 import MetricSet from "../classes/MetricSet";
 import {PreviewPicture} from "../classes/PreviewPicture";
 import Profile from "../classes/Profile";
-import {DEFAULT_HOUSE_COLOR_MODE} from "../constants/HouseColorModes";
+import {DEFAULT_BUILDING_COLOR_THEME} from "../constants/BuildingColorThemes";
 import {evostreet} from "../constants/Layouts";
 import {ColorMetrics, noColorMetric, noMetricId} from "../constants/Metrics";
 import {availablePreviewPictures, placeholder} from "../constants/PreviewPictures";
@@ -20,7 +20,7 @@ class CityBuilderStore {
     @observable
     public readonly colorMetrics: MetricSet = new MetricSet(ColorMetrics.availableColorMetrics);
     @observable
-    public houseColorMode: HouseColorMode = DEFAULT_HOUSE_COLOR_MODE;
+    public buildingColorTheme: BuildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
     @observable
     public readonly genericMetrics: MetricSet = new MetricSet([]);
     @observable

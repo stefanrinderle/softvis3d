@@ -1,9 +1,9 @@
 import {observer} from "mobx-react";
 import * as React from "react";
-import HouseColorMode from "../../classes/HouseColorMode";
+import BuildingColorTheme from "../../classes/BuildingColorTheme";
 import Metric from "../../classes/Metric";
 import Scale from "../../classes/Scale";
-import {HouseColorModes} from "../../constants/HouseColorModes";
+import {BuildingColorThemes} from "../../constants/BuildingColorThemes";
 import {custom} from "../../constants/Profiles";
 import {Scales} from "../../constants/Scales";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
@@ -63,14 +63,14 @@ export default class OptionsAdvanced extends React.Component<{ store: CityBuilde
                 <div className="left-column">
                     <div className="builder-option">
                         <SelectBoxBuilder
-                            label="House color mode"
-                            value={this.props.store.houseColorMode}
-                            options={HouseColorModes.availableHouseColorModes}
-                            onChange={(houseColorMode: HouseColorMode) => {
-                                this.props.store.houseColorMode = houseColorMode;
+                            label="Building color theme"
+                            value={this.props.store.buildingColorTheme}
+                            options={BuildingColorThemes.availableBuildingColorThemes}
+                            onChange={(buildingColorTheme: BuildingColorTheme) => {
+                                this.props.store.buildingColorTheme = buildingColorTheme;
                             }}
                         />
-                        <p className="selection-description">{ this.props.store.houseColorMode.description }</p>
+                        <p className="selection-description">{ this.props.store.buildingColorTheme.description }</p>
                     </div>
                 </div>
             </Category>

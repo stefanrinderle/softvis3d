@@ -19,7 +19,7 @@
 ///
 import {expect} from "chai";
 import Metric from "../../src/classes/Metric";
-import {DEFAULT_HOUSE_COLOR_MODE} from '../../src/constants/HouseColorModes';
+import {DEFAULT_BUILDING_COLOR_THEME} from '../../src/constants/BuildingColorThemes';
 import {district, evostreet} from "../../src/constants/Layouts";
 import * as Metrics from "../../src/constants/Metrics";
 import {defaultDistrict, defaultEvostreet, placeholder} from "../../src/constants/PreviewPictures";
@@ -37,7 +37,7 @@ describe("CityBuilderStore", () => {
         expect(underTest.colorMetrics.keys.length).to.be.eq(9);
         expect(underTest.initiateBuildProcess).to.be.eq(false);
         expect(underTest.show).to.be.eq(true);
-        expect(underTest.houseColorMode).to.be.eq(DEFAULT_HOUSE_COLOR_MODE);
+        expect(underTest.buildingColorTheme).to.be.eq(DEFAULT_BUILDING_COLOR_THEME);
     });
 
     it("should set layout", () => {

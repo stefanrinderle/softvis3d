@@ -1,4 +1,4 @@
-export default class HouseColorMode implements SelectOptionValue {
+export default class BuildingColorTheme implements SelectOptionValue {
     public readonly id: string;
     public readonly label: string;
     public readonly description: string;

@@ -19,7 +19,7 @@
  */
 /* tslint:disable */
 import * as CodeCityVis from "codecity-visualizer";
-import HouseColorMode from '../../classes/HouseColorMode';
+import BuildingColorTheme from '../../classes/BuildingColorTheme';
 import {TreeElement} from "../../classes/TreeElement";
 import {MetricScale} from "./LayoutProcessor";
 
@@ -40,9 +40,10 @@ export default class Softvis3dModel extends BaseModel {
     private _footprintKey :string;
     private _heightKey :string;
     private _metricColorKey :string;
-    private _houseColorMode: HouseColorMode;
+    private _buildingColorTheme: BuildingColorTheme;
 
-    constructor(treeResult: TreeElement, footprintKey: string, heightKey: string, metricColorKey: string, houseColorMode: HouseColorMode) {
+    constructor(treeResult: TreeElement, footprintKey: string, heightKey: string, metricColorKey: string,
+                buildingColorTheme: BuildingColorTheme) {
         super();
 
         this._attributes = {};
@@ -58,7 +59,7 @@ export default class Softvis3dModel extends BaseModel {
         this._footprintKey = footprintKey;
         this._heightKey = heightKey;
         this._metricColorKey = metricColorKey;
-        this._houseColorMode = houseColorMode;
+        this._buildingColorTheme = buildingColorTheme;
 
         this._tree = this._createTree(treeResult);
     }
@@ -166,7 +167,7 @@ export default class Softvis3dModel extends BaseModel {
         return this._metricScale;
     }
 
-    getHouseColorMode(): HouseColorMode {
-        return this._houseColorMode;
+    getBuildingColorTheme(): BuildingColorTheme {
+        return this._buildingColorTheme;
     }
 }

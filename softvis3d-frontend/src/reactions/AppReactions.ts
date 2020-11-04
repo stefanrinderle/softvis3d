@@ -28,7 +28,7 @@ export default class AppReactions {
                     let options: VisualizationOptions = new VisualizationOptions(
                         this.cityBuilderStore.layout, this.cityBuilderStore.footprintMetric,
                         this.cityBuilderStore.heightMetric, this.cityBuilderStore.metricColor,
-                        this.cityBuilderStore.profile.scale, this.cityBuilderStore.houseColorMode);
+                        this.cityBuilderStore.profile.scale, this.cityBuilderStore.buildingColorTheme);
 
                     this.measuresService.loadMeasures(options, true);
                 }

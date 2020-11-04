@@ -63,7 +63,7 @@ export class CityLayoutService {
             this.sceneStore.options.footprint.id,
             this.sceneStore.options.height.id,
             this.sceneStore.options.metricColor.id,
-            this.sceneStore.options.houseColorMode
+            this.sceneStore.options.buildingColorTheme
         );
     }
 

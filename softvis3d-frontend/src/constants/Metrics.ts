@@ -21,7 +21,7 @@ export const noColorMetric: Metric = new Metric(noMetricId, " -- None -- ",
     "The building color can be changed dynamically in the view using the combo box in the bottom bar.");
 
 export const packageNameColorMetric: Metric = new Metric("package", "Package Name",
-    "Every house is assigned a color, depending on it's containing package or namespace.");
+    "Every building is assigned a color, depending on it's containing package or namespace.");
 
 export const violationsColorMetric: Metric = new Metric("violations", "Issues",
     "Scale from green (no open violations) to red (highest number of violations).");
