@@ -1,25 +1,23 @@
-import * as React from "react";
 import {observer} from "mobx-react";
-import SelectedElementInfo from "./SelectedElementInfo";
-import TopBarMenu from "./TopBarMenu";
+import * as React from "react";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
 import {SceneStore} from "../../stores/SceneStore";
-import VisualizationLinkService from "../../services/VisualizationLinkService";
+import SelectedElementInfo from "./SelectedElementInfo";
+import TopBarMenu from "./TopBarMenu";
 
 interface TopBarProbs {
     sceneStore: SceneStore;
     cityBuilderStore: CityBuilderStore;
-    visualizationLinkService: VisualizationLinkService;
 }
 
 @observer
 export default class TopBar extends React.Component<TopBarProbs, any> {
 
     public render() {
-        const {cityBuilderStore, sceneStore, visualizationLinkService} = this.props;
+        const {cityBuilderStore, sceneStore} = this.props;
         return (
             <div id="app-topbar" className="top-bar">
-                <TopBarMenu cityBuilderStore={cityBuilderStore} visualizationLinkService={visualizationLinkService}/>
+                <TopBarMenu cityBuilderStore={cityBuilderStore}/>
                 <SelectedElementInfo sceneStore={sceneStore}/>
             </div>
         );

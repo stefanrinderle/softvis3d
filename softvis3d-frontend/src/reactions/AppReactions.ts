@@ -1,22 +1,22 @@
-import { CityBuilderStore } from "../stores/CityBuilderStore";
-import { reaction } from "mobx";
+import {reaction} from "mobx";
 import VisualizationOptions from "../classes/VisualizationOptions";
-import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
+import {lazyInject} from "../inversify.config";
 import AutoReloadService from "../services/AutoReloadService";
-import { AppStatusStore } from "../stores/AppStatusStore";
+import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
+import {AppStatusStore} from "../stores/AppStatusStore";
+import {CityBuilderStore} from "../stores/CityBuilderStore";
 
 export default class AppReactions {
     private cityBuilderStore: CityBuilderStore;
     private appStatusStore: AppStatusStore;
-    private measuresService: SonarQubeMeasuresService;
-    private autoReloadService: AutoReloadService;
+    @lazyInject("SonarQubeMeasuresService")
+    private measuresService!: SonarQubeMeasuresService;
+    @lazyInject("AutoReloadService")
+    private autoReloadService!: AutoReloadService;
 
-    constructor(appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore, measuresService: SonarQubeMeasuresService,
-                autoReloadService: AutoReloadService) {
+    constructor(appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore) {
         this.appStatusStore = appStatusStore;
         this.cityBuilderStore = cityBuilderStore;
-        this.measuresService = measuresService;
-        this.autoReloadService = autoReloadService;
         this.prepareReactions();
     }
 
@@ -28,8 +28,9 @@ export default class AppReactions {
                     let options: VisualizationOptions = new VisualizationOptions(
                         this.cityBuilderStore.layout, this.cityBuilderStore.footprintMetric,
                         this.cityBuilderStore.heightMetric, this.cityBuilderStore.metricColor, this.cityBuilderStore.profile.scale);
-
                     this.measuresService.loadMeasures(options, true);
+                } else {
+                    return;
                 }
             },
             {

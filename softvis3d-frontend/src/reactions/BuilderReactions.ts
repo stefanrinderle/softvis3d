@@ -1,19 +1,19 @@
-import { CityBuilderStore } from "../stores/CityBuilderStore";
-import { reaction } from "mobx";
+import {reaction} from "mobx";
 import VisualizationOptions from "../classes/VisualizationOptions";
-import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
+import {lazyInject} from "../inversify.config";
 import AutoReloadService from "../services/AutoReloadService";
+import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
+import {CityBuilderStore} from "../stores/CityBuilderStore";
 
 export default class BuilderReactions {
     private cityBuilderStore: CityBuilderStore;
-    private measuresService: SonarQubeMeasuresService;
-    private autoReloadService: AutoReloadService;
+    @lazyInject("SonarQubeMeasuresService")
+    private measuresService!: SonarQubeMeasuresService;
+    @lazyInject("AutoReloadService")
+    private autoReloadService!: AutoReloadService;
 
-    constructor(cityBuilderStore: CityBuilderStore, measuresService: SonarQubeMeasuresService,
-                autoReloadService: AutoReloadService) {
+    constructor(cityBuilderStore: CityBuilderStore) {
         this.cityBuilderStore = cityBuilderStore;
-        this.measuresService = measuresService;
-        this.autoReloadService = autoReloadService;
         this.prepareReactions();
     }
 

@@ -18,16 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {TreeElement} from "../../../classes/TreeElement";
+import {lazyInject} from "../../../inversify.config";
 import SonarQubeTransformer from "../SonarQubeTransformer";
 import SonarQubeMeasuresApiService from "./SonarQubeMeasuresApiService";
 
 export default class SonarQubeMeasuresTreeService {
 
-    private measureApiService: SonarQubeMeasuresApiService;
-
-    constructor(measureApiService: SonarQubeMeasuresApiService) {
-        this.measureApiService = measureApiService;
-    }
+    @lazyInject("SonarQubeMeasuresApiService")
+    private measureApiService!: SonarQubeMeasuresApiService;
 
     public loadTree(parent: TreeElement, metricKeys: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {

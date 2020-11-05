@@ -1,21 +1,18 @@
-import * as React from "react";
 import {assert, expect} from "chai";
 import {shallow} from "enzyme";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
-import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
-import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
-import TopBarShareButton from "../../../src/components/topbar/TopBarShareButton";
+import * as React from "react";
 import * as Sinon from "sinon";
+import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
+import TopBarShareButton from "../../../src/components/topbar/TopBarShareButton";
+import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
 
 describe("<TopBarMenu/>", () => {
 
     it("should show settings button and check action", () => {
         let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
 
         const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore}
-                        visualizationLinkService={localVisualizationLinkService}/>
+            <TopBarMenu cityBuilderStore={localCityBuilderStore}/>
         );
 
         const settingsButton = topBarMenu.find("#settings-button");
@@ -26,13 +23,11 @@ describe("<TopBarMenu/>", () => {
 
     it("should show feedback button and check action", () => {
         let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
 
         let stub = Sinon.stub(window, "open");
 
         const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore}
-                        visualizationLinkService={localVisualizationLinkService}/>
+            <TopBarMenu cityBuilderStore={localCityBuilderStore}/>
         );
 
         const feedbackButton = topBarMenu.find("#feedback-button");
@@ -45,13 +40,11 @@ describe("<TopBarMenu/>", () => {
 
     it("should show help button and check action", () => {
         let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
 
         let stub = Sinon.stub(window, "open");
 
         const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore}
-                        visualizationLinkService={localVisualizationLinkService}/>
+            <TopBarMenu cityBuilderStore={localCityBuilderStore}/>
         );
 
         const helpButton = topBarMenu.find("#help-button");
@@ -64,17 +57,15 @@ describe("<TopBarMenu/>", () => {
 
     it("should have share component", () => {
         let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
 
         localCityBuilderStore.show = true;
 
         const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore}
-                        visualizationLinkService={localVisualizationLinkService}/>
+            <TopBarMenu cityBuilderStore={localCityBuilderStore}/>
         );
 
         expect(topBarMenu.contains(
-            <TopBarShareButton disabled={true} visualizationLinkService={localVisualizationLinkService}/>)
+            <TopBarShareButton disabled={true}/>)
         ).to.be.true;
     });
 });

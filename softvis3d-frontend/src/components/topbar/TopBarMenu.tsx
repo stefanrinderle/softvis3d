@@ -1,12 +1,10 @@
-import * as React from "react";
 import {observer} from "mobx-react";
+import * as React from "react";
 import {CityBuilderStore} from "../../stores/CityBuilderStore";
-import VisualizationLinkService from "../../services/VisualizationLinkService";
 import TopBarShareButton from "./TopBarShareButton";
 
 interface TopBarMenuProbs {
     cityBuilderStore: CityBuilderStore;
-    visualizationLinkService: VisualizationLinkService;
 }
 
 @observer
@@ -25,7 +23,6 @@ export default class TopBarMenu extends React.Component<TopBarMenuProbs, any> {
                 </button>
                 <TopBarShareButton
                     disabled={this.props.cityBuilderStore.show}
-                    visualizationLinkService={this.props.visualizationLinkService}
                 />
                 <button
                     id="help-button"
