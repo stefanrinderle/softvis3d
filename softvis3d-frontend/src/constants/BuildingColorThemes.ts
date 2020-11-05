@@ -1,19 +1,21 @@
 import BuildingColorTheme from "../classes/BuildingColorTheme";
 
-const DEFAULT_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorTheme("default-greenred", "Green-Red colors",
+const blueForGoodToYellowForBad = "Blue for 'good' to yellow for 'bad'";
+
+const DEFAULT_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorTheme("default", "Green-Red colors",
     "Green for 'good' to red for 'bad'",
     0x00CC00, 0xEE0000);
-
 const BLUEYELLOW_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorTheme("acc-blueyellow", "Blue-Yellow colors",
-    "Blue for 'good' to yellow for 'bad'",
+    blueForGoodToYellowForBad,
     0x0000FF, 0xDCDC00);
 
-const BLUEYELLOW_DARK_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorTheme("acc-blueyellowdark", "Dark Blue-Yellow colors",
-    "Blue for 'good' to yellow for 'bad'",
-    0x4B0092, 0x1AFF1A);
+const BLUEYELLOW_DARK_BUILDING_COLOR_THEME: BuildingColorTheme =
+    new BuildingColorTheme("acc-blueyellowdark", "Dark Blue-Yellow colors",
+        blueForGoodToYellowForBad,
+        0x4B0092, 0x1AFF1A);
 
 const BLUEYELLOW_LIGHT_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorTheme("acc-blueyellowlight", "Light Blue-Yellow colors",
-    "Blue for 'good' to yellow for 'bad'",
+    blueForGoodToYellowForBad,
     0x0C7BDC, 0xFFC20A);
 
 const BLUERED_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorTheme("acc-bluered", "Blue-Red colors",

@@ -10,9 +10,9 @@ import SoftVis3dScene from "../../../../src/components/scene/visualization/scene
 import {SelectionCalculator} from "../../../../src/components/scene/visualization/SelectionCalculator";
 import ThreeSceneService from "../../../../src/components/scene/visualization/ThreeSceneService";
 import {
-    ADDITIONAL_BUILDING_COLOR_THEME,
+    BLUEYELLOW_BUILDING_COLOR_THEME,
     DEFAULT_BUILDING_COLOR_THEME
-} from '../../../../src/constants/BuildingColorThemes';
+} from "../../../../src/constants/BuildingColorThemes";
 import {evostreet} from "../../../../src/constants/Layouts";
 import {complexityColorMetric, noColorMetric, noMetricId} from "../../../../src/constants/Metrics";
 import {LOGARITHMIC} from "../../../../src/constants/Scales";
@@ -124,7 +124,7 @@ describe("ThreeSceneService", () => {
         underTest.update(shapes, options, colorTheme, expectedPosition);
 
         let optionsWithChangedBuildingColor: VisualizationOptions =
-            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, ADDITIONAL_BUILDING_COLOR_THEME);
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, BLUEYELLOW_BUILDING_COLOR_THEME);
         underTest.update(shapes, optionsWithChangedBuildingColor, colorTheme, expectedPosition);
 
         assert(wranglerUpdateStub.calledWith(shapes));

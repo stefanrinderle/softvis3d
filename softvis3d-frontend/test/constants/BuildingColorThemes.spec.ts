@@ -19,7 +19,7 @@
 ///
 import {expect} from "chai";
 import {
-    ADDITIONAL_BUILDING_COLOR_THEME,
+    BLUEYELLOW_BUILDING_COLOR_THEME,
     BuildingColorThemes,
     DEFAULT_BUILDING_COLOR_THEME
 } from "../../src/constants/BuildingColorThemes";
@@ -33,7 +33,7 @@ describe("BuildingColorThemes", () => {
     it("should find modes by id", () => {
         expect(BuildingColorThemes.getModeById(DEFAULT_BUILDING_COLOR_THEME.id)).to.be.eq(DEFAULT_BUILDING_COLOR_THEME);
 
-        expect(BuildingColorThemes.getModeById(ADDITIONAL_BUILDING_COLOR_THEME.id)).to.be.eq(ADDITIONAL_BUILDING_COLOR_THEME);
+        expect(BuildingColorThemes.getModeById(BLUEYELLOW_BUILDING_COLOR_THEME.id)).to.be.eq(BLUEYELLOW_BUILDING_COLOR_THEME);
     });
 
 });

@@ -19,13 +19,13 @@
 ///
 import {expect} from "chai";
 import {Vector3} from "three";
-import BuildingColorTheme from '../../src/classes/BuildingColorTheme';
+import BuildingColorTheme from "../../src/classes/BuildingColorTheme";
 import Layout from "../../src/classes/Layout";
 import Metric from "../../src/classes/Metric";
 import Scale from "../../src/classes/Scale";
 import {SceneColorTheme} from "../../src/classes/SceneColorTheme";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
-import {DEFAULT_BUILDING_COLOR_THEME} from '../../src/constants/BuildingColorThemes';
+import {DEFAULT_BUILDING_COLOR_THEME} from "../../src/constants/BuildingColorThemes";
 import {evostreet} from "../../src/constants/Layouts";
 import {complexityMetricId, coverageColorMetric, linesOfCodeMetricId} from "../../src/constants/Metrics";
 import {Scales} from "../../src/constants/Scales";
