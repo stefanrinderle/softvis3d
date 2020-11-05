@@ -1,6 +1,6 @@
 import BuildingColorTheme from "../classes/BuildingColorTheme";
 
-const DEFAULT_GREENRED_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorTheme("default-greenred", "Green-Red colors",
+const DEFAULT_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorTheme("default-greenred", "Green-Red colors",
     "Green for 'good' to red for 'bad'",
     0x00CC00, 0xEE0000);
 
@@ -32,9 +32,8 @@ const GRAYSCALE_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorThem
     "Dark for 'good' to light for 'bad'",
     0xCCCCCC, 0x191919);
 
-
 export {
-    DEFAULT_GREENRED_BUILDING_COLOR_THEME,
+    DEFAULT_BUILDING_COLOR_THEME,
     BLUEYELLOW_BUILDING_COLOR_THEME,
     BLUEYELLOW_DARK_BUILDING_COLOR_THEME,
     BLUEYELLOW_LIGHT_BUILDING_COLOR_THEME,
@@ -47,7 +46,7 @@ export {
 export class BuildingColorThemes {
 
     public static availableBuildingColorThemes: BuildingColorTheme[] = [
-        DEFAULT_GREENRED_BUILDING_COLOR_THEME,
+        DEFAULT_BUILDING_COLOR_THEME,
         BLUEYELLOW_BUILDING_COLOR_THEME,
         BLUEYELLOW_DARK_BUILDING_COLOR_THEME,
         BLUEYELLOW_LIGHT_BUILDING_COLOR_THEME,
