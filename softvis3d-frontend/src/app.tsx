@@ -13,6 +13,7 @@ import SonarQubeMeasuresApiService from "./services/sonarqube/measures/SonarQube
 import SonarQubeMeasuresMetricService from "./services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import SonarQubeMeasuresService from "./services/sonarqube/measures/SonarQubeMeasuresService";
 import SonarQubeMeasuresTreeService from "./services/sonarqube/measures/SonarQubeMeasuresTreeService";
+import SonarQubeOptimizeStructureService from "./services/sonarqube/measures/SonarQubeOptimizeStructureService";
 import SonarQubeComponentInfoService from "./services/sonarqube/SonarQubeComponentInfoService";
 import SonarQubeMetricsService from "./services/sonarqube/SonarQubeMetricsService";
 import SonarQubeScmService from "./services/sonarqube/SonarQubeScmService";
@@ -58,6 +59,9 @@ export default class App {
         let measuresService = new SonarQubeMeasuresService(config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
         container.bind<SonarQubeMeasuresService>("SonarQubeMeasuresService")
             .toConstantValue(measuresService);
+        container.bind<SonarQubeOptimizeStructureService>("SonarQubeOptimizeStructureService")
+            .toConstantValue(new SonarQubeOptimizeStructureService());
+
         container.bind<CityLayoutService>("CityLayoutService")
             .toConstantValue(new CityLayoutService(sceneStore, appStatusStore));
 
