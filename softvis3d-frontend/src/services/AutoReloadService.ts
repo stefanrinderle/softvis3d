@@ -1,19 +1,22 @@
-import { AppStatusStore } from "../stores/AppStatusStore";
+import {injectable} from "inversify";
+import {isUndefined} from "util";
+import {lazyInject} from "../inversify.config";
+import {AppStatusStore} from "../stores/AppStatusStore";
 import SonarQubeComponentInfoService from "./sonarqube/SonarQubeComponentInfoService";
-import { isUndefined } from "util";
 
+@injectable()
 export default class AutoReloadService {
 
     // 5 minutes
     public static RELOAD_INTERVAL_MS = 5 * 60 * 1000;
 
     private appStatusStore: AppStatusStore;
-    private componentInfoService: SonarQubeComponentInfoService;
+    @lazyInject("SonarQubeComponentInfoService")
+    private componentInfoService!: SonarQubeComponentInfoService;
     private timer?: number;
 
-    constructor(appStatusStore: AppStatusStore, componentInfoService: SonarQubeComponentInfoService) {
+    constructor(appStatusStore: AppStatusStore) {
         this.appStatusStore = appStatusStore;
-        this.componentInfoService = componentInfoService;
     }
 
     public startAutoReload(): void {

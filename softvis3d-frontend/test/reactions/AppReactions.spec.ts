@@ -17,13 +17,14 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { expect } from "chai";
-import { CityBuilderStore } from "../../src/stores/CityBuilderStore";
+import {expect} from "chai";
 import * as Sinon from "sinon";
-import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/SonarQubeMeasuresService";
-import AutoReloadService from "../../src/services/AutoReloadService";
 import AppReactions from "../../src/reactions/AppReactions";
-import { AppStatusStore } from "../../src/stores/AppStatusStore";
+import AutoReloadService from "../../src/services/AutoReloadService";
+import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/SonarQubeMeasuresService";
+import {AppStatusStore} from "../../src/stores/AppStatusStore";
+import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
+import {bindMock} from "../Helper";
 
 describe("AppReactions", () => {
 
@@ -31,11 +32,13 @@ describe("AppReactions", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testAppStatusStore = Sinon.createStubInstance(AppStatusStore);
         const testSonarMeasuresService = Sinon.createStubInstance(SonarQubeMeasuresService);
+        bindMock("SonarQubeMeasuresService", testSonarMeasuresService);
         const testAutoReloadService = Sinon.createStubInstance(AutoReloadService);
+        bindMock("AutoReloadService", testAutoReloadService);
         testAutoReloadService.isActive.returns(true);
 
         const reaction =
-            new AppReactions(testAppStatusStore, testCityBuilderStore, testSonarMeasuresService, testAutoReloadService);
+            new AppReactions(testAppStatusStore, testCityBuilderStore);
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 
@@ -49,11 +52,13 @@ describe("AppReactions", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testAppStatusStore = Sinon.createStubInstance(AppStatusStore);
         const testSonarMeasuresService = Sinon.createStubInstance(SonarQubeMeasuresService);
+        bindMock("SonarQubeMeasuresService", testSonarMeasuresService);
         const testAutoReloadService = Sinon.createStubInstance(AutoReloadService);
+        bindMock("AutoReloadService", testAutoReloadService);
         testAutoReloadService.isActive.returns(false);
 
         const reaction =
-            new AppReactions(testAppStatusStore, testCityBuilderStore, testSonarMeasuresService, testAutoReloadService);
+            new AppReactions(testAppStatusStore, testCityBuilderStore);
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 

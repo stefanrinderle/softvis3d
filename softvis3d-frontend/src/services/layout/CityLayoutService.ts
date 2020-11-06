@@ -1,32 +1,26 @@
-import {SceneStore} from "../../stores/SceneStore";
-import Softvis3dModel from "./Softvis3dModel";
-import LayoutProcessor from "./LayoutProcessor";
 import LoadAction from "../../classes/status/LoadAction";
-import {AppStatusStore} from "../../stores/AppStatusStore";
-import SonarQubeScmService from "../sonarqube/SonarQubeScmService";
-import {numberOfAuthorsBlameColorMetric} from "../../constants/Metrics";
 import {TreeElement} from "../../classes/TreeElement";
+import {numberOfAuthorsBlameColorMetric} from "../../constants/Metrics";
+import {lazyInject} from "../../inversify.config";
+import {AppStatusStore} from "../../stores/AppStatusStore";
+import {SceneStore} from "../../stores/SceneStore";
+import SonarQubeScmService from "../sonarqube/SonarQubeScmService";
+import LayoutProcessor from "./LayoutProcessor";
+import Softvis3dModel from "./Softvis3dModel";
 
 export class CityLayoutService {
     public static BUILD_CITY: LoadAction = new LoadAction("BUILD_CITY", "Create layout");
 
     private sceneStore: SceneStore;
     private appStatusStore: AppStatusStore;
-    private scmService: SonarQubeScmService;
-    private layoutProcessor: LayoutProcessor;
+    @lazyInject("LayoutProcessor")
+    private layoutProcessor!: LayoutProcessor;
+    @lazyInject("SonarQubeScmService")
+    private scmService!: SonarQubeScmService;
 
-    public constructor(sceneStore: SceneStore, appStatusStore: AppStatusStore, scmService: SonarQubeScmService,
-                       layoutProcessor?: LayoutProcessor) {
+    public constructor(sceneStore: SceneStore, appStatusStore: AppStatusStore) {
         this.sceneStore = sceneStore;
         this.appStatusStore = appStatusStore;
-        this.scmService = scmService;
-
-        // for tests
-        if (layoutProcessor) {
-            this.layoutProcessor = layoutProcessor;
-        } else {
-            this.layoutProcessor = new LayoutProcessor();
-        }
     }
 
     public createCity() {

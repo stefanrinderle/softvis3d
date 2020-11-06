@@ -19,20 +19,24 @@
 ///
 import {assert, expect} from "chai";
 import * as Sinon from "sinon";
-import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresApiService";
+import {TreeElement} from "../../../../src/classes/TreeElement";
 import {
     SonarQubeApiComponent,
-    SonarQubeMeasureResponse, SQ_QUALIFIER_DIRECTORY,
-    SQ_QUALIFIER_FILE} from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
+    SonarQubeMeasureResponse,
+    SQ_QUALIFIER_DIRECTORY,
+    SQ_QUALIFIER_FILE
+} from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
+import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresApiService";
 import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresTreeService";
-import {TreeElement} from "../../../../src/classes/TreeElement";
+import {bindMock} from "../../../Helper";
 
 describe("SonarQubeMeasuresTreeService", () => {
 
     it("should immediately resolve on response without components", (done) => {
         let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
-        let underTest: SonarQubeMeasuresTreeService =
-            new SonarQubeMeasuresTreeService(measureApiService);
+        bindMock("SonarQubeMeasuresApiService", measureApiService);
+
+        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 
         measureApiService.loadMeasures.returns(
             Promise.resolve(
@@ -53,8 +57,9 @@ describe("SonarQubeMeasuresTreeService", () => {
 
     it("should resolve result", (done) => {
         let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
-        let underTest: SonarQubeMeasuresTreeService =
-            new SonarQubeMeasuresTreeService(measureApiService);
+        bindMock("SonarQubeMeasuresApiService", measureApiService);
+
+        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 
         let defaultComponent: SonarQubeApiComponent = {
             id: "1",
@@ -92,8 +97,9 @@ describe("SonarQubeMeasuresTreeService", () => {
 
     it("should call service and react on errors", (done) => {
         let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
-        let underTest: SonarQubeMeasuresTreeService =
-            new SonarQubeMeasuresTreeService(measureApiService);
+        bindMock("SonarQubeMeasuresApiService", measureApiService);
+
+        let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 
         measureApiService.loadMeasures.returns(
             Promise.reject({

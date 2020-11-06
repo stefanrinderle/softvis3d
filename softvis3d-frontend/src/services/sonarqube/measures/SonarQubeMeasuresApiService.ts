@@ -17,13 +17,19 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { BackendService } from "../BackendService";
-import { SonarQubeMeasurePagingResponse,
-         SonarQubeMeasureResponse, SQ_QUALIFIER_FILE, SQ_QUALIFIER_DIRECTORY } from "./SonarQubeMeasureResponse";
-import { AppStatusStore } from "../../../stores/AppStatusStore";
+import {injectable} from "inversify";
+import {AppConfiguration} from "../../../classes/AppConfiguration";
+import {AppStatusStore} from "../../../stores/AppStatusStore";
+import {BackendService} from "../BackendService";
+import {
+    SonarQubeMeasurePagingResponse,
+    SonarQubeMeasureResponse,
+    SQ_QUALIFIER_DIRECTORY,
+    SQ_QUALIFIER_FILE
+} from "./SonarQubeMeasureResponse";
 import SonarQubeMeasuresService from "./SonarQubeMeasuresService";
-import { AppConfiguration } from "../../../classes/AppConfiguration";
 
+@injectable()
 export default class SonarQubeMeasuresApiService extends BackendService {
 
     private readonly appStatusStore: AppStatusStore;
