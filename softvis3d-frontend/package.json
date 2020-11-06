@@ -91,6 +91,6 @@
     "source-map-loader": "^0.2.1",
     "ts-loader": "^2.3.2",
     "tslint-sonarts": "^1.1.1",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^3.1.11"
   }
 }
