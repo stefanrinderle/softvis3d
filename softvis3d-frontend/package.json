@@ -52,7 +52,7 @@
     "@types/react-dom": "^15.5.0",
     "@types/sinon": "^2.2.2",
     "@types/three": "^0.84.8",
-    "axios": "^0.16.1",
+    "axios": "^0.18.1",
     "codecity-visualizer": "^0.4.6",
     "inversify": "^4.1.1",
     "inversify-inject-decorators": "^3.0.1",
