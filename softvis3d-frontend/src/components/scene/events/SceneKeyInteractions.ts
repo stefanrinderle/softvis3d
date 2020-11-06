@@ -40,12 +40,16 @@ export class SceneKeyInteractions {
     private active: boolean;
 
     private constructor(active = false) {
-        window.addEventListener(SceneKeyInteractions.EVENT_KEY_DOWN, this.handleKeyDown.bind(this));
+        window.addEventListener(SceneKeyInteractions.EVENT_KEY_DOWN, (event) => {
+            this.handleKeyDown(event as KeyboardEvent);
+        });
         this.active = active;
     }
 
     public destroy() {
-        window.removeEventListener(SceneKeyInteractions.EVENT_KEY_DOWN, this.handleKeyDown.bind(this));
+        window.removeEventListener(SceneKeyInteractions.EVENT_KEY_DOWN, (event) => {
+            this.handleKeyDown(event as KeyboardEvent);
+        });
     }
 
     public addResetCameraEventListener(callback: Function) {

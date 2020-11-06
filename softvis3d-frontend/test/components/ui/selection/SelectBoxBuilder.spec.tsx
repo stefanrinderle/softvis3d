@@ -43,5 +43,7 @@ describe("<SelectBoxBuilder/>", () => {
         assert(spy.withArgs(v3).calledTwice, "Value 3 was not triggered again");
 
         expect(wrapper.html()).to.contain("testForSelectBoxBuilder");
+
+        expect(test).not.to.eq("123");
     });
 });

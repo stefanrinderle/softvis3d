@@ -1,9 +1,9 @@
 import * as React from "react";
 import SelectOption from "./SelectOption";
 import SelectGroup from "./SelectGroup";
-import {MouseEventHandler} from "react";
+import {ChangeEvent, MouseEventHandler} from "react";
 
-type ChangeEvent = (value: any) => void|boolean;
+type LocalChangeEvent = (value: any) => void|boolean;
 
 interface SelectBoxProps {
     prepend?: JSX.Element[];
@@ -14,7 +14,7 @@ interface SelectBoxProps {
     value: SelectOptionValue;
     label?: string;
 
-    onChange: ChangeEvent;
+    onChange: LocalChangeEvent;
     onClick?: MouseEventHandler<HTMLElement>;
     onMouseDown?: MouseEventHandler<HTMLElement>;
 }
@@ -36,8 +36,8 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
 
     private values: ValueStore = {};
 
-    public handleChange(event: MouseEvent) {
-        const value = (event.target as HTMLOptionElement).value;
+    public handleChange(event: ChangeEvent<HTMLSelectElement>) {
+        const value = event.target.value;
 
         if (value in this.values) {
             this.props.onChange(this.values[value]);

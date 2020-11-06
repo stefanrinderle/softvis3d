@@ -41,11 +41,15 @@ export class SceneMouseInteractions {
     private _mouseMoved: boolean = false;
 
     private constructor() {
-        window.addEventListener(SceneMouseInteractions.EVENT_MOUSE_DOWN, this.handleMouseDown.bind(this));
+        window.addEventListener(SceneMouseInteractions.EVENT_MOUSE_DOWN, (event) => {
+            this.handleMouseDown(event as MouseEvent);
+        });
     }
 
     public destroy() {
-        window.removeEventListener(SceneMouseInteractions.EVENT_MOUSE_DOWN, this.handleMouseDown.bind(this));
+        window.removeEventListener(SceneMouseInteractions.EVENT_MOUSE_DOWN, (event) => {
+            this.handleMouseDown(event as MouseEvent);
+        });
     }
 
     public addMouseDownEventListener(callback: Function) {

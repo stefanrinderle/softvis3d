@@ -1,0 +1,3 @@
+#!/bin/sh
+PATH="$PWD/yarn/node/":$PATH
+$PWD/yarn/node/yarn/dist/bin/yarn "$@"
