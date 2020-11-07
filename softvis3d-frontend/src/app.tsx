@@ -8,7 +8,7 @@ import AppReactions from "./reactions/AppReactions";
 import BuilderReactions from "./reactions/BuilderReactions";
 import SceneReactions from "./reactions/SceneReactions";
 import AutoReloadService from "./services/AutoReloadService";
-import {CityLayoutService} from "./services/layout/CityLayoutService";
+import CityLayoutService from "./services/layout/CityLayoutService";
 import SonarQubeMeasuresApiService from "./services/sonarqube/measures/SonarQubeMeasuresApiService";
 import SonarQubeMeasuresMetricService from "./services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import SonarQubeMeasuresService from "./services/sonarqube/measures/SonarQubeMeasuresService";
@@ -17,6 +17,7 @@ import SonarQubeOptimizeStructureService from "./services/sonarqube/measures/Son
 import SonarQubeComponentInfoService from "./services/sonarqube/SonarQubeComponentInfoService";
 import SonarQubeMetricsService from "./services/sonarqube/SonarQubeMetricsService";
 import SonarQubeScmService from "./services/sonarqube/SonarQubeScmService";
+import TreeService from "./services/TreeService";
 import VisualizationLinkService from "./services/VisualizationLinkService";
 import WebGLDetector from "./services/WebGLDetector";
 import appStatusStore from "./stores/AppStatusStore";
@@ -64,6 +65,7 @@ export default class App {
 
         container.bind<CityLayoutService>("CityLayoutService")
             .toConstantValue(new CityLayoutService(sceneStore, appStatusStore));
+        container.bind<TreeService>("TreeService").toConstantValue(new TreeService());
 
         container.bind<AutoReloadService>("AutoReloadService")
             .toConstantValue(new AutoReloadService(appStatusStore));

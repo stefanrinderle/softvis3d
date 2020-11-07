@@ -1,6 +1,6 @@
 import {reaction} from "mobx";
 import {lazyInject} from "../inversify.config";
-import {CityLayoutService} from "../services/layout/CityLayoutService";
+import CityLayoutService from "../services/layout/CityLayoutService";
 import {CityBuilderStore} from "../stores/CityBuilderStore";
 import {SceneStore} from "../stores/SceneStore";
 

@@ -24,17 +24,15 @@ import AutoReloadService from "../../src/services/AutoReloadService";
 import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/SonarQubeMeasuresService";
 import {AppStatusStore} from "../../src/stores/AppStatusStore";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
-import {bindMock} from "../Helper";
+import {createMock} from "../Helper";
 
 describe("AppReactions", () => {
 
     it("should auto reload on analysisDate change", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testAppStatusStore = Sinon.createStubInstance(AppStatusStore);
-        const testSonarMeasuresService = Sinon.createStubInstance(SonarQubeMeasuresService);
-        bindMock("SonarQubeMeasuresService", testSonarMeasuresService);
-        const testAutoReloadService = Sinon.createStubInstance(AutoReloadService);
-        bindMock("AutoReloadService", testAutoReloadService);
+        const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
+        const testAutoReloadService = createMock(AutoReloadService);
         testAutoReloadService.isActive.returns(true);
 
         const reaction =
@@ -51,10 +49,8 @@ describe("AppReactions", () => {
     it("should not auto reload on analysisDate change but auto reload service not active", () => {
         let testCityBuilderStore = new CityBuilderStore();
         let testAppStatusStore = Sinon.createStubInstance(AppStatusStore);
-        const testSonarMeasuresService = Sinon.createStubInstance(SonarQubeMeasuresService);
-        bindMock("SonarQubeMeasuresService", testSonarMeasuresService);
-        const testAutoReloadService = Sinon.createStubInstance(AutoReloadService);
-        bindMock("AutoReloadService", testAutoReloadService);
+        const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
+        const testAutoReloadService = createMock(AutoReloadService);
         testAutoReloadService.isActive.returns(false);
 
         const reaction =

@@ -27,7 +27,7 @@ import LayoutProcessor from "../../../src/services/layout/LayoutProcessor";
 import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
 import {AppStatusStore} from "../../../src/stores/AppStatusStore";
 import {SceneStore} from "../../../src/stores/SceneStore";
-import {bindMock} from "../../Helper";
+import {createMock} from "../../Helper";
 
 describe("CityLayoutService", () => {
 
@@ -38,14 +38,13 @@ describe("CityLayoutService", () => {
         let testSceneStore: SceneStore = new SceneStore();
         testSceneStore.projectData = new TreeElement("", "", {}, "", "", false);
 
-        let scmService: any = Sinon.createStubInstance(SonarQubeScmService);
-        bindMock("SonarQubeScmService", scmService);
-        let layoutProcessor: any = Sinon.createStubInstance(LayoutProcessor);
-        bindMock("LayoutProcessor", layoutProcessor);
-        let epectedShape = {};
+        createMock(SonarQubeScmService);
+        let layoutProcessor = createMock(LayoutProcessor);
+
+        let expectedShape = {};
         layoutProcessor.getIllustration.callsFake(() => {
             return {
-                shapes: epectedShape
+                shapes: expectedShape
             };
         });
 
@@ -58,7 +57,7 @@ describe("CityLayoutService", () => {
         clock.tick(10);
         returnPromise.then(() => {
             assert(layoutProcessor.getIllustration.called);
-            expect(testSceneStore.shapes).to.be.deep.equal(epectedShape);
+            expect(testSceneStore.shapes).to.be.deep.equal(expectedShape);
 
             clock.tick(10);
             done();
@@ -72,8 +71,7 @@ describe("CityLayoutService", () => {
         let testSceneStore: SceneStore = new SceneStore();
         testSceneStore.projectData = new TreeElement("", "", {}, "", "", false);
 
-        let scmService: any = Sinon.createStubInstance(SonarQubeScmService);
-        bindMock("SonarQubeScmService", scmService);
+        createMock(SonarQubeScmService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
@@ -103,8 +101,7 @@ describe("CityLayoutService", () => {
         testSceneStore.options = VisualizationOptions.createDefault();
         testSceneStore.options.metricColor = numberOfAuthorsBlameColorMetric;
 
-        let scmService: any = Sinon.createStubInstance(SonarQubeScmService);
-        bindMock("SonarQubeScmService", scmService);
+        let scmService = createMock(SonarQubeScmService);
         scmService.assertScmInfoAreLoaded.callsFake(() => {
             return Promise.resolve({});
         });

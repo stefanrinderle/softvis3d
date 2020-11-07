@@ -17,6 +17,8 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
 
     @lazyInject("VisualizationLinkService")
     private visualizationLinkService!: VisualizationLinkService;
+    @lazyInject("ClipBoardService")
+    private clipBoardService!: ClipBoardService;
 
     public componentWillMount() {
         this.setShareMenuState(false);
@@ -62,7 +64,7 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
     }
 
     private copyVisualizationLink() {
-        ClipBoardService.copyTextToClipboard(this.visualizationLinkService.createVisualizationLink());
+        this.clipBoardService.copyTextToClipboard(this.visualizationLinkService.createVisualizationLink());
         this.setShareMenuState(false);
     }
 

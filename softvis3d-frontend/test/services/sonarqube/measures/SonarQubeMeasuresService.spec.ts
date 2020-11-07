@@ -29,7 +29,7 @@ import SonarQubeOptimizeStructureService
 import {AppStatusStore} from "../../../../src/stores/AppStatusStore";
 import {CityBuilderStore} from "../../../../src/stores/CityBuilderStore";
 import {SceneStore} from "../../../../src/stores/SceneStore";
-import {bindMock} from "../../../Helper";
+import {createMock} from "../../../Helper";
 
 describe("SonarQubeMeasuresService", () => {
 
@@ -41,12 +41,9 @@ describe("SonarQubeMeasuresService", () => {
         let testSceneStore: SceneStore = new SceneStore();
         testSceneStore.scmMetricLoaded = true;
 
-        let measureTreeService: any = Sinon.createStubInstance(SonarQubeMeasuresTreeService);
-        bindMock("SonarQubeMeasuresTreeService", measureTreeService);
-        let measureMetricService: any = Sinon.createStubInstance(SonarQubeMeasuresMetricService);
-        bindMock("SonarQubeMeasuresMetricService", measureMetricService);
-        let optimizeStructureService: any = Sinon.createStubInstance(SonarQubeOptimizeStructureService);
-        bindMock("SonarQubeOptimizeStructureService", optimizeStructureService);
+        let measureTreeService = createMock(SonarQubeMeasuresTreeService);
+        createMock(SonarQubeMeasuresMetricService);
+        createMock(SonarQubeOptimizeStructureService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
@@ -82,12 +79,9 @@ describe("SonarQubeMeasuresService", () => {
         let testSceneStore: SceneStore = new SceneStore();
         testSceneStore.scmMetricLoaded = true;
 
-        let measureTreeService: any = Sinon.createStubInstance(SonarQubeMeasuresTreeService);
-        bindMock("SonarQubeMeasuresTreeService", measureTreeService);
-        let measureMetricService: any = Sinon.createStubInstance(SonarQubeMeasuresMetricService);
-        bindMock("SonarQubeMeasuresMetricService", measureMetricService);
-        let optimizeStructureService: any = Sinon.createStubInstance(SonarQubeOptimizeStructureService);
-        bindMock("SonarQubeOptimizeStructureService", optimizeStructureService);
+        let measureTreeService = createMock(SonarQubeMeasuresTreeService);
+        let measureMetricService = createMock(SonarQubeMeasuresMetricService);
+        createMock(SonarQubeOptimizeStructureService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
@@ -127,12 +121,9 @@ describe("SonarQubeMeasuresService", () => {
         let testSceneStore: SceneStore = new SceneStore();
         testSceneStore.scmMetricLoaded = true;
 
-        let measureTreeService: any = Sinon.createStubInstance(SonarQubeMeasuresTreeService);
-        bindMock("SonarQubeMeasuresTreeService", measureTreeService);
-        let measureMetricService: any = Sinon.createStubInstance(SonarQubeMeasuresMetricService);
-        bindMock("SonarQubeMeasuresMetricService", measureMetricService);
-        let optimizeStructureService: any = Sinon.createStubInstance(SonarQubeOptimizeStructureService);
-        bindMock("SonarQubeOptimizeStructureService", optimizeStructureService);
+        let measureTreeService = createMock(SonarQubeMeasuresTreeService);
+        createMock(SonarQubeMeasuresMetricService);
+        createMock(SonarQubeOptimizeStructureService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");

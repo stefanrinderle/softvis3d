@@ -18,7 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {assert, expect} from "chai";
-import * as Sinon from "sinon";
 import {TreeElement} from "../../../../src/classes/TreeElement";
 import {
     SonarQubeApiComponent,
@@ -28,13 +27,12 @@ import {
 } from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
 import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresApiService";
 import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresTreeService";
-import {bindMock} from "../../../Helper";
+import {createMock} from "../../../Helper";
 
 describe("SonarQubeMeasuresTreeService", () => {
 
     it("should immediately resolve on response without components", (done) => {
-        let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
-        bindMock("SonarQubeMeasuresApiService", measureApiService);
+        let measureApiService = createMock(SonarQubeMeasuresApiService);
 
         let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 
@@ -56,8 +54,7 @@ describe("SonarQubeMeasuresTreeService", () => {
     });
 
     it("should resolve result", (done) => {
-        let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
-        bindMock("SonarQubeMeasuresApiService", measureApiService);
+        let measureApiService = createMock(SonarQubeMeasuresApiService);
 
         let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 
@@ -96,8 +93,7 @@ describe("SonarQubeMeasuresTreeService", () => {
     });
 
     it("should call service and react on errors", (done) => {
-        let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
-        bindMock("SonarQubeMeasuresApiService", measureApiService);
+        let measureApiService = createMock(SonarQubeMeasuresApiService);
 
         let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 

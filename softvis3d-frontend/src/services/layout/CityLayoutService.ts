@@ -8,7 +8,7 @@ import SonarQubeScmService from "../sonarqube/SonarQubeScmService";
 import LayoutProcessor from "./LayoutProcessor";
 import Softvis3dModel from "./Softvis3dModel";
 
-export class CityLayoutService {
+export default class CityLayoutService {
     public static BUILD_CITY: LoadAction = new LoadAction("BUILD_CITY", "Create layout");
 
     private sceneStore: SceneStore;

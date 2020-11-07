@@ -18,31 +18,28 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-import * as Sinon from "sinon";
 import BuilderReactions from "../../src/reactions/BuilderReactions";
 import AutoReloadService from "../../src/services/AutoReloadService";
 import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/SonarQubeMeasuresService";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
-import {bindMock} from "../Helper";
+import {createMock} from "../Helper";
 
 describe("BuilderReactions", () => {
 
     it("should initiate build process", () => {
         let testCityBuilderStore = new CityBuilderStore();
-        const testSonarService = Sinon.createStubInstance(SonarQubeMeasuresService);
-        bindMock("SonarQubeMeasuresService", testSonarService);
-        const testAutoReloadService = Sinon.createStubInstance(AutoReloadService);
-        bindMock("AutoReloadService", testAutoReloadService);
+        const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
+        const testAutoReloadService = createMock(AutoReloadService);
         const reactionRegister =
             new BuilderReactions(testCityBuilderStore);
 
-        expect(testSonarService.loadMeasures.notCalled).to.be.true;
+        expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 
         testCityBuilderStore.initiateBuildProcess = true;
 
         expect(reactionRegister).not.to.be.null;
         expect(testCityBuilderStore.initiateBuildProcess).to.be.false;
-        expect(testSonarService.loadMeasures.calledOnce).to.be.true;
+        expect(testSonarMeasuresService.loadMeasures.calledOnce).to.be.true;
         expect(testAutoReloadService.startAutoReload.calledOnce).to.be.true;
     });
 

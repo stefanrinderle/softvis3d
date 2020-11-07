@@ -22,7 +22,7 @@ import * as Sinon from "sinon";
 import AutoReloadService from "../../src/services/AutoReloadService";
 import SonarQubeComponentInfoService from "../../src/services/sonarqube/SonarQubeComponentInfoService";
 import {AppStatusStore} from "../../src/stores/AppStatusStore";
-import {bindMock} from "../Helper";
+import {createMock} from "../Helper";
 
 describe("AutoReloadService", () => {
 
@@ -32,8 +32,7 @@ describe("AutoReloadService", () => {
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
         appStatusStore.analysisDate = new Date();
 
-        const componentInfoService = Sinon.createStubInstance(SonarQubeComponentInfoService);
-        bindMock("SonarQubeComponentInfoService", componentInfoService);
+        createMock(SonarQubeComponentInfoService);
         let underTest = new AutoReloadService(appStatusStore);
 
         underTest.startAutoReload();
@@ -47,8 +46,7 @@ describe("AutoReloadService", () => {
         let windowStub = Sinon.stub(window, "setInterval");
 
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
-        const componentInfoService = Sinon.createStubInstance(SonarQubeComponentInfoService);
-        bindMock("SonarQubeComponentInfoService", componentInfoService);
+        createMock(SonarQubeComponentInfoService);
         let underTest = new AutoReloadService(appStatusStore);
 
         underTest.startAutoReload();
@@ -65,8 +63,7 @@ describe("AutoReloadService", () => {
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
         appStatusStore.analysisDate = new Date();
 
-        const componentInfoService = Sinon.createStubInstance(SonarQubeComponentInfoService);
-        bindMock("SonarQubeComponentInfoService", componentInfoService);
+        createMock(SonarQubeComponentInfoService);
         let underTest = new AutoReloadService(appStatusStore);
 
         underTest.startAutoReload();
@@ -88,8 +85,7 @@ describe("AutoReloadService", () => {
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
         appStatusStore.analysisDate = new Date();
 
-        const componentInfoService = Sinon.createStubInstance(SonarQubeComponentInfoService);
-        bindMock("SonarQubeComponentInfoService", componentInfoService);
+        createMock(SonarQubeComponentInfoService);
 
         let underTest = new AutoReloadService(appStatusStore);
 
@@ -110,8 +106,7 @@ describe("AutoReloadService", () => {
 
         let expectedDate = new Date(0);
 
-        const componentInfoService = Sinon.createStubInstance(SonarQubeComponentInfoService);
-        bindMock("SonarQubeComponentInfoService", componentInfoService);
+        const componentInfoService = createMock(SonarQubeComponentInfoService);
         componentInfoService.loadComponentInfo.returns(Promise.resolve({
             analysisDate: expectedDate
         }));
@@ -135,8 +130,7 @@ describe("AutoReloadService", () => {
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
         appStatusStore.analysisDate = expectedDate;
 
-        const componentInfoService = Sinon.createStubInstance(SonarQubeComponentInfoService);
-        bindMock("SonarQubeComponentInfoService", componentInfoService);
+        const componentInfoService = createMock(SonarQubeComponentInfoService);
         componentInfoService.loadComponentInfo.returns(Promise.resolve({
             analysisDate: new Date(0)
         }));
@@ -158,8 +152,7 @@ describe("AutoReloadService", () => {
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
         let expectedDate = new Date(0);
 
-        const componentInfoService = Sinon.createStubInstance(SonarQubeComponentInfoService);
-        bindMock("SonarQubeComponentInfoService", componentInfoService);
+        const componentInfoService = createMock(SonarQubeComponentInfoService);
         componentInfoService.loadComponentInfo.returns(Promise.resolve({
             analysisDate: expectedDate
         }));

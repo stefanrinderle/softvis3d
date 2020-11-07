@@ -5,13 +5,12 @@ import * as Sinon from "sinon";
 import TopBarShareButton from "../../../src/components/topbar/TopBarShareButton";
 import ClipBoardService from "../../../src/services/ClipBoardService";
 import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
-import {bindMock} from "../../Helper";
+import {createMock} from "../../Helper";
 
 describe("<TopBarShareButton/>", () => {
 
     it("should initialize if disabled", () => {
-        let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
-        bindMock("VisualizationLinkService", localVisualizationLinkService);
+        createMock(VisualizationLinkService);
 
         const shareButton = mount(
             <TopBarShareButton disabled={false}/>
@@ -26,8 +25,7 @@ describe("<TopBarShareButton/>", () => {
     });
 
     it("should open visualization link", () => {
-        let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
-        bindMock("VisualizationLinkService", localVisualizationLinkService);
+        let localVisualizationLinkService = createMock(VisualizationLinkService);
 
         let stub = Sinon.stub(window, "open");
 
@@ -48,10 +46,8 @@ describe("<TopBarShareButton/>", () => {
     });
 
     it("should copy visualization link", () => {
-        let localVisualizationLinkService = Sinon.createStubInstance(VisualizationLinkService);
-        bindMock("VisualizationLinkService", localVisualizationLinkService);
-
-        let stub = Sinon.stub(ClipBoardService, "copyTextToClipboard");
+        let localVisualizationLinkService = createMock(VisualizationLinkService);
+        let localClipBoardService = createMock(ClipBoardService);
 
         localVisualizationLinkService.createVisualizationLink.returns("abc");
 
@@ -63,8 +59,7 @@ describe("<TopBarShareButton/>", () => {
 
         dropDownButtons.at(0).simulate("click");
 
-        assert(stub.calledWithExactly("abc"));
-        stub.restore();
+        assert(localClipBoardService.copyTextToClipboard.calledWithExactly("abc"));
 
         expect(shareButton.state().isVisible).to.be.false;
     });

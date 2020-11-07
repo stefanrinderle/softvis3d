@@ -1,4 +1,11 @@
 ///
+import ErrorAction from "../../classes/status/ErrorAction";
+import LoadAction from "../../classes/status/LoadAction";
+import {TreeElement} from "../../classes/TreeElement";
+import {lazyInject} from "../../inversify.config";
+import {AppStatusStore} from "../../stores/AppStatusStore";
+import {default as sceneStore, SceneStore} from "../../stores/SceneStore";
+import TreeService from "../TreeService";
 /// softvis3d-frontend
 /// Copyright (C) 2016 Stefan Rinderle and Yvo Niedrich
 /// stefan@rinderle.info / yvo.niedrich@gmail.com
@@ -18,19 +25,16 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {BackendService} from "./BackendService";
-import {AppStatusStore} from "../../stores/AppStatusStore";
-import LoadAction from "../../classes/status/LoadAction";
-import ErrorAction from "../../classes/status/ErrorAction";
-import {default as sceneStore, SceneStore} from "../../stores/SceneStore";
-import {TreeService} from "../TreeService";
 import ScmCalculator from "./ScmCalculator";
-import {TreeElement} from "../../classes/TreeElement";
 
 export default class SonarQubeScmService extends BackendService {
     public static LOAD_SCM: LoadAction = new LoadAction("SONAR_LOAD_SCM", "Request scm infos from SonarQube");
     public static STATUS_SCM_NOT_AVAILABLE: LoadAction = new LoadAction("STATUS_SCM_NOT_AVAILABLE",
         "SCM blame info is not available. Please check your scm plugin.");
     private static LOAD_SCM_ERROR_KEY: string = "LOAD_SCM_ERROR";
+
+    @lazyInject("TreeService")
+    private treeService!: TreeService;
 
     private appStatusStore: AppStatusStore;
     private sceneStore: SceneStore;
@@ -71,7 +75,7 @@ export default class SonarQubeScmService extends BackendService {
     public checkScmInfosAvailable(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             if (this.sceneStore.projectData !== null) {
-                let allFiles: TreeElement[] = TreeService.getAllFiles(this.sceneStore.projectData);
+                let allFiles: TreeElement[] = this.treeService.getAllFiles(this.sceneStore.projectData);
                 allFiles = allFiles.slice(0, 10);
 
                 let requests: Array<Promise<void>> = [];
@@ -99,7 +103,7 @@ export default class SonarQubeScmService extends BackendService {
 
         return new Promise<void>((resolve, reject) => {
             if (this.sceneStore.projectData !== null) {
-                let allFiles: TreeElement[] = TreeService.getAllFiles(this.sceneStore.projectData);
+                let allFiles: TreeElement[] = this.treeService.getAllFiles(this.sceneStore.projectData);
 
                 this.loadScmInfosBatch(allFiles).then(() => {
                     this.appStatusStore.loadComplete(SonarQubeScmService.LOAD_SCM);

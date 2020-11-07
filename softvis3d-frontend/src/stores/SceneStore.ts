@@ -1,10 +1,11 @@
-import {computed, observe, observable} from "mobx";
-import {TreeService} from "../services/TreeService";
-import VisualizationOptions from "../classes/VisualizationOptions";
+import {computed, observable, observe} from "mobx";
 import {Vector3} from "three";
+import {SceneColorTheme} from "../classes/SceneColorTheme";
 import {TreeElement} from "../classes/TreeElement";
-import { SceneColorTheme } from "../classes/SceneColorTheme";
-import { DEFAULT_COLOR_THEME } from "../constants/SceneColorThemes";
+import VisualizationOptions from "../classes/VisualizationOptions";
+import {DEFAULT_COLOR_THEME} from "../constants/SceneColorThemes";
+import {lazyInject} from "../inversify.config";
+import TreeService from "../services/TreeService";
 
 class SceneStore {
     @observable
@@ -22,6 +23,9 @@ class SceneStore {
     public scmMetricLoaded: boolean;
     public colorTheme: SceneColorTheme = DEFAULT_COLOR_THEME;
 
+    @lazyInject("TreeService")
+    private treeService!: TreeService;
+
     public constructor() {
         this.scmMetricLoaded = false;
         observe(this, "shapes", () => { this.shapesHash = (Date.now()).toString(36); });
@@ -37,7 +41,7 @@ class SceneStore {
         let selectedElement: TreeElement | null = null;
         if (this.projectData !== null && this.selectedObjectId != null) {
             selectedElement =
-                TreeService.searchTreeNode(this.projectData, this.selectedObjectId);
+                this.treeService.searchTreeNode(this.projectData, this.selectedObjectId);
         }
         return selectedElement;
     }
