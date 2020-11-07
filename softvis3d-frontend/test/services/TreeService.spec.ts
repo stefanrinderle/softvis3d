@@ -19,7 +19,7 @@
 ///
 import {expect} from "chai";
 import {TreeElement} from "../../src/classes/TreeElement";
-import {TreeService} from "../../src/services/TreeService";
+import TreeService from "../../src/services/TreeService";
 
 describe("TreeService", () => {
 

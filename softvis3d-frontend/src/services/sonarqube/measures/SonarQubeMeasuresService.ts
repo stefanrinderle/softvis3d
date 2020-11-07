@@ -41,11 +41,11 @@ export default class SonarQubeMeasuresService {
     private sceneStore: SceneStore;
 
     @lazyInject("SonarQubeMeasuresTreeService")
-    private measureTreeService!: SonarQubeMeasuresTreeService;
+    private readonly measureTreeService!: SonarQubeMeasuresTreeService;
     @lazyInject("SonarQubeMeasuresMetricService")
-    private measureMetricService!: SonarQubeMeasuresMetricService;
+    private readonly measureMetricService!: SonarQubeMeasuresMetricService;
     @lazyInject("SonarQubeOptimizeStructureService")
-    private optimizeStructureService!: SonarQubeOptimizeStructureService;
+    private readonly optimizeStructureService!: SonarQubeOptimizeStructureService;
 
     private metricKeys?: string;
 

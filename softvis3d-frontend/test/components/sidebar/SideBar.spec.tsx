@@ -5,7 +5,7 @@ import {TreeElement} from "../../../src/classes/TreeElement";
 import FolderContent from "../../../src/components/sidebar/FolderContent";
 import ParentElement from "../../../src/components/sidebar/ParentElement";
 import SideBar from "../../../src/components/sidebar/SideBar";
-import {TreeService} from "../../../src/services/TreeService";
+import TreeService from "../../../src/services/TreeService";
 import {SceneStore} from "../../../src/stores/SceneStore";
 import {createMock} from "../../Helper";
 

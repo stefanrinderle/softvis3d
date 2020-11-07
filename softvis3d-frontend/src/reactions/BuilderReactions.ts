@@ -8,9 +8,9 @@ import {CityBuilderStore} from "../stores/CityBuilderStore";
 export default class BuilderReactions {
     private cityBuilderStore: CityBuilderStore;
     @lazyInject("SonarQubeMeasuresService")
-    private measuresService!: SonarQubeMeasuresService;
+    private readonly measuresService!: SonarQubeMeasuresService;
     @lazyInject("AutoReloadService")
-    private autoReloadService!: AutoReloadService;
+    private readonly autoReloadService!: AutoReloadService;
 
     constructor(cityBuilderStore: CityBuilderStore) {
         this.cityBuilderStore = cityBuilderStore;

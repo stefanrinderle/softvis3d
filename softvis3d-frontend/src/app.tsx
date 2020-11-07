@@ -8,6 +8,7 @@ import AppReactions from "./reactions/AppReactions";
 import BuilderReactions from "./reactions/BuilderReactions";
 import SceneReactions from "./reactions/SceneReactions";
 import AutoReloadService from "./services/AutoReloadService";
+import {HtmlDomService} from "./services/HtmlDomService";
 import CityLayoutService from "./services/layout/CityLayoutService";
 import SonarQubeMeasuresApiService from "./services/sonarqube/measures/SonarQubeMeasuresApiService";
 import SonarQubeMeasuresMetricService from "./services/sonarqube/measures/SonarQubeMeasuresMetricService";
@@ -17,9 +18,11 @@ import SonarQubeOptimizeStructureService from "./services/sonarqube/measures/Son
 import SonarQubeComponentInfoService from "./services/sonarqube/SonarQubeComponentInfoService";
 import SonarQubeMetricsService from "./services/sonarqube/SonarQubeMetricsService";
 import SonarQubeScmService from "./services/sonarqube/SonarQubeScmService";
+import SonarQubeTransformerService from "./services/sonarqube/SonarQubeTransformerService";
 import TreeService from "./services/TreeService";
+import UrlParameterService from "./services/UrlParameterService";
 import VisualizationLinkService from "./services/VisualizationLinkService";
-import WebGLDetector from "./services/WebGLDetector";
+import WebGLDetectorService from "./services/WebGLDetectorService";
 import appStatusStore from "./stores/AppStatusStore";
 import cityBuilderStore from "./stores/CityBuilderStore";
 import sceneStore from "./stores/SceneStore";
@@ -30,6 +33,7 @@ export default class App {
     private communicator: SonarQubeMetricsService;
     private visualizationLinkService: VisualizationLinkService;
     private componentInfoService: SonarQubeComponentInfoService;
+    private webGLDetectorService: WebGLDetectorService;
 
     private config: AppConfiguration;
 
@@ -62,6 +66,17 @@ export default class App {
             .toConstantValue(measuresService);
         container.bind<SonarQubeOptimizeStructureService>("SonarQubeOptimizeStructureService")
             .toConstantValue(new SonarQubeOptimizeStructureService());
+
+        container.bind<UrlParameterService>("UrlParameterService")
+            .toConstantValue(new UrlParameterService());
+        this.webGLDetectorService = new WebGLDetectorService();
+        container.bind<WebGLDetectorService>("WebGLDetectorService")
+            .toConstantValue(this.webGLDetectorService);
+
+        container.bind<HtmlDomService>("HtmlDomService").toConstantValue(new HtmlDomService());
+
+        container.bind<SonarQubeTransformerService>("SonarQubeTransformerService")
+            .toConstantValue(new SonarQubeTransformerService());
 
         container.bind<CityLayoutService>("CityLayoutService")
             .toConstantValue(new CityLayoutService(sceneStore, appStatusStore));
@@ -113,8 +128,8 @@ export default class App {
     }
 
     private assertClientRequirementsAreMet() {
-        if (!WebGLDetector.isWebGLSupported()) {
-            const error = WebGLDetector.getWebGLErrorMessage();
+        if (!this.webGLDetectorService.isWebGLSupported()) {
+            const error = this.webGLDetectorService.getWebGLErrorMessage();
 
             appStatusStore.error(
                 new ErrorAction(App.WEBGL_ERROR_KEY, "WebGL is required. " + error, "Reload page", () => {

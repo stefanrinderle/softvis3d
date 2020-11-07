@@ -22,7 +22,7 @@ import * as Sinon from "sinon";
 import {TreeElement} from "../../../src/classes/TreeElement";
 import VisualizationOptions from "../../../src/classes/VisualizationOptions";
 import {numberOfAuthorsBlameColorMetric} from "../../../src/constants/Metrics";
-import {CityLayoutService} from "../../../src/services/layout/CityLayoutService";
+import CityLayoutService from "../../../src/services/layout/CityLayoutService";
 import LayoutProcessor from "../../../src/services/layout/LayoutProcessor";
 import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
 import {AppStatusStore} from "../../../src/stores/AppStatusStore";

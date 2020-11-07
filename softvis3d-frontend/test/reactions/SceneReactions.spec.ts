@@ -23,7 +23,7 @@ import {TreeElement} from "../../src/classes/TreeElement";
 import VisualizationOptions from "../../src/classes/VisualizationOptions";
 import {complexityColorMetric} from "../../src/constants/Metrics";
 import SceneReactions from "../../src/reactions/SceneReactions";
-import {CityLayoutService} from "../../src/services/layout/CityLayoutService";
+import CityLayoutService from "../../src/services/layout/CityLayoutService";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
 import {SceneStore} from "../../src/stores/SceneStore";
 import {createMock} from "../Helper";

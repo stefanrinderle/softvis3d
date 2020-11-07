@@ -19,22 +19,24 @@
 ///
 import {expect} from "chai";
 import {TreeElement} from "../../src/classes/TreeElement";
-import SonarQubeTransformer from "../../src/services/sonarqube/SonarQubeTransformer";
+import SonarQubeTransformerService from "../../src/services/sonarqube/SonarQubeTransformerService";
 
 describe("TreeElement", () => {
+
+    const sonarQubeTransformerService = new SonarQubeTransformerService();
 
     it("should be able to sort by name and type", () => {
         let parent: TreeElement = createTreeElementAsChildWithPath("/src");
         let testDir: TreeElement = createTreeElementAsChildWithPath("/src/test");
-        SonarQubeTransformer.add(parent, testDir);
+        sonarQubeTransformerService.add(parent, testDir);
 
         let mainDir: TreeElement = createTreeElementAsChildWithPath("/src/main");
-        SonarQubeTransformer.add(parent, mainDir);
+        sonarQubeTransformerService.add(parent, mainDir);
 
         let fileA: TreeElement = createTreeElementAsChildWithPath("/src/a.java", true);
-        SonarQubeTransformer.add(parent, fileA);
+        sonarQubeTransformerService.add(parent, fileA);
         let fileZ: TreeElement = createTreeElementAsChildWithPath("/src/z.java", true);
-        SonarQubeTransformer.add(parent, fileZ);
+        sonarQubeTransformerService.add(parent, fileZ);
 
         let folderResult: TreeElement[] = parent.getSortedChildren();
 
@@ -47,11 +49,11 @@ describe("TreeElement", () => {
 
     it("should be able to replace child", () => {
         let parent: TreeElement = createTreeElementAsChildWithNameAndKey("/src", "123");
-        SonarQubeTransformer.add(parent, createTreeElementAsChildWithNameAndKey("sdfsdf", "35"));
-        SonarQubeTransformer.add(parent, createTreeElementAsChildWithNameAndKey("sdfs", "443"));
+        sonarQubeTransformerService.add(parent, createTreeElementAsChildWithNameAndKey("sdfsdf", "35"));
+        sonarQubeTransformerService.add(parent, createTreeElementAsChildWithNameAndKey("sdfs", "443"));
 
         let testDir: TreeElement = createTreeElementAsChildWithNameAndKey("/src/test", "333");
-        SonarQubeTransformer.add(parent, testDir);
+        sonarQubeTransformerService.add(parent, testDir);
 
         let fileA: TreeElement = createTreeElementAsChildWithPath("/src/a.java", true);
         parent.replaceChildByKey("333", fileA);

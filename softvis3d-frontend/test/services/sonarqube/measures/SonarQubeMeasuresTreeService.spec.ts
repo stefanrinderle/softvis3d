@@ -27,12 +27,14 @@ import {
 } from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
 import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresApiService";
 import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresTreeService";
+import SonarQubeTransformerService from "../../../../src/services/sonarqube/SonarQubeTransformerService";
 import {createMock} from "../../../Helper";
 
 describe("SonarQubeMeasuresTreeService", () => {
 
     it("should immediately resolve on response without components", (done) => {
         let measureApiService = createMock(SonarQubeMeasuresApiService);
+        createMock(SonarQubeTransformerService);
 
         let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 
@@ -55,6 +57,9 @@ describe("SonarQubeMeasuresTreeService", () => {
 
     it("should resolve result", (done) => {
         let measureApiService = createMock(SonarQubeMeasuresApiService);
+        let sonarQubeTransformerService = createMock(SonarQubeTransformerService);
+        sonarQubeTransformerService.createTreeElement.callThrough();
+        sonarQubeTransformerService.add.callThrough();
 
         let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 

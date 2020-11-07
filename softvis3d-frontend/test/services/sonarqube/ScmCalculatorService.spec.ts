@@ -18,17 +18,17 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-import ScmCalculator from "../../../src/services/sonarqube/ScmCalculator";
+import ScmCalculatorService from "../../../src/services/sonarqube/ScmCalculatorService";
 import SonarQubeApiScm from "../../../src/services/sonarqube/SonarQubeApiScm";
 
-describe("ScmCalculator", () => {
+describe("ScmCalculatorService", () => {
 
     it("should work with only one line and author", () => {
         let measures: SonarQubeApiScm[] = [];
         let measure: SonarQubeApiScm = createMeasure(1, "srinderle");
         measures.push(measure);
 
-        let result = ScmCalculator.calcNumberOfAuthors(measures);
+        let result = new ScmCalculatorService().calcNumberOfAuthors(measures);
 
         expect(result).not.to.be.null;
         expect(result).to.be.eq(1);
@@ -46,7 +46,7 @@ describe("ScmCalculator", () => {
         measures.push(createMeasure(8, "XX"));
         measures.push(createMeasure(9, "srinderle"));
 
-        let result = ScmCalculator.calcNumberOfAuthors(measures);
+        let result = new ScmCalculatorService().calcNumberOfAuthors(measures);
 
         expect(result).to.be.eq(3);
     });
@@ -54,7 +54,7 @@ describe("ScmCalculator", () => {
     it("should work with an empty array", () => {
         let measures: SonarQubeApiScm[] = [];
 
-        let result = ScmCalculator.calcNumberOfAuthors(measures);
+        let result = new ScmCalculatorService().calcNumberOfAuthors(measures);
 
         expect(result).to.be.eq(0);
     });
@@ -71,7 +71,7 @@ describe("ScmCalculator", () => {
         measure[2] = lastCommit;
         measure[3] = lastCommitRevision;
 
-        let result = ScmCalculator.createMetric(measure);
+        let result = new ScmCalculatorService().createMetric(measure);
 
         expect(result.lineNumber).to.be.eq(+lineNumber);
         expect(result.authorName).to.be.eq(authorName);

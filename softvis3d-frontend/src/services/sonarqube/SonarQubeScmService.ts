@@ -25,7 +25,7 @@ import TreeService from "../TreeService";
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {BackendService} from "./BackendService";
-import ScmCalculator from "./ScmCalculator";
+import ScmCalculatorService from "./ScmCalculatorService";
 
 export default class SonarQubeScmService extends BackendService {
     public static LOAD_SCM: LoadAction = new LoadAction("SONAR_LOAD_SCM", "Request scm infos from SonarQube");
@@ -34,7 +34,9 @@ export default class SonarQubeScmService extends BackendService {
     private static LOAD_SCM_ERROR_KEY: string = "LOAD_SCM_ERROR";
 
     @lazyInject("TreeService")
-    private treeService!: TreeService;
+    private readonly treeService!: TreeService;
+    @lazyInject("ScmCalculatorService")
+    private readonly scmCalculator!: ScmCalculatorService;
 
     private appStatusStore: AppStatusStore;
     private sceneStore: SceneStore;
@@ -166,12 +168,12 @@ export default class SonarQubeScmService extends BackendService {
             this.callApi("/sources/scm", {params}).then((response) => {
                 let metrics = (response.data.scm)
                     .map((c: any) => {
-                            return ScmCalculator.createMetric(c);
+                            return this.scmCalculator.createMetric(c);
                         }
                     );
 
                 element.measures = Object.assign(element.measures, {
-                    number_of_authors: ScmCalculator.calcNumberOfAuthors(metrics)
+                    number_of_authors: this.scmCalculator.calcNumberOfAuthors(metrics)
                 });
 
                 resolve();

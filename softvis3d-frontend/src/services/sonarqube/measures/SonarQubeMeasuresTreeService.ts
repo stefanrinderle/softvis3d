@@ -19,19 +19,21 @@
 ///
 import {TreeElement} from "../../../classes/TreeElement";
 import {lazyInject} from "../../../inversify.config";
-import SonarQubeTransformer from "../SonarQubeTransformer";
+import SonarQubeTransformerService from "../SonarQubeTransformerService";
 import SonarQubeMeasuresApiService from "./SonarQubeMeasuresApiService";
 
 export default class SonarQubeMeasuresTreeService {
 
     @lazyInject("SonarQubeMeasuresApiService")
-    private measureApiService!: SonarQubeMeasuresApiService;
+    private readonly measureApiService!: SonarQubeMeasuresApiService;
+    @lazyInject("SonarQubeTransformerService")
+    private readonly sonarQubeTransformerService!: SonarQubeTransformerService;
 
     public loadTree(parent: TreeElement, metricKeys: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             this.measureApiService.loadMeasures(parent.key, metricKeys).then((result) => {
                 for (const file of result.components) {
-                    SonarQubeTransformer.add(parent, SonarQubeTransformer.createTreeElement(file), true);
+                    this.sonarQubeTransformerService.add(parent, this.sonarQubeTransformerService.createTreeElement(file), true);
                 }
                 resolve();
             }).catch((error) => {

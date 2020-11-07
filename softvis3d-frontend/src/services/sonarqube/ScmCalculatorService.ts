@@ -18,28 +18,29 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-export default class WebGLDetector {
+import SonarQubeApiScm from "./SonarQubeApiScm";
 
-    public static isWebGLSupported(): boolean {
-        try {
-            let canvas = document.createElement("canvas");
-            return !!((window as any).WebGLRenderingContext
-                && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")));
-        } catch (e) {
-            return false;
-        }
+export default class ScmCalculatorService {
+
+    public calcNumberOfAuthors(measures: SonarQubeApiScm[]): number {
+        let groupByAuthorName = this.groupByAuthorName(measures);
+        return groupByAuthorName.size;
     }
 
-    public static getWebGLErrorMessage(): string {
-        if (this.isWebGLSupported()) {
-            return "";
-        }
-
-        if (typeof window !== "undefined" && (window as any).WebGLRenderingContext) {
-            return "Your graphics card does not seem to support WebGL. Find out how to get it on http://get.webgl.org/";
-        } else {
-            return "Your browser does not seem to support WebGL. Find out how to get it on http://get.webgl.org/.";
-        }
+    public createMetric(measure: string[]): SonarQubeApiScm {
+        return new SonarQubeApiScm(+measure[0], measure[1], measure[2], measure[3]);
     }
 
+    private groupByAuthorName(measures: SonarQubeApiScm[]) {
+        const map = new Map();
+        measures.forEach((item) => {
+            const key = item.authorName;
+            if (!map.has(key)) {
+                map.set(key, [item]);
+            } else {
+                map.get(key).push(item);
+            }
+        });
+        return map;
+    }
 }

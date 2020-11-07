@@ -8,9 +8,9 @@ export class Offset {
     }
 }
 
-export class HtmlDom {
+export class HtmlDomService {
 
-    public static getOffsetsById(id: string): Offset {
+    public getOffsetsById(id: string): Offset {
         let node = document.getElementById(id);
         let top = 0;
         let left = 0;
@@ -28,7 +28,7 @@ export class HtmlDom {
         return new Offset(top - topScroll, left - leftScroll);
     }
 
-    public static getHeightById(id: string): number {
+    public getHeightById(id: string): number {
         const element = document.getElementById(id);
 
         if (!element) {
@@ -50,7 +50,7 @@ export class HtmlDom {
         }
     }
 
-    public static getWidthById(id: string): number {
+    public getWidthById(id: string): number {
         const element = document.getElementById(id);
 
         if (!element) {
@@ -72,7 +72,7 @@ export class HtmlDom {
         }
     }
 
-    public static isDescendant(parent: HTMLElement | null, child: HTMLElement | null): boolean {
+    public isDescendant(parent: HTMLElement | null, child: HTMLElement | null): boolean {
         if (!parent || !child) {
             return false;
         }

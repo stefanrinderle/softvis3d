@@ -16,9 +16,9 @@ interface TopBarShareButtonStates {
 export default class TopBarShareButton extends React.Component<TopBarShareButtonProbs, TopBarShareButtonStates> {
 
     @lazyInject("VisualizationLinkService")
-    private visualizationLinkService!: VisualizationLinkService;
+    private readonly visualizationLinkService!: VisualizationLinkService;
     @lazyInject("ClipBoardService")
-    private clipBoardService!: ClipBoardService;
+    private readonly clipBoardService!: ClipBoardService;
 
     public componentWillMount() {
         this.setShareMenuState(false);

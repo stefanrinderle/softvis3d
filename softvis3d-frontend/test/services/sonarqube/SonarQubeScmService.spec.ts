@@ -20,9 +20,9 @@
 import {assert, expect} from "chai";
 import * as Sinon from "sinon";
 import {TreeElement} from "../../../src/classes/TreeElement";
-import ScmCalculator from "../../../src/services/sonarqube/ScmCalculator";
+import ScmCalculatorService from "../../../src/services/sonarqube/ScmCalculatorService";
 import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
-import {TreeService} from "../../../src/services/TreeService";
+import TreeService from "../../../src/services/TreeService";
 import {AppStatusStore} from "../../../src/stores/AppStatusStore";
 import {SceneStore} from "../../../src/stores/SceneStore";
 import {createMock} from "../../Helper";
@@ -46,15 +46,14 @@ describe("SonarQubeScmService", () => {
         let measures: any = [];
         measures.push(measure);
 
-        let scmCalculatorCreateMetricMock = Sinon.stub(ScmCalculator, "createMetric");
-        scmCalculatorCreateMetricMock.returns({
+        let localScmCalculator = createMock(ScmCalculatorService);
+        localScmCalculator.createMetric.returns({
             lineNumber: 1,
             authorName: "srinderle",
             lastCommit: "oisdfosidj",
             lastCommitRevision: "soidufhosidjf"
         });
-        let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
-        scmCalculatorCaclAuthorsMock.returns(4);
+        localScmCalculator.calcNumberOfAuthors.returns(4);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -67,8 +66,6 @@ describe("SonarQubeScmService", () => {
         underTest.checkScmInfosAvailable().then((result) => {
             expect(result).to.be.true;
 
-            scmCalculatorCreateMetricMock.restore();
-            scmCalculatorCaclAuthorsMock.restore();
             done();
         }).catch((error) => {
             assert.isNotOk(error, "checkScmInfosAvailable promise result error");
@@ -95,10 +92,9 @@ describe("SonarQubeScmService", () => {
         let measures: any = [];
         measures.push(measure);
 
-        let scmCalculatorCreateMetricMock = Sinon.stub(ScmCalculator, "createMetric");
-        scmCalculatorCreateMetricMock.returns({});
-        let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
-        scmCalculatorCaclAuthorsMock.returns(0);
+        let localScmCalculator = createMock(ScmCalculatorService);
+        localScmCalculator.createMetric.returns({});
+        localScmCalculator.calcNumberOfAuthors.returns(0);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -112,8 +108,6 @@ describe("SonarQubeScmService", () => {
             expect(result).to.be.false;
             assert(statusStub.calledOnce);
 
-            scmCalculatorCreateMetricMock.restore();
-            scmCalculatorCaclAuthorsMock.restore();
             statusStub.restore();
             done();
         }).catch((error) => {
@@ -123,6 +117,7 @@ describe("SonarQubeScmService", () => {
     });
 
     it("should call backend and add metric", (done) => {
+        createMock(ScmCalculatorService);
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
 
         let loadStub = Sinon.stub(testAppStatusStore, "load");
@@ -144,15 +139,14 @@ describe("SonarQubeScmService", () => {
         let measures: any = [];
         measures.push(measure);
 
-        let scmCalculatorCreateMetricMock = Sinon.stub(ScmCalculator, "createMetric");
-        scmCalculatorCreateMetricMock.returns({
+        let localScmCalculator = createMock(ScmCalculatorService);
+        localScmCalculator.createMetric.returns({
             lineNumber: 1,
             authorName: "srinderle",
             lastCommit: "oisdfosidj",
             lastCommitRevision: "soidufhosidjf"
         });
-        let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
-        scmCalculatorCaclAuthorsMock.returns(4);
+        localScmCalculator.calcNumberOfAuthors.returns(4);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -170,8 +164,6 @@ describe("SonarQubeScmService", () => {
             assert(loadCompleteStub.called);
             assert(loadStatusUpdateStub.called);
 
-            scmCalculatorCreateMetricMock.restore();
-            scmCalculatorCaclAuthorsMock.restore();
             done();
         }).catch((error) => {
             assert.isNotOk(error, "Promise error");
@@ -180,6 +172,7 @@ describe("SonarQubeScmService", () => {
     });
 
     it("should call backend and add metric in batches", (done) => {
+        createMock(ScmCalculatorService);
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let loadStub = Sinon.stub(testAppStatusStore, "load");
         let loadCompleteStub = Sinon.stub(testAppStatusStore, "loadComplete");
@@ -203,15 +196,14 @@ describe("SonarQubeScmService", () => {
         let measures: any = [];
         measures.push(measure);
 
-        let scmCalculatorCreateMetricMock = Sinon.stub(ScmCalculator, "createMetric");
-        scmCalculatorCreateMetricMock.returns({
+        let localScmCalculator = createMock(ScmCalculatorService);
+        localScmCalculator.createMetric.returns({
             lineNumber: 1,
             authorName: "srinderle",
             lastCommit: "oisdfosidj",
             lastCommitRevision: "soidufhosidjf"
         });
-        let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
-        scmCalculatorCaclAuthorsMock.returns(4);
+        localScmCalculator.calcNumberOfAuthors.returns(4);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -231,8 +223,6 @@ describe("SonarQubeScmService", () => {
             assert(loadCompleteStub.called);
             assert(loadStatusUpdateStub.calledTwice);
 
-            scmCalculatorCreateMetricMock.restore();
-            scmCalculatorCaclAuthorsMock.restore();
             done();
         }).catch((error) => {
             assert.isNotOk(error, "Promise error");

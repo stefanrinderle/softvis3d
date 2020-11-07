@@ -1,12 +1,13 @@
+import {assert, expect} from "chai";
+import {mount, shallow} from "enzyme";
 import * as React from "react";
-import { assert, expect } from "chai";
-import { mount, shallow } from "enzyme";
-import { SceneStore } from "../../../src/stores/SceneStore";
-import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
-import FolderContent, { NodeListProps } from "../../../src/components/sidebar/FolderContent";
 import * as Sinon from "sinon";
-import { HtmlDom } from "../../../src/services/HtmlDom";
 import {TreeElement} from "../../../src/classes/TreeElement";
+import FolderContent, {NodeListProps} from "../../../src/components/sidebar/FolderContent";
+import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
+import {HtmlDomService} from "../../../src/services/HtmlDomService";
+import {SceneStore} from "../../../src/stores/SceneStore";
+import {createMock} from "../../Helper";
 
 describe("<FolderContent/>", () => {
 
@@ -81,8 +82,9 @@ describe("<FolderContent/>", () => {
     });
 
     it("should mount component with dimension update", () => {
-        const htmlDomGetHeightStub = Sinon.stub(HtmlDom, "getHeightById").callsFake(() => 123);
-        const htmlDomGetOffsetStub = Sinon.stub(HtmlDom, "getOffsetsById").callsFake(() => ({top: 312, left: 111}));
+        let htmlDomStub = createMock(HtmlDomService);
+        htmlDomStub.getHeightById.callsFake(() => 123);
+        htmlDomStub.getOffsetsById.callsFake(() => ({top: 312, left: 111}));
 
         let windowStub = Sinon.stub(window, "addEventListener");
 
@@ -98,8 +100,6 @@ describe("<FolderContent/>", () => {
 
         assert(windowStub.called);
         windowStub.restore();
-        htmlDomGetHeightStub.restore();
-        htmlDomGetOffsetStub.restore();
     });
 
     it("should remove event listener on unmount", () => {

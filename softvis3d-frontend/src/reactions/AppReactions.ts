@@ -10,9 +10,9 @@ export default class AppReactions {
     private cityBuilderStore: CityBuilderStore;
     private appStatusStore: AppStatusStore;
     @lazyInject("SonarQubeMeasuresService")
-    private measuresService!: SonarQubeMeasuresService;
+    private readonly measuresService!: SonarQubeMeasuresService;
     @lazyInject("AutoReloadService")
-    private autoReloadService!: AutoReloadService;
+    private readonly autoReloadService!: AutoReloadService;
 
     constructor(appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore) {
         this.appStatusStore = appStatusStore;

@@ -14,9 +14,9 @@ export default class CityLayoutService {
     private sceneStore: SceneStore;
     private appStatusStore: AppStatusStore;
     @lazyInject("LayoutProcessor")
-    private layoutProcessor!: LayoutProcessor;
+    private readonly layoutProcessor!: LayoutProcessor;
     @lazyInject("SonarQubeScmService")
-    private scmService!: SonarQubeScmService;
+    private readonly scmService!: SonarQubeScmService;
 
     public constructor(sceneStore: SceneStore, appStatusStore: AppStatusStore) {
         this.sceneStore = sceneStore;

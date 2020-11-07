@@ -9,7 +9,7 @@ export default class SceneReactions {
     private builder: CityBuilderStore;
     private scene: SceneStore;
     @lazyInject("CityLayoutService")
-    private cityLayoutService!: CityLayoutService;
+    private readonly cityLayoutService!: CityLayoutService;
 
     constructor(
         scene: SceneStore,

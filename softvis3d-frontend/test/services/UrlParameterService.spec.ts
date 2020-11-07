@@ -23,7 +23,7 @@ import UrlParameterService, {Parameters} from "../../src/services/UrlParameterSe
 describe("UrlParameterService", () => {
 
     it("Extracts the parameters properly", () => {
-        let result: Parameters = UrlParameterService.getQueryParams("?test=123&test3=bla&metricWidth=13");
+        let result: Parameters = new UrlParameterService().getQueryParams("?test=123&test3=bla&metricWidth=13");
 
         expect(result.test).to.contain("123");
         expect(result.test3).to.contain("bla");
@@ -31,7 +31,7 @@ describe("UrlParameterService", () => {
     });
 
     it("Extracts the parameters properly on single property", () => {
-        let result: Parameters = UrlParameterService.getQueryParams("?test=123");
+        let result: Parameters = new UrlParameterService().getQueryParams("?test=123");
 
         expect(result.test).to.contain("123");
     });
@@ -43,7 +43,7 @@ describe("UrlParameterService", () => {
             test1: "test1Value",
             test2: "test2Value"
         };
-        let result = UrlParameterService.createVisualizationLinkForCurrentUrl(href, params);
+        let result = new UrlParameterService().createVisualizationLinkForCurrentUrl(href, params);
 
         expect(result).to.be.eq("http://localhost:9000/plugins/resource/rinderle%3AklamottenwetterWeb" +
             "?page=SoftVis3D&test1=test1Value&test2=test2Value");
@@ -56,7 +56,7 @@ describe("UrlParameterService", () => {
             test1: "test1Value",
             test2: "test2Value"
         };
-        let result = UrlParameterService.createVisualizationLinkForCurrentUrl(href, params);
+        let result = new UrlParameterService().createVisualizationLinkForCurrentUrl(href, params);
 
         expect(result).to.be.eq("http://localhost:8080?test1=test1Value&test2=test2Value");
     });
@@ -68,7 +68,7 @@ describe("UrlParameterService", () => {
             test1: "test1Value",
             test2: "test2Value"
         };
-        let result = UrlParameterService.createVisualizationLinkForCurrentUrl(href, params);
+        let result = new UrlParameterService().createVisualizationLinkForCurrentUrl(href, params);
 
         expect(result).to.be.eq("http://localhost:8080?test1=test1Value&test2=test2Value");
     });

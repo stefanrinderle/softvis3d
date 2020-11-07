@@ -1,19 +1,20 @@
-import { assert, expect } from "chai";
+import {assert, expect} from "chai";
 import * as Sinon from "sinon";
-import ThreeSceneService from "../../../../src/components/scene/visualization/ThreeSceneService";
-import SoftVis3dScene from "../../../../src/components/scene/visualization/scene/SoftVis3dScene";
-import { Vector3 } from "three";
-import { SoftVis3dShape } from "../../../../src/components/scene/domain/SoftVis3dShape";
-import { Wrangler } from "../../../../src/components/scene/visualization/objects/Wrangler";
-import { SelectionCalculator } from "../../../../src/components/scene/visualization/SelectionCalculator";
-import { HtmlDom } from "../../../../src/services/HtmlDom";
-import VisualizationOptions from "../../../../src/classes/VisualizationOptions";
-import { evostreet } from "../../../../src/constants/Layouts";
+import {Vector3} from "three";
 import Metric from "../../../../src/classes/Metric";
-import { complexityColorMetric, noColorMetric, noMetricId } from "../../../../src/constants/Metrics";
-import { LOGARITHMIC } from "../../../../src/constants/Scales";
-import { SceneColorTheme } from "../../../../src/classes/SceneColorTheme";
-import { SceneColorThemes } from "../../../../src/constants/SceneColorThemes";
+import {SceneColorTheme} from "../../../../src/classes/SceneColorTheme";
+import VisualizationOptions from "../../../../src/classes/VisualizationOptions";
+import {SoftVis3dShape} from "../../../../src/components/scene/domain/SoftVis3dShape";
+import {Wrangler} from "../../../../src/components/scene/visualization/objects/Wrangler";
+import SoftVis3dScene from "../../../../src/components/scene/visualization/scene/SoftVis3dScene";
+import {SelectionCalculator} from "../../../../src/components/scene/visualization/SelectionCalculator";
+import ThreeSceneService from "../../../../src/components/scene/visualization/ThreeSceneService";
+import {evostreet} from "../../../../src/constants/Layouts";
+import {complexityColorMetric, noColorMetric, noMetricId} from "../../../../src/constants/Metrics";
+import {LOGARITHMIC} from "../../../../src/constants/Scales";
+import {SceneColorThemes} from "../../../../src/constants/SceneColorThemes";
+import {HtmlDomService} from "../../../../src/services/HtmlDomService";
+import {createMock} from "../../../Helper";
 
 describe("ThreeSceneService", () => {
 
@@ -151,7 +152,9 @@ describe("ThreeSceneService", () => {
         let expectedId: string = "djfksjdbf";
         let sceneCalcStub = Sinon.stub(SelectionCalculator, "makeSelection").returns(expectedId);
         let calcPositionStub = Sinon.stub(SelectionCalculator, "calculateSelectionPosition").returns({x: 76, y: 89});
-        let htmlDomStub = Sinon.stub(HtmlDom, "getOffsetsById").returns({
+
+        let htmlDomStub = createMock(HtmlDomService);
+        htmlDomStub.getOffsetsById.returns({
             left: 21,
             top: 8787
         });
@@ -170,7 +173,6 @@ describe("ThreeSceneService", () => {
         assert(calcPositionStub.called);
         assert(sceneCalcStub.calledWith(76, 89));
 
-        htmlDomStub.restore();
         wranglerSelectObjectStub.restore();
         sceneCalcStub.restore();
         calcPositionStub.restore();

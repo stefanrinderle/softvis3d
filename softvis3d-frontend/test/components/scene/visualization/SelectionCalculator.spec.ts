@@ -1,9 +1,9 @@
 import {assert, expect} from "chai";
 import * as Sinon from "sinon";
-import {SelectionCalculator} from "../../../../src/components/scene/visualization/SelectionCalculator";
-import {SoftVis3dMesh} from "../../../../src/components/scene/domain/SoftVis3dMesh";
 import {Face3, Geometry, Intersection, MeshLambertMaterial, PerspectiveCamera, Vector3} from "three";
-import {Offset} from "../../../../src/services/HtmlDom";
+import {SoftVis3dMesh} from "../../../../src/components/scene/domain/SoftVis3dMesh";
+import {SelectionCalculator} from "../../../../src/components/scene/visualization/SelectionCalculator";
+import {Offset} from "../../../../src/services/HtmlDomService";
 
 describe("SelectionCalculator", () => {
 

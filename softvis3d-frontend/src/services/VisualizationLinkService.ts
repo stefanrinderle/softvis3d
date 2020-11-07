@@ -1,20 +1,24 @@
-import {CityBuilderStore} from "../stores/CityBuilderStore";
-import Metric from "../classes/Metric";
-import Layout from "../classes/Layout";
-import {custom} from "../constants/Profiles";
-import Scale from "../classes/Scale";
-import {ColorMetrics} from "../constants/Metrics";
-import {Scales} from "../constants/Scales";
-import {Layouts} from "../constants/Layouts";
-import VisualizationLinkParams from "../classes/VisualizationLinkParams";
-import {SceneStore} from "../stores/SceneStore";
 import {Vector3} from "three";
-import {default as UrlParameterService, Parameters} from "./UrlParameterService";
 import {AppConfiguration} from "../classes/AppConfiguration";
-import { SceneColorTheme } from "../classes/SceneColorTheme";
-import { DEFAULT_COLOR_THEME, SceneColorThemes } from "../constants/SceneColorThemes";
+import Layout from "../classes/Layout";
+import Metric from "../classes/Metric";
+import Scale from "../classes/Scale";
+import {SceneColorTheme} from "../classes/SceneColorTheme";
+import VisualizationLinkParams from "../classes/VisualizationLinkParams";
+import {Layouts} from "../constants/Layouts";
+import {ColorMetrics} from "../constants/Metrics";
+import {custom} from "../constants/Profiles";
+import {Scales} from "../constants/Scales";
+import {DEFAULT_COLOR_THEME, SceneColorThemes} from "../constants/SceneColorThemes";
+import {lazyInject} from "../inversify.config";
+import {CityBuilderStore} from "../stores/CityBuilderStore";
+import {SceneStore} from "../stores/SceneStore";
+import {default as UrlParameterService, Parameters} from "./UrlParameterService";
 
 export default class VisualizationLinkService {
+
+    @lazyInject("UrlParameterService")
+    private readonly urlParameterService!: UrlParameterService;
 
     private cityBuilderStore: CityBuilderStore;
     private sceneStore: SceneStore;
@@ -27,7 +31,7 @@ export default class VisualizationLinkService {
     }
 
     public process(search: string) {
-        let params: Parameters = UrlParameterService.getQueryParams(search);
+        let params: Parameters = this.urlParameterService.getQueryParams(search);
 
         let metricFootprint: Metric | undefined =
             this.cityBuilderStore.genericMetrics.getMetricByKey(params.metricFootprint);
@@ -68,7 +72,7 @@ export default class VisualizationLinkService {
     }
 
     public createVisualizationLink(): string {
-        return UrlParameterService.createVisualizationLinkForCurrentUrl(document.location.href, this.createCurrentParams());
+        return this.urlParameterService.createVisualizationLinkForCurrentUrl(document.location.href, this.createCurrentParams());
     }
 
     public createPlainVisualizationLink(): string {
@@ -80,7 +84,7 @@ export default class VisualizationLinkService {
         const baseLocation = baseUrl + "/static/softvis3d/index.html" +
             "?projectKey=" + this.config.projectKey + "&baseUrl=" + baseUrl;
 
-        return UrlParameterService.createVisualizationLinkForCurrentUrl(baseLocation, this.createCurrentParams());
+        return this.urlParameterService.createVisualizationLinkForCurrentUrl(baseLocation, this.createCurrentParams());
     }
 
     private createCurrentParams(): Parameters {

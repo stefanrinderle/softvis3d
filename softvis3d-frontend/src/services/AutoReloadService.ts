@@ -12,7 +12,7 @@ export default class AutoReloadService {
 
     private appStatusStore: AppStatusStore;
     @lazyInject("SonarQubeComponentInfoService")
-    private componentInfoService!: SonarQubeComponentInfoService;
+    private readonly componentInfoService!: SonarQubeComponentInfoService;
     private timer?: number;
 
     constructor(appStatusStore: AppStatusStore) {

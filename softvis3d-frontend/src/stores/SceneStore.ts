@@ -24,7 +24,7 @@ class SceneStore {
     public colorTheme: SceneColorTheme = DEFAULT_COLOR_THEME;
 
     @lazyInject("TreeService")
-    private treeService!: TreeService;
+    private readonly treeService!: TreeService;
 
     public constructor() {
         this.scmMetricLoaded = false;
