@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import {AppConfiguration} from "./classes/AppConfiguration";
 import ErrorAction from "./classes/status/ErrorAction";
 import Softvis3D from "./components/Softvis3D";
-import {container} from "./inversify.config";
+import {bindToInjection, container} from "./inversify.config";
 import AppReactions from "./reactions/AppReactions";
 import BuilderReactions from "./reactions/BuilderReactions";
 import SceneReactions from "./reactions/SceneReactions";
@@ -15,6 +15,7 @@ import SonarQubeMeasuresMetricService from "./services/sonarqube/measures/SonarQ
 import SonarQubeMeasuresService from "./services/sonarqube/measures/SonarQubeMeasuresService";
 import SonarQubeMeasuresTreeService from "./services/sonarqube/measures/SonarQubeMeasuresTreeService";
 import SonarQubeOptimizeStructureService from "./services/sonarqube/measures/SonarQubeOptimizeStructureService";
+import ScmCalculatorService from "./services/sonarqube/ScmCalculatorService";
 import SonarQubeComponentInfoService from "./services/sonarqube/SonarQubeComponentInfoService";
 import SonarQubeMetricsService from "./services/sonarqube/SonarQubeMetricsService";
 import SonarQubeScmService from "./services/sonarqube/SonarQubeScmService";
@@ -50,37 +51,32 @@ export default class App {
 
         this.communicator = new SonarQubeMetricsService(appStatusStore, cityBuilderStore, this.config.baseUrl);
 
-        container.bind<SonarQubeMetricsService>("SonarQubeMetricsService")
-            .toConstantValue(this.communicator);
-
         container.bind<SonarQubeScmService>("SonarQubeScmService")
             .toConstantValue(new SonarQubeScmService(appStatusStore, sceneStore));
         container.bind<SonarQubeMeasuresApiService>("SonarQubeMeasuresApiService")
             .toConstantValue(new SonarQubeMeasuresApiService(config, appStatusStore));
-        container.bind<SonarQubeMeasuresTreeService>("SonarQubeMeasuresTreeService")
-            .toConstantValue(new SonarQubeMeasuresTreeService());
         container.bind<SonarQubeMeasuresMetricService>("SonarQubeMeasuresMetricService")
             .toConstantValue(new SonarQubeMeasuresMetricService(cityBuilderStore));
         let measuresService = new SonarQubeMeasuresService(config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
         container.bind<SonarQubeMeasuresService>("SonarQubeMeasuresService")
             .toConstantValue(measuresService);
-        container.bind<SonarQubeOptimizeStructureService>("SonarQubeOptimizeStructureService")
-            .toConstantValue(new SonarQubeOptimizeStructureService());
 
-        container.bind<UrlParameterService>("UrlParameterService")
-            .toConstantValue(new UrlParameterService());
-        this.webGLDetectorService = new WebGLDetectorService();
-        container.bind<WebGLDetectorService>("WebGLDetectorService")
-            .toConstantValue(this.webGLDetectorService);
+        this.communicator = new SonarQubeMetricsService(appStatusStore, cityBuilderStore, this.config.baseUrl);
+        container.bind<SonarQubeMetricsService>("SonarQubeMetricsService")
+            .toConstantValue(this.communicator);
 
-        container.bind<HtmlDomService>("HtmlDomService").toConstantValue(new HtmlDomService());
-
-        container.bind<SonarQubeTransformerService>("SonarQubeTransformerService")
-            .toConstantValue(new SonarQubeTransformerService());
+        this.webGLDetectorService = bindToInjection(WebGLDetectorService);
+        bindToInjection(UrlParameterService);
+        bindToInjection(SonarQubeOptimizeStructureService);
+        bindToInjection(SonarQubeMeasuresTreeService);
+        bindToInjection(HtmlDomService);
+        bindToInjection(SonarQubeTransformerService);
+        bindToInjection(ScmCalculatorService);
 
         container.bind<CityLayoutService>("CityLayoutService")
             .toConstantValue(new CityLayoutService(sceneStore, appStatusStore));
-        container.bind<TreeService>("TreeService").toConstantValue(new TreeService());
+
+        bindToInjection(TreeService);
 
         container.bind<AutoReloadService>("AutoReloadService")
             .toConstantValue(new AutoReloadService(appStatusStore));
