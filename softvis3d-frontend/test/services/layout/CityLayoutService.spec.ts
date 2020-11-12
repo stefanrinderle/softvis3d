@@ -48,10 +48,9 @@ describe("CityLayoutService", () => {
             };
         });
 
-        let underTest: CityLayoutService =
-            new CityLayoutService(testSceneStore, testAppStatusStore);
+        let underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity();
+        underTest.createCity(testSceneStore, testAppStatusStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -76,10 +75,9 @@ describe("CityLayoutService", () => {
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
-        let underTest: CityLayoutService =
-            new CityLayoutService(testSceneStore, testAppStatusStore);
+        let underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity();
+        underTest.createCity(testSceneStore, testAppStatusStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -109,10 +107,9 @@ describe("CityLayoutService", () => {
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
-        let underTest: CityLayoutService =
-            new CityLayoutService(testSceneStore, testAppStatusStore);
+        let underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity();
+        underTest.createCity(testSceneStore, testAppStatusStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);

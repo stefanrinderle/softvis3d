@@ -21,17 +21,22 @@ import {expect} from "chai";
 import BuilderReactions from "../../src/reactions/BuilderReactions";
 import AutoReloadService from "../../src/services/AutoReloadService";
 import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/SonarQubeMeasuresService";
+import {AppStatusStore} from "../../src/stores/AppStatusStore";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
+import {SceneStore} from "../../src/stores/SceneStore";
 import {createMock} from "../Helper";
 
 describe("BuilderReactions", () => {
 
     it("should initiate build process", () => {
         let testCityBuilderStore = new CityBuilderStore();
+        let testAppStatusStore = new AppStatusStore();
+        let testSceneStore = new SceneStore();
+
         const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
         const testAutoReloadService = createMock(AutoReloadService);
         const reactionRegister =
-            new BuilderReactions(testCityBuilderStore);
+            new BuilderReactions(testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 

@@ -22,18 +22,12 @@ import {noColorMetric, numberOfAuthorsBlameColorMetric, packageNameColorMetric} 
 
 export default class SonarQubeMeasuresMetricService {
 
-    private cityBuilderStore: CityBuilderStore;
-
-    constructor(cityBuilderStore: CityBuilderStore) {
-        this.cityBuilderStore = cityBuilderStore;
-    }
-
-    public getMetricRequestValues(): string {
+    public getMetricRequestValues(cityBuilderStore: CityBuilderStore): string {
         let result: Set<string> = new Set();
-        result.add(this.cityBuilderStore.profile.footprintMetricId);
-        result.add(this.cityBuilderStore.profile.heightMetricId);
+        result.add(cityBuilderStore.profile.footprintMetricId);
+        result.add(cityBuilderStore.profile.heightMetricId);
 
-        for (const colorMetric of this.cityBuilderStore.colorMetrics.keys) {
+        for (const colorMetric of cityBuilderStore.colorMetrics.keys) {
             if (colorMetric !== noColorMetric.id && colorMetric !== packageNameColorMetric.id
                 && colorMetric !== numberOfAuthorsBlameColorMetric.id) {
                 result.add(colorMetric);

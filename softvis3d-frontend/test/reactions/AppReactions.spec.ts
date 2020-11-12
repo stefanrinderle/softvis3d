@@ -18,25 +18,26 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-import * as Sinon from "sinon";
 import AppReactions from "../../src/reactions/AppReactions";
 import AutoReloadService from "../../src/services/AutoReloadService";
 import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/SonarQubeMeasuresService";
 import {AppStatusStore} from "../../src/stores/AppStatusStore";
 import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
+import {SceneStore} from "../../src/stores/SceneStore";
 import {createMock} from "../Helper";
 
 describe("AppReactions", () => {
 
     it("should auto reload on analysisDate change", () => {
         let testCityBuilderStore = new CityBuilderStore();
-        let testAppStatusStore = Sinon.createStubInstance(AppStatusStore);
+        let testAppStatusStore = new AppStatusStore();
+        let testSceneStore = new SceneStore();
         const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
         const testAutoReloadService = createMock(AutoReloadService);
         testAutoReloadService.isActive.returns(true);
 
         const reaction =
-            new AppReactions(testAppStatusStore, testCityBuilderStore);
+            new AppReactions(testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 
@@ -48,13 +49,15 @@ describe("AppReactions", () => {
 
     it("should not auto reload on analysisDate change but auto reload service not active", () => {
         let testCityBuilderStore = new CityBuilderStore();
-        let testAppStatusStore = Sinon.createStubInstance(AppStatusStore);
+        let testAppStatusStore = new AppStatusStore();
+        let testSceneStore = new SceneStore();
+
         const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
         const testAutoReloadService = createMock(AutoReloadService);
         testAutoReloadService.isActive.returns(false);
 
         const reaction =
-            new AppReactions(testAppStatusStore, testCityBuilderStore);
+            new AppReactions(testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 

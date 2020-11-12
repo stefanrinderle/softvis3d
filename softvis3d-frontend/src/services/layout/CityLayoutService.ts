@@ -11,39 +11,32 @@ import Softvis3dModel from "./Softvis3dModel";
 export default class CityLayoutService {
     public static BUILD_CITY: LoadAction = new LoadAction("BUILD_CITY", "Create layout");
 
-    private sceneStore: SceneStore;
-    private appStatusStore: AppStatusStore;
     @lazyInject("LayoutProcessor")
     private readonly layoutProcessor!: LayoutProcessor;
     @lazyInject("SonarQubeScmService")
     private readonly scmService!: SonarQubeScmService;
 
-    public constructor(sceneStore: SceneStore, appStatusStore: AppStatusStore) {
-        this.sceneStore = sceneStore;
-        this.appStatusStore = appStatusStore;
-    }
-
-    public createCity() {
-        this.loadRequiredMetricData().then(
+    public createCity(sceneStore: SceneStore, appStatusStore: AppStatusStore) {
+        this.loadRequiredMetricData(sceneStore, appStatusStore).then(
             () => {
-                if (this.sceneStore.projectData !== null) {
-                    this.appStatusStore.load(CityLayoutService.BUILD_CITY);
+                if (sceneStore.projectData !== null) {
+                    appStatusStore.load(CityLayoutService.BUILD_CITY);
 
-                    const model = this.prepareModel();
-                    this.buildCity(model);
+                    const model = this.prepareModel(sceneStore);
+                    this.buildCity(sceneStore, model);
 
-                    this.appStatusStore.loadComplete(CityLayoutService.BUILD_CITY);
+                    appStatusStore.loadComplete(CityLayoutService.BUILD_CITY);
                 }
             }
         );
     }
 
-    private loadRequiredMetricData(): Promise<void> {
+    private loadRequiredMetricData(sceneStore: SceneStore, appStatusStore: AppStatusStore): Promise<void> {
         // Project data is already loaded. Otherwise multiple load
         // processes need to be chained here
 
-        if (this.sceneStore.options.metricColor === numberOfAuthorsBlameColorMetric) {
-            return this.scmService.assertScmInfoAreLoaded();
+        if (sceneStore.options.metricColor === numberOfAuthorsBlameColorMetric) {
+            return this.scmService.assertScmInfoAreLoaded(appStatusStore, sceneStore);
         }
 
         return new Promise<void>((resolve) => {
@@ -51,23 +44,23 @@ export default class CityLayoutService {
         });
     }
 
-    private prepareModel() {
+    private prepareModel(sceneStore: SceneStore) {
         return new Softvis3dModel(
-            this.sceneStore.projectData as TreeElement,
-            this.sceneStore.options.footprint.id,
-            this.sceneStore.options.height.id,
-            this.sceneStore.options.metricColor.id
+            sceneStore.projectData as TreeElement,
+            sceneStore.options.footprint.id,
+            sceneStore.options.height.id,
+            sceneStore.options.metricColor.id
         );
     }
 
-    private buildCity(model: Softvis3dModel) {
+    private buildCity(sceneStore: SceneStore, model: Softvis3dModel) {
         const options = {
-            layout: this.sceneStore.options.layout.id,
+            layout: sceneStore.options.layout.id,
             layoutOptions: {},
-            colorMetric: this.sceneStore.options.metricColor.id,
-            scalingMethod: this.sceneStore.options.scale
+            colorMetric: sceneStore.options.metricColor.id,
+            scalingMethod: sceneStore.options.scale
         };
 
-        this.sceneStore.shapes = this.layoutProcessor.getIllustration(options, model).shapes;
+        sceneStore.shapes = this.layoutProcessor.getIllustration(options, model).shapes;
     }
 }

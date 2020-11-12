@@ -28,6 +28,7 @@ import {
 import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresApiService";
 import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresTreeService";
 import SonarQubeTransformerService from "../../../../src/services/sonarqube/SonarQubeTransformerService";
+import {AppStatusStore} from "../../../../src/stores/AppStatusStore";
 import {createMock} from "../../../Helper";
 
 describe("SonarQubeMeasuresTreeService", () => {
@@ -45,7 +46,7 @@ describe("SonarQubeMeasuresTreeService", () => {
         );
 
         let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
-        underTest.loadTree(root, "metricKeys").then(() => {
+        underTest.loadTree(new AppStatusStore(), root, "metricKeys").then(() => {
             assert(measureApiService.loadMeasures.called);
 
             done();
@@ -86,7 +87,7 @@ describe("SonarQubeMeasuresTreeService", () => {
         );
 
         let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
-        underTest.loadTree(root, "metricKeys").then(() => {
+        underTest.loadTree(new AppStatusStore(), root, "metricKeys").then(() => {
             assert(measureApiService.loadMeasures.called);
             expect(root.children.length).to.be.eq(2);
 
@@ -111,7 +112,7 @@ describe("SonarQubeMeasuresTreeService", () => {
         );
 
         let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
-        underTest.loadTree(root, "metricKeys").then(() => {
+        underTest.loadTree(new AppStatusStore(), root, "metricKeys").then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 
             done();

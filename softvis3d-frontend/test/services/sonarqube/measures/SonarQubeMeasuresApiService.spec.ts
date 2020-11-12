@@ -35,7 +35,7 @@ describe("SonarQubeMeasuresApiService", () => {
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration, testAppStatusStore);
+        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
         let data: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 1);
         let stub = Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -43,7 +43,7 @@ describe("SonarQubeMeasuresApiService", () => {
             });
         });
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity").then((result) => {
+        underTest.loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity").then((result) => {
             assert(spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 1, 1));
             assert(stub.called);
             expect(result.components.length).to.be.eq(1);
@@ -60,7 +60,7 @@ describe("SonarQubeMeasuresApiService", () => {
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration, testAppStatusStore);
+        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
 
         let data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
         let data2: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(2, 500, 600);
@@ -75,7 +75,7 @@ describe("SonarQubeMeasuresApiService", () => {
                 data: data2
             }));
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity").then((result) => {
+        underTest.loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity").then((result) => {
             assert(spyCallApi.called);
             expect(result.components.length).to.be.eq(2);
             assert(spyCallApi.calledTwice);
@@ -95,7 +95,7 @@ describe("SonarQubeMeasuresApiService", () => {
         let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration, testAppStatusStore);
+        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
@@ -105,7 +105,7 @@ describe("SonarQubeMeasuresApiService", () => {
             });
         });
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity").then(() => {
+        underTest.loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity").then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 
             done();
@@ -119,7 +119,7 @@ describe("SonarQubeMeasuresApiService", () => {
         let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration, testAppStatusStore);
+        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
 
         let data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
 
@@ -136,7 +136,7 @@ describe("SonarQubeMeasuresApiService", () => {
                 }
             }));
 
-        underTest.loadMeasures("baseKey", "ncloc,complexity").then(() => {
+        underTest.loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity").then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 
             done();

@@ -36,9 +36,6 @@ export default class SonarQubeMeasuresService {
     private static LOAD_MEASURES_ERROR_KEY: string = "LOAD_MEASURES_ERROR";
 
     private projectKey: string;
-    private appStatusStore: AppStatusStore;
-    private cityBuilderStore: CityBuilderStore;
-    private sceneStore: SceneStore;
 
     @lazyInject("SonarQubeMeasuresTreeService")
     private readonly measureTreeService!: SonarQubeMeasuresTreeService;
@@ -49,25 +46,23 @@ export default class SonarQubeMeasuresService {
 
     private metricKeys?: string;
 
-    constructor(projectKey: string, appStatusStore: AppStatusStore,
-                cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
+    constructor(projectKey: string) {
         this.projectKey = projectKey;
-        this.appStatusStore = appStatusStore;
-        this.cityBuilderStore = cityBuilderStore;
-        this.sceneStore = sceneStore;
     }
 
-    public loadMeasures(options: VisualizationOptions, isForce: boolean = false) {
-        this.appStatusStore.load(SonarQubeMeasuresService.LOAD_MEASURES);
+    public loadMeasures(appStatusStore: AppStatusStore,
+                        cityBuilderStore: CityBuilderStore, sceneStore: SceneStore,
+                        options: VisualizationOptions, isForce: boolean = false) {
+        appStatusStore.load(SonarQubeMeasuresService.LOAD_MEASURES);
 
-        this.sceneStore.options = options;
-        this.sceneStore.shapes = null;
+        sceneStore.options = options;
+        sceneStore.shapes = null;
 
-        let metricKeys = this.measureMetricService.getMetricRequestValues();
+        let metricKeys = this.measureMetricService.getMetricRequestValues(cityBuilderStore);
 
         if (!isForce && this.metricKeys && this.metricKeys === metricKeys) {
-            this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
-            this.sceneStore.projectData = Object.assign({}, this.sceneStore.projectData);
+            appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
+            sceneStore.projectData = Object.assign({}, sceneStore.projectData);
         } else {
             /**
              * Create a "starting point" root element and load the tree of the project.
@@ -75,24 +70,24 @@ export default class SonarQubeMeasuresService {
             let root: TreeElement =
                 new TreeElement(this.projectKey, this.projectKey, {}, this.projectKey, this.projectKey, false);
 
-            this.measureTreeService.loadTree(root, metricKeys).then(() => {
+            this.measureTreeService.loadTree(appStatusStore, root, metricKeys).then(() => {
                 this.optimizeStructureService.optimize(root);
 
-                this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
+                appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
 
                 this.metricKeys = metricKeys;
-                this.sceneStore.scmMetricLoaded = false;
-                this.sceneStore.projectData = root;
+                sceneStore.scmMetricLoaded = false;
+                sceneStore.projectData = root;
 
-                this.cityBuilderStore.show = false;
+                cityBuilderStore.show = false;
             }).catch(() => {
-                this.appStatusStore.error(
+                appStatusStore.error(
                     new ErrorAction(SonarQubeMeasuresService.LOAD_MEASURES_ERROR_KEY,
                         "SonarQube metric API is not available or responding: ",
                         "Try again", () => {
                             location.reload();
                         }));
-                this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
+                appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
             });
         }
     }

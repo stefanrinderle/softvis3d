@@ -33,9 +33,9 @@ describe("AutoReloadService", () => {
         appStatusStore.analysisDate = new Date();
 
         createMock(SonarQubeComponentInfoService);
-        let underTest = new AutoReloadService(appStatusStore);
+        let underTest = new AutoReloadService();
 
-        underTest.startAutoReload();
+        underTest.startAutoReload(appStatusStore);
 
         assert(windowStub.called);
 
@@ -47,9 +47,9 @@ describe("AutoReloadService", () => {
 
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
         createMock(SonarQubeComponentInfoService);
-        let underTest = new AutoReloadService(appStatusStore);
+        let underTest = new AutoReloadService();
 
-        underTest.startAutoReload();
+        underTest.startAutoReload(appStatusStore);
 
         assert(windowStub.notCalled);
 
@@ -64,14 +64,14 @@ describe("AutoReloadService", () => {
         appStatusStore.analysisDate = new Date();
 
         createMock(SonarQubeComponentInfoService);
-        let underTest = new AutoReloadService(appStatusStore);
+        let underTest = new AutoReloadService();
 
-        underTest.startAutoReload();
+        underTest.startAutoReload(appStatusStore);
 
         assert(windowSetStub.called);
         expect(windowClearStub.called).to.be.false;
 
-        underTest.startAutoReload();
+        underTest.startAutoReload(appStatusStore);
         assert(windowSetStub.calledTwice);
         assert(windowClearStub.called);
 
@@ -87,11 +87,11 @@ describe("AutoReloadService", () => {
 
         createMock(SonarQubeComponentInfoService);
 
-        let underTest = new AutoReloadService(appStatusStore);
+        let underTest = new AutoReloadService();
 
         expect(underTest.isActive()).to.be.false;
 
-        underTest.startAutoReload();
+        underTest.startAutoReload(appStatusStore);
 
         expect(underTest.isActive()).to.be.true;
 
@@ -110,9 +110,9 @@ describe("AutoReloadService", () => {
         componentInfoService.loadComponentInfo.returns(Promise.resolve({
             analysisDate: expectedDate
         }));
-        let underTest = new AutoReloadService(appStatusStore);
+        let underTest = new AutoReloadService();
 
-        underTest.updateAnalysisDate();
+        underTest.updateAnalysisDate(appStatusStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -134,9 +134,9 @@ describe("AutoReloadService", () => {
         componentInfoService.loadComponentInfo.returns(Promise.resolve({
             analysisDate: new Date(0)
         }));
-        let underTest = new AutoReloadService(appStatusStore);
+        let underTest = new AutoReloadService();
 
-        underTest.updateAnalysisDate();
+        underTest.updateAnalysisDate(appStatusStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -156,9 +156,9 @@ describe("AutoReloadService", () => {
         componentInfoService.loadComponentInfo.returns(Promise.resolve({
             analysisDate: expectedDate
         }));
-        let underTest = new AutoReloadService(appStatusStore);
+        let underTest = new AutoReloadService();
 
-        underTest.updateAnalysisDate();
+        underTest.updateAnalysisDate(appStatusStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);

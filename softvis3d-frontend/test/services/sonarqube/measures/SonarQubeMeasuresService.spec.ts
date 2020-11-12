@@ -50,12 +50,12 @@ describe("SonarQubeMeasuresService", () => {
 
         let projectKey: string = "sdufsofin";
         let underTest: SonarQubeMeasuresService =
-            new SonarQubeMeasuresService(projectKey, testAppStatusStore, testCityBuilderStore, testSceneStore);
+            new SonarQubeMeasuresService(projectKey);
 
         let expectedData: TreeElement = new TreeElement(projectKey, projectKey, {}, projectKey, projectKey, false);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
 
-        underTest.loadMeasures(VisualizationOptions.createDefault());
+        underTest.loadMeasures( testAppStatusStore, testCityBuilderStore, testSceneStore, VisualizationOptions.createDefault());
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -90,18 +90,18 @@ describe("SonarQubeMeasuresService", () => {
 
         let projectKey: string = "sdufsofin";
         let underTest: SonarQubeMeasuresService =
-            new SonarQubeMeasuresService(projectKey, testAppStatusStore, testCityBuilderStore, testSceneStore);
+            new SonarQubeMeasuresService(projectKey);
 
         let expectedData: TreeElement = new TreeElement("", projectKey, {}, "", "", false);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
 
-        underTest.loadMeasures(VisualizationOptions.createDefault());
+        underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore, VisualizationOptions.createDefault());
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise.then(() => {
-            underTest.loadMeasures(VisualizationOptions.createDefault());
+            underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore, VisualizationOptions.createDefault());
 
             clock.tick(10);
             returnPromise2.then(() => {
@@ -131,11 +131,11 @@ describe("SonarQubeMeasuresService", () => {
 
         let projectKey: string = "sdufsofin";
         let underTest: SonarQubeMeasuresService =
-            new SonarQubeMeasuresService(projectKey, testAppStatusStore, testCityBuilderStore, testSceneStore);
+            new SonarQubeMeasuresService(projectKey);
 
         measureTreeService.loadTree.returns(Promise.reject({data: {message: "Error message"}}));
 
-        underTest.loadMeasures(VisualizationOptions.createDefault());
+        underTest.loadMeasures( testAppStatusStore, testCityBuilderStore, testSceneStore, VisualizationOptions.createDefault());
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});

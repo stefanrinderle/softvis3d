@@ -37,8 +37,7 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
-            testSceneStore, apiUrl);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
         mockTreeServiceGetAllFiles([createTestTreeElement("test")]);
 
@@ -63,7 +62,7 @@ describe("SonarQubeScmService", () => {
             });
         });
 
-        underTest.checkScmInfosAvailable().then((result) => {
+        underTest.checkScmInfosAvailable(testAppStatusStore, testSceneStore).then((result) => {
             expect(result).to.be.true;
 
             done();
@@ -81,8 +80,7 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
-            testSceneStore, apiUrl);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
         let statusStub = Sinon.stub(testAppStatusStore, "status");
 
@@ -104,7 +102,7 @@ describe("SonarQubeScmService", () => {
             });
         });
 
-        underTest.checkScmInfosAvailable().then((result) => {
+        underTest.checkScmInfosAvailable(testAppStatusStore, testSceneStore).then((result) => {
             expect(result).to.be.false;
             assert(statusStub.calledOnce);
 
@@ -129,8 +127,7 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
-            testSceneStore, apiUrl);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
         const treeElement = createTestTreeElement("test");
         mockTreeServiceGetAllFiles([treeElement]);
@@ -156,7 +153,7 @@ describe("SonarQubeScmService", () => {
             });
         });
 
-        underTest.loadScmInfos().then(() => {
+        underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
             assert(treeElement.measures.hasOwnProperty("number_of_authors"));
             expect(treeElement.measures.number_of_authors).to.be.eq(4);
 
@@ -183,8 +180,7 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
-            testSceneStore, apiUrl);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
         let treeElements: TreeElement[] = [];
         for (let i = 0; i < 90; i++) {
@@ -213,7 +209,7 @@ describe("SonarQubeScmService", () => {
             });
         });
 
-        underTest.loadScmInfos().then(() => {
+        underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
             assert(treeElements[0].measures.hasOwnProperty("number_of_authors"));
             expect(treeElements[0].measures.number_of_authors).to.be.eq(4);
 
@@ -236,10 +232,9 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = null;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
-            testSceneStore, apiUrl);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
-        underTest.loadScmInfos().then(() => {
+        underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
             done();
         }).catch((error) => {
             assert.isNotOk(error, "Promise error");
@@ -257,8 +252,7 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
-            testSceneStore, apiUrl);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
         mockTreeServiceGetAllFiles([createTestTreeElement("test")]);
 
@@ -270,7 +264,7 @@ describe("SonarQubeScmService", () => {
             });
         });
 
-        underTest.loadScmInfos().then(() => {
+        underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
             assert(errorStub.called);
 
             done();

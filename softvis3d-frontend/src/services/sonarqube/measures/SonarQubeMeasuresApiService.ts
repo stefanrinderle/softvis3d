@@ -32,17 +32,14 @@ import SonarQubeMeasuresService from "./SonarQubeMeasuresService";
 @injectable()
 export default class SonarQubeMeasuresApiService extends BackendService {
 
-    private readonly appStatusStore: AppStatusStore;
-
-    constructor(config: AppConfiguration, appStatusStore: AppStatusStore) {
+    constructor(config: AppConfiguration) {
         super(config.baseUrl);
-        this.appStatusStore = appStatusStore;
     }
 
-    public loadMeasures(baseComponentKey: string, metricKeys: string,
+    public loadMeasures(appStatusStore: AppStatusStore, baseComponentKey: string, metricKeys: string,
                         pageMax = 1, pageCurrent = 1): Promise<SonarQubeMeasureResponse> {
 
-        this.appStatusStore.loadStatusUpdate(SonarQubeMeasuresService.LOAD_MEASURES.key, pageMax, pageCurrent);
+        appStatusStore.loadStatusUpdate(SonarQubeMeasuresService.LOAD_MEASURES.key, pageMax, pageCurrent);
 
         return new Promise<SonarQubeMeasureResponse>((resolve, reject) => {
             const params = {
@@ -63,7 +60,7 @@ export default class SonarQubeMeasuresApiService extends BackendService {
 
                 const position = result.paging.pageIndex * result.paging.pageSize;
                 if (position < result.paging.total) {
-                    return this.loadMeasures(baseComponentKey, metricKeys,
+                    return this.loadMeasures(appStatusStore, baseComponentKey, metricKeys,
                         result.paging.total, pageCurrent + 1).then((resultSecond) => {
                             allResults.components = allResults.components.concat(resultSecond.components);
                             resolve(allResults);

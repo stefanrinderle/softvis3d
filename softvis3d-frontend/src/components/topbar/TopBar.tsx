@@ -17,7 +17,7 @@ export default class TopBar extends React.Component<TopBarProbs, any> {
         const {cityBuilderStore, sceneStore} = this.props;
         return (
             <div id="app-topbar" className="top-bar">
-                <TopBarMenu cityBuilderStore={cityBuilderStore}/>
+                <TopBarMenu cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
                 <SelectedElementInfo sceneStore={sceneStore}/>
             </div>
         );

@@ -20,7 +20,7 @@ describe("<TopBar/>", () => {
 
         expect(selectedElementInfo.contains(<SelectedElementInfo sceneStore={localSceneStore}/>)).to.be.true;
         expect(selectedElementInfo.contains(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore}/>)).to.be.true;
+            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
     });
 
 });

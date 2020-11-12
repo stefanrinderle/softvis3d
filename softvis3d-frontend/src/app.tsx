@@ -45,23 +45,20 @@ export default class App {
         this.config = config;
         appStatusStore.showLoadingQueue = this.config.isDev;
 
-        this.visualizationLinkService = new VisualizationLinkService(this.config, cityBuilderStore, sceneStore);
+        this.visualizationLinkService = new VisualizationLinkService(this.config);
         container.bind<VisualizationLinkService>("VisualizationLinkService")
             .toConstantValue(this.visualizationLinkService);
 
-        this.communicator = new SonarQubeMetricsService(appStatusStore, cityBuilderStore, this.config.baseUrl);
-
         container.bind<SonarQubeScmService>("SonarQubeScmService")
-            .toConstantValue(new SonarQubeScmService(appStatusStore, sceneStore));
+            .toConstantValue(new SonarQubeScmService(this.config.baseUrl));
         container.bind<SonarQubeMeasuresApiService>("SonarQubeMeasuresApiService")
-            .toConstantValue(new SonarQubeMeasuresApiService(config, appStatusStore));
-        container.bind<SonarQubeMeasuresMetricService>("SonarQubeMeasuresMetricService")
-            .toConstantValue(new SonarQubeMeasuresMetricService(cityBuilderStore));
-        let measuresService = new SonarQubeMeasuresService(config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
+            .toConstantValue(new SonarQubeMeasuresApiService(config));
+        bindToInjection(SonarQubeMeasuresMetricService);
+        let measuresService = new SonarQubeMeasuresService(config.projectKey);
         container.bind<SonarQubeMeasuresService>("SonarQubeMeasuresService")
             .toConstantValue(measuresService);
 
-        this.communicator = new SonarQubeMetricsService(appStatusStore, cityBuilderStore, this.config.baseUrl);
+        this.communicator = new SonarQubeMetricsService(this.config.baseUrl);
         container.bind<SonarQubeMetricsService>("SonarQubeMetricsService")
             .toConstantValue(this.communicator);
 
@@ -72,28 +69,24 @@ export default class App {
         bindToInjection(HtmlDomService);
         bindToInjection(SonarQubeTransformerService);
         bindToInjection(ScmCalculatorService);
-
-        container.bind<CityLayoutService>("CityLayoutService")
-            .toConstantValue(new CityLayoutService(sceneStore, appStatusStore));
-
+        bindToInjection(CityLayoutService);
         bindToInjection(TreeService);
+        bindToInjection(AutoReloadService);
 
-        container.bind<AutoReloadService>("AutoReloadService")
-            .toConstantValue(new AutoReloadService(appStatusStore));
         this.componentInfoService = new SonarQubeComponentInfoService(this.config.projectKey, this.config.baseUrl);
         container.bind<SonarQubeComponentInfoService>("SonarQubeComponentInfoService")
             .toConstantValue(this.componentInfoService);
 
         this.reactions = [
-            new AppReactions(appStatusStore, cityBuilderStore),
-            new SceneReactions(sceneStore, cityBuilderStore),
-            new BuilderReactions(cityBuilderStore)
+            new AppReactions(appStatusStore, cityBuilderStore, sceneStore),
+            new SceneReactions(sceneStore, cityBuilderStore, appStatusStore),
+            new BuilderReactions(appStatusStore, cityBuilderStore, sceneStore)
         ];
     }
 
     public run(target: string) {
-        this.communicator.loadAvailableMetrics().then(() => {
-            this.visualizationLinkService.process(document.location.search);
+        this.communicator.loadAvailableMetrics(appStatusStore, cityBuilderStore).then(() => {
+            this.visualizationLinkService.process(cityBuilderStore, sceneStore, document.location.search);
         });
 
         this.loadComponentInfoData();
