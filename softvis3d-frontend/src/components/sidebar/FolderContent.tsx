@@ -4,7 +4,7 @@ import Scrollbars from "react-custom-scrollbars";
 import {TreeElement} from "../../classes/TreeElement";
 import {lazyInject} from "../../inversify.config";
 import {HtmlDomService, Offset} from "../../services/HtmlDomService";
-import {SceneStore} from "../../stores/SceneStore";
+import SceneStore from "../../stores/SceneStore";
 import FolderContentElement from "./FolderContentElement";
 
 // FIXME

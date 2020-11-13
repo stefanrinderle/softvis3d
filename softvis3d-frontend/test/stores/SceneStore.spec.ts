@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import { expect } from "chai";
-import { SceneStore } from "../../src/stores/SceneStore";
+import SceneStore from "../../src/stores/SceneStore";
 import { TreeElement } from "../../src/classes/TreeElement";
 import { DEFAULT_COLOR_THEME } from "../../src/constants/SceneColorThemes";
 

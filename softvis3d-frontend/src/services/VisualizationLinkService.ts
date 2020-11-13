@@ -11,8 +11,8 @@ import {custom} from "../constants/Profiles";
 import {Scales} from "../constants/Scales";
 import {DEFAULT_COLOR_THEME, SceneColorThemes} from "../constants/SceneColorThemes";
 import {lazyInject} from "../inversify.config";
-import {CityBuilderStore} from "../stores/CityBuilderStore";
-import {SceneStore} from "../stores/SceneStore";
+import CityBuilderStore from "../stores/CityBuilderStore";
+import SceneStore from "../stores/SceneStore";
 import {default as UrlParameterService, Parameters} from "./UrlParameterService";
 
 export default class VisualizationLinkService {

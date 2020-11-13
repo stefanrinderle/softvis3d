@@ -6,7 +6,7 @@ import {TreeElement} from "../../../src/classes/TreeElement";
 import FolderContent, {NodeListProps} from "../../../src/components/sidebar/FolderContent";
 import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
 import {HtmlDomService} from "../../../src/services/HtmlDomService";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import SceneStore from "../../../src/stores/SceneStore";
 import {createMock} from "../../Helper";
 
 describe("<FolderContent/>", () => {

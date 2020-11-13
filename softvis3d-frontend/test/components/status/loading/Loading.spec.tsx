@@ -4,7 +4,7 @@ import {shallow} from "enzyme";
 import Loading from "../../../../src/components/status/loading/Loading";
 import LoadingImage from "../../../../src/components/status/loading/LoadingImage";
 import LoadingQueue from "../../../../src/components/status/loading/LoadingQueue";
-import {AppStatusStore} from "../../../../src/stores/AppStatusStore";
+import AppStatusStore from "../../../../src/stores/AppStatusStore";
 import LoadAction from "../../../../src/classes/status/LoadAction";
 
 describe("<Loading/>", () => {

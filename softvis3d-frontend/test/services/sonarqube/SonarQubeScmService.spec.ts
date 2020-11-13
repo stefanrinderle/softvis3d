@@ -23,8 +23,8 @@ import {TreeElement} from "../../../src/classes/TreeElement";
 import ScmCalculatorService from "../../../src/services/sonarqube/ScmCalculatorService";
 import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
 import TreeService from "../../../src/services/TreeService";
-import {AppStatusStore} from "../../../src/stores/AppStatusStore";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import AppStatusStore from "../../../src/stores/AppStatusStore";
+import SceneStore from "../../../src/stores/SceneStore";
 import {createMock} from "../../Helper";
 
 describe("SonarQubeScmService", () => {

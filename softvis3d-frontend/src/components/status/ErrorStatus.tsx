@@ -1,6 +1,6 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import {AppStatusStore} from "../../stores/AppStatusStore";
+import AppStatusStore from "../../stores/AppStatusStore";
 
 @observer
 export default class ErrorStatus extends React.Component<{ appStatusStore: AppStatusStore; }, any> {

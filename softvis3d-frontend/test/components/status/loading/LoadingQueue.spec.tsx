@@ -2,7 +2,7 @@ import * as React from "react";
 import {expect} from "chai";
 import {shallow} from "enzyme";
 import LoadingQueue from "../../../../src/components/status/loading/LoadingQueue";
-import {AppStatusStore} from "../../../../src/stores/AppStatusStore";
+import AppStatusStore from "../../../../src/stores/AppStatusStore";
 import LoadAction from "../../../../src/classes/status/LoadAction";
 
 describe("<LoadingQueue/>", () => {

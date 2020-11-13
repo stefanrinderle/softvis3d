@@ -24,9 +24,9 @@ import TreeService from "./services/TreeService";
 import UrlParameterService from "./services/UrlParameterService";
 import VisualizationLinkService from "./services/VisualizationLinkService";
 import WebGLDetectorService from "./services/WebGLDetectorService";
-import appStatusStore from "./stores/AppStatusStore";
-import cityBuilderStore from "./stores/CityBuilderStore";
-import sceneStore from "./stores/SceneStore";
+import AppStatusStore from "./stores/AppStatusStore";
+import CityBuilderStore from "./stores/CityBuilderStore";
+import SceneStore from "./stores/SceneStore";
 
 export default class App {
     private static WEBGL_ERROR_KEY: string = "WEBGL_ERROR";
@@ -40,10 +40,16 @@ export default class App {
 
     // @ts-ignore: unused variable
     private reactions: any[];
+    private appStatusStore: AppStatusStore;
+    private cityBuilderStore: CityBuilderStore;
+    private sceneStore: SceneStore;
 
     public constructor(config: AppConfiguration) {
         this.config = config;
-        appStatusStore.showLoadingQueue = this.config.isDev;
+        this.appStatusStore = new AppStatusStore();
+        this.appStatusStore.showLoadingQueue = this.config.isDev;
+        this.cityBuilderStore = new CityBuilderStore();
+        this.sceneStore = new SceneStore();
 
         this.visualizationLinkService = new VisualizationLinkService(this.config);
         container.bind<VisualizationLinkService>("VisualizationLinkService")
@@ -78,22 +84,24 @@ export default class App {
             .toConstantValue(this.componentInfoService);
 
         this.reactions = [
-            new AppReactions(appStatusStore, cityBuilderStore, sceneStore),
-            new SceneReactions(sceneStore, cityBuilderStore, appStatusStore),
-            new BuilderReactions(appStatusStore, cityBuilderStore, sceneStore)
+            new AppReactions(this.appStatusStore, this.cityBuilderStore, this.sceneStore),
+            new SceneReactions(this.sceneStore, this.cityBuilderStore, this.appStatusStore),
+            new BuilderReactions(this.appStatusStore, this.cityBuilderStore, this.sceneStore)
         ];
     }
 
     public run(target: string) {
-        this.communicator.loadAvailableMetrics(appStatusStore, cityBuilderStore).then(() => {
-            this.visualizationLinkService.process(cityBuilderStore, sceneStore, document.location.search);
+        this.communicator.loadAvailableMetrics(this.appStatusStore, this.cityBuilderStore).then(() => {
+            this.visualizationLinkService.process(this.cityBuilderStore, this.sceneStore, document.location.search);
         });
 
         this.loadComponentInfoData();
         this.assertClientRequirementsAreMet();
 
         ReactDOM.render(
-            <Softvis3D sceneStore={sceneStore} cityBuilderStore={cityBuilderStore} appStatusStore={appStatusStore}
+            <Softvis3D sceneStore={this.sceneStore}
+                       cityBuilderStore={this.cityBuilderStore}
+                       appStatusStore={this.appStatusStore}
                        baseUrl={this.config.baseUrl}/>,
             document.getElementById(target)!
         );
@@ -110,9 +118,9 @@ export default class App {
 
     private loadComponentInfoData() {
         this.componentInfoService.loadComponentInfo().then((result) => {
-            appStatusStore.analysisDate = result.analysisDate;
+            this.appStatusStore.analysisDate = result.analysisDate;
         }).catch(() => {
-            appStatusStore.analysisDate = undefined;
+            this.appStatusStore.analysisDate = undefined;
         });
     }
 
@@ -120,7 +128,7 @@ export default class App {
         if (!this.webGLDetectorService.isWebGLSupported()) {
             const error = this.webGLDetectorService.getWebGLErrorMessage();
 
-            appStatusStore.error(
+            this.appStatusStore.error(
                 new ErrorAction(App.WEBGL_ERROR_KEY, "WebGL is required. " + error, "Reload page", () => {
                     location.reload();
                 })

@@ -21,7 +21,7 @@ import {assert, expect} from "chai";
 import * as Sinon from "sinon";
 import AutoReloadService from "../../src/services/AutoReloadService";
 import SonarQubeComponentInfoService from "../../src/services/sonarqube/SonarQubeComponentInfoService";
-import {AppStatusStore} from "../../src/stores/AppStatusStore";
+import AppStatusStore from "../../src/stores/AppStatusStore";
 import {createMock} from "../Helper";
 
 describe("AutoReloadService", () => {

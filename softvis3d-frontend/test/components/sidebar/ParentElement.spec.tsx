@@ -1,7 +1,7 @@
 import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
-import { SceneStore } from "../../../src/stores/SceneStore";
+import SceneStore from "../../../src/stores/SceneStore";
 import ParentElement from "../../../src/components/sidebar/ParentElement";
 import {TreeElement} from "../../../src/classes/TreeElement";
 

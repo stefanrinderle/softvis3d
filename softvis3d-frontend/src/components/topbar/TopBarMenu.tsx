@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import * as React from "react";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
-import {SceneStore} from "../../stores/SceneStore";
+import CityBuilderStore from "../../stores/CityBuilderStore";
+import SceneStore from "../../stores/SceneStore";
 import TopBarShareButton from "./TopBarShareButton";
 
 interface TopBarMenuProbs {

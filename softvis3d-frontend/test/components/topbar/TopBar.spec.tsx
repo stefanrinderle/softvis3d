@@ -5,8 +5,8 @@ import * as Sinon from "sinon";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
 import TopBar from "../../../src/components/topbar/TopBar";
 import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import CityBuilderStore from "../../../src/stores/CityBuilderStore";
+import SceneStore from "../../../src/stores/SceneStore";
 
 describe("<TopBar/>", () => {
 

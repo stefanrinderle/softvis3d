@@ -26,9 +26,9 @@ import SonarQubeMeasuresService from "../../../../src/services/sonarqube/measure
 import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresTreeService";
 import SonarQubeOptimizeStructureService
     from "../../../../src/services/sonarqube/measures/SonarQubeOptimizeStructureService";
-import {AppStatusStore} from "../../../../src/stores/AppStatusStore";
-import {CityBuilderStore} from "../../../../src/stores/CityBuilderStore";
-import {SceneStore} from "../../../../src/stores/SceneStore";
+import AppStatusStore from "../../../../src/stores/AppStatusStore";
+import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
+import SceneStore from "../../../../src/stores/SceneStore";
 import {createMock} from "../../../Helper";
 
 describe("SonarQubeMeasuresService", () => {

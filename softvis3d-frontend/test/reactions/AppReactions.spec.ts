@@ -21,9 +21,9 @@ import {expect} from "chai";
 import AppReactions from "../../src/reactions/AppReactions";
 import AutoReloadService from "../../src/services/AutoReloadService";
 import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/SonarQubeMeasuresService";
-import {AppStatusStore} from "../../src/stores/AppStatusStore";
-import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
-import {SceneStore} from "../../src/stores/SceneStore";
+import AppStatusStore from "../../src/stores/AppStatusStore";
+import CityBuilderStore from "../../src/stores/CityBuilderStore";
+import SceneStore from "../../src/stores/SceneStore";
 import {createMock} from "../Helper";
 
 describe("AppReactions", () => {

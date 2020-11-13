@@ -3,9 +3,9 @@ import VisualizationOptions from "../classes/VisualizationOptions";
 import {lazyInject} from "../inversify.config";
 import AutoReloadService from "../services/AutoReloadService";
 import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
-import {AppStatusStore} from "../stores/AppStatusStore";
-import {CityBuilderStore} from "../stores/CityBuilderStore";
-import {SceneStore} from "../stores/SceneStore";
+import AppStatusStore from "../stores/AppStatusStore";
+import CityBuilderStore from "../stores/CityBuilderStore";
+import SceneStore from "../stores/SceneStore";
 
 export default class BuilderReactions {
     private cityBuilderStore: CityBuilderStore;

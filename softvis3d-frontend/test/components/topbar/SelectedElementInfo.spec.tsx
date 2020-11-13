@@ -5,7 +5,7 @@ import * as Sinon from "sinon";
 import {TreeElement} from "../../../src/classes/TreeElement";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
 import TreeService from "../../../src/services/TreeService";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import SceneStore from "../../../src/stores/SceneStore";
 import {createMock} from "../../Helper";
 
 describe("<SelectedElementInfo/>", () => {

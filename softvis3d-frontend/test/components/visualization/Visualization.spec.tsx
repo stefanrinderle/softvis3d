@@ -6,8 +6,8 @@ import Scene from "../../../src/components/scene/Scene";
 import SideBar from "../../../src/components/sidebar/SideBar";
 import TopBar from "../../../src/components/topbar/TopBar";
 import Visualization from "../../../src/components/visualization/Visualization";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import CityBuilderStore from "../../../src/stores/CityBuilderStore";
+import SceneStore from "../../../src/stores/SceneStore";
 
 describe("<Visualization/>", () => {
 

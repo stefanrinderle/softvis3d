@@ -1,5 +1,5 @@
 import * as React from "react";
-import {AppStatusStore} from "../../../stores/AppStatusStore";
+import AppStatusStore from "../../../stores/AppStatusStore";
 import StatusActionQueue from "../../../classes/status/StatusActionQueue";
 import LoadAction from "../../../classes/status/LoadAction";
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import NodeList from "./FolderContent";
 import ParentElement from "./ParentElement";
-import {SceneStore} from "../../stores/SceneStore";
+import SceneStore from "../../stores/SceneStore";
 import ActiveFolder from "./ActiveFolder";
 import {TreeElement} from "../../classes/TreeElement";
 

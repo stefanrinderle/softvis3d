@@ -9,7 +9,7 @@ import {PreviewPicture} from "../classes/PreviewPicture";
 import {availablePreviewPictures, placeholder} from "../constants/PreviewPictures";
 import Metric from "../classes/Metric";
 
-class CityBuilderStore {
+export default class CityBuilderStore {
 
     @observable
     public layout: Layout = evostreet;
@@ -70,8 +70,3 @@ class CityBuilderStore {
         return placeholder;
     }
 }
-
-const cityBuilderStore = new CityBuilderStore();
-
-export default cityBuilderStore;
-export {CityBuilderStore};

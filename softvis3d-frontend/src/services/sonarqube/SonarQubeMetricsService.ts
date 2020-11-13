@@ -18,8 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {BackendService} from "./BackendService";
-import {AppStatusStore} from "../../stores/AppStatusStore";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
+import AppStatusStore from "../../stores/AppStatusStore";
+import CityBuilderStore from "../../stores/CityBuilderStore";
 import Metric from "../../classes/Metric";
 import LoadAction from "../../classes/status/LoadAction";
 import ErrorAction from "../../classes/status/ErrorAction";

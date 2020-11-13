@@ -1,7 +1,7 @@
 import * as React from "react";
 import {shallow} from "enzyme";
 import {expect} from "chai";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
+import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import PreviewPictureComponent from "../../../src/components/citybuilder/PreviewPictureComponent";
 
 describe("<PreviewPictureComponent/>", () => {

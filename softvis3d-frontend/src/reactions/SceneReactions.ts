@@ -1,9 +1,9 @@
 import {reaction} from "mobx";
 import {lazyInject} from "../inversify.config";
 import CityLayoutService from "../services/layout/CityLayoutService";
-import {AppStatusStore} from "../stores/AppStatusStore";
-import {CityBuilderStore} from "../stores/CityBuilderStore";
-import {SceneStore} from "../stores/SceneStore";
+import AppStatusStore from "../stores/AppStatusStore";
+import CityBuilderStore from "../stores/CityBuilderStore";
+import SceneStore from "../stores/SceneStore";
 
 export default class SceneReactions {
 

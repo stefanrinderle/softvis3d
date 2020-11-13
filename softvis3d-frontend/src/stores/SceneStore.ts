@@ -7,7 +7,7 @@ import {DEFAULT_COLOR_THEME} from "../constants/SceneColorThemes";
 import {lazyInject} from "../inversify.config";
 import TreeService from "../services/TreeService";
 
-class SceneStore {
+export default class SceneStore {
     @observable
     public options: VisualizationOptions = VisualizationOptions.createDefault();
     @observable
@@ -55,8 +55,3 @@ class SceneStore {
         }
     }
 }
-
-const sceneStore = new SceneStore();
-
-export default sceneStore;
-export { SceneStore };

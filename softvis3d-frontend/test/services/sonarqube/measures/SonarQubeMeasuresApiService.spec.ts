@@ -25,7 +25,7 @@ import {
     SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE
 } from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
 import { AppConfiguration } from "../../../../src/classes/AppConfiguration";
-import { AppStatusStore } from "../../../../src/stores/AppStatusStore";
+import AppStatusStore from "../../../../src/stores/AppStatusStore";
 import SonarQubeMeasuresService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresService";
 
 describe("SonarQubeMeasuresApiService", () => {

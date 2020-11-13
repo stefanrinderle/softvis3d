@@ -19,7 +19,7 @@
 ///
 import {TreeElement} from "../../../classes/TreeElement";
 import {lazyInject} from "../../../inversify.config";
-import {AppStatusStore} from "../../../stores/AppStatusStore";
+import AppStatusStore from "../../../stores/AppStatusStore";
 import SonarQubeTransformerService from "../SonarQubeTransformerService";
 import SonarQubeMeasuresApiService from "./SonarQubeMeasuresApiService";
 

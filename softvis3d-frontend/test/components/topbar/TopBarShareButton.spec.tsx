@@ -5,8 +5,8 @@ import * as Sinon from "sinon";
 import TopBarShareButton from "../../../src/components/topbar/TopBarShareButton";
 import ClipBoardService from "../../../src/services/ClipBoardService";
 import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import CityBuilderStore from "../../../src/stores/CityBuilderStore";
+import SceneStore from "../../../src/stores/SceneStore";
 import {createMock} from "../../Helper";
 
 describe("<TopBarShareButton/>", () => {

@@ -19,7 +19,7 @@
 ///
 import {expect} from "chai";
 import SonarQubeMeasuresMetricService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresMetricService";
-import {CityBuilderStore} from "../../../../src/stores/CityBuilderStore";
+import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
 
 describe("SonarQubeMeasuresMetricService", () => {
 

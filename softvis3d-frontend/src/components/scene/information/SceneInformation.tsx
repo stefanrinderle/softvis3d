@@ -1,7 +1,7 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import MetricKey from "./MetricKey";
-import { SceneStore } from "../../../stores/SceneStore";
+import SceneStore from "../../../stores/SceneStore";
 import SelectBoxBuilder from "../../ui/selectbox/SelectBoxBuilder";
 import { ColorMetrics } from "../../../constants/Metrics";
 import MetricSet from "../../../classes/MetricSet";

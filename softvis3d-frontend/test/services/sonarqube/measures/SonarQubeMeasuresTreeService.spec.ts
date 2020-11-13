@@ -28,7 +28,7 @@ import {
 import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresApiService";
 import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresTreeService";
 import SonarQubeTransformerService from "../../../../src/services/sonarqube/SonarQubeTransformerService";
-import {AppStatusStore} from "../../../../src/stores/AppStatusStore";
+import AppStatusStore from "../../../../src/stores/AppStatusStore";
 import {createMock} from "../../../Helper";
 
 describe("SonarQubeMeasuresTreeService", () => {

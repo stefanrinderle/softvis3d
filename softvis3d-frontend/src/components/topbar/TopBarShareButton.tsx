@@ -3,8 +3,8 @@ import * as React from "react";
 import {lazyInject} from "../../inversify.config";
 import ClipBoardService from "../../services/ClipBoardService";
 import VisualizationLinkService from "../../services/VisualizationLinkService";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
-import {SceneStore} from "../../stores/SceneStore";
+import CityBuilderStore from "../../stores/CityBuilderStore";
+import SceneStore from "../../stores/SceneStore";
 
 interface TopBarShareButtonProbs {
     disabled: boolean;

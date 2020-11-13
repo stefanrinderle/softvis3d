@@ -19,9 +19,9 @@
 ///
 import {assert} from "chai";
 import SonarQubeMetricsService, {SonarQubeApiMetric} from "../../../src/services/sonarqube/SonarQubeMetricsService";
-import {AppStatusStore} from "../../../src/stores/AppStatusStore";
+import AppStatusStore from "../../../src/stores/AppStatusStore";
 import * as Sinon from "sinon";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
+import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import {MetricType} from "../../../src/classes/MetricType";
 
 describe("SonarQubeMetricsService", () => {

@@ -4,7 +4,7 @@ import ErrorAction from "../classes/status/ErrorAction";
 import StatusActionQueue from "../classes/status/StatusActionQueue";
 import StatusAction from "../classes/status/StatusAction";
 
-class AppStatusStore {
+export default class AppStatusStore {
 
     @observable
     public showLoadingQueue: boolean = false;
@@ -55,8 +55,3 @@ class AppStatusStore {
         this.errors.remove(error);
     }
 }
-
-const appStatusStore = new AppStatusStore();
-
-export default appStatusStore;
-export {AppStatusStore};

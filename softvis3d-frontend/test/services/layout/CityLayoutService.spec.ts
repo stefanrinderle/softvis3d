@@ -25,8 +25,8 @@ import {numberOfAuthorsBlameColorMetric} from "../../../src/constants/Metrics";
 import CityLayoutService from "../../../src/services/layout/CityLayoutService";
 import LayoutProcessor from "../../../src/services/layout/LayoutProcessor";
 import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
-import {AppStatusStore} from "../../../src/stores/AppStatusStore";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import AppStatusStore from "../../../src/stores/AppStatusStore";
+import SceneStore from "../../../src/stores/SceneStore";
 import {createMock} from "../../Helper";
 
 describe("CityLayoutService", () => {

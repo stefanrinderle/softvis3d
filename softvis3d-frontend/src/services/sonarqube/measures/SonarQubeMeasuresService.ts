@@ -5,7 +5,7 @@ import LoadAction from "../../../classes/status/LoadAction";
 import {TreeElement} from "../../../classes/TreeElement";
 import VisualizationOptions from "../../../classes/VisualizationOptions";
 import {lazyInject} from "../../../inversify.config";
-import {AppStatusStore} from "../../../stores/AppStatusStore";
+import AppStatusStore from "../../../stores/AppStatusStore";
 /// softvis3d-frontend
 /// Copyright (C) 2016 Stefan Rinderle and Yvo Niedrich
 /// stefan@rinderle.info / yvo.niedrich@gmail.com
@@ -24,8 +24,8 @@ import {AppStatusStore} from "../../../stores/AppStatusStore";
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {CityBuilderStore} from "../../../stores/CityBuilderStore";
-import {SceneStore} from "../../../stores/SceneStore";
+import CityBuilderStore from "../../../stores/CityBuilderStore";
+import SceneStore from "../../../stores/SceneStore";
 import SonarQubeMeasuresMetricService from "./SonarQubeMeasuresMetricService";
 import SonarQubeMeasuresTreeService from "./SonarQubeMeasuresTreeService";
 import SonarQubeOptimizeStructureService from "./SonarQubeOptimizeStructureService";

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import CityBuilderStore from "../../stores/CityBuilderStore";
 import { PreviewPicture } from "../../classes/PreviewPicture";
 
 export interface PreviewPictureComponentProps {

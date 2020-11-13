@@ -3,8 +3,8 @@ import ErrorAction from "../../classes/status/ErrorAction";
 import LoadAction from "../../classes/status/LoadAction";
 import {TreeElement} from "../../classes/TreeElement";
 import {lazyInject} from "../../inversify.config";
-import {AppStatusStore} from "../../stores/AppStatusStore";
-import {SceneStore} from "../../stores/SceneStore";
+import AppStatusStore from "../../stores/AppStatusStore";
+import SceneStore from "../../stores/SceneStore";
 import TreeService from "../TreeService";
 /// softvis3d-frontend
 /// Copyright (C) 2016 Stefan Rinderle and Yvo Niedrich

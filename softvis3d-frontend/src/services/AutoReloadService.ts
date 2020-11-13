@@ -1,7 +1,7 @@
 import {injectable} from "inversify";
 import {isUndefined} from "util";
 import {lazyInject} from "../inversify.config";
-import {AppStatusStore} from "../stores/AppStatusStore";
+import AppStatusStore from "../stores/AppStatusStore";
 import SonarQubeComponentInfoService from "./sonarqube/SonarQubeComponentInfoService";
 
 @injectable()

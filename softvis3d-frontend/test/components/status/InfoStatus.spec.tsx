@@ -1,7 +1,7 @@
 import * as React from "react";
 import {expect} from "chai";
 import {shallow} from "enzyme";
-import {AppStatusStore} from "../../../src/stores/AppStatusStore";
+import AppStatusStore from "../../../src/stores/AppStatusStore";
 import StatusAction from "../../../src/classes/status/StatusAction";
 import InfoStatus from "../../../src/components/status/InfoStatus";
 

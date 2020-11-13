@@ -19,7 +19,7 @@
 ///
 import {injectable} from "inversify";
 import {AppConfiguration} from "../../../classes/AppConfiguration";
-import {AppStatusStore} from "../../../stores/AppStatusStore";
+import AppStatusStore from "../../../stores/AppStatusStore";
 import {BackendService} from "../BackendService";
 import {
     SonarQubeMeasurePagingResponse,

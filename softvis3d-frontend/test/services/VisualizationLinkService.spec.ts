@@ -28,8 +28,8 @@ import {custom, defaultProfile} from "../../src/constants/Profiles";
 import {EXPONENTIAL, LINEAR_SCALED} from "../../src/constants/Scales";
 import UrlParameterService from "../../src/services/UrlParameterService";
 import VisualizationLinkService from "../../src/services/VisualizationLinkService";
-import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
-import {SceneStore} from "../../src/stores/SceneStore";
+import CityBuilderStore from "../../src/stores/CityBuilderStore";
+import SceneStore from "../../src/stores/SceneStore";
 import {createMock} from "../Helper";
 
 describe("VisualizationLinkService", () => {

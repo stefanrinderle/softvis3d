@@ -4,8 +4,8 @@ import * as React from "react";
 import * as Sinon from "sinon";
 import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
 import TopBarShareButton from "../../../src/components/topbar/TopBarShareButton";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import CityBuilderStore from "../../../src/stores/CityBuilderStore";
+import SceneStore from "../../../src/stores/SceneStore";
 
 describe("<TopBarMenu/>", () => {
 
