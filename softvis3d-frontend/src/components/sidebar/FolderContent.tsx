@@ -1,10 +1,11 @@
-import * as React from "react";
 import {observer} from "mobx-react";
+import * as React from "react";
 import Scrollbars from "react-custom-scrollbars";
-import FolderContentElement from "./FolderContentElement";
-import {SceneStore} from "../../stores/SceneStore";
-import {HtmlDom, Offset} from "../../services/HtmlDom";
 import {TreeElement} from "../../classes/TreeElement";
+import {lazyInject} from "../../inversify.config";
+import {HtmlDomService, Offset} from "../../services/HtmlDomService";
+import SceneStore from "../../stores/SceneStore";
+import FolderContentElement from "./FolderContentElement";
 
 // FIXME
 const ScrollbarsWORKAROUND = (Scrollbars as any);
@@ -20,6 +21,10 @@ interface NodeListStates {
 
 @observer
 export default class FolderContent extends React.Component<NodeListProps, NodeListStates> {
+
+    @lazyInject("HtmlDomService")
+    private readonly htmlDomService!: HtmlDomService;
+
     private rafID?: number;
 
     constructor(p?: NodeListProps, context?: any) {
@@ -31,9 +36,9 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
     }
 
     public updateDimensions() {
-        const sceneHeight: number = HtmlDom.getHeightById("softvis3dscene");
-        const sceneOffsets: Offset = HtmlDom.getOffsetsById("softvis3dscene");
-        const scrollerOffset: Offset = HtmlDom.getOffsetsById("node-scroller");
+        const sceneHeight: number = this.htmlDomService.getHeightById("softvis3dscene");
+        const sceneOffsets: Offset = this.htmlDomService.getOffsetsById("softvis3dscene");
+        const scrollerOffset: Offset = this.htmlDomService.getOffsetsById("node-scroller");
 
         this.setState({
             listHeight: sceneHeight - scrollerOffset.top + sceneOffsets.top

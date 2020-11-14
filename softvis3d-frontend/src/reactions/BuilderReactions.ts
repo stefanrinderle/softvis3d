@@ -3,17 +3,24 @@ import VisualizationOptions from "../classes/VisualizationOptions";
 import {lazyInject} from "../inversify.config";
 import AutoReloadService from "../services/AutoReloadService";
 import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
-import {CityBuilderStore} from "../stores/CityBuilderStore";
+import AppStatusStore from "../stores/AppStatusStore";
+import CityBuilderStore from "../stores/CityBuilderStore";
+import SceneStore from "../stores/SceneStore";
 
 export default class BuilderReactions {
     private cityBuilderStore: CityBuilderStore;
-    @lazyInject("SonarQubeMeasuresService")
-    private measuresService!: SonarQubeMeasuresService;
-    @lazyInject("AutoReloadService")
-    private autoReloadService!: AutoReloadService;
+    private appStatusStore: AppStatusStore;
+    private sceneStore: SceneStore;
 
-    constructor(cityBuilderStore: CityBuilderStore) {
+    @lazyInject("SonarQubeMeasuresService")
+    private readonly measuresService!: SonarQubeMeasuresService;
+    @lazyInject("AutoReloadService")
+    private readonly autoReloadService!: AutoReloadService;
+
+    constructor(appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
+        this.appStatusStore = appStatusStore;
         this.cityBuilderStore = cityBuilderStore;
+        this.sceneStore = sceneStore;
         this.prepareReactions();
     }
 
@@ -28,8 +35,8 @@ export default class BuilderReactions {
                         this.cityBuilderStore.layout, this.cityBuilderStore.footprintMetric,
                         this.cityBuilderStore.heightMetric, this.cityBuilderStore.metricColor, this.cityBuilderStore.profile.scale);
 
-                    this.measuresService.loadMeasures(options);
-                    this.autoReloadService.startAutoReload();
+                    this.measuresService.loadMeasures(this.appStatusStore, this.cityBuilderStore, this.sceneStore, options);
+                    this.autoReloadService.startAutoReload(this.appStatusStore);
                 }
             },
             {

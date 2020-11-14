@@ -17,14 +17,15 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { Vector3 } from "three";
-import { SoftVis3dShape } from "../domain/SoftVis3dShape";
-import { SelectionCalculator } from "./SelectionCalculator";
-import { HtmlDom, Offset } from "../../../services/HtmlDom";
-import SoftVis3dScene from "./scene/SoftVis3dScene";
-import { Wrangler } from "./objects/Wrangler";
+import {Vector3} from "three";
+import {SceneColorTheme} from "../../../classes/SceneColorTheme";
 import VisualizationOptions from "../../../classes/VisualizationOptions";
-import { SceneColorTheme } from "../../../classes/SceneColorTheme";
+import {lazyInject} from "../../../inversify.config";
+import {HtmlDomService, Offset} from "../../../services/HtmlDomService";
+import {SoftVis3dShape} from "../domain/SoftVis3dShape";
+import {Wrangler} from "./objects/Wrangler";
+import SoftVis3dScene from "./scene/SoftVis3dScene";
+import {SelectionCalculator} from "./SelectionCalculator";
 
 export default class ThreeSceneService {
 
@@ -43,6 +44,9 @@ export default class ThreeSceneService {
             wranglerMock
         );
     }
+
+    @lazyInject("HtmlDomService")
+    private readonly htmlDomService!: HtmlDomService;
 
     private threeScene: SoftVis3dScene;
     private wrangler: Wrangler;
@@ -92,7 +96,7 @@ export default class ThreeSceneService {
     }
 
     public makeSelection(event: MouseEvent): string | null {
-        const offset: Offset = HtmlDom.getOffsetsById(SoftVis3dScene.CANVAS_ID);
+        const offset: Offset = this.htmlDomService.getOffsetsById(SoftVis3dScene.CANVAS_ID);
         const selection = SelectionCalculator.calculateSelectionPosition(event, offset);
 
         let result: string | null = SelectionCalculator.makeSelection(

@@ -2,7 +2,7 @@ import * as React from "react";
 import {expect} from "chai";
 import {shallow} from "enzyme";
 import ErrorStatus from "../../../src/components/status/ErrorStatus";
-import {AppStatusStore} from "../../../src/stores/AppStatusStore";
+import AppStatusStore from "../../../src/stores/AppStatusStore";
 import ErrorAction from "../../../src/classes/status/ErrorAction";
 
 describe("<ErrorStatus/>", () => {

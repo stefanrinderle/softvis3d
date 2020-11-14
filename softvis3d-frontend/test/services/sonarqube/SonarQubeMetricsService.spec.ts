@@ -19,9 +19,9 @@
 ///
 import {assert} from "chai";
 import SonarQubeMetricsService, {SonarQubeApiMetric} from "../../../src/services/sonarqube/SonarQubeMetricsService";
-import {AppStatusStore} from "../../../src/stores/AppStatusStore";
+import AppStatusStore from "../../../src/stores/AppStatusStore";
 import * as Sinon from "sinon";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
+import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import {MetricType} from "../../../src/classes/MetricType";
 
 describe("SonarQubeMetricsService", () => {
@@ -32,8 +32,7 @@ describe("SonarQubeMetricsService", () => {
         let spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(testAppStatusStore,
-            testCityBuilderStore, apiUrl);
+        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl);
 
         let expectedMetrics: SonarQubeApiMetric[] = [];
         expectedMetrics.push({
@@ -52,7 +51,7 @@ describe("SonarQubeMetricsService", () => {
             });
         });
 
-        underTest.loadAvailableMetrics().then(() => {
+        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore).then(() => {
             Sinon.assert.called(spyAdd);
             done();
         }).catch((error) => {
@@ -67,8 +66,7 @@ describe("SonarQubeMetricsService", () => {
         let spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(testAppStatusStore,
-            testCityBuilderStore, apiUrl);
+        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl);
 
         let expectedMetrics: SonarQubeApiMetric[] = [];
         expectedMetrics.push({
@@ -88,7 +86,7 @@ describe("SonarQubeMetricsService", () => {
             });
         });
 
-        underTest.loadAvailableMetrics().then(() => {
+        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore).then(() => {
             Sinon.assert.calledWith(spyAdd, []);
             done();
         }).catch((error) => {
@@ -103,8 +101,7 @@ describe("SonarQubeMetricsService", () => {
         let spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(testAppStatusStore,
-            testCityBuilderStore, apiUrl);
+        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl);
 
         let expectedMetrics: SonarQubeApiMetric[] = [];
         expectedMetrics.push({
@@ -123,7 +120,7 @@ describe("SonarQubeMetricsService", () => {
             });
         });
 
-        underTest.loadAvailableMetrics().then(() => {
+        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore).then(() => {
             Sinon.assert.calledWith(spyAdd, []);
             done();
         }).catch((error) => {
@@ -139,8 +136,7 @@ describe("SonarQubeMetricsService", () => {
 
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(testAppStatusStore,
-            testCityBuilderStore, "urlsihshoif");
+        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -150,7 +146,7 @@ describe("SonarQubeMetricsService", () => {
             });
         });
 
-        underTest.loadAvailableMetrics().then(() => {
+        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore).then(() => {
             assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
             assert(spyLoadComplete.calledWith(SonarQubeMetricsService.LOAD_METRICS));
             done();
@@ -167,8 +163,7 @@ describe("SonarQubeMetricsService", () => {
 
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(testAppStatusStore,
-            testCityBuilderStore, "urlsihshoif");
+        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
         let spyCallApi = Sinon.stub(underTest, "callApi");
         spyCallApi.onFirstCall().returns(
@@ -190,7 +185,7 @@ describe("SonarQubeMetricsService", () => {
                 }
             }));
 
-        underTest.loadAvailableMetrics().then(() => {
+        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore).then(() => {
             assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
             assert(spyCallApi.calledTwice);
             assert(spyLoadComplete.calledWith(SonarQubeMetricsService.LOAD_METRICS));
@@ -210,8 +205,7 @@ describe("SonarQubeMetricsService", () => {
 
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(testAppStatusStore,
-            testCityBuilderStore, "urlsihshoif");
+        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService( "urlsihshoif");
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
@@ -221,7 +215,7 @@ describe("SonarQubeMetricsService", () => {
             });
         });
 
-        underTest.loadAvailableMetrics().then(() => undefined).catch(() => {
+        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore).then(() => undefined).catch(() => {
             assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
             assert(spyLoadComplete.calledWith(SonarQubeMetricsService.LOAD_METRICS));
             assert(spyError.calledOnce);
@@ -239,8 +233,7 @@ describe("SonarQubeMetricsService", () => {
 
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(testAppStatusStore,
-            testCityBuilderStore, "urlsihshoif");
+        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
         let spyCallApi = Sinon.stub(underTest, "callApi");
         spyCallApi.onFirstCall().returns(
@@ -260,7 +253,7 @@ describe("SonarQubeMetricsService", () => {
             })
         );
 
-        underTest.loadAvailableMetrics().then(() => {
+        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore).then(() => {
             assert.isNotOk({}, "Promise error");
             done();
         }).catch(() => {

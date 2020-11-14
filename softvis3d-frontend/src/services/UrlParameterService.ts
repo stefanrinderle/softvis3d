@@ -4,7 +4,7 @@ export interface Parameters {
 
 export default class UrlParameterService {
 
-    public static getQueryParams(qs: string): Parameters {
+    public getQueryParams(qs: string): Parameters {
         qs = qs.split("+").join(" ");
 
         let params: Parameters = {};
@@ -18,7 +18,7 @@ export default class UrlParameterService {
         return params;
     }
 
-    public static createVisualizationLinkForCurrentUrl(href: string, params: Parameters): string {
+    public createVisualizationLinkForCurrentUrl(href: string, params: Parameters): string {
         let paramsStartPosition: number = href.indexOf("?");
 
         let hrefParamsPart: string = href.substr(paramsStartPosition, href.length);
@@ -31,7 +31,7 @@ export default class UrlParameterService {
         return href + this.createUrlParameterList(hrefParams, params);
     }
 
-    private static createUrlParameterList(existingParameters: Parameters, parameters: Parameters): string {
+    private createUrlParameterList(existingParameters: Parameters, parameters: Parameters): string {
         parameters = Object.assign(existingParameters, parameters);
 
         let result: string = "?";

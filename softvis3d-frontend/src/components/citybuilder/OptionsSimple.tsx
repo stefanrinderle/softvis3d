@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import CityBuilderStore from "../../stores/CityBuilderStore";
 import LayoutPicker from "./LayoutPicker";
 import { Layouts } from "../../constants/Layouts";
 import PreviewPictureComponent from "./PreviewPictureComponent";

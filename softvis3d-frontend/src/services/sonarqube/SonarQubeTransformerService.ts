@@ -1,13 +1,13 @@
-import { TreeElement } from "../../classes/TreeElement";
-import { SonarQubeApiComponent, SQ_QUALIFIER_FILE } from "./measures/SonarQubeMeasureResponse";
+import {TreeElement} from "../../classes/TreeElement";
+import {SonarQubeApiComponent, SQ_QUALIFIER_FILE} from "./measures/SonarQubeMeasureResponse";
 
 /**
  * Outside this package should be no sonarqube specific stuff. This class is needed to abstract our logic
  * from SQ.
  */
-export default class SonarQubeTransformer {
+export default class SonarQubeTransformerService {
 
-    public static createTreeElement(component: SonarQubeApiComponent, parent?: TreeElement): TreeElement {
+    public createTreeElement(component: SonarQubeApiComponent, parent?: TreeElement): TreeElement {
         const measureList: MeasureList = {};
 
         for (let localMeasure of component.measures) {
@@ -29,7 +29,7 @@ export default class SonarQubeTransformer {
     /**
      * Will be called with the path of the components sorted.
      */
-    public static add(parent: TreeElement, element: TreeElement, examineInReversedOrder: boolean = false) {
+    public add(parent: TreeElement, element: TreeElement, examineInReversedOrder: boolean = false) {
         let children: TreeElement[] = parent.children;
         if (examineInReversedOrder) {
             children = [...parent.children].reverse();
@@ -39,7 +39,7 @@ export default class SonarQubeTransformer {
             const indexOf = element.path.indexOf(child.path + "/");
 
             if (indexOf === 0) {
-                SonarQubeTransformer.add(child, element, examineInReversedOrder);
+                this.add(child, element, examineInReversedOrder);
                 return;
             }
         }

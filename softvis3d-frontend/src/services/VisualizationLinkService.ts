@@ -1,38 +1,38 @@
-import {CityBuilderStore} from "../stores/CityBuilderStore";
-import Metric from "../classes/Metric";
-import Layout from "../classes/Layout";
-import {custom} from "../constants/Profiles";
-import Scale from "../classes/Scale";
-import {ColorMetrics} from "../constants/Metrics";
-import {Scales} from "../constants/Scales";
-import {Layouts} from "../constants/Layouts";
-import VisualizationLinkParams from "../classes/VisualizationLinkParams";
-import {SceneStore} from "../stores/SceneStore";
 import {Vector3} from "three";
-import {default as UrlParameterService, Parameters} from "./UrlParameterService";
 import {AppConfiguration} from "../classes/AppConfiguration";
-import { SceneColorTheme } from "../classes/SceneColorTheme";
-import { DEFAULT_COLOR_THEME, SceneColorThemes } from "../constants/SceneColorThemes";
+import Layout from "../classes/Layout";
+import Metric from "../classes/Metric";
+import Scale from "../classes/Scale";
+import {SceneColorTheme} from "../classes/SceneColorTheme";
+import VisualizationLinkParams from "../classes/VisualizationLinkParams";
+import {Layouts} from "../constants/Layouts";
+import {ColorMetrics} from "../constants/Metrics";
+import {custom} from "../constants/Profiles";
+import {Scales} from "../constants/Scales";
+import {DEFAULT_COLOR_THEME, SceneColorThemes} from "../constants/SceneColorThemes";
+import {lazyInject} from "../inversify.config";
+import CityBuilderStore from "../stores/CityBuilderStore";
+import SceneStore from "../stores/SceneStore";
+import {default as UrlParameterService, Parameters} from "./UrlParameterService";
 
 export default class VisualizationLinkService {
 
-    private cityBuilderStore: CityBuilderStore;
-    private sceneStore: SceneStore;
+    @lazyInject("UrlParameterService")
+    private readonly urlParameterService!: UrlParameterService;
+
     private config: AppConfiguration;
 
-    constructor(config: AppConfiguration, cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
+    constructor(config: AppConfiguration) {
         this.config = config;
-        this.cityBuilderStore = cityBuilderStore;
-        this.sceneStore = sceneStore;
     }
 
-    public process(search: string) {
-        let params: Parameters = UrlParameterService.getQueryParams(search);
+    public process(cityBuilderStore: CityBuilderStore, sceneStore: SceneStore, search: string) {
+        let params: Parameters = this.urlParameterService.getQueryParams(search);
 
         let metricFootprint: Metric | undefined =
-            this.cityBuilderStore.genericMetrics.getMetricByKey(params.metricFootprint);
+            cityBuilderStore.genericMetrics.getMetricByKey(params.metricFootprint);
         let metricHeight: Metric | undefined =
-            this.cityBuilderStore.genericMetrics.getMetricByKey(params.metricHeight);
+            cityBuilderStore.genericMetrics.getMetricByKey(params.metricHeight);
 
         let metricColor: Metric | undefined = ColorMetrics.getColorMetricById(params.metricColor);
 
@@ -60,18 +60,19 @@ export default class VisualizationLinkService {
                 layout, scale, selectedObjectId, cameraPosition, colorTheme
             );
 
-            this.applyParams(visualizationLinkParams);
+            this.applyParams(cityBuilderStore, sceneStore, visualizationLinkParams);
 
-            this.cityBuilderStore.show = false;
-            this.cityBuilderStore.initiateBuildProcess = true;
+            cityBuilderStore.show = false;
+            cityBuilderStore.initiateBuildProcess = true;
         }
     }
 
-    public createVisualizationLink(): string {
-        return UrlParameterService.createVisualizationLinkForCurrentUrl(document.location.href, this.createCurrentParams());
+    public createVisualizationLink(cityBuilderStore: CityBuilderStore, sceneStore: SceneStore): string {
+        return this.urlParameterService.createVisualizationLinkForCurrentUrl(document.location.href,
+            this.createCurrentParams(cityBuilderStore, sceneStore));
     }
 
-    public createPlainVisualizationLink(): string {
+    public createPlainVisualizationLink(cityBuilderStore: CityBuilderStore, sceneStore: SceneStore): string {
         let baseUrl = "";
         if (this.config.baseUrl) {
             baseUrl = this.config.baseUrl;
@@ -80,19 +81,20 @@ export default class VisualizationLinkService {
         const baseLocation = baseUrl + "/static/softvis3d/index.html" +
             "?projectKey=" + this.config.projectKey + "&baseUrl=" + baseUrl;
 
-        return UrlParameterService.createVisualizationLinkForCurrentUrl(baseLocation, this.createCurrentParams());
+        const params = this.createCurrentParams(cityBuilderStore, sceneStore);
+        return this.urlParameterService.createVisualizationLinkForCurrentUrl(baseLocation, params);
     }
 
-    private createCurrentParams(): Parameters {
-        if (!this.sceneStore.cameraPosition) {
-            throw new Error("this.sceneStore.cameraPosition is undefined or null on createVisualizationLink");
+    private createCurrentParams(cityBuilderStore: CityBuilderStore, sceneStore: SceneStore): Parameters {
+        if (!sceneStore.cameraPosition) {
+            throw new Error("sceneStore.cameraPosition is undefined or null on createVisualizationLink");
         }
 
         let visualizationLinkParams: VisualizationLinkParams =
-            new VisualizationLinkParams(this.cityBuilderStore.profile.footprintMetricId,
-                this.cityBuilderStore.profile.heightMetricId, this.cityBuilderStore.metricColor,
-                this.cityBuilderStore.layout, this.cityBuilderStore.profile.scale,
-                this.sceneStore.selectedObjectId, this.sceneStore.cameraPosition, this.sceneStore.colorTheme);
+            new VisualizationLinkParams(cityBuilderStore.profile.footprintMetricId,
+                cityBuilderStore.profile.heightMetricId, cityBuilderStore.metricColor,
+                cityBuilderStore.layout, cityBuilderStore.profile.scale,
+                sceneStore.selectedObjectId, sceneStore.cameraPosition, sceneStore.colorTheme);
 
         return visualizationLinkParams.getKeyValuePairs();
     }
@@ -109,17 +111,17 @@ export default class VisualizationLinkService {
         return cameraPosition;
     }
 
-    private applyParams(visualizationLinkParams: VisualizationLinkParams) {
-        this.cityBuilderStore.profile = custom;
-        this.cityBuilderStore.profile.footprintMetricId = visualizationLinkParams.metricFootprintId;
-        this.cityBuilderStore.profile.heightMetricId = visualizationLinkParams.metricHeightId;
-        this.cityBuilderStore.metricColor = visualizationLinkParams.metricColor;
-        this.cityBuilderStore.profile.scale = visualizationLinkParams.scale;
-        this.cityBuilderStore.layout = visualizationLinkParams.layout;
+    private applyParams(cityBuilderStore: CityBuilderStore, sceneStore: SceneStore, visualizationLinkParams: VisualizationLinkParams) {
+        cityBuilderStore.profile = custom;
+        cityBuilderStore.profile.footprintMetricId = visualizationLinkParams.metricFootprintId;
+        cityBuilderStore.profile.heightMetricId = visualizationLinkParams.metricHeightId;
+        cityBuilderStore.metricColor = visualizationLinkParams.metricColor;
+        cityBuilderStore.profile.scale = visualizationLinkParams.scale;
+        cityBuilderStore.layout = visualizationLinkParams.layout;
 
-        this.sceneStore.selectedObjectId = visualizationLinkParams.selectedObjectId;
-        this.sceneStore.cameraPosition = visualizationLinkParams.cameraPosition;
-        this.sceneStore.colorTheme = visualizationLinkParams.colorTheme;
+        sceneStore.selectedObjectId = visualizationLinkParams.selectedObjectId;
+        sceneStore.cameraPosition = visualizationLinkParams.cameraPosition;
+        sceneStore.colorTheme = visualizationLinkParams.colorTheme;
     }
 
 }

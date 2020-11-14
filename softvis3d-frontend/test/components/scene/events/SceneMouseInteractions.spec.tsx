@@ -2,7 +2,8 @@ import {assert, expect} from "chai";
 import * as Sinon from "sinon";
 import Event from "../../../../src/components/scene/events/Event";
 import {SceneMouseInteractions} from "../../../../src/components/scene/events/SceneMouseInteractions";
-import {HtmlDom} from "../../../../src/services/HtmlDom";
+import {HtmlDomService} from "../../../../src/services/HtmlDomService";
+import {createMock} from "../../../Helper";
 
 describe("SceneMouseInteractions", () => {
 
@@ -27,7 +28,7 @@ describe("SceneMouseInteractions", () => {
     it("should raise mouse down event on click on descendant.", () => {
         let underTest: SceneMouseInteractions = SceneMouseInteractions.create();
 
-        const eventClickScene = { target: null } as any as MouseEvent;
+        const eventClickScene = {target: null} as any as MouseEvent;
 
         let listener: Function = (result: Event<boolean>) => {
             expect(result.getValue()).to.be.true;
@@ -36,13 +37,12 @@ describe("SceneMouseInteractions", () => {
 
         underTest.addMouseDownEventListener(spy);
 
-        let htmlDomStub = Sinon.stub(HtmlDom, "isDescendant").returns(true);
+        let htmlDomStub = createMock(HtmlDomService);
+        htmlDomStub.isDescendant.returns(true);
 
         underTest.handleMouseDown(eventClickScene);
 
         assert(spy.calledOnce);
-
-        htmlDomStub.restore();
     });
 
     it("should raise mouse down event on click on descendant.", () => {
@@ -55,19 +55,18 @@ describe("SceneMouseInteractions", () => {
 
         underTest.addMouseDownEventListener(spy);
 
-        let htmlDomStub = Sinon.stub(HtmlDom, "isDescendant").returns(false);
+        let htmlDomStub = createMock(HtmlDomService);
+        htmlDomStub.isDescendant.returns(false);
 
-        const documentMock = { } as any as Document;
+        const documentMock = {} as any as Document;
         let documentStub = Sinon.stub(document, "getElementById");
         documentStub.returns(documentMock);
 
-        const eventClickScene = { target: documentMock } as any as MouseEvent;
+        const eventClickScene = {target: documentMock} as any as MouseEvent;
 
         underTest.handleMouseDown(eventClickScene);
 
         assert(spy.calledOnce);
-
-        htmlDomStub.restore();
     });
 
     it("should raise mouse down event with false on click if not in scene.", () => {
@@ -78,16 +77,15 @@ describe("SceneMouseInteractions", () => {
         };
         const spy = Sinon.spy(listener);
 
-        let htmlDomStub = Sinon.stub(HtmlDom, "isDescendant").returns(false);
+        let htmlDomStub = createMock(HtmlDomService);
+        htmlDomStub.isDescendant.returns(false);
 
         underTest.addMouseDownEventListener(spy);
-        const eventClickScene = { target: "" } as any as MouseEvent;
+        const eventClickScene = {target: ""} as any as MouseEvent;
 
         underTest.handleMouseDown(eventClickScene);
 
         assert(spy.calledOnce);
-
-        htmlDomStub.restore();
     });
 
     it("should raise mouse moved event on mouse up and not moved.", () => {
@@ -100,7 +98,7 @@ describe("SceneMouseInteractions", () => {
 
         underTest.addMouseMovedEventListener(spy1);
         underTest.addSelectObjectEventEventListener(spy2);
-        const event = { target: "" } as any as MouseEvent;
+        const event = {target: ""} as any as MouseEvent;
 
         underTest.setMouseMoved(true);
         underTest.onMouseUp(event);
@@ -119,7 +117,7 @@ describe("SceneMouseInteractions", () => {
 
         underTest.addMouseMovedEventListener(spy1);
         underTest.addSelectObjectEventEventListener(spy2);
-        const event = { target: "" } as any as MouseEvent;
+        const event = {target: ""} as any as MouseEvent;
 
         underTest.setMouseMoved(false);
         underTest.onMouseUp(event);

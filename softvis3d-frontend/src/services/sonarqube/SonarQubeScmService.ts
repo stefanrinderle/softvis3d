@@ -1,4 +1,11 @@
 ///
+import ErrorAction from "../../classes/status/ErrorAction";
+import LoadAction from "../../classes/status/LoadAction";
+import {TreeElement} from "../../classes/TreeElement";
+import {lazyInject} from "../../inversify.config";
+import AppStatusStore from "../../stores/AppStatusStore";
+import SceneStore from "../../stores/SceneStore";
+import TreeService from "../TreeService";
 /// softvis3d-frontend
 /// Copyright (C) 2016 Stefan Rinderle and Yvo Niedrich
 /// stefan@rinderle.info / yvo.niedrich@gmail.com
@@ -18,13 +25,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {BackendService} from "./BackendService";
-import {AppStatusStore} from "../../stores/AppStatusStore";
-import LoadAction from "../../classes/status/LoadAction";
-import ErrorAction from "../../classes/status/ErrorAction";
-import {default as sceneStore, SceneStore} from "../../stores/SceneStore";
-import {TreeService} from "../TreeService";
-import ScmCalculator from "./ScmCalculator";
-import {TreeElement} from "../../classes/TreeElement";
+import ScmCalculatorService from "./ScmCalculatorService";
 
 export default class SonarQubeScmService extends BackendService {
     public static LOAD_SCM: LoadAction = new LoadAction("SONAR_LOAD_SCM", "Request scm infos from SonarQube");
@@ -32,57 +33,44 @@ export default class SonarQubeScmService extends BackendService {
         "SCM blame info is not available. Please check your scm plugin.");
     private static LOAD_SCM_ERROR_KEY: string = "LOAD_SCM_ERROR";
 
-    private appStatusStore: AppStatusStore;
-    private sceneStore: SceneStore;
+    @lazyInject("TreeService")
+    private readonly treeService!: TreeService;
+    @lazyInject("ScmCalculatorService")
+    private readonly scmCalculator!: ScmCalculatorService;
 
-    constructor(appStatusStore: AppStatusStore, sceneStore: SceneStore, baseUrl?: string) {
+    constructor(baseUrl?: string) {
         super(baseUrl);
-
-        this.appStatusStore = appStatusStore;
-        this.sceneStore = sceneStore;
     }
 
-    public assertScmInfoAreLoaded(): Promise<void> {
+    public assertScmInfoAreLoaded(appStatusStore: AppStatusStore, sceneStore: SceneStore): Promise<void> {
         return new Promise<void>((resolve) => {
             if (sceneStore.scmMetricLoaded) {
                 resolve();
                 return;
             }
 
-            this.loadScmInfosIfAvailable().then(() => {
-                this.sceneStore.scmMetricLoaded = true;
+            this.loadScmInfosIfAvailable(appStatusStore, sceneStore).then(() => {
+                sceneStore.scmMetricLoaded = true;
                 resolve();
             });
         });
     }
 
-    public loadScmInfosIfAvailable(): Promise<void> {
-        return new Promise<void>((resolve) => {
-            this.checkScmInfosAvailable().then((isAvailable: boolean) => {
-                if (isAvailable) {
-                    this.loadScmInfos().then(() => resolve());
-                } else {
-                    resolve();
-                }
-            });
-        });
-    }
-
-    public checkScmInfosAvailable(): Promise<boolean> {
+    public checkScmInfosAvailable(appStatusStore: AppStatusStore, sceneStore: SceneStore): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            if (this.sceneStore.projectData !== null) {
-                let allFiles: TreeElement[] = TreeService.getAllFiles(this.sceneStore.projectData);
+            if (sceneStore.projectData !== null) {
+                let allFiles: TreeElement[] = this.treeService.getAllFiles(sceneStore.projectData);
                 allFiles = allFiles.slice(0, 10);
 
                 let requests: Array<Promise<void>> = [];
                 for (let file of allFiles) {
-                    requests.push(this.loadScmInfosFor(file));
+                    requests.push(this.loadScmInfosFor(appStatusStore, file));
                 }
 
                 Promise.all(requests).then(() => {
                     let isScmMetricAvailable = this.checkScmMetricAvailable(allFiles);
                     if (!isScmMetricAvailable) {
-                        this.appStatusStore.status(SonarQubeScmService.STATUS_SCM_NOT_AVAILABLE);
+                        appStatusStore.status(SonarQubeScmService.STATUS_SCM_NOT_AVAILABLE);
                     }
                     resolve(isScmMetricAvailable);
                 }).catch(() => {
@@ -94,15 +82,15 @@ export default class SonarQubeScmService extends BackendService {
         });
     }
 
-    public loadScmInfos(): Promise<void> {
-        this.appStatusStore.load(SonarQubeScmService.LOAD_SCM);
+    public loadScmInfos(appStatusStore: AppStatusStore, sceneStore: SceneStore): Promise<void> {
+        appStatusStore.load(SonarQubeScmService.LOAD_SCM);
 
         return new Promise<void>((resolve, reject) => {
-            if (this.sceneStore.projectData !== null) {
-                let allFiles: TreeElement[] = TreeService.getAllFiles(this.sceneStore.projectData);
+            if (sceneStore.projectData !== null) {
+                let allFiles: TreeElement[] = this.treeService.getAllFiles(sceneStore.projectData);
 
-                this.loadScmInfosBatch(allFiles).then(() => {
-                    this.appStatusStore.loadComplete(SonarQubeScmService.LOAD_SCM);
+                this.loadScmInfosBatch(appStatusStore, allFiles).then(() => {
+                    appStatusStore.loadComplete(SonarQubeScmService.LOAD_SCM);
                     resolve();
                 }).catch(() => {
                     reject();
@@ -110,6 +98,18 @@ export default class SonarQubeScmService extends BackendService {
             } else {
                 resolve();
             }
+        });
+    }
+
+    private loadScmInfosIfAvailable(appStatusStore: AppStatusStore, sceneStore: SceneStore): Promise<void> {
+        return new Promise<void>((resolve) => {
+            this.checkScmInfosAvailable(appStatusStore, sceneStore).then((isAvailable: boolean) => {
+                if (isAvailable) {
+                    this.loadScmInfos(appStatusStore, sceneStore).then(() => resolve());
+                } else {
+                    resolve();
+                }
+            });
         });
     }
 
@@ -122,11 +122,11 @@ export default class SonarQubeScmService extends BackendService {
         return false;
     }
 
-    private loadScmInfosBatch(allFiles: TreeElement[], page: number = 0): Promise<void> {
+    private loadScmInfosBatch(appStatusStore: AppStatusStore, allFiles: TreeElement[], page: number = 0): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             let size: number = 75;
             let pageSize = Math.floor(allFiles.length / size);
-            this.appStatusStore.loadStatusUpdate(SonarQubeScmService.LOAD_SCM.key, pageSize, page);
+            appStatusStore.loadStatusUpdate(SonarQubeScmService.LOAD_SCM.key, pageSize, page);
 
             let requests: Array<Promise<void>> = [];
 
@@ -138,13 +138,13 @@ export default class SonarQubeScmService extends BackendService {
             }
 
             for (let i = start; i < end; i++) {
-                requests.push(this.loadScmInfosFor(allFiles[i]));
+                requests.push(this.loadScmInfosFor(appStatusStore, allFiles[i]));
             }
 
             Promise.all(requests).then(() => {
                 let isNextBatchRequired: boolean = allFiles.length > (page * size) + size;
                 if (isNextBatchRequired) {
-                    this.loadScmInfosBatch(allFiles, page + 1).then(() => {
+                    this.loadScmInfosBatch(appStatusStore, allFiles, page + 1).then(() => {
                         resolve();
                     });
                 } else {
@@ -156,29 +156,29 @@ export default class SonarQubeScmService extends BackendService {
         });
     }
 
-    private loadScmInfosFor(element: TreeElement): Promise<void> {
+    private loadScmInfosFor(appStatusStore: AppStatusStore, element: TreeElement): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const params = {key: element.key};
             this.callApi("/sources/scm", {params}).then((response) => {
                 let metrics = (response.data.scm)
                     .map((c: any) => {
-                            return ScmCalculator.createMetric(c);
+                            return this.scmCalculator.createMetric(c);
                         }
                     );
 
                 element.measures = Object.assign(element.measures, {
-                    number_of_authors: ScmCalculator.calcNumberOfAuthors(metrics)
+                    number_of_authors: this.scmCalculator.calcNumberOfAuthors(metrics)
                 });
 
                 resolve();
             }).catch((error) => {
-                this.appStatusStore.error(
+                appStatusStore.error(
                     new ErrorAction(SonarQubeScmService.LOAD_SCM_ERROR_KEY,
                         "SonarQube metric API is not available or responding: " + error.response.statusText,
                         "Try again", () => {
                             location.reload();
                         }));
-                this.appStatusStore.loadComplete(SonarQubeScmService.LOAD_SCM);
+                appStatusStore.loadComplete(SonarQubeScmService.LOAD_SCM);
                 reject();
             });
         });

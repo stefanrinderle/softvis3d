@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import * as React from "react";
-import {CityBuilderStore} from "../../stores/CityBuilderStore";
-import {SceneStore} from "../../stores/SceneStore";
+import CityBuilderStore from "../../stores/CityBuilderStore";
+import SceneStore from "../../stores/SceneStore";
 import Scene from "../scene/Scene";
 import SideBar from "../sidebar/SideBar";
 import TopBar from "../topbar/TopBar";

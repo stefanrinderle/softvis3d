@@ -1,14 +1,15 @@
+import {observer} from "mobx-react";
 import * as React from "react";
-import { observer } from "mobx-react";
-import { CityBuilderStore } from "../../stores/CityBuilderStore";
-import sceneStore from "../../stores/SceneStore";
-import OptionsSimple from "./OptionsSimple";
+import AppStatusStore from "../../stores/AppStatusStore";
+import CityBuilderStore from "../../stores/CityBuilderStore";
+import SceneStore from "../../stores/SceneStore";
 import OptionsAdvanced from "./OptionsAdvanced";
-import {AppStatusStore} from "../../stores/AppStatusStore";
+import OptionsSimple from "./OptionsSimple";
 
 export interface CityBuilderProps {
     store: CityBuilderStore;
     appStatusStore: AppStatusStore;
+    sceneStore: SceneStore;
     baseUrl?: string;
 }
 
@@ -31,7 +32,7 @@ export default class CityBuilder extends React.Component<CityBuilderProps, any> 
     }
 
     private renderButtons() {
-        if (!sceneStore.isVisible) {
+        if (!this.props.sceneStore.isVisible) {
             return (
                 <div className="buttons">
                     <button onClick={() => this.loadScene()}>Load Scene</button>

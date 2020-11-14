@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {assert, expect} from "chai";
-import {AppStatusStore} from "../../src/stores/AppStatusStore";
+import AppStatusStore from "../../src/stores/AppStatusStore";
 import LoadAction from "../../src/classes/status/LoadAction";
 import ErrorAction from "../../src/classes/status/ErrorAction";
 import StatusAction from "../../src/classes/status/StatusAction";

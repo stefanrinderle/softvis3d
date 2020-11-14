@@ -18,10 +18,11 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { HtmlDom } from "../../../services/HtmlDom";
-import { EventDispatcher } from "./EventDispatcher";
-import Event from "./Event";
+import {lazyInject} from "../../../inversify.config";
+import {HtmlDomService} from "../../../services/HtmlDomService";
 import Scene from "../Scene";
+import Event from "./Event";
+import {EventDispatcher} from "./EventDispatcher";
 
 export class SceneMouseInteractions {
 
@@ -31,6 +32,9 @@ export class SceneMouseInteractions {
     }
 
     private static EVENT_MOUSE_DOWN: string = "mousedown";
+
+    @lazyInject("HtmlDomService")
+    private readonly htmlDomService!: HtmlDomService;
 
     /**
      * global window object mouse down event.
@@ -66,7 +70,7 @@ export class SceneMouseInteractions {
 
     public handleMouseDown(event: MouseEvent) {
         const self = document.getElementById(Scene.SCENE_CONTAINER_ID);
-        let isWithinScene = event.target === self || HtmlDom.isDescendant(self, event.target as HTMLElement);
+        let isWithinScene = event.target === self || this.htmlDomService.isDescendant(self, event.target as HTMLElement);
 
         this._onMouseDownEvent.dispatchEvent(new Event<boolean>(isWithinScene));
     }

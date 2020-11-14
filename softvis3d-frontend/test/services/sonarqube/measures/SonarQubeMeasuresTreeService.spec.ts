@@ -18,7 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {assert, expect} from "chai";
-import * as Sinon from "sinon";
 import {TreeElement} from "../../../../src/classes/TreeElement";
 import {
     SonarQubeApiComponent,
@@ -28,13 +27,15 @@ import {
 } from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
 import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresApiService";
 import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresTreeService";
-import {bindMock} from "../../../Helper";
+import SonarQubeTransformerService from "../../../../src/services/sonarqube/SonarQubeTransformerService";
+import AppStatusStore from "../../../../src/stores/AppStatusStore";
+import {createMock} from "../../../Helper";
 
 describe("SonarQubeMeasuresTreeService", () => {
 
     it("should immediately resolve on response without components", (done) => {
-        let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
-        bindMock("SonarQubeMeasuresApiService", measureApiService);
+        let measureApiService = createMock(SonarQubeMeasuresApiService);
+        createMock(SonarQubeTransformerService);
 
         let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 
@@ -45,7 +46,7 @@ describe("SonarQubeMeasuresTreeService", () => {
         );
 
         let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
-        underTest.loadTree(root, "metricKeys").then(() => {
+        underTest.loadTree(new AppStatusStore(), root, "metricKeys").then(() => {
             assert(measureApiService.loadMeasures.called);
 
             done();
@@ -56,8 +57,10 @@ describe("SonarQubeMeasuresTreeService", () => {
     });
 
     it("should resolve result", (done) => {
-        let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
-        bindMock("SonarQubeMeasuresApiService", measureApiService);
+        let measureApiService = createMock(SonarQubeMeasuresApiService);
+        let sonarQubeTransformerService = createMock(SonarQubeTransformerService);
+        sonarQubeTransformerService.createTreeElement.callThrough();
+        sonarQubeTransformerService.add.callThrough();
 
         let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 
@@ -84,7 +87,7 @@ describe("SonarQubeMeasuresTreeService", () => {
         );
 
         let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
-        underTest.loadTree(root, "metricKeys").then(() => {
+        underTest.loadTree(new AppStatusStore(), root, "metricKeys").then(() => {
             assert(measureApiService.loadMeasures.called);
             expect(root.children.length).to.be.eq(2);
 
@@ -96,8 +99,7 @@ describe("SonarQubeMeasuresTreeService", () => {
     });
 
     it("should call service and react on errors", (done) => {
-        let measureApiService: any = Sinon.createStubInstance(SonarQubeMeasuresApiService);
-        bindMock("SonarQubeMeasuresApiService", measureApiService);
+        let measureApiService = createMock(SonarQubeMeasuresApiService);
 
         let underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 
@@ -110,7 +112,7 @@ describe("SonarQubeMeasuresTreeService", () => {
         );
 
         let root: TreeElement = new TreeElement("", 'projectKey', {}, "", "", false);
-        underTest.loadTree(root, "metricKeys").then(() => {
+        underTest.loadTree(new AppStatusStore(), root, "metricKeys").then(() => {
             assert.isNotOk("Promise error", "works but should throw exception");
 
             done();

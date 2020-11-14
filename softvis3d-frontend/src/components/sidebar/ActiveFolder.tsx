@@ -1,6 +1,6 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import {SceneStore} from "../../stores/SceneStore";
+import SceneStore from "../../stores/SceneStore";
 import {TreeElement} from "../../classes/TreeElement";
 
 interface NodeListProps {

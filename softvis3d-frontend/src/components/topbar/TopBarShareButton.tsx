@@ -3,9 +3,13 @@ import * as React from "react";
 import {lazyInject} from "../../inversify.config";
 import ClipBoardService from "../../services/ClipBoardService";
 import VisualizationLinkService from "../../services/VisualizationLinkService";
+import CityBuilderStore from "../../stores/CityBuilderStore";
+import SceneStore from "../../stores/SceneStore";
 
 interface TopBarShareButtonProbs {
     disabled: boolean;
+    cityBuilderStore: CityBuilderStore;
+    sceneStore: SceneStore;
 }
 
 interface TopBarShareButtonStates {
@@ -16,7 +20,9 @@ interface TopBarShareButtonStates {
 export default class TopBarShareButton extends React.Component<TopBarShareButtonProbs, TopBarShareButtonStates> {
 
     @lazyInject("VisualizationLinkService")
-    private visualizationLinkService!: VisualizationLinkService;
+    private readonly visualizationLinkService!: VisualizationLinkService;
+    @lazyInject("ClipBoardService")
+    private readonly clipBoardService!: ClipBoardService;
 
     public componentWillMount() {
         this.setShareMenuState(false);
@@ -57,17 +63,19 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
     }
 
     private openVisualizationLink() {
-        window.open(this.visualizationLinkService.createVisualizationLink());
+        window.open(this.visualizationLinkService.createVisualizationLink(this.props.cityBuilderStore, this.props.sceneStore));
         this.setShareMenuState(false);
     }
 
     private copyVisualizationLink() {
-        ClipBoardService.copyTextToClipboard(this.visualizationLinkService.createVisualizationLink());
+        const link = this.visualizationLinkService.createVisualizationLink(this.props.cityBuilderStore, this.props.sceneStore);
+        this.clipBoardService.copyTextToClipboard(link);
         this.setShareMenuState(false);
     }
 
     private openPlainVisualizationLink() {
-        let result: string = this.visualizationLinkService.createPlainVisualizationLink();
+        let result: string =
+            this.visualizationLinkService.createPlainVisualizationLink(this.props.cityBuilderStore, this.props.sceneStore);
         window.open(result);
 
         this.setShareMenuState(false);

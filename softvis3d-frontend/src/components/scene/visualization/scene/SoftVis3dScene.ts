@@ -18,15 +18,16 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import * as three from "three";
-import { PerspectiveCamera, Scene, Vector3, WebGLRenderer } from "three";
-import { Camera } from "./Camera";
-import { Setup } from "./Setup";
-import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
-import { Rectangle } from "../../domain/Rectangle";
-import { HtmlDom, Offset } from "../../../../services/HtmlDom";
+import {PerspectiveCamera, Scene, Vector3, WebGLRenderer} from "three";
 import * as OrbitControlsExtender from "three-orbit-controls";
+import {SceneColorTheme} from "../../../../classes/SceneColorTheme";
+import {lazyInject} from "../../../../inversify.config";
+import {HtmlDomService, Offset} from "../../../../services/HtmlDomService";
+import {Rectangle} from "../../domain/Rectangle";
+import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
+import {Camera} from "./Camera";
 import SceneObjectCalculator from "./SceneObjectCalculator";
-import { SceneColorTheme } from "../../../../classes/SceneColorTheme";
+import {Setup} from "./Setup";
 
 const OrbitControls = OrbitControlsExtender(three);
 
@@ -35,6 +36,9 @@ export default class SoftVis3dScene {
 
     public readonly scene: Scene;
     public readonly camera: Camera;
+
+    @lazyInject("HtmlDomService")
+    private readonly htmlDomService!: HtmlDomService;
 
     private _width: number;
     private _height: number;
@@ -126,12 +130,12 @@ export default class SoftVis3dScene {
      * Resizes the camera when document is resized.
      */
     private onWindowResize() {
-        const sidebarWidth = HtmlDom.getWidthById("app-sidebar");
-        const topbarHeight = HtmlDom.getHeightById("app-topbar");
+        const sidebarWidth = this.htmlDomService.getWidthById("app-sidebar");
+        const topbarHeight = this.htmlDomService.getHeightById("app-topbar");
 
-        const appOffset: Offset = HtmlDom.getOffsetsById("app");
+        const appOffset: Offset = this.htmlDomService.getOffsetsById("app");
         const sonarFooter = document.getElementById("footer");
-        const appWidth = HtmlDom.getWidthById("app");
+        const appWidth = this.htmlDomService.getWidthById("app");
 
         let result: Rectangle = SceneObjectCalculator.calculateDimensionOnResize(
             sidebarWidth, topbarHeight, appOffset, sonarFooter, appWidth);

@@ -1,11 +1,13 @@
+import {expect} from "chai";
+import {shallow} from "enzyme";
 import * as React from "react";
-import { expect } from "chai";
-import { shallow } from "enzyme";
-import SideBar from "../../../src/components/sidebar/SideBar";
+import {TreeElement} from "../../../src/classes/TreeElement";
 import FolderContent from "../../../src/components/sidebar/FolderContent";
 import ParentElement from "../../../src/components/sidebar/ParentElement";
-import { SceneStore } from "../../../src/stores/SceneStore";
-import {TreeElement} from "../../../src/classes/TreeElement";
+import SideBar from "../../../src/components/sidebar/SideBar";
+import TreeService from "../../../src/services/TreeService";
+import SceneStore from "../../../src/stores/SceneStore";
+import {createMock} from "../../Helper";
 
 describe("<SideBar/>", () => {
 
@@ -31,6 +33,9 @@ describe("<SideBar/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = parent;
         localSceneStore.selectedObjectId = child1.id;
+
+        let localTreeService = createMock(TreeService);
+        localTreeService.searchTreeNode.returns(child1);
 
         const shallowSidebar = shallow(
             <SideBar sceneStore={localSceneStore}/>
@@ -66,6 +71,9 @@ describe("<SideBar/>", () => {
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = parent;
         localSceneStore.selectedObjectId = child11.id;
+
+        let localTreeService = createMock(TreeService);
+        localTreeService.searchTreeNode.returns(child11);
 
         const shallowSidebar = shallow(
             <SideBar sceneStore={localSceneStore}/>

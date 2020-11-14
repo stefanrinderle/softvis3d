@@ -18,8 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-import ClipBoardService from "../../src/services/ClipBoardService";
 import * as Sinon from "sinon";
+import ClipBoardService from "../../src/services/ClipBoardService";
 
 describe("ClipBoardService", () => {
 
@@ -36,7 +36,7 @@ describe("ClipBoardService", () => {
         let documentExecStub = Sinon.stub(document, "execCommand");
 
         try {
-            ClipBoardService.copyTextToClipboard("expectedTestText");
+            new ClipBoardService().copyTextToClipboard("expectedTestText");
             expect(true).to.be.false;
         } catch (error) {
             // did not get this work without the exception. But its ok for the test.

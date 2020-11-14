@@ -1,9 +1,9 @@
-import * as React from "react";
-import {shallow} from "enzyme";
 import {expect} from "chai";
-import SceneInformation from "../../../../src/components/scene/information/SceneInformation";
+import {shallow} from "enzyme";
+import * as React from "react";
 import MetricKey from "../../../../src/components/scene/information/MetricKey";
-import {SceneStore, default as sceneStore} from "../../../../src/stores/SceneStore";
+import SceneInformation from "../../../../src/components/scene/information/SceneInformation";
+import SceneStore from "../../../../src/stores/SceneStore";
 
 describe("<SceneInformation/>", () => {
 
@@ -17,7 +17,7 @@ describe("<SceneInformation/>", () => {
         expect(bottomBar
             .contains(<MetricKey
                 title="Footprint"
-                metric={sceneStore.options.footprint}
+                metric={testSceneStore.options.footprint}
                 selectedElement={testSceneStore.selectedElement}
             />)).to.be.true;
 

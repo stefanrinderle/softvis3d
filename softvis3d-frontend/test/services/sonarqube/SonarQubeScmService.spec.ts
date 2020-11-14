@@ -18,13 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {assert, expect} from "chai";
-import {AppStatusStore} from "../../../src/stores/AppStatusStore";
 import * as Sinon from "sinon";
-import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
-import {SceneStore} from "../../../src/stores/SceneStore";
-import {TreeService} from "../../../src/services/TreeService";
-import ScmCalculator from "../../../src/services/sonarqube/ScmCalculator";
 import {TreeElement} from "../../../src/classes/TreeElement";
+import ScmCalculatorService from "../../../src/services/sonarqube/ScmCalculatorService";
+import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
+import TreeService from "../../../src/services/TreeService";
+import AppStatusStore from "../../../src/stores/AppStatusStore";
+import SceneStore from "../../../src/stores/SceneStore";
+import {createMock} from "../../Helper";
 
 describe("SonarQubeScmService", () => {
 
@@ -36,27 +37,22 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
-            testSceneStore, apiUrl);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
-        let treeServiceMock = Sinon.stub(TreeService, "getAllFiles");
-        let treeElements: TreeElement[] = [];
-        treeElements.push(createTestTreeElement("test"));
-        treeServiceMock.returns(treeElements);
+        mockTreeServiceGetAllFiles([createTestTreeElement("test")]);
 
         let measure: string[] = [];
         let measures: any = [];
         measures.push(measure);
 
-        let scmCalculatorCreateMetricMock = Sinon.stub(ScmCalculator, "createMetric");
-        scmCalculatorCreateMetricMock.returns({
+        let localScmCalculator = createMock(ScmCalculatorService);
+        localScmCalculator.createMetric.returns({
             lineNumber: 1,
             authorName: "srinderle",
             lastCommit: "oisdfosidj",
             lastCommitRevision: "soidufhosidjf"
         });
-        let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
-        scmCalculatorCaclAuthorsMock.returns(4);
+        localScmCalculator.calcNumberOfAuthors.returns(4);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -66,15 +62,12 @@ describe("SonarQubeScmService", () => {
             });
         });
 
-        underTest.checkScmInfosAvailable().then((result) => {
+        underTest.checkScmInfosAvailable(testAppStatusStore, testSceneStore).then((result) => {
             expect(result).to.be.true;
 
-            treeServiceMock.restore();
-            scmCalculatorCreateMetricMock.restore();
-            scmCalculatorCaclAuthorsMock.restore();
             done();
         }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
+            assert.isNotOk(error, "checkScmInfosAvailable promise result error");
             done();
         });
     });
@@ -87,24 +80,19 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
-            testSceneStore, apiUrl);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
         let statusStub = Sinon.stub(testAppStatusStore, "status");
 
-        let treeServiceMock = Sinon.stub(TreeService, "getAllFiles");
-        let treeElements: TreeElement[] = [];
-        treeElements.push(createTestTreeElement("test"));
-        treeServiceMock.returns(treeElements);
+        mockTreeServiceGetAllFiles([createTestTreeElement("test")]);
 
         let measure: string[] = [];
         let measures: any = [];
         measures.push(measure);
 
-        let scmCalculatorCreateMetricMock = Sinon.stub(ScmCalculator, "createMetric");
-        scmCalculatorCreateMetricMock.returns({});
-        let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
-        scmCalculatorCaclAuthorsMock.returns(0);
+        let localScmCalculator = createMock(ScmCalculatorService);
+        localScmCalculator.createMetric.returns({});
+        localScmCalculator.calcNumberOfAuthors.returns(0);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -114,13 +102,10 @@ describe("SonarQubeScmService", () => {
             });
         });
 
-        underTest.checkScmInfosAvailable().then((result) => {
+        underTest.checkScmInfosAvailable(testAppStatusStore, testSceneStore).then((result) => {
             expect(result).to.be.false;
             assert(statusStub.calledOnce);
 
-            treeServiceMock.restore();
-            scmCalculatorCreateMetricMock.restore();
-            scmCalculatorCaclAuthorsMock.restore();
             statusStub.restore();
             done();
         }).catch((error) => {
@@ -130,6 +115,7 @@ describe("SonarQubeScmService", () => {
     });
 
     it("should call backend and add metric", (done) => {
+        createMock(ScmCalculatorService);
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
 
         let loadStub = Sinon.stub(testAppStatusStore, "load");
@@ -141,27 +127,23 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
-            testSceneStore, apiUrl);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
-        let treeServiceMock = Sinon.stub(TreeService, "getAllFiles");
-        let treeElements: TreeElement[] = [];
-        treeElements.push(createTestTreeElement("test"));
-        treeServiceMock.returns(treeElements);
+        const treeElement = createTestTreeElement("test");
+        mockTreeServiceGetAllFiles([treeElement]);
 
         let measure: string[] = [];
         let measures: any = [];
         measures.push(measure);
 
-        let scmCalculatorCreateMetricMock = Sinon.stub(ScmCalculator, "createMetric");
-        scmCalculatorCreateMetricMock.returns({
+        let localScmCalculator = createMock(ScmCalculatorService);
+        localScmCalculator.createMetric.returns({
             lineNumber: 1,
             authorName: "srinderle",
             lastCommit: "oisdfosidj",
             lastCommitRevision: "soidufhosidjf"
         });
-        let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
-        scmCalculatorCaclAuthorsMock.returns(4);
+        localScmCalculator.calcNumberOfAuthors.returns(4);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -171,17 +153,14 @@ describe("SonarQubeScmService", () => {
             });
         });
 
-        underTest.loadScmInfos().then(() => {
-            assert(treeElements[0].measures.hasOwnProperty("number_of_authors"));
-            expect(treeElements[0].measures.number_of_authors).to.be.eq(4);
+        underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
+            assert(treeElement.measures.hasOwnProperty("number_of_authors"));
+            expect(treeElement.measures.number_of_authors).to.be.eq(4);
 
             assert(loadStub.called);
             assert(loadCompleteStub.called);
             assert(loadStatusUpdateStub.called);
 
-            treeServiceMock.restore();
-            scmCalculatorCreateMetricMock.restore();
-            scmCalculatorCaclAuthorsMock.restore();
             done();
         }).catch((error) => {
             assert.isNotOk(error, "Promise error");
@@ -190,6 +169,7 @@ describe("SonarQubeScmService", () => {
     });
 
     it("should call backend and add metric in batches", (done) => {
+        createMock(ScmCalculatorService);
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let loadStub = Sinon.stub(testAppStatusStore, "load");
         let loadCompleteStub = Sinon.stub(testAppStatusStore, "loadComplete");
@@ -200,29 +180,26 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
-            testSceneStore, apiUrl);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
-        let treeServiceMock = Sinon.stub(TreeService, "getAllFiles");
         let treeElements: TreeElement[] = [];
         for (let i = 0; i < 90; i++) {
             treeElements.push(createTestTreeElement("test" + i));
         }
-        treeServiceMock.returns(treeElements);
+        mockTreeServiceGetAllFiles(treeElements);
 
         let measure: string[] = [];
         let measures: any = [];
         measures.push(measure);
 
-        let scmCalculatorCreateMetricMock = Sinon.stub(ScmCalculator, "createMetric");
-        scmCalculatorCreateMetricMock.returns({
+        let localScmCalculator = createMock(ScmCalculatorService);
+        localScmCalculator.createMetric.returns({
             lineNumber: 1,
             authorName: "srinderle",
             lastCommit: "oisdfosidj",
             lastCommitRevision: "soidufhosidjf"
         });
-        let scmCalculatorCaclAuthorsMock = Sinon.stub(ScmCalculator, "calcNumberOfAuthors");
-        scmCalculatorCaclAuthorsMock.returns(4);
+        localScmCalculator.calcNumberOfAuthors.returns(4);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -232,7 +209,7 @@ describe("SonarQubeScmService", () => {
             });
         });
 
-        underTest.loadScmInfos().then(() => {
+        underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
             assert(treeElements[0].measures.hasOwnProperty("number_of_authors"));
             expect(treeElements[0].measures.number_of_authors).to.be.eq(4);
 
@@ -242,9 +219,6 @@ describe("SonarQubeScmService", () => {
             assert(loadCompleteStub.called);
             assert(loadStatusUpdateStub.calledTwice);
 
-            treeServiceMock.restore();
-            scmCalculatorCreateMetricMock.restore();
-            scmCalculatorCaclAuthorsMock.restore();
             done();
         }).catch((error) => {
             assert.isNotOk(error, "Promise error");
@@ -258,10 +232,9 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = null;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
-            testSceneStore, apiUrl);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
-        underTest.loadScmInfos().then(() => {
+        underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
             done();
         }).catch((error) => {
             assert.isNotOk(error, "Promise error");
@@ -279,13 +252,9 @@ describe("SonarQubeScmService", () => {
         testSceneStore.projectData = exampleData;
 
         let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(testAppStatusStore,
-            testSceneStore, apiUrl);
+        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
-        let treeServiceMock = Sinon.stub(TreeService, "getAllFiles");
-        let treeElements: TreeElement[] = [];
-        treeElements.push(createTestTreeElement("test"));
-        treeServiceMock.returns(treeElements);
+        mockTreeServiceGetAllFiles([createTestTreeElement("test")]);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
@@ -295,10 +264,9 @@ describe("SonarQubeScmService", () => {
             });
         });
 
-        underTest.loadScmInfos().then(() => {
+        underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
             assert(errorStub.called);
 
-            treeServiceMock.restore();
             done();
         }).catch((error) => {
             assert.isNotOk(error, "Promise error");
@@ -310,4 +278,9 @@ describe("SonarQubeScmService", () => {
 
 function createTestTreeElement(name: string, parent?: TreeElement): TreeElement {
     return new TreeElement(name, name, {}, "", "", true, parent);
+}
+
+function mockTreeServiceGetAllFiles(treeElements: TreeElement[]) {
+    let localTreeService: any = createMock(TreeService);
+    localTreeService.getAllFiles.returns(treeElements);
 }

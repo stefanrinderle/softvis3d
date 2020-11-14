@@ -1,4 +1,6 @@
 ///
+import {Offset} from "../../../../services/HtmlDomService";
+import {Rectangle} from "../../domain/Rectangle";
 /// softvis3d-frontend
 /// Copyright (C) 2016 Stefan Rinderle and Yvo Niedrich
 /// stefan@rinderle.info / yvo.niedrich@gmail.com
@@ -18,8 +20,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
-import {Rectangle} from "../../domain/Rectangle";
-import {Offset} from "../../../../services/HtmlDom";
 
 export default class SceneObjectCalculator {
 

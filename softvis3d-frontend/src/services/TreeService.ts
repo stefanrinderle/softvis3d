@@ -19,9 +19,10 @@
 ///
 
 import {TreeElement} from "../classes/TreeElement";
-export class TreeService {
 
-    public static searchTreeNode(tree: TreeElement, id: string): TreeElement | null {
+export default class TreeService {
+
+    public searchTreeNode(tree: TreeElement, id: string): TreeElement | null {
         if (tree) {
             return this.searchIdInElement(id, tree);
         } else {
@@ -29,7 +30,7 @@ export class TreeService {
         }
     }
 
-    public static getAllSceneElementsRecursive(tree: TreeElement, id: string): string[] {
+    public getAllSceneElementsRecursive(tree: TreeElement, id: string): string[] {
         let node = this.searchTreeNode(tree, id);
         if (node === null) {
             return [];
@@ -38,7 +39,7 @@ export class TreeService {
         }
     }
 
-    public static getAllFiles(node: TreeElement): TreeElement[] {
+    public getAllFiles(node: TreeElement): TreeElement[] {
         let results: TreeElement[] = [];
 
         if (node.isFile) {
@@ -54,7 +55,7 @@ export class TreeService {
         return results;
     }
 
-    private static searchIdInElement(id: string, element: TreeElement): TreeElement | null {
+    private searchIdInElement(id: string, element: TreeElement): TreeElement | null {
         if (element.id === id) {
             return element;
         }
@@ -69,7 +70,7 @@ export class TreeService {
         return null;
     }
 
-    private static privateGetAllSceneElementsRecursive(node: TreeElement): string[] {
+    private privateGetAllSceneElementsRecursive(node: TreeElement): string[] {
         let showIds: string[] = [];
         showIds.push(node.id);
 

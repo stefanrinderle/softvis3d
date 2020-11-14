@@ -3,25 +3,30 @@ import * as ReactDOM from "react-dom";
 import {AppConfiguration} from "./classes/AppConfiguration";
 import ErrorAction from "./classes/status/ErrorAction";
 import Softvis3D from "./components/Softvis3D";
-import {container} from "./inversify.config";
+import {bindToInjection, container} from "./inversify.config";
 import AppReactions from "./reactions/AppReactions";
 import BuilderReactions from "./reactions/BuilderReactions";
 import SceneReactions from "./reactions/SceneReactions";
 import AutoReloadService from "./services/AutoReloadService";
-import {CityLayoutService} from "./services/layout/CityLayoutService";
+import {HtmlDomService} from "./services/HtmlDomService";
+import CityLayoutService from "./services/layout/CityLayoutService";
 import SonarQubeMeasuresApiService from "./services/sonarqube/measures/SonarQubeMeasuresApiService";
 import SonarQubeMeasuresMetricService from "./services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import SonarQubeMeasuresService from "./services/sonarqube/measures/SonarQubeMeasuresService";
 import SonarQubeMeasuresTreeService from "./services/sonarqube/measures/SonarQubeMeasuresTreeService";
 import SonarQubeOptimizeStructureService from "./services/sonarqube/measures/SonarQubeOptimizeStructureService";
+import ScmCalculatorService from "./services/sonarqube/ScmCalculatorService";
 import SonarQubeComponentInfoService from "./services/sonarqube/SonarQubeComponentInfoService";
 import SonarQubeMetricsService from "./services/sonarqube/SonarQubeMetricsService";
 import SonarQubeScmService from "./services/sonarqube/SonarQubeScmService";
+import SonarQubeTransformerService from "./services/sonarqube/SonarQubeTransformerService";
+import TreeService from "./services/TreeService";
+import UrlParameterService from "./services/UrlParameterService";
 import VisualizationLinkService from "./services/VisualizationLinkService";
-import WebGLDetector from "./services/WebGLDetector";
-import appStatusStore from "./stores/AppStatusStore";
-import cityBuilderStore from "./stores/CityBuilderStore";
-import sceneStore from "./stores/SceneStore";
+import WebGLDetectorService from "./services/WebGLDetectorService";
+import AppStatusStore from "./stores/AppStatusStore";
+import CityBuilderStore from "./stores/CityBuilderStore";
+import SceneStore from "./stores/SceneStore";
 
 export default class App {
     private static WEBGL_ERROR_KEY: string = "WEBGL_ERROR";
@@ -29,65 +34,74 @@ export default class App {
     private communicator: SonarQubeMetricsService;
     private visualizationLinkService: VisualizationLinkService;
     private componentInfoService: SonarQubeComponentInfoService;
+    private webGLDetectorService: WebGLDetectorService;
 
     private config: AppConfiguration;
 
     // @ts-ignore: unused variable
     private reactions: any[];
+    private appStatusStore: AppStatusStore;
+    private cityBuilderStore: CityBuilderStore;
+    private sceneStore: SceneStore;
 
     public constructor(config: AppConfiguration) {
         this.config = config;
-        appStatusStore.showLoadingQueue = this.config.isDev;
+        this.appStatusStore = new AppStatusStore();
+        this.appStatusStore.showLoadingQueue = this.config.isDev;
+        this.cityBuilderStore = new CityBuilderStore();
+        this.sceneStore = new SceneStore();
 
-        this.visualizationLinkService = new VisualizationLinkService(this.config, cityBuilderStore, sceneStore);
+        this.visualizationLinkService = new VisualizationLinkService(this.config);
         container.bind<VisualizationLinkService>("VisualizationLinkService")
             .toConstantValue(this.visualizationLinkService);
 
-        this.communicator = new SonarQubeMetricsService(appStatusStore, cityBuilderStore, this.config.baseUrl);
+        container.bind<SonarQubeScmService>("SonarQubeScmService")
+            .toConstantValue(new SonarQubeScmService(this.config.baseUrl));
+        container.bind<SonarQubeMeasuresApiService>("SonarQubeMeasuresApiService")
+            .toConstantValue(new SonarQubeMeasuresApiService(config));
+        bindToInjection(SonarQubeMeasuresMetricService);
+        let measuresService = new SonarQubeMeasuresService(config.projectKey);
+        container.bind<SonarQubeMeasuresService>("SonarQubeMeasuresService")
+            .toConstantValue(measuresService);
 
+        this.communicator = new SonarQubeMetricsService(this.config.baseUrl);
         container.bind<SonarQubeMetricsService>("SonarQubeMetricsService")
             .toConstantValue(this.communicator);
 
-        container.bind<SonarQubeScmService>("SonarQubeScmService")
-            .toConstantValue(new SonarQubeScmService(appStatusStore, sceneStore));
-        container.bind<SonarQubeMeasuresApiService>("SonarQubeMeasuresApiService")
-            .toConstantValue(new SonarQubeMeasuresApiService(config, appStatusStore));
-        container.bind<SonarQubeMeasuresTreeService>("SonarQubeMeasuresTreeService")
-            .toConstantValue(new SonarQubeMeasuresTreeService());
-        container.bind<SonarQubeMeasuresMetricService>("SonarQubeMeasuresMetricService")
-            .toConstantValue(new SonarQubeMeasuresMetricService(cityBuilderStore));
-        let measuresService = new SonarQubeMeasuresService(config.projectKey, appStatusStore, cityBuilderStore, sceneStore);
-        container.bind<SonarQubeMeasuresService>("SonarQubeMeasuresService")
-            .toConstantValue(measuresService);
-        container.bind<SonarQubeOptimizeStructureService>("SonarQubeOptimizeStructureService")
-            .toConstantValue(new SonarQubeOptimizeStructureService());
+        this.webGLDetectorService = bindToInjection(WebGLDetectorService);
+        bindToInjection(UrlParameterService);
+        bindToInjection(SonarQubeOptimizeStructureService);
+        bindToInjection(SonarQubeMeasuresTreeService);
+        bindToInjection(HtmlDomService);
+        bindToInjection(SonarQubeTransformerService);
+        bindToInjection(ScmCalculatorService);
+        bindToInjection(CityLayoutService);
+        bindToInjection(TreeService);
+        bindToInjection(AutoReloadService);
 
-        container.bind<CityLayoutService>("CityLayoutService")
-            .toConstantValue(new CityLayoutService(sceneStore, appStatusStore));
-
-        container.bind<AutoReloadService>("AutoReloadService")
-            .toConstantValue(new AutoReloadService(appStatusStore));
         this.componentInfoService = new SonarQubeComponentInfoService(this.config.projectKey, this.config.baseUrl);
         container.bind<SonarQubeComponentInfoService>("SonarQubeComponentInfoService")
             .toConstantValue(this.componentInfoService);
 
         this.reactions = [
-            new AppReactions(appStatusStore, cityBuilderStore),
-            new SceneReactions(sceneStore, cityBuilderStore),
-            new BuilderReactions(cityBuilderStore)
+            new AppReactions(this.appStatusStore, this.cityBuilderStore, this.sceneStore),
+            new SceneReactions(this.sceneStore, this.cityBuilderStore, this.appStatusStore),
+            new BuilderReactions(this.appStatusStore, this.cityBuilderStore, this.sceneStore)
         ];
     }
 
     public run(target: string) {
-        this.communicator.loadAvailableMetrics().then(() => {
-            this.visualizationLinkService.process(document.location.search);
+        this.communicator.loadAvailableMetrics(this.appStatusStore, this.cityBuilderStore).then(() => {
+            this.visualizationLinkService.process(this.cityBuilderStore, this.sceneStore, document.location.search);
         });
 
         this.loadComponentInfoData();
         this.assertClientRequirementsAreMet();
 
         ReactDOM.render(
-            <Softvis3D sceneStore={sceneStore} cityBuilderStore={cityBuilderStore} appStatusStore={appStatusStore}
+            <Softvis3D sceneStore={this.sceneStore}
+                       cityBuilderStore={this.cityBuilderStore}
+                       appStatusStore={this.appStatusStore}
                        baseUrl={this.config.baseUrl}/>,
             document.getElementById(target)!
         );
@@ -104,17 +118,17 @@ export default class App {
 
     private loadComponentInfoData() {
         this.componentInfoService.loadComponentInfo().then((result) => {
-            appStatusStore.analysisDate = result.analysisDate;
+            this.appStatusStore.analysisDate = result.analysisDate;
         }).catch(() => {
-            appStatusStore.analysisDate = undefined;
+            this.appStatusStore.analysisDate = undefined;
         });
     }
 
     private assertClientRequirementsAreMet() {
-        if (!WebGLDetector.isWebGLSupported()) {
-            const error = WebGLDetector.getWebGLErrorMessage();
+        if (!this.webGLDetectorService.isWebGLSupported()) {
+            const error = this.webGLDetectorService.getWebGLErrorMessage();
 
-            appStatusStore.error(
+            this.appStatusStore.error(
                 new ErrorAction(App.WEBGL_ERROR_KEY, "WebGL is required. " + error, "Reload page", () => {
                     location.reload();
                 })

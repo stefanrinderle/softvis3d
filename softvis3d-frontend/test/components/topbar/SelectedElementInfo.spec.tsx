@@ -1,10 +1,12 @@
-import * as React from "react";
 import {assert, expect} from "chai";
 import {shallow} from "enzyme";
-import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
-import {SceneStore} from "../../../src/stores/SceneStore";
+import * as React from "react";
 import * as Sinon from "sinon";
 import {TreeElement} from "../../../src/classes/TreeElement";
+import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
+import TreeService from "../../../src/services/TreeService";
+import SceneStore from "../../../src/stores/SceneStore";
+import {createMock} from "../../Helper";
 
 describe("<SelectedElementInfo/>", () => {
 
@@ -21,6 +23,9 @@ describe("<SelectedElementInfo/>", () => {
     it("should show node element if node details are requested", () => {
         let selectedElement: TreeElement = createTestTreeElement("my test element");
         selectedElement.children.push(createTestTreeElement("child", selectedElement));
+
+        let localTreeService = createMock(TreeService);
+        localTreeService.searchTreeNode.returns(selectedElement);
 
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = selectedElement;
@@ -59,6 +64,9 @@ describe("<SelectedElementInfo/>", () => {
         let selectedElement: TreeElement = createTestTreeElement(expectedKey, root);
         root.children.push(selectedElement);
 
+        let localTreeService = createMock(TreeService);
+        localTreeService.searchTreeNode.returns(selectedElement);
+
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
@@ -81,6 +89,9 @@ describe("<SelectedElementInfo/>", () => {
         let root: TreeElement = createTestTreeElement("my test element");
         let selectedElement: TreeElement = createTestTreeElement(expectedKey, root);
         root.children.push(selectedElement);
+
+        let localTreeService = createMock(TreeService);
+        localTreeService.searchTreeNode.returns(selectedElement);
 
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = selectedElement;

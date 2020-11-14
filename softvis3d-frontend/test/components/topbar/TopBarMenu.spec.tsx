@@ -4,15 +4,17 @@ import * as React from "react";
 import * as Sinon from "sinon";
 import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
 import TopBarShareButton from "../../../src/components/topbar/TopBarShareButton";
-import {CityBuilderStore} from "../../../src/stores/CityBuilderStore";
+import CityBuilderStore from "../../../src/stores/CityBuilderStore";
+import SceneStore from "../../../src/stores/SceneStore";
 
 describe("<TopBarMenu/>", () => {
 
     it("should show settings button and check action", () => {
         let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore}/>
+            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
         const settingsButton = topBarMenu.find("#settings-button");
@@ -23,11 +25,12 @@ describe("<TopBarMenu/>", () => {
 
     it("should show feedback button and check action", () => {
         let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         let stub = Sinon.stub(window, "open");
 
         const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore}/>
+            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
         const feedbackButton = topBarMenu.find("#feedback-button");
@@ -40,11 +43,12 @@ describe("<TopBarMenu/>", () => {
 
     it("should show help button and check action", () => {
         let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         let stub = Sinon.stub(window, "open");
 
         const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore}/>
+            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
         const helpButton = topBarMenu.find("#help-button");
@@ -57,15 +61,16 @@ describe("<TopBarMenu/>", () => {
 
     it("should have share component", () => {
         let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         localCityBuilderStore.show = true;
 
         const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore}/>
+            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
         );
 
         expect(topBarMenu.contains(
-            <TopBarShareButton disabled={true}/>)
+            <TopBarShareButton disabled={true} cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)
         ).to.be.true;
     });
 });

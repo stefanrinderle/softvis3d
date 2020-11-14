@@ -18,18 +18,19 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {assert, expect} from "chai";
-import {Vector3} from "three";
-import VisualizationLinkService from "../../src/services/VisualizationLinkService";
-import {CityBuilderStore} from "../../src/stores/CityBuilderStore";
-import Metric from "../../src/classes/Metric";
-import {custom, defaultProfile} from "../../src/constants/Profiles";
-import {district, evostreet} from "../../src/constants/Layouts";
-import {EXPONENTIAL, LINEAR_SCALED} from "../../src/constants/Scales";
-import {coverageColorMetric, packageNameColorMetric} from "../../src/constants/Metrics";
-import {SceneStore} from "../../src/stores/SceneStore";
 import * as Sinon from "sinon";
-import UrlParameterService from "../../src/services/UrlParameterService";
+import {Vector3} from "three";
 import {AppConfiguration} from "../../src/classes/AppConfiguration";
+import Metric from "../../src/classes/Metric";
+import {district, evostreet} from "../../src/constants/Layouts";
+import {coverageColorMetric, packageNameColorMetric} from "../../src/constants/Metrics";
+import {custom, defaultProfile} from "../../src/constants/Profiles";
+import {EXPONENTIAL, LINEAR_SCALED} from "../../src/constants/Scales";
+import UrlParameterService from "../../src/services/UrlParameterService";
+import VisualizationLinkService from "../../src/services/VisualizationLinkService";
+import CityBuilderStore from "../../src/stores/CityBuilderStore";
+import SceneStore from "../../src/stores/SceneStore";
+import {createMock} from "../Helper";
 
 describe("VisualizationLinkService", () => {
 
@@ -38,25 +39,23 @@ describe("VisualizationLinkService", () => {
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
         let underTest: VisualizationLinkService =
-            new VisualizationLinkService(testAppConfiguration, testCityBuilderStore, localSceneStore);
+            new VisualizationLinkService(testAppConfiguration);
 
-        let stub = Sinon.stub(UrlParameterService, "getQueryParams").returns({});
+        let localUrlParameterService = createMock(UrlParameterService);
+        localUrlParameterService.getQueryParams.returns({});
 
-        underTest.process("");
+        underTest.process(testCityBuilderStore, localSceneStore, "");
 
-        assert(stub.calledWithExactly(""));
+        assert(localUrlParameterService.getQueryParams.calledWithExactly(""));
 
         expect(testCityBuilderStore.initiateBuildProcess).to.be.eq(false);
-
-        stub.restore();
     });
 
     it("Should initiate visualization if all values are set", () => {
         let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
-        let underTest: VisualizationLinkService =
-            new VisualizationLinkService(testAppConfiguration, testCityBuilderStore, localSceneStore);
+        let underTest: VisualizationLinkService = new VisualizationLinkService(testAppConfiguration);
 
         let initialMetrics: Metric[] = [];
         let metricFootprint = new Metric("123", "siuhf", "");
@@ -67,7 +66,8 @@ describe("VisualizationLinkService", () => {
 
         let expectedSelectedObjectId: string = "123453";
 
-        let stub = Sinon.stub(UrlParameterService, "getQueryParams").returns({
+        let localUrlParameterService = createMock(UrlParameterService);
+        localUrlParameterService.getQueryParams.returns({
             metricFootprint: "123",
             metricHeight: "13",
             layout: "district",
@@ -80,9 +80,9 @@ describe("VisualizationLinkService", () => {
         });
 
         // input for the method comes from UrlParameterService
-        underTest.process("abc");
+        underTest.process(testCityBuilderStore, localSceneStore, "abc");
 
-        assert(stub.calledWithExactly("abc"));
+        assert(localUrlParameterService.getQueryParams.calledWithExactly("abc"));
 
         expect(testCityBuilderStore.profile).to.be.eq(custom);
         expect(testCityBuilderStore.profile.footprintMetricId).to.be.eq(metricFootprint.id);
@@ -102,8 +102,6 @@ describe("VisualizationLinkService", () => {
 
         expect(testCityBuilderStore.show).to.be.eq(false);
         expect(testCityBuilderStore.initiateBuildProcess).to.be.eq(true);
-
-        stub.restore();
     });
 
     it("Should initiate visualization if all values are set - other settings", () => {
@@ -111,7 +109,7 @@ describe("VisualizationLinkService", () => {
         let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
         let underTest: VisualizationLinkService =
-            new VisualizationLinkService(testAppConfiguration, testCityBuilderStore, localSceneStore);
+            new VisualizationLinkService(testAppConfiguration);
 
         let initialMetrics: Metric[] = [];
         let metricFootprint = new Metric("123", "siuhf", "");
@@ -120,7 +118,8 @@ describe("VisualizationLinkService", () => {
         initialMetrics.push(metricHeight);
         testCityBuilderStore.genericMetrics.addMetrics(initialMetrics);
 
-        let stub = Sinon.stub(UrlParameterService, "getQueryParams").returns({
+        let localUrlParameterService = createMock(UrlParameterService);
+        localUrlParameterService.getQueryParams.returns({
             metricFootprint: "13",
             metricHeight: "123",
             layout: "evostreet",
@@ -132,9 +131,9 @@ describe("VisualizationLinkService", () => {
         });
 
         // input for the method comes from UrlParameterService
-        underTest.process("abc");
+        underTest.process(testCityBuilderStore, localSceneStore, "abc");
 
-        assert(stub.calledWithExactly("abc"));
+        assert(localUrlParameterService.getQueryParams.calledWithExactly("abc"));
 
         expect(testCityBuilderStore.profile).to.be.eq(custom);
         expect(testCityBuilderStore.profile.footprintMetricId).to.be.eq(metricHeight.id);
@@ -153,8 +152,6 @@ describe("VisualizationLinkService", () => {
 
         expect(testCityBuilderStore.show).to.be.eq(false);
         expect(testCityBuilderStore.initiateBuildProcess).to.be.eq(true);
-
-        stub.restore();
     });
 
     it("Extracts the parameters properly for mandatory params", () => {
@@ -166,14 +163,14 @@ describe("VisualizationLinkService", () => {
         // Math.round in place
         localSceneStore.cameraPosition = new Vector3(1.2, 2.1, 3.3);
 
-        let underTest: VisualizationLinkService =
-            new VisualizationLinkService(testAppConfiguration, localCityBuilderStore, localSceneStore);
+        let underTest: VisualizationLinkService = new VisualizationLinkService(testAppConfiguration);
 
-        let stub = Sinon.stub(UrlParameterService, "createVisualizationLinkForCurrentUrl").returns("abc");
+        let localUrlParameterService = createMock(UrlParameterService);
+        localUrlParameterService.createVisualizationLinkForCurrentUrl.returns("abc");
 
-        let result = underTest.createVisualizationLink();
+        let result = underTest.createVisualizationLink(localCityBuilderStore, localSceneStore);
 
-        assert(stub.calledWithExactly(document.location.href, {
+        assert(localUrlParameterService.createVisualizationLinkForCurrentUrl.calledWithExactly(document.location.href, {
             metricFootprint: "complexity",
             metricHeight: "ncloc",
             metricColor: "none",
@@ -186,8 +183,6 @@ describe("VisualizationLinkService", () => {
         }));
 
         expect(result).to.contain("abc");
-
-        stub.restore();
     });
 
     it("Extracts the parameters properly with all optional params", () => {
@@ -203,13 +198,14 @@ describe("VisualizationLinkService", () => {
         localSceneStore.selectedObjectId = expectedSelectedObjectId;
 
         let underTest: VisualizationLinkService =
-            new VisualizationLinkService(testAppConfiguration, localCityBuilderStore, localSceneStore);
+            new VisualizationLinkService(testAppConfiguration);
 
-        let stub = Sinon.stub(UrlParameterService, "createVisualizationLinkForCurrentUrl").returns("abc");
+        let localUrlParameterService = createMock(UrlParameterService);
+        localUrlParameterService.createVisualizationLinkForCurrentUrl.returns("abc");
 
-        let result = underTest.createVisualizationLink();
+        let result = underTest.createVisualizationLink(localCityBuilderStore, localSceneStore);
 
-        assert(stub.calledWithExactly(document.location.href, {
+        assert(localUrlParameterService.createVisualizationLinkForCurrentUrl.calledWithExactly(document.location.href, {
             metricFootprint: "complexity",
             metricHeight: "ncloc",
             metricColor: "none",
@@ -223,8 +219,6 @@ describe("VisualizationLinkService", () => {
         }));
 
         expect(result).to.contain("abc");
-
-        stub.restore();
     });
 
     it("Should throw error if no camera position is set.", () => {
@@ -232,12 +226,11 @@ describe("VisualizationLinkService", () => {
         let localCityBuilderStore = new CityBuilderStore();
         let localSceneStore: SceneStore = new SceneStore();
 
-        let underTest: VisualizationLinkService =
-            new VisualizationLinkService(testAppConfiguration, localCityBuilderStore, localSceneStore);
+        let underTest: VisualizationLinkService = new VisualizationLinkService(testAppConfiguration);
 
         expect(() => {
-            underTest.createVisualizationLink();
-        }).to.throw("this.sceneStore.cameraPosition is undefined or null on createVisualizationLink");
+            underTest.createVisualizationLink(localCityBuilderStore, localSceneStore);
+        }).to.throw("sceneStore.cameraPosition is undefined or null on createVisualizationLink");
     });
 
     it("create plain visualization link", () => {
@@ -257,15 +250,16 @@ describe("VisualizationLinkService", () => {
         localSceneStore.selectedObjectId = expectedSelectedObjectId;
 
         let underTest: VisualizationLinkService =
-            new VisualizationLinkService(testAppConfiguration, localCityBuilderStore, localSceneStore);
+            new VisualizationLinkService(testAppConfiguration);
 
-        let stub = Sinon.stub(UrlParameterService, "createVisualizationLinkForCurrentUrl").returns("abc");
+        let localUrlParameterService = createMock(UrlParameterService);
+        localUrlParameterService.createVisualizationLinkForCurrentUrl.returns("abc");
 
-        let result = underTest.createPlainVisualizationLink();
+        let result = underTest.createPlainVisualizationLink(localCityBuilderStore, localSceneStore);
 
         const expectedresult = baseUrl + "/static/softvis3d/index.html" +
             "?projectKey=" + projectKey + "&baseUrl=" + baseUrl;
-        assert(stub.calledWithExactly(expectedresult, {
+        assert(localUrlParameterService.createVisualizationLinkForCurrentUrl.calledWithExactly(expectedresult, {
             metricFootprint: "complexity",
             metricHeight: "ncloc",
             metricColor: "none",
@@ -279,7 +273,5 @@ describe("VisualizationLinkService", () => {
         }));
 
         expect(result).to.contain("abc");
-
-        stub.restore();
     });
 });

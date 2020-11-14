@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as Sinon from "sinon";
-import { SceneStore } from "../../../src/stores/SceneStore";
+import SceneStore from "../../../src/stores/SceneStore";
 import { assert, expect } from "chai";
 import { shallow } from "enzyme";
 import Scene from "../../../src/components/scene/Scene";

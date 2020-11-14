@@ -17,10 +17,9 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {Intersection, Raycaster, Vector3} from "three";
+import {Intersection, PerspectiveCamera, Raycaster, Vector3} from "three";
+import {Offset} from "../../../services/HtmlDomService";
 import {SoftVis3dMesh} from "../domain/SoftVis3dMesh";
-import {PerspectiveCamera} from "three";
-import {Offset} from "../../../services/HtmlDom";
 
 export class SelectionCalculator {
 

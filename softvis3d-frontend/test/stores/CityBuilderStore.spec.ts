@@ -21,7 +21,7 @@ import { expect } from "chai";
 import { district, evostreet } from "../../src/constants/Layouts";
 import { custom, defaultProfile, leakPeriod } from "../../src/constants/Profiles";
 import * as Metrics from "../../src/constants/Metrics";
-import { CityBuilderStore } from "../../src/stores/CityBuilderStore";
+import CityBuilderStore from "../../src/stores/CityBuilderStore";
 import Metric from "../../src/classes/Metric";
 import { defaultDistrict, defaultEvostreet, placeholder } from "../../src/constants/PreviewPictures";
 import { LINEAR_SCALED, LOGARITHMIC } from "../../src/constants/Scales";

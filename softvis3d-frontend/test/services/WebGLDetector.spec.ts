@@ -19,13 +19,13 @@
 ///
 
 import { expect } from "chai";
-import WebGLDetector from "../../src/services/WebGLDetector";
+import WebGLDetectorService from "../../src/services/WebGLDetectorService";
 
 describe("WebGLDetector", () => {
 
     it("webGL is not supported without mocks", () => {
-        expect(WebGLDetector.isWebGLSupported()).to.be.equal(false);
-        expect(WebGLDetector.getWebGLErrorMessage()).to.contain("http://get.webgl.org/");
+        expect(new WebGLDetectorService().isWebGLSupported()).to.be.equal(false);
+        expect(new WebGLDetectorService().getWebGLErrorMessage()).to.contain("http://get.webgl.org/");
     });
 
 });

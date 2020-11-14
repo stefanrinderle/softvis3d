@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { SceneStore } from "../../stores/SceneStore";
+import SceneStore from "../../stores/SceneStore";
 import SceneInformation from "./information/SceneInformation";
 import { KeyLegend } from "./KeyLegend";
 import { SceneKeyInteractions } from "./events/SceneKeyInteractions";

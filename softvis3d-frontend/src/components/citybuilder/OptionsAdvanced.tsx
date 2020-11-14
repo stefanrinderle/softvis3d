@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { CityBuilderStore } from "../../stores/CityBuilderStore";
+import CityBuilderStore from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import Metric from "../../classes/Metric";
