@@ -124,14 +124,15 @@ export default class SonarQubeScmService extends BackendService {
 
     private loadScmInfosBatch(appStatusStore: AppStatusStore, allFiles: TreeElement[], page: number = 0): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            let size: number = 75;
-            let pageSize = Math.floor(allFiles.length / size);
-            appStatusStore.loadStatusUpdate(SonarQubeScmService.LOAD_SCM.key, pageSize, page);
+            let pageSize: number = 75;
+            // example 146 / 75 = 1,94 => 1 => +1 => 2
+            let pagesMax = Math.floor(allFiles.length / pageSize) + 1;
+            appStatusStore.loadStatusUpdate(SonarQubeScmService.LOAD_SCM.key, pagesMax, page);
 
             let requests: Array<Promise<void>> = [];
 
-            let start: number = page * size;
-            let end: number = (page * size) + size;
+            let start: number = page * pageSize;
+            let end: number = (page * pageSize) + pageSize;
 
             if (allFiles.length < end) {
                 end = allFiles.length;
@@ -142,7 +143,7 @@ export default class SonarQubeScmService extends BackendService {
             }
 
             Promise.all(requests).then(() => {
-                let isNextBatchRequired: boolean = allFiles.length > (page * size) + size;
+                let isNextBatchRequired: boolean = allFiles.length > (page * pageSize) + pageSize;
                 if (isNextBatchRequired) {
                     this.loadScmInfosBatch(appStatusStore, allFiles, page + 1).then(() => {
                         resolve();

@@ -51,22 +51,23 @@ export default class SonarQubeMeasuresApiService extends BackendService {
                 ps: 500
             };
 
-            this.callApi("/measures/component_tree", { params }).then((response) => {
+            this.callApi("/measures/component_tree", {params}).then((response) => {
                 let result: SonarQubeMeasurePagingResponse = response.data;
                 let allResults: SonarQubeMeasureResponse = {
                     baseComponent: result.baseComponent,
                     components: result.components
                 };
 
-                const position = result.paging.pageIndex * result.paging.pageSize;
-                if (position < result.paging.total) {
-                    return this.loadMeasures(appStatusStore, baseComponentKey, metricKeys,
-                        result.paging.total, pageCurrent + 1).then((resultSecond) => {
+                let pagesMax = Math.floor(result.paging.total / result.paging.pageSize) + 1;
+
+                if (result.paging.pageIndex < pagesMax) {
+                    return this.loadMeasures(appStatusStore, baseComponentKey, metricKeys, pagesMax, pageCurrent + 1)
+                        .then((resultSecond) => {
                             allResults.components = allResults.components.concat(resultSecond.components);
                             resolve(allResults);
-                        }).catch((error) => {
-                            reject(error);
-                        });
+                    }).catch((error) => {
+                        reject(error);
+                    });
                 } else {
                     resolve(allResults);
                 }
