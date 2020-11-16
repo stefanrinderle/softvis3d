@@ -81,7 +81,7 @@ describe("SonarQubeMeasuresApiService", () => {
             assert(spyCallApi.calledTwice);
 
             assert(spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 1, 1));
-            assert(spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 600, 2));
+            assert(spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 2, 2));
             assert(spyLoadStatusUpdate.calledTwice);
 
             done();

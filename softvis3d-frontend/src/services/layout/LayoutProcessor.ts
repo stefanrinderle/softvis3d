@@ -69,31 +69,36 @@ class LayoutProcessor {
     }
 
     public getIllustration(options: {}, model: Softvis3dModel) {
-        this.setOptions(options);
-        // Step 1: Load Metrics Scale
-        this._metricScale = model.getMetricScale();
+        return new Promise<any>((resolve) => {
 
-        // Step 2: Prepare the layout
-        if (this._options.layout === "evostreet") {
-            this.setLayoutEvostreet();
-        } else {
-            this.setLayoutDistrict();
-        }
+            this.setOptions(options);
+            // Step 1: Load Metrics Scale
+            this._metricScale = model.getMetricScale();
 
-        // Step 3: Create the Layout
-        const illustrator = new this._illustrator(model, this._options.layoutOptions);
+            // Step 2: Prepare the layout
+            if (this._options.layout === "evostreet") {
+                this.setLayoutEvostreet();
+            } else {
+                this.setLayoutDistrict();
+            }
 
-        // Step 4:
-        for (const rule of this._rules) {
-            illustrator.addRule(rule);
-        }
+            // Step 3: Create the Layout
+            const illustrator = new this._illustrator(model, this._options.layoutOptions);
 
-        return illustrator.draw(model._version);
+            // Step 4:
+            for (const rule of this._rules) {
+                illustrator.addRule(rule);
+            }
+
+            setTimeout(() => {
+                resolve(illustrator.draw(model._version));
+            }, 10);
+        });
     }
 
     private setOptions(options = {}) {
         this._options = Object.assign(
-            { layout: "district", layoutOptions: {}, colorMetric: "none", scalingMethod: "linear" },
+            {layout: "district", layoutOptions: {}, colorMetric: "none", scalingMethod: "linear"},
             options
         );
         this._illustrator = null;
@@ -369,7 +374,7 @@ class LayoutProcessor {
             metric: (model, node) => {
                 if (!model) return 0;
                 let level = 0;
-                while(node = (node.parent as TreeNodeInterface)) {
+                while (node = (node.parent as TreeNodeInterface)) {
                     level++;
                 }
                 return level;
@@ -392,7 +397,7 @@ class LayoutProcessor {
             metric: (model, node) => {
                 if (!model) return 0;
                 let level = 0;
-                while(node = (node.parent as TreeNodeInterface)) {
+                while (node = (node.parent as TreeNodeInterface)) {
                     level++;
                 }
                 return level;

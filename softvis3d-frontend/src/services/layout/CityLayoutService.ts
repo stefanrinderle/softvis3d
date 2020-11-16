@@ -23,9 +23,7 @@ export default class CityLayoutService {
                     appStatusStore.load(CityLayoutService.BUILD_CITY);
 
                     const model = this.prepareModel(sceneStore);
-                    this.buildCity(sceneStore, model);
-
-                    appStatusStore.loadComplete(CityLayoutService.BUILD_CITY);
+                    this.buildCity(appStatusStore, sceneStore, model);
                 }
             }
         );
@@ -53,7 +51,7 @@ export default class CityLayoutService {
         );
     }
 
-    private buildCity(sceneStore: SceneStore, model: Softvis3dModel) {
+    private buildCity(appStatusStore: AppStatusStore, sceneStore: SceneStore, model: Softvis3dModel) {
         const options = {
             layout: sceneStore.options.layout.id,
             layoutOptions: {},
@@ -61,6 +59,10 @@ export default class CityLayoutService {
             scalingMethod: sceneStore.options.scale
         };
 
-        sceneStore.shapes = this.layoutProcessor.getIllustration(options, model).shapes;
+        this.layoutProcessor.getIllustration(options, model).then((illustration) => {
+            sceneStore.shapes = illustration.shapes;
+
+            appStatusStore.loadComplete(CityLayoutService.BUILD_CITY);
+        });
     }
 }

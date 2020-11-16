@@ -42,11 +42,9 @@ describe("CityLayoutService", () => {
         let layoutProcessor = createMock(LayoutProcessor);
 
         let expectedShape = {};
-        layoutProcessor.getIllustration.callsFake(() => {
-            return {
-                shapes: expectedShape
-            };
-        });
+        layoutProcessor.getIllustration.returns(Promise.resolve({
+            shapes: expectedShape
+        }));
 
         let underTest: CityLayoutService = new CityLayoutService();
 
@@ -56,10 +54,12 @@ describe("CityLayoutService", () => {
         clock.tick(10);
         returnPromise.then(() => {
             assert(layoutProcessor.getIllustration.called);
-            expect(testSceneStore.shapes).to.be.deep.equal(expectedShape);
 
-            clock.tick(10);
-            done();
+            let returnPromise2: Promise<any> = Promise.resolve({});
+            returnPromise2.then(() => {
+                expect(testSceneStore.shapes).to.be.deep.equal(expectedShape);
+                done();
+            });
         }).catch((error) => done(error));
     });
 
@@ -75,6 +75,11 @@ describe("CityLayoutService", () => {
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
+        let layoutProcessor = createMock(LayoutProcessor);
+        layoutProcessor.getIllustration.returns(Promise.resolve({
+            shapes: {}
+        }));
+
         let underTest: CityLayoutService = new CityLayoutService();
 
         underTest.createCity(testSceneStore, testAppStatusStore);
@@ -83,10 +88,13 @@ describe("CityLayoutService", () => {
         clock.tick(10);
         returnPromise.then(() => {
             assert(spyLoad.calledWith(CityLayoutService.BUILD_CITY));
-            assert(spyLoadComplete.calledWith(CityLayoutService.BUILD_CITY));
-
             clock.tick(10);
-            done();
+
+            let returnPromise2: Promise<any> = Promise.resolve({});
+            returnPromise2.then(() => {
+                assert(spyLoadComplete.calledWith(CityLayoutService.BUILD_CITY));
+                done();
+            });
         }).catch((error) => done(error));
     });
 
@@ -115,12 +123,13 @@ describe("CityLayoutService", () => {
         clock.tick(10);
         returnPromise.then(() => {
             assert(spyLoad.calledWith(CityLayoutService.BUILD_CITY));
-            assert(spyLoadComplete.calledWith(CityLayoutService.BUILD_CITY));
-
             assert(scmService.assertScmInfoAreLoaded.called);
 
-            clock.tick(10);
-            done();
+            let returnPromise2: Promise<any> = Promise.resolve({});
+            returnPromise2.then(() => {
+                assert(spyLoadComplete.calledWith(CityLayoutService.BUILD_CITY));
+                done();
+            });
         }).catch((error) => done(error));
     });
 });
