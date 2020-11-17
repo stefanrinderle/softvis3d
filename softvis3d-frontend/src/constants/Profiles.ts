@@ -28,7 +28,7 @@ const duplicatedLinesOfCode: Profile = new ProfileBuilder("duplicatedLinesOfCode
 
 const custom: Profile = new ProfileBuilder("custom", "Customize")
     .withConfiguration(noMetricId, noMetricId, Scales.availableScales[0])
-    .withDescription("Select any metric using the 'Advanced options' at the bottom of this dialog.")
+    .withDescription("Select any metric using the 'Advanced options' tab at the top of this dialog.")
     .build();
 
 export {

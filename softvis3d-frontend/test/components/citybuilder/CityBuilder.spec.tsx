@@ -1,9 +1,11 @@
-import * as React from "react";
-import {shallow} from "enzyme";
 import {expect} from "chai";
-import CityBuilderStore from "../../../src/stores/CityBuilderStore";
-import AppStatusStore from "../../../src/stores/AppStatusStore";
+import {shallow} from "enzyme";
+import * as React from "react";
+import AdvancedAnalysisOptions from "../../../src/components/citybuilder/AdvancedAnalysisOptions";
 import CityBuilder from "../../../src/components/citybuilder/CityBuilder";
+import OptionsSimple from "../../../src/components/citybuilder/OptionsSimple";
+import AppStatusStore from "../../../src/stores/AppStatusStore";
+import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../src/stores/SceneStore";
 
 describe("<CityBuilder/>", () => {
@@ -20,6 +22,26 @@ describe("<CityBuilder/>", () => {
         );
 
         expect(cityBuilder.children().length).to.be.greaterThan(1);
+    });
+
+    it("should show advanced tab on click", () => {
+        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+        let testSceneStore: SceneStore = new SceneStore();
+
+        testCityBuilderStore.show = true;
+
+        const cityBuilder = shallow(
+            <CityBuilder store={testCityBuilderStore} appStatusStore={testAppStatusStore} sceneStore={testSceneStore}/>
+        );
+
+        expect(cityBuilder.contains(<OptionsSimple store={testCityBuilderStore} baseUrl={undefined}/>)).to.be.true;
+        expect(cityBuilder.contains(<AdvancedAnalysisOptions store={testCityBuilderStore}/>)).to.be.false;
+
+        cityBuilder.find("#city-builder-tab-1").simulate("click");
+
+        expect(cityBuilder.contains(<OptionsSimple store={testCityBuilderStore} baseUrl={undefined}/>)).to.be.false;
+        expect(cityBuilder.contains(<AdvancedAnalysisOptions store={testCityBuilderStore}/>)).to.be.true;
     });
 
     it("should not show if cityStore show is false", () => {

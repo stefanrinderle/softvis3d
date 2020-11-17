@@ -1,4 +1,5 @@
 import {observable} from "mobx";
+import {CityBuilderTab} from "../classes/CityBuilderTab";
 import Layout from "../classes/Layout";
 import {evostreet} from "../constants/Layouts";
 import {ColorMetrics, noColorMetric, noMetricId} from "../constants/Metrics";
@@ -23,6 +24,8 @@ export default class CityBuilderStore {
     public initiateBuildProcess: boolean = false;
     @observable
     public show: boolean = true;
+    @observable
+    public currentTab: CityBuilderTab = CityBuilderTab.Default;
 
     @observable
     private _profile: Profile = defaultProfile.clone();

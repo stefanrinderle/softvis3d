@@ -2,124 +2,174 @@ $leftColumnWidth: 340px;
 $simpleCategoryHeight: 290px;
 
 .city-builder {
-    @include softvis-dialog;
+  @include softvis-dialog;
 
-    .simple {
-        // Column Management
-        @include clearfix;
+  .simple {
+    // Column Management
+    @include clearfix;
 
-        position: relative;
-        min-height: $simpleCategoryHeight;
+    position: relative;
+    min-height: $simpleCategoryHeight;
 
-        .left-column {
-            float: left;
-            width: $leftColumnWidth;
-        }
-
-        .right-column {
-            position: absolute;
-            width: ($dialog-width - $leftColumnWidth - 5px);
-            height: 100%;
-            right: 0;
-        }
+    .left-column {
+      float: left;
+      width: $leftColumnWidth;
     }
 
-    // Other City-Builder Stuff
+    .right-column {
+      position: absolute;
+      width: ($dialog-width - $leftColumnWidth - 5px);
+      height: 100%;
+      right: 0;
+    }
+  }
 
-    .simple {
-        .preview {
-            min-width: 155px;
-            height: 100%;
-            background: #FFF center no-repeat;
-            background-size: contain;
-        }
+  // Other City-Builder Stuff
 
-        .layout-component {
-            width: 100%;
-
-            .list>label {
-                display: block;
-                cursor: pointer;
-                margin: 6px 4px;
-            }
-        }
-
-        .selection-description {
-            margin: 6px 0 0 0;
-            font-size: 12px;
-
-            &.profile-description {
-                min-height: 85px;
-            }
-
-            &.layout-description {
-                min-height: 45px;
-            }
-
-            &.color-description {
-                min-height: 30px;
-            }
-        }
+  .simple {
+    .preview {
+      min-width: 155px;
+      height: 100%;
+      background: #FFF center no-repeat;
+      background-size: contain;
     }
 
-    fieldset.advanced {
-        // Toggle Properties
-        margin: 6px 0;
+    .layout-component {
+      width: 100%;
 
-        &.collapsable:not(.collapsed) div.category-content {
-            max-height: 110px;
-        }
-
-        // Column Management
-        @include clearfix;
-
-        position: relative;
-
-        .left-column {
-            float: left;
-            width: 33%;
-        }
-
-        .middle-column {
-            float: left;
-            width: 33%;
-        }
-
-        .right-column {
-            float: left;
-            width: 33%;
-            height: 100%;
-            right: 0;
-        }
-
-        .selection-description {
-            margin: 6px 0 0 6px;
-            font-size: 12px;
-        }
+      .list > label {
+        display: block;
+        cursor: pointer;
+        margin: 6px 4px;
+      }
     }
 
-    .builder-option {
-        margin: 2px  3px 8px 3px;
+    .selection-description {
+      margin: 6px 0 0 0;
+      font-size: 12px;
 
-        span {
-            display: block;
-            color: $font-color-headline;
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
+      &.profile-description {
+        min-height: 85px;
+      }
 
-        select {
-            width: 97%;
-        }
+      &.layout-description {
+        min-height: 45px;
+      }
+
+      &.color-description {
+        min-height: 30px;
+      }
+    }
+  }
+
+  fieldset.advanced {
+    // Toggle Properties
+    margin: 6px 0;
+
+    &.collapsable:not(.collapsed) div.category-content {
+      max-height: 110px;
     }
 
-    .buttons {
-        text-align: right;
-        margin-top: 8px;
+    // Column Management
+    @include clearfix;
 
-        button {
-            @include softvis-button;
-        }
+    position: relative;
+
+    .left-column {
+      float: left;
+      width: 33%;
     }
+
+    .middle-column {
+      float: left;
+      width: 33%;
+    }
+
+    .right-column {
+      float: left;
+      width: 33%;
+      height: 100%;
+      right: 0;
+    }
+
+    .selection-description {
+      margin: 6px 0 0 6px;
+      font-size: 12px;
+    }
+  }
+
+  .builder-option {
+    margin: 2px 3px 8px 3px;
+
+    span {
+      display: block;
+      color: $font-color-headline;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    select {
+      width: 97%;
+    }
+  }
+
+  .buttons {
+    text-align: right;
+    margin-top: 8px;
+
+    button {
+      @include softvis-button;
+    }
+  }
+
+  .tabrow {
+    text-align: left;
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+    line-height: 24px;
+  }
+
+  .tabrow li {
+    margin: 0 10px;
+    padding: 0 10px;
+    border: 1px solid #AAA;
+    background: #ECECEC;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .tabrow li.selected {
+    background: #FFF;
+    color: $softvis-orange;
+  }
+
+  .tabrow {
+    position: relative;
+  }
+
+  .tabrow:after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    border-bottom: 1px solid #AAA;
+    z-index: 1;
+  }
+
+  .tabrow:before {
+    z-index: 1;
+  }
+
+  .tabrow li {
+    position: relative;
+    z-index: 0;
+  }
+
+  .tabrow li.selected {
+    z-index: 2;
+    border-bottom-color: #FFF;
+  }
 }
