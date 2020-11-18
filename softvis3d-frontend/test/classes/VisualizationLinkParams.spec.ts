@@ -17,18 +17,20 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { expect } from "chai";
+import {expect} from "chai";
+import {Vector3} from "three";
+import BuildingColorTheme from "../../src/classes/BuildingColorTheme";
 import Layout from "../../src/classes/Layout";
-import { evostreet } from "../../src/constants/Layouts";
-import Scale from "../../src/classes/Scale";
-import { complexityMetricId, coverageColorMetric, linesOfCodeMetricId } from "../../src/constants/Metrics";
 import Metric from "../../src/classes/Metric";
-import { Scales } from "../../src/constants/Scales";
+import Scale from "../../src/classes/Scale";
+import {SceneColorTheme} from "../../src/classes/SceneColorTheme";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
-import { Parameters } from "../../src/services/UrlParameterService";
-import { Vector3 } from "three";
-import { SceneColorTheme } from "../../src/classes/SceneColorTheme";
-import { SceneColorThemes } from "../../src/constants/SceneColorThemes";
+import {DEFAULT_BUILDING_COLOR_THEME} from "../../src/constants/BuildingColorThemes";
+import {evostreet} from "../../src/constants/Layouts";
+import {complexityMetricId, coverageColorMetric, linesOfCodeMetricId} from "../../src/constants/Metrics";
+import {Scales} from "../../src/constants/Scales";
+import {SceneColorThemes} from "../../src/constants/SceneColorThemes";
+import {Parameters} from "../../src/services/UrlParameterService";
 
 describe("VisualizationLinkParams", () => {
 
@@ -41,10 +43,11 @@ describe("VisualizationLinkParams", () => {
         let selectedObjectId: string = "123";
         let cameraPosition: Vector3 = new Vector3(0, 1, 2);
         let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
+        let buildingColorTheme: BuildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
 
         let result: VisualizationLinkParams =
             new VisualizationLinkParams(metricFootprintId, metricHeightId, metricColor, layout, scalingMethod,
-                                        selectedObjectId, cameraPosition, colorTheme);
+                                        selectedObjectId, cameraPosition, colorTheme, buildingColorTheme);
 
         expect(result.layout).to.be.eq(layout);
         expect(result.metricFootprintId).to.be.eq(metricFootprintId);
@@ -54,6 +57,7 @@ describe("VisualizationLinkParams", () => {
         expect(result.selectedObjectId).to.be.eq(selectedObjectId);
         expect(result.cameraPosition).to.be.eq(cameraPosition);
         expect(result.colorTheme).to.be.eq(SceneColorThemes.availableColorThemes[0]);
+        expect(result.buildingColorTheme).to.be.eq(DEFAULT_BUILDING_COLOR_THEME);
     });
 
     it("should create default config", () => {
@@ -65,10 +69,11 @@ describe("VisualizationLinkParams", () => {
         let selectedObjectId: string = "123";
         let cameraPosition: Vector3 = new Vector3(0.34, 1.23, 2);
         let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
+        let buildingColorTheme: BuildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
 
         let result: VisualizationLinkParams =
             new VisualizationLinkParams(complexityFootprintId, metricHeightId, metricColor, layout, scalingMethod,
-                                        selectedObjectId, cameraPosition, colorTheme);
+                                        selectedObjectId, cameraPosition, colorTheme, buildingColorTheme);
 
         let pairs: Parameters = result.getKeyValuePairs();
 
@@ -82,6 +87,7 @@ describe("VisualizationLinkParams", () => {
             cameraY: "1",
             cameraZ: "2",
             colorTheme: "default",
+            buildingColorTheme: "default",
             selectedObjectId: "123"
         };
 
@@ -100,7 +106,7 @@ describe("VisualizationLinkParams", () => {
 
         let result: VisualizationLinkParams =
             new VisualizationLinkParams(metricFootprintId, metricHeightId, metricColor, layout, scalingMethod,
-                selectedObjectId, cameraPosition, colorTheme);
+                selectedObjectId, cameraPosition, colorTheme, DEFAULT_BUILDING_COLOR_THEME);
 
         let pairs: Parameters = result.getKeyValuePairs();
 
@@ -113,7 +119,8 @@ describe("VisualizationLinkParams", () => {
             cameraX: "0",
             cameraY: "1",
             cameraZ: "2",
-            colorTheme: "dark"
+            colorTheme: "dark",
+            buildingColorTheme: "default"
         };
 
         expect(JSON.stringify(pairs)).to.be.eq(JSON.stringify(expected));

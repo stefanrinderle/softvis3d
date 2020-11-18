@@ -1,23 +1,27 @@
-import Metric from "../classes/Metric";
-import Layout from "../classes/Layout";
-import Scale from "../classes/Scale";
 import {Vector3} from "three";
+import Layout from "../classes/Layout";
+import Metric from "../classes/Metric";
+import Scale from "../classes/Scale";
 import {Parameters} from "../services/UrlParameterService";
-import { SceneColorTheme } from "./SceneColorTheme";
+import BuildingColorTheme from "./BuildingColorTheme";
+import {SceneColorTheme} from "./SceneColorTheme";
 
 export default class VisualizationLinkParams {
 
-    private _metricFootprintId: string;
-    private _metricHeightId: string;
-    private _metricColor: Metric;
-    private _layout: Layout;
-    private _scale: Scale;
-    private _selectedObjectId: string | null;
-    private _cameraPosition: Vector3;
-    private _colorTheme: SceneColorTheme;
+    private readonly _metricFootprintId: string;
+    private readonly _metricHeightId: string;
+    private readonly _metricColor: Metric;
+    private readonly _layout: Layout;
+    private readonly _scale: Scale;
+    private readonly _selectedObjectId: string | null;
+    private readonly _cameraPosition: Vector3;
+    private readonly _colorTheme: SceneColorTheme;
+    private readonly _buildingColorTheme: BuildingColorTheme;
 
+    // tslint:disable-next-line:parameters-max-number
     constructor(footprintMetricId: string, heightMetricId: string, metricColor: Metric, layout: Layout, scale: Scale,
-                selectedObjectId: string | null, cameraPosition: Vector3, colorTheme: SceneColorTheme) {
+                selectedObjectId: string | null, cameraPosition: Vector3, colorTheme: SceneColorTheme,
+                buildingColorTheme: BuildingColorTheme) {
 
         this._metricFootprintId = footprintMetricId;
         this._metricHeightId = heightMetricId;
@@ -27,6 +31,7 @@ export default class VisualizationLinkParams {
         this._selectedObjectId = selectedObjectId;
         this._cameraPosition = cameraPosition;
         this._colorTheme = colorTheme;
+        this._buildingColorTheme = buildingColorTheme;
     }
 
     public getKeyValuePairs() {
@@ -39,7 +44,8 @@ export default class VisualizationLinkParams {
             cameraX: Math.round(this._cameraPosition.x).toString(),
             cameraY: Math.round(this._cameraPosition.y).toString(),
             cameraZ: Math.round(this._cameraPosition.z).toString(),
-            colorTheme: this._colorTheme.id
+            colorTheme: this._colorTheme.id,
+            buildingColorTheme: this._buildingColorTheme.id
         };
 
         result = this.addOptionalSelectObjectId(result);
@@ -85,6 +91,10 @@ export default class VisualizationLinkParams {
 
     get colorTheme(): SceneColorTheme {
         return this._colorTheme;
+    }
+
+    get buildingColorTheme(): BuildingColorTheme {
+        return this._buildingColorTheme;
     }
 
 }

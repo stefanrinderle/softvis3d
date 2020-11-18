@@ -9,6 +9,10 @@ import {Wrangler} from "../../../../src/components/scene/visualization/objects/W
 import SoftVis3dScene from "../../../../src/components/scene/visualization/scene/SoftVis3dScene";
 import {SelectionCalculator} from "../../../../src/components/scene/visualization/SelectionCalculator";
 import ThreeSceneService from "../../../../src/components/scene/visualization/ThreeSceneService";
+import {
+    BLUEYELLOW_BUILDING_COLOR_THEME,
+    DEFAULT_BUILDING_COLOR_THEME
+} from "../../../../src/constants/BuildingColorThemes";
 import {evostreet} from "../../../../src/constants/Layouts";
 import {complexityColorMetric, noColorMetric, noMetricId} from "../../../../src/constants/Metrics";
 import {LOGARITHMIC} from "../../../../src/constants/Scales";
@@ -33,7 +37,7 @@ describe("ThreeSceneService", () => {
 
         let options: VisualizationOptions =
             new VisualizationOptions(evostreet, new Metric(noMetricId, "", ""), new Metric(noMetricId, "", ""),
-                noColorMetric, LOGARITHMIC);
+                noColorMetric, LOGARITHMIC, DEFAULT_BUILDING_COLOR_THEME);
         let shapes: SoftVis3dShape[] = [];
 
         let sceneSetColorThemeStub = softvis3dScene.setColorTheme;
@@ -61,7 +65,7 @@ describe("ThreeSceneService", () => {
 
         let options: VisualizationOptions =
             new VisualizationOptions(evostreet, new Metric(noMetricId, "", ""), new Metric(noMetricId, "", ""),
-                noColorMetric, LOGARITHMIC);
+                noColorMetric, LOGARITHMIC, DEFAULT_BUILDING_COLOR_THEME);
         let shapes: SoftVis3dShape[] = [];
 
         let sceneSetColorThemeStub = softvis3dScene.setColorTheme;
@@ -87,15 +91,41 @@ describe("ThreeSceneService", () => {
 
         let exampleMetric: Metric = new Metric(noMetricId, "", "");
         let options: VisualizationOptions =
-            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC);
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, DEFAULT_BUILDING_COLOR_THEME);
         let shapes: SoftVis3dShape[] = [];
         let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
 
         underTest.update(shapes, options, colorTheme, expectedPosition);
 
         let optionsWithChangedColor: VisualizationOptions =
-            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, complexityColorMetric, LOGARITHMIC);
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, complexityColorMetric, LOGARITHMIC, DEFAULT_BUILDING_COLOR_THEME);
         underTest.update(shapes, optionsWithChangedColor, colorTheme, expectedPosition);
+
+        assert(wranglerUpdateStub.calledWith(shapes));
+        assert(wranglerUpdateStub.calledOnce);
+    });
+
+    it("should update shapes on building color update.", () => {
+        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        let wrangler: any = Sinon.createStubInstance(Wrangler);
+
+        let expectedPosition: Vector3 = new Vector3(1, 2, 3);
+
+        let wranglerUpdateStub = wrangler.updateColorsWithUpdatedShapes;
+
+        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+
+        let exampleMetric: Metric = new Metric(noMetricId, "", "");
+        let options: VisualizationOptions =
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, DEFAULT_BUILDING_COLOR_THEME);
+        let shapes: SoftVis3dShape[] = [];
+        let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
+
+        underTest.update(shapes, options, colorTheme, expectedPosition);
+
+        let optionsWithChangedBuildingColor: VisualizationOptions =
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, BLUEYELLOW_BUILDING_COLOR_THEME);
+        underTest.update(shapes, optionsWithChangedBuildingColor, colorTheme, expectedPosition);
 
         assert(wranglerUpdateStub.calledWith(shapes));
         assert(wranglerUpdateStub.calledOnce);

@@ -66,9 +66,9 @@ $simpleCategoryHeight: 290px;
     // Toggle Properties
     margin: 6px 0;
 
-    &.collapsable:not(.collapsed) div.category-content {
-      max-height: 110px;
-    }
+        &.collapsable:not(.collapsed) div.category-content {
+            max-height: 180px;
+        }
 
     // Column Management
     @include clearfix;

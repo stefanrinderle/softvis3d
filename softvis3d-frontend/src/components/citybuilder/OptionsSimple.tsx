@@ -1,13 +1,13 @@
+import {observer} from "mobx-react";
 import * as React from "react";
-import { observer } from "mobx-react";
-import CityBuilderStore from "../../stores/CityBuilderStore";
-import LayoutPicker from "./LayoutPicker";
-import { Layouts } from "../../constants/Layouts";
-import PreviewPictureComponent from "./PreviewPictureComponent";
-import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
-import Profile from "../../classes/Profile";
-import { Profiles } from "../../constants/Profiles";
 import Metric from "../../classes/Metric";
+import Profile from "../../classes/Profile";
+import {Layouts} from "../../constants/Layouts";
+import {Profiles} from "../../constants/Profiles";
+import CityBuilderStore from "../../stores/CityBuilderStore";
+import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
+import LayoutPicker from "./LayoutPicker";
+import PreviewPictureComponent from "./PreviewPictureComponent";
 
 export interface OptionsSimpleProps {
     store: CityBuilderStore;

@@ -179,7 +179,8 @@ describe("VisualizationLinkService", () => {
             cameraX: "1",
             cameraY: "2",
             cameraZ: "3",
-            colorTheme: "default"
+            colorTheme: "default",
+            buildingColorTheme: "default"
         }));
 
         expect(result).to.contain("abc");
@@ -215,7 +216,8 @@ describe("VisualizationLinkService", () => {
             cameraY: "2",
             cameraZ: "3",
             colorTheme: "default",
-            selectedObjectId: expectedSelectedObjectId
+            selectedObjectId: expectedSelectedObjectId,
+            buildingColorTheme: "default"
         }));
 
         expect(result).to.contain("abc");
@@ -269,7 +271,8 @@ describe("VisualizationLinkService", () => {
             cameraY: "2",
             cameraZ: "3",
             colorTheme: "default",
-            selectedObjectId: expectedSelectedObjectId
+            selectedObjectId: expectedSelectedObjectId,
+            buildingColorTheme: "default"
         }));
 
         expect(result).to.contain("abc");

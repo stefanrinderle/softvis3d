@@ -18,9 +18,13 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {assert, expect} from "chai";
+import BuildingColorTheme from '../../src/classes/BuildingColorTheme';
 import Layout from "../../src/classes/Layout";
-import {district, evostreet} from "../../src/constants/Layouts";
+import Metric from "../../src/classes/Metric";
 import Scale from "../../src/classes/Scale";
+import VisualizationOptions from "../../src/classes/VisualizationOptions";
+import {DEFAULT_BUILDING_COLOR_THEME} from '../../src/constants/BuildingColorThemes';
+import {district, evostreet} from "../../src/constants/Layouts";
 import {
     complexityMetricId,
     coverageColorMetric,
@@ -28,9 +32,7 @@ import {
     noColorMetric,
     noMetricId
 } from "../../src/constants/Metrics";
-import Metric from "../../src/classes/Metric";
 import {EXPONENTIAL, LOGARITHMIC, Scales} from "../../src/constants/Scales";
-import VisualizationOptions from "../../src/classes/VisualizationOptions";
 
 describe("VisualizationOptions", () => {
 
@@ -40,15 +42,17 @@ describe("VisualizationOptions", () => {
         let metricColor: Metric = coverageColorMetric;
         let scalingMethod: Scale = Scales.availableScales[0];
         let layout: Layout = evostreet;
+        let buildingColorTheme: BuildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
 
         let result: VisualizationOptions =
-            new VisualizationOptions(layout, metricWidth, metricHeight, metricColor, scalingMethod);
+            new VisualizationOptions(layout, metricWidth, metricHeight, metricColor, scalingMethod, buildingColorTheme);
 
         expect(result.layout).to.be.eq(layout);
         expect(result.footprint).to.be.eq(metricWidth);
         expect(result.height).to.be.eq(metricHeight);
         expect(result.metricColor).to.be.eq(metricColor);
         expect(result.scale).to.be.eq(scalingMethod);
+        expect(result.buildingColorTheme).to.be.eq(buildingColorTheme);
     });
 
     it("should create default config", () => {
@@ -63,17 +67,18 @@ describe("VisualizationOptions", () => {
         expect(result.height.id).to.be.eq(noMetricId);
         expect(result.metricColor).to.be.eq(metricColor);
         expect(result.scale).to.be.eq(scalingmethod);
+        expect(result.buildingColorTheme).to.be.eq(DEFAULT_BUILDING_COLOR_THEME);
     });
 
     it("should check equals without color", () => {
         let exampleMetric: Metric = new Metric(noMetricId, "", "");
         let result: VisualizationOptions =
-            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC);
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, DEFAULT_BUILDING_COLOR_THEME);
 
         assert(result.equalStructure(result));
 
         let copy: VisualizationOptions =
-            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC);
+            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, DEFAULT_BUILDING_COLOR_THEME);
 
         assert(result.equalStructure(copy));
         assert(copy.equalStructure(result));

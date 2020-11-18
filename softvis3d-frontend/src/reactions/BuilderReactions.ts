@@ -33,7 +33,8 @@ export default class BuilderReactions {
 
                     let options: VisualizationOptions = new VisualizationOptions(
                         this.cityBuilderStore.layout, this.cityBuilderStore.footprintMetric,
-                        this.cityBuilderStore.heightMetric, this.cityBuilderStore.metricColor, this.cityBuilderStore.profile.scale);
+                        this.cityBuilderStore.heightMetric, this.cityBuilderStore.metricColor,
+                        this.cityBuilderStore.profile.scale, this.cityBuilderStore.buildingColorTheme);
 
                     this.measuresService.loadMeasures(this.appStatusStore, this.cityBuilderStore, this.sceneStore, options);
                     this.autoReloadService.startAutoReload(this.appStatusStore);

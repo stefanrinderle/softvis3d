@@ -47,7 +47,8 @@ export default class CityLayoutService {
             sceneStore.projectData as TreeElement,
             sceneStore.options.footprint.id,
             sceneStore.options.height.id,
-            sceneStore.options.metricColor.id
+            sceneStore.options.metricColor.id,
+            sceneStore.options.buildingColorTheme
         );
     }
 

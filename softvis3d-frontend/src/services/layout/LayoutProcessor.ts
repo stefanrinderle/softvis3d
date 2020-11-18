@@ -21,14 +21,20 @@
 /* tslint:disable */
 
 import * as CodeCityVis from "codecity-visualizer";
-import Softvis3dModel from "./Softvis3dModel";
 import {TreeNodeInterface} from "codecity-visualizer/types/interfaces";
+import BuildingColorTheme from '../../classes/BuildingColorTheme';
 import {
-    complexityColorMetric, coverageColorMetric, linesOfCodeColorMetric, newIssuesColorMetric,
+    complexityColorMetric,
+    coverageColorMetric,
+    linesOfCodeColorMetric,
+    newIssuesColorMetric,
     numberOfAuthorsBlameColorMetric,
-    openIssuesColorMetric, packageNameColorMetric,
+    openIssuesColorMetric,
+    packageNameColorMetric,
     violationsColorMetric
 } from "../../constants/Metrics";
+import LayoutBuildingColorRules from './LayoutBuildingColorRules';
+import Softvis3dModel from "./Softvis3dModel";
 
 const illustratorEvostreet = CodeCityVis.illustrators.evostreet;
 const illustratorDistrict = CodeCityVis.illustrators.district;
@@ -61,11 +67,13 @@ class LayoutProcessor {
     private _illustrator: any;
     private _rules: CodeCityVis.rules.base[];
     private _metricScale: MetricScale;
+    private _buildingColorTheme: BuildingColorTheme;
 
     public constructor() {
         this._options = {} as any;
         this._rules = [];
         this._metricScale = undefined as any;
+        this._buildingColorTheme = undefined as any;
     }
 
     public getIllustration(options: {}, model: Softvis3dModel) {
@@ -74,6 +82,7 @@ class LayoutProcessor {
             this.setOptions(options);
             // Step 1: Load Metrics Scale
             this._metricScale = model.getMetricScale();
+            this._buildingColorTheme = model.getBuildingColorTheme();
 
             // Step 2: Prepare the layout
             if (this._options.layout === "evostreet") {
@@ -136,9 +145,9 @@ class LayoutProcessor {
         );
 
         this._rules = [];
-        this._rules.push(this._RuleHouseHeight());
-        this._rules.push(this._RuleHouseBase());
-        this._rules.push(this._getHouseColorRule());
+        this._rules.push(this._RuleBuildingHeight());
+        this._rules.push(this._RuleBuildingBase());
+        this._rules.push(this._getBuildingColorRule());
         this._rules.push(this._RulePackageColorBlue());
     }
 
@@ -156,9 +165,9 @@ class LayoutProcessor {
         );
 
         this._rules = [];
-        this._rules.push(this._RuleHouseHeight());
-        this._rules.push(this._RuleHouseBase());
-        this._rules.push(this._getHouseColorRule());
+        this._rules.push(this._RuleBuildingHeight());
+        this._rules.push(this._RuleBuildingBase());
+        this._rules.push(this._getBuildingColorRule());
         this._rules.push(this._RulePackageColorGrey());
     }
 
@@ -187,26 +196,27 @@ class LayoutProcessor {
         return merged;
     }
 
-    private _getHouseColorRule() {
+    private _getBuildingColorRule() {
+        let rules = new LayoutBuildingColorRules(this._metricScale, this._buildingColorTheme);
         switch (this._options.colorMetric) {
             case linesOfCodeColorMetric.id:
-                return this._RuleHouseColorByLinesOfCode();
+                return rules.ruleBuildingColorByLinesOfCode();
             case complexityColorMetric.id:
-                return this._RuleHouseColorByComplexity();
+                return rules.ruleBuildingColorByComplexity();
             case coverageColorMetric.id:
-                return this._RuleHouseColorByCoverage();
+                return rules.ruleBuildingColorByCoverage();
             case violationsColorMetric.id:
-                return this._RuleHouseColorByIssues();
+                return rules.ruleBuildingColorByIssues();
             case newIssuesColorMetric.id:
-                return this._RuleHouseColorByIssues();
+                return rules.ruleBuildingColorByIssues();
             case openIssuesColorMetric.id:
-                return this._RuleHouseColorByOpenIssues();
+                return rules.ruleBuildingColorByOpenIssues();
             case packageNameColorMetric.id:
-                return this._RuleHouseColorByPackageName();
+                return rules.ruleBuildingColorByPackageName();
             case numberOfAuthorsBlameColorMetric.id:
-                return this._RuleHouseColorByScmInfos();
+                return rules.ruleBuildingColorByScmInfos();
             default:
-                return this._RuleHouseColorInitial();
+                return rules.ruleBuildingColorInitial();
         }
     }
 
@@ -215,7 +225,7 @@ class LayoutProcessor {
      * @private
      * @returns {BaseRule}
      */
-    private _RuleHouseHeight() {
+    private _RuleBuildingHeight() {
         let max = 450;
         let factor: number;
         let power: number;
@@ -291,7 +301,7 @@ class LayoutProcessor {
      * @private
      * @returns {BaseRule}
      */
-    private _RuleHouseBase() {
+    private _RuleBuildingBase() {
         let max = 450;
         let factor: number;
         let power: number;
@@ -409,187 +419,6 @@ class LayoutProcessor {
         });
     }
 
-
-    /* ####################################################### *
-     * ################ HOUSE COLORS ######################### *
-     * ####################################################### */
-
-    /**
-     * Package-Name --> Building Color
-     * @private
-     * @returns {BaseRule}
-     */
-    private _RuleHouseColorInitial() {
-        return new CodeCityVis.rules.universal({
-            condition: (model, node) => !!(model && node.children.length === 0 && node.parent),
-            metric: () => {
-                // return 0x666666;
-                return 0xFD8B01;
-            },
-            attributes: "color"
-        });
-    }
-
-    /**
-     * Package-Name --> Building Color
-     * @private
-     * @returns {BaseRule}
-     */
-    private _RuleHouseColorByPackageName() {
-        return new CodeCityVis.rules.color.assigned({
-            condition: (model, node) => !!(model && node.children.length === 0 && node.parent),
-            metric: (model, node): string => {
-                return model && String(node.parent);
-            },
-            attributes: "color"
-        });
-    }
-
-    /**
-     * Lines of Code --> Building Color
-     * @private
-     * @returns {BaseRule}
-     */
-    private _RuleHouseColorByLinesOfCode() {
-        let minVal = 25;
-        let maxVal = this._metricScale.metricColor.max;
-        maxVal = Math.max(350, maxVal);
-        maxVal = Math.min(900, maxVal);
-
-        return new CodeCityVis.rules.color.gradient({
-            condition: (model, node) => model && node.children.length === 0,
-            metric: (model, node, version) => {
-                const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                return ("metricColor" in attr) ? attr["metricColor"] : 0;
-            },
-            attributes: "color",
-            min: minVal,
-            max: maxVal,
-            minColor: 0x00CC00,
-            maxColor: 0xEE0000
-        });
-    }
-
-    /**
-     * Issues --> Building Color
-     * @private
-     * @returns {BaseRule}
-     */
-    private _RuleHouseColorByScmInfos() {
-        let minVal = 1;
-        let maxVal = 4;
-
-        return new CodeCityVis.rules.color.gradient({
-            condition: (model, node) => model && node.children.length === 0,
-            metric: (model, node, version) => {
-                const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                return ("metricColor" in attr) ? attr["metricColor"] : 0;
-            },
-            attributes: "color",
-            min: minVal,
-            max: maxVal,
-            minColor: 0xEE0000,
-            maxColor: 0x00CC00
-        });
-    }
-
-    /**
-     * Complexity --> Building Color
-     * @private
-     * @returns {BaseRule}
-     */
-    private _RuleHouseColorByComplexity() {
-        let minVal = 25;
-        let maxVal = this._metricScale.metricColor.max;
-        maxVal = Math.max(200, maxVal);
-        maxVal = Math.min(400, maxVal);
-
-        return new CodeCityVis.rules.color.gradient({
-            condition: (model, node) => model && node.children.length === 0,
-            metric: (model, node, version) => {
-                const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                return ("metricColor" in attr) ? attr["metricColor"] : 0;
-            },
-            attributes: "color",
-            min: minVal,
-            max: maxVal,
-            minColor: 0x00CC00,
-            maxColor: 0xEE0000
-        });
-    }
-
-    /**
-     * Issues --> Building Color
-     * @private
-     * @returns {BaseRule}
-     */
-    private _RuleHouseColorByCoverage() {
-        let minVal = 0;
-        let maxVal = 95;
-
-        return new CodeCityVis.rules.color.gradient({
-            condition: (model, node) => model && node.children.length === 0,
-            metric: (model, node, version) => {
-                const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                return ("metricColor" in attr) ? attr["metricColor"] : 0;
-            },
-            attributes: "color",
-            min: minVal,
-            max: maxVal,
-            minColor: 0xEE0000,
-            maxColor: 0x00CC00
-        });
-    }
-
-    /**
-     * Issues --> Building Color
-     * @private
-     * @returns {BaseRule}
-     */
-    private _RuleHouseColorByIssues() {
-        let minVal = 0;
-        let maxVal = this._metricScale.metricColor.max;
-        maxVal = Math.max(20, maxVal);
-        maxVal = Math.min(180, maxVal);
-
-        return new CodeCityVis.rules.color.gradient({
-            condition: (model, node) => model && node.children.length === 0,
-            metric: (model, node, version) => {
-                const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                return ("metricColor" in attr) ? attr["metricColor"] : 0;
-            },
-            attributes: "color",
-            min: minVal,
-            max: maxVal,
-            minColor: 0x00CC00,
-            maxColor: 0xEE0000
-        });
-    }
-
-    /**
-     * Open Issues --> Building Color
-     * @private
-     * @returns {BaseRule}
-     */
-    private _RuleHouseColorByOpenIssues() {
-        let minVal = 0;
-        let maxVal = this._metricScale.metricColor.max;
-        maxVal = Math.max(20, maxVal);
-        maxVal = Math.min(180, maxVal);
-
-        return new CodeCityVis.rules.color.gradient({
-            condition: (model, node) => model && node.children.length === 0,
-            metric: (model, node, version) => {
-                const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                return ("metricColor" in attr) ? attr["metricColor"] : 0;
-            },
-            attributes: "color",
-            min: minVal,
-            max: maxVal,
-            minColor: 0x00CC00,
-            maxColor: 0xEE0000
-        });
-    }
 }
 
 export default LayoutProcessor;
