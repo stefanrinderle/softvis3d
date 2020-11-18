@@ -18,7 +18,7 @@ export const coverageMetricId = "coverage";
  * ############################################################# */
 
 export const noColorMetric: Metric = new Metric(noMetricId, " -- None -- ",
-    "The building color can be changed dynamically in the view using the combo box in the bottom bar.");
+    "All buildings will have the same color.");
 
 export const packageNameColorMetric: Metric = new Metric("package", "Package Name",
     "Every building is assigned a color, depending on it's containing package or namespace.");

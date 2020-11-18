@@ -25,13 +25,11 @@ describe("BuildingColorTheme", () => {
     it("should implement SelectOptionValue", () => {
         let expectedId: string = "23";
         let expectedLabel: string = "INT";
-        let expectedDescription: string = "ksudfhiusdhfs";
 
-        let result: BuildingColorTheme = new BuildingColorTheme(expectedId, expectedLabel, expectedDescription, 0, 0);
+        let result: BuildingColorTheme = new BuildingColorTheme(expectedId, expectedLabel, 0, 0);
 
         expect(result.label).to.be.eq(expectedLabel);
         expect(result.id).to.be.eq(expectedId);
-        expect(result.description).to.be.eq(expectedDescription);
     });
 
 });
