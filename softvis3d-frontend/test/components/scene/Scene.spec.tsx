@@ -1,26 +1,27 @@
+import {assert, expect} from "chai";
+import {shallow} from "enzyme";
 import * as React from "react";
 import * as Sinon from "sinon";
-import SceneStore from "../../../src/stores/SceneStore";
-import { assert, expect } from "chai";
-import { shallow } from "enzyme";
-import Scene from "../../../src/components/scene/Scene";
+import {Vector3} from "three";
+import {SceneKeyInteractions} from "../../../src/components/scene/events/SceneKeyInteractions";
 import SceneInformation from "../../../src/components/scene/information/SceneInformation";
-import { KeyLegend } from "../../../src/components/scene/KeyLegend";
+import {KeyLegend} from "../../../src/components/scene/KeyLegend";
+import Scene from "../../../src/components/scene/Scene";
 import ThreeSceneService from "../../../src/components/scene/visualization/ThreeSceneService";
-import { Vector3 } from "three";
-import { SceneKeyInteractions } from "../../../src/components/scene/events/SceneKeyInteractions";
+import SceneStore from "../../../src/stores/SceneStore";
 
 describe("<Scene/>", () => {
 
     it("should initialize", () => {
         let localSceneStore: SceneStore = new SceneStore();
+        let cityBuilderStore: any = Sinon.stub();
 
         let scene = shallow(
-            <Scene sceneStore={localSceneStore}/>
+            <Scene sceneStore={localSceneStore} cityBuilderStore={cityBuilderStore}/>
         );
 
         expect(scene.contains(
-            <SceneInformation sceneStore={localSceneStore}/>)).to.be.true;
+            <SceneInformation sceneStore={localSceneStore} cityBuilderStore={cityBuilderStore}/> )).to.be.true;
         expect(scene.contains(
             <KeyLegend show={true}/>)).to.be.true;
     });
@@ -41,15 +42,16 @@ describe("<Scene/>", () => {
 
         assert(stubKeyActions.addResetCameraEventListener.called);
         assert(stubKeyActions.addToggleLegendEventListener.called);
-        assert(stubKeyActions.addToggleColorThemeEventListener.called);
     });
 
     it("should unmount", () => {
         let localSceneStore: SceneStore = new SceneStore();
+        let cityBuilderStore: any = Sinon.stub();
 
         let underTest: Scene = new Scene();
         underTest.props = {
-            sceneStore: localSceneStore
+            sceneStore: localSceneStore,
+            cityBuilderStore
         };
 
         let stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
@@ -67,12 +69,14 @@ describe("<Scene/>", () => {
 
     it("should process scene updates - no action if not mounted", () => {
         let localSceneStore: any = Sinon.stub();
+        let cityBuilderStore: any = Sinon.stub();
         localSceneStore.selectedObjectId = null;
         localSceneStore.shapesHash = "";
 
         let underTest: Scene = new Scene();
         underTest.props = {
-            sceneStore: localSceneStore
+            sceneStore: localSceneStore,
+            cityBuilderStore
         };
 
         let stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
@@ -87,12 +91,14 @@ describe("<Scene/>", () => {
 
     it("should process scene updates - update shapes if changed", () => {
         let localSceneStore: any = Sinon.stub();
+        let cityBuilderStore: any = Sinon.stub();
         localSceneStore.selectedObjectId = null;
         localSceneStore.shapesHash = "123";
 
         let underTest: Scene = new Scene();
         underTest.props = {
-            sceneStore: localSceneStore
+            sceneStore: localSceneStore,
+            cityBuilderStore
         };
 
         let stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
@@ -123,12 +129,15 @@ describe("<Scene/>", () => {
     it("should process scene updates - update selected objectr if changed", () => {
         let expectedObjectId = "123";
         let localSceneStore: any = Sinon.stub();
+        let cityBuilderStore: any = Sinon.stub();
+        
         localSceneStore.selectedObjectId = expectedObjectId;
         localSceneStore.shapesHash = "";
 
         let underTest: Scene = new Scene();
         underTest.props = {
-            sceneStore: localSceneStore
+            sceneStore: localSceneStore,
+            cityBuilderStore
         };
 
         let stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);

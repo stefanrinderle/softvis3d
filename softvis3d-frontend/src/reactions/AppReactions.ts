@@ -1,5 +1,4 @@
 import {reaction} from "mobx";
-import VisualizationOptions from "../classes/VisualizationOptions";
 import {lazyInject} from "../inversify.config";
 import AutoReloadService from "../services/AutoReloadService";
 import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
@@ -29,11 +28,7 @@ export default class AppReactions {
             () => this.appStatusStore.analysisDate,
             () => {
                 if (this.autoReloadService.isActive()) {
-                    let options: VisualizationOptions = new VisualizationOptions(
-                        this.cityBuilderStore.layout, this.cityBuilderStore.footprintMetric,
-                        this.cityBuilderStore.heightMetric, this.cityBuilderStore.metricColor,
-                        this.cityBuilderStore.profile.scale, this.cityBuilderStore.buildingColorTheme);
-                    this.measuresService.loadMeasures(this.appStatusStore, this.cityBuilderStore, this.sceneStore, options, true);
+                    this.measuresService.loadMeasures(this.appStatusStore, this.cityBuilderStore, this.sceneStore, true);
                 } else {
                     return;
                 }

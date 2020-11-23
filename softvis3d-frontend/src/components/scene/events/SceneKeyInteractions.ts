@@ -31,11 +31,9 @@ export class SceneKeyInteractions {
 
     private static KEY_CODE_R: number = 82;
     private static KEY_CODE_L: number = 76;
-    private static KEY_CODE_C: number = 67;
 
     private _onResetCameraEvent: EventDispatcher<void> = new EventDispatcher<void>();
     private _onToggleLegendEvent: EventDispatcher<void> = new EventDispatcher<void>();
-    private _onToggleColorThemeEvent: EventDispatcher<void> = new EventDispatcher<void>();
 
     private active: boolean;
 
@@ -60,10 +58,6 @@ export class SceneKeyInteractions {
         this._onToggleLegendEvent.addEventListener(callback);
     }
 
-    public addToggleColorThemeEventListener(callback: Function) {
-        this._onToggleColorThemeEvent.addEventListener(callback);
-    }
-
     public halt() {
         this.active = false;
     }
@@ -84,9 +78,6 @@ export class SceneKeyInteractions {
                 break;
             case SceneKeyInteractions.KEY_CODE_L:
                 this._onToggleLegendEvent.dispatchEvent(new Event<void>(undefined));
-                break;
-            case SceneKeyInteractions.KEY_CODE_C:
-                this._onToggleColorThemeEvent.dispatchEvent(new Event<void>(undefined));
                 break;
             default:
             // KEY NOT REGISTERED

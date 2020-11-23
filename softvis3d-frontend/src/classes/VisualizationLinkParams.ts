@@ -1,51 +1,34 @@
 import {Vector3} from "three";
-import Layout from "../classes/Layout";
-import Metric from "../classes/Metric";
-import Scale from "../classes/Scale";
 import {Parameters} from "../services/UrlParameterService";
-import BuildingColorTheme from "./BuildingColorTheme";
-import {SceneColorTheme} from "./SceneColorTheme";
+import VisualizationOptions from "./VisualizationOptions";
 
 export default class VisualizationLinkParams {
 
-    private readonly _metricFootprintId: string;
-    private readonly _metricHeightId: string;
-    private readonly _metricColor: Metric;
-    private readonly _layout: Layout;
-    private readonly _scale: Scale;
+    private readonly _visualizationOptions: VisualizationOptions;
     private readonly _selectedObjectId: string | null;
     private readonly _cameraPosition: Vector3;
-    private readonly _colorTheme: SceneColorTheme;
-    private readonly _buildingColorTheme: BuildingColorTheme;
 
     // tslint:disable-next-line:parameters-max-number
-    constructor(footprintMetricId: string, heightMetricId: string, metricColor: Metric, layout: Layout, scale: Scale,
-                selectedObjectId: string | null, cameraPosition: Vector3, colorTheme: SceneColorTheme,
-                buildingColorTheme: BuildingColorTheme) {
+    constructor(visualizationOptions: VisualizationOptions,
+                selectedObjectId: string | null, cameraPosition: Vector3) {
 
-        this._metricFootprintId = footprintMetricId;
-        this._metricHeightId = heightMetricId;
-        this._metricColor = metricColor;
-        this._layout = layout;
-        this._scale = scale;
+        this._visualizationOptions = visualizationOptions;
         this._selectedObjectId = selectedObjectId;
         this._cameraPosition = cameraPosition;
-        this._colorTheme = colorTheme;
-        this._buildingColorTheme = buildingColorTheme;
     }
 
     public getKeyValuePairs() {
         let result: Parameters = {
-            metricFootprint: this._metricFootprintId,
-            metricHeight: this._metricHeightId,
-            metricColor: this._metricColor.id,
-            layout: this._layout.id,
-            scale: this._scale.id,
+            metricFootprint: this._visualizationOptions.profile.footprintMetric.id,
+            metricHeight: this._visualizationOptions.profile.heightMetric.id,
+            metricColor: this._visualizationOptions.metricColor.id,
+            layout: this._visualizationOptions.layout.id,
+            scale: this._visualizationOptions.profile.scale.id,
             cameraX: Math.round(this._cameraPosition.x).toString(),
             cameraY: Math.round(this._cameraPosition.y).toString(),
             cameraZ: Math.round(this._cameraPosition.z).toString(),
-            colorTheme: this._colorTheme.id,
-            buildingColorTheme: this._buildingColorTheme.id
+            colorTheme: this._visualizationOptions.colorTheme.id,
+            buildingColorTheme: this._visualizationOptions.buildingColorTheme.id
         };
 
         result = this.addOptionalSelectObjectId(result);
@@ -61,24 +44,8 @@ export default class VisualizationLinkParams {
         return params;
     }
 
-    get metricFootprintId(): string {
-        return this._metricFootprintId;
-    }
-
-    get metricHeightId(): string {
-        return this._metricHeightId;
-    }
-
-    get metricColor(): Metric {
-        return this._metricColor;
-    }
-
-    get layout(): Layout {
-        return this._layout;
-    }
-
-    get scale(): Scale {
-        return this._scale;
+    get visualizationOptions(): VisualizationOptions {
+        return this._visualizationOptions;
     }
 
     get selectedObjectId(): string | null {
@@ -87,14 +54,6 @@ export default class VisualizationLinkParams {
 
     get cameraPosition(): Vector3 {
         return this._cameraPosition;
-    }
-
-    get colorTheme(): SceneColorTheme {
-        return this._colorTheme;
-    }
-
-    get buildingColorTheme(): BuildingColorTheme {
-        return this._buildingColorTheme;
     }
 
 }

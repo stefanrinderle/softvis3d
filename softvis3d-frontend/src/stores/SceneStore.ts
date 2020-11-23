@@ -1,15 +1,12 @@
 import {computed, observable, observe} from "mobx";
 import {Vector3} from "three";
-import {SceneColorTheme} from "../classes/SceneColorTheme";
+import Metric from "../classes/Metric";
 import {TreeElement} from "../classes/TreeElement";
-import VisualizationOptions from "../classes/VisualizationOptions";
-import {DEFAULT_COLOR_THEME} from "../constants/SceneColorThemes";
 import {lazyInject} from "../inversify.config";
 import TreeService from "../services/TreeService";
 
 export default class SceneStore {
-    @observable
-    public options: VisualizationOptions = VisualizationOptions.createDefault();
+
     @observable
     public projectData: TreeElement | null = null;
     @observable
@@ -21,7 +18,6 @@ export default class SceneStore {
 
     public cameraPosition?: Vector3;
     public scmMetricLoaded: boolean;
-    public colorTheme: SceneColorTheme = DEFAULT_COLOR_THEME;
 
     @lazyInject("TreeService")
     private readonly treeService!: TreeService;
@@ -46,10 +42,10 @@ export default class SceneStore {
         return selectedElement;
     }
 
-    public getColorValue(): number | null {
+    public getColorValue(metric: Metric): number | null {
         if (this.selectedElement && this.selectedElement.measures
-                && this.options.metricColor.id in this.selectedElement.measures) {
-            return this.selectedElement.measures[this.options.metricColor.id];
+                && metric.id in this.selectedElement.measures) {
+            return this.selectedElement.measures[metric.id];
         } else {
             return null;
         }

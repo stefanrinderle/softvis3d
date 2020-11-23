@@ -1,27 +1,21 @@
 import {observable} from "mobx";
-import BuildingColorTheme from "../classes/BuildingColorTheme";
 import {CityBuilderTab} from "../classes/CityBuilderTab";
-import Layout from "../classes/Layout";
 import Metric from "../classes/Metric";
 import MetricSet from "../classes/MetricSet";
 import {PreviewPicture} from "../classes/PreviewPicture";
 import Profile from "../classes/Profile";
-import {DEFAULT_BUILDING_COLOR_THEME} from "../constants/BuildingColorThemes";
-import {evostreet} from "../constants/Layouts";
-import {ColorMetrics, noColorMetric, noMetricId} from "../constants/Metrics";
+import VisualizationOptions from "../classes/VisualizationOptions";
+import {ColorMetrics} from "../constants/Metrics";
 import {availablePreviewPictures, placeholder} from "../constants/PreviewPictures";
-import {custom, defaultProfile, Profiles} from "../constants/Profiles";
+import {custom, Profiles} from "../constants/Profiles";
 
 export default class CityBuilderStore {
 
     @observable
-    public layout: Layout = evostreet;
-    @observable
-    public metricColor: Metric = noColorMetric;
+    public options: VisualizationOptions = VisualizationOptions.createDefault();
+
     @observable
     public readonly colorMetrics: MetricSet = new MetricSet(ColorMetrics.availableColorMetrics);
-    @observable
-    public buildingColorTheme: BuildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
     @observable
     public readonly genericMetrics: MetricSet = new MetricSet([]);
     @observable
@@ -31,45 +25,29 @@ export default class CityBuilderStore {
     @observable
     public currentTab: CityBuilderTab = CityBuilderTab.Default;
 
-    @observable
-    private _profile: Profile = defaultProfile.clone();
     private _customProfile: Profile = custom;
 
-    set profile(p: Profile) {
+    public setProfile(p: Profile) {
         if (p.id === custom.id) {
             this._customProfile.updateConfiguration(
-                this.profile.footprintMetricId, this.profile.heightMetricId, this.profile.scale);
-            this._profile = this._customProfile;
+                this.options.profile.footprintMetric, this.options.profile.heightMetric, this.options.profile.scale);
+            this.options.profile = this._customProfile;
         } else {
-            this._profile = Profiles.getAvailableProfileById(p.id).clone();
+            this.options.profile = Profiles.getAvailableProfileById(p.id).clone();
         }
-    }
-
-    get profile(): Profile {
-        return this._profile;
     }
 
     get heightMetric(): Metric {
-        let result = this.genericMetrics.getMetricByKey(this._profile.heightMetricId);
-        if (result === undefined) {
-            return new Metric(noMetricId, " -- None -- ", "");
-        } else {
-            return result;
-        }
+        return this.options.profile.heightMetric;
     }
 
     get footprintMetric(): Metric {
-        let result = this.genericMetrics.getMetricByKey(this._profile.footprintMetricId);
-        if (result === undefined) {
-            return new Metric(noMetricId, " -- None -- ", "");
-        } else {
-            return result;
-        }
+        return this.options.profile.footprintMetric;
     }
 
     public getPreviewBackground(): PreviewPicture {
         for (let preview of availablePreviewPictures) {
-            if (preview.forLayout(this.layout) && preview.forProfile(this.profile)) {
+            if (preview.forLayout(this.options.layout) && preview.forProfile(this.options.profile)) {
                 return preview;
             }
         }

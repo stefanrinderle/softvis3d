@@ -39,7 +39,7 @@ describe("<Visualization/>", () => {
         expect(visualization.contains(
             <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)).to.be.true;
         expect(visualization.contains(
-            <Scene sceneStore={localSceneStore}/>)).to.be.true;
+            <Scene sceneStore={localSceneStore} cityBuilderStore={localCityBuilderStore}/>)).to.be.true;
         expect(visualization.contains(
             <SideBar sceneStore={localSceneStore}/>)).to.be.true;
     });

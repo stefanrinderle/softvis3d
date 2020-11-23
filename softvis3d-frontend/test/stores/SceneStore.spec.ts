@@ -17,10 +17,10 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { expect } from "chai";
+import {expect} from "chai";
+import {TreeElement} from "../../src/classes/TreeElement";
+import {noMetric} from "../../src/constants/Metrics";
 import SceneStore from "../../src/stores/SceneStore";
-import { TreeElement } from "../../src/classes/TreeElement";
-import { DEFAULT_COLOR_THEME } from "../../src/constants/SceneColorThemes";
 
 describe("SceneStore", () => {
 
@@ -32,11 +32,6 @@ describe("SceneStore", () => {
     it("should contain not initial test shapes", () => {
         let sceneStore = new SceneStore();
         expect(sceneStore.shapes).to.be.null;
-    });
-
-    it("should contain default color theme on init", () => {
-        let sceneStore = new SceneStore();
-        expect(sceneStore.colorTheme).to.be.equal(DEFAULT_COLOR_THEME);
     });
 
     it("should set selectedObjectId", () => {
@@ -72,7 +67,7 @@ describe("SceneStore", () => {
 
     it("should return for getColorValue if no selected element available", () => {
         let sceneStore = new SceneStore();
-        let result: number | null = sceneStore.getColorValue();
+        let result: number | null = sceneStore.getColorValue(noMetric);
 
         expect(result).to.be.null;
     });
@@ -82,7 +77,7 @@ describe("SceneStore", () => {
 
         sceneStore.selectedObjectId = "123";
         sceneStore.projectData = new TreeElement("sdfsdf", "", {}, "", "", true);
-        let result: number | null = sceneStore.getColorValue();
+        let result: number | null = sceneStore.getColorValue(noMetric);
 
         expect(result).to.be.null;
     });

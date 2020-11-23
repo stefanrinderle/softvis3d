@@ -3,12 +3,13 @@
  * #################################### */
 
 import Metric from "../classes/Metric";
+import {MetricType} from "../classes/MetricType";
 
-export const complexityMetricId = "complexity";
-export const linesOfCodeMetricId = "ncloc";
-export const newLinesOfCodeMetricId = "new_lines";
-export const duplicatedLinesOfCodeMetricId = "duplicated_lines";
-export const noMetricId = "none";
+export const complexityMetric = new Metric("complexity", "Cyclomatic Complexity", "Cyclomatic complexity", MetricType.INT);
+export const linesOfCodeMetric = new Metric("ncloc", "Lines of Code", "Non commenting lines of code", MetricType.INT);
+export const newLinesOfCodeMetric = new Metric("new_lines", "New Lines", "New Lines", MetricType.INT);
+export const duplicatedLinesOfCodeMetric = new Metric("duplicated_lines", "Duplicated Lines", "Duplicated Lines", MetricType.INT);
+export const noMetric = new Metric("none", "-- None --", "", MetricType.UNKNOWN);
 
 export const coverageMetricId = "coverage";
 
@@ -17,7 +18,7 @@ export const coverageMetricId = "coverage";
  * ## should only used for color metric settings and options. ## *
  * ############################################################# */
 
-export const noColorMetric: Metric = new Metric(noMetricId, " -- None -- ",
+export const noColorMetric: Metric = new Metric(noMetric.id, noMetric.label,
     "All buildings will have the same color.");
 
 export const packageNameColorMetric: Metric = new Metric("package", "Package Name",
@@ -26,13 +27,13 @@ export const packageNameColorMetric: Metric = new Metric("package", "Package Nam
 export const violationsColorMetric: Metric = new Metric("violations", "Issues",
     "Scale from green (no open violations) to red (highest number of violations).");
 
-export const linesOfCodeColorMetric: Metric = new Metric(linesOfCodeMetricId, "Lines of Code",
+export const linesOfCodeColorMetric: Metric = new Metric(linesOfCodeMetric.id, "Lines of Code",
     "Scale from green (few lines of code) to red (a lot of lines of code).");
 
 export const newIssuesColorMetric: Metric = new Metric("new_violations", "New Issues",
     "Scale from green (no new issues) to red (highest number of new issues).");
 
-export const complexityColorMetric: Metric = new Metric(complexityMetricId, "Complexity",
+export const complexityColorMetric: Metric = new Metric(complexityMetric.id, "Complexity",
     "Scale from green (low complexity) to red (high complexity).");
 
 export const coverageColorMetric: Metric = new Metric(coverageMetricId, "Coverage",

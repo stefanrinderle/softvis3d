@@ -60,42 +60,6 @@ describe("SceneKeyInteractions", () => {
         assert(spy.calledOnce);
     });
 
-    it("should raise toggle color theme event on c button clicked.", () => {
-        let underTest: SceneKeyInteractions = SceneKeyInteractions.create();
-
-        const eventButtonC = { keyCode: 67 } as any as KeyboardEvent;
-
-        let listener: Function = () => undefined;
-        const spy = Sinon.spy(listener);
-
-        underTest.addToggleColorThemeEventListener(spy);
-
-        underTest.handleKeyDown(eventButtonC);
-        assert(spy.notCalled);
-
-        underTest.resume();
-
-        underTest.handleKeyDown(eventButtonC);
-        assert(spy.calledOnce);
-    });
-
-    it("should NOT raise toggle color theme event on c button clicked if inactive.", () => {
-        let underTest: SceneKeyInteractions = SceneKeyInteractions.create();
-
-        const eventButtonC = { keyCode: 67 } as any as KeyboardEvent;
-
-        let listener: Function = () => undefined;
-        const spy = Sinon.spy(listener);
-
-        underTest.addToggleColorThemeEventListener(spy);
-
-        underTest.resume();
-        underTest.halt();
-
-        underTest.handleKeyDown(eventButtonC);
-        assert(spy.notCalled);
-    });
-
     it("should NOT raise any event on other button clicked.", () => {
         let underTest: SceneKeyInteractions = SceneKeyInteractions.create();
 

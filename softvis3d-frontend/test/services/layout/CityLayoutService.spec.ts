@@ -26,6 +26,7 @@ import CityLayoutService from "../../../src/services/layout/CityLayoutService";
 import LayoutProcessor from "../../../src/services/layout/LayoutProcessor";
 import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
 import AppStatusStore from "../../../src/stores/AppStatusStore";
+import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../src/stores/SceneStore";
 import {createMock} from "../../Helper";
 
@@ -36,6 +37,7 @@ describe("CityLayoutService", () => {
 
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testSceneStore: SceneStore = new SceneStore();
+        let cityBuilderStore = new CityBuilderStore();
         testSceneStore.projectData = new TreeElement("", "", {}, "", "", false);
 
         createMock(SonarQubeScmService);
@@ -48,7 +50,7 @@ describe("CityLayoutService", () => {
 
         let underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity(testSceneStore, testAppStatusStore);
+        underTest.createCity(testSceneStore, testAppStatusStore, cityBuilderStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -68,6 +70,7 @@ describe("CityLayoutService", () => {
 
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testSceneStore: SceneStore = new SceneStore();
+        let cityBuilderStore = new CityBuilderStore();
         testSceneStore.projectData = new TreeElement("", "", {}, "", "", false);
 
         createMock(SonarQubeScmService);
@@ -82,7 +85,7 @@ describe("CityLayoutService", () => {
 
         let underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity(testSceneStore, testAppStatusStore);
+        underTest.createCity(testSceneStore, testAppStatusStore, cityBuilderStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -103,9 +106,10 @@ describe("CityLayoutService", () => {
 
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testSceneStore: SceneStore = new SceneStore();
+        let cityBuilderStore = new CityBuilderStore();
         testSceneStore.projectData = new TreeElement("", "", {}, "", "", false);
-        testSceneStore.options = VisualizationOptions.createDefault();
-        testSceneStore.options.metricColor = numberOfAuthorsBlameColorMetric;
+        cityBuilderStore.options = VisualizationOptions.createDefault();
+        cityBuilderStore.options.metricColor = numberOfAuthorsBlameColorMetric;
 
         let scmService = createMock(SonarQubeScmService);
         scmService.assertScmInfoAreLoaded.callsFake(() => {
@@ -117,7 +121,7 @@ describe("CityLayoutService", () => {
 
         let underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity(testSceneStore, testAppStatusStore);
+        underTest.createCity(testSceneStore, testAppStatusStore, cityBuilderStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);

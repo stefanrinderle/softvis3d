@@ -37,30 +37,30 @@ describe("SceneReactions", () => {
         let appStatusStore =  Sinon.createStubInstance(AppStatusStore);
         createMock(CityLayoutService);
 
-        testSceneStore.options = VisualizationOptions.createDefault();
+        testCityBuilderStore.options = VisualizationOptions.createDefault();
 
         let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, appStatusStore);
 
-        testSceneStore.options.metricColor = complexityColorMetric;
+        testCityBuilderStore.options.metricColor = complexityColorMetric;
 
         expect(reactions).not.to.be.null;
-        expect(testCityBuilderStore.metricColor).to.be.eq(complexityColorMetric);
+        expect(testCityBuilderStore.options.metricColor).to.be.eq(complexityColorMetric);
     });
 
     it("should rebuild city if color metric changed", () => {
         let testSceneStore = Sinon.createStubInstance(SceneStore);
         let testCityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let testLegacyConnector = createMock(CityLayoutService);
+        let testCityLayoutService = createMock(CityLayoutService);
         let appStatusStore =  Sinon.createStubInstance(AppStatusStore);
 
-        testSceneStore.options = VisualizationOptions.createDefault();
+        testCityBuilderStore.options = VisualizationOptions.createDefault();
 
         let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, appStatusStore);
 
-        testSceneStore.shapes = [];
-        testSceneStore.options.metricColor = complexityColorMetric;
+        testCityBuilderStore.shapes = [];
+        testCityBuilderStore.options.metricColor = complexityColorMetric;
 
-        assert(testLegacyConnector.createCity.calledOnce);
+        assert(testCityLayoutService.createCity.calledOnce);
         expect(reactions).not.to.be.null;
     });
 

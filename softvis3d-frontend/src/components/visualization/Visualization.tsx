@@ -27,7 +27,7 @@ export default class Visualization extends React.Component<VisualizationProps, a
         return (
             <div className="visualisation">
                 <TopBar cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
-                <Scene sceneStore={sceneStore}/>
+                <Scene cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
                 <SideBar sceneStore={sceneStore}/>
             </div>
         );
