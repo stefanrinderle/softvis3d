@@ -23,10 +23,11 @@ export default class SceneReactions {
 
     private prepareReactions() {
         reaction(
-            () => this.sceneStore.options.metricColor,
+            () => this.builder.options.metricColor,
             () => {
-                this.builder.metricColor = this.sceneStore.options.metricColor;
-                this.cityLayoutService.createCity(this.sceneStore, this.appStatusStore);
+                if (!this.builder.show) {
+                    this.cityLayoutService.createCity(this.sceneStore, this.appStatusStore, this.builder);
+                }
             },
             {
                 name: "Transfer the chosen color from the scene to the builder and rebuild city"
@@ -36,7 +37,7 @@ export default class SceneReactions {
         reaction(
             () => this.sceneStore.projectData,
             () => {
-                this.cityLayoutService.createCity(this.sceneStore, this.appStatusStore);
+                this.cityLayoutService.createCity(this.sceneStore, this.appStatusStore, this.builder);
             },
             {
                 name: "Convert backend data to threeJS shapes"

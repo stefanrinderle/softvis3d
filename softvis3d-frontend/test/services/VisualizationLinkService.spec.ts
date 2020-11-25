@@ -84,12 +84,12 @@ describe("VisualizationLinkService", () => {
 
         assert(localUrlParameterService.getQueryParams.calledWithExactly("abc"));
 
-        expect(testCityBuilderStore.profile).to.be.eq(custom);
-        expect(testCityBuilderStore.profile.footprintMetricId).to.be.eq(metricFootprint.id);
-        expect(testCityBuilderStore.profile.heightMetricId).to.be.eq(metricHeight.id);
-        expect(testCityBuilderStore.metricColor).to.be.eq(coverageColorMetric);
-        expect(testCityBuilderStore.layout).to.be.eq(district);
-        expect(testCityBuilderStore.profile.scale).to.be.eq(EXPONENTIAL);
+        expect(testCityBuilderStore.options.profile.id).to.be.eq(custom.id);
+        expect(testCityBuilderStore.options.profile.footprintMetric.id).to.be.eq(metricFootprint.id);
+        expect(testCityBuilderStore.options.profile.heightMetric.id).to.be.eq(metricHeight.id);
+        expect(testCityBuilderStore.options.metricColor).to.be.eq(coverageColorMetric);
+        expect(testCityBuilderStore.options.layout).to.be.eq(district);
+        expect(testCityBuilderStore.options.profile.scale).to.be.eq(EXPONENTIAL);
 
         expect(localSceneStore.cameraPosition).to.be.not.null;
         expect(localSceneStore.cameraPosition).to.be.not.undefined;
@@ -135,12 +135,12 @@ describe("VisualizationLinkService", () => {
 
         assert(localUrlParameterService.getQueryParams.calledWithExactly("abc"));
 
-        expect(testCityBuilderStore.profile).to.be.eq(custom);
-        expect(testCityBuilderStore.profile.footprintMetricId).to.be.eq(metricHeight.id);
-        expect(testCityBuilderStore.profile.heightMetricId).to.be.eq(metricFootprint.id);
-        expect(testCityBuilderStore.metricColor).to.be.eq(packageNameColorMetric);
-        expect(testCityBuilderStore.layout).to.be.eq(evostreet);
-        expect(testCityBuilderStore.profile.scale).to.be.eq(LINEAR_SCALED);
+        expect(testCityBuilderStore.options.profile.id).to.be.eq(custom.id);
+        expect(testCityBuilderStore.options.profile.footprintMetric.id).to.be.eq(metricHeight.id);
+        expect(testCityBuilderStore.options.profile.heightMetric.id).to.be.eq(metricFootprint.id);
+        expect(testCityBuilderStore.options.metricColor).to.be.eq(packageNameColorMetric);
+        expect(testCityBuilderStore.options.layout).to.be.eq(evostreet);
+        expect(testCityBuilderStore.options.profile.scale).to.be.eq(LINEAR_SCALED);
 
         expect(localSceneStore.cameraPosition).to.be.not.null;
         expect(localSceneStore.cameraPosition).to.be.not.undefined;
@@ -157,7 +157,7 @@ describe("VisualizationLinkService", () => {
     it("Extracts the parameters properly for mandatory params", () => {
         let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         let localCityBuilderStore = new CityBuilderStore();
-        localCityBuilderStore.profile = defaultProfile;
+        localCityBuilderStore.options.profile = defaultProfile;
 
         let localSceneStore: SceneStore = new SceneStore();
         // Math.round in place
@@ -190,7 +190,7 @@ describe("VisualizationLinkService", () => {
         let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
 
         let localCityBuilderStore = new CityBuilderStore();
-        localCityBuilderStore.profile = defaultProfile;
+        localCityBuilderStore.options.profile = defaultProfile;
 
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.cameraPosition = new Vector3(1, 2, 3);
@@ -243,7 +243,7 @@ describe("VisualizationLinkService", () => {
         testAppConfiguration.projectKey = projectKey;
 
         let localCityBuilderStore = new CityBuilderStore();
-        localCityBuilderStore.profile = defaultProfile;
+        localCityBuilderStore.options.profile = defaultProfile;
 
         let localSceneStore: SceneStore = new SceneStore();
         localSceneStore.cameraPosition = new Vector3(1, 2, 3);

@@ -18,6 +18,8 @@ export interface OptionsSimpleProps {
 export default class OptionsSimple extends React.Component<OptionsSimpleProps, any> {
     public render() {
 
+        const {options} = this.props.store;
+
         return (
             <div className="simple">
                 <div className="left-column">
@@ -25,24 +27,24 @@ export default class OptionsSimple extends React.Component<OptionsSimpleProps, a
                         <SelectBoxBuilder
                             label="Profile"
                             className="profiles"
-                            value={this.props.store.profile}
+                            value={this.props.store.options.profile}
                             options={Profiles.availableProfiles}
-                            onChange={(p: any) => { this.props.store.profile = (p as Profile); }}
+                            onChange={(p: any) => { this.props.store.options.profile = (p as Profile); }}
                         />
                         <p className="selection-description profile-description">
-                            {this.props.store.profile.description}
+                            {this.props.store.options.profile.description}
                         </p>
                     </div>
                     <div className="builder-option">
                         <SelectBoxBuilder
                             label="Building Color"
                             className="metric color"
-                            value={this.props.store.metricColor}
+                            value={options.metricColor}
                             options={this.props.store.colorMetrics.asSelectOptions}
-                            onChange={(m: any) => { this.props.store.metricColor = (m as Metric); }}
+                            onChange={(m: any) => { options.metricColor = (m as Metric); }}
                         />
                         <p className="selection-description color-description">
-                            { this.props.store.metricColor.description }
+                            { options.metricColor.description }
                         </p>
                     </div>
 
@@ -53,7 +55,7 @@ export default class OptionsSimple extends React.Component<OptionsSimpleProps, a
                             store={this.props.store}
                         />
                         <p className="selection-description layout-description">
-                            {this.props.store.layout.description}
+                            {options.layout.description}
                         </p>
                     </div>
                 </div>

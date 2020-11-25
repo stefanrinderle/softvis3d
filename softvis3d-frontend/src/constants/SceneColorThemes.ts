@@ -18,17 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { SceneColorTheme } from "../classes/SceneColorTheme";
+import {SceneColorTheme} from "../classes/SceneColorTheme";
 
-const DEFAULT_COLOR_THEME: SceneColorTheme = {
-    id: "default",
-    backgroundColor: 0xffffff
-};
-
-const DARK_COLOR_THEME: SceneColorTheme = {
-    id: "dark",
-    backgroundColor: 0x282829
-};
+const DEFAULT_COLOR_THEME: SceneColorTheme = new SceneColorTheme("default", "Light", 0xffffff);
+const DARK_COLOR_THEME: SceneColorTheme = new SceneColorTheme("dark", "Dark", 0x282829);
 
 export {
     DEFAULT_COLOR_THEME,

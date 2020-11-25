@@ -20,7 +20,6 @@
 import {assert, expect} from "chai";
 import * as Sinon from "sinon";
 import {TreeElement} from "../../../../src/classes/TreeElement";
-import VisualizationOptions from "../../../../src/classes/VisualizationOptions";
 import SonarQubeMeasuresMetricService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import SonarQubeMeasuresService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresService";
 import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresTreeService";
@@ -55,7 +54,7 @@ describe("SonarQubeMeasuresService", () => {
         let expectedData: TreeElement = new TreeElement(projectKey, projectKey, {}, projectKey, projectKey, false);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
 
-        underTest.loadMeasures( testAppStatusStore, testCityBuilderStore, testSceneStore, VisualizationOptions.createDefault());
+        underTest.loadMeasures( testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -95,13 +94,13 @@ describe("SonarQubeMeasuresService", () => {
         let expectedData: TreeElement = new TreeElement("", projectKey, {}, "", "", false);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
 
-        underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore, VisualizationOptions.createDefault());
+        underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise.then(() => {
-            underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore, VisualizationOptions.createDefault());
+            underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore);
 
             clock.tick(10);
             returnPromise2.then(() => {
@@ -135,7 +134,7 @@ describe("SonarQubeMeasuresService", () => {
 
         measureTreeService.loadTree.returns(Promise.reject({data: {message: "Error message"}}));
 
-        underTest.loadMeasures( testAppStatusStore, testCityBuilderStore, testSceneStore, VisualizationOptions.createDefault());
+        underTest.loadMeasures( testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});

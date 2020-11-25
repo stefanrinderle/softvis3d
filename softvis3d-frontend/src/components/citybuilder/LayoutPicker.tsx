@@ -17,8 +17,8 @@ export default class LayoutPicker extends React.Component<LayoutPickerProps, any
         return (
             <div className="layout-component">
                 <RadioGroup
-                    onChange={(l: Layout) => { store.layout = l; }}
-                    value={store.layout}
+                    onChange={(l: Layout) => { store.options.layout = l; }}
+                    value={store.options.layout}
                     className={"list"}
                 >
                     { this.mapLayouts(layouts) }

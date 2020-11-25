@@ -17,12 +17,15 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { expect } from "chai";
-import Profile, { ProfileBuilder } from "../../src/classes/Profile";
+import {expect} from "chai";
+import Profile, {ProfileBuilder} from "../../src/classes/Profile";
 import {
-    complexityMetricId, coverageMetricId, duplicatedLinesOfCodeMetricId, linesOfCodeMetricId
+    complexityMetric,
+    duplicatedLinesOfCodeMetric,
+    linesOfCodeMetric,
+    newLinesOfCodeMetric
 } from "../../src/constants/Metrics";
-import { EXPONENTIAL, Scales } from "../../src/constants/Scales";
+import {EXPONENTIAL, Scales} from "../../src/constants/Scales";
 
 describe("Profile", () => {
 
@@ -31,13 +34,13 @@ describe("Profile", () => {
         let expectedName = "ydydf";
         let expectedDescription = "sdoihffishd";
         let profile: Profile = new ProfileBuilder(expectedId, expectedName)
-            .withConfiguration(complexityMetricId, linesOfCodeMetricId, Scales.availableScales[0])
+            .withConfiguration(complexityMetric, linesOfCodeMetric, Scales.availableScales[0])
             .withDescription(expectedDescription)
             .build();
 
         expect(profile.id).to.be.eq(expectedId);
-        expect(profile.footprintMetricId).to.be.eq(complexityMetricId);
-        expect(profile.heightMetricId).to.be.eq(linesOfCodeMetricId);
+        expect(profile.footprintMetric).to.be.eq(complexityMetric);
+        expect(profile.heightMetric).to.be.eq(linesOfCodeMetric);
         expect(profile.scale).to.be.eq(Scales.availableScales[0]);
 
         expect(profile.description).to.be.eq(expectedDescription);
@@ -48,7 +51,7 @@ describe("Profile", () => {
         let expectedName = "ydydf";
         let expectedDescription = "sdoihffishd";
         let profile: Profile = new ProfileBuilder(expectedId, expectedName)
-            .withConfiguration(complexityMetricId, linesOfCodeMetricId, Scales.availableScales[0])
+            .withConfiguration(complexityMetric, linesOfCodeMetric, Scales.availableScales[0])
             .withDescription(expectedDescription)
             .build();
 
@@ -59,8 +62,8 @@ describe("Profile", () => {
     it("should be able to clone", () => {
         let id = "custom";
         let name = "Customize";
-        let metricWidth = complexityMetricId;
-        let metricHeight = linesOfCodeMetricId;
+        let metricWidth = complexityMetric;
+        let metricHeight = linesOfCodeMetric;
         let scalingmethod = Scales.availableScales[0];
         let description = "sdfiuhsi";
 
@@ -75,8 +78,8 @@ describe("Profile", () => {
 
         expect(cloneResult.id).to.be.eq(id);
         expect(cloneResult.label).to.be.eq(name);
-        expect(cloneResult.footprintMetricId).to.be.eq(metricWidth);
-        expect(cloneResult.heightMetricId).to.be.eq(metricHeight);
+        expect(cloneResult.footprintMetric).to.be.eq(metricWidth);
+        expect(cloneResult.heightMetric).to.be.eq(metricHeight);
         expect(cloneResult.scale).to.be.eq(scalingmethod);
         expect(cloneResult.description).to.be.eq(description);
     });
@@ -84,8 +87,8 @@ describe("Profile", () => {
     it("should be able to update config", () => {
         let id = "custom";
         let name = "Customize";
-        let metricWidth = complexityMetricId;
-        let metricHeight = linesOfCodeMetricId;
+        let metricWidth = complexityMetric;
+        let metricHeight = linesOfCodeMetric;
         let scalingmethod = Scales.availableScales[0];
         let description = "sdfiuhsi";
 
@@ -94,16 +97,16 @@ describe("Profile", () => {
             .withDescription(description)
             .build();
 
-        let updateMetricWidth = coverageMetricId;
-        let updateMetricHeight = duplicatedLinesOfCodeMetricId;
+        let updateMetricWidth = newLinesOfCodeMetric;
+        let updateMetricHeight = duplicatedLinesOfCodeMetric;
         let updateScale = EXPONENTIAL;
 
         test.updateConfiguration(updateMetricWidth, updateMetricHeight, updateScale);
 
         expect(test.id).to.be.eq(id);
         expect(test.label).to.be.eq(name);
-        expect(test.footprintMetricId).to.be.eq(updateMetricWidth);
-        expect(test.heightMetricId).to.be.eq(updateMetricHeight);
+        expect(test.footprintMetric).to.be.eq(updateMetricWidth);
+        expect(test.heightMetric).to.be.eq(updateMetricHeight);
         expect(test.scale).to.be.eq(updateScale);
         expect(test.description).to.be.eq(description);
     });

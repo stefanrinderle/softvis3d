@@ -18,67 +18,57 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {assert, expect} from "chai";
-import BuildingColorTheme from '../../src/classes/BuildingColorTheme';
+import BuildingColorTheme from "../../src/classes/BuildingColorTheme";
 import Layout from "../../src/classes/Layout";
 import Metric from "../../src/classes/Metric";
-import Scale from "../../src/classes/Scale";
+import Profile from "../../src/classes/Profile";
+import {SceneColorTheme} from "../../src/classes/SceneColorTheme";
 import VisualizationOptions from "../../src/classes/VisualizationOptions";
-import {DEFAULT_BUILDING_COLOR_THEME} from '../../src/constants/BuildingColorThemes';
-import {district, evostreet} from "../../src/constants/Layouts";
-import {
-    complexityMetricId,
-    coverageColorMetric,
-    linesOfCodeMetricId,
-    noColorMetric,
-    noMetricId
-} from "../../src/constants/Metrics";
-import {EXPONENTIAL, LOGARITHMIC, Scales} from "../../src/constants/Scales";
+import {DEFAULT_BUILDING_COLOR_THEME} from "../../src/constants/BuildingColorThemes";
+import {evostreet} from "../../src/constants/Layouts";
+import {coverageColorMetric, noColorMetric} from "../../src/constants/Metrics";
+import {defaultProfile} from "../../src/constants/Profiles";
+import {EXPONENTIAL} from "../../src/constants/Scales";
+import {DEFAULT_COLOR_THEME} from "../../src/constants/SceneColorThemes";
 
 describe("VisualizationOptions", () => {
 
     it("should construct config", () => {
-        let metricWidth: Metric = new Metric(complexityMetricId, " -- None -- ", "");
-        let metricHeight: Metric = new Metric(linesOfCodeMetricId, " -- None -- ", "");
         let metricColor: Metric = coverageColorMetric;
-        let scalingMethod: Scale = Scales.availableScales[0];
         let layout: Layout = evostreet;
         let buildingColorTheme: BuildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
+        let profile: Profile = defaultProfile.clone();
+        let colorTheme: SceneColorTheme = DEFAULT_COLOR_THEME;
 
         let result: VisualizationOptions =
-            new VisualizationOptions(layout, metricWidth, metricHeight, metricColor, scalingMethod, buildingColorTheme);
+            new VisualizationOptions(profile, layout, metricColor, buildingColorTheme, colorTheme);
 
+        expect(result.profile).to.be.eq(profile);
         expect(result.layout).to.be.eq(layout);
-        expect(result.footprint).to.be.eq(metricWidth);
-        expect(result.height).to.be.eq(metricHeight);
         expect(result.metricColor).to.be.eq(metricColor);
-        expect(result.scale).to.be.eq(scalingMethod);
         expect(result.buildingColorTheme).to.be.eq(buildingColorTheme);
+        expect(result.colorTheme).to.be.eq(colorTheme);
     });
 
     it("should create default config", () => {
         let metricColor: Metric = noColorMetric;
-        let scalingmethod: Scale = LOGARITHMIC;
-        let layout: Layout = district;
+        let layout: Layout = evostreet;
 
         let result: VisualizationOptions = VisualizationOptions.createDefault();
 
+        expect(result.profile).to.be.eql(defaultProfile);
         expect(result.layout).to.be.eq(layout);
-        expect(result.footprint.id).to.be.eq(noMetricId);
-        expect(result.height.id).to.be.eq(noMetricId);
         expect(result.metricColor).to.be.eq(metricColor);
-        expect(result.scale).to.be.eq(scalingmethod);
         expect(result.buildingColorTheme).to.be.eq(DEFAULT_BUILDING_COLOR_THEME);
+        expect(result.colorTheme).to.be.eq(DEFAULT_COLOR_THEME);
     });
 
     it("should check equals without color", () => {
-        let exampleMetric: Metric = new Metric(noMetricId, "", "");
-        let result: VisualizationOptions =
-            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, DEFAULT_BUILDING_COLOR_THEME);
+        let result: VisualizationOptions = VisualizationOptions.createDefault();
 
         assert(result.equalStructure(result));
 
-        let copy: VisualizationOptions =
-            new VisualizationOptions(evostreet, exampleMetric, exampleMetric, noColorMetric, LOGARITHMIC, DEFAULT_BUILDING_COLOR_THEME);
+        let copy: VisualizationOptions = VisualizationOptions.createDefault();
 
         assert(result.equalStructure(copy));
         assert(copy.equalStructure(result));
@@ -88,7 +78,7 @@ describe("VisualizationOptions", () => {
         assert(result.equalStructure(copy));
         assert(copy.equalStructure(result));
 
-        copy.scale = EXPONENTIAL;
+        copy.profile.scale = EXPONENTIAL;
 
         expect(result.equalStructure(copy)).to.be.false;
         expect(copy.equalStructure(result)).to.be.false;

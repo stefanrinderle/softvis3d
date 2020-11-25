@@ -3,7 +3,6 @@ import {injectable} from "inversify";
 import ErrorAction from "../../../classes/status/ErrorAction";
 import LoadAction from "../../../classes/status/LoadAction";
 import {TreeElement} from "../../../classes/TreeElement";
-import VisualizationOptions from "../../../classes/VisualizationOptions";
 import {lazyInject} from "../../../inversify.config";
 import AppStatusStore from "../../../stores/AppStatusStore";
 /// softvis3d-frontend
@@ -52,10 +51,9 @@ export default class SonarQubeMeasuresService {
 
     public loadMeasures(appStatusStore: AppStatusStore,
                         cityBuilderStore: CityBuilderStore, sceneStore: SceneStore,
-                        options: VisualizationOptions, isForce: boolean = false) {
+                        isForce: boolean = false) {
         appStatusStore.load(SonarQubeMeasuresService.LOAD_MEASURES);
 
-        sceneStore.options = options;
         sceneStore.shapes = null;
 
         let metricKeys = this.measureMetricService.getMetricRequestValues(cityBuilderStore);

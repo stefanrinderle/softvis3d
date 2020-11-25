@@ -41,10 +41,6 @@ export class KeyLegend extends React.Component<KeyLegendProps, any> {
                             <td><div className="keyboard-key">L</div></td>
                             <td><span>Toggle Legend</span></td>
                         </tr>
-                        <tr>
-                            <td><div className="keyboard-key">C</div></td>
-                            <td><span>Toggle Color Theme</span></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

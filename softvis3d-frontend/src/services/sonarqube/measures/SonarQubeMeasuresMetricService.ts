@@ -24,8 +24,8 @@ export default class SonarQubeMeasuresMetricService {
 
     public getMetricRequestValues(cityBuilderStore: CityBuilderStore): string {
         let result: Set<string> = new Set();
-        result.add(cityBuilderStore.profile.footprintMetricId);
-        result.add(cityBuilderStore.profile.heightMetricId);
+        result.add(cityBuilderStore.options.profile.footprintMetric.id);
+        result.add(cityBuilderStore.options.profile.heightMetric.id);
 
         for (const colorMetric of cityBuilderStore.colorMetrics.keys) {
             if (colorMetric !== noColorMetric.id && colorMetric !== packageNameColorMetric.id

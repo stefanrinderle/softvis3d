@@ -63,7 +63,7 @@ export default class ThreeSceneService {
         this.wrangler.destroy();
     }
 
-    public update(shapes: SoftVis3dShape[], options: VisualizationOptions, colorTheme: SceneColorTheme, cameraPosition?: Vector3) {
+    public update(shapes: SoftVis3dShape[], options: VisualizationOptions, cameraPosition?: Vector3) {
         if (shapes === null) {
             return;
         }
@@ -79,7 +79,7 @@ export default class ThreeSceneService {
             this.loadSoftVis3d(shapes, cameraPosition);
         }
 
-        this.threeScene.setColorTheme(colorTheme);
+        this.threeScene.setColorTheme(options.colorTheme);
 
         this.lastOptions = Object.assign({}, options);
     }
