@@ -19,7 +19,6 @@
 ///
 import {assert, expect} from "chai";
 import * as Sinon from "sinon";
-import {TreeElement} from "../../src/classes/TreeElement";
 import VisualizationOptions from "../../src/classes/VisualizationOptions";
 import {complexityColorMetric} from "../../src/constants/Metrics";
 import SceneReactions from "../../src/reactions/SceneReactions";
@@ -27,6 +26,7 @@ import CityLayoutService from "../../src/services/layout/CityLayoutService";
 import AppStatusStore from "../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
 import SceneStore from "../../src/stores/SceneStore";
+import {createDefaultDir} from "../classes/TreeElement.spec";
 import {createMock} from "../Helper";
 
 describe("SceneReactions", () => {
@@ -74,7 +74,7 @@ describe("SceneReactions", () => {
 
         let reactions = new SceneReactions(testSceneStore, testCityBuilderStore, appStatusStore);
 
-        testSceneStore.projectData = new TreeElement("", "", {}, "", "", false);
+        testSceneStore.projectData = createDefaultDir();
 
         assert(testLegacyConnector.createCity.calledOnce);
         expect(reactions).not.to.be.null;

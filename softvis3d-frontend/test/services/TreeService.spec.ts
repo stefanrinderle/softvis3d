@@ -20,6 +20,7 @@
 import {expect} from "chai";
 import {TreeElement} from "../../src/classes/TreeElement";
 import TreeService from "../../src/services/TreeService";
+import {createDefaultFileWithIdAndParent} from "../classes/TreeElement.spec";
 
 describe("TreeService", () => {
 
@@ -133,5 +134,5 @@ describe("TreeService", () => {
 });
 
 function createTestTreeElement(id: string, parent?: TreeElement): TreeElement {
-    return new TreeElement(id, "", {}, "", "", true, parent);
+    return createDefaultFileWithIdAndParent(id, parent);
 }

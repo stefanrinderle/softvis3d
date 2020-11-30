@@ -6,6 +6,7 @@ import {TreeElement} from "../../../src/classes/TreeElement";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
 import TreeService from "../../../src/services/TreeService";
 import SceneStore from "../../../src/stores/SceneStore";
+import {createDefaultDirWithKey, createDefaultFileWithName} from "../../classes/TreeElement.spec";
 import {createMock} from "../../Helper";
 
 describe("<SelectedElementInfo/>", () => {
@@ -113,17 +114,17 @@ describe("<SelectedElementInfo/>", () => {
 function createTestTreeElement(name: string, parent?: TreeElement, expectedHeightMetricValue: number = 0,
                                expectedFootprintMetricValue: number = 0,
                                expectedColorMetricValue: number = 0): TreeElement {
+
+    let result;
     if (parent) {
-        return new TreeElement(name, name, {
-            c: expectedColorMetricValue,
-            h: expectedHeightMetricValue,
-            f: expectedFootprintMetricValue
-        }, "", "", true, parent);
+        result = createDefaultFileWithName(name);
     } else {
-        return new TreeElement(name, name, {
-            c: expectedColorMetricValue,
-            h: expectedHeightMetricValue,
-            f: expectedFootprintMetricValue
-        }, "", "", false);
+        result = createDefaultDirWithKey(name, name);
     }
+    result.measures = {
+        c: expectedColorMetricValue,
+        h: expectedHeightMetricValue,
+        f: expectedFootprintMetricValue
+    };
+    return result;
 }

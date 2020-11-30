@@ -1,10 +1,10 @@
-import {TreeElement} from "../../classes/TreeElement";
-import {SonarQubeApiComponent, SQ_QUALIFIER_FILE} from "./measures/SonarQubeMeasureResponse";
-
 /**
  * Outside this package should be no sonarqube specific stuff. This class is needed to abstract our logic
  * from SQ.
  */
+import {TreeElement} from "../../../../classes/TreeElement";
+import {SonarQubeApiComponent} from "./SonarQubeMeasureResponse";
+
 export default class SonarQubeTransformerService {
 
     public createTreeElement(component: SonarQubeApiComponent, parent?: TreeElement): TreeElement {
@@ -20,10 +20,8 @@ export default class SonarQubeTransformerService {
             }
         }
 
-        const isFile: boolean = component.qualifier === SQ_QUALIFIER_FILE;
-
         return new TreeElement(component.id, component.key, measureList, component.name, component.path,
-            isFile, parent);
+            component.qualifier, parent);
     }
 
     /**
@@ -44,7 +42,7 @@ export default class SonarQubeTransformerService {
             }
         }
 
-        if (!element.isFile) {
+        if (!element.isFile()) {
             const indexOf = element.path.indexOf(parent.path + "/");
             if (indexOf === 0) {
                 element.name = element.path.substr(parent.path.length + 1, element.path.length);

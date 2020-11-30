@@ -1,14 +1,21 @@
+import {expect} from "chai";
+import {shallow} from "enzyme";
 import * as React from "react";
-import { expect } from "chai";
-import { shallow } from "enzyme";
-import SceneStore from "../../../src/stores/SceneStore";
-import ParentElement from "../../../src/components/sidebar/ParentElement";
 import {TreeElement} from "../../../src/classes/TreeElement";
+import ParentElement from "../../../src/components/sidebar/ParentElement";
+import SceneStore from "../../../src/stores/SceneStore";
+import {
+    createDefaultDir,
+    createDefaultDirWithKey,
+    createDefaultDirWithKeyAndParent,
+    createDefaultFileWithIdAndParent,
+    createDefaultFileWithParent
+} from "../../classes/TreeElement.spec";
 
 describe("<ParentElement/>", () => {
 
     it("should show nothing if selected Element has no parent", () => {
-        const element = new TreeElement("parent", "parent", {}, "", "", false);
+        const element = createDefaultDir();
         let localSceneStore = new SceneStore();
         localSceneStore.projectData = element;
 
@@ -20,8 +27,8 @@ describe("<ParentElement/>", () => {
     });
 
     it("should show nothing if the parent of selected element is root", () => {
-        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", false);
-        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", true, parent);
+        let parent: TreeElement = createDefaultDir();
+        let child1: TreeElement = createDefaultFileWithParent(parent);
 
         parent.children.push(child1);
 
@@ -36,9 +43,9 @@ describe("<ParentElement/>", () => {
     });
 
     it("should select parent folder on click (for node element)", () => {
-        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", false);
-        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", false, parent);
-        let child11: TreeElement = new TreeElement("child11", "child11", {}, "", "", true, parent);
+        let parent: TreeElement = createDefaultDirWithKey("parent", "parent");
+        let child1: TreeElement = createDefaultDirWithKeyAndParent("child1", parent);
+        let child11: TreeElement = createDefaultFileWithIdAndParent("child11", child1);
 
         parent.children.push(child1);
         child1.children.push(child11);
@@ -55,9 +62,9 @@ describe("<ParentElement/>", () => {
     });
 
     it("should select parent folder on click (for leaf element)", () => {
-        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", false);
-        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", false, parent);
-        let child11: TreeElement = new TreeElement("child11", "child11", {}, "", "", true, child1);
+        let parent: TreeElement = createDefaultDirWithKey("parent", "parent");
+        let child1: TreeElement = createDefaultDirWithKeyAndParent("child1", parent);
+        let child11: TreeElement = createDefaultFileWithIdAndParent("child11", parent);
 
         parent.children.push(child1);
         child1.children.push(child11);

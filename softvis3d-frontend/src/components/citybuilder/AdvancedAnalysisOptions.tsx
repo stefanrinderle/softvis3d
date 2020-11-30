@@ -5,11 +5,13 @@ import Layout from "../../classes/Layout";
 import Metric from "../../classes/Metric";
 import Scale from "../../classes/Scale";
 import {SceneColorTheme} from "../../classes/SceneColorTheme";
+import {TestClassesVariant} from "../../classes/TestClassesVariant";
 import {BuildingColorThemes} from "../../constants/BuildingColorThemes";
 import {Layouts} from "../../constants/Layouts";
 import {custom} from "../../constants/Profiles";
 import {Scales} from "../../constants/Scales";
 import {SceneColorThemes} from "../../constants/SceneColorThemes";
+import {TestClassesVariants} from "../../constants/TestClassesVariants";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
@@ -123,6 +125,22 @@ export default class AdvancedAnalysisOptions extends React.Component<{ store: Ci
                                 }}
                             />
                             <p className="selection-description">{this.props.store.options.profile.scale.description}</p>
+                        </div>
+                    </div>
+                </Category>
+                <Category label="Files" className="advanced" toggle={false} initialVisibility={true}>
+                    <div className="left-column">
+                        <div className="builder-option">
+                            <div className="builder-option">
+                                <SelectBoxBuilder
+                                    label="Test classes"
+                                    value={this.props.store.options.testClassesVariant}
+                                    options={TestClassesVariants.availableTestClassesVariants}
+                                    onChange={(testClassesVariant: TestClassesVariant) => {
+                                        this.props.store.options.testClassesVariant = testClassesVariant;
+                                    }}
+                                />
+                            </div>
                         </div>
                     </div>
                 </Category>

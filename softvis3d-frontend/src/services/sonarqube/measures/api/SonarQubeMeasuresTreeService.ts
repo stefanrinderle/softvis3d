@@ -1,4 +1,7 @@
 ///
+import {TreeElement} from "../../../../classes/TreeElement";
+import {lazyInject} from "../../../../inversify.config";
+import AppStatusStore from "../../../../stores/AppStatusStore";
 /// softvis3d-frontend
 /// Copyright (C) 2016 Stefan Rinderle and Yvo Niedrich
 /// stefan@rinderle.info / yvo.niedrich@gmail.com
@@ -17,11 +20,8 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import {TreeElement} from "../../../classes/TreeElement";
-import {lazyInject} from "../../../inversify.config";
-import AppStatusStore from "../../../stores/AppStatusStore";
-import SonarQubeTransformerService from "../SonarQubeTransformerService";
 import SonarQubeMeasuresApiService from "./SonarQubeMeasuresApiService";
+import SonarQubeTransformerService from "./SonarQubeTransformerService";
 
 export default class SonarQubeMeasuresTreeService {
 
@@ -34,7 +34,8 @@ export default class SonarQubeMeasuresTreeService {
         return new Promise<void>((resolve, reject) => {
             this.measureApiService.loadMeasures(appStatusStore, parent.key, metricKeys).then((result) => {
                 for (const file of result.components) {
-                    this.sonarQubeTransformerService.add(parent, this.sonarQubeTransformerService.createTreeElement(file), true);
+                    const element = this.sonarQubeTransformerService.createTreeElement(file);
+                    this.sonarQubeTransformerService.add(parent, element, true);
                 }
                 resolve();
             }).catch((error) => {

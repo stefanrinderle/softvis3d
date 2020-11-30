@@ -22,11 +22,10 @@ import {TreeElement} from "../../../src/classes/TreeElement";
 import {
     SonarQubeApiComponent,
     SonarQubeMeasure,
-    SonarQubeQualifier,
-    SQ_QUALIFIER_DIRECTORY,
-    SQ_QUALIFIER_FILE
-} from "../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
-import SonarQubeTransformerService from "../../../src/services/sonarqube/SonarQubeTransformerService";
+    SonarQubeQualifier, SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE
+} from "../../../src/services/sonarqube/measures/api/SonarQubeMeasureResponse";
+import SonarQubeTransformerService from "../../../src/services/sonarqube/measures/api/SonarQubeTransformerService";
+import {createDefaultDir, createDefaultDirWithPath, createDefaultFileWithPath} from "../../classes/TreeElement.spec";
 
 describe("SonarQubeTransformerService", () => {
 
@@ -56,7 +55,7 @@ describe("SonarQubeTransformerService", () => {
         expect(result).not.to.be.null;
 
         expect(result.id).to.be.eq(id);
-        expect(result.isFile).to.be.eq(false);
+        expect(result.isFile()).to.be.eq(false);
         expect(result.children.length).to.be.eq(0);
         expect(result.path).to.be.eq(path);
         expect(result.name).to.be.eq(name);
@@ -74,7 +73,7 @@ describe("SonarQubeTransformerService", () => {
             qualifier: SQ_QUALIFIER_FILE
         };
 
-        let expectedParent: TreeElement = new TreeElement("", "asdda", {}, "", "", false);
+        let expectedParent: TreeElement = createDefaultDir();
         let result: TreeElement = new SonarQubeTransformerService().createTreeElement(component, expectedParent);
 
         expect(result.parent).not.to.be.undefined;
@@ -105,7 +104,7 @@ describe("SonarQubeTransformerService", () => {
             qualifier: SQ_QUALIFIER_FILE
         };
 
-        let expectedParent: TreeElement = new TreeElement("", "asdda", {}, "", "", false);
+        let expectedParent: TreeElement = createDefaultDir();
         let result: TreeElement = new SonarQubeTransformerService().createTreeElement(component, expectedParent);
 
         expect(result.measures).not.to.be.undefined;
@@ -137,7 +136,7 @@ describe("SonarQubeTransformerService", () => {
             qualifier: SQ_QUALIFIER_FILE
         };
 
-        let expectedParent: TreeElement = new TreeElement("", "asdda", {}, "", "", false);
+        let expectedParent: TreeElement = createDefaultDir();
         let result: TreeElement = new SonarQubeTransformerService().createTreeElement(component, expectedParent);
 
         expect(result.measures).not.to.be.undefined;
@@ -236,5 +235,9 @@ describe("SonarQubeTransformerService", () => {
 });
 
 function createTreeElementAsChildWithPath(path: string, isFile: boolean = false) {
-    return new TreeElement("", "", {}, "", path, isFile);
+    if (isFile) {
+        return createDefaultFileWithPath(path);
+    } else {
+        return createDefaultDirWithPath(path);
+    }
 }

@@ -17,12 +17,13 @@
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
-import { TreeElement } from "../../../classes/TreeElement";
+
+import {TreeElement} from "../../../../classes/TreeElement";
 
 export default class SonarQubeOptimizeStructureService {
 
     public optimize(element: TreeElement) {
-        if (element.isFile || element.children.length === 0) {
+        if (element.isFile() || element.children.length === 0) {
             return;
         }
 
@@ -39,13 +40,13 @@ export default class SonarQubeOptimizeStructureService {
     private processChild(children: TreeElement[], index: number): boolean {
         const child = children[index];
 
-        if (child.isFile) {
+        if (child.isFile()) {
             return false;
         }
 
         this.optimize(child);
 
-        if (child.children.length === 1 && !child.children[0].isFile) {
+        if (child.children.length === 1 && !child.children[0].isFile()) {
             // The element child only contains a single folder.
             child.children[0].parent = child.parent;
 

@@ -19,12 +19,12 @@
 ///
 import { assert, expect } from "chai";
 import * as Sinon from "sinon";
-import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresApiService";
+import { AppConfiguration } from "../../../../src/classes/AppConfiguration";
 import {
     SonarQubeMeasurePagingResponse,
     SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE
-} from "../../../../src/services/sonarqube/measures/SonarQubeMeasureResponse";
-import { AppConfiguration } from "../../../../src/classes/AppConfiguration";
+} from "../../../../src/services/sonarqube/measures/api/SonarQubeMeasureResponse";
+import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/api/SonarQubeMeasuresApiService";
 import AppStatusStore from "../../../../src/stores/AppStatusStore";
 import SonarQubeMeasuresService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresService";
 

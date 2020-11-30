@@ -5,6 +5,7 @@ import Layout from "../classes/Layout";
 import Metric from "../classes/Metric";
 import Scale from "../classes/Scale";
 import {SceneColorTheme} from "../classes/SceneColorTheme";
+import {TestClassesVariant} from "../classes/TestClassesVariant";
 import VisualizationLinkParams from "../classes/VisualizationLinkParams";
 import VisualizationOptions from "../classes/VisualizationOptions";
 import {BuildingColorThemes, DEFAULT_BUILDING_COLOR_THEME} from "../constants/BuildingColorThemes";
@@ -13,6 +14,7 @@ import {ColorMetrics} from "../constants/Metrics";
 import {custom} from "../constants/Profiles";
 import {Scales} from "../constants/Scales";
 import {DEFAULT_COLOR_THEME, SceneColorThemes} from "../constants/SceneColorThemes";
+import {NO_TEST_CLASSES_VARIANT, TestClassesVariants} from "../constants/TestClassesVariants";
 import {lazyInject} from "../inversify.config";
 import CityBuilderStore from "../stores/CityBuilderStore";
 import SceneStore from "../stores/SceneStore";
@@ -49,6 +51,9 @@ export default class VisualizationLinkService {
 
         let buildingColorTheme: BuildingColorTheme | undefined = BuildingColorThemes.getModeById(params.buildingColorTheme);
 
+        let testClassesVariant: TestClassesVariant | undefined =
+            TestClassesVariants.getTestClassesVariantById(params.buildingColorTheme);
+
         if (metricFootprint !== undefined
             && metricHeight !== undefined
             && metricColor !== undefined
@@ -62,13 +67,17 @@ export default class VisualizationLinkService {
             if (buildingColorTheme === undefined) {
                 buildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
             }
+            if (testClassesVariant === undefined) {
+                testClassesVariant = NO_TEST_CLASSES_VARIANT;
+            }
 
             const profile = custom.clone();
             profile.footprintMetric = metricFootprint;
             profile.heightMetric = metricHeight;
             profile.scale = scale;
 
-            const options = new VisualizationOptions(profile, layout, metricColor, buildingColorTheme, colorTheme);
+            const options = new VisualizationOptions(profile, layout,
+                metricColor, buildingColorTheme, colorTheme, testClassesVariant);
 
             let visualizationLinkParams: VisualizationLinkParams = new VisualizationLinkParams(
                 options, selectedObjectId, cameraPosition

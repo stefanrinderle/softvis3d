@@ -1,15 +1,16 @@
-import * as React from "react";
 import {expect} from "chai";
 import {shallow} from "enzyme";
-import SceneStore from "../../../src/stores/SceneStore";
-import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
+import * as React from "react";
 import {TreeElement} from "../../../src/classes/TreeElement";
+import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
+import SceneStore from "../../../src/stores/SceneStore";
+import {createDefaultFileWithName} from "../../classes/TreeElement.spec";
 
 describe("<FolderContentElement/>", () => {
 
     it("should show element", () => {
         let expectedName = "element98szdfkjbsf";
-        let selectedElement: TreeElement = createTestTreeElement(expectedName);
+        let selectedElement: TreeElement = createDefaultFileWithName(expectedName);
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
@@ -21,7 +22,7 @@ describe("<FolderContentElement/>", () => {
 
     it("should show selected element", () => {
         let expectedName = "element98szdfkjbsf";
-        let selectedElement: TreeElement = createTestTreeElement(expectedName);
+        let selectedElement: TreeElement = createDefaultFileWithName(expectedName);
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
@@ -34,7 +35,7 @@ describe("<FolderContentElement/>", () => {
 
     it("should select element on click", () => {
         let expectedName = "element98szdfkjbsf";
-        let selectedElement: TreeElement = createTestTreeElement(expectedName);
+        let selectedElement: TreeElement = createDefaultFileWithName(expectedName);
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
@@ -48,7 +49,7 @@ describe("<FolderContentElement/>", () => {
 
     it("should do nothing on click on already selected element", () => {
         let expectedName = "element98szdfkjbsf";
-        let selectedElement: TreeElement = createTestTreeElement(expectedName);
+        let selectedElement: TreeElement = createDefaultFileWithName(expectedName);
         let localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
@@ -60,7 +61,3 @@ describe("<FolderContentElement/>", () => {
     });
 
 });
-
-function createTestTreeElement(name: string): TreeElement {
-    return new TreeElement(name, name, {}, name, "", true);
-}

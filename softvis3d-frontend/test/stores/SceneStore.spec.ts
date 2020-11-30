@@ -18,9 +18,9 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-import {TreeElement} from "../../src/classes/TreeElement";
 import {noMetric} from "../../src/constants/Metrics";
 import SceneStore from "../../src/stores/SceneStore";
+import {createDefaultFile} from "../classes/TreeElement.spec";
 
 describe("SceneStore", () => {
 
@@ -76,7 +76,7 @@ describe("SceneStore", () => {
         let sceneStore = new SceneStore();
 
         sceneStore.selectedObjectId = "123";
-        sceneStore.projectData = new TreeElement("sdfsdf", "", {}, "", "", true);
+        sceneStore.projectData = createDefaultFile();
         let result: number | null = sceneStore.getColorValue(noMetric);
 
         expect(result).to.be.null;

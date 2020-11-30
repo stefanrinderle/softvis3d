@@ -1,10 +1,11 @@
-import * as React from "react";
-import {shallow} from "enzyme";
 import {expect} from "chai";
-import MetricKey from "../../../../src/components/scene/information/MetricKey";
+import {shallow} from "enzyme";
+import * as React from "react";
 import Metric from "../../../../src/classes/Metric";
-import {TreeElement} from "../../../../src/classes/TreeElement";
 import {MetricType} from "../../../../src/classes/MetricType";
+import {TreeElement} from "../../../../src/classes/TreeElement";
+import MetricKey from "../../../../src/components/scene/information/MetricKey";
+import {createDefaultFile} from "../../../classes/TreeElement.spec";
 
 describe("<MetricKey/>", () => {
 
@@ -29,9 +30,10 @@ describe("<MetricKey/>", () => {
         let expectedMetric: Metric = new Metric("123", expectedMetricName, "");
 
         let expectedMeasure: number = 55;
-        let selectedElement: TreeElement = new TreeElement("", "", {
+        let selectedElement: TreeElement = createDefaultFile();
+        selectedElement.measures = {
             123: expectedMeasure
-        }, "", "", true);
+        };
         const bottomBarMetricInfo = shallow(
             <MetricKey title={title} metric={expectedMetric} selectedElement={selectedElement}/>
         );
@@ -45,9 +47,10 @@ describe("<MetricKey/>", () => {
         let expectedMetric: Metric = new Metric("123", "", "", MetricType.MILLISEC);
 
         let expectedMeasure: number = 1479816020000;
-        let selectedElement: TreeElement = new TreeElement("", "", {
+        let selectedElement: TreeElement = createDefaultFile();
+        selectedElement.measures = {
             123: expectedMeasure
-        }, "", "", true);
+        };
         const bottomBarMetricInfo = shallow(
             <MetricKey title={""} metric={expectedMetric} selectedElement={selectedElement}/>
         );

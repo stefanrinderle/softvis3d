@@ -42,7 +42,7 @@ export default class TreeService {
     public getAllFiles(node: TreeElement): TreeElement[] {
         let results: TreeElement[] = [];
 
-        if (node.isFile) {
+        if (node.isFile()) {
             results.push(node);
         }
 

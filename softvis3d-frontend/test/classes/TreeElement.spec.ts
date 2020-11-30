@@ -19,23 +19,28 @@
 ///
 import {expect} from "chai";
 import {TreeElement} from "../../src/classes/TreeElement";
-import SonarQubeTransformerService from "../../src/services/sonarqube/SonarQubeTransformerService";
+import {
+    SQ_QUALIFIER_DIRECTORY,
+    SQ_QUALIFIER_FILE,
+    SQ_QUALIFIER_UNIT_TEST_FILE
+} from "../../src/services/sonarqube/measures/api/SonarQubeMeasureResponse";
+import SonarQubeTransformerService from "../../src/services/sonarqube/measures/api/SonarQubeTransformerService";
 
 describe("TreeElement", () => {
 
     const sonarQubeTransformerService = new SonarQubeTransformerService();
 
     it("should be able to sort by name and type", () => {
-        let parent: TreeElement = createTreeElementAsChildWithPath("/src");
-        let testDir: TreeElement = createTreeElementAsChildWithPath("/src/test");
+        let parent: TreeElement = createDefaultDirWithPath("/src");
+        let testDir: TreeElement = createDefaultDirWithPath("/src/test");
         sonarQubeTransformerService.add(parent, testDir);
 
-        let mainDir: TreeElement = createTreeElementAsChildWithPath("/src/main");
+        let mainDir: TreeElement = createDefaultDirWithPath("/src/main");
         sonarQubeTransformerService.add(parent, mainDir);
 
-        let fileA: TreeElement = createTreeElementAsChildWithPath("/src/a.java", true);
+        let fileA: TreeElement = createDefaultFileWithPath("/src/a.java");
         sonarQubeTransformerService.add(parent, fileA);
-        let fileZ: TreeElement = createTreeElementAsChildWithPath("/src/z.java", true);
+        let fileZ: TreeElement = createDefaultFileWithPath("/src/z.java");
         sonarQubeTransformerService.add(parent, fileZ);
 
         let folderResult: TreeElement[] = parent.getSortedChildren();
@@ -48,14 +53,14 @@ describe("TreeElement", () => {
     });
 
     it("should be able to replace child", () => {
-        let parent: TreeElement = createTreeElementAsChildWithNameAndKey("/src", "123");
-        sonarQubeTransformerService.add(parent, createTreeElementAsChildWithNameAndKey("sdfsdf", "35"));
-        sonarQubeTransformerService.add(parent, createTreeElementAsChildWithNameAndKey("sdfs", "443"));
+        let parent: TreeElement = createDefaultDirWithKey("/src", "123");
+        sonarQubeTransformerService.add(parent, createDefaultDirWithKey("sdfsdf", "35"));
+        sonarQubeTransformerService.add(parent, createDefaultDirWithKey("sdfs", "443"));
 
-        let testDir: TreeElement = createTreeElementAsChildWithNameAndKey("/src/test", "333");
+        let testDir: TreeElement = createDefaultDirWithKey("/src/test", "333");
         sonarQubeTransformerService.add(parent, testDir);
 
-        let fileA: TreeElement = createTreeElementAsChildWithPath("/src/a.java", true);
+        let fileA: TreeElement = createDefaultFileWithPath("/src/a.java");
         parent.replaceChildByKey("333", fileA);
 
         expect(parent.children[2]).to.be.eq(fileA);
@@ -63,10 +68,46 @@ describe("TreeElement", () => {
 
 });
 
-function createTreeElementAsChildWithPath(path: string, isFile: boolean = false) {
-    return new TreeElement("", "", {}, "", path, isFile);
+/**
+ * test methods to create tree elements for testing purposes.
+ */
+
+export function createDefaultFile() {
+    return new TreeElement("", "", {}, "", "", SQ_QUALIFIER_FILE);
 }
 
-function createTreeElementAsChildWithNameAndKey(name: string, key: string) {
-    return new TreeElement("", key, {}, name, "", false);
+export function createDefaultTestFile() {
+    return new TreeElement("", "", {}, "", "", SQ_QUALIFIER_UNIT_TEST_FILE);
+}
+
+export function createDefaultFileWithParent(parent: TreeElement) {
+    return new TreeElement("", "", {}, "", "", SQ_QUALIFIER_FILE, parent);
+}
+
+export function createDefaultFileWithIdAndParent(id: string, parent?: TreeElement) {
+    return new TreeElement(id, id, {}, id, "", SQ_QUALIFIER_FILE, parent);
+}
+
+export function createDefaultDirWithKeyAndParent(id: string, parent?: TreeElement) {
+    return new TreeElement(id, id, {}, id, "", SQ_QUALIFIER_FILE, parent);
+}
+
+export function createDefaultFileWithName(name: string) {
+    return new TreeElement(name, name, {}, name, "", SQ_QUALIFIER_FILE);
+}
+
+export function createDefaultDir() {
+    return new TreeElement("", "", {}, "", "", SQ_QUALIFIER_DIRECTORY);
+}
+
+export function createDefaultFileWithPath(path: string) {
+    return new TreeElement("", "", {}, "", path, SQ_QUALIFIER_FILE);
+}
+
+export function createDefaultDirWithPath(path: string) {
+    return new TreeElement("", "", {}, "", path, SQ_QUALIFIER_DIRECTORY);
+}
+
+export function createDefaultDirWithKey(name: string, key: string) {
+    return new TreeElement(key, key, {}, name, "", SQ_QUALIFIER_DIRECTORY);
 }

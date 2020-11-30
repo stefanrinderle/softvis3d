@@ -5,8 +5,16 @@ import {TreeElement} from "../../../src/classes/TreeElement";
 import FolderContent from "../../../src/components/sidebar/FolderContent";
 import ParentElement from "../../../src/components/sidebar/ParentElement";
 import SideBar from "../../../src/components/sidebar/SideBar";
+import {
+    SQ_QUALIFIER_DIRECTORY,
+    SQ_QUALIFIER_FILE
+} from "../../../src/services/sonarqube/measures/api/SonarQubeMeasureResponse";
 import TreeService from "../../../src/services/TreeService";
 import SceneStore from "../../../src/stores/SceneStore";
+import {
+    createDefaultDir,
+    createDefaultFileWithParent
+} from "../../classes/TreeElement.spec";
 import {createMock} from "../../Helper";
 
 describe("<SideBar/>", () => {
@@ -23,9 +31,14 @@ describe("<SideBar/>", () => {
     });
 
     it("should show node info for nodes", () => {
-        let parent: TreeElement = new TreeElement("parent", "parent", {}, "parent", "", false);
-        let child1: TreeElement = new TreeElement("child1", "child1", {}, "child1", "", false, parent);
-        let child11: TreeElement = new TreeElement("child11", "child11", {}, "child11", "", true, child1);
+        // does not work - no idea why.
+        // let parent: TreeElement = createDefaultDirWithKey("parent", "parent");
+        // let child1: TreeElement = createDefaultDirWithKeyAndParent("child1", parent);
+        // let child11: TreeElement = createDefaultFileWithIdAndParent("child11", child1);
+
+        let parent: TreeElement = new TreeElement("parent", "parent", {}, "parent", "", SQ_QUALIFIER_DIRECTORY);
+        let child1: TreeElement = new TreeElement("child1", "child1", {}, "child1", "", SQ_QUALIFIER_DIRECTORY, parent);
+        let child11: TreeElement = new TreeElement("child11", "child11", {}, "child11", "", SQ_QUALIFIER_FILE, child1);
 
         parent.children.push(child1);
         child1.children.push(child11);
@@ -61,9 +74,9 @@ describe("<SideBar/>", () => {
     });
 
     it("should show node info for leafs", () => {
-        let parent: TreeElement = new TreeElement("parent", "parent", {}, "parent", "", false);
-        let child1: TreeElement = new TreeElement("child1", "child1", {}, "child1", "", false, parent);
-        let child11: TreeElement = new TreeElement("child11", "child11", {}, "child11", "", true, child1);
+        let parent: TreeElement = createDefaultDir();
+        let child1: TreeElement = createDefaultFileWithParent(parent);
+        let child11: TreeElement = createDefaultFileWithParent(child1);
 
         parent.children.push(child1);
         child1.children.push(child11);

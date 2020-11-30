@@ -7,14 +7,15 @@ import FolderContent, {NodeListProps} from "../../../src/components/sidebar/Fold
 import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
 import {HtmlDomService} from "../../../src/services/HtmlDomService";
 import SceneStore from "../../../src/stores/SceneStore";
+import {createDefaultDir, createDefaultFile, createDefaultFileWithIdAndParent} from "../../classes/TreeElement.spec";
 import {createMock} from "../../Helper";
 
 describe("<FolderContent/>", () => {
 
     it("should show siblings of the selected element as list", () => {
-        let parent: TreeElement = new TreeElement("parent", "parent", {}, "", "", false);
-        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", true, parent);
-        let child2: TreeElement = new TreeElement("child2", "child2", {}, "", "", true, parent);
+        let parent: TreeElement = createDefaultDir();
+        let child1: TreeElement = createDefaultFileWithIdAndParent("child1", parent);
+        let child2: TreeElement = createDefaultFileWithIdAndParent("child2", parent);
 
         parent.children.push(child1);
         parent.children.push(child2);
@@ -48,9 +49,9 @@ describe("<FolderContent/>", () => {
     });
 
     it("should show children of the selected element as list", () => {
-        let root: TreeElement = new TreeElement("parent", "parent", {}, "", "", false);
-        let child1: TreeElement = new TreeElement("child1", "child1", {}, "", "", true, root);
-        let child2: TreeElement = new TreeElement("child2", "child2", {}, "", "", true, root);
+        let root: TreeElement = createDefaultDir();
+        let child1: TreeElement = createDefaultFile();
+        let child2: TreeElement = createDefaultFile();
         root.children.push(child1);
         root.children.push(child2);
 
@@ -125,7 +126,7 @@ describe("<FolderContent/>", () => {
         };
 
         underTest.props = {
-            activeFolder: new TreeElement("root2", "root2", {}, "", "", true),
+            activeFolder: createDefaultDir(),
             sceneStore: localSceneStore
         };
 

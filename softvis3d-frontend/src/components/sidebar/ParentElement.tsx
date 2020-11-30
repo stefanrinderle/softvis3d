@@ -18,10 +18,6 @@ export default class ParentElement extends React.Component<SelectParentProps, an
         const {sceneStore, selectedElement} = this.props;
         let parent: TreeElement | null = this.getParentElement(selectedElement);
 
-        if (parent && selectedElement.isFile) {
-            parent = this.getParentElement(parent);
-        }
-
         if (parent === null || typeof parent === "undefined") {
             return <div className="select-parent" />;
         }
@@ -37,10 +33,6 @@ export default class ParentElement extends React.Component<SelectParentProps, an
     }
 
     private getParentElement(element: TreeElement): TreeElement | null {
-        if (!this.props.sceneStore.projectData) {
-            return null;
-        }
-
-        return element.parent ? element.parent : null;
+        return (element && element.parent) ? element.parent : null;
     }
 }

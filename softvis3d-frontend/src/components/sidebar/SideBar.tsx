@@ -32,7 +32,7 @@ export default class SideBar extends React.Component<SideBarProps, any> {
     }
 
     private getActiveFolder(element: TreeElement): TreeElement | null {
-        return element.isFile
+        return element.isFile()
             ? this.getParentElement(element)
             : element;
     }

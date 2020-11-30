@@ -10,16 +10,19 @@ import SceneReactions from "./reactions/SceneReactions";
 import AutoReloadService from "./services/AutoReloadService";
 import {HtmlDomService} from "./services/HtmlDomService";
 import CityLayoutService from "./services/layout/CityLayoutService";
-import SonarQubeMeasuresApiService from "./services/sonarqube/measures/SonarQubeMeasuresApiService";
+import SonarQubeMeasuresApiService from "./services/sonarqube/measures/api/SonarQubeMeasuresApiService";
+import SonarQubeMeasuresTreeService from "./services/sonarqube/measures/api/SonarQubeMeasuresTreeService";
+import SonarQubeTransformerService from "./services/sonarqube/measures/api/SonarQubeTransformerService";
 import SonarQubeMeasuresMetricService from "./services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import SonarQubeMeasuresService from "./services/sonarqube/measures/SonarQubeMeasuresService";
-import SonarQubeMeasuresTreeService from "./services/sonarqube/measures/SonarQubeMeasuresTreeService";
-import SonarQubeOptimizeStructureService from "./services/sonarqube/measures/SonarQubeOptimizeStructureService";
+import SonarQubeFilterStructureService from "./services/sonarqube/measures/structure/SonarQubeFilterStructureService";
+// tslint:disable-next-line:import-spacing
+import SonarQubeOptimizeStructureService
+    from "./services/sonarqube/measures/structure/SonarQubeOptimizeStructureService";
 import ScmCalculatorService from "./services/sonarqube/ScmCalculatorService";
 import SonarQubeComponentInfoService from "./services/sonarqube/SonarQubeComponentInfoService";
 import SonarQubeMetricsService from "./services/sonarqube/SonarQubeMetricsService";
 import SonarQubeScmService from "./services/sonarqube/SonarQubeScmService";
-import SonarQubeTransformerService from "./services/sonarqube/SonarQubeTransformerService";
 import TreeService from "./services/TreeService";
 import UrlParameterService from "./services/UrlParameterService";
 import VisualizationLinkService from "./services/VisualizationLinkService";
@@ -78,6 +81,7 @@ export default class App {
         bindToInjection(CityLayoutService);
         bindToInjection(TreeService);
         bindToInjection(AutoReloadService);
+        bindToInjection(SonarQubeFilterStructureService);
 
         this.componentInfoService = new SonarQubeComponentInfoService(this.config.projectKey, this.config.baseUrl);
         container.bind<SonarQubeComponentInfoService>("SonarQubeComponentInfoService")

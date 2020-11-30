@@ -25,9 +25,11 @@ import AppStatusStore from "../../../stores/AppStatusStore";
 ///
 import CityBuilderStore from "../../../stores/CityBuilderStore";
 import SceneStore from "../../../stores/SceneStore";
+import {SQ_QUALIFIER_PROJECT} from "./api/SonarQubeMeasureResponse";
+import SonarQubeMeasuresTreeService from "./api/SonarQubeMeasuresTreeService";
 import SonarQubeMeasuresMetricService from "./SonarQubeMeasuresMetricService";
-import SonarQubeMeasuresTreeService from "./SonarQubeMeasuresTreeService";
-import SonarQubeOptimizeStructureService from "./SonarQubeOptimizeStructureService";
+import SonarQubeFilterStructureService from "./structure/SonarQubeFilterStructureService";
+import SonarQubeOptimizeStructureService from "./structure/SonarQubeOptimizeStructureService";
 
 @injectable()
 export default class SonarQubeMeasuresService {
@@ -42,8 +44,11 @@ export default class SonarQubeMeasuresService {
     private readonly measureMetricService!: SonarQubeMeasuresMetricService;
     @lazyInject("SonarQubeOptimizeStructureService")
     private readonly optimizeStructureService!: SonarQubeOptimizeStructureService;
+    @lazyInject("SonarQubeFilterStructureService")
+    private readonly filterStructureService!: SonarQubeFilterStructureService;
 
     private metricKeys?: string;
+    private projectData?: TreeElement | null = null;
 
     constructor(projectKey: string) {
         this.projectKey = projectKey;
@@ -56,27 +61,25 @@ export default class SonarQubeMeasuresService {
 
         sceneStore.shapes = null;
 
-        let metricKeys = this.measureMetricService.getMetricRequestValues(cityBuilderStore);
+        const metricKeys = this.measureMetricService.getMetricRequestValues(cityBuilderStore);
 
-        if (!isForce && this.metricKeys && this.metricKeys === metricKeys) {
-            appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
-            sceneStore.projectData = Object.assign({}, sceneStore.projectData);
+        if (!isForce && this.projectData && this.metricKeys && this.metricKeys === metricKeys) {
+            this.updateViewProjectData(this.projectData, cityBuilderStore, sceneStore);
         } else {
             /**
              * Create a "starting point" root element and load the tree of the project.
              */
             let root: TreeElement =
-                new TreeElement(this.projectKey, this.projectKey, {}, this.projectKey, this.projectKey, false);
+                new TreeElement(this.projectKey, this.projectKey, {}, this.projectKey, this.projectKey, SQ_QUALIFIER_PROJECT);
 
             this.measureTreeService.loadTree(appStatusStore, root, metricKeys).then(() => {
-                this.optimizeStructureService.optimize(root);
-
-                appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
-
+                // save current data
+                this.projectData = root.clone();
                 this.metricKeys = metricKeys;
-                sceneStore.scmMetricLoaded = false;
-                sceneStore.projectData = root;
 
+                this.updateViewProjectData(root, cityBuilderStore, sceneStore);
+
+                sceneStore.scmMetricLoaded = false;
                 cityBuilderStore.show = false;
             }).catch(() => {
                 appStatusStore.error(
@@ -85,9 +88,16 @@ export default class SonarQubeMeasuresService {
                         "Try again", () => {
                             location.reload();
                         }));
-                appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
             });
         }
+        appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
     }
 
+    private updateViewProjectData(root: TreeElement, cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
+        const projectData: TreeElement = root.clone();
+        this.filterStructureService.optimize(projectData, cityBuilderStore.options.testClassesVariant);
+        this.optimizeStructureService.optimize(projectData);
+
+        sceneStore.projectData = projectData;
+    }
 }

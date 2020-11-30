@@ -25,6 +25,7 @@ import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmSer
 import TreeService from "../../../src/services/TreeService";
 import AppStatusStore from "../../../src/stores/AppStatusStore";
 import SceneStore from "../../../src/stores/SceneStore";
+import {createDefaultFileWithIdAndParent} from "../../classes/TreeElement.spec";
 import {createMock} from "../../Helper";
 
 describe("SonarQubeScmService", () => {
@@ -277,7 +278,7 @@ describe("SonarQubeScmService", () => {
 });
 
 function createTestTreeElement(name: string, parent?: TreeElement): TreeElement {
-    return new TreeElement(name, name, {}, "", "", true, parent);
+    return createDefaultFileWithIdAndParent(name, parent);
 }
 
 function mockTreeServiceGetAllFiles(treeElements: TreeElement[]) {

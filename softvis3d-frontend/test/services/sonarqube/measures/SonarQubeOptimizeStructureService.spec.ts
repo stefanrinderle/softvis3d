@@ -19,7 +19,9 @@
 ///
 import {expect} from "chai";
 import {TreeElement} from "../../../../src/classes/TreeElement";
-import SonarQubeOptimizeStructureService from "../../../../src/services/sonarqube/measures/SonarQubeOptimizeStructureService";
+import SonarQubeOptimizeStructureService
+    from "../../../../src/services/sonarqube/measures/structure/SonarQubeOptimizeStructureService";
+import {createDefaultDir, createDefaultFile} from "../../../classes/TreeElement.spec";
 
 describe("SonarQubeOptimizeStructureService", () => {
 
@@ -30,8 +32,8 @@ describe("SonarQubeOptimizeStructureService", () => {
     it("should remove an empty dir as root child", () => {
         let underTest: SonarQubeOptimizeStructureService = new SonarQubeOptimizeStructureService();
 
-        let root: TreeElement = new TreeElement("", "", {}, "", "", false);
-        let emptySubDir: TreeElement = new TreeElement("", "", {}, "", "", false);
+        let root: TreeElement = createDefaultDir();
+        let emptySubDir: TreeElement = createDefaultDir();
         root.children.push(emptySubDir);
 
         underTest.optimize(root);
@@ -42,10 +44,10 @@ describe("SonarQubeOptimizeStructureService", () => {
     it("should remove an multiple empty dirs", () => {
         let underTest: SonarQubeOptimizeStructureService = new SonarQubeOptimizeStructureService();
 
-        let root: TreeElement = new TreeElement("", "", {}, "", "", false);
-        let emptySubDir: TreeElement = new TreeElement("", "", {}, "", "", false);
+        let root: TreeElement = createDefaultDir();
+        let emptySubDir: TreeElement = createDefaultDir();
         root.children.push(emptySubDir);
-        let emptySubDir2: TreeElement = new TreeElement("", "", {}, "", "", false);
+        let emptySubDir2: TreeElement = createDefaultDir();
         emptySubDir.children.push(emptySubDir2);
 
         underTest.optimize(root);
@@ -56,12 +58,12 @@ describe("SonarQubeOptimizeStructureService", () => {
     it("should remove an empty dir after not empty dir", () => {
         let underTest: SonarQubeOptimizeStructureService = new SonarQubeOptimizeStructureService();
 
-        let root: TreeElement = new TreeElement("", "", {}, "", "", false);
-        let subDir: TreeElement = new TreeElement("", "", {}, "", "/src", false);
+        let root: TreeElement = createDefaultDir();
+        let subDir: TreeElement = createDefaultDir();
         root.children.push(subDir);
-        let file: TreeElement = new TreeElement("", "", {}, "", "/src/file.java", true);
+        let file: TreeElement = createDefaultFile();
         subDir.children.push(file);
-        let emptySubDir2: TreeElement = new TreeElement("", "", {}, "/src/test", "", false);
+        let emptySubDir2: TreeElement = createDefaultDir();
         subDir.children.push(emptySubDir2);
 
         underTest.optimize(root);
@@ -73,14 +75,14 @@ describe("SonarQubeOptimizeStructureService", () => {
     it("should remove consecutive empty dirs", () => {
         let underTest: SonarQubeOptimizeStructureService = new SonarQubeOptimizeStructureService();
 
-        let root: TreeElement = new TreeElement("", "1", {}, "", "", false);
-        let subDir: TreeElement = new TreeElement("", "2", {}, "", "/src", false);
+        let root: TreeElement = createDefaultDir();
+        let subDir: TreeElement = createDefaultDir();
         subDir.parent = root;
         root.children.push(subDir);
-        let subdir2: TreeElement = new TreeElement("", "3", {}, "", "/src/subdir2/", false);
+        let subdir2: TreeElement = createDefaultDir();
         subdir2.parent = subDir;
         subDir.children.push(subdir2);
-        let file: TreeElement = new TreeElement("", "4", {}, "", "/src/subdir2/file.java", true);
+        let file: TreeElement = createDefaultFile();
         file.parent = subdir2;
         subdir2.children.push(file);
 
@@ -93,14 +95,14 @@ describe("SonarQubeOptimizeStructureService", () => {
     it("should remove 2 empty dirs in the same folder", () => {
         let underTest: SonarQubeOptimizeStructureService = new SonarQubeOptimizeStructureService();
 
-        let root: TreeElement = new TreeElement("", "1", {}, "", "", false);
-        let subDir: TreeElement = new TreeElement("", "2", {}, "", "/src", false);
+        let root: TreeElement = createDefaultDir();
+        let subDir: TreeElement = createDefaultDir();
         subDir.parent = root;
         root.children.push(subDir);
-        let subdir2: TreeElement = new TreeElement("", "3", {}, "", "/src/subdir2", false);
+        let subdir2: TreeElement = createDefaultDir();
         subdir2.parent = subDir;
         subDir.children.push(subdir2);
-        let subdir3: TreeElement = new TreeElement("", "4", {}, "", "/src/subdir3", false);
+        let subdir3: TreeElement = createDefaultDir();
         subdir3.parent = subDir;
         subDir.children.push(subdir3);
 

@@ -19,7 +19,6 @@
 ///
 import {assert, expect} from "chai";
 import * as Sinon from "sinon";
-import {TreeElement} from "../../../src/classes/TreeElement";
 import VisualizationOptions from "../../../src/classes/VisualizationOptions";
 import {numberOfAuthorsBlameColorMetric} from "../../../src/constants/Metrics";
 import CityLayoutService from "../../../src/services/layout/CityLayoutService";
@@ -28,6 +27,7 @@ import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmSer
 import AppStatusStore from "../../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../src/stores/SceneStore";
+import {createDefaultDir} from "../../classes/TreeElement.spec";
 import {createMock} from "../../Helper";
 
 describe("CityLayoutService", () => {
@@ -38,7 +38,7 @@ describe("CityLayoutService", () => {
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testSceneStore: SceneStore = new SceneStore();
         let cityBuilderStore = new CityBuilderStore();
-        testSceneStore.projectData = new TreeElement("", "", {}, "", "", false);
+        testSceneStore.projectData = createDefaultDir();
 
         createMock(SonarQubeScmService);
         let layoutProcessor = createMock(LayoutProcessor);
@@ -71,7 +71,7 @@ describe("CityLayoutService", () => {
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testSceneStore: SceneStore = new SceneStore();
         let cityBuilderStore = new CityBuilderStore();
-        testSceneStore.projectData = new TreeElement("", "", {}, "", "", false);
+        testSceneStore.projectData = createDefaultDir();
 
         createMock(SonarQubeScmService);
 
@@ -107,7 +107,7 @@ describe("CityLayoutService", () => {
         let testAppStatusStore: AppStatusStore = new AppStatusStore();
         let testSceneStore: SceneStore = new SceneStore();
         let cityBuilderStore = new CityBuilderStore();
-        testSceneStore.projectData = new TreeElement("", "", {}, "", "", false);
+        testSceneStore.projectData = createDefaultDir();
         cityBuilderStore.options = VisualizationOptions.createDefault();
         cityBuilderStore.options.metricColor = numberOfAuthorsBlameColorMetric;
 

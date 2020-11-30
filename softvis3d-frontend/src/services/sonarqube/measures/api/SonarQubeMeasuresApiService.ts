@@ -18,16 +18,17 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {injectable} from "inversify";
-import {AppConfiguration} from "../../../classes/AppConfiguration";
-import AppStatusStore from "../../../stores/AppStatusStore";
-import {BackendService} from "../BackendService";
+import {AppConfiguration} from "../../../../classes/AppConfiguration";
+import AppStatusStore from "../../../../stores/AppStatusStore";
+import {BackendService} from "../../BackendService";
+import SonarQubeMeasuresService from "../SonarQubeMeasuresService";
 import {
     SonarQubeMeasurePagingResponse,
     SonarQubeMeasureResponse,
     SQ_QUALIFIER_DIRECTORY,
-    SQ_QUALIFIER_FILE
+    SQ_QUALIFIER_FILE,
+    SQ_QUALIFIER_UNIT_TEST_FILE
 } from "./SonarQubeMeasureResponse";
-import SonarQubeMeasuresService from "./SonarQubeMeasuresService";
 
 @injectable()
 export default class SonarQubeMeasuresApiService extends BackendService {
@@ -41,12 +42,14 @@ export default class SonarQubeMeasuresApiService extends BackendService {
 
         appStatusStore.loadStatusUpdate(SonarQubeMeasuresService.LOAD_MEASURES.key, pageMax, pageCurrent);
 
+        const qualifiers = Array.from([SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE, SQ_QUALIFIER_UNIT_TEST_FILE]).join(",");
+
         return new Promise<SonarQubeMeasureResponse>((resolve, reject) => {
             const params = {
                 baseComponentKey,
                 p: pageCurrent,
                 metricKeys,
-                qualifiers: [SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE],
+                qualifiers,
                 s: "path",
                 ps: 500
             };

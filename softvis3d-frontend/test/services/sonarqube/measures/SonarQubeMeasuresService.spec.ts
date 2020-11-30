@@ -20,14 +20,17 @@
 import {assert, expect} from "chai";
 import * as Sinon from "sinon";
 import {TreeElement} from "../../../../src/classes/TreeElement";
+import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/api/SonarQubeMeasuresTreeService";
 import SonarQubeMeasuresMetricService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import SonarQubeMeasuresService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresService";
-import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresTreeService";
+import SonarQubeFilterStructureService
+    from "../../../../src/services/sonarqube/measures/structure/SonarQubeFilterStructureService";
 import SonarQubeOptimizeStructureService
-    from "../../../../src/services/sonarqube/measures/SonarQubeOptimizeStructureService";
+    from "../../../../src/services/sonarqube/measures/structure/SonarQubeOptimizeStructureService";
 import AppStatusStore from "../../../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../../src/stores/SceneStore";
+import {createDefaultDirWithKey} from "../../../classes/TreeElement.spec";
 import {createMock} from "../../../Helper";
 
 describe("SonarQubeMeasuresService", () => {
@@ -43,6 +46,7 @@ describe("SonarQubeMeasuresService", () => {
         let measureTreeService = createMock(SonarQubeMeasuresTreeService);
         createMock(SonarQubeMeasuresMetricService);
         createMock(SonarQubeOptimizeStructureService);
+        createMock(SonarQubeFilterStructureService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
         let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
@@ -51,10 +55,10 @@ describe("SonarQubeMeasuresService", () => {
         let underTest: SonarQubeMeasuresService =
             new SonarQubeMeasuresService(projectKey);
 
-        let expectedData: TreeElement = new TreeElement(projectKey, projectKey, {}, projectKey, projectKey, false);
+        let expectedData: TreeElement = createDefaultDirWithKey(projectKey, projectKey);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
 
-        underTest.loadMeasures( testAppStatusStore, testCityBuilderStore, testSceneStore);
+        underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -64,7 +68,7 @@ describe("SonarQubeMeasuresService", () => {
             assert(spyLoadComplete.calledWith(SonarQubeMeasuresService.LOAD_MEASURES));
 
             expect(testSceneStore.scmMetricLoaded).to.be.eq(false);
-            expect(testSceneStore.projectData).to.deep.equal(expectedData);
+            expect(testSceneStore.projectData?.id).to.equal(expectedData.id);
             clock.tick(10);
             done();
         }).catch((error) => done(error));
@@ -80,6 +84,7 @@ describe("SonarQubeMeasuresService", () => {
 
         let measureTreeService = createMock(SonarQubeMeasuresTreeService);
         let measureMetricService = createMock(SonarQubeMeasuresMetricService);
+        createMock(SonarQubeFilterStructureService);
         createMock(SonarQubeOptimizeStructureService);
 
         let spyLoad = Sinon.spy(testAppStatusStore, "load");
@@ -91,7 +96,7 @@ describe("SonarQubeMeasuresService", () => {
         let underTest: SonarQubeMeasuresService =
             new SonarQubeMeasuresService(projectKey);
 
-        let expectedData: TreeElement = new TreeElement("", projectKey, {}, "", "", false);
+        let expectedData: TreeElement = createDefaultDirWithKey(projectKey, projectKey);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
 
         underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore);
@@ -134,7 +139,7 @@ describe("SonarQubeMeasuresService", () => {
 
         measureTreeService.loadTree.returns(Promise.reject({data: {message: "Error message"}}));
 
-        underTest.loadMeasures( testAppStatusStore, testCityBuilderStore, testSceneStore);
+        underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         let returnPromise: Promise<any> = Promise.resolve({});
         let returnPromise2: Promise<any> = Promise.resolve({});
