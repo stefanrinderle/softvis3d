@@ -89,7 +89,7 @@ export function createDefaultFileWithIdAndParent(id: string, parent?: TreeElemen
 }
 
 export function createDefaultDirWithKeyAndParent(id: string, parent?: TreeElement) {
-    return new TreeElement(id, id, {}, id, "", SQ_QUALIFIER_FILE, parent);
+    return new TreeElement(id, id, {}, id, "", SQ_QUALIFIER_DIRECTORY, parent);
 }
 
 export function createDefaultFileWithName(name: string) {

@@ -81,10 +81,10 @@ export default class SonarQubeMeasuresService {
 
                 sceneStore.scmMetricLoaded = false;
                 cityBuilderStore.show = false;
-            }).catch(() => {
+            }).catch((error: Error) => {
                 appStatusStore.error(
                     new ErrorAction(SonarQubeMeasuresService.LOAD_MEASURES_ERROR_KEY,
-                        "SonarQube metric API is not available or responding: ",
+                        "SonarQube metric API is not available or responding: " + error.message,
                         "Try again", () => {
                             location.reload();
                         }));
@@ -95,7 +95,7 @@ export default class SonarQubeMeasuresService {
 
     private updateViewProjectData(root: TreeElement, cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
         const projectData: TreeElement = root.clone();
-        this.filterStructureService.optimize(projectData, cityBuilderStore.options.testClassesVariant);
+        this.filterStructureService.filter(projectData, cityBuilderStore);
         this.optimizeStructureService.optimize(projectData);
 
         sceneStore.projectData = projectData;

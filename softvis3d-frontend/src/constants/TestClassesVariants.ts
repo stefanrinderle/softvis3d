@@ -1,10 +1,15 @@
-import {TestClassesVariant} from "../classes/TestClassesVariant";
+import {
+    NoTestClassesVariant,
+    OnlyTestClassesVariant,
+    TestClassesVariant,
+    WithTestClassesVariant
+} from "../classes/TestClassesVariant";
 
-const NO_TEST_CLASSES_VARIANT: TestClassesVariant = new TestClassesVariant("no", "No test classes");
+const NO_TEST_CLASSES_VARIANT: TestClassesVariant = new NoTestClassesVariant();
 
-const WITH_TEST_CLASSES_VARIANT: TestClassesVariant = new TestClassesVariant("with", "With test classes");
+const WITH_TEST_CLASSES_VARIANT: TestClassesVariant = new WithTestClassesVariant();
 
-const ONLY_TEST_CLASSES_VARIANT: TestClassesVariant = new TestClassesVariant("only", "Only test classes");
+const ONLY_TEST_CLASSES_VARIANT: TestClassesVariant = new OnlyTestClassesVariant();
 
 export {
     NO_TEST_CLASSES_VARIANT,

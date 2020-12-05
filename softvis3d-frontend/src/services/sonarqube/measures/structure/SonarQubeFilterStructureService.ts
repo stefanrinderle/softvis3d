@@ -1,5 +1,4 @@
 ///
-import {TestClassesVariant} from "../../../../classes/TestClassesVariant";
 /// softvis3d-frontend
 /// Copyright (C) 2016 Stefan Rinderle and Yvo Niedrich
 /// stefan@rinderle.info / yvo.niedrich@gmail.com
@@ -19,32 +18,29 @@ import {TestClassesVariant} from "../../../../classes/TestClassesVariant";
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {TreeElement} from "../../../../classes/TreeElement";
-import {NO_TEST_CLASSES_VARIANT, ONLY_TEST_CLASSES_VARIANT} from "../../../../constants/TestClassesVariants";
-import {SQ_QUALIFIER_FILE, SQ_QUALIFIER_UNIT_TEST_FILE} from "../api/SonarQubeMeasureResponse";
+import CityBuilderStore from "../../../../stores/CityBuilderStore";
 
 export default class SonarQubeFilterStructureService {
 
-    public optimize(element: TreeElement, testClassesVariant: TestClassesVariant) {
+    public filter(element: TreeElement, cityBuilderStore: CityBuilderStore) {
         if (element.isFile() || element.children.length === 0) {
             return;
         }
 
         for (let index = element.children.length; index--;) {
-            this.processChild(element.children, index, testClassesVariant);
+            this.processChild(element.children, index, cityBuilderStore);
         }
     }
 
-    private processChild(children: TreeElement[], index: number, testClassesVariant: TestClassesVariant) {
+    private processChild(children: TreeElement[], index: number, cityBuilderStore: CityBuilderStore) {
         const child = children[index];
 
-        const shouldRemoveTestFile = child.qualifier === SQ_QUALIFIER_UNIT_TEST_FILE && testClassesVariant === NO_TEST_CLASSES_VARIANT;
-        const shouldRemoveSourceFile = child.qualifier === SQ_QUALIFIER_FILE && testClassesVariant === ONLY_TEST_CLASSES_VARIANT;
-        if (child.isFile() && (shouldRemoveTestFile || shouldRemoveSourceFile)) {
-            children.splice(index, 1);
-        }
-
-        if (!child.isFile()) {
-            this.optimize(child, testClassesVariant);
+        if (child.isFile()) {
+            if (cityBuilderStore.options.fileFilter.shouldRemoveFile(child)) {
+                children.splice(index, 1);
+            }
+        } else {
+            this.filter(child, cityBuilderStore);
         }
     }
 

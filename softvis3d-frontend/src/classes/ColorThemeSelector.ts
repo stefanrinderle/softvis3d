@@ -5,7 +5,7 @@ export default class ColorThemeSelector {
 
     public static toggleColorTheme(current: SceneColorTheme) {
         let resultColorTheme: SceneColorTheme;
-        if (current === DEFAULT_COLOR_THEME) {
+        if (current.id === DEFAULT_COLOR_THEME.id) {
             resultColorTheme = DARK_COLOR_THEME;
         } else {
             resultColorTheme = DEFAULT_COLOR_THEME;

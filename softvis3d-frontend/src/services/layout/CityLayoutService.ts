@@ -35,7 +35,7 @@ export default class CityLayoutService {
         // Project data is already loaded. Otherwise multiple load
         // processes need to be chained here
 
-        if (cityBuilderStore.options.metricColor === numberOfAuthorsBlameColorMetric) {
+        if (cityBuilderStore.options.metricColor.id === numberOfAuthorsBlameColorMetric.id) {
             return this.scmService.assertScmInfoAreLoaded(appStatusStore, sceneStore);
         }
 

@@ -14,13 +14,13 @@ export default class Profile implements SelectOptionValue {
     @observable
     public scale: Scale;
 
-    constructor(builder: ProfileBuilder) {
-        this.id = builder.id;
-        this.label = builder.name;
-        this.heightMetric = builder.heightMetric;
-        this.footprintMetric = builder.footprintMetric;
-        this.scale = builder.scale;
-        this.description = builder.description;
+    constructor(id: string, label: string, description: string, heightMetric: Metric, footprintMetric: Metric, scale: Scale) {
+        this.id = id;
+        this.label = label;
+        this.description = description;
+        this.heightMetric = heightMetric;
+        this.footprintMetric = footprintMetric;
+        this.scale = scale;
     }
 
     public updateConfiguration(footprintMetric: Metric, heightMetric: Metric, scale: Scale): void {
@@ -69,7 +69,7 @@ export class ProfileBuilder {
     }
 
     public build(): Profile {
-        return new Profile(this);
+        return new Profile(this.id, this.name, this.description, this.heightMetric, this.footprintMetric, this.scale);
     }
 
 }

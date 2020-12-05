@@ -62,6 +62,18 @@ $simpleCategoryHeight: 290px;
     }
   }
 
+  .text-input {
+    height: 24px;
+    padding: 0 6px;
+    border: 1px solid #4B9FD5;
+    box-sizing: border-box;
+    border-radius: 2px;
+    background: #fff;
+    color: #444;
+    margin: 3px 0 3px 4px;
+    width: 97%;
+  }
+
   fieldset.advanced {
     // Toggle Properties
     margin: 6px 0;
@@ -107,6 +119,8 @@ $simpleCategoryHeight: 290px;
       font-size: 15px;
       font-weight: 600;
       margin-bottom: 2px;
+      margin-left: 3px;
+      padding: 0 2px;
     }
 
     select {

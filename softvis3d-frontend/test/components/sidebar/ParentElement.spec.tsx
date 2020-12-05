@@ -64,7 +64,7 @@ describe("<ParentElement/>", () => {
     it("should select parent folder on click (for leaf element)", () => {
         let parent: TreeElement = createDefaultDirWithKey("parent", "parent");
         let child1: TreeElement = createDefaultDirWithKeyAndParent("child1", parent);
-        let child11: TreeElement = createDefaultFileWithIdAndParent("child11", parent);
+        let child11: TreeElement = createDefaultFileWithIdAndParent("child11", child1);
 
         parent.children.push(child1);
         child1.children.push(child11);

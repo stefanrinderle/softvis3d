@@ -15,6 +15,7 @@ import {TestClassesVariants} from "../../constants/TestClassesVariants";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
+import {TextInput} from "../ui/TextInput";
 
 @observer
 export default class AdvancedAnalysisOptions extends React.Component<{ store: CityBuilderStore; }, any> {
@@ -73,16 +74,14 @@ export default class AdvancedAnalysisOptions extends React.Component<{ store: Ci
                 <Category label="Color themes" className="advanced" toggle={false} initialVisibility={true}>
                     <div className="left-column">
                         <div className="builder-option">
-                            <div className="builder-option">
-                                <SelectBoxBuilder
-                                    label="Base color theme"
-                                    value={options.colorTheme}
-                                    options={SceneColorThemes.availableColorThemes}
-                                    onChange={(colorTheme: SceneColorTheme) => {
-                                        options.colorTheme = colorTheme;
-                                    }}
-                                />
-                            </div>
+                            <SelectBoxBuilder
+                                label="Base color theme"
+                                value={options.colorTheme}
+                                options={SceneColorThemes.availableColorThemes}
+                                onChange={(colorTheme: SceneColorTheme) => {
+                                    options.colorTheme = colorTheme;
+                                }}
+                            />
                         </div>
                     </div>
                     <div className="middle-column">
@@ -101,17 +100,15 @@ export default class AdvancedAnalysisOptions extends React.Component<{ store: Ci
                 <Category label="Layout" className="advanced" toggle={false} initialVisibility={true}>
                     <div className="left-column">
                         <div className="builder-option">
-                            <div className="builder-option">
-                                <SelectBoxBuilder
-                                    label="Layout"
-                                    value={options.layout}
-                                    options={Layouts.availableLayouts}
-                                    onChange={(layout: Layout) => {
-                                        options.layout = layout;
-                                    }}
-                                />
-                                <p className="selection-description">{options.layout.description}</p>
-                            </div>
+                            <SelectBoxBuilder
+                                label="Layout"
+                                value={options.layout}
+                                options={Layouts.availableLayouts}
+                                onChange={(layout: Layout) => {
+                                    options.layout = layout;
+                                }}
+                            />
+                            <p className="selection-description">{options.layout.description}</p>
                         </div>
                     </div>
                     <div className="middle-column">
@@ -131,16 +128,38 @@ export default class AdvancedAnalysisOptions extends React.Component<{ store: Ci
                 <Category label="Files" className="advanced" toggle={false} initialVisibility={true}>
                     <div className="left-column">
                         <div className="builder-option">
-                            <div className="builder-option">
-                                <SelectBoxBuilder
-                                    label="Test classes"
-                                    value={this.props.store.options.testClassesVariant}
-                                    options={TestClassesVariants.availableTestClassesVariants}
-                                    onChange={(testClassesVariant: TestClassesVariant) => {
-                                        this.props.store.options.testClassesVariant = testClassesVariant;
-                                    }}
-                                />
-                            </div>
+                            <SelectBoxBuilder
+                                label="Test classes"
+                                value={this.props.store.options.fileFilter.testClassesVariant}
+                                options={TestClassesVariants.availableTestClassesVariants}
+                                onChange={(testClassesVariant: TestClassesVariant) => {
+                                    this.props.store.options.fileFilter.testClassesVariant = testClassesVariant;
+                                }}
+                            />
+                        </div>
+                    </div>
+                    <div className="middle-column">
+                        <div className="builder-option">
+                            <TextInput
+                                id="excludeClasses"
+                                label="Exclude classes regex"
+                                value={this.props.store.options.fileFilter.excludeClasses.value}
+                                onChange={(event) => {
+                                    this.props.store.options.fileFilter.excludeClasses.value = event.target.value;
+                                }}
+                            />
+                        </div>
+                    </div>
+                    <div className="right-column">
+                        <div className="builder-option">
+                            <TextInput
+                                id="includeClasses"
+                                label="Include classes regex"
+                                value={this.props.store.options.fileFilter.includeClasses.value}
+                                onChange={(event) => {
+                                    this.props.store.options.fileFilter.includeClasses.value = event.target.value;
+                                }}
+                            />
                         </div>
                     </div>
                 </Category>

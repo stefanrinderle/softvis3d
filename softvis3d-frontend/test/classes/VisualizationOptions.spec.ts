@@ -19,6 +19,7 @@
 ///
 import {assert, expect} from "chai";
 import BuildingColorTheme from "../../src/classes/BuildingColorTheme";
+import FileFilter from "../../src/classes/FileFilter";
 import Layout from "../../src/classes/Layout";
 import Metric from "../../src/classes/Metric";
 import Profile from "../../src/classes/Profile";
@@ -30,7 +31,6 @@ import {coverageColorMetric, noColorMetric} from "../../src/constants/Metrics";
 import {defaultProfile} from "../../src/constants/Profiles";
 import {EXPONENTIAL} from "../../src/constants/Scales";
 import {DEFAULT_COLOR_THEME} from "../../src/constants/SceneColorThemes";
-import {NO_TEST_CLASSES_VARIANT} from "../../src/constants/TestClassesVariants";
 
 describe("VisualizationOptions", () => {
 
@@ -40,17 +40,17 @@ describe("VisualizationOptions", () => {
         let buildingColorTheme: BuildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
         let profile: Profile = defaultProfile.clone();
         let colorTheme: SceneColorTheme = DEFAULT_COLOR_THEME;
-        let testClassesVariant = NO_TEST_CLASSES_VARIANT;
+        let fileFilter = new FileFilter();
 
         let result: VisualizationOptions =
-            new VisualizationOptions(profile, layout, metricColor, buildingColorTheme, colorTheme, testClassesVariant);
+            new VisualizationOptions(profile, layout, metricColor, buildingColorTheme, colorTheme, fileFilter);
 
         expect(result.profile).to.be.eq(profile);
         expect(result.layout).to.be.eq(layout);
         expect(result.metricColor).to.be.eq(metricColor);
         expect(result.buildingColorTheme).to.be.eq(buildingColorTheme);
         expect(result.colorTheme).to.be.eq(colorTheme);
-        expect(result.testClassesVariant).to.be.eq(testClassesVariant);
+        expect(result.fileFilter).to.be.eq(fileFilter);
     });
 
     it("should create default config", () => {

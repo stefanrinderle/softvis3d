@@ -19,16 +19,17 @@
 ///
 import {expect} from "chai";
 import {TreeElement} from "../../../../src/classes/TreeElement";
-import {NO_TEST_CLASSES_VARIANT} from "../../../../src/constants/TestClassesVariants";
 import SonarQubeFilterStructureService
     from "../../../../src/services/sonarqube/measures/structure/SonarQubeFilterStructureService";
-import {createDefaultDir, createDefaultFile, createDefaultTestFile} from "../../../classes/TreeElement.spec";
+import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
+import {
+    createDefaultDir,
+    createDefaultFile,
+    createDefaultFileWithName,
+    createDefaultTestFile
+} from "../../../classes/TreeElement.spec";
 
 describe("SonarQubeFilterStructureService", () => {
-
-    /**
-     * optimizeDirectoryStructure tests
-     */
 
     it("should remove an UTS file", () => {
         let underTest: SonarQubeFilterStructureService = new SonarQubeFilterStructureService();
@@ -39,7 +40,9 @@ describe("SonarQubeFilterStructureService", () => {
         let utsFile: TreeElement = createDefaultTestFile();
         root.children.push(utsFile);
 
-        underTest.optimize(root, NO_TEST_CLASSES_VARIANT);
+        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+
+        underTest.filter(root, testCityBuilderStore);
 
         expect(root.children.length).to.be.eq(1);
     });
@@ -53,7 +56,9 @@ describe("SonarQubeFilterStructureService", () => {
         let utsFile2: TreeElement = createDefaultTestFile();
         root.children.push(utsFile2);
 
-        underTest.optimize(root, NO_TEST_CLASSES_VARIANT);
+        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+
+        underTest.filter(root, testCityBuilderStore);
 
         expect(root.children.length).to.be.eq(0);
     });
@@ -76,11 +81,32 @@ describe("SonarQubeFilterStructureService", () => {
         testDir.children.push(utsFile2);
         root.children.push(testDir);
 
-        underTest.optimize(root, NO_TEST_CLASSES_VARIANT);
+        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+
+        underTest.filter(root, testCityBuilderStore);
 
         expect(root.children.length).to.be.eq(2);
         expect(srcDir.children.length).to.be.eq(2);
         expect(testDir.children.length).to.be.eq(0);
+    });
+
+    it("should remove an excluded file", () => {
+        let underTest: SonarQubeFilterStructureService = new SonarQubeFilterStructureService();
+
+        const expectedName = "SonarQube.java";
+        let root: TreeElement = createDefaultDir();
+        let file: TreeElement = createDefaultFileWithName(expectedName);
+        root.children.push(file);
+        let utsFile: TreeElement = createDefaultFileWithName("pom.xml");
+        root.children.push(utsFile);
+
+        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        testCityBuilderStore.options.fileFilter.excludeClasses.value = ".*.xml";
+
+        underTest.filter(root, testCityBuilderStore);
+
+        expect(root.children.length).to.be.eq(1);
+        expect(root.children[0].name).to.be.eq(expectedName);
     });
 
 });

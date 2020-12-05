@@ -101,12 +101,6 @@ fieldset {
         }
     }
 
-    &>span {
-        padding: 0 2px;
-        &:after {
-            content: ': '
-        }
-    }
 }
 
 body {

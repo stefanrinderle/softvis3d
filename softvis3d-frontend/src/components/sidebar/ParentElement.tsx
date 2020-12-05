@@ -33,6 +33,13 @@ export default class ParentElement extends React.Component<SelectParentProps, an
     }
 
     private getParentElement(element: TreeElement): TreeElement | null {
-        return (element && element.parent) ? element.parent : null;
+        if (element && element.parent) {
+            if (element.isFile()) {
+                return this.getParentElement(element.parent);
+            } else {
+                return element.parent;
+            }
+        }
+        return null;
     }
 }

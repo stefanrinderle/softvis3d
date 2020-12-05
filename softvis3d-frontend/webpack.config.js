@@ -25,7 +25,8 @@ module.exports = function (env) {
         isProd = env.prod,
         ExtractTextPlugin = require('extract-text-webpack-plugin'),
         targetFolder = "static/",
-        plugins = [new webpack.optimize.UglifyJsPlugin({ minimize: true, sourceMap: true })],
+        // TODO: activate again after new class-transformer release
+        // plugins = [new webpack.optimize.UglifyJsPlugin({ minimize: true, sourceMap: true })],
         proxy = {
             "/api": {
                 target: "http://localhost:9000",
@@ -91,7 +92,8 @@ module.exports = function (env) {
                 ]
             },
 
-            plugins: isProd ? plugins : [],
+            // TODO: activate again after new class-transformer release
+            // plugins: isProd ? plugins : [],
 
             externals: {
                 "react": "React",

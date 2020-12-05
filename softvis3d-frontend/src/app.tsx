@@ -2,6 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {AppConfiguration} from "./classes/AppConfiguration";
 import ErrorAction from "./classes/status/ErrorAction";
+import VisualizationLinkSerializationService from "./classes/VisualizationLinkSerializationService";
 import Softvis3D from "./components/Softvis3D";
 import {bindToInjection, container} from "./inversify.config";
 import AppReactions from "./reactions/AppReactions";
@@ -82,6 +83,7 @@ export default class App {
         bindToInjection(TreeService);
         bindToInjection(AutoReloadService);
         bindToInjection(SonarQubeFilterStructureService);
+        bindToInjection(VisualizationLinkSerializationService);
 
         this.componentInfoService = new SonarQubeComponentInfoService(this.config.projectKey, this.config.baseUrl);
         container.bind<SonarQubeComponentInfoService>("SonarQubeComponentInfoService")
