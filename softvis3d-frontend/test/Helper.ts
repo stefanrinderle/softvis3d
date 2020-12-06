@@ -27,6 +27,11 @@ export function createMock(constructor: any) {
     return result;
 }
 
+export function createMockInjection(result: any) {
+    bindMock(result.constructor.name, result);
+    return result;
+}
+
 function bindMock(target: string, mock: any) {
     if (container.isBound(target)) {
         container.unbind(target);

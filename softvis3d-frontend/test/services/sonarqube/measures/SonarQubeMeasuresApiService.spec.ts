@@ -29,11 +29,12 @@ import {
 import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/api/SonarQubeMeasuresApiService";
 import AppStatusStore from "../../../../src/stores/AppStatusStore";
 import SonarQubeMeasuresService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresService";
+import { createMockInjection } from "../../../Helper";
 
 describe("SonarQubeMeasuresApiService", () => {
     it("should call backend and load measures", (done) => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
 
         const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(
@@ -47,7 +48,7 @@ describe("SonarQubeMeasuresApiService", () => {
         });
 
         underTest
-            .loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity")
+            .loadMeasures("baseKey", "ncloc,complexity")
             .then((result) => {
                 assert(
                     spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 1, 1)
@@ -65,7 +66,7 @@ describe("SonarQubeMeasuresApiService", () => {
 
     it("should load again if more results", (done) => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
 
         const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(
@@ -88,7 +89,7 @@ describe("SonarQubeMeasuresApiService", () => {
         );
 
         underTest
-            .loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity")
+            .loadMeasures("baseKey", "ncloc,complexity")
             .then((result) => {
                 assert(spyCallApi.called);
                 expect(result.components.length).to.be.eq(2);
@@ -112,7 +113,7 @@ describe("SonarQubeMeasuresApiService", () => {
 
     it("should call backend and react on errors", (done) => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        createMockInjection(new AppStatusStore());
 
         const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(
             testAppConfiguration
@@ -127,7 +128,7 @@ describe("SonarQubeMeasuresApiService", () => {
         });
 
         underTest
-            .loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity")
+            .loadMeasures("baseKey", "ncloc,complexity")
             .then(() => {
                 assert.isNotOk("Promise error", "works but should throw exception");
 
@@ -141,7 +142,7 @@ describe("SonarQubeMeasuresApiService", () => {
 
     it("should call backend and react on errors on the second call", (done) => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        createMockInjection(new AppStatusStore());
 
         const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(
             testAppConfiguration
@@ -165,7 +166,7 @@ describe("SonarQubeMeasuresApiService", () => {
         );
 
         underTest
-            .loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity")
+            .loadMeasures("baseKey", "ncloc,complexity")
             .then(() => {
                 assert.isNotOk("Promise error", "works but should throw exception");
 

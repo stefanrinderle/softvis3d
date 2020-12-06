@@ -18,14 +18,18 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import * as React from "react";
 import { observer } from "mobx-react";
+import * as React from "react";
+import { lazyInject } from "../../inversify.config";
 import AppStatusStore from "../../stores/AppStatusStore";
 
 @observer
-export default class InfoStatus extends React.Component<{ appStatusStore: AppStatusStore }, any> {
+export default class InfoStatus extends React.Component<Record<string, never>, any> {
+    @lazyInject("AppStatusStore")
+    private readonly appStatusStore!: AppStatusStore;
+
     public render() {
-        if (!this.props.appStatusStore.statusQueue.isEmpty) {
+        if (!this.appStatusStore.statusQueue.isEmpty) {
             const elements = this.createInfoStatusElements();
             return (
                 <div>
@@ -40,16 +44,14 @@ export default class InfoStatus extends React.Component<{ appStatusStore: AppSta
     private createInfoStatusElements() {
         const elements: Array<React.ReactElement<any>> = [];
 
-        for (const queueElement of this.props.appStatusStore.statusQueue) {
+        for (const queueElement of this.appStatusStore.statusQueue) {
             elements.push(
                 <li key={queueElement.key}>
                     {queueElement.description}
                     <br />
                     <br />
                     <div className="buttons">
-                        <button
-                            onClick={() => this.props.appStatusStore.removeStatus(queueElement)}
-                        >
+                        <button onClick={() => this.appStatusStore.removeStatus(queueElement)}>
                             OK
                         </button>
                     </div>

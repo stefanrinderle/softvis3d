@@ -21,6 +21,7 @@
 import { observer } from "mobx-react";
 import * as React from "react";
 import { CityBuilderTab } from "../../classes/CityBuilderTab";
+import { lazyInject } from "../../inversify.config";
 import AppStatusStore from "../../stores/AppStatusStore";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import SceneStore from "../../stores/SceneStore";
@@ -29,13 +30,15 @@ import OptionsSimple from "./OptionsSimple";
 
 export interface CityBuilderProps {
     store: CityBuilderStore;
-    appStatusStore: AppStatusStore;
     sceneStore: SceneStore;
     baseUrl?: string;
 }
 
 @observer
 export default class CityBuilder extends React.Component<CityBuilderProps, any> {
+    @lazyInject("AppStatusStore")
+    private readonly appStatusStore!: AppStatusStore;
+
     private tabList = [
         {
             name: CityBuilderTab.Default,
@@ -50,7 +53,7 @@ export default class CityBuilder extends React.Component<CityBuilderProps, any> 
     ];
 
     public render() {
-        if (!(this.props.store.show && !this.props.appStatusStore.isVisible)) {
+        if (!(this.props.store.show && !this.appStatusStore.isVisible)) {
             return <div />;
         }
 

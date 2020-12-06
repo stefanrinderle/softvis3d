@@ -18,18 +18,22 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import * as React from "react";
 import { observer } from "mobx-react";
+import * as React from "react";
+import { lazyInject } from "../../inversify.config";
 import AppStatusStore from "../../stores/AppStatusStore";
-import Loading from "./loading/Loading";
-import SoftVis3DLogo from "./SoftVis3DLogo";
 import ErrorStatus from "./ErrorStatus";
 import InfoStatus from "./InfoStatus";
+import Loading from "./loading/Loading";
+import SoftVis3DLogo from "./SoftVis3DLogo";
 
 @observer
-export default class Status extends React.Component<{ appStatusStore: AppStatusStore }, any> {
+export default class Status extends React.Component<Record<string, never>, any> {
+    @lazyInject("AppStatusStore")
+    private readonly appStatusStore!: AppStatusStore;
+
     public render() {
-        if (!this.props.appStatusStore.isVisible) {
+        if (!this.appStatusStore.isVisible) {
             return <div />;
         }
 
@@ -37,9 +41,9 @@ export default class Status extends React.Component<{ appStatusStore: AppStatusS
             <div className="status-component">
                 <SoftVis3DLogo />
 
-                <InfoStatus appStatusStore={this.props.appStatusStore} />
-                <Loading appStatusStore={this.props.appStatusStore} />
-                <ErrorStatus appStatusStore={this.props.appStatusStore} />
+                <InfoStatus />
+                <Loading loadingQueue={this.appStatusStore.loadingQueue} />
+                <ErrorStatus errors={this.appStatusStore.errors} />
             </div>
         );
     }

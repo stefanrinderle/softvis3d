@@ -19,13 +19,15 @@
 ///
 
 import * as React from "react";
-import AppStatusStore from "../../../stores/AppStatusStore";
-import StatusActionQueue from "../../../classes/status/StatusActionQueue";
 import LoadAction from "../../../classes/status/LoadAction";
+import StatusActionQueue from "../../../classes/status/StatusActionQueue";
 
-export default class LoadingQueue extends React.Component<{ appStatusStore: AppStatusStore }, any> {
+export default class LoadingQueue extends React.Component<
+    { loadingQueue: StatusActionQueue<LoadAction> },
+    any
+> {
     public render() {
-        const queue: StatusActionQueue<LoadAction> = this.props.appStatusStore.loadingQueue;
+        const queue: StatusActionQueue<LoadAction> = this.props.loadingQueue;
 
         const elements: Array<React.ReactElement<any>> = [];
         for (const queueElement of queue) {

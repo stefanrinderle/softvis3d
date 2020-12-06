@@ -18,20 +18,24 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import * as React from "react";
 import { observer } from "mobx-react";
+import * as React from "react";
+import LoadAction from "../../../classes/status/LoadAction";
+import StatusActionQueue from "../../../classes/status/StatusActionQueue";
 import LoadingImage from "./LoadingImage";
 import LoadingQueue from "./LoadingQueue";
-import AppStatusStore from "../../../stores/AppStatusStore";
 
 @observer
-export default class Loading extends React.Component<{ appStatusStore: AppStatusStore }, any> {
+export default class Loading extends React.Component<
+    { loadingQueue: StatusActionQueue<LoadAction> },
+    any
+> {
     public render() {
-        if (!this.props.appStatusStore.loadingQueue.isEmpty) {
+        if (!this.props.loadingQueue.isEmpty) {
             return (
                 <div>
                     <LoadingImage />
-                    <LoadingQueue appStatusStore={this.props.appStatusStore} />
+                    <LoadingQueue loadingQueue={this.props.loadingQueue} />
                 </div>
             );
         } else {

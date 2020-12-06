@@ -29,13 +29,13 @@ import AppStatusStore from "../../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../src/stores/SceneStore";
 import { createDefaultDir } from "../../classes/TreeElement.spec";
-import { createMock } from "../../Helper";
+import { createMock, createMockInjection } from "../../Helper";
 
 describe("CityLayoutService", () => {
     it("should call layoutProcessor", (done) => {
         const clock = Sinon.useFakeTimers();
 
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = new SceneStore();
         const cityBuilderStore = new CityBuilderStore();
         testSceneStore.projectData = createDefaultDir();
@@ -52,7 +52,7 @@ describe("CityLayoutService", () => {
 
         const underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity(testSceneStore, testAppStatusStore, cityBuilderStore);
+        underTest.createCity(testSceneStore, cityBuilderStore);
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -72,7 +72,7 @@ describe("CityLayoutService", () => {
     it("should send load status is app state", (done) => {
         const clock = Sinon.useFakeTimers();
 
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = new SceneStore();
         const cityBuilderStore = new CityBuilderStore();
         testSceneStore.projectData = createDefaultDir();
@@ -91,7 +91,7 @@ describe("CityLayoutService", () => {
 
         const underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity(testSceneStore, testAppStatusStore, cityBuilderStore);
+        underTest.createCity(testSceneStore, cityBuilderStore);
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -112,7 +112,7 @@ describe("CityLayoutService", () => {
     it("should call measure service if numberOfAuthorsBlameColorMetric", (done) => {
         const clock = Sinon.useFakeTimers();
 
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = new SceneStore();
         const cityBuilderStore = new CityBuilderStore();
         testSceneStore.projectData = createDefaultDir();
@@ -129,7 +129,7 @@ describe("CityLayoutService", () => {
 
         const underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity(testSceneStore, testAppStatusStore, cityBuilderStore);
+        underTest.createCity(testSceneStore, cityBuilderStore);
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);

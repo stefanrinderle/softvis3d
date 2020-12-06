@@ -18,6 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
+import { lazyInject } from "../../inversify.config";
 import { BackendService } from "./BackendService";
 import AppStatusStore from "../../stores/AppStatusStore";
 import CityBuilderStore from "../../stores/CityBuilderStore";
@@ -42,18 +43,17 @@ export default class SonarQubeMetricsService extends BackendService {
     );
     private static LOAD_METRICS_ERROR_KEY = "LOAD_METRICS_ERROR";
 
+    @lazyInject("AppStatusStore")
+    private readonly appStatusStore!: AppStatusStore;
+
     constructor(baseUrl?: string) {
         super(baseUrl);
     }
 
-    public loadAvailableMetrics(
-        appStatusStore: AppStatusStore,
-        cityBuilderStore: CityBuilderStore,
-        page = 1
-    ): Promise<void> {
+    public loadAvailableMetrics(cityBuilderStore: CityBuilderStore, page = 1): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if (page === 1) {
-                appStatusStore.load(SonarQubeMetricsService.LOAD_METRICS);
+                this.appStatusStore.load(SonarQubeMetricsService.LOAD_METRICS);
             }
 
             const params = { f: "name,description", p: page };
@@ -70,7 +70,7 @@ export default class SonarQubeMetricsService extends BackendService {
 
                     const metricsPosition = response.data.p * response.data.ps;
                     if (metricsPosition < response.data.total) {
-                        return this.loadAvailableMetrics(appStatusStore, cityBuilderStore, page + 1)
+                        return this.loadAvailableMetrics(cityBuilderStore, page + 1)
                             .then(() => {
                                 resolve();
                             })
@@ -78,12 +78,12 @@ export default class SonarQubeMetricsService extends BackendService {
                                 reject();
                             });
                     } else {
-                        appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
+                        this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
                         resolve();
                     }
                 })
                 .catch(() => {
-                    appStatusStore.error(
+                    this.appStatusStore.error(
                         new ErrorAction(
                             SonarQubeMetricsService.LOAD_METRICS_ERROR_KEY,
                             "SonarQube metric API is not available or responding: ",
@@ -93,7 +93,7 @@ export default class SonarQubeMetricsService extends BackendService {
                             }
                         )
                     );
-                    appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
+                    this.appStatusStore.loadComplete(SonarQubeMetricsService.LOAD_METRICS);
                     reject();
                 });
         });

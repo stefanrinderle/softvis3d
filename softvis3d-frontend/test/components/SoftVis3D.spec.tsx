@@ -26,7 +26,6 @@ import CityBuilder from "../../src/components/citybuilder/CityBuilder";
 import Softvis3D from "../../src/components/Softvis3D";
 import Status from "../../src/components/status/Status";
 import Visualization from "../../src/components/visualization/Visualization";
-import AppStatusStore from "../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
 import SceneStore from "../../src/stores/SceneStore";
 
@@ -34,23 +33,20 @@ describe("<SoftVis3D/>", () => {
     it("should draw all componenty on start", () => {
         const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
         const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
-        const localAppStatusStore: AppStatusStore = Sinon.createStubInstance(AppStatusStore);
         const baseUrl = "suzdgs";
         const softvis3d = shallow(
             <Softvis3D
                 cityBuilderStore={localCityBuilderStore}
                 sceneStore={localSceneStore}
-                appStatusStore={localAppStatusStore}
                 baseUrl={baseUrl}
             />
         );
 
-        expect(softvis3d.contains(<Status appStatusStore={localAppStatusStore} />)).to.be.true;
+        expect(softvis3d.contains(<Status />)).to.be.true;
         expect(
             softvis3d.contains(
                 <CityBuilder
                     store={localCityBuilderStore}
-                    appStatusStore={localAppStatusStore}
                     sceneStore={localSceneStore}
                     baseUrl={baseUrl}
                 />

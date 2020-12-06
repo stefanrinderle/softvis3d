@@ -30,13 +30,13 @@ import AppStatusStore from "../../../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../../src/stores/SceneStore";
 import { createDefaultDirWithKey } from "../../../classes/TreeElement.spec";
-import { createMock } from "../../../Helper";
+import { createMock, createMockInjection } from "../../../Helper";
 
 describe("SonarQubeMeasuresService", () => {
     it("should call backend to get visualization", (done) => {
         const clock = Sinon.useFakeTimers();
 
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         const testSceneStore: SceneStore = new SceneStore();
         testSceneStore.scmMetricLoaded = true;
@@ -55,7 +55,7 @@ describe("SonarQubeMeasuresService", () => {
         const expectedData: TreeElement = createDefaultDirWithKey(projectKey, projectKey);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
 
-        underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore);
+        underTest.loadMeasures(testCityBuilderStore, testSceneStore);
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -76,7 +76,7 @@ describe("SonarQubeMeasuresService", () => {
     it("should NOT call backend with the same parameters", (done) => {
         const clock = Sinon.useFakeTimers();
 
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         const testSceneStore: SceneStore = new SceneStore();
         testSceneStore.scmMetricLoaded = true;
@@ -97,14 +97,14 @@ describe("SonarQubeMeasuresService", () => {
         const expectedData: TreeElement = createDefaultDirWithKey(projectKey, projectKey);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
 
-        underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore);
+        underTest.loadMeasures(testCityBuilderStore, testSceneStore);
 
         const returnPromise: Promise<any> = Promise.resolve({});
         const returnPromise2: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise
             .then(() => {
-                underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore);
+                underTest.loadMeasures(testCityBuilderStore, testSceneStore);
 
                 clock.tick(10);
                 returnPromise2
@@ -122,7 +122,7 @@ describe("SonarQubeMeasuresService", () => {
     it("should react on internal errors", (done) => {
         const clock = Sinon.useFakeTimers();
 
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         const testSceneStore: SceneStore = new SceneStore();
         testSceneStore.scmMetricLoaded = true;
@@ -140,7 +140,7 @@ describe("SonarQubeMeasuresService", () => {
 
         measureTreeService.loadTree.returns(Promise.reject({ data: { message: "Error message" } }));
 
-        underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore);
+        underTest.loadMeasures(testCityBuilderStore, testSceneStore);
 
         const returnPromise: Promise<any> = Promise.resolve({});
         const returnPromise2: Promise<any> = Promise.resolve({});

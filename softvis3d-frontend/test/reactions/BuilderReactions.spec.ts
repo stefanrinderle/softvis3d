@@ -25,21 +25,17 @@ import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/Sona
 import AppStatusStore from "../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
 import SceneStore from "../../src/stores/SceneStore";
-import { createMock } from "../Helper";
+import { createMock, createMockInjection } from "../Helper";
 
 describe("BuilderReactions", () => {
     it("should initiate build process", () => {
         const testCityBuilderStore = new CityBuilderStore();
-        const testAppStatusStore = new AppStatusStore();
+        createMockInjection(new AppStatusStore());
         const testSceneStore = new SceneStore();
 
         const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
         const testAutoReloadService = createMock(AutoReloadService);
-        const reactionRegister = new BuilderReactions(
-            testAppStatusStore,
-            testCityBuilderStore,
-            testSceneStore
-        );
+        const reactionRegister = new BuilderReactions(testCityBuilderStore, testSceneStore);
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 

@@ -18,14 +18,18 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import * as React from "react";
 import { observer } from "mobx-react";
-import AppStatusStore from "../../stores/AppStatusStore";
+import * as React from "react";
+import ErrorAction from "../../classes/status/ErrorAction";
+import StatusActionQueue from "../../classes/status/StatusActionQueue";
 
 @observer
-export default class ErrorStatus extends React.Component<{ appStatusStore: AppStatusStore }, any> {
+export default class ErrorStatus extends React.Component<
+    { errors: StatusActionQueue<ErrorAction> },
+    any
+> {
     public render() {
-        if (!this.props.appStatusStore.errors.isEmpty) {
+        if (!this.props.errors.isEmpty) {
             const elements = this.createErrorElements();
             return (
                 <div>
@@ -41,7 +45,7 @@ export default class ErrorStatus extends React.Component<{ appStatusStore: AppSt
     private createErrorElements() {
         const elements: Array<React.ReactElement<any>> = [];
 
-        for (const queueElement of this.props.appStatusStore.errors) {
+        for (const queueElement of this.props.errors) {
             elements.push(
                 <li key={queueElement.key}>
                     {queueElement.description}

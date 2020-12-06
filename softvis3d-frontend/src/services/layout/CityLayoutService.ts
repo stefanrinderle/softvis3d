@@ -32,36 +32,34 @@ import Softvis3dModel from "./Softvis3dModel";
 export default class CityLayoutService {
     public static BUILD_CITY: LoadAction = new LoadAction("BUILD_CITY", "Create layout");
 
+    @lazyInject("AppStatusStore")
+    private readonly appStatusStore!: AppStatusStore;
+
     @lazyInject("LayoutProcessor")
     private readonly layoutProcessor!: LayoutProcessor;
     @lazyInject("SonarQubeScmService")
     private readonly scmService!: SonarQubeScmService;
 
-    public createCity(
-        sceneStore: SceneStore,
-        appStatusStore: AppStatusStore,
-        cityBuilderStore: CityBuilderStore
-    ) {
-        this.loadRequiredMetricData(sceneStore, appStatusStore, cityBuilderStore).then(() => {
+    public createCity(sceneStore: SceneStore, cityBuilderStore: CityBuilderStore) {
+        this.loadRequiredMetricData(sceneStore, cityBuilderStore).then(() => {
             if (sceneStore.projectData !== null) {
-                appStatusStore.load(CityLayoutService.BUILD_CITY);
+                this.appStatusStore.load(CityLayoutService.BUILD_CITY);
 
                 const model = this.prepareModel(sceneStore, cityBuilderStore);
-                this.buildCity(appStatusStore, sceneStore, model, cityBuilderStore);
+                this.buildCity(sceneStore, model, cityBuilderStore);
             }
         });
     }
 
     private loadRequiredMetricData(
         sceneStore: SceneStore,
-        appStatusStore: AppStatusStore,
         cityBuilderStore: CityBuilderStore
     ): Promise<void> {
         // Project data is already loaded. Otherwise multiple load
         // processes need to be chained here
 
         if (cityBuilderStore.options.metricColor.id === numberOfAuthorsBlameColorMetric.id) {
-            return this.scmService.assertScmInfoAreLoaded(appStatusStore, sceneStore);
+            return this.scmService.assertScmInfoAreLoaded(sceneStore);
         }
 
         return new Promise<void>((resolve) => {
@@ -80,7 +78,6 @@ export default class CityLayoutService {
     }
 
     private buildCity(
-        appStatusStore: AppStatusStore,
         sceneStore: SceneStore,
         model: Softvis3dModel,
         cityBuilderStore: CityBuilderStore
@@ -95,7 +92,7 @@ export default class CityLayoutService {
         this.layoutProcessor.getIllustration(options, model).then((illustration) => {
             sceneStore.shapes = illustration.shapes;
 
-            appStatusStore.loadComplete(CityLayoutService.BUILD_CITY);
+            this.appStatusStore.loadComplete(CityLayoutService.BUILD_CITY);
         });
     }
 }

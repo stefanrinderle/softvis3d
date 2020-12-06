@@ -21,22 +21,19 @@
 import { reaction } from "mobx";
 import { lazyInject } from "../inversify.config";
 import CityLayoutService from "../services/layout/CityLayoutService";
-import AppStatusStore from "../stores/AppStatusStore";
 import CityBuilderStore from "../stores/CityBuilderStore";
 import SceneStore from "../stores/SceneStore";
 
 export default class SceneReactions {
     private readonly builder: CityBuilderStore;
     private readonly sceneStore: SceneStore;
-    private readonly appStatusStore: AppStatusStore;
 
     @lazyInject("CityLayoutService")
     private readonly cityLayoutService!: CityLayoutService;
 
-    constructor(scene: SceneStore, builder: CityBuilderStore, appStatusStore: AppStatusStore) {
+    constructor(scene: SceneStore, builder: CityBuilderStore) {
         this.builder = builder;
         this.sceneStore = scene;
-        this.appStatusStore = appStatusStore;
         this.prepareReactions();
     }
 
@@ -45,11 +42,7 @@ export default class SceneReactions {
             () => this.builder.options.metricColor,
             () => {
                 if (!this.builder.show) {
-                    this.cityLayoutService.createCity(
-                        this.sceneStore,
-                        this.appStatusStore,
-                        this.builder
-                    );
+                    this.cityLayoutService.createCity(this.sceneStore, this.builder);
                 }
             },
             {
@@ -60,11 +53,7 @@ export default class SceneReactions {
         reaction(
             () => this.sceneStore.projectData,
             () => {
-                this.cityLayoutService.createCity(
-                    this.sceneStore,
-                    this.appStatusStore,
-                    this.builder
-                );
+                this.cityLayoutService.createCity(this.sceneStore, this.builder);
             },
             {
                 name: "Convert backend data to threeJS shapes",

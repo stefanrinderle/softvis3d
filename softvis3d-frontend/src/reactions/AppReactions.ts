@@ -28,20 +28,16 @@ import SceneStore from "../stores/SceneStore";
 
 export default class AppReactions {
     private readonly cityBuilderStore: CityBuilderStore;
-    private readonly appStatusStore: AppStatusStore;
     private readonly sceneStore: SceneStore;
 
     @lazyInject("SonarQubeMeasuresService")
     private readonly measuresService!: SonarQubeMeasuresService;
     @lazyInject("AutoReloadService")
     private readonly autoReloadService!: AutoReloadService;
+    @lazyInject("AppStatusStore")
+    private readonly appStatusStore!: AppStatusStore;
 
-    constructor(
-        appStatusStore: AppStatusStore,
-        cityBuilderStore: CityBuilderStore,
-        sceneStore: SceneStore
-    ) {
-        this.appStatusStore = appStatusStore;
+    constructor(cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
         this.cityBuilderStore = cityBuilderStore;
         this.sceneStore = sceneStore;
         this.prepareReactions();
@@ -52,12 +48,7 @@ export default class AppReactions {
             () => this.appStatusStore.analysisDate,
             () => {
                 if (this.autoReloadService.isActive()) {
-                    this.measuresService.loadMeasures(
-                        this.appStatusStore,
-                        this.cityBuilderStore,
-                        this.sceneStore,
-                        true
-                    );
+                    this.measuresService.loadMeasures(this.cityBuilderStore, this.sceneStore, true);
                 } else {
                     return;
                 }

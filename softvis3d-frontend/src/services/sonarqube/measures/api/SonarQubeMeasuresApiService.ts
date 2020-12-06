@@ -20,6 +20,7 @@
 
 import { injectable } from "inversify";
 import { AppConfiguration } from "../../../../classes/AppConfiguration";
+import { lazyInject } from "../../../../inversify.config";
 import AppStatusStore from "../../../../stores/AppStatusStore";
 import { BackendService } from "../../BackendService";
 import SonarQubeMeasuresService from "../SonarQubeMeasuresService";
@@ -33,18 +34,20 @@ import {
 
 @injectable()
 export default class SonarQubeMeasuresApiService extends BackendService {
+    @lazyInject("AppStatusStore")
+    private readonly appStatusStore!: AppStatusStore;
+
     constructor(config: AppConfiguration) {
         super(config.baseUrl);
     }
 
     public loadMeasures(
-        appStatusStore: AppStatusStore,
         baseComponentKey: string,
         metricKeys: string,
         pageMax = 1,
         pageCurrent = 1
     ): Promise<SonarQubeMeasureResponse> {
-        appStatusStore.loadStatusUpdate(
+        this.appStatusStore.loadStatusUpdate(
             SonarQubeMeasuresService.LOAD_MEASURES.key,
             pageMax,
             pageCurrent
@@ -78,7 +81,6 @@ export default class SonarQubeMeasuresApiService extends BackendService {
 
                     if (result.paging.pageIndex < pagesMax) {
                         return this.loadMeasures(
-                            appStatusStore,
                             baseComponentKey,
                             metricKeys,
                             pagesMax,

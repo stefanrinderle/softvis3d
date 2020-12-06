@@ -18,49 +18,50 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import * as React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
-import AppStatusStore from "../../../src/stores/AppStatusStore";
-import Status from "../../../src/components/status/Status";
-import SoftVis3DLogo from "../../../src/components/status/SoftVis3DLogo";
-import Loading from "../../../src/components/status/loading/Loading";
-import ErrorStatus from "../../../src/components/status/ErrorStatus";
-import LoadAction from "../../../src/classes/status/LoadAction";
+import * as React from "react";
 import ErrorAction from "../../../src/classes/status/ErrorAction";
+import LoadAction from "../../../src/classes/status/LoadAction";
+import ErrorStatus from "../../../src/components/status/ErrorStatus";
 import InfoStatus from "../../../src/components/status/InfoStatus";
+import Loading from "../../../src/components/status/loading/Loading";
+import SoftVis3DLogo from "../../../src/components/status/SoftVis3DLogo";
+import Status from "../../../src/components/status/Status";
+import AppStatusStore from "../../../src/stores/AppStatusStore";
+import { createMockInjection } from "../../Helper";
 
 describe("<Status/>", () => {
     it("should draw loading components if loading", () => {
-        const localAppStatusStore: AppStatusStore = new AppStatusStore();
-
+        const localAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         localAppStatusStore.load(new LoadAction("test", ""));
 
-        const softvis3d = shallow(<Status appStatusStore={localAppStatusStore} />);
+        const softvis3d = shallow(<Status />);
 
         expect(softvis3d.contains(<SoftVis3DLogo />)).to.be.true;
-        expect(softvis3d.contains(<InfoStatus appStatusStore={localAppStatusStore} />)).to.be.true;
-        expect(softvis3d.contains(<Loading appStatusStore={localAppStatusStore} />)).to.be.true;
-        expect(softvis3d.contains(<ErrorStatus appStatusStore={localAppStatusStore} />)).to.be.true;
+        expect(softvis3d.contains(<InfoStatus />)).to.be.true;
+        expect(softvis3d.contains(<Loading loadingQueue={localAppStatusStore.loadingQueue} />)).to
+            .be.true;
+        expect(softvis3d.contains(<ErrorStatus errors={localAppStatusStore.errors} />)).to.be.true;
     });
 
     it("should draw error components if errors", () => {
-        const localAppStatusStore: AppStatusStore = new AppStatusStore();
-
+        const localAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         localAppStatusStore.error(new ErrorAction("key", "test", "", () => undefined));
 
-        const softvis3d = shallow(<Status appStatusStore={localAppStatusStore} />);
+        const softvis3d = shallow(<Status />);
 
         expect(softvis3d.contains(<SoftVis3DLogo />)).to.be.true;
-        expect(softvis3d.contains(<InfoStatus appStatusStore={localAppStatusStore} />)).to.be.true;
-        expect(softvis3d.contains(<Loading appStatusStore={localAppStatusStore} />)).to.be.true;
-        expect(softvis3d.contains(<ErrorStatus appStatusStore={localAppStatusStore} />)).to.be.true;
+        expect(softvis3d.contains(<InfoStatus />)).to.be.true;
+        expect(softvis3d.contains(<Loading loadingQueue={localAppStatusStore.loadingQueue} />)).to
+            .be.true;
+        expect(softvis3d.contains(<ErrorStatus errors={localAppStatusStore.errors} />)).to.be.true;
     });
 
     it("should draw nothing if not visible", () => {
-        const localAppStatusStore: AppStatusStore = new AppStatusStore();
+        createMockInjection(new AppStatusStore());
 
-        const softvis3d = shallow(<Status appStatusStore={localAppStatusStore} />);
+        const softvis3d = shallow(<Status />);
 
         expect(softvis3d.children().length).to.be.eq(0);
     });

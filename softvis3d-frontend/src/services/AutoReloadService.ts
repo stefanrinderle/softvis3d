@@ -29,17 +29,20 @@ export default class AutoReloadService {
     // 5 minutes
     public static RELOAD_INTERVAL_MS = 5 * 60 * 1000;
 
+    @lazyInject("AppStatusStore")
+    private readonly appStatusStore!: AppStatusStore;
     @lazyInject("SonarQubeComponentInfoService")
     private readonly componentInfoService!: SonarQubeComponentInfoService;
+
     private timer?: number;
 
-    public startAutoReload(appStatusStore: AppStatusStore): void {
+    public startAutoReload(): void {
         if (this.timer) {
             window.clearInterval(this.timer);
         }
 
         // only start the timer if the analysisDate value is available.
-        if (!isUndefined(appStatusStore.analysisDate)) {
+        if (!isUndefined(this.appStatusStore.analysisDate)) {
             this.timer = window.setInterval(
                 this.updateAnalysisDate.bind(this),
                 AutoReloadService.RELOAD_INTERVAL_MS

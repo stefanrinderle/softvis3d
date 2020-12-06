@@ -27,11 +27,11 @@ import TreeService from "../../../src/services/TreeService";
 import AppStatusStore from "../../../src/stores/AppStatusStore";
 import SceneStore from "../../../src/stores/SceneStore";
 import { createDefaultFileWithIdAndParent } from "../../classes/TreeElement.spec";
-import { createMock } from "../../Helper";
+import { createMock, createMockInjection } from "../../Helper";
 
 describe("SonarQubeScmService", () => {
     it("should check if metric is available if its available", (done) => {
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        createMockInjection(new AppStatusStore());
 
         const testSceneStore: SceneStore = new SceneStore();
         const exampleData: any = {};
@@ -64,7 +64,7 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest
-            .checkScmInfosAvailable(testAppStatusStore, testSceneStore)
+            .checkScmInfosAvailable(testSceneStore)
             .then((result) => {
                 expect(result).to.be.true;
 
@@ -77,7 +77,7 @@ describe("SonarQubeScmService", () => {
     });
 
     it("should check if metric is available if its NOT available", (done) => {
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
 
         const testSceneStore: SceneStore = new SceneStore();
         const exampleData: any = {};
@@ -107,7 +107,7 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest
-            .checkScmInfosAvailable(testAppStatusStore, testSceneStore)
+            .checkScmInfosAvailable(testSceneStore)
             .then((result) => {
                 expect(result).to.be.false;
                 assert(statusStub.calledOnce);
@@ -123,7 +123,7 @@ describe("SonarQubeScmService", () => {
 
     it("should call backend and add metric", (done) => {
         createMock(ScmCalculatorService);
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
 
         const loadStub = Sinon.stub(testAppStatusStore, "load");
         const loadCompleteStub = Sinon.stub(testAppStatusStore, "loadComplete");
@@ -161,7 +161,7 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest
-            .loadScmInfos(testAppStatusStore, testSceneStore)
+            .loadScmInfos(testSceneStore)
             .then(() => {
                 assert(
                     Object.prototype.hasOwnProperty.call(treeElement.measures, "number_of_authors")
@@ -182,7 +182,7 @@ describe("SonarQubeScmService", () => {
 
     it("should call backend and add metric in batches", (done) => {
         createMock(ScmCalculatorService);
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const loadStub = Sinon.stub(testAppStatusStore, "load");
         const loadCompleteStub = Sinon.stub(testAppStatusStore, "loadComplete");
         const loadStatusUpdateStub = Sinon.stub(testAppStatusStore, "loadStatusUpdate");
@@ -222,7 +222,7 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest
-            .loadScmInfos(testAppStatusStore, testSceneStore)
+            .loadScmInfos(testSceneStore)
             .then(() => {
                 assert(
                     Object.prototype.hasOwnProperty.call(
@@ -247,7 +247,7 @@ describe("SonarQubeScmService", () => {
     });
 
     it("should do nothing if no data is available", (done) => {
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = new SceneStore();
         testSceneStore.projectData = null;
 
@@ -255,7 +255,7 @@ describe("SonarQubeScmService", () => {
         const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
         underTest
-            .loadScmInfos(testAppStatusStore, testSceneStore)
+            .loadScmInfos(testSceneStore)
             .then(() => {
                 done();
             })
@@ -266,7 +266,7 @@ describe("SonarQubeScmService", () => {
     });
 
     it("should react on error", (done) => {
-        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
 
         const errorStub = Sinon.stub(testAppStatusStore, "error");
 
@@ -288,7 +288,7 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest
-            .loadScmInfos(testAppStatusStore, testSceneStore)
+            .loadScmInfos(testSceneStore)
             .then(() => {
                 assert(errorStub.called);
 

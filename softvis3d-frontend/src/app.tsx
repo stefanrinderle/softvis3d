@@ -68,6 +68,9 @@ export default class App {
         this.config = config;
         this.appStatusStore = new AppStatusStore();
         this.appStatusStore.showLoadingQueue = this.config.isDev;
+
+        container.bind<AppStatusStore>("AppStatusStore").toConstantValue(this.appStatusStore);
+
         this.cityBuilderStore = new CityBuilderStore();
         this.sceneStore = new SceneStore();
 
@@ -115,9 +118,9 @@ export default class App {
             .toConstantValue(this.componentInfoService);
 
         const reactions = [
-            new AppReactions(this.appStatusStore, this.cityBuilderStore, this.sceneStore),
-            new SceneReactions(this.sceneStore, this.cityBuilderStore, this.appStatusStore),
-            new BuilderReactions(this.appStatusStore, this.cityBuilderStore, this.sceneStore),
+            new AppReactions(this.cityBuilderStore, this.sceneStore),
+            new SceneReactions(this.sceneStore, this.cityBuilderStore),
+            new BuilderReactions(this.cityBuilderStore, this.sceneStore),
         ];
         if (reactions.length === 0) {
             // only to use the variable.
@@ -125,15 +128,13 @@ export default class App {
     }
 
     public run(target: string) {
-        this.communicator
-            .loadAvailableMetrics(this.appStatusStore, this.cityBuilderStore)
-            .then(() => {
-                this.visualizationLinkService.process(
-                    this.cityBuilderStore,
-                    this.sceneStore,
-                    document.location.search
-                );
-            });
+        this.communicator.loadAvailableMetrics(this.cityBuilderStore).then(() => {
+            this.visualizationLinkService.process(
+                this.cityBuilderStore,
+                this.sceneStore,
+                document.location.search
+            );
+        });
 
         this.loadComponentInfoData();
         this.assertClientRequirementsAreMet();
@@ -142,7 +143,6 @@ export default class App {
             <Softvis3D
                 sceneStore={this.sceneStore}
                 cityBuilderStore={this.cityBuilderStore}
-                appStatusStore={this.appStatusStore}
                 baseUrl={this.config.baseUrl}
             />,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

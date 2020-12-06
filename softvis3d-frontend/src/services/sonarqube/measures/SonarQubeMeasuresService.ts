@@ -42,6 +42,9 @@ export default class SonarQubeMeasuresService {
 
     private projectKey: string;
 
+    @lazyInject("AppStatusStore")
+    private readonly appStatusStore!: AppStatusStore;
+
     @lazyInject("SonarQubeMeasuresTreeService")
     private readonly measureTreeService!: SonarQubeMeasuresTreeService;
     @lazyInject("SonarQubeMeasuresMetricService")
@@ -59,12 +62,11 @@ export default class SonarQubeMeasuresService {
     }
 
     public loadMeasures(
-        appStatusStore: AppStatusStore,
         cityBuilderStore: CityBuilderStore,
         sceneStore: SceneStore,
         isForce = false
     ) {
-        appStatusStore.load(SonarQubeMeasuresService.LOAD_MEASURES);
+        this.appStatusStore.load(SonarQubeMeasuresService.LOAD_MEASURES);
 
         sceneStore.shapes = null;
 
@@ -86,7 +88,7 @@ export default class SonarQubeMeasuresService {
             );
 
             this.measureTreeService
-                .loadTree(appStatusStore, root, metricKeys)
+                .loadTree(root, metricKeys)
                 .then(() => {
                     // save current data
                     this.projectData = root.clone();
@@ -98,7 +100,7 @@ export default class SonarQubeMeasuresService {
                     cityBuilderStore.show = false;
                 })
                 .catch((error: Error) => {
-                    appStatusStore.error(
+                    this.appStatusStore.error(
                         new ErrorAction(
                             SonarQubeMeasuresService.LOAD_MEASURES_ERROR_KEY,
                             "SonarQube metric API is not available or responding: " + error.message,
@@ -110,7 +112,7 @@ export default class SonarQubeMeasuresService {
                     );
                 });
         }
-        appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
+        this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
     }
 
     private updateViewProjectData(

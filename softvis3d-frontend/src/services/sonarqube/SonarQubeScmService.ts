@@ -39,6 +39,8 @@ export default class SonarQubeScmService extends BackendService {
     );
     private static LOAD_SCM_ERROR_KEY = "LOAD_SCM_ERROR";
 
+    @lazyInject("AppStatusStore")
+    private readonly appStatusStore!: AppStatusStore;
     @lazyInject("TreeService")
     private readonly treeService!: TreeService;
     @lazyInject("ScmCalculatorService")
@@ -48,27 +50,21 @@ export default class SonarQubeScmService extends BackendService {
         super(baseUrl);
     }
 
-    public assertScmInfoAreLoaded(
-        appStatusStore: AppStatusStore,
-        sceneStore: SceneStore
-    ): Promise<void> {
+    public assertScmInfoAreLoaded(sceneStore: SceneStore): Promise<void> {
         return new Promise<void>((resolve) => {
             if (sceneStore.scmMetricLoaded) {
                 resolve();
                 return;
             }
 
-            this.loadScmInfosIfAvailable(appStatusStore, sceneStore).then(() => {
+            this.loadScmInfosIfAvailable(sceneStore).then(() => {
                 sceneStore.scmMetricLoaded = true;
                 resolve();
             });
         });
     }
 
-    public checkScmInfosAvailable(
-        appStatusStore: AppStatusStore,
-        sceneStore: SceneStore
-    ): Promise<boolean> {
+    public checkScmInfosAvailable(sceneStore: SceneStore): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             if (sceneStore.projectData !== null) {
                 let allFiles: TreeElement[] = this.treeService.getAllFiles(sceneStore.projectData);
@@ -76,14 +72,16 @@ export default class SonarQubeScmService extends BackendService {
 
                 const requests: Array<Promise<void>> = [];
                 for (const file of allFiles) {
-                    requests.push(this.loadScmInfosFor(appStatusStore, file));
+                    requests.push(this.loadScmInfosFor(file));
                 }
 
                 Promise.all(requests)
                     .then(() => {
                         const isScmMetricAvailable = this.checkScmMetricAvailable(allFiles);
                         if (!isScmMetricAvailable) {
-                            appStatusStore.status(SonarQubeScmService.STATUS_SCM_NOT_AVAILABLE);
+                            this.appStatusStore.status(
+                                SonarQubeScmService.STATUS_SCM_NOT_AVAILABLE
+                            );
                         }
                         resolve(isScmMetricAvailable);
                     })
@@ -96,8 +94,8 @@ export default class SonarQubeScmService extends BackendService {
         });
     }
 
-    public loadScmInfos(appStatusStore: AppStatusStore, sceneStore: SceneStore): Promise<void> {
-        appStatusStore.load(SonarQubeScmService.LOAD_SCM);
+    public loadScmInfos(sceneStore: SceneStore): Promise<void> {
+        this.appStatusStore.load(SonarQubeScmService.LOAD_SCM);
 
         return new Promise<void>((resolve, reject) => {
             if (sceneStore.projectData !== null) {
@@ -105,9 +103,9 @@ export default class SonarQubeScmService extends BackendService {
                     sceneStore.projectData
                 );
 
-                this.loadScmInfosBatch(appStatusStore, allFiles)
+                this.loadScmInfosBatch(allFiles)
                     .then(() => {
-                        appStatusStore.loadComplete(SonarQubeScmService.LOAD_SCM);
+                        this.appStatusStore.loadComplete(SonarQubeScmService.LOAD_SCM);
                         resolve();
                     })
                     .catch(() => {
@@ -119,14 +117,11 @@ export default class SonarQubeScmService extends BackendService {
         });
     }
 
-    private loadScmInfosIfAvailable(
-        appStatusStore: AppStatusStore,
-        sceneStore: SceneStore
-    ): Promise<void> {
+    private loadScmInfosIfAvailable(sceneStore: SceneStore): Promise<void> {
         return new Promise<void>((resolve) => {
-            this.checkScmInfosAvailable(appStatusStore, sceneStore).then((isAvailable: boolean) => {
+            this.checkScmInfosAvailable(sceneStore).then((isAvailable: boolean) => {
                 if (isAvailable) {
-                    this.loadScmInfos(appStatusStore, sceneStore).then(() => resolve());
+                    this.loadScmInfos(sceneStore).then(() => resolve());
                 } else {
                     resolve();
                 }
@@ -143,16 +138,12 @@ export default class SonarQubeScmService extends BackendService {
         return false;
     }
 
-    private loadScmInfosBatch(
-        appStatusStore: AppStatusStore,
-        allFiles: TreeElement[],
-        page = 0
-    ): Promise<void> {
+    private loadScmInfosBatch(allFiles: TreeElement[], page = 0): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const pageSize = 75;
             // example 146 / 75 = 1,94 => 1 => +1 => 2
             const pagesMax = Math.floor(allFiles.length / pageSize) + 1;
-            appStatusStore.loadStatusUpdate(SonarQubeScmService.LOAD_SCM.key, pagesMax, page);
+            this.appStatusStore.loadStatusUpdate(SonarQubeScmService.LOAD_SCM.key, pagesMax, page);
 
             const requests: Array<Promise<void>> = [];
 
@@ -164,7 +155,7 @@ export default class SonarQubeScmService extends BackendService {
             }
 
             for (let i = start; i < end; i++) {
-                requests.push(this.loadScmInfosFor(appStatusStore, allFiles[i]));
+                requests.push(this.loadScmInfosFor(allFiles[i]));
             }
 
             Promise.all(requests)
@@ -172,7 +163,7 @@ export default class SonarQubeScmService extends BackendService {
                     const isNextBatchRequired: boolean =
                         allFiles.length > page * pageSize + pageSize;
                     if (isNextBatchRequired) {
-                        this.loadScmInfosBatch(appStatusStore, allFiles, page + 1).then(() => {
+                        this.loadScmInfosBatch(allFiles, page + 1).then(() => {
                             resolve();
                         });
                     } else {
@@ -185,7 +176,7 @@ export default class SonarQubeScmService extends BackendService {
         });
     }
 
-    private loadScmInfosFor(appStatusStore: AppStatusStore, element: TreeElement): Promise<void> {
+    private loadScmInfosFor(element: TreeElement): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const params = { key: element.key };
             this.callApi("/sources/scm", { params })
@@ -201,7 +192,7 @@ export default class SonarQubeScmService extends BackendService {
                     resolve();
                 })
                 .catch((error) => {
-                    appStatusStore.error(
+                    this.appStatusStore.error(
                         new ErrorAction(
                             SonarQubeScmService.LOAD_SCM_ERROR_KEY,
                             "SonarQube metric API is not available or responding: " +
@@ -212,7 +203,7 @@ export default class SonarQubeScmService extends BackendService {
                             }
                         )
                     );
-                    appStatusStore.loadComplete(SonarQubeScmService.LOAD_SCM);
+                    this.appStatusStore.loadComplete(SonarQubeScmService.LOAD_SCM);
                     reject();
                 });
         });
