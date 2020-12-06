@@ -24,20 +24,23 @@ import Metric from "../../classes/Metric";
 import Profile from "../../classes/Profile";
 import { Layouts } from "../../constants/Layouts";
 import { Profiles } from "../../constants/Profiles";
+import { lazyInject } from "../../inversify.config";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import LayoutPicker from "./LayoutPicker";
 import PreviewPictureComponent from "./PreviewPictureComponent";
 
 export interface OptionsSimpleProps {
-    store: CityBuilderStore;
     baseUrl?: string;
 }
 
 @observer
 export default class OptionsSimple extends React.Component<OptionsSimpleProps, any> {
+    @lazyInject("CityBuilderStore")
+    private readonly cityBuilderStore!: CityBuilderStore;
+
     public render() {
-        const { options } = this.props.store;
+        const { options, colorMetrics } = this.cityBuilderStore;
 
         return (
             <div className="simple">
@@ -46,14 +49,14 @@ export default class OptionsSimple extends React.Component<OptionsSimpleProps, a
                         <SelectBoxBuilder
                             label="Profile"
                             className="profiles"
-                            value={this.props.store.options.profile}
+                            value={options.profile}
                             options={Profiles.availableProfiles}
                             onChange={(p: any) => {
-                                this.props.store.options.profile = p as Profile;
+                                options.profile = p as Profile;
                             }}
                         />
                         <p className="selection-description profile-description">
-                            {this.props.store.options.profile.description}
+                            {options.profile.description}
                         </p>
                     </div>
                     <div className="builder-option">
@@ -61,7 +64,7 @@ export default class OptionsSimple extends React.Component<OptionsSimpleProps, a
                             label="Building Color"
                             className="metric color"
                             value={options.metricColor}
-                            options={this.props.store.colorMetrics.asSelectOptions}
+                            options={colorMetrics.asSelectOptions}
                             onChange={(m: any) => {
                                 options.metricColor = m as Metric;
                             }}
@@ -73,7 +76,7 @@ export default class OptionsSimple extends React.Component<OptionsSimpleProps, a
 
                     <div className="builder-option">
                         <span>Layout</span>
-                        <LayoutPicker layouts={Layouts.availableLayouts} store={this.props.store} />
+                        <LayoutPicker layouts={Layouts.availableLayouts} />
                         <p className="selection-description layout-description">
                             {options.layout.description}
                         </p>
@@ -81,7 +84,7 @@ export default class OptionsSimple extends React.Component<OptionsSimpleProps, a
                 </div>
                 <div className="right-column">
                     <PreviewPictureComponent
-                        store={this.props.store}
+                        previewPicture={this.cityBuilderStore.getPreviewBackground()}
                         baseUrl={this.props.baseUrl}
                     />
                 </div>

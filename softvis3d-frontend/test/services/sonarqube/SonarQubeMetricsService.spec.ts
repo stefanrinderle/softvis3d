@@ -31,7 +31,7 @@ import { createMockInjection } from "../../Helper";
 describe("SonarQubeMetricsService", () => {
     it("should call backend and add metric", (done) => {
         createMockInjection(new AppStatusStore());
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         const spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
         const apiUrl = "urlsihshoif";
@@ -55,7 +55,7 @@ describe("SonarQubeMetricsService", () => {
         });
 
         underTest
-            .loadAvailableMetrics(testCityBuilderStore)
+            .loadAvailableMetrics()
             .then(() => {
                 Sinon.assert.called(spyAdd);
                 done();
@@ -68,7 +68,7 @@ describe("SonarQubeMetricsService", () => {
 
     it("should filter hidden metrics", (done) => {
         createMockInjection(new AppStatusStore());
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         const spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
         const apiUrl = "urlsihshoif";
@@ -93,7 +93,7 @@ describe("SonarQubeMetricsService", () => {
         });
 
         underTest
-            .loadAvailableMetrics(testCityBuilderStore)
+            .loadAvailableMetrics()
             .then(() => {
                 Sinon.assert.calledWith(spyAdd, []);
                 done();
@@ -106,7 +106,7 @@ describe("SonarQubeMetricsService", () => {
 
     it("should filter string metrics", (done) => {
         createMockInjection(new AppStatusStore());
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         const spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
         const apiUrl = "urlsihshoif";
@@ -130,7 +130,7 @@ describe("SonarQubeMetricsService", () => {
         });
 
         underTest
-            .loadAvailableMetrics(testCityBuilderStore)
+            .loadAvailableMetrics()
             .then(() => {
                 Sinon.assert.calledWith(spyAdd, []);
                 done();
@@ -142,11 +142,10 @@ describe("SonarQubeMetricsService", () => {
     });
 
     it("should set app status at the beginning and in the end", (done) => {
+        createMockInjection(new CityBuilderStore());
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const spyLoad = Sinon.spy(testAppStatusStore, "load");
         const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
-
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
         const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
@@ -159,7 +158,7 @@ describe("SonarQubeMetricsService", () => {
         });
 
         underTest
-            .loadAvailableMetrics(testCityBuilderStore)
+            .loadAvailableMetrics()
             .then(() => {
                 assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
                 assert(spyLoadComplete.calledWith(SonarQubeMetricsService.LOAD_METRICS));
@@ -172,11 +171,10 @@ describe("SonarQubeMetricsService", () => {
     });
 
     it("should load again if more results", (done) => {
+        createMockInjection(new CityBuilderStore());
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const spyLoad = Sinon.spy(testAppStatusStore, "load");
         const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
-
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
         const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
@@ -203,7 +201,7 @@ describe("SonarQubeMetricsService", () => {
         );
 
         underTest
-            .loadAvailableMetrics(testCityBuilderStore)
+            .loadAvailableMetrics()
             .then(() => {
                 assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
                 assert(spyCallApi.calledTwice);
@@ -218,12 +216,11 @@ describe("SonarQubeMetricsService", () => {
     });
 
     it("should react on errors", (done) => {
+        createMockInjection(new CityBuilderStore());
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const spyLoad = Sinon.spy(testAppStatusStore, "load");
         const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
         const spyError = Sinon.spy(testAppStatusStore, "error");
-
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
         const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
@@ -236,7 +233,7 @@ describe("SonarQubeMetricsService", () => {
         });
 
         underTest
-            .loadAvailableMetrics(testCityBuilderStore)
+            .loadAvailableMetrics()
             .then(() => undefined)
             .catch(() => {
                 assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
@@ -251,11 +248,10 @@ describe("SonarQubeMetricsService", () => {
     });
 
     it("should react on errors of the second call", (done) => {
+        createMockInjection(new CityBuilderStore());
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const spyLoad = Sinon.spy(testAppStatusStore, "load");
         const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
-
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
         const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
@@ -279,7 +275,7 @@ describe("SonarQubeMetricsService", () => {
         );
 
         underTest
-            .loadAvailableMetrics(testCityBuilderStore)
+            .loadAvailableMetrics()
             .then(() => {
                 assert.isNotOk({}, "Promise error");
                 done();

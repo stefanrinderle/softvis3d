@@ -29,13 +29,14 @@ import AdvancedAnalysisOptions from "./AdvancedAnalysisOptions";
 import OptionsSimple from "./OptionsSimple";
 
 export interface CityBuilderProps {
-    store: CityBuilderStore;
     sceneStore: SceneStore;
     baseUrl?: string;
 }
 
 @observer
 export default class CityBuilder extends React.Component<CityBuilderProps, any> {
+    @lazyInject("CityBuilderStore")
+    private readonly cityBuilderStore!: CityBuilderStore;
     @lazyInject("AppStatusStore")
     private readonly appStatusStore!: AppStatusStore;
 
@@ -43,17 +44,17 @@ export default class CityBuilder extends React.Component<CityBuilderProps, any> 
         {
             name: CityBuilderTab.Default,
             label: "Options",
-            content: <OptionsSimple store={this.props.store} baseUrl={this.props.baseUrl} />,
+            content: <OptionsSimple baseUrl={this.props.baseUrl} />,
         },
         {
             name: CityBuilderTab.OptionAnalysis,
             label: "Advanced options",
-            content: <AdvancedAnalysisOptions store={this.props.store} />,
+            content: <AdvancedAnalysisOptions />,
         },
     ];
 
     public render() {
-        if (!(this.props.store.show && !this.appStatusStore.isVisible)) {
+        if (!(this.cityBuilderStore.show && !this.appStatusStore.isVisible)) {
             return <div />;
         }
 
@@ -67,7 +68,7 @@ export default class CityBuilder extends React.Component<CityBuilderProps, any> 
                                 key={i}
                                 onClick={() => this.setCurrentTab(tab.name)}
                                 className={
-                                    tab.name === this.props.store.currentTab ? "selected" : ""
+                                    tab.name === this.cityBuilderStore.currentTab ? "selected" : ""
                                 }
                             >
                                 {tab.label}
@@ -77,7 +78,7 @@ export default class CityBuilder extends React.Component<CityBuilderProps, any> 
                 </div>
 
                 {this.tabList.map((tab, i) => {
-                    if (tab.name === this.props.store.currentTab) {
+                    if (tab.name === this.cityBuilderStore.currentTab) {
                         return (
                             <div className="tab-content" key={i}>
                                 {tab.content}
@@ -115,15 +116,15 @@ export default class CityBuilder extends React.Component<CityBuilderProps, any> 
     }
 
     private loadScene() {
-        this.props.store.show = false;
-        this.props.store.initiateBuildProcess = true;
+        this.cityBuilderStore.show = false;
+        this.cityBuilderStore.initiateBuildProcess = true;
     }
 
     private close() {
-        this.props.store.show = false;
+        this.cityBuilderStore.show = false;
     }
 
     private setCurrentTab(name: CityBuilderTab) {
-        this.props.store.currentTab = name;
+        this.cityBuilderStore.currentTab = name;
     }
 }

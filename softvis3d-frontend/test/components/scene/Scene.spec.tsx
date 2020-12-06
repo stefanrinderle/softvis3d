@@ -28,25 +28,18 @@ import SceneInformation from "../../../src/components/scene/information/SceneInf
 import { KeyLegend } from "../../../src/components/scene/KeyLegend";
 import Scene from "../../../src/components/scene/Scene";
 import ThreeSceneService from "../../../src/components/scene/visualization/ThreeSceneService";
+import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../src/stores/SceneStore";
+import { createMockInjection } from "../../Helper";
 
 describe("<Scene/>", () => {
     it("should initialize", () => {
         const localSceneStore: SceneStore = new SceneStore();
-        const cityBuilderStore: any = Sinon.stub();
+        createMockInjection(new CityBuilderStore());
 
-        const scene = shallow(
-            <Scene sceneStore={localSceneStore} cityBuilderStore={cityBuilderStore} />
-        );
+        const scene = shallow(<Scene sceneStore={localSceneStore} />);
 
-        expect(
-            scene.contains(
-                <SceneInformation
-                    sceneStore={localSceneStore}
-                    cityBuilderStore={cityBuilderStore}
-                />
-            )
-        ).to.be.true;
+        expect(scene.contains(<SceneInformation sceneStore={localSceneStore} />)).to.be.true;
         expect(scene.contains(<KeyLegend show={true} />)).to.be.true;
     });
 
@@ -70,12 +63,11 @@ describe("<Scene/>", () => {
 
     it("should unmount", () => {
         const localSceneStore: SceneStore = new SceneStore();
-        const cityBuilderStore: any = Sinon.stub();
+        createMockInjection(new CityBuilderStore());
 
         const underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore,
-            cityBuilderStore,
         };
 
         const stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
@@ -93,14 +85,13 @@ describe("<Scene/>", () => {
 
     it("should process scene updates - no action if not mounted", () => {
         const localSceneStore: any = Sinon.stub();
-        const cityBuilderStore: any = Sinon.stub();
+        createMockInjection(new CityBuilderStore());
         localSceneStore.selectedObjectId = null;
         localSceneStore.shapesHash = "";
 
         const underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore,
-            cityBuilderStore,
         };
 
         const stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
@@ -115,14 +106,13 @@ describe("<Scene/>", () => {
 
     it("should process scene updates - update shapes if changed", () => {
         const localSceneStore: any = Sinon.stub();
-        const cityBuilderStore: any = Sinon.stub();
+        createMockInjection(new CityBuilderStore());
         localSceneStore.selectedObjectId = null;
         localSceneStore.shapesHash = "123";
 
         const underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore,
-            cityBuilderStore,
         };
 
         const stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
@@ -153,7 +143,7 @@ describe("<Scene/>", () => {
     it("should process scene updates - update selected objectr if changed", () => {
         const expectedObjectId = "123";
         const localSceneStore: any = Sinon.stub();
-        const cityBuilderStore: any = Sinon.stub();
+        createMockInjection(new CityBuilderStore());
 
         localSceneStore.selectedObjectId = expectedObjectId;
         localSceneStore.shapesHash = "";
@@ -161,7 +151,6 @@ describe("<Scene/>", () => {
         const underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore,
-            cityBuilderStore,
         };
 
         const stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);

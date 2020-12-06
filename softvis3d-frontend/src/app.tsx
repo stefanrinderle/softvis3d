@@ -61,17 +61,17 @@ export default class App {
     private config: AppConfiguration;
 
     private appStatusStore: AppStatusStore;
-    private cityBuilderStore: CityBuilderStore;
     private sceneStore: SceneStore;
 
     public constructor(config: AppConfiguration) {
         this.config = config;
+
         this.appStatusStore = new AppStatusStore();
         this.appStatusStore.showLoadingQueue = this.config.isDev;
-
         container.bind<AppStatusStore>("AppStatusStore").toConstantValue(this.appStatusStore);
 
-        this.cityBuilderStore = new CityBuilderStore();
+        bindToInjection(CityBuilderStore);
+
         this.sceneStore = new SceneStore();
 
         this.visualizationLinkService = new VisualizationLinkService(this.config);
@@ -118,9 +118,9 @@ export default class App {
             .toConstantValue(this.componentInfoService);
 
         const reactions = [
-            new AppReactions(this.cityBuilderStore, this.sceneStore),
-            new SceneReactions(this.sceneStore, this.cityBuilderStore),
-            new BuilderReactions(this.cityBuilderStore, this.sceneStore),
+            new AppReactions(this.sceneStore),
+            new SceneReactions(this.sceneStore),
+            new BuilderReactions(this.sceneStore),
         ];
         if (reactions.length === 0) {
             // only to use the variable.
@@ -128,23 +128,15 @@ export default class App {
     }
 
     public run(target: string) {
-        this.communicator.loadAvailableMetrics(this.cityBuilderStore).then(() => {
-            this.visualizationLinkService.process(
-                this.cityBuilderStore,
-                this.sceneStore,
-                document.location.search
-            );
+        this.communicator.loadAvailableMetrics().then(() => {
+            this.visualizationLinkService.process(this.sceneStore, document.location.search);
         });
 
         this.loadComponentInfoData();
         this.assertClientRequirementsAreMet();
 
         ReactDOM.render(
-            <Softvis3D
-                sceneStore={this.sceneStore}
-                cityBuilderStore={this.cityBuilderStore}
-                baseUrl={this.config.baseUrl}
-            />,
+            <Softvis3D sceneStore={this.sceneStore} baseUrl={this.config.baseUrl} />,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             document.getElementById(target)!
         );

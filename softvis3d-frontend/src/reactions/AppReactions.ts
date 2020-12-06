@@ -23,11 +23,9 @@ import { lazyInject } from "../inversify.config";
 import AutoReloadService from "../services/AutoReloadService";
 import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
 import AppStatusStore from "../stores/AppStatusStore";
-import CityBuilderStore from "../stores/CityBuilderStore";
 import SceneStore from "../stores/SceneStore";
 
 export default class AppReactions {
-    private readonly cityBuilderStore: CityBuilderStore;
     private readonly sceneStore: SceneStore;
 
     @lazyInject("SonarQubeMeasuresService")
@@ -37,8 +35,7 @@ export default class AppReactions {
     @lazyInject("AppStatusStore")
     private readonly appStatusStore!: AppStatusStore;
 
-    constructor(cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
-        this.cityBuilderStore = cityBuilderStore;
+    constructor(sceneStore: SceneStore) {
         this.sceneStore = sceneStore;
         this.prepareReactions();
     }
@@ -48,7 +45,7 @@ export default class AppReactions {
             () => this.appStatusStore.analysisDate,
             () => {
                 if (this.autoReloadService.isActive()) {
-                    this.measuresService.loadMeasures(this.cityBuilderStore, this.sceneStore, true);
+                    this.measuresService.loadMeasures(this.sceneStore, true);
                 } else {
                     return;
                 }

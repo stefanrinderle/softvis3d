@@ -20,6 +20,7 @@
 
 import * as React from "react";
 import { observer } from "mobx-react";
+import { lazyInject } from "../../../inversify.config";
 import CityBuilderStore from "../../../stores/CityBuilderStore";
 import MetricKey from "./MetricKey";
 import SceneStore from "../../../stores/SceneStore";
@@ -30,7 +31,6 @@ import Metric from "../../../classes/Metric";
 
 interface SceneInformationProps {
     sceneStore: SceneStore;
-    cityBuilderStore: CityBuilderStore;
 }
 
 /**
@@ -38,29 +38,32 @@ interface SceneInformationProps {
  */
 @observer
 export default class SceneInformation extends React.Component<SceneInformationProps, any> {
+    @lazyInject("CityBuilderStore")
+    private readonly cityBuilderStore!: CityBuilderStore;
+
     public render() {
-        const { sceneStore, cityBuilderStore } = this.props;
+        const { sceneStore } = this.props;
         const selectedElement = sceneStore.selectedElement;
 
         return (
             <div className="scene-information">
                 <MetricKey
                     title="Footprint"
-                    metric={cityBuilderStore.options.profile.footprintMetric}
+                    metric={this.cityBuilderStore.options.profile.footprintMetric}
                     selectedElement={selectedElement}
                 />
                 <MetricKey
                     title="Height"
-                    metric={cityBuilderStore.options.profile.heightMetric}
+                    metric={this.cityBuilderStore.options.profile.heightMetric}
                     selectedElement={selectedElement}
                 />
                 <SelectBoxBuilder
                     label="Color"
                     className="metric-info"
-                    value={cityBuilderStore.options.metricColor}
+                    value={this.cityBuilderStore.options.metricColor}
                     options={new MetricSet(ColorMetrics.availableColorMetrics).asSelectOptions}
                     onChange={(m: Metric) => {
-                        cityBuilderStore.options.metricColor = m;
+                        this.cityBuilderStore.options.metricColor = m;
                     }}
                     append={this.renderColorInformation()}
                 />
@@ -70,7 +73,7 @@ export default class SceneInformation extends React.Component<SceneInformationPr
 
     private renderColorInformation(): JSX.Element[] {
         const colorValue = this.props.sceneStore.getColorValue(
-            this.props.cityBuilderStore.options.metricColor
+            this.cityBuilderStore.options.metricColor
         );
         const colorInformation: JSX.Element[] = [];
         if (colorValue !== null) {

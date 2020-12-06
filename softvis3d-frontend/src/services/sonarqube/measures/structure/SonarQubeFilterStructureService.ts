@@ -19,32 +19,32 @@
 ///
 
 import { TreeElement } from "../../../../classes/TreeElement";
+import { lazyInject } from "../../../../inversify.config";
 import CityBuilderStore from "../../../../stores/CityBuilderStore";
 
 export default class SonarQubeFilterStructureService {
-    public filter(element: TreeElement, cityBuilderStore: CityBuilderStore) {
+    @lazyInject("CityBuilderStore")
+    private readonly cityBuilderStore!: CityBuilderStore;
+
+    public filter(element: TreeElement) {
         if (element.isFile() || element.children.length === 0) {
             return;
         }
 
         for (let index = element.children.length; index--; ) {
-            this.processChild(element.children, index, cityBuilderStore);
+            this.processChild(element.children, index);
         }
     }
 
-    private processChild(
-        children: TreeElement[],
-        index: number,
-        cityBuilderStore: CityBuilderStore
-    ) {
+    private processChild(children: TreeElement[], index: number) {
         const child = children[index];
 
         if (child.isFile()) {
-            if (cityBuilderStore.options.fileFilter.shouldRemoveFile(child)) {
+            if (this.cityBuilderStore.options.fileFilter.shouldRemoveFile(child)) {
                 children.splice(index, 1);
             }
         } else {
-            this.filter(child, cityBuilderStore);
+            this.filter(child);
         }
     }
 }

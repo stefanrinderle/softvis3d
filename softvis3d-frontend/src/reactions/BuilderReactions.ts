@@ -26,16 +26,17 @@ import CityBuilderStore from "../stores/CityBuilderStore";
 import SceneStore from "../stores/SceneStore";
 
 export default class BuilderReactions {
-    private readonly cityBuilderStore: CityBuilderStore;
     private readonly sceneStore: SceneStore;
+
+    @lazyInject("CityBuilderStore")
+    private readonly cityBuilderStore!: CityBuilderStore;
 
     @lazyInject("SonarQubeMeasuresService")
     private readonly measuresService!: SonarQubeMeasuresService;
     @lazyInject("AutoReloadService")
     private readonly autoReloadService!: AutoReloadService;
 
-    constructor(cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
-        this.cityBuilderStore = cityBuilderStore;
+    constructor(sceneStore: SceneStore) {
         this.sceneStore = sceneStore;
         this.prepareReactions();
     }
@@ -47,7 +48,7 @@ export default class BuilderReactions {
                 if (this.cityBuilderStore.initiateBuildProcess) {
                     this.cityBuilderStore.initiateBuildProcess = false;
 
-                    this.measuresService.loadMeasures(this.cityBuilderStore, this.sceneStore);
+                    this.measuresService.loadMeasures(this.sceneStore);
                     this.autoReloadService.startAutoReload();
                 }
             },

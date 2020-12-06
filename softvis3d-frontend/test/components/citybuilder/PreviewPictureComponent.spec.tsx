@@ -18,30 +18,34 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import * as React from "react";
-import { shallow } from "enzyme";
 import { expect } from "chai";
-import CityBuilderStore from "../../../src/stores/CityBuilderStore";
+import { shallow } from "enzyme";
+import * as React from "react";
 import PreviewPictureComponent from "../../../src/components/citybuilder/PreviewPictureComponent";
+import { availablePreviewPictures } from "../../../src/constants/PreviewPictures";
 
 describe("<PreviewPictureComponent/>", () => {
     it("should show resolve url for preview picture", () => {
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         const baseUrl = "";
 
         const underTest = shallow(
-            <PreviewPictureComponent store={testCityBuilderStore} baseUrl={baseUrl} />
+            <PreviewPictureComponent
+                previewPicture={availablePreviewPictures[0]}
+                baseUrl={baseUrl}
+            />
         );
 
-        expect(underTest.html()).to.include("evostreet_complexity_loc_EXTINT.png");
+        expect(underTest.html()).to.include("district_complexity_loc_EXTINT.png");
     });
 
     it("should show resolve url for preview picture with base url", () => {
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         const baseUrl = "/isudfisu";
 
         const underTest = shallow(
-            <PreviewPictureComponent store={testCityBuilderStore} baseUrl={baseUrl} />
+            <PreviewPictureComponent
+                previewPicture={availablePreviewPictures[0]}
+                baseUrl={baseUrl}
+            />
         );
 
         expect(underTest.html()).to.include(baseUrl);

@@ -20,6 +20,7 @@
 
 import { observer } from "mobx-react";
 import * as React from "react";
+import { lazyInject } from "../../inversify.config";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import SceneStore from "../../stores/SceneStore";
 import { SceneKeyInteractions } from "./events/SceneKeyInteractions";
@@ -30,7 +31,6 @@ import ThreeSceneService from "./visualization/ThreeSceneService";
 
 interface SceneProps {
     sceneStore: SceneStore;
-    cityBuilderStore: CityBuilderStore;
 }
 
 interface SceneStates {
@@ -45,6 +45,9 @@ interface SceneStates {
 @observer
 export default class Scene extends React.Component<SceneProps, SceneStates> {
     public static SCENE_CONTAINER_ID = "scene-container";
+
+    @lazyInject("CityBuilderStore")
+    private readonly cityBuilderStore!: CityBuilderStore;
 
     private _threeSceneService: ThreeSceneService;
     private _keyActions: SceneKeyInteractions;
@@ -82,7 +85,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     }
 
     public render() {
-        const { sceneStore, cityBuilderStore } = this.props;
+        const { sceneStore } = this.props;
         const { focus, legend, mounted } = this.state;
 
         if (mounted) {
@@ -100,7 +103,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
                     updateCameraPosition={this.updateCameraPosition.bind(this)}
                     updateSceneFocusState={this.updateSceneFocusState.bind(this)}
                 />
-                <SceneInformation sceneStore={sceneStore} cityBuilderStore={cityBuilderStore} />
+                <SceneInformation sceneStore={sceneStore} />
             </div>
         );
     }
@@ -111,7 +114,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         if (sceneStore.shapesHash !== this.shapesHash) {
             this._threeSceneService.update(
                 sceneStore.shapes,
-                this.props.cityBuilderStore.options,
+                this.cityBuilderStore.options,
                 sceneStore.cameraPosition
             );
             this.updateCameraPosition();

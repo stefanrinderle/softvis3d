@@ -29,13 +29,13 @@ import { createMock, createMockInjection } from "../Helper";
 
 describe("BuilderReactions", () => {
     it("should initiate build process", () => {
-        const testCityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore = createMockInjection(new CityBuilderStore());
         createMockInjection(new AppStatusStore());
         const testSceneStore = new SceneStore();
 
         const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
         const testAutoReloadService = createMock(AutoReloadService);
-        const reactionRegister = new BuilderReactions(testCityBuilderStore, testSceneStore);
+        const reactionRegister = new BuilderReactions(testSceneStore);
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 

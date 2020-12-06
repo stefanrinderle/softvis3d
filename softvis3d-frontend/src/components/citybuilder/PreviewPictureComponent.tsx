@@ -19,11 +19,10 @@
 ///
 
 import * as React from "react";
-import CityBuilderStore from "../../stores/CityBuilderStore";
 import { PreviewPicture } from "../../classes/PreviewPicture";
 
 export interface PreviewPictureComponentProps {
-    store: CityBuilderStore;
+    previewPicture: PreviewPicture;
     baseUrl?: string;
 }
 
@@ -32,7 +31,7 @@ export default class PreviewPictureComponent extends React.Component<
     any
 > {
     public render() {
-        const preview: PreviewPicture = this.props.store.getPreviewBackground();
+        const preview: PreviewPicture = this.props.previewPicture;
 
         let url: string = preview.bgPicture;
         if (this.props.baseUrl) {

@@ -28,6 +28,7 @@ import {
     createDefaultFileWithName,
     createDefaultTestFile,
 } from "../../../classes/TreeElement.spec";
+import { createMockInjection } from "../../../Helper";
 
 describe("SonarQubeFilterStructureService", () => {
     it("should remove an UTS file", () => {
@@ -39,9 +40,9 @@ describe("SonarQubeFilterStructureService", () => {
         const utsFile: TreeElement = createDefaultTestFile();
         root.children.push(utsFile);
 
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        createMockInjection(new CityBuilderStore());
 
-        underTest.filter(root, testCityBuilderStore);
+        underTest.filter(root);
 
         expect(root.children.length).to.be.eq(1);
     });
@@ -55,9 +56,9 @@ describe("SonarQubeFilterStructureService", () => {
         const utsFile2: TreeElement = createDefaultTestFile();
         root.children.push(utsFile2);
 
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        createMockInjection(new CityBuilderStore());
 
-        underTest.filter(root, testCityBuilderStore);
+        underTest.filter(root);
 
         expect(root.children.length).to.be.eq(0);
     });
@@ -80,9 +81,9 @@ describe("SonarQubeFilterStructureService", () => {
         testDir.children.push(utsFile2);
         root.children.push(testDir);
 
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        createMockInjection(new CityBuilderStore());
 
-        underTest.filter(root, testCityBuilderStore);
+        underTest.filter(root);
 
         expect(root.children.length).to.be.eq(2);
         expect(srcDir.children.length).to.be.eq(2);
@@ -99,10 +100,10 @@ describe("SonarQubeFilterStructureService", () => {
         const utsFile: TreeElement = createDefaultFileWithName("pom.xml");
         root.children.push(utsFile);
 
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         testCityBuilderStore.options.fileFilter.excludeClasses.value = ".*.xml";
 
-        underTest.filter(root, testCityBuilderStore);
+        underTest.filter(root);
 
         expect(root.children.length).to.be.eq(1);
         expect(root.children[0].name).to.be.eq(expectedName);

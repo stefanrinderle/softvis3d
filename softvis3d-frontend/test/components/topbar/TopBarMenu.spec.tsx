@@ -26,15 +26,14 @@ import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
 import TopBarShareButton from "../../../src/components/topbar/TopBarShareButton";
 import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../src/stores/SceneStore";
+import { createMockInjection } from "../../Helper";
 
 describe("<TopBarMenu/>", () => {
     it("should show settings button and check action", () => {
-        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const localCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
-        const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />
-        );
+        const topBarMenu = shallow(<TopBarMenu sceneStore={localSceneStore} />);
 
         const settingsButton = topBarMenu.find("#settings-button");
 
@@ -43,14 +42,12 @@ describe("<TopBarMenu/>", () => {
     });
 
     it("should show feedback button and check action", () => {
-        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        createMockInjection(new CityBuilderStore());
         const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         const stub = Sinon.stub(window, "open");
 
-        const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />
-        );
+        const topBarMenu = shallow(<TopBarMenu sceneStore={localSceneStore} />);
 
         const feedbackButton = topBarMenu.find("#feedback-button");
         feedbackButton.simulate("click");
@@ -61,14 +58,12 @@ describe("<TopBarMenu/>", () => {
     });
 
     it("should show help button and check action", () => {
-        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        createMockInjection(new CityBuilderStore());
         const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         const stub = Sinon.stub(window, "open");
 
-        const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />
-        );
+        const topBarMenu = shallow(<TopBarMenu sceneStore={localSceneStore} />);
 
         const helpButton = topBarMenu.find("#help-button");
         helpButton.simulate("click");
@@ -79,23 +74,15 @@ describe("<TopBarMenu/>", () => {
     });
 
     it("should have share component", () => {
-        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const localCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         localCityBuilderStore.show = true;
 
-        const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />
-        );
+        const topBarMenu = shallow(<TopBarMenu sceneStore={localSceneStore} />);
 
         expect(
-            topBarMenu.contains(
-                <TopBarShareButton
-                    disabled={true}
-                    cityBuilderStore={localCityBuilderStore}
-                    sceneStore={localSceneStore}
-                />
-            )
+            topBarMenu.contains(<TopBarShareButton disabled={true} sceneStore={localSceneStore} />)
         ).to.be.true;
     });
 });

@@ -25,15 +25,14 @@ import MetricKey from "../../../../src/components/scene/information/MetricKey";
 import SceneInformation from "../../../../src/components/scene/information/SceneInformation";
 import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../../src/stores/SceneStore";
+import { createMockInjection } from "../../../Helper";
 
 describe("<SceneInformation/>", () => {
     it("should show default text div on start", () => {
         const testSceneStore: SceneStore = new SceneStore();
-        const cityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const cityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
 
-        const bottomBar = shallow(
-            <SceneInformation sceneStore={testSceneStore} cityBuilderStore={cityBuilderStore} />
-        );
+        const bottomBar = shallow(<SceneInformation sceneStore={testSceneStore} />);
 
         expect(
             bottomBar.contains(

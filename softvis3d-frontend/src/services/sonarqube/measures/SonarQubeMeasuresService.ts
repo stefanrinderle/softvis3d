@@ -44,6 +44,8 @@ export default class SonarQubeMeasuresService {
 
     @lazyInject("AppStatusStore")
     private readonly appStatusStore!: AppStatusStore;
+    @lazyInject("CityBuilderStore")
+    private readonly cityBuilderStore!: CityBuilderStore;
 
     @lazyInject("SonarQubeMeasuresTreeService")
     private readonly measureTreeService!: SonarQubeMeasuresTreeService;
@@ -61,19 +63,15 @@ export default class SonarQubeMeasuresService {
         this.projectKey = projectKey;
     }
 
-    public loadMeasures(
-        cityBuilderStore: CityBuilderStore,
-        sceneStore: SceneStore,
-        isForce = false
-    ) {
+    public loadMeasures(sceneStore: SceneStore, isForce = false) {
         this.appStatusStore.load(SonarQubeMeasuresService.LOAD_MEASURES);
 
         sceneStore.shapes = null;
 
-        const metricKeys = this.measureMetricService.getMetricRequestValues(cityBuilderStore);
+        const metricKeys = this.measureMetricService.getMetricRequestValues();
 
         if (!isForce && this.projectData && this.metricKeys && this.metricKeys === metricKeys) {
-            this.updateViewProjectData(this.projectData, cityBuilderStore, sceneStore);
+            this.updateViewProjectData(this.projectData, sceneStore);
         } else {
             /**
              * Create a "starting point" root element and load the tree of the project.
@@ -94,10 +92,10 @@ export default class SonarQubeMeasuresService {
                     this.projectData = root.clone();
                     this.metricKeys = metricKeys;
 
-                    this.updateViewProjectData(root, cityBuilderStore, sceneStore);
+                    this.updateViewProjectData(root, sceneStore);
 
                     sceneStore.scmMetricLoaded = false;
-                    cityBuilderStore.show = false;
+                    this.cityBuilderStore.show = false;
                 })
                 .catch((error: Error) => {
                     this.appStatusStore.error(
@@ -115,13 +113,9 @@ export default class SonarQubeMeasuresService {
         this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
     }
 
-    private updateViewProjectData(
-        root: TreeElement,
-        cityBuilderStore: CityBuilderStore,
-        sceneStore: SceneStore
-    ) {
+    private updateViewProjectData(root: TreeElement, sceneStore: SceneStore) {
         const projectData: TreeElement = root.clone();
-        this.filterStructureService.filter(projectData, cityBuilderStore);
+        this.filterStructureService.filter(projectData);
         this.optimizeStructureService.optimize(projectData);
 
         sceneStore.projectData = projectData;

@@ -31,54 +31,42 @@ import { createMockInjection } from "../../Helper";
 
 describe("<CityBuilder/>", () => {
     it("should show if appStore isVisible and cityStore show", () => {
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = new SceneStore();
 
         testCityBuilderStore.show = true;
 
-        const cityBuilder = shallow(
-            <CityBuilder store={testCityBuilderStore} sceneStore={testSceneStore} />
-        );
+        const cityBuilder = shallow(<CityBuilder sceneStore={testSceneStore} />);
 
         expect(cityBuilder.children().length).to.be.greaterThan(1);
     });
 
     it("should show advanced tab on click", () => {
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = new SceneStore();
 
         testCityBuilderStore.show = true;
 
-        const cityBuilder = shallow(
-            <CityBuilder store={testCityBuilderStore} sceneStore={testSceneStore} />
-        );
+        const cityBuilder = shallow(<CityBuilder sceneStore={testSceneStore} />);
 
-        expect(
-            cityBuilder.contains(<OptionsSimple store={testCityBuilderStore} baseUrl={undefined} />)
-        ).to.be.true;
-        expect(cityBuilder.contains(<AdvancedAnalysisOptions store={testCityBuilderStore} />)).to.be
-            .false;
+        expect(cityBuilder.contains(<OptionsSimple baseUrl={undefined} />)).to.be.true;
+        expect(cityBuilder.contains(<AdvancedAnalysisOptions />)).to.be.false;
 
         cityBuilder.find("#city-builder-tab-1").simulate("click");
 
-        expect(
-            cityBuilder.contains(<OptionsSimple store={testCityBuilderStore} baseUrl={undefined} />)
-        ).to.be.false;
-        expect(cityBuilder.contains(<AdvancedAnalysisOptions store={testCityBuilderStore} />)).to.be
-            .true;
+        expect(cityBuilder.contains(<OptionsSimple baseUrl={undefined} />)).to.be.false;
+        expect(cityBuilder.contains(<AdvancedAnalysisOptions />)).to.be.true;
     });
 
     it("should not show if cityStore show is false", () => {
-        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         testCityBuilderStore.show = false;
         createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = new SceneStore();
 
-        const cityBuilder = shallow(
-            <CityBuilder store={testCityBuilderStore} sceneStore={testSceneStore} />
-        );
+        const cityBuilder = shallow(<CityBuilder sceneStore={testSceneStore} />);
 
         expect(cityBuilder.children().length).to.be.eq(0);
     });

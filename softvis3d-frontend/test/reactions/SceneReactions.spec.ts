@@ -24,22 +24,20 @@ import VisualizationOptions from "../../src/classes/VisualizationOptions";
 import { complexityColorMetric } from "../../src/constants/Metrics";
 import SceneReactions from "../../src/reactions/SceneReactions";
 import CityLayoutService from "../../src/services/layout/CityLayoutService";
-import AppStatusStore from "../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
 import SceneStore from "../../src/stores/SceneStore";
 import { createDefaultDir } from "../classes/TreeElement.spec";
-import { createMock } from "../Helper";
+import { createMock, createMockInjection } from "../Helper";
 
 describe("SceneReactions", () => {
     it("should change city builder color metric setting if changed in the scene", () => {
         const testSceneStore = Sinon.createStubInstance(SceneStore);
-        const testCityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        const appStatusStore = Sinon.createStubInstance(AppStatusStore);
+        const testCityBuilderStore = createMockInjection(new CityBuilderStore());
         createMock(CityLayoutService);
 
         testCityBuilderStore.options = VisualizationOptions.createDefault();
 
-        const reactions = new SceneReactions(testSceneStore, testCityBuilderStore, appStatusStore);
+        const reactions = new SceneReactions(testSceneStore);
 
         testCityBuilderStore.options.metricColor = complexityColorMetric;
 
@@ -49,15 +47,13 @@ describe("SceneReactions", () => {
 
     it("should rebuild city if color metric changed", () => {
         const testSceneStore = Sinon.createStubInstance(SceneStore);
-        const testCityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         const testCityLayoutService = createMock(CityLayoutService);
-        const appStatusStore = Sinon.createStubInstance(AppStatusStore);
 
-        testCityBuilderStore.options = VisualizationOptions.createDefault();
+        testCityBuilderStore.show = false;
 
-        const reactions = new SceneReactions(testSceneStore, testCityBuilderStore, appStatusStore);
+        const reactions = new SceneReactions(testSceneStore);
 
-        testCityBuilderStore.shapes = [];
         testCityBuilderStore.options.metricColor = complexityColorMetric;
 
         assert(testCityLayoutService.createCity.calledOnce);
@@ -66,13 +62,12 @@ describe("SceneReactions", () => {
 
     it("should convert backend data to threeJS shapes", () => {
         const testSceneStore = Sinon.createStubInstance(SceneStore);
-        const testCityBuilderStore = new CityBuilderStore();
+        createMockInjection(new CityBuilderStore());
         const testLegacyConnector = createMock(CityLayoutService);
-        const appStatusStore = Sinon.createStubInstance(AppStatusStore);
 
         testSceneStore.options = VisualizationOptions.createDefault();
 
-        const reactions = new SceneReactions(testSceneStore, testCityBuilderStore, appStatusStore);
+        const reactions = new SceneReactions(testSceneStore);
 
         testSceneStore.projectData = createDefaultDir();
 

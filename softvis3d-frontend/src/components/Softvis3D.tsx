@@ -20,7 +20,6 @@
 
 import { observer } from "mobx-react";
 import * as React from "react";
-import CityBuilderStore from "../stores/CityBuilderStore";
 import SceneStore from "../stores/SceneStore";
 import CityBuilder from "./citybuilder/CityBuilder";
 import Status from "./status/Status";
@@ -28,19 +27,18 @@ import Visualization from "./visualization/Visualization";
 
 interface Softvis3DProps {
     sceneStore: SceneStore;
-    cityBuilderStore: CityBuilderStore;
     baseUrl?: string;
 }
 
 @observer
 export default class Softvis3D extends React.Component<Softvis3DProps, any> {
     public render() {
-        const { sceneStore, cityBuilderStore, baseUrl } = this.props;
+        const { sceneStore, baseUrl } = this.props;
         return (
             <div>
                 <Status />
-                <CityBuilder store={cityBuilderStore} sceneStore={sceneStore} baseUrl={baseUrl} />
-                <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore} />
+                <CityBuilder sceneStore={sceneStore} baseUrl={baseUrl} />
+                <Visualization sceneStore={sceneStore} />
             </div>
         );
     }

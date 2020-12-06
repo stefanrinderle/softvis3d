@@ -27,6 +27,8 @@ import SceneStore from "../stores/SceneStore";
 import { default as UrlParameterService, Parameters } from "./UrlParameterService";
 
 export default class VisualizationLinkService {
+    @lazyInject("CityBuilderStore")
+    private readonly cityBuilderStore!: CityBuilderStore;
     @lazyInject("UrlParameterService")
     private readonly urlParameterService!: UrlParameterService;
     @lazyInject("VisualizationLinkSerializationService")
@@ -38,7 +40,7 @@ export default class VisualizationLinkService {
         this.config = config;
     }
 
-    public process(cityBuilderStore: CityBuilderStore, sceneStore: SceneStore, search: string) {
+    public process(sceneStore: SceneStore, search: string) {
         const params: Parameters = this.urlParameterService.getQueryParams(search);
 
         const input = params.visualizationStatus;
@@ -48,29 +50,23 @@ export default class VisualizationLinkService {
             );
 
             if (visualizationLinkParams) {
-                this.applyParams(cityBuilderStore, sceneStore, visualizationLinkParams);
+                this.applyParams(sceneStore, visualizationLinkParams);
 
-                cityBuilderStore.show = false;
-                cityBuilderStore.initiateBuildProcess = true;
+                this.cityBuilderStore.show = false;
+                this.cityBuilderStore.initiateBuildProcess = true;
             }
         }
     }
 
-    public createVisualizationLink(
-        cityBuilderStore: CityBuilderStore,
-        sceneStore: SceneStore
-    ): string {
-        const params = this.createCurrentParams(cityBuilderStore, sceneStore);
+    public createVisualizationLink(sceneStore: SceneStore): string {
+        const params = this.createCurrentParams(sceneStore);
         return this.urlParameterService.createVisualizationLinkForCurrentUrl(
             document.location.href,
             params
         );
     }
 
-    public createPlainVisualizationLink(
-        cityBuilderStore: CityBuilderStore,
-        sceneStore: SceneStore
-    ): string {
+    public createPlainVisualizationLink(sceneStore: SceneStore): string {
         let baseUrl = "";
         if (this.config.baseUrl) {
             baseUrl = this.config.baseUrl;
@@ -84,14 +80,11 @@ export default class VisualizationLinkService {
             "&baseUrl=" +
             baseUrl;
 
-        const params = this.createCurrentParams(cityBuilderStore, sceneStore);
+        const params = this.createCurrentParams(sceneStore);
         return this.urlParameterService.createVisualizationLinkForCurrentUrl(baseLocation, params);
     }
 
-    private createCurrentParams(
-        cityBuilderStore: CityBuilderStore,
-        sceneStore: SceneStore
-    ): Parameters {
+    private createCurrentParams(sceneStore: SceneStore): Parameters {
         if (!sceneStore.cameraPosition) {
             throw new Error(
                 "sceneStore.cameraPosition is undefined or null on createVisualizationLink"
@@ -99,7 +92,7 @@ export default class VisualizationLinkService {
         }
 
         const visualizationLinkParams: VisualizationLinkParams = new VisualizationLinkParams(
-            cityBuilderStore.options,
+            this.cityBuilderStore.options,
             sceneStore.selectedObjectId,
             sceneStore.cameraPosition
         );
@@ -111,12 +104,8 @@ export default class VisualizationLinkService {
         };
     }
 
-    private applyParams(
-        cityBuilderStore: CityBuilderStore,
-        sceneStore: SceneStore,
-        visualizationLinkParams: VisualizationLinkParams
-    ) {
-        cityBuilderStore.options = visualizationLinkParams.visualizationOptions;
+    private applyParams(sceneStore: SceneStore, visualizationLinkParams: VisualizationLinkParams) {
+        this.cityBuilderStore.options = visualizationLinkParams.visualizationOptions;
 
         sceneStore.selectedObjectId = visualizationLinkParams.selectedObjectId;
         sceneStore.cameraPosition = visualizationLinkParams.cameraPosition;

@@ -21,14 +21,15 @@
 import { expect } from "chai";
 import SonarQubeMeasuresMetricService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
+import { createMockInjection } from "../../../Helper";
 
 describe("SonarQubeMeasuresMetricService", () => {
     it("should call backend and load measures", () => {
-        const cityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        createMockInjection(new CityBuilderStore());
 
         const underTest: SonarQubeMeasuresMetricService = new SonarQubeMeasuresMetricService();
 
-        const result = underTest.getMetricRequestValues(cityBuilderStore);
+        const result = underTest.getMetricRequestValues();
 
         expect(result).to.be.eq("complexity,ncloc,coverage,violations,new_violations,open_issues");
     });

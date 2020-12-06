@@ -37,7 +37,7 @@ describe("CityLayoutService", () => {
 
         createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = new SceneStore();
-        const cityBuilderStore = new CityBuilderStore();
+        createMockInjection(new CityBuilderStore());
         testSceneStore.projectData = createDefaultDir();
 
         createMock(SonarQubeScmService);
@@ -52,7 +52,7 @@ describe("CityLayoutService", () => {
 
         const underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity(testSceneStore, cityBuilderStore);
+        underTest.createCity(testSceneStore);
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -74,7 +74,7 @@ describe("CityLayoutService", () => {
 
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = new SceneStore();
-        const cityBuilderStore = new CityBuilderStore();
+        createMockInjection(new CityBuilderStore());
         testSceneStore.projectData = createDefaultDir();
 
         createMock(SonarQubeScmService);
@@ -91,7 +91,7 @@ describe("CityLayoutService", () => {
 
         const underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity(testSceneStore, cityBuilderStore);
+        underTest.createCity(testSceneStore);
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -114,7 +114,7 @@ describe("CityLayoutService", () => {
 
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = new SceneStore();
-        const cityBuilderStore = new CityBuilderStore();
+        const cityBuilderStore = createMockInjection(new CityBuilderStore());
         testSceneStore.projectData = createDefaultDir();
         cityBuilderStore.options = VisualizationOptions.createDefault();
         cityBuilderStore.options.metricColor = numberOfAuthorsBlameColorMetric;
@@ -129,7 +129,7 @@ describe("CityLayoutService", () => {
 
         const underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity(testSceneStore, cityBuilderStore);
+        underTest.createCity(testSceneStore);
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);

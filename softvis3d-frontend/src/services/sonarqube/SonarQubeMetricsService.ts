@@ -43,6 +43,8 @@ export default class SonarQubeMetricsService extends BackendService {
     );
     private static LOAD_METRICS_ERROR_KEY = "LOAD_METRICS_ERROR";
 
+    @lazyInject("CityBuilderStore")
+    private readonly cityBuilderStore!: CityBuilderStore;
     @lazyInject("AppStatusStore")
     private readonly appStatusStore!: AppStatusStore;
 
@@ -50,7 +52,7 @@ export default class SonarQubeMetricsService extends BackendService {
         super(baseUrl);
     }
 
-    public loadAvailableMetrics(cityBuilderStore: CityBuilderStore, page = 1): Promise<void> {
+    public loadAvailableMetrics(page = 1): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if (page === 1) {
                 this.appStatusStore.load(SonarQubeMetricsService.LOAD_METRICS);
@@ -66,11 +68,11 @@ export default class SonarQubeMetricsService extends BackendService {
                         )
                         .map((c) => this.createMetric(c));
 
-                    cityBuilderStore.genericMetrics.addMetrics(metrics);
+                    this.cityBuilderStore.genericMetrics.addMetrics(metrics);
 
                     const metricsPosition = response.data.p * response.data.ps;
                     if (metricsPosition < response.data.total) {
-                        return this.loadAvailableMetrics(cityBuilderStore, page + 1)
+                        return this.loadAvailableMetrics(page + 1)
                             .then(() => {
                                 resolve();
                             })

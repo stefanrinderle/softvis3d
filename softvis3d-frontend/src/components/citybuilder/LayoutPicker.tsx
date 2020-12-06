@@ -21,26 +21,29 @@
 import { observer } from "mobx-react";
 import * as React from "react";
 import Layout from "../../classes/Layout";
+import { lazyInject } from "../../inversify.config";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import { RadioButton } from "../ui/RadioButton";
 import { RadioGroup } from "../ui/RadioGroup";
 
 export interface LayoutPickerProps {
     layouts: Layout[];
-    store: CityBuilderStore;
 }
 
 @observer
 export default class LayoutPicker extends React.Component<LayoutPickerProps, any> {
+    @lazyInject("CityBuilderStore")
+    private readonly cityBuilderStore!: CityBuilderStore;
+
     public render() {
-        const { layouts, store } = this.props;
+        const { layouts } = this.props;
         return (
             <div className="layout-component">
                 <RadioGroup
                     onChange={(l: Layout) => {
-                        store.options.layout = l;
+                        this.cityBuilderStore.options.layout = l;
                     }}
-                    value={store.options.layout}
+                    value={this.cityBuilderStore.options.layout}
                     className={"list"}
                 >
                     {this.mapLayouts(layouts)}
