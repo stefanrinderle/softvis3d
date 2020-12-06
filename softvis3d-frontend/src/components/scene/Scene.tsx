@@ -18,15 +18,13 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import * as React from "react";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import SceneStore from "../../stores/SceneStore";
-import {SceneKeyInteractions} from "./events/SceneKeyInteractions";
+import { SceneKeyInteractions } from "./events/SceneKeyInteractions";
 import SceneInformation from "./information/SceneInformation";
-import {KeyLegend} from "./KeyLegend";
+import { KeyLegend } from "./KeyLegend";
 import SceneCanvas from "./SceneCanvas";
 import ThreeSceneService from "./visualization/ThreeSceneService";
 
@@ -46,7 +44,6 @@ interface SceneStates {
  */
 @observer
 export default class Scene extends React.Component<SceneProps, SceneStates> {
-
     public static SCENE_CONTAINER_ID = "scene-container";
 
     private _threeSceneService: ThreeSceneService;
@@ -59,12 +56,12 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         this.state = {
             mounted: false,
             focus: false,
-            legend: true
+            legend: true,
         };
 
         // FIXME!!!
-        this._threeSceneService = (undefined as any);
-        this._keyActions = (undefined as any);
+        this._threeSceneService = undefined as any;
+        this._keyActions = undefined as any;
     }
 
     public componentDidMount() {
@@ -74,19 +71,19 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
         this._keyActions.addResetCameraEventListener(this.resetCamera.bind(this));
         this._keyActions.addToggleLegendEventListener(this.toggleLegend.bind(this));
 
-        this.setState({...this.state, mounted: true});
+        this.setState({ ...this.state, mounted: true });
     }
 
     public componentWillUnmount() {
         this._keyActions.destroy();
-        this.setState({...this.state, mounted: false});
+        this.setState({ ...this.state, mounted: false });
 
         this._threeSceneService.destroy();
     }
 
     public render() {
-        const {sceneStore, cityBuilderStore} = this.props;
-        const {focus, legend, mounted} = this.state;
+        const { sceneStore, cityBuilderStore } = this.props;
+        const { focus, legend, mounted } = this.state;
 
         if (mounted) {
             this.processSceneUpdates();
@@ -97,22 +94,26 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
 
         return (
             <div id={Scene.SCENE_CONTAINER_ID} className={cssClass}>
-                <KeyLegend show={legend}/>
-                <SceneCanvas selectObject={this.selectObject.bind(this)}
-                             updateCameraPosition={this.updateCameraPosition.bind(this)}
-                             updateSceneFocusState={this.updateSceneFocusState.bind(this)}
+                <KeyLegend show={legend} />
+                <SceneCanvas
+                    selectObject={this.selectObject.bind(this)}
+                    updateCameraPosition={this.updateCameraPosition.bind(this)}
+                    updateSceneFocusState={this.updateSceneFocusState.bind(this)}
                 />
-                <SceneInformation sceneStore={sceneStore} cityBuilderStore={cityBuilderStore}/>
+                <SceneInformation sceneStore={sceneStore} cityBuilderStore={cityBuilderStore} />
             </div>
         );
     }
 
     public processSceneUpdates() {
-        const {sceneStore} = this.props;
+        const { sceneStore } = this.props;
 
         if (sceneStore.shapesHash !== this.shapesHash) {
             this._threeSceneService.update(
-                sceneStore.shapes, this.props.cityBuilderStore.options, sceneStore.cameraPosition);
+                sceneStore.shapes,
+                this.props.cityBuilderStore.options,
+                sceneStore.cameraPosition
+            );
             this.updateCameraPosition();
             this.shapesHash = sceneStore.shapesHash;
 
@@ -134,7 +135,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     }
 
     private updateSceneFocusState(newState: boolean) {
-        this.setState({...this.state, focus: newState});
+        this.setState({ ...this.state, focus: newState });
 
         if (newState) {
             this._keyActions.resume();
@@ -152,7 +153,6 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     }
 
     private toggleLegend() {
-        this.setState({...this.state, legend: !this.state.legend});
+        this.setState({ ...this.state, legend: !this.state.legend });
     }
-
 }

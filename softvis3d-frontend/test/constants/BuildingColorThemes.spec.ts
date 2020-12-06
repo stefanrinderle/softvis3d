@@ -18,23 +18,25 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import {
     BLUEYELLOW_BUILDING_COLOR_THEME,
     BuildingColorThemes,
-    DEFAULT_BUILDING_COLOR_THEME
+    DEFAULT_BUILDING_COLOR_THEME,
 } from "../../src/constants/BuildingColorThemes";
 
 describe("BuildingColorThemes", () => {
-
     it("should provide available modes", () => {
         expect(BuildingColorThemes.availableBuildingColorThemes.length).to.be.greaterThan(0);
     });
 
     it("should find modes by id", () => {
-        expect(BuildingColorThemes.getModeById(DEFAULT_BUILDING_COLOR_THEME.id)).to.be.eq(DEFAULT_BUILDING_COLOR_THEME);
+        expect(BuildingColorThemes.getModeById(DEFAULT_BUILDING_COLOR_THEME.id)).to.be.eq(
+            DEFAULT_BUILDING_COLOR_THEME
+        );
 
-        expect(BuildingColorThemes.getModeById(BLUEYELLOW_BUILDING_COLOR_THEME.id)).to.be.eq(BLUEYELLOW_BUILDING_COLOR_THEME);
+        expect(BuildingColorThemes.getModeById(BLUEYELLOW_BUILDING_COLOR_THEME.id)).to.be.eq(
+            BLUEYELLOW_BUILDING_COLOR_THEME
+        );
     });
-
 });

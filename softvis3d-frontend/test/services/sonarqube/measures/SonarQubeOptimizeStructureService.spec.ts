@@ -18,14 +18,12 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {TreeElement} from "../../../../src/classes/TreeElement";
-import SonarQubeOptimizeStructureService
-    from "../../../../src/services/sonarqube/measures/structure/SonarQubeOptimizeStructureService";
-import {createDefaultDir, createDefaultFile} from "../../../classes/TreeElement.spec";
+import { expect } from "chai";
+import { TreeElement } from "../../../../src/classes/TreeElement";
+import SonarQubeOptimizeStructureService from "../../../../src/services/sonarqube/measures/structure/SonarQubeOptimizeStructureService";
+import { createDefaultDir, createDefaultFile } from "../../../classes/TreeElement.spec";
 
 describe("SonarQubeOptimizeStructureService", () => {
-
     /**
      * optimizeDirectoryStructure tests
      */

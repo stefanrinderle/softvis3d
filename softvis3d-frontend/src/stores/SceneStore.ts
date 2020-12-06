@@ -18,15 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {computed, observable, observe} from "mobx";
-import {Vector3} from "three";
+import { computed, observable, observe } from "mobx";
+import { Vector3 } from "three";
 import Metric from "../classes/Metric";
-import {TreeElement} from "../classes/TreeElement";
-import {lazyInject} from "../inversify.config";
+import { TreeElement } from "../classes/TreeElement";
+import { lazyInject } from "../inversify.config";
 import TreeService from "../services/TreeService";
 
 export default class SceneStore {
-
     @observable
     public projectData: TreeElement | null = null;
     @observable
@@ -44,7 +43,9 @@ export default class SceneStore {
 
     public constructor() {
         this.scmMetricLoaded = false;
-        observe(this, "shapes", () => { this.shapesHash = (Date.now()).toString(36); });
+        observe(this, "shapes", () => {
+            this.shapesHash = Date.now().toString(36);
+        });
     }
 
     @computed
@@ -56,15 +57,20 @@ export default class SceneStore {
     public get selectedElement(): TreeElement | null {
         let selectedElement: TreeElement | null = null;
         if (this.projectData !== null && this.selectedObjectId != null) {
-            selectedElement =
-                this.treeService.searchTreeNode(this.projectData, this.selectedObjectId);
+            selectedElement = this.treeService.searchTreeNode(
+                this.projectData,
+                this.selectedObjectId
+            );
         }
         return selectedElement;
     }
 
     public getColorValue(metric: Metric): number | null {
-        if (this.selectedElement && this.selectedElement.measures
-                && metric.id in this.selectedElement.measures) {
+        if (
+            this.selectedElement &&
+            this.selectedElement.measures &&
+            metric.id in this.selectedElement.measures
+        ) {
             return this.selectedElement.measures[metric.id];
         } else {
             return null;

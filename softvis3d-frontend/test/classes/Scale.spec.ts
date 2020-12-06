@@ -18,11 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import Scale from "../../src/classes/Scale";
 
 describe("Scale", () => {
-
     it("should implement SelectOptionValue", () => {
         const expectedId = "23";
         const expectedLabel = "INT";
@@ -34,5 +33,4 @@ describe("Scale", () => {
         expect(result.id).to.be.eq(expectedId);
         expect(result.description).to.be.eq(expectedDescription);
     });
-
 });

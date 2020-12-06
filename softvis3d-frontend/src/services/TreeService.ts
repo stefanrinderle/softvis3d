@@ -18,10 +18,9 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {TreeElement} from "../classes/TreeElement";
+import { TreeElement } from "../classes/TreeElement";
 
 export default class TreeService {
-
     public searchTreeNode(tree: TreeElement, id: string): TreeElement | null {
         if (tree) {
             return this.searchIdInElement(id, tree);
@@ -82,5 +81,4 @@ export default class TreeService {
 
         return showIds;
     }
-
 }

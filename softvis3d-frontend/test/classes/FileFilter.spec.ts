@@ -18,13 +18,12 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import FileFilter from "../../src/classes/FileFilter";
-import {ONLY_TEST_CLASSES_VARIANT} from "../../src/constants/TestClassesVariants";
-import {createDefaultFileWithName} from "./TreeElement.spec";
+import { ONLY_TEST_CLASSES_VARIANT } from "../../src/constants/TestClassesVariants";
+import { createDefaultFileWithName } from "./TreeElement.spec";
 
 describe("FileFilter", () => {
-
     const testFile = createDefaultFileWithName("SoftVis.java");
 
     it("should not filter by default", () => {

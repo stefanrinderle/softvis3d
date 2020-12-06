@@ -18,22 +18,20 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import * as React from "react";
 import Scrollbars from "react-custom-scrollbars";
-import {TreeElement} from "../../classes/TreeElement";
-import {lazyInject} from "../../inversify.config";
-import {HtmlDomService, Offset} from "../../services/HtmlDomService";
+import { TreeElement } from "../../classes/TreeElement";
+import { lazyInject } from "../../inversify.config";
+import { HtmlDomService, Offset } from "../../services/HtmlDomService";
 import SceneStore from "../../stores/SceneStore";
 import FolderContentElement from "./FolderContentElement";
 
 // FIXME
-const ScrollbarsWORKAROUND = (Scrollbars as any);
+const ScrollbarsWORKAROUND = Scrollbars as any;
 
 export interface NodeListProps {
-    activeFolder: TreeElement|null;
+    activeFolder: TreeElement | null;
     sceneStore: SceneStore;
 }
 
@@ -43,7 +41,6 @@ interface NodeListStates {
 
 @observer
 export default class FolderContent extends React.Component<NodeListProps, NodeListStates> {
-
     @lazyInject("HtmlDomService")
     private readonly htmlDomService!: HtmlDomService;
 
@@ -53,7 +50,7 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
         super(p, context);
 
         this.state = {
-            listHeight: 0
+            listHeight: 0,
         };
     }
 
@@ -63,7 +60,7 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
         const scrollerOffset: Offset = this.htmlDomService.getOffsetsById("node-scroller");
 
         this.setState({
-            listHeight: sceneHeight - scrollerOffset.top + sceneOffsets.top
+            listHeight: sceneHeight - scrollerOffset.top + sceneOffsets.top,
         });
     }
 
@@ -95,10 +92,11 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
         const elements = this.getElementList(this.props.activeFolder);
 
         return (
-            <ScrollbarsWORKAROUND id="node-scroller" style={{ width: "100%", height: this.state.listHeight }}>
-                <ul className="node-list">
-                    {elements}
-                </ul>
+            <ScrollbarsWORKAROUND
+                id="node-scroller"
+                style={{ width: "100%", height: this.state.listHeight }}
+            >
+                <ul className="node-list">{elements}</ul>
             </ScrollbarsWORKAROUND>
         );
     }
@@ -108,19 +106,19 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
             return [];
         }
 
-        return folder
-            .getSortedChildren()
-            .map((child) => this.getElement(child));
+        return folder.getSortedChildren().map((child) => this.getElement(child));
     }
 
     private getElement(child: TreeElement): JSX.Element {
-        const {sceneStore} = this.props;
+        const { sceneStore } = this.props;
 
-        return <FolderContentElement
+        return (
+            <FolderContentElement
                 key={child.id}
                 element={child}
                 isSelected={child.id === sceneStore.selectedObjectId}
                 sceneStore={sceneStore}
-            />;
+            />
+        );
     }
 }

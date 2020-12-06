@@ -18,19 +18,22 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {Vector3} from "three";
+import { expect } from "chai";
+import { Vector3 } from "three";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
 import VisualizationLinkSerializationService from "../../src/classes/VisualizationLinkSerializationService";
 import VisualizationOptions from "../../src/classes/VisualizationOptions";
 
 describe("VisualizationLinkSerializationService", () => {
-
     it("Round trip test", () => {
         const underTest = new VisualizationLinkSerializationService();
 
         const expectedX = 123;
-        const linkParams = new VisualizationLinkParams(VisualizationOptions.createDefault(), null, new Vector3(expectedX));
+        const linkParams = new VisualizationLinkParams(
+            VisualizationOptions.createDefault(),
+            null,
+            new Vector3(expectedX)
+        );
 
         const urlString = underTest.serialize(linkParams);
 
@@ -41,7 +44,8 @@ describe("VisualizationLinkSerializationService", () => {
         expect(result.selectedObjectId).to.be.null;
         expect(result.cameraPosition.x).to.be.eq(expectedX);
 
-        expect(result.visualizationOptions.equalStructure(result.visualizationOptions)).to.be.eq(true);
+        expect(result.visualizationOptions.equalStructure(result.visualizationOptions)).to.be.eq(
+            true
+        );
     });
-
 });

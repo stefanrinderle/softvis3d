@@ -18,10 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {assert, expect} from "chai";
-import {mount} from "enzyme";
+import { assert, expect } from "chai";
+import { mount } from "enzyme";
 import * as React from "react";
 import * as Sinon from "sinon";
 import TopBarShareButton from "../../../src/components/topbar/TopBarShareButton";
@@ -29,10 +27,9 @@ import ClipBoardService from "../../../src/services/ClipBoardService";
 import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
 import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../src/stores/SceneStore";
-import {createMock} from "../../Helper";
+import { createMock } from "../../Helper";
 
 describe("<TopBarShareButton/>", () => {
-
     it("should initialize if disabled", () => {
         const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
         const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
@@ -40,7 +37,11 @@ describe("<TopBarShareButton/>", () => {
         createMock(VisualizationLinkService);
 
         const shareButton = mount(
-            <TopBarShareButton disabled={false} cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
+            <TopBarShareButton
+                disabled={false}
+                cityBuilderStore={localCityBuilderStore}
+                sceneStore={localSceneStore}
+            />
         );
 
         expect(shareButton.children("button").length).to.be.eq(1);
@@ -62,7 +63,11 @@ describe("<TopBarShareButton/>", () => {
         localVisualizationLinkService.createVisualizationLink.returns("abc");
 
         const shareButton = mount(
-            <TopBarShareButton disabled={true} cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
+            <TopBarShareButton
+                disabled={true}
+                cityBuilderStore={localCityBuilderStore}
+                sceneStore={localSceneStore}
+            />
         );
 
         const dropDownButtons = shareButton.find(".dropdown-menu button");
@@ -85,7 +90,11 @@ describe("<TopBarShareButton/>", () => {
         localVisualizationLinkService.createVisualizationLink.returns("abc");
 
         const shareButton = mount(
-            <TopBarShareButton disabled={true} cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
+            <TopBarShareButton
+                disabled={true}
+                cityBuilderStore={localCityBuilderStore}
+                sceneStore={localSceneStore}
+            />
         );
 
         const dropDownButtons = shareButton.find(".dropdown-menu button");

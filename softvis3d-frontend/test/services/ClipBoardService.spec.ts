@@ -18,16 +18,15 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import * as Sinon from "sinon";
 import ClipBoardService from "../../src/services/ClipBoardService";
 
 describe("ClipBoardService", () => {
-
     it("copy the text to the clipboard", () => {
         const document: any = {
             createElement: () => undefined,
-            execCommand: () => undefined
+            execCommand: () => undefined,
         };
 
         const element: HTMLTextAreaElement = HTMLTextAreaElement.prototype;
@@ -47,5 +46,4 @@ describe("ClipBoardService", () => {
         documentCreateElementStub.restore();
         documentExecStub.restore();
     });
-
 });

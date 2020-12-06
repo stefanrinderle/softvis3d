@@ -18,19 +18,23 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import Metric from "../../src/classes/Metric";
-import {MetricType} from "../../src/classes/MetricType";
+import { MetricType } from "../../src/classes/MetricType";
 
 describe("Metric", () => {
-
     it("should construct minimal metric", () => {
         const expectedKey = "23";
         const expectedName = "diufgh";
         const expectedDescription = "description";
         const expectedType: MetricType = MetricType.INT;
 
-        const result: Metric = new Metric(expectedKey, expectedName, expectedDescription, expectedType);
+        const result: Metric = new Metric(
+            expectedKey,
+            expectedName,
+            expectedDescription,
+            expectedType
+        );
 
         expect(result.id).to.be.eq(expectedKey);
         expect(result.description).to.be.eq(expectedDescription);
@@ -46,5 +50,4 @@ describe("Metric", () => {
         expect(result.label).to.be.eq(expectedName);
         expect(result.id).to.be.eq(expectedId);
     });
-
 });

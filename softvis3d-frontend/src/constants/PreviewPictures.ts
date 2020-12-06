@@ -18,29 +18,49 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {defaultProfile, duplicatedLinesOfCode, leakPeriod} from "./Profiles";
-import {PreviewPicture} from "../classes/PreviewPicture";
-import {district, evostreet} from "./Layouts";
+import { defaultProfile, duplicatedLinesOfCode, leakPeriod } from "./Profiles";
+import { PreviewPicture } from "../classes/PreviewPicture";
+import { district, evostreet } from "./Layouts";
 
-const defaultDistrict: PreviewPicture =
-    new PreviewPicture("/static/resources/preview/district_complexity_loc_EXTINT.png", district, defaultProfile);
+const defaultDistrict: PreviewPicture = new PreviewPicture(
+    "/static/resources/preview/district_complexity_loc_EXTINT.png",
+    district,
+    defaultProfile
+);
 
-const defaultEvostreet: PreviewPicture =
-    new PreviewPicture("/static/resources/preview/evostreet_complexity_loc_EXTINT.png", evostreet, defaultProfile);
+const defaultEvostreet: PreviewPicture = new PreviewPicture(
+    "/static/resources/preview/evostreet_complexity_loc_EXTINT.png",
+    evostreet,
+    defaultProfile
+);
 
-const leakDistrict: PreviewPicture =
-    new PreviewPicture("/static/resources/preview/district_complexity_newLOC_ApacheCommons_Lang.png", district, leakPeriod);
+const leakDistrict: PreviewPicture = new PreviewPicture(
+    "/static/resources/preview/district_complexity_newLOC_ApacheCommons_Lang.png",
+    district,
+    leakPeriod
+);
 
-const leakEvostreet: PreviewPicture =
-    new PreviewPicture("/static/resources/preview/evostreet_complexity_newLOC_ApacheCommons_Lang.png", evostreet, leakPeriod);
+const leakEvostreet: PreviewPicture = new PreviewPicture(
+    "/static/resources/preview/evostreet_complexity_newLOC_ApacheCommons_Lang.png",
+    evostreet,
+    leakPeriod
+);
 
-const duplicateDistrict: PreviewPicture =
-    new PreviewPicture("/static/resources/preview/district_complexity_duplicatedLOC_LMSAPP_SHOP.png", district, duplicatedLinesOfCode);
+const duplicateDistrict: PreviewPicture = new PreviewPicture(
+    "/static/resources/preview/district_complexity_duplicatedLOC_LMSAPP_SHOP.png",
+    district,
+    duplicatedLinesOfCode
+);
 
 const duplicateEvostreet: PreviewPicture = new PreviewPicture(
-    "/static/resources/preview/evostreet_complexity_duplicatedLOC_LMSAPP_SHOP.png", evostreet, duplicatedLinesOfCode);
+    "/static/resources/preview/evostreet_complexity_duplicatedLOC_LMSAPP_SHOP.png",
+    evostreet,
+    duplicatedLinesOfCode
+);
 
-const placeholder: PreviewPicture = new PreviewPicture("/static/resources/preview/placeholderLogo.png");
+const placeholder: PreviewPicture = new PreviewPicture(
+    "/static/resources/preview/placeholderLogo.png"
+);
 
 export {
     defaultDistrict,
@@ -49,7 +69,7 @@ export {
     leakEvostreet,
     duplicateDistrict,
     duplicateEvostreet,
-    placeholder
+    placeholder,
 };
 
 export const availablePreviewPictures: PreviewPicture[] = [
@@ -59,5 +79,5 @@ export const availablePreviewPictures: PreviewPicture[] = [
     leakEvostreet,
     duplicateDistrict,
     duplicateEvostreet,
-    placeholder
+    placeholder,
 ];

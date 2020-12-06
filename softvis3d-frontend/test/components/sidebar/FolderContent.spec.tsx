@@ -18,22 +18,23 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {assert, expect} from "chai";
-import {mount, shallow} from "enzyme";
+import { assert, expect } from "chai";
+import { mount, shallow } from "enzyme";
 import * as React from "react";
 import * as Sinon from "sinon";
-import {TreeElement} from "../../../src/classes/TreeElement";
-import FolderContent, {NodeListProps} from "../../../src/components/sidebar/FolderContent";
+import { TreeElement } from "../../../src/classes/TreeElement";
+import FolderContent, { NodeListProps } from "../../../src/components/sidebar/FolderContent";
 import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
-import {HtmlDomService} from "../../../src/services/HtmlDomService";
+import { HtmlDomService } from "../../../src/services/HtmlDomService";
 import SceneStore from "../../../src/stores/SceneStore";
-import {createDefaultDir, createDefaultFile, createDefaultFileWithIdAndParent} from "../../classes/TreeElement.spec";
-import {createMock} from "../../Helper";
+import {
+    createDefaultDir,
+    createDefaultFile,
+    createDefaultFileWithIdAndParent,
+} from "../../classes/TreeElement.spec";
+import { createMock } from "../../Helper";
 
 describe("<FolderContent/>", () => {
-
     it("should show siblings of the selected element as list", () => {
         const parent: TreeElement = createDefaultDir();
         const child1: TreeElement = createDefaultFileWithIdAndParent("child1", parent);
@@ -47,27 +48,28 @@ describe("<FolderContent/>", () => {
         localSceneStore.selectedObjectId = child1.id;
 
         const sideBarLeafInfo = shallow(
-            <FolderContent
-                activeFolder={parent}
-                sceneStore={localSceneStore}
-            />
+            <FolderContent activeFolder={parent} sceneStore={localSceneStore} />
         );
 
-        expect(sideBarLeafInfo.contains(
-            <FolderContentElement
-                element={child1}
-                isSelected={true}
-                sceneStore={localSceneStore}
-            />
-        )).to.be.true;
+        expect(
+            sideBarLeafInfo.contains(
+                <FolderContentElement
+                    element={child1}
+                    isSelected={true}
+                    sceneStore={localSceneStore}
+                />
+            )
+        ).to.be.true;
 
-        expect(sideBarLeafInfo.contains(
-            <FolderContentElement
-                element={child2}
-                isSelected={false}
-                sceneStore={localSceneStore}
-            />
-        )).to.be.true;
+        expect(
+            sideBarLeafInfo.contains(
+                <FolderContentElement
+                    element={child2}
+                    isSelected={false}
+                    sceneStore={localSceneStore}
+                />
+            )
+        ).to.be.true;
     });
 
     it("should show children of the selected element as list", () => {
@@ -81,42 +83,42 @@ describe("<FolderContent/>", () => {
         localSceneStore.projectData = root;
 
         const selectedElementInfo = shallow(
-            <FolderContent
-                activeFolder={root}
-                sceneStore={localSceneStore}
-            />
+            <FolderContent activeFolder={root} sceneStore={localSceneStore} />
         );
 
         expect(selectedElementInfo.find("ul.node-list")).to.have.length(1);
 
-        expect(selectedElementInfo.contains(
-            <FolderContentElement
-                element={child1}
-                isSelected={false}
-                sceneStore={localSceneStore}/>)
+        expect(
+            selectedElementInfo.contains(
+                <FolderContentElement
+                    element={child1}
+                    isSelected={false}
+                    sceneStore={localSceneStore}
+                />
+            )
         ).to.be.true;
 
-        expect(selectedElementInfo.contains(
-            <FolderContentElement
-                element={child2}
-                isSelected={false}
-                sceneStore={localSceneStore}/>)
+        expect(
+            selectedElementInfo.contains(
+                <FolderContentElement
+                    element={child2}
+                    isSelected={false}
+                    sceneStore={localSceneStore}
+                />
+            )
         ).to.be.true;
     });
 
     it("should mount component with dimension update", () => {
         const htmlDomStub = createMock(HtmlDomService);
         htmlDomStub.getHeightById.callsFake(() => 123);
-        htmlDomStub.getOffsetsById.callsFake(() => ({top: 312, left: 111}));
+        htmlDomStub.getOffsetsById.callsFake(() => ({ top: 312, left: 111 }));
 
         const windowStub = Sinon.stub(window, "addEventListener");
 
         const localSceneStore: SceneStore = new SceneStore();
         Sinon.spy(FolderContent.prototype, "componentDidMount");
-        const wrapper = mount(<FolderContent
-            activeFolder={null}
-            sceneStore={localSceneStore}
-        />);
+        const wrapper = mount(<FolderContent activeFolder={null} sceneStore={localSceneStore} />);
         expect(FolderContent.prototype.componentDidMount).to.have.property("callCount", 1);
 
         expect(wrapper.state().listHeight).to.be.eq(123);
@@ -144,12 +146,12 @@ describe("<FolderContent/>", () => {
         const localSceneStore: SceneStore = new SceneStore();
         const prevProps: NodeListProps = {
             activeFolder: null,
-            sceneStore: localSceneStore
+            sceneStore: localSceneStore,
         };
 
         underTest.props = {
             activeFolder: createDefaultDir(),
-            sceneStore: localSceneStore
+            sceneStore: localSceneStore,
         };
 
         underTest.componentDidUpdate(prevProps);
@@ -161,5 +163,4 @@ describe("<FolderContent/>", () => {
 
         underTestSpy.verify();
     });
-
 });

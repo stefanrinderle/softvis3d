@@ -18,15 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import * as Sinon from "sinon";
 import AutoReloadService from "../../src/services/AutoReloadService";
 import SonarQubeComponentInfoService from "../../src/services/sonarqube/SonarQubeComponentInfoService";
 import AppStatusStore from "../../src/stores/AppStatusStore";
-import {createMock} from "../Helper";
+import { createMock } from "../Helper";
 
 describe("AutoReloadService", () => {
-
     it("should start calling component info update", () => {
         const windowStub = Sinon.stub(window, "setInterval");
 
@@ -108,19 +107,23 @@ describe("AutoReloadService", () => {
         const expectedDate = new Date(0);
 
         const componentInfoService = createMock(SonarQubeComponentInfoService);
-        componentInfoService.loadComponentInfo.returns(Promise.resolve({
-            analysisDate: expectedDate
-        }));
+        componentInfoService.loadComponentInfo.returns(
+            Promise.resolve({
+                analysisDate: expectedDate,
+            })
+        );
         const underTest = new AutoReloadService();
 
         underTest.updateAnalysisDate(appStatusStore);
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
-        returnPromise.then(() => {
-            expect(appStatusStore.analysisDate.getTime()).to.eq(expectedDate.getTime());
-            done();
-        }).catch((error) => done(error));
+        returnPromise
+            .then(() => {
+                expect(appStatusStore.analysisDate.getTime()).to.eq(expectedDate.getTime());
+                done();
+            })
+            .catch((error) => done(error));
     });
 
     it("should not update analysis date in store if not changed", (done) => {
@@ -132,19 +135,23 @@ describe("AutoReloadService", () => {
         appStatusStore.analysisDate = expectedDate;
 
         const componentInfoService = createMock(SonarQubeComponentInfoService);
-        componentInfoService.loadComponentInfo.returns(Promise.resolve({
-            analysisDate: new Date(0)
-        }));
+        componentInfoService.loadComponentInfo.returns(
+            Promise.resolve({
+                analysisDate: new Date(0),
+            })
+        );
         const underTest = new AutoReloadService();
 
         underTest.updateAnalysisDate(appStatusStore);
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
-        returnPromise.then(() => {
-            expect(appStatusStore.analysisDate).to.eq(expectedDate);
-            done();
-        }).catch((error) => done(error));
+        returnPromise
+            .then(() => {
+                expect(appStatusStore.analysisDate).to.eq(expectedDate);
+                done();
+            })
+            .catch((error) => done(error));
     });
 
     it("should update analysis date in store if undefined before", (done) => {
@@ -154,18 +161,22 @@ describe("AutoReloadService", () => {
         const expectedDate = new Date(0);
 
         const componentInfoService = createMock(SonarQubeComponentInfoService);
-        componentInfoService.loadComponentInfo.returns(Promise.resolve({
-            analysisDate: expectedDate
-        }));
+        componentInfoService.loadComponentInfo.returns(
+            Promise.resolve({
+                analysisDate: expectedDate,
+            })
+        );
         const underTest = new AutoReloadService();
 
         underTest.updateAnalysisDate(appStatusStore);
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
-        returnPromise.then(() => {
-            expect(appStatusStore.analysisDate.getTime()).to.eq(expectedDate.getTime());
-            done();
-        }).catch((error) => done(error));
+        returnPromise
+            .then(() => {
+                expect(appStatusStore.analysisDate.getTime()).to.eq(expectedDate.getTime());
+                done();
+            })
+            .catch((error) => done(error));
     });
 });

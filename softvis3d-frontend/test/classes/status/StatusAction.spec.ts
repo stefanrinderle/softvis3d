@@ -18,11 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import StatusAction from "../../../src/classes/status/StatusAction";
 
 describe("StatusAction", () => {
-
     it("should construct minimal action", () => {
         const expectedKey = "23";
         const expectedDescription = "diufgh";
@@ -32,13 +31,10 @@ describe("StatusAction", () => {
         expect(result.key).to.be.eq(expectedKey);
         expect(result.description).to.be.eq(expectedDescription);
     });
-
 });
 
 class TestStatusAction extends StatusAction {
-
     constructor(key: string, description: string) {
         super(key, description);
     }
-
 }

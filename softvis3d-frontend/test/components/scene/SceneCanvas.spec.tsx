@@ -18,8 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import SceneCanvas from "../../../src/components/scene/SceneCanvas";
 import * as Sinon from "sinon";
 import { assert } from "chai";
@@ -27,7 +25,6 @@ import { SceneMouseInteractions } from "../../../src/components/scene/events/Sce
 import Event from "../../../src/components/scene/events/Event";
 
 describe("<SceneCanvas/>", () => {
-
     it("should mount", () => {
         const stubMouseActions: any = Sinon.createStubInstance(SceneMouseInteractions);
         SceneMouseInteractions.create = Sinon.stub().returns(stubMouseActions);
@@ -36,7 +33,7 @@ describe("<SceneCanvas/>", () => {
         underTest.props = {
             selectObject: Sinon.spy(),
             updateCameraPosition: Sinon.spy(),
-            updateSceneFocusState: Sinon.spy()
+            updateSceneFocusState: Sinon.spy(),
         };
 
         underTest.componentDidMount();
@@ -54,7 +51,7 @@ describe("<SceneCanvas/>", () => {
         underTest.props = {
             selectObject: Sinon.spy(),
             updateCameraPosition: Sinon.spy(),
-            updateSceneFocusState: Sinon.spy()
+            updateSceneFocusState: Sinon.spy(),
         };
 
         underTest.componentDidMount();
@@ -70,7 +67,7 @@ describe("<SceneCanvas/>", () => {
         underTest.props = {
             selectObject: Sinon.spy(),
             updateCameraPosition: Sinon.spy(),
-            updateSceneFocusState: sceneFocusSpy
+            updateSceneFocusState: sceneFocusSpy,
         };
 
         const testEvent: Event<boolean> = new Event(true);
@@ -86,7 +83,7 @@ describe("<SceneCanvas/>", () => {
         underTest.props = {
             selectObject: Sinon.spy(),
             updateCameraPosition: Sinon.spy(),
-            updateSceneFocusState: sceneFocusSpy
+            updateSceneFocusState: sceneFocusSpy,
         };
 
         const testEvent: Event<boolean> = new Event(false);
@@ -102,7 +99,7 @@ describe("<SceneCanvas/>", () => {
         underTest.props = {
             selectObject: selectObjectSpy,
             updateCameraPosition: Sinon.spy(),
-            updateSceneFocusState: Sinon.spy()
+            updateSceneFocusState: Sinon.spy(),
         };
 
         const mouseEventStub = Sinon.createStubInstance(MouseEvent);
@@ -111,5 +108,4 @@ describe("<SceneCanvas/>", () => {
 
         assert(selectObjectSpy.calledWith(mouseEventStub));
     });
-
 });

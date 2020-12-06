@@ -18,15 +18,16 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert} from "chai";
-import SonarQubeMetricsService, {SonarQubeApiMetric} from "../../../src/services/sonarqube/SonarQubeMetricsService";
+import { assert } from "chai";
+import SonarQubeMetricsService, {
+    SonarQubeApiMetric,
+} from "../../../src/services/sonarqube/SonarQubeMetricsService";
 import AppStatusStore from "../../../src/stores/AppStatusStore";
 import * as Sinon from "sinon";
 import CityBuilderStore from "../../../src/stores/CityBuilderStore";
-import {MetricType} from "../../../src/classes/MetricType";
+import { MetricType } from "../../../src/classes/MetricType";
 
 describe("SonarQubeMetricsService", () => {
-
     it("should call backend and add metric", (done) => {
         const testAppStatusStore: AppStatusStore = new AppStatusStore();
         const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
@@ -41,24 +42,27 @@ describe("SonarQubeMetricsService", () => {
             key: "ncloc",
             type: MetricType.INT,
             name: "lines of code",
-            description: ""
+            description: "",
         });
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
-                    metrics: expectedMetrics
-                }
+                    metrics: expectedMetrics,
+                },
             });
         });
 
-        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore).then(() => {
-            Sinon.assert.called(spyAdd);
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+        underTest
+            .loadAvailableMetrics(testAppStatusStore, testCityBuilderStore)
+            .then(() => {
+                Sinon.assert.called(spyAdd);
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should filter hidden metrics", (done) => {
@@ -76,24 +80,27 @@ describe("SonarQubeMetricsService", () => {
             type: MetricType.INT,
             name: "lines of code",
             hidden: false,
-            description: ""
+            description: "",
         });
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
-                    metrics: expectedMetrics
-                }
+                    metrics: expectedMetrics,
+                },
             });
         });
 
-        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore).then(() => {
-            Sinon.assert.calledWith(spyAdd, []);
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+        underTest
+            .loadAvailableMetrics(testAppStatusStore, testCityBuilderStore)
+            .then(() => {
+                Sinon.assert.calledWith(spyAdd, []);
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should filter string metrics", (done) => {
@@ -110,24 +117,27 @@ describe("SonarQubeMetricsService", () => {
             key: "ncloc",
             type: MetricType.STRING,
             name: "lines of code",
-            description: ""
+            description: "",
         });
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
-                    metrics: expectedMetrics
-                }
+                    metrics: expectedMetrics,
+                },
             });
         });
 
-        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore).then(() => {
-            Sinon.assert.calledWith(spyAdd, []);
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+        underTest
+            .loadAvailableMetrics(testAppStatusStore, testCityBuilderStore)
+            .then(() => {
+                Sinon.assert.calledWith(spyAdd, []);
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should set app status at the beginning and in the end", (done) => {
@@ -142,19 +152,22 @@ describe("SonarQubeMetricsService", () => {
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
-                    metrics: []
-                }
+                    metrics: [],
+                },
             });
         });
 
-        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore).then(() => {
-            assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
-            assert(spyLoadComplete.calledWith(SonarQubeMetricsService.LOAD_METRICS));
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+        underTest
+            .loadAvailableMetrics(testAppStatusStore, testCityBuilderStore)
+            .then(() => {
+                assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
+                assert(spyLoadComplete.calledWith(SonarQubeMetricsService.LOAD_METRICS));
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should load again if more results", (done) => {
@@ -173,29 +186,34 @@ describe("SonarQubeMetricsService", () => {
                     metrics: [],
                     p: 1,
                     ps: 20,
-                    total: 30
-                }
-            }));
+                    total: 30,
+                },
+            })
+        );
         spyCallApi.onSecondCall().returns(
             Promise.resolve({
                 data: {
                     metrics: [],
                     p: 2,
                     ps: 20,
-                    total: 30
-                }
-            }));
+                    total: 30,
+                },
+            })
+        );
 
-        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore).then(() => {
-            assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
-            assert(spyCallApi.calledTwice);
-            assert(spyLoadComplete.calledWith(SonarQubeMetricsService.LOAD_METRICS));
+        underTest
+            .loadAvailableMetrics(testAppStatusStore, testCityBuilderStore)
+            .then(() => {
+                assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
+                assert(spyCallApi.calledTwice);
+                assert(spyLoadComplete.calledWith(SonarQubeMetricsService.LOAD_METRICS));
 
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should react on errors", (done) => {
@@ -211,22 +229,24 @@ describe("SonarQubeMetricsService", () => {
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
                 response: {
-                    statusText: "not working"
-                }
+                    statusText: "not working",
+                },
             });
         });
 
-        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore)
+        underTest
+            .loadAvailableMetrics(testAppStatusStore, testCityBuilderStore)
             .then(() => undefined)
             .catch(() => {
                 assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
                 assert(spyLoadComplete.calledWith(SonarQubeMetricsService.LOAD_METRICS));
                 assert(spyError.calledOnce);
                 done();
-            }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should react on errors of the second call", (done) => {
@@ -245,27 +265,30 @@ describe("SonarQubeMetricsService", () => {
                     metrics: [],
                     p: 1,
                     ps: 20,
-                    total: 30
-                }
-            }));
+                    total: 30,
+                },
+            })
+        );
         spyCallApi.onSecondCall().returns(
             Promise.reject({
                 response: {
-                    statusText: "not working"
-                }
+                    statusText: "not working",
+                },
             })
         );
 
-        underTest.loadAvailableMetrics(testAppStatusStore, testCityBuilderStore).then(() => {
-            assert.isNotOk({}, "Promise error");
-            done();
-        }).catch(() => {
-            assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
-            assert(spyCallApi.calledTwice);
-            assert(spyLoadComplete.calledWith(SonarQubeMetricsService.LOAD_METRICS));
+        underTest
+            .loadAvailableMetrics(testAppStatusStore, testCityBuilderStore)
+            .then(() => {
+                assert.isNotOk({}, "Promise error");
+                done();
+            })
+            .catch(() => {
+                assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
+                assert(spyCallApi.calledTwice);
+                assert(spyLoadComplete.calledWith(SonarQubeMetricsService.LOAD_METRICS));
 
-            done();
-        });
+                done();
+            });
     });
-
 });

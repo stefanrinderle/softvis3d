@@ -18,12 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
-import {RadioButton} from "./RadioButton";
+import { RadioButton } from "./RadioButton";
 
-type LocalChangeEvent = (value: any, event: LocalChangeEvent, src: React.Component<any, any>) => void;
+type LocalChangeEvent = (
+    value: any,
+    event: LocalChangeEvent,
+    src: React.Component<any, any>
+) => void;
 
 interface RadioGroupProps {
     key?: string | number;
@@ -37,11 +39,10 @@ interface RadioGroupProps {
 }
 
 export class RadioGroup extends React.Component<RadioGroupProps, any> {
-
     //noinspection JSUnusedGlobalSymbols
     public static defaultProps = {
         className: "",
-        disabled: false
+        disabled: false,
     };
 
     public handleChange(val: any, event: any, context: any): void {
@@ -50,13 +51,13 @@ export class RadioGroup extends React.Component<RadioGroupProps, any> {
 
     public renderChildren(): Array<React.Component<any, any>> {
         return React.Children.map<any>(
-            (this.props.children as RadioButton[]),
+            this.props.children as RadioButton[],
             (child: React.ReactChild) => {
                 if (typeof child === "object" && child.type === RadioButton) {
                     return React.cloneElement(child, {
                         checked: child.props.value.id === this.props.value.id,
                         disabled: this.props.disabled || child.props.disabled,
-                        onChange: this.handleChange.bind(this, child.props.value)
+                        onChange: this.handleChange.bind(this, child.props.value),
                     });
                 }
 
@@ -67,10 +68,6 @@ export class RadioGroup extends React.Component<RadioGroupProps, any> {
 
     public render() {
         const className = "radio-group " + (this.props.className || "");
-        return (
-            <div className={className}>
-                {this.renderChildren()}
-            </div>
-        );
+        return <div className={className}>{this.renderChildren()}</div>;
     }
 }

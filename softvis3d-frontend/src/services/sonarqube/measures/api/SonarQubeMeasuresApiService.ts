@@ -18,32 +18,43 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {injectable} from "inversify";
-import {AppConfiguration} from "../../../../classes/AppConfiguration";
+import { injectable } from "inversify";
+import { AppConfiguration } from "../../../../classes/AppConfiguration";
 import AppStatusStore from "../../../../stores/AppStatusStore";
-import {BackendService} from "../../BackendService";
+import { BackendService } from "../../BackendService";
 import SonarQubeMeasuresService from "../SonarQubeMeasuresService";
 import {
     SonarQubeMeasurePagingResponse,
     SonarQubeMeasureResponse,
     SQ_QUALIFIER_DIRECTORY,
     SQ_QUALIFIER_FILE,
-    SQ_QUALIFIER_UNIT_TEST_FILE
+    SQ_QUALIFIER_UNIT_TEST_FILE,
 } from "./SonarQubeMeasureResponse";
 
 @injectable()
 export default class SonarQubeMeasuresApiService extends BackendService {
-
     constructor(config: AppConfiguration) {
         super(config.baseUrl);
     }
 
-    public loadMeasures(appStatusStore: AppStatusStore, baseComponentKey: string, metricKeys: string,
-                        pageMax = 1, pageCurrent = 1): Promise<SonarQubeMeasureResponse> {
+    public loadMeasures(
+        appStatusStore: AppStatusStore,
+        baseComponentKey: string,
+        metricKeys: string,
+        pageMax = 1,
+        pageCurrent = 1
+    ): Promise<SonarQubeMeasureResponse> {
+        appStatusStore.loadStatusUpdate(
+            SonarQubeMeasuresService.LOAD_MEASURES.key,
+            pageMax,
+            pageCurrent
+        );
 
-        appStatusStore.loadStatusUpdate(SonarQubeMeasuresService.LOAD_MEASURES.key, pageMax, pageCurrent);
-
-        const qualifiers = Array.from([SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE, SQ_QUALIFIER_UNIT_TEST_FILE]).join(",");
+        const qualifiers = Array.from([
+            SQ_QUALIFIER_DIRECTORY,
+            SQ_QUALIFIER_FILE,
+            SQ_QUALIFIER_UNIT_TEST_FILE,
+        ]).join(",");
 
         return new Promise<SonarQubeMeasureResponse>((resolve, reject) => {
             const params = {
@@ -52,33 +63,43 @@ export default class SonarQubeMeasuresApiService extends BackendService {
                 metricKeys,
                 qualifiers,
                 s: "path",
-                ps: 500
+                ps: 500,
             };
 
-            this.callApi("/measures/component_tree", {params}).then((response) => {
-                const result: SonarQubeMeasurePagingResponse = response.data;
-                const allResults: SonarQubeMeasureResponse = {
-                    baseComponent: result.baseComponent,
-                    components: result.components
-                };
+            this.callApi("/measures/component_tree", { params })
+                .then((response) => {
+                    const result: SonarQubeMeasurePagingResponse = response.data;
+                    const allResults: SonarQubeMeasureResponse = {
+                        baseComponent: result.baseComponent,
+                        components: result.components,
+                    };
 
-                const pagesMax = Math.floor(result.paging.total / result.paging.pageSize) + 1;
+                    const pagesMax = Math.floor(result.paging.total / result.paging.pageSize) + 1;
 
-                if (result.paging.pageIndex < pagesMax) {
-                    return this.loadMeasures(appStatusStore, baseComponentKey, metricKeys, pagesMax, pageCurrent + 1)
-                        .then((resultSecond) => {
-                            allResults.components = allResults.components.concat(resultSecond.components);
-                            resolve(allResults);
-                    }).catch((error) => {
-                        reject(error);
-                    });
-                } else {
-                    resolve(allResults);
-                }
-            }).catch((error) => {
-                reject(error);
-            });
+                    if (result.paging.pageIndex < pagesMax) {
+                        return this.loadMeasures(
+                            appStatusStore,
+                            baseComponentKey,
+                            metricKeys,
+                            pagesMax,
+                            pageCurrent + 1
+                        )
+                            .then((resultSecond) => {
+                                allResults.components = allResults.components.concat(
+                                    resultSecond.components
+                                );
+                                resolve(allResults);
+                            })
+                            .catch((error) => {
+                                reject(error);
+                            });
+                    } else {
+                        resolve(allResults);
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                });
         });
     }
-
 }

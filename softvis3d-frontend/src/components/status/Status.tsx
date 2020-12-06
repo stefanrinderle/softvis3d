@@ -18,10 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import AppStatusStore from "../../stores/AppStatusStore";
 import Loading from "./loading/Loading";
 import SoftVis3DLogo from "./SoftVis3DLogo";
@@ -29,7 +27,7 @@ import ErrorStatus from "./ErrorStatus";
 import InfoStatus from "./InfoStatus";
 
 @observer
-export default class Status extends React.Component<{ appStatusStore: AppStatusStore; }, any> {
+export default class Status extends React.Component<{ appStatusStore: AppStatusStore }, any> {
     public render() {
         if (!this.props.appStatusStore.isVisible) {
             return <div />;
@@ -37,13 +35,12 @@ export default class Status extends React.Component<{ appStatusStore: AppStatusS
 
         return (
             <div className="status-component">
-                <SoftVis3DLogo/>
+                <SoftVis3DLogo />
 
-                <InfoStatus appStatusStore={this.props.appStatusStore}/>
-                <Loading appStatusStore={this.props.appStatusStore}/>
-                <ErrorStatus appStatusStore={this.props.appStatusStore}/>
+                <InfoStatus appStatusStore={this.props.appStatusStore} />
+                <Loading appStatusStore={this.props.appStatusStore} />
+                <ErrorStatus appStatusStore={this.props.appStatusStore} />
             </div>
         );
     }
-
 }

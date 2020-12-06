@@ -18,24 +18,25 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {Vector3} from "three";
+import { expect } from "chai";
+import { Vector3 } from "three";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
 import VisualizationOptions from "../../src/classes/VisualizationOptions";
 
 describe("VisualizationLinkParams", () => {
-
     it("should construct config", () => {
         const selectedObjectId = "123";
         const cameraPosition: Vector3 = new Vector3(0, 1, 2);
         const visualizationOptions = VisualizationOptions.createDefault();
 
-        const result: VisualizationLinkParams =
-            new VisualizationLinkParams(visualizationOptions, selectedObjectId, cameraPosition);
+        const result: VisualizationLinkParams = new VisualizationLinkParams(
+            visualizationOptions,
+            selectedObjectId,
+            cameraPosition
+        );
 
         expect(result.visualizationOptions).to.be.eq(visualizationOptions);
         expect(result.selectedObjectId).to.be.eq(selectedObjectId);
         expect(result.cameraPosition).to.be.eq(cameraPosition);
     });
-
 });

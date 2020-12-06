@@ -18,25 +18,26 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {expect} from "chai";
-import {shallow} from "enzyme";
+import { expect } from "chai";
+import { shallow } from "enzyme";
 import * as React from "react";
-import {TreeElement} from "../../../src/classes/TreeElement";
+import { TreeElement } from "../../../src/classes/TreeElement";
 import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
 import SceneStore from "../../../src/stores/SceneStore";
-import {createDefaultFileWithName} from "../../classes/TreeElement.spec";
+import { createDefaultFileWithName } from "../../classes/TreeElement.spec";
 
 describe("<FolderContentElement/>", () => {
-
     it("should show element", () => {
         const expectedName = "element98szdfkjbsf";
         const selectedElement: TreeElement = createDefaultFileWithName(expectedName);
         const localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <FolderContentElement element={selectedElement} sceneStore={localSceneStore} isSelected={false}/>
+            <FolderContentElement
+                element={selectedElement}
+                sceneStore={localSceneStore}
+                isSelected={false}
+            />
         );
 
         expect(selectedSingleFileInfo.html().includes(expectedName)).to.be.true;
@@ -48,7 +49,11 @@ describe("<FolderContentElement/>", () => {
         const localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <FolderContentElement element={selectedElement} sceneStore={localSceneStore} isSelected={true}/>
+            <FolderContentElement
+                element={selectedElement}
+                sceneStore={localSceneStore}
+                isSelected={true}
+            />
         );
 
         expect(selectedSingleFileInfo.html().includes(expectedName)).to.be.true;
@@ -61,7 +66,11 @@ describe("<FolderContentElement/>", () => {
         const localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <FolderContentElement element={selectedElement} sceneStore={localSceneStore} isSelected={false}/>
+            <FolderContentElement
+                element={selectedElement}
+                sceneStore={localSceneStore}
+                isSelected={false}
+            />
         );
 
         selectedSingleFileInfo.find("li").simulate("click");
@@ -75,11 +84,14 @@ describe("<FolderContentElement/>", () => {
         const localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
-            <FolderContentElement element={selectedElement} isSelected={true} sceneStore={localSceneStore}/>
+            <FolderContentElement
+                element={selectedElement}
+                isSelected={true}
+                sceneStore={localSceneStore}
+            />
         );
 
         selectedSingleFileInfo.find("li").simulate("click");
         expect(localSceneStore.selectedObjectId).to.be.eq(null);
     });
-
 });

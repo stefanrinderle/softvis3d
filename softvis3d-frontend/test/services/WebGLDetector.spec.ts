@@ -22,10 +22,10 @@ import { expect } from "chai";
 import WebGLDetectorService from "../../src/services/WebGLDetectorService";
 
 describe("WebGLDetector", () => {
-
     it("webGL is not supported without mocks", () => {
         expect(new WebGLDetectorService().isWebGLSupported()).to.be.equal(false);
-        expect(new WebGLDetectorService().getWebGLErrorMessage()).to.contain("http://get.webgl.org/");
+        expect(new WebGLDetectorService().getWebGLErrorMessage()).to.contain(
+            "http://get.webgl.org/"
+        );
     });
-
 });

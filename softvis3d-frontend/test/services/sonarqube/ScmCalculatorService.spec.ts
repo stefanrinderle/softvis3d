@@ -18,12 +18,11 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import ScmCalculatorService from "../../../src/services/sonarqube/ScmCalculatorService";
 import SonarQubeApiScm from "../../../src/services/sonarqube/SonarQubeApiScm";
 
 describe("ScmCalculatorService", () => {
-
     it("should work with only one line and author", () => {
         const measures: SonarQubeApiScm[] = [];
         const measure: SonarQubeApiScm = createMeasure(1, "srinderle");
@@ -79,7 +78,6 @@ describe("ScmCalculatorService", () => {
         expect(result.lastCommit).to.be.eq(lastCommit);
         expect(result.lastCommitRevision).to.be.eq(lastCommitRevision);
     });
-
 });
 
 function createMeasure(line: number, author: string) {

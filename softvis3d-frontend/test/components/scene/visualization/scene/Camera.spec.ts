@@ -18,15 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {Camera} from "../../../../../src/components/scene/visualization/scene/Camera";
+import { expect } from "chai";
+import { Camera } from "../../../../../src/components/scene/visualization/scene/Camera";
 
 describe("Camera", () => {
-
     it("should construct and init camera", () => {
         const container: any = {
             clientWidth: 14,
-            clientHeight: 56
+            clientHeight: 56,
         };
 
         const underTest: Camera = new Camera(container);
@@ -37,7 +36,7 @@ describe("Camera", () => {
     it("should construct and init camera", () => {
         const container: any = {
             clientWidth: 14,
-            clientHeight: 56
+            clientHeight: 56,
         };
 
         const underTest: Camera = new Camera(container);
@@ -55,7 +54,7 @@ describe("Camera", () => {
     it("should set aspect", () => {
         const container: any = {
             clientWidth: 14,
-            clientHeight: 56
+            clientHeight: 56,
         };
 
         const underTest: Camera = new Camera(container);

@@ -30,5 +30,5 @@ export enum MetricType {
     LEVEL = "LEVEL",
     DISTRIB = "DISTRIB",
     RATING = "RATING",
-    WORK_DUR = "WORK_DUR"
+    WORK_DUR = "WORK_DUR",
 }

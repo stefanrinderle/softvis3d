@@ -18,9 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import * as React from "react";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import SceneStore from "../../stores/SceneStore";
@@ -36,23 +34,22 @@ interface VisualizationProps {
 @observer
 export default class Visualization extends React.Component<VisualizationProps, any> {
     public render() {
-        const {cityBuilderStore, sceneStore} = this.props;
+        const { cityBuilderStore, sceneStore } = this.props;
 
         if (!sceneStore.isVisible) {
             return (
                 <div className="visualisation">
-                    <TopBar cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
+                    <TopBar cityBuilderStore={cityBuilderStore} sceneStore={sceneStore} />
                 </div>
             );
         }
 
         return (
             <div className="visualisation">
-                <TopBar cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
-                <Scene cityBuilderStore={cityBuilderStore} sceneStore={sceneStore}/>
-                <SideBar sceneStore={sceneStore}/>
+                <TopBar cityBuilderStore={cityBuilderStore} sceneStore={sceneStore} />
+                <Scene cityBuilderStore={cityBuilderStore} sceneStore={sceneStore} />
+                <SideBar sceneStore={sceneStore} />
             </div>
         );
     }
-
 }

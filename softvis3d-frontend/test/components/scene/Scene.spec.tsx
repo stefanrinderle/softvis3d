@@ -18,34 +18,36 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {assert, expect} from "chai";
-import {shallow} from "enzyme";
+import { assert, expect } from "chai";
+import { shallow } from "enzyme";
 import * as React from "react";
 import * as Sinon from "sinon";
-import {Vector3} from "three";
-import {SceneKeyInteractions} from "../../../src/components/scene/events/SceneKeyInteractions";
+import { Vector3 } from "three";
+import { SceneKeyInteractions } from "../../../src/components/scene/events/SceneKeyInteractions";
 import SceneInformation from "../../../src/components/scene/information/SceneInformation";
-import {KeyLegend} from "../../../src/components/scene/KeyLegend";
+import { KeyLegend } from "../../../src/components/scene/KeyLegend";
 import Scene from "../../../src/components/scene/Scene";
 import ThreeSceneService from "../../../src/components/scene/visualization/ThreeSceneService";
 import SceneStore from "../../../src/stores/SceneStore";
 
 describe("<Scene/>", () => {
-
     it("should initialize", () => {
         const localSceneStore: SceneStore = new SceneStore();
         const cityBuilderStore: any = Sinon.stub();
 
         const scene = shallow(
-            <Scene sceneStore={localSceneStore} cityBuilderStore={cityBuilderStore}/>
+            <Scene sceneStore={localSceneStore} cityBuilderStore={cityBuilderStore} />
         );
 
-        expect(scene.contains(
-            <SceneInformation sceneStore={localSceneStore} cityBuilderStore={cityBuilderStore}/> )).to.be.true;
-        expect(scene.contains(
-            <KeyLegend show={true}/>)).to.be.true;
+        expect(
+            scene.contains(
+                <SceneInformation
+                    sceneStore={localSceneStore}
+                    cityBuilderStore={cityBuilderStore}
+                />
+            )
+        ).to.be.true;
+        expect(scene.contains(<KeyLegend show={true} />)).to.be.true;
     });
 
     it("should mount and bind actions", () => {
@@ -73,7 +75,7 @@ describe("<Scene/>", () => {
         const underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore,
-            cityBuilderStore
+            cityBuilderStore,
         };
 
         const stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
@@ -98,7 +100,7 @@ describe("<Scene/>", () => {
         const underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore,
-            cityBuilderStore
+            cityBuilderStore,
         };
 
         const stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
@@ -120,7 +122,7 @@ describe("<Scene/>", () => {
         const underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore,
-            cityBuilderStore
+            cityBuilderStore,
         };
 
         const stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
@@ -152,14 +154,14 @@ describe("<Scene/>", () => {
         const expectedObjectId = "123";
         const localSceneStore: any = Sinon.stub();
         const cityBuilderStore: any = Sinon.stub();
-        
+
         localSceneStore.selectedObjectId = expectedObjectId;
         localSceneStore.shapesHash = "";
 
         const underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore,
-            cityBuilderStore
+            cityBuilderStore,
         };
 
         const stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
@@ -176,5 +178,4 @@ describe("<Scene/>", () => {
 
         assert(stubThreeSceneService.selectSceneTreeObject.calledOnce);
     });
-
 });

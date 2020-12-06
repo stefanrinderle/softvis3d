@@ -18,15 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {reaction} from "mobx";
-import {lazyInject} from "../inversify.config";
+import { reaction } from "mobx";
+import { lazyInject } from "../inversify.config";
 import CityLayoutService from "../services/layout/CityLayoutService";
 import AppStatusStore from "../stores/AppStatusStore";
 import CityBuilderStore from "../stores/CityBuilderStore";
 import SceneStore from "../stores/SceneStore";
 
 export default class SceneReactions {
-
     private readonly builder: CityBuilderStore;
     private readonly sceneStore: SceneStore;
     private readonly appStatusStore: AppStatusStore;
@@ -46,21 +45,29 @@ export default class SceneReactions {
             () => this.builder.options.metricColor,
             () => {
                 if (!this.builder.show) {
-                    this.cityLayoutService.createCity(this.sceneStore, this.appStatusStore, this.builder);
+                    this.cityLayoutService.createCity(
+                        this.sceneStore,
+                        this.appStatusStore,
+                        this.builder
+                    );
                 }
             },
             {
-                name: "Transfer the chosen color from the scene to the builder and rebuild city"
+                name: "Transfer the chosen color from the scene to the builder and rebuild city",
             }
         );
 
         reaction(
             () => this.sceneStore.projectData,
             () => {
-                this.cityLayoutService.createCity(this.sceneStore, this.appStatusStore, this.builder);
+                this.cityLayoutService.createCity(
+                    this.sceneStore,
+                    this.appStatusStore,
+                    this.builder
+                );
             },
             {
-                name: "Convert backend data to threeJS shapes"
+                name: "Convert backend data to threeJS shapes",
             }
         );
     }

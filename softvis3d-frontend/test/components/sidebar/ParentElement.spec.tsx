@@ -18,12 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {expect} from "chai";
-import {shallow} from "enzyme";
+import { expect } from "chai";
+import { shallow } from "enzyme";
 import * as React from "react";
-import {TreeElement} from "../../../src/classes/TreeElement";
+import { TreeElement } from "../../../src/classes/TreeElement";
 import ParentElement from "../../../src/components/sidebar/ParentElement";
 import SceneStore from "../../../src/stores/SceneStore";
 import {
@@ -31,18 +29,17 @@ import {
     createDefaultDirWithKey,
     createDefaultDirWithKeyAndParent,
     createDefaultFileWithIdAndParent,
-    createDefaultFileWithParent
+    createDefaultFileWithParent,
 } from "../../classes/TreeElement.spec";
 
 describe("<ParentElement/>", () => {
-
     it("should show nothing if selected Element has no parent", () => {
         const element = createDefaultDir();
         const localSceneStore = new SceneStore();
         localSceneStore.projectData = element;
 
         const sideBarSelectParent = shallow(
-            <ParentElement sceneStore={localSceneStore} selectedElement={element}/>
+            <ParentElement sceneStore={localSceneStore} selectedElement={element} />
         );
 
         expect(sideBarSelectParent.children().length).to.be.eq(0);
@@ -58,7 +55,7 @@ describe("<ParentElement/>", () => {
         localSceneStore.projectData = parent;
 
         const sideBarSelectParent = shallow(
-            <ParentElement sceneStore={localSceneStore} selectedElement={parent}/>
+            <ParentElement sceneStore={localSceneStore} selectedElement={parent} />
         );
 
         expect(sideBarSelectParent.children()).to.have.length(0);
@@ -76,7 +73,7 @@ describe("<ParentElement/>", () => {
         localSceneStore.projectData = parent;
 
         const sideBarSelectParent = shallow(
-            <ParentElement sceneStore={localSceneStore} selectedElement={child1}/>
+            <ParentElement sceneStore={localSceneStore} selectedElement={child1} />
         );
 
         sideBarSelectParent.find(".select-parent span").simulate("click");
@@ -95,7 +92,7 @@ describe("<ParentElement/>", () => {
         localSceneStore.projectData = parent;
 
         const sideBarSelectParent = shallow(
-            <ParentElement sceneStore={localSceneStore} selectedElement={child11}/>
+            <ParentElement sceneStore={localSceneStore} selectedElement={child11} />
         );
 
         sideBarSelectParent.find(".select-parent span").simulate("click");

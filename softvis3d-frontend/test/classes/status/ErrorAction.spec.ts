@@ -18,20 +18,23 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import StatusAction from "../../../src/classes/status/StatusAction";
 import ErrorAction from "../../../src/classes/status/ErrorAction";
 
 describe("ErrorAction", () => {
-
     it("should construct minimal error action", () => {
         const expectedKey = "23";
         const expectedDescription = "diufgh";
 
-        const result: StatusAction = new ErrorAction(expectedKey, expectedDescription, "", () => undefined);
+        const result: StatusAction = new ErrorAction(
+            expectedKey,
+            expectedDescription,
+            "",
+            () => undefined
+        );
 
         expect(result.key).to.be.eq(expectedKey);
         expect(result.description).to.be.eq(expectedDescription);
     });
-
 });

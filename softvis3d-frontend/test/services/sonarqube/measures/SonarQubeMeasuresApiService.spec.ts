@@ -23,37 +23,44 @@ import * as Sinon from "sinon";
 import { AppConfiguration } from "../../../../src/classes/AppConfiguration";
 import {
     SonarQubeMeasurePagingResponse,
-    SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE
+    SQ_QUALIFIER_DIRECTORY,
+    SQ_QUALIFIER_FILE,
 } from "../../../../src/services/sonarqube/measures/api/SonarQubeMeasureResponse";
 import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/api/SonarQubeMeasuresApiService";
 import AppStatusStore from "../../../../src/stores/AppStatusStore";
 import SonarQubeMeasuresService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresService";
 
 describe("SonarQubeMeasuresApiService", () => {
-
     it("should call backend and load measures", (done) => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         const testAppStatusStore: AppStatusStore = new AppStatusStore();
         const spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
 
-        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
+        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(
+            testAppConfiguration
+        );
         const data: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 1);
         const stub = Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
-                data
+                data,
             });
         });
 
-        underTest.loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity").then((result) => {
-            assert(spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 1, 1));
-            assert(stub.called);
-            expect(result.components.length).to.be.eq(1);
+        underTest
+            .loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity")
+            .then((result) => {
+                assert(
+                    spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 1, 1)
+                );
+                assert(stub.called);
+                expect(result.components.length).to.be.eq(1);
 
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should load again if more results", (done) => {
@@ -61,7 +68,9 @@ describe("SonarQubeMeasuresApiService", () => {
         const testAppStatusStore: AppStatusStore = new AppStatusStore();
         const spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
 
-        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
+        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(
+            testAppConfiguration
+        );
 
         const data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
         const data2: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(2, 500, 600);
@@ -69,87 +78,112 @@ describe("SonarQubeMeasuresApiService", () => {
         const spyCallApi = Sinon.stub(underTest, "callApi");
         spyCallApi.onFirstCall().returns(
             Promise.resolve({
-                data: data1
-            }));
+                data: data1,
+            })
+        );
         spyCallApi.onSecondCall().returns(
             Promise.resolve({
-                data: data2
-            }));
+                data: data2,
+            })
+        );
 
-        underTest.loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity").then((result) => {
-            assert(spyCallApi.called);
-            expect(result.components.length).to.be.eq(2);
-            assert(spyCallApi.calledTwice);
+        underTest
+            .loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity")
+            .then((result) => {
+                assert(spyCallApi.called);
+                expect(result.components.length).to.be.eq(2);
+                assert(spyCallApi.calledTwice);
 
-            assert(spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 1, 1));
-            assert(spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 2, 2));
-            assert(spyLoadStatusUpdate.calledTwice);
+                assert(
+                    spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 1, 1)
+                );
+                assert(
+                    spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 2, 2)
+                );
+                assert(spyLoadStatusUpdate.calledTwice);
 
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should call backend and react on errors", (done) => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         const testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
+        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(
+            testAppConfiguration
+        );
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
                 response: {
-                    statusText: "not working"
-                }
+                    statusText: "not working",
+                },
             });
         });
 
-        underTest.loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity").then(() => {
-            assert.isNotOk("Promise error", "works but should throw exception");
+        underTest
+            .loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity")
+            .then(() => {
+                assert.isNotOk("Promise error", "works but should throw exception");
 
-            done();
-        }).catch((error) => {
-            expect(error.response.statusText).to.be.eq("not working");
-            done();
-        });
+                done();
+            })
+            .catch((error) => {
+                expect(error.response.statusText).to.be.eq("not working");
+                done();
+            });
     });
 
     it("should call backend and react on errors on the second call", (done) => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         const testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
+        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(
+            testAppConfiguration
+        );
 
         const data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
 
         const spyCallApi = Sinon.stub(underTest, "callApi");
         spyCallApi.onFirstCall().returns(
             Promise.resolve({
-                data: data1
-            }));
+                data: data1,
+            })
+        );
 
         spyCallApi.onSecondCall().returns(
             Promise.reject({
                 response: {
-                    statusText: "not working"
-                }
-            }));
+                    statusText: "not working",
+                },
+            })
+        );
 
-        underTest.loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity").then(() => {
-            assert.isNotOk("Promise error", "works but should throw exception");
+        underTest
+            .loadMeasures(testAppStatusStore, "baseKey", "ncloc,complexity")
+            .then(() => {
+                assert.isNotOk("Promise error", "works but should throw exception");
 
-            done();
-        }).catch((error) => {
-            expect(error.response.statusText).to.be.eq("not working");
+                done();
+            })
+            .catch((error) => {
+                expect(error.response.statusText).to.be.eq("not working");
 
-            done();
-        });
+                done();
+            });
     });
 });
 
-function createResponseWithOneComponent(pageIndex: number, pageSize: number, total: number): SonarQubeMeasurePagingResponse {
+function createResponseWithOneComponent(
+    pageIndex: number,
+    pageSize: number,
+    total: number
+): SonarQubeMeasurePagingResponse {
     return {
         baseComponent: {
             id: "" + pageIndex,
@@ -157,20 +191,22 @@ function createResponseWithOneComponent(pageIndex: number, pageSize: number, tot
             measures: [],
             name: "" + pageIndex,
             path: "" + pageIndex,
-            qualifier: SQ_QUALIFIER_DIRECTORY
+            qualifier: SQ_QUALIFIER_DIRECTORY,
         },
-        components: [{
-            id: "expectedId" + pageIndex,
-            key: "key" + pageIndex,
-            measures: [],
-            name: "name" + pageIndex,
-            path: "path" + pageIndex,
-            qualifier: SQ_QUALIFIER_FILE
-        }],
+        components: [
+            {
+                id: "expectedId" + pageIndex,
+                key: "key" + pageIndex,
+                measures: [],
+                name: "name" + pageIndex,
+                path: "path" + pageIndex,
+                qualifier: SQ_QUALIFIER_FILE,
+            },
+        ],
         paging: {
             pageIndex,
             pageSize,
-            total
-        }
+            total,
+        },
     };
 }

@@ -18,8 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 import { observer } from "mobx-react";
 import { SceneMouseInteractions } from "./events/SceneMouseInteractions";
@@ -37,7 +35,6 @@ interface SceneCanvasProps {
  */
 @observer
 export default class SceneCanvas extends React.Component<SceneCanvasProps, any> {
-
     private _mouseActions?: SceneMouseInteractions;
 
     public componentDidMount() {
@@ -48,23 +45,32 @@ export default class SceneCanvas extends React.Component<SceneCanvasProps, any> 
     }
 
     public componentWillUnmount() {
-        if (!this._mouseActions) { throw Error("mouse actions not defined"); }
+        if (!this._mouseActions) {
+            throw Error("mouse actions not defined");
+        }
 
         this._mouseActions.destroy();
     }
 
     public render() {
         return (
-            <canvas id={SoftVis3dScene.CANVAS_ID}
-                    onMouseDown={() => {
-                        if (this._mouseActions) { this._mouseActions.setMouseMoved(false); }
-                    }}
-                    onMouseMove={() => {
-                        if (this._mouseActions) { this._mouseActions.setMouseMoved(true); }
-                    }}
-                    onMouseUp={(e) => {
-                        if (this._mouseActions) { this._mouseActions.onMouseUp(e); }
-                    }}
+            <canvas
+                id={SoftVis3dScene.CANVAS_ID}
+                onMouseDown={() => {
+                    if (this._mouseActions) {
+                        this._mouseActions.setMouseMoved(false);
+                    }
+                }}
+                onMouseMove={() => {
+                    if (this._mouseActions) {
+                        this._mouseActions.setMouseMoved(true);
+                    }
+                }}
+                onMouseUp={(e) => {
+                    if (this._mouseActions) {
+                        this._mouseActions.onMouseUp(e);
+                    }
+                }}
             />
         );
     }
@@ -76,5 +82,4 @@ export default class SceneCanvas extends React.Component<SceneCanvasProps, any> 
     public handleSelectObject(event: Event<MouseEvent>) {
         this.props.selectObject(event.getValue());
     }
-
 }

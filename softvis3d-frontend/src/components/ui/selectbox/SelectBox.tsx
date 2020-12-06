@@ -18,14 +18,12 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 import SelectOption from "./SelectOption";
 import SelectGroup from "./SelectGroup";
-import {ChangeEvent, MouseEventHandler} from "react";
+import { ChangeEvent, MouseEventHandler } from "react";
 
-type LocalChangeEvent = (value: any) => void|boolean;
+type LocalChangeEvent = (value: any) => void | boolean;
 
 interface SelectBoxProps {
     prepend?: JSX.Element[];
@@ -46,14 +44,13 @@ interface ValueStore {
 }
 
 export default class SelectBox extends React.Component<SelectBoxProps, any> {
-
     //noinspection JSUnusedGlobalSymbols
     public static defaultProps = {
         prepend: [],
         append: [],
         className: "",
         disabled: false,
-        value: null
+        value: null,
     };
 
     private values: ValueStore = {};
@@ -98,9 +95,7 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
             return null;
         }
 
-        return (
-            <span>{this.props.label}</span>
-        );
+        return <span>{this.props.label}</span>;
     }
 
     private addValue(v: SelectOptionValue) {
@@ -123,13 +118,13 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
         };
 
         return React.Children.map<any>(
-            (this.props.children as Array<SelectOption|SelectGroup>),
+            this.props.children as Array<SelectOption | SelectGroup>,
             (child: React.ReactChild) => {
                 if (typeof child === "object" && child.type === SelectOption) {
                     return React.cloneElement(child, {
                         selected: child.props.value === this.props.value,
                         disabled: this.props.disabled || child.props.disabled,
-                        ref
+                        ref,
                     });
                 }
 
@@ -137,7 +132,7 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
                     return React.cloneElement(child, {
                         selectedValue: this.props.value,
                         disabled: this.props.disabled || child.props.disabled,
-                        optionRef: ref
+                        optionRef: ref,
                     });
                 }
 

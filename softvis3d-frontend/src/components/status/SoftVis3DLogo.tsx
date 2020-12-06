@@ -18,12 +18,9 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 
 export default class SoftVis3DLogo extends React.Component<Record<string, unknown>, any> {
-
     public render() {
         return (
             <h3 className="softvis-logo">
@@ -32,5 +29,4 @@ export default class SoftVis3DLogo extends React.Component<Record<string, unknow
             </h3>
         );
     }
-
 }

@@ -18,13 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import UrlParameterService, {Parameters} from "../../src/services/UrlParameterService";
+import { expect } from "chai";
+import UrlParameterService, { Parameters } from "../../src/services/UrlParameterService";
 
 describe("UrlParameterService", () => {
-
     it("Extracts the parameters properly", () => {
-        const result: Parameters = new UrlParameterService().getQueryParams("?test=123&test3=bla&metricWidth=13");
+        const result: Parameters = new UrlParameterService().getQueryParams(
+            "?test=123&test3=bla&metricWidth=13"
+        );
 
         expect(result.test).to.contain("123");
         expect(result.test3).to.contain("bla");
@@ -38,16 +39,19 @@ describe("UrlParameterService", () => {
     });
 
     it("Visualization link based on already existing params", () => {
-        const href = "http://localhost:9000/plugins/resource/rinderle%3AklamottenwetterWeb?page=SoftVis3D";
+        const href =
+            "http://localhost:9000/plugins/resource/rinderle%3AklamottenwetterWeb?page=SoftVis3D";
 
         const params: Parameters = {
             test1: "test1Value",
-            test2: "test2Value"
+            test2: "test2Value",
         };
         const result = new UrlParameterService().createVisualizationLinkForCurrentUrl(href, params);
 
-        expect(result).to.be.eq("http://localhost:9000/plugins/resource/rinderle%3AklamottenwetterWeb" +
-            "?page=SoftVis3D&test1=test1Value&test2=test2Value");
+        expect(result).to.be.eq(
+            "http://localhost:9000/plugins/resource/rinderle%3AklamottenwetterWeb" +
+                "?page=SoftVis3D&test1=test1Value&test2=test2Value"
+        );
     });
 
     it("Visualization link based on local dev env", () => {
@@ -55,7 +59,7 @@ describe("UrlParameterService", () => {
 
         const params: Parameters = {
             test1: "test1Value",
-            test2: "test2Value"
+            test2: "test2Value",
         };
         const result = new UrlParameterService().createVisualizationLinkForCurrentUrl(href, params);
 
@@ -67,7 +71,7 @@ describe("UrlParameterService", () => {
 
         const params: Parameters = {
             test1: "test1Value",
-            test2: "test2Value"
+            test2: "test2Value",
         };
         const result = new UrlParameterService().createVisualizationLinkForCurrentUrl(href, params);
 

@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {computed, isObservable, observable} from "mobx";
+import { computed, isObservable, observable } from "mobx";
 import Metric from "./Metric";
 
 export default class MetricSet {
@@ -47,7 +47,7 @@ export default class MetricSet {
 
     @computed
     get keys(): string[] {
-        return this.metrics.map((m) => (m.id));
+        return this.metrics.map((m) => m.id);
     }
 
     @computed

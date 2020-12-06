@@ -18,13 +18,11 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import Layout from "../../src/classes/Layout";
 
 describe("Layout", () => {
-
     it("should construct layout", () => {
-
         const id = "id";
         const name = "name";
         const description = "description";
@@ -44,5 +42,4 @@ describe("Layout", () => {
         expect(result.label).to.be.eq(name);
         expect(result.id).to.be.eq(id);
     });
-
 });

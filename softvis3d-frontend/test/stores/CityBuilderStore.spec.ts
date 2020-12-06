@@ -18,19 +18,22 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import Metric from "../../src/classes/Metric";
-import {DEFAULT_BUILDING_COLOR_THEME} from "../../src/constants/BuildingColorThemes";
-import {district, evostreet} from "../../src/constants/Layouts";
+import { DEFAULT_BUILDING_COLOR_THEME } from "../../src/constants/BuildingColorThemes";
+import { district, evostreet } from "../../src/constants/Layouts";
 import * as Metrics from "../../src/constants/Metrics";
-import {defaultDistrict, defaultEvostreet, placeholder} from "../../src/constants/PreviewPictures";
-import {custom, defaultProfile, leakPeriod} from "../../src/constants/Profiles";
-import {LINEAR_SCALED, LOGARITHMIC} from "../../src/constants/Scales";
-import {DEFAULT_COLOR_THEME} from "../../src/constants/SceneColorThemes";
+import {
+    defaultDistrict,
+    defaultEvostreet,
+    placeholder,
+} from "../../src/constants/PreviewPictures";
+import { custom, defaultProfile, leakPeriod } from "../../src/constants/Profiles";
+import { LINEAR_SCALED, LOGARITHMIC } from "../../src/constants/Scales";
+import { DEFAULT_COLOR_THEME } from "../../src/constants/SceneColorThemes";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
 
 describe("CityBuilderStore", () => {
-
     it("should have set all default values on init", () => {
         const underTest: CityBuilderStore = new CityBuilderStore();
         expect(underTest.options.layout).to.be.eq(evostreet);
@@ -128,5 +131,4 @@ describe("CityBuilderStore", () => {
         underTest.options.profile = custom;
         expect(underTest.getPreviewBackground()).to.be.equal(placeholder);
     });
-
 });

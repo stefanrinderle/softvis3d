@@ -19,16 +19,16 @@
 ///
 
 import * as three from "three";
-import {PerspectiveCamera, Scene, Vector3, WebGLRenderer} from "three";
+import { PerspectiveCamera, Scene, Vector3, WebGLRenderer } from "three";
 import * as OrbitControlsExtender from "three-orbit-controls";
-import {SceneColorTheme} from "../../../../classes/SceneColorTheme";
-import {lazyInject} from "../../../../inversify.config";
-import {HtmlDomService, Offset} from "../../../../services/HtmlDomService";
-import {Rectangle} from "../../domain/Rectangle";
-import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
-import {Camera} from "./Camera";
+import { SceneColorTheme } from "../../../../classes/SceneColorTheme";
+import { lazyInject } from "../../../../inversify.config";
+import { HtmlDomService, Offset } from "../../../../services/HtmlDomService";
+import { Rectangle } from "../../domain/Rectangle";
+import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
+import { Camera } from "./Camera";
 import SceneObjectCalculator from "./SceneObjectCalculator";
-import {Setup} from "./Setup";
+import { Setup } from "./Setup";
 
 const OrbitControls = OrbitControlsExtender(three);
 
@@ -55,7 +55,7 @@ export default class SoftVis3dScene {
         this._height = this._width = 0;
 
         this.scene = new Scene();
-        this.renderer = new WebGLRenderer({canvas: container, antialias: true, alpha: true});
+        this.renderer = new WebGLRenderer({ canvas: container, antialias: true, alpha: true });
 
         Setup.initRenderer(this.renderer, this.scene, container);
 
@@ -139,7 +139,12 @@ export default class SoftVis3dScene {
         const appWidth = this.htmlDomService.getWidthById("app");
 
         const result: Rectangle = SceneObjectCalculator.calculateDimensionOnResize(
-            sidebarWidth, topbarHeight, appOffset, sonarFooter, appWidth);
+            sidebarWidth,
+            topbarHeight,
+            appOffset,
+            sonarFooter,
+            appWidth
+        );
 
         this.camera.setAspect(result.width, result.length);
 
@@ -149,5 +154,4 @@ export default class SoftVis3dScene {
         this._width = result.width;
         this._height = result.length;
     }
-
 }

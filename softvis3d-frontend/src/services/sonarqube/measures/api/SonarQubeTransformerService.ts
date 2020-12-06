@@ -22,11 +22,10 @@
  * Outside this package should be no sonarqube specific stuff. This class is needed to abstract our logic
  * from SQ.
  */
-import {TreeElement} from "../../../../classes/TreeElement";
-import {SonarQubeApiComponent} from "./SonarQubeMeasureResponse";
+import { TreeElement } from "../../../../classes/TreeElement";
+import { SonarQubeApiComponent } from "./SonarQubeMeasureResponse";
 
 export default class SonarQubeTransformerService {
-
     public createTreeElement(component: SonarQubeApiComponent, parent?: TreeElement): TreeElement {
         const measureList: MeasureList = {};
 
@@ -40,8 +39,15 @@ export default class SonarQubeTransformerService {
             }
         }
 
-        return new TreeElement(component.id, component.key, measureList, component.name, component.path,
-            component.qualifier, parent);
+        return new TreeElement(
+            component.id,
+            component.key,
+            measureList,
+            component.name,
+            component.path,
+            component.qualifier,
+            parent
+        );
     }
 
     /**
@@ -72,5 +78,4 @@ export default class SonarQubeTransformerService {
 
         element.parent = parent;
     }
-
 }

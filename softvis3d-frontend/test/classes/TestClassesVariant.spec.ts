@@ -18,16 +18,15 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import {
     NoTestClassesVariant,
     OnlyTestClassesVariant,
-    WithTestClassesVariant
+    WithTestClassesVariant,
 } from "../../src/classes/TestClassesVariant";
-import {createDefaultFile, createDefaultTestFile} from "./TreeElement.spec";
+import { createDefaultFile, createDefaultTestFile } from "./TreeElement.spec";
 
 describe("TestClassesVariant", () => {
-
     it("should create NoTestClassesVariant with expected values", () => {
         const underTest = new NoTestClassesVariant();
 

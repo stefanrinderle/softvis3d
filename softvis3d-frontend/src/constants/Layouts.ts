@@ -30,20 +30,13 @@ const evostreet = new Layout(
     "evostreet",
     "Evostreet",
     "Is a stable layout for visualizing evolving software systems. Each street represents one subsystem " +
-    "(folder, package) and branching streets show contained subsystems."
+        "(folder, package) and branching streets show contained subsystems."
 );
 
-export {
-    district,
-    evostreet
-};
+export { district, evostreet };
 
 export class Layouts {
-
-    public static availableLayouts: Layout[] = [
-        evostreet,
-        district
-    ];
+    public static availableLayouts: Layout[] = [evostreet, district];
 
     public static getLayoutById(layoutId: string): Layout | undefined {
         if (layoutId !== undefined) {

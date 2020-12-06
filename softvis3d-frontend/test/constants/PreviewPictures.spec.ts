@@ -18,15 +18,13 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import { availablePreviewPictures } from "../../src/constants/PreviewPictures";
 
 describe("PreviewPictures", () => {
-
     it("should provide available layouts", () => {
         for (const preview of availablePreviewPictures) {
             expect(preview.bgPicture).to.contain("/static/resources/preview/");
         }
     });
-
 });

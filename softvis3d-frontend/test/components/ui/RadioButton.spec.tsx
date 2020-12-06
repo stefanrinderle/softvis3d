@@ -18,24 +18,16 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {expect} from "chai";
-import {shallow} from "enzyme";
+import { expect } from "chai";
+import { shallow } from "enzyme";
 import * as React from "react";
 import * as Sinon from "sinon";
-import {RadioButton} from "../../../src/components/ui/RadioButton";
+import { RadioButton } from "../../../src/components/ui/RadioButton";
 
 describe("<RadioButton/>", () => {
     it("should draw one input and one label", () => {
-
         const radioButton = shallow(
-            <RadioButton
-                checked={false}
-                label="Test"
-                onChange={() => null}
-                value="0"
-            />
+            <RadioButton checked={false} label="Test" onChange={() => null} value="0" />
         );
 
         expect(radioButton.find("input")).to.have.length(1);
@@ -45,16 +37,13 @@ describe("<RadioButton/>", () => {
 
     it("should call the onChange-Method when clicked", () => {
         let wasManipulated = false;
-        const fn = () => { wasManipulated = true; };
+        const fn = () => {
+            wasManipulated = true;
+        };
         const changeSpy = Sinon.spy(fn);
 
         const radioButton = shallow(
-            <RadioButton
-                checked={false}
-                label="Test"
-                onChange={changeSpy}
-                value="0"
-            />
+            <RadioButton checked={false} label="Test" onChange={changeSpy} value="0" />
         );
 
         expect(changeSpy.called).to.be.false;
@@ -72,12 +61,7 @@ describe("<RadioButton/>", () => {
         });
 
         const radioButton = shallow(
-            <RadioButton
-                checked={false}
-                label="Test"
-                onChange={changeSpy}
-                value="0"
-            />
+            <RadioButton checked={false} label="Test" onChange={changeSpy} value="0" />
         );
 
         expect(radioButton.instance().props.checked).to.be.false;
@@ -100,17 +84,12 @@ describe("<RadioButton/>", () => {
             value++;
             radioButton.setProps({
                 checked,
-                value
+                value,
             });
         });
 
         const radioButton = shallow(
-            <RadioButton
-                checked={false}
-                label="Test"
-                onChange={changeSpy}
-                value={value}
-            />
+            <RadioButton checked={false} label="Test" onChange={changeSpy} value={value} />
         );
 
         expect(radioButton.instance().props.checked).to.be.false;

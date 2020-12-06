@@ -18,32 +18,25 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {Vector3} from "three";
-import {SceneColorTheme} from "../../../classes/SceneColorTheme";
+import { Vector3 } from "three";
+import { SceneColorTheme } from "../../../classes/SceneColorTheme";
 import VisualizationOptions from "../../../classes/VisualizationOptions";
-import {lazyInject} from "../../../inversify.config";
-import {HtmlDomService, Offset} from "../../../services/HtmlDomService";
-import {SoftVis3dShape} from "../domain/SoftVis3dShape";
-import {Wrangler} from "./objects/Wrangler";
+import { lazyInject } from "../../../inversify.config";
+import { HtmlDomService, Offset } from "../../../services/HtmlDomService";
+import { SoftVis3dShape } from "../domain/SoftVis3dShape";
+import { Wrangler } from "./objects/Wrangler";
 import SoftVis3dScene from "./scene/SoftVis3dScene";
-import {SelectionCalculator} from "./SelectionCalculator";
+import { SelectionCalculator } from "./SelectionCalculator";
 
 export default class ThreeSceneService {
-
     public static create() {
         const softvisScene = new SoftVis3dScene();
         const wrangler = new Wrangler(softvisScene.scene);
-        return new ThreeSceneService(
-            softvisScene,
-            wrangler
-        );
+        return new ThreeSceneService(softvisScene, wrangler);
     }
 
     public static createForTest(softvis3dSceneMock: SoftVis3dScene, wranglerMock: Wrangler) {
-        return new ThreeSceneService(
-            softvis3dSceneMock,
-            wranglerMock
-        );
+        return new ThreeSceneService(softvis3dSceneMock, wranglerMock);
     }
 
     @lazyInject("HtmlDomService")
@@ -64,7 +57,11 @@ export default class ThreeSceneService {
         this.wrangler.destroy();
     }
 
-    public update(shapes: SoftVis3dShape[], options: VisualizationOptions, cameraPosition?: Vector3) {
+    public update(
+        shapes: SoftVis3dShape[],
+        options: VisualizationOptions,
+        cameraPosition?: Vector3
+    ) {
         if (shapes === null) {
             return;
         }
@@ -104,9 +101,12 @@ export default class ThreeSceneService {
         const selection = SelectionCalculator.calculateSelectionPosition(event, offset);
 
         const result: string | null = SelectionCalculator.makeSelection(
-            selection.x, selection.y,
-            this.threeScene.width, this.threeScene.height,
-            this.threeScene.getCamera(), this.wrangler.getObjectsInView()
+            selection.x,
+            selection.y,
+            this.threeScene.width,
+            this.threeScene.height,
+            this.threeScene.getCamera(),
+            this.wrangler.getObjectsInView()
         );
 
         this.selectSceneTreeObject(result);
@@ -137,5 +137,4 @@ export default class ThreeSceneService {
 
         this.threeScene.setCameraTo(cameraPosition);
     }
-
 }

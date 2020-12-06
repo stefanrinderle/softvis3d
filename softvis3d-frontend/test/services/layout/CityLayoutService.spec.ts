@@ -18,21 +18,20 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import * as Sinon from "sinon";
 import VisualizationOptions from "../../../src/classes/VisualizationOptions";
-import {numberOfAuthorsBlameColorMetric} from "../../../src/constants/Metrics";
+import { numberOfAuthorsBlameColorMetric } from "../../../src/constants/Metrics";
 import CityLayoutService from "../../../src/services/layout/CityLayoutService";
 import LayoutProcessor from "../../../src/services/layout/LayoutProcessor";
 import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
 import AppStatusStore from "../../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../src/stores/SceneStore";
-import {createDefaultDir} from "../../classes/TreeElement.spec";
-import {createMock} from "../../Helper";
+import { createDefaultDir } from "../../classes/TreeElement.spec";
+import { createMock } from "../../Helper";
 
 describe("CityLayoutService", () => {
-
     it("should call layoutProcessor", (done) => {
         const clock = Sinon.useFakeTimers();
 
@@ -45,9 +44,11 @@ describe("CityLayoutService", () => {
         const layoutProcessor = createMock(LayoutProcessor);
 
         const expectedShape = {};
-        layoutProcessor.getIllustration.returns(Promise.resolve({
-            shapes: expectedShape
-        }));
+        layoutProcessor.getIllustration.returns(
+            Promise.resolve({
+                shapes: expectedShape,
+            })
+        );
 
         const underTest: CityLayoutService = new CityLayoutService();
 
@@ -55,15 +56,17 @@ describe("CityLayoutService", () => {
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
-        returnPromise.then(() => {
-            assert(layoutProcessor.getIllustration.called);
+        returnPromise
+            .then(() => {
+                assert(layoutProcessor.getIllustration.called);
 
-            const returnPromise2: Promise<any> = Promise.resolve({});
-            returnPromise2.then(() => {
-                expect(testSceneStore.shapes).to.be.deep.equal(expectedShape);
-                done();
-            });
-        }).catch((error) => done(error));
+                const returnPromise2: Promise<any> = Promise.resolve({});
+                returnPromise2.then(() => {
+                    expect(testSceneStore.shapes).to.be.deep.equal(expectedShape);
+                    done();
+                });
+            })
+            .catch((error) => done(error));
     });
 
     it("should send load status is app state", (done) => {
@@ -80,9 +83,11 @@ describe("CityLayoutService", () => {
         const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
         const layoutProcessor = createMock(LayoutProcessor);
-        layoutProcessor.getIllustration.returns(Promise.resolve({
-            shapes: {}
-        }));
+        layoutProcessor.getIllustration.returns(
+            Promise.resolve({
+                shapes: {},
+            })
+        );
 
         const underTest: CityLayoutService = new CityLayoutService();
 
@@ -90,16 +95,18 @@ describe("CityLayoutService", () => {
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
-        returnPromise.then(() => {
-            assert(spyLoad.calledWith(CityLayoutService.BUILD_CITY));
-            clock.tick(10);
+        returnPromise
+            .then(() => {
+                assert(spyLoad.calledWith(CityLayoutService.BUILD_CITY));
+                clock.tick(10);
 
-            const returnPromise2: Promise<any> = Promise.resolve({});
-            returnPromise2.then(() => {
-                assert(spyLoadComplete.calledWith(CityLayoutService.BUILD_CITY));
-                done();
-            });
-        }).catch((error) => done(error));
+                const returnPromise2: Promise<any> = Promise.resolve({});
+                returnPromise2.then(() => {
+                    assert(spyLoadComplete.calledWith(CityLayoutService.BUILD_CITY));
+                    done();
+                });
+            })
+            .catch((error) => done(error));
     });
 
     it("should call measure service if numberOfAuthorsBlameColorMetric", (done) => {
@@ -126,15 +133,17 @@ describe("CityLayoutService", () => {
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
-        returnPromise.then(() => {
-            assert(spyLoad.calledWith(CityLayoutService.BUILD_CITY));
-            assert(scmService.assertScmInfoAreLoaded.called);
+        returnPromise
+            .then(() => {
+                assert(spyLoad.calledWith(CityLayoutService.BUILD_CITY));
+                assert(scmService.assertScmInfoAreLoaded.called);
 
-            const returnPromise2: Promise<any> = Promise.resolve({});
-            returnPromise2.then(() => {
-                assert(spyLoadComplete.calledWith(CityLayoutService.BUILD_CITY));
-                done();
-            });
-        }).catch((error) => done(error));
+                const returnPromise2: Promise<any> = Promise.resolve({});
+                returnPromise2.then(() => {
+                    assert(spyLoadComplete.calledWith(CityLayoutService.BUILD_CITY));
+                    done();
+                });
+            })
+            .catch((error) => done(error));
     });
 });

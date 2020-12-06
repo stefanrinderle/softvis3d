@@ -22,7 +22,6 @@ import { EventDispatcher } from "./EventDispatcher";
 import Event from "./Event";
 
 export class SceneKeyInteractions {
-
     // to be able to mock the construction
     public static create() {
         return new SceneKeyInteractions();
@@ -84,5 +83,4 @@ export class SceneKeyInteractions {
             // KEY NOT REGISTERED
         }
     }
-
 }

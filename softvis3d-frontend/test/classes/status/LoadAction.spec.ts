@@ -18,11 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import LoadAction from "../../../src/classes/status/LoadAction";
 
 describe("LoadAction", () => {
-
     it("should construct minimal load action", () => {
         const expectedKey = "23";
         const expectedDescription = "diufgh";

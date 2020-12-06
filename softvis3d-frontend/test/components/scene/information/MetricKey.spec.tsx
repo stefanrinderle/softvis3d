@@ -18,19 +18,16 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {expect} from "chai";
-import {shallow} from "enzyme";
+import { expect } from "chai";
+import { shallow } from "enzyme";
 import * as React from "react";
 import Metric from "../../../../src/classes/Metric";
-import {MetricType} from "../../../../src/classes/MetricType";
-import {TreeElement} from "../../../../src/classes/TreeElement";
+import { MetricType } from "../../../../src/classes/MetricType";
+import { TreeElement } from "../../../../src/classes/TreeElement";
 import MetricKey from "../../../../src/components/scene/information/MetricKey";
-import {createDefaultFile} from "../../../classes/TreeElement.spec";
+import { createDefaultFile } from "../../../classes/TreeElement.spec";
 
 describe("<MetricKey/>", () => {
-
     it("should show title and metric", () => {
         const title = "ExpectedTitle";
         const expectedMetricName = "ExpectedMetricName";
@@ -38,7 +35,7 @@ describe("<MetricKey/>", () => {
         const expectedMetric: Metric = new Metric("123", expectedMetricName, "");
 
         const bottomBarMetricInfo = shallow(
-            <MetricKey title={title} metric={expectedMetric} selectedElement={null}/>
+            <MetricKey title={title} metric={expectedMetric} selectedElement={null} />
         );
 
         expect(bottomBarMetricInfo.html()).to.include(expectedMetricName);
@@ -54,10 +51,10 @@ describe("<MetricKey/>", () => {
         const expectedMeasure = 55;
         const selectedElement: TreeElement = createDefaultFile();
         selectedElement.measures = {
-            123: expectedMeasure
+            123: expectedMeasure,
         };
         const bottomBarMetricInfo = shallow(
-            <MetricKey title={title} metric={expectedMetric} selectedElement={selectedElement}/>
+            <MetricKey title={title} metric={expectedMetric} selectedElement={selectedElement} />
         );
 
         expect(bottomBarMetricInfo.html()).to.include(expectedMetricName);
@@ -71,14 +68,13 @@ describe("<MetricKey/>", () => {
         const expectedMeasure = 1479816020000;
         const selectedElement: TreeElement = createDefaultFile();
         selectedElement.measures = {
-            123: expectedMeasure
+            123: expectedMeasure,
         };
         const bottomBarMetricInfo = shallow(
-            <MetricKey title={""} metric={expectedMetric} selectedElement={selectedElement}/>
+            <MetricKey title={""} metric={expectedMetric} selectedElement={selectedElement} />
         );
 
         expect(bottomBarMetricInfo.html()).to.include("11");
         expect(bottomBarMetricInfo.html()).to.include("2016");
     });
-
 });

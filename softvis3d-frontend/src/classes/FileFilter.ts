@@ -18,24 +18,23 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {Type} from "class-transformer";
-import {observable} from "mobx";
-import {NO_TEST_CLASSES_VARIANT} from "../constants/TestClassesVariants";
-import {ExcludeFileFilter, IncludeFileFilter, StringFileFilter} from "./StringFileFilter";
+import { Type } from "class-transformer";
+import { observable } from "mobx";
+import { NO_TEST_CLASSES_VARIANT } from "../constants/TestClassesVariants";
+import { ExcludeFileFilter, IncludeFileFilter, StringFileFilter } from "./StringFileFilter";
 import {
     NoTestClassesVariant,
     OnlyTestClassesVariant,
     TestClassesVariant,
-    WithTestClassesVariant
+    WithTestClassesVariant,
 } from "./TestClassesVariant";
-import {TreeElement} from "./TreeElement";
+import { TreeElement } from "./TreeElement";
 
 export interface FileFilterInterface {
     shouldRemoveFile(file: TreeElement): boolean;
 }
 
 export default class FileFilter {
-
     @observable
     @Type(() => TestClassesVariant, {
         discriminator: {
@@ -43,9 +42,9 @@ export default class FileFilter {
             subTypes: [
                 { value: NoTestClassesVariant, name: "NoTestClassesVariant" },
                 { value: WithTestClassesVariant, name: "WithTestClassesVariant" },
-                { value: OnlyTestClassesVariant, name: "OnlyTestClassesVariant" }
-            ]
-        }
+                { value: OnlyTestClassesVariant, name: "OnlyTestClassesVariant" },
+            ],
+        },
     })
     public testClassesVariant: TestClassesVariant = NO_TEST_CLASSES_VARIANT;
 
@@ -58,7 +57,11 @@ export default class FileFilter {
     public includeClasses: StringFileFilter = new IncludeFileFilter();
 
     public shouldRemoveFile(file: TreeElement): boolean {
-        const filters: FileFilterInterface[] = [this.testClassesVariant, this.excludeClasses, this.includeClasses];
+        const filters: FileFilterInterface[] = [
+            this.testClassesVariant,
+            this.excludeClasses,
+            this.includeClasses,
+        ];
 
         for (const filter of filters) {
             if (filter.shouldRemoveFile(file)) {
@@ -68,5 +71,4 @@ export default class FileFilter {
 
         return false;
     }
-
 }

@@ -18,14 +18,12 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import * as React from "react";
 import Metric from "../../classes/Metric";
 import Profile from "../../classes/Profile";
-import {Layouts} from "../../constants/Layouts";
-import {Profiles} from "../../constants/Profiles";
+import { Layouts } from "../../constants/Layouts";
+import { Profiles } from "../../constants/Profiles";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import LayoutPicker from "./LayoutPicker";
@@ -39,8 +37,7 @@ export interface OptionsSimpleProps {
 @observer
 export default class OptionsSimple extends React.Component<OptionsSimpleProps, any> {
     public render() {
-
-        const {options} = this.props.store;
+        const { options } = this.props.store;
 
         return (
             <div className="simple">
@@ -51,7 +48,9 @@ export default class OptionsSimple extends React.Component<OptionsSimpleProps, a
                             className="profiles"
                             value={this.props.store.options.profile}
                             options={Profiles.availableProfiles}
-                            onChange={(p: any) => { this.props.store.options.profile = (p as Profile); }}
+                            onChange={(p: any) => {
+                                this.props.store.options.profile = p as Profile;
+                            }}
                         />
                         <p className="selection-description profile-description">
                             {this.props.store.options.profile.description}
@@ -63,26 +62,28 @@ export default class OptionsSimple extends React.Component<OptionsSimpleProps, a
                             className="metric color"
                             value={options.metricColor}
                             options={this.props.store.colorMetrics.asSelectOptions}
-                            onChange={(m: any) => { options.metricColor = (m as Metric); }}
+                            onChange={(m: any) => {
+                                options.metricColor = m as Metric;
+                            }}
                         />
                         <p className="selection-description color-description">
-                            { options.metricColor.description }
+                            {options.metricColor.description}
                         </p>
                     </div>
 
                     <div className="builder-option">
                         <span>Layout</span>
-                        <LayoutPicker
-                            layouts={Layouts.availableLayouts}
-                            store={this.props.store}
-                        />
+                        <LayoutPicker layouts={Layouts.availableLayouts} store={this.props.store} />
                         <p className="selection-description layout-description">
                             {options.layout.description}
                         </p>
                     </div>
                 </div>
                 <div className="right-column">
-                    <PreviewPictureComponent store={this.props.store} baseUrl={this.props.baseUrl}/>
+                    <PreviewPictureComponent
+                        store={this.props.store}
+                        baseUrl={this.props.baseUrl}
+                    />
                 </div>
             </div>
         );

@@ -18,14 +18,13 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import AppStatusStore from "../../src/stores/AppStatusStore";
 import LoadAction from "../../src/classes/status/LoadAction";
 import ErrorAction from "../../src/classes/status/ErrorAction";
 import StatusAction from "../../src/classes/status/StatusAction";
 
 describe("AppStatusStore", () => {
-
     it("should have set all default values on init", () => {
         const underTest: AppStatusStore = new AppStatusStore();
         expect(underTest.loadingQueue.isEmpty).to.be.true;
@@ -106,5 +105,4 @@ describe("AppStatusStore", () => {
 
         assert(underTest.loadingQueue !== temp);
     });
-
 });

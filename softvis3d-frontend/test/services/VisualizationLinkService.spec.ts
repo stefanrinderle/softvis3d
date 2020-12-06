@@ -18,10 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import * as Sinon from "sinon";
-import {Vector3} from "three";
-import {AppConfiguration} from "../../src/classes/AppConfiguration";
+import { Vector3 } from "three";
+import { AppConfiguration } from "../../src/classes/AppConfiguration";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
 import VisualizationLinkSerializationService from "../../src/classes/VisualizationLinkSerializationService";
 import VisualizationOptions from "../../src/classes/VisualizationOptions";
@@ -29,23 +29,25 @@ import UrlParameterService from "../../src/services/UrlParameterService";
 import VisualizationLinkService from "../../src/services/VisualizationLinkService";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
 import SceneStore from "../../src/stores/SceneStore";
-import {createMock} from "../Helper";
+import { createMock } from "../Helper";
 
 describe("VisualizationLinkService", () => {
-
     it("Happy case - apply link params", () => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         const localSceneStore: SceneStore = new SceneStore();
-        const underTest: VisualizationLinkService =
-            new VisualizationLinkService(testAppConfiguration);
+        const underTest: VisualizationLinkService = new VisualizationLinkService(
+            testAppConfiguration
+        );
 
         const localUrlParameterService = createMock(UrlParameterService);
         localUrlParameterService.getQueryParams.returns({
-            visualizationStatus: "iuhsdfiuhsdifuhsidfu"
+            visualizationStatus: "iuhsdfiuhsdifuhsidfu",
         });
 
-        const localVisualizationLinkSerializationService = createMock(VisualizationLinkSerializationService);
+        const localVisualizationLinkSerializationService = createMock(
+            VisualizationLinkSerializationService
+        );
         localVisualizationLinkSerializationService.deserialize.returns(
             new VisualizationLinkParams(VisualizationOptions.createDefault(), null, new Vector3())
         );
@@ -62,15 +64,18 @@ describe("VisualizationLinkService", () => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         const localSceneStore: SceneStore = new SceneStore();
-        const underTest: VisualizationLinkService =
-            new VisualizationLinkService(testAppConfiguration);
+        const underTest: VisualizationLinkService = new VisualizationLinkService(
+            testAppConfiguration
+        );
 
         const localUrlParameterService = createMock(UrlParameterService);
         localUrlParameterService.getQueryParams.returns({
-            visualizationStatus: ""
+            visualizationStatus: "",
         });
 
-        const localVisualizationLinkSerializationService = createMock(VisualizationLinkSerializationService);
+        const localVisualizationLinkSerializationService = createMock(
+            VisualizationLinkSerializationService
+        );
         localVisualizationLinkSerializationService.deserialize.returns(null);
 
         underTest.process(testCityBuilderStore, localSceneStore, "");
@@ -88,20 +93,29 @@ describe("VisualizationLinkService", () => {
         // Math.round in place
         localSceneStore.cameraPosition = new Vector3(1.2, 2.1, 3.3);
 
-        const underTest: VisualizationLinkService = new VisualizationLinkService(testAppConfiguration);
+        const underTest: VisualizationLinkService = new VisualizationLinkService(
+            testAppConfiguration
+        );
 
         const localUrlParameterService = createMock(UrlParameterService);
         localUrlParameterService.createVisualizationLinkForCurrentUrl.returns("abc");
 
-        const localVisualizationLinkSerializationService = createMock(VisualizationLinkSerializationService);
+        const localVisualizationLinkSerializationService = createMock(
+            VisualizationLinkSerializationService
+        );
         const expectedParam = "sidufhisudhfisuhdfisuhdfiushdfiuhsdfiuh";
         localVisualizationLinkSerializationService.serialize.returns(expectedParam);
 
         const result = underTest.createVisualizationLink(localCityBuilderStore, localSceneStore);
 
-        assert(localUrlParameterService.createVisualizationLinkForCurrentUrl.calledWithExactly(document.location.href, {
-            visualizationStatus: expectedParam
-        }));
+        assert(
+            localUrlParameterService.createVisualizationLinkForCurrentUrl.calledWithExactly(
+                document.location.href,
+                {
+                    visualizationStatus: expectedParam,
+                }
+            )
+        );
 
         expect(result).to.contain("abc");
     });
@@ -111,7 +125,9 @@ describe("VisualizationLinkService", () => {
         const localCityBuilderStore = new CityBuilderStore();
         const localSceneStore: SceneStore = new SceneStore();
 
-        const underTest: VisualizationLinkService = new VisualizationLinkService(testAppConfiguration);
+        const underTest: VisualizationLinkService = new VisualizationLinkService(
+            testAppConfiguration
+        );
 
         expect(() => {
             underTest.createVisualizationLink(localCityBuilderStore, localSceneStore);
@@ -133,23 +149,39 @@ describe("VisualizationLinkService", () => {
         const expectedSelectedObjectId = "123453";
         localSceneStore.selectedObjectId = expectedSelectedObjectId;
 
-        const underTest: VisualizationLinkService =
-            new VisualizationLinkService(testAppConfiguration);
+        const underTest: VisualizationLinkService = new VisualizationLinkService(
+            testAppConfiguration
+        );
 
         const localUrlParameterService = createMock(UrlParameterService);
         localUrlParameterService.createVisualizationLinkForCurrentUrl.returns("abc");
 
-        const localVisualizationLinkSerializationService = createMock(VisualizationLinkSerializationService);
+        const localVisualizationLinkSerializationService = createMock(
+            VisualizationLinkSerializationService
+        );
         const expectedParam = "sidufhisudhfisuhdfisuhdfiushdfiuhsdfiuh";
         localVisualizationLinkSerializationService.serialize.returns(expectedParam);
 
-        const result = underTest.createPlainVisualizationLink(localCityBuilderStore, localSceneStore);
+        const result = underTest.createPlainVisualizationLink(
+            localCityBuilderStore,
+            localSceneStore
+        );
 
-        const expectedresult = baseUrl + "/static/softvis3d/index.html" +
-            "?projectKey=" + projectKey + "&baseUrl=" + baseUrl;
-        assert(localUrlParameterService.createVisualizationLinkForCurrentUrl.calledWithExactly(expectedresult, {
-            visualizationStatus: expectedParam
-        }));
+        const expectedresult =
+            baseUrl +
+            "/static/softvis3d/index.html" +
+            "?projectKey=" +
+            projectKey +
+            "&baseUrl=" +
+            baseUrl;
+        assert(
+            localUrlParameterService.createVisualizationLinkForCurrentUrl.calledWithExactly(
+                expectedresult,
+                {
+                    visualizationStatus: expectedParam,
+                }
+            )
+        );
 
         expect(result).to.contain("abc");
     });

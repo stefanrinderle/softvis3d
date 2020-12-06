@@ -18,12 +18,11 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert} from "chai";
+import { assert } from "chai";
 import * as Sinon from "sinon";
-import {SceneKeyInteractions} from "../../../../src/components/scene/events/SceneKeyInteractions";
+import { SceneKeyInteractions } from "../../../../src/components/scene/events/SceneKeyInteractions";
 
 describe("SceneKeyInteractions", () => {
-
     it("should add and remove event listeners on object create or destruct.", () => {
         const windowStubAdd = Sinon.stub(window, "addEventListener");
         const windowStubRemove = Sinon.stub(window, "removeEventListener");
@@ -45,7 +44,7 @@ describe("SceneKeyInteractions", () => {
     it("should raise reset camera event on r button clicked.", () => {
         const underTest: SceneKeyInteractions = SceneKeyInteractions.create();
 
-        const eventButtonR = { keyCode: 82 } as any as KeyboardEvent;
+        const eventButtonR = ({ keyCode: 82 } as any) as KeyboardEvent;
 
         const listener: () => void = () => undefined;
         const spy = Sinon.spy(listener);
@@ -64,7 +63,7 @@ describe("SceneKeyInteractions", () => {
     it("should raise toggle legend event on l button clicked.", () => {
         const underTest: SceneKeyInteractions = SceneKeyInteractions.create();
 
-        const eventButtonL = { keyCode: 76 } as any as KeyboardEvent;
+        const eventButtonL = ({ keyCode: 76 } as any) as KeyboardEvent;
 
         const listener: () => void = () => undefined;
         const spy = Sinon.spy(listener);
@@ -83,7 +82,7 @@ describe("SceneKeyInteractions", () => {
     it("should NOT raise any event on other button clicked.", () => {
         const underTest: SceneKeyInteractions = SceneKeyInteractions.create();
 
-        const eventButtonR = { keyCode: 4 } as any as KeyboardEvent;
+        const eventButtonR = ({ keyCode: 4 } as any) as KeyboardEvent;
 
         const listener: () => void = () => undefined;
         const spy = Sinon.spy(listener);

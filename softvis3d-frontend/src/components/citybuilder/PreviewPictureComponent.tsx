@@ -18,8 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import { PreviewPicture } from "../../classes/PreviewPicture";
@@ -29,8 +27,10 @@ export interface PreviewPictureComponentProps {
     baseUrl?: string;
 }
 
-export default class PreviewPictureComponent extends React.Component<PreviewPictureComponentProps, any> {
-
+export default class PreviewPictureComponent extends React.Component<
+    PreviewPictureComponentProps,
+    any
+> {
     public render() {
         const preview: PreviewPicture = this.props.store.getPreviewBackground();
 
@@ -40,13 +40,9 @@ export default class PreviewPictureComponent extends React.Component<PreviewPict
         }
 
         const previewStyle = {
-            backgroundImage: "url(" + url + ")"
+            backgroundImage: "url(" + url + ")",
         };
 
-        return (
-            <div className={"preview"} style={previewStyle}>
-            </div>
-        );
+        return <div className={"preview"} style={previewStyle}></div>;
     }
-
 }

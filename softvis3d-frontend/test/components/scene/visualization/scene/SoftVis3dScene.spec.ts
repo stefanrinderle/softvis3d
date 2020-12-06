@@ -25,11 +25,9 @@
 // import {HtmlDom, Offset} from "../../../../../src/services/HtmlDom";
 
 describe("SoftVis3dScene", () => {
-
     /**
      * The component SoftVis3dScene has currently to many dependencies for a good unit test.
      */
-
     // let documentCreateStub: any;
     // let setupInitStub: any;
     // let rendererStub: any;

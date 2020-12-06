@@ -24,7 +24,6 @@ import { PerspectiveCamera, Vector3 } from "three";
  * @class Creates the camera for the scene.
  */
 export class Camera {
-
     private fov = 70;
 
     private aspectRatio: number;

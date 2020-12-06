@@ -19,8 +19,8 @@
 ///
 
 import * as CodeCityVis from "codecity-visualizer";
-import {TreeNodeInterface} from "codecity-visualizer/types/interfaces";
-import BuildingColorTheme from '../../classes/BuildingColorTheme';
+import { TreeNodeInterface } from "codecity-visualizer/types/interfaces";
+import BuildingColorTheme from "../../classes/BuildingColorTheme";
 import {
     complexityColorMetric,
     coverageColorMetric,
@@ -29,9 +29,9 @@ import {
     numberOfAuthorsBlameColorMetric,
     openIssuesColorMetric,
     packageNameColorMetric,
-    violationsColorMetric
+    violationsColorMetric,
 } from "../../constants/Metrics";
-import LayoutBuildingColorRules from './LayoutBuildingColorRules';
+import LayoutBuildingColorRules from "./LayoutBuildingColorRules";
 import Softvis3dModel from "./Softvis3dModel";
 
 const illustratorEvostreet = CodeCityVis.illustrators.evostreet;
@@ -55,7 +55,6 @@ export interface MetricScale {
 }
 
 class LayoutProcessor {
-
     private _options: {
         layout: string;
         layoutOptions: Record<string, unknown>;
@@ -76,7 +75,6 @@ class LayoutProcessor {
 
     public getIllustration(options: Record<string, unknown>, model: Softvis3dModel) {
         return new Promise<any>((resolve) => {
-
             this.setOptions(options);
             // Step 1: Load Metrics Scale
             this._metricScale = model.getMetricScale();
@@ -105,42 +103,40 @@ class LayoutProcessor {
 
     private setOptions(options = {}) {
         this._options = Object.assign(
-            {layout: "district", layoutOptions: {}, colorMetric: "none", scalingMethod: "linear"},
+            { layout: "district", layoutOptions: {}, colorMetric: "none", scalingMethod: "linear" },
             options
         );
         this._illustrator = null;
         this._rules = [];
         this._metricScale = {
-            height: {min: Infinity, max: 0},
-            metricFootprint: {min: Infinity, max: 0},
-            metricColor: {min: Infinity, max: 0}
+            height: { min: Infinity, max: 0 },
+            metricFootprint: { min: Infinity, max: 0 },
+            metricColor: { min: Infinity, max: 0 },
         };
     }
 
     private setLayoutEvostreet() {
         this._illustrator = illustratorEvostreet;
 
-        this._options.layoutOptions = this._mergeDeep(
-            this._options.layoutOptions,
-            {
-                "layout.snail": false,
-                "house.margin": 9,
-                "highway.length": 50,
-                "evostreet.options": {
-                    "spacer.initial": 30,
-                    "spacer.terranullius": 40,
-                    "spacer.conclusive": 0,
-                    "spacer.branches": 50,
-                    "road.trim": true,
-                    "house.container": (key: string, mirror: boolean) => new CodeCityVis.containers.lightmap(key, mirror),
-                    "house.distribution": "left",
-                    "house.platforms": {
-                        "dimensions.height": 1,
-                        "color": 0xD5D5D5
-                    }
-                }
-            }
-        );
+        this._options.layoutOptions = this._mergeDeep(this._options.layoutOptions, {
+            "layout.snail": false,
+            "house.margin": 9,
+            "highway.length": 50,
+            "evostreet.options": {
+                "spacer.initial": 30,
+                "spacer.terranullius": 40,
+                "spacer.conclusive": 0,
+                "spacer.branches": 50,
+                "road.trim": true,
+                "house.container": (key: string, mirror: boolean) =>
+                    new CodeCityVis.containers.lightmap(key, mirror),
+                "house.distribution": "left",
+                "house.platforms": {
+                    "dimensions.height": 1,
+                    color: 0xd5d5d5,
+                },
+            },
+        });
 
         this._rules = [];
         this._rules.push(this._RuleBuildingHeight());
@@ -152,15 +148,12 @@ class LayoutProcessor {
     private setLayoutDistrict() {
         this._illustrator = illustratorDistrict;
 
-        this._options.layoutOptions = this._mergeDeep(
-            this._options.layoutOptions,
-            {
-                "layout.tower": false,
-                "house.margin": 8,
-                "spacer.margin": 25,
-                "spacer.padding": 20
-            }
-        );
+        this._options.layoutOptions = this._mergeDeep(this._options.layoutOptions, {
+            "layout.tower": false,
+            "house.margin": 8,
+            "spacer.margin": 25,
+            "spacer.padding": 20,
+        });
 
         this._rules = [];
         this._rules.push(this._RuleBuildingHeight());
@@ -174,7 +167,7 @@ class LayoutProcessor {
             throw "Cannot merge non-objects.";
         }
 
-        const merged: { [index: string]: any; } = {};
+        const merged: { [index: string]: any } = {};
 
         for (const key in newOpt) {
             if (!Object.prototype.hasOwnProperty.call(newOpt, key)) {
@@ -248,14 +241,18 @@ class LayoutProcessor {
             return new CodeCityVis.rules.math.logarithmic({
                 condition: (model, node) => model && node.children.length === 0,
                 metric: (model, node, version) => {
-                    const attr: AttributeContainer = attributeHelper.attrFallbackSweep(model, node, version);
-                    return ("height" in attr) ? attr["height"] : 0;
+                    const attr: AttributeContainer = attributeHelper.attrFallbackSweep(
+                        model,
+                        node,
+                        version
+                    );
+                    return "height" in attr ? attr["height"] : 0;
                 },
                 attributes: LayoutProcessor.dimensionsHeight,
                 min: 6,
                 max,
                 logbase: base,
-                logexp: power
+                logexp: power,
             });
         } else if (this._options.scalingMethod === "exponential") {
             factor = 0.5;
@@ -265,15 +262,16 @@ class LayoutProcessor {
                 condition: (model, node) => model && node.children.length === 0,
                 metric: (model, node, version) => {
                     const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                    return ("height" in attr) ? attr["height"] : 0;
+                    return "height" in attr ? attr["height"] : 0;
                 },
                 attributes: LayoutProcessor.dimensionsHeight,
                 min: 6,
                 max,
                 power,
-                factor
+                factor,
             });
-        } else { // Linear
+        } else {
+            // Linear
             factor = 1;
 
             if (this._options.scalingMethod === "linear") {
@@ -289,12 +287,12 @@ class LayoutProcessor {
                 condition: (model, node) => model && node.children.length === 0,
                 metric: (model, node, version) => {
                     const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                    return ("height" in attr) ? attr["height"] : 0;
+                    return "height" in attr ? attr["height"] : 0;
                 },
                 attributes: LayoutProcessor.dimensionsHeight,
                 min: 6,
                 max,
-                factor
+                factor,
             });
         }
     }
@@ -326,13 +324,13 @@ class LayoutProcessor {
                 condition: (model, node) => model && node.children.length === 0,
                 metric: (model, node, version) => {
                     const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                    return ("metricFootprint" in attr) ? attr["metricFootprint"] : 0;
+                    return "metricFootprint" in attr ? attr["metricFootprint"] : 0;
                 },
                 attributes: [LayoutProcessor.dimensionsLength, LayoutProcessor.dimensionsWidth],
                 min: 10,
                 max,
                 logbase: base,
-                logexp: power
+                logexp: power,
             });
         } else if (this._options.scalingMethod == "exponential") {
             factor = 0.5;
@@ -342,15 +340,16 @@ class LayoutProcessor {
                 condition: (model, node) => model && node.children.length === 0,
                 metric: (model, node, version) => {
                     const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                    return ("metricFootprint" in attr) ? attr["metricFootprint"] : 0;
+                    return "metricFootprint" in attr ? attr["metricFootprint"] : 0;
                 },
                 attributes: [LayoutProcessor.dimensionsLength, LayoutProcessor.dimensionsWidth],
                 min: 10,
                 max,
                 power,
-                factor
+                factor,
             });
-        } else { // Linear
+        } else {
+            // Linear
             factor = 1;
 
             if (this._options.scalingMethod === "linear") {
@@ -366,15 +365,14 @@ class LayoutProcessor {
                 condition: (model, node) => model && node.children.length === 0,
                 metric: (model, node, version) => {
                     const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                    return ("metricFootprint" in attr) ? attr["metricFootprint"] : 0;
+                    return "metricFootprint" in attr ? attr["metricFootprint"] : 0;
                 },
                 attributes: [LayoutProcessor.dimensionsLength, LayoutProcessor.dimensionsWidth],
                 min: 6,
                 max,
-                factor
+                factor,
             });
         }
-
     }
 
     /**
@@ -388,7 +386,7 @@ class LayoutProcessor {
             metric: (model, node) => {
                 if (!model) return 0;
                 let level = 0;
-                while ((node = (node.parent as TreeNodeInterface))) {
+                while ((node = node.parent as TreeNodeInterface)) {
                     level++;
                 }
                 return level;
@@ -396,7 +394,7 @@ class LayoutProcessor {
             attributes: "color",
             max: 9,
             minColor: 0x157f89,
-            maxColor: 0x0b2d5c
+            maxColor: 0x0b2d5c,
         });
     }
 
@@ -412,7 +410,7 @@ class LayoutProcessor {
             metric: (model, node) => {
                 if (!model) return 0;
                 let level = 0;
-                while ((node = (node.parent as TreeNodeInterface))) {
+                while ((node = node.parent as TreeNodeInterface)) {
                     level++;
                 }
                 return level;
@@ -420,10 +418,9 @@ class LayoutProcessor {
             attributes: "color",
             max: 9,
             minColor: 0x202020,
-            maxColor: 0xCCCCCC
+            maxColor: 0xcccccc,
         });
     }
-
 }
 
 export default LayoutProcessor;

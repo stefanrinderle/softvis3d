@@ -18,9 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import * as React from "react";
 import AppStatusStore from "../stores/AppStatusStore";
 import CityBuilderStore from "../stores/CityBuilderStore";
@@ -38,13 +36,17 @@ interface Softvis3DProps {
 
 @observer
 export default class Softvis3D extends React.Component<Softvis3DProps, any> {
-
     public render() {
-        const {appStatusStore, sceneStore, cityBuilderStore, baseUrl} = this.props;
+        const { appStatusStore, sceneStore, cityBuilderStore, baseUrl } = this.props;
         return (
             <div>
-                <Status appStatusStore={appStatusStore}/>
-                <CityBuilder store={cityBuilderStore} appStatusStore={appStatusStore} sceneStore={sceneStore} baseUrl={baseUrl}/>
+                <Status appStatusStore={appStatusStore} />
+                <CityBuilder
+                    store={cityBuilderStore}
+                    appStatusStore={appStatusStore}
+                    sceneStore={sceneStore}
+                    baseUrl={baseUrl}
+                />
                 <Visualization cityBuilderStore={cityBuilderStore} sceneStore={sceneStore} />
             </div>
         );

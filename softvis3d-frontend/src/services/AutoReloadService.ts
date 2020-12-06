@@ -18,15 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {injectable} from "inversify";
-import {isUndefined} from "util";
-import {lazyInject} from "../inversify.config";
+import { injectable } from "inversify";
+import { isUndefined } from "util";
+import { lazyInject } from "../inversify.config";
 import AppStatusStore from "../stores/AppStatusStore";
 import SonarQubeComponentInfoService from "./sonarqube/SonarQubeComponentInfoService";
 
 @injectable()
 export default class AutoReloadService {
-
     // 5 minutes
     public static RELOAD_INTERVAL_MS = 5 * 60 * 1000;
 
@@ -41,7 +40,10 @@ export default class AutoReloadService {
 
         // only start the timer if the analysisDate value is available.
         if (!isUndefined(appStatusStore.analysisDate)) {
-            this.timer = window.setInterval(this.updateAnalysisDate.bind(this), AutoReloadService.RELOAD_INTERVAL_MS);
+            this.timer = window.setInterval(
+                this.updateAnalysisDate.bind(this),
+                AutoReloadService.RELOAD_INTERVAL_MS
+            );
         }
     }
 
@@ -51,7 +53,10 @@ export default class AutoReloadService {
 
     public updateAnalysisDate(appStatusStore: AppStatusStore) {
         this.componentInfoService.loadComponentInfo().then((result) => {
-            if (!appStatusStore.analysisDate || appStatusStore.analysisDate.getTime() !== result.analysisDate.getTime()) {
+            if (
+                !appStatusStore.analysisDate ||
+                appStatusStore.analysisDate.getTime() !== result.analysisDate.getTime()
+            ) {
                 appStatusStore.analysisDate = result.analysisDate;
             }
         });

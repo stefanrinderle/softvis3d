@@ -19,7 +19,6 @@
 ///
 
 export class Rectangle {
-
     public readonly width: number;
     public readonly length: number;
 
@@ -27,5 +26,4 @@ export class Rectangle {
         this.width = width;
         this.length = length;
     }
-
 }

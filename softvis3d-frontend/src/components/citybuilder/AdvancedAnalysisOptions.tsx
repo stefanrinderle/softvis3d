@@ -18,36 +18,41 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import * as React from "react";
 import BuildingColorTheme from "../../classes/BuildingColorTheme";
 import Layout from "../../classes/Layout";
 import Metric from "../../classes/Metric";
 import Scale from "../../classes/Scale";
-import {SceneColorTheme} from "../../classes/SceneColorTheme";
-import {TestClassesVariant} from "../../classes/TestClassesVariant";
-import {BuildingColorThemes} from "../../constants/BuildingColorThemes";
-import {Layouts} from "../../constants/Layouts";
-import {custom} from "../../constants/Profiles";
-import {Scales} from "../../constants/Scales";
-import {SceneColorThemes} from "../../constants/SceneColorThemes";
-import {TestClassesVariants} from "../../constants/TestClassesVariants";
+import { SceneColorTheme } from "../../classes/SceneColorTheme";
+import { TestClassesVariant } from "../../classes/TestClassesVariant";
+import { BuildingColorThemes } from "../../constants/BuildingColorThemes";
+import { Layouts } from "../../constants/Layouts";
+import { custom } from "../../constants/Profiles";
+import { Scales } from "../../constants/Scales";
+import { SceneColorThemes } from "../../constants/SceneColorThemes";
+import { TestClassesVariants } from "../../constants/TestClassesVariants";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import Category from "../ui/Category";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
-import {TextInput} from "../ui/TextInput";
+import { TextInput } from "../ui/TextInput";
 
 @observer
-export default class AdvancedAnalysisOptions extends React.Component<{ store: CityBuilderStore; }, any> {
+export default class AdvancedAnalysisOptions extends React.Component<
+    { store: CityBuilderStore },
+    any
+> {
     public render() {
-
-        const {footprintMetric, heightMetric, options} = this.props.store;
+        const { footprintMetric, heightMetric, options } = this.props.store;
 
         return (
             <div>
-                <Category label="Metrics" className="advanced" toggle={false} initialVisibility={true}>
+                <Category
+                    label="Metrics"
+                    className="advanced"
+                    toggle={false}
+                    initialVisibility={true}
+                >
                     <div className="left-column">
                         <div className="builder-option">
                             <SelectBoxBuilder
@@ -84,7 +89,7 @@ export default class AdvancedAnalysisOptions extends React.Component<{ store: Ci
                                 value={options.metricColor}
                                 options={this.props.store.colorMetrics.asSelectOptions}
                                 onChange={(m: any) => {
-                                    options.metricColor = (m as Metric);
+                                    options.metricColor = m as Metric;
                                 }}
                             />
                             <p className="selection-description color-description">
@@ -93,7 +98,12 @@ export default class AdvancedAnalysisOptions extends React.Component<{ store: Ci
                         </div>
                     </div>
                 </Category>
-                <Category label="Color themes" className="advanced" toggle={false} initialVisibility={true}>
+                <Category
+                    label="Color themes"
+                    className="advanced"
+                    toggle={false}
+                    initialVisibility={true}
+                >
                     <div className="left-column">
                         <div className="builder-option">
                             <SelectBoxBuilder
@@ -119,7 +129,12 @@ export default class AdvancedAnalysisOptions extends React.Component<{ store: Ci
                         </div>
                     </div>
                 </Category>
-                <Category label="Layout" className="advanced" toggle={false} initialVisibility={true}>
+                <Category
+                    label="Layout"
+                    className="advanced"
+                    toggle={false}
+                    initialVisibility={true}
+                >
                     <div className="left-column">
                         <div className="builder-option">
                             <SelectBoxBuilder
@@ -143,11 +158,18 @@ export default class AdvancedAnalysisOptions extends React.Component<{ store: Ci
                                     this.props.store.options.profile.scale = scale;
                                 }}
                             />
-                            <p className="selection-description">{this.props.store.options.profile.scale.description}</p>
+                            <p className="selection-description">
+                                {this.props.store.options.profile.scale.description}
+                            </p>
                         </div>
                     </div>
                 </Category>
-                <Category label="Files" className="advanced" toggle={false} initialVisibility={true}>
+                <Category
+                    label="Files"
+                    className="advanced"
+                    toggle={false}
+                    initialVisibility={true}
+                >
                     <div className="left-column">
                         <div className="builder-option">
                             <SelectBoxBuilder
@@ -167,7 +189,8 @@ export default class AdvancedAnalysisOptions extends React.Component<{ store: Ci
                                 label="Exclude classes regex"
                                 value={this.props.store.options.fileFilter.excludeClasses.value}
                                 onChange={(event) => {
-                                    this.props.store.options.fileFilter.excludeClasses.value = event.target.value;
+                                    this.props.store.options.fileFilter.excludeClasses.value =
+                                        event.target.value;
                                 }}
                             />
                         </div>
@@ -179,7 +202,8 @@ export default class AdvancedAnalysisOptions extends React.Component<{ store: Ci
                                 label="Include classes regex"
                                 value={this.props.store.options.fileFilter.includeClasses.value}
                                 onChange={(event) => {
-                                    this.props.store.options.fileFilter.includeClasses.value = event.target.value;
+                                    this.props.store.options.fileFilter.includeClasses.value =
+                                        event.target.value;
                                 }}
                             />
                         </div>

@@ -21,7 +21,6 @@
 import { Mesh, Geometry, MeshLambertMaterial } from "three";
 
 export class SoftVis3dMesh extends Mesh {
-
     /**
      * @Override material from Mesh
      *
@@ -42,5 +41,4 @@ export class SoftVis3dMesh extends Mesh {
     public getSoftVis3dId(): string {
         return this.softVis3dId;
     }
-
 }

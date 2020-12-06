@@ -18,19 +18,18 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {observable} from "mobx";
-import {CityBuilderTab} from "../classes/CityBuilderTab";
+import { observable } from "mobx";
+import { CityBuilderTab } from "../classes/CityBuilderTab";
 import Metric from "../classes/Metric";
 import MetricSet from "../classes/MetricSet";
-import {PreviewPicture} from "../classes/PreviewPicture";
+import { PreviewPicture } from "../classes/PreviewPicture";
 import Profile from "../classes/Profile";
 import VisualizationOptions from "../classes/VisualizationOptions";
-import {ColorMetrics} from "../constants/Metrics";
-import {availablePreviewPictures, placeholder} from "../constants/PreviewPictures";
-import {custom, Profiles} from "../constants/Profiles";
+import { ColorMetrics } from "../constants/Metrics";
+import { availablePreviewPictures, placeholder } from "../constants/PreviewPictures";
+import { custom, Profiles } from "../constants/Profiles";
 
 export default class CityBuilderStore {
-
     @observable
     public options: VisualizationOptions = VisualizationOptions.createDefault();
 
@@ -50,7 +49,10 @@ export default class CityBuilderStore {
     public setProfile(p: Profile) {
         if (p.id === custom.id) {
             this._customProfile.updateConfiguration(
-                this.options.profile.footprintMetric, this.options.profile.heightMetric, this.options.profile.scale);
+                this.options.profile.footprintMetric,
+                this.options.profile.heightMetric,
+                this.options.profile.scale
+            );
             this.options.profile = this._customProfile;
         } else {
             this.options.profile = Profiles.getAvailableProfileById(p.id).clone();
@@ -67,7 +69,10 @@ export default class CityBuilderStore {
 
     public getPreviewBackground(): PreviewPicture {
         for (const preview of availablePreviewPictures) {
-            if (preview.forLayout(this.options.layout) && preview.forProfile(this.options.profile)) {
+            if (
+                preview.forLayout(this.options.layout) &&
+                preview.forProfile(this.options.profile)
+            ) {
                 return preview;
             }
         }

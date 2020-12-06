@@ -18,23 +18,22 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import BuildingColorTheme from "../../src/classes/BuildingColorTheme";
 import FileFilter from "../../src/classes/FileFilter";
 import Layout from "../../src/classes/Layout";
 import Metric from "../../src/classes/Metric";
 import Profile from "../../src/classes/Profile";
-import {SceneColorTheme} from "../../src/classes/SceneColorTheme";
+import { SceneColorTheme } from "../../src/classes/SceneColorTheme";
 import VisualizationOptions from "../../src/classes/VisualizationOptions";
-import {DEFAULT_BUILDING_COLOR_THEME} from "../../src/constants/BuildingColorThemes";
-import {evostreet} from "../../src/constants/Layouts";
-import {coverageColorMetric, noColorMetric} from "../../src/constants/Metrics";
-import {defaultProfile} from "../../src/constants/Profiles";
-import {EXPONENTIAL} from "../../src/constants/Scales";
-import {DEFAULT_COLOR_THEME} from "../../src/constants/SceneColorThemes";
+import { DEFAULT_BUILDING_COLOR_THEME } from "../../src/constants/BuildingColorThemes";
+import { evostreet } from "../../src/constants/Layouts";
+import { coverageColorMetric, noColorMetric } from "../../src/constants/Metrics";
+import { defaultProfile } from "../../src/constants/Profiles";
+import { EXPONENTIAL } from "../../src/constants/Scales";
+import { DEFAULT_COLOR_THEME } from "../../src/constants/SceneColorThemes";
 
 describe("VisualizationOptions", () => {
-
     it("should construct config", () => {
         const metricColor: Metric = coverageColorMetric;
         const layout: Layout = evostreet;
@@ -43,8 +42,14 @@ describe("VisualizationOptions", () => {
         const colorTheme: SceneColorTheme = DEFAULT_COLOR_THEME;
         const fileFilter = new FileFilter();
 
-        const result: VisualizationOptions =
-            new VisualizationOptions(profile, layout, metricColor, buildingColorTheme, colorTheme, fileFilter);
+        const result: VisualizationOptions = new VisualizationOptions(
+            profile,
+            layout,
+            metricColor,
+            buildingColorTheme,
+            colorTheme,
+            fileFilter
+        );
 
         expect(result.profile).to.be.eq(profile);
         expect(result.layout).to.be.eq(layout);
@@ -87,5 +92,4 @@ describe("VisualizationOptions", () => {
         expect(result.equalStructure(copy)).to.be.false;
         expect(copy.equalStructure(result)).to.be.false;
     });
-
 });

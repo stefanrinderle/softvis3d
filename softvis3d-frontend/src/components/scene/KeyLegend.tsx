@@ -18,8 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 
 interface KeyLegendProps {
@@ -27,13 +25,12 @@ interface KeyLegendProps {
 }
 
 export class KeyLegend extends React.Component<KeyLegendProps, any> {
-
     public static defaultProps = {
-        show: true
+        show: true,
     };
 
     public render() {
-        const {show} = this.props;
+        const { show } = this.props;
 
         if (!show) {
             return <div />;
@@ -44,24 +41,44 @@ export class KeyLegend extends React.Component<KeyLegendProps, any> {
                 <table>
                     <tbody>
                         <tr>
-                            <td><div className="mouse-key mouse-left" /></td>
-                            <td><span>Rotate</span></td>
+                            <td>
+                                <div className="mouse-key mouse-left" />
+                            </td>
+                            <td>
+                                <span>Rotate</span>
+                            </td>
                         </tr>
                         <tr>
-                            <td><div className="mouse-key mouse-middle" /></td>
-                            <td><span>Zoom</span></td>
+                            <td>
+                                <div className="mouse-key mouse-middle" />
+                            </td>
+                            <td>
+                                <span>Zoom</span>
+                            </td>
                         </tr>
                         <tr>
-                            <td><div className="mouse-key mouse-right" /></td>
-                            <td><span>Move</span></td>
+                            <td>
+                                <div className="mouse-key mouse-right" />
+                            </td>
+                            <td>
+                                <span>Move</span>
+                            </td>
                         </tr>
                         <tr>
-                            <td><div className="keyboard-key">R</div></td>
-                            <td><span>Reset Camera</span></td>
+                            <td>
+                                <div className="keyboard-key">R</div>
+                            </td>
+                            <td>
+                                <span>Reset Camera</span>
+                            </td>
                         </tr>
                         <tr>
-                            <td><div className="keyboard-key">L</div></td>
-                            <td><span>Toggle Legend</span></td>
+                            <td>
+                                <div className="keyboard-key">L</div>
+                            </td>
+                            <td>
+                                <span>Toggle Legend</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

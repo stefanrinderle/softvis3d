@@ -19,7 +19,6 @@
 ///
 
 export default class ClipBoardService {
-
     public copyTextToClipboard(text: string) {
         const textArea: HTMLTextAreaElement = document.createElement("textarea");
 
@@ -44,5 +43,4 @@ export default class ClipBoardService {
             document.body.removeChild(textArea);
         }
     }
-
 }

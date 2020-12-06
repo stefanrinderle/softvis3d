@@ -19,7 +19,7 @@
 ///
 
 import * as Sinon from "sinon";
-import {container} from "../src/inversify.config";
+import { container } from "../src/inversify.config";
 
 export function createMock(constructor: any) {
     const result: any = Sinon.createStubInstance(constructor);

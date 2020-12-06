@@ -18,17 +18,21 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {Intersection, PerspectiveCamera, Raycaster, Vector3} from "three";
-import {Offset} from "../../../services/HtmlDomService";
-import {SoftVis3dMesh} from "../domain/SoftVis3dMesh";
+import { Intersection, PerspectiveCamera, Raycaster, Vector3 } from "three";
+import { Offset } from "../../../services/HtmlDomService";
+import { SoftVis3dMesh } from "../domain/SoftVis3dMesh";
 
 export class SelectionCalculator {
-
     public static RAYCASTER = new Raycaster();
 
-    public static makeSelection(x: number, y: number, width: number, height: number,
-                                camera: PerspectiveCamera, objectsInView: SoftVis3dMesh[]): string | null {
-
+    public static makeSelection(
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+        camera: PerspectiveCamera,
+        objectsInView: SoftVis3dMesh[]
+    ): string | null {
         // creating NDC coordinates for ray intersection.
         const mouseDownX: number = (x / width) * 2 - 1;
         const mouseDownY: number = -(y / height) * 2 + 1;
@@ -37,8 +41,10 @@ export class SelectionCalculator {
 
         const cameraPosition = camera.position;
         SelectionCalculator.RAYCASTER.set(cameraPosition, vector.sub(cameraPosition).normalize());
-        const intersected: Intersection[] =
-            SelectionCalculator.RAYCASTER.intersectObjects(objectsInView, true);
+        const intersected: Intersection[] = SelectionCalculator.RAYCASTER.intersectObjects(
+            objectsInView,
+            true
+        );
 
         let result: string | null = null;
         if (intersected.length > 0) {
@@ -50,12 +56,14 @@ export class SelectionCalculator {
     }
 
     public static calculateSelectionPosition(event: MouseEvent, offset: Offset) {
-        let x: number = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-        let y: number = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+        let x: number =
+            event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+        let y: number =
+            event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 
         x -= offset.left;
         y -= offset.top;
 
-        return {x, y};
+        return { x, y };
     }
 }

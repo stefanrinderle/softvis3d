@@ -18,11 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {Scales, EXPONENTIAL, LOGARITHMIC} from "../../src/constants/Scales";
+import { expect } from "chai";
+import { Scales, EXPONENTIAL, LOGARITHMIC } from "../../src/constants/Scales";
 
 describe("Scales", () => {
-
     it("should provide available scales", () => {
         expect(Scales.availableScales.length).to.be.greaterThan(0);
     });
@@ -32,5 +31,4 @@ describe("Scales", () => {
 
         expect(Scales.getScaleById(LOGARITHMIC.id)).to.be.eq(LOGARITHMIC);
     });
-
 });

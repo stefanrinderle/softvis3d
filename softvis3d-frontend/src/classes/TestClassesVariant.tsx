@@ -18,17 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import {
     SQ_QUALIFIER_FILE,
-    SQ_QUALIFIER_UNIT_TEST_FILE
+    SQ_QUALIFIER_UNIT_TEST_FILE,
 } from "../services/sonarqube/measures/api/SonarQubeMeasureResponse";
-import {FileFilterInterface} from "./FileFilter";
-import {TreeElement} from "./TreeElement";
+import { FileFilterInterface } from "./FileFilter";
+import { TreeElement } from "./TreeElement";
 
 export abstract class TestClassesVariant implements SelectOptionValue, FileFilterInterface {
-
     public readonly id: string;
     public readonly label: string;
 

@@ -18,8 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 import { observer } from "mobx-react";
 import SceneStore from "../../stores/SceneStore";
@@ -30,7 +28,6 @@ interface SelectedElementInfoProps {
 
 @observer
 export default class SelectedElementInfo extends React.Component<SelectedElementInfoProps, any> {
-
     public render() {
         const selectedElement = this.props.sceneStore.selectedElement;
 
@@ -42,10 +39,7 @@ export default class SelectedElementInfo extends React.Component<SelectedElement
             );
         }
 
-        const classes = [
-            "selected-element-info",
-            selectedElement.isFile() ? "leaf" : "node"
-        ];
+        const classes = ["selected-element-info", selectedElement.isFile() ? "leaf" : "node"];
 
         return (
             <div>
@@ -64,10 +58,24 @@ export default class SelectedElementInfo extends React.Component<SelectedElement
 
         return (
             <div className="info-buttons">
-                <button id="open-file-button" className="left"
-                        onClick={() => { this.openSourceCode(); }}>Open file</button>
-                <button id="open-measures-button" className="right"
-                        onClick={() => { this.openMeasures(); }}>Open measures</button>
+                <button
+                    id="open-file-button"
+                    className="left"
+                    onClick={() => {
+                        this.openSourceCode();
+                    }}
+                >
+                    Open file
+                </button>
+                <button
+                    id="open-measures-button"
+                    className="right"
+                    onClick={() => {
+                        this.openMeasures();
+                    }}
+                >
+                    Open measures
+                </button>
             </div>
         );
     }

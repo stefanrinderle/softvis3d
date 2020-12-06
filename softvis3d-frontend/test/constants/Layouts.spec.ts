@@ -18,11 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {Layouts, evostreet, district} from "../../src/constants/Layouts";
+import { expect } from "chai";
+import { Layouts, evostreet, district } from "../../src/constants/Layouts";
 
 describe("Layouts", () => {
-
     it("should provide available layouts", () => {
         expect(Layouts.availableLayouts.length).to.be.greaterThan(0);
     });
@@ -32,5 +31,4 @@ describe("Layouts", () => {
 
         expect(Layouts.getLayoutById(district.id)).to.be.eq(district);
     });
-
 });

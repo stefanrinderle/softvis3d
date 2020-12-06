@@ -18,16 +18,15 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {Vector2} from "three";
-import {Dimension} from "../../../../../src/components/scene/domain/Dimension";
-import {Rectangle} from "../../../../../src/components/scene/domain/Rectangle";
-import {SoftVis3dShape} from "../../../../../src/components/scene/domain/SoftVis3dShape";
+import { expect } from "chai";
+import { Vector2 } from "three";
+import { Dimension } from "../../../../../src/components/scene/domain/Dimension";
+import { Rectangle } from "../../../../../src/components/scene/domain/Rectangle";
+import { SoftVis3dShape } from "../../../../../src/components/scene/domain/SoftVis3dShape";
 import SceneObjectCalculator from "../../../../../src/components/scene/visualization/scene/SceneObjectCalculator";
-import {Offset} from "../../../../../src/services/HtmlDomService";
+import { Offset } from "../../../../../src/services/HtmlDomService";
 
 describe("SceneObjectCalculator", () => {
-
     it("should calc with empty shape array", () => {
         const shapes: SoftVis3dShape[] = [];
         const result: Rectangle = SceneObjectCalculator.findMaxDimension(shapes);
@@ -71,14 +70,19 @@ describe("SceneObjectCalculator", () => {
 
         const appOffset: Offset = new Offset(56, 78);
         const sonarFooter: any = {
-            offsetHeight: 74
+            offsetHeight: 74,
         };
         const appWidth = 90;
 
-        const result = SceneObjectCalculator.calculateDimensionOnResize(sidebarWidth, topbarHeight, appOffset, sonarFooter, appWidth);
+        const result = SceneObjectCalculator.calculateDimensionOnResize(
+            sidebarWidth,
+            topbarHeight,
+            appOffset,
+            sonarFooter,
+            appWidth
+        );
 
         expect(result.length).to.be.eq(602);
         expect(result.width).to.be.eq(75);
     });
-
 });

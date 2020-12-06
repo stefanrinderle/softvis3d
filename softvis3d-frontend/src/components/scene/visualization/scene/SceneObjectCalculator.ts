@@ -18,12 +18,11 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {Offset} from "../../../../services/HtmlDomService";
-import {Rectangle} from "../../domain/Rectangle";
-import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
+import { Offset } from "../../../../services/HtmlDomService";
+import { Rectangle } from "../../domain/Rectangle";
+import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
 
 export default class SceneObjectCalculator {
-
     public static findMaxDimension(shapes: SoftVis3dShape[]): Rectangle {
         let length = 0;
         let width = 0;
@@ -40,11 +39,19 @@ export default class SceneObjectCalculator {
         return new Rectangle(width, length);
     }
 
-    public static calculateDimensionOnResize(sidebarWidth: number, topbarHeight: number, appOffset: Offset,
-                                             sonarFooter: HTMLElement | null, appWidth: number): Rectangle {
+    public static calculateDimensionOnResize(
+        sidebarWidth: number,
+        topbarHeight: number,
+        appOffset: Offset,
+        sonarFooter: HTMLElement | null,
+        appWidth: number
+    ): Rectangle {
         const sceneBoarderWidth = 1;
-        const sonarFooterHeight = sonarFooter ? sonarFooter.offsetHeight : SceneObjectCalculator.DEFAULT_FOOTER_HEIGHT;
-        const appMaxHeight = window.innerHeight - sonarFooterHeight - appOffset.top - (2 * sceneBoarderWidth);
+        const sonarFooterHeight = sonarFooter
+            ? sonarFooter.offsetHeight
+            : SceneObjectCalculator.DEFAULT_FOOTER_HEIGHT;
+        const appMaxHeight =
+            window.innerHeight - sonarFooterHeight - appOffset.top - 2 * sceneBoarderWidth;
         const appComputedWidth = appWidth - 2 * sceneBoarderWidth;
 
         const width: number = appComputedWidth - sidebarWidth - 1;
@@ -54,5 +61,4 @@ export default class SceneObjectCalculator {
     }
 
     private static DEFAULT_FOOTER_HEIGHT = 11;
-
 }

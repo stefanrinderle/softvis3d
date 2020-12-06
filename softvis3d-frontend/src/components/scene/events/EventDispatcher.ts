@@ -21,7 +21,7 @@
 import Event from "./Event";
 
 export class EventDispatcher<T> {
-    private _listeners: {(event: Event<T>): void;}[];
+    private _listeners: { (event: Event<T>): void }[];
 
     constructor() {
         this._listeners = [];

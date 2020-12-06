@@ -18,19 +18,17 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 import SelectBox from "./SelectBox";
 import SelectOption from "./SelectOption";
-import {MouseEventHandler} from "react";
+import { MouseEventHandler } from "react";
 
 export interface SelectBoxBuilderProps {
     className?: string;
     label: string;
     value: SelectOptionValue;
     options: SelectOptionValue[];
-    onChange: (value: any) => void|boolean;
+    onChange: (value: any) => void | boolean;
     onClick?: MouseEventHandler<HTMLElement>;
     onMouseDown?: MouseEventHandler<HTMLElement>;
     disabled?: boolean;
@@ -57,11 +55,8 @@ export default class SelectBoxBuilder extends React.Component<SelectBoxBuilderPr
     }
 
     private getSelectOptions(): SelectOption[] {
-        return this.props.options
-            .map((option) => <SelectOption
-                key={option.id}
-                value={option}
-                disabled={this.props.disabled}
-            />) as any;
+        return this.props.options.map((option) => (
+            <SelectOption key={option.id} value={option} disabled={this.props.disabled} />
+        )) as any;
     }
 }

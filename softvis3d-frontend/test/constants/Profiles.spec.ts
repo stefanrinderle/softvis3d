@@ -18,11 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {Profiles, custom, defaultProfile} from "../../src/constants/Profiles";
+import { expect } from "chai";
+import { Profiles, custom, defaultProfile } from "../../src/constants/Profiles";
 
 describe("Profiles", () => {
-
     it("should provide available profiles", () => {
         expect(Profiles.availableProfiles.length).to.be.greaterThan(0);
     });
@@ -32,5 +31,4 @@ describe("Profiles", () => {
 
         expect(Profiles.getAvailableProfileById(defaultProfile.id)).to.be.eq(defaultProfile);
     });
-
 });

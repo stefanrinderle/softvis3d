@@ -7,7 +7,9 @@
         "eslint:recommended",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:sonarjs/recommended"
+        "plugin:sonarjs/recommended",
+        "prettier",
+        "prettier/react"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -20,7 +22,8 @@
     "plugins": [
         "react",
         "@typescript-eslint",
-        "sonarjs"
+        "sonarjs",
+        "prettier"
     ],
     "settings": {
         "react": {
@@ -29,7 +32,8 @@
     },
     "rules": {
         "@typescript-eslint/no-explicit-any": 0,
-        "@typescript-eslint/explicit-module-boundary-types": 0
+        "@typescript-eslint/explicit-module-boundary-types": 0,
+        "prettier/prettier": "error"
 //        "no-identical-functions": 1,
 //        "parameters-max-number": [1, 8],
 //        "max-line-length": [2, 135],

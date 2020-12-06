@@ -18,15 +18,12 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 import AppStatusStore from "../../../stores/AppStatusStore";
 import StatusActionQueue from "../../../classes/status/StatusActionQueue";
 import LoadAction from "../../../classes/status/LoadAction";
 
-export default class LoadingQueue extends React.Component<{ appStatusStore: AppStatusStore; }, any> {
-
+export default class LoadingQueue extends React.Component<{ appStatusStore: AppStatusStore }, any> {
     public render() {
         const queue: StatusActionQueue<LoadAction> = this.props.appStatusStore.loadingQueue;
 
@@ -37,23 +34,16 @@ export default class LoadingQueue extends React.Component<{ appStatusStore: AppS
                     <li key={queueElement.key}>
                         <span className="status-description">{queueElement.description}</span>
                         <span className="status-percent">{queueElement.percent}%</span>
-                        <span className="status-absolute">{queueElement.current} of {queueElement.max}</span>
+                        <span className="status-absolute">
+                            {queueElement.current} of {queueElement.max}
+                        </span>
                     </li>
                 );
             } else {
-                elements.push(
-                    <li key={queueElement.key}>
-                        {queueElement.description}
-                    </li>
-                );
+                elements.push(<li key={queueElement.key}>{queueElement.description}</li>);
             }
         }
 
-        return (
-            <ul className="events">
-                {elements}
-            </ul>
-        );
+        return <ul className="events">{elements}</ul>;
     }
-
 }

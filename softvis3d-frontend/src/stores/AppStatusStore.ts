@@ -18,14 +18,13 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {computed, observable} from "mobx";
+import { computed, observable } from "mobx";
 import LoadAction from "../classes/status/LoadAction";
 import ErrorAction from "../classes/status/ErrorAction";
 import StatusActionQueue from "../classes/status/StatusActionQueue";
 import StatusAction from "../classes/status/StatusAction";
 
 export default class AppStatusStore {
-
     @observable
     public showLoadingQueue = false;
     @observable
@@ -71,7 +70,7 @@ export default class AppStatusStore {
         this.errors.add(error);
     }
 
-    public acknowledgeError(error: ErrorAction): void  {
+    public acknowledgeError(error: ErrorAction): void {
         this.errors.remove(error);
     }
 }

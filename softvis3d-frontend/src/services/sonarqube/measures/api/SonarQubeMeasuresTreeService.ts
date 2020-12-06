@@ -18,31 +18,36 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {TreeElement} from "../../../../classes/TreeElement";
-import {lazyInject} from "../../../../inversify.config";
+import { TreeElement } from "../../../../classes/TreeElement";
+import { lazyInject } from "../../../../inversify.config";
 import AppStatusStore from "../../../../stores/AppStatusStore";
 import SonarQubeMeasuresApiService from "./SonarQubeMeasuresApiService";
 import SonarQubeTransformerService from "./SonarQubeTransformerService";
 
 export default class SonarQubeMeasuresTreeService {
-
     @lazyInject("SonarQubeMeasuresApiService")
     private readonly measureApiService!: SonarQubeMeasuresApiService;
     @lazyInject("SonarQubeTransformerService")
     private readonly sonarQubeTransformerService!: SonarQubeTransformerService;
 
-    public loadTree(appStatusStore: AppStatusStore, parent: TreeElement, metricKeys: string): Promise<void> {
+    public loadTree(
+        appStatusStore: AppStatusStore,
+        parent: TreeElement,
+        metricKeys: string
+    ): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            this.measureApiService.loadMeasures(appStatusStore, parent.key, metricKeys).then((result) => {
-                for (const file of result.components) {
-                    const element = this.sonarQubeTransformerService.createTreeElement(file);
-                    this.sonarQubeTransformerService.add(parent, element, true);
-                }
-                resolve();
-            }).catch((error) => {
-                reject(error);
-            });
+            this.measureApiService
+                .loadMeasures(appStatusStore, parent.key, metricKeys)
+                .then((result) => {
+                    for (const file of result.components) {
+                        const element = this.sonarQubeTransformerService.createTreeElement(file);
+                        this.sonarQubeTransformerService.add(parent, element, true);
+                    }
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
         });
     }
-
 }

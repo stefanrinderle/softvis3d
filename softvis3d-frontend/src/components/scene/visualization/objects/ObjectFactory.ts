@@ -23,7 +23,6 @@ import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
 import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
 
 export class ObjectFactory {
-
     public static getSceneObjects(shapes: SoftVis3dShape[]): SoftVis3dMesh[] {
         const result: SoftVis3dMesh[] = [];
 
@@ -51,7 +50,7 @@ export class ObjectFactory {
         const material = new MeshLambertMaterial({
             color: element.color,
             transparent: true,
-            opacity: element.opacity
+            opacity: element.opacity,
         });
 
         const cube: SoftVis3dMesh = new SoftVis3dMesh(element.key, geometry, material);

@@ -22,7 +22,6 @@ import Profile from "./Profile";
 import Layout from "./Layout";
 
 export class PreviewPicture {
-
     public readonly bgPicture: string;
 
     private layout?: Layout;
@@ -49,5 +48,4 @@ export class PreviewPicture {
             return false;
         }
     }
-
 }

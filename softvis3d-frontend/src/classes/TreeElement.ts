@@ -20,11 +20,10 @@
 
 import {
     SQ_QUALIFIER_FILE,
-    SQ_QUALIFIER_UNIT_TEST_FILE
+    SQ_QUALIFIER_UNIT_TEST_FILE,
 } from "../services/sonarqube/measures/api/SonarQubeMeasureResponse";
 
 export class TreeElement {
-
     private static sortByNameAndType(a: TreeElement, b: TreeElement) {
         if (a.isFile() === b.isFile()) {
             return a.name.localeCompare(b.name);
@@ -45,8 +44,15 @@ export class TreeElement {
 
     public readonly qualifier: string;
 
-    public constructor(id: string, key: string, measures: MeasureList, name: string, path: string, qualifier: string,
-                       parent?: TreeElement) {
+    public constructor(
+        id: string,
+        key: string,
+        measures: MeasureList,
+        name: string,
+        path: string,
+        qualifier: string,
+        parent?: TreeElement
+    ) {
         this.id = id;
         this.key = key;
         this.measures = measures;
@@ -58,8 +64,9 @@ export class TreeElement {
     }
 
     public isFile(): boolean {
-        return (this.qualifier === SQ_QUALIFIER_FILE)
-            || (this.qualifier === SQ_QUALIFIER_UNIT_TEST_FILE);
+        return (
+            this.qualifier === SQ_QUALIFIER_FILE || this.qualifier === SQ_QUALIFIER_UNIT_TEST_FILE
+        );
     }
 
     public getSortedChildren(): TreeElement[] {
@@ -77,7 +84,15 @@ export class TreeElement {
     }
 
     public clone(): TreeElement {
-        const treeElement = new TreeElement(this.id, this.key, this.measures, this.name, this.path, this.qualifier, this.parent);
+        const treeElement = new TreeElement(
+            this.id,
+            this.key,
+            this.measures,
+            this.name,
+            this.path,
+            this.qualifier,
+            this.parent
+        );
 
         for (const child of this.children) {
             treeElement.children.push(child.clone());

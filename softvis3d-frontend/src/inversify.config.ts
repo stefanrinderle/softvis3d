@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {Container} from "inversify";
+import { Container } from "inversify";
 import getDecorators from "inversify-inject-decorators";
 import LayoutProcessor from "./services/layout/LayoutProcessor";
 
@@ -27,10 +27,7 @@ const container = new Container();
 bindToInjection(LayoutProcessor);
 
 const { lazyInject } = getDecorators(container);
-export {
-    container,
-    lazyInject
-};
+export { container, lazyInject };
 
 export function bindToInjection(constructor: any): any {
     const instance = new constructor();

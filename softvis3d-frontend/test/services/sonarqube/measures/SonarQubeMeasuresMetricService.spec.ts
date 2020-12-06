@@ -18,12 +18,11 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import SonarQubeMeasuresMetricService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
 
 describe("SonarQubeMeasuresMetricService", () => {
-
     it("should call backend and load measures", () => {
         const cityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
@@ -33,5 +32,4 @@ describe("SonarQubeMeasuresMetricService", () => {
 
         expect(result).to.be.eq("complexity,ncloc,coverage,violations,new_violations,open_issues");
     });
-
 });

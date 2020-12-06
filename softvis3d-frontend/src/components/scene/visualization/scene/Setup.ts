@@ -21,8 +21,11 @@
 import { DirectionalLight, Scene, WebGLRenderer } from "three";
 
 export class Setup {
-
-    public static initRenderer(renderer: WebGLRenderer, scene: Scene, container: HTMLCanvasElement) {
+    public static initRenderer(
+        renderer: WebGLRenderer,
+        scene: Scene,
+        container: HTMLCanvasElement
+    ) {
         const width: number = container.clientWidth;
         const height: number = container.clientHeight;
 

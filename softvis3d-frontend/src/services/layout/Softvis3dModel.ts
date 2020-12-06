@@ -19,13 +19,13 @@
 ///
 
 import * as CodeCityVis from "codecity-visualizer";
-import BuildingColorTheme from '../../classes/BuildingColorTheme';
-import {TreeElement} from "../../classes/TreeElement";
-import {MetricScale} from "./LayoutProcessor";
+import BuildingColorTheme from "../../classes/BuildingColorTheme";
+import { TreeElement } from "../../classes/TreeElement";
+import { MetricScale } from "./LayoutProcessor";
 
-const BaseModel  = CodeCityVis.models.base;
-const TreeNode   = CodeCityVis.components.node;
-const Version    = CodeCityVis.components.version;
+const BaseModel = CodeCityVis.models.base;
+const TreeNode = CodeCityVis.components.node;
+const Version = CodeCityVis.components.version;
 
 type TreeNodeInterface = CodeCityVis.components.node;
 type VersionInterface = CodeCityVis.components.version;
@@ -37,23 +37,28 @@ export default class Softvis3dModel extends BaseModel {
     private _graph: any[];
     private _tree: TreeNodeInterface;
     private _metricScale: MetricScale;
-    private _footprintKey :string;
-    private _heightKey :string;
-    private _metricColorKey :string;
+    private _footprintKey: string;
+    private _heightKey: string;
+    private _metricColorKey: string;
     private _buildingColorTheme: BuildingColorTheme;
 
-    constructor(treeResult: TreeElement, footprintKey: string, heightKey: string, metricColorKey: string,
-                buildingColorTheme: BuildingColorTheme) {
+    constructor(
+        treeResult: TreeElement,
+        footprintKey: string,
+        heightKey: string,
+        metricColorKey: string,
+        buildingColorTheme: BuildingColorTheme
+    ) {
         super();
 
         this._attributes = {};
-        this._version = new Version('v1.0',  'Current', 0);
-        this._versions = [ this._version ];
+        this._version = new Version("v1.0", "Current", 0);
+        this._versions = [this._version];
         this._graph = [];
         this._metricScale = {
-            height: {min: Infinity, max: 0},
-            metricFootprint: {min: Infinity, max: 0},
-            metricColor: {min: Infinity, max: 0}
+            height: { min: Infinity, max: 0 },
+            metricFootprint: { min: Infinity, max: 0 },
+            metricColor: { min: Infinity, max: 0 },
         };
 
         this._footprintKey = footprintKey;
@@ -73,26 +78,43 @@ export default class Softvis3dModel extends BaseModel {
         }
 
         this._attributes[v][t] = {
-            'name': t,
-            'height' : this.getMetricValue(treeNode, this._heightKey),
-            'metricFootprint' : this.getMetricValue(treeNode, this._footprintKey),
-            'metricColor' : this.getMetricValue(treeNode, this._metricColorKey)
+            name: t,
+            height: this.getMetricValue(treeNode, this._heightKey),
+            metricFootprint: this.getMetricValue(treeNode, this._footprintKey),
+            metricColor: this.getMetricValue(treeNode, this._metricColorKey),
         };
 
-
         if (this.isMetricValueSet(treeNode, this._heightKey) && treeNode.isFile()) {
-            this._metricScale.height.min = Math.min(treeNode.measures[this._heightKey], this._metricScale.height.min);
-            this._metricScale.height.max = Math.max(treeNode.measures[this._heightKey], this._metricScale.height.max);
+            this._metricScale.height.min = Math.min(
+                treeNode.measures[this._heightKey],
+                this._metricScale.height.min
+            );
+            this._metricScale.height.max = Math.max(
+                treeNode.measures[this._heightKey],
+                this._metricScale.height.max
+            );
         }
 
         if (this.isMetricValueSet(treeNode, this._footprintKey) && treeNode.isFile()) {
-            this._metricScale.metricFootprint.min = Math.min(treeNode.measures[this._footprintKey], this._metricScale.metricFootprint.min);
-            this._metricScale.metricFootprint.max = Math.max(treeNode.measures[this._footprintKey], this._metricScale.metricFootprint.max);
+            this._metricScale.metricFootprint.min = Math.min(
+                treeNode.measures[this._footprintKey],
+                this._metricScale.metricFootprint.min
+            );
+            this._metricScale.metricFootprint.max = Math.max(
+                treeNode.measures[this._footprintKey],
+                this._metricScale.metricFootprint.max
+            );
         }
 
         if (this.isMetricValueSet(treeNode, this._metricColorKey) && treeNode.isFile()) {
-            this._metricScale.metricColor.min = Math.min(treeNode.measures[this._metricColorKey], this._metricScale.metricColor.min);
-            this._metricScale.metricColor.max = Math.max(treeNode.measures[this._metricColorKey], this._metricScale.metricColor.max);
+            this._metricScale.metricColor.min = Math.min(
+                treeNode.measures[this._metricColorKey],
+                this._metricScale.metricColor.min
+            );
+            this._metricScale.metricColor.max = Math.max(
+                treeNode.measures[this._metricColorKey],
+                this._metricScale.metricColor.max
+            );
         }
 
         const node = new TreeNode(t);
@@ -104,14 +126,16 @@ export default class Softvis3dModel extends BaseModel {
     }
 
     getMetricValue(treeNode: TreeElement, key: string): number {
-        return this.isMetricValueSet(treeNode, key) ? treeNode.measures[key] as number : 0;
+        return this.isMetricValueSet(treeNode, key) ? (treeNode.measures[key] as number) : 0;
     }
 
     isMetricValueSet(treeNode: TreeElement, key: string): boolean {
-        return treeNode.measures !== undefined
-            && key in treeNode.measures
-            && !isNaN(treeNode.measures[key])
-            && isFinite(treeNode.measures[key]);
+        return (
+            treeNode.measures !== undefined &&
+            key in treeNode.measures &&
+            !isNaN(treeNode.measures[key]) &&
+            isFinite(treeNode.measures[key])
+        );
     }
 
     /**

@@ -18,10 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {MeshLambertMaterial, Scene} from "three";
-import {ObjectFactory} from "./ObjectFactory";
-import {SoftVis3dMesh} from "../../domain/SoftVis3dMesh";
-import {SoftVis3dShape} from "../../domain/SoftVis3dShape";
+import { MeshLambertMaterial, Scene } from "three";
+import { ObjectFactory } from "./ObjectFactory";
+import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
+import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
 
 interface SoftVis3dSelectedObject {
     object: SoftVis3dMesh;
@@ -35,7 +35,6 @@ interface SoftVis3dSelectedObject {
  * @constructor
  */
 export class Wrangler {
-
     private scene: Scene;
     private objectsInView: SoftVis3dMesh[] = [];
     private selectedTreeObjects: SoftVis3dSelectedObject[] = [];
@@ -82,17 +81,16 @@ export class Wrangler {
         if (objectSoftVis3dId !== null) {
             for (const obj of this.objectsInView) {
                 if (objectSoftVis3dId === obj.getSoftVis3dId()) {
-
                     const selectedObjectMaterial: MeshLambertMaterial = obj.material;
 
                     const selectedObjectInformation = {
                         object: obj,
-                        color: selectedObjectMaterial.color.getHex()
+                        color: selectedObjectMaterial.color.getHex(),
                     };
 
                     this.selectedTreeObjects.push(selectedObjectInformation);
 
-                    selectedObjectMaterial.color.setHex(0xFFC519);
+                    selectedObjectMaterial.color.setHex(0xffc519);
                 }
             }
         }
@@ -114,5 +112,4 @@ export class Wrangler {
             this.scene.remove(this.objectsInView.pop() as SoftVis3dMesh);
         }
     }
-
 }

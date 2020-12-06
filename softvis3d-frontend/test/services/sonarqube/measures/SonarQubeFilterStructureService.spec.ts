@@ -18,20 +18,18 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {TreeElement} from "../../../../src/classes/TreeElement";
-import SonarQubeFilterStructureService
-    from "../../../../src/services/sonarqube/measures/structure/SonarQubeFilterStructureService";
+import { expect } from "chai";
+import { TreeElement } from "../../../../src/classes/TreeElement";
+import SonarQubeFilterStructureService from "../../../../src/services/sonarqube/measures/structure/SonarQubeFilterStructureService";
 import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
 import {
     createDefaultDir,
     createDefaultFile,
     createDefaultFileWithName,
-    createDefaultTestFile
+    createDefaultTestFile,
 } from "../../../classes/TreeElement.spec";
 
 describe("SonarQubeFilterStructureService", () => {
-
     it("should remove an UTS file", () => {
         const underTest: SonarQubeFilterStructureService = new SonarQubeFilterStructureService();
 
@@ -109,5 +107,4 @@ describe("SonarQubeFilterStructureService", () => {
         expect(root.children.length).to.be.eq(1);
         expect(root.children[0].name).to.be.eq(expectedName);
     });
-
 });

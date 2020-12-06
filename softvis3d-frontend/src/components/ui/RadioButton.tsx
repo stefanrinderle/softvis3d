@@ -18,12 +18,13 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
-import {ChangeEvent} from "react";
+import { ChangeEvent } from "react";
 
-type BoundChangeEvent = (event: ChangeEvent<HTMLInputElement>, src: React.Component<any, any>) => void;
+type BoundChangeEvent = (
+    event: ChangeEvent<HTMLInputElement>,
+    src: React.Component<any, any>
+) => void;
 
 interface RadioButtonProps {
     checked?: boolean;
@@ -36,12 +37,11 @@ interface RadioButtonProps {
 }
 
 export class RadioButton extends React.Component<RadioButtonProps, any> {
-
     //noinspection JSUnusedGlobalSymbols
     public static defaultProps = {
         className: "",
         activeClass: "active",
-        disabled: false
+        disabled: false,
     };
 
     public handleClick(event: ChangeEvent<HTMLInputElement>): void {

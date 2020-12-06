@@ -29,7 +29,6 @@ export class Offset {
 }
 
 export class HtmlDomService {
-
     public getOffsetsById(id: string): Offset {
         let node = document.getElementById(id);
         let top = 0;

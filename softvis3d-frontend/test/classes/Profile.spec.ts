@@ -18,18 +18,17 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import Profile, {ProfileBuilder} from "../../src/classes/Profile";
+import { expect } from "chai";
+import Profile, { ProfileBuilder } from "../../src/classes/Profile";
 import {
     complexityMetric,
     duplicatedLinesOfCodeMetric,
     linesOfCodeMetric,
-    newLinesOfCodeMetric
+    newLinesOfCodeMetric,
 } from "../../src/constants/Metrics";
-import {EXPONENTIAL, Scales} from "../../src/constants/Scales";
+import { EXPONENTIAL, Scales } from "../../src/constants/Scales";
 
 describe("Profile", () => {
-
     it("should be build with builder", () => {
         const expectedId = "123";
         const expectedName = "ydydf";

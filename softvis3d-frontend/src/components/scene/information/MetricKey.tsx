@@ -18,12 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import Metric from "../../../classes/Metric";
-import {TreeElement} from "../../../classes/TreeElement";
+import { TreeElement } from "../../../classes/TreeElement";
 import MetricKeyFormatter from "./MetricKeyFormatter";
 
 interface MetricKeyProps {
@@ -34,9 +32,8 @@ interface MetricKeyProps {
 
 @observer
 export default class MetricKey extends React.Component<MetricKeyProps, any> {
-
     public render() {
-        const {title, metric, selectedElement} = this.props;
+        const { title, metric, selectedElement } = this.props;
 
         return (
             <div className="metric-info">
@@ -49,9 +46,11 @@ export default class MetricKey extends React.Component<MetricKeyProps, any> {
 
     private renderValue(element: TreeElement | null, metric: Metric) {
         if (element !== null) {
-            const value = MetricKeyFormatter.formatMeasureValue(metric, element.measures[metric.id]);
+            const value = MetricKeyFormatter.formatMeasureValue(
+                metric,
+                element.measures[metric.id]
+            );
             return <span className="value">{value}</span>;
         }
     }
-
 }

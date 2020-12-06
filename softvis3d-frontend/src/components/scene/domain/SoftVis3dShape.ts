@@ -23,7 +23,6 @@ import { Dimension } from "./Dimension";
 import { Position } from "./Position";
 
 export class SoftVis3dShape extends Shape {
-
     public key: string;
 
     public position: Position;
@@ -45,7 +44,7 @@ export class SoftVis3dShape extends Shape {
         this.position = {
             _x: 0,
             _y: 0,
-            _z: 0
+            _z: 0,
         };
         this.dimensions = new Dimension(5, 5, 5);
         this.color = 0;

@@ -18,15 +18,12 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import * as Sinon from "sinon";
-import {EventDispatcher} from "../../../../src/components/scene/events/EventDispatcher";
+import { EventDispatcher } from "../../../../src/components/scene/events/EventDispatcher";
 import Event from "../../../../src/components/scene/events/Event";
 
 describe("EventDispatcher", () => {
-
     it("should be able too add listener and get void events", () => {
         const underTest: EventDispatcher<void> = new EventDispatcher<void>();
 
@@ -74,7 +71,7 @@ describe("EventDispatcher", () => {
 
         const expectedResult = "oisudhf";
         const listener: (result: Event<string>) => void = (result: Event<string>) => {
-                expect(true).to.be.eq(result);
+            expect(true).to.be.eq(result);
         };
 
         underTest.addEventListener(listener);

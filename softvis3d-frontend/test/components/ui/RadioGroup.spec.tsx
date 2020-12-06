@@ -18,26 +18,21 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 import * as Sinon from "sinon";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import { RadioButton } from "../../../src/components/ui/RadioButton";
-import {RadioGroup} from "../../../src/components/ui/RadioGroup";
+import { RadioGroup } from "../../../src/components/ui/RadioGroup";
 
 describe("<RadioGroup/>", () => {
     it("draw child buttons and initially select a node", () => {
-        const expectedValue = {id: "btn2"};
+        const expectedValue = { id: "btn2" };
         const radioGroup = shallow(
-            <RadioGroup
-                onChange={() => null}
-                value={expectedValue}
-            >
-                <RadioButton value={{id: "btn1"}} label="Button 1"/>
-                <RadioButton value={expectedValue} label="Button 2"/>
-                <RadioButton value={{id: "btn3"}} label="Button 3"/>
+            <RadioGroup onChange={() => null} value={expectedValue}>
+                <RadioButton value={{ id: "btn1" }} label="Button 1" />
+                <RadioButton value={expectedValue} label="Button 2" />
+                <RadioButton value={{ id: "btn3" }} label="Button 3" />
             </RadioGroup>
         );
 
@@ -50,20 +45,17 @@ describe("<RadioGroup/>", () => {
 
     it("propagates button onclick events", () => {
         const fn = (activeValue: any) => {
-            radioGroup.setProps( {value: activeValue});
+            radioGroup.setProps({ value: activeValue });
         };
         const spy = Sinon.spy(fn);
 
-        const expectedValue1 = {id: "btn1"};
-        const expectedValue2 = {id: "btn2"};
+        const expectedValue1 = { id: "btn1" };
+        const expectedValue2 = { id: "btn2" };
         const radioGroup = shallow(
-            <RadioGroup
-                onChange={spy}
-                value={expectedValue2}
-            >
-                <RadioButton value={expectedValue1} label="Button 1"/>
-                <RadioButton value={expectedValue2} label="Button 2"/>
-                <RadioButton value={{id: "btn3"}} label="Button 3"/>
+            <RadioGroup onChange={spy} value={expectedValue2}>
+                <RadioButton value={expectedValue1} label="Button 1" />
+                <RadioButton value={expectedValue2} label="Button 2" />
+                <RadioButton value={{ id: "btn3" }} label="Button 3" />
             </RadioGroup>
         );
 
@@ -79,22 +71,24 @@ describe("<RadioGroup/>", () => {
         activeButtons = radioGroup.findWhere((n) => n.prop("checked"));
         expect(activeButtons).to.have.length(1);
         expect(activeButtons.prop("value")).to.be.equal(expectedValue1);
-        expect(spy.calledOnce).to.be.equal(true, "callback should have been invoked by change event");
+        expect(spy.calledOnce).to.be.equal(
+            true,
+            "callback should have been invoked by change event"
+        );
     });
 
     it("will not trigger for disabled buttons", () => {
-        const fn = (activeValue: any) => { radioGroup.setProps( {value: activeValue}); };
+        const fn = (activeValue: any) => {
+            radioGroup.setProps({ value: activeValue });
+        };
         const spy = Sinon.spy(fn);
 
-        const expectedValue2 = {id: "btn2"};
+        const expectedValue2 = { id: "btn2" };
         const radioGroup = shallow(
-            <RadioGroup
-                onChange={spy}
-                value={expectedValue2}
-            >
-                <RadioButton value={{id: "btn1"}} label="Button 1"/>
-                <RadioButton value={expectedValue2} label="Button 2"/>
-                <RadioButton value={{id: "btn3"}} label="Button 3" disabled={true}/>
+            <RadioGroup onChange={spy} value={expectedValue2}>
+                <RadioButton value={{ id: "btn1" }} label="Button 1" />
+                <RadioButton value={expectedValue2} label="Button 2" />
+                <RadioButton value={{ id: "btn3" }} label="Button 3" disabled={true} />
             </RadioGroup>
         );
 
@@ -113,19 +107,17 @@ describe("<RadioGroup/>", () => {
     });
 
     it("will not trigger anything if the group is disabled", () => {
-        const fn = (activeValue: any) => { radioGroup.setProps( {value: activeValue}); };
+        const fn = (activeValue: any) => {
+            radioGroup.setProps({ value: activeValue });
+        };
         const spy = Sinon.spy(fn);
 
-        const expectedValue2 = {id: "btn2"};
+        const expectedValue2 = { id: "btn2" };
         const radioGroup = shallow(
-            <RadioGroup
-                onChange={spy}
-                value={expectedValue2}
-                disabled={true}
-            >
-                <RadioButton value="btn1" label="Button 1"/>
-                <RadioButton value={expectedValue2} label="Button 2"/>
-                <RadioButton value="btn3" label="Button 3"/>
+            <RadioGroup onChange={spy} value={expectedValue2} disabled={true}>
+                <RadioButton value="btn1" label="Button 1" />
+                <RadioButton value={expectedValue2} label="Button 2" />
+                <RadioButton value="btn3" label="Button 3" />
             </RadioGroup>
         );
 
@@ -154,18 +146,19 @@ describe("<RadioGroup/>", () => {
         let myValue = 0;
         let myRadioValue = 0;
 
-        const fn = () => { myValue++; };
+        const fn = () => {
+            myValue++;
+        };
         const spy = Sinon.spy(fn);
 
-        const radiofn = () => { myRadioValue++; };
+        const radiofn = () => {
+            myRadioValue++;
+        };
         const radioSpy = Sinon.spy(radiofn);
 
         const radioGroup = shallow(
-            <RadioGroup
-                onChange={radioSpy}
-                value={{id: "btn1"}}
-            >
-                <RadioButton value={{id: "btn1"}} label="Button 1"/>
+            <RadioGroup onChange={radioSpy} value={{ id: "btn1" }}>
+                <RadioButton value={{ id: "btn1" }} label="Button 1" />
                 <input type="checkbox" onChange={spy} />
             </RadioGroup>
         );

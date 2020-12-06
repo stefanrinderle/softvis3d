@@ -18,10 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {assert, expect} from "chai";
-import {shallow} from "enzyme";
+import { assert, expect } from "chai";
+import { shallow } from "enzyme";
 import * as React from "react";
 import * as Sinon from "sinon";
 import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
@@ -30,13 +28,12 @@ import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../src/stores/SceneStore";
 
 describe("<TopBarMenu/>", () => {
-
     it("should show settings button and check action", () => {
         const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
         const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
+            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />
         );
 
         const settingsButton = topBarMenu.find("#settings-button");
@@ -52,7 +49,7 @@ describe("<TopBarMenu/>", () => {
         const stub = Sinon.stub(window, "open");
 
         const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
+            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />
         );
 
         const feedbackButton = topBarMenu.find("#feedback-button");
@@ -70,7 +67,7 @@ describe("<TopBarMenu/>", () => {
         const stub = Sinon.stub(window, "open");
 
         const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
+            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />
         );
 
         const helpButton = topBarMenu.find("#help-button");
@@ -88,11 +85,17 @@ describe("<TopBarMenu/>", () => {
         localCityBuilderStore.show = true;
 
         const topBarMenu = shallow(
-            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
+            <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore} />
         );
 
-        expect(topBarMenu.contains(
-            <TopBarShareButton disabled={true} cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>)
+        expect(
+            topBarMenu.contains(
+                <TopBarShareButton
+                    disabled={true}
+                    cityBuilderStore={localCityBuilderStore}
+                    sceneStore={localSceneStore}
+                />
+            )
         ).to.be.true;
     });
 });

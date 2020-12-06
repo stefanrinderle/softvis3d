@@ -19,13 +19,12 @@
 ///
 
 import * as CodeCityVis from "codecity-visualizer";
-import BuildingColorTheme from '../../classes/BuildingColorTheme';
-import {MetricScale} from './LayoutProcessor';
+import BuildingColorTheme from "../../classes/BuildingColorTheme";
+import { MetricScale } from "./LayoutProcessor";
 
 const attributeHelper = CodeCityVis.helper.attributes;
 
 class LayoutBuildingColorRules {
-
     private readonly _colorMode: BuildingColorTheme;
     private readonly _metricScale: MetricScale;
 
@@ -42,9 +41,9 @@ class LayoutBuildingColorRules {
         return new CodeCityVis.rules.universal({
             condition: (model, node) => !!(model && node.children.length === 0 && node.parent),
             metric: () => {
-                return 0xFD8B01;
+                return 0xfd8b01;
             },
-            attributes: "color"
+            attributes: "color",
         });
     }
 
@@ -59,7 +58,7 @@ class LayoutBuildingColorRules {
             metric: (model, node): string => {
                 return model && String(node.parent);
             },
-            attributes: "color"
+            attributes: "color",
         });
     }
 
@@ -149,13 +148,13 @@ class LayoutBuildingColorRules {
             condition: (model, node) => model && node.children.length === 0,
             metric: (model, node, version) => {
                 const attr = attributeHelper.attrFallbackSweep(model, node, version);
-                return ("metricColor" in attr) ? attr["metricColor"] : 0;
+                return "metricColor" in attr ? attr["metricColor"] : 0;
             },
             attributes: "color",
             min: minVal,
             max: maxVal,
             minColor: colorMode.badColor,
-            maxColor: colorMode.goodColor
+            maxColor: colorMode.goodColor,
         });
     }
 }

@@ -18,12 +18,11 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import StatusAction from "../../../src/classes/status/StatusAction";
 import StatusActionQueue from "../../../src/classes/status/StatusActionQueue";
 
 describe("StatusActionQueue", () => {
-
     it("should do add remove and isEmpty", () => {
         const underTest: StatusActionQueue<TestStatusAction> = new StatusActionQueue();
         const testAction = new TestStatusAction("key", "testEvent");
@@ -82,13 +81,10 @@ describe("StatusActionQueue", () => {
 
         expect(result.length).to.be.eq(2);
     });
-
 });
 
 class TestStatusAction extends StatusAction {
-
     constructor(key: string, description: string) {
         super(key, description);
     }
-
 }

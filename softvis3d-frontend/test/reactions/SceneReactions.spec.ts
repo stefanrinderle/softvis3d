@@ -18,24 +18,23 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import * as Sinon from "sinon";
 import VisualizationOptions from "../../src/classes/VisualizationOptions";
-import {complexityColorMetric} from "../../src/constants/Metrics";
+import { complexityColorMetric } from "../../src/constants/Metrics";
 import SceneReactions from "../../src/reactions/SceneReactions";
 import CityLayoutService from "../../src/services/layout/CityLayoutService";
 import AppStatusStore from "../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
 import SceneStore from "../../src/stores/SceneStore";
-import {createDefaultDir} from "../classes/TreeElement.spec";
-import {createMock} from "../Helper";
+import { createDefaultDir } from "../classes/TreeElement.spec";
+import { createMock } from "../Helper";
 
 describe("SceneReactions", () => {
-
     it("should change city builder color metric setting if changed in the scene", () => {
         const testSceneStore = Sinon.createStubInstance(SceneStore);
         const testCityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        const appStatusStore =  Sinon.createStubInstance(AppStatusStore);
+        const appStatusStore = Sinon.createStubInstance(AppStatusStore);
         createMock(CityLayoutService);
 
         testCityBuilderStore.options = VisualizationOptions.createDefault();
@@ -52,7 +51,7 @@ describe("SceneReactions", () => {
         const testSceneStore = Sinon.createStubInstance(SceneStore);
         const testCityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
         const testCityLayoutService = createMock(CityLayoutService);
-        const appStatusStore =  Sinon.createStubInstance(AppStatusStore);
+        const appStatusStore = Sinon.createStubInstance(AppStatusStore);
 
         testCityBuilderStore.options = VisualizationOptions.createDefault();
 
@@ -69,7 +68,7 @@ describe("SceneReactions", () => {
         const testSceneStore = Sinon.createStubInstance(SceneStore);
         const testCityBuilderStore = new CityBuilderStore();
         const testLegacyConnector = createMock(CityLayoutService);
-        const appStatusStore =  Sinon.createStubInstance(AppStatusStore);
+        const appStatusStore = Sinon.createStubInstance(AppStatusStore);
 
         testSceneStore.options = VisualizationOptions.createDefault();
 
@@ -80,5 +79,4 @@ describe("SceneReactions", () => {
         assert(testLegacyConnector.createCity.calledOnce);
         expect(reactions).not.to.be.null;
     });
-
 });

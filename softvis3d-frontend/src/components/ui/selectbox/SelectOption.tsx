@@ -18,8 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 
 interface SelectOptionProps {
@@ -31,7 +29,7 @@ interface SelectOptionProps {
 export default class SelectOption extends React.Component<SelectOptionProps, any> {
     public static defaultProps = {
         defaultChecked: false,
-        disabled: false
+        disabled: false,
     };
 
     public render() {

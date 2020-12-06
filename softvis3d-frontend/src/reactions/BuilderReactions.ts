@@ -18,8 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {reaction} from "mobx";
-import {lazyInject} from "../inversify.config";
+import { reaction } from "mobx";
+import { lazyInject } from "../inversify.config";
 import AutoReloadService from "../services/AutoReloadService";
 import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
 import AppStatusStore from "../stores/AppStatusStore";
@@ -36,7 +36,11 @@ export default class BuilderReactions {
     @lazyInject("AutoReloadService")
     private readonly autoReloadService!: AutoReloadService;
 
-    constructor(appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
+    constructor(
+        appStatusStore: AppStatusStore,
+        cityBuilderStore: CityBuilderStore,
+        sceneStore: SceneStore
+    ) {
         this.appStatusStore = appStatusStore;
         this.cityBuilderStore = cityBuilderStore;
         this.sceneStore = sceneStore;
@@ -50,12 +54,16 @@ export default class BuilderReactions {
                 if (this.cityBuilderStore.initiateBuildProcess) {
                     this.cityBuilderStore.initiateBuildProcess = false;
 
-                    this.measuresService.loadMeasures(this.appStatusStore, this.cityBuilderStore, this.sceneStore);
+                    this.measuresService.loadMeasures(
+                        this.appStatusStore,
+                        this.cityBuilderStore,
+                        this.sceneStore
+                    );
                     this.autoReloadService.startAutoReload(this.appStatusStore);
                 }
             },
             {
-                name: "Transfer all required data to the scene"
+                name: "Transfer all required data to the scene",
             }
         );
     }

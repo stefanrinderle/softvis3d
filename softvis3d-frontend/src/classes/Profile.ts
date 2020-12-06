@@ -18,8 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {observable} from "mobx";
-import {noMetric} from "../constants/Metrics";
+import { observable } from "mobx";
+import { noMetric } from "../constants/Metrics";
 import Metric from "./Metric";
 import Scale from "./Scale";
 
@@ -34,7 +34,14 @@ export default class Profile implements SelectOptionValue {
     @observable
     public scale: Scale;
 
-    constructor(id: string, label: string, description: string, heightMetric: Metric, footprintMetric: Metric, scale: Scale) {
+    constructor(
+        id: string,
+        label: string,
+        description: string,
+        heightMetric: Metric,
+        footprintMetric: Metric,
+        scale: Scale
+    ) {
         this.id = id;
         this.label = label;
         this.description = description;
@@ -58,7 +65,6 @@ export default class Profile implements SelectOptionValue {
 }
 
 export class ProfileBuilder {
-
     public id: string;
     public name: string;
     public heightMetric: Metric;
@@ -76,7 +82,11 @@ export class ProfileBuilder {
         this.description = "";
     }
 
-    public withConfiguration(footprintMetric: Metric, heightMetric: Metric, scale: Scale): ProfileBuilder {
+    public withConfiguration(
+        footprintMetric: Metric,
+        heightMetric: Metric,
+        scale: Scale
+    ): ProfileBuilder {
         this.heightMetric = heightMetric;
         this.footprintMetric = footprintMetric;
         this.scale = scale;
@@ -89,7 +99,13 @@ export class ProfileBuilder {
     }
 
     public build(): Profile {
-        return new Profile(this.id, this.name, this.description, this.heightMetric, this.footprintMetric, this.scale);
+        return new Profile(
+            this.id,
+            this.name,
+            this.description,
+            this.heightMetric,
+            this.footprintMetric,
+            this.scale
+        );
     }
-
 }

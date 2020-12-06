@@ -18,42 +18,42 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert, expect} from "chai";
-import {TreeElement} from "../../../../src/classes/TreeElement";
+import { assert, expect } from "chai";
+import { TreeElement } from "../../../../src/classes/TreeElement";
 import {
-    SonarQubeApiComponent, SonarQubeMeasureResponse, SQ_QUALIFIER_DIRECTORY,
-    SQ_QUALIFIER_FILE
+    SonarQubeApiComponent,
+    SonarQubeMeasureResponse,
+    SQ_QUALIFIER_DIRECTORY,
+    SQ_QUALIFIER_FILE,
 } from "../../../../src/services/sonarqube/measures/api/SonarQubeMeasureResponse";
 import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/api/SonarQubeMeasuresApiService";
 import SonarQubeMeasuresTreeService from "../../../../src/services/sonarqube/measures/api/SonarQubeMeasuresTreeService";
 import SonarQubeTransformerService from "../../../../src/services/sonarqube/measures/api/SonarQubeTransformerService";
 import AppStatusStore from "../../../../src/stores/AppStatusStore";
-import {createDefaultDir} from "../../../classes/TreeElement.spec";
-import {createMock} from "../../../Helper";
+import { createDefaultDir } from "../../../classes/TreeElement.spec";
+import { createMock } from "../../../Helper";
 
 describe("SonarQubeMeasuresTreeService", () => {
-
     it("should immediately resolve on response without components", (done) => {
         const measureApiService = createMock(SonarQubeMeasuresApiService);
         createMock(SonarQubeTransformerService);
 
         const underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 
-        measureApiService.loadMeasures.returns(
-            Promise.resolve(
-                createResponseWithComponents([])
-            )
-        );
+        measureApiService.loadMeasures.returns(Promise.resolve(createResponseWithComponents([])));
 
         const root: TreeElement = createDefaultDir();
-        underTest.loadTree(new AppStatusStore(), root, "metricKeys").then(() => {
-            assert(measureApiService.loadMeasures.called);
+        underTest
+            .loadTree(new AppStatusStore(), root, "metricKeys")
+            .then(() => {
+                assert(measureApiService.loadMeasures.called);
 
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should resolve result", (done) => {
@@ -70,7 +70,7 @@ describe("SonarQubeMeasuresTreeService", () => {
             measures: [],
             name: "string",
             path: "string/bla.txt",
-            qualifier: SQ_QUALIFIER_FILE
+            qualifier: SQ_QUALIFIER_FILE,
         };
         const defaultDir: SonarQubeApiComponent = {
             id: "1",
@@ -78,24 +78,25 @@ describe("SonarQubeMeasuresTreeService", () => {
             measures: [],
             name: "string",
             path: "string",
-            qualifier: SQ_QUALIFIER_DIRECTORY
+            qualifier: SQ_QUALIFIER_DIRECTORY,
         };
         measureApiService.loadMeasures.returns(
-            Promise.resolve(
-                createResponseWithComponents([defaultComponent, defaultDir])
-            )
+            Promise.resolve(createResponseWithComponents([defaultComponent, defaultDir]))
         );
 
         const root: TreeElement = createDefaultDir();
-        underTest.loadTree(new AppStatusStore(), root, "metricKeys").then(() => {
-            assert(measureApiService.loadMeasures.called);
-            expect(root.children.length).to.be.eq(2);
+        underTest
+            .loadTree(new AppStatusStore(), root, "metricKeys")
+            .then(() => {
+                assert(measureApiService.loadMeasures.called);
+                expect(root.children.length).to.be.eq(2);
 
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should call service and react on errors", (done) => {
@@ -106,25 +107,29 @@ describe("SonarQubeMeasuresTreeService", () => {
         measureApiService.loadMeasures.returns(
             Promise.reject({
                 response: {
-                    statusText: "not working"
-                }
+                    statusText: "not working",
+                },
             })
         );
 
         const root: TreeElement = createDefaultDir();
-        underTest.loadTree(new AppStatusStore(), root, "metricKeys").then(() => {
-            assert.isNotOk("Promise error", "works but should throw exception");
+        underTest
+            .loadTree(new AppStatusStore(), root, "metricKeys")
+            .then(() => {
+                assert.isNotOk("Promise error", "works but should throw exception");
 
-            done();
-        }).catch((error) => {
-            expect(error.response.statusText).to.be.eq("not working");
-            done();
-        });
+                done();
+            })
+            .catch((error) => {
+                expect(error.response.statusText).to.be.eq("not working");
+                done();
+            });
     });
-
 });
 
-function createResponseWithComponents(components: SonarQubeApiComponent[]): SonarQubeMeasureResponse {
+function createResponseWithComponents(
+    components: SonarQubeApiComponent[]
+): SonarQubeMeasureResponse {
     return {
         baseComponent: {
             id: "",
@@ -132,8 +137,8 @@ function createResponseWithComponents(components: SonarQubeApiComponent[]): Sona
             measures: [],
             name: "",
             path: "",
-            qualifier: SQ_QUALIFIER_DIRECTORY
+            qualifier: SQ_QUALIFIER_DIRECTORY,
         },
-        components
+        components,
     };
 }

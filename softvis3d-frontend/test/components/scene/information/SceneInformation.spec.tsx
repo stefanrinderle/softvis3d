@@ -18,10 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {expect} from "chai";
-import {shallow} from "enzyme";
+import { expect } from "chai";
+import { shallow } from "enzyme";
 import * as React from "react";
 import MetricKey from "../../../../src/components/scene/information/MetricKey";
 import SceneInformation from "../../../../src/components/scene/information/SceneInformation";
@@ -29,23 +27,24 @@ import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../../src/stores/SceneStore";
 
 describe("<SceneInformation/>", () => {
-
     it("should show default text div on start", () => {
         const testSceneStore: SceneStore = new SceneStore();
         const cityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
         const bottomBar = shallow(
-            <SceneInformation sceneStore={testSceneStore} cityBuilderStore={cityBuilderStore}/>
+            <SceneInformation sceneStore={testSceneStore} cityBuilderStore={cityBuilderStore} />
         );
 
-        expect(bottomBar
-            .contains(<MetricKey
-                title="Footprint"
-                metric={cityBuilderStore.options.profile.footprintMetric}
-                selectedElement={testSceneStore.selectedElement}
-            />)).to.be.true;
+        expect(
+            bottomBar.contains(
+                <MetricKey
+                    title="Footprint"
+                    metric={cityBuilderStore.options.profile.footprintMetric}
+                    selectedElement={testSceneStore.selectedElement}
+                />
+            )
+        ).to.be.true;
 
         expect(bottomBar.children()).to.be.length(3);
     });
-
 });

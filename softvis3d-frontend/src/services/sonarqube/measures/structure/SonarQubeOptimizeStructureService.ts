@@ -18,10 +18,9 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {TreeElement} from "../../../../classes/TreeElement";
+import { TreeElement } from "../../../../classes/TreeElement";
 
 export default class SonarQubeOptimizeStructureService {
-
     public optimize(element: TreeElement) {
         if (element.isFile() || element.children.length === 0) {
             return;
@@ -62,5 +61,4 @@ export default class SonarQubeOptimizeStructureService {
 
         return false;
     }
-
 }

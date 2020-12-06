@@ -18,15 +18,15 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {injectable} from "inversify";
+import { injectable } from "inversify";
 import ErrorAction from "../../../classes/status/ErrorAction";
 import LoadAction from "../../../classes/status/LoadAction";
-import {TreeElement} from "../../../classes/TreeElement";
-import {lazyInject} from "../../../inversify.config";
+import { TreeElement } from "../../../classes/TreeElement";
+import { lazyInject } from "../../../inversify.config";
 import AppStatusStore from "../../../stores/AppStatusStore";
 import CityBuilderStore from "../../../stores/CityBuilderStore";
 import SceneStore from "../../../stores/SceneStore";
-import {SQ_QUALIFIER_PROJECT} from "./api/SonarQubeMeasureResponse";
+import { SQ_QUALIFIER_PROJECT } from "./api/SonarQubeMeasureResponse";
 import SonarQubeMeasuresTreeService from "./api/SonarQubeMeasuresTreeService";
 import SonarQubeMeasuresMetricService from "./SonarQubeMeasuresMetricService";
 import SonarQubeFilterStructureService from "./structure/SonarQubeFilterStructureService";
@@ -34,7 +34,10 @@ import SonarQubeOptimizeStructureService from "./structure/SonarQubeOptimizeStru
 
 @injectable()
 export default class SonarQubeMeasuresService {
-    public static LOAD_MEASURES: LoadAction = new LoadAction("SONAR_LOAD_MEASURES", "Request measures from SonarQube");
+    public static LOAD_MEASURES: LoadAction = new LoadAction(
+        "SONAR_LOAD_MEASURES",
+        "Request measures from SonarQube"
+    );
     private static LOAD_MEASURES_ERROR_KEY = "LOAD_MEASURES_ERROR";
 
     private projectKey: string;
@@ -55,9 +58,12 @@ export default class SonarQubeMeasuresService {
         this.projectKey = projectKey;
     }
 
-    public loadMeasures(appStatusStore: AppStatusStore,
-                        cityBuilderStore: CityBuilderStore, sceneStore: SceneStore,
-                        isForce = false) {
+    public loadMeasures(
+        appStatusStore: AppStatusStore,
+        cityBuilderStore: CityBuilderStore,
+        sceneStore: SceneStore,
+        isForce = false
+    ) {
         appStatusStore.load(SonarQubeMeasuresService.LOAD_MEASURES);
 
         sceneStore.shapes = null;
@@ -70,31 +76,48 @@ export default class SonarQubeMeasuresService {
             /**
              * Create a "starting point" root element and load the tree of the project.
              */
-            const root: TreeElement =
-                new TreeElement(this.projectKey, this.projectKey, {}, this.projectKey, this.projectKey, SQ_QUALIFIER_PROJECT);
+            const root: TreeElement = new TreeElement(
+                this.projectKey,
+                this.projectKey,
+                {},
+                this.projectKey,
+                this.projectKey,
+                SQ_QUALIFIER_PROJECT
+            );
 
-            this.measureTreeService.loadTree(appStatusStore, root, metricKeys).then(() => {
-                // save current data
-                this.projectData = root.clone();
-                this.metricKeys = metricKeys;
+            this.measureTreeService
+                .loadTree(appStatusStore, root, metricKeys)
+                .then(() => {
+                    // save current data
+                    this.projectData = root.clone();
+                    this.metricKeys = metricKeys;
 
-                this.updateViewProjectData(root, cityBuilderStore, sceneStore);
+                    this.updateViewProjectData(root, cityBuilderStore, sceneStore);
 
-                sceneStore.scmMetricLoaded = false;
-                cityBuilderStore.show = false;
-            }).catch((error: Error) => {
-                appStatusStore.error(
-                    new ErrorAction(SonarQubeMeasuresService.LOAD_MEASURES_ERROR_KEY,
-                        "SonarQube metric API is not available or responding: " + error.message,
-                        "Try again", () => {
-                            location.reload();
-                        }));
-            });
+                    sceneStore.scmMetricLoaded = false;
+                    cityBuilderStore.show = false;
+                })
+                .catch((error: Error) => {
+                    appStatusStore.error(
+                        new ErrorAction(
+                            SonarQubeMeasuresService.LOAD_MEASURES_ERROR_KEY,
+                            "SonarQube metric API is not available or responding: " + error.message,
+                            "Try again",
+                            () => {
+                                location.reload();
+                            }
+                        )
+                    );
+                });
         }
         appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
     }
 
-    private updateViewProjectData(root: TreeElement, cityBuilderStore: CityBuilderStore, sceneStore: SceneStore) {
+    private updateViewProjectData(
+        root: TreeElement,
+        cityBuilderStore: CityBuilderStore,
+        sceneStore: SceneStore
+    ) {
         const projectData: TreeElement = root.clone();
         this.filterStructureService.filter(projectData, cityBuilderStore);
         this.optimizeStructureService.optimize(projectData);

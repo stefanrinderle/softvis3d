@@ -25,7 +25,6 @@ import { SoftVis3dMesh } from "../../../../../src/components/scene/domain/SoftVi
 import { Vector2 } from "three";
 
 describe("ObjectFactory", () => {
-
     it("should return emtpy list", () => {
         const input: SoftVis3dShape[] = [];
         const result: SoftVis3dMesh[] = ObjectFactory.getSceneObjects(input);
@@ -60,7 +59,6 @@ describe("ObjectFactory", () => {
         expect(result[0].getSoftVis3dId()).to.be.equal(expected1);
         expect(result[1].getSoftVis3dId()).to.be.equal(expected2);
     });
-
 });
 
 function createExampleShape(key: string): SoftVis3dShape {

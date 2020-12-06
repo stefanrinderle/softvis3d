@@ -18,11 +18,9 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 import SceneStore from "../../stores/SceneStore";
-import {TreeElement} from "../../classes/TreeElement";
+import { TreeElement } from "../../classes/TreeElement";
 
 interface ElementInfoProps {
     element: TreeElement;
@@ -34,9 +32,8 @@ interface ElementInfoProps {
  * Currently used for an example use of selected scene object store.
  */
 export default class FolderContentElement extends React.Component<ElementInfoProps, any> {
-
     public render() {
-        const {element, isSelected} = this.props;
+        const { element, isSelected } = this.props;
         const classes = [];
         classes.push(element.isFile() ? "leaf" : "node");
 
@@ -45,7 +42,11 @@ export default class FolderContentElement extends React.Component<ElementInfoPro
         }
 
         return (
-            <li key={element.id} className={classes.join(" ")} onClick={() => isSelected || this.selectElement()}>
+            <li
+                key={element.id}
+                className={classes.join(" ")}
+                onClick={() => isSelected || this.selectElement()}
+            >
                 {this.props.element.name}
             </li>
         );
@@ -54,5 +55,4 @@ export default class FolderContentElement extends React.Component<ElementInfoPro
     private selectElement() {
         this.props.sceneStore.selectedObjectId = this.props.element.id;
     }
-
 }

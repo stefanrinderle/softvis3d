@@ -18,17 +18,16 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import BuilderReactions from "../../src/reactions/BuilderReactions";
 import AutoReloadService from "../../src/services/AutoReloadService";
 import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/SonarQubeMeasuresService";
 import AppStatusStore from "../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
 import SceneStore from "../../src/stores/SceneStore";
-import {createMock} from "../Helper";
+import { createMock } from "../Helper";
 
 describe("BuilderReactions", () => {
-
     it("should initiate build process", () => {
         const testCityBuilderStore = new CityBuilderStore();
         const testAppStatusStore = new AppStatusStore();
@@ -36,8 +35,11 @@ describe("BuilderReactions", () => {
 
         const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
         const testAutoReloadService = createMock(AutoReloadService);
-        const reactionRegister =
-            new BuilderReactions(testAppStatusStore, testCityBuilderStore, testSceneStore);
+        const reactionRegister = new BuilderReactions(
+            testAppStatusStore,
+            testCityBuilderStore,
+            testSceneStore
+        );
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 
@@ -48,5 +50,4 @@ describe("BuilderReactions", () => {
         expect(testSonarMeasuresService.loadMeasures.calledOnce).to.be.true;
         expect(testAutoReloadService.startAutoReload.calledOnce).to.be.true;
     });
-
 });

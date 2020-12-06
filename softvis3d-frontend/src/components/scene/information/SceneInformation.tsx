@@ -18,8 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 import { observer } from "mobx-react";
 import CityBuilderStore from "../../../stores/CityBuilderStore";
@@ -40,25 +38,30 @@ interface SceneInformationProps {
  */
 @observer
 export default class SceneInformation extends React.Component<SceneInformationProps, any> {
-
     public render() {
-        const {sceneStore, cityBuilderStore} = this.props;
+        const { sceneStore, cityBuilderStore } = this.props;
         const selectedElement = sceneStore.selectedElement;
 
         return (
             <div className="scene-information">
-                <MetricKey title="Footprint"
-                           metric={cityBuilderStore.options.profile.footprintMetric}
-                           selectedElement={selectedElement}/>
-                <MetricKey title="Height"
-                           metric={cityBuilderStore.options.profile.heightMetric}
-                           selectedElement={selectedElement}/>
+                <MetricKey
+                    title="Footprint"
+                    metric={cityBuilderStore.options.profile.footprintMetric}
+                    selectedElement={selectedElement}
+                />
+                <MetricKey
+                    title="Height"
+                    metric={cityBuilderStore.options.profile.heightMetric}
+                    selectedElement={selectedElement}
+                />
                 <SelectBoxBuilder
                     label="Color"
                     className="metric-info"
                     value={cityBuilderStore.options.metricColor}
                     options={new MetricSet(ColorMetrics.availableColorMetrics).asSelectOptions}
-                    onChange={(m: Metric) => { cityBuilderStore.options.metricColor = m; }}
+                    onChange={(m: Metric) => {
+                        cityBuilderStore.options.metricColor = m;
+                    }}
                     append={this.renderColorInformation()}
                 />
             </div>
@@ -66,7 +69,9 @@ export default class SceneInformation extends React.Component<SceneInformationPr
     }
 
     private renderColorInformation(): JSX.Element[] {
-        const colorValue = this.props.sceneStore.getColorValue(this.props.cityBuilderStore.options.metricColor);
+        const colorValue = this.props.sceneStore.getColorValue(
+            this.props.cityBuilderStore.options.metricColor
+        );
         const colorInformation: JSX.Element[] = [];
         if (colorValue !== null) {
             colorInformation.push(<span className="value">{colorValue}</span>);

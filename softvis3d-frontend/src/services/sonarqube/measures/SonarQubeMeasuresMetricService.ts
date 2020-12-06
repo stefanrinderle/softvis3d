@@ -19,18 +19,24 @@
 ///
 
 import CityBuilderStore from "../../../stores/CityBuilderStore";
-import {noColorMetric, numberOfAuthorsBlameColorMetric, packageNameColorMetric} from "../../../constants/Metrics";
+import {
+    noColorMetric,
+    numberOfAuthorsBlameColorMetric,
+    packageNameColorMetric,
+} from "../../../constants/Metrics";
 
 export default class SonarQubeMeasuresMetricService {
-
     public getMetricRequestValues(cityBuilderStore: CityBuilderStore): string {
         const result: Set<string> = new Set();
         result.add(cityBuilderStore.options.profile.footprintMetric.id);
         result.add(cityBuilderStore.options.profile.heightMetric.id);
 
         for (const colorMetric of cityBuilderStore.colorMetrics.keys) {
-            if (colorMetric !== noColorMetric.id && colorMetric !== packageNameColorMetric.id
-                && colorMetric !== numberOfAuthorsBlameColorMetric.id) {
+            if (
+                colorMetric !== noColorMetric.id &&
+                colorMetric !== packageNameColorMetric.id &&
+                colorMetric !== numberOfAuthorsBlameColorMetric.id
+            ) {
                 result.add(colorMetric);
             }
         }

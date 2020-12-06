@@ -18,11 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {deserialize, serialize} from "class-transformer";
+import { deserialize, serialize } from "class-transformer";
 import VisualizationLinkParams from "./VisualizationLinkParams";
 
 export default class VisualizationLinkSerializationService {
-
     public serialize(visualizationLinkParams: VisualizationLinkParams): any {
         const data = serialize(visualizationLinkParams);
         return btoa(data);
@@ -32,5 +31,4 @@ export default class VisualizationLinkSerializationService {
         const plain = atob(input);
         return deserialize(VisualizationLinkParams, plain);
     }
-
 }

@@ -18,17 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {assert} from "chai";
+import { assert } from "chai";
 import App from "../src/app";
 import * as Sinon from "sinon";
 import * as ReactDOM from "react-dom";
 
 describe("App", () => {
-
     it("should unmount component on stop", () => {
-        const documentMock = {} as any as Document;
+        const documentMock = ({} as any) as Document;
         const documentStub = Sinon.stub(document, "getElementById");
         documentStub.returns(documentMock);
 
@@ -37,7 +34,7 @@ describe("App", () => {
         const underTest: App = new App({
             baseUrl: "/",
             projectKey: "",
-            isDev: false
+            isDev: false,
         });
 
         underTest.stop("bla");
@@ -52,12 +49,11 @@ describe("App", () => {
         const underTest: App = new App({
             baseUrl: "/",
             projectKey: "",
-            isDev: false
+            isDev: false,
         });
 
         assert.throws(() => {
             underTest.stop("not existing");
         });
     });
-
 });

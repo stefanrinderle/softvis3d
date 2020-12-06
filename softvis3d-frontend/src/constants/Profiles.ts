@@ -18,55 +18,62 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import Profile, {ProfileBuilder} from "../classes/Profile";
+import Profile, { ProfileBuilder } from "../classes/Profile";
 import {
     complexityMetric,
-    duplicatedLinesOfCodeMetric, linesOfCodeMetric,
-    newLinesOfCodeMetric, noMetric
+    duplicatedLinesOfCodeMetric,
+    linesOfCodeMetric,
+    newLinesOfCodeMetric,
+    noMetric,
 } from "./Metrics";
-import {Scales} from "./Scales";
+import { Scales } from "./Scales";
 
 const defaultProfile: Profile = new ProfileBuilder("default", "Default")
     .withConfiguration(complexityMetric, linesOfCodeMetric, Scales.availableScales[0])
-    .withDescription("Default risk analysis profile. Complexity as building footprint and lines of code as building" +
-        " height provide a very good overview of the structure of your project. It should be easy to identify the " +
-        "classes or packages with the highest risks. Change the building color to take a closer look at the " +
-        "interesting parts.")
+    .withDescription(
+        "Default risk analysis profile. Complexity as building footprint and lines of code as building" +
+            " height provide a very good overview of the structure of your project. It should be easy to identify the " +
+            "classes or packages with the highest risks. Change the building color to take a closer look at the " +
+            "interesting parts."
+    )
     .build();
 
 const leakPeriod: Profile = new ProfileBuilder("leakPeriod", "Leak period")
     .withConfiguration(complexityMetric, newLinesOfCodeMetric, Scales.availableScales[0])
-    .withDescription("Check the quality of new code in the current leak period. It should be easy to identify the " +
-        "changing parts of the system (high buildings) and to identify the parts with the most risk. Take a closer look " +
-        "at the changing parts during the next release tests.")
+    .withDescription(
+        "Check the quality of new code in the current leak period. It should be easy to identify the " +
+            "changing parts of the system (high buildings) and to identify the parts with the most risk. Take a closer look " +
+            "at the changing parts during the next release tests."
+    )
     .build();
 
-const duplicatedLinesOfCode: Profile = new ProfileBuilder("duplicatedLinesOfCode", "Duplicated lines")
+const duplicatedLinesOfCode: Profile = new ProfileBuilder(
+    "duplicatedLinesOfCode",
+    "Duplicated lines"
+)
     .withConfiguration(complexityMetric, duplicatedLinesOfCodeMetric, Scales.availableScales[0])
-    .withDescription("Buildings only gain height if duplicated code is found within the class or file. Search for " +
-        "hot spots of high buildings. High and massive buildings could contain complex duplicated code which is " +
-        "a high risk especially if a lot of changes take place.")
+    .withDescription(
+        "Buildings only gain height if duplicated code is found within the class or file. Search for " +
+            "hot spots of high buildings. High and massive buildings could contain complex duplicated code which is " +
+            "a high risk especially if a lot of changes take place."
+    )
     .build();
 
 const custom: Profile = new ProfileBuilder("custom", "Customize")
     .withConfiguration(noMetric, noMetric, Scales.availableScales[0])
-    .withDescription("Select any metric using the 'Advanced options' tab at the top of this dialog.")
+    .withDescription(
+        "Select any metric using the 'Advanced options' tab at the top of this dialog."
+    )
     .build();
 
-export {
-    defaultProfile,
-    leakPeriod,
-    duplicatedLinesOfCode,
-    custom
-};
+export { defaultProfile, leakPeriod, duplicatedLinesOfCode, custom };
 
 export class Profiles {
-
     public static availableProfiles: Profile[] = [
         defaultProfile,
         leakPeriod,
         duplicatedLinesOfCode,
-        custom
+        custom,
     ];
 
     public static getAvailableProfileById(id: string): Profile {
@@ -77,5 +84,4 @@ export class Profiles {
         }
         return custom;
     }
-
 }

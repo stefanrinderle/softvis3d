@@ -18,29 +18,25 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {assert, expect} from "chai";
-import {shallow} from "enzyme";
+import { assert, expect } from "chai";
+import { shallow } from "enzyme";
 import * as React from "react";
 import * as Sinon from "sinon";
-import {TreeElement} from "../../../src/classes/TreeElement";
+import { TreeElement } from "../../../src/classes/TreeElement";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
 import TreeService from "../../../src/services/TreeService";
 import SceneStore from "../../../src/stores/SceneStore";
-import {createDefaultDirWithKey, createDefaultFileWithName} from "../../classes/TreeElement.spec";
-import {createMock} from "../../Helper";
+import { createDefaultDirWithKey, createDefaultFileWithName } from "../../classes/TreeElement.spec";
+import { createMock } from "../../Helper";
 
 describe("<SelectedElementInfo/>", () => {
-
     it("should show default text div on start", () => {
         const localSceneStore: SceneStore = new SceneStore();
 
-        const selectedElementInfo = shallow(
-            <SelectedElementInfo sceneStore={localSceneStore}/>
-        );
+        const selectedElementInfo = shallow(<SelectedElementInfo sceneStore={localSceneStore} />);
 
-        expect(selectedElementInfo.html().includes("Select an object to see the details here")).to.be.true;
+        expect(selectedElementInfo.html().includes("Select an object to see the details here")).to
+            .be.true;
     });
 
     it("should show node element if node details are requested", () => {
@@ -54,9 +50,7 @@ describe("<SelectedElementInfo/>", () => {
         localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
-        const selectedElementInfo = shallow(
-            <SelectedElementInfo sceneStore={localSceneStore}/>
-        );
+        const selectedElementInfo = shallow(<SelectedElementInfo sceneStore={localSceneStore} />);
 
         // no buttons
         expect(selectedElementInfo.children().length).to.be.eq(1);
@@ -73,9 +67,7 @@ describe("<SelectedElementInfo/>", () => {
         localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
-        const selectedElementInfo = shallow(
-            <SelectedElementInfo sceneStore={localSceneStore}/>
-        );
+        const selectedElementInfo = shallow(<SelectedElementInfo sceneStore={localSceneStore} />);
 
         expect(selectedElementInfo.html()).to.contain(selectedElement.name);
     });
@@ -96,9 +88,7 @@ describe("<SelectedElementInfo/>", () => {
 
         const stub = Sinon.stub(window, "open");
 
-        const selectedElementInfo = shallow(
-            <SelectedElementInfo sceneStore={localSceneStore}/>
-        );
+        const selectedElementInfo = shallow(<SelectedElementInfo sceneStore={localSceneStore} />);
 
         selectedElementInfo.find("#open-file-button").simulate("click");
 
@@ -122,9 +112,7 @@ describe("<SelectedElementInfo/>", () => {
 
         const stub = Sinon.stub(window, "open");
 
-        const selectedElementInfo = shallow(
-            <SelectedElementInfo sceneStore={localSceneStore}/>
-        );
+        const selectedElementInfo = shallow(<SelectedElementInfo sceneStore={localSceneStore} />);
 
         selectedElementInfo.find("#open-measures-button").simulate("click");
 
@@ -133,10 +121,13 @@ describe("<SelectedElementInfo/>", () => {
     });
 });
 
-function createTestTreeElement(name: string, parent?: TreeElement, expectedHeightMetricValue = 0,
-                               expectedFootprintMetricValue = 0,
-                               expectedColorMetricValue = 0): TreeElement {
-
+function createTestTreeElement(
+    name: string,
+    parent?: TreeElement,
+    expectedHeightMetricValue = 0,
+    expectedFootprintMetricValue = 0,
+    expectedColorMetricValue = 0
+): TreeElement {
     let result;
     if (parent) {
         result = createDefaultFileWithName(name);
@@ -146,7 +137,7 @@ function createTestTreeElement(name: string, parent?: TreeElement, expectedHeigh
     result.measures = {
         c: expectedColorMetricValue,
         h: expectedHeightMetricValue,
-        f: expectedFootprintMetricValue
+        f: expectedFootprintMetricValue,
     };
     return result;
 }

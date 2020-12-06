@@ -21,7 +21,6 @@
 import StatusAction from "./StatusAction";
 
 export default class LoadAction extends StatusAction {
-
     private _max?: number;
     private _current?: number;
 
@@ -38,7 +37,7 @@ export default class LoadAction extends StatusAction {
         return this._max;
     }
 
-    public get current(): number | undefined  {
+    public get current(): number | undefined {
         return this._current;
     }
 
@@ -65,5 +64,4 @@ export default class LoadAction extends StatusAction {
             return 100;
         }
     }
-
 }

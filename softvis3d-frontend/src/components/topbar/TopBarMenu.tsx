@@ -18,9 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import * as React from "react";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import SceneStore from "../../stores/SceneStore";
@@ -33,7 +31,6 @@ interface TopBarMenuProbs {
 
 @observer
 export default class TopBarMenu extends React.Component<TopBarMenuProbs, any> {
-
     public render() {
         return (
             <div className="top-bar-menu">
@@ -50,11 +47,7 @@ export default class TopBarMenu extends React.Component<TopBarMenuProbs, any> {
                     cityBuilderStore={this.props.cityBuilderStore}
                     sceneStore={this.props.sceneStore}
                 />
-                <button
-                    id="help-button"
-                    className="middle"
-                    onClick={this.openHelp.bind(this)}
-                >
+                <button id="help-button" className="middle" onClick={this.openHelp.bind(this)}>
                     Help
                 </button>
                 <button

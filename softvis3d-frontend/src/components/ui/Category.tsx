@@ -18,8 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 
 interface CategoryProps {
@@ -34,16 +32,15 @@ interface CategoryStates {
 }
 
 export default class Category extends React.Component<CategoryProps, CategoryStates> {
-
     public static defaultProps = {
         className: "",
         toggle: false,
-        initialVisibility: true
+        initialVisibility: true,
     };
 
     public componentWillMount() {
         this.setState({
-            visible: (this.props.initialVisibility as boolean)
+            visible: this.props.initialVisibility as boolean,
         });
     }
 
@@ -51,15 +48,13 @@ export default class Category extends React.Component<CategoryProps, CategorySta
         return (
             <fieldset className={this.getClassName()}>
                 <legend onClick={() => this.toggleVisibility()}>{this.props.label}</legend>
-                <div className="category-content">
-                    {this.props.children}
-                </div>
+                <div className="category-content">{this.props.children}</div>
             </fieldset>
         );
     }
 
     private getClassName() {
-        const {toggle, className} = this.props;
+        const { toggle, className } = this.props;
         const classes: string[] = [];
 
         if (className) {
@@ -79,7 +74,7 @@ export default class Category extends React.Component<CategoryProps, CategorySta
 
     private toggleVisibility(): void {
         this.setState({
-            visible: !this.state.visible
+            visible: !this.state.visible,
         });
     }
 }

@@ -19,12 +19,13 @@
 ///
 
 export default class WebGLDetectorService {
-
     public isWebGLSupported(): boolean {
         try {
             const canvas = document.createElement("canvas");
-            return !!((window as any).WebGLRenderingContext
-                && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")));
+            return !!(
+                (window as any).WebGLRenderingContext &&
+                (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"))
+            );
         } catch (e) {
             return false;
         }
@@ -41,5 +42,4 @@ export default class WebGLDetectorService {
             return "Your browser does not seem to support WebGL. Find out how to get it on http://get.webgl.org/.";
         }
     }
-
 }

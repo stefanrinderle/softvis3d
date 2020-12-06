@@ -18,22 +18,19 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
-import {shallow} from "enzyme";
-import {expect} from "chai";
+import { shallow } from "enzyme";
+import { expect } from "chai";
 import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import PreviewPictureComponent from "../../../src/components/citybuilder/PreviewPictureComponent";
 
 describe("<PreviewPictureComponent/>", () => {
-
     it("should show resolve url for preview picture", () => {
         const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         const baseUrl = "";
 
         const underTest = shallow(
-            <PreviewPictureComponent store={testCityBuilderStore} baseUrl={baseUrl}/>
+            <PreviewPictureComponent store={testCityBuilderStore} baseUrl={baseUrl} />
         );
 
         expect(underTest.html()).to.include("evostreet_complexity_loc_EXTINT.png");
@@ -44,7 +41,7 @@ describe("<PreviewPictureComponent/>", () => {
         const baseUrl = "/isudfisu";
 
         const underTest = shallow(
-            <PreviewPictureComponent store={testCityBuilderStore} baseUrl={baseUrl}/>
+            <PreviewPictureComponent store={testCityBuilderStore} baseUrl={baseUrl} />
         );
 
         expect(underTest.html()).to.include(baseUrl);

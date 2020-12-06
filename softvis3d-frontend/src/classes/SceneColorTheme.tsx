@@ -18,10 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 export class SceneColorTheme implements SelectOptionValue {
-
     public readonly id: string;
     public readonly label: string;
     public readonly backgroundColor: number;
@@ -31,5 +28,4 @@ export class SceneColorTheme implements SelectOptionValue {
         this.label = label;
         this.backgroundColor = backgroundColor;
     }
-
 }

@@ -18,8 +18,6 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
 import SelectOption from "./SelectOption";
 
@@ -31,11 +29,10 @@ interface SelectGroupProps {
 }
 
 export default class SelectGroup extends React.Component<SelectGroupProps, any> {
-
     //noinspection JSUnusedGlobalSymbols
     public static defaultProps = {
         className: "",
-        disabled: false
+        disabled: false,
     };
 
     public render() {
@@ -48,13 +45,13 @@ export default class SelectGroup extends React.Component<SelectGroupProps, any> 
 
     private renderChildren(): Array<React.Component<any, any>> {
         return React.Children.map<any>(
-            (this.props.children as SelectOption[]),
+            this.props.children as SelectOption[],
             (child: React.ReactChild) => {
                 if (typeof child === "object" && child.type === SelectOption) {
                     return React.cloneElement(child, {
                         selected: child.props.value === this.props.selectedValue,
                         disabled: this.props.disabled || child.props.disabled,
-                        ref: this.props.optionRef
+                        ref: this.props.optionRef,
                     });
                 }
 

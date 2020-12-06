@@ -18,17 +18,16 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import AppReactions from "../../src/reactions/AppReactions";
 import AutoReloadService from "../../src/services/AutoReloadService";
 import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/SonarQubeMeasuresService";
 import AppStatusStore from "../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
 import SceneStore from "../../src/stores/SceneStore";
-import {createMock} from "../Helper";
+import { createMock } from "../Helper";
 
 describe("AppReactions", () => {
-
     it("should auto reload on analysisDate change", () => {
         const testCityBuilderStore = new CityBuilderStore();
         const testAppStatusStore = new AppStatusStore();
@@ -37,8 +36,7 @@ describe("AppReactions", () => {
         const testAutoReloadService = createMock(AutoReloadService);
         testAutoReloadService.isActive.returns(true);
 
-        const reaction =
-            new AppReactions(testAppStatusStore, testCityBuilderStore, testSceneStore);
+        const reaction = new AppReactions(testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 
@@ -57,8 +55,7 @@ describe("AppReactions", () => {
         const testAutoReloadService = createMock(AutoReloadService);
         testAutoReloadService.isActive.returns(false);
 
-        const reaction =
-            new AppReactions(testAppStatusStore, testCityBuilderStore, testSceneStore);
+        const reaction = new AppReactions(testAppStatusStore, testCityBuilderStore, testSceneStore);
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 
@@ -67,5 +64,4 @@ describe("AppReactions", () => {
         expect(reaction).not.to.be.null;
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
     });
-
 });

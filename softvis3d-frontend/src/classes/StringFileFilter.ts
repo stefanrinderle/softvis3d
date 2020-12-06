@@ -18,9 +18,9 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {observable} from "mobx";
-import {FileFilterInterface} from "./FileFilter";
-import {TreeElement} from "./TreeElement";
+import { observable } from "mobx";
+import { FileFilterInterface } from "./FileFilter";
+import { TreeElement } from "./TreeElement";
 
 export abstract class StringFileFilter implements FileFilterInterface {
     @observable
@@ -30,7 +30,6 @@ export abstract class StringFileFilter implements FileFilterInterface {
 }
 
 export class IncludeFileFilter extends StringFileFilter {
-
     public shouldRemoveFile(file: TreeElement): boolean {
         if (super.value !== "") {
             const match = file.name.match(this.value);
@@ -40,11 +39,9 @@ export class IncludeFileFilter extends StringFileFilter {
         }
         return false;
     }
-
 }
 
 export class ExcludeFileFilter extends StringFileFilter {
-
     public shouldRemoveFile(file: TreeElement): boolean {
         if (super.value !== "") {
             const match = file.name.match(this.value);
@@ -54,5 +51,4 @@ export class ExcludeFileFilter extends StringFileFilter {
         }
         return false;
     }
-
 }

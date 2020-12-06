@@ -23,7 +23,6 @@ export interface Parameters {
 }
 
 export default class UrlParameterService {
-
     public getQueryParams(qs: string): Parameters {
         qs = qs.split("+").join(" ");
 
@@ -63,5 +62,4 @@ export default class UrlParameterService {
 
         return result.substr(0, result.length - 1);
     }
-
 }

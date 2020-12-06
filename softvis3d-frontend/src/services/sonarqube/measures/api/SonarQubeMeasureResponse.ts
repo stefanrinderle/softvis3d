@@ -71,9 +71,4 @@ export const SQ_QUALIFIER_PROJECT = "TRK";
 // export const SQ_QUALIFIER_SUB_PROJECT = "BRC";
 
 // unfortunately, the const values can not be used here in the SonarQubeQualifier type.
-export type SonarQubeQualifier =
-    "BRC"
-    | "DIR"
-    | "FIL"
-    | "TRK"
-    | "UTS";
+export type SonarQubeQualifier = "BRC" | "DIR" | "FIL" | "TRK" | "UTS";

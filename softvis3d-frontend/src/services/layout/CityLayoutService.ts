@@ -19,9 +19,9 @@
 ///
 
 import LoadAction from "../../classes/status/LoadAction";
-import {TreeElement} from "../../classes/TreeElement";
-import {numberOfAuthorsBlameColorMetric} from "../../constants/Metrics";
-import {lazyInject} from "../../inversify.config";
+import { TreeElement } from "../../classes/TreeElement";
+import { numberOfAuthorsBlameColorMetric } from "../../constants/Metrics";
+import { lazyInject } from "../../inversify.config";
 import AppStatusStore from "../../stores/AppStatusStore";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import SceneStore from "../../stores/SceneStore";
@@ -37,21 +37,26 @@ export default class CityLayoutService {
     @lazyInject("SonarQubeScmService")
     private readonly scmService!: SonarQubeScmService;
 
-    public createCity(sceneStore: SceneStore, appStatusStore: AppStatusStore, cityBuilderStore: CityBuilderStore) {
-        this.loadRequiredMetricData(sceneStore, appStatusStore, cityBuilderStore).then(
-            () => {
-                if (sceneStore.projectData !== null) {
-                    appStatusStore.load(CityLayoutService.BUILD_CITY);
+    public createCity(
+        sceneStore: SceneStore,
+        appStatusStore: AppStatusStore,
+        cityBuilderStore: CityBuilderStore
+    ) {
+        this.loadRequiredMetricData(sceneStore, appStatusStore, cityBuilderStore).then(() => {
+            if (sceneStore.projectData !== null) {
+                appStatusStore.load(CityLayoutService.BUILD_CITY);
 
-                    const model = this.prepareModel(sceneStore, cityBuilderStore);
-                    this.buildCity(appStatusStore, sceneStore, model, cityBuilderStore);
-                }
+                const model = this.prepareModel(sceneStore, cityBuilderStore);
+                this.buildCity(appStatusStore, sceneStore, model, cityBuilderStore);
             }
-        );
+        });
     }
 
-    private loadRequiredMetricData(sceneStore: SceneStore, appStatusStore: AppStatusStore,
-                                   cityBuilderStore: CityBuilderStore): Promise<void> {
+    private loadRequiredMetricData(
+        sceneStore: SceneStore,
+        appStatusStore: AppStatusStore,
+        cityBuilderStore: CityBuilderStore
+    ): Promise<void> {
         // Project data is already loaded. Otherwise multiple load
         // processes need to be chained here
 
@@ -74,13 +79,17 @@ export default class CityLayoutService {
         );
     }
 
-    private buildCity(appStatusStore: AppStatusStore, sceneStore: SceneStore,
-                      model: Softvis3dModel, cityBuilderStore: CityBuilderStore) {
+    private buildCity(
+        appStatusStore: AppStatusStore,
+        sceneStore: SceneStore,
+        model: Softvis3dModel,
+        cityBuilderStore: CityBuilderStore
+    ) {
         const options = {
             layout: cityBuilderStore.options.layout.id,
             layoutOptions: {},
             colorMetric: cityBuilderStore.options.metricColor.id,
-            scalingMethod: cityBuilderStore.options.profile.scale
+            scalingMethod: cityBuilderStore.options.profile.scale,
         };
 
         this.layoutProcessor.getIllustration(options, model).then((illustration) => {

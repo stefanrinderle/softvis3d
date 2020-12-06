@@ -18,11 +18,9 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import * as React from "react";
-import {lazyInject} from "../../inversify.config";
+import { lazyInject } from "../../inversify.config";
 import ClipBoardService from "../../services/ClipBoardService";
 import VisualizationLinkService from "../../services/VisualizationLinkService";
 import CityBuilderStore from "../../stores/CityBuilderStore";
@@ -39,8 +37,10 @@ interface TopBarShareButtonStates {
 }
 
 @observer
-export default class TopBarShareButton extends React.Component<TopBarShareButtonProbs, TopBarShareButtonStates> {
-
+export default class TopBarShareButton extends React.Component<
+    TopBarShareButtonProbs,
+    TopBarShareButtonStates
+> {
     @lazyInject("VisualizationLinkService")
     private readonly visualizationLinkService!: VisualizationLinkService;
     @lazyInject("ClipBoardService")
@@ -52,15 +52,22 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
 
     public render() {
         return (
-            <div className="dropdown" onMouseEnter={() => this.setShareMenuState(true)}
-                 onMouseLeave={() => this.setShareMenuState(false)}>
+            <div
+                className="dropdown"
+                onMouseEnter={() => this.setShareMenuState(true)}
+                onMouseLeave={() => this.setShareMenuState(false)}
+            >
                 <button className="middle" disabled={this.props.disabled}>
                     Share
                 </button>
                 <div className={this.getShareMenuClassName()}>
-                    <button onClick={this.copyVisualizationLink.bind(this)}>Copy to clipboard</button>
+                    <button onClick={this.copyVisualizationLink.bind(this)}>
+                        Copy to clipboard
+                    </button>
                     <button onClick={this.openVisualizationLink.bind(this)}>Open in new tab</button>
-                    <button onClick={this.openPlainVisualizationLink.bind(this)}>Open in new plain tab</button>
+                    <button onClick={this.openPlainVisualizationLink.bind(this)}>
+                        Open in new plain tab
+                    </button>
                 </div>
             </div>
         );
@@ -80,27 +87,36 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
 
     private setShareMenuState(value: boolean) {
         this.setState({
-            isVisible: value && !this.props.disabled
+            isVisible: value && !this.props.disabled,
         });
     }
 
     private openVisualizationLink() {
-        window.open(this.visualizationLinkService.createVisualizationLink(this.props.cityBuilderStore, this.props.sceneStore));
+        window.open(
+            this.visualizationLinkService.createVisualizationLink(
+                this.props.cityBuilderStore,
+                this.props.sceneStore
+            )
+        );
         this.setShareMenuState(false);
     }
 
     private copyVisualizationLink() {
-        const link = this.visualizationLinkService.createVisualizationLink(this.props.cityBuilderStore, this.props.sceneStore);
+        const link = this.visualizationLinkService.createVisualizationLink(
+            this.props.cityBuilderStore,
+            this.props.sceneStore
+        );
         this.clipBoardService.copyTextToClipboard(link);
         this.setShareMenuState(false);
     }
 
     private openPlainVisualizationLink() {
-        const result: string =
-            this.visualizationLinkService.createPlainVisualizationLink(this.props.cityBuilderStore, this.props.sceneStore);
+        const result: string = this.visualizationLinkService.createPlainVisualizationLink(
+            this.props.cityBuilderStore,
+            this.props.sceneStore
+        );
         window.open(result);
 
         this.setShareMenuState(false);
     }
-
 }

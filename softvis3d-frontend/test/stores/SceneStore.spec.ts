@@ -18,13 +18,12 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {noMetric} from "../../src/constants/Metrics";
+import { expect } from "chai";
+import { noMetric } from "../../src/constants/Metrics";
 import SceneStore from "../../src/stores/SceneStore";
-import {createDefaultFile} from "../classes/TreeElement.spec";
+import { createDefaultFile } from "../classes/TreeElement.spec";
 
 describe("SceneStore", () => {
-
     it("should contain no selected id on init", () => {
         const sceneStore = new SceneStore();
         expect(sceneStore.selectedObjectId).to.be.null;
@@ -58,7 +57,7 @@ describe("SceneStore", () => {
         const sceneStore = new SceneStore();
 
         const shapes: any = {
-            test: "bla"
+            test: "bla",
         };
 
         sceneStore.shapes = shapes;

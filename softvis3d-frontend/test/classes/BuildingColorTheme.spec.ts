@@ -18,11 +18,10 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import BuildingColorTheme from "../../src/classes/BuildingColorTheme";
 
 describe("BuildingColorTheme", () => {
-
     it("should implement SelectOptionValue", () => {
         const expectedId = "23";
         const expectedLabel = "INT";
@@ -32,5 +31,4 @@ describe("BuildingColorTheme", () => {
         expect(result.label).to.be.eq(expectedLabel);
         expect(result.id).to.be.eq(expectedId);
     });
-
 });

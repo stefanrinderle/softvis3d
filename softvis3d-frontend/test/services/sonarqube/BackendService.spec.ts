@@ -18,16 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert} from "chai";
-import {BackendService} from "../../../src/services/sonarqube/BackendService";
+import { assert } from "chai";
+import { BackendService } from "../../../src/services/sonarqube/BackendService";
 import * as Sinon from "sinon";
 
 import axios from "axios";
 
 describe("BackendService", () => {
-
     it("BackendService should call axios library", () => {
-
         const underTest: BackendService = new TestService();
 
         const axiosStub = Sinon.stub(axios, "get");
@@ -40,7 +38,6 @@ describe("BackendService", () => {
     });
 
     it("BackendService should call axios library with baseUrl", () => {
-
         const baseUrl = "iusdgzfuzgdf/";
         const underTest: BackendService = new TestService(baseUrl);
 
@@ -52,7 +49,6 @@ describe("BackendService", () => {
         assert(axiosStub.calledWith(baseUrl + "/api" + route, {}));
         axiosStub.restore();
     });
-
 });
 
 class TestService extends BackendService {

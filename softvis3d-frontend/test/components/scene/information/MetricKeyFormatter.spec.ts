@@ -18,13 +18,12 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import MetricKeyFormatter from "../../../../src/components/scene/information/MetricKeyFormatter";
 import Metric from "../../../../src/classes/Metric";
-import {MetricType} from "../../../../src/classes/MetricType";
+import { MetricType } from "../../../../src/classes/MetricType";
 
 describe("MetricKeyFormatter", () => {
-
     it("should convert to string on integer", () => {
         const metric = new Metric("", "", "", MetricType.INT);
         const value = 347436;
@@ -52,5 +51,4 @@ describe("MetricKeyFormatter", () => {
 
         expect(result).to.be.eq("n/a");
     });
-
 });

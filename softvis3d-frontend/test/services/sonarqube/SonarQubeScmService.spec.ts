@@ -18,19 +18,18 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert, expect} from "chai";
+import { assert, expect } from "chai";
 import * as Sinon from "sinon";
-import {TreeElement} from "../../../src/classes/TreeElement";
+import { TreeElement } from "../../../src/classes/TreeElement";
 import ScmCalculatorService from "../../../src/services/sonarqube/ScmCalculatorService";
 import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
 import TreeService from "../../../src/services/TreeService";
 import AppStatusStore from "../../../src/stores/AppStatusStore";
 import SceneStore from "../../../src/stores/SceneStore";
-import {createDefaultFileWithIdAndParent} from "../../classes/TreeElement.spec";
-import {createMock} from "../../Helper";
+import { createDefaultFileWithIdAndParent } from "../../classes/TreeElement.spec";
+import { createMock } from "../../Helper";
 
 describe("SonarQubeScmService", () => {
-
     it("should check if metric is available if its available", (done) => {
         const testAppStatusStore: AppStatusStore = new AppStatusStore();
 
@@ -52,26 +51,29 @@ describe("SonarQubeScmService", () => {
             lineNumber: 1,
             authorName: "srinderle",
             lastCommit: "oisdfosidj",
-            lastCommitRevision: "soidufhosidjf"
+            lastCommitRevision: "soidufhosidjf",
         });
         localScmCalculator.calcNumberOfAuthors.returns(4);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
-                    scm: measures
-                }
+                    scm: measures,
+                },
             });
         });
 
-        underTest.checkScmInfosAvailable(testAppStatusStore, testSceneStore).then((result) => {
-            expect(result).to.be.true;
+        underTest
+            .checkScmInfosAvailable(testAppStatusStore, testSceneStore)
+            .then((result) => {
+                expect(result).to.be.true;
 
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "checkScmInfosAvailable promise result error");
-            done();
-        });
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "checkScmInfosAvailable promise result error");
+                done();
+            });
     });
 
     it("should check if metric is available if its NOT available", (done) => {
@@ -99,21 +101,24 @@ describe("SonarQubeScmService", () => {
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
-                    scm: measures
-                }
+                    scm: measures,
+                },
             });
         });
 
-        underTest.checkScmInfosAvailable(testAppStatusStore, testSceneStore).then((result) => {
-            expect(result).to.be.false;
-            assert(statusStub.calledOnce);
+        underTest
+            .checkScmInfosAvailable(testAppStatusStore, testSceneStore)
+            .then((result) => {
+                expect(result).to.be.false;
+                assert(statusStub.calledOnce);
 
-            statusStub.restore();
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+                statusStub.restore();
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should call backend and add metric", (done) => {
@@ -143,31 +148,36 @@ describe("SonarQubeScmService", () => {
             lineNumber: 1,
             authorName: "srinderle",
             lastCommit: "oisdfosidj",
-            lastCommitRevision: "soidufhosidjf"
+            lastCommitRevision: "soidufhosidjf",
         });
         localScmCalculator.calcNumberOfAuthors.returns(4);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
-                    scm: measures
-                }
+                    scm: measures,
+                },
             });
         });
 
-        underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
-            assert(Object.prototype.hasOwnProperty.call(treeElement.measures, "number_of_authors"));
-            expect(treeElement.measures.number_of_authors).to.be.eq(4);
+        underTest
+            .loadScmInfos(testAppStatusStore, testSceneStore)
+            .then(() => {
+                assert(
+                    Object.prototype.hasOwnProperty.call(treeElement.measures, "number_of_authors")
+                );
+                expect(treeElement.measures.number_of_authors).to.be.eq(4);
 
-            assert(loadStub.called);
-            assert(loadCompleteStub.called);
-            assert(loadStatusUpdateStub.called);
+                assert(loadStub.called);
+                assert(loadCompleteStub.called);
+                assert(loadStatusUpdateStub.called);
 
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should call backend and add metric in batches", (done) => {
@@ -199,33 +209,41 @@ describe("SonarQubeScmService", () => {
             lineNumber: 1,
             authorName: "srinderle",
             lastCommit: "oisdfosidj",
-            lastCommitRevision: "soidufhosidjf"
+            lastCommitRevision: "soidufhosidjf",
         });
         localScmCalculator.calcNumberOfAuthors.returns(4);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data: {
-                    scm: measures
-                }
+                    scm: measures,
+                },
             });
         });
 
-        underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
-            assert(Object.prototype.hasOwnProperty.call(treeElements[0].measures, "number_of_authors"));
-            expect(treeElements[0].measures.number_of_authors).to.be.eq(4);
+        underTest
+            .loadScmInfos(testAppStatusStore, testSceneStore)
+            .then(() => {
+                assert(
+                    Object.prototype.hasOwnProperty.call(
+                        treeElements[0].measures,
+                        "number_of_authors"
+                    )
+                );
+                expect(treeElements[0].measures.number_of_authors).to.be.eq(4);
 
-            expect(treeElements[89].measures.number_of_authors).to.be.eq(4);
+                expect(treeElements[89].measures.number_of_authors).to.be.eq(4);
 
-            assert(loadStub.called);
-            assert(loadCompleteStub.called);
-            assert(loadStatusUpdateStub.calledTwice);
+                assert(loadStub.called);
+                assert(loadCompleteStub.called);
+                assert(loadStatusUpdateStub.calledTwice);
 
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should do nothing if no data is available", (done) => {
@@ -236,12 +254,15 @@ describe("SonarQubeScmService", () => {
         const apiUrl = "urlsihshoif";
         const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
-        underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+        underTest
+            .loadScmInfos(testAppStatusStore, testSceneStore)
+            .then(() => {
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
 
     it("should react on error", (done) => {
@@ -261,21 +282,23 @@ describe("SonarQubeScmService", () => {
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
                 response: {
-                    statusText: "not working"
-                }
+                    statusText: "not working",
+                },
             });
         });
 
-        underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
-            assert(errorStub.called);
+        underTest
+            .loadScmInfos(testAppStatusStore, testSceneStore)
+            .then(() => {
+                assert(errorStub.called);
 
-            done();
-        }).catch((error) => {
-            assert.isNotOk(error, "Promise error");
-            done();
-        });
+                done();
+            })
+            .catch((error) => {
+                assert.isNotOk(error, "Promise error");
+                done();
+            });
     });
-
 });
 
 function createTestTreeElement(name: string, parent?: TreeElement): TreeElement {

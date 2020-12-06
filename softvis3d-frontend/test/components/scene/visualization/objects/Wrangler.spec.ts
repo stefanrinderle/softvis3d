@@ -18,16 +18,15 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {assert, expect} from "chai";
-import {Wrangler} from "../../../../../src/components/scene/visualization/objects/Wrangler";
+import { assert, expect } from "chai";
+import { Wrangler } from "../../../../../src/components/scene/visualization/objects/Wrangler";
 import * as Sinon from "sinon";
-import {SoftVis3dShape} from "../../../../../src/components/scene/domain/SoftVis3dShape";
-import {Color, Geometry, MeshLambertMaterial, Scene} from "three";
-import {ObjectFactory} from "../../../../../src/components/scene/visualization/objects/ObjectFactory";
-import {SoftVis3dMesh} from "../../../../../src/components/scene/domain/SoftVis3dMesh";
+import { SoftVis3dShape } from "../../../../../src/components/scene/domain/SoftVis3dShape";
+import { Color, Geometry, MeshLambertMaterial, Scene } from "three";
+import { ObjectFactory } from "../../../../../src/components/scene/visualization/objects/ObjectFactory";
+import { SoftVis3dMesh } from "../../../../../src/components/scene/domain/SoftVis3dMesh";
 
 describe("Wrangler", () => {
-
     it("should load softvis shapes", () => {
         const scene = Sinon.createStubInstance(Scene);
         const underTest: Wrangler = new Wrangler(scene);
@@ -38,7 +37,9 @@ describe("Wrangler", () => {
         objectsInView.push(createExampleMesh("1"));
         objectsInView.push(createExampleMesh("2"));
         objectsInView.push(createExampleMesh("3"));
-        const objectFactoryMock = Sinon.stub(ObjectFactory, "getSceneObjects").returns(objectsInView);
+        const objectFactoryMock = Sinon.stub(ObjectFactory, "getSceneObjects").returns(
+            objectsInView
+        );
 
         underTest.loadSoftVis3d(shapes);
 
@@ -56,7 +57,9 @@ describe("Wrangler", () => {
 
         const objectsInView: SoftVis3dMesh[] = [];
         objectsInView.push(createExampleMesh("1"));
-        const objectFactoryMock = Sinon.stub(ObjectFactory, "getSceneObjects").returns(objectsInView);
+        const objectFactoryMock = Sinon.stub(ObjectFactory, "getSceneObjects").returns(
+            objectsInView
+        );
 
         underTest.loadSoftVis3d(shapes);
         assert(scene.remove.notCalled);
@@ -124,7 +127,7 @@ describe("Wrangler", () => {
 
         const resultObjects = underTest.getObjectsInView();
 
-        const selectedColor = new Color(0xFFC519);
+        const selectedColor = new Color(0xffc519);
         expect(resultObjects[0].material.color.r).to.be.eq(selectedColor.r);
         expect(resultObjects[0].material.color.g).to.be.eq(selectedColor.g);
         expect(resultObjects[0].material.color.b).to.be.eq(selectedColor.b);
@@ -142,7 +145,9 @@ describe("Wrangler", () => {
         const objectsInView: SoftVis3dMesh[] = [];
         objectsInView.push(createExampleMesh("1"));
         objectsInView.push(createExampleMesh("2"));
-        const objectFactoryMock = Sinon.stub(ObjectFactory, "getSceneObjects").returns(objectsInView);
+        const objectFactoryMock = Sinon.stub(ObjectFactory, "getSceneObjects").returns(
+            objectsInView
+        );
 
         underTest.loadSoftVis3d(shapes);
 
@@ -150,7 +155,7 @@ describe("Wrangler", () => {
 
         const resultObjects = underTest.getObjectsInView();
 
-        const selectedColor = new Color(0xFFC519);
+        const selectedColor = new Color(0xffc519);
         expect(resultObjects[0].material.color.r).to.be.eq(selectedColor.r);
         expect(resultObjects[0].material.color.g).to.be.eq(selectedColor.g);
         expect(resultObjects[0].material.color.b).to.be.eq(selectedColor.b);
@@ -169,7 +174,9 @@ describe("Wrangler", () => {
         const firstColor = new Color(0x222222);
         objectsInView.push(createExampleMesh("1", firstColor));
         objectsInView.push(createExampleMesh("2", firstColor));
-        const objectFactoryMock = Sinon.stub(ObjectFactory, "getSceneObjects").returns(objectsInView);
+        const objectFactoryMock = Sinon.stub(ObjectFactory, "getSceneObjects").returns(
+            objectsInView
+        );
 
         underTest.loadSoftVis3d(shapes);
 
@@ -178,7 +185,7 @@ describe("Wrangler", () => {
 
         const resultObjects = underTest.getObjectsInView();
 
-        const selectedColor = new Color(0xFFC519);
+        const selectedColor = new Color(0xffc519);
         expect(resultObjects[0].material.color.r).to.be.eq(firstColor.r);
         expect(resultObjects[0].material.color.g).to.be.eq(firstColor.g);
         expect(resultObjects[0].material.color.b).to.be.eq(firstColor.b);

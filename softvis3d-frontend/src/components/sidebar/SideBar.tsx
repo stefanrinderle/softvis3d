@@ -18,15 +18,13 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-
-
 import * as React from "react";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import NodeList from "./FolderContent";
 import ParentElement from "./ParentElement";
 import SceneStore from "../../stores/SceneStore";
 import ActiveFolder from "./ActiveFolder";
-import {TreeElement} from "../../classes/TreeElement";
+import { TreeElement } from "../../classes/TreeElement";
 
 interface SideBarProps {
     sceneStore: SceneStore;
@@ -35,7 +33,7 @@ interface SideBarProps {
 @observer
 export default class SideBar extends React.Component<SideBarProps, any> {
     public render() {
-        const {sceneStore} = this.props;
+        const { sceneStore } = this.props;
 
         if (sceneStore.selectedElement === null) {
             return <div id="app-sidebar" className="side-bar" />;
@@ -46,7 +44,10 @@ export default class SideBar extends React.Component<SideBarProps, any> {
         return (
             <div id="app-sidebar" className="side-bar">
                 <h3>{sceneStore.selectedElement.name}</h3>
-                <ParentElement sceneStore={sceneStore} selectedElement={sceneStore.selectedElement} />
+                <ParentElement
+                    sceneStore={sceneStore}
+                    selectedElement={sceneStore.selectedElement}
+                />
                 <ActiveFolder sceneStore={sceneStore} activeFolder={activeFolder} />
                 <NodeList sceneStore={sceneStore} activeFolder={activeFolder} />
             </div>
@@ -54,9 +55,7 @@ export default class SideBar extends React.Component<SideBarProps, any> {
     }
 
     private getActiveFolder(element: TreeElement): TreeElement | null {
-        return element.isFile()
-            ? this.getParentElement(element)
-            : element;
+        return element.isFile() ? this.getParentElement(element) : element;
     }
 
     private getParentElement(element: TreeElement): TreeElement | null {
@@ -66,5 +65,4 @@ export default class SideBar extends React.Component<SideBarProps, any> {
 
         return element.parent ? element.parent : null;
     }
-
 }

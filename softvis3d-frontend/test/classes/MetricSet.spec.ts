@@ -18,12 +18,11 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
+import { expect } from "chai";
 import Metric from "../../src/classes/Metric";
 import MetricSet from "../../src/classes/MetricSet";
 
 describe("MetricSet", () => {
-
     it("should add metrics", () => {
         const initialMetrics: Metric[] = [];
         initialMetrics.push(new Metric("123", "siuhf", ""));

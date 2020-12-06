@@ -19,7 +19,6 @@
 ///
 
 export default class Event<T> {
-
     private _value: T;
 
     constructor(type: T) {

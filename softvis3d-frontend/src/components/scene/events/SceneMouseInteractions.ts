@@ -18,14 +18,13 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {lazyInject} from "../../../inversify.config";
-import {HtmlDomService} from "../../../services/HtmlDomService";
+import { lazyInject } from "../../../inversify.config";
+import { HtmlDomService } from "../../../services/HtmlDomService";
 import Scene from "../Scene";
 import Event from "./Event";
-import {EventDispatcher} from "./EventDispatcher";
+import { EventDispatcher } from "./EventDispatcher";
 
 export class SceneMouseInteractions {
-
     // to be able to mock the construction
     public static create() {
         return new SceneMouseInteractions();
@@ -70,7 +69,9 @@ export class SceneMouseInteractions {
 
     public handleMouseDown(event: MouseEvent) {
         const self = document.getElementById(Scene.SCENE_CONTAINER_ID);
-        const isWithinScene = event.target === self || this.htmlDomService.isDescendant(self, event.target as HTMLElement);
+        const isWithinScene =
+            event.target === self ||
+            this.htmlDomService.isDescendant(self, event.target as HTMLElement);
 
         this._onMouseDownEvent.dispatchEvent(new Event<boolean>(isWithinScene));
     }
@@ -86,5 +87,4 @@ export class SceneMouseInteractions {
             this._onSelectObjectEvent.dispatchEvent(new Event<MouseEvent>(event));
         }
     }
-
 }

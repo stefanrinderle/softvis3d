@@ -18,17 +18,16 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import {expect} from "chai";
-import {TreeElement} from "../../src/classes/TreeElement";
+import { expect } from "chai";
+import { TreeElement } from "../../src/classes/TreeElement";
 import {
     SQ_QUALIFIER_DIRECTORY,
     SQ_QUALIFIER_FILE,
-    SQ_QUALIFIER_UNIT_TEST_FILE
+    SQ_QUALIFIER_UNIT_TEST_FILE,
 } from "../../src/services/sonarqube/measures/api/SonarQubeMeasureResponse";
 import SonarQubeTransformerService from "../../src/services/sonarqube/measures/api/SonarQubeTransformerService";
 
 describe("TreeElement", () => {
-
     const sonarQubeTransformerService = new SonarQubeTransformerService();
 
     it("should be able to sort by name and type", () => {
@@ -66,7 +65,6 @@ describe("TreeElement", () => {
 
         expect(parent.children[2]).to.be.eq(fileA);
     });
-
 });
 
 /**
