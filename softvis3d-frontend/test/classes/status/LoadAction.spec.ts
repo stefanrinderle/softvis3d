@@ -23,23 +23,23 @@ import LoadAction from "../../../src/classes/status/LoadAction";
 describe("LoadAction", () => {
 
     it("should construct minimal load action", () => {
-        let expectedKey: string = "23";
-        let expectedDescription: string = "diufgh";
+        const expectedKey = "23";
+        const expectedDescription = "diufgh";
 
-        let result: LoadAction = new LoadAction(expectedKey, expectedDescription);
+        const result: LoadAction = new LoadAction(expectedKey, expectedDescription);
 
         expect(result.key).to.be.eq(expectedKey);
         expect(result.description).to.be.eq(expectedDescription);
     });
 
     it("should save status", () => {
-        let expectedKey: string = "23";
-        let expectedDescription: string = "diufgh";
+        const expectedKey = "23";
+        const expectedDescription = "diufgh";
 
-        let result: LoadAction = new LoadAction(expectedKey, expectedDescription);
+        const result: LoadAction = new LoadAction(expectedKey, expectedDescription);
 
-        let max = 200;
-        let current = 56;
+        const max = 200;
+        const current = 56;
         result.setStatus(max, current);
 
         expect(result.max).to.be.eq(max);
@@ -47,25 +47,25 @@ describe("LoadAction", () => {
     });
 
     it("should know if a status was set or not", () => {
-        let expectedKey: string = "23";
-        let expectedDescription: string = "diufgh";
+        const expectedKey = "23";
+        const expectedDescription = "diufgh";
 
-        let result: LoadAction = new LoadAction(expectedKey, expectedDescription);
+        const result: LoadAction = new LoadAction(expectedKey, expectedDescription);
 
         expect(result.hasStatus()).to.be.false;
 
-        let max = 200;
-        let current = 56;
+        const max = 200;
+        const current = 56;
         result.setStatus(max, current);
 
         expect(result.hasStatus()).to.be.true;
     });
 
     it("should calc percentage", () => {
-        let expectedKey: string = "23";
-        let expectedDescription: string = "diufgh";
+        const expectedKey = "23";
+        const expectedDescription = "diufgh";
 
-        let result: LoadAction = new LoadAction(expectedKey, expectedDescription);
+        const result: LoadAction = new LoadAction(expectedKey, expectedDescription);
 
         let limit = 200;
         let current = 56;

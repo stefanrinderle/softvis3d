@@ -24,18 +24,18 @@ import * as Sinon from "sinon";
 describe("Setup", () => {
 
     it("should construct and init renderer and lights", () => {
-        let container: any = {
+        const container: any = {
             clientWidth: 45,
             clientHeight: 78
         };
 
-        let renderer: any = {
+        const renderer: any = {
             setSize: Sinon.stub(),
             setViewport: Sinon.stub(),
             setClearColor: Sinon.stub()
         };
 
-        let sceneMock: any = {
+        const sceneMock: any = {
             add: Sinon.stub()
         };
 

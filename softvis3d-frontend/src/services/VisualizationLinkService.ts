@@ -20,7 +20,7 @@ export default class VisualizationLinkService {
     }
 
     public process(cityBuilderStore: CityBuilderStore, sceneStore: SceneStore, search: string) {
-        let params: Parameters = this.urlParameterService.getQueryParams(search);
+        const params: Parameters = this.urlParameterService.getQueryParams(search);
 
         const input = params.visualizationStatus;
         if (input && input !== "") {
@@ -58,7 +58,7 @@ export default class VisualizationLinkService {
             throw new Error("sceneStore.cameraPosition is undefined or null on createVisualizationLink");
         }
 
-        let visualizationLinkParams: VisualizationLinkParams =
+        const visualizationLinkParams: VisualizationLinkParams =
             new VisualizationLinkParams(cityBuilderStore.options, sceneStore.selectedObjectId, sceneStore.cameraPosition);
 
         return {

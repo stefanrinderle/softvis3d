@@ -23,7 +23,7 @@ import {noColorMetric, numberOfAuthorsBlameColorMetric, packageNameColorMetric} 
 export default class SonarQubeMeasuresMetricService {
 
     public getMetricRequestValues(cityBuilderStore: CityBuilderStore): string {
-        let result: Set<string> = new Set();
+        const result: Set<string> = new Set();
         result.add(cityBuilderStore.options.profile.footprintMetric.id);
         result.add(cityBuilderStore.options.profile.heightMetric.id);
 

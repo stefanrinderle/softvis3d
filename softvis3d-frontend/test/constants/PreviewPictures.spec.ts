@@ -23,7 +23,7 @@ import { availablePreviewPictures } from "../../src/constants/PreviewPictures";
 describe("PreviewPictures", () => {
 
     it("should provide available layouts", () => {
-        for (let preview of availablePreviewPictures) {
+        for (const preview of availablePreviewPictures) {
             expect(preview.bgPicture).to.contain("/static/resources/preview/");
         }
     });

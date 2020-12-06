@@ -8,9 +8,9 @@ import LoadAction from "../../../../src/classes/status/LoadAction";
 describe("<LoadingQueue/>", () => {
 
     it("should show loading list single", () => {
-        let localAppStatusStore: AppStatusStore = new AppStatusStore();
+        const localAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let expectedLoadMessage = "test";
+        const expectedLoadMessage = "test";
         localAppStatusStore.load(new LoadAction("key", expectedLoadMessage));
 
         const loadingQueue = shallow(
@@ -21,14 +21,14 @@ describe("<LoadingQueue/>", () => {
     });
 
     it("should show loading list single with status", () => {
-        let localAppStatusStore: AppStatusStore = new AppStatusStore();
+        const localAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let expectedLoadMessage = "test";
-        let action = new LoadAction("key", expectedLoadMessage);
+        const expectedLoadMessage = "test";
+        const action = new LoadAction("key", expectedLoadMessage);
         localAppStatusStore.load(action);
 
-        let pageSize = 34;
-        let limit = 98;
+        const pageSize = 34;
+        const limit = 98;
         localAppStatusStore.loadStatusUpdate(action.key, pageSize, limit);
 
         const loadingQueue = shallow(
@@ -40,10 +40,10 @@ describe("<LoadingQueue/>", () => {
     });
 
     it("should show loading list multi", () => {
-        let localAppStatusStore: AppStatusStore = new AppStatusStore();
+        const localAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let expectedLoadMessage = "test";
-        let expectedLoadMessage2 = "ioiio";
+        const expectedLoadMessage = "test";
+        const expectedLoadMessage2 = "ioiio";
         localAppStatusStore.load(new LoadAction("key", expectedLoadMessage));
         localAppStatusStore.load(new LoadAction("key2", expectedLoadMessage2));
 
@@ -56,7 +56,7 @@ describe("<LoadingQueue/>", () => {
     });
 
     it("should draw no list elements if not visible", () => {
-        let localAppStatusStore: AppStatusStore = new AppStatusStore();
+        const localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         const loading = shallow(
             <LoadingQueue appStatusStore={localAppStatusStore}/>

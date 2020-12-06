@@ -24,8 +24,8 @@ import StatusActionQueue from "../../../src/classes/status/StatusActionQueue";
 describe("StatusActionQueue", () => {
 
     it("should do add remove and isEmpty", () => {
-        let underTest: StatusActionQueue<TestStatusAction> = new StatusActionQueue();
-        let testAction = new TestStatusAction("key", "testEvent");
+        const underTest: StatusActionQueue<TestStatusAction> = new StatusActionQueue();
+        const testAction = new TestStatusAction("key", "testEvent");
 
         expect(underTest.isEmpty).to.be.equal(true);
 
@@ -37,19 +37,19 @@ describe("StatusActionQueue", () => {
     });
 
     it("should update and return new instance", () => {
-        let underTest: StatusActionQueue<TestStatusAction> = new StatusActionQueue();
-        let testAction: TestStatusAction = new TestStatusAction("key", "testEvent");
+        const underTest: StatusActionQueue<TestStatusAction> = new StatusActionQueue();
+        const testAction: TestStatusAction = new TestStatusAction("key", "testEvent");
 
         underTest.add(testAction);
-        let result = underTest.update(testAction);
+        const result = underTest.update(testAction);
         assert(result !== underTest);
         assert(!result.isEmpty);
     });
 
     it("should work with multiple events", () => {
-        let underTest: StatusActionQueue<TestStatusAction> = new StatusActionQueue();
-        let testAction = new TestStatusAction("key", "testEvent");
-        let testAction2 = new TestStatusAction("key2", "testEvent");
+        const underTest: StatusActionQueue<TestStatusAction> = new StatusActionQueue();
+        const testAction = new TestStatusAction("key", "testEvent");
+        const testAction2 = new TestStatusAction("key2", "testEvent");
 
         underTest.add(testAction);
         underTest.add(testAction2);
@@ -61,21 +61,21 @@ describe("StatusActionQueue", () => {
 
     it("should be able to iterate", () => {
         const underTest: StatusActionQueue<TestStatusAction> = new StatusActionQueue();
-        let testAction = new TestStatusAction("key", "testEvent");
-        let testAction2 = new TestStatusAction("key2", "testEvent");
+        const testAction = new TestStatusAction("key", "testEvent");
+        const testAction2 = new TestStatusAction("key2", "testEvent");
 
         underTest.add(testAction);
         underTest.add(testAction2);
 
         let result: TestStatusAction[] = [];
-        for (let queueElement of underTest) {
+        for (const queueElement of underTest) {
             result.push(queueElement);
         }
 
         expect(result.length).to.be.eq(2);
 
         result = [];
-        for (let queueElement of underTest) {
+        for (const queueElement of underTest) {
             result.push(queueElement);
         }
 

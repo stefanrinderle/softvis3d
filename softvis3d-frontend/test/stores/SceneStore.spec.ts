@@ -25,27 +25,27 @@ import {createDefaultFile} from "../classes/TreeElement.spec";
 describe("SceneStore", () => {
 
     it("should contain no selected id on init", () => {
-        let sceneStore = new SceneStore();
+        const sceneStore = new SceneStore();
         expect(sceneStore.selectedObjectId).to.be.null;
     });
 
     it("should contain not initial test shapes", () => {
-        let sceneStore = new SceneStore();
+        const sceneStore = new SceneStore();
         expect(sceneStore.shapes).to.be.null;
     });
 
     it("should set selectedObjectId", () => {
-        let sceneStore = new SceneStore();
+        const sceneStore = new SceneStore();
 
-        let expected: string = "sdufhisufh";
+        const expected = "sdufhisufh";
         sceneStore.selectedObjectId = expected;
         expect(sceneStore.selectedObjectId).to.be.equal(expected);
     });
 
     it("should accept the selectedObjectId null", () => {
-        let sceneStore = new SceneStore();
+        const sceneStore = new SceneStore();
 
-        let expected: string = "sdufhisufh";
+        const expected = "sdufhisufh";
         sceneStore.selectedObjectId = expected;
         expect(sceneStore.selectedObjectId).to.be.equal(expected);
 
@@ -54,9 +54,9 @@ describe("SceneStore", () => {
     });
 
     it("should set shapes if set", () => {
-        let sceneStore = new SceneStore();
+        const sceneStore = new SceneStore();
 
-        let shapes: any = {
+        const shapes: any = {
             test: "bla"
         };
 
@@ -66,18 +66,18 @@ describe("SceneStore", () => {
     });
 
     it("should return for getColorValue if no selected element available", () => {
-        let sceneStore = new SceneStore();
-        let result: number | null = sceneStore.getColorValue(noMetric);
+        const sceneStore = new SceneStore();
+        const result: number | null = sceneStore.getColorValue(noMetric);
 
         expect(result).to.be.null;
     });
 
     it("should return for getColorValue if no measure in the selected element is available", () => {
-        let sceneStore = new SceneStore();
+        const sceneStore = new SceneStore();
 
         sceneStore.selectedObjectId = "123";
         sceneStore.projectData = createDefaultFile();
-        let result: number | null = sceneStore.getColorValue(noMetric);
+        const result: number | null = sceneStore.getColorValue(noMetric);
 
         expect(result).to.be.null;
     });

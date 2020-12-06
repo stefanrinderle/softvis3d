@@ -1,0 +1,51 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:sonarjs/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "sonarjs"
+    ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "rules": {
+        "@typescript-eslint/no-explicit-any": 0,
+        "@typescript-eslint/explicit-module-boundary-types": 0
+//        "no-identical-functions": 1,
+//        "parameters-max-number": [1, 8],
+//        "max-line-length": [2, 135],
+//        "ordered-imports": [ 2 ],
+//        "object-literal-sort-keys": 0,
+//        "interface-name": [2, "never-prefix"],
+//        "variable-name": 2,
+//        "trailing-comma": [2, {"multiline": "never", "singleline": "never"}],
+//        "no-bitwise": 0,
+//        "quotemark": [2, "double"],
+//        "eofline": 0,
+//        "no-parameter-properties": 2,
+//        "max-classes-per-file": [2, 5],
+//        "no-conditional-assignment": 0,
+//        "prefer-const": 0,
+//        "ban-types": 0,
+//        "no-shadowed-variable": 0
+    }
+}

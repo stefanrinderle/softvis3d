@@ -2,7 +2,7 @@ import * as Sinon from "sinon";
 import {container} from "../src/inversify.config";
 
 export function createMock(constructor: any) {
-    let result: any = Sinon.createStubInstance(constructor);
+    const result: any = Sinon.createStubInstance(constructor);
     bindMock(constructor.name, result);
     return result;
 }

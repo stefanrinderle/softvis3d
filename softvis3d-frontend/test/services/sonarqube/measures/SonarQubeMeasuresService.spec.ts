@@ -36,31 +36,31 @@ import {createMock} from "../../../Helper";
 describe("SonarQubeMeasuresService", () => {
 
     it("should call backend to get visualization", (done) => {
-        let clock = Sinon.useFakeTimers();
+        const clock = Sinon.useFakeTimers();
 
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let testSceneStore: SceneStore = new SceneStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testSceneStore: SceneStore = new SceneStore();
         testSceneStore.scmMetricLoaded = true;
 
-        let measureTreeService = createMock(SonarQubeMeasuresTreeService);
+        const measureTreeService = createMock(SonarQubeMeasuresTreeService);
         createMock(SonarQubeMeasuresMetricService);
         createMock(SonarQubeOptimizeStructureService);
         createMock(SonarQubeFilterStructureService);
 
-        let spyLoad = Sinon.spy(testAppStatusStore, "load");
-        let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
+        const spyLoad = Sinon.spy(testAppStatusStore, "load");
+        const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
-        let projectKey: string = "sdufsofin";
-        let underTest: SonarQubeMeasuresService =
+        const projectKey = "sdufsofin";
+        const underTest: SonarQubeMeasuresService =
             new SonarQubeMeasuresService(projectKey);
 
-        let expectedData: TreeElement = createDefaultDirWithKey(projectKey, projectKey);
+        const expectedData: TreeElement = createDefaultDirWithKey(projectKey, projectKey);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
 
         underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore);
 
-        let returnPromise: Promise<any> = Promise.resolve({});
+        const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise.then(() => {
             Sinon.assert.called(measureTreeService.loadTree);
@@ -75,34 +75,34 @@ describe("SonarQubeMeasuresService", () => {
     });
 
     it("should NOT call backend with the same parameters", (done) => {
-        let clock = Sinon.useFakeTimers();
+        const clock = Sinon.useFakeTimers();
 
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let testSceneStore: SceneStore = new SceneStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testSceneStore: SceneStore = new SceneStore();
         testSceneStore.scmMetricLoaded = true;
 
-        let measureTreeService = createMock(SonarQubeMeasuresTreeService);
-        let measureMetricService = createMock(SonarQubeMeasuresMetricService);
+        const measureTreeService = createMock(SonarQubeMeasuresTreeService);
+        const measureMetricService = createMock(SonarQubeMeasuresMetricService);
         createMock(SonarQubeFilterStructureService);
         createMock(SonarQubeOptimizeStructureService);
 
-        let spyLoad = Sinon.spy(testAppStatusStore, "load");
-        let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
+        const spyLoad = Sinon.spy(testAppStatusStore, "load");
+        const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
         measureMetricService.getMetricRequestValues.returns("isudgfis");
 
-        let projectKey: string = "sdufsofin";
-        let underTest: SonarQubeMeasuresService =
+        const projectKey = "sdufsofin";
+        const underTest: SonarQubeMeasuresService =
             new SonarQubeMeasuresService(projectKey);
 
-        let expectedData: TreeElement = createDefaultDirWithKey(projectKey, projectKey);
+        const expectedData: TreeElement = createDefaultDirWithKey(projectKey, projectKey);
         measureTreeService.loadTree.returns(Promise.resolve(expectedData));
 
         underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore);
 
-        let returnPromise: Promise<any> = Promise.resolve({});
-        let returnPromise2: Promise<any> = Promise.resolve({});
+        const returnPromise: Promise<any> = Promise.resolve({});
+        const returnPromise2: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise.then(() => {
             underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore);
@@ -118,31 +118,31 @@ describe("SonarQubeMeasuresService", () => {
     });
 
     it("should react on internal errors", (done) => {
-        let clock = Sinon.useFakeTimers();
+        const clock = Sinon.useFakeTimers();
 
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let testSceneStore: SceneStore = new SceneStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testSceneStore: SceneStore = new SceneStore();
         testSceneStore.scmMetricLoaded = true;
 
-        let measureTreeService = createMock(SonarQubeMeasuresTreeService);
+        const measureTreeService = createMock(SonarQubeMeasuresTreeService);
         createMock(SonarQubeMeasuresMetricService);
         createMock(SonarQubeOptimizeStructureService);
 
-        let spyLoad = Sinon.spy(testAppStatusStore, "load");
-        let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
-        let spyError = Sinon.spy(testAppStatusStore, "error");
+        const spyLoad = Sinon.spy(testAppStatusStore, "load");
+        const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
+        const spyError = Sinon.spy(testAppStatusStore, "error");
 
-        let projectKey: string = "sdufsofin";
-        let underTest: SonarQubeMeasuresService =
+        const projectKey = "sdufsofin";
+        const underTest: SonarQubeMeasuresService =
             new SonarQubeMeasuresService(projectKey);
 
         measureTreeService.loadTree.returns(Promise.reject({data: {message: "Error message"}}));
 
         underTest.loadMeasures(testAppStatusStore, testCityBuilderStore, testSceneStore);
 
-        let returnPromise: Promise<any> = Promise.resolve({});
-        let returnPromise2: Promise<any> = Promise.resolve({});
+        const returnPromise: Promise<any> = Promise.resolve({});
+        const returnPromise2: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise.then(() => {
             returnPromise2.then(() => {

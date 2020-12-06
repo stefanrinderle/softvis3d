@@ -35,14 +35,14 @@ import {DEFAULT_COLOR_THEME} from "../../src/constants/SceneColorThemes";
 describe("VisualizationOptions", () => {
 
     it("should construct config", () => {
-        let metricColor: Metric = coverageColorMetric;
-        let layout: Layout = evostreet;
-        let buildingColorTheme: BuildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
-        let profile: Profile = defaultProfile.clone();
-        let colorTheme: SceneColorTheme = DEFAULT_COLOR_THEME;
-        let fileFilter = new FileFilter();
+        const metricColor: Metric = coverageColorMetric;
+        const layout: Layout = evostreet;
+        const buildingColorTheme: BuildingColorTheme = DEFAULT_BUILDING_COLOR_THEME;
+        const profile: Profile = defaultProfile.clone();
+        const colorTheme: SceneColorTheme = DEFAULT_COLOR_THEME;
+        const fileFilter = new FileFilter();
 
-        let result: VisualizationOptions =
+        const result: VisualizationOptions =
             new VisualizationOptions(profile, layout, metricColor, buildingColorTheme, colorTheme, fileFilter);
 
         expect(result.profile).to.be.eq(profile);
@@ -54,10 +54,10 @@ describe("VisualizationOptions", () => {
     });
 
     it("should create default config", () => {
-        let metricColor: Metric = noColorMetric;
-        let layout: Layout = evostreet;
+        const metricColor: Metric = noColorMetric;
+        const layout: Layout = evostreet;
 
-        let result: VisualizationOptions = VisualizationOptions.createDefault();
+        const result: VisualizationOptions = VisualizationOptions.createDefault();
 
         expect(result.profile).to.be.eql(defaultProfile);
         expect(result.layout).to.be.eq(layout);
@@ -67,11 +67,11 @@ describe("VisualizationOptions", () => {
     });
 
     it("should check equals without color", () => {
-        let result: VisualizationOptions = VisualizationOptions.createDefault();
+        const result: VisualizationOptions = VisualizationOptions.createDefault();
 
         assert(result.equalStructure(result));
 
-        let copy: VisualizationOptions = VisualizationOptions.createDefault();
+        const copy: VisualizationOptions = VisualizationOptions.createDefault();
 
         assert(result.equalStructure(copy));
         assert(copy.equalStructure(result));

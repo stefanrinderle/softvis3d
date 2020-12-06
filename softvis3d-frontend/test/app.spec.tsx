@@ -7,12 +7,12 @@ describe("App", () => {
 
     it("should unmount component on stop", () => {
         const documentMock = {} as any as Document;
-        let documentStub = Sinon.stub(document, "getElementById");
+        const documentStub = Sinon.stub(document, "getElementById");
         documentStub.returns(documentMock);
 
-        let reactDOMStub = Sinon.stub(ReactDOM, "unmountComponentAtNode");
+        const reactDOMStub = Sinon.stub(ReactDOM, "unmountComponentAtNode");
 
-        let underTest: App = new App({
+        const underTest: App = new App({
             baseUrl: "/",
             projectKey: "",
             isDev: false
@@ -27,7 +27,7 @@ describe("App", () => {
     });
 
     it("should throw error on unmount component on stop with invalid target", () => {
-        let underTest: App = new App({
+        const underTest: App = new App({
             baseUrl: "/",
             projectKey: "",
             isDev: false

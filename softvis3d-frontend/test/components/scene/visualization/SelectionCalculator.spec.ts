@@ -8,29 +8,29 @@ import {Offset} from "../../../../src/services/HtmlDomService";
 describe("SelectionCalculator", () => {
 
     it("should return null if no objects in intersection", () => {
-        let x: number = 0;
-        let y: number = 0;
-        let width: number = 0;
-        let height: number = 0;
+        const x = 0;
+        const y = 0;
+        const width = 0;
+        const height = 0;
 
-        let camera: PerspectiveCamera = new PerspectiveCamera();
+        const camera: PerspectiveCamera = new PerspectiveCamera();
 
-        let objectsInView: SoftVis3dMesh[] = [];
+        const objectsInView: SoftVis3dMesh[] = [];
 
-        let result: string | null = SelectionCalculator.makeSelection(x, y, width, height, camera, objectsInView);
+        const result: string | null = SelectionCalculator.makeSelection(x, y, width, height, camera, objectsInView);
 
         expect(result).to.be.null;
     });
 
     it("should return object id if object in intersection", () => {
-        let x: number = 0;
-        let y: number = 0;
-        let width: number = 0;
-        let height: number = 0;
+        const x = 0;
+        const y = 0;
+        const width = 0;
+        const height = 0;
 
-        let expectedId: string = "sudhfisuhfd";
-        let object: SoftVis3dMesh = new SoftVis3dMesh(expectedId, new Geometry(), new MeshLambertMaterial());
-        let intersected: Intersection[] = [];
+        const expectedId = "sudhfisuhfd";
+        const object: SoftVis3dMesh = new SoftVis3dMesh(expectedId, new Geometry(), new MeshLambertMaterial());
+        const intersected: Intersection[] = [];
         intersected.push({
             distance: 0,
             distanceToRay: 0,
@@ -40,12 +40,12 @@ describe("SelectionCalculator", () => {
             faceIndex: 0,
             object
         });
-        let setRaycaterStub = Sinon.stub(SelectionCalculator.RAYCASTER, "intersectObjects").returns(intersected);
+        const setRaycaterStub = Sinon.stub(SelectionCalculator.RAYCASTER, "intersectObjects").returns(intersected);
 
-        let objectsInView: SoftVis3dMesh[] = [];
-        let camera: PerspectiveCamera = new PerspectiveCamera();
+        const objectsInView: SoftVis3dMesh[] = [];
+        const camera: PerspectiveCamera = new PerspectiveCamera();
 
-        let result: string | null = SelectionCalculator.makeSelection(x, y, width, height, camera, objectsInView);
+        const result: string | null = SelectionCalculator.makeSelection(x, y, width, height, camera, objectsInView);
 
         expect(result).to.be.eq(expectedId);
 
@@ -53,21 +53,21 @@ describe("SelectionCalculator", () => {
     });
 
     it("should calculate", () => {
-        let x: number = 1;
-        let y: number = 2;
-        let width: number = 3;
-        let height: number = 4;
+        const x = 1;
+        const y = 2;
+        const width = 3;
+        const height = 4;
 
-        let setRaycaterStub = Sinon.stub(SelectionCalculator.RAYCASTER, "set");
+        const setRaycaterStub = Sinon.stub(SelectionCalculator.RAYCASTER, "set");
 
-        let objectsInView: SoftVis3dMesh[] = [];
-        let camera: PerspectiveCamera = new PerspectiveCamera();
-        let expectedPosition: Vector3 = new Vector3(5, 6, 7);
+        const objectsInView: SoftVis3dMesh[] = [];
+        const camera: PerspectiveCamera = new PerspectiveCamera();
+        const expectedPosition: Vector3 = new Vector3(5, 6, 7);
         camera.position.x = expectedPosition.x;
         camera.position.y = expectedPosition.y;
         camera.position.z = expectedPosition.z;
 
-        let expectedDirection: Vector3 = new Vector3(-0.1554695988275896, -0.002951556127897073, -0.9878362678889718);
+        const expectedDirection: Vector3 = new Vector3(-0.1554695988275896, -0.002951556127897073, -0.9878362678889718);
 
         SelectionCalculator.makeSelection(x, y, width, height, camera, objectsInView);
 
@@ -94,7 +94,7 @@ describe("SelectionCalculator", () => {
         } as any as MouseEvent;
         const offset: Offset = new Offset(3443, 5665);
 
-        let result = SelectionCalculator.calculateSelectionPosition(mouseEvent, offset);
+        const result = SelectionCalculator.calculateSelectionPosition(mouseEvent, offset);
 
         expect(result.x).to.be.eq(-2242);
         expect(result.y).to.be.eq(1102);

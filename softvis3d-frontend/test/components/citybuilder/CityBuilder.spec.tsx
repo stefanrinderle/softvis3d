@@ -11,9 +11,9 @@ import SceneStore from "../../../src/stores/SceneStore";
 describe("<CityBuilder/>", () => {
 
     it("should show if appStore isVisible and cityStore show", () => {
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testSceneStore: SceneStore = new SceneStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testSceneStore: SceneStore = new SceneStore();
 
         testCityBuilderStore.show = true;
 
@@ -25,9 +25,9 @@ describe("<CityBuilder/>", () => {
     });
 
     it("should show advanced tab on click", () => {
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testSceneStore: SceneStore = new SceneStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testSceneStore: SceneStore = new SceneStore();
 
         testCityBuilderStore.show = true;
 
@@ -45,10 +45,10 @@ describe("<CityBuilder/>", () => {
     });
 
     it("should not show if cityStore show is false", () => {
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         testCityBuilderStore.show = false;
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testSceneStore: SceneStore = new SceneStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testSceneStore: SceneStore = new SceneStore();
 
         const cityBuilder = shallow(
             <CityBuilder store={testCityBuilderStore} appStatusStore={testAppStatusStore} sceneStore={testSceneStore}/>

@@ -31,7 +31,7 @@ import CityBuilderStore from "../../src/stores/CityBuilderStore";
 describe("CityBuilderStore", () => {
 
     it("should have set all default values on init", () => {
-        let underTest: CityBuilderStore = new CityBuilderStore();
+        const underTest: CityBuilderStore = new CityBuilderStore();
         expect(underTest.options.layout).to.be.eq(evostreet);
         expect(underTest.options.profile.id).to.be.eq(defaultProfile.id);
         expect(underTest.options.metricColor).to.be.eq(Metrics.noColorMetric);
@@ -43,7 +43,7 @@ describe("CityBuilderStore", () => {
     });
 
     it("should set layout", () => {
-        let underTest: CityBuilderStore = new CityBuilderStore();
+        const underTest: CityBuilderStore = new CityBuilderStore();
 
         underTest.options.layout = district;
         expect(underTest.options.layout).to.be.equal(district);
@@ -53,20 +53,20 @@ describe("CityBuilderStore", () => {
     });
 
     it("should set profile", () => {
-        let underTest: CityBuilderStore = new CityBuilderStore();
+        const underTest: CityBuilderStore = new CityBuilderStore();
         underTest.options.profile = defaultProfile;
         expect(underTest.options.profile.id).to.be.equal(defaultProfile.id);
     });
 
     it("should set profile if already set", () => {
-        let underTest: CityBuilderStore = new CityBuilderStore();
+        const underTest: CityBuilderStore = new CityBuilderStore();
         underTest.options.profile = defaultProfile;
         underTest.options.profile = defaultProfile;
         expect(underTest.options.profile.id).to.be.equal(defaultProfile.id);
     });
 
     it("should update custom profile", () => {
-        let underTest: CityBuilderStore = new CityBuilderStore();
+        const underTest: CityBuilderStore = new CityBuilderStore();
         underTest.setProfile(leakPeriod);
         underTest.setProfile(custom);
         expect(underTest.options.profile).to.be.equal(custom);
@@ -76,7 +76,7 @@ describe("CityBuilderStore", () => {
     });
 
     it("should update scale profile but set default again", () => {
-        let underTest: CityBuilderStore = new CityBuilderStore();
+        const underTest: CityBuilderStore = new CityBuilderStore();
         expect(underTest.options.profile.id).to.be.equal(defaultProfile.id);
         expect(underTest.options.profile.scale).to.be.equal(LOGARITHMIC);
         underTest.options.profile.scale = LINEAR_SCALED;
@@ -89,8 +89,8 @@ describe("CityBuilderStore", () => {
     });
 
     it("should set and get generic metrics", () => {
-        let underTest: CityBuilderStore = new CityBuilderStore();
-        let expectedMetrics: Metric[] = [];
+        const underTest: CityBuilderStore = new CityBuilderStore();
+        const expectedMetrics: Metric[] = [];
         expectedMetrics.push(new Metric("1", "1", ""));
         expectedMetrics.push(new Metric("2", "2", ""));
 
@@ -103,26 +103,26 @@ describe("CityBuilderStore", () => {
     });
 
     it("should get color metrics", () => {
-        let underTest: CityBuilderStore = new CityBuilderStore();
+        const underTest: CityBuilderStore = new CityBuilderStore();
         expect(underTest.colorMetrics.length).to.be.equal(9);
     });
 
     it("should get preview picture default profile and layout district", () => {
-        let underTest: CityBuilderStore = new CityBuilderStore();
+        const underTest: CityBuilderStore = new CityBuilderStore();
         underTest.options.layout = district;
         underTest.options.profile = defaultProfile;
         expect(underTest.getPreviewBackground()).to.be.equal(defaultDistrict);
     });
 
     it("should get preview picture default profile and layout  evostreets", () => {
-        let underTest: CityBuilderStore = new CityBuilderStore();
+        const underTest: CityBuilderStore = new CityBuilderStore();
         underTest.options.layout = evostreet;
         underTest.options.profile = defaultProfile;
         expect(underTest.getPreviewBackground()).to.be.equal(defaultEvostreet);
     });
 
     it("should get placeholder preview picture", () => {
-        let underTest: CityBuilderStore = new CityBuilderStore();
+        const underTest: CityBuilderStore = new CityBuilderStore();
         underTest.options.layout = district;
         underTest.options.profile = custom;
         expect(underTest.getPreviewBackground()).to.be.equal(placeholder);

@@ -26,7 +26,7 @@ import StatusAction from "../../src/classes/status/StatusAction";
 describe("AppStatusStore", () => {
 
     it("should have set all default values on init", () => {
-        let underTest: AppStatusStore = new AppStatusStore();
+        const underTest: AppStatusStore = new AppStatusStore();
         expect(underTest.loadingQueue.isEmpty).to.be.true;
         expect(underTest.loadingQueue.isEmpty).to.be.true;
         expect(underTest.errors.isEmpty).to.be.true;
@@ -35,28 +35,28 @@ describe("AppStatusStore", () => {
     });
 
     it("should return isVisible false", () => {
-        let underTest: AppStatusStore = new AppStatusStore();
+        const underTest: AppStatusStore = new AppStatusStore();
         expect(underTest.isVisible).to.be.equal(false);
     });
 
     it("should return isVisible true if loading queue has element", () => {
-        let underTest: AppStatusStore = new AppStatusStore();
+        const underTest: AppStatusStore = new AppStatusStore();
         underTest.load(new LoadAction("key", "testEvent"));
         expect(underTest.isVisible).to.be.equal(true);
     });
 
     it("should return isVisible false after loading is complete", () => {
-        let underTest: AppStatusStore = new AppStatusStore();
-        let testAction = new LoadAction("key", "testEvent");
+        const underTest: AppStatusStore = new AppStatusStore();
+        const testAction = new LoadAction("key", "testEvent");
         underTest.load(testAction);
         underTest.loadComplete(testAction);
         expect(underTest.isVisible).to.be.equal(false);
     });
 
     it("should return isVisible false after loading is complete with multiple events", () => {
-        let underTest: AppStatusStore = new AppStatusStore();
-        let testAction = new LoadAction("key", "testEvent");
-        let testAction2 = new LoadAction("key2", "testEvent");
+        const underTest: AppStatusStore = new AppStatusStore();
+        const testAction = new LoadAction("key", "testEvent");
+        const testAction2 = new LoadAction("key2", "testEvent");
 
         underTest.load(testAction);
         underTest.load(testAction2);
@@ -67,33 +67,33 @@ describe("AppStatusStore", () => {
     });
 
     it("should return isVisible true if errors has element", () => {
-        let underTest: AppStatusStore = new AppStatusStore();
+        const underTest: AppStatusStore = new AppStatusStore();
         underTest.error(new ErrorAction("key", "testError", "", () => undefined));
         expect(underTest.isVisible).to.be.equal(true);
     });
 
     it("should return isVisible true after error is acknowledged", () => {
-        let underTest: AppStatusStore = new AppStatusStore();
+        const underTest: AppStatusStore = new AppStatusStore();
         underTest.error(new ErrorAction("key", "testError", "", () => undefined));
         underTest.acknowledgeError(new ErrorAction("key", "testError", "", () => undefined));
         expect(underTest.isVisible).to.be.equal(false);
     });
 
     it("should return isVisible true if status has element", () => {
-        let underTest: AppStatusStore = new AppStatusStore();
+        const underTest: AppStatusStore = new AppStatusStore();
         underTest.status(new StatusAction("key", "testError"));
         expect(underTest.isVisible).to.be.equal(true);
     });
 
     it("should return isVisible true after status is removed", () => {
-        let underTest: AppStatusStore = new AppStatusStore();
+        const underTest: AppStatusStore = new AppStatusStore();
         underTest.status(new StatusAction("key", "testError"));
         underTest.removeStatus(new StatusAction("key", "testError"));
         expect(underTest.isVisible).to.be.equal(false);
     });
 
     it("should create new instance of loading queue on status update", () => {
-        let underTest: AppStatusStore = new AppStatusStore();
+        const underTest: AppStatusStore = new AppStatusStore();
 
         let temp = underTest.loadingQueue;
         underTest.load(new LoadAction("key", "testEvent"));

@@ -24,16 +24,16 @@ import ClipBoardService from "../../src/services/ClipBoardService";
 describe("ClipBoardService", () => {
 
     it("copy the text to the clipboard", () => {
-        let document: any = {
+        const document: any = {
             createElement: () => undefined,
             execCommand: () => undefined
         };
 
-        let element: HTMLTextAreaElement = HTMLTextAreaElement.prototype;
-        let elementSelectStub = Sinon.stub(element, "select");
-        let documentCreateElementStub = Sinon.stub(document, "createElement").returns(element);
+        const element: HTMLTextAreaElement = HTMLTextAreaElement.prototype;
+        const elementSelectStub = Sinon.stub(element, "select");
+        const documentCreateElementStub = Sinon.stub(document, "createElement").returns(element);
 
-        let documentExecStub = Sinon.stub(document, "execCommand");
+        const documentExecStub = Sinon.stub(document, "execCommand");
 
         try {
             new ClipBoardService().copyTextToClipboard("expectedTestText");

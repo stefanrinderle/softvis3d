@@ -2,11 +2,11 @@ import {Container} from "inversify";
 import getDecorators from "inversify-inject-decorators";
 import LayoutProcessor from "./services/layout/LayoutProcessor";
 
-let container = new Container();
+const container = new Container();
 
 bindToInjection(LayoutProcessor);
 
-let { lazyInject } = getDecorators(container);
+const { lazyInject } = getDecorators(container);
 export {
     container,
     lazyInject

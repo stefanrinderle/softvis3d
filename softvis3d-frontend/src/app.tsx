@@ -17,7 +17,6 @@ import SonarQubeTransformerService from "./services/sonarqube/measures/api/Sonar
 import SonarQubeMeasuresMetricService from "./services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import SonarQubeMeasuresService from "./services/sonarqube/measures/SonarQubeMeasuresService";
 import SonarQubeFilterStructureService from "./services/sonarqube/measures/structure/SonarQubeFilterStructureService";
-// tslint:disable-next-line:import-spacing
 import SonarQubeOptimizeStructureService
     from "./services/sonarqube/measures/structure/SonarQubeOptimizeStructureService";
 import ScmCalculatorService from "./services/sonarqube/ScmCalculatorService";
@@ -33,7 +32,7 @@ import CityBuilderStore from "./stores/CityBuilderStore";
 import SceneStore from "./stores/SceneStore";
 
 export default class App {
-    private static WEBGL_ERROR_KEY: string = "WEBGL_ERROR";
+    private static WEBGL_ERROR_KEY = "WEBGL_ERROR";
 
     private communicator: SonarQubeMetricsService;
     private visualizationLinkService: VisualizationLinkService;
@@ -42,8 +41,6 @@ export default class App {
 
     private config: AppConfiguration;
 
-    // @ts-ignore: unused variable
-    private reactions: any[];
     private appStatusStore: AppStatusStore;
     private cityBuilderStore: CityBuilderStore;
     private sceneStore: SceneStore;
@@ -64,7 +61,7 @@ export default class App {
         container.bind<SonarQubeMeasuresApiService>("SonarQubeMeasuresApiService")
             .toConstantValue(new SonarQubeMeasuresApiService(config));
         bindToInjection(SonarQubeMeasuresMetricService);
-        let measuresService = new SonarQubeMeasuresService(config.projectKey);
+        const measuresService = new SonarQubeMeasuresService(config.projectKey);
         container.bind<SonarQubeMeasuresService>("SonarQubeMeasuresService")
             .toConstantValue(measuresService);
 
@@ -89,11 +86,14 @@ export default class App {
         container.bind<SonarQubeComponentInfoService>("SonarQubeComponentInfoService")
             .toConstantValue(this.componentInfoService);
 
-        this.reactions = [
+        const reactions = [
             new AppReactions(this.appStatusStore, this.cityBuilderStore, this.sceneStore),
             new SceneReactions(this.sceneStore, this.cityBuilderStore, this.appStatusStore),
             new BuilderReactions(this.appStatusStore, this.cityBuilderStore, this.sceneStore)
         ];
+        if (reactions.length === 0) {
+            // only to use the variable.
+        }
     }
 
     public run(target: string) {
@@ -109,6 +109,7 @@ export default class App {
                        cityBuilderStore={this.cityBuilderStore}
                        appStatusStore={this.appStatusStore}
                        baseUrl={this.config.baseUrl}/>,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             document.getElementById(target)!
         );
     }

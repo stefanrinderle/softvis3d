@@ -23,10 +23,10 @@ import BuildingColorTheme from "../../src/classes/BuildingColorTheme";
 describe("BuildingColorTheme", () => {
 
     it("should implement SelectOptionValue", () => {
-        let expectedId: string = "23";
-        let expectedLabel: string = "INT";
+        const expectedId = "23";
+        const expectedLabel = "INT";
 
-        let result: BuildingColorTheme = new BuildingColorTheme(expectedId, expectedLabel, 0, 0);
+        const result: BuildingColorTheme = new BuildingColorTheme(expectedId, expectedLabel, 0, 0);
 
         expect(result.label).to.be.eq(expectedLabel);
         expect(result.id).to.be.eq(expectedId);

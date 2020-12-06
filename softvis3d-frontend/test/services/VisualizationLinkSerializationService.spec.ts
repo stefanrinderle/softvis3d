@@ -29,7 +29,7 @@ describe("VisualizationLinkSerializationService", () => {
         const underTest = new VisualizationLinkSerializationService();
 
         const expectedX = 123;
-        let linkParams = new VisualizationLinkParams(VisualizationOptions.createDefault(), null, new Vector3(expectedX));
+        const linkParams = new VisualizationLinkParams(VisualizationOptions.createDefault(), null, new Vector3(expectedX));
 
         const urlString = underTest.serialize(linkParams);
 

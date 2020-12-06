@@ -31,13 +31,13 @@ import SonarQubeMeasuresService from "../../../../src/services/sonarqube/measure
 describe("SonarQubeMeasuresApiService", () => {
 
     it("should call backend and load measures", (done) => {
-        let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
+        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
-        let data: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 1);
-        let stub = Sinon.stub(underTest, "callApi").callsFake(() => {
+        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
+        const data: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 1);
+        const stub = Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
                 data
             });
@@ -56,16 +56,16 @@ describe("SonarQubeMeasuresApiService", () => {
     });
 
     it("should load again if more results", (done) => {
-        let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
+        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
+        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
 
-        let data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
-        let data2: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(2, 500, 600);
+        const data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
+        const data2: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(2, 500, 600);
 
-        let spyCallApi = Sinon.stub(underTest, "callApi");
+        const spyCallApi = Sinon.stub(underTest, "callApi");
         spyCallApi.onFirstCall().returns(
             Promise.resolve({
                 data: data1
@@ -92,10 +92,10 @@ describe("SonarQubeMeasuresApiService", () => {
     });
 
     it("should call backend and react on errors", (done) => {
-        let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
+        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
@@ -116,14 +116,14 @@ describe("SonarQubeMeasuresApiService", () => {
     });
 
     it("should call backend and react on errors on the second call", (done) => {
-        let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
+        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(testAppConfiguration);
 
-        let data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
+        const data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
 
-        let spyCallApi = Sinon.stub(underTest, "callApi");
+        const spyCallApi = Sinon.stub(underTest, "callApi");
         spyCallApi.onFirstCall().returns(
             Promise.resolve({
                 data: data1

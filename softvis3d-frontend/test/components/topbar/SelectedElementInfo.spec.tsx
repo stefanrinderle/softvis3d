@@ -12,7 +12,7 @@ import {createMock} from "../../Helper";
 describe("<SelectedElementInfo/>", () => {
 
     it("should show default text div on start", () => {
-        let localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = new SceneStore();
 
         const selectedElementInfo = shallow(
             <SelectedElementInfo sceneStore={localSceneStore}/>
@@ -22,13 +22,13 @@ describe("<SelectedElementInfo/>", () => {
     });
 
     it("should show node element if node details are requested", () => {
-        let selectedElement: TreeElement = createTestTreeElement("my test element");
+        const selectedElement: TreeElement = createTestTreeElement("my test element");
         selectedElement.children.push(createTestTreeElement("child", selectedElement));
 
-        let localTreeService = createMock(TreeService);
+        const localTreeService = createMock(TreeService);
         localTreeService.searchTreeNode.returns(selectedElement);
 
-        let localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
@@ -43,11 +43,11 @@ describe("<SelectedElementInfo/>", () => {
     });
 
     it("should show leaf element if leaf details are requested", () => {
-        let root: TreeElement = createTestTreeElement("my test element");
-        let selectedElement: TreeElement = createTestTreeElement("my test element", root);
+        const root: TreeElement = createTestTreeElement("my test element");
+        const selectedElement: TreeElement = createTestTreeElement("my test element", root);
         root.children.push(selectedElement);
 
-        let localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
@@ -59,20 +59,20 @@ describe("<SelectedElementInfo/>", () => {
     });
 
     it("should open the source code page on click", () => {
-        let expectedKey: string = "iudhsfiushdf";
+        const expectedKey = "iudhsfiushdf";
 
-        let root: TreeElement = createTestTreeElement("my test element");
-        let selectedElement: TreeElement = createTestTreeElement(expectedKey, root);
+        const root: TreeElement = createTestTreeElement("my test element");
+        const selectedElement: TreeElement = createTestTreeElement(expectedKey, root);
         root.children.push(selectedElement);
 
-        let localTreeService = createMock(TreeService);
+        const localTreeService = createMock(TreeService);
         localTreeService.searchTreeNode.returns(selectedElement);
 
-        let localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
-        let stub = Sinon.stub(window, "open");
+        const stub = Sinon.stub(window, "open");
 
         const selectedElementInfo = shallow(
             <SelectedElementInfo sceneStore={localSceneStore}/>
@@ -85,20 +85,20 @@ describe("<SelectedElementInfo/>", () => {
     });
 
     it("should open the measures page on click", () => {
-        let expectedKey: string = "iudhsfiushdf";
+        const expectedKey = "iudhsfiushdf";
 
-        let root: TreeElement = createTestTreeElement("my test element");
-        let selectedElement: TreeElement = createTestTreeElement(expectedKey, root);
+        const root: TreeElement = createTestTreeElement("my test element");
+        const selectedElement: TreeElement = createTestTreeElement(expectedKey, root);
         root.children.push(selectedElement);
 
-        let localTreeService = createMock(TreeService);
+        const localTreeService = createMock(TreeService);
         localTreeService.searchTreeNode.returns(selectedElement);
 
-        let localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
-        let stub = Sinon.stub(window, "open");
+        const stub = Sinon.stub(window, "open");
 
         const selectedElementInfo = shallow(
             <SelectedElementInfo sceneStore={localSceneStore}/>
@@ -111,9 +111,9 @@ describe("<SelectedElementInfo/>", () => {
     });
 });
 
-function createTestTreeElement(name: string, parent?: TreeElement, expectedHeightMetricValue: number = 0,
-                               expectedFootprintMetricValue: number = 0,
-                               expectedColorMetricValue: number = 0): TreeElement {
+function createTestTreeElement(name: string, parent?: TreeElement, expectedHeightMetricValue = 0,
+                               expectedFootprintMetricValue = 0,
+                               expectedColorMetricValue = 0): TreeElement {
 
     let result;
     if (parent) {

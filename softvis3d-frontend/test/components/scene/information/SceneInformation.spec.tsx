@@ -9,8 +9,8 @@ import SceneStore from "../../../../src/stores/SceneStore";
 describe("<SceneInformation/>", () => {
 
     it("should show default text div on start", () => {
-        let testSceneStore: SceneStore = new SceneStore();
-        let cityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testSceneStore: SceneStore = new SceneStore();
+        const cityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
         const bottomBar = shallow(
             <SceneInformation sceneStore={testSceneStore} cityBuilderStore={cityBuilderStore}/>

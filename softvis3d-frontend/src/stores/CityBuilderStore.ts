@@ -19,9 +19,9 @@ export default class CityBuilderStore {
     @observable
     public readonly genericMetrics: MetricSet = new MetricSet([]);
     @observable
-    public initiateBuildProcess: boolean = false;
+    public initiateBuildProcess = false;
     @observable
-    public show: boolean = true;
+    public show = true;
     @observable
     public currentTab: CityBuilderTab = CityBuilderTab.Default;
 
@@ -46,7 +46,7 @@ export default class CityBuilderStore {
     }
 
     public getPreviewBackground(): PreviewPicture {
-        for (let preview of availablePreviewPictures) {
+        for (const preview of availablePreviewPictures) {
             if (preview.forLayout(this.options.layout) && preview.forProfile(this.options.profile)) {
                 return preview;
             }

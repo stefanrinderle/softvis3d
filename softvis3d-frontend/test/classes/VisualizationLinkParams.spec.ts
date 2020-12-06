@@ -25,11 +25,11 @@ import VisualizationOptions from "../../src/classes/VisualizationOptions";
 describe("VisualizationLinkParams", () => {
 
     it("should construct config", () => {
-        let selectedObjectId: string = "123";
-        let cameraPosition: Vector3 = new Vector3(0, 1, 2);
-        let visualizationOptions = VisualizationOptions.createDefault();
+        const selectedObjectId = "123";
+        const cameraPosition: Vector3 = new Vector3(0, 1, 2);
+        const visualizationOptions = VisualizationOptions.createDefault();
 
-        let result: VisualizationLinkParams =
+        const result: VisualizationLinkParams =
             new VisualizationLinkParams(visualizationOptions, selectedObjectId, cameraPosition);
 
         expect(result.visualizationOptions).to.be.eq(visualizationOptions);

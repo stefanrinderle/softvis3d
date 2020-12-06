@@ -32,7 +32,7 @@ import {Setup} from "./Setup";
 const OrbitControls = OrbitControlsExtender(three);
 
 export default class SoftVis3dScene {
-    public static CANVAS_ID: string = "softvis3dscene";
+    public static CANVAS_ID = "softvis3dscene";
 
     public readonly scene: Scene;
     public readonly camera: Camera;
@@ -92,7 +92,7 @@ export default class SoftVis3dScene {
     }
 
     public getDefaultCameraPosition(shapes: SoftVis3dShape[]): Vector3 {
-        let platform: Rectangle = SceneObjectCalculator.findMaxDimension(shapes);
+        const platform: Rectangle = SceneObjectCalculator.findMaxDimension(shapes);
         return new Vector3(0, platform.length * 0.7, platform.width * 0.7);
     }
 
@@ -137,7 +137,7 @@ export default class SoftVis3dScene {
         const sonarFooter = document.getElementById("footer");
         const appWidth = this.htmlDomService.getWidthById("app");
 
-        let result: Rectangle = SceneObjectCalculator.calculateDimensionOnResize(
+        const result: Rectangle = SceneObjectCalculator.calculateDimensionOnResize(
             sidebarWidth, topbarHeight, appOffset, sonarFooter, appWidth);
 
         this.camera.setAspect(result.width, result.length);

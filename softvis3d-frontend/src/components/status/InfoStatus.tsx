@@ -7,7 +7,7 @@ export default class InfoStatus extends React.Component<{ appStatusStore: AppSta
 
     public render() {
         if (!this.props.appStatusStore.statusQueue.isEmpty) {
-            let elements = this.createInfoStatusElements();
+            const elements = this.createInfoStatusElements();
             return (
                 <div>
                     <ul className="events">
@@ -22,9 +22,9 @@ export default class InfoStatus extends React.Component<{ appStatusStore: AppSta
     }
 
     private createInfoStatusElements() {
-        let elements: Array<React.ReactElement<any>> = [];
+        const elements: Array<React.ReactElement<any>> = [];
 
-        for (let queueElement of this.props.appStatusStore.statusQueue) {
+        for (const queueElement of this.props.appStatusStore.statusQueue) {
             elements.push(
                 <li key={queueElement.key}>
                     {queueElement.description}

@@ -4,7 +4,7 @@ import {TreeElement} from "./TreeElement";
 
 export abstract class StringFileFilter implements FileFilterInterface {
     @observable
-    public value: string = "";
+    public value = "";
 
     public abstract shouldRemoveFile(file: TreeElement): boolean;
 }

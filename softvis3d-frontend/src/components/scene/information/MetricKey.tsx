@@ -27,7 +27,7 @@ export default class MetricKey extends React.Component<MetricKeyProps, any> {
 
     private renderValue(element: TreeElement | null, metric: Metric) {
         if (element !== null) {
-            let value = MetricKeyFormatter.formatMeasureValue(metric, element.measures[metric.id]);
+            const value = MetricKeyFormatter.formatMeasureValue(metric, element.measures[metric.id]);
             return <span className="value">{value}</span>;
         }
     }

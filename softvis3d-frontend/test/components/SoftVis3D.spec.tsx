@@ -13,9 +13,9 @@ import SceneStore from "../../src/stores/SceneStore";
 describe("<SoftVis3D/>", () => {
 
     it("should draw all componenty on start", () => {
-        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
-        let localAppStatusStore: AppStatusStore = Sinon.createStubInstance(AppStatusStore);
+        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const localAppStatusStore: AppStatusStore = Sinon.createStubInstance(AppStatusStore);
         const baseUrl = "suzdgs";
         const softvis3d = shallow(
             <Softvis3D cityBuilderStore={localCityBuilderStore}

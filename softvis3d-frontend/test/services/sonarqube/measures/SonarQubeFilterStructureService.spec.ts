@@ -32,15 +32,15 @@ import {
 describe("SonarQubeFilterStructureService", () => {
 
     it("should remove an UTS file", () => {
-        let underTest: SonarQubeFilterStructureService = new SonarQubeFilterStructureService();
+        const underTest: SonarQubeFilterStructureService = new SonarQubeFilterStructureService();
 
-        let root: TreeElement = createDefaultDir();
-        let file: TreeElement = createDefaultFile();
+        const root: TreeElement = createDefaultDir();
+        const file: TreeElement = createDefaultFile();
         root.children.push(file);
-        let utsFile: TreeElement = createDefaultTestFile();
+        const utsFile: TreeElement = createDefaultTestFile();
         root.children.push(utsFile);
 
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
         underTest.filter(root, testCityBuilderStore);
 
@@ -48,15 +48,15 @@ describe("SonarQubeFilterStructureService", () => {
     });
 
     it("should remove multiple UTS files", () => {
-        let underTest: SonarQubeFilterStructureService = new SonarQubeFilterStructureService();
+        const underTest: SonarQubeFilterStructureService = new SonarQubeFilterStructureService();
 
-        let root: TreeElement = createDefaultDir();
-        let utsFile1: TreeElement = createDefaultTestFile();
+        const root: TreeElement = createDefaultDir();
+        const utsFile1: TreeElement = createDefaultTestFile();
         root.children.push(utsFile1);
-        let utsFile2: TreeElement = createDefaultTestFile();
+        const utsFile2: TreeElement = createDefaultTestFile();
         root.children.push(utsFile2);
 
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
         underTest.filter(root, testCityBuilderStore);
 
@@ -64,24 +64,24 @@ describe("SonarQubeFilterStructureService", () => {
     });
 
     it("should remove UTS files in mixed structure", () => {
-        let underTest: SonarQubeFilterStructureService = new SonarQubeFilterStructureService();
+        const underTest: SonarQubeFilterStructureService = new SonarQubeFilterStructureService();
 
-        let root: TreeElement = createDefaultDir();
-        let srcDir: TreeElement = createDefaultDir();
-        let srcFile1: TreeElement = createDefaultFile();
+        const root: TreeElement = createDefaultDir();
+        const srcDir: TreeElement = createDefaultDir();
+        const srcFile1: TreeElement = createDefaultFile();
         srcDir.children.push(srcFile1);
-        let srcFile2: TreeElement = createDefaultFile();
+        const srcFile2: TreeElement = createDefaultFile();
         srcDir.children.push(srcFile2);
         root.children.push(srcDir);
 
-        let testDir: TreeElement = createDefaultDir();
-        let utsFile1: TreeElement = createDefaultTestFile();
+        const testDir: TreeElement = createDefaultDir();
+        const utsFile1: TreeElement = createDefaultTestFile();
         testDir.children.push(utsFile1);
-        let utsFile2: TreeElement = createDefaultTestFile();
+        const utsFile2: TreeElement = createDefaultTestFile();
         testDir.children.push(utsFile2);
         root.children.push(testDir);
 
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
         underTest.filter(root, testCityBuilderStore);
 
@@ -91,16 +91,16 @@ describe("SonarQubeFilterStructureService", () => {
     });
 
     it("should remove an excluded file", () => {
-        let underTest: SonarQubeFilterStructureService = new SonarQubeFilterStructureService();
+        const underTest: SonarQubeFilterStructureService = new SonarQubeFilterStructureService();
 
         const expectedName = "SonarQube.java";
-        let root: TreeElement = createDefaultDir();
-        let file: TreeElement = createDefaultFileWithName(expectedName);
+        const root: TreeElement = createDefaultDir();
+        const file: TreeElement = createDefaultFileWithName(expectedName);
         root.children.push(file);
-        let utsFile: TreeElement = createDefaultFileWithName("pom.xml");
+        const utsFile: TreeElement = createDefaultFileWithName("pom.xml");
         root.children.push(utsFile);
 
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
         testCityBuilderStore.options.fileFilter.excludeClasses.value = ".*.xml";
 
         underTest.filter(root, testCityBuilderStore);

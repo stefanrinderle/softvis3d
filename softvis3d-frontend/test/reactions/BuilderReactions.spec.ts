@@ -29,9 +29,9 @@ import {createMock} from "../Helper";
 describe("BuilderReactions", () => {
 
     it("should initiate build process", () => {
-        let testCityBuilderStore = new CityBuilderStore();
-        let testAppStatusStore = new AppStatusStore();
-        let testSceneStore = new SceneStore();
+        const testCityBuilderStore = new CityBuilderStore();
+        const testAppStatusStore = new AppStatusStore();
+        const testSceneStore = new SceneStore();
 
         const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
         const testAutoReloadService = createMock(AutoReloadService);

@@ -7,7 +7,7 @@ export default class ErrorStatus extends React.Component<{ appStatusStore: AppSt
 
     public render() {
         if (!this.props.appStatusStore.errors.isEmpty) {
-            let elements = this.createErrorElements();
+            const elements = this.createErrorElements();
             return (
                 <div>
                     <h2>An error occured:</h2>
@@ -23,9 +23,9 @@ export default class ErrorStatus extends React.Component<{ appStatusStore: AppSt
     }
 
     private createErrorElements() {
-        let elements: Array<React.ReactElement<any>> = [];
+        const elements: Array<React.ReactElement<any>> = [];
 
-        for (let queueElement of this.props.appStatusStore.errors) {
+        for (const queueElement of this.props.appStatusStore.errors) {
             elements.push(
                 <li key={queueElement.key}>
                     {queueElement.description}

@@ -14,7 +14,7 @@ export default class SceneStore {
     @observable
     public shapes: any = null;
     @observable
-    public shapesHash: string = "";
+    public shapesHash = "";
 
     public cameraPosition?: Vector3;
     public scmMetricLoaded: boolean;

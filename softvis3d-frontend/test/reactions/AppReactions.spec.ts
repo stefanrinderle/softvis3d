@@ -29,9 +29,9 @@ import {createMock} from "../Helper";
 describe("AppReactions", () => {
 
     it("should auto reload on analysisDate change", () => {
-        let testCityBuilderStore = new CityBuilderStore();
-        let testAppStatusStore = new AppStatusStore();
-        let testSceneStore = new SceneStore();
+        const testCityBuilderStore = new CityBuilderStore();
+        const testAppStatusStore = new AppStatusStore();
+        const testSceneStore = new SceneStore();
         const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
         const testAutoReloadService = createMock(AutoReloadService);
         testAutoReloadService.isActive.returns(true);
@@ -48,9 +48,9 @@ describe("AppReactions", () => {
     });
 
     it("should not auto reload on analysisDate change but auto reload service not active", () => {
-        let testCityBuilderStore = new CityBuilderStore();
-        let testAppStatusStore = new AppStatusStore();
-        let testSceneStore = new SceneStore();
+        const testCityBuilderStore = new CityBuilderStore();
+        const testAppStatusStore = new AppStatusStore();
+        const testSceneStore = new SceneStore();
 
         const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
         const testAutoReloadService = createMock(AutoReloadService);

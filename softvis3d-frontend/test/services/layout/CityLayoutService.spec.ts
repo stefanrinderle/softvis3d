@@ -33,31 +33,31 @@ import {createMock} from "../../Helper";
 describe("CityLayoutService", () => {
 
     it("should call layoutProcessor", (done) => {
-        let clock = Sinon.useFakeTimers();
+        const clock = Sinon.useFakeTimers();
 
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testSceneStore: SceneStore = new SceneStore();
-        let cityBuilderStore = new CityBuilderStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testSceneStore: SceneStore = new SceneStore();
+        const cityBuilderStore = new CityBuilderStore();
         testSceneStore.projectData = createDefaultDir();
 
         createMock(SonarQubeScmService);
-        let layoutProcessor = createMock(LayoutProcessor);
+        const layoutProcessor = createMock(LayoutProcessor);
 
-        let expectedShape = {};
+        const expectedShape = {};
         layoutProcessor.getIllustration.returns(Promise.resolve({
             shapes: expectedShape
         }));
 
-        let underTest: CityLayoutService = new CityLayoutService();
+        const underTest: CityLayoutService = new CityLayoutService();
 
         underTest.createCity(testSceneStore, testAppStatusStore, cityBuilderStore);
 
-        let returnPromise: Promise<any> = Promise.resolve({});
+        const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise.then(() => {
             assert(layoutProcessor.getIllustration.called);
 
-            let returnPromise2: Promise<any> = Promise.resolve({});
+            const returnPromise2: Promise<any> = Promise.resolve({});
             returnPromise2.then(() => {
                 expect(testSceneStore.shapes).to.be.deep.equal(expectedShape);
                 done();
@@ -66,34 +66,34 @@ describe("CityLayoutService", () => {
     });
 
     it("should send load status is app state", (done) => {
-        let clock = Sinon.useFakeTimers();
+        const clock = Sinon.useFakeTimers();
 
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testSceneStore: SceneStore = new SceneStore();
-        let cityBuilderStore = new CityBuilderStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testSceneStore: SceneStore = new SceneStore();
+        const cityBuilderStore = new CityBuilderStore();
         testSceneStore.projectData = createDefaultDir();
 
         createMock(SonarQubeScmService);
 
-        let spyLoad = Sinon.spy(testAppStatusStore, "load");
-        let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
+        const spyLoad = Sinon.spy(testAppStatusStore, "load");
+        const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
-        let layoutProcessor = createMock(LayoutProcessor);
+        const layoutProcessor = createMock(LayoutProcessor);
         layoutProcessor.getIllustration.returns(Promise.resolve({
             shapes: {}
         }));
 
-        let underTest: CityLayoutService = new CityLayoutService();
+        const underTest: CityLayoutService = new CityLayoutService();
 
         underTest.createCity(testSceneStore, testAppStatusStore, cityBuilderStore);
 
-        let returnPromise: Promise<any> = Promise.resolve({});
+        const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise.then(() => {
             assert(spyLoad.calledWith(CityLayoutService.BUILD_CITY));
             clock.tick(10);
 
-            let returnPromise2: Promise<any> = Promise.resolve({});
+            const returnPromise2: Promise<any> = Promise.resolve({});
             returnPromise2.then(() => {
                 assert(spyLoadComplete.calledWith(CityLayoutService.BUILD_CITY));
                 done();
@@ -102,34 +102,34 @@ describe("CityLayoutService", () => {
     });
 
     it("should call measure service if numberOfAuthorsBlameColorMetric", (done) => {
-        let clock = Sinon.useFakeTimers();
+        const clock = Sinon.useFakeTimers();
 
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testSceneStore: SceneStore = new SceneStore();
-        let cityBuilderStore = new CityBuilderStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testSceneStore: SceneStore = new SceneStore();
+        const cityBuilderStore = new CityBuilderStore();
         testSceneStore.projectData = createDefaultDir();
         cityBuilderStore.options = VisualizationOptions.createDefault();
         cityBuilderStore.options.metricColor = numberOfAuthorsBlameColorMetric;
 
-        let scmService = createMock(SonarQubeScmService);
+        const scmService = createMock(SonarQubeScmService);
         scmService.assertScmInfoAreLoaded.callsFake(() => {
             return Promise.resolve({});
         });
 
-        let spyLoad = Sinon.spy(testAppStatusStore, "load");
-        let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
+        const spyLoad = Sinon.spy(testAppStatusStore, "load");
+        const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
-        let underTest: CityLayoutService = new CityLayoutService();
+        const underTest: CityLayoutService = new CityLayoutService();
 
         underTest.createCity(testSceneStore, testAppStatusStore, cityBuilderStore);
 
-        let returnPromise: Promise<any> = Promise.resolve({});
+        const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise.then(() => {
             assert(spyLoad.calledWith(CityLayoutService.BUILD_CITY));
             assert(scmService.assertScmInfoAreLoaded.called);
 
-            let returnPromise2: Promise<any> = Promise.resolve({});
+            const returnPromise2: Promise<any> = Promise.resolve({});
             returnPromise2.then(() => {
                 assert(spyLoadComplete.calledWith(CityLayoutService.BUILD_CITY));
                 done();

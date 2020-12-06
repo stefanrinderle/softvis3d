@@ -7,10 +7,10 @@ import Event from "../../../src/components/scene/events/Event";
 describe("<SceneCanvas/>", () => {
 
     it("should mount", () => {
-        let stubMouseActions: any = Sinon.createStubInstance(SceneMouseInteractions);
+        const stubMouseActions: any = Sinon.createStubInstance(SceneMouseInteractions);
         SceneMouseInteractions.create = Sinon.stub().returns(stubMouseActions);
 
-        let underTest: SceneCanvas = new SceneCanvas();
+        const underTest: SceneCanvas = new SceneCanvas();
         underTest.props = {
             selectObject: Sinon.spy(),
             updateCameraPosition: Sinon.spy(),
@@ -25,10 +25,10 @@ describe("<SceneCanvas/>", () => {
     });
 
     it("should unmount", () => {
-        let stubMouseActions: any = Sinon.createStubInstance(SceneMouseInteractions);
+        const stubMouseActions: any = Sinon.createStubInstance(SceneMouseInteractions);
         SceneMouseInteractions.create = Sinon.stub().returns(stubMouseActions);
 
-        let underTest: SceneCanvas = new SceneCanvas();
+        const underTest: SceneCanvas = new SceneCanvas();
         underTest.props = {
             selectObject: Sinon.spy(),
             updateCameraPosition: Sinon.spy(),
@@ -42,49 +42,49 @@ describe("<SceneCanvas/>", () => {
     });
 
     it("should handle mouse down event to focus", () => {
-        let sceneFocusSpy = Sinon.spy();
+        const sceneFocusSpy = Sinon.spy();
 
-        let underTest: SceneCanvas = new SceneCanvas();
+        const underTest: SceneCanvas = new SceneCanvas();
         underTest.props = {
             selectObject: Sinon.spy(),
             updateCameraPosition: Sinon.spy(),
             updateSceneFocusState: sceneFocusSpy
         };
 
-        let testEvent: Event<boolean> = new Event(true);
+        const testEvent: Event<boolean> = new Event(true);
         underTest.handleMouseDown(testEvent);
 
         assert(sceneFocusSpy.calledWith(true));
     });
 
     it("should handle mouse down event to unfocus", () => {
-        let sceneFocusSpy = Sinon.spy();
+        const sceneFocusSpy = Sinon.spy();
 
-        let underTest: SceneCanvas = new SceneCanvas();
+        const underTest: SceneCanvas = new SceneCanvas();
         underTest.props = {
             selectObject: Sinon.spy(),
             updateCameraPosition: Sinon.spy(),
             updateSceneFocusState: sceneFocusSpy
         };
 
-        let testEvent: Event<boolean> = new Event(false);
+        const testEvent: Event<boolean> = new Event(false);
         underTest.handleMouseDown(testEvent);
 
         assert(sceneFocusSpy.calledWith(false));
     });
 
     it("should handle mouse select event", () => {
-        let selectObjectSpy = Sinon.spy();
+        const selectObjectSpy = Sinon.spy();
 
-        let underTest: SceneCanvas = new SceneCanvas();
+        const underTest: SceneCanvas = new SceneCanvas();
         underTest.props = {
             selectObject: selectObjectSpy,
             updateCameraPosition: Sinon.spy(),
             updateSceneFocusState: Sinon.spy()
         };
 
-        let mouseEventStub = Sinon.createStubInstance(MouseEvent);
-        let testEvent: Event<MouseEvent> = new Event(mouseEventStub);
+        const mouseEventStub = Sinon.createStubInstance(MouseEvent);
+        const testEvent: Event<MouseEvent> = new Event(mouseEventStub);
         underTest.handleSelectObject(testEvent);
 
         assert(selectObjectSpy.calledWith(mouseEventStub));

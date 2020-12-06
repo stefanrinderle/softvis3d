@@ -33,18 +33,18 @@ import {createMock} from "../Helper";
 describe("VisualizationLinkService", () => {
 
     it("Happy case - apply link params", () => {
-        let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
-        let underTest: VisualizationLinkService =
+        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const localSceneStore: SceneStore = new SceneStore();
+        const underTest: VisualizationLinkService =
             new VisualizationLinkService(testAppConfiguration);
 
-        let localUrlParameterService = createMock(UrlParameterService);
+        const localUrlParameterService = createMock(UrlParameterService);
         localUrlParameterService.getQueryParams.returns({
             visualizationStatus: "iuhsdfiuhsdifuhsidfu"
         });
 
-        let localVisualizationLinkSerializationService = createMock(VisualizationLinkSerializationService);
+        const localVisualizationLinkSerializationService = createMock(VisualizationLinkSerializationService);
         localVisualizationLinkSerializationService.deserialize.returns(
             new VisualizationLinkParams(VisualizationOptions.createDefault(), null, new Vector3())
         );
@@ -58,18 +58,18 @@ describe("VisualizationLinkService", () => {
     });
 
     it("Does nothing on empty string", () => {
-        let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
-        let underTest: VisualizationLinkService =
+        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const localSceneStore: SceneStore = new SceneStore();
+        const underTest: VisualizationLinkService =
             new VisualizationLinkService(testAppConfiguration);
 
-        let localUrlParameterService = createMock(UrlParameterService);
+        const localUrlParameterService = createMock(UrlParameterService);
         localUrlParameterService.getQueryParams.returns({
             visualizationStatus: ""
         });
 
-        let localVisualizationLinkSerializationService = createMock(VisualizationLinkSerializationService);
+        const localVisualizationLinkSerializationService = createMock(VisualizationLinkSerializationService);
         localVisualizationLinkSerializationService.deserialize.returns(null);
 
         underTest.process(testCityBuilderStore, localSceneStore, "");
@@ -80,23 +80,23 @@ describe("VisualizationLinkService", () => {
     });
 
     it("Extracts the parameters properly", () => {
-        let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
-        let localCityBuilderStore = new CityBuilderStore();
+        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        const localCityBuilderStore = new CityBuilderStore();
 
-        let localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = new SceneStore();
         // Math.round in place
         localSceneStore.cameraPosition = new Vector3(1.2, 2.1, 3.3);
 
-        let underTest: VisualizationLinkService = new VisualizationLinkService(testAppConfiguration);
+        const underTest: VisualizationLinkService = new VisualizationLinkService(testAppConfiguration);
 
-        let localUrlParameterService = createMock(UrlParameterService);
+        const localUrlParameterService = createMock(UrlParameterService);
         localUrlParameterService.createVisualizationLinkForCurrentUrl.returns("abc");
 
-        let localVisualizationLinkSerializationService = createMock(VisualizationLinkSerializationService);
+        const localVisualizationLinkSerializationService = createMock(VisualizationLinkSerializationService);
         const expectedParam = "sidufhisudhfisuhdfisuhdfiushdfiuhsdfiuh";
         localVisualizationLinkSerializationService.serialize.returns(expectedParam);
 
-        let result = underTest.createVisualizationLink(localCityBuilderStore, localSceneStore);
+        const result = underTest.createVisualizationLink(localCityBuilderStore, localSceneStore);
 
         assert(localUrlParameterService.createVisualizationLinkForCurrentUrl.calledWithExactly(document.location.href, {
             visualizationStatus: expectedParam
@@ -106,11 +106,11 @@ describe("VisualizationLinkService", () => {
     });
 
     it("Should throw error if no camera position is set.", () => {
-        let testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
-        let localCityBuilderStore = new CityBuilderStore();
-        let localSceneStore: SceneStore = new SceneStore();
+        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        const localCityBuilderStore = new CityBuilderStore();
+        const localSceneStore: SceneStore = new SceneStore();
 
-        let underTest: VisualizationLinkService = new VisualizationLinkService(testAppConfiguration);
+        const underTest: VisualizationLinkService = new VisualizationLinkService(testAppConfiguration);
 
         expect(() => {
             underTest.createVisualizationLink(localCityBuilderStore, localSceneStore);
@@ -118,31 +118,31 @@ describe("VisualizationLinkService", () => {
     });
 
     it("create plain visualization link", () => {
-        let testAppConfiguration: any = Sinon.createStubInstance(AppConfiguration);
-        let baseUrl = "/isudfisfuh";
-        let projectKey = "siudhfg:suzdgs";
+        const testAppConfiguration: any = Sinon.createStubInstance(AppConfiguration);
+        const baseUrl = "/isudfisfuh";
+        const projectKey = "siudhfg:suzdgs";
         testAppConfiguration.baseUrl = baseUrl;
         testAppConfiguration.projectKey = projectKey;
 
-        let localCityBuilderStore = new CityBuilderStore();
+        const localCityBuilderStore = new CityBuilderStore();
 
-        let localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = new SceneStore();
         localSceneStore.cameraPosition = new Vector3(1, 2, 3);
 
-        let expectedSelectedObjectId: string = "123453";
+        const expectedSelectedObjectId = "123453";
         localSceneStore.selectedObjectId = expectedSelectedObjectId;
 
-        let underTest: VisualizationLinkService =
+        const underTest: VisualizationLinkService =
             new VisualizationLinkService(testAppConfiguration);
 
-        let localUrlParameterService = createMock(UrlParameterService);
+        const localUrlParameterService = createMock(UrlParameterService);
         localUrlParameterService.createVisualizationLinkForCurrentUrl.returns("abc");
 
-        let localVisualizationLinkSerializationService = createMock(VisualizationLinkSerializationService);
+        const localVisualizationLinkSerializationService = createMock(VisualizationLinkSerializationService);
         const expectedParam = "sidufhisudhfisuhdfisuhdfiushdfiuhsdfiuh";
         localVisualizationLinkSerializationService.serialize.returns(expectedParam);
 
-        let result = underTest.createPlainVisualizationLink(localCityBuilderStore, localSceneStore);
+        const result = underTest.createPlainVisualizationLink(localCityBuilderStore, localSceneStore);
 
         const expectedresult = baseUrl + "/static/softvis3d/index.html" +
             "?projectKey=" + projectKey + "&baseUrl=" + baseUrl;

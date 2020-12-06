@@ -55,13 +55,13 @@ export default class SonarQubeMeasuresApiService extends BackendService {
             };
 
             this.callApi("/measures/component_tree", {params}).then((response) => {
-                let result: SonarQubeMeasurePagingResponse = response.data;
-                let allResults: SonarQubeMeasureResponse = {
+                const result: SonarQubeMeasurePagingResponse = response.data;
+                const allResults: SonarQubeMeasureResponse = {
                     baseComponent: result.baseComponent,
                     components: result.components
                 };
 
-                let pagesMax = Math.floor(result.paging.total / result.paging.pageSize) + 1;
+                const pagesMax = Math.floor(result.paging.total / result.paging.pageSize) + 1;
 
                 if (result.paging.pageIndex < pagesMax) {
                     return this.loadMeasures(appStatusStore, baseComponentKey, metricKeys, pagesMax, pageCurrent + 1)

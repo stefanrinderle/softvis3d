@@ -30,10 +30,10 @@ import {EXPONENTIAL, Scales} from "../../src/constants/Scales";
 describe("Profile", () => {
 
     it("should be build with builder", () => {
-        let expectedId = "123";
-        let expectedName = "ydydf";
-        let expectedDescription = "sdoihffishd";
-        let profile: Profile = new ProfileBuilder(expectedId, expectedName)
+        const expectedId = "123";
+        const expectedName = "ydydf";
+        const expectedDescription = "sdoihffishd";
+        const profile: Profile = new ProfileBuilder(expectedId, expectedName)
             .withConfiguration(complexityMetric, linesOfCodeMetric, Scales.availableScales[0])
             .withDescription(expectedDescription)
             .build();
@@ -47,10 +47,10 @@ describe("Profile", () => {
     });
 
     it("should implement SelectOptionValue", () => {
-        let expectedId = "123";
-        let expectedName = "ydydf";
-        let expectedDescription = "sdoihffishd";
-        let profile: Profile = new ProfileBuilder(expectedId, expectedName)
+        const expectedId = "123";
+        const expectedName = "ydydf";
+        const expectedDescription = "sdoihffishd";
+        const profile: Profile = new ProfileBuilder(expectedId, expectedName)
             .withConfiguration(complexityMetric, linesOfCodeMetric, Scales.availableScales[0])
             .withDescription(expectedDescription)
             .build();
@@ -60,19 +60,19 @@ describe("Profile", () => {
     });
 
     it("should be able to clone", () => {
-        let id = "custom";
-        let name = "Customize";
-        let metricWidth = complexityMetric;
-        let metricHeight = linesOfCodeMetric;
-        let scalingmethod = Scales.availableScales[0];
-        let description = "sdfiuhsi";
+        const id = "custom";
+        const name = "Customize";
+        const metricWidth = complexityMetric;
+        const metricHeight = linesOfCodeMetric;
+        const scalingmethod = Scales.availableScales[0];
+        const description = "sdfiuhsi";
 
         const test: Profile = new ProfileBuilder(id, name)
             .withConfiguration(metricWidth, metricHeight, scalingmethod)
             .withDescription(description)
             .build();
 
-        let cloneResult: Profile = test.clone();
+        const cloneResult: Profile = test.clone();
 
         expect(test).not.to.be.eq(cloneResult);
 
@@ -85,21 +85,21 @@ describe("Profile", () => {
     });
 
     it("should be able to update config", () => {
-        let id = "custom";
-        let name = "Customize";
-        let metricWidth = complexityMetric;
-        let metricHeight = linesOfCodeMetric;
-        let scalingmethod = Scales.availableScales[0];
-        let description = "sdfiuhsi";
+        const id = "custom";
+        const name = "Customize";
+        const metricWidth = complexityMetric;
+        const metricHeight = linesOfCodeMetric;
+        const scalingmethod = Scales.availableScales[0];
+        const description = "sdfiuhsi";
 
         const test: Profile = new ProfileBuilder(id, name)
             .withConfiguration(metricWidth, metricHeight, scalingmethod)
             .withDescription(description)
             .build();
 
-        let updateMetricWidth = newLinesOfCodeMetric;
-        let updateMetricHeight = duplicatedLinesOfCodeMetric;
-        let updateScale = EXPONENTIAL;
+        const updateMetricWidth = newLinesOfCodeMetric;
+        const updateMetricHeight = duplicatedLinesOfCodeMetric;
+        const updateScale = EXPONENTIAL;
 
         test.updateConfiguration(updateMetricWidth, updateMetricHeight, updateScale);
 

@@ -27,34 +27,34 @@ import { Vector2 } from "three";
 describe("ObjectFactory", () => {
 
     it("should return emtpy list", () => {
-        let input: SoftVis3dShape[] = [];
-        let result: SoftVis3dMesh[] = ObjectFactory.getSceneObjects(input);
+        const input: SoftVis3dShape[] = [];
+        const result: SoftVis3dMesh[] = ObjectFactory.getSceneObjects(input);
 
         expect(result.length).to.be.equal(0);
     });
 
     it("should return single mesh", () => {
-        let expected: string = "123";
+        const expected = "123";
 
-        let input: SoftVis3dShape[] = [];
+        const input: SoftVis3dShape[] = [];
         input.push(createExampleShape(expected));
 
-        let result: SoftVis3dMesh[] = ObjectFactory.getSceneObjects(input);
+        const result: SoftVis3dMesh[] = ObjectFactory.getSceneObjects(input);
 
         expect(result.length).to.be.equal(1);
-        let mesh: SoftVis3dMesh = result[0];
+        const mesh: SoftVis3dMesh = result[0];
         expect(mesh.getSoftVis3dId()).to.be.equal(expected);
     });
 
     it("should return multiple mesh", () => {
-        let expected1: string = "1";
-        let expected2: string = "2";
+        const expected1 = "1";
+        const expected2 = "2";
 
-        let input: SoftVis3dShape[] = [];
+        const input: SoftVis3dShape[] = [];
         input.push(createExampleShape(expected1));
         input.push(createExampleShape(expected2));
 
-        let result: SoftVis3dMesh[] = ObjectFactory.getSceneObjects(input);
+        const result: SoftVis3dMesh[] = ObjectFactory.getSceneObjects(input);
 
         expect(result.length).to.be.equal(2);
         expect(result[0].getSoftVis3dId()).to.be.equal(expected1);
@@ -64,9 +64,7 @@ describe("ObjectFactory", () => {
 });
 
 function createExampleShape(key: string): SoftVis3dShape {
-    let vectors: Vector2[] = [];
+    const vectors: Vector2[] = [];
     vectors.push(new Vector2(1, 2));
-    let shape: SoftVis3dShape = new SoftVis3dShape(vectors, key);
-
-    return shape;
+    return new SoftVis3dShape(vectors, key);
 }

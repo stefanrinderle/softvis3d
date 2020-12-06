@@ -23,7 +23,7 @@ import SonarQubeApiScm from "./SonarQubeApiScm";
 export default class ScmCalculatorService {
 
     public calcNumberOfAuthors(measures: SonarQubeApiScm[]): number {
-        let groupByAuthorName = this.groupByAuthorName(measures);
+        const groupByAuthorName = this.groupByAuthorName(measures);
         return groupByAuthorName.size;
     }
 

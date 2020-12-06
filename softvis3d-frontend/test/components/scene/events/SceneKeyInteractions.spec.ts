@@ -5,10 +5,10 @@ import {SceneKeyInteractions} from "../../../../src/components/scene/events/Scen
 describe("SceneKeyInteractions", () => {
 
     it("should add and remove event listeners on object create or destruct.", () => {
-        let windowStubAdd = Sinon.stub(window, "addEventListener");
-        let windowStubRemove = Sinon.stub(window, "removeEventListener");
+        const windowStubAdd = Sinon.stub(window, "addEventListener");
+        const windowStubRemove = Sinon.stub(window, "removeEventListener");
 
-        let underTest: SceneKeyInteractions = SceneKeyInteractions.create();
+        const underTest: SceneKeyInteractions = SceneKeyInteractions.create();
 
         assert(windowStubAdd.calledOnce);
         assert(windowStubAdd.calledWith("keydown"));
@@ -23,11 +23,11 @@ describe("SceneKeyInteractions", () => {
     });
 
     it("should raise reset camera event on r button clicked.", () => {
-        let underTest: SceneKeyInteractions = SceneKeyInteractions.create();
+        const underTest: SceneKeyInteractions = SceneKeyInteractions.create();
 
         const eventButtonR = { keyCode: 82 } as any as KeyboardEvent;
 
-        let listener: Function = () => undefined;
+        const listener: () => void = () => undefined;
         const spy = Sinon.spy(listener);
 
         underTest.addResetCameraEventListener(spy);
@@ -42,11 +42,11 @@ describe("SceneKeyInteractions", () => {
     });
 
     it("should raise toggle legend event on l button clicked.", () => {
-        let underTest: SceneKeyInteractions = SceneKeyInteractions.create();
+        const underTest: SceneKeyInteractions = SceneKeyInteractions.create();
 
         const eventButtonL = { keyCode: 76 } as any as KeyboardEvent;
 
-        let listener: Function = () => undefined;
+        const listener: () => void = () => undefined;
         const spy = Sinon.spy(listener);
 
         underTest.addToggleLegendEventListener(spy);
@@ -61,11 +61,11 @@ describe("SceneKeyInteractions", () => {
     });
 
     it("should NOT raise any event on other button clicked.", () => {
-        let underTest: SceneKeyInteractions = SceneKeyInteractions.create();
+        const underTest: SceneKeyInteractions = SceneKeyInteractions.create();
 
         const eventButtonR = { keyCode: 4 } as any as KeyboardEvent;
 
-        let listener: Function = () => undefined;
+        const listener: () => void = () => undefined;
         const spy = Sinon.spy(listener);
 
         underTest.addResetCameraEventListener(spy);

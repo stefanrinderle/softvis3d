@@ -1,7 +1,7 @@
 export default class ClipBoardService {
 
     public copyTextToClipboard(text: string) {
-        let textArea: HTMLTextAreaElement = document.createElement("textarea");
+        const textArea: HTMLTextAreaElement = document.createElement("textarea");
 
         textArea.style.position = "fixed";
         textArea.style.top = "0";

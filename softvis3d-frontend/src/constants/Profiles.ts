@@ -50,7 +50,7 @@ export class Profiles {
     ];
 
     public static getAvailableProfileById(id: string): Profile {
-        for (let searchProfile of this.availableProfiles) {
+        for (const searchProfile of this.availableProfiles) {
             if (searchProfile.id === id) {
                 return searchProfile;
             }

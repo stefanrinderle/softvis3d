@@ -20,7 +20,7 @@ import {createMock} from "../../Helper";
 describe("<SideBar/>", () => {
 
     it("should be empty, if no element is selected", () => {
-        let localSceneStore = new SceneStore();
+        const localSceneStore = new SceneStore();
 
         const selectedElementInfo = shallow(
             <SideBar sceneStore={localSceneStore}/>
@@ -36,18 +36,18 @@ describe("<SideBar/>", () => {
         // let child1: TreeElement = createDefaultDirWithKeyAndParent("child1", parent);
         // let child11: TreeElement = createDefaultFileWithIdAndParent("child11", child1);
 
-        let parent: TreeElement = new TreeElement("parent", "parent", {}, "parent", "", SQ_QUALIFIER_DIRECTORY);
-        let child1: TreeElement = new TreeElement("child1", "child1", {}, "child1", "", SQ_QUALIFIER_DIRECTORY, parent);
-        let child11: TreeElement = new TreeElement("child11", "child11", {}, "child11", "", SQ_QUALIFIER_FILE, child1);
+        const parent: TreeElement = new TreeElement("parent", "parent", {}, "parent", "", SQ_QUALIFIER_DIRECTORY);
+        const child1: TreeElement = new TreeElement("child1", "child1", {}, "child1", "", SQ_QUALIFIER_DIRECTORY, parent);
+        const child11: TreeElement = new TreeElement("child11", "child11", {}, "child11", "", SQ_QUALIFIER_FILE, child1);
 
         parent.children.push(child1);
         child1.children.push(child11);
 
-        let localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = parent;
         localSceneStore.selectedObjectId = child1.id;
 
-        let localTreeService = createMock(TreeService);
+        const localTreeService = createMock(TreeService);
         localTreeService.searchTreeNode.returns(child1);
 
         const shallowSidebar = shallow(
@@ -74,18 +74,18 @@ describe("<SideBar/>", () => {
     });
 
     it("should show node info for leafs", () => {
-        let parent: TreeElement = createDefaultDir();
-        let child1: TreeElement = createDefaultFileWithParent(parent);
-        let child11: TreeElement = createDefaultFileWithParent(child1);
+        const parent: TreeElement = createDefaultDir();
+        const child1: TreeElement = createDefaultFileWithParent(parent);
+        const child11: TreeElement = createDefaultFileWithParent(child1);
 
         parent.children.push(child1);
         child1.children.push(child11);
 
-        let localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = parent;
         localSceneStore.selectedObjectId = child11.id;
 
-        let localTreeService = createMock(TreeService);
+        const localTreeService = createMock(TreeService);
         localTreeService.searchTreeNode.returns(child11);
 
         const shallowSidebar = shallow(

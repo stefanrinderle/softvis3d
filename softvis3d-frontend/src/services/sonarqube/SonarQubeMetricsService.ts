@@ -36,7 +36,7 @@ export interface SonarQubeApiMetric {
 
 export default class SonarQubeMetricsService extends BackendService {
     public static LOAD_METRICS: LoadAction = new LoadAction("SONAR_LOAD_METRICS", "Request metric definitions from SonarQube");
-    private static LOAD_METRICS_ERROR_KEY: string = "LOAD_METRICS_ERROR";
+    private static LOAD_METRICS_ERROR_KEY = "LOAD_METRICS_ERROR";
 
     constructor(baseUrl?: string) {
         super(baseUrl);

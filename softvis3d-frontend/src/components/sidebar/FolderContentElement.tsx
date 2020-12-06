@@ -15,7 +15,7 @@ export default class FolderContentElement extends React.Component<ElementInfoPro
 
     public render() {
         const {element, isSelected} = this.props;
-        let classes = [];
+        const classes = [];
         classes.push(element.isFile() ? "leaf" : "node");
 
         if (isSelected) {

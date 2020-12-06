@@ -31,19 +31,19 @@ describe("TreeElement", () => {
     const sonarQubeTransformerService = new SonarQubeTransformerService();
 
     it("should be able to sort by name and type", () => {
-        let parent: TreeElement = createDefaultDirWithPath("/src");
-        let testDir: TreeElement = createDefaultDirWithPath("/src/test");
+        const parent: TreeElement = createDefaultDirWithPath("/src");
+        const testDir: TreeElement = createDefaultDirWithPath("/src/test");
         sonarQubeTransformerService.add(parent, testDir);
 
-        let mainDir: TreeElement = createDefaultDirWithPath("/src/main");
+        const mainDir: TreeElement = createDefaultDirWithPath("/src/main");
         sonarQubeTransformerService.add(parent, mainDir);
 
-        let fileA: TreeElement = createDefaultFileWithPath("/src/a.java");
+        const fileA: TreeElement = createDefaultFileWithPath("/src/a.java");
         sonarQubeTransformerService.add(parent, fileA);
-        let fileZ: TreeElement = createDefaultFileWithPath("/src/z.java");
+        const fileZ: TreeElement = createDefaultFileWithPath("/src/z.java");
         sonarQubeTransformerService.add(parent, fileZ);
 
-        let folderResult: TreeElement[] = parent.getSortedChildren();
+        const folderResult: TreeElement[] = parent.getSortedChildren();
 
         expect(folderResult.length).to.be.eq(4);
         expect(folderResult[0].path).to.be.eq("/src/main");
@@ -53,14 +53,14 @@ describe("TreeElement", () => {
     });
 
     it("should be able to replace child", () => {
-        let parent: TreeElement = createDefaultDirWithKey("/src", "123");
+        const parent: TreeElement = createDefaultDirWithKey("/src", "123");
         sonarQubeTransformerService.add(parent, createDefaultDirWithKey("sdfsdf", "35"));
         sonarQubeTransformerService.add(parent, createDefaultDirWithKey("sdfs", "443"));
 
-        let testDir: TreeElement = createDefaultDirWithKey("/src/test", "333");
+        const testDir: TreeElement = createDefaultDirWithKey("/src/test", "333");
         sonarQubeTransformerService.add(parent, testDir);
 
-        let fileA: TreeElement = createDefaultFileWithPath("/src/a.java");
+        const fileA: TreeElement = createDefaultFileWithPath("/src/a.java");
         parent.replaceChildByKey("333", fileA);
 
         expect(parent.children[2]).to.be.eq(fileA);

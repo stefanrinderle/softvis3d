@@ -18,8 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-/* tslint:disable */
-
 import * as CodeCityVis from "codecity-visualizer";
 import {TreeNodeInterface} from "codecity-visualizer/types/interfaces";
 import BuildingColorTheme from '../../classes/BuildingColorTheme';
@@ -60,7 +58,7 @@ class LayoutProcessor {
 
     private _options: {
         layout: string;
-        layoutOptions: {};
+        layoutOptions: Record<string, unknown>;
         colorMetric: string;
         scalingMethod: string;
     };
@@ -76,7 +74,7 @@ class LayoutProcessor {
         this._buildingColorTheme = undefined as any;
     }
 
-    public getIllustration(options: {}, model: Softvis3dModel) {
+    public getIllustration(options: Record<string, unknown>, model: Softvis3dModel) {
         return new Promise<any>((resolve) => {
 
             this.setOptions(options);
@@ -176,10 +174,10 @@ class LayoutProcessor {
             throw "Cannot merge non-objects.";
         }
 
-        let merged: { [index: string]: any; } = {};
+        const merged: { [index: string]: any; } = {};
 
         for (const key in newOpt) {
-            if (!newOpt.hasOwnProperty(key)) {
+            if (!Object.prototype.hasOwnProperty.call(newOpt, key)) {
                 continue;
             }
 
@@ -197,7 +195,7 @@ class LayoutProcessor {
     }
 
     private _getBuildingColorRule() {
-        let rules = new LayoutBuildingColorRules(this._metricScale, this._buildingColorTheme);
+        const rules = new LayoutBuildingColorRules(this._metricScale, this._buildingColorTheme);
         switch (this._options.colorMetric) {
             case linesOfCodeColorMetric.id:
                 return rules.ruleBuildingColorByLinesOfCode();
@@ -220,11 +218,16 @@ class LayoutProcessor {
         }
     }
 
+    private static dimensionsHeight = "dimensions.height";
+    private static dimensionsLength = "dimensions.length";
+    private static dimensionsWidth = "dimensions.width";
+
     /**
      * Height-Metric --> Building Height
      * @private
      * @returns {BaseRule}
      */
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     private _RuleBuildingHeight() {
         let max = 450;
         let factor: number;
@@ -248,7 +251,7 @@ class LayoutProcessor {
                     const attr: AttributeContainer = attributeHelper.attrFallbackSweep(model, node, version);
                     return ("height" in attr) ? attr["height"] : 0;
                 },
-                attributes: "dimensions.height",
+                attributes: LayoutProcessor.dimensionsHeight,
                 min: 6,
                 max,
                 logbase: base,
@@ -264,7 +267,7 @@ class LayoutProcessor {
                     const attr = attributeHelper.attrFallbackSweep(model, node, version);
                     return ("height" in attr) ? attr["height"] : 0;
                 },
-                attributes: "dimensions.height",
+                attributes: LayoutProcessor.dimensionsHeight,
                 min: 6,
                 max,
                 power,
@@ -288,7 +291,7 @@ class LayoutProcessor {
                     const attr = attributeHelper.attrFallbackSweep(model, node, version);
                     return ("height" in attr) ? attr["height"] : 0;
                 },
-                attributes: "dimensions.height",
+                attributes: LayoutProcessor.dimensionsHeight,
                 min: 6,
                 max,
                 factor
@@ -301,6 +304,7 @@ class LayoutProcessor {
      * @private
      * @returns {BaseRule}
      */
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     private _RuleBuildingBase() {
         let max = 450;
         let factor: number;
@@ -324,7 +328,7 @@ class LayoutProcessor {
                     const attr = attributeHelper.attrFallbackSweep(model, node, version);
                     return ("metricFootprint" in attr) ? attr["metricFootprint"] : 0;
                 },
-                attributes: ["dimensions.length", "dimensions.width"],
+                attributes: [LayoutProcessor.dimensionsLength, LayoutProcessor.dimensionsWidth],
                 min: 10,
                 max,
                 logbase: base,
@@ -340,7 +344,7 @@ class LayoutProcessor {
                     const attr = attributeHelper.attrFallbackSweep(model, node, version);
                     return ("metricFootprint" in attr) ? attr["metricFootprint"] : 0;
                 },
-                attributes: ["dimensions.length", "dimensions.width"],
+                attributes: [LayoutProcessor.dimensionsLength, LayoutProcessor.dimensionsWidth],
                 min: 10,
                 max,
                 power,
@@ -364,7 +368,7 @@ class LayoutProcessor {
                     const attr = attributeHelper.attrFallbackSweep(model, node, version);
                     return ("metricFootprint" in attr) ? attr["metricFootprint"] : 0;
                 },
-                attributes: ["dimensions.length", "dimensions.width"],
+                attributes: [LayoutProcessor.dimensionsLength, LayoutProcessor.dimensionsWidth],
                 min: 6,
                 max,
                 factor
@@ -384,7 +388,7 @@ class LayoutProcessor {
             metric: (model, node) => {
                 if (!model) return 0;
                 let level = 0;
-                while (node = (node.parent as TreeNodeInterface)) {
+                while ((node = (node.parent as TreeNodeInterface))) {
                     level++;
                 }
                 return level;
@@ -404,10 +408,11 @@ class LayoutProcessor {
     private _RulePackageColorGrey() {
         return new CodeCityVis.rules.color.gradient({
             condition: (model, node) => model && node.children.length !== 0,
+            // eslint-disable-next-line sonarjs/no-identical-functions
             metric: (model, node) => {
                 if (!model) return 0;
                 let level = 0;
-                while (node = (node.parent as TreeNodeInterface)) {
+                while ((node = (node.parent as TreeNodeInterface))) {
                     level++;
                 }
                 return level;

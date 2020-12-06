@@ -7,8 +7,8 @@ import PreviewPictureComponent from "../../../src/components/citybuilder/Preview
 describe("<PreviewPictureComponent/>", () => {
 
     it("should show resolve url for preview picture", () => {
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let baseUrl: string = "";
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const baseUrl = "";
 
         const underTest = shallow(
             <PreviewPictureComponent store={testCityBuilderStore} baseUrl={baseUrl}/>
@@ -18,8 +18,8 @@ describe("<PreviewPictureComponent/>", () => {
     });
 
     it("should show resolve url for preview picture with base url", () => {
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let baseUrl: string = "/isudfisu";
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const baseUrl = "/isudfisu";
 
         const underTest = shallow(
             <PreviewPictureComponent store={testCityBuilderStore} baseUrl={baseUrl}/>

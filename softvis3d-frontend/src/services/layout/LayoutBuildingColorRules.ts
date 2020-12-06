@@ -18,8 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-/* tslint:disable */
-
 import * as CodeCityVis from "codecity-visualizer";
 import BuildingColorTheme from '../../classes/BuildingColorTheme';
 import {MetricScale} from './LayoutProcessor';
@@ -71,7 +69,7 @@ class LayoutBuildingColorRules {
      * @returns {BaseRule}
      */
     public ruleBuildingColorByLinesOfCode() {
-        let minVal = 25;
+        const minVal = 25;
         let maxVal = this._metricScale.metricColor.max;
         maxVal = Math.max(350, maxVal);
         maxVal = Math.min(900, maxVal);
@@ -85,8 +83,8 @@ class LayoutBuildingColorRules {
      * @returns {BaseRule}
      */
     public ruleBuildingColorByScmInfos() {
-        let minVal = 1;
-        let maxVal = 4;
+        const minVal = 1;
+        const maxVal = 4;
 
         return this.createMinMaxRule(minVal, maxVal, this._colorMode);
     }
@@ -97,7 +95,7 @@ class LayoutBuildingColorRules {
      * @returns {BaseRule}
      */
     public ruleBuildingColorByComplexity() {
-        let minVal = 25;
+        const minVal = 25;
         let maxVal = this._metricScale.metricColor.max;
         maxVal = Math.max(200, maxVal);
         maxVal = Math.min(400, maxVal);
@@ -111,8 +109,8 @@ class LayoutBuildingColorRules {
      * @returns {BaseRule}
      */
     public ruleBuildingColorByCoverage() {
-        let minVal = 0;
-        let maxVal = 95;
+        const minVal = 0;
+        const maxVal = 95;
 
         return this.createMinMaxRule(minVal, maxVal, this._colorMode);
     }
@@ -123,7 +121,7 @@ class LayoutBuildingColorRules {
      * @returns {BaseRule}
      */
     public ruleBuildingColorByIssues() {
-        let minVal = 0;
+        const minVal = 0;
         let maxVal = this._metricScale.metricColor.max;
         maxVal = Math.max(20, maxVal);
         maxVal = Math.min(180, maxVal);
@@ -136,8 +134,9 @@ class LayoutBuildingColorRules {
      * @private
      * @returns {BaseRule}
      */
+    // eslint-disable-next-line sonarjs/no-identical-functions
     public ruleBuildingColorByOpenIssues() {
-        let minVal = 0;
+        const minVal = 0;
         let maxVal = this._metricScale.metricColor.max;
         maxVal = Math.max(20, maxVal);
         maxVal = Math.min(180, maxVal);

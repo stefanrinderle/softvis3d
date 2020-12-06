@@ -31,22 +31,22 @@ import {createMock} from "../../Helper";
 describe("SonarQubeScmService", () => {
 
     it("should check if metric is available if its available", (done) => {
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let testSceneStore: SceneStore = new SceneStore();
-        let exampleData: any = {};
+        const testSceneStore: SceneStore = new SceneStore();
+        const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
-        let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
+        const apiUrl = "urlsihshoif";
+        const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
         mockTreeServiceGetAllFiles([createTestTreeElement("test")]);
 
-        let measure: string[] = [];
-        let measures: any = [];
+        const measure: string[] = [];
+        const measures: any = [];
         measures.push(measure);
 
-        let localScmCalculator = createMock(ScmCalculatorService);
+        const localScmCalculator = createMock(ScmCalculatorService);
         localScmCalculator.createMetric.returns({
             lineNumber: 1,
             authorName: "srinderle",
@@ -74,24 +74,24 @@ describe("SonarQubeScmService", () => {
     });
 
     it("should check if metric is available if its NOT available", (done) => {
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let testSceneStore: SceneStore = new SceneStore();
-        let exampleData: any = {};
+        const testSceneStore: SceneStore = new SceneStore();
+        const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
-        let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
+        const apiUrl = "urlsihshoif";
+        const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
-        let statusStub = Sinon.stub(testAppStatusStore, "status");
+        const statusStub = Sinon.stub(testAppStatusStore, "status");
 
         mockTreeServiceGetAllFiles([createTestTreeElement("test")]);
 
-        let measure: string[] = [];
-        let measures: any = [];
+        const measure: string[] = [];
+        const measures: any = [];
         measures.push(measure);
 
-        let localScmCalculator = createMock(ScmCalculatorService);
+        const localScmCalculator = createMock(ScmCalculatorService);
         localScmCalculator.createMetric.returns({});
         localScmCalculator.calcNumberOfAuthors.returns(0);
 
@@ -117,27 +117,27 @@ describe("SonarQubeScmService", () => {
 
     it("should call backend and add metric", (done) => {
         createMock(ScmCalculatorService);
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let loadStub = Sinon.stub(testAppStatusStore, "load");
-        let loadCompleteStub = Sinon.stub(testAppStatusStore, "loadComplete");
-        let loadStatusUpdateStub = Sinon.stub(testAppStatusStore, "loadStatusUpdate");
+        const loadStub = Sinon.stub(testAppStatusStore, "load");
+        const loadCompleteStub = Sinon.stub(testAppStatusStore, "loadComplete");
+        const loadStatusUpdateStub = Sinon.stub(testAppStatusStore, "loadStatusUpdate");
 
-        let testSceneStore: SceneStore = new SceneStore();
-        let exampleData: any = {};
+        const testSceneStore: SceneStore = new SceneStore();
+        const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
-        let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
+        const apiUrl = "urlsihshoif";
+        const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
         const treeElement = createTestTreeElement("test");
         mockTreeServiceGetAllFiles([treeElement]);
 
-        let measure: string[] = [];
-        let measures: any = [];
+        const measure: string[] = [];
+        const measures: any = [];
         measures.push(measure);
 
-        let localScmCalculator = createMock(ScmCalculatorService);
+        const localScmCalculator = createMock(ScmCalculatorService);
         localScmCalculator.createMetric.returns({
             lineNumber: 1,
             authorName: "srinderle",
@@ -155,7 +155,7 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
-            assert(treeElement.measures.hasOwnProperty("number_of_authors"));
+            assert(Object.prototype.hasOwnProperty.call(treeElement.measures, "number_of_authors"));
             expect(treeElement.measures.number_of_authors).to.be.eq(4);
 
             assert(loadStub.called);
@@ -171,29 +171,29 @@ describe("SonarQubeScmService", () => {
 
     it("should call backend and add metric in batches", (done) => {
         createMock(ScmCalculatorService);
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let loadStub = Sinon.stub(testAppStatusStore, "load");
-        let loadCompleteStub = Sinon.stub(testAppStatusStore, "loadComplete");
-        let loadStatusUpdateStub = Sinon.stub(testAppStatusStore, "loadStatusUpdate");
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const loadStub = Sinon.stub(testAppStatusStore, "load");
+        const loadCompleteStub = Sinon.stub(testAppStatusStore, "loadComplete");
+        const loadStatusUpdateStub = Sinon.stub(testAppStatusStore, "loadStatusUpdate");
 
-        let testSceneStore: SceneStore = new SceneStore();
-        let exampleData: any = {};
+        const testSceneStore: SceneStore = new SceneStore();
+        const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
-        let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
+        const apiUrl = "urlsihshoif";
+        const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
-        let treeElements: TreeElement[] = [];
+        const treeElements: TreeElement[] = [];
         for (let i = 0; i < 90; i++) {
             treeElements.push(createTestTreeElement("test" + i));
         }
         mockTreeServiceGetAllFiles(treeElements);
 
-        let measure: string[] = [];
-        let measures: any = [];
+        const measure: string[] = [];
+        const measures: any = [];
         measures.push(measure);
 
-        let localScmCalculator = createMock(ScmCalculatorService);
+        const localScmCalculator = createMock(ScmCalculatorService);
         localScmCalculator.createMetric.returns({
             lineNumber: 1,
             authorName: "srinderle",
@@ -211,7 +211,7 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
-            assert(treeElements[0].measures.hasOwnProperty("number_of_authors"));
+            assert(Object.prototype.hasOwnProperty.call(treeElements[0].measures, "number_of_authors"));
             expect(treeElements[0].measures.number_of_authors).to.be.eq(4);
 
             expect(treeElements[89].measures.number_of_authors).to.be.eq(4);
@@ -228,12 +228,12 @@ describe("SonarQubeScmService", () => {
     });
 
     it("should do nothing if no data is available", (done) => {
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testSceneStore: SceneStore = new SceneStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testSceneStore: SceneStore = new SceneStore();
         testSceneStore.projectData = null;
 
-        let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
+        const apiUrl = "urlsihshoif";
+        const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
         underTest.loadScmInfos(testAppStatusStore, testSceneStore).then(() => {
             done();
@@ -244,16 +244,16 @@ describe("SonarQubeScmService", () => {
     });
 
     it("should react on error", (done) => {
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let errorStub = Sinon.stub(testAppStatusStore, "error");
+        const errorStub = Sinon.stub(testAppStatusStore, "error");
 
-        let testSceneStore: SceneStore = new SceneStore();
-        let exampleData: any = {};
+        const testSceneStore: SceneStore = new SceneStore();
+        const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
-        let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
+        const apiUrl = "urlsihshoif";
+        const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
         mockTreeServiceGetAllFiles([createTestTreeElement("test")]);
 
@@ -282,6 +282,6 @@ function createTestTreeElement(name: string, parent?: TreeElement): TreeElement 
 }
 
 function mockTreeServiceGetAllFiles(treeElements: TreeElement[]) {
-    let localTreeService: any = createMock(TreeService);
+    const localTreeService: any = createMock(TreeService);
     localTreeService.getAllFiles.returns(treeElements);
 }

@@ -45,7 +45,7 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
     }
 
     private getShareMenuClassName(): string {
-        let classes: string[] = [];
+        const classes: string[] = [];
 
         classes.push("dropdown-menu");
 
@@ -74,7 +74,7 @@ export default class TopBarShareButton extends React.Component<TopBarShareButton
     }
 
     private openPlainVisualizationLink() {
-        let result: string =
+        const result: string =
             this.visualizationLinkService.createPlainVisualizationLink(this.props.cityBuilderStore, this.props.sceneStore);
         window.open(result);
 

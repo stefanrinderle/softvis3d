@@ -29,7 +29,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
 
     private _threeSceneService: ThreeSceneService;
     private _keyActions: SceneKeyInteractions;
-    private shapesHash: string = "";
+    private shapesHash = "";
     private selectedObjectIdState: string | null = null;
 
     constructor() {

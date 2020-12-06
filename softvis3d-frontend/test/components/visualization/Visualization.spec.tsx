@@ -12,8 +12,8 @@ import SceneStore from "../../../src/stores/SceneStore";
 describe("<Visualization/>", () => {
 
     it("should not render any children, when no visualization (shapes) is ready", () => {
-        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         localSceneStore.shapes = null;
 
@@ -28,8 +28,8 @@ describe("<Visualization/>", () => {
     });
 
     it("should initialize all elements on start - shapes available but empty", () => {
-        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         const visualization = shallow(
             <Visualization cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>

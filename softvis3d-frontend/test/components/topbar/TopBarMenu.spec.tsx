@@ -10,8 +10,8 @@ import SceneStore from "../../../src/stores/SceneStore";
 describe("<TopBarMenu/>", () => {
 
     it("should show settings button and check action", () => {
-        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         const topBarMenu = shallow(
             <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
@@ -24,10 +24,10 @@ describe("<TopBarMenu/>", () => {
     });
 
     it("should show feedback button and check action", () => {
-        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
-        let stub = Sinon.stub(window, "open");
+        const stub = Sinon.stub(window, "open");
 
         const topBarMenu = shallow(
             <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
@@ -42,10 +42,10 @@ describe("<TopBarMenu/>", () => {
     });
 
     it("should show help button and check action", () => {
-        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
-        let stub = Sinon.stub(window, "open");
+        const stub = Sinon.stub(window, "open");
 
         const topBarMenu = shallow(
             <TopBarMenu cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>
@@ -60,8 +60,8 @@ describe("<TopBarMenu/>", () => {
     });
 
     it("should have share component", () => {
-        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         localCityBuilderStore.show = true;
 

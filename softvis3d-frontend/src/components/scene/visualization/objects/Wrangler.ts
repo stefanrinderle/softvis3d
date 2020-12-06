@@ -49,13 +49,13 @@ export class Wrangler {
 
         this.objectsInView = ObjectFactory.getSceneObjects(data);
 
-        for (let object of this.objectsInView) {
+        for (const object of this.objectsInView) {
             this.scene.add(object);
         }
     }
 
     public updateColorsWithUpdatedShapes(shapes: SoftVis3dShape[]) {
-        let resultObjects: SoftVis3dMesh[] = ObjectFactory.getSceneObjects(shapes);
+        const resultObjects: SoftVis3dMesh[] = ObjectFactory.getSceneObjects(shapes);
 
         // update colors
         for (let index = 0; index < resultObjects.length; index++) {
@@ -64,7 +64,7 @@ export class Wrangler {
 
         // update selected object
         if (this.selectedTreeObjects.length > 0) {
-            let formerSelectedObjectId: string = this.selectedTreeObjects[0].object.getSoftVis3dId();
+            const formerSelectedObjectId: string = this.selectedTreeObjects[0].object.getSoftVis3dId();
             this.selectedTreeObjects = [];
             this.selectSceneTreeObject(formerSelectedObjectId);
         }
@@ -73,19 +73,19 @@ export class Wrangler {
     public selectSceneTreeObject(objectSoftVis3dId: string | null) {
         // reset former selected objects
 
-        for (let previousSelection of this.selectedTreeObjects) {
+        for (const previousSelection of this.selectedTreeObjects) {
             previousSelection.object.material.color.setHex(previousSelection.color);
         }
 
         this.selectedTreeObjects = [];
 
         if (objectSoftVis3dId !== null) {
-            for (let obj of this.objectsInView) {
+            for (const obj of this.objectsInView) {
                 if (objectSoftVis3dId === obj.getSoftVis3dId()) {
 
-                    let selectedObjectMaterial: MeshLambertMaterial = obj.material;
+                    const selectedObjectMaterial: MeshLambertMaterial = obj.material;
 
-                    let selectedObjectInformation = {
+                    const selectedObjectInformation = {
                         object: obj,
                         color: selectedObjectMaterial.color.getHex()
                     };

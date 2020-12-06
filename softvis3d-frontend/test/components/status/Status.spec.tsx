@@ -13,7 +13,7 @@ import InfoStatus from "../../../src/components/status/InfoStatus";
 describe("<Status/>", () => {
 
     it("should draw loading components if loading", () => {
-        let localAppStatusStore: AppStatusStore = new AppStatusStore();
+        const localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         localAppStatusStore.load(new LoadAction("test", ""));
 
@@ -28,7 +28,7 @@ describe("<Status/>", () => {
     });
 
     it("should draw error components if errors", () => {
-        let localAppStatusStore: AppStatusStore = new AppStatusStore();
+        const localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         localAppStatusStore.error(new ErrorAction("key", "test", "", () => undefined));
 
@@ -43,7 +43,7 @@ describe("<Status/>", () => {
     });
 
     it("should draw nothing if not visible", () => {
-        let localAppStatusStore: AppStatusStore = new AppStatusStore();
+        const localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         const softvis3d = shallow(
             <Status appStatusStore={localAppStatusStore}/>

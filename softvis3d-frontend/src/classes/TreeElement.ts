@@ -59,7 +59,7 @@ export class TreeElement {
     public clone(): TreeElement {
         const treeElement = new TreeElement(this.id, this.key, this.measures, this.name, this.path, this.qualifier, this.parent);
 
-        for (let child of this.children) {
+        for (const child of this.children) {
             treeElement.children.push(child.clone());
         }
 

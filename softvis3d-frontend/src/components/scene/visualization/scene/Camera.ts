@@ -25,7 +25,7 @@ import { PerspectiveCamera, Vector3 } from "three";
  */
 export class Camera {
 
-    private fov: number = 70;
+    private fov = 70;
 
     private aspectRatio: number;
 
@@ -33,8 +33,8 @@ export class Camera {
      * Perspective camera setup
      */
     private perpCam: PerspectiveCamera;
-    private perpNearPane: number = 1;
-    private perpFarPane: number = 100000;
+    private perpNearPane = 1;
+    private perpFarPane = 100000;
 
     constructor(container: HTMLCanvasElement) {
         this.aspectRatio = container.clientWidth / container.clientHeight;

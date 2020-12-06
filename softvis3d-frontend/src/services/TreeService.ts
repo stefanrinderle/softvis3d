@@ -31,7 +31,7 @@ export default class TreeService {
     }
 
     public getAllSceneElementsRecursive(tree: TreeElement, id: string): string[] {
-        let node = this.searchTreeNode(tree, id);
+        const node = this.searchTreeNode(tree, id);
         if (node === null) {
             return [];
         } else {
@@ -48,7 +48,7 @@ export default class TreeService {
 
         // children nodes
         for (const child of node.children) {
-            let result = this.getAllFiles(child);
+            const result = this.getAllFiles(child);
             results = results.concat(result);
         }
 
@@ -61,7 +61,7 @@ export default class TreeService {
         }
 
         for (const child of element.children) {
-            let result = this.searchIdInElement(id, child);
+            const result = this.searchIdInElement(id, child);
             if (result) {
                 return result;
             }
@@ -76,7 +76,7 @@ export default class TreeService {
 
         // children nodes
         for (const child of node.children) {
-            let result = this.privateGetAllSceneElementsRecursive(child);
+            const result = this.privateGetAllSceneElementsRecursive(child);
             showIds = showIds.concat(result);
         }
 

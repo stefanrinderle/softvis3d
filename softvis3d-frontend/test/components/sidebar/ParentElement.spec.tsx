@@ -16,10 +16,10 @@ describe("<ParentElement/>", () => {
 
     it("should show nothing if selected Element has no parent", () => {
         const element = createDefaultDir();
-        let localSceneStore = new SceneStore();
+        const localSceneStore = new SceneStore();
         localSceneStore.projectData = element;
 
-        let sideBarSelectParent = shallow(
+        const sideBarSelectParent = shallow(
             <ParentElement sceneStore={localSceneStore} selectedElement={element}/>
         );
 
@@ -27,15 +27,15 @@ describe("<ParentElement/>", () => {
     });
 
     it("should show nothing if the parent of selected element is root", () => {
-        let parent: TreeElement = createDefaultDir();
-        let child1: TreeElement = createDefaultFileWithParent(parent);
+        const parent: TreeElement = createDefaultDir();
+        const child1: TreeElement = createDefaultFileWithParent(parent);
 
         parent.children.push(child1);
 
-        let localSceneStore = new SceneStore();
+        const localSceneStore = new SceneStore();
         localSceneStore.projectData = parent;
 
-        let sideBarSelectParent = shallow(
+        const sideBarSelectParent = shallow(
             <ParentElement sceneStore={localSceneStore} selectedElement={parent}/>
         );
 
@@ -43,17 +43,17 @@ describe("<ParentElement/>", () => {
     });
 
     it("should select parent folder on click (for node element)", () => {
-        let parent: TreeElement = createDefaultDirWithKey("parent", "parent");
-        let child1: TreeElement = createDefaultDirWithKeyAndParent("child1", parent);
-        let child11: TreeElement = createDefaultFileWithIdAndParent("child11", child1);
+        const parent: TreeElement = createDefaultDirWithKey("parent", "parent");
+        const child1: TreeElement = createDefaultDirWithKeyAndParent("child1", parent);
+        const child11: TreeElement = createDefaultFileWithIdAndParent("child11", child1);
 
         parent.children.push(child1);
         child1.children.push(child11);
 
-        let localSceneStore = new SceneStore();
+        const localSceneStore = new SceneStore();
         localSceneStore.projectData = parent;
 
-        let sideBarSelectParent = shallow(
+        const sideBarSelectParent = shallow(
             <ParentElement sceneStore={localSceneStore} selectedElement={child1}/>
         );
 
@@ -62,17 +62,17 @@ describe("<ParentElement/>", () => {
     });
 
     it("should select parent folder on click (for leaf element)", () => {
-        let parent: TreeElement = createDefaultDirWithKey("parent", "parent");
-        let child1: TreeElement = createDefaultDirWithKeyAndParent("child1", parent);
-        let child11: TreeElement = createDefaultFileWithIdAndParent("child11", child1);
+        const parent: TreeElement = createDefaultDirWithKey("parent", "parent");
+        const child1: TreeElement = createDefaultDirWithKeyAndParent("child1", parent);
+        const child11: TreeElement = createDefaultFileWithIdAndParent("child11", child1);
 
         parent.children.push(child1);
         child1.children.push(child11);
 
-        let localSceneStore = new SceneStore();
+        const localSceneStore = new SceneStore();
         localSceneStore.projectData = parent;
 
-        let sideBarSelectParent = shallow(
+        const sideBarSelectParent = shallow(
             <ParentElement sceneStore={localSceneStore} selectedElement={child11}/>
         );
 

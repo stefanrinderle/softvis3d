@@ -38,7 +38,7 @@ export default class Category extends React.Component<CategoryProps, CategorySta
 
     private getClassName() {
         const {toggle, className} = this.props;
-        let classes: string[] = [];
+        const classes: string[] = [];
 
         if (className) {
             classes.push(className);

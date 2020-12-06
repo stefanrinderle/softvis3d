@@ -23,8 +23,8 @@ import { DirectionalLight, Scene, WebGLRenderer } from "three";
 export class Setup {
 
     public static initRenderer(renderer: WebGLRenderer, scene: Scene, container: HTMLCanvasElement) {
-        let width: number = container.clientWidth;
-        let height: number = container.clientHeight;
+        const width: number = container.clientWidth;
+        const height: number = container.clientHeight;
 
         Setup.setupRenderer(renderer, width, height);
         Setup.lights(scene);

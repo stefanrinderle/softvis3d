@@ -20,7 +20,7 @@ export default class SelectedElementInfo extends React.Component<SelectedElement
             );
         }
 
-        let classes = [
+        const classes = [
             "selected-element-info",
             selectedElement.isFile() ? "leaf" : "node"
         ];
@@ -63,7 +63,7 @@ export default class SelectedElementInfo extends React.Component<SelectedElement
     }
 
     private open(newLocation: string, id: string) {
-        let baseUrl: string = (window as any).baseUrl;
+        const baseUrl: string = (window as any).baseUrl;
         let result = "";
         if (baseUrl) {
             result = baseUrl;

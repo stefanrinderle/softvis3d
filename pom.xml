@@ -11,9 +11,9 @@
   <properties>
     <license.mailto>stefan@rinderle.info</license.mailto>
 
-    <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
+    <sonar.junit.reportPaths>target/surefire-reports</sonar.junit.reportPaths>
     <coverage.reports.dir>${basedir}/target/coverage-reports</coverage.reports.dir>
-    <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
+    <sonar.testExecutionReportPaths>${basedir}/softvis3d-frontend/coverage/sonar-coverage.xml</sonar.testExecutionReportPaths>
 
     <guice.version>4.1.0</guice.version>
 

@@ -31,7 +31,7 @@ export default class SonarQubeScmService extends BackendService {
     public static LOAD_SCM: LoadAction = new LoadAction("SONAR_LOAD_SCM", "Request scm infos from SonarQube");
     public static STATUS_SCM_NOT_AVAILABLE: LoadAction = new LoadAction("STATUS_SCM_NOT_AVAILABLE",
         "SCM blame info is not available. Please check your scm plugin.");
-    private static LOAD_SCM_ERROR_KEY: string = "LOAD_SCM_ERROR";
+    private static LOAD_SCM_ERROR_KEY = "LOAD_SCM_ERROR";
 
     @lazyInject("TreeService")
     private readonly treeService!: TreeService;
@@ -62,13 +62,13 @@ export default class SonarQubeScmService extends BackendService {
                 let allFiles: TreeElement[] = this.treeService.getAllFiles(sceneStore.projectData);
                 allFiles = allFiles.slice(0, 10);
 
-                let requests: Array<Promise<void>> = [];
-                for (let file of allFiles) {
+                const requests: Array<Promise<void>> = [];
+                for (const file of allFiles) {
                     requests.push(this.loadScmInfosFor(appStatusStore, file));
                 }
 
                 Promise.all(requests).then(() => {
-                    let isScmMetricAvailable = this.checkScmMetricAvailable(allFiles);
+                    const isScmMetricAvailable = this.checkScmMetricAvailable(allFiles);
                     if (!isScmMetricAvailable) {
                         appStatusStore.status(SonarQubeScmService.STATUS_SCM_NOT_AVAILABLE);
                     }
@@ -87,7 +87,7 @@ export default class SonarQubeScmService extends BackendService {
 
         return new Promise<void>((resolve, reject) => {
             if (sceneStore.projectData !== null) {
-                let allFiles: TreeElement[] = this.treeService.getAllFiles(sceneStore.projectData);
+                const allFiles: TreeElement[] = this.treeService.getAllFiles(sceneStore.projectData);
 
                 this.loadScmInfosBatch(appStatusStore, allFiles).then(() => {
                     appStatusStore.loadComplete(SonarQubeScmService.LOAD_SCM);
@@ -114,7 +114,7 @@ export default class SonarQubeScmService extends BackendService {
     }
 
     private checkScmMetricAvailable(allFiles: TreeElement[]): boolean {
-        for (let file of allFiles) {
+        for (const file of allFiles) {
             if (file.measures.number_of_authors > 0) {
                 return true;
             }
@@ -122,16 +122,16 @@ export default class SonarQubeScmService extends BackendService {
         return false;
     }
 
-    private loadScmInfosBatch(appStatusStore: AppStatusStore, allFiles: TreeElement[], page: number = 0): Promise<void> {
+    private loadScmInfosBatch(appStatusStore: AppStatusStore, allFiles: TreeElement[], page = 0): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            let pageSize: number = 75;
+            const pageSize = 75;
             // example 146 / 75 = 1,94 => 1 => +1 => 2
-            let pagesMax = Math.floor(allFiles.length / pageSize) + 1;
+            const pagesMax = Math.floor(allFiles.length / pageSize) + 1;
             appStatusStore.loadStatusUpdate(SonarQubeScmService.LOAD_SCM.key, pagesMax, page);
 
-            let requests: Array<Promise<void>> = [];
+            const requests: Array<Promise<void>> = [];
 
-            let start: number = page * pageSize;
+            const start: number = page * pageSize;
             let end: number = (page * pageSize) + pageSize;
 
             if (allFiles.length < end) {
@@ -143,7 +143,7 @@ export default class SonarQubeScmService extends BackendService {
             }
 
             Promise.all(requests).then(() => {
-                let isNextBatchRequired: boolean = allFiles.length > (page * pageSize) + pageSize;
+                const isNextBatchRequired: boolean = allFiles.length > (page * pageSize) + pageSize;
                 if (isNextBatchRequired) {
                     this.loadScmInfosBatch(appStatusStore, allFiles, page + 1).then(() => {
                         resolve();
@@ -161,7 +161,7 @@ export default class SonarQubeScmService extends BackendService {
         return new Promise<void>((resolve, reject) => {
             const params = {key: element.key};
             this.callApi("/sources/scm", {params}).then((response) => {
-                let metrics = (response.data.scm)
+                const metrics = (response.data.scm)
                     .map((c: any) => {
                             return this.scmCalculator.createMetric(c);
                         }

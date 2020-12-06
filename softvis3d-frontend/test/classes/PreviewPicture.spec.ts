@@ -25,7 +25,7 @@ import {district, evostreet} from "../../src/constants/Layouts";
 describe("PreviewPicture", () => {
 
     it("should know its layout", () => {
-        let bgPicture: string = "/static/resources/preview/evostreet_complexity_loc_EXTINT.png";
+        const bgPicture = "/static/resources/preview/evostreet_complexity_loc_EXTINT.png";
 
         const underTest: PreviewPicture =
             new PreviewPicture(bgPicture, evostreet, defaultProfile);
@@ -35,7 +35,7 @@ describe("PreviewPicture", () => {
     });
 
     it("should know its profile", () => {
-        let bgPicture: string = "/static/resources/preview/evostreet_complexity_loc_EXTINT.png";
+        const bgPicture = "/static/resources/preview/evostreet_complexity_loc_EXTINT.png";
 
         const underTest: PreviewPicture =
             new PreviewPicture(bgPicture, evostreet, defaultProfile);

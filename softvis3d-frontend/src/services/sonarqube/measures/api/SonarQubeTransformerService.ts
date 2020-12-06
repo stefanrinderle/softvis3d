@@ -10,7 +10,7 @@ export default class SonarQubeTransformerService {
     public createTreeElement(component: SonarQubeApiComponent, parent?: TreeElement): TreeElement {
         const measureList: MeasureList = {};
 
-        for (let localMeasure of component.measures) {
+        for (const localMeasure of component.measures) {
             if (localMeasure.value) {
                 measureList[localMeasure.metric] = +localMeasure.value;
             } else {
@@ -27,13 +27,13 @@ export default class SonarQubeTransformerService {
     /**
      * Will be called with the path of the components sorted.
      */
-    public add(parent: TreeElement, element: TreeElement, examineInReversedOrder: boolean = false) {
+    public add(parent: TreeElement, element: TreeElement, examineInReversedOrder = false) {
         let children: TreeElement[] = parent.children;
         if (examineInReversedOrder) {
             children = [...parent.children].reverse();
         }
 
-        for (let child of children) {
+        for (const child of children) {
             const indexOf = element.path.indexOf(child.path + "/");
 
             if (indexOf === 0) {

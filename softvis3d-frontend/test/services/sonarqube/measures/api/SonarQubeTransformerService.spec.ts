@@ -18,14 +18,19 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 import {expect} from "chai";
-import {TreeElement} from "../../../src/classes/TreeElement";
+import {TreeElement} from "../../../../../src/classes/TreeElement";
 import {
     SonarQubeApiComponent,
     SonarQubeMeasure,
     SonarQubeQualifier, SQ_QUALIFIER_DIRECTORY, SQ_QUALIFIER_FILE
-} from "../../../src/services/sonarqube/measures/api/SonarQubeMeasureResponse";
-import SonarQubeTransformerService from "../../../src/services/sonarqube/measures/api/SonarQubeTransformerService";
-import {createDefaultDir, createDefaultDirWithPath, createDefaultFileWithPath} from "../../classes/TreeElement.spec";
+} from "../../../../../src/services/sonarqube/measures/api/SonarQubeMeasureResponse";
+import SonarQubeTransformerService
+    from "../../../../../src/services/sonarqube/measures/api/SonarQubeTransformerService";
+import {
+    createDefaultDir,
+    createDefaultDirWithPath,
+    createDefaultFileWithPath
+} from "../../../../classes/TreeElement.spec";
 
 describe("SonarQubeTransformerService", () => {
 
@@ -34,14 +39,14 @@ describe("SonarQubeTransformerService", () => {
      */
 
     it("should transform SQComponent to TreeElement - minimal", () => {
-        let id = "id";
-        let key = "key";
-        let measures: SonarQubeMeasure[] = [];
-        let name = "name";
-        let path = "path";
-        let qualifier: SonarQubeQualifier = SQ_QUALIFIER_DIRECTORY;
+        const id = "id";
+        const key = "key";
+        const measures: SonarQubeMeasure[] = [];
+        const name = "name";
+        const path = "path";
+        const qualifier: SonarQubeQualifier = SQ_QUALIFIER_DIRECTORY;
 
-        let component: SonarQubeApiComponent = {
+        const component: SonarQubeApiComponent = {
             id,
             key,
             measures,
@@ -49,7 +54,7 @@ describe("SonarQubeTransformerService", () => {
             path,
             qualifier
         };
-        let result: TreeElement = new SonarQubeTransformerService().createTreeElement(component);
+        const result: TreeElement = new SonarQubeTransformerService().createTreeElement(component);
 
         expect(result).not.to.be.undefined;
         expect(result).not.to.be.null;
@@ -64,7 +69,7 @@ describe("SonarQubeTransformerService", () => {
     });
 
     it("should transform SQComponent to TreeElement - with parent", () => {
-        let component: SonarQubeApiComponent = {
+        const component: SonarQubeApiComponent = {
             id: "id",
             key: "key",
             measures: [],
@@ -73,8 +78,8 @@ describe("SonarQubeTransformerService", () => {
             qualifier: SQ_QUALIFIER_FILE
         };
 
-        let expectedParent: TreeElement = createDefaultDir();
-        let result: TreeElement = new SonarQubeTransformerService().createTreeElement(component, expectedParent);
+        const expectedParent: TreeElement = createDefaultDir();
+        const result: TreeElement = new SonarQubeTransformerService().createTreeElement(component, expectedParent);
 
         expect(result.parent).not.to.be.undefined;
         expect(result.parent).not.to.be.null;
@@ -83,7 +88,7 @@ describe("SonarQubeTransformerService", () => {
     });
 
     it("should transform SQComponent to TreeElement - with measures", () => {
-        let measures: SonarQubeMeasure[] = [];
+        const measures: SonarQubeMeasure[] = [];
         measures.push({
             metric: "ncloc",
             value: 123,
@@ -95,7 +100,7 @@ describe("SonarQubeTransformerService", () => {
             periods: []
         });
 
-        let component: SonarQubeApiComponent = {
+        const component: SonarQubeApiComponent = {
             id: "id",
             key: "key",
             measures,
@@ -104,8 +109,8 @@ describe("SonarQubeTransformerService", () => {
             qualifier: SQ_QUALIFIER_FILE
         };
 
-        let expectedParent: TreeElement = createDefaultDir();
-        let result: TreeElement = new SonarQubeTransformerService().createTreeElement(component, expectedParent);
+        const expectedParent: TreeElement = createDefaultDir();
+        const result: TreeElement = new SonarQubeTransformerService().createTreeElement(component, expectedParent);
 
         expect(result.measures).not.to.be.undefined;
         expect(result.measures).not.to.be.null;
@@ -115,10 +120,10 @@ describe("SonarQubeTransformerService", () => {
     });
 
     it("should transform SQComponent to TreeElement - with period measures", () => {
-        let index: number = 1;
-        let value: string = "123";
+        const index = 1;
+        const value = "123";
 
-        let measures: SonarQubeMeasure[] = [];
+        const measures: SonarQubeMeasure[] = [];
         measures.push({
             metric: "ncloc",
             periods: [{
@@ -127,7 +132,7 @@ describe("SonarQubeTransformerService", () => {
             }]
         });
 
-        let component: SonarQubeApiComponent = {
+        const component: SonarQubeApiComponent = {
             id: "id",
             key: "key",
             measures,
@@ -136,8 +141,8 @@ describe("SonarQubeTransformerService", () => {
             qualifier: SQ_QUALIFIER_FILE
         };
 
-        let expectedParent: TreeElement = createDefaultDir();
-        let result: TreeElement = new SonarQubeTransformerService().createTreeElement(component, expectedParent);
+        const expectedParent: TreeElement = createDefaultDir();
+        const result: TreeElement = new SonarQubeTransformerService().createTreeElement(component, expectedParent);
 
         expect(result.measures).not.to.be.undefined;
         expect(result.measures).not.to.be.null;
@@ -150,8 +155,8 @@ describe("SonarQubeTransformerService", () => {
      */
 
     it("should be able to add a child simple", () => {
-        let parent: TreeElement = createTreeElementAsChildWithPath("/src");
-        let child: TreeElement = createTreeElementAsChildWithPath("/src/file.java");
+        const parent: TreeElement = createTreeElementAsChildWithPath("/src");
+        const child: TreeElement = createTreeElementAsChildWithPath("/src/file.java");
 
         new SonarQubeTransformerService().add(parent, child);
 
@@ -160,12 +165,12 @@ describe("SonarQubeTransformerService", () => {
     });
 
     it("should be able to add a child in subfolder", () => {
-        let parent: TreeElement = createTreeElementAsChildWithPath("src");
+        const parent: TreeElement = createTreeElementAsChildWithPath("src");
 
-        let subfolder: TreeElement = createTreeElementAsChildWithPath("src/sub");
+        const subfolder: TreeElement = createTreeElementAsChildWithPath("src/sub");
         new SonarQubeTransformerService().add(parent, subfolder);
 
-        let child: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
+        const child: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
         new SonarQubeTransformerService().add(parent, child);
 
         expect(parent.children.length).to.be.eq(1);
@@ -176,21 +181,21 @@ describe("SonarQubeTransformerService", () => {
     });
 
     it("should be able to add a child - complex", () => {
-        let parent: TreeElement = createTreeElementAsChildWithPath("src");
+        const parent: TreeElement = createTreeElementAsChildWithPath("src");
 
-        let subfolder1: TreeElement = createTreeElementAsChildWithPath("src/sub");
+        const subfolder1: TreeElement = createTreeElementAsChildWithPath("src/sub");
         new SonarQubeTransformerService().add(parent, subfolder1);
 
-        let subfolder2: TreeElement = createTreeElementAsChildWithPath("src/sub2");
+        const subfolder2: TreeElement = createTreeElementAsChildWithPath("src/sub2");
         new SonarQubeTransformerService().add(parent, subfolder2);
 
-        let child1: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
+        const child1: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
         new SonarQubeTransformerService().add(parent, child1);
 
-        let subfolder22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22");
+        const subfolder22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22");
         new SonarQubeTransformerService().add(parent, subfolder22);
 
-        let child22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22/file.java");
+        const child22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22/file.java");
         new SonarQubeTransformerService().add(parent, child22);
 
         expect(parent.children.length).to.be.eq(2);
@@ -205,21 +210,21 @@ describe("SonarQubeTransformerService", () => {
     });
 
     it("should be able to add a child - complex descending", () => {
-        let parent: TreeElement = createTreeElementAsChildWithPath("src");
+        const parent: TreeElement = createTreeElementAsChildWithPath("src");
 
-        let subfolder1: TreeElement = createTreeElementAsChildWithPath("src/sub");
+        const subfolder1: TreeElement = createTreeElementAsChildWithPath("src/sub");
         new SonarQubeTransformerService().add(parent, subfolder1, true);
 
-        let subfolder2: TreeElement = createTreeElementAsChildWithPath("src/sub2");
+        const subfolder2: TreeElement = createTreeElementAsChildWithPath("src/sub2");
         new SonarQubeTransformerService().add(parent, subfolder2, true);
 
-        let child1: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
+        const child1: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
         new SonarQubeTransformerService().add(parent, child1, true);
 
-        let subfolder22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22");
+        const subfolder22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22");
         new SonarQubeTransformerService().add(parent, subfolder22, true);
 
-        let child22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22/file.java");
+        const child22: TreeElement = createTreeElementAsChildWithPath("src/sub2/sub22/file.java");
         new SonarQubeTransformerService().add(parent, child22, true);
 
         expect(parent.children.length).to.be.eq(2);
@@ -234,7 +239,7 @@ describe("SonarQubeTransformerService", () => {
     });
 });
 
-function createTreeElementAsChildWithPath(path: string, isFile: boolean = false) {
+function createTreeElementAsChildWithPath(path: string, isFile = false) {
     if (isFile) {
         return createDefaultFileWithPath(path);
     } else {

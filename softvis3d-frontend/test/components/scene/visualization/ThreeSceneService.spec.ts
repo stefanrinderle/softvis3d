@@ -17,23 +17,23 @@ import {createMock} from "../../../Helper";
 describe("ThreeSceneService", () => {
 
     it("should update shapes on start.", () => {
-        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
-        let wrangler: any = Sinon.createStubInstance(Wrangler);
+        const softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        const wrangler: any = Sinon.createStubInstance(Wrangler);
 
-        let expectedPosition: Vector3 = new Vector3(1, 2, 3);
+        const expectedPosition: Vector3 = new Vector3(1, 2, 3);
 
-        let wranglerLoadStub = wrangler.loadSoftVis3d;
-        let sceneGetDefaultPositionStub = softvis3dScene.getDefaultCameraPosition;
+        const wranglerLoadStub = wrangler.loadSoftVis3d;
+        const sceneGetDefaultPositionStub = softvis3dScene.getDefaultCameraPosition;
         sceneGetDefaultPositionStub.returns(expectedPosition);
-        let cameraPositionStub = softvis3dScene.setCameraTo;
+        const cameraPositionStub = softvis3dScene.setCameraTo;
 
-        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+        const underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
-        let options: VisualizationOptions = VisualizationOptions.createDefault();
-        let shapes: SoftVis3dShape[] = [];
+        const options: VisualizationOptions = VisualizationOptions.createDefault();
+        const shapes: SoftVis3dShape[] = [];
 
-        let sceneSetColorThemeStub = softvis3dScene.setColorTheme;
-        let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
+        const sceneSetColorThemeStub = softvis3dScene.setColorTheme;
+        const colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
 
         underTest.update(shapes, options, undefined);
 
@@ -44,22 +44,22 @@ describe("ThreeSceneService", () => {
     });
 
     it("should update shapes on start with camera position.", () => {
-        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
-        let wrangler: any = Sinon.createStubInstance(Wrangler);
+        const softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        const wrangler: any = Sinon.createStubInstance(Wrangler);
 
-        let expectedPosition: Vector3 = new Vector3(1, 2, 3);
+        const expectedPosition: Vector3 = new Vector3(1, 2, 3);
 
-        let wranglerLoadStub = wrangler.loadSoftVis3d;
-        let sceneGetDefaultPositionStub = softvis3dScene.getDefaultCameraPosition;
-        let cameraPositionStub = softvis3dScene.setCameraTo;
+        const wranglerLoadStub = wrangler.loadSoftVis3d;
+        const sceneGetDefaultPositionStub = softvis3dScene.getDefaultCameraPosition;
+        const cameraPositionStub = softvis3dScene.setCameraTo;
 
-        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+        const underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
-        let options: VisualizationOptions = VisualizationOptions.createDefault();
-        let shapes: SoftVis3dShape[] = [];
+        const options: VisualizationOptions = VisualizationOptions.createDefault();
+        const shapes: SoftVis3dShape[] = [];
 
-        let sceneSetColorThemeStub = softvis3dScene.setColorTheme;
-        let colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
+        const sceneSetColorThemeStub = softvis3dScene.setColorTheme;
+        const colorTheme: SceneColorTheme = SceneColorThemes.availableColorThemes[0];
 
         underTest.update(shapes, options, expectedPosition);
 
@@ -70,21 +70,21 @@ describe("ThreeSceneService", () => {
     });
 
     it("should update shapes on color update.", () => {
-        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
-        let wrangler: any = Sinon.createStubInstance(Wrangler);
+        const softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        const wrangler: any = Sinon.createStubInstance(Wrangler);
 
-        let expectedPosition: Vector3 = new Vector3(1, 2, 3);
+        const expectedPosition: Vector3 = new Vector3(1, 2, 3);
 
-        let wranglerUpdateStub = wrangler.updateColorsWithUpdatedShapes;
+        const wranglerUpdateStub = wrangler.updateColorsWithUpdatedShapes;
 
-        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+        const underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
-        let options: VisualizationOptions = VisualizationOptions.createDefault();
-        let shapes: SoftVis3dShape[] = [];
+        const options: VisualizationOptions = VisualizationOptions.createDefault();
+        const shapes: SoftVis3dShape[] = [];
 
         underTest.update(shapes, options, expectedPosition);
 
-        let optionsWithChangedColor: VisualizationOptions = VisualizationOptions.createDefault();
+        const optionsWithChangedColor: VisualizationOptions = VisualizationOptions.createDefault();
         optionsWithChangedColor.metricColor = complexityColorMetric;
         underTest.update(shapes, optionsWithChangedColor, expectedPosition);
 
@@ -93,21 +93,21 @@ describe("ThreeSceneService", () => {
     });
 
     it("should update shapes on building color update.", () => {
-        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
-        let wrangler: any = Sinon.createStubInstance(Wrangler);
+        const softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        const wrangler: any = Sinon.createStubInstance(Wrangler);
 
-        let expectedPosition: Vector3 = new Vector3(1, 2, 3);
+        const expectedPosition: Vector3 = new Vector3(1, 2, 3);
 
-        let wranglerUpdateStub = wrangler.updateColorsWithUpdatedShapes;
+        const wranglerUpdateStub = wrangler.updateColorsWithUpdatedShapes;
 
-        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+        const underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
-        let options: VisualizationOptions = VisualizationOptions.createDefault();
-        let shapes: SoftVis3dShape[] = [];
+        const options: VisualizationOptions = VisualizationOptions.createDefault();
+        const shapes: SoftVis3dShape[] = [];
 
         underTest.update(shapes, options, expectedPosition);
 
-        let optionsWithChangedBuildingColor: VisualizationOptions = VisualizationOptions.createDefault();
+        const optionsWithChangedBuildingColor: VisualizationOptions = VisualizationOptions.createDefault();
         optionsWithChangedBuildingColor.buildingColorTheme = BLUEYELLOW_BUILDING_COLOR_THEME;
         underTest.update(shapes, optionsWithChangedBuildingColor, expectedPosition);
 
@@ -116,14 +116,14 @@ describe("ThreeSceneService", () => {
     });
 
     it("should select scene object.", () => {
-        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
-        let wrangler: any = Sinon.createStubInstance(Wrangler);
+        const softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        const wrangler: any = Sinon.createStubInstance(Wrangler);
 
-        let wranglerSelectObjectStub = wrangler.selectSceneTreeObject;
+        const wranglerSelectObjectStub = wrangler.selectSceneTreeObject;
 
-        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+        const underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
-        let objectSoftVis3dId: string = "osdufhsidufhiusdfh";
+        const objectSoftVis3dId = "osdufhsidufhiusdfh";
 
         underTest.selectSceneTreeObject(objectSoftVis3dId);
 
@@ -131,12 +131,12 @@ describe("ThreeSceneService", () => {
     });
 
     it("should also work if id is null to reset the current selected object.", () => {
-        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
-        let wrangler: any = Sinon.createStubInstance(Wrangler);
+        const softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        const wrangler: any = Sinon.createStubInstance(Wrangler);
 
-        let wranglerSelectObjectStub = wrangler.selectSceneTreeObject;
+        const wranglerSelectObjectStub = wrangler.selectSceneTreeObject;
 
-        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+        const underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         underTest.selectSceneTreeObject(null);
 
@@ -144,43 +144,43 @@ describe("ThreeSceneService", () => {
     });
 
     it("should return camera position.", () => {
-        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
-        let wrangler: any = Sinon.createStubInstance(Wrangler);
+        const softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        const wrangler: any = Sinon.createStubInstance(Wrangler);
 
-        let expectedPosition: Vector3 = new Vector3(1, 2, 3);
+        const expectedPosition: Vector3 = new Vector3(1, 2, 3);
         softvis3dScene.getCameraPosition.returns(expectedPosition);
 
-        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+        const underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
-        let result: Vector3 = underTest.getCameraPosition();
+        const result: Vector3 = underTest.getCameraPosition();
 
         expect(result).to.be.eq(expectedPosition);
     });
 
     it("should select an object based on an event.", () => {
-        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
-        let wrangler: any = Sinon.createStubInstance(Wrangler);
+        const softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        const wrangler: any = Sinon.createStubInstance(Wrangler);
 
-        let wranglerSelectObjectStub = wrangler.selectSceneTreeObject;
+        const wranglerSelectObjectStub = wrangler.selectSceneTreeObject;
 
-        let expectedId: string = "djfksjdbf";
-        let sceneCalcStub = Sinon.stub(SelectionCalculator, "makeSelection").returns(expectedId);
-        let calcPositionStub = Sinon.stub(SelectionCalculator, "calculateSelectionPosition").returns({x: 76, y: 89});
+        const expectedId = "djfksjdbf";
+        const sceneCalcStub = Sinon.stub(SelectionCalculator, "makeSelection").returns(expectedId);
+        const calcPositionStub = Sinon.stub(SelectionCalculator, "calculateSelectionPosition").returns({x: 76, y: 89});
 
-        let htmlDomStub = createMock(HtmlDomService);
+        const htmlDomStub = createMock(HtmlDomService);
         htmlDomStub.getOffsetsById.returns({
             left: 21,
             top: 8787
         });
 
-        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+        const underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         const event = {
             clientX: 12,
             clientY: 15
         } as any as MouseEvent;
 
-        let result = underTest.makeSelection(event);
+        const result = underTest.makeSelection(event);
 
         expect(result).to.be.eq(expectedId);
         assert(wranglerSelectObjectStub.called);
@@ -193,13 +193,13 @@ describe("ThreeSceneService", () => {
     });
 
     it("should set camera position in scene.", () => {
-        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
-        let wrangler: any = Sinon.createStubInstance(Wrangler);
+        const softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        const wrangler: any = Sinon.createStubInstance(Wrangler);
 
-        let cameraPositionStub = softvis3dScene.setCameraTo;
-        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+        const cameraPositionStub = softvis3dScene.setCameraTo;
+        const underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
-        let expectedPosition: Vector3 = new Vector3(1, 2, 3);
+        const expectedPosition: Vector3 = new Vector3(1, 2, 3);
         underTest.setCameraTo(expectedPosition);
 
         assert(cameraPositionStub.calledWith(expectedPosition));
@@ -208,15 +208,15 @@ describe("ThreeSceneService", () => {
     });
 
     it("should reset camera position and recalculate.", () => {
-        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
-        let wrangler: any = Sinon.createStubInstance(Wrangler);
+        const softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        const wrangler: any = Sinon.createStubInstance(Wrangler);
 
-        let expectedPosition: Vector3 = new Vector3(1, 2, 3);
-        let sceneGetDefaultPositionStub = softvis3dScene.getDefaultCameraPosition.returns(expectedPosition);
-        let cameraPositionStub = softvis3dScene.setCameraTo;
-        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+        const expectedPosition: Vector3 = new Vector3(1, 2, 3);
+        const sceneGetDefaultPositionStub = softvis3dScene.getDefaultCameraPosition.returns(expectedPosition);
+        const cameraPositionStub = softvis3dScene.setCameraTo;
+        const underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
-        let shapes: SoftVis3dShape[] = [];
+        const shapes: SoftVis3dShape[] = [];
         underTest.resetCameraPosition(shapes);
 
         assert(cameraPositionStub.calledWith(expectedPosition));
@@ -224,10 +224,10 @@ describe("ThreeSceneService", () => {
     });
 
     it("should call destory on scene and wrangler on destroy.", () => {
-        let softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
-        let wrangler: any = Sinon.createStubInstance(Wrangler);
+        const softvis3dScene: any = Sinon.createStubInstance(SoftVis3dScene);
+        const wrangler: any = Sinon.createStubInstance(Wrangler);
 
-        let underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
+        const underTest: ThreeSceneService = ThreeSceneService.createForTest(softvis3dScene, wrangler);
 
         underTest.destroy();
 

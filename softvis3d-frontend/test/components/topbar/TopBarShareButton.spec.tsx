@@ -12,8 +12,8 @@ import {createMock} from "../../Helper";
 describe("<TopBarShareButton/>", () => {
 
     it("should initialize if disabled", () => {
-        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         createMock(VisualizationLinkService);
 
@@ -30,12 +30,12 @@ describe("<TopBarShareButton/>", () => {
     });
 
     it("should open visualization link", () => {
-        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
-        let localVisualizationLinkService = createMock(VisualizationLinkService);
+        const localVisualizationLinkService = createMock(VisualizationLinkService);
 
-        let stub = Sinon.stub(window, "open");
+        const stub = Sinon.stub(window, "open");
 
         localVisualizationLinkService.createVisualizationLink.returns("abc");
 
@@ -54,11 +54,11 @@ describe("<TopBarShareButton/>", () => {
     });
 
     it("should copy visualization link", () => {
-        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
-        let localVisualizationLinkService = createMock(VisualizationLinkService);
-        let localClipBoardService = createMock(ClipBoardService);
+        const localVisualizationLinkService = createMock(VisualizationLinkService);
+        const localClipBoardService = createMock(ClipBoardService);
 
         localVisualizationLinkService.createVisualizationLink.returns("abc");
 

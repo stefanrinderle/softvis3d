@@ -22,7 +22,7 @@ export class HtmlDomService {
                 left += node.offsetLeft;
                 topScroll += node.offsetParent ? node.offsetParent.scrollTop : 0;
                 leftScroll += node.offsetParent ? node.offsetParent.scrollLeft : 0;
-            } while (node = node.offsetParent as HTMLElement);
+            } while ((node = node.offsetParent as HTMLElement));
         }
 
         return new Offset(top - topScroll, left - leftScroll);

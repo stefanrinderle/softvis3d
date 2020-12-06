@@ -6,7 +6,7 @@ import {KeyLegend} from "../../../src/components/scene/KeyLegend";
 describe("<KeyLegend/>", () => {
 
     it("should initialize and be visible on true", () => {
-        let scene = mount(
+        const scene = mount(
             <KeyLegend show={true}/>
         );
 
@@ -14,7 +14,7 @@ describe("<KeyLegend/>", () => {
     });
 
     it("should initialize and NOT be visible on false", () => {
-        let scene = mount(
+        const scene = mount(
             <KeyLegend show={false}/>
         );
 

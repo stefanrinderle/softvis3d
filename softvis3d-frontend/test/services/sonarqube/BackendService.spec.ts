@@ -27,9 +27,9 @@ describe("BackendService", () => {
 
     it("BackendService should call axios library", () => {
 
-        let underTest: BackendService = new TestService();
+        const underTest: BackendService = new TestService();
 
-        let axiosStub = Sinon.stub(axios, "get");
+        const axiosStub = Sinon.stub(axios, "get");
 
         const route = "/zusfd/";
         underTest.callApi(route);
@@ -40,10 +40,10 @@ describe("BackendService", () => {
 
     it("BackendService should call axios library with baseUrl", () => {
 
-        let baseUrl = "iusdgzfuzgdf/";
-        let underTest: BackendService = new TestService(baseUrl);
+        const baseUrl = "iusdgzfuzgdf/";
+        const underTest: BackendService = new TestService(baseUrl);
 
-        let axiosStub = Sinon.stub(axios, "get");
+        const axiosStub = Sinon.stub(axios, "get");
 
         const route = "/zusfd/";
         underTest.callApi(route);

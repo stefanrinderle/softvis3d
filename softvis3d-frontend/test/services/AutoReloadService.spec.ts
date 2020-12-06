@@ -27,13 +27,13 @@ import {createMock} from "../Helper";
 describe("AutoReloadService", () => {
 
     it("should start calling component info update", () => {
-        let windowStub = Sinon.stub(window, "setInterval");
+        const windowStub = Sinon.stub(window, "setInterval");
 
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
         appStatusStore.analysisDate = new Date();
 
         createMock(SonarQubeComponentInfoService);
-        let underTest = new AutoReloadService();
+        const underTest = new AutoReloadService();
 
         underTest.startAutoReload(appStatusStore);
 
@@ -43,11 +43,11 @@ describe("AutoReloadService", () => {
     });
 
     it("should not start component info update if analysisDate is undefined", () => {
-        let windowStub = Sinon.stub(window, "setInterval");
+        const windowStub = Sinon.stub(window, "setInterval");
 
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
         createMock(SonarQubeComponentInfoService);
-        let underTest = new AutoReloadService();
+        const underTest = new AutoReloadService();
 
         underTest.startAutoReload(appStatusStore);
 
@@ -57,14 +57,14 @@ describe("AutoReloadService", () => {
     });
 
     it("should clear interval on multiple starts", () => {
-        let windowSetStub = Sinon.stub(window, "setInterval").returns(1);
-        let windowClearStub = Sinon.stub(window, "clearInterval");
+        const windowSetStub = Sinon.stub(window, "setInterval").returns(1);
+        const windowClearStub = Sinon.stub(window, "clearInterval");
 
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
         appStatusStore.analysisDate = new Date();
 
         createMock(SonarQubeComponentInfoService);
-        let underTest = new AutoReloadService();
+        const underTest = new AutoReloadService();
 
         underTest.startAutoReload(appStatusStore);
 
@@ -80,14 +80,14 @@ describe("AutoReloadService", () => {
     });
 
     it("should set active after start", () => {
-        let windowStub = Sinon.stub(window, "setInterval").returns(1);
+        const windowStub = Sinon.stub(window, "setInterval").returns(1);
 
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
         appStatusStore.analysisDate = new Date();
 
         createMock(SonarQubeComponentInfoService);
 
-        let underTest = new AutoReloadService();
+        const underTest = new AutoReloadService();
 
         expect(underTest.isActive()).to.be.false;
 
@@ -99,22 +99,22 @@ describe("AutoReloadService", () => {
     });
 
     it("should update analysis date in store if changed", (done) => {
-        let clock = Sinon.useFakeTimers();
+        const clock = Sinon.useFakeTimers();
 
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
         appStatusStore.analysisDate = new Date();
 
-        let expectedDate = new Date(0);
+        const expectedDate = new Date(0);
 
         const componentInfoService = createMock(SonarQubeComponentInfoService);
         componentInfoService.loadComponentInfo.returns(Promise.resolve({
             analysisDate: expectedDate
         }));
-        let underTest = new AutoReloadService();
+        const underTest = new AutoReloadService();
 
         underTest.updateAnalysisDate(appStatusStore);
 
-        let returnPromise: Promise<any> = Promise.resolve({});
+        const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise.then(() => {
             expect(appStatusStore.analysisDate.getTime()).to.eq(expectedDate.getTime());
@@ -123,9 +123,9 @@ describe("AutoReloadService", () => {
     });
 
     it("should not update analysis date in store if not changed", (done) => {
-        let clock = Sinon.useFakeTimers();
+        const clock = Sinon.useFakeTimers();
 
-        let expectedDate = new Date(0);
+        const expectedDate = new Date(0);
 
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
         appStatusStore.analysisDate = expectedDate;
@@ -134,11 +134,11 @@ describe("AutoReloadService", () => {
         componentInfoService.loadComponentInfo.returns(Promise.resolve({
             analysisDate: new Date(0)
         }));
-        let underTest = new AutoReloadService();
+        const underTest = new AutoReloadService();
 
         underTest.updateAnalysisDate(appStatusStore);
 
-        let returnPromise: Promise<any> = Promise.resolve({});
+        const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise.then(() => {
             expect(appStatusStore.analysisDate).to.eq(expectedDate);
@@ -147,20 +147,20 @@ describe("AutoReloadService", () => {
     });
 
     it("should update analysis date in store if undefined before", (done) => {
-        let clock = Sinon.useFakeTimers();
+        const clock = Sinon.useFakeTimers();
 
         const appStatusStore = Sinon.createStubInstance(AppStatusStore);
-        let expectedDate = new Date(0);
+        const expectedDate = new Date(0);
 
         const componentInfoService = createMock(SonarQubeComponentInfoService);
         componentInfoService.loadComponentInfo.returns(Promise.resolve({
             analysisDate: expectedDate
         }));
-        let underTest = new AutoReloadService();
+        const underTest = new AutoReloadService();
 
         underTest.updateAnalysisDate(appStatusStore);
 
-        let returnPromise: Promise<any> = Promise.resolve({});
+        const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise.then(() => {
             expect(appStatusStore.analysisDate.getTime()).to.eq(expectedDate.getTime());

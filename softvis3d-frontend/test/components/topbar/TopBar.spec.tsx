@@ -11,8 +11,8 @@ import SceneStore from "../../../src/stores/SceneStore";
 describe("<TopBar/>", () => {
 
     it("should show default text div on start", () => {
-        let localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
-        let localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const localCityBuilderStore: CityBuilderStore = Sinon.createStubInstance(CityBuilderStore);
+        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
 
         const selectedElementInfo = shallow(
             <TopBar cityBuilderStore={localCityBuilderStore} sceneStore={localSceneStore}/>

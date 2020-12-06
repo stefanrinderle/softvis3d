@@ -13,10 +13,10 @@ import SceneStore from "../../../src/stores/SceneStore";
 describe("<Scene/>", () => {
 
     it("should initialize", () => {
-        let localSceneStore: SceneStore = new SceneStore();
-        let cityBuilderStore: any = Sinon.stub();
+        const localSceneStore: SceneStore = new SceneStore();
+        const cityBuilderStore: any = Sinon.stub();
 
-        let scene = shallow(
+        const scene = shallow(
             <Scene sceneStore={localSceneStore} cityBuilderStore={cityBuilderStore}/>
         );
 
@@ -27,13 +27,13 @@ describe("<Scene/>", () => {
     });
 
     it("should mount and bind actions", () => {
-        let underTest: Scene = new Scene();
+        const underTest: Scene = new Scene();
 
-        let stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
-        let sceneServiceCreateStub = Sinon.stub().returns(stubThreeSceneService);
+        const stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
+        const sceneServiceCreateStub = Sinon.stub().returns(stubThreeSceneService);
         ThreeSceneService.create = sceneServiceCreateStub;
 
-        let stubKeyActions: any = Sinon.createStubInstance(SceneKeyInteractions);
+        const stubKeyActions: any = Sinon.createStubInstance(SceneKeyInteractions);
         SceneKeyInteractions.create = Sinon.stub().returns(stubKeyActions);
 
         underTest.componentDidMount();
@@ -45,19 +45,19 @@ describe("<Scene/>", () => {
     });
 
     it("should unmount", () => {
-        let localSceneStore: SceneStore = new SceneStore();
-        let cityBuilderStore: any = Sinon.stub();
+        const localSceneStore: SceneStore = new SceneStore();
+        const cityBuilderStore: any = Sinon.stub();
 
-        let underTest: Scene = new Scene();
+        const underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore,
             cityBuilderStore
         };
 
-        let stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
+        const stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
         ThreeSceneService.create = Sinon.stub().returns(stubThreeSceneService);
 
-        let stubKeyActions: any = Sinon.createStubInstance(SceneKeyInteractions);
+        const stubKeyActions: any = Sinon.createStubInstance(SceneKeyInteractions);
         SceneKeyInteractions.create = Sinon.stub().returns(stubKeyActions);
 
         underTest.componentDidMount();
@@ -68,18 +68,18 @@ describe("<Scene/>", () => {
     });
 
     it("should process scene updates - no action if not mounted", () => {
-        let localSceneStore: any = Sinon.stub();
-        let cityBuilderStore: any = Sinon.stub();
+        const localSceneStore: any = Sinon.stub();
+        const cityBuilderStore: any = Sinon.stub();
         localSceneStore.selectedObjectId = null;
         localSceneStore.shapesHash = "";
 
-        let underTest: Scene = new Scene();
+        const underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore,
             cityBuilderStore
         };
 
-        let stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
+        const stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
         ThreeSceneService.create = Sinon.stub().returns(stubThreeSceneService);
 
         underTest.componentDidMount();
@@ -90,20 +90,20 @@ describe("<Scene/>", () => {
     });
 
     it("should process scene updates - update shapes if changed", () => {
-        let localSceneStore: any = Sinon.stub();
-        let cityBuilderStore: any = Sinon.stub();
+        const localSceneStore: any = Sinon.stub();
+        const cityBuilderStore: any = Sinon.stub();
         localSceneStore.selectedObjectId = null;
         localSceneStore.shapesHash = "123";
 
-        let underTest: Scene = new Scene();
+        const underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore,
             cityBuilderStore
         };
 
-        let stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
+        const stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
         ThreeSceneService.create = Sinon.stub().returns(stubThreeSceneService);
-        let expectedCameraPosition: Vector3 = new Vector3(1, 2, 3);
+        const expectedCameraPosition: Vector3 = new Vector3(1, 2, 3);
         stubThreeSceneService.getCameraPosition.returns(expectedCameraPosition);
 
         underTest.componentDidMount();
@@ -127,20 +127,20 @@ describe("<Scene/>", () => {
     });
 
     it("should process scene updates - update selected objectr if changed", () => {
-        let expectedObjectId = "123";
-        let localSceneStore: any = Sinon.stub();
-        let cityBuilderStore: any = Sinon.stub();
+        const expectedObjectId = "123";
+        const localSceneStore: any = Sinon.stub();
+        const cityBuilderStore: any = Sinon.stub();
         
         localSceneStore.selectedObjectId = expectedObjectId;
         localSceneStore.shapesHash = "";
 
-        let underTest: Scene = new Scene();
+        const underTest: Scene = new Scene();
         underTest.props = {
             sceneStore: localSceneStore,
             cityBuilderStore
         };
 
-        let stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
+        const stubThreeSceneService: any = Sinon.createStubInstance(ThreeSceneService);
         ThreeSceneService.create = Sinon.stub().returns(stubThreeSceneService);
 
         underTest.componentDidMount();

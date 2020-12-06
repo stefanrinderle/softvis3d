@@ -102,7 +102,7 @@ export default class ThreeSceneService {
         const offset: Offset = this.htmlDomService.getOffsetsById(SoftVis3dScene.CANVAS_ID);
         const selection = SelectionCalculator.calculateSelectionPosition(event, offset);
 
-        let result: string | null = SelectionCalculator.makeSelection(
+        const result: string | null = SelectionCalculator.makeSelection(
             selection.x, selection.y,
             this.threeScene.width, this.threeScene.height,
             this.threeScene.getCamera(), this.wrangler.getObjectsInView()

@@ -16,7 +16,7 @@ export default class ParentElement extends React.Component<SelectParentProps, an
 
     public render() {
         const {sceneStore, selectedElement} = this.props;
-        let parent: TreeElement | null = this.getParentElement(selectedElement);
+        const parent: TreeElement | null = this.getParentElement(selectedElement);
 
         if (parent === null || typeof parent === "undefined") {
             return <div className="select-parent" />;

@@ -8,10 +8,10 @@ import {createMock} from "../../../Helper";
 describe("SceneMouseInteractions", () => {
 
     it("should add and remove event listeners on object create or destruct.", () => {
-        let windowStubAdd = Sinon.stub(window, "addEventListener");
-        let windowStubRemove = Sinon.stub(window, "removeEventListener");
+        const windowStubAdd = Sinon.stub(window, "addEventListener");
+        const windowStubRemove = Sinon.stub(window, "removeEventListener");
 
-        let underTest: SceneMouseInteractions = SceneMouseInteractions.create();
+        const underTest: SceneMouseInteractions = SceneMouseInteractions.create();
 
         assert(windowStubAdd.calledOnce);
         assert(windowStubAdd.calledWith("mousedown"));
@@ -26,18 +26,18 @@ describe("SceneMouseInteractions", () => {
     });
 
     it("should raise mouse down event on click on descendant.", () => {
-        let underTest: SceneMouseInteractions = SceneMouseInteractions.create();
+        const underTest: SceneMouseInteractions = SceneMouseInteractions.create();
 
         const eventClickScene = {target: null} as any as MouseEvent;
 
-        let listener: Function = (result: Event<boolean>) => {
+        const listener: (result: Event<boolean>) => void = (result: Event<boolean>) => {
             expect(result.getValue()).to.be.true;
         };
         const spy = Sinon.spy(listener);
 
         underTest.addMouseDownEventListener(spy);
 
-        let htmlDomStub = createMock(HtmlDomService);
+        const htmlDomStub = createMock(HtmlDomService);
         htmlDomStub.isDescendant.returns(true);
 
         underTest.handleMouseDown(eventClickScene);
@@ -46,20 +46,20 @@ describe("SceneMouseInteractions", () => {
     });
 
     it("should raise mouse down event on click on descendant.", () => {
-        let underTest: SceneMouseInteractions = SceneMouseInteractions.create();
+        const underTest: SceneMouseInteractions = SceneMouseInteractions.create();
 
-        let listener: Function = (result: Event<boolean>) => {
+        const listener: (result: Event<boolean>) => void = (result: Event<boolean>) => {
             expect(result.getValue()).to.be.true;
         };
         const spy = Sinon.spy(listener);
 
         underTest.addMouseDownEventListener(spy);
 
-        let htmlDomStub = createMock(HtmlDomService);
+        const htmlDomStub = createMock(HtmlDomService);
         htmlDomStub.isDescendant.returns(false);
 
         const documentMock = {} as any as Document;
-        let documentStub = Sinon.stub(document, "getElementById");
+        const documentStub = Sinon.stub(document, "getElementById");
         documentStub.returns(documentMock);
 
         const eventClickScene = {target: documentMock} as any as MouseEvent;
@@ -70,14 +70,14 @@ describe("SceneMouseInteractions", () => {
     });
 
     it("should raise mouse down event with false on click if not in scene.", () => {
-        let underTest: SceneMouseInteractions = SceneMouseInteractions.create();
+        const underTest: SceneMouseInteractions = SceneMouseInteractions.create();
 
-        let listener: Function = (result: Event<boolean>) => {
+        const listener: (result: Event<boolean>) => void = (result: Event<boolean>) => {
             expect(result.getValue()).to.be.false;
         };
         const spy = Sinon.spy(listener);
 
-        let htmlDomStub = createMock(HtmlDomService);
+        const htmlDomStub = createMock(HtmlDomService);
         htmlDomStub.isDescendant.returns(false);
 
         underTest.addMouseDownEventListener(spy);
@@ -89,11 +89,11 @@ describe("SceneMouseInteractions", () => {
     });
 
     it("should raise mouse moved event on mouse up and not moved.", () => {
-        let underTest: SceneMouseInteractions = SceneMouseInteractions.create();
+        const underTest: SceneMouseInteractions = SceneMouseInteractions.create();
 
-        let listener1: Function = () => undefined;
+        const listener1: () => void = () => undefined;
         const spy1 = Sinon.spy(listener1);
-        let listener2: Function = () => undefined;
+        const listener2: () => void = () => undefined;
         const spy2 = Sinon.spy(listener2);
 
         underTest.addMouseMovedEventListener(spy1);
@@ -108,11 +108,11 @@ describe("SceneMouseInteractions", () => {
     });
 
     it("should raise select object event on mouse up and moved.", () => {
-        let underTest: SceneMouseInteractions = SceneMouseInteractions.create();
+        const underTest: SceneMouseInteractions = SceneMouseInteractions.create();
 
-        let listener1: Function = () => undefined;
+        const listener1: () => void = () => undefined;
         const spy1 = Sinon.spy(listener1);
-        let listener2: Function = () => undefined;
+        const listener2: () => void = () => undefined;
         const spy2 = Sinon.spy(listener2);
 
         underTest.addMouseMovedEventListener(spy1);

@@ -27,10 +27,10 @@ export class SceneKeyInteractions {
         return new SceneKeyInteractions();
     }
 
-    private static EVENT_KEY_DOWN: string = "keydown";
+    private static EVENT_KEY_DOWN = "keydown";
 
-    private static KEY_CODE_R: number = 82;
-    private static KEY_CODE_L: number = 76;
+    private static KEY_CODE_R = 82;
+    private static KEY_CODE_L = 76;
 
     private _onResetCameraEvent: EventDispatcher<void> = new EventDispatcher<void>();
     private _onToggleLegendEvent: EventDispatcher<void> = new EventDispatcher<void>();
@@ -50,11 +50,11 @@ export class SceneKeyInteractions {
         });
     }
 
-    public addResetCameraEventListener(callback: Function) {
+    public addResetCameraEventListener(callback: (evt: Event<void>) => void) {
         this._onResetCameraEvent.addEventListener(callback);
     }
 
-    public addToggleLegendEventListener(callback: Function) {
+    public addToggleLegendEventListener(callback: (evt: Event<void>) => void) {
         this._onToggleLegendEvent.addEventListener(callback);
     }
 

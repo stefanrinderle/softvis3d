@@ -45,7 +45,7 @@ export default class SceneInformation extends React.Component<SceneInformationPr
 
     private renderColorInformation(): JSX.Element[] {
         const colorValue = this.props.sceneStore.getColorValue(this.props.cityBuilderStore.options.metricColor);
-        let colorInformation: JSX.Element[] = [];
+        const colorInformation: JSX.Element[] = [];
         if (colorValue !== null) {
             colorInformation.push(<span className="value">{colorValue}</span>);
         }

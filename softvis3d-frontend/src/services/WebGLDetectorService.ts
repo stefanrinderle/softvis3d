@@ -22,7 +22,7 @@ export default class WebGLDetectorService {
 
     public isWebGLSupported(): boolean {
         try {
-            let canvas = document.createElement("canvas");
+            const canvas = document.createElement("canvas");
             return !!((window as any).WebGLRenderingContext
                 && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")));
         } catch (e) {

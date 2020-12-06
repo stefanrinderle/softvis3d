@@ -31,7 +31,7 @@ export class SceneMouseInteractions {
         return new SceneMouseInteractions();
     }
 
-    private static EVENT_MOUSE_DOWN: string = "mousedown";
+    private static EVENT_MOUSE_DOWN = "mousedown";
 
     @lazyInject("HtmlDomService")
     private readonly htmlDomService!: HtmlDomService;
@@ -42,7 +42,7 @@ export class SceneMouseInteractions {
     private _onMouseDownEvent: EventDispatcher<boolean> = new EventDispatcher<boolean>();
     private _onMouseMovedEvent: EventDispatcher<void> = new EventDispatcher<void>();
     private _onSelectObjectEvent: EventDispatcher<MouseEvent> = new EventDispatcher<MouseEvent>();
-    private _mouseMoved: boolean = false;
+    private _mouseMoved = false;
 
     private constructor() {
         window.addEventListener(SceneMouseInteractions.EVENT_MOUSE_DOWN, (event) => {
@@ -56,21 +56,21 @@ export class SceneMouseInteractions {
         });
     }
 
-    public addMouseDownEventListener(callback: Function) {
+    public addMouseDownEventListener(callback: (event: Event<boolean>) => void) {
         this._onMouseDownEvent.addEventListener(callback);
     }
 
-    public addMouseMovedEventListener(callback: Function) {
+    public addMouseMovedEventListener(callback: () => void) {
         this._onMouseMovedEvent.addEventListener(callback);
     }
 
-    public addSelectObjectEventEventListener(callback: Function) {
+    public addSelectObjectEventEventListener(callback: (event: Event<MouseEvent>) => void) {
         this._onSelectObjectEvent.addEventListener(callback);
     }
 
     public handleMouseDown(event: MouseEvent) {
         const self = document.getElementById(Scene.SCENE_CONTAINER_ID);
-        let isWithinScene = event.target === self || this.htmlDomService.isDescendant(self, event.target as HTMLElement);
+        const isWithinScene = event.target === self || this.htmlDomService.isDescendant(self, event.target as HTMLElement);
 
         this._onMouseDownEvent.dispatchEvent(new Event<boolean>(isWithinScene));
     }

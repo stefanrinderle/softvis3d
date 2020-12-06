@@ -40,7 +40,7 @@ export default class MetricSet {
             return;
         }
 
-        for (let metric of this.metrics) {
+        for (const metric of this.metrics) {
             if (metric.id === sourceId) {
                 return metric;
             }

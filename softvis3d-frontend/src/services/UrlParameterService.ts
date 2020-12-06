@@ -7,11 +7,11 @@ export default class UrlParameterService {
     public getQueryParams(qs: string): Parameters {
         qs = qs.split("+").join(" ");
 
-        let params: Parameters = {};
+        const params: Parameters = {};
         let tokens: RegExpExecArray | null;
-        let re: RegExp = /[?&]?([^=]+)=([^&]*)/g;
+        const re = /[?&]?([^=]+)=([^&]*)/g;
 
-        while (tokens = re.exec(qs)) {
+        while ((tokens = re.exec(qs))) {
             params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
         }
 
@@ -19,10 +19,10 @@ export default class UrlParameterService {
     }
 
     public createVisualizationLinkForCurrentUrl(href: string, params: Parameters): string {
-        let paramsStartPosition: number = href.indexOf("?");
+        const paramsStartPosition: number = href.indexOf("?");
 
-        let hrefParamsPart: string = href.substr(paramsStartPosition, href.length);
-        let hrefParams: Parameters = this.getQueryParams(hrefParamsPart);
+        const hrefParamsPart: string = href.substr(paramsStartPosition, href.length);
+        const hrefParams: Parameters = this.getQueryParams(hrefParamsPart);
 
         if (paramsStartPosition >= 0) {
             href = href.substr(0, href.indexOf("?"));
@@ -34,8 +34,8 @@ export default class UrlParameterService {
     private createUrlParameterList(existingParameters: Parameters, parameters: Parameters): string {
         parameters = Object.assign(existingParameters, parameters);
 
-        let result: string = "?";
-        for (let key in parameters) {
+        let result = "?";
+        for (const key in parameters) {
             if (parameters[key]) {
                 result += key + "=" + parameters[key] + "&";
             }

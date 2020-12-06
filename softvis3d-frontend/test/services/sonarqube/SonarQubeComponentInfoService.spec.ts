@@ -24,13 +24,13 @@ import SonarQubeComponentInfoService from "../../../src/services/sonarqube/Sonar
 describe("SonarQubeComponentInfoService", () => {
 
     it("should call backend and return component info", (done) => {
-        let apiUrl: string = "urlsihshoif";
-        let projectKey = "iuzsgdfus";
-        let underTest: SonarQubeComponentInfoService = new SonarQubeComponentInfoService(projectKey, apiUrl);
+        const apiUrl = "urlsihshoif";
+        const projectKey = "iuzsgdfus";
+        const underTest: SonarQubeComponentInfoService = new SonarQubeComponentInfoService(projectKey, apiUrl);
 
-        let expectedId = "0844b558-2051-45a6-9970-e3f53fc86f09";
-        let expectedKey = "de.rinderle.softvis3d:softvis3d";
-        let expectedName = "softvis3d";
+        const expectedId = "0844b558-2051-45a6-9970-e3f53fc86f09";
+        const expectedKey = "de.rinderle.softvis3d:softvis3d";
+        const expectedName = "softvis3d";
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -65,9 +65,9 @@ describe("SonarQubeComponentInfoService", () => {
     });
 
     it("should react on errors", (done) => {
-        let apiUrl: string = "urlsihshoif";
-        let projectKey = "iuzsgdfus";
-        let underTest: SonarQubeComponentInfoService = new SonarQubeComponentInfoService(projectKey,
+        const apiUrl = "urlsihshoif";
+        const projectKey = "iuzsgdfus";
+        const underTest: SonarQubeComponentInfoService = new SonarQubeComponentInfoService(projectKey,
             apiUrl);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {

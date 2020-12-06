@@ -10,10 +10,10 @@ import {createDefaultFile} from "../../../classes/TreeElement.spec";
 describe("<MetricKey/>", () => {
 
     it("should show title and metric", () => {
-        let title: string = "ExpectedTitle";
-        let expectedMetricName: string = "ExpectedMetricName";
+        const title = "ExpectedTitle";
+        const expectedMetricName = "ExpectedMetricName";
 
-        let expectedMetric: Metric = new Metric("123", expectedMetricName, "");
+        const expectedMetric: Metric = new Metric("123", expectedMetricName, "");
 
         const bottomBarMetricInfo = shallow(
             <MetricKey title={title} metric={expectedMetric} selectedElement={null}/>
@@ -24,13 +24,13 @@ describe("<MetricKey/>", () => {
     });
 
     it("should show title, metric and measure", () => {
-        let title: string = "ExpectedTitle";
-        let expectedMetricName: string = "ExpectedMetricName";
+        const title = "ExpectedTitle";
+        const expectedMetricName = "ExpectedMetricName";
 
-        let expectedMetric: Metric = new Metric("123", expectedMetricName, "");
+        const expectedMetric: Metric = new Metric("123", expectedMetricName, "");
 
-        let expectedMeasure: number = 55;
-        let selectedElement: TreeElement = createDefaultFile();
+        const expectedMeasure = 55;
+        const selectedElement: TreeElement = createDefaultFile();
         selectedElement.measures = {
             123: expectedMeasure
         };
@@ -44,10 +44,10 @@ describe("<MetricKey/>", () => {
     });
 
     it("should format measure", () => {
-        let expectedMetric: Metric = new Metric("123", "", "", MetricType.MILLISEC);
+        const expectedMetric: Metric = new Metric("123", "", "", MetricType.MILLISEC);
 
-        let expectedMeasure: number = 1479816020000;
-        let selectedElement: TreeElement = createDefaultFile();
+        const expectedMeasure = 1479816020000;
+        const selectedElement: TreeElement = createDefaultFile();
         selectedElement.measures = {
             123: expectedMeasure
         };

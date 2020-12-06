@@ -10,7 +10,7 @@ import LoadAction from "../../../../src/classes/status/LoadAction";
 describe("<Loading/>", () => {
 
     it("should draw loading components if loading", () => {
-        let localAppStatusStore: AppStatusStore = new AppStatusStore();
+        const localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         localAppStatusStore.load(new LoadAction("test", ""));
 
@@ -23,7 +23,7 @@ describe("<Loading/>", () => {
     });
 
     it("should draw nothing if not visible", () => {
-        let localAppStatusStore: AppStatusStore = new AppStatusStore();
+        const localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         const loading = shallow(
             <Loading appStatusStore={localAppStatusStore}/>

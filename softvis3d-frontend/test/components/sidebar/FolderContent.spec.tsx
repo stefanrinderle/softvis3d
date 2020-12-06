@@ -13,14 +13,14 @@ import {createMock} from "../../Helper";
 describe("<FolderContent/>", () => {
 
     it("should show siblings of the selected element as list", () => {
-        let parent: TreeElement = createDefaultDir();
-        let child1: TreeElement = createDefaultFileWithIdAndParent("child1", parent);
-        let child2: TreeElement = createDefaultFileWithIdAndParent("child2", parent);
+        const parent: TreeElement = createDefaultDir();
+        const child1: TreeElement = createDefaultFileWithIdAndParent("child1", parent);
+        const child2: TreeElement = createDefaultFileWithIdAndParent("child2", parent);
 
         parent.children.push(child1);
         parent.children.push(child2);
 
-        let localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = parent;
         localSceneStore.selectedObjectId = child1.id;
 
@@ -49,13 +49,13 @@ describe("<FolderContent/>", () => {
     });
 
     it("should show children of the selected element as list", () => {
-        let root: TreeElement = createDefaultDir();
-        let child1: TreeElement = createDefaultFile();
-        let child2: TreeElement = createDefaultFile();
+        const root: TreeElement = createDefaultDir();
+        const child1: TreeElement = createDefaultFile();
+        const child2: TreeElement = createDefaultFile();
         root.children.push(child1);
         root.children.push(child2);
 
-        let localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = root;
 
         const selectedElementInfo = shallow(
@@ -83,15 +83,15 @@ describe("<FolderContent/>", () => {
     });
 
     it("should mount component with dimension update", () => {
-        let htmlDomStub = createMock(HtmlDomService);
+        const htmlDomStub = createMock(HtmlDomService);
         htmlDomStub.getHeightById.callsFake(() => 123);
         htmlDomStub.getOffsetsById.callsFake(() => ({top: 312, left: 111}));
 
-        let windowStub = Sinon.stub(window, "addEventListener");
+        const windowStub = Sinon.stub(window, "addEventListener");
 
-        let localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = new SceneStore();
         Sinon.spy(FolderContent.prototype, "componentDidMount");
-        let wrapper = mount(<FolderContent
+        const wrapper = mount(<FolderContent
             activeFolder={null}
             sceneStore={localSceneStore}
         />);
@@ -104,9 +104,9 @@ describe("<FolderContent/>", () => {
     });
 
     it("should remove event listener on unmount", () => {
-        let windowStub = Sinon.stub(window, "removeEventListener");
+        const windowStub = Sinon.stub(window, "removeEventListener");
 
-        let underTest: FolderContent = new FolderContent();
+        const underTest: FolderContent = new FolderContent();
         underTest.componentWillUnmount();
 
         assert(windowStub.called);
@@ -114,13 +114,13 @@ describe("<FolderContent/>", () => {
     });
 
     it("should resize on component update", () => {
-        let underTest: FolderContent = new FolderContent();
+        const underTest: FolderContent = new FolderContent();
 
-        let underTestSpy = Sinon.mock(underTest);
+        const underTestSpy = Sinon.mock(underTest);
         underTestSpy.expects("onResize").once();
 
-        let localSceneStore: SceneStore = new SceneStore();
-        let prevProps: NodeListProps = {
+        const localSceneStore: SceneStore = new SceneStore();
+        const prevProps: NodeListProps = {
             activeFolder: null,
             sceneStore: localSceneStore
         };

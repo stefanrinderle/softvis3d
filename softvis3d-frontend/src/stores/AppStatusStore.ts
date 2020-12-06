@@ -7,7 +7,7 @@ import StatusAction from "../classes/status/StatusAction";
 export default class AppStatusStore {
 
     @observable
-    public showLoadingQueue: boolean = false;
+    public showLoadingQueue = false;
     @observable
     public loadingQueue: StatusActionQueue<LoadAction> = new StatusActionQueue<LoadAction>();
     @observable
@@ -35,7 +35,7 @@ export default class AppStatusStore {
     }
 
     public loadStatusUpdate(actionKey: string, max: number, current: number): void {
-        let savedAction = this.loadingQueue.getAction(actionKey);
+        const savedAction = this.loadingQueue.getAction(actionKey);
 
         if (savedAction) {
             savedAction.setStatus(max, current);

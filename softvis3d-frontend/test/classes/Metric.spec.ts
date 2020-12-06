@@ -24,12 +24,12 @@ import {MetricType} from "../../src/classes/MetricType";
 describe("Metric", () => {
 
     it("should construct minimal metric", () => {
-        let expectedKey: string = "23";
-        let expectedName: string = "diufgh";
-        let expectedDescription: string = "description";
-        let expectedType: MetricType = MetricType.INT;
+        const expectedKey = "23";
+        const expectedName = "diufgh";
+        const expectedDescription = "description";
+        const expectedType: MetricType = MetricType.INT;
 
-        let result: Metric = new Metric(expectedKey, expectedName, expectedDescription, expectedType);
+        const result: Metric = new Metric(expectedKey, expectedName, expectedDescription, expectedType);
 
         expect(result.id).to.be.eq(expectedKey);
         expect(result.description).to.be.eq(expectedDescription);
@@ -37,10 +37,10 @@ describe("Metric", () => {
     });
 
     it("should implement SelectOptionValue", () => {
-        let expectedId: string = "23";
-        let expectedName: string = "diufgh";
+        const expectedId = "23";
+        const expectedName = "diufgh";
 
-        let result: Metric = new Metric(expectedId, expectedName, "isudiusdgf");
+        const result: Metric = new Metric(expectedId, expectedName, "isudiusdgf");
 
         expect(result.label).to.be.eq(expectedName);
         expect(result.id).to.be.eq(expectedId);

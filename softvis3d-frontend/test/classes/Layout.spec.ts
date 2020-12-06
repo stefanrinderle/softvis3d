@@ -24,10 +24,10 @@ describe("Layout", () => {
 
     it("should construct layout", () => {
 
-        let id = "id";
-        let name = "name";
-        let description = "description";
-        let result: Layout = new Layout(id, name, description);
+        const id = "id";
+        const name = "name";
+        const description = "description";
+        const result: Layout = new Layout(id, name, description);
 
         expect(result.id).to.be.eq(id);
         expect(result.label).to.be.eq(name);
@@ -35,10 +35,10 @@ describe("Layout", () => {
     });
 
     it("should implement selectOptionValue", () => {
-        let id = "id";
-        let name = "name";
-        let description = "description";
-        let result: Layout = new Layout(id, name, description);
+        const id = "id";
+        const name = "name";
+        const description = "description";
+        const result: Layout = new Layout(id, name, description);
 
         expect(result.label).to.be.eq(name);
         expect(result.id).to.be.eq(id);

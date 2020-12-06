@@ -9,9 +9,9 @@ import {createDefaultFileWithName} from "../../classes/TreeElement.spec";
 describe("<FolderContentElement/>", () => {
 
     it("should show element", () => {
-        let expectedName = "element98szdfkjbsf";
-        let selectedElement: TreeElement = createDefaultFileWithName(expectedName);
-        let localSceneStore: SceneStore = new SceneStore();
+        const expectedName = "element98szdfkjbsf";
+        const selectedElement: TreeElement = createDefaultFileWithName(expectedName);
+        const localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
             <FolderContentElement element={selectedElement} sceneStore={localSceneStore} isSelected={false}/>
@@ -21,9 +21,9 @@ describe("<FolderContentElement/>", () => {
     });
 
     it("should show selected element", () => {
-        let expectedName = "element98szdfkjbsf";
-        let selectedElement: TreeElement = createDefaultFileWithName(expectedName);
-        let localSceneStore: SceneStore = new SceneStore();
+        const expectedName = "element98szdfkjbsf";
+        const selectedElement: TreeElement = createDefaultFileWithName(expectedName);
+        const localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
             <FolderContentElement element={selectedElement} sceneStore={localSceneStore} isSelected={true}/>
@@ -34,9 +34,9 @@ describe("<FolderContentElement/>", () => {
     });
 
     it("should select element on click", () => {
-        let expectedName = "element98szdfkjbsf";
-        let selectedElement: TreeElement = createDefaultFileWithName(expectedName);
-        let localSceneStore: SceneStore = new SceneStore();
+        const expectedName = "element98szdfkjbsf";
+        const selectedElement: TreeElement = createDefaultFileWithName(expectedName);
+        const localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
             <FolderContentElement element={selectedElement} sceneStore={localSceneStore} isSelected={false}/>
@@ -48,9 +48,9 @@ describe("<FolderContentElement/>", () => {
     });
 
     it("should do nothing on click on already selected element", () => {
-        let expectedName = "element98szdfkjbsf";
-        let selectedElement: TreeElement = createDefaultFileWithName(expectedName);
-        let localSceneStore: SceneStore = new SceneStore();
+        const expectedName = "element98szdfkjbsf";
+        const selectedElement: TreeElement = createDefaultFileWithName(expectedName);
+        const localSceneStore: SceneStore = new SceneStore();
 
         const selectedSingleFileInfo = shallow(
             <FolderContentElement element={selectedElement} isSelected={true} sceneStore={localSceneStore}/>

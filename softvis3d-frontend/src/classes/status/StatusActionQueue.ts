@@ -18,7 +18,6 @@ export default class StatusActionQueue<T extends StatusAction> {
             }
         }
 
-        // tslint:disable-next-line no-console
         console.error("Could not remove action: " + JSON.stringify(action));
     }
 
@@ -41,7 +40,7 @@ export default class StatusActionQueue<T extends StatusAction> {
     }
 
     public getAction(key: string): T | undefined {
-        for (let element of this._queue) {
+        for (const element of this._queue) {
             if (element.key === key) {
                 return element;
             }

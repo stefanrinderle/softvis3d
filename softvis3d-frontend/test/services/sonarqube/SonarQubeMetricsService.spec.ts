@@ -27,14 +27,14 @@ import {MetricType} from "../../../src/classes/MetricType";
 describe("SonarQubeMetricsService", () => {
 
     it("should call backend and add metric", (done) => {
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
-        let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl);
+        const apiUrl = "urlsihshoif";
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl);
 
-        let expectedMetrics: SonarQubeApiMetric[] = [];
+        const expectedMetrics: SonarQubeApiMetric[] = [];
         expectedMetrics.push({
             id: 123,
             key: "ncloc",
@@ -61,14 +61,14 @@ describe("SonarQubeMetricsService", () => {
     });
 
     it("should filter hidden metrics", (done) => {
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
-        let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl);
+        const apiUrl = "urlsihshoif";
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl);
 
-        let expectedMetrics: SonarQubeApiMetric[] = [];
+        const expectedMetrics: SonarQubeApiMetric[] = [];
         expectedMetrics.push({
             id: 123,
             key: "ncloc",
@@ -96,14 +96,14 @@ describe("SonarQubeMetricsService", () => {
     });
 
     it("should filter string metrics", (done) => {
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
-        let spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
-        let apiUrl: string = "urlsihshoif";
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl);
+        const apiUrl = "urlsihshoif";
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl);
 
-        let expectedMetrics: SonarQubeApiMetric[] = [];
+        const expectedMetrics: SonarQubeApiMetric[] = [];
         expectedMetrics.push({
             id: 123,
             key: "ncloc",
@@ -130,13 +130,13 @@ describe("SonarQubeMetricsService", () => {
     });
 
     it("should set app status at the beginning and in the end", (done) => {
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let spyLoad = Sinon.spy(testAppStatusStore, "load");
-        let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const spyLoad = Sinon.spy(testAppStatusStore, "load");
+        const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.resolve({
@@ -157,15 +157,15 @@ describe("SonarQubeMetricsService", () => {
     });
 
     it("should load again if more results", (done) => {
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let spyLoad = Sinon.spy(testAppStatusStore, "load");
-        let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const spyLoad = Sinon.spy(testAppStatusStore, "load");
+        const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
-        let spyCallApi = Sinon.stub(underTest, "callApi");
+        const spyCallApi = Sinon.stub(underTest, "callApi");
         spyCallApi.onFirstCall().returns(
             Promise.resolve({
                 data: {
@@ -198,14 +198,14 @@ describe("SonarQubeMetricsService", () => {
     });
 
     it("should react on errors", (done) => {
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let spyLoad = Sinon.spy(testAppStatusStore, "load");
-        let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
-        let spyError = Sinon.spy(testAppStatusStore, "error");
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const spyLoad = Sinon.spy(testAppStatusStore, "load");
+        const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
+        const spyError = Sinon.spy(testAppStatusStore, "error");
 
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
             return Promise.reject({
@@ -229,15 +229,15 @@ describe("SonarQubeMetricsService", () => {
     });
 
     it("should react on errors of the second call", (done) => {
-        let testAppStatusStore: AppStatusStore = new AppStatusStore();
-        let spyLoad = Sinon.spy(testAppStatusStore, "load");
-        let spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
+        const testAppStatusStore: AppStatusStore = new AppStatusStore();
+        const spyLoad = Sinon.spy(testAppStatusStore, "load");
+        const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
-        let testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
+        const testCityBuilderStore: CityBuilderStore = new CityBuilderStore();
 
-        let underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
-        let spyCallApi = Sinon.stub(underTest, "callApi");
+        const spyCallApi = Sinon.stub(underTest, "callApi");
         spyCallApi.onFirstCall().returns(
             Promise.resolve({
                 data: {

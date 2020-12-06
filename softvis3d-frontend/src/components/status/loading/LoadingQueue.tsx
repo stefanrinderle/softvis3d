@@ -8,8 +8,8 @@ export default class LoadingQueue extends React.Component<{ appStatusStore: AppS
     public render() {
         const queue: StatusActionQueue<LoadAction> = this.props.appStatusStore.loadingQueue;
 
-        let elements: Array<React.ReactElement<any>> = [];
-        for (let queueElement of queue) {
+        const elements: Array<React.ReactElement<any>> = [];
+        for (const queueElement of queue) {
             if (queueElement.hasStatus()) {
                 elements.push(
                     <li key={queueElement.key}>

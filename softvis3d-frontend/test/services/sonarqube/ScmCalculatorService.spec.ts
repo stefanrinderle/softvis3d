@@ -24,18 +24,18 @@ import SonarQubeApiScm from "../../../src/services/sonarqube/SonarQubeApiScm";
 describe("ScmCalculatorService", () => {
 
     it("should work with only one line and author", () => {
-        let measures: SonarQubeApiScm[] = [];
-        let measure: SonarQubeApiScm = createMeasure(1, "srinderle");
+        const measures: SonarQubeApiScm[] = [];
+        const measure: SonarQubeApiScm = createMeasure(1, "srinderle");
         measures.push(measure);
 
-        let result = new ScmCalculatorService().calcNumberOfAuthors(measures);
+        const result = new ScmCalculatorService().calcNumberOfAuthors(measures);
 
         expect(result).not.to.be.null;
         expect(result).to.be.eq(1);
     });
 
     it("should work with complex check", () => {
-        let measures: SonarQubeApiScm[] = [];
+        const measures: SonarQubeApiScm[] = [];
         measures.push(createMeasure(1, "srinderle"));
         measures.push(createMeasure(2, "srinderle"));
         measures.push(createMeasure(3, "yniedrich"));
@@ -46,32 +46,32 @@ describe("ScmCalculatorService", () => {
         measures.push(createMeasure(8, "XX"));
         measures.push(createMeasure(9, "srinderle"));
 
-        let result = new ScmCalculatorService().calcNumberOfAuthors(measures);
+        const result = new ScmCalculatorService().calcNumberOfAuthors(measures);
 
         expect(result).to.be.eq(3);
     });
 
     it("should work with an empty array", () => {
-        let measures: SonarQubeApiScm[] = [];
+        const measures: SonarQubeApiScm[] = [];
 
-        let result = new ScmCalculatorService().calcNumberOfAuthors(measures);
+        const result = new ScmCalculatorService().calcNumberOfAuthors(measures);
 
         expect(result).to.be.eq(0);
     });
 
     it("should create metric based on inut array", () => {
-        let measure: string[] = [];
-        let lineNumber = "1";
-        let authorName = "srinderle";
-        let lastCommit = "dofighodifg";
-        let lastCommitRevision = "idufghidugh";
+        const measure: string[] = [];
+        const lineNumber = "1";
+        const authorName = "srinderle";
+        const lastCommit = "dofighodifg";
+        const lastCommitRevision = "idufghidugh";
 
         measure[0] = lineNumber;
         measure[1] = authorName;
         measure[2] = lastCommit;
         measure[3] = lastCommitRevision;
 
-        let result = new ScmCalculatorService().createMetric(measure);
+        const result = new ScmCalculatorService().createMetric(measure);
 
         expect(result.lineNumber).to.be.eq(+lineNumber);
         expect(result.authorName).to.be.eq(authorName);

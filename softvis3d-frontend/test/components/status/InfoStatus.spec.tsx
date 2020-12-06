@@ -8,9 +8,9 @@ import InfoStatus from "../../../src/components/status/InfoStatus";
 describe("<InfoStatus/>", () => {
 
     it("should show status list single", () => {
-        let localAppStatusStore: AppStatusStore = new AppStatusStore();
+        const localAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let expectedLoadMessage = "test";
+        const expectedLoadMessage = "test";
         localAppStatusStore.status(new StatusAction("key", expectedLoadMessage));
 
         const loadingQueue = shallow(
@@ -21,10 +21,10 @@ describe("<InfoStatus/>", () => {
     });
 
     it("should show status list multi", () => {
-        let localAppStatusStore: AppStatusStore = new AppStatusStore();
+        const localAppStatusStore: AppStatusStore = new AppStatusStore();
 
-        let expectedLoadMessage = "test";
-        let expectedLoadMessage2 = "ioiio";
+        const expectedLoadMessage = "test";
+        const expectedLoadMessage2 = "ioiio";
         localAppStatusStore.status(new StatusAction("key", expectedLoadMessage));
         localAppStatusStore.status(new StatusAction("key2", expectedLoadMessage2));
 
@@ -37,7 +37,7 @@ describe("<InfoStatus/>", () => {
     });
 
     it("should draw no list elements if not visible", () => {
-        let localAppStatusStore: AppStatusStore = new AppStatusStore();
+        const localAppStatusStore: AppStatusStore = new AppStatusStore();
 
         const loading = shallow(
             <InfoStatus appStatusStore={localAppStatusStore}/>

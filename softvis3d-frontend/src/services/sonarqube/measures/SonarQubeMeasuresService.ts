@@ -34,7 +34,7 @@ import SonarQubeOptimizeStructureService from "./structure/SonarQubeOptimizeStru
 @injectable()
 export default class SonarQubeMeasuresService {
     public static LOAD_MEASURES: LoadAction = new LoadAction("SONAR_LOAD_MEASURES", "Request measures from SonarQube");
-    private static LOAD_MEASURES_ERROR_KEY: string = "LOAD_MEASURES_ERROR";
+    private static LOAD_MEASURES_ERROR_KEY = "LOAD_MEASURES_ERROR";
 
     private projectKey: string;
 
@@ -56,7 +56,7 @@ export default class SonarQubeMeasuresService {
 
     public loadMeasures(appStatusStore: AppStatusStore,
                         cityBuilderStore: CityBuilderStore, sceneStore: SceneStore,
-                        isForce: boolean = false) {
+                        isForce = false) {
         appStatusStore.load(SonarQubeMeasuresService.LOAD_MEASURES);
 
         sceneStore.shapes = null;
@@ -69,7 +69,7 @@ export default class SonarQubeMeasuresService {
             /**
              * Create a "starting point" root element and load the tree of the project.
              */
-            let root: TreeElement =
+            const root: TreeElement =
                 new TreeElement(this.projectKey, this.projectKey, {}, this.projectKey, this.projectKey, SQ_QUALIFIER_PROJECT);
 
             this.measureTreeService.loadTree(appStatusStore, root, metricKeys).then(() => {

@@ -45,8 +45,9 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
     }
 
     public render() {
-        // tslint:disable-next-line no-empty
-        const noEvent = () => {};
+        const noEvent = () => {
+            // do nothing.
+        };
         const clickEvent: MouseEventHandler<HTMLElement> = this.props.onClick || noEvent;
         const mouseDownEvent = this.props.onMouseDown || noEvent;
         const className = "selectbox " + (this.props.className || "");
