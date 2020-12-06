@@ -1,9 +1,6 @@
 ///
-import {expect} from "chai";
-import {Vector3} from "three";
-import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
 /// softvis3d-frontend
-/// Copyright (C) 2016 Stefan Rinderle and Yvo Niedrich
+/// Copyright (C) 2020 Stefan Rinderle and Yvo Niedrich
 /// stefan@rinderle.info / yvo.niedrich@gmail.com
 ///
 /// This program is free software; you can redistribute it and/or
@@ -20,6 +17,10 @@ import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
 /// License along with this program; if not, write to the Free Software
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
+
+import {expect} from "chai";
+import {Vector3} from "three";
+import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
 import VisualizationLinkSerializationService from "../../src/classes/VisualizationLinkSerializationService";
 import VisualizationOptions from "../../src/classes/VisualizationOptions";
 
