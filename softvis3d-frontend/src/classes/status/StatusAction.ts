@@ -19,8 +19,8 @@
 ///
 
 export default class StatusAction {
-    private _key: string;
-    private _description: string;
+    private readonly _key: string;
+    private readonly _description: string;
 
     public constructor(key: string, description: string) {
         this._key = key;

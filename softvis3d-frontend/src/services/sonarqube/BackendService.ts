@@ -21,7 +21,7 @@
 import axios, { AxiosPromise, AxiosRequestConfig } from "axios";
 
 export abstract class BackendService {
-    private apiUrl: string;
+    private readonly apiUrl: string;
 
     constructor(baseUrl?: string) {
         this.apiUrl = (baseUrl || "") + "/api";

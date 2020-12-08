@@ -43,7 +43,7 @@ export default class ThreeSceneService {
     private readonly htmlDomService!: HtmlDomService;
 
     private threeScene: SoftVis3dScene;
-    private wrangler: Wrangler;
+    private readonly wrangler: Wrangler;
 
     private lastOptions?: VisualizationOptions;
 

@@ -53,15 +53,15 @@ import SceneStore from "./stores/SceneStore";
 export default class App {
     private static WEBGL_ERROR_KEY = "WEBGL_ERROR";
 
-    private communicator: SonarQubeMetricsService;
-    private visualizationLinkService: VisualizationLinkService;
-    private componentInfoService: SonarQubeComponentInfoService;
+    private readonly communicator: SonarQubeMetricsService;
+    private readonly visualizationLinkService: VisualizationLinkService;
+    private readonly componentInfoService: SonarQubeComponentInfoService;
     private webGLDetectorService: WebGLDetectorService;
 
-    private config: AppConfiguration;
+    private readonly config: AppConfiguration;
 
-    private appStatusStore: AppStatusStore;
-    private sceneStore: SceneStore;
+    private readonly appStatusStore: AppStatusStore;
+    private readonly sceneStore: SceneStore;
 
     public constructor(config: AppConfiguration) {
         this.config = config;

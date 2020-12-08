@@ -19,7 +19,7 @@
 ///
 
 export default class Event<T> {
-    private _value: T;
+    private readonly _value: T;
 
     constructor(type: T) {
         this._value = type;

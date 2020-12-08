@@ -29,7 +29,7 @@ export class SoftVis3dMesh extends Mesh {
      */
     public material: MeshLambertMaterial;
 
-    private softVis3dId: string;
+    private readonly softVis3dId: string;
 
     constructor(softVis3dId: string, geometry: Geometry, material: MeshLambertMaterial) {
         super(geometry, material);

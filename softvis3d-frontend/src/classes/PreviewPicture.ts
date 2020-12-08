@@ -24,8 +24,8 @@ import Layout from "./Layout";
 export class PreviewPicture {
     public readonly bgPicture: string;
 
-    private layout?: Layout;
-    private profile?: Profile;
+    private readonly layout?: Layout;
+    private readonly profile?: Profile;
 
     constructor(bgPicture: string, layout?: Layout, profile?: Profile) {
         this.layout = layout;

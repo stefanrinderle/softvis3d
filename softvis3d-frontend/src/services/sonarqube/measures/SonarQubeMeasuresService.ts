@@ -40,7 +40,7 @@ export default class SonarQubeMeasuresService {
     );
     private static LOAD_MEASURES_ERROR_KEY = "LOAD_MEASURES_ERROR";
 
-    private projectKey: string;
+    private readonly projectKey: string;
 
     @lazyInject("AppStatusStore")
     private readonly appStatusStore!: AppStatusStore;

@@ -26,12 +26,12 @@ import { PerspectiveCamera, Vector3 } from "three";
 export class Camera {
     private fov = 70;
 
-    private aspectRatio: number;
+    private readonly aspectRatio: number;
 
     /**
      * Perspective camera setup
      */
-    private perpCam: PerspectiveCamera;
+    private readonly perpCam: PerspectiveCamera;
     private perpNearPane = 1;
     private perpFarPane = 100000;
 

@@ -44,7 +44,7 @@ export default class SoftVis3dScene {
     private _width: number;
     private _height: number;
 
-    private renderer: WebGLRenderer;
+    private readonly renderer: WebGLRenderer;
     private controls: any;
 
     private animationId: null | number = null;

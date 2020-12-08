@@ -28,7 +28,7 @@ export interface SonarQubeComponentInfo {
 }
 
 export default class SonarQubeComponentInfoService extends BackendService {
-    private projectKey: string;
+    private readonly projectKey: string;
 
     constructor(projectKey: string, baseUrl?: string) {
         super(baseUrl);

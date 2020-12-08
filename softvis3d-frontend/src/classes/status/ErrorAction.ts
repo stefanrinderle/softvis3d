@@ -22,7 +22,7 @@ import StatusAction from "./StatusAction";
 
 export default class ErrorAction extends StatusAction {
     public retryButtonText: string;
-    private _retryCallback: () => void;
+    private readonly _retryCallback: () => void;
 
     constructor(
         key: string,

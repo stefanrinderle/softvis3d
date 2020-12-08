@@ -32,15 +32,15 @@ type VersionInterface = CodeCityVis.components.version;
 
 export default class Softvis3dModel extends BaseModel {
     public _version: VersionInterface;
-    private _versions: VersionInterface[];
-    private _attributes: any;
-    private _graph: any[];
-    private _tree: TreeNodeInterface;
-    private _metricScale: MetricScale;
-    private _footprintKey: string;
-    private _heightKey: string;
-    private _metricColorKey: string;
-    private _buildingColorTheme: BuildingColorTheme;
+    private readonly _versions: VersionInterface[];
+    private readonly _attributes: any;
+    private readonly _graph: any[];
+    private readonly _tree: TreeNodeInterface;
+    private readonly _metricScale: MetricScale;
+    private readonly _footprintKey: string;
+    private readonly _heightKey: string;
+    private readonly _metricColorKey: string;
+    private readonly _buildingColorTheme: BuildingColorTheme;
 
     constructor(
         treeResult: TreeElement,
