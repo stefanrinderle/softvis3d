@@ -29,6 +29,7 @@ import { MetricType } from "../../../src/classes/MetricType";
 import { createMockInjection } from "../../Helper";
 
 describe("SonarQubeMetricsService", () => {
+    const linesOfCode = "lines of code";
     it("should call backend and add metric", (done) => {
         createMockInjection(new AppStatusStore());
         const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
@@ -42,16 +43,14 @@ describe("SonarQubeMetricsService", () => {
             id: 123,
             key: "ncloc",
             type: MetricType.INT,
-            name: "lines of code",
+            name: linesOfCode,
             description: "",
         });
 
-        Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.resolve({
-                data: {
-                    metrics: expectedMetrics,
-                },
-            });
+        Sinon.stub(underTest, "callApi").resolves({
+            data: {
+                metrics: expectedMetrics,
+            },
         });
 
         underTest
@@ -61,7 +60,7 @@ describe("SonarQubeMetricsService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });
@@ -79,17 +78,16 @@ describe("SonarQubeMetricsService", () => {
             id: 123,
             key: "ncloc",
             type: MetricType.INT,
-            name: "lines of code",
+            name: linesOfCode,
             hidden: false,
             description: "",
         });
 
-        Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.resolve({
-                data: {
-                    metrics: expectedMetrics,
-                },
-            });
+        // eslint-disable-next-line sonarjs/no-identical-functions
+        Sinon.stub(underTest, "callApi").resolves({
+            data: {
+                metrics: expectedMetrics,
+            },
         });
 
         underTest
@@ -99,7 +97,7 @@ describe("SonarQubeMetricsService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });
@@ -117,16 +115,15 @@ describe("SonarQubeMetricsService", () => {
             id: 123,
             key: "ncloc",
             type: MetricType.STRING,
-            name: "lines of code",
+            name: linesOfCode,
             description: "",
         });
 
-        Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.resolve({
-                data: {
-                    metrics: expectedMetrics,
-                },
-            });
+        // eslint-disable-next-line sonarjs/no-identical-functions
+        Sinon.stub(underTest, "callApi").resolves({
+            data: {
+                metrics: expectedMetrics,
+            },
         });
 
         underTest
@@ -136,7 +133,7 @@ describe("SonarQubeMetricsService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });
@@ -149,12 +146,10 @@ describe("SonarQubeMetricsService", () => {
 
         const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
-        Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.resolve({
-                data: {
-                    metrics: [],
-                },
-            });
+        Sinon.stub(underTest, "callApi").resolves({
+            data: {
+                metrics: [],
+            },
         });
 
         underTest
@@ -165,7 +160,7 @@ describe("SonarQubeMetricsService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });
@@ -179,26 +174,22 @@ describe("SonarQubeMetricsService", () => {
         const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
         const spyCallApi = Sinon.stub(underTest, "callApi");
-        spyCallApi.onFirstCall().returns(
-            Promise.resolve({
-                data: {
-                    metrics: [],
-                    p: 1,
-                    ps: 20,
-                    total: 30,
-                },
-            })
-        );
-        spyCallApi.onSecondCall().returns(
-            Promise.resolve({
-                data: {
-                    metrics: [],
-                    p: 2,
-                    ps: 20,
-                    total: 30,
-                },
-            })
-        );
+        spyCallApi.onFirstCall().resolves({
+            data: {
+                metrics: [],
+                p: 1,
+                ps: 20,
+                total: 30,
+            },
+        });
+        spyCallApi.onSecondCall().resolves({
+            data: {
+                metrics: [],
+                p: 2,
+                ps: 20,
+                total: 30,
+            },
+        });
 
         underTest
             .loadAvailableMetrics()
@@ -210,7 +201,7 @@ describe("SonarQubeMetricsService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });
@@ -224,12 +215,10 @@ describe("SonarQubeMetricsService", () => {
 
         const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
-        Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.reject({
-                response: {
-                    statusText: "not working",
-                },
-            });
+        Sinon.stub(underTest, "callApi").rejects({
+            response: {
+                statusText: "not working",
+            },
         });
 
         underTest
@@ -242,7 +231,7 @@ describe("SonarQubeMetricsService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });
@@ -256,23 +245,19 @@ describe("SonarQubeMetricsService", () => {
         const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
 
         const spyCallApi = Sinon.stub(underTest, "callApi");
-        spyCallApi.onFirstCall().returns(
-            Promise.resolve({
-                data: {
-                    metrics: [],
-                    p: 1,
-                    ps: 20,
-                    total: 30,
-                },
-            })
-        );
-        spyCallApi.onSecondCall().returns(
-            Promise.reject({
-                response: {
-                    statusText: "not working",
-                },
-            })
-        );
+        spyCallApi.onFirstCall().resolves({
+            data: {
+                metrics: [],
+                p: 1,
+                ps: 20,
+                total: 30,
+            },
+        });
+        spyCallApi.onSecondCall().rejects({
+            response: {
+                statusText: "not working",
+            },
+        });
 
         underTest
             .loadAvailableMetrics()
@@ -280,6 +265,7 @@ describe("SonarQubeMetricsService", () => {
                 assert.isNotOk({}, "Promise error");
                 done();
             })
+            // eslint-disable-next-line sonarjs/no-identical-functions
             .catch(() => {
                 assert(spyLoad.calledWith(SonarQubeMetricsService.LOAD_METRICS));
                 assert(spyCallApi.calledTwice);

@@ -41,14 +41,12 @@ describe("SonarQubeMeasuresApiService", () => {
             testAppConfiguration
         );
         const data: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 1);
-        const stub = Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.resolve({
-                data,
-            });
+        const stub = Sinon.stub(underTest, "callApi").resolves({
+            data,
         });
 
         underTest
-            .loadMeasures("baseKey", "ncloc,complexity")
+            .loadMeasures("baseKey", "ncloc,complexity,example")
             .then((result) => {
                 assert(
                     spyLoadStatusUpdate.calledWith(SonarQubeMeasuresService.LOAD_MEASURES.key, 1, 1)
@@ -59,7 +57,7 @@ describe("SonarQubeMeasuresApiService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });
@@ -77,19 +75,15 @@ describe("SonarQubeMeasuresApiService", () => {
         const data2: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(2, 500, 600);
 
         const spyCallApi = Sinon.stub(underTest, "callApi");
-        spyCallApi.onFirstCall().returns(
-            Promise.resolve({
-                data: data1,
-            })
-        );
-        spyCallApi.onSecondCall().returns(
-            Promise.resolve({
-                data: data2,
-            })
-        );
+        spyCallApi.onFirstCall().resolves({
+            data: data1,
+        });
+        spyCallApi.onSecondCall().resolves({
+            data: data2,
+        });
 
         underTest
-            .loadMeasures("baseKey", "ncloc,complexity")
+            .loadMeasures("baseKey", "ncloc,complexity,more")
             .then((result) => {
                 assert(spyCallApi.called);
                 expect(result.components.length).to.be.eq(2);
@@ -106,12 +100,14 @@ describe("SonarQubeMeasuresApiService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });
 
     it("should call backend and react on errors", (done) => {
+        const statusText = "not working";
+
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         createMockInjection(new AppStatusStore());
 
@@ -119,12 +115,11 @@ describe("SonarQubeMeasuresApiService", () => {
             testAppConfiguration
         );
 
-        Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.reject({
-                response: {
-                    statusText: "not working",
-                },
-            });
+        const expectedText = statusText;
+        Sinon.stub(underTest, "callApi").rejects({
+            response: {
+                statusText: expectedText,
+            },
         });
 
         underTest
@@ -135,7 +130,7 @@ describe("SonarQubeMeasuresApiService", () => {
                 done();
             })
             .catch((error) => {
-                expect(error.response.statusText).to.be.eq("not working");
+                expect(error.response.statusText).to.be.eq(expectedText);
                 done();
             });
     });
@@ -151,29 +146,29 @@ describe("SonarQubeMeasuresApiService", () => {
         const data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
 
         const spyCallApi = Sinon.stub(underTest, "callApi");
-        spyCallApi.onFirstCall().returns(
-            Promise.resolve({
-                data: data1,
-            })
-        );
+        spyCallApi.onFirstCall().resolves({
+            data: data1,
+        });
 
+        const statusText = "not working";
         spyCallApi.onSecondCall().returns(
             Promise.reject({
                 response: {
-                    statusText: "not working",
+                    statusText: statusText,
                 },
             })
         );
 
         underTest
             .loadMeasures("baseKey", "ncloc,complexity")
+            // eslint-disable-next-line sonarjs/no-identical-functions
             .then(() => {
                 assert.isNotOk("Promise error", "works but should throw exception");
 
                 done();
             })
             .catch((error) => {
-                expect(error.response.statusText).to.be.eq("not working");
+                expect(error.response.statusText).to.be.eq(statusText);
 
                 done();
             });

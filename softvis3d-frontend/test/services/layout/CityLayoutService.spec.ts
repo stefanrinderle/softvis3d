@@ -83,11 +83,9 @@ describe("CityLayoutService", () => {
         const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
         const layoutProcessor = createMock(LayoutProcessor);
-        layoutProcessor.getIllustration.returns(
-            Promise.resolve({
-                shapes: {},
-            })
-        );
+        layoutProcessor.getIllustration.resolves({
+            shapes: {},
+        });
 
         const underTest: CityLayoutService = new CityLayoutService();
 
@@ -120,9 +118,7 @@ describe("CityLayoutService", () => {
         cityBuilderStore.options.metricColor = numberOfAuthorsBlameColorMetric;
 
         const scmService = createMock(SonarQubeScmService);
-        scmService.assertScmInfoAreLoaded.callsFake(() => {
-            return Promise.resolve({});
-        });
+        scmService.assertScmInfoAreLoaded.resolves({});
 
         const spyLoad = Sinon.spy(testAppStatusStore, "load");
         const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");

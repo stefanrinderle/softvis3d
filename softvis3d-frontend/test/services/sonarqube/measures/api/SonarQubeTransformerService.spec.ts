@@ -182,7 +182,7 @@ describe("SonarQubeTransformerService", () => {
         const subfolder: TreeElement = createTreeElementAsChildWithPath("src/sub");
         new SonarQubeTransformerService().add(parent, subfolder);
 
-        const child: TreeElement = createTreeElementAsChildWithPath("src/sub/file.java");
+        const child: TreeElement = createTreeElementAsChildWithPath("src/sub/childFile.java");
         new SonarQubeTransformerService().add(parent, child);
 
         expect(parent.children.length).to.be.eq(1);

@@ -126,7 +126,7 @@ export default class Softvis3dModel extends BaseModel {
     }
 
     getMetricValue(treeNode: TreeElement, key: string): number {
-        return this.isMetricValueSet(treeNode, key) ? (treeNode.measures[key] as number) : 0;
+        return this.isMetricValueSet(treeNode, key) ? treeNode.measures[key] : 0;
     }
 
     isMetricValueSet(treeNode: TreeElement, key: string): boolean {

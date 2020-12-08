@@ -53,7 +53,7 @@ describe("SonarQubeMeasuresService", () => {
         const underTest: SonarQubeMeasuresService = new SonarQubeMeasuresService(projectKey);
 
         const expectedData: TreeElement = createDefaultDirWithKey(projectKey, projectKey);
-        measureTreeService.loadTree.returns(Promise.resolve(expectedData));
+        measureTreeService.loadTree.resolves(expectedData);
 
         underTest.loadMeasures(testSceneStore);
 
@@ -95,7 +95,7 @@ describe("SonarQubeMeasuresService", () => {
         const underTest: SonarQubeMeasuresService = new SonarQubeMeasuresService(projectKey);
 
         const expectedData: TreeElement = createDefaultDirWithKey(projectKey, projectKey);
-        measureTreeService.loadTree.returns(Promise.resolve(expectedData));
+        measureTreeService.loadTree.resolves(expectedData);
 
         underTest.loadMeasures(testSceneStore);
 

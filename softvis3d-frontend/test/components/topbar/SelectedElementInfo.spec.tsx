@@ -30,6 +30,8 @@ import { createDefaultDirWithKey, createDefaultFileWithName } from "../../classe
 import { createMock } from "../../Helper";
 
 describe("<SelectedElementInfo/>", () => {
+    const myTestElement = "my test element";
+
     it("should show default text div on start", () => {
         const localSceneStore: SceneStore = new SceneStore();
 
@@ -40,7 +42,7 @@ describe("<SelectedElementInfo/>", () => {
     });
 
     it("should show node element if node details are requested", () => {
-        const selectedElement: TreeElement = createTestTreeElement("my test element");
+        const selectedElement: TreeElement = createTestTreeElement(myTestElement);
         selectedElement.children.push(createTestTreeElement("child", selectedElement));
 
         const localTreeService = createMock(TreeService);
@@ -59,8 +61,8 @@ describe("<SelectedElementInfo/>", () => {
     });
 
     it("should show leaf element if leaf details are requested", () => {
-        const root: TreeElement = createTestTreeElement("my test element");
-        const selectedElement: TreeElement = createTestTreeElement("my test element", root);
+        const root: TreeElement = createTestTreeElement(myTestElement);
+        const selectedElement: TreeElement = createTestTreeElement(myTestElement, root);
         root.children.push(selectedElement);
 
         const localSceneStore: SceneStore = new SceneStore();
@@ -75,7 +77,7 @@ describe("<SelectedElementInfo/>", () => {
     it("should open the source code page on click", () => {
         const expectedKey = "iudhsfiushdf";
 
-        const root: TreeElement = createTestTreeElement("my test element");
+        const root: TreeElement = createTestTreeElement(myTestElement);
         const selectedElement: TreeElement = createTestTreeElement(expectedKey, root);
         root.children.push(selectedElement);
 
@@ -99,7 +101,7 @@ describe("<SelectedElementInfo/>", () => {
     it("should open the measures page on click", () => {
         const expectedKey = "iudhsfiushdf";
 
-        const root: TreeElement = createTestTreeElement("my test element");
+        const root: TreeElement = createTestTreeElement(myTestElement);
         const selectedElement: TreeElement = createTestTreeElement(expectedKey, root);
         root.children.push(selectedElement);
 

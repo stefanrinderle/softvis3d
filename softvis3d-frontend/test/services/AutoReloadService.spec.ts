@@ -107,11 +107,9 @@ describe("AutoReloadService", () => {
         const expectedDate = new Date(0);
 
         const componentInfoService = createMock(SonarQubeComponentInfoService);
-        componentInfoService.loadComponentInfo.returns(
-            Promise.resolve({
-                analysisDate: expectedDate,
-            })
-        );
+        componentInfoService.loadComponentInfo.resolves({
+            analysisDate: expectedDate,
+        });
         const underTest = new AutoReloadService();
 
         underTest.updateAnalysisDate(appStatusStore);
@@ -135,11 +133,9 @@ describe("AutoReloadService", () => {
         appStatusStore.analysisDate = expectedDate;
 
         const componentInfoService = createMock(SonarQubeComponentInfoService);
-        componentInfoService.loadComponentInfo.returns(
-            Promise.resolve({
-                analysisDate: new Date(0),
-            })
-        );
+        componentInfoService.loadComponentInfo.resolves({
+            analysisDate: new Date(0),
+        });
         const underTest = new AutoReloadService();
 
         underTest.updateAnalysisDate(appStatusStore);
@@ -161,11 +157,9 @@ describe("AutoReloadService", () => {
         const expectedDate = new Date(0);
 
         const componentInfoService = createMock(SonarQubeComponentInfoService);
-        componentInfoService.loadComponentInfo.returns(
-            Promise.resolve({
-                analysisDate: expectedDate,
-            })
-        );
+        componentInfoService.loadComponentInfo.resolves({
+            analysisDate: expectedDate,
+        });
         const underTest = new AutoReloadService();
 
         underTest.updateAnalysisDate(appStatusStore);

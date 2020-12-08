@@ -55,12 +55,10 @@ describe("SonarQubeScmService", () => {
         });
         localScmCalculator.calcNumberOfAuthors.returns(4);
 
-        Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.resolve({
-                data: {
-                    scm: measures,
-                },
-            });
+        Sinon.stub(underTest, "callApi").resolves({
+            data: {
+                scm: measures,
+            },
         });
 
         underTest
@@ -98,12 +96,11 @@ describe("SonarQubeScmService", () => {
         localScmCalculator.createMetric.returns({});
         localScmCalculator.calcNumberOfAuthors.returns(0);
 
-        Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.resolve({
-                data: {
-                    scm: measures,
-                },
-            });
+        // eslint-disable-next-line sonarjs/no-identical-functions
+        Sinon.stub(underTest, "callApi").resolves({
+            data: {
+                scm: measures,
+            },
         });
 
         underTest
@@ -116,7 +113,7 @@ describe("SonarQubeScmService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });
@@ -152,12 +149,11 @@ describe("SonarQubeScmService", () => {
         });
         localScmCalculator.calcNumberOfAuthors.returns(4);
 
-        Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.resolve({
-                data: {
-                    scm: measures,
-                },
-            });
+        // eslint-disable-next-line sonarjs/no-identical-functions
+        Sinon.stub(underTest, "callApi").resolves({
+            data: {
+                scm: measures,
+            },
         });
 
         underTest
@@ -175,7 +171,7 @@ describe("SonarQubeScmService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });
@@ -213,12 +209,11 @@ describe("SonarQubeScmService", () => {
         });
         localScmCalculator.calcNumberOfAuthors.returns(4);
 
-        Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.resolve({
-                data: {
-                    scm: measures,
-                },
-            });
+        // eslint-disable-next-line sonarjs/no-identical-functions
+        Sinon.stub(underTest, "callApi").resolves({
+            data: {
+                scm: measures,
+            },
         });
 
         underTest
@@ -241,7 +236,7 @@ describe("SonarQubeScmService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });
@@ -260,7 +255,7 @@ describe("SonarQubeScmService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });
@@ -280,7 +275,7 @@ describe("SonarQubeScmService", () => {
         mockTreeServiceGetAllFiles([createTestTreeElement("test")]);
 
         Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.reject({
+            Promise.reject({
                 response: {
                     statusText: "not working",
                 },
@@ -295,7 +290,7 @@ describe("SonarQubeScmService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });

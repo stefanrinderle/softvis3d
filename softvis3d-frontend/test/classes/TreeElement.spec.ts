@@ -38,7 +38,7 @@ describe("TreeElement", () => {
         const mainDir: TreeElement = createDefaultDirWithPath("/src/main");
         sonarQubeTransformerService.add(parent, mainDir);
 
-        const fileA: TreeElement = createDefaultFileWithPath("/src/a.java");
+        const fileA: TreeElement = createDefaultFileWithPath("/src/a1.java");
         sonarQubeTransformerService.add(parent, fileA);
         const fileZ: TreeElement = createDefaultFileWithPath("/src/z.java");
         sonarQubeTransformerService.add(parent, fileZ);
@@ -48,7 +48,7 @@ describe("TreeElement", () => {
         expect(folderResult.length).to.be.eq(4);
         expect(folderResult[0].path).to.be.eq("/src/main");
         expect(folderResult[1].path).to.be.eq("/src/test");
-        expect(folderResult[2].path).to.be.eq("/src/a.java");
+        expect(folderResult[2].path).to.be.eq("/src/a1.java");
         expect(folderResult[3].path).to.be.eq("/src/z.java");
     });
 

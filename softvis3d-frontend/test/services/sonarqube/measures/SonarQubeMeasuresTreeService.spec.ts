@@ -39,7 +39,7 @@ describe("SonarQubeMeasuresTreeService", () => {
 
         const underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 
-        measureApiService.loadMeasures.returns(Promise.resolve(createResponseWithComponents([])));
+        measureApiService.loadMeasures.resolves(createResponseWithComponents([]));
 
         const root: TreeElement = createDefaultDir();
         underTest
@@ -50,7 +50,7 @@ describe("SonarQubeMeasuresTreeService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });
@@ -79,8 +79,8 @@ describe("SonarQubeMeasuresTreeService", () => {
             path: "string",
             qualifier: SQ_QUALIFIER_DIRECTORY,
         };
-        measureApiService.loadMeasures.returns(
-            Promise.resolve(createResponseWithComponents([defaultComponent, defaultDir]))
+        measureApiService.loadMeasures.resolves(
+            createResponseWithComponents([defaultComponent, defaultDir])
         );
 
         const root: TreeElement = createDefaultDir();
@@ -93,7 +93,7 @@ describe("SonarQubeMeasuresTreeService", () => {
                 done();
             })
             .catch((error) => {
-                assert.isNotOk(error, "Promise error");
+                assert.isNotOk(error);
                 done();
             });
     });

@@ -32,6 +32,7 @@ export abstract class StringFileFilter implements FileFilterInterface {
 export class IncludeFileFilter extends StringFileFilter {
     public shouldRemoveFile(file: TreeElement): boolean {
         if (super.value !== "") {
+            // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
             const match = file.name.match(this.value);
             if (match === null || match.length === 0) {
                 return true;
@@ -44,6 +45,7 @@ export class IncludeFileFilter extends StringFileFilter {
 export class ExcludeFileFilter extends StringFileFilter {
     public shouldRemoveFile(file: TreeElement): boolean {
         if (super.value !== "") {
+            // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
             const match = file.name.match(this.value);
             if (match && match.length > 0) {
                 return true;

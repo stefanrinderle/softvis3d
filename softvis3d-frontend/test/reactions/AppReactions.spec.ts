@@ -29,14 +29,14 @@ import { createMock, createMockInjection } from "../Helper";
 
 describe("AppReactions", () => {
     it("should auto reload on analysisDate change", () => {
-        const testCityBuilderStore = new CityBuilderStore();
+        createMockInjection(new CityBuilderStore());
         const testAppStatusStore = createMockInjection(new AppStatusStore());
         const testSceneStore = new SceneStore();
         const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
         const testAutoReloadService = createMock(AutoReloadService);
         testAutoReloadService.isActive.returns(true);
 
-        const reaction = new AppReactions(testCityBuilderStore, testSceneStore);
+        const reaction = new AppReactions(testSceneStore);
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 
@@ -47,7 +47,7 @@ describe("AppReactions", () => {
     });
 
     it("should not auto reload on analysisDate change but auto reload service not active", () => {
-        const testCityBuilderStore = new CityBuilderStore();
+        createMockInjection(new CityBuilderStore());
         const testAppStatusStore = createMockInjection(new AppStatusStore());
         const testSceneStore = new SceneStore();
 
@@ -55,7 +55,7 @@ describe("AppReactions", () => {
         const testAutoReloadService = createMock(AutoReloadService);
         testAutoReloadService.isActive.returns(false);
 
-        const reaction = new AppReactions(testCityBuilderStore, testSceneStore);
+        const reaction = new AppReactions(testSceneStore);
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 

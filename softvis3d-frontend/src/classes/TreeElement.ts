@@ -70,7 +70,7 @@ export class TreeElement {
     }
 
     public getSortedChildren(): TreeElement[] {
-        return this.children.sort(TreeElement.sortByNameAndType);
+        return this.children.sort(TreeElement.sortByNameAndType.bind(this));
     }
 
     public replaceChildByKey(key: string, replaceChild: TreeElement) {

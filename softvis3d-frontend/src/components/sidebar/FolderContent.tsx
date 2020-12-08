@@ -85,7 +85,7 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
     }
 
     public componentWillUnmount() {
-        window.removeEventListener("resize", this.onResize);
+        window.removeEventListener("resize", this.onResize.bind(this));
     }
 
     public render() {

@@ -35,21 +35,19 @@ describe("SonarQubeComponentInfoService", () => {
         const expectedKey = "de.rinderle.softvis3d:softvis3d";
         const expectedName = "softvis3d";
 
-        Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.resolve({
-                data: {
-                    component: {
-                        organization: "default-organization",
-                        id: expectedId,
-                        key: expectedKey,
-                        name: expectedName,
-                        qualifier: "TRK",
-                        analysisDate: "2017-11-14T22:08:39+0100",
-                        leakPeriodDate: "2017-08-15T16:23:51+0200",
-                        version: "1.0.1-SNAPSHOT",
-                    },
+        Sinon.stub(underTest, "callApi").resolves({
+            data: {
+                component: {
+                    organization: "default-organization",
+                    id: expectedId,
+                    key: expectedKey,
+                    name: expectedName,
+                    qualifier: "TRK",
+                    analysisDate: "2017-11-14T22:08:39+0100",
+                    leakPeriodDate: "2017-08-15T16:23:51+0200",
+                    version: "1.0.1-SNAPSHOT",
                 },
-            });
+            },
         });
 
         underTest
@@ -78,12 +76,10 @@ describe("SonarQubeComponentInfoService", () => {
             apiUrl
         );
 
-        Sinon.stub(underTest, "callApi").callsFake(() => {
-            return Promise.reject({
-                response: {
-                    data: "not working",
-                },
-            });
+        Sinon.stub(underTest, "callApi").rejects({
+            response: {
+                data: "not working",
+            },
         });
 
         underTest

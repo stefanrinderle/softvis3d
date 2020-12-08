@@ -17,7 +17,7 @@
     "build:force": "webpack --progress --colors --env.prod",
     "lint": "yarn run lint:sources && yarn run lint:tests",
     "lint:sources": "eslint --ignore-path .gitignore --ext .ts,.tsx ./src && shx echo \"[eslint] Lint successful (Sources)\"",
-    "lint:tests": "eslint -c test/.eslintrc.json --ignore-path .gitignore --ext .ts,.tsx ./test && shx echo \"[eslint] Lint successful (Tests)\"",
+    "lint:tests": "eslint --ignore-path .gitignore --ext .ts,.tsx ./test && shx echo \"[eslint] Lint successful (Tests)\"",
     "test": "mocha",
     "test:coverage": "nyc mocha",
     "test:sonarqube": "mocha --reporter mocha-sonarqube-reporter --reporter-options useFullFilePath=true,output=coverage/sonar-coverage.xml",

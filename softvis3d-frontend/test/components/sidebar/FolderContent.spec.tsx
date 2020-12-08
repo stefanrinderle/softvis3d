@@ -119,6 +119,7 @@ describe("<FolderContent/>", () => {
         const localSceneStore: SceneStore = new SceneStore();
         Sinon.spy(FolderContent.prototype, "componentDidMount");
         const wrapper = mount(<FolderContent activeFolder={null} sceneStore={localSceneStore} />);
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(FolderContent.prototype.componentDidMount).to.have.property("callCount", 1);
 
         expect(wrapper.state().listHeight).to.be.eq(123);

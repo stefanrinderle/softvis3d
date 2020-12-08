@@ -137,8 +137,7 @@ export default class App {
 
         ReactDOM.render(
             <Softvis3D sceneStore={this.sceneStore} baseUrl={this.config.baseUrl} />,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            document.getElementById(target)!
+            document.getElementById(target)
         );
     }
 
