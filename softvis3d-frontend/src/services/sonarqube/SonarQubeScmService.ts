@@ -39,6 +39,8 @@ export default class SonarQubeScmService extends BackendService {
     );
     private static LOAD_SCM_ERROR_KEY = "LOAD_SCM_ERROR";
 
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
     @lazyInject("AppStatusStore")
     private readonly appStatusStore!: AppStatusStore;
     @lazyInject("TreeService")
@@ -50,24 +52,26 @@ export default class SonarQubeScmService extends BackendService {
         super(baseUrl);
     }
 
-    public assertScmInfoAreLoaded(sceneStore: SceneStore): Promise<void> {
+    public assertScmInfoAreLoaded(): Promise<void> {
         return new Promise<void>((resolve) => {
-            if (sceneStore.scmMetricLoaded) {
+            if (this.sceneStore.scmMetricLoaded) {
                 resolve();
                 return;
             }
 
-            this.loadScmInfosIfAvailable(sceneStore).then(() => {
-                sceneStore.scmMetricLoaded = true;
+            this.loadScmInfosIfAvailable().then(() => {
+                this.sceneStore.scmMetricLoaded = true;
                 resolve();
             });
         });
     }
 
-    public checkScmInfosAvailable(sceneStore: SceneStore): Promise<boolean> {
+    public checkScmInfosAvailable(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            if (sceneStore.projectData !== null) {
-                let allFiles: TreeElement[] = this.treeService.getAllFiles(sceneStore.projectData);
+            if (this.sceneStore.projectData !== null) {
+                let allFiles: TreeElement[] = this.treeService.getAllFiles(
+                    this.sceneStore.projectData
+                );
                 allFiles = allFiles.slice(0, 10);
 
                 const requests: Array<Promise<void>> = [];
@@ -94,13 +98,13 @@ export default class SonarQubeScmService extends BackendService {
         });
     }
 
-    public loadScmInfos(sceneStore: SceneStore): Promise<void> {
+    public loadScmInfos(): Promise<void> {
         this.appStatusStore.load(SonarQubeScmService.LOAD_SCM);
 
         return new Promise<void>((resolve, reject) => {
-            if (sceneStore.projectData !== null) {
+            if (this.sceneStore.projectData !== null) {
                 const allFiles: TreeElement[] = this.treeService.getAllFiles(
-                    sceneStore.projectData
+                    this.sceneStore.projectData
                 );
 
                 this.loadScmInfosBatch(allFiles)
@@ -117,11 +121,11 @@ export default class SonarQubeScmService extends BackendService {
         });
     }
 
-    private loadScmInfosIfAvailable(sceneStore: SceneStore): Promise<void> {
+    private loadScmInfosIfAvailable(): Promise<void> {
         return new Promise<void>((resolve) => {
-            this.checkScmInfosAvailable(sceneStore).then((isAvailable: boolean) => {
+            this.checkScmInfosAvailable().then((isAvailable: boolean) => {
                 if (isAvailable) {
-                    this.loadScmInfos(sceneStore).then(() => resolve());
+                    this.loadScmInfos().then(() => resolve());
                 } else {
                     resolve();
                 }

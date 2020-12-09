@@ -25,20 +25,16 @@ import { TreeElement } from "../../../src/classes/TreeElement";
 import FolderContentElement from "../../../src/components/sidebar/FolderContentElement";
 import SceneStore from "../../../src/stores/SceneStore";
 import { createDefaultFileWithName } from "../../classes/TreeElement.spec";
+import { createMockInjection } from "../../Helper";
 
 describe("<FolderContentElement/>", () => {
     it("should show element", () => {
         const expectedName = "element98szdfkjbsf";
         const selectedElement: TreeElement = createDefaultFileWithName(expectedName);
-        const localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
+        localSceneStore.selectedObjectId = "other";
 
-        const selectedSingleFileInfo = shallow(
-            <FolderContentElement
-                element={selectedElement}
-                sceneStore={localSceneStore}
-                isSelected={false}
-            />
-        );
+        const selectedSingleFileInfo = shallow(<FolderContentElement element={selectedElement} />);
 
         expect(selectedSingleFileInfo.html().includes(expectedName)).to.be.true;
     });
@@ -46,15 +42,10 @@ describe("<FolderContentElement/>", () => {
     it("should show selected element", () => {
         const expectedName = "element98szdfkjbsf";
         const selectedElement: TreeElement = createDefaultFileWithName(expectedName);
-        const localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
+        localSceneStore.selectedObjectId = selectedElement.id;
 
-        const selectedSingleFileInfo = shallow(
-            <FolderContentElement
-                element={selectedElement}
-                sceneStore={localSceneStore}
-                isSelected={true}
-            />
-        );
+        const selectedSingleFileInfo = shallow(<FolderContentElement element={selectedElement} />);
 
         expect(selectedSingleFileInfo.html().includes(expectedName)).to.be.true;
         expect(selectedSingleFileInfo.hasClass("current-selected")).to.be.true;
@@ -63,15 +54,9 @@ describe("<FolderContentElement/>", () => {
     it("should select element on click", () => {
         const expectedName = "element98szdfkjbsf";
         const selectedElement: TreeElement = createDefaultFileWithName(expectedName);
-        const localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
 
-        const selectedSingleFileInfo = shallow(
-            <FolderContentElement
-                element={selectedElement}
-                sceneStore={localSceneStore}
-                isSelected={false}
-            />
-        );
+        const selectedSingleFileInfo = shallow(<FolderContentElement element={selectedElement} />);
 
         selectedSingleFileInfo.find("li").simulate("click");
 
@@ -81,17 +66,12 @@ describe("<FolderContentElement/>", () => {
     it("should do nothing on click on already selected element", () => {
         const expectedName = "element98szdfkjbsf";
         const selectedElement: TreeElement = createDefaultFileWithName(expectedName);
-        const localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
+        localSceneStore.selectedObjectId = selectedElement.id;
 
-        const selectedSingleFileInfo = shallow(
-            <FolderContentElement
-                element={selectedElement}
-                isSelected={true}
-                sceneStore={localSceneStore}
-            />
-        );
+        const selectedSingleFileInfo = shallow(<FolderContentElement element={selectedElement} />);
 
         selectedSingleFileInfo.find("li").simulate("click");
-        expect(localSceneStore.selectedObjectId).to.be.eq(null);
+        expect(localSceneStore.selectedObjectId).to.be.eq(localSceneStore.selectedObjectId);
     });
 });

@@ -20,33 +20,31 @@
 
 import { observer } from "mobx-react";
 import * as React from "react";
+import { lazyInject } from "../../inversify.config";
 import SceneStore from "../../stores/SceneStore";
 import Scene from "../scene/Scene";
 import SideBar from "../sidebar/SideBar";
 import TopBar from "../topbar/TopBar";
 
-interface VisualizationProps {
-    sceneStore: SceneStore;
-}
-
 @observer
-export default class Visualization extends React.Component<VisualizationProps, any> {
-    public render() {
-        const { sceneStore } = this.props;
+export default class Visualization extends React.Component<Record<string, unknown>, any> {
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
 
-        if (!sceneStore.isVisible) {
+    public render() {
+        if (!this.sceneStore.isVisible) {
             return (
                 <div className="visualisation">
-                    <TopBar sceneStore={sceneStore} />
+                    <TopBar />
                 </div>
             );
         }
 
         return (
             <div className="visualisation">
-                <TopBar sceneStore={sceneStore} />
-                <Scene sceneStore={sceneStore} />
-                <SideBar sceneStore={sceneStore} />
+                <TopBar />
+                <Scene />
+                <SideBar />
             </div>
         );
     }

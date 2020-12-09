@@ -22,15 +22,10 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import { lazyInject } from "../../inversify.config";
 import CityBuilderStore from "../../stores/CityBuilderStore";
-import SceneStore from "../../stores/SceneStore";
 import TopBarShareButton from "./TopBarShareButton";
 
-interface TopBarMenuProbs {
-    sceneStore: SceneStore;
-}
-
 @observer
-export default class TopBarMenu extends React.Component<TopBarMenuProbs, any> {
+export default class TopBarMenu extends React.Component<Record<string, unknown>, any> {
     @lazyInject("CityBuilderStore")
     private readonly cityBuilderStore!: CityBuilderStore;
 
@@ -45,10 +40,7 @@ export default class TopBarMenu extends React.Component<TopBarMenuProbs, any> {
                 >
                     Settings
                 </button>
-                <TopBarShareButton
-                    disabled={this.cityBuilderStore.show}
-                    sceneStore={this.props.sceneStore}
-                />
+                <TopBarShareButton disabled={this.cityBuilderStore.show} />
                 <button id="help-button" className="middle" onClick={this.openHelp.bind(this)}>
                     Help
                 </button>

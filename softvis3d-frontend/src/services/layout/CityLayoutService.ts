@@ -32,6 +32,8 @@ import Softvis3dModel from "./Softvis3dModel";
 export default class CityLayoutService {
     public static BUILD_CITY: LoadAction = new LoadAction("BUILD_CITY", "Create layout");
 
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
     @lazyInject("AppStatusStore")
     private readonly appStatusStore!: AppStatusStore;
     @lazyInject("CityBuilderStore")
@@ -42,23 +44,23 @@ export default class CityLayoutService {
     @lazyInject("SonarQubeScmService")
     private readonly scmService!: SonarQubeScmService;
 
-    public createCity(sceneStore: SceneStore) {
-        this.loadRequiredMetricData(sceneStore).then(() => {
-            if (sceneStore.projectData !== null) {
+    public createCity() {
+        this.loadRequiredMetricData().then(() => {
+            if (this.sceneStore.projectData !== null) {
                 this.appStatusStore.load(CityLayoutService.BUILD_CITY);
 
-                const model = this.prepareModel(sceneStore);
-                this.buildCity(sceneStore, model);
+                const model = this.prepareModel();
+                this.buildCity(model);
             }
         });
     }
 
-    private loadRequiredMetricData(sceneStore: SceneStore): Promise<void> {
+    private loadRequiredMetricData(): Promise<void> {
         // Project data is already loaded. Otherwise multiple load
         // processes need to be chained here
 
         if (this.cityBuilderStore.options.metricColor.id === numberOfAuthorsBlameColorMetric.id) {
-            return this.scmService.assertScmInfoAreLoaded(sceneStore);
+            return this.scmService.assertScmInfoAreLoaded();
         }
 
         return new Promise<void>((resolve) => {
@@ -66,9 +68,9 @@ export default class CityLayoutService {
         });
     }
 
-    private prepareModel(sceneStore: SceneStore) {
+    private prepareModel() {
         return new Softvis3dModel(
-            sceneStore.projectData as TreeElement,
+            this.sceneStore.projectData as TreeElement,
             this.cityBuilderStore.options.profile.footprintMetric.id,
             this.cityBuilderStore.options.profile.heightMetric.id,
             this.cityBuilderStore.options.metricColor.id,
@@ -76,7 +78,7 @@ export default class CityLayoutService {
         );
     }
 
-    private buildCity(sceneStore: SceneStore, model: Softvis3dModel) {
+    private buildCity(model: Softvis3dModel) {
         const options = {
             layout: this.cityBuilderStore.options.layout.id,
             layoutOptions: {},
@@ -85,7 +87,7 @@ export default class CityLayoutService {
         };
 
         this.layoutProcessor.getIllustration(options, model).then((illustration) => {
-            sceneStore.shapes = illustration.shapes;
+            this.sceneStore.shapes = illustration.shapes;
 
             this.appStatusStore.loadComplete(CityLayoutService.BUILD_CITY);
         });

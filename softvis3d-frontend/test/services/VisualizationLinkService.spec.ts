@@ -35,7 +35,7 @@ describe("VisualizationLinkService", () => {
     it("Happy case - apply link params", () => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
-        const localSceneStore: SceneStore = new SceneStore();
+        createMockInjection(new SceneStore());
         const underTest: VisualizationLinkService = new VisualizationLinkService(
             testAppConfiguration
         );
@@ -53,7 +53,7 @@ describe("VisualizationLinkService", () => {
         );
 
         const search = "sdfiuisduhfiuhsdiuhasiduhaiduhasiduhiuhdisauh";
-        underTest.process(localSceneStore, search);
+        underTest.process(search);
 
         assert(localUrlParameterService.getQueryParams.calledWithExactly(search));
 
@@ -63,7 +63,7 @@ describe("VisualizationLinkService", () => {
     it("Does nothing on empty string", () => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
-        const localSceneStore: SceneStore = new SceneStore();
+        createMockInjection(new SceneStore());
         const underTest: VisualizationLinkService = new VisualizationLinkService(
             testAppConfiguration
         );
@@ -78,7 +78,7 @@ describe("VisualizationLinkService", () => {
         );
         localVisualizationLinkSerializationService.deserialize.returns(null);
 
-        underTest.process(localSceneStore, "");
+        underTest.process("");
 
         assert(localUrlParameterService.getQueryParams.calledWithExactly(""));
 
@@ -89,7 +89,7 @@ describe("VisualizationLinkService", () => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         createMockInjection(new CityBuilderStore());
 
-        const localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         // Math.round in place
         localSceneStore.cameraPosition = new Vector3(1.2, 2.1, 3.3);
 
@@ -106,7 +106,7 @@ describe("VisualizationLinkService", () => {
         const expectedParam = "sidufhisudhfisuhdfisuhdfiushdfiuhsdfiuh";
         localVisualizationLinkSerializationService.serialize.returns(expectedParam);
 
-        const result = underTest.createVisualizationLink(localSceneStore);
+        const result = underTest.createVisualizationLink();
 
         assert(
             localUrlParameterService.createVisualizationLinkForCurrentUrl.calledWithExactly(
@@ -123,14 +123,14 @@ describe("VisualizationLinkService", () => {
     it("Should throw error if no camera position is set.", () => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         createMockInjection(new CityBuilderStore());
-        const localSceneStore: SceneStore = new SceneStore();
+        createMockInjection(new SceneStore());
 
         const underTest: VisualizationLinkService = new VisualizationLinkService(
             testAppConfiguration
         );
 
         expect(() => {
-            underTest.createVisualizationLink(localSceneStore);
+            underTest.createVisualizationLink();
         }).to.throw("sceneStore.cameraPosition is undefined or null on createVisualizationLink");
     });
 
@@ -143,7 +143,7 @@ describe("VisualizationLinkService", () => {
 
         createMockInjection(new CityBuilderStore());
 
-        const localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         localSceneStore.cameraPosition = new Vector3(1, 2, 3);
 
         const expectedSelectedObjectId = "123453";
@@ -162,7 +162,7 @@ describe("VisualizationLinkService", () => {
         const expectedParam = "sidufhisudhfisuhdfisuhdfiushdfiuhsdfiuh";
         localVisualizationLinkSerializationService.serialize.returns(expectedParam);
 
-        const result = underTest.createPlainVisualizationLink(localSceneStore);
+        const result = underTest.createPlainVisualizationLink();
 
         const expectedresult =
             baseUrl +

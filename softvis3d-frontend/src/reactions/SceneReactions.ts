@@ -25,15 +25,14 @@ import CityBuilderStore from "../stores/CityBuilderStore";
 import SceneStore from "../stores/SceneStore";
 
 export default class SceneReactions {
-    private readonly sceneStore: SceneStore;
-
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
     @lazyInject("CityBuilderStore")
     private readonly cityBuilderStore!: CityBuilderStore;
     @lazyInject("CityLayoutService")
     private readonly cityLayoutService!: CityLayoutService;
 
-    constructor(scene: SceneStore) {
-        this.sceneStore = scene;
+    constructor() {
         this.prepareReactions();
     }
 
@@ -42,7 +41,7 @@ export default class SceneReactions {
             () => this.cityBuilderStore.options.metricColor,
             () => {
                 if (!this.cityBuilderStore.show) {
-                    this.cityLayoutService.createCity(this.sceneStore);
+                    this.cityLayoutService.createCity();
                 }
             },
             {
@@ -53,7 +52,7 @@ export default class SceneReactions {
         reaction(
             () => this.sceneStore.projectData,
             () => {
-                this.cityLayoutService.createCity(this.sceneStore);
+                this.cityLayoutService.createCity();
             },
             {
                 name: "Convert backend data to threeJS shapes",

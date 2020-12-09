@@ -20,36 +20,31 @@
 
 import * as React from "react";
 import { observer } from "mobx-react";
+import { lazyInject } from "../../inversify.config";
 import NodeList from "./FolderContent";
 import ParentElement from "./ParentElement";
 import SceneStore from "../../stores/SceneStore";
 import ActiveFolder from "./ActiveFolder";
 import { TreeElement } from "../../classes/TreeElement";
 
-interface SideBarProps {
-    sceneStore: SceneStore;
-}
-
 @observer
-export default class SideBar extends React.Component<SideBarProps, any> {
-    public render() {
-        const { sceneStore } = this.props;
+export default class SideBar extends React.Component<Record<string, unknown>, any> {
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
 
-        if (sceneStore.selectedElement === null) {
+    public render() {
+        if (this.sceneStore.selectedElement === null) {
             return <div id="app-sidebar" className="side-bar" />;
         }
 
-        const activeFolder = this.getActiveFolder(sceneStore.selectedElement);
+        const activeFolder = this.getActiveFolder(this.sceneStore.selectedElement);
 
         return (
             <div id="app-sidebar" className="side-bar">
-                <h3>{sceneStore.selectedElement.name}</h3>
-                <ParentElement
-                    sceneStore={sceneStore}
-                    selectedElement={sceneStore.selectedElement}
-                />
-                <ActiveFolder sceneStore={sceneStore} activeFolder={activeFolder} />
-                <NodeList sceneStore={sceneStore} activeFolder={activeFolder} />
+                <h3>{this.sceneStore.selectedElement.name}</h3>
+                <ParentElement />
+                <ActiveFolder activeFolder={activeFolder} />
+                <NodeList activeFolder={activeFolder} />
             </div>
         );
     }
@@ -59,7 +54,7 @@ export default class SideBar extends React.Component<SideBarProps, any> {
     }
 
     private getParentElement(element: TreeElement): TreeElement | null {
-        if (!this.props.sceneStore.projectData) {
+        if (!this.sceneStore.projectData) {
             return null;
         }
 

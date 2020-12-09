@@ -20,39 +20,43 @@
 
 import * as React from "react";
 import { observer } from "mobx-react";
+import { lazyInject } from "../../inversify.config";
 import SceneStore from "../../stores/SceneStore";
 import { TreeElement } from "../../classes/TreeElement";
-
-interface SelectParentProps {
-    sceneStore: SceneStore;
-    selectedElement: TreeElement;
-}
 
 /**
  * Currently used for an example use of selected scene object store.
  */
 @observer
-export default class ParentElement extends React.Component<SelectParentProps, any> {
+export default class ParentElement extends React.Component<Record<string, unknown>, any> {
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
+
     public render() {
-        const { sceneStore, selectedElement } = this.props;
-        const parent: TreeElement | null = this.getParentElement(selectedElement);
+        if (this.sceneStore.selectedElement !== null) {
+            const parent: TreeElement | null = this.getParentElement(
+                this.sceneStore.selectedElement
+            );
 
-        if (parent === null || typeof parent === "undefined") {
-            return <div className="select-parent" />;
+            if (parent === null || typeof parent === "undefined") {
+                return <div className="select-parent" />;
+            }
+
+            const myParent = parent;
+            return (
+                <div className="select-parent">
+                    <span
+                        onClick={() => {
+                            this.sceneStore.selectedObjectId = myParent.id;
+                        }}
+                    >
+                        {myParent.name}
+                    </span>
+                </div>
+            );
+        } else {
+            return <div></div>;
         }
-
-        const myParent = parent;
-        return (
-            <div className="select-parent">
-                <span
-                    onClick={() => {
-                        sceneStore.selectedObjectId = myParent.id;
-                    }}
-                >
-                    {myParent.name}
-                </span>
-            </div>
-        );
     }
 
     private getParentElement(element: TreeElement): TreeElement | null {

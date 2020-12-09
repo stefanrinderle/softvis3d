@@ -36,7 +36,7 @@ describe("CityLayoutService", () => {
         const clock = Sinon.useFakeTimers();
 
         createMockInjection(new AppStatusStore());
-        const testSceneStore: SceneStore = new SceneStore();
+        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         createMockInjection(new CityBuilderStore());
         testSceneStore.projectData = createDefaultDir();
 
@@ -52,7 +52,7 @@ describe("CityLayoutService", () => {
 
         const underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity(testSceneStore);
+        underTest.createCity();
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -73,7 +73,7 @@ describe("CityLayoutService", () => {
         const clock = Sinon.useFakeTimers();
 
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
-        const testSceneStore: SceneStore = new SceneStore();
+        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         createMockInjection(new CityBuilderStore());
         testSceneStore.projectData = createDefaultDir();
 
@@ -89,7 +89,7 @@ describe("CityLayoutService", () => {
 
         const underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity(testSceneStore);
+        underTest.createCity();
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -111,7 +111,7 @@ describe("CityLayoutService", () => {
         const clock = Sinon.useFakeTimers();
 
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
-        const testSceneStore: SceneStore = new SceneStore();
+        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         const cityBuilderStore = createMockInjection(new CityBuilderStore());
         testSceneStore.projectData = createDefaultDir();
         cityBuilderStore.options = VisualizationOptions.createDefault();
@@ -125,7 +125,7 @@ describe("CityLayoutService", () => {
 
         const underTest: CityLayoutService = new CityLayoutService();
 
-        underTest.createCity(testSceneStore);
+        underTest.createCity();
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);

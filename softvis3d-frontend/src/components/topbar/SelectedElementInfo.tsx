@@ -20,16 +20,16 @@
 
 import * as React from "react";
 import { observer } from "mobx-react";
+import { lazyInject } from "../../inversify.config";
 import SceneStore from "../../stores/SceneStore";
 
-interface SelectedElementInfoProps {
-    sceneStore: SceneStore;
-}
-
 @observer
-export default class SelectedElementInfo extends React.Component<SelectedElementInfoProps, any> {
+export default class SelectedElementInfo extends React.Component<Record<string, unknown>, any> {
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
+
     public render() {
-        const selectedElement = this.props.sceneStore.selectedElement;
+        const selectedElement = this.sceneStore.selectedElement;
 
         if (selectedElement === null) {
             return (
@@ -81,14 +81,14 @@ export default class SelectedElementInfo extends React.Component<SelectedElement
     }
 
     private openSourceCode() {
-        if (this.props.sceneStore.selectedElement && this.props.sceneStore.selectedElement.key) {
-            this.open("/code", this.props.sceneStore.selectedElement.key);
+        if (this.sceneStore.selectedElement && this.sceneStore.selectedElement.key) {
+            this.open("/code", this.sceneStore.selectedElement.key);
         }
     }
 
     private openMeasures() {
-        if (this.props.sceneStore.selectedElement && this.props.sceneStore.selectedElement.key) {
-            this.open("/component_measures", this.props.sceneStore.selectedElement.key);
+        if (this.sceneStore.selectedElement && this.sceneStore.selectedElement.key) {
+            this.open("/component_measures", this.sceneStore.selectedElement.key);
         }
     }
 

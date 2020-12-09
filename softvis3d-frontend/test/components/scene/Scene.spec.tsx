@@ -34,12 +34,12 @@ import { createMockInjection } from "../../Helper";
 
 describe("<Scene/>", () => {
     it("should initialize", () => {
-        const localSceneStore: SceneStore = new SceneStore();
+        createMockInjection(new SceneStore());
         createMockInjection(new CityBuilderStore());
 
-        const scene = shallow(<Scene sceneStore={localSceneStore} />);
+        const scene = shallow(<Scene />);
 
-        expect(scene.contains(<SceneInformation sceneStore={localSceneStore} />)).to.be.true;
+        expect(scene.contains(<SceneInformation />)).to.be.true;
         expect(scene.contains(<KeyLegend show={true} />)).to.be.true;
     });
 
@@ -62,7 +62,7 @@ describe("<Scene/>", () => {
     });
 
     it("should unmount", () => {
-        const localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         createMockInjection(new CityBuilderStore());
 
         const underTest: Scene = new Scene();
@@ -105,7 +105,7 @@ describe("<Scene/>", () => {
     });
 
     it("should process scene updates - update shapes if changed", () => {
-        const localSceneStore: any = Sinon.stub();
+        const localSceneStore: any = createMockInjection(new SceneStore());
         createMockInjection(new CityBuilderStore());
         localSceneStore.selectedObjectId = null;
         localSceneStore.shapesHash = "123";
@@ -142,7 +142,7 @@ describe("<Scene/>", () => {
 
     it("should process scene updates - update selected objectr if changed", () => {
         const expectedObjectId = "123";
-        const localSceneStore: any = Sinon.stub();
+        const localSceneStore: any = createMockInjection(new SceneStore());
         createMockInjection(new CityBuilderStore());
 
         localSceneStore.selectedObjectId = expectedObjectId;

@@ -21,21 +21,15 @@
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import * as React from "react";
-import * as Sinon from "sinon";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
 import TopBar from "../../../src/components/topbar/TopBar";
 import TopBarMenu from "../../../src/components/topbar/TopBarMenu";
-import SceneStore from "../../../src/stores/SceneStore";
 
 describe("<TopBar/>", () => {
     it("should show default text div on start", () => {
-        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const selectedElementInfo = shallow(<TopBar />);
 
-        const selectedElementInfo = shallow(<TopBar sceneStore={localSceneStore} />);
-
-        expect(selectedElementInfo.contains(<SelectedElementInfo sceneStore={localSceneStore} />))
-            .to.be.true;
-        expect(selectedElementInfo.contains(<TopBarMenu sceneStore={localSceneStore} />)).to.be
-            .true;
+        expect(selectedElementInfo.contains(<SelectedElementInfo />)).to.be.true;
+        expect(selectedElementInfo.contains(<TopBarMenu />)).to.be.true;
     });
 });

@@ -24,7 +24,6 @@ import Scrollbars from "react-custom-scrollbars";
 import { TreeElement } from "../../classes/TreeElement";
 import { lazyInject } from "../../inversify.config";
 import { HtmlDomService, Offset } from "../../services/HtmlDomService";
-import SceneStore from "../../stores/SceneStore";
 import FolderContentElement from "./FolderContentElement";
 
 // FIXME
@@ -32,7 +31,6 @@ const ScrollbarsWORKAROUND = Scrollbars as any;
 
 export interface NodeListProps {
     activeFolder: TreeElement | null;
-    sceneStore: SceneStore;
 }
 
 interface NodeListStates {
@@ -110,15 +108,6 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
     }
 
     private getElement(child: TreeElement): JSX.Element {
-        const { sceneStore } = this.props;
-
-        return (
-            <FolderContentElement
-                key={child.id}
-                element={child}
-                isSelected={child.id === sceneStore.selectedObjectId}
-                sceneStore={sceneStore}
-            />
-        );
+        return <FolderContentElement key={child.id} element={child} />;
     }
 }

@@ -19,7 +19,6 @@
 ///
 
 import { assert, expect } from "chai";
-import * as Sinon from "sinon";
 import VisualizationOptions from "../../src/classes/VisualizationOptions";
 import { complexityColorMetric } from "../../src/constants/Metrics";
 import SceneReactions from "../../src/reactions/SceneReactions";
@@ -31,13 +30,13 @@ import { createMock, createMockInjection } from "../Helper";
 
 describe("SceneReactions", () => {
     it("should change city builder color metric setting if changed in the scene", () => {
-        const testSceneStore = Sinon.createStubInstance(SceneStore);
+        createMockInjection(new SceneStore());
         const testCityBuilderStore = createMockInjection(new CityBuilderStore());
         createMock(CityLayoutService);
 
         testCityBuilderStore.options = VisualizationOptions.createDefault();
 
-        const reactions = new SceneReactions(testSceneStore);
+        const reactions = new SceneReactions();
 
         testCityBuilderStore.options.metricColor = complexityColorMetric;
 
@@ -46,13 +45,13 @@ describe("SceneReactions", () => {
     });
 
     it("should rebuild city if color metric changed", () => {
-        const testSceneStore = Sinon.createStubInstance(SceneStore);
+        createMockInjection(new SceneStore());
         const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         const testCityLayoutService = createMock(CityLayoutService);
 
         testCityBuilderStore.show = false;
 
-        const reactions = new SceneReactions(testSceneStore);
+        const reactions = new SceneReactions();
 
         testCityBuilderStore.options.metricColor = complexityColorMetric;
 
@@ -61,13 +60,13 @@ describe("SceneReactions", () => {
     });
 
     it("should convert backend data to threeJS shapes", () => {
-        const testSceneStore = Sinon.createStubInstance(SceneStore);
+        const testSceneStore = createMockInjection(new SceneStore());
         createMockInjection(new CityBuilderStore());
         const testLegacyConnector = createMock(CityLayoutService);
 
         testSceneStore.options = VisualizationOptions.createDefault();
 
-        const reactions = new SceneReactions(testSceneStore);
+        const reactions = new SceneReactions();
 
         testSceneStore.projectData = createDefaultDir();
 

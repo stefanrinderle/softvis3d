@@ -27,15 +27,15 @@ import SelectedElementInfo from "../../../src/components/topbar/SelectedElementI
 import TreeService from "../../../src/services/TreeService";
 import SceneStore from "../../../src/stores/SceneStore";
 import { createDefaultDirWithKey, createDefaultFileWithName } from "../../classes/TreeElement.spec";
-import { createMock } from "../../Helper";
+import { createMock, createMockInjection } from "../../Helper";
 
 describe("<SelectedElementInfo/>", () => {
     const myTestElement = "my test element";
 
     it("should show default text div on start", () => {
-        const localSceneStore: SceneStore = new SceneStore();
+        createMockInjection(new SceneStore());
 
-        const selectedElementInfo = shallow(<SelectedElementInfo sceneStore={localSceneStore} />);
+        const selectedElementInfo = shallow(<SelectedElementInfo />);
 
         expect(selectedElementInfo.html().includes("Select an object to see the details here")).to
             .be.true;
@@ -48,11 +48,11 @@ describe("<SelectedElementInfo/>", () => {
         const localTreeService = createMock(TreeService);
         localTreeService.searchTreeNode.returns(selectedElement);
 
-        const localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
-        const selectedElementInfo = shallow(<SelectedElementInfo sceneStore={localSceneStore} />);
+        const selectedElementInfo = shallow(<SelectedElementInfo />);
 
         // no buttons
         expect(selectedElementInfo.children().length).to.be.eq(1);
@@ -65,11 +65,11 @@ describe("<SelectedElementInfo/>", () => {
         const selectedElement: TreeElement = createTestTreeElement(myTestElement, root);
         root.children.push(selectedElement);
 
-        const localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
-        const selectedElementInfo = shallow(<SelectedElementInfo sceneStore={localSceneStore} />);
+        const selectedElementInfo = shallow(<SelectedElementInfo />);
 
         expect(selectedElementInfo.html()).to.contain(selectedElement.name);
     });
@@ -84,13 +84,13 @@ describe("<SelectedElementInfo/>", () => {
         const localTreeService = createMock(TreeService);
         localTreeService.searchTreeNode.returns(selectedElement);
 
-        const localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
         const stub = Sinon.stub(window, "open");
 
-        const selectedElementInfo = shallow(<SelectedElementInfo sceneStore={localSceneStore} />);
+        const selectedElementInfo = shallow(<SelectedElementInfo />);
 
         selectedElementInfo.find("#open-file-button").simulate("click");
 
@@ -108,13 +108,13 @@ describe("<SelectedElementInfo/>", () => {
         const localTreeService = createMock(TreeService);
         localTreeService.searchTreeNode.returns(selectedElement);
 
-        const localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = selectedElement;
         localSceneStore.selectedObjectId = selectedElement.id;
 
         const stub = Sinon.stub(window, "open");
 
-        const selectedElementInfo = shallow(<SelectedElementInfo sceneStore={localSceneStore} />);
+        const selectedElementInfo = shallow(<SelectedElementInfo />);
 
         selectedElementInfo.find("#open-measures-button").simulate("click");
 

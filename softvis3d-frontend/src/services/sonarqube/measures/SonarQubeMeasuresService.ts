@@ -42,6 +42,8 @@ export default class SonarQubeMeasuresService {
 
     private readonly projectKey: string;
 
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
     @lazyInject("AppStatusStore")
     private readonly appStatusStore!: AppStatusStore;
     @lazyInject("CityBuilderStore")
@@ -63,15 +65,15 @@ export default class SonarQubeMeasuresService {
         this.projectKey = projectKey;
     }
 
-    public loadMeasures(sceneStore: SceneStore, isForce = false) {
+    public loadMeasures(isForce = false) {
         this.appStatusStore.load(SonarQubeMeasuresService.LOAD_MEASURES);
 
-        sceneStore.shapes = null;
+        this.sceneStore.shapes = null;
 
         const metricKeys = this.measureMetricService.getMetricRequestValues();
 
         if (!isForce && this.projectData && this.metricKeys && this.metricKeys === metricKeys) {
-            this.updateViewProjectData(this.projectData, sceneStore);
+            this.updateViewProjectData(this.projectData);
         } else {
             /**
              * Create a "starting point" root element and load the tree of the project.
@@ -92,9 +94,9 @@ export default class SonarQubeMeasuresService {
                     this.projectData = root.clone();
                     this.metricKeys = metricKeys;
 
-                    this.updateViewProjectData(root, sceneStore);
+                    this.updateViewProjectData(root);
 
-                    sceneStore.scmMetricLoaded = false;
+                    this.sceneStore.scmMetricLoaded = false;
                     this.cityBuilderStore.show = false;
                 })
                 .catch((error: Error) => {
@@ -113,11 +115,11 @@ export default class SonarQubeMeasuresService {
         this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
     }
 
-    private updateViewProjectData(root: TreeElement, sceneStore: SceneStore) {
+    private updateViewProjectData(root: TreeElement) {
         const projectData: TreeElement = root.clone();
         this.filterStructureService.filter(projectData);
         this.optimizeStructureService.optimize(projectData);
 
-        sceneStore.projectData = projectData;
+        this.sceneStore.projectData = projectData;
     }
 }

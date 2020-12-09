@@ -21,6 +21,7 @@
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import * as React from "react";
+import * as Sinon from "sinon";
 import { TreeElement } from "../../../src/classes/TreeElement";
 import ParentElement from "../../../src/components/sidebar/ParentElement";
 import SceneStore from "../../../src/stores/SceneStore";
@@ -31,16 +32,15 @@ import {
     createDefaultFileWithIdAndParent,
     createDefaultFileWithParent,
 } from "../../classes/TreeElement.spec";
+import { createMockInjection } from "../../Helper";
 
 describe("<ParentElement/>", () => {
     it("should show nothing if selected Element has no parent", () => {
         const element = createDefaultDir();
-        const localSceneStore = new SceneStore();
+        const localSceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = element;
 
-        const sideBarSelectParent = shallow(
-            <ParentElement sceneStore={localSceneStore} selectedElement={element} />
-        );
+        const sideBarSelectParent = shallow(<ParentElement />);
 
         expect(sideBarSelectParent.children().length).to.be.eq(0);
     });
@@ -51,12 +51,10 @@ describe("<ParentElement/>", () => {
 
         parent.children.push(child1);
 
-        const localSceneStore = new SceneStore();
+        const localSceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = parent;
 
-        const sideBarSelectParent = shallow(
-            <ParentElement sceneStore={localSceneStore} selectedElement={parent} />
-        );
+        const sideBarSelectParent = shallow(<ParentElement selectedElement={parent} />);
 
         expect(sideBarSelectParent.children()).to.have.length(0);
     });
@@ -69,12 +67,12 @@ describe("<ParentElement/>", () => {
         parent.children.push(child1);
         child1.children.push(child11);
 
-        const localSceneStore = new SceneStore();
+        const localSceneStore = createMockInjection(Sinon.createStubInstance(SceneStore));
         localSceneStore.projectData = parent;
+        localSceneStore.selectedObjectId = child1.id;
+        Sinon.stub(localSceneStore, "selectedElement").returns(child1);
 
-        const sideBarSelectParent = shallow(
-            <ParentElement sceneStore={localSceneStore} selectedElement={child1} />
-        );
+        const sideBarSelectParent = shallow(<ParentElement />);
 
         sideBarSelectParent.find(".select-parent span").simulate("click");
         expect(localSceneStore.selectedObjectId).to.be.eq("parent");
@@ -88,12 +86,11 @@ describe("<ParentElement/>", () => {
         parent.children.push(child1);
         child1.children.push(child11);
 
-        const localSceneStore = new SceneStore();
+        const localSceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = parent;
+        localSceneStore.selectedObjectId = child11.id;
 
-        const sideBarSelectParent = shallow(
-            <ParentElement sceneStore={localSceneStore} selectedElement={child11} />
-        );
+        const sideBarSelectParent = shallow(<ParentElement />);
 
         sideBarSelectParent.find(".select-parent span").simulate("click");
         expect(localSceneStore.selectedObjectId).to.be.eq("parent");

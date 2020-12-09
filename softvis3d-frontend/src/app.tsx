@@ -61,7 +61,6 @@ export default class App {
     private readonly config: AppConfiguration;
 
     private readonly appStatusStore: AppStatusStore;
-    private readonly sceneStore: SceneStore;
 
     public constructor(config: AppConfiguration) {
         this.config = config;
@@ -71,8 +70,7 @@ export default class App {
         container.bind<AppStatusStore>("AppStatusStore").toConstantValue(this.appStatusStore);
 
         bindToInjection(CityBuilderStore);
-
-        this.sceneStore = new SceneStore();
+        bindToInjection(SceneStore);
 
         this.visualizationLinkService = new VisualizationLinkService(this.config);
         container
@@ -117,11 +115,7 @@ export default class App {
             .bind<SonarQubeComponentInfoService>("SonarQubeComponentInfoService")
             .toConstantValue(this.componentInfoService);
 
-        const reactions = [
-            new AppReactions(this.sceneStore),
-            new SceneReactions(this.sceneStore),
-            new BuilderReactions(this.sceneStore),
-        ];
+        const reactions = [new AppReactions(), new SceneReactions(), new BuilderReactions()];
         if (reactions.length === 0) {
             // only to use the variable.
         }
@@ -129,14 +123,14 @@ export default class App {
 
     public run(target: string) {
         this.communicator.loadAvailableMetrics().then(() => {
-            this.visualizationLinkService.process(this.sceneStore, document.location.search);
+            this.visualizationLinkService.process(document.location.search);
         });
 
         this.loadComponentInfoData();
         this.assertClientRequirementsAreMet();
 
         ReactDOM.render(
-            <Softvis3D sceneStore={this.sceneStore} baseUrl={this.config.baseUrl} />,
+            <Softvis3D baseUrl={this.config.baseUrl} />,
             document.getElementById(target)
         );
     }

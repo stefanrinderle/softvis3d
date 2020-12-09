@@ -19,24 +19,27 @@
 ///
 
 import * as React from "react";
+import { lazyInject } from "../../inversify.config";
 import SceneStore from "../../stores/SceneStore";
 import { TreeElement } from "../../classes/TreeElement";
 
 interface ElementInfoProps {
     element: TreeElement;
-    sceneStore: SceneStore;
-    isSelected: boolean;
 }
 
 /**
  * Currently used for an example use of selected scene object store.
  */
 export default class FolderContentElement extends React.Component<ElementInfoProps, any> {
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
+
     public render() {
-        const { element, isSelected } = this.props;
+        const { element } = this.props;
         const classes = [];
         classes.push(element.isFile() ? "leaf" : "node");
 
+        const isSelected = element.id === this.sceneStore.selectedObjectId;
         if (isSelected) {
             classes.push("current-selected");
         }
@@ -53,6 +56,6 @@ export default class FolderContentElement extends React.Component<ElementInfoPro
     }
 
     private selectElement() {
-        this.props.sceneStore.selectedObjectId = this.props.element.id;
+        this.sceneStore.selectedObjectId = this.props.element.id;
     }
 }

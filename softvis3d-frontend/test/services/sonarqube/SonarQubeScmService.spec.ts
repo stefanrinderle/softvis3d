@@ -33,7 +33,7 @@ describe("SonarQubeScmService", () => {
     it("should check if metric is available if its available", (done) => {
         createMockInjection(new AppStatusStore());
 
-        const testSceneStore: SceneStore = new SceneStore();
+        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
@@ -62,7 +62,7 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest
-            .checkScmInfosAvailable(testSceneStore)
+            .checkScmInfosAvailable()
             .then((result) => {
                 expect(result).to.be.true;
 
@@ -77,7 +77,7 @@ describe("SonarQubeScmService", () => {
     it("should check if metric is available if its NOT available", (done) => {
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
 
-        const testSceneStore: SceneStore = new SceneStore();
+        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
@@ -104,7 +104,7 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest
-            .checkScmInfosAvailable(testSceneStore)
+            .checkScmInfosAvailable()
             .then((result) => {
                 expect(result).to.be.false;
                 assert(statusStub.calledOnce);
@@ -126,7 +126,7 @@ describe("SonarQubeScmService", () => {
         const loadCompleteStub = Sinon.stub(testAppStatusStore, "loadComplete");
         const loadStatusUpdateStub = Sinon.stub(testAppStatusStore, "loadStatusUpdate");
 
-        const testSceneStore: SceneStore = new SceneStore();
+        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
@@ -157,7 +157,7 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest
-            .loadScmInfos(testSceneStore)
+            .loadScmInfos()
             .then(() => {
                 assert(
                     Object.prototype.hasOwnProperty.call(treeElement.measures, "number_of_authors")
@@ -183,7 +183,7 @@ describe("SonarQubeScmService", () => {
         const loadCompleteStub = Sinon.stub(testAppStatusStore, "loadComplete");
         const loadStatusUpdateStub = Sinon.stub(testAppStatusStore, "loadStatusUpdate");
 
-        const testSceneStore: SceneStore = new SceneStore();
+        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
@@ -217,7 +217,7 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest
-            .loadScmInfos(testSceneStore)
+            .loadScmInfos()
             .then(() => {
                 assert(
                     Object.prototype.hasOwnProperty.call(
@@ -243,14 +243,14 @@ describe("SonarQubeScmService", () => {
 
     it("should do nothing if no data is available", (done) => {
         createMockInjection(new AppStatusStore());
-        const testSceneStore: SceneStore = new SceneStore();
+        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         testSceneStore.projectData = null;
 
         const apiUrl = "urlsihshoif";
         const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
 
         underTest
-            .loadScmInfos(testSceneStore)
+            .loadScmInfos()
             .then(() => {
                 done();
             })
@@ -265,7 +265,7 @@ describe("SonarQubeScmService", () => {
 
         const errorStub = Sinon.stub(testAppStatusStore, "error");
 
-        const testSceneStore: SceneStore = new SceneStore();
+        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
@@ -283,7 +283,7 @@ describe("SonarQubeScmService", () => {
         });
 
         underTest
-            .loadScmInfos(testSceneStore)
+            .loadScmInfos()
             .then(() => {
                 assert(errorStub.called);
 

@@ -29,12 +29,13 @@ import AdvancedAnalysisOptions from "./AdvancedAnalysisOptions";
 import OptionsSimple from "./OptionsSimple";
 
 export interface CityBuilderProps {
-    sceneStore: SceneStore;
     baseUrl?: string;
 }
 
 @observer
 export default class CityBuilder extends React.Component<CityBuilderProps, any> {
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
     @lazyInject("CityBuilderStore")
     private readonly cityBuilderStore!: CityBuilderStore;
     @lazyInject("AppStatusStore")
@@ -95,7 +96,7 @@ export default class CityBuilder extends React.Component<CityBuilderProps, any> 
     }
 
     private renderButtons() {
-        if (!this.props.sceneStore.isVisible) {
+        if (!this.sceneStore.isVisible) {
             return (
                 <div className="buttons">
                     <button onClick={() => this.loadScene()}>Load Scene</button>

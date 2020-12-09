@@ -29,10 +29,10 @@ import { createMockInjection } from "../../../Helper";
 
 describe("<SceneInformation/>", () => {
     it("should show default text div on start", () => {
-        const testSceneStore: SceneStore = new SceneStore();
+        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         const cityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
 
-        const bottomBar = shallow(<SceneInformation sceneStore={testSceneStore} />);
+        const bottomBar = shallow(<SceneInformation />);
 
         expect(
             bottomBar.contains(

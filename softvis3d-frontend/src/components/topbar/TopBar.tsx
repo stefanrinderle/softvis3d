@@ -20,22 +20,16 @@
 
 import { observer } from "mobx-react";
 import * as React from "react";
-import SceneStore from "../../stores/SceneStore";
 import SelectedElementInfo from "./SelectedElementInfo";
 import TopBarMenu from "./TopBarMenu";
 
-interface TopBarProbs {
-    sceneStore: SceneStore;
-}
-
 @observer
-export default class TopBar extends React.Component<TopBarProbs, any> {
+export default class TopBar extends React.Component<Record<string, unknown>, any> {
     public render() {
-        const { sceneStore } = this.props;
         return (
             <div id="app-topbar" className="top-bar">
-                <TopBarMenu sceneStore={sceneStore} />
-                <SelectedElementInfo sceneStore={sceneStore} />
+                <TopBarMenu />
+                <SelectedElementInfo />
             </div>
         );
     }

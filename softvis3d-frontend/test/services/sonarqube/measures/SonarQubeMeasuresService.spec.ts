@@ -38,7 +38,7 @@ describe("SonarQubeMeasuresService", () => {
 
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         createMockInjection(new CityBuilderStore());
-        const testSceneStore: SceneStore = new SceneStore();
+        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         testSceneStore.scmMetricLoaded = true;
 
         const measureTreeService = createMock(SonarQubeMeasuresTreeService);
@@ -55,7 +55,7 @@ describe("SonarQubeMeasuresService", () => {
         const expectedData: TreeElement = createDefaultDirWithKey(projectKey, projectKey);
         measureTreeService.loadTree.resolves(expectedData);
 
-        underTest.loadMeasures(testSceneStore);
+        underTest.loadMeasures();
 
         const returnPromise: Promise<any> = Promise.resolve({});
         clock.tick(10);
@@ -78,7 +78,7 @@ describe("SonarQubeMeasuresService", () => {
 
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         createMockInjection(new CityBuilderStore());
-        const testSceneStore: SceneStore = new SceneStore();
+        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         testSceneStore.scmMetricLoaded = true;
 
         const measureTreeService = createMock(SonarQubeMeasuresTreeService);
@@ -97,14 +97,14 @@ describe("SonarQubeMeasuresService", () => {
         const expectedData: TreeElement = createDefaultDirWithKey(projectKey, projectKey);
         measureTreeService.loadTree.resolves(expectedData);
 
-        underTest.loadMeasures(testSceneStore);
+        underTest.loadMeasures();
 
         const returnPromise: Promise<any> = Promise.resolve({});
         const returnPromise2: Promise<any> = Promise.resolve({});
         clock.tick(10);
         returnPromise
             .then(() => {
-                underTest.loadMeasures(testSceneStore);
+                underTest.loadMeasures();
 
                 clock.tick(10);
                 returnPromise2
@@ -124,7 +124,7 @@ describe("SonarQubeMeasuresService", () => {
 
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         createMockInjection(new CityBuilderStore());
-        const testSceneStore: SceneStore = new SceneStore();
+        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         testSceneStore.scmMetricLoaded = true;
 
         const measureTreeService = createMock(SonarQubeMeasuresTreeService);
@@ -140,7 +140,7 @@ describe("SonarQubeMeasuresService", () => {
 
         measureTreeService.loadTree.returns(Promise.reject({ data: { message: "Error message" } }));
 
-        underTest.loadMeasures(testSceneStore);
+        underTest.loadMeasures();
 
         const returnPromise: Promise<any> = Promise.resolve({});
         const returnPromise2: Promise<any> = Promise.resolve({});

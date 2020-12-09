@@ -25,18 +25,13 @@ import * as Sinon from "sinon";
 import TopBarShareButton from "../../../src/components/topbar/TopBarShareButton";
 import ClipBoardService from "../../../src/services/ClipBoardService";
 import VisualizationLinkService from "../../../src/services/VisualizationLinkService";
-import SceneStore from "../../../src/stores/SceneStore";
 import { createMock } from "../../Helper";
 
 describe("<TopBarShareButton/>", () => {
     it("should initialize if disabled", () => {
-        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
-
         createMock(VisualizationLinkService);
 
-        const shareButton = mount(
-            <TopBarShareButton disabled={false} sceneStore={localSceneStore} />
-        );
+        const shareButton = mount(<TopBarShareButton disabled={false} />);
 
         expect(shareButton.children("button").length).to.be.eq(1);
 
@@ -47,17 +42,13 @@ describe("<TopBarShareButton/>", () => {
     });
 
     it("should open visualization link", () => {
-        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
-
         const localVisualizationLinkService = createMock(VisualizationLinkService);
 
         const stub = Sinon.stub(window, "open");
 
         localVisualizationLinkService.createVisualizationLink.returns("abc");
 
-        const shareButton = mount(
-            <TopBarShareButton disabled={true} sceneStore={localSceneStore} />
-        );
+        const shareButton = mount(<TopBarShareButton disabled={true} />);
 
         const dropDownButtons = shareButton.find(".dropdown-menu button");
 
@@ -70,16 +61,12 @@ describe("<TopBarShareButton/>", () => {
     });
 
     it("should copy visualization link", () => {
-        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
-
         const localVisualizationLinkService = createMock(VisualizationLinkService);
         const localClipBoardService = createMock(ClipBoardService);
 
         localVisualizationLinkService.createVisualizationLink.returns("abc");
 
-        const shareButton = mount(
-            <TopBarShareButton disabled={true} sceneStore={localSceneStore} />
-        );
+        const shareButton = mount(<TopBarShareButton disabled={true} />);
 
         const dropDownButtons = shareButton.find(".dropdown-menu button");
 

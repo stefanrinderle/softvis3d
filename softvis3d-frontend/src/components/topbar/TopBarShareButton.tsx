@@ -23,11 +23,9 @@ import * as React from "react";
 import { lazyInject } from "../../inversify.config";
 import ClipBoardService from "../../services/ClipBoardService";
 import VisualizationLinkService from "../../services/VisualizationLinkService";
-import SceneStore from "../../stores/SceneStore";
 
 interface TopBarShareButtonProbs {
     disabled: boolean;
-    sceneStore: SceneStore;
 }
 
 interface TopBarShareButtonStates {
@@ -90,20 +88,18 @@ export default class TopBarShareButton extends React.Component<
     }
 
     private openVisualizationLink() {
-        window.open(this.visualizationLinkService.createVisualizationLink(this.props.sceneStore));
+        window.open(this.visualizationLinkService.createVisualizationLink());
         this.setShareMenuState(false);
     }
 
     private copyVisualizationLink() {
-        const link = this.visualizationLinkService.createVisualizationLink(this.props.sceneStore);
+        const link = this.visualizationLinkService.createVisualizationLink();
         this.clipBoardService.copyTextToClipboard(link);
         this.setShareMenuState(false);
     }
 
     private openPlainVisualizationLink() {
-        const result: string = this.visualizationLinkService.createPlainVisualizationLink(
-            this.props.sceneStore
-        );
+        const result: string = this.visualizationLinkService.createPlainVisualizationLink();
         window.open(result);
 
         this.setShareMenuState(false);

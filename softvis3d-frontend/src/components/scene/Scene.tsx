@@ -29,10 +29,6 @@ import { KeyLegend } from "./KeyLegend";
 import SceneCanvas from "./SceneCanvas";
 import ThreeSceneService from "./visualization/ThreeSceneService";
 
-interface SceneProps {
-    sceneStore: SceneStore;
-}
-
 interface SceneStates {
     mounted: boolean;
     focus: boolean;
@@ -43,9 +39,11 @@ interface SceneStates {
  * Responsible for the drawing the canvas for the visualization.
  */
 @observer
-export default class Scene extends React.Component<SceneProps, SceneStates> {
+export default class Scene extends React.Component<Record<string, unknown>, SceneStates> {
     public static SCENE_CONTAINER_ID = "scene-container";
 
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
     @lazyInject("CityBuilderStore")
     private readonly cityBuilderStore!: CityBuilderStore;
 
@@ -85,7 +83,6 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     }
 
     public render() {
-        const { sceneStore } = this.props;
         const { focus, legend, mounted } = this.state;
 
         if (mounted) {
@@ -103,29 +100,27 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
                     updateCameraPosition={this.updateCameraPosition.bind(this)}
                     updateSceneFocusState={this.updateSceneFocusState.bind(this)}
                 />
-                <SceneInformation sceneStore={sceneStore} />
+                <SceneInformation />
             </div>
         );
     }
 
     public processSceneUpdates() {
-        const { sceneStore } = this.props;
-
-        if (sceneStore.shapesHash !== this.shapesHash) {
+        if (this.sceneStore.shapesHash !== this.shapesHash) {
             this._threeSceneService.update(
-                sceneStore.shapes,
+                this.sceneStore.shapes,
                 this.cityBuilderStore.options,
-                sceneStore.cameraPosition
+                this.sceneStore.cameraPosition
             );
             this.updateCameraPosition();
-            this.shapesHash = sceneStore.shapesHash;
+            this.shapesHash = this.sceneStore.shapesHash;
 
-            this._threeSceneService.selectSceneTreeObject(sceneStore.selectedObjectId);
-            this.selectedObjectIdState = sceneStore.selectedObjectId;
+            this._threeSceneService.selectSceneTreeObject(this.sceneStore.selectedObjectId);
+            this.selectedObjectIdState = this.sceneStore.selectedObjectId;
         }
-        if (sceneStore.selectedObjectId !== this.selectedObjectIdState) {
-            this._threeSceneService.selectSceneTreeObject(sceneStore.selectedObjectId);
-            this.selectedObjectIdState = sceneStore.selectedObjectId;
+        if (this.sceneStore.selectedObjectId !== this.selectedObjectIdState) {
+            this._threeSceneService.selectSceneTreeObject(this.sceneStore.selectedObjectId);
+            this.selectedObjectIdState = this.sceneStore.selectedObjectId;
         }
     }
 
@@ -134,7 +129,7 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
      */
 
     private updateCameraPosition() {
-        this.props.sceneStore.cameraPosition = this._threeSceneService.getCameraPosition();
+        this.sceneStore.cameraPosition = this._threeSceneService.getCameraPosition();
     }
 
     private updateSceneFocusState(newState: boolean) {
@@ -148,11 +143,11 @@ export default class Scene extends React.Component<SceneProps, SceneStates> {
     }
 
     private selectObject(event: MouseEvent) {
-        this.props.sceneStore.selectedObjectId = this._threeSceneService.makeSelection(event);
+        this.sceneStore.selectedObjectId = this._threeSceneService.makeSelection(event);
     }
 
     private resetCamera() {
-        this._threeSceneService.resetCameraPosition(this.props.sceneStore.shapes);
+        this._threeSceneService.resetCameraPosition(this.sceneStore.shapes);
     }
 
     private toggleLegend() {

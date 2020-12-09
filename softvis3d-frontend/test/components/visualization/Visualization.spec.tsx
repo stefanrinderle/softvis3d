@@ -21,34 +21,35 @@
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import * as React from "react";
-import * as Sinon from "sinon";
 import Scene from "../../../src/components/scene/Scene";
 import SideBar from "../../../src/components/sidebar/SideBar";
 import TopBar from "../../../src/components/topbar/TopBar";
 import Visualization from "../../../src/components/visualization/Visualization";
 import SceneStore from "../../../src/stores/SceneStore";
+import { createMockInjection } from "../../Helper";
 
 describe("<Visualization/>", () => {
     it("should not render any children, when no visualization (shapes) is ready", () => {
-        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
 
         localSceneStore.shapes = null;
 
-        const visualization = shallow(<Visualization sceneStore={localSceneStore} />);
+        const visualization = shallow(<Visualization />);
 
         expect(visualization.children()).to.have.length(1);
 
-        expect(visualization.contains(<TopBar sceneStore={localSceneStore} />)).to.be.true;
+        expect(visualization.contains(<TopBar />)).to.be.true;
     });
 
     it("should initialize all elements on start - shapes available but empty", () => {
-        const localSceneStore: SceneStore = Sinon.createStubInstance(SceneStore);
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
+        localSceneStore.shapes = {};
 
-        const visualization = shallow(<Visualization sceneStore={localSceneStore} />);
+        const visualization = shallow(<Visualization />);
 
         expect(visualization.children()).to.have.length(3);
-        expect(visualization.contains(<TopBar sceneStore={localSceneStore} />)).to.be.true;
-        expect(visualization.contains(<Scene sceneStore={localSceneStore} />)).to.be.true;
-        expect(visualization.contains(<SideBar sceneStore={localSceneStore} />)).to.be.true;
+        expect(visualization.contains(<TopBar />)).to.be.true;
+        expect(visualization.contains(<Scene />)).to.be.true;
+        expect(visualization.contains(<SideBar />)).to.be.true;
     });
 });

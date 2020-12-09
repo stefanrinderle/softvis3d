@@ -29,21 +29,18 @@ import { ColorMetrics } from "../../../constants/Metrics";
 import MetricSet from "../../../classes/MetricSet";
 import Metric from "../../../classes/Metric";
 
-interface SceneInformationProps {
-    sceneStore: SceneStore;
-}
-
 /**
  * Bottom bar with information about the current selected metrics.
  */
 @observer
-export default class SceneInformation extends React.Component<SceneInformationProps, any> {
+export default class SceneInformation extends React.Component<Record<string, unknown>, any> {
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
     @lazyInject("CityBuilderStore")
     private readonly cityBuilderStore!: CityBuilderStore;
 
     public render() {
-        const { sceneStore } = this.props;
-        const selectedElement = sceneStore.selectedElement;
+        const selectedElement = this.sceneStore.selectedElement;
 
         return (
             <div className="scene-information">
@@ -72,9 +69,7 @@ export default class SceneInformation extends React.Component<SceneInformationPr
     }
 
     private renderColorInformation(): JSX.Element[] {
-        const colorValue = this.props.sceneStore.getColorValue(
-            this.cityBuilderStore.options.metricColor
-        );
+        const colorValue = this.sceneStore.getColorValue(this.cityBuilderStore.options.metricColor);
         const colorInformation: JSX.Element[] = [];
         if (colorValue !== null) {
             colorInformation.push(<span className="value">{colorValue}</span>);

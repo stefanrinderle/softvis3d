@@ -32,13 +32,13 @@ import {
 import TreeService from "../../../src/services/TreeService";
 import SceneStore from "../../../src/stores/SceneStore";
 import { createDefaultDir, createDefaultFileWithParent } from "../../classes/TreeElement.spec";
-import { createMock } from "../../Helper";
+import { createMock, createMockInjection } from "../../Helper";
 
 describe("<SideBar/>", () => {
     it("should be empty, if no element is selected", () => {
-        const localSceneStore = new SceneStore();
+        createMockInjection(new SceneStore());
 
-        const selectedElementInfo = shallow(<SideBar sceneStore={localSceneStore} />);
+        const selectedElementInfo = shallow(<SideBar />);
 
         expect(selectedElementInfo.hasClass("side-bar")).to.be.true;
         expect(selectedElementInfo.find("ul")).to.have.length(0);
@@ -80,28 +80,20 @@ describe("<SideBar/>", () => {
         parent.children.push(child1);
         child1.children.push(child11);
 
-        const localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = parent;
         localSceneStore.selectedObjectId = child1.id;
 
         const localTreeService = createMock(TreeService);
         localTreeService.searchTreeNode.returns(child1);
 
-        const shallowSidebar = shallow(<SideBar sceneStore={localSceneStore} />);
+        const shallowSidebar = shallow(<SideBar />);
 
         expect(shallowSidebar.hasClass("side-bar")).to.be.true;
 
-        expect(
-            shallowSidebar.contains(
-                <ParentElement selectedElement={child1} sceneStore={localSceneStore} />
-            )
-        ).to.be.true;
+        expect(shallowSidebar.contains(<ParentElement />)).to.be.true;
 
-        expect(
-            shallowSidebar.contains(
-                <FolderContent activeFolder={child1} sceneStore={localSceneStore} />
-            )
-        ).to.be.true;
+        expect(shallowSidebar.contains(<FolderContent activeFolder={child1} />)).to.be.true;
 
         expect(shallowSidebar.html()).to.contain(child1.id);
         expect(shallowSidebar.html()).to.contain(child11.id);
@@ -115,28 +107,20 @@ describe("<SideBar/>", () => {
         parent.children.push(child1);
         child1.children.push(child11);
 
-        const localSceneStore: SceneStore = new SceneStore();
+        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = parent;
         localSceneStore.selectedObjectId = child11.id;
 
         const localTreeService = createMock(TreeService);
         localTreeService.searchTreeNode.returns(child11);
 
-        const shallowSidebar = shallow(<SideBar sceneStore={localSceneStore} />);
+        const shallowSidebar = shallow(<SideBar />);
 
         expect(shallowSidebar.hasClass("side-bar")).to.be.true;
 
-        expect(
-            shallowSidebar.contains(
-                <ParentElement selectedElement={child11} sceneStore={localSceneStore} />
-            )
-        ).to.be.true;
+        expect(shallowSidebar.contains(<ParentElement />)).to.be.true;
 
-        expect(
-            shallowSidebar.contains(
-                <FolderContent activeFolder={child1} sceneStore={localSceneStore} />
-            )
-        ).to.be.true;
+        expect(shallowSidebar.contains(<FolderContent activeFolder={child1} />)).to.be.true;
 
         expect(shallowSidebar.html()).to.contain(child1.id);
         expect(shallowSidebar.html()).to.contain(child11.id);
