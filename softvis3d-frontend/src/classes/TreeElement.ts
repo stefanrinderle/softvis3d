@@ -22,6 +22,7 @@ import {
     SQ_QUALIFIER_FILE,
     SQ_QUALIFIER_UNIT_TEST_FILE,
 } from "../services/sonarqube/measures/api/SonarQubeMeasureResponse";
+import Metric from "./Metric";
 
 export class TreeElement {
     private static sortByNameAndType(a: TreeElement, b: TreeElement) {
@@ -80,6 +81,14 @@ export class TreeElement {
                 this.children[index] = replaceChild;
                 break;
             }
+        }
+    }
+
+    public getMeasureValue(metric: Metric): number | null {
+        if (this.measures && metric.id in this.measures) {
+            return this.measures[metric.id];
+        } else {
+            return null;
         }
     }
 

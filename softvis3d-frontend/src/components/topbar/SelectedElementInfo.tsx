@@ -18,18 +18,18 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import * as React from "react";
 import { observer } from "mobx-react";
+import * as React from "react";
 import { lazyInject } from "../../inversify.config";
-import SceneStore from "../../stores/SceneStore";
+import SelectedElementService from "../../services/SelectedElementService";
 
 @observer
 export default class SelectedElementInfo extends React.Component<Record<string, unknown>, any> {
-    @lazyInject("SceneStore")
-    private readonly sceneStore!: SceneStore;
+    @lazyInject("SelectedElementService")
+    private readonly selectedElementService!: SelectedElementService;
 
     public render() {
-        const selectedElement = this.sceneStore.selectedElement;
+        const selectedElement = this.selectedElementService.getSelectedElement();
 
         if (selectedElement === null) {
             return (
@@ -81,14 +81,16 @@ export default class SelectedElementInfo extends React.Component<Record<string, 
     }
 
     private openSourceCode() {
-        if (this.sceneStore.selectedElement && this.sceneStore.selectedElement.key) {
-            this.open("/code", this.sceneStore.selectedElement.key);
+        const selectedElement = this.selectedElementService.getSelectedElement();
+        if (selectedElement && selectedElement.key) {
+            this.open("/code", selectedElement.key);
         }
     }
 
     private openMeasures() {
-        if (this.sceneStore.selectedElement && this.sceneStore.selectedElement.key) {
-            this.open("/component_measures", this.sceneStore.selectedElement.key);
+        const selectedElement = this.selectedElementService.getSelectedElement();
+        if (selectedElement && selectedElement.key) {
+            this.open("/component_measures", selectedElement.key);
         }
     }
 

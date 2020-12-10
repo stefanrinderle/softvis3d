@@ -29,6 +29,7 @@ export default class TreeService {
         }
     }
 
+    // TODO only used in tests
     public getAllSceneElementsRecursive(tree: TreeElement, id: string): string[] {
         const node = this.searchTreeNode(tree, id);
         if (node === null) {

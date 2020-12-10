@@ -18,29 +18,30 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import * as React from "react";
 import { observer } from "mobx-react";
-import { lazyInject } from "../../../inversify.config";
-import CityBuilderStore from "../../../stores/CityBuilderStore";
-import MetricKey from "./MetricKey";
-import SceneStore from "../../../stores/SceneStore";
-import SelectBoxBuilder from "../../ui/selectbox/SelectBoxBuilder";
-import { ColorMetrics } from "../../../constants/Metrics";
-import MetricSet from "../../../classes/MetricSet";
+import * as React from "react";
 import Metric from "../../../classes/Metric";
+import MetricSet from "../../../classes/MetricSet";
+import { TreeElement } from "../../../classes/TreeElement";
+import { ColorMetrics } from "../../../constants/Metrics";
+import { lazyInject } from "../../../inversify.config";
+import SelectedElementService from "../../../services/SelectedElementService";
+import CityBuilderStore from "../../../stores/CityBuilderStore";
+import SelectBoxBuilder from "../../ui/selectbox/SelectBoxBuilder";
+import MetricKey from "./MetricKey";
 
 /**
  * Bottom bar with information about the current selected metrics.
  */
 @observer
 export default class SceneInformation extends React.Component<Record<string, unknown>, any> {
-    @lazyInject("SceneStore")
-    private readonly sceneStore!: SceneStore;
+    @lazyInject("SelectedElementService")
+    private readonly selectedElementService!: SelectedElementService;
     @lazyInject("CityBuilderStore")
     private readonly cityBuilderStore!: CityBuilderStore;
 
     public render() {
-        const selectedElement = this.sceneStore.selectedElement;
+        const selectedElement = this.selectedElementService.getSelectedElement();
 
         return (
             <div className="scene-information">
@@ -62,17 +63,21 @@ export default class SceneInformation extends React.Component<Record<string, unk
                     onChange={(m: Metric) => {
                         this.cityBuilderStore.options.metricColor = m;
                     }}
-                    append={this.renderColorInformation()}
+                    append={this.renderColorInformation(selectedElement)}
                 />
             </div>
         );
     }
 
-    private renderColorInformation(): JSX.Element[] {
-        const colorValue = this.sceneStore.getColorValue(this.cityBuilderStore.options.metricColor);
+    private renderColorInformation(selectedElement: TreeElement | null): JSX.Element[] {
         const colorInformation: JSX.Element[] = [];
-        if (colorValue !== null) {
-            colorInformation.push(<span className="value">{colorValue}</span>);
+        if (selectedElement !== null) {
+            const colorValue = selectedElement.getMeasureValue(
+                this.cityBuilderStore.options.metricColor
+            );
+            if (colorValue !== null) {
+                colorInformation.push(<span className="value">{colorValue}</span>);
+            }
         }
         return colorInformation;
     }

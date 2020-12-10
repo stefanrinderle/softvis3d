@@ -24,6 +24,7 @@ import * as React from "react";
 import * as Sinon from "sinon";
 import { TreeElement } from "../../../src/classes/TreeElement";
 import ParentElement from "../../../src/components/sidebar/ParentElement";
+import SelectedElementService from "../../../src/services/SelectedElementService";
 import SceneStore from "../../../src/stores/SceneStore";
 import {
     createDefaultDir,
@@ -32,11 +33,13 @@ import {
     createDefaultFileWithIdAndParent,
     createDefaultFileWithParent,
 } from "../../classes/TreeElement.spec";
-import { createMockInjection } from "../../Helper";
+import { createMock, createMockInjection } from "../../Helper";
 
 describe("<ParentElement/>", () => {
     it("should show nothing if selected Element has no parent", () => {
         const element = createDefaultDir();
+        const selectedElementService = createMock(SelectedElementService);
+        selectedElementService.getSelectedElement.returns(element);
         const localSceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = element;
 
@@ -49,12 +52,15 @@ describe("<ParentElement/>", () => {
         const parent: TreeElement = createDefaultDir();
         const child1: TreeElement = createDefaultFileWithParent(parent);
 
+        const selectedElementService = createMock(SelectedElementService);
+        selectedElementService.getSelectedElement.returns(parent);
+
         parent.children.push(child1);
 
         const localSceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = parent;
 
-        const sideBarSelectParent = shallow(<ParentElement selectedElement={parent} />);
+        const sideBarSelectParent = shallow(<ParentElement />);
 
         expect(sideBarSelectParent.children()).to.have.length(0);
     });
@@ -66,6 +72,9 @@ describe("<ParentElement/>", () => {
 
         parent.children.push(child1);
         child1.children.push(child11);
+
+        const selectedElementService = createMock(SelectedElementService);
+        selectedElementService.getSelectedElement.returns(child1);
 
         const localSceneStore = createMockInjection(Sinon.createStubInstance(SceneStore));
         localSceneStore.projectData = parent;
@@ -82,9 +91,11 @@ describe("<ParentElement/>", () => {
         const parent: TreeElement = createDefaultDirWithKey("parent", "parent");
         const child1: TreeElement = createDefaultDirWithKeyAndParent("child1", parent);
         const child11: TreeElement = createDefaultFileWithIdAndParent("child11", child1);
-
         parent.children.push(child1);
         child1.children.push(child11);
+
+        const selectedElementService = createMock(SelectedElementService);
+        selectedElementService.getSelectedElement.returns(child11);
 
         const localSceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = parent;

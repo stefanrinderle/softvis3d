@@ -31,6 +31,7 @@ import SceneReactions from "./reactions/SceneReactions";
 import AutoReloadService from "./services/AutoReloadService";
 import { HtmlDomService } from "./services/HtmlDomService";
 import CityLayoutService from "./services/layout/CityLayoutService";
+import SelectedElementService from "./services/SelectedElementService";
 import SonarQubeMeasuresApiService from "./services/sonarqube/measures/api/SonarQubeMeasuresApiService";
 import SonarQubeMeasuresTreeService from "./services/sonarqube/measures/api/SonarQubeMeasuresTreeService";
 import SonarQubeTransformerService from "./services/sonarqube/measures/api/SonarQubeTransformerService";
@@ -71,6 +72,7 @@ export default class App {
 
         bindToInjection(CityBuilderStore);
         bindToInjection(SceneStore);
+        bindToInjection(SelectedElementService);
 
         this.visualizationLinkService = new VisualizationLinkService(this.config);
         container

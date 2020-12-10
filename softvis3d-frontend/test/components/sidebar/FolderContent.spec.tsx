@@ -47,29 +47,11 @@ describe("<FolderContent/>", () => {
         localSceneStore.projectData = parent;
         localSceneStore.selectedObjectId = child1.id;
 
-        const sideBarLeafInfo = shallow(
-            <FolderContent activeFolder={parent} sceneStore={localSceneStore} />
-        );
+        const sideBarLeafInfo = shallow(<FolderContent activeFolder={parent} />);
 
-        expect(
-            sideBarLeafInfo.contains(
-                <FolderContentElement
-                    element={child1}
-                    isSelected={true}
-                    sceneStore={localSceneStore}
-                />
-            )
-        ).to.be.true;
+        expect(sideBarLeafInfo.contains(<FolderContentElement element={child1} />)).to.be.true;
 
-        expect(
-            sideBarLeafInfo.contains(
-                <FolderContentElement
-                    element={child2}
-                    isSelected={false}
-                    sceneStore={localSceneStore}
-                />
-            )
-        ).to.be.true;
+        expect(sideBarLeafInfo.contains(<FolderContentElement element={child2} />)).to.be.true;
     });
 
     it("should show children of the selected element as list", () => {
@@ -82,31 +64,13 @@ describe("<FolderContent/>", () => {
         const localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = root;
 
-        const selectedElementInfo = shallow(
-            <FolderContent activeFolder={root} sceneStore={localSceneStore} />
-        );
+        const selectedElementInfo = shallow(<FolderContent activeFolder={root} />);
 
         expect(selectedElementInfo.find("ul.node-list")).to.have.length(1);
 
-        expect(
-            selectedElementInfo.contains(
-                <FolderContentElement
-                    element={child1}
-                    isSelected={false}
-                    sceneStore={localSceneStore}
-                />
-            )
-        ).to.be.true;
+        expect(selectedElementInfo.contains(<FolderContentElement element={child1} />)).to.be.true;
 
-        expect(
-            selectedElementInfo.contains(
-                <FolderContentElement
-                    element={child2}
-                    isSelected={false}
-                    sceneStore={localSceneStore}
-                />
-            )
-        ).to.be.true;
+        expect(selectedElementInfo.contains(<FolderContentElement element={child2} />)).to.be.true;
     });
 
     it("should mount component with dimension update", () => {
@@ -116,9 +80,8 @@ describe("<FolderContent/>", () => {
 
         const windowStub = Sinon.stub(window, "addEventListener");
 
-        const localSceneStore: SceneStore = new SceneStore();
         Sinon.spy(FolderContent.prototype, "componentDidMount");
-        const wrapper = mount(<FolderContent activeFolder={null} sceneStore={localSceneStore} />);
+        const wrapper = mount(<FolderContent activeFolder={null} />);
         // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(FolderContent.prototype.componentDidMount).to.have.property("callCount", 1);
 
@@ -144,15 +107,12 @@ describe("<FolderContent/>", () => {
         const underTestSpy = Sinon.mock(underTest);
         underTestSpy.expects("onResize").once();
 
-        const localSceneStore: SceneStore = new SceneStore();
         const prevProps: NodeListProps = {
             activeFolder: null,
-            sceneStore: localSceneStore,
         };
 
         underTest.props = {
             activeFolder: createDefaultDir(),
-            sceneStore: localSceneStore,
         };
 
         underTest.componentDidUpdate(prevProps);

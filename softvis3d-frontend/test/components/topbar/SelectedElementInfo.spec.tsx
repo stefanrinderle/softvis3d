@@ -24,7 +24,7 @@ import * as React from "react";
 import * as Sinon from "sinon";
 import { TreeElement } from "../../../src/classes/TreeElement";
 import SelectedElementInfo from "../../../src/components/topbar/SelectedElementInfo";
-import TreeService from "../../../src/services/TreeService";
+import SelectedElementService from "../../../src/services/SelectedElementService";
 import SceneStore from "../../../src/stores/SceneStore";
 import { createDefaultDirWithKey, createDefaultFileWithName } from "../../classes/TreeElement.spec";
 import { createMock, createMockInjection } from "../../Helper";
@@ -34,6 +34,8 @@ describe("<SelectedElementInfo/>", () => {
 
     it("should show default text div on start", () => {
         createMockInjection(new SceneStore());
+        const selectedElementService = createMock(SelectedElementService);
+        selectedElementService.getSelectedElement.returns(null);
 
         const selectedElementInfo = shallow(<SelectedElementInfo />);
 
@@ -45,12 +47,8 @@ describe("<SelectedElementInfo/>", () => {
         const selectedElement: TreeElement = createTestTreeElement(myTestElement);
         selectedElement.children.push(createTestTreeElement("child", selectedElement));
 
-        const localTreeService = createMock(TreeService);
-        localTreeService.searchTreeNode.returns(selectedElement);
-
-        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
-        localSceneStore.projectData = selectedElement;
-        localSceneStore.selectedObjectId = selectedElement.id;
+        const selectedElementService = createMock(SelectedElementService);
+        selectedElementService.getSelectedElement.returns(selectedElement);
 
         const selectedElementInfo = shallow(<SelectedElementInfo />);
 
@@ -65,9 +63,8 @@ describe("<SelectedElementInfo/>", () => {
         const selectedElement: TreeElement = createTestTreeElement(myTestElement, root);
         root.children.push(selectedElement);
 
-        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
-        localSceneStore.projectData = selectedElement;
-        localSceneStore.selectedObjectId = selectedElement.id;
+        const selectedElementService = createMock(SelectedElementService);
+        selectedElementService.getSelectedElement.returns(selectedElement);
 
         const selectedElementInfo = shallow(<SelectedElementInfo />);
 
@@ -81,12 +78,8 @@ describe("<SelectedElementInfo/>", () => {
         const selectedElement: TreeElement = createTestTreeElement(expectedKey, root);
         root.children.push(selectedElement);
 
-        const localTreeService = createMock(TreeService);
-        localTreeService.searchTreeNode.returns(selectedElement);
-
-        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
-        localSceneStore.projectData = selectedElement;
-        localSceneStore.selectedObjectId = selectedElement.id;
+        const selectedElementService = createMock(SelectedElementService);
+        selectedElementService.getSelectedElement.returns(selectedElement);
 
         const stub = Sinon.stub(window, "open");
 
@@ -105,12 +98,8 @@ describe("<SelectedElementInfo/>", () => {
         const selectedElement: TreeElement = createTestTreeElement(expectedKey, root);
         root.children.push(selectedElement);
 
-        const localTreeService = createMock(TreeService);
-        localTreeService.searchTreeNode.returns(selectedElement);
-
-        const localSceneStore: SceneStore = createMockInjection(new SceneStore());
-        localSceneStore.projectData = selectedElement;
-        localSceneStore.selectedObjectId = selectedElement.id;
+        const selectedElementService = createMock(SelectedElementService);
+        selectedElementService.getSelectedElement.returns(selectedElement);
 
         const stub = Sinon.stub(window, "open");
 

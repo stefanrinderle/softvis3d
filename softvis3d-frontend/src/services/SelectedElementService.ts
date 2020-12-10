@@ -18,32 +18,26 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { computed, observable, observe } from "mobx";
-import { Vector3 } from "three";
 import { TreeElement } from "../classes/TreeElement";
+import { lazyInject } from "../inversify.config";
+import SceneStore from "../stores/SceneStore";
+import TreeService from "./TreeService";
 
-export default class SceneStore {
-    @observable
-    public projectData: TreeElement | null = null;
-    @observable
-    public selectedObjectId: string | null = null;
-    @observable
-    public shapes: any = null;
-    @observable
-    public shapesHash = "";
+export default class SelectedElementService {
+    @lazyInject("TreeService")
+    private readonly treeService!: TreeService;
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
 
-    public cameraPosition?: Vector3;
-    public scmMetricLoaded: boolean;
-
-    public constructor() {
-        this.scmMetricLoaded = false;
-        observe(this, "shapes", () => {
-            this.shapesHash = Date.now().toString(36);
-        });
-    }
-
-    @computed
-    public get isVisible() {
-        return this.shapes !== null;
+    public getSelectedElement(): TreeElement | null {
+        console.log("calc getSelectedElement");
+        let selectedElement: TreeElement | null = null;
+        if (this.sceneStore.projectData !== null && this.sceneStore.selectedObjectId != null) {
+            selectedElement = this.treeService.searchTreeNode(
+                this.sceneStore.projectData,
+                this.sceneStore.selectedObjectId
+            );
+        }
+        return selectedElement;
     }
 }

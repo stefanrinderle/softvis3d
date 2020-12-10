@@ -20,6 +20,7 @@
 
 import { expect } from "chai";
 import { TreeElement } from "../../src/classes/TreeElement";
+import { linesOfCodeColorMetric, noColorMetric } from "../../src/constants/Metrics";
 import {
     SQ_QUALIFIER_DIRECTORY,
     SQ_QUALIFIER_FILE,
@@ -64,6 +65,26 @@ describe("TreeElement", () => {
         parent.replaceChildByKey("333", fileA);
 
         expect(parent.children[2]).to.be.eq(fileA);
+    });
+
+    it("should return measure value", () => {
+        const parent: TreeElement = createDefaultDir();
+        const exampleMetric = linesOfCodeColorMetric;
+
+        const expectedValue = 123;
+        parent.measures = {
+            ncloc: expectedValue,
+        };
+
+        const result = parent.getMeasureValue(exampleMetric);
+        expect(result).to.be.eq(expectedValue);
+    });
+
+    it("should return measure value", () => {
+        const parent: TreeElement = createDefaultDir();
+
+        const result = parent.getMeasureValue(noColorMetric);
+        expect(result).to.be.null;
     });
 });
 

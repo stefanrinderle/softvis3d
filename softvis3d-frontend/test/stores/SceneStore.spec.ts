@@ -19,9 +19,7 @@
 ///
 
 import { expect } from "chai";
-import { noMetric } from "../../src/constants/Metrics";
 import SceneStore from "../../src/stores/SceneStore";
-import { createDefaultFile } from "../classes/TreeElement.spec";
 
 describe("SceneStore", () => {
     it("should contain no selected id on init", () => {
@@ -63,23 +61,6 @@ describe("SceneStore", () => {
         sceneStore.shapes = shapes;
 
         expect(sceneStore.shapes).to.be.deep.equal(shapes);
-    });
-
-    it("should return for getColorValue if no selected element available", () => {
-        const sceneStore = new SceneStore();
-        const result: number | null = sceneStore.getColorValue(noMetric);
-
-        expect(result).to.be.null;
-    });
-
-    it("should return for getColorValue if no measure in the selected element is available", () => {
-        const sceneStore = new SceneStore();
-
-        sceneStore.selectedObjectId = "123";
-        sceneStore.projectData = createDefaultFile();
-        const result: number | null = sceneStore.getColorValue(noMetric);
-
-        expect(result).to.be.null;
     });
 
     // TODO: somehow the test does not work but it works in the view.

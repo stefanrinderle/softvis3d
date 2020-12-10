@@ -25,6 +25,7 @@ import { TreeElement } from "../../../src/classes/TreeElement";
 import FolderContent from "../../../src/components/sidebar/FolderContent";
 import ParentElement from "../../../src/components/sidebar/ParentElement";
 import SideBar from "../../../src/components/sidebar/SideBar";
+import SelectedElementService from "../../../src/services/SelectedElementService";
 import {
     SQ_QUALIFIER_DIRECTORY,
     SQ_QUALIFIER_FILE,
@@ -37,6 +38,8 @@ import { createMock, createMockInjection } from "../../Helper";
 describe("<SideBar/>", () => {
     it("should be empty, if no element is selected", () => {
         createMockInjection(new SceneStore());
+        const selectedElementService = createMock(SelectedElementService);
+        selectedElementService.getSelectedElement.returns(null);
 
         const selectedElementInfo = shallow(<SideBar />);
 
@@ -80,6 +83,9 @@ describe("<SideBar/>", () => {
         parent.children.push(child1);
         child1.children.push(child11);
 
+        const selectedElementService = createMock(SelectedElementService);
+        selectedElementService.getSelectedElement.returns(child1);
+
         const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = parent;
         localSceneStore.selectedObjectId = child1.id;
@@ -110,6 +116,9 @@ describe("<SideBar/>", () => {
         const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = parent;
         localSceneStore.selectedObjectId = child11.id;
+
+        const selectedElementService = createMock(SelectedElementService);
+        selectedElementService.getSelectedElement.returns(child11);
 
         const localTreeService = createMock(TreeService);
         localTreeService.searchTreeNode.returns(child11);

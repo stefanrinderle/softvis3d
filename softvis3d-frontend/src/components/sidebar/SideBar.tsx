@@ -21,6 +21,7 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { lazyInject } from "../../inversify.config";
+import SelectedElementService from "../../services/SelectedElementService";
 import NodeList from "./FolderContent";
 import ParentElement from "./ParentElement";
 import SceneStore from "../../stores/SceneStore";
@@ -31,17 +32,20 @@ import { TreeElement } from "../../classes/TreeElement";
 export default class SideBar extends React.Component<Record<string, unknown>, any> {
     @lazyInject("SceneStore")
     private readonly sceneStore!: SceneStore;
+    @lazyInject("SelectedElementService")
+    private readonly selectedElementService!: SelectedElementService;
 
     public render() {
-        if (this.sceneStore.selectedElement === null) {
+        const selectedElement = this.selectedElementService.getSelectedElement();
+        if (selectedElement === null) {
             return <div id="app-sidebar" className="side-bar" />;
         }
 
-        const activeFolder = this.getActiveFolder(this.sceneStore.selectedElement);
+        const activeFolder = this.getActiveFolder(selectedElement);
 
         return (
             <div id="app-sidebar" className="side-bar">
-                <h3>{this.sceneStore.selectedElement.name}</h3>
+                <h3>{selectedElement.name}</h3>
                 <ParentElement />
                 <ActiveFolder activeFolder={activeFolder} />
                 <NodeList activeFolder={activeFolder} />

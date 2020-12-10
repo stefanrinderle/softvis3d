@@ -24,18 +24,16 @@ import AutoReloadService from "../../src/services/AutoReloadService";
 import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/SonarQubeMeasuresService";
 import AppStatusStore from "../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
-import SceneStore from "../../src/stores/SceneStore";
 import { createMock, createMockInjection } from "../Helper";
 
 describe("BuilderReactions", () => {
     it("should initiate build process", () => {
         const testCityBuilderStore = createMockInjection(new CityBuilderStore());
         createMockInjection(new AppStatusStore());
-        const testSceneStore = new SceneStore();
 
         const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
         const testAutoReloadService = createMock(AutoReloadService);
-        const reactionRegister = new BuilderReactions(testSceneStore);
+        const reactionRegister = new BuilderReactions();
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 

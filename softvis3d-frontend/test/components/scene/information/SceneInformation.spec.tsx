@@ -23,14 +23,15 @@ import { shallow } from "enzyme";
 import * as React from "react";
 import MetricKey from "../../../../src/components/scene/information/MetricKey";
 import SceneInformation from "../../../../src/components/scene/information/SceneInformation";
+import SelectedElementService from "../../../../src/services/SelectedElementService";
 import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
-import SceneStore from "../../../../src/stores/SceneStore";
-import { createMockInjection } from "../../../Helper";
+import { createMock, createMockInjection } from "../../../Helper";
 
 describe("<SceneInformation/>", () => {
     it("should show default text div on start", () => {
-        const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         const cityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
+        const selectedElementService: any = createMock(SelectedElementService);
+        selectedElementService.getSelectedElement.returns(null);
 
         const bottomBar = shallow(<SceneInformation />);
 
@@ -39,7 +40,7 @@ describe("<SceneInformation/>", () => {
                 <MetricKey
                     title="Footprint"
                     metric={cityBuilderStore.options.profile.footprintMetric}
-                    selectedElement={testSceneStore.selectedElement}
+                    selectedElement={null}
                 />
             )
         ).to.be.true;
