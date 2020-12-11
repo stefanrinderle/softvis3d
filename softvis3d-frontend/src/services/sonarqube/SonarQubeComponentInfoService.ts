@@ -49,6 +49,9 @@ export default class SonarQubeComponentInfoService extends BackendService {
                     response.data.component.analysisDate = new Date(
                         response.data.component.analysisDate
                     );
+                    response.data.component.leakPeriodDate = new Date(
+                        response.data.component.leakPeriodDate
+                    );
 
                     resolve(response.data.component);
                 })

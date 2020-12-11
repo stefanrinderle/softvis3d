@@ -22,14 +22,14 @@ import { expect } from "chai";
 import AppReactions from "../../src/reactions/AppReactions";
 import AutoReloadService from "../../src/services/AutoReloadService";
 import SonarQubeMeasuresService from "../../src/services/sonarqube/measures/SonarQubeMeasuresService";
-import AppStatusStore from "../../src/stores/AppStatusStore";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
+import ComponentStatusStore from "../../src/stores/ComponentStatusStore";
 import { createMock, createMockInjection } from "../Helper";
 
 describe("AppReactions", () => {
     it("should auto reload on analysisDate change", () => {
         createMockInjection(new CityBuilderStore());
-        const testAppStatusStore = createMockInjection(new AppStatusStore());
+        const testComponentStatusStore = createMockInjection(new ComponentStatusStore());
         const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
         const testAutoReloadService = createMock(AutoReloadService);
         testAutoReloadService.isActive.returns(true);
@@ -38,7 +38,7 @@ describe("AppReactions", () => {
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 
-        testAppStatusStore.analysisDate = new Date();
+        testComponentStatusStore.lastAnalysisDate = new Date();
 
         expect(reaction).not.to.be.null;
         expect(testSonarMeasuresService.loadMeasures.calledOnce).to.be.true;
@@ -46,7 +46,7 @@ describe("AppReactions", () => {
 
     it("should not auto reload on analysisDate change but auto reload service not active", () => {
         createMockInjection(new CityBuilderStore());
-        const testAppStatusStore = createMockInjection(new AppStatusStore());
+        const testComponentStatusStore = createMockInjection(new ComponentStatusStore());
         const testSonarMeasuresService = createMock(SonarQubeMeasuresService);
         const testAutoReloadService = createMock(AutoReloadService);
         testAutoReloadService.isActive.returns(false);
@@ -55,7 +55,7 @@ describe("AppReactions", () => {
 
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;
 
-        testAppStatusStore.analysisDate = new Date();
+        testComponentStatusStore.lastAnalysisDate = new Date();
 
         expect(reaction).not.to.be.null;
         expect(testSonarMeasuresService.loadMeasures.notCalled).to.be.true;

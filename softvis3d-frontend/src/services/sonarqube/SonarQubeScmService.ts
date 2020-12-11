@@ -29,15 +29,15 @@ import { BackendService } from "./BackendService";
 import ScmCalculatorService from "./ScmCalculatorService";
 
 export default class SonarQubeScmService extends BackendService {
-    public static LOAD_SCM: LoadAction = new LoadAction(
+    public static readonly LOAD_SCM: LoadAction = new LoadAction(
         "SONAR_LOAD_SCM",
         "Request scm infos from SonarQube"
     );
-    public static STATUS_SCM_NOT_AVAILABLE: LoadAction = new LoadAction(
+    public static readonly STATUS_SCM_NOT_AVAILABLE: LoadAction = new LoadAction(
         "STATUS_SCM_NOT_AVAILABLE",
         "SCM blame info is not available. Please check your scm plugin."
     );
-    private static LOAD_SCM_ERROR_KEY = "LOAD_SCM_ERROR";
+    private static readonly LOAD_SCM_ERROR_KEY = "LOAD_SCM_ERROR";
 
     @lazyInject("SceneStore")
     private readonly sceneStore!: SceneStore;

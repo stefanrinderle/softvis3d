@@ -18,25 +18,9 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { TreeElement } from "../classes/TreeElement";
-import { lazyInject } from "../inversify.config";
-import SceneStore from "../stores/SceneStore";
-import TreeService from "./TreeService";
+import { observable } from "mobx";
 
-export default class SelectedElementService {
-    @lazyInject("TreeService")
-    private readonly treeService!: TreeService;
-    @lazyInject("SceneStore")
-    private readonly sceneStore!: SceneStore;
-
-    public getSelectedElement(): TreeElement | null {
-        let selectedElement: TreeElement | null = null;
-        if (this.sceneStore.projectData !== null && this.sceneStore.selectedObjectId != null) {
-            selectedElement = this.treeService.searchTreeNode(
-                this.sceneStore.projectData,
-                this.sceneStore.selectedObjectId
-            );
-        }
-        return selectedElement;
-    }
+export default class ComponentStatusStore {
+    @observable
+    public lastAnalysisDate?: Date;
 }

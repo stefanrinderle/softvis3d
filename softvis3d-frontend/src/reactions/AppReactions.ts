@@ -22,15 +22,15 @@ import { reaction } from "mobx";
 import { lazyInject } from "../inversify.config";
 import AutoReloadService from "../services/AutoReloadService";
 import SonarQubeMeasuresService from "../services/sonarqube/measures/SonarQubeMeasuresService";
-import AppStatusStore from "../stores/AppStatusStore";
+import ComponentStatusStore from "../stores/ComponentStatusStore";
 
 export default class AppReactions {
     @lazyInject("SonarQubeMeasuresService")
     private readonly measuresService!: SonarQubeMeasuresService;
     @lazyInject("AutoReloadService")
     private readonly autoReloadService!: AutoReloadService;
-    @lazyInject("AppStatusStore")
-    private readonly appStatusStore!: AppStatusStore;
+    @lazyInject("ComponentStatusStore")
+    private readonly componentStatusStore!: ComponentStatusStore;
 
     constructor() {
         this.prepareReactions();
@@ -38,7 +38,7 @@ export default class AppReactions {
 
     private prepareReactions() {
         reaction(
-            () => this.appStatusStore.analysisDate,
+            () => this.componentStatusStore.lastAnalysisDate,
             () => {
                 if (this.autoReloadService.isActive()) {
                     this.measuresService.loadMeasures(true);

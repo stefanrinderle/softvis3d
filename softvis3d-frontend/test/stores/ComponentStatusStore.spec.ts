@@ -18,25 +18,12 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { TreeElement } from "../classes/TreeElement";
-import { lazyInject } from "../inversify.config";
-import SceneStore from "../stores/SceneStore";
-import TreeService from "./TreeService";
+import { expect } from "chai";
+import ComponentStatusStore from "../../src/stores/ComponentStatusStore";
 
-export default class SelectedElementService {
-    @lazyInject("TreeService")
-    private readonly treeService!: TreeService;
-    @lazyInject("SceneStore")
-    private readonly sceneStore!: SceneStore;
-
-    public getSelectedElement(): TreeElement | null {
-        let selectedElement: TreeElement | null = null;
-        if (this.sceneStore.projectData !== null && this.sceneStore.selectedObjectId != null) {
-            selectedElement = this.treeService.searchTreeNode(
-                this.sceneStore.projectData,
-                this.sceneStore.selectedObjectId
-            );
-        }
-        return selectedElement;
-    }
-}
+describe("ComponentStatusStore", () => {
+    it("should have set all default values on init", () => {
+        const underTest: ComponentStatusStore = new ComponentStatusStore();
+        expect(underTest.lastAnalysisDate).to.be.undefined;
+    });
+});

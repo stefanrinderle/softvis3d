@@ -23,6 +23,7 @@ import * as ReactDOM from "react-dom";
 import { AppConfiguration } from "./classes/AppConfiguration";
 import ErrorAction from "./classes/status/ErrorAction";
 import VisualizationLinkSerializationService from "./services/VisualizationLinkSerializationService";
+import ComponentStatusStore from "./stores/ComponentStatusStore";
 import VisualizationOptionStore from "./stores/VisualizationOptionStore";
 import Softvis3D from "./components/Softvis3D";
 import { bindToInjection, container } from "./inversify.config";
@@ -58,11 +59,12 @@ export default class App {
     private readonly communicator: SonarQubeMetricsService;
     private readonly visualizationLinkService: VisualizationLinkService;
     private readonly componentInfoService: SonarQubeComponentInfoService;
-    private webGLDetectorService: WebGLDetectorService;
+    private readonly webGLDetectorService: WebGLDetectorService;
 
     private readonly config: AppConfiguration;
 
     private readonly appStatusStore: AppStatusStore;
+    private readonly componentStatusStore: ComponentStatusStore;
 
     public constructor(config: AppConfiguration) {
         this.config = config;
@@ -70,6 +72,11 @@ export default class App {
         this.appStatusStore = new AppStatusStore();
         this.appStatusStore.showLoadingQueue = this.config.isDev;
         container.bind<AppStatusStore>("AppStatusStore").toConstantValue(this.appStatusStore);
+
+        this.componentStatusStore = new ComponentStatusStore();
+        container
+            .bind<ComponentStatusStore>("ComponentStatusStore")
+            .toConstantValue(this.componentStatusStore);
 
         container
             .bind<VisualizationOptionStore>("VisualizationOptionStore")
@@ -155,10 +162,10 @@ export default class App {
         this.componentInfoService
             .loadComponentInfo()
             .then((result) => {
-                this.appStatusStore.analysisDate = result.analysisDate;
+                this.componentStatusStore.lastAnalysisDate = result.analysisDate;
             })
             .catch(() => {
-                this.appStatusStore.analysisDate = undefined;
+                this.componentStatusStore.lastAnalysisDate = undefined;
             });
     }
 
