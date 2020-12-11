@@ -25,6 +25,7 @@ import { TreeElement } from "../../../classes/TreeElement";
 import { lazyInject } from "../../../inversify.config";
 import AppStatusStore from "../../../stores/AppStatusStore";
 import CityBuilderStore from "../../../stores/CityBuilderStore";
+import ComponentStatusStore from "../../../stores/ComponentStatusStore";
 import SceneStore from "../../../stores/SceneStore";
 import { SQ_QUALIFIER_PROJECT } from "./api/SonarQubeMeasureResponse";
 import SonarQubeMeasuresTreeService from "./api/SonarQubeMeasuresTreeService";
@@ -34,13 +35,11 @@ import SonarQubeOptimizeStructureService from "./structure/SonarQubeOptimizeStru
 
 @injectable()
 export default class SonarQubeMeasuresService {
-    public static LOAD_MEASURES: LoadAction = new LoadAction(
+    public static readonly LOAD_MEASURES: LoadAction = new LoadAction(
         "SONAR_LOAD_MEASURES",
         "Request measures from SonarQube"
     );
-    private static LOAD_MEASURES_ERROR_KEY = "LOAD_MEASURES_ERROR";
-
-    private readonly projectKey: string;
+    private static readonly LOAD_MEASURES_ERROR_KEY = "LOAD_MEASURES_ERROR";
 
     @lazyInject("SceneStore")
     private readonly sceneStore!: SceneStore;
@@ -48,6 +47,8 @@ export default class SonarQubeMeasuresService {
     private readonly appStatusStore!: AppStatusStore;
     @lazyInject("CityBuilderStore")
     private readonly cityBuilderStore!: CityBuilderStore;
+    @lazyInject("ComponentStatusStore")
+    private readonly componentStatusStore!: ComponentStatusStore;
 
     @lazyInject("SonarQubeMeasuresTreeService")
     private readonly measureTreeService!: SonarQubeMeasuresTreeService;
@@ -60,10 +61,6 @@ export default class SonarQubeMeasuresService {
 
     private metricKeys?: string;
     private projectData?: TreeElement | null = null;
-
-    constructor(projectKey: string) {
-        this.projectKey = projectKey;
-    }
 
     public loadMeasures(isForce = false) {
         this.appStatusStore.load(SonarQubeMeasuresService.LOAD_MEASURES);
@@ -78,12 +75,13 @@ export default class SonarQubeMeasuresService {
             /**
              * Create a "starting point" root element and load the tree of the project.
              */
+            const projectKey = this.componentStatusStore.appConfiguration.projectKey;
             const root: TreeElement = new TreeElement(
-                this.projectKey,
-                this.projectKey,
+                projectKey,
+                projectKey,
                 {},
-                this.projectKey,
-                this.projectKey,
+                projectKey,
+                projectKey,
                 SQ_QUALIFIER_PROJECT
             );
 

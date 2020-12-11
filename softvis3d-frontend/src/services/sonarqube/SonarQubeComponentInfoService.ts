@@ -28,14 +28,6 @@ export interface SonarQubeComponentInfo {
 }
 
 export default class SonarQubeComponentInfoService extends BackendService {
-    private readonly projectKey: string;
-
-    constructor(projectKey: string, baseUrl?: string) {
-        super(baseUrl);
-
-        this.projectKey = projectKey;
-    }
-
     /**
      * Only available (with the implemented parameters) from SQ version 6.4.
      *
@@ -43,7 +35,7 @@ export default class SonarQubeComponentInfoService extends BackendService {
      */
     public loadComponentInfo(): Promise<SonarQubeComponentInfo> {
         return new Promise<SonarQubeComponentInfo>((resolve, reject) => {
-            const params = { component: this.projectKey };
+            const params = { component: this.componentStatusStore.appConfiguration.projectKey };
             this.callApi("/components/show", { params })
                 .then((response) => {
                     response.data.component.analysisDate = new Date(

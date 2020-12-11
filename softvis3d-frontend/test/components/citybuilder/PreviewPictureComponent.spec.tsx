@@ -21,18 +21,19 @@
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import * as React from "react";
+import { AppConfiguration } from "../../../src/classes/AppConfiguration";
 import PreviewPictureComponent from "../../../src/components/citybuilder/PreviewPictureComponent";
 import { availablePreviewPictures } from "../../../src/constants/PreviewPictures";
+import ComponentStatusStore from "../../../src/stores/ComponentStatusStore";
+import { createMockInjection } from "../../Helper";
+import { createDefaultTestComponentStatusStore } from "../../stores/ComponentStatusStore.spec";
 
 describe("<PreviewPictureComponent/>", () => {
     it("should show resolve url for preview picture", () => {
-        const baseUrl = "";
+        createMockInjection(createDefaultTestComponentStatusStore());
 
         const underTest = shallow(
-            <PreviewPictureComponent
-                previewPicture={availablePreviewPictures[0]}
-                baseUrl={baseUrl}
-            />
+            <PreviewPictureComponent previewPicture={availablePreviewPictures[0]} />
         );
 
         expect(underTest.html()).to.include("district_complexity_loc_EXTINT.png");
@@ -40,12 +41,10 @@ describe("<PreviewPictureComponent/>", () => {
 
     it("should show resolve url for preview picture with base url", () => {
         const baseUrl = "/isudfisu";
+        createMockInjection(new ComponentStatusStore(new AppConfiguration("", false, baseUrl)));
 
         const underTest = shallow(
-            <PreviewPictureComponent
-                previewPicture={availablePreviewPictures[0]}
-                baseUrl={baseUrl}
-            />
+            <PreviewPictureComponent previewPicture={availablePreviewPictures[0]} />
         );
 
         expect(underTest.html()).to.include(baseUrl);

@@ -48,10 +48,6 @@ export default class SonarQubeScmService extends BackendService {
     @lazyInject("ScmCalculatorService")
     private readonly scmCalculator!: ScmCalculatorService;
 
-    constructor(baseUrl?: string) {
-        super(baseUrl);
-    }
-
     public assertScmInfoAreLoaded(): Promise<void> {
         return new Promise<void>((resolve) => {
             if (this.sceneStore.scmMetricLoaded) {

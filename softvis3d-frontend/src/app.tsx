@@ -54,29 +54,25 @@ import CityBuilderStore from "./stores/CityBuilderStore";
 import SceneStore from "./stores/SceneStore";
 
 export default class App {
-    private static WEBGL_ERROR_KEY = "WEBGL_ERROR";
+    private static readonly WEBGL_ERROR_KEY = "WEBGL_ERROR";
 
     private readonly communicator: SonarQubeMetricsService;
     private readonly visualizationLinkService: VisualizationLinkService;
     private readonly componentInfoService: SonarQubeComponentInfoService;
     private readonly webGLDetectorService: WebGLDetectorService;
 
-    private readonly config: AppConfiguration;
-
     private readonly appStatusStore: AppStatusStore;
     private readonly componentStatusStore: ComponentStatusStore;
 
     public constructor(config: AppConfiguration) {
-        this.config = config;
-
-        this.appStatusStore = new AppStatusStore();
-        this.appStatusStore.showLoadingQueue = this.config.isDev;
-        container.bind<AppStatusStore>("AppStatusStore").toConstantValue(this.appStatusStore);
-
-        this.componentStatusStore = new ComponentStatusStore();
+        this.componentStatusStore = new ComponentStatusStore(config);
         container
             .bind<ComponentStatusStore>("ComponentStatusStore")
             .toConstantValue(this.componentStatusStore);
+
+        this.appStatusStore = new AppStatusStore();
+        this.appStatusStore.showLoadingQueue = config.isDev;
+        container.bind<AppStatusStore>("AppStatusStore").toConstantValue(this.appStatusStore);
 
         container
             .bind<VisualizationOptionStore>("VisualizationOptionStore")
@@ -86,27 +82,13 @@ export default class App {
         bindToInjection(SceneStore);
         bindToInjection(SelectedElementService);
 
-        this.visualizationLinkService = new VisualizationLinkService(this.config);
-        container
-            .bind<VisualizationLinkService>("VisualizationLinkService")
-            .toConstantValue(this.visualizationLinkService);
+        this.visualizationLinkService = bindToInjection(VisualizationLinkService);
 
-        container
-            .bind<SonarQubeScmService>("SonarQubeScmService")
-            .toConstantValue(new SonarQubeScmService(this.config.baseUrl));
-        container
-            .bind<SonarQubeMeasuresApiService>("SonarQubeMeasuresApiService")
-            .toConstantValue(new SonarQubeMeasuresApiService(config));
+        bindToInjection(SonarQubeScmService);
+        bindToInjection(SonarQubeMeasuresApiService);
         bindToInjection(SonarQubeMeasuresMetricService);
-        const measuresService = new SonarQubeMeasuresService(config.projectKey);
-        container
-            .bind<SonarQubeMeasuresService>("SonarQubeMeasuresService")
-            .toConstantValue(measuresService);
-
-        this.communicator = new SonarQubeMetricsService(this.config.baseUrl);
-        container
-            .bind<SonarQubeMetricsService>("SonarQubeMetricsService")
-            .toConstantValue(this.communicator);
+        this.communicator = bindToInjection(SonarQubeMetricsService);
+        bindToInjection(SonarQubeMeasuresService);
 
         this.webGLDetectorService = bindToInjection(WebGLDetectorService);
         bindToInjection(UrlParameterService);
@@ -120,14 +102,7 @@ export default class App {
         bindToInjection(AutoReloadService);
         bindToInjection(SonarQubeFilterStructureService);
         bindToInjection(VisualizationLinkSerializationService);
-
-        this.componentInfoService = new SonarQubeComponentInfoService(
-            this.config.projectKey,
-            this.config.baseUrl
-        );
-        container
-            .bind<SonarQubeComponentInfoService>("SonarQubeComponentInfoService")
-            .toConstantValue(this.componentInfoService);
+        this.componentInfoService = bindToInjection(SonarQubeComponentInfoService);
 
         const reactions = [new AppReactions(), new SceneReactions(), new BuilderReactions()];
         if (reactions.length === 0) {
@@ -143,10 +118,7 @@ export default class App {
         this.loadComponentInfoData();
         this.assertClientRequirementsAreMet();
 
-        ReactDOM.render(
-            <Softvis3D baseUrl={this.config.baseUrl} />,
-            document.getElementById(target)
-        );
+        ReactDOM.render(<Softvis3D />, document.getElementById(target));
     }
 
     public stop(target: string) {

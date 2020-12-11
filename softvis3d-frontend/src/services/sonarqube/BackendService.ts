@@ -19,15 +19,18 @@
 ///
 
 import axios, { AxiosPromise, AxiosRequestConfig } from "axios";
+import { lazyInject } from "../../inversify.config";
+import ComponentStatusStore from "../../stores/ComponentStatusStore";
 
 export abstract class BackendService {
-    private readonly apiUrl: string;
-
-    constructor(baseUrl?: string) {
-        this.apiUrl = (baseUrl || "") + "/api";
-    }
+    @lazyInject("ComponentStatusStore")
+    protected readonly componentStatusStore!: ComponentStatusStore;
 
     public callApi(route: string, options: AxiosRequestConfig = {}): AxiosPromise {
-        return axios.get(this.apiUrl + route, options);
+        return axios.get(this.getApiUrl() + route, options);
+    }
+
+    private getApiUrl(): string {
+        return (this.componentStatusStore.appConfiguration.baseUrl || "") + "/api";
     }
 }

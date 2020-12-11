@@ -28,12 +28,8 @@ import SceneStore from "../../stores/SceneStore";
 import AdvancedAnalysisOptions from "./AdvancedAnalysisOptions";
 import OptionsSimple from "./OptionsSimple";
 
-export interface CityBuilderProps {
-    baseUrl?: string;
-}
-
 @observer
-export default class CityBuilder extends React.Component<CityBuilderProps, any> {
+export default class CityBuilder extends React.Component<Record<string, never>, any> {
     @lazyInject("SceneStore")
     private readonly sceneStore!: SceneStore;
     @lazyInject("CityBuilderStore")
@@ -45,7 +41,7 @@ export default class CityBuilder extends React.Component<CityBuilderProps, any> 
         {
             name: CityBuilderTab.Default,
             label: "Options",
-            content: <OptionsSimple baseUrl={this.props.baseUrl} />,
+            content: <OptionsSimple />,
         },
         {
             name: CityBuilderTab.OptionAnalysis,

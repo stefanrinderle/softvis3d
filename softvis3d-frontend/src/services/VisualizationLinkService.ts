@@ -18,14 +18,14 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { AppConfiguration } from "../classes/AppConfiguration";
 import VisualizationLinkParams from "../classes/VisualizationLinkParams";
-import VisualizationLinkSerializationService from "./VisualizationLinkSerializationService";
-import VisualizationOptionStore from "../stores/VisualizationOptionStore";
 import { lazyInject } from "../inversify.config";
 import CityBuilderStore from "../stores/CityBuilderStore";
+import ComponentStatusStore from "../stores/ComponentStatusStore";
 import SceneStore from "../stores/SceneStore";
+import VisualizationOptionStore from "../stores/VisualizationOptionStore";
 import { default as UrlParameterService, Parameters } from "./UrlParameterService";
+import VisualizationLinkSerializationService from "./VisualizationLinkSerializationService";
 
 export default class VisualizationLinkService {
     @lazyInject("SceneStore")
@@ -34,17 +34,13 @@ export default class VisualizationLinkService {
     private readonly cityBuilderStore!: CityBuilderStore;
     @lazyInject("VisualizationOptionStore")
     private visualizationOptions!: VisualizationOptionStore;
+    @lazyInject("ComponentStatusStore")
+    private componentStatusStore!: ComponentStatusStore;
 
     @lazyInject("UrlParameterService")
     private readonly urlParameterService!: UrlParameterService;
     @lazyInject("VisualizationLinkSerializationService")
     private readonly visualizationLinkSerializationService!: VisualizationLinkSerializationService;
-
-    private readonly config: AppConfiguration;
-
-    constructor(config: AppConfiguration) {
-        this.config = config;
-    }
 
     public process(search: string) {
         const params: Parameters = this.urlParameterService.getQueryParams(search);
@@ -74,15 +70,15 @@ export default class VisualizationLinkService {
 
     public createPlainVisualizationLink(): string {
         let baseUrl = "";
-        if (this.config.baseUrl) {
-            baseUrl = this.config.baseUrl;
+        if (this.componentStatusStore.appConfiguration.baseUrl) {
+            baseUrl = this.componentStatusStore.appConfiguration.baseUrl;
         }
 
         const baseLocation =
             baseUrl +
             "/static/softvis3d/index.html" +
             "?projectKey=" +
-            this.config.projectKey +
+            this.componentStatusStore.appConfiguration.projectKey +
             "&baseUrl=" +
             baseUrl;
 

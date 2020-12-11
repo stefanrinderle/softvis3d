@@ -20,22 +20,27 @@
 
 import * as React from "react";
 import { PreviewPicture } from "../../classes/PreviewPicture";
+import { lazyInject } from "../../inversify.config";
+import ComponentStatusStore from "../../stores/ComponentStatusStore";
 
 export interface PreviewPictureComponentProps {
     previewPicture: PreviewPicture;
-    baseUrl?: string;
 }
 
 export default class PreviewPictureComponent extends React.Component<
     PreviewPictureComponentProps,
     any
 > {
+    @lazyInject("ComponentStatusStore")
+    private readonly componentStatusStore!: ComponentStatusStore;
+
     public render() {
         const preview: PreviewPicture = this.props.previewPicture;
 
         let url: string = preview.bgPicture;
-        if (this.props.baseUrl) {
-            url = this.props.baseUrl + url;
+        const baseUrl = this.componentStatusStore.appConfiguration.baseUrl;
+        if (baseUrl) {
+            url = baseUrl + url;
         }
 
         const previewStyle = {

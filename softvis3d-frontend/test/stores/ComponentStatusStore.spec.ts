@@ -19,11 +19,19 @@
 ///
 
 import { expect } from "chai";
+import { AppConfiguration } from "../../src/classes/AppConfiguration";
 import ComponentStatusStore from "../../src/stores/ComponentStatusStore";
 
 describe("ComponentStatusStore", () => {
     it("should have set all default values on init", () => {
-        const underTest: ComponentStatusStore = new ComponentStatusStore();
+        const config = new AppConfiguration("example:key", false);
+        const underTest: ComponentStatusStore = new ComponentStatusStore(config);
         expect(underTest.lastAnalysisDate).to.be.undefined;
+        expect(underTest.appConfiguration).to.be.eq(config);
     });
 });
+
+export function createDefaultTestComponentStatusStore() {
+    const config = new AppConfiguration("example:key", false);
+    return new ComponentStatusStore(config);
+}

@@ -19,7 +19,6 @@
 ///
 
 import { injectable } from "inversify";
-import { AppConfiguration } from "../../../../classes/AppConfiguration";
 import { lazyInject } from "../../../../inversify.config";
 import AppStatusStore from "../../../../stores/AppStatusStore";
 import { BackendService } from "../../BackendService";
@@ -36,10 +35,6 @@ import {
 export default class SonarQubeMeasuresApiService extends BackendService {
     @lazyInject("AppStatusStore")
     private readonly appStatusStore!: AppStatusStore;
-
-    constructor(config: AppConfiguration) {
-        super(config.baseUrl);
-    }
 
     public loadMeasures(
         baseComponentKey: string,

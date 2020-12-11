@@ -51,12 +51,12 @@ describe("<CityBuilder/>", () => {
 
         const cityBuilder = shallow(<CityBuilder />);
 
-        expect(cityBuilder.contains(<OptionsSimple baseUrl={undefined} />)).to.be.true;
+        expect(cityBuilder.contains(<OptionsSimple />)).to.be.true;
         expect(cityBuilder.contains(<AdvancedAnalysisOptions />)).to.be.false;
 
         cityBuilder.find("#city-builder-tab-1").simulate("click");
 
-        expect(cityBuilder.contains(<OptionsSimple baseUrl={undefined} />)).to.be.false;
+        expect(cityBuilder.contains(<OptionsSimple />)).to.be.false;
         expect(cityBuilder.contains(<AdvancedAnalysisOptions />)).to.be.true;
     });
 

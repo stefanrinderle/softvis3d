@@ -18,14 +18,19 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { assert } from "chai";
-import { BackendService } from "../../../src/services/sonarqube/BackendService";
-import * as Sinon from "sinon";
-
 import axios from "axios";
+import { assert } from "chai";
+import * as Sinon from "sinon";
+import { AppConfiguration } from "../../../src/classes/AppConfiguration";
+import { BackendService } from "../../../src/services/sonarqube/BackendService";
+import ComponentStatusStore from "../../../src/stores/ComponentStatusStore";
+import { createMockInjection } from "../../Helper";
+import { createDefaultTestComponentStatusStore } from "../../stores/ComponentStatusStore.spec";
 
 describe("BackendService", () => {
     it("BackendService should call axios library", () => {
+        createMockInjection(createDefaultTestComponentStatusStore());
+
         const underTest: BackendService = new TestService();
 
         const axiosStub = Sinon.stub(axios, "get");
@@ -39,7 +44,9 @@ describe("BackendService", () => {
 
     it("BackendService should call axios library with baseUrl", () => {
         const baseUrl = "iusdgzfuzgdf/";
-        const underTest: BackendService = new TestService(baseUrl);
+        const config = new AppConfiguration("example:key", false, baseUrl);
+        createMockInjection(new ComponentStatusStore(config));
+        const underTest: BackendService = new TestService();
 
         const axiosStub = Sinon.stub(axios, "get");
 
@@ -51,8 +58,4 @@ describe("BackendService", () => {
     });
 });
 
-class TestService extends BackendService {
-    constructor(apiUrl?: string) {
-        super(apiUrl);
-    }
-}
+class TestService extends BackendService {}

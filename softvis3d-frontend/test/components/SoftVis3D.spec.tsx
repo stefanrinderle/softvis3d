@@ -28,11 +28,10 @@ import Visualization from "../../src/components/visualization/Visualization";
 
 describe("<SoftVis3D/>", () => {
     it("should draw all componenty on start", () => {
-        const baseUrl = "suzdgs";
-        const softvis3d = shallow(<Softvis3D baseUrl={baseUrl} />);
+        const softvis3d = shallow(<Softvis3D />);
 
         expect(softvis3d.contains(<Status />)).to.be.true;
-        expect(softvis3d.contains(<CityBuilder baseUrl={baseUrl} />)).to.be.true;
+        expect(softvis3d.contains(<CityBuilder />)).to.be.true;
         expect(softvis3d.contains(<Visualization />)).to.be.true;
     });
 });

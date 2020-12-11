@@ -48,10 +48,6 @@ export default class SonarQubeMetricsService extends BackendService {
     @lazyInject("AppStatusStore")
     private readonly appStatusStore!: AppStatusStore;
 
-    constructor(baseUrl?: string) {
-        super(baseUrl);
-    }
-
     public loadAvailableMetrics(page = 1): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if (page === 1) {

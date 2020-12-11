@@ -31,11 +31,10 @@ interface Softvis3DProps {
 @observer
 export default class Softvis3D extends React.Component<Softvis3DProps, any> {
     public render() {
-        const { baseUrl } = this.props;
         return (
             <div>
                 <Status />
-                <CityBuilder baseUrl={baseUrl} />
+                <CityBuilder />
                 <Visualization />
             </div>
         );

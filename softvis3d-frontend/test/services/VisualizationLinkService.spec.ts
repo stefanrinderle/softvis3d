@@ -19,26 +19,25 @@
 ///
 
 import { assert, expect } from "chai";
-import * as Sinon from "sinon";
 import { Vector3 } from "three";
 import { AppConfiguration } from "../../src/classes/AppConfiguration";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
-import VisualizationLinkSerializationService from "../../src/services/VisualizationLinkSerializationService";
-import VisualizationOptionStore from "../../src/stores/VisualizationOptionStore";
 import UrlParameterService from "../../src/services/UrlParameterService";
+import VisualizationLinkSerializationService from "../../src/services/VisualizationLinkSerializationService";
 import VisualizationLinkService from "../../src/services/VisualizationLinkService";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
+import ComponentStatusStore from "../../src/stores/ComponentStatusStore";
 import SceneStore from "../../src/stores/SceneStore";
+import VisualizationOptionStore from "../../src/stores/VisualizationOptionStore";
 import { createMock, createMockInjection } from "../Helper";
+import { createDefaultTestComponentStatusStore } from "../stores/ComponentStatusStore.spec";
 
 describe("VisualizationLinkService", () => {
     it("Happy case - apply link params", () => {
-        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        createMockInjection(createDefaultTestComponentStatusStore());
         const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         createMockInjection(new SceneStore());
-        const underTest: VisualizationLinkService = new VisualizationLinkService(
-            testAppConfiguration
-        );
+        const underTest: VisualizationLinkService = new VisualizationLinkService();
 
         const localUrlParameterService = createMock(UrlParameterService);
         localUrlParameterService.getQueryParams.returns({
@@ -65,12 +64,10 @@ describe("VisualizationLinkService", () => {
     });
 
     it("Does nothing on empty string", () => {
-        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        createMockInjection(createDefaultTestComponentStatusStore());
         const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         createMockInjection(new SceneStore());
-        const underTest: VisualizationLinkService = new VisualizationLinkService(
-            testAppConfiguration
-        );
+        const underTest: VisualizationLinkService = new VisualizationLinkService();
 
         const localUrlParameterService = createMock(UrlParameterService);
         localUrlParameterService.getQueryParams.returns({
@@ -90,7 +87,7 @@ describe("VisualizationLinkService", () => {
     });
 
     it("Extracts the parameters properly", () => {
-        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        createMockInjection(createDefaultTestComponentStatusStore());
         createMockInjection(new CityBuilderStore());
         createMockInjection(VisualizationOptionStore.createDefault());
 
@@ -98,9 +95,7 @@ describe("VisualizationLinkService", () => {
         // Math.round in place
         localSceneStore.cameraPosition = new Vector3(1.2, 2.1, 3.3);
 
-        const underTest: VisualizationLinkService = new VisualizationLinkService(
-            testAppConfiguration
-        );
+        const underTest: VisualizationLinkService = new VisualizationLinkService();
 
         const localUrlParameterService = createMock(UrlParameterService);
         localUrlParameterService.createVisualizationLinkForCurrentUrl.returns("abc");
@@ -126,13 +121,11 @@ describe("VisualizationLinkService", () => {
     });
 
     it("Should throw error if no camera position is set.", () => {
-        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
+        createMockInjection(createDefaultTestComponentStatusStore());
         createMockInjection(new CityBuilderStore());
         createMockInjection(new SceneStore());
 
-        const underTest: VisualizationLinkService = new VisualizationLinkService(
-            testAppConfiguration
-        );
+        const underTest: VisualizationLinkService = new VisualizationLinkService();
 
         expect(() => {
             underTest.createVisualizationLink();
@@ -140,11 +133,11 @@ describe("VisualizationLinkService", () => {
     });
 
     it("create plain visualization link", () => {
-        const testAppConfiguration: any = Sinon.createStubInstance(AppConfiguration);
         const baseUrl = "/isudfisfuh";
         const projectKey = "siudhfg:suzdgs";
-        testAppConfiguration.baseUrl = baseUrl;
-        testAppConfiguration.projectKey = projectKey;
+        createMockInjection(
+            new ComponentStatusStore(new AppConfiguration(projectKey, false, baseUrl))
+        );
 
         createMockInjection(new CityBuilderStore());
         createMockInjection(VisualizationOptionStore.createDefault());
@@ -155,9 +148,7 @@ describe("VisualizationLinkService", () => {
         const expectedSelectedObjectId = "123453";
         localSceneStore.selectedObjectId = expectedSelectedObjectId;
 
-        const underTest: VisualizationLinkService = new VisualizationLinkService(
-            testAppConfiguration
-        );
+        const underTest: VisualizationLinkService = new VisualizationLinkService();
 
         const localUrlParameterService = createMock(UrlParameterService);
         localUrlParameterService.createVisualizationLinkForCurrentUrl.returns("abc");

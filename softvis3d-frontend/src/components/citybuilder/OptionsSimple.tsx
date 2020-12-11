@@ -32,12 +32,8 @@ import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import LayoutPicker from "./LayoutPicker";
 import PreviewPictureComponent from "./PreviewPictureComponent";
 
-export interface OptionsSimpleProps {
-    baseUrl?: string;
-}
-
 @observer
-export default class OptionsSimple extends React.Component<OptionsSimpleProps, any> {
+export default class OptionsSimple extends React.Component<Record<string, never>, any> {
     @lazyInject("VisualizationOptionStore")
     private readonly visualizationOptions!: VisualizationOptionStore;
     @lazyInject("CityBuilderStore")
@@ -93,7 +89,6 @@ export default class OptionsSimple extends React.Component<OptionsSimpleProps, a
                             this.visualizationOptions.layout,
                             this.visualizationOptions.profile
                         )}
-                        baseUrl={this.props.baseUrl}
                     />
                 </div>
             </div>

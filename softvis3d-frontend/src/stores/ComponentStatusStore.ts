@@ -19,8 +19,15 @@
 ///
 
 import { observable } from "mobx";
+import { AppConfiguration } from "../classes/AppConfiguration";
 
 export default class ComponentStatusStore {
     @observable
     public lastAnalysisDate?: Date;
+
+    public readonly appConfiguration: AppConfiguration;
+
+    constructor(appConfiguration: AppConfiguration) {
+        this.appConfiguration = appConfiguration;
+    }
 }
