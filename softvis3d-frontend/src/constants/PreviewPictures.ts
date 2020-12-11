@@ -18,6 +18,8 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
+import Layout from "../classes/Layout";
+import Profile from "../classes/Profile";
 import { defaultProfile, duplicatedLinesOfCode, leakPeriod } from "./Profiles";
 import { PreviewPicture } from "../classes/PreviewPicture";
 import { district, evostreet } from "./Layouts";
@@ -81,3 +83,13 @@ export const availablePreviewPictures: PreviewPicture[] = [
     duplicateEvostreet,
     placeholder,
 ];
+
+export function getPreviewBackground(layout: Layout, profile: Profile): PreviewPicture {
+    for (const preview of availablePreviewPictures) {
+        if (preview.forLayout(layout) && preview.forProfile(profile)) {
+            return preview;
+        }
+    }
+
+    return placeholder;
+}

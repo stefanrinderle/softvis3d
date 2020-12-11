@@ -20,13 +20,12 @@
 
 import { assert, expect } from "chai";
 import * as Sinon from "sinon";
-import VisualizationOptions from "../../../src/classes/VisualizationOptions";
+import VisualizationOptionStore from "../../../src/classes/VisualizationOptionStore";
 import { numberOfAuthorsBlameColorMetric } from "../../../src/constants/Metrics";
 import CityLayoutService from "../../../src/services/layout/CityLayoutService";
 import LayoutProcessor from "../../../src/services/layout/LayoutProcessor";
 import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
 import AppStatusStore from "../../../src/stores/AppStatusStore";
-import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../src/stores/SceneStore";
 import { createDefaultDir } from "../../classes/TreeElement.spec";
 import { createMock, createMockInjection } from "../../Helper";
@@ -37,7 +36,7 @@ describe("CityLayoutService", () => {
 
         createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = createMockInjection(new SceneStore());
-        createMockInjection(new CityBuilderStore());
+        createMockInjection(VisualizationOptionStore.createDefault());
         testSceneStore.projectData = createDefaultDir();
 
         createMock(SonarQubeScmService);
@@ -74,7 +73,7 @@ describe("CityLayoutService", () => {
 
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = createMockInjection(new SceneStore());
-        createMockInjection(new CityBuilderStore());
+        createMockInjection(VisualizationOptionStore.createDefault());
         testSceneStore.projectData = createDefaultDir();
 
         createMock(SonarQubeScmService);
@@ -112,10 +111,9 @@ describe("CityLayoutService", () => {
 
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = createMockInjection(new SceneStore());
-        const cityBuilderStore = createMockInjection(new CityBuilderStore());
+        const visualizationOptions = createMockInjection(VisualizationOptionStore.createDefault());
+        visualizationOptions.metricColor = numberOfAuthorsBlameColorMetric;
         testSceneStore.projectData = createDefaultDir();
-        cityBuilderStore.options = VisualizationOptions.createDefault();
-        cityBuilderStore.options.metricColor = numberOfAuthorsBlameColorMetric;
 
         const scmService = createMock(SonarQubeScmService);
         scmService.assertScmInfoAreLoaded.resolves({});

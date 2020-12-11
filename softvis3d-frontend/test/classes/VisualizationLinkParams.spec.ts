@@ -21,13 +21,13 @@
 import { expect } from "chai";
 import { Vector3 } from "three";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
-import VisualizationOptions from "../../src/classes/VisualizationOptions";
+import VisualizationOptionStore from "../../src/classes/VisualizationOptionStore";
 
 describe("VisualizationLinkParams", () => {
     it("should construct config", () => {
         const selectedObjectId = "123";
         const cameraPosition: Vector3 = new Vector3(0, 1, 2);
-        const visualizationOptions = VisualizationOptions.createDefault();
+        const visualizationOptions = VisualizationOptionStore.createDefault();
 
         const result: VisualizationLinkParams = new VisualizationLinkParams(
             visualizationOptions,

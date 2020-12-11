@@ -19,6 +19,7 @@
 ///
 
 import { reaction } from "mobx";
+import VisualizationOptionStore from "../classes/VisualizationOptionStore";
 import { lazyInject } from "../inversify.config";
 import CityLayoutService from "../services/layout/CityLayoutService";
 import CityBuilderStore from "../stores/CityBuilderStore";
@@ -29,6 +30,8 @@ export default class SceneReactions {
     private readonly sceneStore!: SceneStore;
     @lazyInject("CityBuilderStore")
     private readonly cityBuilderStore!: CityBuilderStore;
+    @lazyInject("VisualizationOptionStore")
+    private readonly visualizationOptions!: VisualizationOptionStore;
     @lazyInject("CityLayoutService")
     private readonly cityLayoutService!: CityLayoutService;
 
@@ -38,7 +41,7 @@ export default class SceneReactions {
 
     private prepareReactions() {
         reaction(
-            () => this.cityBuilderStore.options.metricColor,
+            () => this.visualizationOptions.metricColor,
             () => {
                 if (!this.cityBuilderStore.show) {
                     this.cityLayoutService.createCity();

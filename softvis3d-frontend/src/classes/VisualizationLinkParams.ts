@@ -20,16 +20,16 @@
 
 import { Type } from "class-transformer";
 import { Vector3 } from "three";
-import VisualizationOptions from "./VisualizationOptions";
+import VisualizationOptionStore from "./VisualizationOptionStore";
 
 export default class VisualizationLinkParams {
-    @Type(() => VisualizationOptions)
-    public visualizationOptions: VisualizationOptions;
+    @Type(() => VisualizationOptionStore)
+    public visualizationOptions: VisualizationOptionStore;
     public selectedObjectId: string | null;
     public cameraPosition: Vector3;
 
     constructor(
-        visualizationOptions: VisualizationOptions,
+        visualizationOptions: VisualizationOptionStore,
         selectedObjectId: string | null,
         cameraPosition: Vector3
     ) {

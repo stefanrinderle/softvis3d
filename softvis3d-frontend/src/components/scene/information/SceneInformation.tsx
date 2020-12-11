@@ -23,10 +23,10 @@ import * as React from "react";
 import Metric from "../../../classes/Metric";
 import MetricSet from "../../../classes/MetricSet";
 import { TreeElement } from "../../../classes/TreeElement";
+import VisualizationOptionStore from "../../../classes/VisualizationOptionStore";
 import { ColorMetrics } from "../../../constants/Metrics";
 import { lazyInject } from "../../../inversify.config";
 import SelectedElementService from "../../../services/SelectedElementService";
-import CityBuilderStore from "../../../stores/CityBuilderStore";
 import SelectBoxBuilder from "../../ui/selectbox/SelectBoxBuilder";
 import MetricKey from "./MetricKey";
 
@@ -37,8 +37,8 @@ import MetricKey from "./MetricKey";
 export default class SceneInformation extends React.Component<Record<string, unknown>, any> {
     @lazyInject("SelectedElementService")
     private readonly selectedElementService!: SelectedElementService;
-    @lazyInject("CityBuilderStore")
-    private readonly cityBuilderStore!: CityBuilderStore;
+    @lazyInject("VisualizationOptionStore")
+    private readonly visualizationOptions!: VisualizationOptionStore;
 
     public render() {
         const selectedElement = this.selectedElementService.getSelectedElement();
@@ -47,21 +47,21 @@ export default class SceneInformation extends React.Component<Record<string, unk
             <div className="scene-information">
                 <MetricKey
                     title="Footprint"
-                    metric={this.cityBuilderStore.options.profile.footprintMetric}
+                    metric={this.visualizationOptions.profile.footprintMetric}
                     selectedElement={selectedElement}
                 />
                 <MetricKey
                     title="Height"
-                    metric={this.cityBuilderStore.options.profile.heightMetric}
+                    metric={this.visualizationOptions.profile.heightMetric}
                     selectedElement={selectedElement}
                 />
                 <SelectBoxBuilder
                     label="Color"
                     className="metric-info"
-                    value={this.cityBuilderStore.options.metricColor}
+                    value={this.visualizationOptions.metricColor}
                     options={new MetricSet(ColorMetrics.availableColorMetrics).asSelectOptions}
                     onChange={(m: Metric) => {
-                        this.cityBuilderStore.options.metricColor = m;
+                        this.visualizationOptions.metricColor = m;
                     }}
                     append={this.renderColorInformation(selectedElement)}
                 />
@@ -73,7 +73,7 @@ export default class SceneInformation extends React.Component<Record<string, unk
         const colorInformation: JSX.Element[] = [];
         if (selectedElement !== null) {
             const colorValue = selectedElement.getMeasureValue(
-                this.cityBuilderStore.options.metricColor
+                this.visualizationOptions.metricColor
             );
             if (colorValue !== null) {
                 colorInformation.push(<span className="value">{colorValue}</span>);

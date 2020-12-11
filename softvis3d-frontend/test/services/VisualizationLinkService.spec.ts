@@ -24,7 +24,7 @@ import { Vector3 } from "three";
 import { AppConfiguration } from "../../src/classes/AppConfiguration";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
 import VisualizationLinkSerializationService from "../../src/classes/VisualizationLinkSerializationService";
-import VisualizationOptions from "../../src/classes/VisualizationOptions";
+import VisualizationOptionStore from "../../src/classes/VisualizationOptionStore";
 import UrlParameterService from "../../src/services/UrlParameterService";
 import VisualizationLinkService from "../../src/services/VisualizationLinkService";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
@@ -49,7 +49,7 @@ describe("VisualizationLinkService", () => {
             VisualizationLinkSerializationService
         );
         localVisualizationLinkSerializationService.deserialize.returns(
-            new VisualizationLinkParams(VisualizationOptions.createDefault(), null, new Vector3())
+            new VisualizationLinkParams(VisualizationOptionStore.createDefault(), null, new Vector3())
         );
 
         const search = "sdfiuisduhfiuhsdiuhasiduhaiduhasiduhiuhdisauh";
@@ -88,6 +88,7 @@ describe("VisualizationLinkService", () => {
     it("Extracts the parameters properly", () => {
         const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         createMockInjection(new CityBuilderStore());
+        createMockInjection(VisualizationOptionStore.createDefault());
 
         const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         // Math.round in place
@@ -142,6 +143,7 @@ describe("VisualizationLinkService", () => {
         testAppConfiguration.projectKey = projectKey;
 
         createMockInjection(new CityBuilderStore());
+        createMockInjection(VisualizationOptionStore.createDefault());
 
         const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         localSceneStore.cameraPosition = new Vector3(1, 2, 3);

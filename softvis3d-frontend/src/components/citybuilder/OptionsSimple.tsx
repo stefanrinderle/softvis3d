@@ -22,7 +22,9 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import Metric from "../../classes/Metric";
 import Profile from "../../classes/Profile";
+import VisualizationOptionStore from "../../classes/VisualizationOptionStore";
 import { Layouts } from "../../constants/Layouts";
+import { getPreviewBackground } from "../../constants/PreviewPictures";
 import { Profiles } from "../../constants/Profiles";
 import { lazyInject } from "../../inversify.config";
 import CityBuilderStore from "../../stores/CityBuilderStore";
@@ -36,11 +38,14 @@ export interface OptionsSimpleProps {
 
 @observer
 export default class OptionsSimple extends React.Component<OptionsSimpleProps, any> {
+    @lazyInject("VisualizationOptionStore")
+    private readonly visualizationOptions!: VisualizationOptionStore;
     @lazyInject("CityBuilderStore")
     private readonly cityBuilderStore!: CityBuilderStore;
 
     public render() {
-        const { options, colorMetrics } = this.cityBuilderStore;
+        // TODO remove colorMetrics from cityBuilderStore and access directly.
+        const { colorMetrics } = this.cityBuilderStore;
 
         return (
             <div className="simple">
@@ -49,28 +54,28 @@ export default class OptionsSimple extends React.Component<OptionsSimpleProps, a
                         <SelectBoxBuilder
                             label="Profile"
                             className="profiles"
-                            value={options.profile}
+                            value={this.visualizationOptions.profile}
                             options={Profiles.availableProfiles}
-                            onChange={(p: any) => {
-                                options.profile = p as Profile;
+                            onChange={(p: Profile) => {
+                                this.visualizationOptions.setProfile(p);
                             }}
                         />
                         <p className="selection-description profile-description">
-                            {options.profile.description}
+                            {this.visualizationOptions.profile.description}
                         </p>
                     </div>
                     <div className="builder-option">
                         <SelectBoxBuilder
                             label="Building Color"
                             className="metric color"
-                            value={options.metricColor}
+                            value={this.visualizationOptions.metricColor}
                             options={colorMetrics.asSelectOptions}
-                            onChange={(m: any) => {
-                                options.metricColor = m as Metric;
+                            onChange={(m: Metric) => {
+                                this.visualizationOptions.metricColor = m;
                             }}
                         />
                         <p className="selection-description color-description">
-                            {options.metricColor.description}
+                            {this.visualizationOptions.metricColor.description}
                         </p>
                     </div>
 
@@ -78,13 +83,16 @@ export default class OptionsSimple extends React.Component<OptionsSimpleProps, a
                         <span>Layout</span>
                         <LayoutPicker layouts={Layouts.availableLayouts} />
                         <p className="selection-description layout-description">
-                            {options.layout.description}
+                            {this.visualizationOptions.layout.description}
                         </p>
                     </div>
                 </div>
                 <div className="right-column">
                     <PreviewPictureComponent
-                        previewPicture={this.cityBuilderStore.getPreviewBackground()}
+                        previewPicture={getPreviewBackground(
+                            this.visualizationOptions.layout,
+                            this.visualizationOptions.profile
+                        )}
                         baseUrl={this.props.baseUrl}
                     />
                 </div>

@@ -19,7 +19,7 @@
 ///
 
 import { assert, expect } from "chai";
-import VisualizationOptions from "../../src/classes/VisualizationOptions";
+import VisualizationOptionStore from "../../src/classes/VisualizationOptionStore";
 import { complexityColorMetric } from "../../src/constants/Metrics";
 import SceneReactions from "../../src/reactions/SceneReactions";
 import CityLayoutService from "../../src/services/layout/CityLayoutService";
@@ -31,10 +31,10 @@ import { createMock, createMockInjection } from "../Helper";
 describe("SceneReactions", () => {
     it("should change city builder color metric setting if changed in the scene", () => {
         createMockInjection(new SceneStore());
+        createMockInjection(VisualizationOptionStore.createDefault());
+
         const testCityBuilderStore = createMockInjection(new CityBuilderStore());
         createMock(CityLayoutService);
-
-        testCityBuilderStore.options = VisualizationOptions.createDefault();
 
         const reactions = new SceneReactions();
 
@@ -46,6 +46,8 @@ describe("SceneReactions", () => {
 
     it("should rebuild city if color metric changed", () => {
         createMockInjection(new SceneStore());
+        const visualizationOptions = createMockInjection(VisualizationOptionStore.createDefault());
+
         const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         const testCityLayoutService = createMock(CityLayoutService);
 
@@ -53,7 +55,7 @@ describe("SceneReactions", () => {
 
         const reactions = new SceneReactions();
 
-        testCityBuilderStore.options.metricColor = complexityColorMetric;
+        visualizationOptions.metricColor = complexityColorMetric;
 
         assert(testCityLayoutService.createCity.calledOnce);
         expect(reactions).not.to.be.null;
@@ -64,7 +66,7 @@ describe("SceneReactions", () => {
         createMockInjection(new CityBuilderStore());
         const testLegacyConnector = createMock(CityLayoutService);
 
-        testSceneStore.options = VisualizationOptions.createDefault();
+        testSceneStore.options = VisualizationOptionStore.createDefault();
 
         const reactions = new SceneReactions();
 

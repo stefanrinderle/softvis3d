@@ -23,13 +23,7 @@ import Metric from "../../src/classes/Metric";
 import { DEFAULT_BUILDING_COLOR_THEME } from "../../src/constants/BuildingColorThemes";
 import { district, evostreet } from "../../src/constants/Layouts";
 import * as Metrics from "../../src/constants/Metrics";
-import {
-    defaultDistrict,
-    defaultEvostreet,
-    placeholder,
-} from "../../src/constants/PreviewPictures";
-import { custom, defaultProfile, leakPeriod } from "../../src/constants/Profiles";
-import { LINEAR_SCALED, LOGARITHMIC } from "../../src/constants/Scales";
+import { defaultProfile } from "../../src/constants/Profiles";
 import { DEFAULT_COLOR_THEME } from "../../src/constants/SceneColorThemes";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
 
@@ -69,29 +63,6 @@ describe("CityBuilderStore", () => {
         expect(underTest.options.profile.id).to.be.equal(defaultProfile.id);
     });
 
-    it("should update custom profile", () => {
-        const underTest: CityBuilderStore = new CityBuilderStore();
-        underTest.setProfile(leakPeriod);
-        underTest.setProfile(custom);
-        expect(underTest.options.profile).to.be.equal(custom);
-        expect(leakPeriod.heightMetric).to.be.equal(custom.heightMetric);
-        expect(leakPeriod.footprintMetric).to.be.equal(custom.footprintMetric);
-        expect(leakPeriod.scale).to.be.equal(custom.scale);
-    });
-
-    it("should update scale profile but set default again", () => {
-        const underTest: CityBuilderStore = new CityBuilderStore();
-        expect(underTest.options.profile.id).to.be.equal(defaultProfile.id);
-        expect(underTest.options.profile.scale).to.be.equal(LOGARITHMIC);
-        underTest.options.profile.scale = LINEAR_SCALED;
-
-        expect(underTest.options.profile.scale).to.be.equal(LINEAR_SCALED);
-
-        underTest.options.profile = defaultProfile;
-
-        expect(underTest.options.profile.scale).to.be.equal(defaultProfile.scale);
-    });
-
     it("should set and get generic metrics", () => {
         const underTest: CityBuilderStore = new CityBuilderStore();
         const expectedMetrics: Metric[] = [];
@@ -109,26 +80,5 @@ describe("CityBuilderStore", () => {
     it("should get color metrics", () => {
         const underTest: CityBuilderStore = new CityBuilderStore();
         expect(underTest.colorMetrics.length).to.be.equal(9);
-    });
-
-    it("should get preview picture default profile and layout district", () => {
-        const underTest: CityBuilderStore = new CityBuilderStore();
-        underTest.options.layout = district;
-        underTest.options.profile = defaultProfile;
-        expect(underTest.getPreviewBackground()).to.be.equal(defaultDistrict);
-    });
-
-    it("should get preview picture default profile and layout  evostreets", () => {
-        const underTest: CityBuilderStore = new CityBuilderStore();
-        underTest.options.layout = evostreet;
-        underTest.options.profile = defaultProfile;
-        expect(underTest.getPreviewBackground()).to.be.equal(defaultEvostreet);
-    });
-
-    it("should get placeholder preview picture", () => {
-        const underTest: CityBuilderStore = new CityBuilderStore();
-        underTest.options.layout = district;
-        underTest.options.profile = custom;
-        expect(underTest.getPreviewBackground()).to.be.equal(placeholder);
     });
 });

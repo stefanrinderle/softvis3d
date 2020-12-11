@@ -20,8 +20,14 @@
 
 import { expect } from "chai";
 import { PreviewPicture } from "../../src/classes/PreviewPicture";
-import { defaultProfile, leakPeriod } from "../../src/constants/Profiles";
 import { district, evostreet } from "../../src/constants/Layouts";
+import {
+    defaultDistrict,
+    defaultEvostreet,
+    getPreviewBackground,
+    placeholder,
+} from "../../src/constants/PreviewPictures";
+import { custom, defaultProfile, leakPeriod } from "../../src/constants/Profiles";
 
 describe("PreviewPicture", () => {
     it("should know its layout", () => {
@@ -40,5 +46,20 @@ describe("PreviewPicture", () => {
 
         expect(underTest.forProfile(defaultProfile)).to.be.eq(true);
         expect(underTest.forProfile(leakPeriod)).to.be.eq(false);
+    });
+
+    it("should get preview picture default profile and layout district", () => {
+        const previewBackground = getPreviewBackground(district, defaultProfile);
+        expect(previewBackground).to.be.equal(defaultDistrict);
+    });
+
+    it("should get preview picture default profile and layout  evostreets", () => {
+        const previewBackground = getPreviewBackground(evostreet, defaultProfile);
+        expect(previewBackground).to.be.equal(defaultEvostreet);
+    });
+
+    it("should get placeholder preview picture", () => {
+        const previewBackground = getPreviewBackground(district, custom);
+        expect(previewBackground).to.be.equal(placeholder);
     });
 });

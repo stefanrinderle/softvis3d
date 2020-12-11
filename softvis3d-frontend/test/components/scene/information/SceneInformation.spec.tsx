@@ -21,15 +21,15 @@
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import * as React from "react";
+import VisualizationOptionStore from "../../../../src/classes/VisualizationOptionStore";
 import MetricKey from "../../../../src/components/scene/information/MetricKey";
 import SceneInformation from "../../../../src/components/scene/information/SceneInformation";
 import SelectedElementService from "../../../../src/services/SelectedElementService";
-import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
 import { createMock, createMockInjection } from "../../../Helper";
 
 describe("<SceneInformation/>", () => {
     it("should show default text div on start", () => {
-        const cityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
+        const visualizationOptions = createMockInjection(VisualizationOptionStore.createDefault());
         const selectedElementService: any = createMock(SelectedElementService);
         selectedElementService.getSelectedElement.returns(null);
 
@@ -39,7 +39,7 @@ describe("<SceneInformation/>", () => {
             bottomBar.contains(
                 <MetricKey
                     title="Footprint"
-                    metric={cityBuilderStore.options.profile.footprintMetric}
+                    metric={visualizationOptions.profile.footprintMetric}
                     selectedElement={null}
                 />
             )

@@ -21,6 +21,7 @@
 import { AppConfiguration } from "../classes/AppConfiguration";
 import VisualizationLinkParams from "../classes/VisualizationLinkParams";
 import VisualizationLinkSerializationService from "../classes/VisualizationLinkSerializationService";
+import VisualizationOptionStore from "../classes/VisualizationOptionStore";
 import { lazyInject } from "../inversify.config";
 import CityBuilderStore from "../stores/CityBuilderStore";
 import SceneStore from "../stores/SceneStore";
@@ -31,13 +32,15 @@ export default class VisualizationLinkService {
     private readonly sceneStore!: SceneStore;
     @lazyInject("CityBuilderStore")
     private readonly cityBuilderStore!: CityBuilderStore;
+    @lazyInject("VisualizationOptionStore")
+    private visualizationOptions!: VisualizationOptionStore;
 
     @lazyInject("UrlParameterService")
     private readonly urlParameterService!: UrlParameterService;
     @lazyInject("VisualizationLinkSerializationService")
     private readonly visualizationLinkSerializationService!: VisualizationLinkSerializationService;
 
-    private config: AppConfiguration;
+    private readonly config: AppConfiguration;
 
     constructor(config: AppConfiguration) {
         this.config = config;
@@ -95,7 +98,7 @@ export default class VisualizationLinkService {
         }
 
         const visualizationLinkParams: VisualizationLinkParams = new VisualizationLinkParams(
-            this.cityBuilderStore.options,
+            this.visualizationOptions,
             this.sceneStore.selectedObjectId,
             this.sceneStore.cameraPosition
         );
@@ -108,7 +111,7 @@ export default class VisualizationLinkService {
     }
 
     private applyParams(visualizationLinkParams: VisualizationLinkParams) {
-        this.cityBuilderStore.options = visualizationLinkParams.visualizationOptions;
+        this.visualizationOptions = visualizationLinkParams.visualizationOptions;
 
         this.sceneStore.selectedObjectId = visualizationLinkParams.selectedObjectId;
         this.sceneStore.cameraPosition = visualizationLinkParams.cameraPosition;

@@ -22,7 +22,7 @@ import { assert, expect } from "chai";
 import * as Sinon from "sinon";
 import { Vector3 } from "three";
 import { SceneColorTheme } from "../../../../src/classes/SceneColorTheme";
-import VisualizationOptions from "../../../../src/classes/VisualizationOptions";
+import VisualizationOptionStore from "../../../../src/classes/VisualizationOptionStore";
 import { SoftVis3dShape } from "../../../../src/components/scene/domain/SoftVis3dShape";
 import { Wrangler } from "../../../../src/components/scene/visualization/objects/Wrangler";
 import SoftVis3dScene from "../../../../src/components/scene/visualization/scene/SoftVis3dScene";
@@ -51,7 +51,7 @@ describe("ThreeSceneService", () => {
             wrangler
         );
 
-        const options: VisualizationOptions = VisualizationOptions.createDefault();
+        const options: VisualizationOptionStore = VisualizationOptionStore.createDefault();
         const shapes: SoftVis3dShape[] = [];
 
         const sceneSetColorThemeStub = softvis3dScene.setColorTheme;
@@ -80,7 +80,7 @@ describe("ThreeSceneService", () => {
             wrangler
         );
 
-        const options: VisualizationOptions = VisualizationOptions.createDefault();
+        const options: VisualizationOptionStore = VisualizationOptionStore.createDefault();
         const shapes: SoftVis3dShape[] = [];
 
         const sceneSetColorThemeStub = softvis3dScene.setColorTheme;
@@ -107,12 +107,12 @@ describe("ThreeSceneService", () => {
             wrangler
         );
 
-        const options: VisualizationOptions = VisualizationOptions.createDefault();
+        const options: VisualizationOptionStore = VisualizationOptionStore.createDefault();
         const shapes: SoftVis3dShape[] = [];
 
         underTest.update(shapes, options, expectedPosition);
 
-        const optionsWithChangedColor: VisualizationOptions = VisualizationOptions.createDefault();
+        const optionsWithChangedColor: VisualizationOptionStore = VisualizationOptionStore.createDefault();
         optionsWithChangedColor.metricColor = complexityColorMetric;
         underTest.update(shapes, optionsWithChangedColor, expectedPosition);
 
@@ -133,12 +133,12 @@ describe("ThreeSceneService", () => {
             wrangler
         );
 
-        const options: VisualizationOptions = VisualizationOptions.createDefault();
+        const options: VisualizationOptionStore = VisualizationOptionStore.createDefault();
         const shapes: SoftVis3dShape[] = [];
 
         underTest.update(shapes, options, expectedPosition);
 
-        const optionsWithChangedBuildingColor: VisualizationOptions = VisualizationOptions.createDefault();
+        const optionsWithChangedBuildingColor: VisualizationOptionStore = VisualizationOptionStore.createDefault();
         optionsWithChangedBuildingColor.buildingColorTheme = BLUEYELLOW_BUILDING_COLOR_THEME;
         underTest.update(shapes, optionsWithChangedBuildingColor, expectedPosition);
 

@@ -23,7 +23,7 @@ import { observable } from "mobx";
 import { DEFAULT_BUILDING_COLOR_THEME } from "../constants/BuildingColorThemes";
 import { evostreet } from "../constants/Layouts";
 import { noColorMetric } from "../constants/Metrics";
-import { defaultProfile } from "../constants/Profiles";
+import { custom, defaultProfile } from "../constants/Profiles";
 import { DEFAULT_COLOR_THEME } from "../constants/SceneColorThemes";
 import BuildingColorTheme from "./BuildingColorTheme";
 import FileFilter from "./FileFilter";
@@ -32,9 +32,9 @@ import Metric from "./Metric";
 import Profile from "./Profile";
 import { SceneColorTheme } from "./SceneColorTheme";
 
-export default class VisualizationOptions {
-    public static createDefault(): VisualizationOptions {
-        return new VisualizationOptions(
+export default class VisualizationOptionStore {
+    public static createDefault(): VisualizationOptionStore {
+        return new VisualizationOptionStore(
             defaultProfile.clone(),
             evostreet,
             noColorMetric,
@@ -78,7 +78,36 @@ export default class VisualizationOptions {
         this.fileFilter = fileFilter;
     }
 
-    public equalStructure(candidate: VisualizationOptions | null): boolean {
+    setProfile(p: Profile) {
+        if (p.id === custom.id) {
+            this.updateCustomProfile();
+            this.profile = custom;
+        } else {
+            this.profile = p;
+        }
+    }
+
+    public setCustomHeightMetric(metric: Metric) {
+        this.updateCustomProfile();
+        custom.heightMetric = metric;
+        this.profile = custom;
+    }
+
+    public setCustomFootprintMetric(metric: Metric) {
+        this.updateCustomProfile();
+        custom.footprintMetric = metric;
+        this.profile = custom;
+    }
+
+    private updateCustomProfile() {
+        custom.updateConfiguration(
+            this.profile.footprintMetric,
+            this.profile.heightMetric,
+            this.profile.scale
+        );
+    }
+
+    public equalStructure(candidate: VisualizationOptionStore | null): boolean {
         if (candidate) {
             return (
                 this.layout.id === candidate.layout.id &&

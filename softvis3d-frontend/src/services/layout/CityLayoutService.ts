@@ -20,10 +20,10 @@
 
 import LoadAction from "../../classes/status/LoadAction";
 import { TreeElement } from "../../classes/TreeElement";
+import VisualizationOptionStore from "../../classes/VisualizationOptionStore";
 import { numberOfAuthorsBlameColorMetric } from "../../constants/Metrics";
 import { lazyInject } from "../../inversify.config";
 import AppStatusStore from "../../stores/AppStatusStore";
-import CityBuilderStore from "../../stores/CityBuilderStore";
 import SceneStore from "../../stores/SceneStore";
 import SonarQubeScmService from "../sonarqube/SonarQubeScmService";
 import LayoutProcessor from "./LayoutProcessor";
@@ -36,8 +36,8 @@ export default class CityLayoutService {
     private readonly sceneStore!: SceneStore;
     @lazyInject("AppStatusStore")
     private readonly appStatusStore!: AppStatusStore;
-    @lazyInject("CityBuilderStore")
-    private readonly cityBuilderStore!: CityBuilderStore;
+    @lazyInject("VisualizationOptionStore")
+    private readonly visualizationOptions!: VisualizationOptionStore;
 
     @lazyInject("LayoutProcessor")
     private readonly layoutProcessor!: LayoutProcessor;
@@ -59,7 +59,7 @@ export default class CityLayoutService {
         // Project data is already loaded. Otherwise multiple load
         // processes need to be chained here
 
-        if (this.cityBuilderStore.options.metricColor.id === numberOfAuthorsBlameColorMetric.id) {
+        if (this.visualizationOptions.metricColor.id === numberOfAuthorsBlameColorMetric.id) {
             return this.scmService.assertScmInfoAreLoaded();
         }
 
@@ -71,19 +71,19 @@ export default class CityLayoutService {
     private prepareModel() {
         return new Softvis3dModel(
             this.sceneStore.projectData as TreeElement,
-            this.cityBuilderStore.options.profile.footprintMetric.id,
-            this.cityBuilderStore.options.profile.heightMetric.id,
-            this.cityBuilderStore.options.metricColor.id,
-            this.cityBuilderStore.options.buildingColorTheme
+            this.visualizationOptions.profile.footprintMetric.id,
+            this.visualizationOptions.profile.heightMetric.id,
+            this.visualizationOptions.metricColor.id,
+            this.visualizationOptions.buildingColorTheme
         );
     }
 
     private buildCity(model: Softvis3dModel) {
         const options = {
-            layout: this.cityBuilderStore.options.layout.id,
+            layout: this.visualizationOptions.layout.id,
             layoutOptions: {},
-            colorMetric: this.cityBuilderStore.options.metricColor.id,
-            scalingMethod: this.cityBuilderStore.options.profile.scale,
+            colorMetric: this.visualizationOptions.metricColor.id,
+            scalingMethod: this.visualizationOptions.profile.scale,
         };
 
         this.layoutProcessor.getIllustration(options, model).then((illustration) => {

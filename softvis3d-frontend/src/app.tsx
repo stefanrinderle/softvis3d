@@ -23,6 +23,7 @@ import * as ReactDOM from "react-dom";
 import { AppConfiguration } from "./classes/AppConfiguration";
 import ErrorAction from "./classes/status/ErrorAction";
 import VisualizationLinkSerializationService from "./classes/VisualizationLinkSerializationService";
+import VisualizationOptionStore from "./classes/VisualizationOptionStore";
 import Softvis3D from "./components/Softvis3D";
 import { bindToInjection, container } from "./inversify.config";
 import AppReactions from "./reactions/AppReactions";
@@ -69,6 +70,10 @@ export default class App {
         this.appStatusStore = new AppStatusStore();
         this.appStatusStore.showLoadingQueue = this.config.isDev;
         container.bind<AppStatusStore>("AppStatusStore").toConstantValue(this.appStatusStore);
+
+        container
+            .bind<VisualizationOptionStore>("VisualizationOptionStore")
+            .toConstantValue(VisualizationOptionStore.createDefault());
 
         bindToInjection(CityBuilderStore);
         bindToInjection(SceneStore);

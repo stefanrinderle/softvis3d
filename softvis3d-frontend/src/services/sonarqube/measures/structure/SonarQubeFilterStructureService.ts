@@ -19,12 +19,12 @@
 ///
 
 import { TreeElement } from "../../../../classes/TreeElement";
+import VisualizationOptionStore from "../../../../classes/VisualizationOptionStore";
 import { lazyInject } from "../../../../inversify.config";
-import CityBuilderStore from "../../../../stores/CityBuilderStore";
 
 export default class SonarQubeFilterStructureService {
-    @lazyInject("CityBuilderStore")
-    private readonly cityBuilderStore!: CityBuilderStore;
+    @lazyInject("VisualizationOptionStore")
+    private readonly visualizationOptions!: VisualizationOptionStore;
 
     public filter(element: TreeElement) {
         if (element.isFile() || element.children.length === 0) {
@@ -40,7 +40,7 @@ export default class SonarQubeFilterStructureService {
         const child = children[index];
 
         if (child.isFile()) {
-            if (this.cityBuilderStore.options.fileFilter.shouldRemoveFile(child)) {
+            if (this.visualizationOptions.fileFilter.shouldRemoveFile(child)) {
                 children.splice(index, 1);
             }
         } else {

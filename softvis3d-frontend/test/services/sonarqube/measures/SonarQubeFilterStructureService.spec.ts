@@ -20,8 +20,8 @@
 
 import { expect } from "chai";
 import { TreeElement } from "../../../../src/classes/TreeElement";
+import VisualizationOptionStore from "../../../../src/classes/VisualizationOptionStore";
 import SonarQubeFilterStructureService from "../../../../src/services/sonarqube/measures/structure/SonarQubeFilterStructureService";
-import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
 import {
     createDefaultDir,
     createDefaultFile,
@@ -40,7 +40,7 @@ describe("SonarQubeFilterStructureService", () => {
         const utsFile: TreeElement = createDefaultTestFile();
         root.children.push(utsFile);
 
-        createMockInjection(new CityBuilderStore());
+        createMockInjection(VisualizationOptionStore.createDefault());
 
         underTest.filter(root);
 
@@ -56,7 +56,7 @@ describe("SonarQubeFilterStructureService", () => {
         const utsFile2: TreeElement = createDefaultTestFile();
         root.children.push(utsFile2);
 
-        createMockInjection(new CityBuilderStore());
+        createMockInjection(VisualizationOptionStore.createDefault());
 
         underTest.filter(root);
 
@@ -81,7 +81,7 @@ describe("SonarQubeFilterStructureService", () => {
         testDir.children.push(utsFile2);
         root.children.push(testDir);
 
-        createMockInjection(new CityBuilderStore());
+        createMockInjection(VisualizationOptionStore.createDefault());
 
         underTest.filter(root);
 
@@ -100,8 +100,10 @@ describe("SonarQubeFilterStructureService", () => {
         const utsFile: TreeElement = createDefaultFileWithName("pom.xml");
         root.children.push(utsFile);
 
-        const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
-        testCityBuilderStore.options.fileFilter.excludeClasses.value = ".*.xml";
+        const testVisualizationOptions: VisualizationOptionStore = createMockInjection(
+            VisualizationOptionStore.createDefault()
+        );
+        testVisualizationOptions.fileFilter.excludeClasses.value = ".*.xml";
 
         underTest.filter(root);
 

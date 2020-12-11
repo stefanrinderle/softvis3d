@@ -20,8 +20,8 @@
 
 import { observer } from "mobx-react";
 import * as React from "react";
+import VisualizationOptionStore from "../../classes/VisualizationOptionStore";
 import { lazyInject } from "../../inversify.config";
-import CityBuilderStore from "../../stores/CityBuilderStore";
 import SceneStore from "../../stores/SceneStore";
 import { SceneKeyInteractions } from "./events/SceneKeyInteractions";
 import SceneInformation from "./information/SceneInformation";
@@ -44,8 +44,8 @@ export default class Scene extends React.Component<Record<string, unknown>, Scen
 
     @lazyInject("SceneStore")
     private readonly sceneStore!: SceneStore;
-    @lazyInject("CityBuilderStore")
-    private readonly cityBuilderStore!: CityBuilderStore;
+    @lazyInject("VisualizationOptionStore")
+    private readonly visualizationOptions!: VisualizationOptionStore;
 
     private _threeSceneService: ThreeSceneService;
     private _keyActions: SceneKeyInteractions;
@@ -109,7 +109,7 @@ export default class Scene extends React.Component<Record<string, unknown>, Scen
         if (this.sceneStore.shapesHash !== this.shapesHash) {
             this._threeSceneService.update(
                 this.sceneStore.shapes,
-                this.cityBuilderStore.options,
+                this.visualizationOptions,
                 this.sceneStore.cameraPosition
             );
             this.updateCameraPosition();

@@ -22,7 +22,7 @@ import { expect } from "chai";
 import { Vector3 } from "three";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
 import VisualizationLinkSerializationService from "../../src/classes/VisualizationLinkSerializationService";
-import VisualizationOptions from "../../src/classes/VisualizationOptions";
+import VisualizationOptionStore from "../../src/classes/VisualizationOptionStore";
 
 describe("VisualizationLinkSerializationService", () => {
     it("Round trip test", () => {
@@ -30,7 +30,7 @@ describe("VisualizationLinkSerializationService", () => {
 
         const expectedX = 123;
         const linkParams = new VisualizationLinkParams(
-            VisualizationOptions.createDefault(),
+            VisualizationOptionStore.createDefault(),
             null,
             new Vector3(expectedX)
         );

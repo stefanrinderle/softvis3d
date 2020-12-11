@@ -18,6 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
+import VisualizationOptionStore from "../../../classes/VisualizationOptionStore";
 import { lazyInject } from "../../../inversify.config";
 import CityBuilderStore from "../../../stores/CityBuilderStore";
 import {
@@ -29,11 +30,13 @@ import {
 export default class SonarQubeMeasuresMetricService {
     @lazyInject("CityBuilderStore")
     private readonly cityBuilderStore!: CityBuilderStore;
+    @lazyInject("VisualizationOptionStore")
+    private readonly visualizationOptions!: VisualizationOptionStore;
 
     public getMetricRequestValues(): string {
         const result: Set<string> = new Set();
-        result.add(this.cityBuilderStore.options.profile.footprintMetric.id);
-        result.add(this.cityBuilderStore.options.profile.heightMetric.id);
+        result.add(this.visualizationOptions.profile.footprintMetric.id);
+        result.add(this.visualizationOptions.profile.heightMetric.id);
 
         for (const colorMetric of this.cityBuilderStore.colorMetrics.keys) {
             if (

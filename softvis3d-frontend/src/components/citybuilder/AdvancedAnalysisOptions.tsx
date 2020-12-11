@@ -26,9 +26,9 @@ import Metric from "../../classes/Metric";
 import Scale from "../../classes/Scale";
 import { SceneColorTheme } from "../../classes/SceneColorTheme";
 import { TestClassesVariant } from "../../classes/TestClassesVariant";
+import VisualizationOptionStore from "../../classes/VisualizationOptionStore";
 import { BuildingColorThemes } from "../../constants/BuildingColorThemes";
 import { Layouts } from "../../constants/Layouts";
-import { custom } from "../../constants/Profiles";
 import { Scales } from "../../constants/Scales";
 import { SceneColorThemes } from "../../constants/SceneColorThemes";
 import { TestClassesVariants } from "../../constants/TestClassesVariants";
@@ -40,12 +40,12 @@ import { TextInput } from "../ui/TextInput";
 
 @observer
 export default class AdvancedAnalysisOptions extends React.Component<Record<string, never>, any> {
+    @lazyInject("VisualizationOptionStore")
+    private readonly visualizationOptions!: VisualizationOptionStore;
     @lazyInject("CityBuilderStore")
     private readonly cityBuilderStore!: CityBuilderStore;
 
     public render() {
-        const { footprintMetric, heightMetric, options } = this.cityBuilderStore;
-
         return (
             <div>
                 <Category
@@ -58,28 +58,30 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                         <div className="builder-option">
                             <SelectBoxBuilder
                                 label="Metric - Footprint"
-                                value={footprintMetric}
+                                value={this.visualizationOptions.profile.footprintMetric}
                                 options={this.cityBuilderStore.genericMetrics.asSelectOptions}
                                 onChange={(m: Metric) => {
-                                    this.cityBuilderStore.setProfile(custom);
-                                    this.cityBuilderStore.options.profile.footprintMetric = m;
+                                    this.visualizationOptions.setCustomFootprintMetric(m);
                                 }}
                             />
-                            <p className="selection-description">{footprintMetric.description}</p>
+                            <p className="selection-description">
+                                {this.visualizationOptions.profile.footprintMetric.description}
+                            </p>
                         </div>
                     </div>
                     <div className="middle-column">
                         <div className="builder-option">
                             <SelectBoxBuilder
                                 label="Metric - Height"
-                                value={heightMetric}
+                                value={this.visualizationOptions.profile.heightMetric}
                                 options={this.cityBuilderStore.genericMetrics.asSelectOptions}
                                 onChange={(m: Metric) => {
-                                    this.cityBuilderStore.setProfile(custom);
-                                    this.cityBuilderStore.options.profile.heightMetric = m;
+                                    this.visualizationOptions.setCustomHeightMetric(m);
                                 }}
                             />
-                            <p className="selection-description">{heightMetric.description}</p>
+                            <p className="selection-description">
+                                {this.visualizationOptions.profile.heightMetric.description}
+                            </p>
                         </div>
                     </div>
                     <div className="right-column">
@@ -87,14 +89,14 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                             <SelectBoxBuilder
                                 label="Building color metric"
                                 className="metric color"
-                                value={options.metricColor}
+                                value={this.visualizationOptions.metricColor}
                                 options={this.cityBuilderStore.colorMetrics.asSelectOptions}
                                 onChange={(m: any) => {
-                                    options.metricColor = m as Metric;
+                                    this.visualizationOptions.metricColor = m as Metric;
                                 }}
                             />
                             <p className="selection-description color-description">
-                                {options.metricColor.description}
+                                {this.visualizationOptions.metricColor.description}
                             </p>
                         </div>
                     </div>
@@ -109,10 +111,10 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                         <div className="builder-option">
                             <SelectBoxBuilder
                                 label="Base color theme"
-                                value={options.colorTheme}
+                                value={this.visualizationOptions.colorTheme}
                                 options={SceneColorThemes.availableColorThemes}
                                 onChange={(colorTheme: SceneColorTheme) => {
-                                    options.colorTheme = colorTheme;
+                                    this.visualizationOptions.colorTheme = colorTheme;
                                 }}
                             />
                         </div>
@@ -121,10 +123,10 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                         <div className="builder-option">
                             <SelectBoxBuilder
                                 label="Building color theme"
-                                value={options.buildingColorTheme}
+                                value={this.visualizationOptions.buildingColorTheme}
                                 options={BuildingColorThemes.availableBuildingColorThemes}
                                 onChange={(buildingColorTheme: BuildingColorTheme) => {
-                                    options.buildingColorTheme = buildingColorTheme;
+                                    this.visualizationOptions.buildingColorTheme = buildingColorTheme;
                                 }}
                             />
                         </div>
@@ -140,27 +142,29 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                         <div className="builder-option">
                             <SelectBoxBuilder
                                 label="Layout"
-                                value={options.layout}
+                                value={this.visualizationOptions.layout}
                                 options={Layouts.availableLayouts}
                                 onChange={(layout: Layout) => {
-                                    options.layout = layout;
+                                    this.visualizationOptions.layout = layout;
                                 }}
                             />
-                            <p className="selection-description">{options.layout.description}</p>
+                            <p className="selection-description">
+                                {this.visualizationOptions.layout.description}
+                            </p>
                         </div>
                     </div>
                     <div className="middle-column">
                         <div className="builder-option">
                             <SelectBoxBuilder
                                 label="Scaling Method"
-                                value={this.cityBuilderStore.options.profile.scale}
+                                value={this.visualizationOptions.profile.scale}
                                 options={Scales.availableScales}
                                 onChange={(scale: Scale) => {
-                                    this.cityBuilderStore.options.profile.scale = scale;
+                                    this.visualizationOptions.profile.scale = scale;
                                 }}
                             />
                             <p className="selection-description">
-                                {this.cityBuilderStore.options.profile.scale.description}
+                                {this.visualizationOptions.profile.scale.description}
                             </p>
                         </div>
                     </div>
@@ -175,10 +179,10 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                         <div className="builder-option">
                             <SelectBoxBuilder
                                 label="Test classes"
-                                value={this.cityBuilderStore.options.fileFilter.testClassesVariant}
+                                value={this.visualizationOptions.fileFilter.testClassesVariant}
                                 options={TestClassesVariants.availableTestClassesVariants}
                                 onChange={(testClassesVariant: TestClassesVariant) => {
-                                    this.cityBuilderStore.options.fileFilter.testClassesVariant = testClassesVariant;
+                                    this.visualizationOptions.fileFilter.testClassesVariant = testClassesVariant;
                                 }}
                             />
                         </div>
@@ -188,11 +192,9 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                             <TextInput
                                 id="excludeClasses"
                                 label="Exclude classes regex"
-                                value={
-                                    this.cityBuilderStore.options.fileFilter.excludeClasses.value
-                                }
+                                value={this.visualizationOptions.fileFilter.excludeClasses.value}
                                 onChange={(event) => {
-                                    this.cityBuilderStore.options.fileFilter.excludeClasses.value =
+                                    this.visualizationOptions.fileFilter.excludeClasses.value =
                                         event.target.value;
                                 }}
                             />
@@ -203,11 +205,9 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                             <TextInput
                                 id="includeClasses"
                                 label="Include classes regex"
-                                value={
-                                    this.cityBuilderStore.options.fileFilter.includeClasses.value
-                                }
+                                value={this.visualizationOptions.fileFilter.includeClasses.value}
                                 onChange={(event) => {
-                                    this.cityBuilderStore.options.fileFilter.includeClasses.value =
+                                    this.visualizationOptions.fileFilter.includeClasses.value =
                                         event.target.value;
                                 }}
                             />

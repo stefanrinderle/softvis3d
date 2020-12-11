@@ -20,7 +20,7 @@
 
 import { Vector3 } from "three";
 import { SceneColorTheme } from "../../../classes/SceneColorTheme";
-import VisualizationOptions from "../../../classes/VisualizationOptions";
+import VisualizationOptionStore from "../../../classes/VisualizationOptionStore";
 import { lazyInject } from "../../../inversify.config";
 import { HtmlDomService, Offset } from "../../../services/HtmlDomService";
 import { SoftVis3dShape } from "../domain/SoftVis3dShape";
@@ -45,7 +45,7 @@ export default class ThreeSceneService {
     private threeScene: SoftVis3dScene;
     private readonly wrangler: Wrangler;
 
-    private lastOptions?: VisualizationOptions;
+    private lastOptions?: VisualizationOptionStore;
 
     private constructor(softvis3dScene: SoftVis3dScene, wrangler: Wrangler) {
         this.threeScene = softvis3dScene;
@@ -59,7 +59,7 @@ export default class ThreeSceneService {
 
     public update(
         shapes: SoftVis3dShape[],
-        options: VisualizationOptions,
+        options: VisualizationOptionStore,
         cameraPosition?: Vector3
     ) {
         if (shapes === null) {

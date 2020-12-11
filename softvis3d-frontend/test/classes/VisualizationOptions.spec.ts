@@ -25,15 +25,15 @@ import Layout from "../../src/classes/Layout";
 import Metric from "../../src/classes/Metric";
 import Profile from "../../src/classes/Profile";
 import { SceneColorTheme } from "../../src/classes/SceneColorTheme";
-import VisualizationOptions from "../../src/classes/VisualizationOptions";
+import VisualizationOptionStore from "../../src/classes/VisualizationOptionStore";
 import { DEFAULT_BUILDING_COLOR_THEME } from "../../src/constants/BuildingColorThemes";
 import { evostreet } from "../../src/constants/Layouts";
 import { coverageColorMetric, noColorMetric } from "../../src/constants/Metrics";
-import { defaultProfile } from "../../src/constants/Profiles";
-import { EXPONENTIAL } from "../../src/constants/Scales";
+import { custom, defaultProfile, leakPeriod } from "../../src/constants/Profiles";
+import { EXPONENTIAL, LINEAR_SCALED, LOGARITHMIC } from "../../src/constants/Scales";
 import { DEFAULT_COLOR_THEME } from "../../src/constants/SceneColorThemes";
 
-describe("VisualizationOptions", () => {
+describe("VisualizationOptionStore", () => {
     it("should construct config", () => {
         const metricColor: Metric = coverageColorMetric;
         const layout: Layout = evostreet;
@@ -42,7 +42,7 @@ describe("VisualizationOptions", () => {
         const colorTheme: SceneColorTheme = DEFAULT_COLOR_THEME;
         const fileFilter = new FileFilter();
 
-        const result: VisualizationOptions = new VisualizationOptions(
+        const result: VisualizationOptionStore = new VisualizationOptionStore(
             profile,
             layout,
             metricColor,
@@ -63,7 +63,7 @@ describe("VisualizationOptions", () => {
         const metricColor: Metric = noColorMetric;
         const layout: Layout = evostreet;
 
-        const result: VisualizationOptions = VisualizationOptions.createDefault();
+        const result: VisualizationOptionStore = VisualizationOptionStore.createDefault();
 
         expect(result.profile).to.be.eql(defaultProfile);
         expect(result.layout).to.be.eq(layout);
@@ -73,11 +73,11 @@ describe("VisualizationOptions", () => {
     });
 
     it("should check equals without color", () => {
-        const result: VisualizationOptions = VisualizationOptions.createDefault();
+        const result: VisualizationOptionStore = VisualizationOptionStore.createDefault();
 
         assert(result.equalStructure(result));
 
-        const copy: VisualizationOptions = VisualizationOptions.createDefault();
+        const copy: VisualizationOptionStore = VisualizationOptionStore.createDefault();
 
         assert(result.equalStructure(copy));
         assert(copy.equalStructure(result));
@@ -91,5 +91,28 @@ describe("VisualizationOptions", () => {
 
         expect(result.equalStructure(copy)).to.be.false;
         expect(copy.equalStructure(result)).to.be.false;
+    });
+
+    it("should update custom profile", () => {
+        const underTest: VisualizationOptionStore = VisualizationOptionStore.createDefault();
+        underTest.setProfile(leakPeriod);
+        underTest.setProfile(custom);
+        expect(underTest.profile).to.be.equal(custom);
+        expect(leakPeriod.heightMetric).to.be.equal(custom.heightMetric);
+        expect(leakPeriod.footprintMetric).to.be.equal(custom.footprintMetric);
+        expect(leakPeriod.scale).to.be.equal(custom.scale);
+    });
+
+    it("should update scale profile but set default again", () => {
+        const underTest: VisualizationOptionStore = VisualizationOptionStore.createDefault();
+        expect(underTest.profile.id).to.be.equal(defaultProfile.id);
+        expect(underTest.profile.scale).to.be.equal(LOGARITHMIC);
+        underTest.profile.scale = LINEAR_SCALED;
+
+        expect(underTest.profile.scale).to.be.equal(LINEAR_SCALED);
+
+        underTest.profile = defaultProfile;
+
+        expect(underTest.profile.scale).to.be.equal(defaultProfile.scale);
     });
 });

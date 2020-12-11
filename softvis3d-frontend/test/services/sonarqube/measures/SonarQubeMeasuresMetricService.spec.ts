@@ -19,6 +19,7 @@
 ///
 
 import { expect } from "chai";
+import VisualizationOptionStore from "../../../../src/classes/VisualizationOptionStore";
 import SonarQubeMeasuresMetricService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
 import { createMockInjection } from "../../../Helper";
@@ -26,6 +27,7 @@ import { createMockInjection } from "../../../Helper";
 describe("SonarQubeMeasuresMetricService", () => {
     it("should call backend and load measures", () => {
         createMockInjection(new CityBuilderStore());
+        createMockInjection(VisualizationOptionStore.createDefault());
 
         const underTest: SonarQubeMeasuresMetricService = new SonarQubeMeasuresMetricService();
 
