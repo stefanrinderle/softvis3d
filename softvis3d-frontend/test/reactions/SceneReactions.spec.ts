@@ -19,7 +19,7 @@
 ///
 
 import { assert, expect } from "chai";
-import VisualizationOptionStore from "../../src/classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../src/stores/VisualizationOptionStore";
 import { complexityColorMetric } from "../../src/constants/Metrics";
 import SceneReactions from "../../src/reactions/SceneReactions";
 import CityLayoutService from "../../src/services/layout/CityLayoutService";

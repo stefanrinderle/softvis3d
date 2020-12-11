@@ -20,7 +20,7 @@
 
 import { Type } from "class-transformer";
 import { Vector3 } from "three";
-import VisualizationOptionStore from "./VisualizationOptionStore";
+import VisualizationOptionStore from "../stores/VisualizationOptionStore";
 
 export default class VisualizationLinkParams {
     @Type(() => VisualizationOptionStore)

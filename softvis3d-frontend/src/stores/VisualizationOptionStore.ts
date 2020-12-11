@@ -25,12 +25,12 @@ import { evostreet } from "../constants/Layouts";
 import { noColorMetric } from "../constants/Metrics";
 import { custom, defaultProfile } from "../constants/Profiles";
 import { DEFAULT_COLOR_THEME } from "../constants/SceneColorThemes";
-import BuildingColorTheme from "./BuildingColorTheme";
-import FileFilter from "./FileFilter";
-import Layout from "./Layout";
-import Metric from "./Metric";
-import Profile from "./Profile";
-import { SceneColorTheme } from "./SceneColorTheme";
+import BuildingColorTheme from "../classes/BuildingColorTheme";
+import FileFilter from "../classes/FileFilter";
+import Layout from "../classes/Layout";
+import Metric from "../classes/Metric";
+import Profile from "../classes/Profile";
+import { SceneColorTheme } from "../classes/SceneColorTheme";
 
 export default class VisualizationOptionStore {
     public static createDefault(): VisualizationOptionStore {

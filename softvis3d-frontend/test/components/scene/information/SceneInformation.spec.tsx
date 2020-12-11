@@ -21,7 +21,7 @@
 import { expect } from "chai";
 import { shallow } from "enzyme";
 import * as React from "react";
-import VisualizationOptionStore from "../../../../src/classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../../../src/stores/VisualizationOptionStore";
 import MetricKey from "../../../../src/components/scene/information/MetricKey";
 import SceneInformation from "../../../../src/components/scene/information/SceneInformation";
 import SelectedElementService from "../../../../src/services/SelectedElementService";

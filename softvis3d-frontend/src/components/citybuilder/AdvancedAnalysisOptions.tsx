@@ -26,7 +26,7 @@ import Metric from "../../classes/Metric";
 import Scale from "../../classes/Scale";
 import { SceneColorTheme } from "../../classes/SceneColorTheme";
 import { TestClassesVariant } from "../../classes/TestClassesVariant";
-import VisualizationOptionStore from "../../classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
 import { BuildingColorThemes } from "../../constants/BuildingColorThemes";
 import { Layouts } from "../../constants/Layouts";
 import { Scales } from "../../constants/Scales";

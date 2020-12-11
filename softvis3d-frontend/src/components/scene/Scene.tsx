@@ -20,7 +20,7 @@
 
 import { observer } from "mobx-react";
 import * as React from "react";
-import VisualizationOptionStore from "../../classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
 import { lazyInject } from "../../inversify.config";
 import SceneStore from "../../stores/SceneStore";
 import { SceneKeyInteractions } from "./events/SceneKeyInteractions";

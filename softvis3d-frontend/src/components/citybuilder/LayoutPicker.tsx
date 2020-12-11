@@ -21,7 +21,7 @@
 import { observer } from "mobx-react";
 import * as React from "react";
 import Layout from "../../classes/Layout";
-import VisualizationOptionStore from "../../classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
 import { lazyInject } from "../../inversify.config";
 import { RadioButton } from "../ui/RadioButton";
 import { RadioGroup } from "../ui/RadioGroup";

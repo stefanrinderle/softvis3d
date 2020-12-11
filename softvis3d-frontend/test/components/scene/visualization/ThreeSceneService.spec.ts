@@ -22,7 +22,7 @@ import { assert, expect } from "chai";
 import * as Sinon from "sinon";
 import { Vector3 } from "three";
 import { SceneColorTheme } from "../../../../src/classes/SceneColorTheme";
-import VisualizationOptionStore from "../../../../src/classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../../../src/stores/VisualizationOptionStore";
 import { SoftVis3dShape } from "../../../../src/components/scene/domain/SoftVis3dShape";
 import { Wrangler } from "../../../../src/components/scene/visualization/objects/Wrangler";
 import SoftVis3dScene from "../../../../src/components/scene/visualization/scene/SoftVis3dScene";

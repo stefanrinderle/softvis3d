@@ -22,7 +22,7 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import Metric from "../../classes/Metric";
 import Profile from "../../classes/Profile";
-import VisualizationOptionStore from "../../classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
 import { Layouts } from "../../constants/Layouts";
 import { getPreviewBackground } from "../../constants/PreviewPictures";
 import { Profiles } from "../../constants/Profiles";

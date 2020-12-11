@@ -23,7 +23,7 @@ import * as React from "react";
 import Metric from "../../../classes/Metric";
 import MetricSet from "../../../classes/MetricSet";
 import { TreeElement } from "../../../classes/TreeElement";
-import VisualizationOptionStore from "../../../classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../../stores/VisualizationOptionStore";
 import { ColorMetrics } from "../../../constants/Metrics";
 import { lazyInject } from "../../../inversify.config";
 import SelectedElementService from "../../../services/SelectedElementService";

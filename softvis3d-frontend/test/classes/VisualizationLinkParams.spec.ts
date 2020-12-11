@@ -21,7 +21,7 @@
 import { expect } from "chai";
 import { Vector3 } from "three";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
-import VisualizationOptionStore from "../../src/classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../src/stores/VisualizationOptionStore";
 
 describe("VisualizationLinkParams", () => {
     it("should construct config", () => {

@@ -19,7 +19,7 @@
 ///
 
 import { reaction } from "mobx";
-import VisualizationOptionStore from "../classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../stores/VisualizationOptionStore";
 import { lazyInject } from "../inversify.config";
 import CityLayoutService from "../services/layout/CityLayoutService";
 import CityBuilderStore from "../stores/CityBuilderStore";

@@ -19,7 +19,7 @@
 ///
 
 import { TreeElement } from "../../../../classes/TreeElement";
-import VisualizationOptionStore from "../../../../classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../../../stores/VisualizationOptionStore";
 import { lazyInject } from "../../../../inversify.config";
 
 export default class SonarQubeFilterStructureService {

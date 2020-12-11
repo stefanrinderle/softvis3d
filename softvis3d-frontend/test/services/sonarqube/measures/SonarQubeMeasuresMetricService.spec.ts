@@ -19,7 +19,7 @@
 ///
 
 import { expect } from "chai";
-import VisualizationOptionStore from "../../../../src/classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../../../src/stores/VisualizationOptionStore";
 import SonarQubeMeasuresMetricService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresMetricService";
 import CityBuilderStore from "../../../../src/stores/CityBuilderStore";
 import { createMockInjection } from "../../../Helper";

@@ -21,8 +21,8 @@
 import { expect } from "chai";
 import { Vector3 } from "three";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
-import VisualizationLinkSerializationService from "../../src/classes/VisualizationLinkSerializationService";
-import VisualizationOptionStore from "../../src/classes/VisualizationOptionStore";
+import VisualizationLinkSerializationService from "../../src/services/VisualizationLinkSerializationService";
+import VisualizationOptionStore from "../../src/stores/VisualizationOptionStore";
 
 describe("VisualizationLinkSerializationService", () => {
     it("Round trip test", () => {

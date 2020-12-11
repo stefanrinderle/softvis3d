@@ -20,8 +20,8 @@
 
 import { AppConfiguration } from "../classes/AppConfiguration";
 import VisualizationLinkParams from "../classes/VisualizationLinkParams";
-import VisualizationLinkSerializationService from "../classes/VisualizationLinkSerializationService";
-import VisualizationOptionStore from "../classes/VisualizationOptionStore";
+import VisualizationLinkSerializationService from "./VisualizationLinkSerializationService";
+import VisualizationOptionStore from "../stores/VisualizationOptionStore";
 import { lazyInject } from "../inversify.config";
 import CityBuilderStore from "../stores/CityBuilderStore";
 import SceneStore from "../stores/SceneStore";

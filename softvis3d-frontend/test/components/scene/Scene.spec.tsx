@@ -23,7 +23,7 @@ import { shallow } from "enzyme";
 import * as React from "react";
 import * as Sinon from "sinon";
 import { Vector3 } from "three";
-import VisualizationOptionStore from "../../../src/classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../../src/stores/VisualizationOptionStore";
 import { SceneKeyInteractions } from "../../../src/components/scene/events/SceneKeyInteractions";
 import SceneInformation from "../../../src/components/scene/information/SceneInformation";
 import { KeyLegend } from "../../../src/components/scene/KeyLegend";

@@ -25,7 +25,7 @@ import Layout from "../../src/classes/Layout";
 import Metric from "../../src/classes/Metric";
 import Profile from "../../src/classes/Profile";
 import { SceneColorTheme } from "../../src/classes/SceneColorTheme";
-import VisualizationOptionStore from "../../src/classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../src/stores/VisualizationOptionStore";
 import { DEFAULT_BUILDING_COLOR_THEME } from "../../src/constants/BuildingColorThemes";
 import { evostreet } from "../../src/constants/Layouts";
 import { coverageColorMetric, noColorMetric } from "../../src/constants/Metrics";

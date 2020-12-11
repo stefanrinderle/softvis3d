@@ -20,7 +20,7 @@
 
 import { expect } from "chai";
 import { TreeElement } from "../../../../src/classes/TreeElement";
-import VisualizationOptionStore from "../../../../src/classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../../../src/stores/VisualizationOptionStore";
 import SonarQubeFilterStructureService from "../../../../src/services/sonarqube/measures/structure/SonarQubeFilterStructureService";
 import {
     createDefaultDir,

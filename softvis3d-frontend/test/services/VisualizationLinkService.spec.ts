@@ -23,8 +23,8 @@ import * as Sinon from "sinon";
 import { Vector3 } from "three";
 import { AppConfiguration } from "../../src/classes/AppConfiguration";
 import VisualizationLinkParams from "../../src/classes/VisualizationLinkParams";
-import VisualizationLinkSerializationService from "../../src/classes/VisualizationLinkSerializationService";
-import VisualizationOptionStore from "../../src/classes/VisualizationOptionStore";
+import VisualizationLinkSerializationService from "../../src/services/VisualizationLinkSerializationService";
+import VisualizationOptionStore from "../../src/stores/VisualizationOptionStore";
 import UrlParameterService from "../../src/services/UrlParameterService";
 import VisualizationLinkService from "../../src/services/VisualizationLinkService";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
@@ -49,7 +49,11 @@ describe("VisualizationLinkService", () => {
             VisualizationLinkSerializationService
         );
         localVisualizationLinkSerializationService.deserialize.returns(
-            new VisualizationLinkParams(VisualizationOptionStore.createDefault(), null, new Vector3())
+            new VisualizationLinkParams(
+                VisualizationOptionStore.createDefault(),
+                null,
+                new Vector3()
+            )
         );
 
         const search = "sdfiuisduhfiuhsdiuhasiduhaiduhasiduhiuhdisauh";

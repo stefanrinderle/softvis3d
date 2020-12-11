@@ -18,14 +18,17 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { expect } from "chai";
-import WebGLDetectorService from "../../src/services/WebGLDetectorService";
+import { deserialize, serialize } from "class-transformer";
+import VisualizationLinkParams from "../classes/VisualizationLinkParams";
 
-describe("WebGLDetector", () => {
-    it("webGL is not supported without mocks", () => {
-        expect(new WebGLDetectorService().isWebGLSupported()).to.be.equal(false);
-        expect(new WebGLDetectorService().getWebGLErrorMessage()).to.contain(
-            "http://get.webgl.org/"
-        );
-    });
-});
+export default class VisualizationLinkSerializationService {
+    public serialize(visualizationLinkParams: VisualizationLinkParams): any {
+        const data = serialize(visualizationLinkParams);
+        return btoa(data);
+    }
+
+    public deserialize(input: string): VisualizationLinkParams {
+        const plain = atob(input);
+        return deserialize(VisualizationLinkParams, plain);
+    }
+}

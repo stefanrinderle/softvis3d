@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import VisualizationOptionStore from "../../../classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../../stores/VisualizationOptionStore";
 import { lazyInject } from "../../../inversify.config";
 import CityBuilderStore from "../../../stores/CityBuilderStore";
 import {

@@ -20,7 +20,7 @@
 
 import LoadAction from "../../classes/status/LoadAction";
 import { TreeElement } from "../../classes/TreeElement";
-import VisualizationOptionStore from "../../classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
 import { numberOfAuthorsBlameColorMetric } from "../../constants/Metrics";
 import { lazyInject } from "../../inversify.config";
 import AppStatusStore from "../../stores/AppStatusStore";

@@ -20,7 +20,7 @@
 
 import { assert, expect } from "chai";
 import * as Sinon from "sinon";
-import VisualizationOptionStore from "../../../src/classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../../src/stores/VisualizationOptionStore";
 import { numberOfAuthorsBlameColorMetric } from "../../../src/constants/Metrics";
 import CityLayoutService from "../../../src/services/layout/CityLayoutService";
 import LayoutProcessor from "../../../src/services/layout/LayoutProcessor";

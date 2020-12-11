@@ -20,7 +20,7 @@
 
 import { Vector3 } from "three";
 import { SceneColorTheme } from "../../../classes/SceneColorTheme";
-import VisualizationOptionStore from "../../../classes/VisualizationOptionStore";
+import VisualizationOptionStore from "../../../stores/VisualizationOptionStore";
 import { lazyInject } from "../../../inversify.config";
 import { HtmlDomService, Offset } from "../../../services/HtmlDomService";
 import { SoftVis3dShape } from "../domain/SoftVis3dShape";
