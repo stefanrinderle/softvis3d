@@ -18,17 +18,16 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { lazyInject } from "../../inversify.config";
+import { lazyInject } from "../../../inversify.config";
 import BaseScmCalculatorService from "./BaseScmCalculatorService";
-import SonarQubeApiScm from "./SonarQubeApiScm";
-import ComponentStatusStore from "../../stores/ComponentStatusStore";
+import SonarQubeApiScm from "../SonarQubeApiScm";
+import ComponentStatusStore from "../../../stores/ComponentStatusStore";
 
 export default class ScmCommitsCalculatorService extends BaseScmCalculatorService {
     @lazyInject("ComponentStatusStore")
     private readonly componentStatusStore!: ComponentStatusStore;
 
     public calcNumberOfCommits(measures: SonarQubeApiScm[]): number {
-        console.log("HERE");
         measures = measures.filter(this.isAfterLeakPeriod.bind(this));
 
         const groupByCommits = this.groupBy(measures, (item) => {

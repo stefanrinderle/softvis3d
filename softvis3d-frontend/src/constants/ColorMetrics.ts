@@ -82,7 +82,7 @@ export const numberOfAuthorsScmColorMetric: Metric = new Metric(
 );
 
 export const leakPeriodCommitsScmColorMetric: Metric = new Metric(
-    "leak_period_commits",
+    "number_of_commits",
     "Number of commits",
     "Number of commits during the current leak period."
 );

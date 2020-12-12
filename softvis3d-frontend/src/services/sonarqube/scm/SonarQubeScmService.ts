@@ -18,17 +18,17 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import ErrorAction from "../../classes/status/ErrorAction";
-import LoadAction from "../../classes/status/LoadAction";
-import { TreeElement } from "../../classes/TreeElement";
-import { lazyInject } from "../../inversify.config";
-import AppStatusStore from "../../stores/AppStatusStore";
-import SceneStore from "../../stores/SceneStore";
-import TreeService from "../TreeService";
-import { BackendService } from "./BackendService";
-import ScmCalculatorService from "./ScmCalculatorService";
+import ErrorAction from "../../../classes/status/ErrorAction";
+import LoadAction from "../../../classes/status/LoadAction";
+import { TreeElement } from "../../../classes/TreeElement";
+import { lazyInject } from "../../../inversify.config";
+import AppStatusStore from "../../../stores/AppStatusStore";
+import SceneStore from "../../../stores/SceneStore";
+import TreeService from "../../TreeService";
+import { BackendService } from "../BackendService";
+import ScmAuthorsCalculatorService from "./ScmAuthorsCalculatorService";
 import ScmCommitsCalculatorService from "./ScmCommitsCalculatorService";
-import SonarQubeApiScm from "./SonarQubeApiScm";
+import SonarQubeApiScm from "../SonarQubeApiScm";
 
 export default class SonarQubeScmService extends BackendService {
     public static readonly LOAD_SCM: LoadAction = new LoadAction(
@@ -47,8 +47,8 @@ export default class SonarQubeScmService extends BackendService {
     private readonly appStatusStore!: AppStatusStore;
     @lazyInject("TreeService")
     private readonly treeService!: TreeService;
-    @lazyInject("ScmCalculatorService")
-    private readonly scmCalculator!: ScmCalculatorService;
+    @lazyInject("ScmAuthorsCalculatorService")
+    private readonly scmCalculator!: ScmAuthorsCalculatorService;
     @lazyInject("ScmCommitsCalculatorService")
     private readonly scmCommitsCalculatorService!: ScmCommitsCalculatorService;
 

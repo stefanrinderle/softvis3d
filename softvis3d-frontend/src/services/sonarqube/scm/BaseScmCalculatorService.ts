@@ -18,14 +18,19 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import BaseScmCalculatorService from "./BaseScmCalculatorService";
-import SonarQubeApiScm from "./SonarQubeApiScm";
+import SonarQubeApiScm from "../SonarQubeApiScm";
 
-export default class ScmCalculatorService extends BaseScmCalculatorService {
-    public calcNumberOfAuthors(measures: SonarQubeApiScm[]): number {
-        const groupByAuthorName = this.groupBy(measures, (item) => {
-            return item.lastCommitRevision;
+export default class BaseScmCalculatorService {
+    protected groupBy(measures: SonarQubeApiScm[], callback: (item: SonarQubeApiScm) => string) {
+        const map = new Map();
+        measures.forEach((item) => {
+            const key = callback(item);
+            if (!map.has(key)) {
+                map.set(key, [item]);
+            } else {
+                map.get(key).push(item);
+            }
         });
-        return groupByAuthorName.size;
+        return map;
     }
 }

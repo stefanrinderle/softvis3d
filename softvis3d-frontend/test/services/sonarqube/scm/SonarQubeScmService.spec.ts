@@ -20,16 +20,25 @@
 
 import { assert, expect } from "chai";
 import * as Sinon from "sinon";
-import { TreeElement } from "../../../src/classes/TreeElement";
-import ScmCalculatorService from "../../../src/services/sonarqube/ScmCalculatorService";
-import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
-import TreeService from "../../../src/services/TreeService";
-import AppStatusStore from "../../../src/stores/AppStatusStore";
-import SceneStore from "../../../src/stores/SceneStore";
-import { createDefaultFileWithIdAndParent } from "../../classes/TreeElement.spec";
-import { createMock, createMockInjection } from "../../Helper";
+import { TreeElement } from "../../../../src/classes/TreeElement";
+import ScmAuthorsCalculatorService from "../../../../src/services/sonarqube/scm/ScmAuthorsCalculatorService";
+import SonarQubeScmService from "../../../../src/services/sonarqube/scm/SonarQubeScmService";
+import TreeService from "../../../../src/services/TreeService";
+import AppStatusStore from "../../../../src/stores/AppStatusStore";
+import SceneStore from "../../../../src/stores/SceneStore";
+import { createDefaultFileWithIdAndParent } from "../../../classes/TreeElement.spec";
+import { createMock, createMockInjection } from "../../../Helper";
 
 describe("SonarQubeScmService", () => {
+    function createDefaultMeasure() {
+        return [
+            72,
+            "stefan@rinderle.info",
+            "2020-12-06T15:25:46+0000",
+            "608a4301bb6f1b411c7704258d0dbd8a6222209c",
+        ];
+    }
+
     it("should check if metric is available if its available", (done) => {
         createMockInjection(new AppStatusStore());
 
@@ -41,17 +50,11 @@ describe("SonarQubeScmService", () => {
 
         mockTreeServiceGetAllFiles([createTestTreeElement("test")]);
 
-        const measure: string[] = [];
+        const measure: any[] = createDefaultMeasure();
         const measures: any = [];
         measures.push(measure);
 
-        const localScmCalculator = createMock(ScmCalculatorService);
-        localScmCalculator.createMetric.returns({
-            lineNumber: 1,
-            authorName: "srinderle",
-            lastCommit: "oisdfosidj",
-            lastCommitRevision: "soidufhosidjf",
-        });
+        const localScmCalculator = createMock(ScmAuthorsCalculatorService);
         localScmCalculator.calcNumberOfAuthors.returns(4);
 
         Sinon.stub(underTest, "callApi").resolves({
@@ -90,8 +93,7 @@ describe("SonarQubeScmService", () => {
         const measures: any = [];
         measures.push(measure);
 
-        const localScmCalculator = createMock(ScmCalculatorService);
-        localScmCalculator.createMetric.returns({});
+        const localScmCalculator = createMock(ScmAuthorsCalculatorService);
         localScmCalculator.calcNumberOfAuthors.returns(0);
 
         // eslint-disable-next-line sonarjs/no-identical-functions
@@ -117,7 +119,7 @@ describe("SonarQubeScmService", () => {
     });
 
     it("should call backend and add metric", (done) => {
-        createMock(ScmCalculatorService);
+        createMock(ScmAuthorsCalculatorService);
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
 
         const loadStub = Sinon.stub(testAppStatusStore, "load");
@@ -133,17 +135,11 @@ describe("SonarQubeScmService", () => {
         const treeElement = createTestTreeElement("test");
         mockTreeServiceGetAllFiles([treeElement]);
 
-        const measure: string[] = [];
+        const measure: any[] = createDefaultMeasure();
         const measures: any = [];
         measures.push(measure);
 
-        const localScmCalculator = createMock(ScmCalculatorService);
-        localScmCalculator.createMetric.returns({
-            lineNumber: 1,
-            authorName: "srinderle",
-            lastCommit: "oisdfosidj",
-            lastCommitRevision: "soidufhosidjf",
-        });
+        const localScmCalculator = createMock(ScmAuthorsCalculatorService);
         localScmCalculator.calcNumberOfAuthors.returns(4);
 
         // eslint-disable-next-line sonarjs/no-identical-functions
@@ -174,7 +170,7 @@ describe("SonarQubeScmService", () => {
     });
 
     it("should call backend and add metric in batches", (done) => {
-        createMock(ScmCalculatorService);
+        createMock(ScmAuthorsCalculatorService);
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const loadStub = Sinon.stub(testAppStatusStore, "load");
         const loadCompleteStub = Sinon.stub(testAppStatusStore, "loadComplete");
@@ -192,17 +188,11 @@ describe("SonarQubeScmService", () => {
         }
         mockTreeServiceGetAllFiles(treeElements);
 
-        const measure: string[] = [];
+        const measure: any[] = createDefaultMeasure();
         const measures: any = [];
         measures.push(measure);
 
-        const localScmCalculator = createMock(ScmCalculatorService);
-        localScmCalculator.createMetric.returns({
-            lineNumber: 1,
-            authorName: "srinderle",
-            lastCommit: "oisdfosidj",
-            lastCommitRevision: "soidufhosidjf",
-        });
+        const localScmCalculator = createMock(ScmAuthorsCalculatorService);
         localScmCalculator.calcNumberOfAuthors.returns(4);
 
         // eslint-disable-next-line sonarjs/no-identical-functions

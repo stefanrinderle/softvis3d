@@ -24,7 +24,7 @@ import VisualizationOptionStore from "../../../src/stores/VisualizationOptionSto
 import { numberOfAuthorsScmColorMetric } from "../../../src/constants/ColorMetrics";
 import CityLayoutService from "../../../src/services/layout/CityLayoutService";
 import LayoutProcessor from "../../../src/services/layout/LayoutProcessor";
-import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
+import SonarQubeScmService from "../../../src/services/sonarqube/scm/SonarQubeScmService";
 import AppStatusStore from "../../../src/stores/AppStatusStore";
 import SceneStore from "../../../src/stores/SceneStore";
 import { createDefaultDir } from "../../classes/TreeElement.spec";

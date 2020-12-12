@@ -25,7 +25,7 @@ import { lazyInject } from "../../inversify.config";
 import AppStatusStore from "../../stores/AppStatusStore";
 import SceneStore from "../../stores/SceneStore";
 import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
-import SonarQubeScmService from "../sonarqube/SonarQubeScmService";
+import SonarQubeScmService from "../sonarqube/scm/SonarQubeScmService";
 import LayoutProcessor from "./LayoutProcessor";
 import Softvis3dModel from "./Softvis3dModel";
 

@@ -19,11 +19,11 @@
 ///
 
 import { expect } from "chai";
-import ScmCommitsCalculatorService from "../../../src/services/sonarqube/ScmCommitsCalculatorService";
-import SonarQubeApiScm from "../../../src/services/sonarqube/SonarQubeApiScm";
-import ComponentStatusStore from "../../../src/stores/ComponentStatusStore";
-import { createMockInjection } from "../../Helper";
-import { createDefaultTestComponentStatusStore } from "../../stores/ComponentStatusStore.spec";
+import ScmCommitsCalculatorService from "../../../../src/services/sonarqube/scm/ScmCommitsCalculatorService";
+import SonarQubeApiScm from "../../../../src/services/sonarqube/SonarQubeApiScm";
+import ComponentStatusStore from "../../../../src/stores/ComponentStatusStore";
+import { createMockInjection } from "../../../Helper";
+import { createDefaultTestComponentStatusStore } from "../../../stores/ComponentStatusStore.spec";
 import * as data from "./scmResponseExample.json";
 
 describe("ScmCommitsCalculatorService", () => {

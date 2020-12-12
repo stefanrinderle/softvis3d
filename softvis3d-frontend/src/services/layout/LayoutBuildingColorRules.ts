@@ -73,19 +73,19 @@ class LayoutBuildingColorRules {
         maxVal = Math.max(350, maxVal);
         maxVal = Math.min(900, maxVal);
 
-        return this.createMinMaxRule(minVal, maxVal, this._colorMode);
+        return this.createMinMaxRule(minVal, maxVal, this._colorMode, true);
     }
 
     public ruleBuildingColorByNumberOfAuthors() {
         const minVal = 1;
         const maxVal = 4;
 
-        return this.createMinMaxRule(minVal, maxVal, this._colorMode);
+        return this.createMinMaxRule(minVal, maxVal, this._colorMode, false);
     }
 
     public ruleBuildingColorByNumberOfCommits() {
         const minVal = 1;
-        const maxVal = 10;
+        const maxVal = 5;
 
         return this.createMinMaxRule(minVal, maxVal, this._colorMode, true);
     }
@@ -96,12 +96,10 @@ class LayoutBuildingColorRules {
      * @returns {BaseRule}
      */
     public ruleBuildingColorByComplexity() {
-        const minVal = 25;
-        let maxVal = this._metricScale.metricColor.max;
-        maxVal = Math.max(200, maxVal);
-        maxVal = Math.min(400, maxVal);
+        const minVal = 1;
+        const maxVal = this._metricScale.metricColor.max;
 
-        return this.createMinMaxRule(minVal, maxVal, this._colorMode);
+        return this.createMinMaxRule(minVal, maxVal, this._colorMode, true);
     }
 
     /**
@@ -113,7 +111,7 @@ class LayoutBuildingColorRules {
         const minVal = 0;
         const maxVal = 95;
 
-        return this.createMinMaxRule(minVal, maxVal, this._colorMode);
+        return this.createMinMaxRule(minVal, maxVal, this._colorMode, false);
     }
 
     /**
@@ -127,7 +125,7 @@ class LayoutBuildingColorRules {
         maxVal = Math.max(20, maxVal);
         maxVal = Math.min(180, maxVal);
 
-        return this.createMinMaxRule(minVal, maxVal, this._colorMode);
+        return this.createMinMaxRule(minVal, maxVal, this._colorMode, true);
     }
 
     /**
@@ -142,14 +140,14 @@ class LayoutBuildingColorRules {
         maxVal = Math.max(20, maxVal);
         maxVal = Math.min(180, maxVal);
 
-        return this.createMinMaxRule(minVal, maxVal, this._colorMode);
+        return this.createMinMaxRule(minVal, maxVal, this._colorMode, true);
     }
 
     private createMinMaxRule(
         minVal: number,
         maxVal: number,
         colorMode: BuildingColorTheme,
-        isGoodBadReversed = false
+        isMinGood: boolean
     ) {
         return new CodeCityVis.rules.color.gradient({
             condition: (model, node) => model && node.children.length === 0,
@@ -160,8 +158,8 @@ class LayoutBuildingColorRules {
             attributes: "color",
             min: minVal,
             max: maxVal,
-            minColor: isGoodBadReversed ? colorMode.badColor : colorMode.goodColor,
-            maxColor: isGoodBadReversed ? colorMode.goodColor : colorMode.badColor,
+            minColor: isMinGood ? colorMode.goodColor : colorMode.badColor,
+            maxColor: isMinGood ? colorMode.badColor : colorMode.goodColor,
         });
     }
 }

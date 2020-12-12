@@ -19,16 +19,16 @@
 ///
 
 import { expect } from "chai";
-import ScmCalculatorService from "../../../src/services/sonarqube/ScmCalculatorService";
-import SonarQubeApiScm from "../../../src/services/sonarqube/SonarQubeApiScm";
+import ScmAuthorsCalculatorService from "../../../../src/services/sonarqube/scm/ScmAuthorsCalculatorService";
+import SonarQubeApiScm from "../../../../src/services/sonarqube/SonarQubeApiScm";
 
-describe("ScmCalculatorService", () => {
+describe("ScmAuthorsCalculatorService", () => {
     it("should work with only one line and author", () => {
         const measures: SonarQubeApiScm[] = [];
         const measure: SonarQubeApiScm = createMeasure(1, "srinderle");
         measures.push(measure);
 
-        const result = new ScmCalculatorService().calcNumberOfAuthors(measures);
+        const result = new ScmAuthorsCalculatorService().calcNumberOfAuthors(measures);
 
         expect(result).not.to.be.null;
         expect(result).to.be.eq(1);
@@ -46,7 +46,7 @@ describe("ScmCalculatorService", () => {
         measures.push(createMeasure(8, "XX"));
         measures.push(createMeasure(9, "srinderle"));
 
-        const result = new ScmCalculatorService().calcNumberOfAuthors(measures);
+        const result = new ScmAuthorsCalculatorService().calcNumberOfAuthors(measures);
 
         expect(result).to.be.eq(3);
     });
@@ -54,7 +54,7 @@ describe("ScmCalculatorService", () => {
     it("should work with an empty array", () => {
         const measures: SonarQubeApiScm[] = [];
 
-        const result = new ScmCalculatorService().calcNumberOfAuthors(measures);
+        const result = new ScmAuthorsCalculatorService().calcNumberOfAuthors(measures);
 
         expect(result).to.be.eq(0);
     });
