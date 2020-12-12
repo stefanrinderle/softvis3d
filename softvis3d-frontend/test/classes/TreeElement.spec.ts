@@ -20,7 +20,7 @@
 
 import { expect } from "chai";
 import { TreeElement } from "../../src/classes/TreeElement";
-import { linesOfCodeColorMetric, noColorMetric } from "../../src/constants/Metrics";
+import { linesOfCodeColorMetric, noColorMetric } from "../../src/constants/ColorMetrics";
 import {
     SQ_QUALIFIER_DIRECTORY,
     SQ_QUALIFIER_FILE,

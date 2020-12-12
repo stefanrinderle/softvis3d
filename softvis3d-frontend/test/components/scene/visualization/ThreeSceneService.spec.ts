@@ -29,7 +29,7 @@ import SoftVis3dScene from "../../../../src/components/scene/visualization/scene
 import { SelectionCalculator } from "../../../../src/components/scene/visualization/SelectionCalculator";
 import ThreeSceneService from "../../../../src/components/scene/visualization/ThreeSceneService";
 import { BLUEYELLOW_BUILDING_COLOR_THEME } from "../../../../src/constants/BuildingColorThemes";
-import { complexityColorMetric } from "../../../../src/constants/Metrics";
+import { complexityColorMetric } from "../../../../src/constants/ColorMetrics";
 import { SceneColorThemes } from "../../../../src/constants/SceneColorThemes";
 import { HtmlDomService } from "../../../../src/services/HtmlDomService";
 import { createMock } from "../../../Helper";

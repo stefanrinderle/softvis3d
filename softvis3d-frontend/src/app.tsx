@@ -22,6 +22,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { AppConfiguration } from "./classes/AppConfiguration";
 import ErrorAction from "./classes/status/ErrorAction";
+import ScmCommitsCalculatorService from "./services/sonarqube/ScmCommitsCalculatorService";
 import VisualizationLinkSerializationService from "./services/VisualizationLinkSerializationService";
 import ComponentStatusStore from "./stores/ComponentStatusStore";
 import VisualizationOptionStore from "./stores/VisualizationOptionStore";
@@ -85,6 +86,7 @@ export default class App {
         this.visualizationLinkService = bindToInjection(VisualizationLinkService);
 
         bindToInjection(SonarQubeScmService);
+        bindToInjection(ScmCommitsCalculatorService);
         bindToInjection(SonarQubeMeasuresApiService);
         bindToInjection(SonarQubeMeasuresMetricService);
         this.communicator = bindToInjection(SonarQubeMetricsService);

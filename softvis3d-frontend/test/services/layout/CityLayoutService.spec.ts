@@ -21,7 +21,7 @@
 import { assert, expect } from "chai";
 import * as Sinon from "sinon";
 import VisualizationOptionStore from "../../../src/stores/VisualizationOptionStore";
-import { numberOfAuthorsBlameColorMetric } from "../../../src/constants/Metrics";
+import { numberOfAuthorsScmColorMetric } from "../../../src/constants/ColorMetrics";
 import CityLayoutService from "../../../src/services/layout/CityLayoutService";
 import LayoutProcessor from "../../../src/services/layout/LayoutProcessor";
 import SonarQubeScmService from "../../../src/services/sonarqube/SonarQubeScmService";
@@ -106,13 +106,13 @@ describe("CityLayoutService", () => {
             .catch((error) => done(error));
     });
 
-    it("should call measure service if numberOfAuthorsBlameColorMetric", (done) => {
+    it("should call measure service if numberOfAuthorsScmColorMetric", (done) => {
         const clock = Sinon.useFakeTimers();
 
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         const visualizationOptions = createMockInjection(VisualizationOptionStore.createDefault());
-        visualizationOptions.metricColor = numberOfAuthorsBlameColorMetric;
+        visualizationOptions.metricColor = numberOfAuthorsScmColorMetric;
         testSceneStore.projectData = createDefaultDir();
 
         const scmService = createMock(SonarQubeScmService);

@@ -37,8 +37,7 @@ describe("SonarQubeScmService", () => {
         const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
-        const apiUrl = "urlsihshoif";
-        const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
+        const underTest: SonarQubeScmService = new SonarQubeScmService();
 
         mockTreeServiceGetAllFiles([createTestTreeElement("test")]);
 
@@ -81,8 +80,7 @@ describe("SonarQubeScmService", () => {
         const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
-        const apiUrl = "urlsihshoif";
-        const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
+        const underTest: SonarQubeScmService = new SonarQubeScmService();
 
         const statusStub = Sinon.stub(testAppStatusStore, "status");
 
@@ -130,8 +128,7 @@ describe("SonarQubeScmService", () => {
         const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
-        const apiUrl = "urlsihshoif";
-        const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
+        const underTest: SonarQubeScmService = new SonarQubeScmService();
 
         const treeElement = createTestTreeElement("test");
         mockTreeServiceGetAllFiles([treeElement]);
@@ -187,8 +184,7 @@ describe("SonarQubeScmService", () => {
         const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
-        const apiUrl = "urlsihshoif";
-        const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
+        const underTest: SonarQubeScmService = new SonarQubeScmService();
 
         const treeElements: TreeElement[] = [];
         for (let i = 0; i < 90; i++) {
@@ -246,8 +242,7 @@ describe("SonarQubeScmService", () => {
         const testSceneStore: SceneStore = createMockInjection(new SceneStore());
         testSceneStore.projectData = null;
 
-        const apiUrl = "urlsihshoif";
-        const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
+        const underTest: SonarQubeScmService = new SonarQubeScmService();
 
         underTest
             .loadScmInfos()
@@ -269,8 +264,7 @@ describe("SonarQubeScmService", () => {
         const exampleData: any = {};
         testSceneStore.projectData = exampleData;
 
-        const apiUrl = "urlsihshoif";
-        const underTest: SonarQubeScmService = new SonarQubeScmService(apiUrl);
+        const underTest: SonarQubeScmService = new SonarQubeScmService();
 
         mockTreeServiceGetAllFiles([createTestTreeElement("test")]);
 

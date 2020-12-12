@@ -19,13 +19,13 @@
 ///
 
 import { assert } from "chai";
+import * as Sinon from "sinon";
+import { MetricType } from "../../../src/classes/MetricType";
 import SonarQubeMetricsService, {
     SonarQubeApiMetric,
 } from "../../../src/services/sonarqube/SonarQubeMetricsService";
 import AppStatusStore from "../../../src/stores/AppStatusStore";
-import * as Sinon from "sinon";
 import CityBuilderStore from "../../../src/stores/CityBuilderStore";
-import { MetricType } from "../../../src/classes/MetricType";
 import { createMockInjection } from "../../Helper";
 
 describe("SonarQubeMetricsService", () => {
@@ -35,8 +35,7 @@ describe("SonarQubeMetricsService", () => {
         const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         const spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
-        const apiUrl = "urlsihshoif";
-        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl);
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService();
 
         const expectedMetrics: SonarQubeApiMetric[] = [];
         expectedMetrics.push({
@@ -70,8 +69,7 @@ describe("SonarQubeMetricsService", () => {
         const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         const spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
-        const apiUrl = "urlsihshoif";
-        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl);
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService();
 
         const expectedMetrics: SonarQubeApiMetric[] = [];
         expectedMetrics.push({
@@ -107,8 +105,7 @@ describe("SonarQubeMetricsService", () => {
         const testCityBuilderStore: CityBuilderStore = createMockInjection(new CityBuilderStore());
         const spyAdd = Sinon.spy(testCityBuilderStore.genericMetrics, "addMetrics");
 
-        const apiUrl = "urlsihshoif";
-        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService(apiUrl);
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService();
 
         const expectedMetrics: SonarQubeApiMetric[] = [];
         expectedMetrics.push({
@@ -144,7 +141,7 @@ describe("SonarQubeMetricsService", () => {
         const spyLoad = Sinon.spy(testAppStatusStore, "load");
         const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
-        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService();
 
         Sinon.stub(underTest, "callApi").resolves({
             data: {
@@ -171,7 +168,7 @@ describe("SonarQubeMetricsService", () => {
         const spyLoad = Sinon.spy(testAppStatusStore, "load");
         const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
-        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService();
 
         const spyCallApi = Sinon.stub(underTest, "callApi");
         spyCallApi.onFirstCall().resolves({
@@ -213,7 +210,7 @@ describe("SonarQubeMetricsService", () => {
         const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
         const spyError = Sinon.spy(testAppStatusStore, "error");
 
-        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService();
 
         Sinon.stub(underTest, "callApi").rejects({
             response: {
@@ -242,7 +239,7 @@ describe("SonarQubeMetricsService", () => {
         const spyLoad = Sinon.spy(testAppStatusStore, "load");
         const spyLoadComplete = Sinon.spy(testAppStatusStore, "loadComplete");
 
-        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService("urlsihshoif");
+        const underTest: SonarQubeMetricsService = new SonarQubeMetricsService();
 
         const spyCallApi = Sinon.stub(underTest, "callApi");
         spyCallApi.onFirstCall().resolves({

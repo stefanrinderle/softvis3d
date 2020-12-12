@@ -26,6 +26,7 @@ import Metric from "../../classes/Metric";
 import Scale from "../../classes/Scale";
 import { SceneColorTheme } from "../../classes/SceneColorTheme";
 import { TestClassesVariant } from "../../classes/TestClassesVariant";
+import { ColorMetrics } from "../../constants/ColorMetrics";
 import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
 import { BuildingColorThemes } from "../../constants/BuildingColorThemes";
 import { Layouts } from "../../constants/Layouts";
@@ -90,7 +91,7 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                                 label="Building color metric"
                                 className="metric color"
                                 value={this.visualizationOptions.metricColor}
-                                options={this.cityBuilderStore.colorMetrics.asSelectOptions}
+                                options={ColorMetrics.colorMetrics.asSelectOptions}
                                 onChange={(m: any) => {
                                     this.visualizationOptions.metricColor = m as Metric;
                                 }}

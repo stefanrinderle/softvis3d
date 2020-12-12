@@ -21,8 +21,8 @@
 import { observable } from "mobx";
 import { CityBuilderTab } from "../classes/CityBuilderTab";
 import MetricSet from "../classes/MetricSet";
+import { ColorMetrics } from "../constants/ColorMetrics";
 import VisualizationOptionStore from "./VisualizationOptionStore";
-import { ColorMetrics } from "../constants/Metrics";
 
 export default class CityBuilderStore {
     @observable

@@ -20,11 +20,11 @@
 
 import LoadAction from "../../classes/status/LoadAction";
 import { TreeElement } from "../../classes/TreeElement";
-import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
-import { numberOfAuthorsBlameColorMetric } from "../../constants/Metrics";
+import { ColorMetrics } from "../../constants/ColorMetrics";
 import { lazyInject } from "../../inversify.config";
 import AppStatusStore from "../../stores/AppStatusStore";
 import SceneStore from "../../stores/SceneStore";
+import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
 import SonarQubeScmService from "../sonarqube/SonarQubeScmService";
 import LayoutProcessor from "./LayoutProcessor";
 import Softvis3dModel from "./Softvis3dModel";
@@ -59,7 +59,7 @@ export default class CityLayoutService {
         // Project data is already loaded. Otherwise multiple load
         // processes need to be chained here
 
-        if (this.visualizationOptions.metricColor.id === numberOfAuthorsBlameColorMetric.id) {
+        if (ColorMetrics.isScmColorMetric(this.visualizationOptions.metricColor)) {
             return this.scmService.assertScmInfoAreLoaded();
         }
 

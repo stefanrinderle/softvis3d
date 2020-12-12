@@ -24,7 +24,7 @@ import Metric from "../../../classes/Metric";
 import MetricSet from "../../../classes/MetricSet";
 import { TreeElement } from "../../../classes/TreeElement";
 import VisualizationOptionStore from "../../../stores/VisualizationOptionStore";
-import { ColorMetrics } from "../../../constants/Metrics";
+import { ColorMetrics } from "../../../constants/ColorMetrics";
 import { lazyInject } from "../../../inversify.config";
 import SelectedElementService from "../../../services/SelectedElementService";
 import SelectBoxBuilder from "../../ui/selectbox/SelectBoxBuilder";

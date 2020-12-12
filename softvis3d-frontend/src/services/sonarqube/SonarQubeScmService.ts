@@ -27,6 +27,8 @@ import SceneStore from "../../stores/SceneStore";
 import TreeService from "../TreeService";
 import { BackendService } from "./BackendService";
 import ScmCalculatorService from "./ScmCalculatorService";
+import ScmCommitsCalculatorService from "./ScmCommitsCalculatorService";
+import SonarQubeApiScm from "./SonarQubeApiScm";
 
 export default class SonarQubeScmService extends BackendService {
     public static readonly LOAD_SCM: LoadAction = new LoadAction(
@@ -47,6 +49,8 @@ export default class SonarQubeScmService extends BackendService {
     private readonly treeService!: TreeService;
     @lazyInject("ScmCalculatorService")
     private readonly scmCalculator!: ScmCalculatorService;
+    @lazyInject("ScmCommitsCalculatorService")
+    private readonly scmCommitsCalculatorService!: ScmCommitsCalculatorService;
 
     public assertScmInfoAreLoaded(): Promise<void> {
         return new Promise<void>((resolve) => {
@@ -181,12 +185,15 @@ export default class SonarQubeScmService extends BackendService {
             const params = { key: element.key };
             this.callApi("/sources/scm", { params })
                 .then((response) => {
-                    const metrics = response.data.scm.map((c: any) => {
-                        return this.scmCalculator.createMetric(c);
+                    const metrics = response.data.scm.map((measure: any[]) => {
+                        return new SonarQubeApiScm(+measure[0], measure[1], measure[2], measure[3]);
                     });
 
                     element.measures = Object.assign(element.measures, {
                         number_of_authors: this.scmCalculator.calcNumberOfAuthors(metrics),
+                        number_of_commits: this.scmCommitsCalculatorService.calcNumberOfCommits(
+                            metrics
+                        ),
                     });
 
                     resolve();
@@ -196,7 +203,7 @@ export default class SonarQubeScmService extends BackendService {
                         new ErrorAction(
                             SonarQubeScmService.LOAD_SCM_ERROR_KEY,
                             "SonarQube metric API is not available or responding: " +
-                                error.response.statusText,
+                                error.response,
                             "Try again",
                             () => {
                                 location.reload();

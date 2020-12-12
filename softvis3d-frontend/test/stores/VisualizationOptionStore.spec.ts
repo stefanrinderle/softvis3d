@@ -28,7 +28,7 @@ import { SceneColorTheme } from "../../src/classes/SceneColorTheme";
 import VisualizationOptionStore from "../../src/stores/VisualizationOptionStore";
 import { DEFAULT_BUILDING_COLOR_THEME } from "../../src/constants/BuildingColorThemes";
 import { evostreet } from "../../src/constants/Layouts";
-import { coverageColorMetric, noColorMetric } from "../../src/constants/Metrics";
+import { coverageColorMetric, noColorMetric } from "../../src/constants/ColorMetrics";
 import { custom, defaultProfile, leakPeriod } from "../../src/constants/Profiles";
 import { EXPONENTIAL, LINEAR_SCALED, LOGARITHMIC } from "../../src/constants/Scales";
 import { DEFAULT_COLOR_THEME } from "../../src/constants/SceneColorThemes";

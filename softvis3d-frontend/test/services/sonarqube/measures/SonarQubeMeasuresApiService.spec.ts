@@ -20,26 +20,22 @@
 
 import { assert, expect } from "chai";
 import * as Sinon from "sinon";
-import { AppConfiguration } from "../../../../src/classes/AppConfiguration";
 import {
     SonarQubeMeasurePagingResponse,
     SQ_QUALIFIER_DIRECTORY,
     SQ_QUALIFIER_FILE,
 } from "../../../../src/services/sonarqube/measures/api/SonarQubeMeasureResponse";
 import SonarQubeMeasuresApiService from "../../../../src/services/sonarqube/measures/api/SonarQubeMeasuresApiService";
-import AppStatusStore from "../../../../src/stores/AppStatusStore";
 import SonarQubeMeasuresService from "../../../../src/services/sonarqube/measures/SonarQubeMeasuresService";
+import AppStatusStore from "../../../../src/stores/AppStatusStore";
 import { createMockInjection } from "../../../Helper";
 
 describe("SonarQubeMeasuresApiService", () => {
     it("should call backend and load measures", (done) => {
-        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
 
-        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(
-            testAppConfiguration
-        );
+        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService();
         const data: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 1);
         const stub = Sinon.stub(underTest, "callApi").resolves({
             data,
@@ -63,13 +59,10 @@ describe("SonarQubeMeasuresApiService", () => {
     });
 
     it("should load again if more results", (done) => {
-        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         const testAppStatusStore: AppStatusStore = createMockInjection(new AppStatusStore());
         const spyLoadStatusUpdate = Sinon.spy(testAppStatusStore, "loadStatusUpdate");
 
-        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(
-            testAppConfiguration
-        );
+        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService();
 
         const data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
         const data2: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(2, 500, 600);
@@ -108,12 +101,9 @@ describe("SonarQubeMeasuresApiService", () => {
     it("should call backend and react on errors", (done) => {
         const statusText = "not working";
 
-        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         createMockInjection(new AppStatusStore());
 
-        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(
-            testAppConfiguration
-        );
+        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService();
 
         const expectedText = statusText;
         Sinon.stub(underTest, "callApi").rejects({
@@ -136,12 +126,9 @@ describe("SonarQubeMeasuresApiService", () => {
     });
 
     it("should call backend and react on errors on the second call", (done) => {
-        const testAppConfiguration: AppConfiguration = Sinon.createStubInstance(AppConfiguration);
         createMockInjection(new AppStatusStore());
 
-        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService(
-            testAppConfiguration
-        );
+        const underTest: SonarQubeMeasuresApiService = new SonarQubeMeasuresApiService();
 
         const data1: SonarQubeMeasurePagingResponse = createResponseWithOneComponent(1, 500, 600);
 

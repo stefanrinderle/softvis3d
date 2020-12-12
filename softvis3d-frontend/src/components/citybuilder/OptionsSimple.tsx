@@ -22,12 +22,12 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import Metric from "../../classes/Metric";
 import Profile from "../../classes/Profile";
-import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
 import { Layouts } from "../../constants/Layouts";
+import { ColorMetrics } from "../../constants/ColorMetrics";
 import { getPreviewBackground } from "../../constants/PreviewPictures";
 import { Profiles } from "../../constants/Profiles";
 import { lazyInject } from "../../inversify.config";
-import CityBuilderStore from "../../stores/CityBuilderStore";
+import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
 import LayoutPicker from "./LayoutPicker";
 import PreviewPictureComponent from "./PreviewPictureComponent";
@@ -36,13 +36,8 @@ import PreviewPictureComponent from "./PreviewPictureComponent";
 export default class OptionsSimple extends React.Component<Record<string, never>, any> {
     @lazyInject("VisualizationOptionStore")
     private readonly visualizationOptions!: VisualizationOptionStore;
-    @lazyInject("CityBuilderStore")
-    private readonly cityBuilderStore!: CityBuilderStore;
 
     public render() {
-        // TODO remove colorMetrics from cityBuilderStore and access directly.
-        const { colorMetrics } = this.cityBuilderStore;
-
         return (
             <div className="simple">
                 <div className="left-column">
@@ -65,7 +60,7 @@ export default class OptionsSimple extends React.Component<Record<string, never>
                             label="Building Color"
                             className="metric color"
                             value={this.visualizationOptions.metricColor}
-                            options={colorMetrics.asSelectOptions}
+                            options={ColorMetrics.colorMetrics.asSelectOptions}
                             onChange={(m: Metric) => {
                                 this.visualizationOptions.metricColor = m;
                             }}

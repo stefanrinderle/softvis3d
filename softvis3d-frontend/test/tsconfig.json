@@ -9,7 +9,8 @@
         "experimentalDecorators": true,
         "module": "commonJS",
         "target": "es6",
-        "jsx": "react"
+        "jsx": "react",
+        "resolveJsonModule": true
     },
     "compileOnSave": false,
     "files": [

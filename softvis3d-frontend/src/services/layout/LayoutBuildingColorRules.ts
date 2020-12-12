@@ -76,16 +76,18 @@ class LayoutBuildingColorRules {
         return this.createMinMaxRule(minVal, maxVal, this._colorMode);
     }
 
-    /**
-     * Issues --> Building Color
-     * @private
-     * @returns {BaseRule}
-     */
-    public ruleBuildingColorByScmInfos() {
+    public ruleBuildingColorByNumberOfAuthors() {
         const minVal = 1;
         const maxVal = 4;
 
         return this.createMinMaxRule(minVal, maxVal, this._colorMode);
+    }
+
+    public ruleBuildingColorByNumberOfCommits() {
+        const minVal = 1;
+        const maxVal = 10;
+
+        return this.createMinMaxRule(minVal, maxVal, this._colorMode, true);
     }
 
     /**
@@ -143,7 +145,12 @@ class LayoutBuildingColorRules {
         return this.createMinMaxRule(minVal, maxVal, this._colorMode);
     }
 
-    private createMinMaxRule(minVal: number, maxVal: number, colorMode: BuildingColorTheme) {
+    private createMinMaxRule(
+        minVal: number,
+        maxVal: number,
+        colorMode: BuildingColorTheme,
+        isGoodBadReversed = false
+    ) {
         return new CodeCityVis.rules.color.gradient({
             condition: (model, node) => model && node.children.length === 0,
             metric: (model, node, version) => {
@@ -153,8 +160,8 @@ class LayoutBuildingColorRules {
             attributes: "color",
             min: minVal,
             max: maxVal,
-            minColor: colorMode.badColor,
-            maxColor: colorMode.goodColor,
+            minColor: isGoodBadReversed ? colorMode.badColor : colorMode.goodColor,
+            maxColor: isGoodBadReversed ? colorMode.goodColor : colorMode.badColor,
         });
     }
 }

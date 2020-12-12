@@ -24,13 +24,14 @@ import BuildingColorTheme from "../../classes/BuildingColorTheme";
 import {
     complexityColorMetric,
     coverageColorMetric,
+    leakPeriodCommitsScmColorMetric,
     linesOfCodeColorMetric,
     newIssuesColorMetric,
-    numberOfAuthorsBlameColorMetric,
+    numberOfAuthorsScmColorMetric,
     openIssuesColorMetric,
     packageNameColorMetric,
     violationsColorMetric,
-} from "../../constants/Metrics";
+} from "../../constants/ColorMetrics";
 import LayoutBuildingColorRules from "./LayoutBuildingColorRules";
 import Softvis3dModel from "./Softvis3dModel";
 
@@ -204,16 +205,18 @@ class LayoutProcessor {
                 return rules.ruleBuildingColorByOpenIssues();
             case packageNameColorMetric.id:
                 return rules.ruleBuildingColorByPackageName();
-            case numberOfAuthorsBlameColorMetric.id:
-                return rules.ruleBuildingColorByScmInfos();
+            case numberOfAuthorsScmColorMetric.id:
+                return rules.ruleBuildingColorByNumberOfAuthors();
+            case leakPeriodCommitsScmColorMetric.id:
+                return rules.ruleBuildingColorByNumberOfCommits();
             default:
                 return rules.ruleBuildingColorInitial();
         }
     }
 
-    private static dimensionsHeight = "dimensions.height";
-    private static dimensionsLength = "dimensions.length";
-    private static dimensionsWidth = "dimensions.width";
+    private static readonly dimensionsHeight = "dimensions.height";
+    private static readonly dimensionsLength = "dimensions.length";
+    private static readonly dimensionsWidth = "dimensions.width";
 
     /**
      * Height-Metric --> Building Height

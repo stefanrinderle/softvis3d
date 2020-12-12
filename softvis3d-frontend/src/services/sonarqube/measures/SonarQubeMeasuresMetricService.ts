@@ -18,18 +18,17 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import VisualizationOptionStore from "../../../stores/VisualizationOptionStore";
-import { lazyInject } from "../../../inversify.config";
-import CityBuilderStore from "../../../stores/CityBuilderStore";
 import {
+    ColorMetrics,
+    leakPeriodCommitsScmColorMetric,
     noColorMetric,
-    numberOfAuthorsBlameColorMetric,
+    numberOfAuthorsScmColorMetric,
     packageNameColorMetric,
-} from "../../../constants/Metrics";
+} from "../../../constants/ColorMetrics";
+import { lazyInject } from "../../../inversify.config";
+import VisualizationOptionStore from "../../../stores/VisualizationOptionStore";
 
 export default class SonarQubeMeasuresMetricService {
-    @lazyInject("CityBuilderStore")
-    private readonly cityBuilderStore!: CityBuilderStore;
     @lazyInject("VisualizationOptionStore")
     private readonly visualizationOptions!: VisualizationOptionStore;
 
@@ -38,11 +37,12 @@ export default class SonarQubeMeasuresMetricService {
         result.add(this.visualizationOptions.profile.footprintMetric.id);
         result.add(this.visualizationOptions.profile.heightMetric.id);
 
-        for (const colorMetric of this.cityBuilderStore.colorMetrics.keys) {
+        for (const colorMetric of ColorMetrics.colorMetrics.keys) {
             if (
                 colorMetric !== noColorMetric.id &&
                 colorMetric !== packageNameColorMetric.id &&
-                colorMetric !== numberOfAuthorsBlameColorMetric.id
+                colorMetric !== numberOfAuthorsScmColorMetric.id &&
+                colorMetric !== leakPeriodCommitsScmColorMetric.id
             ) {
                 result.add(colorMetric);
             }

@@ -21,8 +21,8 @@
 import { expect } from "chai";
 import Metric from "../../src/classes/Metric";
 import { DEFAULT_BUILDING_COLOR_THEME } from "../../src/constants/BuildingColorThemes";
+import { noColorMetric } from "../../src/constants/ColorMetrics";
 import { district, evostreet } from "../../src/constants/Layouts";
-import * as Metrics from "../../src/constants/Metrics";
 import { defaultProfile } from "../../src/constants/Profiles";
 import { DEFAULT_COLOR_THEME } from "../../src/constants/SceneColorThemes";
 import CityBuilderStore from "../../src/stores/CityBuilderStore";
@@ -32,8 +32,7 @@ describe("CityBuilderStore", () => {
         const underTest: CityBuilderStore = new CityBuilderStore();
         expect(underTest.options.layout).to.be.eq(evostreet);
         expect(underTest.options.profile.id).to.be.eq(defaultProfile.id);
-        expect(underTest.options.metricColor).to.be.eq(Metrics.noColorMetric);
-        expect(underTest.colorMetrics.keys.length).to.be.eq(9);
+        expect(underTest.options.metricColor).to.be.eq(noColorMetric);
         expect(underTest.initiateBuildProcess).to.be.eq(false);
         expect(underTest.show).to.be.eq(true);
         expect(underTest.options.buildingColorTheme).to.be.eq(DEFAULT_BUILDING_COLOR_THEME);
@@ -75,10 +74,5 @@ describe("CityBuilderStore", () => {
 
         underTest.genericMetrics.addMetric(new Metric("3", "3", ""));
         expect(underTest.genericMetrics.length).to.be.equal(3);
-    });
-
-    it("should get color metrics", () => {
-        const underTest: CityBuilderStore = new CityBuilderStore();
-        expect(underTest.colorMetrics.length).to.be.equal(9);
     });
 });

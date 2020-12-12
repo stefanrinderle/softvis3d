@@ -22,7 +22,7 @@ import { Type } from "class-transformer";
 import { observable } from "mobx";
 import { DEFAULT_BUILDING_COLOR_THEME } from "../constants/BuildingColorThemes";
 import { evostreet } from "../constants/Layouts";
-import { noColorMetric } from "../constants/Metrics";
+import { noColorMetric } from "../constants/ColorMetrics";
 import { custom, defaultProfile } from "../constants/Profiles";
 import { DEFAULT_COLOR_THEME } from "../constants/SceneColorThemes";
 import BuildingColorTheme from "../classes/BuildingColorTheme";
