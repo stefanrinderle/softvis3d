@@ -44,7 +44,7 @@ export default class AutoReloadService {
         // only start the timer if the analysisDate value is available.
         if (!isUndefined(this.componentStatusStore.lastAnalysisDate)) {
             this.timer = window.setInterval(
-                this.updateAnalysisDate.bind(this),
+                this.componentInfoService.loadComponentInfo.bind(this),
                 AutoReloadService.RELOAD_INTERVAL_MS
             );
         }
@@ -52,14 +52,5 @@ export default class AutoReloadService {
 
     public isActive(): boolean {
         return !isUndefined(this.timer);
-    }
-
-    public updateAnalysisDate() {
-        this.componentInfoService.loadComponentInfo().then((result) => {
-            const lastAnalysisDate = this.componentStatusStore.lastAnalysisDate;
-            if (!lastAnalysisDate || lastAnalysisDate.getTime() !== result.analysisDate.getTime()) {
-                this.componentStatusStore.lastAnalysisDate = result.analysisDate;
-            }
-        });
     }
 }

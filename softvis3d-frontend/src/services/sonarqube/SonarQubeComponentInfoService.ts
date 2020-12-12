@@ -25,6 +25,7 @@ export interface SonarQubeComponentInfo {
     key: string;
     name: string;
     analysisDate: Date;
+    leakPeriodDate: Date;
 }
 
 export default class SonarQubeComponentInfoService extends BackendService {
@@ -33,27 +34,25 @@ export default class SonarQubeComponentInfoService extends BackendService {
      *
      * Error handling should be done by the caller.
      */
-    public loadComponentInfo(): Promise<SonarQubeComponentInfo> {
-        return new Promise<SonarQubeComponentInfo>((resolve, reject) => {
-            const params = { component: this.componentStatusStore.appConfiguration.projectKey };
-            this.callApi("/components/show", { params })
-                .then((response) => {
-                    response.data.component.analysisDate = new Date(
-                        response.data.component.analysisDate
-                    );
-                    response.data.component.leakPeriodDate = new Date(
-                        response.data.component.leakPeriodDate
-                    );
+    public loadComponentInfo(): void {
+        const componentStore = this.componentStatusStore;
+        const params = { component: componentStore.appConfiguration.projectKey };
+        this.callApi("/components/show", { params })
+            .then((response) => {
+                const component = response.data.component;
 
-                    resolve(response.data.component);
-                })
-                .catch((error) => {
-                    /**
-                     * Does not throw an application error because the api/component/show web-api changed in version 6.4
-                     * and we currently support SQ versions > 6.3.
-                     */
-                    reject(error.response.data);
-                });
-        });
+                componentStore.lastAnalysisDate = new Date(component.analysisDate);
+                componentStore.leakPeriodDate = new Date(component.leakPeriodDate);
+            })
+            .catch((error) => {
+                /**
+                 * Does not throw an application error because the api/component/show web-api changed in version 6.4
+                 * and we currently support SQ versions > 6.3.
+                 */
+                componentStore.lastAnalysisDate = undefined;
+                componentStore.leakPeriodDate = undefined;
+
+                console.error(error.response.data);
+            });
     }
 }

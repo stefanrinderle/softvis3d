@@ -115,7 +115,7 @@ export default class App {
             this.visualizationLinkService.process(document.location.search);
         });
 
-        this.loadComponentInfoData();
+        this.componentInfoService.loadComponentInfo();
         this.assertClientRequirementsAreMet();
 
         ReactDOM.render(<Softvis3D />, document.getElementById(target));
@@ -128,17 +128,6 @@ export default class App {
         } else {
             throw Error("Target element id " + target + "not found");
         }
-    }
-
-    private loadComponentInfoData() {
-        this.componentInfoService
-            .loadComponentInfo()
-            .then((result) => {
-                this.componentStatusStore.lastAnalysisDate = result.analysisDate;
-            })
-            .catch(() => {
-                this.componentStatusStore.lastAnalysisDate = undefined;
-            });
     }
 
     private assertClientRequirementsAreMet() {

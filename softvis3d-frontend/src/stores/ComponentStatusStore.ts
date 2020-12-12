@@ -24,10 +24,20 @@ import { AppConfiguration } from "../classes/AppConfiguration";
 export default class ComponentStatusStore {
     @observable
     public lastAnalysisDate?: Date;
+    public leakPeriodDate?: Date;
 
     public readonly appConfiguration: AppConfiguration;
 
     constructor(appConfiguration: AppConfiguration) {
         this.appConfiguration = appConfiguration;
+    }
+
+    public updateLastAnalysisDate(inputDate: Date) {
+        if (
+            this.lastAnalysisDate === undefined ||
+            this.lastAnalysisDate.getTime() !== inputDate.getTime()
+        ) {
+            this.lastAnalysisDate = inputDate;
+        }
     }
 }
