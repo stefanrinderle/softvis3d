@@ -71,6 +71,7 @@ export default class SonarQubeMeasuresService {
 
         if (!isForce && this.projectData && this.metricKeys && this.metricKeys === metricKeys) {
             this.updateViewProjectData(this.projectData);
+            this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
         } else {
             /**
              * Create a "starting point" root element and load the tree of the project.
@@ -96,6 +97,8 @@ export default class SonarQubeMeasuresService {
 
                     this.sceneStore.scmMetricLoaded = false;
                     this.cityBuilderStore.show = false;
+
+                    this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
                 })
                 .catch((error: Error) => {
                     this.appStatusStore.error(
@@ -108,8 +111,6 @@ export default class SonarQubeMeasuresService {
                             }
                         )
                     );
-                })
-                .finally(() => {
                     this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
                 });
         }
