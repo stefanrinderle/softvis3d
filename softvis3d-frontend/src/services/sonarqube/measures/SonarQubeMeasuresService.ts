@@ -108,9 +108,11 @@ export default class SonarQubeMeasuresService {
                             }
                         )
                     );
+                })
+                .finally(() => {
+                    this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
                 });
         }
-        this.appStatusStore.loadComplete(SonarQubeMeasuresService.LOAD_MEASURES);
     }
 
     private updateViewProjectData(root: TreeElement) {
