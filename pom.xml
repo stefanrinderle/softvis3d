@@ -184,6 +184,7 @@
             <exclude>LICENSE</exclude>
             <exclude>Vagrantfile</exclude>
             <exclude>Jenkinsfile</exclude>
+            <exclude>docs/**/*</exclude>
           </excludes>
         </configuration>
         <executions>
