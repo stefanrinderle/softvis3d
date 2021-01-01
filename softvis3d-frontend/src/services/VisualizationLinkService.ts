@@ -107,7 +107,16 @@ export default class VisualizationLinkService {
     }
 
     private applyParams(visualizationLinkParams: VisualizationLinkParams) {
-        this.visualizationOptions = visualizationLinkParams.visualizationOptions;
+        this.visualizationOptions.profile = visualizationLinkParams.visualizationOptions.profile;
+        this.visualizationOptions.layout = visualizationLinkParams.visualizationOptions.layout;
+        this.visualizationOptions.metricColor =
+            visualizationLinkParams.visualizationOptions.metricColor;
+        this.visualizationOptions.buildingColorTheme =
+            visualizationLinkParams.visualizationOptions.buildingColorTheme;
+        this.visualizationOptions.colorTheme =
+            visualizationLinkParams.visualizationOptions.colorTheme;
+        this.visualizationOptions.fileFilter =
+            visualizationLinkParams.visualizationOptions.fileFilter;
 
         this.sceneStore.selectedObjectId = visualizationLinkParams.selectedObjectId;
         this.sceneStore.cameraPosition = visualizationLinkParams.cameraPosition;

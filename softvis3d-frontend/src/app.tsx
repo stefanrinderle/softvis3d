@@ -22,6 +22,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { AppConfiguration } from "./classes/AppConfiguration";
 import ErrorAction from "./classes/status/ErrorAction";
+import ClipBoardService from "./services/ClipBoardService";
 import ScmCommitsCalculatorService from "./services/sonarqube/scm/ScmCommitsCalculatorService";
 import VisualizationLinkSerializationService from "./services/VisualizationLinkSerializationService";
 import ComponentStatusStore from "./stores/ComponentStatusStore";
@@ -82,6 +83,7 @@ export default class App {
         bindToInjection(CityBuilderStore);
         bindToInjection(SceneStore);
         bindToInjection(SelectedElementService);
+        bindToInjection(ClipBoardService);
 
         this.visualizationLinkService = bindToInjection(VisualizationLinkService);
 

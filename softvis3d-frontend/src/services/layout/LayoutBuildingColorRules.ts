@@ -78,7 +78,7 @@ class LayoutBuildingColorRules {
 
     public ruleBuildingColorByNumberOfAuthors() {
         const minVal = 1;
-        const maxVal = 4;
+        const maxVal = 3;
 
         return this.createMinMaxRule(minVal, maxVal, this._colorMode, false);
     }
