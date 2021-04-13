@@ -26,6 +26,7 @@ import AppStatusStore from "../../stores/AppStatusStore";
 import CityBuilderStore from "../../stores/CityBuilderStore";
 import SceneStore from "../../stores/SceneStore";
 import AdvancedAnalysisOptions from "./AdvancedAnalysisOptions";
+import InfoTab from "./InfoTab";
 import OptionsSimple from "./OptionsSimple";
 
 @observer
@@ -37,7 +38,7 @@ export default class CityBuilder extends React.Component<Record<string, never>, 
     @lazyInject("AppStatusStore")
     private readonly appStatusStore!: AppStatusStore;
 
-    private tabList = [
+    private readonly tabList = [
         {
             name: CityBuilderTab.Default,
             label: "Options",
@@ -47,6 +48,11 @@ export default class CityBuilder extends React.Component<Record<string, never>, 
             name: CityBuilderTab.OptionAnalysis,
             label: "Advanced options",
             content: <AdvancedAnalysisOptions />,
+        },
+        {
+            name: CityBuilderTab.Info,
+            label: "Info",
+            content: <InfoTab />,
         },
     ];
 

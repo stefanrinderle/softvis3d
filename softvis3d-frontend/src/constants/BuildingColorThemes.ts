@@ -23,6 +23,7 @@ import BuildingColorTheme from "../classes/BuildingColorTheme";
 const DEFAULT_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorTheme(
     "default",
     "Green-Red colors",
+    0xfd8b01,
     0x00cc00,
     0xee0000
 );
@@ -30,6 +31,7 @@ const DEFAULT_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorTheme(
 const BLUEYELLOW_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorTheme(
     "acc-blueyellow",
     "Blue-Yellow colors",
+    0xfd8b01,
     0x0000ff,
     0xdcdc00
 );
@@ -38,6 +40,7 @@ const GRAYSCALE_BUILDING_COLOR_THEME: BuildingColorTheme = new BuildingColorThem
     "acc-grayscale",
     "Grayscale",
     0xcccccc,
+    0xaaaaaa,
     0x191919
 );
 

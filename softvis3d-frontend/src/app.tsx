@@ -93,6 +93,7 @@ export default class App {
         bindToInjection(SonarQubeMeasuresMetricService);
         this.communicator = bindToInjection(SonarQubeMetricsService);
         bindToInjection(SonarQubeMeasuresService);
+        this.componentInfoService = bindToInjection(SonarQubeComponentInfoService);
 
         this.webGLDetectorService = bindToInjection(WebGLDetectorService);
         bindToInjection(UrlParameterService);
@@ -106,7 +107,6 @@ export default class App {
         bindToInjection(AutoReloadService);
         bindToInjection(SonarQubeFilterStructureService);
         bindToInjection(VisualizationLinkSerializationService);
-        this.componentInfoService = bindToInjection(SonarQubeComponentInfoService);
 
         const reactions = [new AppReactions(), new SceneReactions(), new BuilderReactions()];
         if (reactions.length === 0) {

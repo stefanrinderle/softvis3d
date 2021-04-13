@@ -19,7 +19,6 @@
 ///
 
 import { injectable } from "inversify";
-import { isUndefined } from "util";
 import { lazyInject } from "../inversify.config";
 import ComponentStatusStore from "../stores/ComponentStatusStore";
 import SonarQubeComponentInfoService from "./sonarqube/SonarQubeComponentInfoService";
@@ -42,15 +41,19 @@ export default class AutoReloadService {
         }
 
         // only start the timer if the analysisDate value is available.
-        if (!isUndefined(this.componentStatusStore.lastAnalysisDate)) {
+        if (this.componentStatusStore.lastAnalysisDate !== undefined) {
             this.timer = window.setInterval(
-                this.componentInfoService.loadComponentInfo.bind(this),
+                this.updateAnalysisDate.bind(this),
                 AutoReloadService.RELOAD_INTERVAL_MS
             );
         }
     }
 
+    public updateAnalysisDate() {
+        this.componentInfoService.loadComponentInfo();
+    }
+
     public isActive(): boolean {
-        return !isUndefined(this.timer);
+        return this.timer !== undefined;
     }
 }

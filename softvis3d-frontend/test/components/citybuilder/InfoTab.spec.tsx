@@ -18,24 +18,17 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-export default class BuildingColorTheme implements SelectOptionValue {
-    public readonly id: string;
-    public readonly label: string;
-    public readonly defaultColor: number;
-    public readonly goodColor: number;
-    public readonly badColor: number;
+import { expect } from "chai";
+import { shallow } from "enzyme";
+import * as React from "react";
+import InfoTab from "../../../src/components/citybuilder/InfoTab";
 
-    constructor(
-        id: string,
-        label: string,
-        defaultColor: number,
-        goodColor: number,
-        badColor: number
-    ) {
-        this.id = id;
-        this.label = label;
-        this.defaultColor = defaultColor;
-        this.goodColor = goodColor;
-        this.badColor = badColor;
-    }
-}
+describe("<InfoTab/>", () => {
+    it("should create without error", () => {
+        const infoTab = shallow(<InfoTab />);
+
+        expect(infoTab.html()).to.contain(
+            "If you need further details, please open an issue on github."
+        );
+    });
+});

@@ -41,8 +41,14 @@ export default class SonarQubeComponentInfoService extends BackendService {
             .then((response) => {
                 const component = response.data.component;
 
-                componentStore.lastAnalysisDate = new Date(component.analysisDate);
-                componentStore.leakPeriodDate = new Date(component.leakPeriodDate);
+                const nextAnalysusDate = new Date(component.analysisDate);
+                if (componentStore.lastAnalysisDate?.valueOf() !== nextAnalysusDate.valueOf()) {
+                    componentStore.lastAnalysisDate = nextAnalysusDate;
+                }
+                const nextLeakPeriodDate = new Date(component.leakPeriodDate);
+                if (componentStore.leakPeriodDate?.valueOf() !== nextLeakPeriodDate.valueOf()) {
+                    componentStore.leakPeriodDate = nextLeakPeriodDate;
+                }
             })
             .catch((error) => {
                 /**

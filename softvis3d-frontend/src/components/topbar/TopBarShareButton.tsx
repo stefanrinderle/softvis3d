@@ -53,7 +53,7 @@ export default class TopBarShareButton extends React.Component<
                 onMouseEnter={() => this.setShareMenuState(true)}
                 onMouseLeave={() => this.setShareMenuState(false)}
             >
-                <button className="middle" disabled={this.props.disabled}>
+                <button className="left" disabled={this.props.disabled}>
                     Share
                 </button>
                 <div className={this.getShareMenuClassName()}>

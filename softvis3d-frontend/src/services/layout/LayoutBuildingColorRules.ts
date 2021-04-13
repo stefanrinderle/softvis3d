@@ -41,7 +41,7 @@ class LayoutBuildingColorRules {
         return new CodeCityVis.rules.universal({
             condition: (model, node) => !!(model && node.children.length === 0 && node.parent),
             metric: () => {
-                return 0xfd8b01;
+                return this._colorMode.defaultColor;
             },
             attributes: "color",
         });

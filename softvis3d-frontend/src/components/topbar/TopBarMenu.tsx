@@ -32,24 +32,14 @@ export default class TopBarMenu extends React.Component<Record<string, unknown>,
     public render() {
         return (
             <div className="top-bar-menu">
+                <TopBarShareButton disabled={this.cityBuilderStore.show} />
                 <button
-                    id="settings-button"
-                    className="left"
+                    id="options-button"
+                    className="right"
                     onClick={this.showBuilder.bind(this)}
                     disabled={this.cityBuilderStore.show}
                 >
-                    Settings
-                </button>
-                <TopBarShareButton disabled={this.cityBuilderStore.show} />
-                <button id="help-button" className="middle" onClick={this.openHelp.bind(this)}>
-                    Help
-                </button>
-                <button
-                    id="feedback-button"
-                    className="right"
-                    onClick={this.openFeedback.bind(this)}
-                >
-                    Feedback
+                    Options
                 </button>
             </div>
         );
@@ -57,13 +47,5 @@ export default class TopBarMenu extends React.Component<Record<string, unknown>,
 
     private showBuilder() {
         this.cityBuilderStore.show = true;
-    }
-
-    private openHelp() {
-        window.open("http://softvis3d.com/#/help");
-    }
-
-    private openFeedback() {
-        window.open("http://softvis3d.com/#/feedback");
     }
 }
