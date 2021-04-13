@@ -26,7 +26,13 @@ describe("BuildingColorTheme", () => {
         const expectedId = "23";
         const expectedLabel = "INT";
 
-        const result: BuildingColorTheme = new BuildingColorTheme(expectedId, expectedLabel, 0, 0);
+        const result: BuildingColorTheme = new BuildingColorTheme(
+            expectedId,
+            expectedLabel,
+            0,
+            0,
+            0
+        );
 
         expect(result.label).to.be.eq(expectedLabel);
         expect(result.id).to.be.eq(expectedId);
