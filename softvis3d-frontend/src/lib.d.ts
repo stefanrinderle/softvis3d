@@ -26,13 +26,3 @@ declare interface SelectOptionValue {
 interface MeasureList {
     [propName: string]: number;
 }
-
-declare module "three-orbit-controls" {
-    interface OrbitController {
-        reset(): void;
-    }
-    let orbitcontrols: (
-        three: any
-    ) => new (camera: any, canvas: HTMLCanvasElement) => OrbitController;
-    export = orbitcontrols;
-}

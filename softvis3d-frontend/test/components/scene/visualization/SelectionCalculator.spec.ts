@@ -21,12 +21,7 @@
 import { assert, expect } from "chai";
 import * as Sinon from "sinon";
 import {
-    Face3,
-    Geometry,
-    Intersection,
-    MeshLambertMaterial,
-    PerspectiveCamera,
-    Vector3,
+    BoxGeometry, Intersection, MeshLambertMaterial, PerspectiveCamera, Vector3,
 } from "three";
 import { SoftVis3dMesh } from "../../../../src/components/scene/domain/SoftVis3dMesh";
 import { SelectionCalculator } from "../../../../src/components/scene/visualization/SelectionCalculator";
@@ -64,7 +59,7 @@ describe("SelectionCalculator", () => {
         const expectedId = "sudhfisuhfd";
         const object: SoftVis3dMesh = new SoftVis3dMesh(
             expectedId,
-            new Geometry(),
+            new BoxGeometry(1, 1, 1),
             new MeshLambertMaterial()
         );
         const intersected: Intersection[] = [];
@@ -73,7 +68,13 @@ describe("SelectionCalculator", () => {
             distanceToRay: 0,
             point: new Vector3(0, 0, 0),
             index: 0,
-            face: new Face3(0, 0, 0),
+            face: {
+                a: 0,
+                b: 0,
+                c: 0,
+                normal: new Vector3(0, 0, 0),
+                materialIndex: 0
+            },
             faceIndex: 0,
             object,
         });

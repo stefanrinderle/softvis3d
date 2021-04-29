@@ -18,7 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { Mesh, Geometry, MeshLambertMaterial } from "three";
+import { BufferGeometry, Mesh, MeshLambertMaterial } from "three";
 
 export class SoftVis3dMesh extends Mesh {
     /**
@@ -31,7 +31,7 @@ export class SoftVis3dMesh extends Mesh {
 
     private readonly softVis3dId: string;
 
-    constructor(softVis3dId: string, geometry: Geometry, material: MeshLambertMaterial) {
+    constructor(softVis3dId: string, geometry: BufferGeometry, material: MeshLambertMaterial) {
         super(geometry, material);
 
         this.material = material;

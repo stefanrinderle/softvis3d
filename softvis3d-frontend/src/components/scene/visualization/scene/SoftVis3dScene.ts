@@ -18,9 +18,7 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import * as three from "three";
 import { PerspectiveCamera, Scene, Vector3, WebGLRenderer } from "three";
-import * as OrbitControlsExtender from "three-orbit-controls";
 import { SceneColorTheme } from "../../../../classes/SceneColorTheme";
 import { lazyInject } from "../../../../inversify.config";
 import { HtmlDomService, Offset } from "../../../../services/HtmlDomService";
@@ -29,8 +27,7 @@ import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
 import { Camera } from "./Camera";
 import SceneObjectCalculator from "./SceneObjectCalculator";
 import { Setup } from "./Setup";
-
-const OrbitControls = OrbitControlsExtender(three);
+import { OrbitControls } from "@three-ts/orbit-controls";
 
 export default class SoftVis3dScene {
     public static CANVAS_ID = "softvis3dscene";
