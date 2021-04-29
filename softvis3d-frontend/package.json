@@ -53,7 +53,7 @@
     "@types/sinon": "^2.2.2",
     "@types/three": "^0.127.1",
     "@three-ts/orbit-controls": "^1.4.7",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "class-transformer": "^0.4.0",
     "codecity-visualizer": "^0.4.6",
     "inversify": "^4.1.1",
