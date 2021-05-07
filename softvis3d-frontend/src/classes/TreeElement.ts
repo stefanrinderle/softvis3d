@@ -19,8 +19,8 @@
 ///
 
 import {
-  SQ_QUALIFIER_FILE,
-  SQ_QUALIFIER_UNIT_TEST_FILE
+    SQ_QUALIFIER_FILE,
+    SQ_QUALIFIER_UNIT_TEST_FILE,
 } from "../services/sonarqube/measures/api/SonarQubeMeasureResponse";
 import Metric from "./Metric";
 
