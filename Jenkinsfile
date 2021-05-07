@@ -18,7 +18,7 @@ pipeline {
                 script {
                     env.CHROME_BIN = '/usr/bin/chromium-browser'
                     configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
-                        sh 'mvn -s $MAVEN_SETTINGS clean license:check install -PcleanAll,ci -U -B'
+                        sh 'mvn -s $MAVEN_SETTINGS clean license:check package -PcleanAll,ci -U -B'
                     }
 
                     // publish frontend coverage html

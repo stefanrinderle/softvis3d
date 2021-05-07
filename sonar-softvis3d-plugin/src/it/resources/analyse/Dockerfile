@@ -20,11 +20,13 @@
 
 ### BUILD image
 FROM maven:3-jdk-11
-# create app folder for sources
+
 RUN mkdir -p /build
 WORKDIR /build
-RUN git clone https://github.com/AdamBien/breakr.git
+ADD breakr.tar /build/
 
-WORKDIR /build/breakr/breakr
+WORKDIR /build/breakr
 
-ENTRYPOINT mvn -U -B package sonar:sonar -Dsonar.host.url=http://$SQ_HOST:$SQ_PORT -Dsonar.login=admin -Dsonar.password=admin
+RUN mvn -U -B package
+
+ENTRYPOINT mvn -B sonar:sonar -Dsonar.host.url=http://$SQ_HOST:$SQ_PORT -Dsonar.login=admin -Dsonar.password=admin
