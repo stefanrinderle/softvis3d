@@ -31,10 +31,10 @@ export default class SelectedElementService {
 
     public getSelectedElement(): TreeElement | null {
         let selectedElement: TreeElement | null = null;
-        if (this.sceneStore.projectData !== null && this.sceneStore.selectedObjectId != null) {
+        if (this.sceneStore.projectData !== null && this.sceneStore.selectedObjectKey != null) {
             selectedElement = this.treeService.searchTreeNode(
                 this.sceneStore.projectData,
-                this.sceneStore.selectedObjectId
+                this.sceneStore.selectedObjectKey
             );
         }
         return selectedElement;

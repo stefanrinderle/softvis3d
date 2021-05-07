@@ -19,10 +19,6 @@ Frontend code in /src/main/resources.
 SonarQube dependent java classes and sonarqube deployment details.
 See module for details.
 
-## Integration tests
-
-E2E integration test setup with docker to be able to check the plugin against multiple SonarQube versions.
-
 ## License
 
 GNU LESSER GENERAL PUBLIC LICENSE Version 3

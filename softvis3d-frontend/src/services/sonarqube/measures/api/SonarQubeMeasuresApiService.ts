@@ -37,7 +37,7 @@ export default class SonarQubeMeasuresApiService extends BackendService {
     private readonly appStatusStore!: AppStatusStore;
 
     public loadMeasures(
-        baseComponentKey: string,
+        component: string,
         metricKeys: string,
         pageMax = 1,
         pageCurrent = 1
@@ -56,7 +56,7 @@ export default class SonarQubeMeasuresApiService extends BackendService {
 
         return new Promise<SonarQubeMeasureResponse>((resolve, reject) => {
             const params = {
-                baseComponentKey,
+                component,
                 p: pageCurrent,
                 metricKeys,
                 qualifiers,
@@ -75,12 +75,7 @@ export default class SonarQubeMeasuresApiService extends BackendService {
                     const pagesMax = Math.floor(result.paging.total / result.paging.pageSize) + 1;
 
                     if (result.paging.pageIndex < pagesMax) {
-                        return this.loadMeasures(
-                            baseComponentKey,
-                            metricKeys,
-                            pagesMax,
-                            pageCurrent + 1
-                        )
+                        return this.loadMeasures(component, metricKeys, pagesMax, pageCurrent + 1)
                             .then((resultSecond) => {
                                 allResults.components = allResults.components.concat(
                                     resultSecond.components

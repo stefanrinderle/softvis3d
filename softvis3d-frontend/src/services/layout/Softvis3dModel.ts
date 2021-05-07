@@ -70,7 +70,7 @@ export default class Softvis3dModel extends BaseModel {
     }
 
     private _createTree(treeNode: TreeElement) {
-        const t = String(treeNode.id);
+        const t = String(treeNode.key);
         const v = String(this._version);
 
         if (!this._attributes[v]) {

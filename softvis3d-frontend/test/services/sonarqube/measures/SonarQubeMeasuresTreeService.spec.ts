@@ -64,7 +64,6 @@ describe("SonarQubeMeasuresTreeService", () => {
         const underTest: SonarQubeMeasuresTreeService = new SonarQubeMeasuresTreeService();
 
         const defaultComponent: SonarQubeApiComponent = {
-            id: "1",
             key: "1",
             measures: [],
             name: "string",
@@ -72,7 +71,6 @@ describe("SonarQubeMeasuresTreeService", () => {
             qualifier: SQ_QUALIFIER_FILE,
         };
         const defaultDir: SonarQubeApiComponent = {
-            id: "1",
             key: "1",
             measures: [],
             name: "string",
@@ -131,7 +129,6 @@ function createResponseWithComponents(
 ): SonarQubeMeasureResponse {
     return {
         baseComponent: {
-            id: "",
             key: "",
             measures: [],
             name: "",

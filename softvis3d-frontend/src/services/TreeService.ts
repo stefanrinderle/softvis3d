@@ -21,9 +21,9 @@
 import { TreeElement } from "../classes/TreeElement";
 
 export default class TreeService {
-    public searchTreeNode(tree: TreeElement, id: string): TreeElement | null {
+    public searchTreeNode(tree: TreeElement, key: string): TreeElement | null {
         if (tree) {
-            return this.searchIdInElement(id, tree);
+            return this.searchKeyInElement(key, tree);
         } else {
             return null;
         }
@@ -55,13 +55,13 @@ export default class TreeService {
         return results;
     }
 
-    private searchIdInElement(id: string, element: TreeElement): TreeElement | null {
-        if (element.id === id) {
+    private searchKeyInElement(key: string, element: TreeElement): TreeElement | null {
+        if (element.key === key) {
             return element;
         }
 
         for (const child of element.children) {
-            const result = this.searchIdInElement(id, child);
+            const result = this.searchKeyInElement(key, child);
             if (result) {
                 return result;
             }
@@ -72,7 +72,7 @@ export default class TreeService {
 
     private privateGetAllSceneElementsRecursive(node: TreeElement): string[] {
         let showIds: string[] = [];
-        showIds.push(node.id);
+        showIds.push(node.key);
 
         // children nodes
         for (const child of node.children) {

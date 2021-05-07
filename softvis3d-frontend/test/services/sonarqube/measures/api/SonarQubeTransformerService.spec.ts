@@ -40,7 +40,6 @@ describe("SonarQubeTransformerService", () => {
      */
 
     it("should transform SQComponent to TreeElement - minimal", () => {
-        const id = "id";
         const key = "key";
         const measures: SonarQubeMeasure[] = [];
         const name = "name";
@@ -48,7 +47,6 @@ describe("SonarQubeTransformerService", () => {
         const qualifier: SonarQubeQualifier = SQ_QUALIFIER_DIRECTORY;
 
         const component: SonarQubeApiComponent = {
-            id,
             key,
             measures,
             name,
@@ -60,7 +58,7 @@ describe("SonarQubeTransformerService", () => {
         expect(result).not.to.be.undefined;
         expect(result).not.to.be.null;
 
-        expect(result.id).to.be.eq(id);
+        expect(result.key).to.be.eq(key);
         expect(result.isFile()).to.be.eq(false);
         expect(result.children.length).to.be.eq(0);
         expect(result.path).to.be.eq(path);
@@ -71,7 +69,6 @@ describe("SonarQubeTransformerService", () => {
 
     it("should transform SQComponent to TreeElement - with parent", () => {
         const component: SonarQubeApiComponent = {
-            id: "id",
             key: "key",
             measures: [],
             name: "name",
@@ -105,7 +102,6 @@ describe("SonarQubeTransformerService", () => {
         });
 
         const component: SonarQubeApiComponent = {
-            id: "id",
             key: "key",
             measures,
             name: "name",
@@ -142,7 +138,6 @@ describe("SonarQubeTransformerService", () => {
         });
 
         const component: SonarQubeApiComponent = {
-            id: "id",
             key: "key",
             measures,
             name: "name",

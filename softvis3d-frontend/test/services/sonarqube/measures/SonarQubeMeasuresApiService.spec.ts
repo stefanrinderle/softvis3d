@@ -169,7 +169,6 @@ function createResponseWithOneComponent(
 ): SonarQubeMeasurePagingResponse {
     return {
         baseComponent: {
-            id: "" + pageIndex,
             key: "" + pageIndex,
             measures: [],
             name: "" + pageIndex,
@@ -178,7 +177,6 @@ function createResponseWithOneComponent(
         },
         components: [
             {
-                id: "expectedId" + pageIndex,
                 key: "key" + pageIndex,
                 measures: [],
                 name: "name" + pageIndex,

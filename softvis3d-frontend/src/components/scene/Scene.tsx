@@ -20,9 +20,9 @@
 
 import { observer } from "mobx-react";
 import * as React from "react";
-import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
 import { lazyInject } from "../../inversify.config";
 import SceneStore from "../../stores/SceneStore";
+import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
 import { SceneKeyInteractions } from "./events/SceneKeyInteractions";
 import SceneInformation from "./information/SceneInformation";
 import { KeyLegend } from "./KeyLegend";
@@ -115,12 +115,12 @@ export default class Scene extends React.Component<Record<string, unknown>, Scen
             this.updateCameraPosition();
             this.shapesHash = this.sceneStore.shapesHash;
 
-            this._threeSceneService.selectSceneTreeObject(this.sceneStore.selectedObjectId);
-            this.selectedObjectIdState = this.sceneStore.selectedObjectId;
+            this._threeSceneService.selectSceneTreeObject(this.sceneStore.selectedObjectKey);
+            this.selectedObjectIdState = this.sceneStore.selectedObjectKey;
         }
-        if (this.sceneStore.selectedObjectId !== this.selectedObjectIdState) {
-            this._threeSceneService.selectSceneTreeObject(this.sceneStore.selectedObjectId);
-            this.selectedObjectIdState = this.sceneStore.selectedObjectId;
+        if (this.sceneStore.selectedObjectKey !== this.selectedObjectIdState) {
+            this._threeSceneService.selectSceneTreeObject(this.sceneStore.selectedObjectKey);
+            this.selectedObjectIdState = this.sceneStore.selectedObjectKey;
         }
     }
 
@@ -143,7 +143,7 @@ export default class Scene extends React.Component<Record<string, unknown>, Scen
     }
 
     private selectObject(event: MouseEvent) {
-        this.sceneStore.selectedObjectId = this._threeSceneService.makeSelection(event);
+        this.sceneStore.selectedObjectKey = this._threeSceneService.makeSelection(event);
     }
 
     private resetCamera() {

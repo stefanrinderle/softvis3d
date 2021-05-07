@@ -18,11 +18,11 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import * as React from "react";
 import { observer } from "mobx-react";
+import * as React from "react";
+import { TreeElement } from "../../classes/TreeElement";
 import { lazyInject } from "../../inversify.config";
 import SceneStore from "../../stores/SceneStore";
-import { TreeElement } from "../../classes/TreeElement";
 
 interface NodeListProps {
     activeFolder: TreeElement | null;
@@ -41,9 +41,9 @@ export default class ActiveFolder extends React.Component<NodeListProps, any> {
         }
 
         const folderClass =
-            activeFolder.id === this.sceneStore.selectedObjectId ? "current-selected" : "";
+            activeFolder.key === this.sceneStore.selectedObjectKey ? "current-selected" : "";
         const onClick = () => {
-            this.sceneStore.selectedObjectId = activeFolder.id;
+            this.sceneStore.selectedObjectKey = activeFolder.key;
         };
 
         return (

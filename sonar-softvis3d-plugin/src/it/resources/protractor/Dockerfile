@@ -1,5 +1,5 @@
 #
-# softvis3d-sonarqube-it
+# SoftVis3D Sonar plugin
 # Copyright (C) 2020 Stefan Rinderle and Yvo Niedrich
 # stefan@rinderle.info / yvo.niedrich@gmail.com
 #
@@ -18,8 +18,24 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 #
 
-FROM sonarqube:XX_SONARQUBE_VERSION_XX
+FROM wernight/phantomjs:latest AS npm_build_env
 
-ADD https://github.com/SonarSource/SonarTS/releases/download/1.1.0.1079/sonar-typescript-plugin-1.1.0.1079.jar /opt/sonarqube/extensions/downloads/
+USER root
+RUN apt-get update
+RUN apt-get install npm -y
 
-ADD ./XX_PLUGIN_FILENAME_XX /opt/sonarqube/extensions/downloads/XX_PLUGIN_FILENAME_XX
+WORKDIR "/testmodule/"
+ADD testmodule/package.json testmodule/package.json
+WORKDIR "/testmodule/testmodule"
+RUN npm install
+WORKDIR "/testmodule/"
+ADD testmodule testmodule
+
+FROM webnicer/protractor-headless
+
+RUN echo "deb http://packages.linuxmint.com debian import" > /etc/apt/sources.list
+
+RUN apt-get update
+RUN apt-get install -y --force-yes firefox
+
+COPY --from=npm_build_env "/testmodule/testmodule" "./"

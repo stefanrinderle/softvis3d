@@ -30,7 +30,6 @@ export interface SonarQubeMeasureResponse {
 }
 
 export interface SonarQubeApiComponent {
-    id: string;
     key: string;
     language?: string;
     measures: SonarQubeMeasure[];

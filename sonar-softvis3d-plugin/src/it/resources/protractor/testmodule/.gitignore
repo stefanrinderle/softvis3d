@@ -1,4 +1,5 @@
-integrationtest/protractor/results
+results
+node_modules
 
 protractor/test/*.js
 protractor/test/*.js.map

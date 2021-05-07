@@ -19,9 +19,9 @@
 ///
 
 import * as React from "react";
+import { TreeElement } from "../../classes/TreeElement";
 import { lazyInject } from "../../inversify.config";
 import SceneStore from "../../stores/SceneStore";
-import { TreeElement } from "../../classes/TreeElement";
 
 interface ElementInfoProps {
     element: TreeElement;
@@ -39,14 +39,14 @@ export default class FolderContentElement extends React.Component<ElementInfoPro
         const classes = [];
         classes.push(element.isFile() ? "leaf" : "node");
 
-        const isSelected = element.id === this.sceneStore.selectedObjectId;
+        const isSelected = element.key === this.sceneStore.selectedObjectKey;
         if (isSelected) {
             classes.push("current-selected");
         }
 
         return (
             <li
-                key={element.id}
+                key={element.key}
                 className={classes.join(" ")}
                 onClick={() => isSelected || this.selectElement()}
             >
@@ -56,6 +56,6 @@ export default class FolderContentElement extends React.Component<ElementInfoPro
     }
 
     private selectElement() {
-        this.sceneStore.selectedObjectId = this.props.element.id;
+        this.sceneStore.selectedObjectKey = this.props.element.key;
     }
 }

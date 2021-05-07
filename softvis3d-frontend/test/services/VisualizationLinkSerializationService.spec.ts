@@ -41,7 +41,7 @@ describe("VisualizationLinkSerializationService", () => {
 
         expect(result.visualizationOptions.profile.id).to.be.eq("default");
         expect(result.visualizationOptions.profile.heightMetric.id).to.be.eq("ncloc");
-        expect(result.selectedObjectId).to.be.null;
+        expect(result.selectedObjectKey).to.be.null;
         expect(result.cameraPosition.x).to.be.eq(expectedX);
 
         expect(result.visualizationOptions.equalStructure(result.visualizationOptions)).to.be.eq(

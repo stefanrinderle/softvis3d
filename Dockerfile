@@ -1,30 +1,16 @@
-#
-# softvis3d
-# Copyright (C) 2020 Stefan Rinderle and Yvo Niedrich
-# stefan@rinderle.info / yvo.niedrich@gmail.com
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 3 of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
-#
+### BUILD image
+FROM maven:3-jdk-11
+# create app folder for sources
+RUN mkdir -p /build
+WORKDIR /build
+RUN git clone https://github.com/AdamBien/breakr.git
 
-FROM sonarqube
+WORKDIR /build/breakr/breakr
 
-# RUN apt-get update && apt-get install nodejs -y
+ARG SQ_HOST
+ENV ENV_SQ_HOST=$SQ_HOST
 
-RUN mv /opt/sonarqube/lib/bundled-plugins/*.jar /opt/sonarqube/extensions/plugins/
+ARG SQ_PORT
+ENV ENV_SQ_PORT=$SQ_PORT
 
-ENV TS_PLUGIN_VERSION 1.1.0
-RUN cd /opt/sonarqube/extensions/plugins && \
-	curl -sLo sonar-softvis3d-plugin-${TS_PLUGIN_VERSION}.jar \
-    https://github.com/Pablissimo/SonarTsPlugin/releases/download/v${TS_PLUGIN_VERSION}/sonar-typescript-plugin-${TS_PLUGIN_VERSION}.jar
+RUN mvn -U -B package sonar:sonar -Dsonar.host.url=http://$SQ_HOST:$SQ_PORT -Dsonar.login=admin -Dsonar.password=admin

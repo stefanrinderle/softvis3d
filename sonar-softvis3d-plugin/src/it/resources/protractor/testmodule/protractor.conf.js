@@ -1,5 +1,5 @@
 /*
- * softvis3d-sonarqube-it
+ * SoftVis3D Sonar plugin
  * Copyright (C) 2020 Stefan Rinderle and Yvo Niedrich
  * stefan@rinderle.info / yvo.niedrich@gmail.com
  *
@@ -27,7 +27,7 @@ var reporters = require('jasmine-reporters');
 var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
 var reporter = new HtmlScreenshotReporter({
-  dest: './results',
+  dest: './results/screenshots/',
   filename: 'my-report.html'
 });
 
@@ -56,7 +56,7 @@ exports.config = {
   capabilities: {
     // 'browserName': 'chrome',
     // 'chromeOptions': {
-    //   'args': ['show-fps-counter=true', '–ignore-gpu-blacklist', '--enable-webgl', "--log-path=chromedriver.log"]
+    //   'args': ['no-sandbox', 'headless', 'disable-gpu']
     // }
     'browserName': 'firefox'
   },

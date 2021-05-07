@@ -40,7 +40,6 @@ export default class SonarQubeTransformerService {
         }
 
         return new TreeElement(
-            component.id,
             component.key,
             measureList,
             component.name,

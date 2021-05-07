@@ -108,6 +108,6 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
     }
 
     private getElement(child: TreeElement): JSX.Element {
-        return <FolderContentElement key={child.id} element={child} />;
+        return <FolderContentElement key={child.key} element={child} />;
     }
 }

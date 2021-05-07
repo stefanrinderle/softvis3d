@@ -18,18 +18,18 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
+import { assert, expect } from "chai";
 import SelectedElementService from "../../src/services/SelectedElementService";
 import TreeService from "../../src/services/TreeService";
 import SceneStore from "../../src/stores/SceneStore";
 import { createDefaultDir } from "../classes/TreeElement.spec";
 import { createMock, createMockInjection } from "../Helper";
-import { assert, expect } from "chai";
 
 describe("SelectedElementService", () => {
     it("should request selected element", () => {
         const sceneStore = createMockInjection(new SceneStore());
         sceneStore.projectData = {};
-        sceneStore.selectedObjectId = "usdhfiuh";
+        sceneStore.selectedObjectKey = "usdhfiuh";
 
         const treeService = createMock(TreeService);
         const expectedElement = createDefaultDir();
@@ -44,7 +44,7 @@ describe("SelectedElementService", () => {
     it("should not request if project data not set", () => {
         const sceneStore = createMockInjection(new SceneStore());
         sceneStore.projectData = null;
-        sceneStore.selectedObjectId = "usdhfiuh";
+        sceneStore.selectedObjectKey = "usdhfiuh";
 
         const result = new SelectedElementService().getSelectedElement();
 
@@ -54,7 +54,7 @@ describe("SelectedElementService", () => {
     it("should not request if selected id not set", () => {
         const sceneStore = createMockInjection(new SceneStore());
         sceneStore.projectData = {};
-        sceneStore.selectedObjectId = null;
+        sceneStore.selectedObjectKey = null;
 
         const result = new SelectedElementService().getSelectedElement();
 

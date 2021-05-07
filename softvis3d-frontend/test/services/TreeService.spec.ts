@@ -24,71 +24,71 @@ import TreeService from "../../src/services/TreeService";
 import { createDefaultFileWithIdAndParent } from "../classes/TreeElement.spec";
 
 describe("TreeService", () => {
-    it("should find tree node by id direct", () => {
-        const id = "testId123";
-        const tree: TreeElement = createTestTreeElement(id);
+    it("should find tree node by key direct", () => {
+        const key = "testId123";
+        const tree: TreeElement = createTestTreeElement(key);
 
-        const result = new TreeService().searchTreeNode(tree, id);
+        const result = new TreeService().searchTreeNode(tree, key);
 
         expect(result).not.to.be.null;
-        expect((result as TreeElement).id).to.be.equal(tree.id);
+        expect((result as TreeElement).key).to.be.equal(tree.key);
     });
 
-    it("should find tree node by id direct child", () => {
-        const id = "testId123";
+    it("should find tree node by key direct child", () => {
+        const key = "testId123";
         const tree: TreeElement = createTestTreeElement("rootTreeId");
 
-        tree.children.push(createTestTreeElement(id));
+        tree.children.push(createTestTreeElement(key));
 
-        const result = new TreeService().searchTreeNode(tree, id);
+        const result = new TreeService().searchTreeNode(tree, key);
 
         expect(result).not.to.be.null;
-        expect((result as TreeElement).id).to.be.equal(id);
+        expect((result as TreeElement).key).to.be.equal(key);
     });
 
-    it("should find tree node by id direct child of child", () => {
-        const id = "testId123";
+    it("should find tree node by key direct child of child", () => {
+        const key = "testId123";
         const tree: TreeElement = createTestTreeElement("rootTreeId");
 
         const child: TreeElement = createTestTreeElement("childTreeId");
-        child.children.push(createTestTreeElement(id));
+        child.children.push(createTestTreeElement(key));
 
         tree.children.push(child);
 
-        const result = new TreeService().searchTreeNode(tree, id);
+        const result = new TreeService().searchTreeNode(tree, key);
 
         expect(result).not.to.be.null;
-        expect((result as TreeElement).id).to.be.equal(id);
+        expect((result as TreeElement).key).to.be.equal(key);
     });
 
-    it("should find all ids node by id direct", () => {
-        const id = "testId123";
-        const tree: TreeElement = createTestTreeElement(id);
+    it("should find all ids node by key direct", () => {
+        const key = "testId123";
+        const tree: TreeElement = createTestTreeElement(key);
 
-        const result: string[] = new TreeService().getAllSceneElementsRecursive(tree, id);
+        const result: string[] = new TreeService().getAllSceneElementsRecursive(tree, key);
 
         expect(result.length).to.be.equal(1);
-        expect(result[0]).to.be.equal(id);
+        expect(result[0]).to.be.equal(key);
     });
 
     it("should return all elements with direct child - request child", () => {
-        const id = "testId123";
+        const key = "testId123";
         const tree: TreeElement = createTestTreeElement("rootTreeId");
 
-        tree.children.push(createTestTreeElement(id));
+        tree.children.push(createTestTreeElement(key));
 
-        const result: string[] = new TreeService().getAllSceneElementsRecursive(tree, id);
+        const result: string[] = new TreeService().getAllSceneElementsRecursive(tree, key);
 
         expect(result).to.be.length(1);
-        expect(result[0]).to.be.equal(id);
+        expect(result[0]).to.be.equal(key);
     });
 
     it("should return all elements with direct child - request root", () => {
-        const id = "testId123";
+        const key = "testId123";
         const rootId = "rootId123";
         const tree: TreeElement = createTestTreeElement(rootId);
 
-        tree.children.push(createTestTreeElement(id));
+        tree.children.push(createTestTreeElement(key));
 
         const result: string[] = new TreeService().getAllSceneElementsRecursive(tree, rootId);
 
@@ -97,12 +97,12 @@ describe("TreeService", () => {
     });
 
     it("should return all elements with direct child of child", () => {
-        const id = "testId123";
+        const key = "testId123";
         const rootId = "rootId123";
         const tree: TreeElement = createTestTreeElement(rootId);
 
         const child: TreeElement = createTestTreeElement("childTreeId");
-        child.children.push(createTestTreeElement(id));
+        child.children.push(createTestTreeElement(key));
 
         tree.children.push(child);
 
@@ -113,8 +113,8 @@ describe("TreeService", () => {
     });
 
     it("should find not fail if the child node does not exist", () => {
-        const id = "testId123";
-        const tree: TreeElement = createTestTreeElement(id);
+        const key = "testId123";
+        const tree: TreeElement = createTestTreeElement(key);
 
         const result = new TreeService().searchTreeNode(tree, "noId");
 
@@ -122,10 +122,10 @@ describe("TreeService", () => {
     });
 
     it("should find not fail if the node does not exist in tree", () => {
-        const id = "testId123";
-        const tree: TreeElement = createTestTreeElement(id);
+        const key = "testId123";
+        const tree: TreeElement = createTestTreeElement(key);
 
-        tree.children.push(createTestTreeElement(id + "_1"));
+        tree.children.push(createTestTreeElement(key + "_1"));
 
         const result = new TreeService().getAllSceneElementsRecursive(tree, "noId");
 
@@ -133,6 +133,6 @@ describe("TreeService", () => {
     });
 });
 
-function createTestTreeElement(id: string, parent?: TreeElement): TreeElement {
-    return createDefaultFileWithIdAndParent(id, parent);
+function createTestTreeElement(key: string, parent?: TreeElement): TreeElement {
+    return createDefaultFileWithIdAndParent(key, parent);
 }

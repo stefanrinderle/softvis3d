@@ -18,12 +18,12 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import * as React from "react";
 import { observer } from "mobx-react";
+import * as React from "react";
+import { TreeElement } from "../../classes/TreeElement";
 import { lazyInject } from "../../inversify.config";
 import SelectedElementService from "../../services/SelectedElementService";
 import SceneStore from "../../stores/SceneStore";
-import { TreeElement } from "../../classes/TreeElement";
 
 /**
  * Currently used for an example use of selected scene object store.
@@ -49,7 +49,7 @@ export default class ParentElement extends React.Component<Record<string, unknow
                 <div className="select-parent">
                     <span
                         onClick={() => {
-                            this.sceneStore.selectedObjectId = myParent.id;
+                            this.sceneStore.selectedObjectKey = myParent.key;
                         }}
                     >
                         {myParent.name}

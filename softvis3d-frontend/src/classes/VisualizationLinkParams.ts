@@ -25,7 +25,7 @@ import VisualizationOptionStore from "../stores/VisualizationOptionStore";
 export default class VisualizationLinkParams {
     @Type(() => VisualizationOptionStore)
     public visualizationOptions: VisualizationOptionStore;
-    public selectedObjectId: string | null;
+    public selectedObjectKey: string | null;
     public cameraPosition: Vector3;
 
     constructor(
@@ -34,7 +34,7 @@ export default class VisualizationLinkParams {
         cameraPosition: Vector3
     ) {
         this.visualizationOptions = visualizationOptions;
-        this.selectedObjectId = selectedObjectId;
+        this.selectedObjectKey = selectedObjectId;
         this.cameraPosition = cameraPosition;
     }
 }

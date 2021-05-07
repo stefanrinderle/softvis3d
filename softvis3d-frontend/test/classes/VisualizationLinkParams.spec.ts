@@ -25,18 +25,18 @@ import VisualizationOptionStore from "../../src/stores/VisualizationOptionStore"
 
 describe("VisualizationLinkParams", () => {
     it("should construct config", () => {
-        const selectedObjectId = "123";
+        const selectedObjectKey = "123";
         const cameraPosition: Vector3 = new Vector3(0, 1, 2);
         const visualizationOptions = VisualizationOptionStore.createDefault();
 
         const result: VisualizationLinkParams = new VisualizationLinkParams(
             visualizationOptions,
-            selectedObjectId,
+            selectedObjectKey,
             cameraPosition
         );
 
         expect(result.visualizationOptions).to.be.eq(visualizationOptions);
-        expect(result.selectedObjectId).to.be.eq(selectedObjectId);
+        expect(result.selectedObjectKey).to.be.eq(selectedObjectKey);
         expect(result.cameraPosition).to.be.eq(cameraPosition);
     });
 });

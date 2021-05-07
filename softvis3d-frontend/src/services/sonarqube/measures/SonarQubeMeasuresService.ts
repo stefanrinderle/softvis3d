@@ -79,7 +79,6 @@ export default class SonarQubeMeasuresService {
             const projectKey = this.componentStatusStore.appConfiguration.projectKey;
             const root: TreeElement = new TreeElement(
                 projectKey,
-                projectKey,
                 {},
                 projectKey,
                 projectKey,

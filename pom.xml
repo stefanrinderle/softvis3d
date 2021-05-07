@@ -134,7 +134,6 @@
   <modules>
     <module>softvis3d-frontend</module>
     <module>sonar-softvis3d-plugin</module>
-    <module>softvis3d-sonarqube-it</module>
   </modules>
 
   <build>
@@ -184,6 +183,7 @@
             <exclude>LICENSE</exclude>
             <exclude>Vagrantfile</exclude>
             <exclude>Jenkinsfile</exclude>
+            <exclude>Dockerfile</exclude>
             <exclude>docs/**/*</exclude>
           </excludes>
         </configuration>

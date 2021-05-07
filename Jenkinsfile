@@ -33,7 +33,7 @@ pipeline {
             }
         }
 
-        stage('Verify') {
+        stage('Sonar') {
             steps {
                 script {
                     withSonarQubeEnv('SonarQube SoftVis3D') {
@@ -42,6 +42,15 @@ pipeline {
                         } else {
                             sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.projectKey=de.rinderle.softvis3d:softvis3d:$BRANCH_NAME -Dsonar.projectName=softvis3d:$BRANCH_NAME'
                         }
+                    }
+                }
+            }
+        }
+
+        stage('Verify') {
+            steps {
+                script {
+                        sh 'mvn failsafe:integration-test'
                     }
                 }
             }

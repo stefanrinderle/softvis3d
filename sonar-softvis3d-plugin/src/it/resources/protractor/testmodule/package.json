@@ -11,8 +11,8 @@
     "webdriver-manager": "webdriver-manager",
     "webdriver:update": "npm run webdriver-manager update",
     "webdriver:start": "npm run webdriver-manager start",
-    "e2e": "npm run protractor ./protractor.conf.js",
-    "e2e:live": "npm run e2e ./protractor.conf.js -- --elementExplorer"
+    "e2e": "npm run protractor protractor.conf.js",
+    "e2e:live": "npm run e2e protractor.conf.js -- --elementExplorer"
   },
   "dependencies": {},
   "devDependencies": {

@@ -23,7 +23,6 @@ import { shallow } from "enzyme";
 import * as React from "react";
 import * as Sinon from "sinon";
 import { Vector3 } from "three";
-import VisualizationOptionStore from "../../../src/stores/VisualizationOptionStore";
 import { SceneKeyInteractions } from "../../../src/components/scene/events/SceneKeyInteractions";
 import SceneInformation from "../../../src/components/scene/information/SceneInformation";
 import { KeyLegend } from "../../../src/components/scene/KeyLegend";
@@ -31,6 +30,7 @@ import Scene from "../../../src/components/scene/Scene";
 import ThreeSceneService from "../../../src/components/scene/visualization/ThreeSceneService";
 import CityBuilderStore from "../../../src/stores/CityBuilderStore";
 import SceneStore from "../../../src/stores/SceneStore";
+import VisualizationOptionStore from "../../../src/stores/VisualizationOptionStore";
 import { createMockInjection } from "../../Helper";
 
 describe("<Scene/>", () => {
@@ -87,7 +87,7 @@ describe("<Scene/>", () => {
     it("should process scene updates - no action if not mounted", () => {
         const localSceneStore: any = Sinon.stub();
         createMockInjection(new CityBuilderStore());
-        localSceneStore.selectedObjectId = null;
+        localSceneStore.selectedObjectKey = null;
         localSceneStore.shapesHash = "";
 
         const underTest: Scene = new Scene();
@@ -108,7 +108,7 @@ describe("<Scene/>", () => {
     it("should process scene updates - update shapes if changed", () => {
         const localSceneStore: any = createMockInjection(new SceneStore());
         createMockInjection(new CityBuilderStore());
-        localSceneStore.selectedObjectId = null;
+        localSceneStore.selectedObjectKey = null;
         localSceneStore.shapesHash = "123";
 
         const underTest: Scene = new Scene();
@@ -142,11 +142,11 @@ describe("<Scene/>", () => {
     });
 
     it("should process scene updates - update selected objectr if changed", () => {
-        const expectedObjectId = "123";
+        const selectedObjectKey = "123";
         const localSceneStore: any = createMockInjection(new SceneStore());
         createMockInjection(new CityBuilderStore());
 
-        localSceneStore.selectedObjectId = expectedObjectId;
+        localSceneStore.selectedObjectKey = selectedObjectKey;
         localSceneStore.shapesHash = "";
 
         const underTest: Scene = new Scene();
@@ -160,7 +160,7 @@ describe("<Scene/>", () => {
         underTest.componentDidMount();
         underTest.processSceneUpdates();
 
-        assert(stubThreeSceneService.selectSceneTreeObject.calledWithExactly(expectedObjectId));
+        assert(stubThreeSceneService.selectSceneTreeObject.calledWithExactly(selectedObjectKey));
 
         // only update if not changed - check if inner properties have been updated.
 

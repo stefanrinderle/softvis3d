@@ -69,7 +69,7 @@ describe("SonarQubeMeasuresService", () => {
                 assert(spyLoadComplete.calledWith(SonarQubeMeasuresService.LOAD_MEASURES));
 
                 expect(testSceneStore.scmMetricLoaded).to.be.eq(false);
-                expect(testSceneStore.projectData?.id).to.equal(expectedData.id);
+                expect(testSceneStore.projectData?.key).to.equal(expectedData.key);
                 clock.tick(10);
                 done();
             })

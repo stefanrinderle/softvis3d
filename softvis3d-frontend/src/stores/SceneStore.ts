@@ -26,7 +26,7 @@ export default class SceneStore {
     @observable
     public projectData: TreeElement | null = null;
     @observable
-    public selectedObjectId: string | null = null;
+    public selectedObjectKey: string | null = null;
     @observable
     public shapes: any = null;
     @observable

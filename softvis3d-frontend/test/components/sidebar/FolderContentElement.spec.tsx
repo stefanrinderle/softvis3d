@@ -32,7 +32,7 @@ describe("<FolderContentElement/>", () => {
         const expectedName = "element98szdfkjbsf";
         const selectedElement: TreeElement = createDefaultFileWithName(expectedName);
         const localSceneStore: SceneStore = createMockInjection(new SceneStore());
-        localSceneStore.selectedObjectId = "other";
+        localSceneStore.selectedObjectKey = "other";
 
         const selectedSingleFileInfo = shallow(<FolderContentElement element={selectedElement} />);
 
@@ -43,7 +43,7 @@ describe("<FolderContentElement/>", () => {
         const expectedName = "element98szdfkjbsf";
         const selectedElement: TreeElement = createDefaultFileWithName(expectedName);
         const localSceneStore: SceneStore = createMockInjection(new SceneStore());
-        localSceneStore.selectedObjectId = selectedElement.id;
+        localSceneStore.selectedObjectKey = selectedElement.key;
 
         const selectedSingleFileInfo = shallow(<FolderContentElement element={selectedElement} />);
 
@@ -60,18 +60,18 @@ describe("<FolderContentElement/>", () => {
 
         selectedSingleFileInfo.find("li").simulate("click");
 
-        expect(localSceneStore.selectedObjectId).to.be.eq(expectedName);
+        expect(localSceneStore.selectedObjectKey).to.be.eq(expectedName);
     });
 
     it("should do nothing on click on already selected element", () => {
         const expectedName = "element98szdfkjbsf";
         const selectedElement: TreeElement = createDefaultFileWithName(expectedName);
         const localSceneStore: SceneStore = createMockInjection(new SceneStore());
-        localSceneStore.selectedObjectId = selectedElement.id;
+        localSceneStore.selectedObjectKey = selectedElement.key;
 
         const selectedSingleFileInfo = shallow(<FolderContentElement element={selectedElement} />);
 
         selectedSingleFileInfo.find("li").simulate("click");
-        expect(localSceneStore.selectedObjectId).to.be.eq(localSceneStore.selectedObjectId);
+        expect(localSceneStore.selectedObjectKey).to.be.eq(localSceneStore.selectedObjectKey);
     });
 });

@@ -78,13 +78,13 @@ describe("<ParentElement/>", () => {
 
         const localSceneStore = createMockInjection(Sinon.createStubInstance(SceneStore));
         localSceneStore.projectData = parent;
-        localSceneStore.selectedObjectId = child1.id;
+        localSceneStore.selectedObjectKey = child1.key;
         Sinon.stub(localSceneStore, "selectedElement").returns(child1);
 
         const sideBarSelectParent = shallow(<ParentElement />);
 
         sideBarSelectParent.find(".select-parent span").simulate("click");
-        expect(localSceneStore.selectedObjectId).to.be.eq("parent");
+        expect(localSceneStore.selectedObjectKey).to.be.eq("parent");
     });
 
     it("should select parent folder on click (for leaf element)", () => {
@@ -99,11 +99,11 @@ describe("<ParentElement/>", () => {
 
         const localSceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = parent;
-        localSceneStore.selectedObjectId = child11.id;
+        localSceneStore.selectedObjectKey = child11.key;
 
         const sideBarSelectParent = shallow(<ParentElement />);
 
         sideBarSelectParent.find(".select-parent span").simulate("click");
-        expect(localSceneStore.selectedObjectId).to.be.eq("parent");
+        expect(localSceneStore.selectedObjectKey).to.be.eq("parent");
     });
 });

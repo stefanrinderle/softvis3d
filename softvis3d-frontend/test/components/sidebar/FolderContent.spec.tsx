@@ -45,7 +45,7 @@ describe("<FolderContent/>", () => {
 
         const localSceneStore: SceneStore = new SceneStore();
         localSceneStore.projectData = parent;
-        localSceneStore.selectedObjectId = child1.id;
+        localSceneStore.selectedObjectKey = child1.key;
 
         const sideBarLeafInfo = shallow(<FolderContent activeFolder={parent} />);
 

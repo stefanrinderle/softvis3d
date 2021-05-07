@@ -93,41 +93,41 @@ describe("TreeElement", () => {
  */
 
 export function createDefaultFile() {
-    return new TreeElement("", "", {}, "", "", SQ_QUALIFIER_FILE);
+    return new TreeElement("", {}, "", "", SQ_QUALIFIER_FILE);
 }
 
 export function createDefaultTestFile() {
-    return new TreeElement("", "", {}, "", "", SQ_QUALIFIER_UNIT_TEST_FILE);
+    return new TreeElement("", {}, "", "", SQ_QUALIFIER_UNIT_TEST_FILE);
 }
 
 export function createDefaultFileWithParent(parent: TreeElement) {
-    return new TreeElement("", "", {}, "", "", SQ_QUALIFIER_FILE, parent);
+    return new TreeElement("", {}, "", "", SQ_QUALIFIER_FILE, parent);
 }
 
-export function createDefaultFileWithIdAndParent(id: string, parent?: TreeElement) {
-    return new TreeElement(id, id, {}, id, "", SQ_QUALIFIER_FILE, parent);
+export function createDefaultFileWithIdAndParent(key: string, parent?: TreeElement) {
+    return new TreeElement(key, {}, key, "", SQ_QUALIFIER_FILE, parent);
 }
 
-export function createDefaultDirWithKeyAndParent(id: string, parent?: TreeElement) {
-    return new TreeElement(id, id, {}, id, "", SQ_QUALIFIER_DIRECTORY, parent);
+export function createDefaultDirWithKeyAndParent(key: string, parent?: TreeElement) {
+    return new TreeElement(key, {}, key, "", SQ_QUALIFIER_DIRECTORY, parent);
 }
 
 export function createDefaultFileWithName(name: string) {
-    return new TreeElement(name, name, {}, name, "", SQ_QUALIFIER_FILE);
+    return new TreeElement(name, {}, name, "", SQ_QUALIFIER_FILE);
 }
 
 export function createDefaultDir() {
-    return new TreeElement("", "", {}, "", "", SQ_QUALIFIER_DIRECTORY);
+    return new TreeElement("", {}, "", "", SQ_QUALIFIER_DIRECTORY);
 }
 
 export function createDefaultFileWithPath(path: string) {
-    return new TreeElement("", "", {}, "", path, SQ_QUALIFIER_FILE);
+    return new TreeElement("", {}, "", path, SQ_QUALIFIER_FILE);
 }
 
 export function createDefaultDirWithPath(path: string) {
-    return new TreeElement("", "", {}, "", path, SQ_QUALIFIER_DIRECTORY);
+    return new TreeElement("", {}, "", path, SQ_QUALIFIER_DIRECTORY);
 }
 
 export function createDefaultDirWithKey(name: string, key: string) {
-    return new TreeElement(key, key, {}, name, "", SQ_QUALIFIER_DIRECTORY);
+    return new TreeElement(key, {}, name, "", SQ_QUALIFIER_DIRECTORY);
 }

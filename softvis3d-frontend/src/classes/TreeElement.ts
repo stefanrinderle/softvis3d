@@ -19,8 +19,8 @@
 ///
 
 import {
-    SQ_QUALIFIER_FILE,
-    SQ_QUALIFIER_UNIT_TEST_FILE,
+  SQ_QUALIFIER_FILE,
+  SQ_QUALIFIER_UNIT_TEST_FILE
 } from "../services/sonarqube/measures/api/SonarQubeMeasureResponse";
 import Metric from "./Metric";
 
@@ -33,7 +33,6 @@ export class TreeElement {
         return a.isFile() ? 1 : -1;
     }
 
-    public readonly id: string;
     public readonly key: string;
     public measures: MeasureList;
 
@@ -46,7 +45,6 @@ export class TreeElement {
     public readonly qualifier: string;
 
     public constructor(
-        id: string,
         key: string,
         measures: MeasureList,
         name: string,
@@ -54,7 +52,6 @@ export class TreeElement {
         qualifier: string,
         parent?: TreeElement
     ) {
-        this.id = id;
         this.key = key;
         this.measures = measures;
         this.name = name;
@@ -77,7 +74,7 @@ export class TreeElement {
     public replaceChildByKey(key: string, replaceChild: TreeElement) {
         for (let index = 0; index < this.children.length; index++) {
             if (key === this.children[index].key) {
-                replaceChild.name = this.children[index].name + "/" + replaceChild.name;
+                replaceChild.name = `${this.children[index].name}/${replaceChild.name}`;
                 this.children[index] = replaceChild;
                 break;
             }
@@ -94,7 +91,6 @@ export class TreeElement {
 
     public clone(): TreeElement {
         const treeElement = new TreeElement(
-            this.id,
             this.key,
             this.measures,
             this.name,

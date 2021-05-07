@@ -24,7 +24,7 @@ import SceneStore from "../../src/stores/SceneStore";
 describe("SceneStore", () => {
     it("should contain no selected id on init", () => {
         const sceneStore = new SceneStore();
-        expect(sceneStore.selectedObjectId).to.be.null;
+        expect(sceneStore.selectedObjectKey).to.be.null;
     });
 
     it("should contain not initial test shapes", () => {
@@ -32,23 +32,23 @@ describe("SceneStore", () => {
         expect(sceneStore.shapes).to.be.null;
     });
 
-    it("should set selectedObjectId", () => {
+    it("should set selectedObjectKey", () => {
         const sceneStore = new SceneStore();
 
         const expected = "sdufhisufh";
-        sceneStore.selectedObjectId = expected;
-        expect(sceneStore.selectedObjectId).to.be.equal(expected);
+        sceneStore.selectedObjectKey = expected;
+        expect(sceneStore.selectedObjectKey).to.be.equal(expected);
     });
 
-    it("should accept the selectedObjectId null", () => {
+    it("should accept the selectedObjectKey null", () => {
         const sceneStore = new SceneStore();
 
         const expected = "sdufhisufh";
-        sceneStore.selectedObjectId = expected;
-        expect(sceneStore.selectedObjectId).to.be.equal(expected);
+        sceneStore.selectedObjectKey = expected;
+        expect(sceneStore.selectedObjectKey).to.be.equal(expected);
 
-        sceneStore.selectedObjectId = null;
-        expect(sceneStore.selectedObjectId).to.be.equal(null);
+        sceneStore.selectedObjectKey = null;
+        expect(sceneStore.selectedObjectKey).to.be.equal(null);
     });
 
     it("should set shapes if set", () => {

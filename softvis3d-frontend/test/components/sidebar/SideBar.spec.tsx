@@ -55,14 +55,12 @@ describe("<SideBar/>", () => {
 
         const parent: TreeElement = new TreeElement(
             "parent",
-            "parent",
             {},
             "parent",
             "",
             SQ_QUALIFIER_DIRECTORY
         );
         const child1: TreeElement = new TreeElement(
-            "child1",
             "child1",
             {},
             "child1",
@@ -71,7 +69,6 @@ describe("<SideBar/>", () => {
             parent
         );
         const child11: TreeElement = new TreeElement(
-            "child11",
             "child11",
             {},
             "child11",
@@ -88,7 +85,7 @@ describe("<SideBar/>", () => {
 
         const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = parent;
-        localSceneStore.selectedObjectId = child1.id;
+        localSceneStore.selectedObjectKey = child1.key;
 
         const localTreeService = createMock(TreeService);
         localTreeService.searchTreeNode.returns(child1);
@@ -101,8 +98,8 @@ describe("<SideBar/>", () => {
 
         expect(shallowSidebar.contains(<FolderContent activeFolder={child1} />)).to.be.true;
 
-        expect(shallowSidebar.html()).to.contain(child1.id);
-        expect(shallowSidebar.html()).to.contain(child11.id);
+        expect(shallowSidebar.html()).to.contain(child1.key);
+        expect(shallowSidebar.html()).to.contain(child11.key);
     });
 
     it("should show node info for leafs", () => {
@@ -115,7 +112,7 @@ describe("<SideBar/>", () => {
 
         const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         localSceneStore.projectData = parent;
-        localSceneStore.selectedObjectId = child11.id;
+        localSceneStore.selectedObjectKey = child11.key;
 
         const selectedElementService = createMock(SelectedElementService);
         selectedElementService.getSelectedElement.returns(child11);
@@ -131,7 +128,7 @@ describe("<SideBar/>", () => {
 
         expect(shallowSidebar.contains(<FolderContent activeFolder={child1} />)).to.be.true;
 
-        expect(shallowSidebar.html()).to.contain(child1.id);
-        expect(shallowSidebar.html()).to.contain(child11.id);
+        expect(shallowSidebar.html()).to.contain(child1.key);
+        expect(shallowSidebar.html()).to.contain(child11.key);
     });
 });

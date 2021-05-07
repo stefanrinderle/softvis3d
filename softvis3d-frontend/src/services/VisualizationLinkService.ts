@@ -33,9 +33,9 @@ export default class VisualizationLinkService {
     @lazyInject("CityBuilderStore")
     private readonly cityBuilderStore!: CityBuilderStore;
     @lazyInject("VisualizationOptionStore")
-    private visualizationOptions!: VisualizationOptionStore;
+    private readonly visualizationOptions!: VisualizationOptionStore;
     @lazyInject("ComponentStatusStore")
-    private componentStatusStore!: ComponentStatusStore;
+    private readonly componentStatusStore!: ComponentStatusStore;
 
     @lazyInject("UrlParameterService")
     private readonly urlParameterService!: UrlParameterService;
@@ -95,7 +95,7 @@ export default class VisualizationLinkService {
 
         const visualizationLinkParams: VisualizationLinkParams = new VisualizationLinkParams(
             this.visualizationOptions,
-            this.sceneStore.selectedObjectId,
+            this.sceneStore.selectedObjectKey,
             this.sceneStore.cameraPosition
         );
 
@@ -118,7 +118,7 @@ export default class VisualizationLinkService {
         this.visualizationOptions.fileFilter =
             visualizationLinkParams.visualizationOptions.fileFilter;
 
-        this.sceneStore.selectedObjectId = visualizationLinkParams.selectedObjectId;
+        this.sceneStore.selectedObjectKey = visualizationLinkParams.selectedObjectKey;
         this.sceneStore.cameraPosition = visualizationLinkParams.cameraPosition;
     }
 }

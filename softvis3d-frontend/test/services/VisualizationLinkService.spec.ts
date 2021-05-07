@@ -145,8 +145,8 @@ describe("VisualizationLinkService", () => {
         const localSceneStore: SceneStore = createMockInjection(new SceneStore());
         localSceneStore.cameraPosition = new Vector3(1, 2, 3);
 
-        const expectedSelectedObjectId = "123453";
-        localSceneStore.selectedObjectId = expectedSelectedObjectId;
+        const expectedSelectedObjectKey = "123453";
+        localSceneStore.selectedObjectKey = expectedSelectedObjectKey;
 
         const underTest: VisualizationLinkService = new VisualizationLinkService();
 

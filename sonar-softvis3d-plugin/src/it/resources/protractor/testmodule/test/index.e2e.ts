@@ -1,5 +1,5 @@
 ///
-/// softvis3d-sonarqube-it
+/// SoftVis3D Sonar plugin
 /// Copyright (C) 2020 Stefan Rinderle and Yvo Niedrich
 /// stefan@rinderle.info / yvo.niedrich@gmail.com
 ///
@@ -33,7 +33,8 @@ describe("Index", () => {
         browser.get("/projects");
         waitFor(by.css(".projects-list"));
 
-        element(by.linkText("softvis3d")).click();
+        // element(by.linkText("softvis3d")).click();
+        element(by.linkText("breakr")).click();
         waitFor(by.css(".overview"));
 
         element.all(by.partialLinkText("More")).get(0).click();
