@@ -65,7 +65,7 @@ public class SonarQubeVersionIT {
 
             runProjectAnalysis(address, port);
 
-            runE2eTests(address, port);
+            runE2eTests(version, address, port);
         } finally {
             sonarQubeContainer.stop();
         }
@@ -78,13 +78,13 @@ public class SonarQubeVersionIT {
         waitForContainerStop(analysis);
     }
 
-    private void runE2eTests(String address, Integer port) {
-        ProtractorTestsContainer testsContainer = new ProtractorTestsContainer(network, address, port, logConsumer);
+    private void runE2eTests(String version, String address, Integer port) {
+        ProtractorTestsContainer testsContainer = new ProtractorTestsContainer(version, network, address, port, logConsumer);
         testsContainer.start();
 
         waitForContainerStop(testsContainer);
 
-        validateResult();
+        validateResult(version);
     }
 
     private void waitForContainerStop(GenericContainer container) {
@@ -98,8 +98,8 @@ public class SonarQubeVersionIT {
         }
     }
 
-    private void validateResult() {
-        Path resourceDirectory = Paths.get("resultTmp", "junitresults.xml");
+    private void validateResult(String version) {
+        Path resourceDirectory = Paths.get("resultTmp",version,  "junitresults.xml");
 
         try {
             String result = FileUtils.readFileToString(resourceDirectory.toFile(), "UTF-8");

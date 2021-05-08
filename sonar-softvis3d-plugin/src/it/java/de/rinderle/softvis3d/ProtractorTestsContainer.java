@@ -30,16 +30,17 @@ import java.util.function.Consumer;
 
 public class ProtractorTestsContainer extends GenericContainer<ProtractorTestsContainer> {
 
-    public ProtractorTestsContainer(Network network, String host, Integer port, Consumer<OutputFrame> logConsumer) {
+    public ProtractorTestsContainer(String version, Network network, String host, Integer port, Consumer<OutputFrame> logConsumer) {
         super(getImageFromDockerfile());
 
         this.withNetwork(network);
 
         String baseUrlCommand = "--baseUrl=http://" + host + ":" + port + "/";
-        String pathToFile = "./resultTmp";
+        File file = new File("./resultTmp/" + version);
+        file.mkdirs();
 
         this.withCommand(baseUrlCommand);
-        this.withFileSystemBind(pathToFile, "/protractor/results/", BindMode.READ_WRITE);
+        this.withFileSystemBind(file.getPath(), "/protractor/results/", BindMode.READ_WRITE);
         this.withLogConsumer(logConsumer);
     }
 
