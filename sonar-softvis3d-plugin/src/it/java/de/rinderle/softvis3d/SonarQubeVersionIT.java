@@ -29,10 +29,7 @@ import org.testcontainers.containers.output.Slf4jLogConsumer;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.Callable;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -44,21 +41,26 @@ public class SonarQubeVersionIT {
     private final Network network = Network.newNetwork();
 
     @Test
-    public void test796() {
-        this.testSimplePutAndGet("7.9.6");
+    public void testStartCompatibility() {
+        this.testPluginWithSQVersion("7.6-community");
     }
 
     @Test
-    public void test88() {
-        this.testSimplePutAndGet("8.8");
+    public void testLatest() {
+        this.testPluginWithSQVersion("latest");
     }
 
-    private void testSimplePutAndGet(String version) {
+    @Test
+    public void testLTS() {
+        this.testPluginWithSQVersion("lts-community");
+    }
+
+    private void testPluginWithSQVersion(String version) {
         SonarQubeContainer sonarQubeContainer = new SonarQubeContainer(version, network, logConsumer);
         try {
             sonarQubeContainer.start();
 
-            String address = (String) sonarQubeContainer.getNetworkAliases().get(0);
+            String address = sonarQubeContainer.getNetworkAliases().get(0);
             Integer port = 9000;
 
             runProjectAnalysis(address, port);
@@ -73,20 +75,27 @@ public class SonarQubeVersionIT {
         SonarAnalysisContainer analysis = new SonarAnalysisContainer(network, address, port, logConsumer);
         analysis.start();
 
-        await().atMost(300, SECONDS).until(isContainerRunning(analysis));
-    }
-
-    private Callable<Boolean> isContainerRunning(GenericContainer analysis) {
-        return analysis::isRunning;
+        waitForContainerStop(analysis);
     }
 
     private void runE2eTests(String address, Integer port) {
         ProtractorTestsContainer testsContainer = new ProtractorTestsContainer(network, address, port, logConsumer);
         testsContainer.start();
 
-        await().atMost(300, SECONDS).until(isContainerRunning(testsContainer));
+        waitForContainerStop(testsContainer);
 
         validateResult();
+    }
+
+    private void waitForContainerStop(GenericContainer container) {
+        while (container.isRunning()) {
+            System.out.println("Wait for container processing " + container.getContainerName());
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void validateResult() {

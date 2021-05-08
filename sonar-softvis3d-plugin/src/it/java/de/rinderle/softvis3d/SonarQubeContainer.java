@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 import java.util.function.Consumer;
 
@@ -58,10 +59,18 @@ public class SonarQubeContainer extends GenericContainer<SonarQubeContainer> {
     }
 
     private static ImageFromDockerfile getImageFromDockerfile(String sonarQubeVersion) {
-        File dockerfile = new File("target/test-classes/sonarqube/Dockerfile");
-        replaceVersion(dockerfile, sonarQubeVersion);
-        return new ImageFromDockerfile("sonarqube-container", false)
-                .withFileFromFile("Dockerfile", dockerfile);
+        File dockerfileOrig = new File("target/test-classes/sonarqube/Dockerfile");
+        File dockerfileCopy = new File("target/test-classes/sonarqube/DockerfileCopy");
+        try {
+            Files.copy(dockerfileOrig.toPath(), dockerfileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+            replaceVersion(dockerfileCopy, sonarQubeVersion);
+            return new ImageFromDockerfile("sonarqube-container", false)
+                    .withDockerfile(dockerfileCopy.toPath());
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+        throw new RuntimeException();
     }
 
     private static void replaceVersion(File dockerFile, String sonarQubeVersion) {

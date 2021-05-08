@@ -29,4 +29,4 @@ WORKDIR /build/breakr
 
 RUN mvn -U -B package
 
-ENTRYPOINT mvn -B sonar:sonar -Dsonar.host.url=http://$SQ_HOST:$SQ_PORT -Dsonar.login=admin -Dsonar.password=admin
+ENTRYPOINT mvn -B sonar:sonar -Dsonar.host.url=http://$SQ_HOST:$SQ_PORT -Dsonar.login=admin -Dsonar.password=admin -Dsonar.scm.disabled=true

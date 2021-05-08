@@ -18,6 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 #
 
-FROM sonarqube:XX_SONARQUBE_VERSION_XX-community
+FROM sonarqube:XX_SONARQUBE_VERSION_XX
 
 RUN echo "sonar.forceAuthentication=false" >> /opt/sonarqube/conf/sonar.properties

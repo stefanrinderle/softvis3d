@@ -47,7 +47,7 @@ public class SonarAnalysisContainer extends GenericContainer<SonarAnalysisContai
         File dockerfile = new File("target/test-classes/analyse/Dockerfile");
 
         return new ImageFromDockerfile("maven-analysis", false)
-                .withFileFromFile("Dockerfile", dockerfile);
+                .withDockerfile(dockerfile.toPath());
     }
 
 }
