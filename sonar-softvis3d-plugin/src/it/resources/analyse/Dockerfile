@@ -27,6 +27,6 @@ ADD breakr.tar /build/
 
 WORKDIR /build/breakr
 
-RUN mvn -U -B package
+RUN mvn -U -B package sonar:help
 
-ENTRYPOINT mvn -B sonar:sonar -Dsonar.host.url=http://$SQ_HOST:$SQ_PORT -Dsonar.login=admin -Dsonar.password=admin -Dsonar.scm.disabled=true
+ENTRYPOINT mvn -B -o sonar:sonar -Dsonar.host.url=http://$SQ_HOST:$SQ_PORT -Dsonar.login=admin -Dsonar.password=admin -Dsonar.scm.disabled=true
