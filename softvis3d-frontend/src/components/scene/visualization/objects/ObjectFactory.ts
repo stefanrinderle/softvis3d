@@ -41,10 +41,7 @@ export class ObjectFactory {
         const geometry = new BoxGeometry(
             element.dimensions.length,
             element.dimensions.height,
-            element.dimensions.width,
-            0,
-            0,
-            0
+            element.dimensions.width
         );
 
         const material = new MeshLambertMaterial({

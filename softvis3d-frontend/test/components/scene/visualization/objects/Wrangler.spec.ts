@@ -22,7 +22,7 @@ import { assert, expect } from "chai";
 import { Wrangler } from "../../../../../src/components/scene/visualization/objects/Wrangler";
 import * as Sinon from "sinon";
 import { SoftVis3dShape } from "../../../../../src/components/scene/domain/SoftVis3dShape";
-import { Color, Geometry, MeshLambertMaterial, Scene } from "three";
+import { BufferGeometry, Color, MeshLambertMaterial, Scene} from "three";
 import { ObjectFactory } from "../../../../../src/components/scene/visualization/objects/ObjectFactory";
 import { SoftVis3dMesh } from "../../../../../src/components/scene/domain/SoftVis3dMesh";
 
@@ -211,5 +211,5 @@ function createExampleMesh(key: string, color?: Color): SoftVis3dMesh {
     if (color) {
         material.color = color;
     }
-    return new SoftVis3dMesh(key, new Geometry(), material);
+    return new SoftVis3dMesh(key, new BufferGeometry(), material);
 }

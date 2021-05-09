@@ -17,25 +17,12 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-module.exports = function (env) {
-    env = env || {};
+module.exports = function (env, argv) {
     var webpack = require('webpack'),
         path = require('path'),
-        isProd = env.prod,
-        ExtractTextPlugin = require('extract-text-webpack-plugin'),
-        targetFolder = "static/",
-        // TODO: activate again after new class-transformer release
-        // plugins = [new webpack.optimize.UglifyJsPlugin({ minimize: true, sourceMap: true })],
-        proxy = {
-            "/api": {
-                target: "http://localhost:9000",
-                secure: false,
-                changeOrigin: true,
-                bypass: function(req) {
-                    return false;
-                }
-            }
-        };
+        isProd = argv.mode === 'production',
+        MiniCssExtractPlugin = require('mini-css-extract-plugin'),
+        targetFolder = "static/"
 
     return [
         // ######## JS Configuration ########
@@ -91,20 +78,34 @@ module.exports = function (env) {
                 ]
             },
 
-            // TODO: activate again after new class-transformer release
-            // plugins: isProd ? plugins : [],
-
             externals: {
                 "react": "React",
                 "react-dom": "ReactDOM",
                 "three": "THREE"
             },
 
+            optimization: {
+                minimize: false,
+                // minimize does not work because of dependency injection based on class names
+                // keep_classnames does not help
+
+                // const TerserPlugin = require("terser-webpack-plugin");
+                // minimizer: [new TerserPlugin({
+                //     terserOptions: {
+                //         keep_classnames: true,
+                //     },
+                //     parallel: true,
+                //     sourceMap: true
+                // })],
+            },
+
             devServer: {
                 port: 8080,
                 open: true,
-                contentBase: "app/",
-                proxy: proxy,
+                contentBase: path.join(__dirname, 'app/'),
+                proxy: {
+                    '/api': 'http://localhost:9000',
+                },
                 quiet: false
             }
         },
@@ -119,22 +120,33 @@ module.exports = function (env) {
 
             output: {
                 path: path.join(__dirname, "app"),
-                filename: targetFolder + "style.css"
             },
 
             module: {
                 rules: [
                     {
                         test: /\.scss$/,
-                        use: ExtractTextPlugin.extract({ use: ["css-loader", "sass-loader"]})
+                        use: [MiniCssExtractPlugin.loader, "css-loader", 'sass-loader'],
                     }
                 ]
             },
 
-            plugins: [
-                // Required for creating a separate css file rather than mashing css and js into one horrible file
-                new ExtractTextPlugin(targetFolder + "style.css")
-            ]
+            optimization: {
+                splitChunks: {
+                    cacheGroups: {
+                        styles: {
+                            name: 'styles',
+                            test: /\.css$/,
+                            chunks: 'all',
+                            enforce: true,
+                        },
+                    },
+                },
+            },
+
+            plugins: [new MiniCssExtractPlugin({
+                filename: targetFolder + 'style.css',
+            })]
         }
     ];
 };
