@@ -25,11 +25,12 @@ RUN apt-get update
 RUN apt-get install npm -y
 
 WORKDIR "/testmodule/"
-ADD testmodule/package.json testmodule/package.json
+ADD testdir/package.json testmodule/package.json
 WORKDIR "/testmodule/testmodule"
 RUN npm install
+
 WORKDIR "/testmodule/"
-ADD testmodule testmodule
+ADD testdir testmodule
 
 FROM webnicer/protractor-headless
 

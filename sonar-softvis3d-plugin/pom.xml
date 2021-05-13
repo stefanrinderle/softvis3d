@@ -165,7 +165,7 @@
           <useDefaultExcludes>true</useDefaultExcludes>
           <excludes>
             <exclude>LICENCE</exclude>
-            <exclude>resultTmp</exclude>
+            <exclude>resultTmp/**/*</exclude>
           </excludes>
         </configuration>
       </plugin>

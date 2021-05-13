@@ -1,0 +1,26 @@
+{
+  "name": "SoftVis3d_integration_tests",
+  "version": "0.0.1-SNAPSHOT",
+  "author": "Stefan Rinderle <stefan@rinderle.info>",
+  "scripts": {
+    "tsc": "tsc",
+    "pretest": "npm run tsc",
+    "protractor": "protractor",
+    "webdriver-manager": "webdriver-manager",
+    "webdriver:update": "npm run webdriver-manager update",
+    "webdriver:start": "npm run webdriver-manager start",
+    "pree2e": "npm run webdriver:update -- --standalone",
+    "e2e": "npm run protractor protractor.conf.js"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^3.7.2",
+    "@types/node": "^15.0.2",
+    "jasmine-reporters": "^2.4.0",
+    "jasmine-spec-reporter": "^7.0.0",
+    "protractor": "^7.0.0",
+    "protractor-jasmine2-screenshot-reporter": "^0.5.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {}
+}

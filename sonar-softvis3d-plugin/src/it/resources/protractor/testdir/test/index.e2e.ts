@@ -18,17 +18,15 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-///<reference path="../typings/jasmine/jasmine.d.ts"/>
-///<reference path="../typings/angular-protractor/angular-protractor.d.ts"/>
+import { browser, element, by } from "protractor";
 
 function waitFor(selector) {
-    return browser.wait(function() {
+    return browser.wait(function () {
         return browser.isElementPresent(selector);
-    }, 10000);
+    }, 9000);
 }
 
 describe("Index", () => {
-
     beforeEach(() => {
         browser.get("/projects");
         waitFor(by.css(".projects-list"));
@@ -41,10 +39,11 @@ describe("Index", () => {
         element(by.partialLinkText("SoftVis3D Viewer")).click();
 
         waitFor(by.css(".city-builder"));
+        // browser.sleep(10000);
     });
 
     it("shoud show the main menu default", () => {
-        expect(element(by.css(".city-builder")).isDisplayed()).toBe(true);
+        expect(element(by.css(".city-builder")).isDisplayed()).toBeTruthy();
         browser.sleep(2000);
     });
 
@@ -53,11 +52,12 @@ describe("Index", () => {
         element(by.partialButtonText("Load Scene")).click();
         browser.sleep(2000);
 
-        browser.actions()
-            .mouseMove({x: 300, y: 300})
-            .mouseDown()
-            .mouseUp()
-            .perform();
+        browser
+          .actions()
+          .mouseMove({ x: 300, y: 300 })
+          .mouseDown()
+          .mouseUp()
+          .perform();
 
         browser.sleep(500);
 
@@ -73,11 +73,12 @@ describe("Index", () => {
         element(by.partialButtonText("Load Scene")).click();
         browser.sleep(2000);
 
-        browser.actions()
-            .mouseMove({x: 300, y: 300})
-            .mouseDown()
-            .mouseUp()
-            .perform();
+        browser
+          .actions()
+          .mouseMove({ x: 300, y: 300 })
+          .mouseDown()
+          .mouseUp()
+          .perform();
 
         browser.sleep(500);
 
@@ -99,12 +100,13 @@ describe("Index", () => {
         element(by.partialButtonText("Load Scene")).click();
         browser.sleep(2000);
 
-        browser.actions()
-            .mouseMove({x: 300, y: 300})
-            .mouseDown()
-            .mouseMove({x: 50, y: 50})
-            .mouseUp()
-            .perform();
+        browser
+          .actions()
+          .mouseMove({ x: 300, y: 300 })
+          .mouseDown()
+          .mouseMove({ x: 50, y: 50 })
+          .mouseUp()
+          .perform();
 
         browser.sleep(500);
 

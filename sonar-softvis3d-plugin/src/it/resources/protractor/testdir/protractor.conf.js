@@ -21,8 +21,6 @@
  * @author: @AngularClass
  */
 
-require('ts-node/register');
-
 var reporters = require('jasmine-reporters');
 var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
@@ -54,29 +52,34 @@ exports.config = {
   directConnect: true,
 
   capabilities: {
-    // 'browserName': 'chrome',
-    // 'chromeOptions': {
-    //   'args': ['no-sandbox', 'headless', 'disable-gpu']
-    // }
-    'browserName': 'firefox'
+    'browserName': 'chrome',
+    'chromeOptions': {
+      'args': ['no-sandbox', 'disable-gpu']
+    }
+    // 'browserName': 'firefox'
   },
 
-    onPrepare: function () {
-        browser.ignoreSynchronization = true;
-        // The require statement must be down here, since jasmine-reporters
-        // needs jasmine to be in the global and protractor does not guarantee
-        // this until inside the onPrepare function.
-        var junitReporter = new reporters.JUnitXmlReporter({
-            savePath: './results',
-            consolidateAll: true
-        });
+  onPrepare: function () {
 
-        jasmine.getEnv().addReporter(junitReporter);
-        jasmine.getEnv().addReporter(reporter);
+    require("ts-node").register({
+      project: require("path").join(__dirname, "./tsconfig.json"),
+    });
 
-        let SpecReporter = require('jasmine-spec-reporter').SpecReporter;
-        jasmine.getEnv().addReporter(new SpecReporter({displayStacktrace: 'all'}));
-    },
+    browser.ignoreSynchronization = true;
+    // The require statement must be down here, since jasmine-reporters
+    // needs jasmine to be in the global and protractor does not guarantee
+    // this until inside the onPrepare function.
+    var junitReporter = new reporters.JUnitXmlReporter({
+      savePath: './results',
+      consolidateAll: true
+    });
+
+    jasmine.getEnv().addReporter(junitReporter);
+    jasmine.getEnv().addReporter(reporter);
+
+    let SpecReporter = require('jasmine-spec-reporter').SpecReporter;
+    jasmine.getEnv().addReporter(new SpecReporter({displayStacktrace: 'all'}));
+  },
 
   beforeLaunch: function() {
     return new Promise(function(resolve){
