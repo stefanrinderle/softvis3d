@@ -47,13 +47,13 @@ pipeline {
             }
         }
 
-        stage('Verify') {
-            steps {
-                script {
-                    sh 'mvn verify'
-                }
-            }
-        }
+//         stage('Verify') {
+//             steps {
+//                 script {
+//                     sh 'mvn verify'
+//                 }
+//             }
+//         }
     }
 
     post {
