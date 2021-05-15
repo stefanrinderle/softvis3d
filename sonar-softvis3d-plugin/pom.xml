@@ -26,7 +26,7 @@
   <parent>
     <groupId>de.rinderle.softvis3d</groupId>
     <artifactId>softvis3d</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>sonar-softvis3d-plugin</artifactId>
