@@ -60,7 +60,6 @@
     "inversify-inject-decorators": "^3.0.1",
     "mobx": "^3.1.10",
     "mobx-react": "^4.1.0",
-    "mocha-sonarqube-reporter": "^1.0.2",
     "node-sass": "^4.5.3",
     "react": "^15.4.2",
     "react-custom-scrollbars": "^4.1.2",
@@ -93,6 +92,7 @@
     "mini-css-extract-plugin": "^1.5.1",
     "mocha": "^8.4.0",
     "mocha-sonar-generic-test-coverage": "^0.0.6",
+    "mocha-sonarqube-reporter": "^1.0.2",
     "nyc": "^15.1.0",
     "prettier": "^2.2.1",
     "react-addons-test-utils": "^15.5.1",
@@ -103,5 +103,10 @@
     "ts-loader": "^8.2.0",
     "webpack-cli": "^4.6.0",
     "webpack-dev-server": "^3.11.2"
+  },
+  "mocha": {
+    "require": ["jsdom-global/register", "ts-node/register", "reflect-metadata"],
+    "reporter": "spec",
+    "spec": "test/**/*.spec.ts*"
   }
 }

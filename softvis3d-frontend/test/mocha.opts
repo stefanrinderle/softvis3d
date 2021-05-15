@@ -1,5 +1,0 @@
---require jsdom-global/register
---require ts-node/register
---require reflect-metadata
---reporter spec
-test/**/*.spec.ts*

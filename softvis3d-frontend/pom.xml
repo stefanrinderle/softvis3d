@@ -101,7 +101,8 @@
             <exclude>app/static/**</exclude>
             <exclude>app/development.js.dist</exclude>
             <exclude>app/main.js</exclude>
-            <exclude>test/mocha.opts</exclude>
+            <exclude>app/development.js</exclude>
+            <exclude>app/main.js</exclude>
             <exclude>.nycrc</exclude>
             <exclude>mvnYarn</exclude>
             <exclude>yarn.lock</exclude>
