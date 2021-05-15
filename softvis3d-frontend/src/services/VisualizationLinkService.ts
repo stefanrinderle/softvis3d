@@ -47,9 +47,8 @@ export default class VisualizationLinkService {
 
         const input = params.visualizationStatus;
         if (input && input !== "") {
-            const visualizationLinkParams = this.visualizationLinkSerializationService.deserialize(
-                input
-            );
+            const visualizationLinkParams =
+                this.visualizationLinkSerializationService.deserialize(input);
 
             if (visualizationLinkParams) {
                 this.applyParams(visualizationLinkParams);
@@ -100,9 +99,8 @@ export default class VisualizationLinkService {
         );
 
         return {
-            visualizationStatus: this.visualizationLinkSerializationService.serialize(
-                visualizationLinkParams
-            ),
+            visualizationStatus:
+                this.visualizationLinkSerializationService.serialize(visualizationLinkParams),
         };
     }
 
