@@ -26,9 +26,9 @@ import AppStatusStore from "../../../stores/AppStatusStore";
 import SceneStore from "../../../stores/SceneStore";
 import TreeService from "../../TreeService";
 import { BackendService } from "../BackendService";
+import SonarQubeApiScm from "../SonarQubeApiScm";
 import ScmAuthorsCalculatorService from "./ScmAuthorsCalculatorService";
 import ScmCommitsCalculatorService from "./ScmCommitsCalculatorService";
-import SonarQubeApiScm from "../SonarQubeApiScm";
 
 export default class SonarQubeScmService extends BackendService {
     public static readonly LOAD_SCM: LoadAction = new LoadAction(

@@ -80,8 +80,7 @@ module.exports = function (env, argv) {
 
             externals: {
                 "react": "React",
-                "react-dom": "ReactDOM",
-                "three": "THREE"
+                "react-dom": "ReactDOM"
             },
 
             optimization: {

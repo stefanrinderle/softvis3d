@@ -33,7 +33,6 @@ import java.nio.file.Paths;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-//@Ignore
 public class SonarQubeVersionIT {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SonarQubeVersionIT.class);
@@ -46,10 +45,10 @@ public class SonarQubeVersionIT {
         this.testPluginWithSQVersion("7.6-community");
     }
 
-//    @Test
-//    public void testLatest() {
-//        this.testPluginWithSQVersion("latest");
-//    }
+    @Test
+    public void testLatest() {
+        this.testPluginWithSQVersion("latest");
+    }
 
     @Test
     public void testLTS() {

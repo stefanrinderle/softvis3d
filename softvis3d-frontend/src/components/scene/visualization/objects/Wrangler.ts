@@ -19,9 +19,9 @@
 ///
 
 import { MeshLambertMaterial, Scene } from "three";
-import { ObjectFactory } from "./ObjectFactory";
 import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
 import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
+import { ObjectFactory } from "./ObjectFactory";
 
 interface SoftVis3dSelectedObject {
     object: SoftVis3dMesh;
@@ -63,7 +63,8 @@ export class Wrangler {
 
         // update selected object
         if (this.selectedTreeObjects.length > 0) {
-            const formerSelectedObjectId: string = this.selectedTreeObjects[0].object.getSoftVis3dId();
+            const formerSelectedObjectId: string =
+                this.selectedTreeObjects[0].object.getSoftVis3dId();
             this.selectedTreeObjects = [];
             this.selectSceneTreeObject(formerSelectedObjectId);
         }

@@ -104,7 +104,6 @@ if (typeof(Promise) === "undefined") {
             baseUrl + "/static/softvis3d/style.css",
             baseUrl + "/static/softvis3d/react.min.js",
             baseUrl + "/static/softvis3d/react-dom.min.js",
-            baseUrl + "/static/softvis3d/three.min.js"
         ).then(function() {
             load(baseUrl + "/static/softvis3d/bundle.js").then(function() {
                 softvis3d = new window.softvis3d.app({
