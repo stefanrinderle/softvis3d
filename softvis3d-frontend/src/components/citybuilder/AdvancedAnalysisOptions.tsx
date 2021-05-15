@@ -127,7 +127,8 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                                 value={this.visualizationOptions.buildingColorTheme}
                                 options={BuildingColorThemes.availableBuildingColorThemes}
                                 onChange={(buildingColorTheme: BuildingColorTheme) => {
-                                    this.visualizationOptions.buildingColorTheme = buildingColorTheme;
+                                    this.visualizationOptions.buildingColorTheme =
+                                        buildingColorTheme;
                                 }}
                             />
                         </div>
@@ -183,7 +184,8 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                                 value={this.visualizationOptions.fileFilter.testClassesVariant}
                                 options={TestClassesVariants.availableTestClassesVariants}
                                 onChange={(testClassesVariant: TestClassesVariant) => {
-                                    this.visualizationOptions.fileFilter.testClassesVariant = testClassesVariant;
+                                    this.visualizationOptions.fileFilter.testClassesVariant =
+                                        testClassesVariant;
                                 }}
                             />
                         </div>

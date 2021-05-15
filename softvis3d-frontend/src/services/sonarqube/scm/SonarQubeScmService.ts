@@ -191,9 +191,8 @@ export default class SonarQubeScmService extends BackendService {
 
                     element.measures = Object.assign(element.measures, {
                         number_of_authors: this.scmCalculator.calcNumberOfAuthors(metrics),
-                        number_of_commits: this.scmCommitsCalculatorService.calcNumberOfCommits(
-                            metrics
-                        ),
+                        number_of_commits:
+                            this.scmCommitsCalculatorService.calcNumberOfCommits(metrics),
                     });
 
                     resolve();
