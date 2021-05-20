@@ -50,7 +50,7 @@ export class RadioGroup extends React.Component<RadioGroupProps, any> {
     }
 
     public renderChildren(): Array<React.Component<any, any>> {
-        return React.Children.map<any>(
+        return React.Children.map<React.ReactChild, any>(
             this.props.children as RadioButton[],
             (child: React.ReactChild) => {
                 if (typeof child === "object" && child.type === RadioButton) {

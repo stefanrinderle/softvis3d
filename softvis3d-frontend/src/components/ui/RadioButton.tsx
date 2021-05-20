@@ -37,6 +37,10 @@ interface RadioButtonProps {
 }
 
 export class RadioButton extends React.Component<RadioButtonProps, any> {
+    constructor(props: RadioButtonProps) {
+        super(props);
+    }
+
     //noinspection JSUnusedGlobalSymbols
     public static defaultProps = {
         className: "",

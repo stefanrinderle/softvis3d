@@ -53,7 +53,7 @@ export default class Scene extends React.Component<Record<string, unknown>, Scen
     private selectedObjectIdState: string | null = null;
 
     constructor() {
-        super();
+        super({});
         this.state = {
             mounted: false,
             focus: false,

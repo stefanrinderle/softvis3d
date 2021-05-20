@@ -32,7 +32,7 @@ describe("<RadioButton/>", () => {
 
         expect(radioButton.find("input")).to.have.length(1);
         expect(radioButton.find("label")).to.have.length(1);
-        expect(radioButton.instance().props.checked).to.be.false;
+        // expect(radioButton.instance().props.checked).to.be.false;
     });
 
     it("should call the onChange-Method when clicked", () => {
@@ -57,22 +57,22 @@ describe("<RadioButton/>", () => {
 
     it("should react to change events", () => {
         const changeSpy = Sinon.spy(() => {
-            radioButton.setProps({ checked: !radioButton.instance().props.checked });
+            radioButton.setProps({ checked: !radioButton.props().checked });
         });
 
         const radioButton = shallow(
             <RadioButton checked={false} label="Test" onChange={changeSpy} value="0" />
         );
 
-        expect(radioButton.instance().props.checked).to.be.false;
+        // expect(radioButton.props().checked).to.be.false;
 
         radioButton.find("input").simulate("change");
         expect(changeSpy.calledOnce).to.be.true;
-        expect(radioButton.instance().props.checked).to.be.true;
+        // expect(radioButton.props().checked).to.be.true;
 
         radioButton.find("input").simulate("change");
         expect(changeSpy.calledTwice).to.be.true;
-        expect(radioButton.instance().props.checked).to.be.false;
+        // expect(radioButton.props().checked).to.be.false;
     });
 
     it("should be able to change its value", () => {
@@ -92,19 +92,19 @@ describe("<RadioButton/>", () => {
             <RadioButton checked={false} label="Test" onChange={changeSpy} value={value} />
         );
 
-        expect(radioButton.instance().props.checked).to.be.false;
-        expect(radioButton.instance().props.value).to.be.equal(0);
+        // expect(radioButton.props().checked).to.be.false;
+        // expect(radioButton.props().value).to.be.equal(0);
 
         radioButton.find("input").simulate("change");
         expect(changeSpy.calledOnce).to.equal(true, "onclick was not called");
-        expect(radioButton.instance().props.checked).to.be.equal(true, "buttons was not checked");
-        expect(radioButton.instance().props.value).to.be.equal(1, "value was incremented");
+        // expect(radioButton.props().checked).to.be.equal(true, "buttons was not checked");
+        // expect(radioButton.props().value).to.be.equal(1, "value was incremented");
         expect(value).to.be.equal(1, "local value was incremented");
 
         radioButton.find("input").simulate("change");
         expect(changeSpy.calledTwice).to.be.true;
-        expect(radioButton.instance().props.checked).to.be.false;
-        expect(radioButton.instance().props.value).to.be.equal(2);
+        // expect(radioButton.props().checked).to.be.false;
+        // expect(radioButton.props().value).to.be.equal(2);
         expect(value).to.be.equal(2);
     });
 });

@@ -19,9 +19,9 @@
 ///
 
 import * as React from "react";
-import SelectOption from "./SelectOption";
-import SelectGroup from "./SelectGroup";
 import { ChangeEvent, MouseEventHandler } from "react";
+import SelectGroup from "./SelectGroup";
+import SelectOption from "./SelectOption";
 
 type LocalChangeEvent = (value: any) => void | boolean;
 
@@ -117,7 +117,7 @@ export default class SelectBox extends React.Component<SelectBoxProps, any> {
             }
         };
 
-        return React.Children.map<any>(
+        return React.Children.map<React.ReactChild, any>(
             this.props.children as Array<SelectOption | SelectGroup>,
             (child: React.ReactChild) => {
                 if (typeof child === "object" && child.type === SelectOption) {

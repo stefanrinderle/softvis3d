@@ -20,7 +20,7 @@
 
 import { observer } from "mobx-react";
 import * as React from "react";
-import Scrollbars from "react-custom-scrollbars";
+import Scrollbars from "react-custom-scrollbars-2";
 import { TreeElement } from "../../classes/TreeElement";
 import { lazyInject } from "../../inversify.config";
 import { HtmlDomService, Offset } from "../../services/HtmlDomService";
@@ -44,7 +44,7 @@ export default class FolderContent extends React.Component<NodeListProps, NodeLi
 
     private rafID?: number;
 
-    constructor(p?: NodeListProps, context?: any) {
+    constructor(p: NodeListProps, context?: any) {
         super(p, context);
 
         this.state = {

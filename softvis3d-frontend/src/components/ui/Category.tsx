@@ -38,7 +38,7 @@ export default class Category extends React.Component<CategoryProps, CategorySta
         initialVisibility: true,
     };
 
-    public componentWillMount() {
+    public UNSAFE_componentWillMount() {
         this.setState({
             visible: this.props.initialVisibility as boolean,
         });

@@ -33,12 +33,14 @@ describe("<TopBarShareButton/>", () => {
 
         const shareButton = mount(<TopBarShareButton disabled={false} />);
 
-        expect(shareButton.children("button").length).to.be.eq(1);
+        expect(shareButton.children(".dropdown").children("button").length).to.be.eq(1);
 
-        expect(shareButton.children(".dropdown-menu").length).to.be.eq(1);
-        expect(shareButton.children(".dropdown-menu.open").length).to.be.eq(0);
+        expect(shareButton.children(".dropdown").children(".dropdown-menu").length).to.be.eq(1);
+        expect(shareButton.children(".dropdown").children(".dropdown-menu.open").length).to.be.eq(
+            0
+        );
 
-        expect(shareButton.state().isVisible).to.be.false;
+        expect(shareButton.state("isVisible")).to.be.false;
     });
 
     it("should open visualization link", () => {
@@ -57,7 +59,7 @@ describe("<TopBarShareButton/>", () => {
         assert(stub.calledWithExactly("abc"));
         stub.restore();
 
-        expect(shareButton.state().isVisible).to.be.false;
+        expect(shareButton.state("isVisible")).to.be.false;
     });
 
     it("should copy visualization link", () => {
@@ -74,6 +76,6 @@ describe("<TopBarShareButton/>", () => {
 
         assert(localClipBoardService.copyTextToClipboard.calledWithExactly("abc"));
 
-        expect(shareButton.state().isVisible).to.be.false;
+        expect(shareButton.state("isVisible")).to.be.false;
     });
 });

@@ -36,6 +36,11 @@ import { createMock } from "../../Helper";
 
 describe("<FolderContent/>", () => {
     it("should show siblings of the selected element as list", () => {
+        const htmlDomService = createMock(HtmlDomService);
+        // this.htmlDomService.getOffsetsById("node-scroller");
+        htmlDomService.getOffsetsById.returns(5);
+        htmlDomService.getHeightById.returns(5);
+
         const parent: TreeElement = createDefaultDir();
         const child1: TreeElement = createDefaultFileWithIdAndParent("child1", parent);
         const child2: TreeElement = createDefaultFileWithIdAndParent("child2", parent);
@@ -80,12 +85,8 @@ describe("<FolderContent/>", () => {
 
         const windowStub = Sinon.stub(window, "addEventListener");
 
-        Sinon.spy(FolderContent.prototype, "componentDidMount");
         const wrapper = mount(<FolderContent activeFolder={null} />);
-        // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(FolderContent.prototype.componentDidMount).to.have.property("callCount", 1);
-
-        expect(wrapper.state().listHeight).to.be.eq(123);
+        expect(wrapper.state("listHeight")).to.be.eq(123);
 
         assert(windowStub.called);
         windowStub.restore();
@@ -94,7 +95,9 @@ describe("<FolderContent/>", () => {
     it("should remove event listener on unmount", () => {
         const windowStub = Sinon.stub(window, "removeEventListener");
 
-        const underTest: FolderContent = new FolderContent();
+        const underTest: FolderContent = new FolderContent({
+            activeFolder: createDefaultDir(),
+        });
         underTest.componentWillUnmount();
 
         assert(windowStub.called);
@@ -102,17 +105,15 @@ describe("<FolderContent/>", () => {
     });
 
     it("should resize on component update", () => {
-        const underTest: FolderContent = new FolderContent();
+        const underTest: FolderContent = new FolderContent({
+            activeFolder: createDefaultDir(),
+        });
 
         const underTestSpy = Sinon.mock(underTest);
         underTestSpy.expects("onResize").once();
 
         const prevProps: NodeListProps = {
             activeFolder: null,
-        };
-
-        underTest.props = {
-            activeFolder: createDefaultDir(),
         };
 
         underTest.componentDidUpdate(prevProps);

@@ -51,7 +51,7 @@ public class SonarQubeContainer extends GenericContainer<SonarQubeContainer> {
                 .forResponsePredicate(response -> response.contains("\"status\":\"UP\""))
                 .withStartupTimeout(Duration.ofSeconds(300));
         this.withExposedPorts(9000);
-        this.withCopyFileToContainer(MountableFile.forHostPath("./target/sonar-softvis3d-plugin-1.2.1-SNAPSHOT.jar"), "/opt/sonarqube/extensions/plugins/softvis3d-sonar-plugin.jar");
+        this.withCopyFileToContainer(MountableFile.forHostPath("./target/sonar-softvis3d-plugin-1.2.2-SNAPSHOT.jar"), "/opt/sonarqube/extensions/plugins/softvis3d-sonar-plugin.jar");
 
         this.withReuse(true);
 

@@ -44,7 +44,7 @@ export default class SelectGroup extends React.Component<SelectGroupProps, any> 
     }
 
     private renderChildren(): Array<React.Component<any, any>> {
-        return React.Children.map<any>(
+        return React.Children.map<React.ReactChild, any>(
             this.props.children as SelectOption[],
             (child: React.ReactChild) => {
                 if (typeof child === "object" && child.type === SelectOption) {
