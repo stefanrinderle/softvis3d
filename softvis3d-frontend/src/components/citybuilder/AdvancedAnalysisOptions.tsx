@@ -49,12 +49,7 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
     public render() {
         return (
             <div>
-                <Category
-                    label="Metrics"
-                    className="advanced"
-                    toggle={false}
-                    initialVisibility={true}
-                >
+                <Category label="Metrics">
                     <div className="left-column">
                         <div className="builder-option">
                             <SelectBoxBuilder
@@ -102,12 +97,7 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                         </div>
                     </div>
                 </Category>
-                <Category
-                    label="Color themes"
-                    className="advanced"
-                    toggle={false}
-                    initialVisibility={true}
-                >
+                <Category label="Color themes">
                     <div className="left-column">
                         <div className="builder-option">
                             <SelectBoxBuilder
@@ -134,12 +124,7 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                         </div>
                     </div>
                 </Category>
-                <Category
-                    label="Layout"
-                    className="advanced"
-                    toggle={false}
-                    initialVisibility={true}
-                >
+                <Category label="Layout">
                     <div className="left-column">
                         <div className="builder-option">
                             <SelectBoxBuilder
@@ -171,12 +156,7 @@ export default class AdvancedAnalysisOptions extends React.Component<Record<stri
                         </div>
                     </div>
                 </Category>
-                <Category
-                    label="Files"
-                    className="advanced"
-                    toggle={false}
-                    initialVisibility={true}
-                >
+                <Category label="Files">
                     <div className="left-column">
                         <div className="builder-option">
                             <SelectBoxBuilder

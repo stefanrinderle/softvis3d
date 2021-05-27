@@ -42,9 +42,9 @@ export default class TopBarShareButton extends React.Component<
     @lazyInject("ClipBoardService")
     private readonly clipBoardService!: ClipBoardService;
 
-    public UNSAFE_componentWillMount() {
-        this.setShareMenuState(false);
-    }
+    state = {
+        isVisible: false,
+    };
 
     public render() {
         return (

@@ -27,7 +27,7 @@ export default class InfoTab extends React.Component<Record<string, never>, any>
     public render() {
         return (
             <div>
-                <Category label="Help" className="advanced" toggle={false} initialVisibility={true}>
+                <Category label="Help">
                     Please check the&nbsp;
                     <a
                         id="github-page-link"
@@ -42,12 +42,7 @@ export default class InfoTab extends React.Component<Record<string, never>, any>
                     If you need further details, please open an issue on github.
                 </Category>
                 <br />
-                <Category
-                    label="Feedback / Issues"
-                    className="advanced"
-                    toggle={false}
-                    initialVisibility={true}
-                >
+                <Category label="Feedback / Issues">
                     We are always happy to get some feedback on the plugin usage.
                     <br />
                     Is it not possible to include any tracking info in the plugin, so we don&apos;t
@@ -80,12 +75,7 @@ export default class InfoTab extends React.Component<Record<string, never>, any>
                     </ul>
                 </Category>
                 <br />
-                <Category
-                    label="Project info"
-                    className="advanced"
-                    toggle={false}
-                    initialVisibility={true}
-                >
+                <Category label="Project info">
                     Licensed under GNU LGPL 3<br />
                     Developed by Stefan Rinderle and Yvo Niedrich
                 </Category>

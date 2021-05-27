@@ -94,15 +94,9 @@ $simpleCategoryHeight: 290px;
     width: 97%;
   }
 
-  fieldset.advanced {
-    // Toggle Properties
+  fieldset.optioncategory {
     margin: 6px 0;
 
-        &.collapsable:not(.collapsed) div.category-content {
-            max-height: 180px;
-        }
-
-    // Column Management
     @include clearfix;
 
     position: relative;

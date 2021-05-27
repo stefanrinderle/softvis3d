@@ -31,7 +31,7 @@ describe("<TopBarShareButton/>", () => {
     it("should initialize if disabled", () => {
         createMock(VisualizationLinkService);
 
-        const shareButton = mount(<TopBarShareButton disabled={false} />);
+        const shareButton = mount<TopBarShareButton>(<TopBarShareButton disabled={false} />);
 
         expect(shareButton.children(".dropdown").children("button").length).to.be.eq(1);
 
