@@ -22,15 +22,14 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import Metric from "../../classes/Metric";
 import Profile from "../../classes/Profile";
-import { Layouts } from "../../constants/Layouts";
 import { ColorMetrics } from "../../constants/ColorMetrics";
 import { getPreviewBackground } from "../../constants/PreviewPictures";
 import { Profiles } from "../../constants/Profiles";
 import { lazyInject } from "../../inversify.config";
 import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
 import SelectBoxBuilder from "../ui/selectbox/SelectBoxBuilder";
-import LayoutPicker from "./LayoutPicker";
 import PreviewPictureComponent from "./PreviewPictureComponent";
+import { LayoutPicker } from "./LayoutPicker";
 
 @observer
 export default class OptionsSimple extends React.Component<Record<string, never>, any> {
@@ -72,7 +71,7 @@ export default class OptionsSimple extends React.Component<Record<string, never>
 
                     <div className="builder-option">
                         <span>Layout</span>
-                        <LayoutPicker layouts={Layouts.availableLayouts} />
+                        <LayoutPicker></LayoutPicker>
                         <p className="selection-description layout-description">
                             {this.visualizationOptions.layout.description}
                         </p>

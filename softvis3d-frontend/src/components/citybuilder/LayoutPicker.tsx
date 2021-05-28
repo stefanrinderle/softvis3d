@@ -18,43 +18,58 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { observer } from "mobx-react";
 import * as React from "react";
 import Layout from "../../classes/Layout";
-import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
+import { Layouts } from "../../constants/Layouts";
 import { lazyInject } from "../../inversify.config";
-import { RadioButton } from "../ui/RadioButton";
-import { RadioGroup } from "../ui/RadioGroup";
+import VisualizationOptionStore from "../../stores/VisualizationOptionStore";
 
-export interface LayoutPickerProps {
-    layouts: Layout[];
-}
-
-@observer
-export default class LayoutPicker extends React.Component<LayoutPickerProps, any> {
+export class LayoutPicker extends React.Component<any, any> {
     @lazyInject("VisualizationOptionStore")
     private readonly visualizationOptions!: VisualizationOptionStore;
 
-    public render() {
-        const { layouts } = this.props;
+    render() {
         return (
-            <div className="layout-component">
-                <RadioGroup
-                    onChange={(l: Layout) => {
-                        this.visualizationOptions.layout = l;
-                    }}
-                    value={this.visualizationOptions.layout}
-                    className={"list"}
-                >
-                    {this.mapLayouts(layouts)}
-                </RadioGroup>
+            <div className={"layout-component"}>
+                <div className={"radio-group list"}>
+                    {this.createLayoutButtons(Layouts.availableLayouts)}
+                </div>
             </div>
         );
     }
 
-    private mapLayouts(l: Layout[]): RadioButton[] {
+    private createLayoutButtons(l: Layout[]): JSX.Element[] {
         return l.map((layout) => (
-            <RadioButton key={layout.id} value={layout} label={layout.label} />
-        )) as any[];
+            <label className={this.getClassName(layout)} id={"select-" + layout.id} key={layout.id}>
+                <input
+                    type={"radio"}
+                    onChange={this.handleChange}
+                    value={layout.id}
+                    id={layout.id}
+                    name="gender"
+                    checked={this.isChecked(layout)}
+                />
+                {layout.label}
+            </label>
+        ));
+    }
+
+    handleChange = (e: any) => {
+        const layout = Layouts.getLayoutById(e.target.value);
+        if (layout !== undefined) {
+            this.visualizationOptions.layout = layout;
+        }
+    };
+
+    private isChecked(layout: Layout) {
+        return this.visualizationOptions.layout.id === layout.id;
+    }
+
+    private getClassName(layout: Layout) {
+        if (this.isChecked(layout)) {
+            return "active";
+        } else {
+            return "";
+        }
     }
 }
