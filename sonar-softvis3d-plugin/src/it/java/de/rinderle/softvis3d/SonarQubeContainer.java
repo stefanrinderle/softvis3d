@@ -22,7 +22,10 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.Network;
 import org.testcontainers.containers.output.OutputFrame;
 import org.testcontainers.containers.wait.strategy.HttpWaitStrategy;
+import org.testcontainers.images.ImagePullPolicy;
+import org.testcontainers.images.PullPolicy;
 import org.testcontainers.images.builder.ImageFromDockerfile;
+import org.testcontainers.utility.DockerImageName;
 import org.testcontainers.utility.MountableFile;
 
 import java.io.File;
@@ -45,6 +48,7 @@ public class SonarQubeContainer extends GenericContainer<SonarQubeContainer> {
 
         this.withNetwork(network);
         this.withNetworkAliases("sq_server");
+        this.withImagePullPolicy(PullPolicy.alwaysPull());
 
         this.waitStrategy = new HttpWaitStrategy()
                 .forPath("/api/system/status")

@@ -34,7 +34,7 @@ import java.nio.file.Paths;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-@Ignore
+//@Ignore
 public class SonarQubeVersionIT {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SonarQubeVersionIT.class);
