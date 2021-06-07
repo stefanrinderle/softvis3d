@@ -18,15 +18,13 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
+import { injectable } from "inversify";
 import { MeshLambertMaterial, Scene } from "three";
+import { lazyInject } from "../../../../inversify.config";
+import SceneStore from "../../../../stores/SceneStore";
 import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
 import { SoftVis3dShape } from "../../domain/SoftVis3dShape";
 import { ObjectFactory } from "./ObjectFactory";
-
-interface SoftVis3dSelectedObject {
-    object: SoftVis3dMesh;
-    color: number;
-}
 
 /**
  * @class This is a resource manager and loads individual models.
@@ -34,22 +32,20 @@ interface SoftVis3dSelectedObject {
  * @struct
  * @constructor
  */
+@injectable()
 export class Wrangler {
-    private scene: Scene;
     private objectsInView: SoftVis3dMesh[] = [];
-    private selectedTreeObjects: SoftVis3dSelectedObject[] = [];
 
-    constructor(scene: Scene) {
-        this.scene = scene;
-    }
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
 
-    public loadSoftVis3d(data: SoftVis3dShape[]) {
-        this.removeAllFromScene();
+    public loadSoftVis3d(scene: Scene, data: SoftVis3dShape[]) {
+        this.removeAllFromScene(scene);
 
         this.objectsInView = ObjectFactory.getSceneObjects(data);
 
         for (const object of this.objectsInView) {
-            this.scene.add(object);
+            scene.add(object);
         }
     }
 
@@ -62,10 +58,10 @@ export class Wrangler {
         }
 
         // update selected object
-        if (this.selectedTreeObjects.length > 0) {
+        if (this.sceneStore.selectedTreeObjects.length > 0) {
             const formerSelectedObjectId: string =
-                this.selectedTreeObjects[0].object.getSoftVis3dId();
-            this.selectedTreeObjects = [];
+                this.sceneStore.selectedTreeObjects[0].object.getSoftVis3dId();
+            this.sceneStore.selectedTreeObjects = [];
             this.selectSceneTreeObject(formerSelectedObjectId);
         }
     }
@@ -73,11 +69,11 @@ export class Wrangler {
     public selectSceneTreeObject(objectSoftVis3dId: string | null) {
         // reset former selected objects
 
-        for (const previousSelection of this.selectedTreeObjects) {
+        for (const previousSelection of this.sceneStore.selectedTreeObjects) {
             previousSelection.object.material.color.setHex(previousSelection.color);
         }
 
-        this.selectedTreeObjects = [];
+        this.sceneStore.selectedTreeObjects = [];
 
         if (objectSoftVis3dId !== null) {
             for (const obj of this.objectsInView) {
@@ -89,7 +85,7 @@ export class Wrangler {
                         color: selectedObjectMaterial.color.getHex(),
                     };
 
-                    this.selectedTreeObjects.push(selectedObjectInformation);
+                    this.sceneStore.selectedTreeObjects.push(selectedObjectInformation);
 
                     selectedObjectMaterial.color.setHex(0xffc519);
                 }
@@ -101,16 +97,16 @@ export class Wrangler {
         return this.objectsInView;
     }
 
-    public destroy() {
-        this.removeAllFromScene();
+    public destroy(scene: Scene) {
+        this.removeAllFromScene(scene);
 
         this.objectsInView = [];
-        this.selectedTreeObjects = [];
+        this.sceneStore.selectedTreeObjects = [];
     }
 
-    private removeAllFromScene() {
+    private removeAllFromScene(scene: Scene) {
         while (this.objectsInView.length) {
-            this.scene.remove(this.objectsInView.pop() as SoftVis3dMesh);
+            scene.remove(this.objectsInView.pop() as SoftVis3dMesh);
         }
     }
 }

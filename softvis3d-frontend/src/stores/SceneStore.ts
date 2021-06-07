@@ -21,10 +21,13 @@
 import { computed, observable, observe } from "mobx";
 import { Vector3 } from "three";
 import { TreeElement } from "../classes/TreeElement";
+import { SoftVis3dSelectedObject } from "../components/scene/visualization/objects/SoftVis3dSelectedObject";
 
 export default class SceneStore {
     @observable
     public projectData: TreeElement | null = null;
+    @observable
+    public selectedTreeObjects: SoftVis3dSelectedObject[] = [];
     @observable
     public selectedObjectKey: string | null = null;
     @observable

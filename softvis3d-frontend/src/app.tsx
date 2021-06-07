@@ -22,17 +22,14 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { AppConfiguration } from "./classes/AppConfiguration";
 import ErrorAction from "./classes/status/ErrorAction";
-import ClipBoardService from "./services/ClipBoardService";
-import ScmCommitsCalculatorService from "./services/sonarqube/scm/ScmCommitsCalculatorService";
-import VisualizationLinkSerializationService from "./services/VisualizationLinkSerializationService";
-import ComponentStatusStore from "./stores/ComponentStatusStore";
-import VisualizationOptionStore from "./stores/VisualizationOptionStore";
+import { Wrangler } from "./components/scene/visualization/objects/Wrangler";
 import Softvis3D from "./components/Softvis3D";
 import { bindToInjection, container } from "./inversify.config";
 import AppReactions from "./reactions/AppReactions";
 import BuilderReactions from "./reactions/BuilderReactions";
 import SceneReactions from "./reactions/SceneReactions";
 import AutoReloadService from "./services/AutoReloadService";
+import ClipBoardService from "./services/ClipBoardService";
 import { HtmlDomService } from "./services/HtmlDomService";
 import CityLayoutService from "./services/layout/CityLayoutService";
 import SelectedElementService from "./services/SelectedElementService";
@@ -44,16 +41,20 @@ import SonarQubeMeasuresService from "./services/sonarqube/measures/SonarQubeMea
 import SonarQubeFilterStructureService from "./services/sonarqube/measures/structure/SonarQubeFilterStructureService";
 import SonarQubeOptimizeStructureService from "./services/sonarqube/measures/structure/SonarQubeOptimizeStructureService";
 import ScmAuthorsCalculatorService from "./services/sonarqube/scm/ScmAuthorsCalculatorService";
+import ScmCommitsCalculatorService from "./services/sonarqube/scm/ScmCommitsCalculatorService";
+import SonarQubeScmService from "./services/sonarqube/scm/SonarQubeScmService";
 import SonarQubeComponentInfoService from "./services/sonarqube/SonarQubeComponentInfoService";
 import SonarQubeMetricsService from "./services/sonarqube/SonarQubeMetricsService";
-import SonarQubeScmService from "./services/sonarqube/scm/SonarQubeScmService";
 import TreeService from "./services/TreeService";
 import UrlParameterService from "./services/UrlParameterService";
+import VisualizationLinkSerializationService from "./services/VisualizationLinkSerializationService";
 import VisualizationLinkService from "./services/VisualizationLinkService";
 import WebGLDetectorService from "./services/WebGLDetectorService";
 import AppStatusStore from "./stores/AppStatusStore";
 import CityBuilderStore from "./stores/CityBuilderStore";
+import ComponentStatusStore from "./stores/ComponentStatusStore";
 import SceneStore from "./stores/SceneStore";
+import VisualizationOptionStore from "./stores/VisualizationOptionStore";
 
 export default class App {
     private static readonly WEBGL_ERROR_KEY = "WEBGL_ERROR";
@@ -107,6 +108,7 @@ export default class App {
         bindToInjection(AutoReloadService);
         bindToInjection(SonarQubeFilterStructureService);
         bindToInjection(VisualizationLinkSerializationService);
+        bindToInjection(Wrangler);
 
         const reactions = [new AppReactions(), new SceneReactions(), new BuilderReactions()];
         if (reactions.length === 0) {

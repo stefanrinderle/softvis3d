@@ -20,6 +20,7 @@
 
 import { Vector3 } from "three";
 import { SceneColorTheme } from "../../../classes/SceneColorTheme";
+import SceneStore from "../../../stores/SceneStore";
 import VisualizationOptionStore from "../../../stores/VisualizationOptionStore";
 import { lazyInject } from "../../../inversify.config";
 import { HtmlDomService, Offset } from "../../../services/HtmlDomService";
@@ -31,50 +32,47 @@ import { SelectionCalculator } from "./SelectionCalculator";
 export default class ThreeSceneService {
     public static create() {
         const softvisScene = new SoftVis3dScene();
-        const wrangler = new Wrangler(softvisScene.scene);
-        return new ThreeSceneService(softvisScene, wrangler);
+        return new ThreeSceneService(softvisScene);
     }
 
-    public static createForTest(softvis3dSceneMock: SoftVis3dScene, wranglerMock: Wrangler) {
-        return new ThreeSceneService(softvis3dSceneMock, wranglerMock);
+    public static createForTest(softvis3dSceneMock: SoftVis3dScene) {
+        return new ThreeSceneService(softvis3dSceneMock);
     }
 
+    @lazyInject("Wrangler")
+    private readonly wrangler!: Wrangler;
+    @lazyInject("SceneStore")
+    private readonly sceneStore!: SceneStore;
     @lazyInject("HtmlDomService")
     private readonly htmlDomService!: HtmlDomService;
 
     private threeScene: SoftVis3dScene;
-    private readonly wrangler: Wrangler;
 
     private lastOptions?: VisualizationOptionStore;
 
-    private constructor(softvis3dScene: SoftVis3dScene, wrangler: Wrangler) {
+    private constructor(softvis3dScene: SoftVis3dScene) {
         this.threeScene = softvis3dScene;
-        this.wrangler = wrangler;
     }
 
     public destroy() {
         this.threeScene.destroy();
-        this.wrangler.destroy();
+        this.wrangler.destroy(this.threeScene.scene);
     }
 
-    public update(
-        shapes: SoftVis3dShape[],
-        options: VisualizationOptionStore,
-        cameraPosition?: Vector3
-    ) {
-        if (shapes === null) {
+    public update(options: VisualizationOptionStore) {
+        if (this.sceneStore.shapes === null) {
             return;
         }
 
         if (this.lastOptions && options.equalStructure(this.lastOptions)) {
             if (this.lastOptions.metricColor !== options.metricColor) {
-                this.wrangler.updateColorsWithUpdatedShapes(shapes);
+                this.wrangler.updateColorsWithUpdatedShapes(this.sceneStore.shapes);
             }
             if (this.lastOptions.buildingColorTheme !== options.buildingColorTheme) {
-                this.wrangler.updateColorsWithUpdatedShapes(shapes);
+                this.wrangler.updateColorsWithUpdatedShapes(this.sceneStore.shapes);
             }
         } else {
-            this.loadSoftVis3d(shapes, cameraPosition);
+            this.loadSoftVis3d(this.sceneStore.shapes, this.sceneStore.cameraPosition);
         }
 
         this.threeScene.setColorTheme(options.colorTheme);
@@ -129,7 +127,7 @@ export default class ThreeSceneService {
     }
 
     private loadSoftVis3d(shapes: SoftVis3dShape[], cameraPosition?: Vector3) {
-        this.wrangler.loadSoftVis3d(shapes);
+        this.wrangler.loadSoftVis3d(this.threeScene.scene, shapes);
 
         if (!cameraPosition) {
             cameraPosition = this.threeScene.getDefaultCameraPosition(shapes);

@@ -107,11 +107,7 @@ export default class Scene extends React.Component<Record<string, unknown>, Scen
 
     public processSceneUpdates() {
         if (this.sceneStore.shapesHash !== this.shapesHash) {
-            this._threeSceneService.update(
-                this.sceneStore.shapes,
-                this.visualizationOptions,
-                this.sceneStore.cameraPosition
-            );
+            this._threeSceneService.update(this.visualizationOptions);
             this.updateCameraPosition();
             this.shapesHash = this.sceneStore.shapesHash;
 

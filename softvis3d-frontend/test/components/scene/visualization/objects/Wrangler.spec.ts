@@ -19,17 +19,19 @@
 ///
 
 import { assert, expect } from "chai";
-import { Wrangler } from "../../../../../src/components/scene/visualization/objects/Wrangler";
 import * as Sinon from "sinon";
-import { SoftVis3dShape } from "../../../../../src/components/scene/domain/SoftVis3dShape";
-import { BufferGeometry, Color, MeshLambertMaterial, Scene} from "three";
-import { ObjectFactory } from "../../../../../src/components/scene/visualization/objects/ObjectFactory";
+import { BufferGeometry, Color, MeshLambertMaterial, Scene } from "three";
 import { SoftVis3dMesh } from "../../../../../src/components/scene/domain/SoftVis3dMesh";
+import { SoftVis3dShape } from "../../../../../src/components/scene/domain/SoftVis3dShape";
+import { ObjectFactory } from "../../../../../src/components/scene/visualization/objects/ObjectFactory";
+import { Wrangler } from "../../../../../src/components/scene/visualization/objects/Wrangler";
+import SceneStore from "../../../../../src/stores/SceneStore";
+import { createMockInjection } from "../../../../Helper";
 
 describe("Wrangler", () => {
     it("should load softvis shapes", () => {
         const scene = Sinon.createStubInstance(Scene);
-        const underTest: Wrangler = new Wrangler(scene);
+        const underTest: Wrangler = new Wrangler();
 
         const shapes: SoftVis3dShape[] = [];
 
@@ -41,7 +43,7 @@ describe("Wrangler", () => {
             objectsInView
         );
 
-        underTest.loadSoftVis3d(shapes);
+        underTest.loadSoftVis3d(scene, shapes);
 
         assert(scene.add.calledThrice);
 
@@ -51,7 +53,7 @@ describe("Wrangler", () => {
     it("should remove existing softvis shapes on load", () => {
         const scene = Sinon.createStubInstance(Scene);
 
-        const underTest: Wrangler = new Wrangler(scene);
+        const underTest: Wrangler = new Wrangler();
 
         const shapes: SoftVis3dShape[] = [];
 
@@ -61,20 +63,22 @@ describe("Wrangler", () => {
             objectsInView
         );
 
-        underTest.loadSoftVis3d(shapes);
+        underTest.loadSoftVis3d(scene, shapes);
         assert(scene.remove.notCalled);
 
-        underTest.loadSoftVis3d(shapes);
+        underTest.loadSoftVis3d(scene, shapes);
 
         assert(scene.remove.calledOnce);
 
         objectFactoryMock.restore();
     });
 
-    it("should update the colors of the shapes", () => {
+    it("should update the colors of the shapes 1", () => {
+        createMockInjection(new SceneStore());
+
         const scene = Sinon.createStubInstance(Scene);
 
-        const underTest: Wrangler = new Wrangler(scene);
+        const underTest: Wrangler = new Wrangler();
 
         const shapes: SoftVis3dShape[] = [];
 
@@ -90,7 +94,7 @@ describe("Wrangler", () => {
         objectFactoryMock.onFirstCall().returns(objectsInView1);
         objectFactoryMock.onSecondCall().returns(objectsInView2);
 
-        underTest.loadSoftVis3d(shapes);
+        underTest.loadSoftVis3d(scene, shapes);
 
         let resultObjects: SoftVis3dMesh[] = underTest.getObjectsInView();
         expect(resultObjects[0].material.color).to.be.eq(expectedColor1);
@@ -104,10 +108,12 @@ describe("Wrangler", () => {
         objectFactoryMock.restore();
     });
 
-    it("should update the colors of the shapes", () => {
+    it("should update the colors of the shapes 2", () => {
+        createMockInjection(new SceneStore());
+
         const scene = Sinon.createStubInstance(Scene);
 
-        const underTest: Wrangler = new Wrangler(scene);
+        const underTest: Wrangler = new Wrangler();
 
         const shapes: SoftVis3dShape[] = [];
 
@@ -121,7 +127,7 @@ describe("Wrangler", () => {
         objectFactoryMock.onFirstCall().returns(objectsInView1);
         objectFactoryMock.onSecondCall().returns(objectsInView2);
 
-        underTest.loadSoftVis3d(shapes);
+        underTest.loadSoftVis3d(scene, shapes);
         underTest.selectSceneTreeObject("1");
         underTest.updateColorsWithUpdatedShapes(shapes);
 
@@ -138,7 +144,7 @@ describe("Wrangler", () => {
     it("should select scene tree object", () => {
         const scene = Sinon.createStubInstance(Scene);
 
-        const underTest: Wrangler = new Wrangler(scene);
+        const underTest: Wrangler = new Wrangler();
 
         const shapes: SoftVis3dShape[] = [];
 
@@ -149,7 +155,7 @@ describe("Wrangler", () => {
             objectsInView
         );
 
-        underTest.loadSoftVis3d(shapes);
+        underTest.loadSoftVis3d(scene, shapes);
 
         underTest.selectSceneTreeObject("1");
 
@@ -166,7 +172,7 @@ describe("Wrangler", () => {
     it("should reset to former color on selectt object", () => {
         const scene = Sinon.createStubInstance(Scene);
 
-        const underTest: Wrangler = new Wrangler(scene);
+        const underTest: Wrangler = new Wrangler();
 
         const shapes: SoftVis3dShape[] = [];
 
@@ -178,7 +184,7 @@ describe("Wrangler", () => {
             objectsInView
         );
 
-        underTest.loadSoftVis3d(shapes);
+        underTest.loadSoftVis3d(scene, shapes);
 
         underTest.selectSceneTreeObject("1");
         underTest.selectSceneTreeObject("2");
@@ -198,9 +204,9 @@ describe("Wrangler", () => {
 
     it("should reset on destroy", () => {
         const scene = Sinon.createStubInstance(Scene);
-        const underTest: Wrangler = new Wrangler(scene);
+        const underTest: Wrangler = new Wrangler();
 
-        underTest.destroy();
+        underTest.destroy(scene);
 
         expect(underTest.getObjectsInView()).to.be.deep.eq([]);
     });

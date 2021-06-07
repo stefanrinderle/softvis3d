@@ -18,9 +18,9 @@
 /// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 ///
 
-import { configure } from "enzyme";
-import ReactSixteenAdapter = require("enzyme-adapter-react-16");
+import { SoftVis3dMesh } from "../../domain/SoftVis3dMesh";
 
-configure({
-    adapter: new ReactSixteenAdapter(),
-});
+export interface SoftVis3dSelectedObject {
+    object: SoftVis3dMesh;
+    color: number;
+}
