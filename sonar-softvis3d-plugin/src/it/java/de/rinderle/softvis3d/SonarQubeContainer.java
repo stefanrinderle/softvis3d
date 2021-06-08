@@ -48,7 +48,7 @@ public class SonarQubeContainer extends GenericContainer<SonarQubeContainer> {
 
         this.withNetwork(network);
         this.withNetworkAliases("sq_server");
-        this.withImagePullPolicy(PullPolicy.alwaysPull());
+//        this.withImagePullPolicy(PullPolicy.alwaysPull());
 
         this.waitStrategy = new HttpWaitStrategy()
                 .forPath("/api/system/status")
