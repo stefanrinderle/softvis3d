@@ -69,7 +69,7 @@ public class SonarQubeContainer extends GenericContainer<SonarQubeContainer> {
             Files.copy(dockerfileOrig.toPath(), dockerfileCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
             replaceVersion(dockerfileCopy, sonarQubeVersion);
-            return new ImageFromDockerfile("sonarqube-container", false)
+            return new ImageFromDockerfile("sonarqube:" + sonarQubeVersion, false)
                     .withDockerfile(dockerfileCopy.toPath());
         } catch (IOException e) {
             fail(e.getMessage());
