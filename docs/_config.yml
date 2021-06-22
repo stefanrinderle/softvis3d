@@ -5,3 +5,5 @@ description: Visualize your project in SonarQube
 
 show_downloads: ["true"]
 #google_analytics: [Your Google Analytics tracking ID]
+
+repository: stefanrinderle/softvis3d
