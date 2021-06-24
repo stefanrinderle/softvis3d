@@ -21,13 +21,11 @@ version: "2"
 
 services:
   softvis3d_github_pages:
-    image: jekyll/jekyll:latest
+    build: .
     expose:
       - 4000
     ports:
       - 4000:4000
-    volumes:
-      - $PWD:/srv/jekyll
     environment:
       - VIRTUAL_HOST=softvis3d.com
       - VIRTUAL_PORT=4000
