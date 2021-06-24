@@ -32,3 +32,12 @@ services:
       - LETSENCRYPT_HOST=softvis3d.com
       - LETSENCRYPT_EMAIL=stefan@rinderle.info
     command: jekyll serve
+    networks:
+      - aaa_internet
+      - nginx-net
+
+networks:
+  aaa_internet:
+    external: true
+  nginx-net:
+    external: true
