@@ -1,4 +1,5 @@
-package de.rinderle.softvis3d; /**
+package de.rinderle.softvis3d;
+/**
  * SoftVis3D Sonar plugin
  * Copyright (C) 2020 Stefan Rinderle and Yvo Niedrich
  * stefan@rinderle.info / yvo.niedrich@gmail.com
@@ -18,7 +19,6 @@ package de.rinderle.softvis3d; /**
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,12 +76,18 @@ public class SonarQubeVersionIT {
     private void runProjectAnalysis(String address, Integer port) {
         SonarAnalysisContainer analysis = new SonarAnalysisContainer(network, address, port, logConsumer);
         analysis.start();
+        analysis.stop();
+        analysis.withNetwork(network);
+        analysis.start();
 
         waitForContainerStop(analysis);
     }
 
     private void runE2eTests(String version, String address, Integer port) {
         ProtractorTestsContainer testsContainer = new ProtractorTestsContainer(version, network, address, port, logConsumer);
+        testsContainer.start();
+        testsContainer.stop();
+        testsContainer.withNetwork(network);
         testsContainer.start();
 
         waitForContainerStop(testsContainer);

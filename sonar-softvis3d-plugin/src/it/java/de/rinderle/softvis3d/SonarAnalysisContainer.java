@@ -33,7 +33,7 @@ public class SonarAnalysisContainer extends GenericContainer<SonarAnalysisContai
     public SonarAnalysisContainer(Network network, String host, Integer port, Consumer<OutputFrame> logConsumer) {
         super(getImageFromDockerfile());
 
-        this.withNetwork(network);
+        this.withNetworkMode("host");
 
         List<String> args = new ArrayList<>();
         args.add("SQ_HOST=" + host);

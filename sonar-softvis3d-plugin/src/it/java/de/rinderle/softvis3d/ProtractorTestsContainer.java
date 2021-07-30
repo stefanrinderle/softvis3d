@@ -33,7 +33,7 @@ public class ProtractorTestsContainer extends GenericContainer<ProtractorTestsCo
     public ProtractorTestsContainer(String version, Network network, String host, Integer port, Consumer<OutputFrame> logConsumer) {
         super(getImageFromDockerfile());
 
-        this.withNetwork(network);
+        this.withNetworkMode("host");
 
         String baseUrlCommand = "--baseUrl=http://" + host + ":" + port + "/";
         File file = new File("./resultTmp/" + version);
