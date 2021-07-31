@@ -19,6 +19,7 @@ package de.rinderle.softvis3d;
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,7 @@ import java.nio.file.Paths;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-//@Ignore
+@Ignore
 public class SonarQubeVersionIT {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SonarQubeVersionIT.class);

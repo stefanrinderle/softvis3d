@@ -1,4 +1,5 @@
-package de.rinderle.softvis3d; /**
+package de.rinderle.softvis3d;
+/**
  * SoftVis3D Sonar plugin
  * Copyright (C) 2020 Stefan Rinderle and Yvo Niedrich
  * stefan@rinderle.info / yvo.niedrich@gmail.com
@@ -22,10 +23,8 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.Network;
 import org.testcontainers.containers.output.OutputFrame;
 import org.testcontainers.containers.wait.strategy.HttpWaitStrategy;
-import org.testcontainers.images.ImagePullPolicy;
 import org.testcontainers.images.PullPolicy;
 import org.testcontainers.images.builder.ImageFromDockerfile;
-import org.testcontainers.utility.DockerImageName;
 import org.testcontainers.utility.MountableFile;
 
 import java.io.File;
@@ -55,6 +54,8 @@ public class SonarQubeContainer extends GenericContainer<SonarQubeContainer> {
                 .withStartupTimeout(Duration.ofSeconds(300));
         this.withExposedPorts(9000);
         this.withCopyFileToContainer(MountableFile.forHostPath("./target/sonar-softvis3d-plugin-1.2.2-SNAPSHOT.jar"), "/opt/sonarqube/extensions/plugins/softvis3d-sonar-plugin.jar");
+
+        this.withImagePullPolicy(PullPolicy.alwaysPull());
 
         this.withReuse(true);
 

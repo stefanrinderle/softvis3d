@@ -46,14 +46,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Verify') {
-            steps {
-                script {
-                    sh 'mvn verify'
-                }
-            }
-        }
     }
 
     post {
