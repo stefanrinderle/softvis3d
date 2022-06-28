@@ -39,7 +39,7 @@
   <properties>
     <jdk.min.version>1.8</jdk.min.version>
 
-    <sonar.version>6.3</sonar.version>
+    <sonar.version>7.4</sonar.version>
   </properties>
 
   <dependencies>
