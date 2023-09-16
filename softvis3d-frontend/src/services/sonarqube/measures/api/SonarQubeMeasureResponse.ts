@@ -41,7 +41,7 @@ export interface SonarQubeApiComponent {
 export interface SonarQubeMeasure {
     metric: string;
     value?: number;
-    periods: SonarQubePeriod[];
+    period: SonarQubePeriod | null;
 }
 
 export interface SonarQubePeriod {

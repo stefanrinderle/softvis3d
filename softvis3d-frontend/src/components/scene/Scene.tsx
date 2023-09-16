@@ -111,7 +111,6 @@ export default class Scene extends React.Component<Record<string, unknown>, Scen
             this.updateCameraPosition();
             this.shapesHash = this.sceneStore.shapesHash;
 
-            this._threeSceneService.selectSceneTreeObject(this.sceneStore.selectedObjectKey);
             this.selectedObjectIdState = this.sceneStore.selectedObjectKey;
         }
         if (this.sceneStore.selectedObjectKey !== this.selectedObjectIdState) {

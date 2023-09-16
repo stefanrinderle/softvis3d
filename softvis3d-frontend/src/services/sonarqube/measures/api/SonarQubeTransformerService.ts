@@ -33,8 +33,8 @@ export default class SonarQubeTransformerService {
             if (localMeasure.value) {
                 measureList[localMeasure.metric] = +localMeasure.value;
             } else {
-                if (localMeasure.periods.length > 0) {
-                    measureList[localMeasure.metric] = +localMeasure.periods[0].value;
+                if (localMeasure.period) {
+                    measureList[localMeasure.metric] = +localMeasure.period.value;
                 }
             }
         }

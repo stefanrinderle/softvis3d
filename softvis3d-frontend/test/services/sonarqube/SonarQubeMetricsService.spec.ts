@@ -77,7 +77,7 @@ describe("SonarQubeMetricsService", () => {
             key: "ncloc",
             type: MetricType.INT,
             name: linesOfCode,
-            hidden: false,
+            hidden: true,
             description: "",
         });
 

@@ -13,4 +13,4 @@ ENV ENV_SQ_HOST=$SQ_HOST
 ARG SQ_PORT
 ENV ENV_SQ_PORT=$SQ_PORT
 
-RUN mvn -U -B package sonar:sonar -Dsonar.host.url=http://$SQ_HOST:$SQ_PORT -Dsonar.login=admin -Dsonar.password=admin
+RUN mvn -U -B package sonar:sonar -Dsonar.host.url=http://$SQ_HOST:$SQ_PORT -Dsonar.login=admin -Dsonar.password=password

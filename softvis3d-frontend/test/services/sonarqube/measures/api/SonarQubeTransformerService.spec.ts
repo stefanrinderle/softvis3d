@@ -93,12 +93,12 @@ describe("SonarQubeTransformerService", () => {
         measures.push({
             metric: "ncloc",
             value: 123,
-            periods: [],
+            period: null,
         });
         measures.push({
             metric: "complexity",
             value: 321,
-            periods: [],
+            period: null,
         });
 
         const component: SonarQubeApiComponent = {
@@ -129,12 +129,10 @@ describe("SonarQubeTransformerService", () => {
         const measures: SonarQubeMeasure[] = [];
         measures.push({
             metric: "ncloc",
-            periods: [
-                {
-                    index,
-                    value,
-                },
-            ],
+            period: {
+                index,
+                value,
+            },
         });
 
         const component: SonarQubeApiComponent = {
