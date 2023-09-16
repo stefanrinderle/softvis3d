@@ -59,9 +59,7 @@ export default class SonarQubeMetricsService extends BackendService {
                 .then((response) => {
                     const metrics: Metric[] = (response.data.metrics as SonarQubeApiMetric[])
                         .filter((c) => this.shouldMetricBeFiltered(c.type))
-                        .filter(
-                            (c) => !c.hidden
-                        )
+                        .filter((c) => !c.hidden)
                         .map((c) => this.createMetric(c));
 
                     this.cityBuilderStore.genericMetrics.addMetrics(metrics);
