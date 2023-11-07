@@ -59,7 +59,7 @@
     "inversify-inject-decorators": "^3.0.1",
     "mobx": "^5.15.7",
     "mobx-react": "^5.4.4",
-    "node-sass": "^4.5.3",
+    "node-sass": "^7.0.0",
     "react": "^16.14.0",
     "react-custom-scrollbars-2": "^4.4.0",
     "react-dom": "^16.14.0",
